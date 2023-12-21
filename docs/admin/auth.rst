@@ -298,7 +298,7 @@ You will need following:
 
 * *Application (client) ID* can be obtained from application page. *Object ID* is not used in Weblate.
 * *Directory (tenant) ID* is needed for tenant scoped authentication, what is usually desired.
-* *Secret value* is displayed once you generate a secret for an applicatio. *Secret ID* is not used in Weblate.
+* *Secret value* is displayed once you generate a secret for an application. *Secret ID* is not used in Weblate.
 
 .. code-block:: python
 
@@ -410,6 +410,8 @@ using the following:
         "social_core.backends.suse.OpenSUSEOpenId",
         "weblate.accounts.auth.WeblateUserBackend",
     )
+
+.. _password-authentication:
 
 Password authentication
 -----------------------

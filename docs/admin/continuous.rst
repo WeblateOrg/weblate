@@ -16,17 +16,40 @@ This is the process:
 
 1. Developers make changes and push them to the VCS repository.
 2. Optionally the translation files are updated, see :ref:`translations-update`.
-3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.
-4. Once Weblate detects changes in translations, translators are notified based on their subscription settings.
-5. Translators submit translations using the Weblate web interface, or upload offline changes.
-6. Once the translators are finished, Weblate commits the changes to the local repository (see :ref:`lazy-commit`) and pushes them back if it has permissions to do so (see :ref:`push-changes`).
+3. Weblate pulls changes from the VCS repository, parses translation files and updates its database, see :ref:`update-vcs`.
+4. Translators submit translations using the Weblate web interface, or upload offline changes.
+5. Once the translators are finished, Weblate commits the changes to the local repository (see :ref:`lazy-commit`).
+6. Changes are pushed back to the upstream repository (see :ref:`push-changes`).
 
 .. graphviz::
 
     digraph translations {
-        graph [fontname = "sans-serif", fontsize=10];
-        node [fontname = "sans-serif", fontsize=10, margin=0.1, height=0];
+        graph [fontname = "sans-serif", fontsize=10, ranksep=0.6, newrank=true];
+        node [fontname = "sans-serif", fontsize=10, margin=0.15];
         edge [fontname = "sans-serif", fontsize=10];
+
+         subgraph cluster_codehosting {
+            rank=same;
+            graph [color=lightgrey,
+               label="Upstream code hosting",
+               style=filled
+            ];
+
+            "VCS repository" [shape=cylinder];
+         }
+
+         subgraph cluster_weblate {
+            rank=same;
+            graph [color=lightgrey,
+               label="Weblate",
+               style=filled
+            ];
+
+            repo [label="Weblate repository",
+               shape=cylinder];
+            database [label=Database,
+               shape=cylinder];
+         }
 
         "Developers" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
         "Translators" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
@@ -35,14 +58,20 @@ This is the process:
 
         "VCS repository" -> "VCS repository" [label=" 2. Updating translations ", style=dotted];
 
-        "VCS repository" -> "Weblate" [label=" 3. Pull "];
+        "VCS repository" -> repo [label=" 3. Pull "];
+        repo -> database [label=" 3. Parse translations "];
 
-        "Weblate" -> "Translators" [label=" 4. Notification "];
+        "database" -> repo [label=" 5. Commit changes "];
 
-        "Translators" -> "Weblate" [label=" 5. Translate "];
+        "Translators" -> "database" [label=" 4. Translate "];
 
-        "Weblate" -> "VCS repository" [label=" 6. Push "];
+        "repo" -> "VCS repository" [label=" 6. Push repository "];
     }
+
+.. hint::
+
+   Upstream code hosting is not necessary, you can use Weblate with
+   :ref:`vcs-local` where there is only the repository inside Weblate.
 
 .. _update-vcs:
 
@@ -88,7 +117,7 @@ two parts - one for the extraction generates template (for example gettext POT
 is generated using :program:`xgettext`) and then further process merges it into
 actual translations (the gettext PO files are updated using
 :program:`msgmerge`). You can perform the second step within Weblate and it
-will make sure that all pending changes are included prior to this operation.
+will ensure that all pending changes are included prior to this operation.
 
 The second approach can be achieved by using :ref:`api` to force Weblate to
 push all pending changes and lock the translation while you are doing changes
@@ -129,6 +158,31 @@ all separately:
     The example uses :ref:`wlc`, which needs configuration (API keys) to be
     able to control Weblate remotely. You can also achieve this using any HTTP
     client instead of wlc, e.g. curl, see :ref:`api`.
+
+Avoiding merge conflicts on Weblate originated changes
+``````````````````````````````````````````````````````
+
+Even when Weblate is the single source of the changes in the translation files,
+conflicts can appear when using :ref:`addon-weblate.git.squash` add-on,
+:ref:`component-merge_style` is configured to :guilabel:`Rebase`, or you are
+squashing commits outside Weblate (for example when merging a pull request).
+
+The reason for merge conflicts is different in this case - there are changes in
+Weblate which happened after you merged Weblate commits. This typically happens
+if merging is not automated and waits for days or weeks for a human to review
+them. Git is then sometimes no longer able to idetify upstream changes as
+matching to Weblate one and refuses to perform rebase.
+
+To approach this, you either need to minimize amount of pending changes in
+Weblate when you merge a pull request, or avoid the conflicts completely by not
+squashing changes.
+
+Here are few options how to avoid that:
+
+* Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge time. This is the root cause why git doesn't recognize changes after merging.
+* Let Weblate commit pending changes before merging. This will update the pull request with all its changes and both repositories will be in sync.
+* Use the review features in Weblate (see :doc:`/workflows`), so that you can automatically merge GitHub pull requests after CI passes.
+* Use locking in Weblate to avoid changes while GitHub pull request is in review.
 
 .. seealso::
 
@@ -196,8 +250,6 @@ with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 Automatically receiving changes from Pagure
 +++++++++++++++++++++++++++++++++++++++++++
 
-.. versionadded:: 3.3
-
 Weblate has support for Pagure hooks, add a webhook
 with destination to ``/hooks/pagure/`` URL on your Weblate installation (for
 example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
@@ -213,8 +265,6 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 
 Automatically receiving changes from Azure Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: 3.8
 
 Weblate has support for Azure Repos web hooks, add a webhook for
 :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL on your
@@ -233,8 +283,6 @@ settings`.
 Automatically receiving changes from Gitea Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. versionadded:: 3.9
-
 Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` for
 :guilabel:`Push events` event with destination to ``/hooks/gitea/`` URL on your
 Weblate installation (for example ``https://hosted.weblate.org/hooks/gitea/``).
@@ -249,8 +297,6 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
 
 Automatically receiving changes from Gitee Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: 3.9
 
 Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` for
 :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your
@@ -279,49 +325,54 @@ Each translation component can have a push URL set up (see
 the remote repository.  Weblate can be also be configured to automatically push
 changes on every commit (this is default, see :ref:`component-push_on_commit`).
 If you do not want changes to be pushed automatically, you can do that manually
-under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
+under :guilabel:`Repository maintenance` or using the API via :option:`wlc push`.
 
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` pull requests or
-:ref:`vcs-gerrit` reviews, you can activate these by choosing
-:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` or
-:guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`,
+:ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` reviews, you can activate these by
+choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`,
+:guilabel:`Azure DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
-Overall, following options are available with Git, GitHub and GitLab:
+Overall, following options are available with Git, Mercurial, GitHub, GitLab,
+Gitea, Pagure, and Azure DevOps:
 
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Desired setup                     | :ref:`component-vcs`          | :ref:`component-push`         | :ref:`component-push_branch`  |
-+===================================+===============================+===============================+===============================+
-| No push                           | :ref:`vcs-git`                | `empty`                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push directly                     | :ref:`vcs-git`                | SSH URL                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push to separate branch           | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| No push                           | :ref:`vcs-mercurial`          | `empty`                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push directly                     | :ref:`vcs-mercurial`          | SSH URL                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push to separate branch           | :ref:`vcs-mercurial`          | SSH URL                       | Branch name                   |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitHub pull request from fork     | :ref:`vcs-github`             | `empty`                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitHub pull request from branch   | :ref:`vcs-github`             | SSH URL [#empty]_             | Branch name                   |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitLab merge request from branch  | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Gitea merge request from fork     | :ref:`vcs-gitea`              | `empty`                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Gitea merge request from branch   | :ref:`vcs-gitea`              | SSH URL [#empty]_             | Branch name                   |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Pagure merge request from fork    | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Pagure merge request from branch  | :ref:`vcs-pagure`             | SSH URL [#empty]_             | Branch name                   |
-+-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Desired setup                           | :ref:`component-vcs`          | :ref:`component-push`         | :ref:`component-push_branch`  |
++=========================================+===============================+===============================+===============================+
+| No push                                 | :ref:`vcs-git`                | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push directly                           | :ref:`vcs-git`                | SSH URL                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push to separate branch                 | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| No push                                 | :ref:`vcs-mercurial`          | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push directly                           | :ref:`vcs-mercurial`          | SSH URL                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push to separate branch                 | :ref:`vcs-mercurial`          | SSH URL                       | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitHub pull request from fork           | :ref:`vcs-github`             | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitHub pull request from branch         | :ref:`vcs-github`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitLab merge request from fork          | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitLab merge request from branch        | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Gitea merge request from fork           | :ref:`vcs-gitea`              | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Gitea merge request from branch         | :ref:`vcs-gitea`              | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Pagure merge request from fork          | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Pagure merge request from branch        | :ref:`vcs-pagure`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Azure DevOps pull request from fork     | :ref:`vcs-azure-devops`       | `empty`                       | `empty`                       |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Azure DevOps pull request from branch   | :ref:`vcs-azure-devops`       | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------------+-------------------------------+-------------------------------+-------------------------------+
 
 .. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
 
@@ -426,6 +477,8 @@ Consistency check
 The :ref:`check-inconsistent` check fires whenever the strings are different.
 You can utilize this to review such differences manually and choose the right
 translation.
+
+.. _automatic-translation:
 
 Automatic translation
 +++++++++++++++++++++

@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from translate.storage.lisa import LISAfile
 
 from weblate.addons.base import StoreBaseAddon
@@ -14,10 +14,9 @@ class XMLCustomizeAddon(StoreBaseAddon):
     """Class providing XML formatting changes as a component AddOn."""
 
     name = "weblate.xml.customize"
-    verbose = _("Customize XML output")
-    description = _(
-        "Allows adjusting XML output behavior, for example closing tags instead of "
-        "self-closing tags for empty tags."
+    verbose = gettext_lazy("Customize XML output")
+    description = gettext_lazy(
+        "Allows adjusting XML output behavior, for example closing tags."
     )
     settings_form = XMLCustomizeForm
 

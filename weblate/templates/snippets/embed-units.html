@@ -93,12 +93,12 @@
           </td>
         {% endif %}
         {% if not hide_context and any_unit_has_context %}
-          <td>{% if unit.context %}<a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_translation unit.context unit.translation.component.source_language wrap=True search_match=search_query %}</a>{% endif %}</td>
+          <td>{% if unit.context %}<a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_source_string unit.context unit wrap=True search_match=search_query %}</a>{% endif %}</td>
         {% endif %}
         {% if force_source or not hide_source and not unit.is_source %}
-          <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_translation unit.source unit.translation.component.source_language search_match=search_query %}</a></td>
+          <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_unit_source unit search_match=search_query %}</a></td>
         {% endif %}
-        <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}</a></td>
+        <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_unit_target unit search_match=search_query %}</a></td>
         {% if show_location %}
           <td>{{ unit.location }}</th>
         {% endif %}

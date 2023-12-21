@@ -4,20 +4,21 @@
 
 from django import forms
 from django.core.validators import FileExtensionValidator
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 
 class UploadForm(forms.Form):
     """Uploading file to a translation memory."""
 
     file = forms.FileField(
-        label=_("File"),
+        label=gettext_lazy("File"),
         validators=[FileExtensionValidator(allowed_extensions=["json", "tmx"])],
-        help_text=_("You can upload a TMX or JSON file."),
+        help_text=gettext_lazy("You can upload a TMX or JSON file."),
     )
 
 
 class DeleteForm(forms.Form):
     confirm = forms.BooleanField(
-        label=_("Confirm deleting all translation memory entries"), required=True
+        label=gettext_lazy("Confirm deleting all translation memory entries"),
+        required=True,
     )

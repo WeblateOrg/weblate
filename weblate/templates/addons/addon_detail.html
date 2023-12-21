@@ -5,12 +5,11 @@
 {% load permissions %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Add-ons" %}</a></li>
+{% path_object_breadcrumbs object %}
+<li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
 <li>
 {% if instance %}
-<a href="{% url 'addon-detail' project=object.project.slug component=object.slug pk=instance.pk %}">{{ addon.verbose }}</a>
+<a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
 {% else %}
 {{ addon.verbose }}
 {% endif %}

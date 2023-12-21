@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import re
 from collections import defaultdict
 from datetime import timedelta
 from importlib import import_module
-from typing import Optional
 
 import social_django.utils
 from django.conf import settings
@@ -35,7 +36,7 @@ from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -95,19 +96,20 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import User, get_auth_keys
+from weblate.auth.models import Invitation, User, get_auth_keys
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component, Suggestion, Translation
+from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
+from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.token import get_token
-from weblate.utils.views import get_component, get_paginator, get_project
+from weblate.utils.views import get_paginator, parse_path
 
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
@@ -116,7 +118,9 @@ Message from %(name)s <%(email)s>:
 """
 
 
-TEMPLATE_FOOTER = """
+MESSAGE_TEMPLATE = """
+{message}
+
 --
 User: {username}
 IP address: {address}
@@ -147,16 +151,14 @@ class EmailSentView(TemplateView):
         context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
-        # This view is not visible for invitation that's
-        # why don't handle user_invite here
         if self.request.flags["password_reset"]:
-            context["title"] = _("Password reset")
+            context["title"] = gettext("Password reset")
             context["is_reset"] = True
         elif self.request.flags["account_remove"]:
-            context["title"] = _("Remove account")
+            context["title"] = gettext("Remove account")
             context["is_remove"] = True
         else:
-            context["title"] = _("User registration")
+            context["title"] = gettext("User registration")
 
         return context
 
@@ -167,7 +169,6 @@ class EmailSentView(TemplateView):
         request.flags = {
             "password_reset": request.session["password_reset"],
             "account_remove": request.session["account_remove"],
-            "user_invite": request.session["user_invite"],
         }
 
         # Remove session for not authenticated user here.
@@ -187,7 +188,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(request, _("Could not send message to administrator."))
+        messages.error(request, gettext("Could not send message to administrator."))
         LOGGER.error("ADMINS not configured, cannot send message")
         return
 
@@ -198,13 +199,11 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail = EmailMultiAlternatives(
         subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
-        body="{}\n{}".format(
-            message % context,
-            TEMPLATE_FOOTER.format(
-                address=get_ip_address(request),
-                agent=get_user_agent(request),
-                username=request.user.username,
-            ),
+        body=MESSAGE_TEMPLATE.format(
+            message=message % context,
+            address=get_ip_address(request),
+            agent=get_user_agent(request),
+            username=request.user.username,
         ),
         to=to,
         **kwargs,
@@ -213,7 +212,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     mail.send(fail_silently=False)
 
     messages.success(
-        request, _("Your request has been sent, you will shortly hear from us.")
+        request, gettext("Your request has been sent, you will shortly hear from us.")
     )
 
 
@@ -226,83 +225,89 @@ def redirect_profile(page=""):
 
 def get_notification_forms(request):
     user = request.user
-    if request.method == "POST":
-        for i in range(200):
-            prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
-            if prefix + "-scope" in request.POST:
-                yield NotificationForm(
-                    request.user, i > 1, {}, i == 0, prefix=prefix, data=request.POST
-                )
-    else:
-        subscriptions = defaultdict(dict)
-        initials = {}
+    subscriptions = defaultdict(dict)
+    initials = {}
 
-        # Ensure watched, admin and all scopes are visible
-        for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
-            key = (needed, -1, -1)
+    # Ensure watched, admin and all scopes are visible
+    for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
+        key = (needed, -1, -1)
+        subscriptions[key] = {}
+        initials[key] = {"scope": needed, "project": None, "component": None}
+    active = (SCOPE_WATCHED, -1, -1)
+
+    # Include additional scopes from request
+    if "notify_project" in request.GET:
+        try:
+            project = user.allowed_projects.get(pk=request.GET["notify_project"])
+            active = key = (SCOPE_PROJECT, project.pk, -1)
             subscriptions[key] = {}
-            initials[key] = {"scope": needed, "project": None, "component": None}
-        active = (SCOPE_WATCHED, -1, -1)
-
-        # Include additional scopes from request
-        if "notify_project" in request.GET:
-            try:
-                project = user.allowed_projects.get(pk=request.GET["notify_project"])
-                active = key = (SCOPE_PROJECT, project.pk, -1)
-                subscriptions[key] = {}
-                initials[key] = {
-                    "scope": SCOPE_PROJECT,
-                    "project": project,
-                    "component": None,
-                }
-            except (ObjectDoesNotExist, ValueError):
-                pass
-        if "notify_component" in request.GET:
-            try:
-                component = Component.objects.filter_access(user).get(
-                    pk=request.GET["notify_component"],
-                )
-                active = key = (SCOPE_COMPONENT, -1, component.pk)
-                subscriptions[key] = {}
-                initials[key] = {
-                    "scope": SCOPE_COMPONENT,
-                    "component": component,
-                }
-            except (ObjectDoesNotExist, ValueError):
-                pass
-
-        # Populate scopes from the database
-        for subscription in user.subscription_set.select_related(
-            "project", "component"
-        ):
-            key = (
-                subscription.scope,
-                subscription.project_id or -1,
-                subscription.component_id or -1,
-            )
-            subscriptions[key][subscription.notification] = subscription.frequency
             initials[key] = {
-                "scope": subscription.scope,
-                "project": subscription.project,
-                "component": subscription.component,
+                "scope": SCOPE_PROJECT,
+                "project": project,
+                "component": None,
             }
+        except (ObjectDoesNotExist, ValueError):
+            pass
+    if "notify_component" in request.GET:
+        try:
+            component = Component.objects.filter_access(user).get(
+                pk=request.GET["notify_component"],
+            )
+            active = key = (SCOPE_COMPONENT, -1, component.pk)
+            subscriptions[key] = {}
+            initials[key] = {
+                "scope": SCOPE_COMPONENT,
+                "component": component,
+            }
+        except (ObjectDoesNotExist, ValueError):
+            pass
 
-        # Generate forms
-        for i, details in enumerate(sorted(subscriptions.items())):
+    # Populate scopes from the database
+    for subscription in user.subscription_set.select_related("project", "component"):
+        key = (
+            subscription.scope,
+            subscription.project_id or -1,
+            subscription.component_id or -1,
+        )
+        subscriptions[key][subscription.notification] = subscription.frequency
+        initials[key] = {
+            "scope": subscription.scope,
+            "project": subscription.project,
+            "component": subscription.component,
+        }
+
+    # Generate forms
+    for i, details in enumerate(sorted(subscriptions.items())):
+        yield NotificationForm(
+            user=user,
+            show_default=i > 1,
+            removable=i > 2,
+            subscriptions=details[1],
+            is_active=details[0] == active,
+            initial=initials[details[0]],
+            prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
+            data=request.POST if request.method == "POST" else None,
+        )
+    for i in range(len(subscriptions), 200):
+        prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
+        if prefix + "-scope" in request.POST or i < len(subscriptions):
             yield NotificationForm(
-                user,
-                i > 1,
-                details[1],
-                details[0] == active,
+                user=user,
+                show_default=i > 1,
+                removable=i > 2,
+                subscriptions={},
+                is_active=i == 0,
+                prefix=prefix,
+                data=request.POST,
                 initial=initials[details[0]],
-                prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
             )
 
 
 @never_cache
 @login_required
 def user_profile(request):
-    profile = request.user.profile
+    user = request.user
+    profile = user.profile
     profile.fixup_profile(request)
 
     form_classes = [
@@ -326,22 +331,29 @@ def user_profile(request):
                     form.audit(request)
                 form.save()
 
-            messages.success(request, _("Your profile has been updated."))
+            messages.success(request, gettext("Your profile has been updated."))
 
             # Redirect after saving (and possibly changing language)
             return redirect_profile(request.POST.get("activetab"))
-    elif not request.user.has_usable_password() and "email" in all_backends:
+    elif not user.has_usable_password() and "email" in all_backends:
         messages.warning(request, render_to_string("accounts/password-warning.html"))
 
-    social = request.user.social_auth.all()
+    social = user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
     new_backends = [
         x for x in sorted(all_backends) if x == "email" or x not in social_names
     ]
+    user_translation_ids = set(
+        Change.objects.filter(
+            user=user, timestamp__gte=timezone.now() - timedelta(days=90)
+        ).values_list("translation", flat=True)
+    )
     license_components = (
-        Component.objects.filter_access(request.user)
+        Component.objects.filter_access(user)
+        .filter(translation__id__in=user_translation_ids)
         .exclude(license="")
         .prefetch(alerts=False)
+        .distinct()
         .order_by("license")
     )
 
@@ -358,16 +370,16 @@ def user_profile(request):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
-            "user_groups": request.user.groups.prefetch_related(
+            "user_groups": user.groups.prefetch_related(
                 "roles", "projects", "languages", "components"
             ),
             "profile": profile,
-            "title": _("User profile"),
+            "title": gettext("User profile"),
             "licenses": license_components,
             "associated": social,
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
-            "auditlog": request.user.auditlog_set.order()[:20],
+            "auditlog": user.auditlog_set.order()[:20],
         },
     )
 
@@ -382,7 +394,7 @@ def user_remove(request):
             remove_user(request.user, request)
             rotate_token(request)
             logout(request)
-            messages.success(request, _("Your account has been removed."))
+            messages.success(request, gettext("Your account has been removed."))
             return redirect("home")
         confirm_form = EmptyConfirmForm(request)
 
@@ -391,6 +403,9 @@ def user_remove(request):
         if confirm_form.is_valid():
             store_userid(request, remove=True)
             request.GET = {"email": request.user.email}
+            AuditLog.objects.create(
+                request.user, request, "removal-request", **request.GET
+            )
             return social_complete(request, "email")
     else:
         confirm_form = PasswordConfirmForm(request)
@@ -446,7 +461,7 @@ def contact(request):
             captcha = CaptchaForm(request, form, request.POST)
         if not check_rate_limit("message", request):
             messages.error(
-                request, _("Too many messages sent, please try again later.")
+                request, gettext("Too many messages sent, please try again later.")
             )
         elif (captcha is None or captcha.is_valid()) and form.is_valid():
             mail_admins_contact(
@@ -469,7 +484,7 @@ def contact(request):
     return render(
         request,
         "accounts/contact.html",
-        {"form": form, "captcha_form": captcha, "title": _("Contact")},
+        {"form": form, "captcha_form": captcha, "title": gettext("Contact")},
     )
 
 
@@ -493,7 +508,7 @@ def hosting(request):
         request,
         "accounts/hosting.html",
         {
-            "title": _("Hosting"),
+            "title": gettext("Hosting"),
             "billings": billings,
         },
     )
@@ -513,7 +528,7 @@ def trial(request):
     if plan != "libre" and request.user.auditlog_set.filter(activity="trial").exists():
         messages.error(
             request,
-            _(
+            gettext(
                 "Seems you've already requested a trial period recently. "
                 "Please contact us with your inquiry so we can find the "
                 "best solution for you."
@@ -533,14 +548,14 @@ def trial(request):
         billing.owners.add(request.user)
         messages.info(
             request,
-            _(
+            gettext(
                 "Your trial period is now up and running; "
                 "create your translation project and start Weblating!"
             ),
         )
         return redirect(reverse("create-project") + f"?billing={billing.pk}")
 
-    return render(request, "accounts/trial.html", {"title": _("Gratis trial")})
+    return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
 
 
 class UserPage(UpdateView):
@@ -568,7 +583,7 @@ class UserPage(UpdateView):
                 user.groups.remove(form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_user" in request.POST:
-            remove_user(user, request)
+            remove_user(user, request, skip_notify=True)
             return HttpResponseRedirect(self.get_success_url() + "#groups")
 
         return super().post(request, **kwargs)
@@ -714,7 +729,7 @@ class WeblateLoginView(LoginView):
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
         context["can_reset"] = "email" in auth_backends
-        context["title"] = _("Sign in")
+        context["title"] = gettext("Sign in")
         return context
 
     @method_decorator(never_cache)
@@ -744,7 +759,7 @@ class WeblateLogoutView(LogoutView):
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        messages.info(self.request, _("Thank you for using Weblate."))
+        messages.info(self.request, gettext("Thank you for using Weblate."))
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -753,7 +768,6 @@ def fake_email_sent(request, reset=False):
     request.session["registration-email-sent"] = True
     request.session["password_reset"] = reset
     request.session["account_remove"] = False
-    request.session["user_invite"] = False
     return redirect("email-sent")
 
 
@@ -762,15 +776,32 @@ def register(request):
     """Registration form."""
     captcha = None
 
-    if request.method == "POST":
+    # Fetch invitation
+    invitation = None
+    initial = {}
+    if invitation_pk := request.session.get("invitation_link"):
+        try:
+            invitation = Invitation.objects.get(pk=invitation_pk)
+        except Invitation.DoesNotExist:
+            del request.session["invitation_link"]
+        else:
+            initial["email"] = invitation.email
+
+    # Allow registration at all?
+    registration_open = settings.REGISTRATION_OPEN or bool(invitation)
+
+    # Get list of allowed backends
+    backends = get_auth_keys()
+    if settings.REGISTRATION_ALLOW_BACKENDS and not invitation:
+        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
+    elif not registration_open:
+        backends = set()
+
+    if request.method == "POST" and "email" in backends:
         form = RegistrationForm(request, request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
-        if (
-            (captcha is None or captcha.is_valid())
-            and form.is_valid()
-            and settings.REGISTRATION_OPEN
-        ):
+        if (captcha is None or captcha.is_valid()) and form.is_valid():
             if captcha:
                 captcha.cleanup_session(request)
             if form.cleaned_data["email_user"]:
@@ -781,18 +812,12 @@ def register(request):
             store_userid(request)
             return social_complete(request, "email")
     else:
-        form = RegistrationForm(request)
+        form = RegistrationForm(request, initial=initial)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 
-    backends = get_auth_keys()
-    if settings.REGISTRATION_ALLOW_BACKENDS:
-        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
-    elif not settings.REGISTRATION_OPEN:
-        backends = set()
-
     # Redirect if there is only one backend
-    if len(backends) == 1 and "email" not in backends:
+    if len(backends) == 1 and "email" not in backends and not invitation:
         return redirect_single(request, backends.pop())
 
     return render(
@@ -801,9 +826,10 @@ def register(request):
         {
             "registration_email": "email" in backends,
             "registration_backends": backends - {"email"},
-            "title": _("User registration"),
+            "title": gettext("User registration"),
             "form": form,
             "captcha_form": captcha,
+            "invitation": invitation,
         },
     )
 
@@ -837,7 +863,7 @@ def email_login(request):
     return render(
         request,
         "accounts/email.html",
-        {"title": _("Register e-mail"), "form": form, "captcha_form": captcha},
+        {"title": gettext("Register e-mail"), "form": form, "captcha_form": captcha},
     )
 
 
@@ -852,7 +878,8 @@ def password(request):
 
     if "email" not in get_auth_keys() and not usable:
         messages.error(
-            request, _("Cannot reset password, e-mail authentication is turned off.")
+            request,
+            gettext("Cannot reset password, e-mail authentication is turned off."),
         )
         return redirect("profile")
 
@@ -883,7 +910,7 @@ def password(request):
     return render(
         request,
         "accounts/password.html",
-        {"title": _("Change password"), "change_form": change_form, "form": form},
+        {"title": gettext("Change password"), "change_form": change_form, "form": form},
     )
 
 
@@ -893,7 +920,7 @@ def reset_password_set(request):
     if user.has_usable_password():
         request.session.flush()
         request.session.set_expiry(None)
-        messages.error(request, _("Password reset has been already completed."))
+        messages.error(request, gettext("Password reset has been already completed."))
         return redirect("login")
     if request.method == "POST":
         form = SetPasswordForm(user, request.POST)
@@ -907,7 +934,7 @@ def reset_password_set(request):
         request,
         "accounts/reset.html",
         {
-            "title": _("Password reset"),
+            "title": gettext("Password reset"),
             "form": form,
             "captcha_form": None,
             "second_stage": True,
@@ -915,7 +942,7 @@ def reset_password_set(request):
     )
 
 
-def get_registration_hint(email: str) -> Optional[str]:
+def get_registration_hint(email: str) -> str | None:
     domain = email.rsplit("@", 1)[-1]
     return settings.REGISTRATION_HINTS.get(domain)
 
@@ -927,7 +954,8 @@ def reset_password(request):
         return redirect_profile()
     if "email" not in get_auth_keys():
         messages.error(
-            request, _("Cannot reset password, e-mail authentication is turned off.")
+            request,
+            gettext("Cannot reset password, e-mail authentication is turned off."),
         )
         return redirect("login")
 
@@ -948,7 +976,7 @@ def reset_password(request):
                     form.cleaned_data["email_user"], request, "reset-request"
                 )
                 if not audit.check_rate_limit(request):
-                    store_userid(request, True)
+                    store_userid(request, reset=True)
                     return social_complete(request, "email")
             else:
                 email = form.cleaned_data["email"]
@@ -972,7 +1000,7 @@ def reset_password(request):
         request,
         "accounts/reset.html",
         {
-            "title": _("Password reset"),
+            "title": gettext("Password reset"),
             "form": form,
             "captcha_form": captcha,
             "second_stage": False,
@@ -1004,40 +1032,42 @@ def userdata(request):
 
 @require_POST
 @login_required
-def watch(request, project, component=None):
+def watch(request, path):
     user = request.user
-    if component:
-        redirect_obj = component_obj = get_component(request, project, component)
-        obj = component_obj.project
+    redirect_obj = obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Component):
+        project = obj.project
+
         # Mute project level subscriptions
-        mute_real(user, scope=SCOPE_PROJECT, component=None, project=obj)
+        mute_real(user, scope=SCOPE_PROJECT, component=None, project=project)
         # Manually enable component level subscriptions
         for default_subscription in user.subscription_set.filter(scope=SCOPE_WATCHED):
             subscription, created = user.subscription_set.get_or_create(
                 notification=default_subscription.notification,
                 scope=SCOPE_COMPONENT,
-                component=component_obj,
+                component=obj,
                 project=None,
                 defaults={"frequency": default_subscription.frequency},
             )
             if not created and subscription.frequency != default_subscription.frequency:
                 subscription.frequency = default_subscription.frequency
                 subscription.save(update_fields=["frequency"])
-    else:
-        redirect_obj = obj = get_project(request, project)
+
+        # Watch project
+        obj = project
     user.profile.watched.add(obj)
-    return redirect(redirect_obj)
+    return redirect_next(request.GET.get("next"), redirect_obj)
 
 
 @require_POST
 @login_required
-def unwatch(request, project):
-    obj = get_project(request, project)
+def unwatch(request, path):
+    obj = parse_path(request, path, (Project,))
     request.user.profile.watched.remove(obj)
     request.user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
     ).delete()
-    return redirect(obj)
+    return redirect_next(request.GET.get("next"), obj)
 
 
 def mute_real(user, **kwargs):
@@ -1056,18 +1086,13 @@ def mute_real(user, **kwargs):
 
 @require_POST
 @login_required
-def mute_component(request, project, component):
-    obj = get_component(request, project, component)
-    mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
-    return redirect(
-        "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
-    )
-
-
-@require_POST
-@login_required
-def mute_project(request, project):
-    obj = get_project(request, project)
+def mute(request, path):
+    obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Component):
+        mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
+        return redirect(
+            "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
+        )
     mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
     return redirect(
         "{}?notify_project={}#notifications".format(reverse("profile"), obj.pk)
@@ -1100,12 +1125,11 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, reset=False, remove=False, invite=False):
+def store_userid(request, *, reset: bool = False, remove: bool = False):
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
     request.session["account_remove"] = remove
-    request.session["user_invite"] = invite
 
 
 @require_POST
@@ -1119,7 +1143,7 @@ def social_disconnect(request, backend, association_id=None):
     """
     # Block removal of last social auth
     if request.user.social_auth.count() <= 1:
-        messages.error(request, _("Could not remove user identity"))
+        messages.error(request, gettext("Could not remove user identity"))
         return redirect_profile("#account")
 
     # Block removal of last verified email
@@ -1129,7 +1153,7 @@ def social_disconnect(request, backend, association_id=None):
     if not verified.exists():
         messages.error(
             request,
-            _("Add another identity by confirming your e-mail address first."),
+            gettext("Add another identity by confirming your e-mail address first."),
         )
         return redirect_profile("#account")
 
@@ -1176,12 +1200,14 @@ def auth_fail(request, message):
 
 
 def registration_fail(request, message):
-    messages.error(request, _("Could not complete registration.") + " " + message)
+    messages.error(request, gettext("Could not complete registration.") + " " + message)
     messages.info(
         request,
-        _("Please check if you have already registered an account.")
+        gettext("Please check if you have already registered an account.")
         + " "
-        + _("You can also request a new password, if you have lost your credentials."),
+        + gettext(
+            "You can also request a new password, if you have lost your credentials."
+        ),
     )
 
     return redirect(reverse("login"))
@@ -1190,7 +1216,7 @@ def registration_fail(request, message):
 def auth_redirect_token(request):
     return auth_fail(
         request,
-        _(
+        gettext(
             "Try registering again to verify your identity, "
             "the confirmation link probably expired."
         ),
@@ -1198,23 +1224,25 @@ def auth_redirect_token(request):
 
 
 def auth_redirect_state(request):
-    return auth_fail(request, _("Could not authenticate due to invalid session state."))
+    return auth_fail(
+        request, gettext("Could not authenticate due to invalid session state.")
+    )
 
 
 def handle_missing_parameter(request, backend, error):
     if backend != "email" and error.parameter == "email":
         return auth_fail(
             request,
-            _("Got no e-mail address from third party authentication service.")
+            gettext("Got no e-mail address from third party authentication service.")
             + " "
-            + _("Please register using e-mail instead."),
+            + gettext("Please register using e-mail instead."),
         )
     if error.parameter in ("email", "user", "expires"):
         return auth_redirect_token(request)
     if error.parameter in ("state", "code"):
         return auth_redirect_state(request)
     if error.parameter == "disabled":
-        return auth_fail(request, _("New registrations are turned off."))
+        return auth_fail(request, gettext("New registrations are turned off."))
     return None
 
 
@@ -1258,6 +1286,7 @@ def social_complete(request, backend):  # noqa: C901
     try:
         return complete(request, backend)
     except InvalidEmail:
+        report_error()
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
         report_error()
@@ -1272,32 +1301,38 @@ def social_complete(request, backend):  # noqa: C901
         report_error()
         return auth_fail(
             request,
-            _(
+            gettext(
                 "Could not authenticate, probably due to an expired token "
                 "or connection error."
             ),
         )
     except AuthCanceled:
         report_error()
-        return auth_fail(request, _("Authentication cancelled."))
+        return auth_fail(request, gettext("Authentication cancelled."))
     except AuthForbidden:
         report_error()
-        return auth_fail(request, _("The server does not allow authentication."))
+        return auth_fail(request, gettext("The server does not allow authentication."))
     except EmailAlreadyAssociated:
         return registration_fail(
             request,
-            _("The supplied e-mail address is already in use for another account."),
+            gettext(
+                "The supplied e-mail address is already in use for another account."
+            ),
         )
     except UsernameAlreadyAssociated:
         return registration_fail(
-            request, _("The supplied username is already in use for another account.")
+            request,
+            gettext("The supplied username is already in use for another account."),
         )
     except AuthAlreadyAssociated:
         return registration_fail(
             request,
-            _("The supplied user identity is already in use for another account."),
+            gettext(
+                "The supplied user identity is already in use for another account."
+            ),
         )
     except ValidationError as error:
+        report_error()
         return registration_fail(request, str(error))
 
 
@@ -1321,7 +1356,7 @@ def subscribe(request):
             subscription.save()
         except ValidationError:
             pass
-        messages.success(request, _("Notification settings adjusted."))
+        messages.success(request, gettext("Notification settings adjusted."))
     return redirect_profile("#notifications")
 
 
@@ -1334,11 +1369,11 @@ def unsubscribe(request):
             )
             subscription.frequency = FREQ_NONE
             subscription.save(update_fields=["frequency"])
-            messages.success(request, _("Notification settings adjusted."))
+            messages.success(request, gettext("Notification settings adjusted."))
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
             messages.error(
                 request,
-                _(
+                gettext(
                     "The notification change link is no longer valid, "
                     "please sign in to configure notifications."
                 ),
@@ -1372,20 +1407,22 @@ def saml_metadata(request):
 class UserList(ListView):
     paginate_by = 50
     model = User
+    form_class = UserSearchForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get_base_queryset(self):
+        return User.objects.filter(is_active=True, is_bot=False)
+
     def get_queryset(self):
-        users = User.objects.filter(is_active=True, is_bot=False)
+        users = self.get_base_queryset()
         form = self.form
         if form.is_valid():
-            search = form.cleaned_data.get("q", "").strip()
+            search = form.cleaned_data.get("q", "")
             if search:
-                users = users.filter(
-                    Q(username__icontains=search) | Q(full_name__icontains=search)
-                )
+                users = users.search(search, parser=form.fields["q"].parser)
         else:
             users = users.order()
 
@@ -1393,7 +1430,7 @@ class UserList(ListView):
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.form = form = UserSearchForm(request.GET)
+        self.form = form = self.form_class(request.GET)
         self.sort_query = None
         if form.is_valid():
             self.sort_query = form.cleaned_data.get("sort_by")

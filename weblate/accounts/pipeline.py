@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 import time
 import unicodedata
@@ -10,7 +12,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
@@ -23,7 +25,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import User
+from weblate.auth.models import Invitation, User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
@@ -149,10 +151,6 @@ def send_validation(strategy, backend, code, partial_token):
         template = "reset"
     elif session.get("account_remove"):
         template = "remove"
-    elif session.get("user_invite"):
-        template = "invite"
-        context.update(session["invitation_context"])
-        user = User.objects.get(pk=session["social_auth_user"])
 
     # Create audit log, it might be for anonymous at this point for new registrations
     AuditLog.objects.create(
@@ -196,7 +194,14 @@ def password_reset(
 
 @partial
 def remove_account(
-    strategy, backend, user, social, details, weblate_action, current_partial, **kwargs
+    strategy,
+    backend,
+    user,
+    social,
+    details,
+    weblate_action: str,
+    current_partial,
+    **kwargs,
 ):
     """Set unusable password on reset."""
     if strategy.request is not None and user is not None and weblate_action == "remove":
@@ -213,12 +218,20 @@ def remove_account(
     return None
 
 
-def verify_open(strategy, backend, user, weblate_action, **kwargs):
+def verify_open(
+    strategy,
+    backend,
+    user: User,
+    weblate_action: str,
+    invitation_link: Invitation | None,
+    **kwargs,
+):
     """Check whether it is possible to create new user."""
     # Check whether registration is open
     if (
         not user
-        and weblate_action not in ("reset", "remove", "invite")
+        and weblate_action not in ("reset", "remove")
+        and not invitation_link
         and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
@@ -255,15 +268,23 @@ def store_params(strategy, user, **kwargs):
         action = "reset"
     elif session.get("account_remove"):
         action = "remove"
-    elif session.get("user_invite"):
-        action = "invite"
     else:
         action = "activation"
+
+    invitation = None
+    if invitation_pk := session.get("invitation_link"):
+        try:
+            invitation = Invitation.objects.get(pk=invitation_pk)
+        except Invitation.DoesNotExist:
+            del session["invitation_link"]
+            invitation_pk = None
 
     return {
         "weblate_action": action,
         "registering_user": registering_user,
-        "weblate_expires": int(time.monotonic() + settings.AUTH_TOKEN_VALID),
+        "weblate_expires": int(time.time() + settings.AUTH_TOKEN_VALID),
+        "invitation_link": invitation,
+        "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
 
 
@@ -311,7 +332,7 @@ def ensure_valid(
 ):
     """Ensure the activation link is still."""
     # Didn't the link expire?
-    if weblate_expires < time.monotonic():
+    if weblate_expires < time.time():
         raise AuthMissingParameter(backend, "expires")
 
     # We allow password reset for unauthenticated users
@@ -319,10 +340,10 @@ def ensure_valid(
         if strategy.request.user.is_authenticated:
             messages.warning(
                 strategy.request,
-                _("You can not complete password reset while signed in."),
+                gettext("You can not complete password reset while signed in."),
             )
             messages.warning(
-                strategy.request, _("The registration link has been invalidated.")
+                strategy.request, gettext("The registration link has been invalidated.")
             )
             raise AuthMissingParameter(backend, "user")
         return
@@ -334,15 +355,15 @@ def ensure_valid(
         if registering_user is None:
             messages.warning(
                 strategy.request,
-                _("You can not complete registration while signed in."),
+                gettext("You can not complete registration while signed in."),
             )
         else:
             messages.warning(
                 strategy.request,
-                _("You can confirm your registration only while signed in."),
+                gettext("You can confirm your registration only while signed in."),
             )
         messages.warning(
-            strategy.request, _("The registration link has been invalidated.")
+            strategy.request, gettext("The registration link has been invalidated.")
         )
 
         raise AuthMissingParameter(backend, "user")
@@ -389,6 +410,14 @@ def store_email(strategy, backend, user, social, details, **kwargs):
             verified.email = details["email"]
             verified.is_deliverable = True
             verified.save()
+
+
+def handle_invite(strategy, backend, user: User, social, invitation_pk: str, **kwargs):
+    # Accept triggering invitation
+    if invitation_pk:
+        Invitation.objects.get(pk=invitation_pk).accept(strategy.request, user)
+    # Merge possibly pending invitations for this e-mail address
+    Invitation.objects.filter(email=user.email).update(user=user, email="")
 
 
 def notify_connect(
@@ -507,7 +536,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     user.save()
     messages.warning(
         strategy.request,
-        _(
+        gettext(
             "Your e-mail no longer belongs to verified account, "
             "it has been changed to {0}."
         ).format(user.email),

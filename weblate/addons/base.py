@@ -2,15 +2,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
-from typing import List, Optional, Tuple
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.addons.events import (
     EVENT_COMPONENT_UPDATE,
@@ -34,7 +36,7 @@ from weblate.utils.validators import validate_filename
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: Tuple[int, ...] = ()
+    events: tuple[int, ...] = ()
     settings_form = None
     name = ""
     compat = {}
@@ -45,9 +47,11 @@ class BaseAddon:
     project_scope = False
     repo_scope = False
     has_summary = False
-    alert: Optional[str] = None
+    alert: str | None = None
     trigger_update = False
     stay_on_create = False
+    user_name = ""
+    user_verbose = ""
 
     def __init__(self, storage=None):
         self.instance = storage
@@ -105,9 +109,9 @@ class BaseAddon:
     def get_ui_form(self):
         return self.get_settings_form(None)
 
-    def configure(self, settings):
+    def configure(self, configuration):
         """Save configuration."""
-        self.instance.configuration = settings
+        self.instance.configuration = configuration
         self.instance.save()
         self.post_configure()
 
@@ -119,9 +123,10 @@ class BaseAddon:
         self.instance.configure_events(self.events)
 
         if run:
-            postconfigure_addon.delay(self.instance.pk)
-            # Flush cache in case this was eager mode
-            component.repository.clean_revision_cache()
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                postconfigure_addon(self.instance.pk, self.instance)
+            else:
+                postconfigure_addon.delay(self.instance.pk)
 
     def post_configure_run(self):
         # Trigger post events to ensure direct processing
@@ -171,15 +176,15 @@ class BaseAddon:
 
     def pre_push(self, component):
         """Hook triggered before repository is pushed upstream."""
-        return
+        # To be implemented in a subclass
 
     def post_push(self, component):
         """Hook triggered after repository is pushed upstream."""
-        return
+        # To be implemented in a subclass
 
     def pre_update(self, component):
         """Hook triggered before repository is updated from upstream."""
-        return
+        # To be implemented in a subclass
 
     def post_update(self, component, previous_head: str, skip_push: bool):
         """
@@ -192,23 +197,23 @@ class BaseAddon:
                                underlying methods as ``commit_and_push`` or
                                ``commit_pending``.
         """
-        return
+        # To be implemented in a subclass
 
     def pre_commit(self, translation, author):
         """Hook triggered before changes are committed to the repository."""
-        return
+        # To be implemented in a subclass
 
     def post_commit(self, component):
         """Hook triggered after changes are committed to the repository."""
-        return
+        # To be implemented in a subclass
 
     def post_add(self, translation):
         """Hook triggered after new translation is added."""
-        return
+        # To be implemented in a subclass
 
     def unit_pre_create(self, unit):
         """Hook triggered before new unit is created."""
-        return
+        # To be implemented in a subclass
 
     def store_post_load(self, translation, store):
         """
@@ -219,14 +224,15 @@ class BaseAddon:
         This is useful to modify file format class parameters, for example
         adjust how the file will be saved.
         """
-        return
+        # To be implemented in a subclass
 
     def daily(self, component):
         """Hook triggered daily."""
-        return
+        # To be implemented in a subclass
 
     def component_update(self, component):
-        return
+        """Hook for component update."""
+        # To be implemented in a subclass
 
     def execute_process(self, component, cmd, env=None):
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
@@ -262,8 +268,8 @@ class BaseAddon:
             component.delete_alert(self.alert)
 
     def commit_and_push(
-        self, component, files: Optional[List[str]] = None, skip_push: bool = False
-    ):
+        self, component, files: list[str] | None = None, skip_push: bool = False
+    ) -> bool:
         if files is None:
             files = list(
                 chain.from_iterable(
@@ -274,7 +280,7 @@ class BaseAddon:
             files += self.extra_files
         repository = component.repository
         if not files or not repository.needs_commit(files):
-            return
+            return False
         with repository.lock:
             component.commit_files(
                 template=component.addon_message,
@@ -282,6 +288,7 @@ class BaseAddon:
                 files=files,
                 skip_push=skip_push,
             )
+        return True
 
     def render_repo_filename(self, template, translation):
         component = translation.component
@@ -321,11 +328,25 @@ class BaseAddon:
             if component.repo_needs_merge():
                 messages.warning(
                     request,
-                    _(
+                    gettext(
                         "The repository is outdated, you might not get "
                         "expected results until you update it."
                     ),
                 )
+
+    @cached_property
+    def user(self):
+        """Weblate user used to track changes by this add-on."""
+        from weblate.auth.models import User
+
+        if not self.user_name or not self.user_verbose:
+            raise ValueError(
+                f"{self.__class__.__name__} is missing user_name and user_verbose!"
+            )
+
+        return User.objects.get_or_create_bot(
+            "addon", self.user_name, self.user_verbose
+        )
 
 
 class TestAddon(BaseAddon):
@@ -366,7 +387,7 @@ class UpdateBaseAddon(BaseAddon):
         self.commit_and_push(component, skip_push=skip_push)
 
 
-class TestException(Exception):
+class TestError(Exception):
     pass
 
 
@@ -379,7 +400,7 @@ class TestCrashAddon(UpdateBaseAddon):
 
     def update_translations(self, component, previous_head):
         if previous_head:
-            raise TestException("Test error")
+            raise TestError("Test error")
 
     @classmethod
     def can_install(cls, component, user):  # noqa: ARG003

@@ -2,21 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from itertools import chain
 
 from django.conf import settings
 
 from weblate.utils.licensedata import LICENSES
 
-LIBRE_IDS = {
-    name
-    for name, _verbose, _url, is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
-    if is_libre
-}
-LICENSE_URLS = {
-    name: url
-    for name, _verbose, url, _is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
-}
+ALL_LICENSES = (*LICENSES, *settings.LICENSE_EXTRA)
+
+LIBRE_IDS = {name for name, _verbose, _url, is_libre in ALL_LICENSES if is_libre}
+LICENSE_URLS = {name: url for name, _verbose, url, _is_libre in ALL_LICENSES}
+LICENSE_NAMES = {name: verbose for name, verbose, _url, _is_libre in ALL_LICENSES}
 
 
 def is_libre(name):
@@ -24,10 +19,11 @@ def is_libre(name):
 
 
 def get_license_url(name):
-    try:
-        return LICENSE_URLS[name]
-    except KeyError:
-        return None
+    return LICENSE_URLS.get(name, None)
+
+
+def get_license_name(name):
+    return LICENSE_NAMES.get(name, name)
 
 
 def get_license_choices():
@@ -36,12 +32,15 @@ def get_license_choices():
         result = [("proprietary", "Proprietary")]
     else:
         result = []
-    for name, verbose, _url, _is_libre in LICENSES:
-        if license_filter is not None and name not in license_filter:
-            continue
-        result.append((name, verbose))
 
-    for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA:
-        result.append((name, verbose))
+    result.extend(
+        (name, verbose)
+        for name, verbose, _url, _is_libre in LICENSES
+        if license_filter is None or name in license_filter
+    )
+
+    result.extend(
+        (name, verbose) for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA
+    )
 
     return result

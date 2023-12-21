@@ -21,15 +21,13 @@ jobs:
     name: Sphinx
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         cache: pip
         cache-dependency-path: '**/requirements*.txt'
-    - name: Configure Fast APT Mirror
-      uses: vegardit/fast-apt-mirror.sh@v1
     - name: Install apt dependencies
       run: |
         sudo apt update
@@ -41,7 +39,7 @@ jobs:
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@v3.1.2
+    - uses: actions/upload-artifact@v4.0.0
       with:
         name: Documentation
         path: docs/_build/html
@@ -51,9 +49,9 @@ jobs:
     name: Linkcheck
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         cache: pip
@@ -71,7 +69,7 @@ jobs:
         sed 's@^@docs/@' docs/_build/linkcheck/output.txt
         echo "::remove-matcher owner=sphinx::"
         echo "::remove-matcher owner=sphinx-warn::"
-    - uses: actions/upload-artifact@v3.1.2
+    - uses: actions/upload-artifact@v4.0.0
       if: always()
       with:
         name: Linkcheck report

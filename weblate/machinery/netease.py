@@ -7,8 +7,6 @@ import random
 import time
 from hashlib import sha1
 
-from django.conf import settings
-
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
 
@@ -25,25 +23,18 @@ class NeteaseSightTranslation(MachineTranslation):
     language_map = {"zh_Hans": "zh"}
     settings_form = KeySecretMachineryForm
 
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_NETEASE_KEY,
-            "secret": settings.MT_NETEASE_SECRET,
-        }
-
     def download_languages(self):
         """List of supported languages."""
         return ["zh", "en"]
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        nonce = str(random.randint(1000, 99999999))
-        timestamp = str(int(1000 * time.monotonic()))
+        nonce = str(random.randint(1000, 99999999))  # noqa: S311
+        timestamp = str(int(1000 * time.time()))
 
         sign = self.settings["secret"] + nonce + timestamp
         sign = sign.encode()
-        sign = sha1(sign).hexdigest()  # nosec
+        sign = sha1(sign, usedforsecurity=False).hexdigest()
 
         return {
             "Content-Type": "application/json",

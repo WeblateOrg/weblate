@@ -37,15 +37,21 @@ def add_glossary_term(request, unit_id):
             terms = form.cleaned_data["terms"]
             terms.append(added.pk)
             code = 200
+
+            # Fetch matching terms
+            all_terms = get_glossary_terms(unit)
+            # Add newly added one
+            all_terms.append(added)
+
+            # Add previously present ones
+            missing_terms = set(terms) - {term.pk for term in all_terms}
+            if missing_terms:
+                all_terms.extend(translation.unit_set.filter(pk__in=missing_terms))
+
             results = render_to_string(
                 "snippets/glossary.html",
                 {
-                    "glossary": (
-                        # distinct is needed as get_glossary_terms is distict
-                        # and mixed queries can not be combined
-                        get_glossary_terms(unit)
-                        | translation.unit_set.filter(pk__in=terms).distinct()
-                    ),
+                    "glossary": all_terms,
                     "unit": unit,
                     "user": user,
                 },

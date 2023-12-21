@@ -7,6 +7,7 @@ from django.urls import include, path
 from weblate.api.routers import WeblateRouter
 from weblate.api.views import (
     AddonViewSet,
+    CategoryViewSet,
     ChangeViewSet,
     ComponentListViewSet,
     ComponentViewSet,
@@ -17,6 +18,7 @@ from weblate.api.views import (
     ProjectViewSet,
     RoleViewSet,
     ScreenshotViewSet,
+    Search,
     TasksViewSet,
     TranslationViewSet,
     UnitViewSet,
@@ -39,10 +41,12 @@ router.register("units", UnitViewSet)
 router.register("screenshots", ScreenshotViewSet)
 router.register("tasks", TasksViewSet, "task")
 router.register("addons", AddonViewSet)
+router.register("categories", CategoryViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("metrics/", Metrics.as_view(), name="metrics"),
+    path("search/", Search.as_view(), name="search"),
     path("", include(router.urls)),
 ]

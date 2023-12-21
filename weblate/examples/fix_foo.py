@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.trans.autofixes.base import AutoFix
 
@@ -10,7 +10,7 @@ from weblate.trans.autofixes.base import AutoFix
 class ReplaceFooWithBar(AutoFix):
     """Replace foo with bar."""
 
-    name = _("Foobar")
+    name = gettext_lazy("Foobar")
 
     def fix_single_target(self, target, source, unit):
         if "foo" in target:

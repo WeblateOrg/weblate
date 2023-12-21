@@ -2,28 +2,30 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+import uuid
 from collections import defaultdict
-from functools import lru_cache
+from functools import cache as functools_cache
 from itertools import chain
-from typing import Optional, Set
 
 import sentry_sdk
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
-from django.db.models import Q
+from django.db.models import Prefetch, Q, UniqueConstraint
+from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.http import Http404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext
+from django.utils.translation import gettext, gettext_lazy, pgettext
 from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
@@ -45,11 +47,13 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
+from weblate.lang.models import Language
 from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
-from weblate.trans.models import ComponentList, Project
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
+from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 
@@ -69,12 +73,14 @@ class Permission(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(verbose_name=_("Name"), max_length=200, unique=True)
+    name = models.CharField(
+        verbose_name=gettext_lazy("Name"), max_length=200, unique=True
+    )
     permissions = models.ManyToManyField(
         Permission,
-        verbose_name=_("Permissions"),
+        verbose_name=gettext_lazy("Permissions"),
         blank=True,
-        help_text=_("Choose permissions granted to this role."),
+        help_text=gettext_lazy("Choose permissions granted to this role."),
     )
 
     class Meta:
@@ -92,12 +98,12 @@ class GroupQuerySet(models.QuerySet):
 
 
 class Group(models.Model):
-    name = models.CharField(_("Name"), max_length=150)
+    name = models.CharField(gettext_lazy("Name"), max_length=150)
     roles = models.ManyToManyField(
         Role,
-        verbose_name=_("Roles"),
+        verbose_name=gettext_lazy("Roles"),
         blank=True,
-        help_text=_("Choose roles granted to this group."),
+        help_text=gettext_lazy("Choose roles granted to this group."),
     )
 
     defining_project = models.ForeignKey(
@@ -109,54 +115,56 @@ class Group(models.Model):
     )
 
     project_selection = models.IntegerField(
-        verbose_name=_("Project selection"),
+        verbose_name=gettext_lazy("Project selection"),
         choices=(
-            (SELECTION_MANUAL, _("As defined")),
-            (SELECTION_ALL, _("All projects")),
-            (SELECTION_ALL_PUBLIC, _("All public projects")),
-            (SELECTION_ALL_PROTECTED, _("All protected projects")),
-            (SELECTION_COMPONENT_LIST, _("From component list")),
+            (SELECTION_MANUAL, gettext_lazy("As defined")),
+            (SELECTION_ALL, gettext_lazy("All projects")),
+            (SELECTION_ALL_PUBLIC, gettext_lazy("All public projects")),
+            (SELECTION_ALL_PROTECTED, gettext_lazy("All protected projects")),
+            (SELECTION_COMPONENT_LIST, gettext_lazy("From component list")),
         ),
         default=SELECTION_MANUAL,
     )
     projects = models.ManyToManyField(
-        "trans.Project", verbose_name=_("Projects"), blank=True
+        "trans.Project", verbose_name=gettext_lazy("Projects"), blank=True
     )
     components = models.ManyToManyField(
         "trans.Component",
-        verbose_name=_("Components"),
+        verbose_name=gettext_lazy("Components"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Empty selection grants access to all components in project scope."
         ),
     )
     componentlists = models.ManyToManyField(
         "trans.ComponentList",
-        verbose_name=_("Component lists"),
+        verbose_name=gettext_lazy("Component lists"),
         blank=True,
     )
 
     language_selection = models.IntegerField(
-        verbose_name=_("Language selection"),
+        verbose_name=gettext_lazy("Language selection"),
         choices=(
-            (SELECTION_MANUAL, _("As defined")),
-            (SELECTION_ALL, _("All languages")),
+            (SELECTION_MANUAL, gettext_lazy("As defined")),
+            (SELECTION_ALL, gettext_lazy("All languages")),
         ),
         default=SELECTION_MANUAL,
     )
     languages = models.ManyToManyField(
-        "lang.Language", verbose_name=_("Languages"), blank=True
+        "lang.Language", verbose_name=gettext_lazy("Languages"), blank=True
     )
 
     internal = models.BooleanField(
-        verbose_name=_("Internal Weblate group"), default=False
+        verbose_name=gettext_lazy("Internal Weblate group"), default=False
     )
 
     admins = models.ManyToManyField(
         "User",
-        verbose_name=_("Team administrators"),
+        verbose_name=gettext_lazy("Team administrators"),
         blank=True,
-        help_text=_("The administrator can add or remove users from a team."),
+        help_text=gettext_lazy(
+            "The administrator can add or remove users from a team."
+        ),
         related_name="administered_group_set",
     )
 
@@ -222,6 +230,18 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
+    def get_or_create_bot(self, scope: str, username: str, verbose: str):
+        return self.get_or_create(
+            username=f"{scope}:{username}",
+            defaults={
+                "is_bot": True,
+                "full_name": verbose,
+                "email": f"noreply-{scope}-{username}@weblate.org",
+                "is_active": False,
+                "password": make_password(None),
+            },
+        )[0]
+
 
 class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
@@ -242,9 +262,18 @@ class UserQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("username")
 
+    def search(self, query: str, parser: str = "user", **context):
+        """High level wrapper for searching."""
+        if parser == "plain":
+            result = self.filter(
+                Q(username__icontains=query) | Q(full_name__icontains=query)
+            )
+        else:
+            result = self.filter(parse_query(query, parser=parser, **context))
+        return result.distinct()
 
-# TODO: Use functools.cache when Python 3.9+
-@lru_cache(maxsize=None)
+
+@functools_cache
 def get_anonymous():
     """Return an anonymous user."""
     return User.objects.select_related("profile").get(
@@ -307,37 +336,39 @@ class GroupManyToManyField(models.ManyToManyField):
 
 class User(AbstractBaseUser):
     username = UsernameField(
-        _("Username"),
+        gettext_lazy("Username"),
         max_length=USERNAME_LENGTH,
         unique=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Username may only contain letters, "
             "numbers or the following characters: @ . + - _"
         ),
         validators=[validate_username],
-        error_messages={"unique": _("A user with that username already exists.")},
+        error_messages={
+            "unique": gettext_lazy("A user with that username already exists.")
+        },
     )
     full_name = models.CharField(
-        _("Full name"),
+        gettext_lazy("Full name"),
         max_length=FULLNAME_LENGTH,
         blank=False,
         validators=[validate_fullname],
     )
     email = EmailField(  # noqa: DJ01
-        _("E-mail"),
+        gettext_lazy("E-mail"),
         blank=False,
         null=True,
         unique=True,
     )
     is_superuser = models.BooleanField(
-        _("Superuser status"),
+        gettext_lazy("Superuser status"),
         default=False,
-        help_text=_("User has all possible permissions."),
+        help_text=gettext_lazy("User has all possible permissions."),
     )
     is_active = models.BooleanField(
-        _("Active"),
+        gettext_lazy("Active"),
         default=True,
-        help_text=_("Mark user as inactive instead of removing."),
+        help_text=gettext_lazy("Mark user as inactive instead of removing."),
     )
     is_bot = models.BooleanField(
         "Robot user",
@@ -345,16 +376,18 @@ class User(AbstractBaseUser):
         db_index=True,
     )
     date_expires = models.DateTimeField(
-        _("Expires"), null=True, blank=True, default=None
+        gettext_lazy("Expires"), null=True, blank=True, default=None
     )
-    date_joined = models.DateTimeField(_("Date joined"), default=timezone.now)
+    date_joined = models.DateTimeField(
+        gettext_lazy("Date joined"), default=timezone.now
+    )
     groups = GroupManyToManyField(
         Group,
-        verbose_name=_("Groups"),
+        verbose_name=gettext_lazy("Teams"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "The user is granted all permissions included in "
-            "membership of these groups."
+            "membership of these teams."
         ),
     )
 
@@ -368,11 +401,20 @@ class User(AbstractBaseUser):
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
+        constraints = [
+            UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
+            UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
+        ]
 
     def __str__(self):
         return self.full_name
 
     def save(self, *args, **kwargs):
+        from weblate.accounts.models import AuditLog
+
+        original = None
+        if self.pk:
+            original = User.objects.get(pk=self.pk)
         if self.is_anonymous:
             self.is_active = False
         # Generate full name from parts
@@ -388,6 +430,17 @@ class User(AbstractBaseUser):
             self.email = None
         super().save(*args, **kwargs)
         self.clear_cache()
+        if (
+            original
+            and original.is_active != self.is_active
+            and self.full_name != "Deleted User"
+            and not self.is_anonymous
+        ):
+            AuditLog.objects.create(
+                user=self,
+                request=None,
+                activity="enabled" if self.is_active else "disabled",
+            )
 
     def get_absolute_url(self):
         return reverse("user_page", kwargs={"user": self.username})
@@ -409,6 +462,8 @@ class User(AbstractBaseUser):
             "project_permissions",
             "component_permissions",
             "allowed_projects",
+            "needs_component_restrictions_filter",
+            "needs_project_filter",
             "watched_projects",
             "owned_projects",
             "managed_projects",
@@ -468,7 +523,7 @@ class User(AbstractBaseUser):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
-            return check_global_permission(self, perm, obj)
+            return check_global_permission(self, perm)
 
         # Compatibility API for admin interface
         if is_django_permission(perm):
@@ -550,6 +605,14 @@ class User(AbstractBaseUser):
         return Project.objects.filter(condition).order()
 
     @cached_property
+    def needs_component_restrictions_filter(self):
+        return self.allowed_projects.filter(component__restricted=True).exists()
+
+    @cached_property
+    def needs_project_filter(self):
+        return self.allowed_projects.count() != Project.objects.all().count()
+
+    @cached_property
     def watched_projects(self):
         """
         List of watched projects.
@@ -578,10 +641,18 @@ class User(AbstractBaseUser):
         with sentry_sdk.start_span(op="permissions", description=self.username):
             for group in self.groups.prefetch_related(
                 "roles__permissions",
-                "componentlists__components",
-                "components",
-                "projects",
-                "languages",
+                Prefetch(
+                    "componentlists__components",
+                    queryset=Component.objects.only("id", "project_id"),
+                ),
+                Prefetch(
+                    "components",
+                    queryset=Component.objects.all().only("id", "project_id"),
+                ),
+                Prefetch(
+                    "projects", queryset=Project.objects.only("id", "access_control")
+                ),
+                Prefetch("languages", queryset=Language.objects.only("id")),
             ):
                 if group.language_selection == SELECTION_ALL:
                     languages = None
@@ -686,7 +757,7 @@ class User(AbstractBaseUser):
             return self.username
         return self.full_name
 
-    def get_author_name(self, address: Optional[str] = None) -> str:
+    def get_author_name(self, address: str | None = None) -> str:
         """Return formatted author name with e-mail."""
         return format_address(
             self.get_visible_name(), address or self.profile.get_commit_email()
@@ -695,15 +766,17 @@ class User(AbstractBaseUser):
 
 class AutoGroup(models.Model):
     match = RegexField(
-        verbose_name=_("Regular expression for e-mail address"),
+        verbose_name=gettext_lazy("Regular expression for e-mail address"),
         max_length=200,
-        default="^.*$",
-        help_text=_(
+        default="^$",
+        help_text=gettext_lazy(
             "Users with e-mail addresses found to match will be added to this group."
         ),
     )
     group = models.ForeignKey(
-        Group, verbose_name=_("Group to assign"), on_delete=models.deletion.CASCADE
+        Group,
+        verbose_name=gettext_lazy("Group to assign"),
+        on_delete=models.deletion.CASCADE,
     )
 
     class Meta:
@@ -716,12 +789,15 @@ class AutoGroup(models.Model):
 
 class UserBlock(models.Model):
     user = models.ForeignKey(
-        User, verbose_name=_("User to block"), on_delete=models.deletion.CASCADE
+        User,
+        verbose_name=gettext_lazy("User to block"),
+        on_delete=models.deletion.CASCADE,
+        db_index=False,
     )
     project = models.ForeignKey(
-        Project, verbose_name=_("Project"), on_delete=models.deletion.CASCADE
+        Project, verbose_name=gettext_lazy("Project"), on_delete=models.deletion.CASCADE
     )
-    expiry = models.DateTimeField(_("Block expiry"), null=True)
+    expiry = models.DateTimeField(gettext_lazy("Block expiry"), null=True)
 
     class Meta:
         verbose_name = "Blocked user"
@@ -823,7 +899,7 @@ def setup_project_groups(
     sender,
     instance,
     created: bool = False,
-    new_roles: Optional[Set[str]] = None,
+    new_roles: set[str] | None = None,
     **kwargs,
 ):
     """Set up group objects upon saving project."""
@@ -883,6 +959,84 @@ def setup_project_groups(
             continue
         group.projects.add(instance)
         group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
+
+
+class Invitation(models.Model):
+    """
+    User invitation store.
+
+    Either user or e-mail attribute is set, this is to invite current and new users.
+    """
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(
+        User, on_delete=models.deletion.CASCADE, related_name="created_invitation_set"
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        verbose_name=gettext_lazy("User to add"),
+        help_text=gettext_lazy(
+            "Please type in an existing Weblate account name or e-mail address."
+        ),
+    )
+    group = models.ForeignKey(
+        Group,
+        verbose_name=gettext_lazy("Team"),
+        help_text=gettext_lazy(
+            "The user is granted all permissions included in "
+            "membership of these teams."
+        ),
+        on_delete=models.deletion.CASCADE,
+    )
+    email = EmailField(
+        gettext_lazy("E-mail"),
+        blank=True,
+    )
+    is_superuser = models.BooleanField(
+        gettext_lazy("Superuser status"),
+        default=False,
+        help_text=gettext_lazy("User has all possible permissions."),
+    )
+
+    def __str__(self):
+        return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"
+
+    def get_absolute_url(self):
+        return reverse("invitation", kwargs={"pk": self.uuid})
+
+    def send_email(self):
+        from weblate.accounts.notifications import send_notification_email
+
+        send_notification_email(
+            None,
+            [self.email] if self.email else [self.user.email],
+            "invite",
+            info=f"{self}",
+            context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
+        )
+
+    def accept(self, request, user: User):
+        from weblate.accounts.models import AuditLog
+
+        if self.user and self.user != user:
+            raise ValueError("User mismatch on accept!")
+
+        user.groups.add(self.group)
+
+        if self.is_superuser:
+            user.is_superuser = True
+            user.save(update_fields=["is_superuser"])
+
+        AuditLog.objects.create(
+            user=user,
+            request=request,
+            activity="accepted",
+            username=self.author.username,
+        )
+        self.delete()
 
 
 class WeblateAuthConf(AppConf):

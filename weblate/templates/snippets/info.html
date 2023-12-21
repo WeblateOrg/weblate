@@ -40,7 +40,6 @@
         <td colspan="2">{{ language.population|intcomma }}</td>
         </tr>
         {% endif %}
-
         {% for plural in language.plural_set.order %}
           <tr class="info">
             <th colspan="3">
@@ -165,7 +164,7 @@
         <th>{% trans "Contributor agreement" %}</th>
         <td class="full-cell">
           {% if user.is_authenticated %}
-            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=component.project.slug component=component.slug %}">{% trans "View" %}</a>
+            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' path=component.get_url_path %}">{% trans "View" %}</a>
           {% endif %}
           {{ component.agreement|markdown }}
         </td>
@@ -176,16 +175,20 @@
         <th>{% trans "Translation process" %}</th>
         <td class="full-cell">
         <ul>
-        {% if component.suggestion_voting and component.suggestion_autoaccept %}
+        {% get_workflow_flags translation component as workflow_flags %}
+        {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
         <li>{% trans "Translations can only be done through suggestions." %}</li>
-        <li>{% blocktrans count count=component.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
+        <li>{% blocktrans count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
         {% else %}
         <li>{% trans "Translations can be made directly." %}</li>
-        {% if component.enable_suggestions %}
+        {% if workflow_flags.enable_suggestions %}
         <li>{% trans "Translation suggestions can be made." %}</li>
         {% else %}
         <li>{% trans "Translation suggestions are turned off." %}</li>
         {% endif %}
+        {% endif %}
+        {% if workflow_flags.translation_review %}
+        <li>{% trans "Translations are reviewed by dedicated reviewers." %}</li>
         {% endif %}
         {% if component.project.access_control %}
         <li>{% trans "Only chosen users can contribute." %}</li>
@@ -226,7 +229,7 @@
         <th>{% trans "Translation file" %}</th>
         <td>
         {% if translation.filename %}
-        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download_translation' project=translation.component.project.slug component=translation.component.slug lang=translation.language.code %}">{% trans "Download" %}</a>
+        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download' path=translation.get_url_path %}">{% trans "Download" %}</a>
         <code class="wrap-text">{{ translation.filename }}</code>
         {% else %}
         {% trans "Not available" %}
@@ -273,7 +276,12 @@
   {% endif %}
 
     <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{% trans "String statistics" %}</h4></div>
+      <div class="panel-heading">
+        <span class="pull-right flip text-muted">
+          {{ stats.stats_timestamp|naturaltime }}
+        </span>
+        <h4 class="panel-title">{% trans "String statistics" %}</h4>
+      </div>
       <table class="table">
       <thead>
       <tr>
@@ -483,8 +491,10 @@
           </div>
           <div class="col-sm-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.contributors|number_format }}</div>
-              <div class="metric-text">{% trans "Contributors" %}</div>
+              <a href="{% url "user_list" %}?q={% if object.code %}translates:{{object.code|urlencode}}{% elif object.language.code %}translates:{{object.language.code|urlencode}}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                <div class="metric-number">{{ metrics.contributors|number_format }}</div>
+                <div class="metric-text">{% trans "Contributors" %}</div>
+              </a>
             </div>
           </div>
         </div>

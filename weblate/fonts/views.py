@@ -6,13 +6,20 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
+from weblate.trans.models import Project
 from weblate.utils import messages
-from weblate.utils.views import ProjectViewMixin
+from weblate.utils.views import parse_path
+
+
+class ProjectViewMixin:
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.project = parse_path(request, [self.kwargs["project"]], (Project,))
 
 
 @method_decorator(login_required, name="dispatch")
@@ -52,12 +59,16 @@ class FontListView(ProjectViewMixin, ListView):
             try:
                 instance.validate_unique()
             except ValidationError:
-                messages.error(request, _("Font with the same name already exists."))
+                messages.error(
+                    request, gettext("Font with the same name already exists.")
+                )
             else:
                 instance.save()
                 return redirect(instance)
         else:
-            messages.error(request, _("Creation failed, please fix the errors below."))
+            messages.error(
+                request, gettext("Creation failed, please fix the errors below.")
+            )
         return self.get(request, **kwargs)
 
 
@@ -79,7 +90,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
             raise PermissionDenied
 
         self.object.delete()
-        messages.error(request, _("Font deleted."))
+        messages.error(request, gettext("Font deleted."))
         return redirect("fonts", project=self.project.slug)
 
 
@@ -116,7 +127,8 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     instance.validate_unique()
                 except ValidationError:
                     messages.error(
-                        request, _("Font group with the same name already exists.")
+                        request,
+                        gettext("Font group with the same name already exists."),
                     )
                 else:
                     instance.save()
@@ -131,7 +143,8 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     instance.validate_unique()
                 except ValidationError:
                     messages.error(
-                        request, _("Font group with the same name already exists.")
+                        request,
+                        gettext("Font group with the same name already exists."),
                     )
                 else:
                     instance.save()
@@ -144,10 +157,10 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     pk=int(request.POST["override"])
                 ).delete()
             except (ValueError, ObjectDoesNotExist):
-                messages.error(request, _("No override found."))
+                messages.error(request, gettext("No override found."))
             else:
                 return redirect(self.object)
 
         self.object.delete()
-        messages.error(request, _("Font group deleted."))
+        messages.error(request, gettext("Font group deleted."))
         return redirect("fonts", project=self.project.slug)

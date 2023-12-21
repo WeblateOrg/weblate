@@ -5,17 +5,18 @@
 
 """Translate Toolkit based file-format wrappers."""
 
+from __future__ import annotations
+
 import importlib
 import inspect
 import os
 import re
 import subprocess
-from typing import Callable, List, Optional, Tuple, Union
+from typing import Any, Callable
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 from translate.misc import quote
@@ -66,7 +67,7 @@ class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
         """Return a comma-separated list of locations."""
-        return ", ".join(x for x in self.mainunit.getlocations() if x is not None)
+        return ", ".join(self.mainunit.getlocations())
 
     @cached_property
     def source(self):
@@ -105,7 +106,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + "\n" + comment
+                comment = f"{template_comment}\n{comment}"
 
         return comment
 
@@ -136,7 +137,7 @@ class TTKitUnit(TranslationUnit):
     def is_readonly(self):
         return not self.mainunit.istranslatable()
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         self._invalidate_target()
         if isinstance(target, list):
@@ -210,7 +211,7 @@ class KeyValueUnit(TTKitUnit):
             return not self.unit.isfuzzy() and self.unit.value
         return self.unit.istranslated()
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         super().set_target(target)
         # Propagate to value so that searializing of empty values works correctly
@@ -234,9 +235,10 @@ class TTKitFormat(TranslationFormat):
         self,
         storefile,
         template_store=None,
-        language_code: Optional[str] = None,
-        source_language: Optional[str] = None,
+        language_code: str | None = None,
+        source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -244,6 +246,7 @@ class TTKitFormat(TranslationFormat):
             language_code=language_code,
             is_template=is_template,
             source_language=source_language,
+            existing_units=existing_units,
         )
 
     @staticmethod
@@ -365,15 +368,15 @@ class TTKitFormat(TranslationFormat):
         return unit
 
     def create_unit_key(
-        self, key: str, source: Union[str, List[str], multistring]
-    ) -> Union[str, multistring]:
+        self, key: str, source: str | list[str] | multistring
+    ) -> str | multistring:
         return key
 
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         # Make sure target is a string
         if target is None:
@@ -440,7 +443,7 @@ class TTKitFormat(TranslationFormat):
         filename: str,
         language: str,
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,
     ):
         """Handle creation of new translation file."""
         if base:
@@ -461,7 +464,7 @@ class TTKitFormat(TranslationFormat):
         cls,
         base: str,
         monolingual: bool,
-        errors: Optional[List] = None,
+        errors: list | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
@@ -488,8 +491,9 @@ class TTKitFormat(TranslationFormat):
             if not unit.isobsolete() and not unit.isheader()
         )
 
-    def delete_unit(self, ttkit_unit) -> Optional[str]:
+    def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
+        return None
 
 
 class PropertiesUnit(KeyValueUnit):
@@ -584,7 +588,7 @@ class PoMonoUnit(PoUnit):
                 result.append(context)
         return "\n".join(result)
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         # Add blank msgid_plural to store plural
         if isinstance(target, (list, multistring)) and not self.unit.hasplural():
@@ -636,11 +640,6 @@ class XliffUnit(TTKitUnit):
         if resname:
             return resname
         return self.mainunit.getid().replace(ID_SEPARATOR, "///")
-
-    @cached_property
-    def locations(self):
-        """Return comma separated list of locations."""
-        return ""
 
     def is_translated(self):
         """
@@ -712,7 +711,7 @@ class XliffUnit(TTKitUnit):
             if xmlnode is not None:
                 xmlnode.getparent().remove(xmlnode)
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         if self.get_unit_node(self.unit, "source") is None:
             # Make sure source element is present, otherwise it breaks
@@ -792,7 +791,7 @@ class RichXliffUnit(XliffUnit):
         flags.merge("xml-text")
         return flags.format()
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         self._invalidate_target()
         # Delete the empty target element
@@ -1056,6 +1055,7 @@ class INIUnit(TTKitUnit):
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
     plural_preference = None
+    supports_plural: bool = True
 
     @classmethod
     def get_plural(cls, language, store=None):
@@ -1128,6 +1128,11 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 check=True,
                 text=True,
             )
+        except FileNotFoundError as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(
+                "msgmerge not found, please install gettext", error
+            ) from error
         except OSError as error:
             report_error(cause="Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
@@ -1158,7 +1163,7 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
 
 class PoFormat(BasePoFormat):
-    name = _("gettext PO file")
+    name = gettext_lazy("gettext PO file")
     format_id = "po"
     monolingual = False
     autoload = ("*.po", "*.pot")
@@ -1171,7 +1176,7 @@ class PoFormat(BasePoFormat):
 
 
 class PoMonoFormat(BasePoFormat):
-    name = _("gettext PO file (monolingual)")
+    name = gettext_lazy("gettext PO file (monolingual)")
     format_id = "po-mono"
     monolingual = True
     autoload = ()
@@ -1187,24 +1192,29 @@ class PoMonoFormat(BasePoFormat):
     set_context_bilingual = False
 
     def create_unit_key(
-        self, key: str, source: Union[str, List[str], multistring]
-    ) -> Union[str, multistring]:
+        self, key: str, source: str | list[str] | multistring
+    ) -> str | multistring:
         if isinstance(source, (list, multistring)):
             return multistring([key, f"{key}_plural"])
         return key
 
 
 class TSFormat(TTKitFormat):
-    name = _("Qt Linguist translation file")
+    name = gettext_lazy("Qt Linguist translation file")
     format_id = "ts"
     loader = tsfile
     autoload = ("*.ts",)
     unit_class = TSUnit
     set_context_bilingual = False
+    supports_plural: bool = True
+    plural_preference = (
+        Plural.SOURCE_QT,
+        Plural.SOURCE_DEFAULT,
+    )
 
 
 class XliffFormat(TTKitFormat):
-    name = _("XLIFF translation file")
+    name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = xlifffile
     autoload = ()
@@ -1224,8 +1234,8 @@ class XliffFormat(TTKitFormat):
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         unit = super().create_unit(key, source, target)
         unit.marktranslated()
@@ -1234,17 +1244,18 @@ class XliffFormat(TTKitFormat):
 
 
 class RichXliffFormat(XliffFormat):
-    name = _("XLIFF with placeables support")
+    name = gettext_lazy("XLIFF 1.2 with placeables support")
     format_id = "xliff"
-    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
     unit_class = RichXliffUnit
 
 
 class PoXliffFormat(XliffFormat):
-    name = _("XLIFF with gettext extensions")
+    name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
     autoload = ("*.poxliff",)
     loader = PoXliffFile
+    supports_plural: bool = True
 
 
 class PropertiesBaseFormat(TTKitFormat):
@@ -1271,23 +1282,23 @@ class PropertiesBaseFormat(TTKitFormat):
 
 
 class StringsFormat(PropertiesBaseFormat):
-    name = _("iOS strings (UTF-16)")
+    name = gettext_lazy("iOS strings (UTF-16)")
     format_id = "strings"
     loader = ("properties", "stringsfile")
-    new_translation: Optional[Union[str, bytes]] = "\n".encode("utf-16")
+    new_translation: str | bytes | None = "\n".encode("utf-16")
     autoload = ("*.strings",)
     language_format = "bcp"
 
 
 class StringsUtf8Format(StringsFormat):
-    name = _("iOS strings (UTF-8)")
+    name = gettext_lazy("iOS strings (UTF-8)")
     format_id = "strings-utf8"
     loader = ("properties", "stringsutf8file")
     new_translation = "\n"
 
 
 class PropertiesUtf8Format(PropertiesBaseFormat):
-    name = _("Java Properties (UTF-8)")
+    name = gettext_lazy("Java Properties (UTF-8)")
     format_id = "properties-utf8"
     loader = ("properties", "javautf8file")
     new_translation = "\n"
@@ -1296,7 +1307,7 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
 
 
 class PropertiesUtf16Format(PropertiesBaseFormat):
-    name = _("Java Properties (UTF-16)")
+    name = gettext_lazy("Java Properties (UTF-16)")
     format_id = "properties-utf16"
     loader = ("properties", "javafile")
     language_format = "linux"
@@ -1306,7 +1317,7 @@ class PropertiesUtf16Format(PropertiesBaseFormat):
 
 
 class PropertiesFormat(PropertiesBaseFormat):
-    name = _("Java Properties (ISO 8859-1)")
+    name = gettext_lazy("Java Properties (ISO 8859-1)")
     format_id = "properties"
     loader = ("properties", "javafile")
     language_format = "linux"
@@ -1318,7 +1329,7 @@ class PropertiesFormat(PropertiesBaseFormat):
 
 
 class JoomlaFormat(PropertiesBaseFormat):
-    name = _("Joomla language file")
+    name = gettext_lazy("Joomla language file")
     format_id = "joomla"
     loader = ("properties", "joomlafile")
     monolingual = True
@@ -1327,22 +1338,23 @@ class JoomlaFormat(PropertiesBaseFormat):
 
 
 class GWTFormat(StringsFormat):
-    name = _("GWT properties (UTF-8)")
+    name = gettext_lazy("GWT properties (UTF-8)")
     format_id = "gwt"
     loader = ("properties", "gwtfile")
     new_translation = "\n"
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
+    supports_plural: bool = True
 
 
 class GWTISOFormat(GWTFormat):
-    name = _("GWT properties (ISO-8859-1)")
+    name = gettext_lazy("GWT properties (ISO-8859-1)")
     format_id = "gwt-iso"
     force_encoding = "iso-8859-1"
 
 
 class PhpFormat(TTKitFormat):
-    name = _("PHP strings")
+    name = gettext_lazy("PHP strings")
     format_id = "php"
     loader = ("php", "phpfile")
     new_translation = "<?php\n"
@@ -1361,13 +1373,14 @@ class PhpFormat(TTKitFormat):
 
 
 class LaravelPhpFormat(PhpFormat):
-    name = _("Laravel PHP strings")
+    name = gettext_lazy("Laravel PHP strings")
     format_id = "laravel"
     loader = ("php", "LaravelPHPFile")
+    supports_plural: bool = True
 
 
 class RESXFormat(TTKitFormat):
-    name = _(".NET resource file")
+    name = gettext_lazy(".NET resource file")
     format_id = "resx"
     loader = RESXFile
     monolingual = True
@@ -1375,10 +1388,11 @@ class RESXFormat(TTKitFormat):
     new_translation = RESXFile.XMLskeleton
     autoload = ("*.resx",)
     language_format = "bcp"
+    supports_plural: bool = True
 
 
 class AndroidFormat(TTKitFormat):
-    name = _("Android String Resource")
+    name = gettext_lazy("Android String Resource")
     format_id = "aresource"
     loader = ("aresource", "AndroidResourceFile")
     monolingual = True
@@ -1393,6 +1407,14 @@ class AndroidFormat(TTKitFormat):
         Plural.SOURCE_CLDR,
         Plural.SOURCE_DEFAULT,
     )
+    strict_format_plurals: bool = True
+    supports_plural: bool = True
+
+
+class MOKOFormat(AndroidFormat):
+    name = gettext_lazy("Mobile Kotlin Resource")
+    format_id = "moko-resource"
+    loader = ("aresource", "MOKOResourceFile")
 
 
 class DictStoreMixin:
@@ -1403,15 +1425,15 @@ class DictStoreMixin:
         try:
             id_class.from_string(context)
         except Exception as error:
-            raise ValidationError(gettext("Failed to parse the key: %s") % error)
+            raise ValidationError(gettext("Could not parse the key: %s") % error)
 
 
 class JSONFormat(DictStoreMixin, TTKitFormat):
-    name = _("JSON file")
+    name = gettext_lazy("JSON file")
     format_id = "json"
     loader = JsonFile
     unit_class = JSONUnit
-    autoload: Tuple[str, ...] = ("*.json",)
+    autoload: tuple[str, ...] = ("*.json",)
     new_translation = "{}\n"
     set_context_bilingual = False
 
@@ -1427,51 +1449,56 @@ class JSONFormat(DictStoreMixin, TTKitFormat):
 
 
 class JSONNestedFormat(JSONFormat):
-    name = _("JSON nested structure file")
+    name = gettext_lazy("JSON nested structure file")
     format_id = "json-nested"
     loader = ("jsonl10n", "JsonNestedFile")
     autoload = ()
 
 
 class WebExtensionJSONFormat(JSONFormat):
-    name = _("WebExtension JSON file")
+    name = gettext_lazy("WebExtension JSON file")
     format_id = "webextension"
     loader = ("jsonl10n", "WebExtensionJsonFile")
     monolingual = True
     autoload = ("messages*.json",)
     unit_class = PlaceholdersJSONUnit
+    supports_plural: bool = True
 
 
 class I18NextFormat(JSONFormat):
-    name = _("i18next JSON file v3")
+    name = gettext_lazy("i18next JSON file v3")
     format_id = "i18next"
     loader = ("jsonl10n", "I18NextFile")
     autoload = ()
     check_flags = ("i18next-interpolation",)
+    language_format: str = "bcp"
+    supports_plural: bool = True
 
 
 class I18NextV4Format(I18NextFormat):
-    name = _("i18next JSON file v4")
+    name = gettext_lazy("i18next JSON file v4")
     format_id = "i18nextv4"
     loader = ("jsonl10n", "I18NextV4File")
 
 
 class GoI18JSONFormat(JSONFormat):
-    name = _("go-i18n v1 JSON file")
+    name = gettext_lazy("go-i18n v1 JSON file")
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
     autoload = ()
+    supports_plural: bool = True
 
 
 class GoI18V2JSONFormat(JSONFormat):
-    name = _("go-i18n v2 JSON file")
+    name = gettext_lazy("go-i18n v2 JSON file")
     format_id = "go-i18n-json-v2"
     loader = ("jsonl10n", "GoI18NV2JsonFile")
     autoload = ()
+    supports_plural: bool = True
 
 
 class ARBFormat(JSONFormat):
-    name = _("ARB file")
+    name = gettext_lazy("ARB file")
     format_id = "arb"
     loader = ("jsonl10n", "ARBJsonFile")
     autoload = ("*.arb",)
@@ -1480,28 +1507,30 @@ class ARBFormat(JSONFormat):
 
 
 class GoTextFormat(JSONFormat):
-    name = _("gotext JSON file")
+    name = gettext_lazy("gotext JSON file")
     format_id = "gotext"
     loader = ("jsonl10n", "GoTextJsonFile")
     autoload = ()
     unit_class = PlaceholdersJSONUnit
+    supports_plural: bool = True
 
 
 class CSVFormat(TTKitFormat):
-    name = _("CSV file")
+    name = gettext_lazy("CSV file")
     format_id = "csv"
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
-    autoload: Tuple[str, ...] = ("*.csv",)
+    autoload: tuple[str, ...] = ("*.csv",)
     force_encoding = "auto"
 
     def __init__(
         self,
         storefile,
         template_store=None,
-        language_code: Optional[str] = None,
-        source_language: Optional[str] = None,
+        language_code: str | None = None,
+        source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -1509,6 +1538,7 @@ class CSVFormat(TTKitFormat):
             language_code=language_code,
             source_language=source_language,
             is_template=is_template,
+            existing_units=existing_units,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -1574,16 +1604,16 @@ class CSVFormat(TTKitFormat):
 
 
 class CSVUtf8Format(CSVFormat):
-    name = _("CSV file (UTF-8)")
+    name = gettext_lazy("CSV file (UTF-8)")
     format_id = "csv-utf-8"
     autoload = ()
     force_encoding = "utf-8"
 
 
 class CSVSimpleFormat(CSVFormat):
-    name = _("Simple CSV file")
+    name = gettext_lazy("Simple CSV file")
     format_id = "csv-simple"
-    autoload: Tuple[str, ...] = ("*.txt",)
+    autoload: tuple[str, ...] = ("*.txt",)
     force_encoding = "auto"
 
     @staticmethod
@@ -1599,25 +1629,25 @@ class CSVSimpleFormat(CSVFormat):
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
-    name = _("Simple CSV file (ISO-8859-1)")
+    name = gettext_lazy("Simple CSV file (ISO-8859-1)")
     format_id = "csv-simple-iso"
     force_encoding = "iso-8859-1"
     autoload = ()
 
 
 class CSVUtf8SimpleFormat(CSVSimpleFormat):
-    name = _("Simple CSV file (UTF-8)")
+    name = gettext_lazy("Simple CSV file (UTF-8)")
     format_id = "csv-simple-utf-8"
     force_encoding = "utf-8"
     autoload = ()
 
 
 class YAMLFormat(DictStoreMixin, TTKitFormat):
-    name = _("YAML file")
+    name = gettext_lazy("YAML file")
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
     unit_class = MonolingualSimpleUnit
-    autoload: Tuple[str, ...] = ("*.pyml",)
+    autoload: tuple[str, ...] = ("*.pyml",)
     new_translation = "{}\n"
 
     @staticmethod
@@ -1632,14 +1662,15 @@ class YAMLFormat(DictStoreMixin, TTKitFormat):
 
 
 class RubyYAMLFormat(YAMLFormat):
-    name = _("Ruby YAML file")
+    name = gettext_lazy("Ruby YAML file")
     format_id = "ruby-yaml"
     loader = ("yaml", "RubyYAMLFile")
     autoload = ("*.ryml", "*.yml", "*.yaml")
+    supports_plural: bool = True
 
 
 class DTDFormat(TTKitFormat):
-    name = _("DTD file")
+    name = gettext_lazy("DTD file")
     format_id = "dtd"
     loader = ("dtd", "dtdfile")
     autoload = ("*.dtd",)
@@ -1682,7 +1713,7 @@ class SubtitleUnit(MonolingualIDUnit):
 
 
 class SubRipFormat(TTKitFormat):
-    name = _("SubRip subtitle file")
+    name = gettext_lazy("SubRip subtitle file")
     format_id = "srt"
     loader = ("subtitles", "SubRipFile")
     unit_class = SubtitleUnit
@@ -1697,28 +1728,28 @@ class SubRipFormat(TTKitFormat):
 
 
 class MicroDVDFormat(SubRipFormat):
-    name = _("MicroDVD subtitle file")
+    name = gettext_lazy("MicroDVD subtitle file")
     format_id = "sub"
     loader = ("subtitles", "MicroDVDFile")
     autoload = ("*.sub",)
 
 
 class AdvSubStationAlphaFormat(SubRipFormat):
-    name = _("Advanced SubStation Alpha subtitle file")
+    name = gettext_lazy("Advanced SubStation Alpha subtitle file")
     format_id = "ass"
     loader = ("subtitles", "AdvSubStationAlphaFile")
     autoload = ("*.ass",)
 
 
 class SubStationAlphaFormat(SubRipFormat):
-    name = _("SubStation Alpha subtitle file")
+    name = gettext_lazy("SubStation Alpha subtitle file")
     format_id = "ssa"
     loader = ("subtitles", "SubStationAlphaFile")
     autoload = ("*.ssa",)
 
 
 class FlatXMLFormat(TTKitFormat):
-    name = _("Flat XML file")
+    name = gettext_lazy("Flat XML file")
     format_id = "flatxml"
     loader = ("flatxml", "FlatXMLFile")
     monolingual = True
@@ -1727,7 +1758,7 @@ class FlatXMLFormat(TTKitFormat):
 
 
 class ResourceDictionaryFormat(FlatXMLFormat):
-    name = _("ResourceDictionary file")
+    name = gettext_lazy("ResourceDictionary file")
     format_id = "resourcedictionary"
     loader = ("resourcedictionary", "ResourceDictionaryFile")
     check_flags = ("c-sharp-format",)
@@ -1740,7 +1771,7 @@ class ResourceDictionaryFormat(FlatXMLFormat):
 
 
 class INIFormat(TTKitFormat):
-    name = _("INI file")
+    name = gettext_lazy("INI file")
     format_id = "ini"
     loader = ("ini", "inifile")
     monolingual = True
@@ -1770,8 +1801,8 @@ class INIFormat(TTKitFormat):
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         unit = super().create_unit(key, source, target)
         unit.location = key
@@ -1779,7 +1810,7 @@ class INIFormat(TTKitFormat):
 
 
 class InnoSetupINIFormat(INIFormat):
-    name = _("Inno Setup INI file")
+    name = gettext_lazy("Inno Setup INI file")
     format_id = "islu"
     loader = ("ini", "inifile")
 
@@ -1839,6 +1870,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     can_add_unit: bool = False
     can_delete_unit: bool = False
     set_context_bilingual: bool = True
+    supports_plural: bool = True
 
     # Ensure that untranslated units are saved too as missing properties and
     # comments are preserved as in the original source file.
@@ -1934,7 +1966,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def explanation(self) -> str:
-        return self._get_notes("definition")
+        return self._get_notes("translator")
 
     def set_source_explanation(self, explanation: str):
         if explanation or self.source_explanation:
@@ -1943,14 +1975,14 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def source_explanation(self) -> str:
-        return self._get_notes("source-explanation")
+        return self._get_notes("definition")
 
 
 class TBXFormat(TTKitFormat):
-    name = _("TermBase eXchange file")
+    name = gettext_lazy("TermBase eXchange file")
     format_id = "tbx"
     loader = tbxfile
-    autoload: Tuple[str, ...] = ("*.tbx",)
+    autoload: tuple[str, ...] = ("*.tbx",)
     new_translation = tbxfile.XMLskeleton
     unit_class = TBXUnit
     create_empty_bilingual: bool = True
@@ -1962,9 +1994,10 @@ class TBXFormat(TTKitFormat):
         self,
         storefile,
         template_store=None,
-        language_code: Optional[str] = None,
-        source_language: Optional[str] = None,
+        language_code: str | None = None,
+        source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -1972,13 +2005,14 @@ class TBXFormat(TTKitFormat):
             language_code=language_code,
             is_template=is_template,
             source_language=source_language,
+            existing_units=existing_units,
         )
         # Add language header if not present
         self.store.addheader()
 
 
 class PropertiesMi18nFormat(PropertiesUtf8Format):
-    name = _("mi18n lang file")
+    name = gettext_lazy("mi18n lang file")
     format_id = "mi18n-lang"
     new_translation = "\n"
     language_format = "bcp_legacy"
@@ -1987,11 +2021,11 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
 
 
 class StringsdictFormat(DictStoreMixin, TTKitFormat):
-    name = _("Stringsdict file")
+    name = gettext_lazy("Stringsdict file")
     format_id = "stringsdict"
     loader = ("stringsdict", "StringsDictFile")
     unit_class = MonolingualSimpleUnit
-    autoload: Tuple[str, ...] = ("*.stringsdict",)
+    autoload: tuple[str, ...] = ("*.stringsdict",)
     new_translation = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -1999,6 +2033,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
     </dict>
 </plist>
 """
+    supports_plural: bool = True
 
     @staticmethod
     def mimetype():
@@ -2020,7 +2055,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
         from weblate.lang.models import Plural
 
         return language.plural_set.get_or_create(
-            source=Plural.SOURCE_STRINGSDICT,
+            source=Plural.SOURCE_CLDR_ZERO,
             defaults={
                 "formula": FORMULA_WITH_ZERO[plural.formula],
                 "number": plural.number + 1,
@@ -2035,28 +2070,45 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
 
 
 class FluentUnit(MonolingualSimpleUnit):
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
+        old_target = self.unit.target
+        old_source = self.unit.source
         super().set_target(target)
         self.unit.source = target
-        # This triggers serialization discovering any syntax issues
-        self.unit.to_entry()
+        try:
+            # This triggers serialization discovering any syntax issues
+            self.unit.to_entry()
+        except Exception:
+            # Restore previous content
+            self.unit.target = old_target
+            self.unit.source = old_source
+            raise
 
     @cached_property
     def flags(self):
-        placeables = self.mainunit.getplaceables()
-        if not placeables:
-            return ""
-        placeables.insert(0, "placeholders")
-        return Flags.format_flag(tuple(placeables))
+        flags = Flags()
+        flags.set_value("fluent-type", self.mainunit.fluent_type)
+        return flags.format()
 
 
 class FluentFormat(TTKitFormat):
-    name = _("Fluent file")
+    name = gettext_lazy("Fluent file")
     format_id = "fluent"
     loader = ("fluent", "FluentFile")
     unit_class = FluentUnit
-    autoload: Tuple[str, ...] = ("*.ftl",)
+    autoload: tuple[str, ...] = ("*.ftl",)
     new_translation = ""
+    check_flags = (
+        "fluent-source-syntax",
+        "fluent-target-syntax",
+        "fluent-parts",
+        "fluent-references",
+        "fluent-source-inner-html",
+        "fluent-target-inner-html",
+        # Ignore xml check since we have inner-html checks.
+        "ignore-xml-tags",
+        "ignore-xml-invalid",
+    )
 
     @staticmethod
     def mimetype():
@@ -2071,8 +2123,8 @@ class FluentFormat(TTKitFormat):
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         unit = super().create_unit(key, source, target)
         unit.source = unit.target

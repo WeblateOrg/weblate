@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -11,13 +13,15 @@ from django.core.validators import validate_ipv46_address
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
+from django.urls.exceptions import NoReverseMatch
 from django.utils.http import escape_leading_slashes
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
+from weblate.utils.views import parse_path
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
@@ -88,8 +92,9 @@ class RedirectMiddleware:
         # missing parameters.
         # Redirecting on API removes authentication headers in many cases,
         # so avoid that as well.
+        # Redirecting requests for Sourcemap files will not do anything good
         if (
-            path.endswith("/")
+            path.endswith(("/", ".map"))
             or request.method != "GET"
             or path.startswith(f"{settings.URL_PREFIX}/api")
         ):
@@ -124,31 +129,39 @@ class RedirectMiddleware:
 
     def fixup_component(self, slug, request, project):
         try:
-            component = Component.objects.get(project=project, slug__iexact=slug)
+            # Try uncategorized component first
+            component = project.component_set.get(category=None, slug__iexact=slug)
         except Component.DoesNotExist:
             try:
-                component = (
-                    Change.objects.filter(
-                        action=Change.ACTION_RENAME_COMPONENT, old=slug
-                    )
-                    .order()[0]
-                    .component
-                )
+                # Fallback to any such named component in project
+                component = project.component_set.filter(slug__iexact=slug)[0]
             except IndexError:
-                return None
+                try:
+                    # Look for renamed components in a project
+                    component = (
+                        project.change_set.filter(
+                            action=Change.ACTION_RENAME_COMPONENT, old=slug
+                        )
+                        .order()[0]
+                        .component
+                    )
+                except IndexError:
+                    return None
 
         request.user.check_access_component(component)
         return component
 
-    def check_existing_translations(self, slug, project):
+    def check_existing_translations(self, name: str, project: Project):
         """
         Check in existing translations for specific language.
 
         Return False if language translation not present, else True.
         """
-        return any(lang.name == slug for lang in project.languages)
+        return any(lang.name == name for lang in project.languages)
 
-    def process_exception(self, request, exception):
+    def process_exception(self, request, exception):  # noqa: C901
+        from weblate.utils.views import UnsupportedPathObjectError
+
         if not isinstance(exception, Http404):
             return None
 
@@ -158,52 +171,79 @@ class RedirectMiddleware:
             return None
 
         kwargs = dict(resolver_match.kwargs)
-        new_lang = None
-        if "lang" in kwargs:
-            language = self.fixup_language(kwargs["lang"])
-            if language is None:
-                return None
-            kwargs["lang"] = language.code
-            new_lang = language.name
+        path = list(kwargs.get("path", ()))
+        language_name = None
+        if not path:
+            return None
 
-        if "project" in kwargs:
-            project = self.fixup_project(kwargs["project"], request)
-            if project is None:
-                return None
-            kwargs["project"] = project.slug
+        if isinstance(exception, UnsupportedPathObjectError):
+            # Redirect to parent for unsupported locations
+            path = path[:-1]
+        else:
+            # Try using last part as a language
+            language_len = 0
+            if len(path) >= 3:
+                language = self.fixup_language(path[-1])
+                if language is not None:
+                    path[-1] = language.code
+                    language_name = language.name
+                    language_len = 1
 
-            if "component" in kwargs:
-                component = self.fixup_component(kwargs["component"], request, project)
-                if component is None:
+            try:
+                # Check if project exists
+                project = parse_path(request, path[:1], (Project,))
+            except UnsupportedPathObjectError:
+                return None
+            except Http404:
+                project = self.fixup_project(path[0], request)
+                if project is None:
                     return None
-                kwargs["component"] = component.slug
+                path[0] = project.slug
 
-                if new_lang:
-                    existing_trans = self.check_existing_translations(new_lang, project)
+            if len(path) >= 2:
+                if path[1] != "-":
+                    path_offset = len(path) - (language_len)
+                    try:
+                        # Check if component exists
+                        component = parse_path(
+                            request, path[:path_offset], (Component,)
+                        )
+                    except UnsupportedPathObjectError:
+                        return None
+                    except Http404:
+                        component = self.fixup_component(
+                            path[-1 - language_len], request, project
+                        )
+                        if component is None:
+                            return None
+                        path[:path_offset] = component.get_url_path()
+
+                if language_name:
+                    existing_trans = self.check_existing_translations(
+                        language_name, project
+                    )
                     if not existing_trans:
                         messages.add_message(
                             request,
                             messages.INFO,
-                            _(
+                            gettext_lazy(
                                 "%s translation is currently not available, "
                                 "but can be added."
                             )
-                            % new_lang,
+                            % language_name,
                         )
-                        return redirect(
-                            reverse(
-                                "component",
-                                args=[kwargs["project"], kwargs["component"]],
-                            )
-                        )
+                        return redirect(reverse("show", kwargs={"path": path[:-1]}))
 
-        if kwargs != resolver_match.kwargs:
+        if path != kwargs["path"]:
+            kwargs["path"] = path
             query = request.META["QUERY_STRING"]
             if query:
                 query = f"?{query}"
-            return HttpResponsePermanentRedirect(
-                reverse(resolver_match.url_name, kwargs=kwargs) + query
-            )
+            try:
+                new_url = reverse(resolver_match.url_name, kwargs=kwargs)
+            except NoReverseMatch:
+                return None
+            return HttpResponsePermanentRedirect(f"{new_url}{query}")
 
         return None
 

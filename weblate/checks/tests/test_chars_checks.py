@@ -93,9 +93,39 @@ class EndStopCheckTest(CheckTestCase):
         self.test_failure_1 = ("string.", "string", "")
         self.test_failure_2 = ("string", "string.", "")
 
+    def test_arabic(self):
+        self.assertTrue(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["zero", "one", "two", "few", "many", "other"],
+                MockUnit(code="ar"),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["zero.", "one", "two.", "few.", "many.", "other."],
+                MockUnit(code="ar"),
+            )
+        )
+
     def test_japanese(self):
         self.do_test(False, ("Text:", "Text。", ""), "ja")
         self.do_test(True, ("Text:", "Text", ""), "ja")
+        self.assertTrue(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "English."],
+                ["Japanese…"],
+                MockUnit(code="ja"),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "English."],
+                ["Japanese。"],
+                MockUnit(code="ja"),
+            )
+        )
 
     def test_hindi(self):
         self.do_test(False, ("Text.", "Text।", ""), "hi")

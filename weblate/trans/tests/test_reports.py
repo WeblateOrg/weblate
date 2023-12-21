@@ -121,7 +121,7 @@ class ReportsTest(BaseReportsTest):
 
 class ReportsComponentTest(BaseReportsTest):
     def get_kwargs(self):
-        return self.kw_component
+        return {"path": self.component.get_url_path()}
 
     def get_credits(self, style):
         self.add_change()
@@ -286,7 +286,7 @@ class ReportsComponentTest(BaseReportsTest):
 
 class ReportsProjectTest(ReportsComponentTest):
     def get_kwargs(self):
-        return self.kw_project
+        return {"path": self.project.get_url_path()}
 
 
 class ReportsGlobalTest(ReportsComponentTest):

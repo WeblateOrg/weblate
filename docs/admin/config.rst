@@ -43,8 +43,6 @@ Username of users that are not signed in.
 AUDITLOG_EXPIRY
 ---------------
 
-.. versionadded:: 3.6
-
 How many days Weblate should keep audit logs (which contain info about account
 activity).
 
@@ -74,12 +72,6 @@ Defaults to 10.
 
 AUTO_UPDATE
 -----------
-
-.. versionadded:: 3.2
-
-.. versionchanged:: 3.11
-
-   The original on/off option was changed to differentiate which strings are accepted.
 
 Updates all repositories on a daily basis.
 
@@ -278,6 +270,17 @@ network filesystem.
 
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
+The following subdirectories usually exist:
+
+:file:`fonts`
+   :program:`font-config` cache for :ref:`fonts`.
+:file:`avatar`
+   Cached user avatars, see :ref:`avatars`.
+:file:`static`
+   Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
+:file:`tesseract`
+   OCR trained data for :ref:`screenshots`.
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC
@@ -287,7 +290,7 @@ The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC
 -------------------------------------------------------------------------
 
-Customize ``Content-Security-Policy`` header for Weblate. The header is
+Customize :http:header:`Content-Security-Policy` header for Weblate. The header is
 automatically generated based on enabled integrations with third-party services
 (Matomo, Google Analytics, Sentry, …).
 
@@ -354,8 +357,6 @@ You can turn on only a few:
 COMMENT_CLEANUP_DAYS
 --------------------
 
-.. versionadded:: 3.6
-
 Delete comments after a given number of days.
 Defaults to ``None``, meaning no deletion at all.
 
@@ -404,10 +405,6 @@ The following subdirectories usually exist:
     Home directory used for invoking scripts.
 :file:`ssh`
     SSH keys and configuration.
-:file:`static`
-    Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
-
-    The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 :file:`media`
     Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
@@ -445,8 +442,6 @@ Defaults to ``/home/weblate/data``, but it is expected to be configured.
 DATABASE_BACKUP
 ---------------
 
-.. versionadded:: 3.1
-
 Whether the database backups should be stored as plain text, compressed or skipped.
 The authorized values are:
 
@@ -462,8 +457,6 @@ The authorized values are:
 
 DEFAULT_ACCESS_CONTROL
 ----------------------
-
-.. versionadded:: 3.3
 
 The default access-control setting for new projects:
 
@@ -609,8 +602,6 @@ Defaults to `en`. The matching language object needs to exist in the database.
 DEFAULT_MERGE_STYLE
 -------------------
 
-.. versionadded:: 3.4
-
 :ref:`component-merge_style` for any new components.
 
 * `rebase` - default
@@ -625,8 +616,6 @@ DEFAULT_MERGE_STYLE
 
 DEFAULT_SHARED_TM
 -----------------
-
-.. versionadded:: 3.2
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
@@ -693,8 +682,8 @@ redirection to a HTTPS URL.
 The HTTPS redirection might be problematic in some cases and you might hit
 an issue with infinite redirection in case you are using a reverse proxy doing
 an SSL termination which does not correctly pass protocol headers to Django.
-Please tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` or
-``Forwarded`` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
+Please tweak your reverse proxy configuration to emit :http:header:`X-Forwarded-Proto` or
+:http:header:`Forwarded` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
 let Django correctly detect the SSL status.
 
 .. seealso::
@@ -754,11 +743,9 @@ List for credentials for Gitea servers.
             "username": "weblate",
             "token": "your-api-token",
         },
-        "gitea.example.com": {
-            "username": "weblate",
-            "token": "another-api-token",
-        },
     }
+
+.. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
 
@@ -783,11 +770,9 @@ List for credentials for GitLab servers.
             "username": "weblate",
             "token": "your-api-token",
         },
-        "gitlab.example.com": {
-            "username": "weblate",
-            "token": "another-api-token",
-        },
     }
+
+.. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
 
@@ -810,11 +795,13 @@ List for credentials for GitHub servers.
             "username": "weblate",
             "token": "your-api-token",
         },
-        "github.example.com": {
-            "username": "weblate",
-            "token": "another-api-token",
-        },
     }
+
+.. hint::
+
+   Use ``api.github.com`` as a API host for https://github.com/.
+
+.. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
 
@@ -841,10 +828,54 @@ List for credentials for Bitbucket servers.
         },
     }
 
+.. include:: /snippets/vcs-credentials.rst
+
 .. seealso::
 
    :ref:`vcs-bitbucket-server`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
+
+.. setting:: AZURE_DEVOPS_CREDENTIALS
+
+AZURE_DEVOPS_CREDENTIALS
+------------------------
+
+.. versionadded:: 5.2
+
+List for credentials for Azure DevOps servers.
+
+.. code-block:: python
+
+    AZURE_DEVOPS_CREDENTIALS = {
+        "dev.azure.com": {
+            "username": "project-name",
+            "token": "your-api-token",
+            "organization": "organization-name",
+        },
+    }
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+   The name of the Azure DevOps project. This is not the repository name.
+``organization``
+    The name of the organization of the project.
+``workItemIds``
+    An optional list of work items IDs from your organization. When provided
+    new pull requests will have these attached.
+``token``
+   API token for the API user, required.
+
+Additional settings not described here can be found at :ref:`settings-credentials`.
+
+.. seealso::
+
+   :ref:`vcs-azure-devops`,
+   `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -955,19 +986,24 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 IP_PROXY_OFFSET
 ---------------
 
+.. versionchanged:: 5.0.1
+
+    The default changed from 1 to -1.
+
 Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP
 address.
 
 Depending on your setup, this header might consist of several IP addresses,
-(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure
+(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can configure
 which address from the header is used as client IP address here.
 
 .. warning::
 
    Setting this affects the security of your installation. You should only
    configure it to use trusted proxies for determining the IP address.
+   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
 
-Defaults to 0.
+Defaults to -1.
 
 .. seealso::
 
@@ -1001,8 +1037,6 @@ users are required to agree with the updated terms of service.
 
 LEGAL_URL
 ---------
-
-.. versionadded:: 3.5
 
 URL where your Weblate instance shows its legal documents.
 
@@ -1163,7 +1197,7 @@ Some of exceptions you might want to include:
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
         r"/accounts/(.*)$",  # Required for sign-in
         r"/static/(.*)$",  # Required for development mode
-        r"/widgets/(.*)$",  # Allowing public access to widgets
+        r"/widget/(.*)$",  # Allowing public access to widgets
         r"/data/(.*)$",  # Allowing public access to data exports
         r"/hooks/(.*)$",  # Allowing public access to notification hooks
         r"/api/(.*)$",  # Allowing access to API
@@ -1242,11 +1276,9 @@ List for credentials for Pagure servers.
             "username": "weblate",
             "token": "your-api-token",
         },
-        "pagure.example.com": {
-            "username": "weblate",
-            "token": "another-api-token",
-        },
     }
+
+.. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
 
@@ -1286,6 +1318,10 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 .. versionadded:: 4.15
 
 Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
+
+.. hint::
+
+   This setting only applies to users which have not explicitly chosen a commit e-mail.
 
 .. seealso::
 
@@ -1408,8 +1444,6 @@ Defines a regular expression to restrict project websites. Any matching URLs wil
 RATELIMIT_ATTEMPTS
 ------------------
 
-.. versionadded:: 3.2
-
 Maximum number of authentication attempts before rate limiting is applied.
 
 Defaults to 5.
@@ -1425,8 +1459,6 @@ Defaults to 5.
 RATELIMIT_WINDOW
 ----------------
 
-.. versionadded:: 3.2
-
 How long authentication is accepted after rate limiting applies.
 
 An amount of seconds, defaulting to 300 (5 minutes).
@@ -1441,8 +1473,6 @@ An amount of seconds, defaulting to 300 (5 minutes).
 
 RATELIMIT_LOCKOUT
 -----------------
-
-.. versionadded:: 3.2
 
 How long authentication is locked after rate limiting applies.
 
@@ -1587,13 +1617,47 @@ require authentication for all API endpoints.
 SENTRY_DSN
 ----------
 
-.. versionadded:: 3.9
-
 Sentry DSN to use for :ref:`collecting-errors`.
 
 .. seealso::
 
-   `Django integration for Sentry <https://docs.sentry.io/platforms/python/guides/django/>`_
+   `Django integration for Sentry <https://docs.sentry.io/platforms/python/integrations/django/>`_
+
+.. setting:: SENTRY_ENVIRONMENT
+
+SENTRY_ENVIRONMENT
+------------------
+
+Configures environment for Sentry. Defaults to ``devel``.
+
+.. setting:: SENTRY_PROFILES_SAMPLE_RATE
+
+SENTRY_PROFILES_SAMPLE_RATE
+---------------------------
+
+Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+.. seealso::
+
+   `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_
+
+.. setting:: SENTRY_SEND_PII
+
+SENTRY_SEND_PII
+---------------
+
+Allow Sentry to collect certain personally identifiable information. Turned on by default.
+
+.. setting:: SENTRY_TRACES_SAMPLE_RATE
+
+SENTRY_TRACES_SAMPLE_RATE
+-------------------------
+
+Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+.. seealso::
+
+   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
 
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
@@ -1685,17 +1749,10 @@ The default value is:
 SINGLE_PROJECT
 --------------
 
-.. versionadded:: 3.8
-
 Redirects users directly to a project or component instead of showing
 the dashboard. You can either set it to ``True`` so it only works
 if there is actually only single project in Weblate. Alternatively, set
 the project slug, and it will redirect unconditionally to this project.
-
-.. versionchanged:: 3.11
-
-   The setting now also accepts a project slug, to force displaying that
-   single project.
 
 Example:
 
@@ -1740,8 +1797,6 @@ The URL where your Weblate instance reports its status.
 
 SUGGESTION_CLEANUP_DAYS
 -----------------------
-
-.. versionadded:: 3.2.1
 
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
@@ -1814,7 +1869,8 @@ VCS_API_DELAY
 .. versionadded:: 4.15.1
 
 Configures minimal delay in seconds between third-party API calls in
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
+:ref:`vcs-azure-devops`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
@@ -1849,8 +1905,6 @@ Configuration of available VCS backends.
 
 VCS_CLONE_DEPTH
 ---------------
-
-.. versionadded:: 3.10.2
 
 Configures how deep cloning of repositories Weblate should do.
 
@@ -1943,8 +1997,6 @@ or glossaries in various file formats.
 WEBLATE_FORMATS
 ---------------
 
-.. versionadded:: 3.0
-
 List of file formats available for use.
 
 .. note::
@@ -1974,8 +2026,6 @@ List of machinery services available for use.
 WEBLATE_GPG_IDENTITY
 --------------------
 
-.. versionadded:: 3.1
-
 Identity used by Weblate to sign Git commits, for example:
 
 .. code-block:: python
@@ -1997,3 +2047,38 @@ WEBSITE_REQUIRED
 
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
+
+
+.. _settings-credentials:
+
+Configuring version control credentials
+---------------------------------------
+
+.. hint::
+
+   This section describes VCS credential variables as
+   :setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`,
+   :setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`,
+   :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+   API user, required.
+``token``
+   API token for the API user, required.
+``scheme``
+   .. versionadded:: 4.18
+
+   Scheme override. Weblate attempts to parse scheme from the repository URL
+   and falls backs to ``https``. If you are running the API server internally,
+   you might want to use ``http`` instead, but consider security.
+
+.. hint::
+
+   In the Docker container, the credentials can be configured using environment variables,
+   see :ref:`docker-vcs-config`.

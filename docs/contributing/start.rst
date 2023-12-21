@@ -32,7 +32,7 @@ sources.
    .. code-block:: sh
 
       virtualenv .venv
-      .venv/bin/activate
+      . .venv/bin/activate
 
 3. Install Weblate (for this you need some system dependencies, see :doc:`../admin/install/source`):
 

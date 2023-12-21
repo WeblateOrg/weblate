@@ -8,16 +8,17 @@
 import unicodedata
 
 from django.conf import settings
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 # Names of hardcoded characters
 CHAR_NAMES = {
     "\t": gettext_lazy("Insert tab character"),
     "\n": gettext_lazy("Insert new line"),
     "…": gettext_lazy("Insert horizontal ellipsis"),
+    "\u00AD": gettext_lazy("Insert a soft hyphen"),
+    "\u00A0": gettext_lazy("Insert a non-breaking space"),
 }
-DISPLAY_CHARS = {"\t": "↹", "\n": "↵"}
+DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "﹙-﹚"}
 
 
 HYPHEN_LANGS = {
@@ -255,7 +256,7 @@ def format_char(char):
     if char in CHAR_NAMES:
         return CHAR_NAMES[char], short, char
 
-    return _("Insert character {0}").format(name), short, char
+    return gettext("Insert character {0}").format(name), short, char
 
 
 def get_special_chars(language, additional="", source=""):  # noqa: C901
@@ -268,23 +269,24 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
         for char in EXTRA_CHARS[code]:
             yield format_char(char)
 
-    yield get_quote(code, MAIN_OPEN, _("Main opening quote"))
-    yield get_quote(code, MAIN_CLOSE, _("Main closing quote"))
-    yield get_quote(code, ALT_OPEN, _("Alternative opening quote"))
-    yield get_quote(code, ALT_CLOSE, _("Alternative closing quote"))
+    yield get_quote(code, MAIN_OPEN, gettext("Main opening quote"))
+    yield get_quote(code, MAIN_CLOSE, gettext("Main closing quote"))
+    yield get_quote(code, ALT_OPEN, gettext("Alternative opening quote"))
+    yield get_quote(code, ALT_CLOSE, gettext("Alternative closing quote"))
 
     if code in HYPHEN_LANGS:
-        yield _("Hyphen"), "‐", "‐"
+        yield format_char("\u00AD")
+        yield gettext("Hyphen"), "‐", "‐"
 
     if code in EN_DASH_LANGS:
-        yield _("En dash"), "–", "–"
+        yield gettext("En dash"), "–", "–"
 
     if code in EM_DASH_LANGS:
-        yield _("Em dash"), "—", "—"
+        yield gettext("Em dash"), "—", "—"
 
     for char in additional:
         name, short = get_display_char(char)
-        yield _("User configured character: {}").format(name), short, char
+        yield gettext("User configured character: {}").format(name), short, char
 
     rtl = language.direction == "rtl"
     for char in set(source):

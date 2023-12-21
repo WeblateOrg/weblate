@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.auth.models import User
 from weblate.trans.models import AutoComponentList, Translation, Unit
@@ -12,7 +12,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 
 class RepoAdminMixin:
-    @admin.action(description=_("Commit pending changes"))
+    @admin.action(description=gettext_lazy("Commit pending changes"))
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for obj in queryset:
@@ -21,7 +21,7 @@ class RepoAdminMixin:
             request, f"Flushed changes in {queryset.count():d} git repos."
         )
 
-    @admin.action(description=_("Update VCS repository"))
+    @admin.action(description=gettext_lazy("Update VCS repository"))
     def update_from_git(self, request, queryset):
         """Update selected components from git."""
         for obj in queryset:
@@ -34,7 +34,7 @@ class RepoAdminMixin:
     def get_qs_translations(self, queryset):
         raise NotImplementedError
 
-    @admin.action(description=_("Update quality checks"))
+    @admin.action(description=gettext_lazy("Update quality checks"))
     def update_checks(self, request, queryset):
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
@@ -64,26 +64,26 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     search_fields = ["name", "slug", "web"]
     actions = ["update_from_git", "update_checks", "force_commit"]
 
-    @admin.display(description=_("Administrators"))
+    @admin.display(description=gettext_lazy("Administrators"))
     def list_admins(self, obj):
         return ", ".join(
             User.objects.all_admins(obj).values_list("username", flat=True)
         )
 
-    @admin.display(description=_("Source strings"))
+    @admin.display(description=gettext_lazy("Source strings"))
     def get_total(self, obj):
         return obj.stats.source_strings
 
-    @admin.display(description=_("Source words"))
+    @admin.display(description=gettext_lazy("Source words"))
     def get_source_words(self, obj):
         return obj.stats.source_words
 
-    @admin.display(description=_("Languages"))
+    @admin.display(description=gettext_lazy("Languages"))
     def get_language_count(self, obj):
         """Return number of languages used in this project."""
         return obj.stats.languages
 
-    @admin.display(description=_("VCS repositories"))
+    @admin.display(description=gettext_lazy("VCS repositories"))
     def num_vcs(self, obj):
         return obj.component_set.with_repo().count()
 

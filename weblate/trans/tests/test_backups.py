@@ -9,6 +9,7 @@ from unittest import SkipTest
 from zipfile import ZipFile
 
 from django.core.files import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
 from django.urls import reverse
 
@@ -22,10 +23,11 @@ from weblate.trans.tests.utils import get_test_file
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
-TEST_INVALID = get_test_file("invalid.zip")
 
 
 class BackupsTest(ViewTestCase):
+    CREATE_GLOSSARIES: bool = True
+
     def test_create_backup(self):
         # Additional content to test on backups
         label = self.project.label_set.create(name="Label", color="navy")
@@ -197,15 +199,16 @@ class BackupsTest(ViewTestCase):
             raise SkipTest("Not supported")
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_INVALID, "rb") as handle:
-            response = self.client.post(
-                reverse("create-project-import"),
-                {
-                    "zipfile": handle,
-                },
-                follow=True,
-            )
-            self.assertContains(response, "Failed to load project backup")
+        response = self.client.post(
+            reverse("create-project-import"),
+            {
+                "zipfile": SimpleUploadedFile(
+                    "invalid.zip", b"x", content_type="application/zip"
+                )
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Could not load project backup")
 
         with open(TEST_BACKUP, "rb") as handle:
             response = self.client.post(

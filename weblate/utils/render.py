@@ -6,8 +6,8 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
 from django.urls import reverse
-from django.utils.translation import gettext as _
-from django.utils.translation import override
+from django.utils.functional import SimpleLazyObject
+from django.utils.translation import gettext, override
 
 from weblate.utils.site import get_site_url
 
@@ -26,8 +26,10 @@ FORBIDDEN_URL_SCHEMES = {
 
 
 class InvalidString(str):
+    __slots__ = ()
+
     def __mod__(self, other):
-        raise TemplateSyntaxError(_('Undefined variable: "%s"') % other)
+        raise TemplateSyntaxError(gettext('Undefined variable: "%s"') % other)
 
 
 class RestrictedEngine(Engine):
@@ -55,7 +57,6 @@ def render_template(template, **kwargs):
         kwargs["hook_name"] = kwargs["addon_name"]
 
     if isinstance(translation, Translation):
-        translation.stats.ensure_basic()
         kwargs["language_code"] = translation.language_code
         kwargs["language_name"] = translation.language.get_name()
         kwargs["stats"] = translation.stats.get_data()
@@ -76,23 +77,17 @@ def render_template(template, **kwargs):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": component.project.slug,
-                    "component": component.slug,
+                    "path": component.get_url_path(),
                     "widget": "horizontal",
                     "color": "auto",
                     "extension": "svg",
                 },
             )
         )
-        if component.linked_childs:
-            kwargs["component_linked_childs"] = [
-                {
-                    "project_name": linked.project.name,
-                    "name": linked.name,
-                    "url": get_site_url(linked.get_absolute_url()),
-                }
-                for linked in component.linked_childs
-            ]
+        if component.pk:
+            kwargs["component_linked_childs"] = SimpleLazyObject(
+                component.get_linked_childs_for_template
+            )
         project = component.project
         kwargs.pop("component", None)
 
@@ -117,21 +112,27 @@ def validate_render(value, **kwargs):
     try:
         return render_template(value, **kwargs)
     except Exception as err:
-        raise ValidationError(_("Failed to render template: {}").format(err))
+        raise ValidationError(
+            gettext("Could not render template: {}").format(err)
+        ) from err
 
 
-def validate_render_component(value, translation=None, **kwargs):
+def validate_render_component(value, translation: bool = False, **kwargs):
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
+    from weblate.utils.stats import DummyTranslationStats
 
+    project = Project(name="project", slug="project", id=-1)
+    project.stats = DummyTranslationStats(project)
     component = Component(
-        project=Project(name="project", slug="project", id=-1),
+        project=project,
         name="component",
         slug="component",
         branch="main",
         vcs="git",
         id=-1,
     )
+    component.stats = DummyTranslationStats(component)
     if translation:
         kwargs["translation"] = Translation(
             id=-1,
@@ -139,6 +140,7 @@ def validate_render_component(value, translation=None, **kwargs):
             language_code="xx",
             language=Language(name="xxx", code="xx"),
         )
+        kwargs["translation"].stats = DummyTranslationStats(translation)
     else:
         kwargs["component"] = component
     validate_render(value, **kwargs)
@@ -160,7 +162,7 @@ def validate_repoweb(val):
     """
     if "%(file)s" in val or "%(line)s" in val:
         raise ValidationError(
-            _(
+            gettext(
                 "The format strings are no longer supported, "
                 "please use the template language instead."
             )
@@ -180,13 +182,13 @@ def validate_editor(val):
     validate_repoweb(val)
 
     if ":" not in val:
-        raise ValidationError(_("The editor link lacks URL scheme!"))
+        raise ValidationError(gettext("The editor link lacks URL scheme!"))
 
     scheme = val.split(":", 1)[0]
 
     # Block forbidden schemes as well as format strings
     if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES or "%" in scheme:
-        raise ValidationError(_("Forbidden URL scheme!"))
+        raise ValidationError(gettext("Forbidden URL scheme!"))
 
 
 def migrate_repoweb(val):

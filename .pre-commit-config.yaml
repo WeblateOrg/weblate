@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v4.5.0
   hooks:
   - id: trailing-whitespace
   - id: end-of-file-fixer
@@ -19,34 +19,22 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.13.0
+  rev: 1.15.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '4.2']
 - repo: https://github.com/adrienverge/yamllint
-  rev: v1.31.0
+  rev: v1.33.0
   hooks:
   - id: yamllint
-- repo: https://github.com/PyCQA/isort
-  rev: 5.12.0
-  hooks:
-  - id: isort
-- repo: https://github.com/asottile/pyupgrade
-  rev: v3.4.0
-  hooks:
-  - id: pyupgrade
-    args: [--py37-plus]
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: v0.0.269
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.8
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
-- repo: https://github.com/psf/black
-  rev: 23.3.0
-  hooks:
-  - id: black
+  - id: ruff-format
 - repo: https://github.com/asottile/blacken-docs
-  rev: 1.13.0
+  rev: 1.16.0
   hooks:
   - id: blacken-docs
 - repo: meta
@@ -54,19 +42,19 @@ repos:
   - id: check-hooks-apply
   - id: check-useless-excludes
 - repo: https://github.com/pre-commit/mirrors-prettier
-  rev: v3.0.0-alpha.9-for-vscode
+  rev: v3.1.0
   hooks:
   - id: prettier
     types_or: [css, javascript]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.9.0
+  rev: v2.12.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/executablebooks/mdformat
-  rev: 0.7.16
+  rev: 0.7.17
   hooks:
   - id: mdformat
     additional_dependencies:
@@ -74,35 +62,32 @@ repos:
     - mdformat-black==0.1.1
     - mdformat-shfmt==0.1.0
 - repo: https://github.com/pre-commit/mirrors-eslint
-  rev: v8.40.0
+  rev: v8.56.0
   hooks:
   - id: eslint
     args: [--format=compact]
     additional_dependencies:
-    - prettier@2.8.8
-    - eslint@8.40.0
-    - eslint-plugin-import@2.27.5
+    - prettier@3.1.1
+    - eslint@8.56.0
+    - eslint-plugin-import@2.29.1
     - eslint-plugin-node@11.1.0
     - eslint-plugin-promise@6.1.1
     - eslint-plugin-standard@4.1.0
-    - eslint-config-prettier@8.8.0
-    - eslint-plugin-prettier@4.2.1
+    - eslint-config-prettier@9.1.0
+    - eslint-plugin-prettier@5.1.0
 - repo: https://github.com/awebdeveloper/pre-commit-stylelint
   rev: 0.0.2
   hooks:
   - id: stylelint
     args: [--formatter=compact]
     additional_dependencies:
-    - stylelint@15.6.2
-    - stylelint-config-prettier@9.0.5
-    - stylelint-prettier@3.0.0
-    - prettier@2.8.8
+    - stylelint@16.0.2
 - repo: https://github.com/fsfe/reuse-tool
-  rev: v1.1.2
+  rev: v2.1.0
   hooks:
   - id: reuse
 - repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.9.0.2
+  rev: v0.9.0.6
   hooks:
   - id: shellcheck
     require_serial: true

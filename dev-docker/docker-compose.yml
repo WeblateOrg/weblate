@@ -27,6 +27,8 @@ services:
     userns_mode: host
     tmpfs:
     - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
+    - /run:uid=$USER_ID,gid=$GROUP_ID
     volumes:
       # Local data directory
     - $PWD/data:/app/data
@@ -42,7 +44,7 @@ services:
     env_file:
     - ./environment
   database:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     env_file:
     - ./environment
     volumes:

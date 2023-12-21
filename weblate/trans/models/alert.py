@@ -8,11 +8,9 @@ from django.conf import settings
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
-
-from weblate.utils.fields import JSONField
 
 ALERTS = {}
 ALERTS_IMPORT = set()
@@ -27,12 +25,14 @@ def register(cls):
 
 
 class Alert(models.Model):
-    component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey(
+        "Component", on_delete=models.deletion.CASCADE, db_index=False
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=150)
     dismissed = models.BooleanField(default=False, db_index=True)
-    details = JSONField(default=dict)
+    details = models.JSONField(default=dict)
 
     class Meta:
         unique_together = [("component", "name")]
@@ -127,7 +127,7 @@ class MultiAlert(BaseAlert):
 
         processors = (
             ("language_code", "language", Language.objects.all(), "code"),
-            ("unit_pk", "unit", Unit.objects.prefetch(), "pk"),
+            ("unit_pk", "unit", Unit.objects.prefetch().prefetch_full(), "pk"),
         )
         for key, target, base, lookup in processors:
             # Extract list to fetch
@@ -152,14 +152,14 @@ class MultiAlert(BaseAlert):
 @register
 class DuplicateString(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Duplicated string found in the file.")
+    verbose = gettext_lazy("Duplicated string found in the file.")
     on_import = True
 
 
 @register
 class DuplicateLanguage(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Duplicated translation.")
+    verbose = gettext_lazy("Duplicated translation.")
     on_import = True
 
     def get_analysis(self):
@@ -181,7 +181,7 @@ class DuplicateLanguage(MultiAlert):
 @register
 class DuplicateFilemask(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Duplicated file mask.")
+    verbose = gettext_lazy("Duplicated file mask.")
     link_wide = True
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
@@ -194,28 +194,41 @@ class DuplicateFilemask(BaseAlert):
 @register
 class MergeFailure(ErrorAlert):
     # Translators: Name of an alert
-    verbose = _("Could not merge the repository.")
+    verbose = gettext_lazy("Could not merge the repository.")
     link_wide = True
     doc_page = "faq"
     doc_anchor = "merge"
 
 
 @register
-class UpdateFailure(ErrorAlert):
-    # Translators: Name of an alert
-    verbose = _("Could not update the repository.")
-    link_wide = True
-    doc_page = "admin/projects"
-    doc_anchor = "component-repo"
-
-
-@register
 class PushFailure(ErrorAlert):
     # Translators: Name of an alert
-    verbose = _("Could not push the repository.")
+    verbose = gettext_lazy("Could not push the repository.")
     link_wide = True
-    behind_message = "The tip of your current branch is behind its remote counterpart"
+    behind_messages = (
+        "The tip of your current branch is behind its remote counterpart",
+        "fetch first",
+    )
     terminal_message = "terminal prompts disabled"
+    not_found_messages = (
+        "Repository not found.",
+        "HTTP Error 404: Not Found",
+        "Repository was archived so is read-only",
+        "does not appear to be a git repository",
+    )
+    temporary_messages = (
+        "Empty reply from server",
+        "no suitable response from remote hg",
+        "cannot lock ref",
+        "Too many retries",
+        "Connection timed out",
+    )
+    permission_messages = (
+        "denied to",
+        "The repository exists, but forking is disabled.",
+        "protected branch hook declined",
+        "GH006:",
+    )
     doc_page = "admin/continuous"
     doc_anchor = "push-changes"
 
@@ -234,12 +247,12 @@ class PushFailure(ErrorAlert):
                 repo_suggestion = f"git@github.com:{component.repo[19:]}"
 
         # Missing commits
-        behind = self.behind_message in self.error
+        behind = any(message in self.error for message in self.behind_messages)
         if behind:
             force_push_suggestion = (
                 component.vcs == "git"
                 and component.merge_style == "rebase"
-                and component.bool(component.push_branch)
+                and bool(component.push_branch)
             )
 
         return {
@@ -247,33 +260,51 @@ class PushFailure(ErrorAlert):
             "behind": behind,
             "repo_suggestion": repo_suggestion,
             "force_push_suggestion": force_push_suggestion,
+            "not_found": any(
+                message in self.error for message in self.not_found_messages
+            ),
+            "permission": any(
+                message in self.error for message in self.permission_messages
+            ),
+            "temporary": any(
+                message in self.error for message in self.temporary_messages
+            ),
         }
+
+
+@register
+class UpdateFailure(PushFailure):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not update the repository.")
+    link_wide = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-repo"
 
 
 @register
 class ParseError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not parse translation files.")
+    verbose = gettext_lazy("Could not parse translation files.")
     on_import = True
 
 
 @register
 class BillingLimit(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Your billing plan has exceeded its limits.")
+    verbose = gettext_lazy("Your billing plan has exceeded its limits.")
 
 
 @register
 class RepositoryOutdated(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Repository outdated.")
+    verbose = gettext_lazy("Repository outdated.")
     link_wide = True
 
 
 @register
 class RepositoryChanges(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Repository has changes.")
+    verbose = gettext_lazy("Repository has changes.")
     link_wide = True
     dismissable = True
 
@@ -281,7 +312,7 @@ class RepositoryChanges(BaseAlert):
 @register
 class MissingLicense(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("License info missing.")
+    verbose = gettext_lazy("License info missing.")
     doc_page = "admin/projects"
     doc_anchor = "component-license"
 
@@ -289,14 +320,14 @@ class MissingLicense(BaseAlert):
 @register
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not run add-on.")
+    verbose = gettext_lazy("Could not run add-on.")
     doc_page = "adons"
 
 
 @register
 class CDNAddonError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not run add-on.")
+    verbose = gettext_lazy("Could not run add-on.")
     doc_page = "adons"
     doc_anchor = "addon-weblate-cdn-cdnjs"
 
@@ -304,7 +335,7 @@ class CDNAddonError(MultiAlert):
 @register
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _("Could not run add-on.")
+    verbose = gettext_lazy("Could not run add-on.")
     doc_page = "adons"
     doc_anchor = "addon-weblate-gettext-msgmerge"
 
@@ -312,7 +343,7 @@ class MsgmergeAddonError(MultiAlert):
 @register
 class MonolingualTranslation(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Misconfigured monolingual translation.")
+    verbose = gettext_lazy("Misconfigured monolingual translation.")
     doc_page = "formats"
     doc_anchor = "bimono"
 
@@ -320,7 +351,7 @@ class MonolingualTranslation(BaseAlert):
 @register
 class UnsupportedConfiguration(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Unsupported component configuration")
+    verbose = gettext_lazy("Unsupported component configuration")
     doc_page = "admin/projects"
     doc_anchor = "component"
 
@@ -333,7 +364,7 @@ class UnsupportedConfiguration(BaseAlert):
 @register
 class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Broken repository browser URL")
+    verbose = gettext_lazy("Broken repository browser URL")
     dismissable = True
     doc_page = "admin/projects"
     doc_anchor = "component-repoweb"
@@ -347,7 +378,7 @@ class BrokenBrowserURL(BaseAlert):
 @register
 class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Broken project website URL")
+    verbose = gettext_lazy("Broken project website URL")
     dismissable = True
     doc_page = "admin/projects"
     doc_anchor = "project-web"
@@ -361,7 +392,7 @@ class BrokenProjectURL(BaseAlert):
 @register
 class UnusedScreenshot(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Unused screenshot")
+    verbose = gettext_lazy("Unused screenshot")
     doc_page = "admin/translating"
     doc_anchor = "screenshots"
 
@@ -369,7 +400,7 @@ class UnusedScreenshot(BaseAlert):
 @register
 class AmbiguousLanguage(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Ambiguous language code.")
+    verbose = gettext_lazy("Ambiguous language code.")
     dismissable = True
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
@@ -386,19 +417,19 @@ class AmbiguousLanguage(BaseAlert):
 @register
 class NoLibreConditions(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Does not meet Libre hosting conditions.")
+    verbose = gettext_lazy("Does not meet Libre hosting conditions.")
 
 
 @register
 class UnusedEnforcedCheck(BaseAlert):
-    verbose = _("Unused enforced checks.")
+    verbose = gettext_lazy("Unused enforced checks.")
     doc_page = "admin/checks"
     doc_anchor = "enforcing-checks"
 
 
 @register
 class NoMaskMatches(BaseAlert):
-    verbose = _("No file mask matches.")
+    verbose = gettext_lazy("No file mask matches.")
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
 
@@ -410,7 +441,7 @@ class NoMaskMatches(BaseAlert):
 
 @register
 class InexistantFiles(BaseAlert):
-    verbose = _("Inexistent files.")
+    verbose = gettext_lazy("Inexistent files.")
     doc_page = "admin/projects"
     doc_anchor = "component-template"
 
@@ -421,7 +452,7 @@ class InexistantFiles(BaseAlert):
 
 @register
 class UnusedComponent(BaseAlert):
-    verbose = _("Component seems unused.")
+    verbose = gettext_lazy("Component seems unused.")
     doc_page = "devel/community"
 
     def get_analysis(self):

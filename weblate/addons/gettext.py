@@ -2,18 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class GettextBaseAddon(BaseAddon):
@@ -23,15 +25,22 @@ class GettextBaseAddon(BaseAddon):
 class GenerateMoAddon(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.gettext.mo"
-    verbose = _("Generate MO files")
-    description = _("Automatically generates a MO file for every changed PO file.")
+    verbose = gettext_lazy("Generate MO files")
+    description = gettext_lazy(
+        "Automatically generates a MO file for every changed PO file."
+    )
     settings_form = GenerateMoForm
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(
-            translation.unit_set.filter(state__gte=STATE_TRANSLATED).prefetch_full()
-        )
+
+        if self.instance.configuration.get("fuzzy"):
+            state = STATE_FUZZY
+        else:
+            state = STATE_TRANSLATED
+        units = translation.unit_set.filter(state__gte=state)
+
+        exporter.add_units(units.prefetch_full())
 
         template = self.instance.configuration.get("path")
         if not template:
@@ -49,8 +58,10 @@ class GenerateMoAddon(GettextBaseAddon):
 class UpdateLinguasAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD, EVENT_DAILY)
     name = "weblate.gettext.linguas"
-    verbose = _("Update LINGUAS file")
-    description = _("Updates the LINGUAS file when a new translation is added.")
+    verbose = gettext_lazy("Update LINGUAS file")
+    description = gettext_lazy(
+        "Updates the LINGUAS file when a new translation is added."
+    )
 
     @staticmethod
     def get_linguas_path(component):
@@ -101,8 +112,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         # Add missing codes
         if codes:
-            for code in codes:
-                lines.append(f"{code}\n")
+            lines.extend(f"{code}\n" for code in codes)
             changed = True
 
         return changed, lines
@@ -141,8 +151,8 @@ class UpdateLinguasAddon(GettextBaseAddon):
 class UpdateConfigureAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD, EVENT_DAILY)
     name = "weblate.gettext.configure"
-    verbose = _('Update ALL_LINGUAS variable in the "configure" file')
-    description = _(
+    verbose = gettext_lazy('Update ALL_LINGUAS variable in the "configure" file')
+    description = gettext_lazy(
         'Updates the ALL_LINGUAS variable in "configure", '
         '"configure.in" or "configure.ac" files, when a new translation is added.'
     )
@@ -212,8 +222,8 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
 class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
-    verbose = _("Update PO files to match POT (msgmerge)")
-    description = _(
+    verbose = gettext_lazy("Update PO files to match POT (msgmerge)")
+    description = gettext_lazy(
         'Updates all PO files (as configured by "File mask") to match the '
         'POT file (as configured by "Template for new translations") using msgmerge.'
     )
@@ -287,18 +297,24 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                     {
                         "addon": self.name,
                         "command": error.cmd,
-                        "output": error.output,
+                        "output": str(error.output),
                         "error": str(error),
                     }
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
         self.trigger_alerts(component)
 
+    def commit_and_push(
+        self, component, files: list[str] | None = None, skip_push: bool = False
+    ):
+        if super().commit_and_push(component, files=files, skip_push=skip_push):
+            component.create_translations()
+
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
     name = "weblate.gettext.customize"
-    verbose = _("Customize gettext output")
-    description = _(
+    verbose = gettext_lazy("Customize gettext output")
+    description = gettext_lazy(
         "Allows customization of gettext output behavior, for example line wrapping."
     )
     settings_form = GettextCustomizeForm
@@ -310,8 +326,8 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
 class GettextAuthorComments(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.gettext.authors"
-    verbose = _("Contributors in comment")
-    description = _(
+    verbose = gettext_lazy("Contributors in comment")
+    description = gettext_lazy(
         "Updates the comment part of the PO file header to include contributor names "
         "and years of contributions."
     )

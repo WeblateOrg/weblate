@@ -22,10 +22,16 @@ EXCLUDES = {
     "]",
     # We intentionally skip following
     "-",
+    # Allow same words at sentence boundary
+    ";",
+    ":",
+    ",",
+    ".",
     # Used in Catalan ŀ
     "·",
     "•",
 }
+print("NON_WORD_CHARS = ")
 pprint.pprint(
     [
         char
@@ -33,3 +39,8 @@ pprint.pprint(
         if char not in EXCLUDES and unicodedata.category(char) in CATEGORIES
     ]
 )
+print("COMPOSITING_CHARS = {")
+for char in map(chr, range(sys.maxunicode + 1)):
+    if unicodedata.category(char) == "Mn":
+        print('    "{}",'.format(char.encode("unicode-escape").decode()))
+print("}")

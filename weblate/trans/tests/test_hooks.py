@@ -1158,12 +1158,14 @@ class HooksViewTest(ViewTestCase):
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_project(self):
-        response = self.client.get(reverse("hook-project", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("update-hook", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_component(self):
-        response = self.client.get(reverse("hook-component", kwargs=self.kw_component))
+        response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
@@ -1379,9 +1381,11 @@ class HooksViewTest(ViewTestCase):
         self.assert_disabled()
 
     def assert_disabled(self):
-        response = self.client.get(reverse("hook-project", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("update-hook", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertEqual(response.status_code, 405)
-        response = self.client.get(reverse("hook-component", kwargs=self.kw_component))
+        response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
         self.assertEqual(response.status_code, 405)
 
     @override_settings(ENABLE_HOOKS=True)

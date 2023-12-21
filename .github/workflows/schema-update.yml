@@ -23,9 +23,9 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v4.1.1
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     - run: pip install $(grep -E '^(weblate-schemas)==' requirements.txt) -r requirements-lint.txt
@@ -34,7 +34,7 @@ jobs:
       continue-on-error: true
     - name: Update renovate branch
       if: github.ref != 'refs/heads/main'
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'docs: Update JSON schemas'
     - name: Create Pull Request

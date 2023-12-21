@@ -7,7 +7,7 @@ translation is in good shape. The checks can be ignored in case of false positiv
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
 
-.. image:: /screenshots/checks.png
+.. image:: /screenshots/checks.webp
 
 
 .. _autofix:
@@ -44,6 +44,20 @@ Devanagari danda
 ~~~~~~~~~~~~~~~~
 
 Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
+
+.. _autofix-punctuation-spacing:
+
+Punctuation spacing
+~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.3
+
+Ensures French and Breton use correct punctuation spacing.
+
+This fixup can be disable via ``ignore-punctuation-spacing`` flag (which also
+disables :ref:`check-punctuation-spacing`).
+
+.. _autofix-html:
 
 Unsafe HTML cleanup
 ~~~~~~~~~~~~~~~~~~~
@@ -164,13 +178,216 @@ Checks that double space is present in translation to avoid false positives on o
 
 Check is false when double space is found in source meaning double space is intentional.
 
+.. _check-fluent-parts:
+
+Fluent parts
+~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+:Summary: Fluent parts should match
+:Scope: translated strings
+:Check class: ``weblate.checks.fluent.parts.FluentPartsCheck``
+:Check identifier: ``fluent-parts``
+:Flag to enable: ``fluent-parts``
+:Flag to ignore: ``ignore-fluent-parts``
+
+Each Fluent Message can have an optional value (the main text content), and
+optional attributes, each of which is a "part" of the Message. In Weblate, all
+these parts appear within the same block, using Fluent-like syntax to specify
+the attributes. For example:
+
+.. code-block:: text
+
+   This is the Message value
+   .title = This is the title attribute
+   .alt = This is the alt attribute
+
+This check ensures that the translated Message also has a value if the source
+Message has one, or no value if the source has none. This also checks that the
+same attributes used in the source Message also appear in the translation, with
+no additions.
+
+.. note::
+
+  This check is not applied to Fluent Terms since Terms always have a value, and
+  Term attributes tend to be locale-specific (used for grammar rules, etc.), and
+  are not expected to appear in all translations.
+
+.. seealso::
+
+  `Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_
+
+.. _check-fluent-references:
+
+Fluent references
+~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+:Summary: Fluent references should match
+:Scope: translated strings
+:Check class: ``weblate.checks.fluent.references.FluentReferencesCheck``
+:Check identifier: ``fluent-references``
+:Flag to enable: ``fluent-references``
+:Flag to ignore: ``ignore-fluent-references``
+
+A Fluent Message or Term can reference another Message, Term, Attribute, or a
+variable. For example:
+
+.. code-block:: text
+
+   Here is a { message }, a { message.attribute } a { -term } and a { $variable }.
+   Within a function { NUMBER($num, minimumFractionDigits: 2) }
+
+Generally, translated Messages or Terms are expected to contain the same
+references as the source, although not necessarily in the same order of
+appearance. So this check ensures that translations use the same references in
+their value as the source value, the same number of times, and with no
+additions. For Messages, this will also check that each Attribute in the
+translation uses the same references as the matching Attribute in the source.
+
+When the source or translation contains Fluent Select Expressions, then each
+possible variant in the source must be matched with at least one variant in the
+translation with the same references, and vice versa.
+
+Moreover, if a variable reference appears both in the Select Expression's
+selector and within one of its variants, then all variants may also be
+considered as if they also contain that reference. The assumption being that the
+variant's key may have made the reference redundant for that variant. For
+example:
+
+.. code-block:: text
+
+   { $num ->
+       [one] an apple
+      *[other] { $num } apples
+   }
+
+Here, for the purposes of this check, the ``[one]`` variant will also be
+considered to contain the ``$num`` reference.
+
+However, a reference within the Select Expression's selector, which can only be
+a variable of a Term Attribute in Fluent's syntax, will not by itself count as a
+required reference because they do not form the actual text content of the
+string that the end-user will see, and the presence of a Select Expression is
+considered locale-specific. For example:
+
+.. code-block:: text
+
+   { -term.starts-with-vowel ->
+       [yes] an { -term }
+      *[no] a { -term }
+   }
+
+Here a reference to ``-term.starts-with-vowel`` is not expected to appear in
+translations, but a reference to ``-term`` is.
+
+.. seealso::
+
+  `Fluent Variables <https://projectfluent.org/fluent/guide/variables.html>`_
+  `Fluent Message and Term references <https://projectfluent.org/fluent/guide/references.html>`_
+  `Fluent Select Expressions <https://projectfluent.org/fluent/guide/selectors.html>`_
+
+.. _check-fluent-target-inner-html:
+
+Fluent translation inner HTML
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+:Summary: Fluent target should be valid inner HTML that matches
+:Scope: translated strings
+:Check class: ``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``
+:Check identifier: ``fluent-target-inner-html``
+:Flag to enable: ``fluent-target-inner-html``
+:Flag to ignore: ``ignore-fluent-target-inner-html``
+
+This check will verify that the translated value of a Message or Term contains
+the same HTML elements as the source value.
+
+First, if the source value fails the :ref:`check-fluent-source-inner-html`
+check, then this check will do nothing. Otherwise, the translated value will
+also be checked under the same conditions.
+
+Second, the HTML elements found in the translated value will be compared against
+the HTML elements found in the source value. Two elements will match if they
+share the exact same tag name, the exact same attributes and values, and all
+their ancestors match in the same way. This check will ensure that all the
+elements in the source appear somewhere in the translation, with the same
+*number* of appearances, and with no additional elements added. When there are
+multiple elements in the value, they need not appear in the same order in the
+translation value.
+
+When the source or translation contains Fluent Select Expressions, then each
+possible variant in the source must be matched with at least one variant in the
+translation with the same HTML elements, and vice versa.
+
+When using Fluent in combination with the Fluent DOM package, this check will
+ensure that the translation also includes any required ``data-l10n-name``
+elements that appear in the source, or any of the allowed inline elements like
+``<br>``.
+
+For example, the following source:
+
+.. code-block:: text
+
+   Source message <img data-l10n-name="icon"/> with icon
+
+would match with:
+
+.. code-block:: text
+
+   Translated message <img data-l10n-name="icon"/> with icon
+
+but not:
+
+.. code-block:: text
+
+   Translated message <img data-l10n-name="new-val"/> with icon
+
+nor
+
+.. code-block:: text
+
+   Translated message <br data-l10n-name="icon"/> with no icon
+
+.. seealso::
+
+  :ref:`check-fluent-source-inner-html`,
+  `Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>`_
+
+.. _check-fluent-target-syntax:
+
+Fluent translation syntax
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+:Summary: Fluent syntax error in translation
+:Scope: translated strings
+:Check class: ``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``
+:Check identifier: ``fluent-target-syntax``
+:Flag to enable: ``fluent-target-syntax``
+:Flag to ignore: ``ignore-fluent-target-syntax``
+
+In Weblate, Fluent strings use Fluent syntax for references and variables, but
+also for more complex features like defining attributes and selector variants,
+including plurals. This check ensures that the syntax used in the translation
+will be valid for Fluent.
+
+.. seealso::
+
+  :ref:`check-fluent-source-syntax`,
+  `Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_
+  `Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax.html>`_
 
 .. _check-formats:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
 
-Checks that formatting in strings are replicated between both source and translation.
+Checks that the formatting in strings is replicated between both source and translation.
 Omitting format strings in translation usually causes severe problems, so the formatting in strings
 should usually match the source.
 
@@ -180,8 +397,12 @@ enabled automatically, only if a string is flagged appropriately (e.g.
 probably have to add it manually for other file formats or if your PO files are
 not generated by :program:`xgettext`.
 
-This can be done per unit (see :ref:`additional`) or in :ref:`component`.
-Having it defined per component is simpler, but can lead to false positives in
+Most of the format checks allow omitting format strings for plural forms having
+a single count. This allows translators to write nicer strings for these cases
+(`One apple` instead of `%d apple`). Turn this off by adding ``strict-format`` flag.
+
+The flags can be customized per string (see :ref:`additional`) or in a :ref:`component`.
+Having it defined per component is simpler, but it can lead to false positives in
 case the string is not interpreted as a formatting string, but format string syntax
 happens to be used.
 
@@ -193,7 +414,7 @@ happens to be used.
 Besides checking, this will also highlight the formatting strings to easily
 insert them into translated strings:
 
-.. image:: /screenshots/format-highlight.png
+.. image:: /screenshots/format-highlight.webp
 
 .. _check-angularjs-format:
 
@@ -486,6 +707,24 @@ Percent placeholders
 
    :ref:`check-formats`,
 
+.. _check-perl-brace-format:
+
+Perl brace format
+*****************
+
+:Summary: Perl brace format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PerlBraceFormatCheck``
+:Check identifier: ``perl_brace_format``
+:Flag to enable: ``perl-brace-format``
+:Flag to ignore: ``ignore-perl-brace-format``
+:Named format string example: ``There are {number} apples``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+
 .. _check-perl-format:
 
 Perl format
@@ -726,8 +965,6 @@ This check applies to all components in a project that have
 Kashida letter used
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.5
-
 :Summary: The decorative kashida letters should not be used
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.KashidaCheck``
@@ -746,8 +983,6 @@ also known as Tatweel.
 
 Markdown links
 ~~~~~~~~~~~~~~
-
-.. versionadded:: 3.5
 
 :Summary: Markdown links do not match source
 :Scope: translated strings
@@ -768,8 +1003,6 @@ Markdown links do not match source.
 Markdown references
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.5
-
 :Summary: Markdown link references do not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.MarkdownRefLinkCheck``
@@ -787,8 +1020,6 @@ Markdown link references do not match source.
 
 Markdown syntax
 ~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.5
 
 :Summary: Markdown syntax does not match source
 :Scope: translated strings
@@ -843,8 +1074,6 @@ Maximum size of translation
 :Check identifier: ``max-size``
 :Flag to enable: ``max-size``
 :Flag to ignore: ``ignore-max-size``
-
-.. versionadded:: 3.7
 
 Translation rendered text should not exceed given size. It renders the text
 with line wrapping and checks if it fits into given boundaries.
@@ -1044,8 +1273,6 @@ the plural form is in use.
 Placeholders
 ~~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: Translation is missing some placeholders
 :Scope: translated strings
 :Check class: ``weblate.checks.placeholders.PlaceholderCheck``
@@ -1090,8 +1317,6 @@ You can also have case insensitive placeholders:
 Punctuation spacing
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: Missing non breakable space before double punctuation sign
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.PunctuationSpacingCheck``
@@ -1113,8 +1338,6 @@ punctuation sign is a typographic rule.
 Regular expression
 ~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: Translation does not match regular expression
 :Scope: translated strings
 :Check class: ``weblate.checks.placeholders.RegexCheck``
@@ -1130,6 +1353,21 @@ translation file or defined manually using ``regex`` flag:
    regex:^foo|bar$
 
 
+.. _check-reused:
+
+Reused translation
+~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.18
+
+:Summary: Different strings are translated the same.
+:Scope: translated strings
+:Check class: ``weblate.checks.consistency.ReusedCheck``
+:Check identifier: ``reused``
+:Flag to ignore: ``ignore-reused``
+
+Check that fails if the same translation is used on different source strings.
+Such translations can be intentional, but can also confuse users.
 
 .. _check-same-plurals:
 
@@ -1251,8 +1489,6 @@ can be disabled by adding ``strict-same`` flag to string or component.
 Unsafe HTML
 ~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: The translation uses unsafe HTML markup
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.SafeHTMLCheck``
@@ -1279,8 +1515,6 @@ autofixer which can automatically sanitize the markup.
 
 URL
 ~~~
-
-.. versionadded:: 3.5
 
 :Summary: The translation does not contain an URL
 :Scope: translated strings
@@ -1384,6 +1618,117 @@ rendered, and may sound better with text-to-speech.
 .. seealso::
 
    `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
+
+.. _check-fluent-source-inner-html:
+
+Fluent source inner HTML
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+:Summary: Fluent source should be valid inner HTML
+:Scope: source strings
+:Check class: ``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``
+:Check identifier: ``fluent-source-inner-html``
+:Flag to enable: ``fluent-source-inner-html``
+:Flag to ignore: ``ignore-fluent-source-inner-html``
+
+Fluent is often used in contexts where the value for a Message (or Term) is
+meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) for
+some HTML element. For example, when using the Fluent DOM package.
+
+The aim of this check is to predict how the value will be parsed as inner HTML,
+assuming a HTML5 conforming parser, to catch cases where there would be some
+"unintended" loss of the string, without being too strict about technical
+parsing errors that do *not* lead to a loss of the string.
+
+This check is applied to the value of Fluent Messages or Terms, but not their
+Attributes. For Messages, the Fluent Attributes are often just HTML attribute
+values, so can be arbitrary strings. For Terms, the Fluent Attributes are
+often language properties that can only be referenced in the selectors of Fluent
+Select Expressions.
+
+Generally, most Fluent values are not expected to contain any HTML markup.
+Therefore, this check does not expect or want translators and developers to have
+to care about strictly avoiding *any* technical HTML5 parsing errors (let alone
+XHTML parsing errors). Instead, this check will just want to warn them when they
+may have unintentionally opened a HTML tag or inserted a character reference.
+
+Moreover, for the Fluent values that intentionally contain HTML tags or
+character references, this check will verify some "good practices", such as
+matching closing and ending tags, valid character references, and quoted
+attribute values. In addition, whilst the HTML5 specification technically allows
+for quite arbitrary tag and attribute names, this check will restrain them to
+some basic ASCII values that should cover the standard HTML5 element tags and
+attributes, as well as allow *some* custom element or attribute names. This is
+partially to ensure that the user is using HTML intentionally.
+
+Examples:
+
+===================   ======   ======
+Value                 Warns?   Reason
+===================   ======   ======
+``three<four``        yes      The ``<four`` part would be lost as ``.innerHTML``.
+``three < four``      no       The ``.innerHTML`` would match the ``.textContent``.
+``three <four>``      yes      Missing a closing tag.
+``three <four/>``     yes      ``four`` is not a HTML void element, so should not self-close.
+``<a-b>text</a-b>``   no       Custom element tag with a matching closing tag.
+``a <img/> b``        no       ``img`` is a HTML void element. Self-closing is allowed.
+``a <br> b``          no       ``br`` is a HTML void element.
+``<img class=a/>``    yes      The attribute value is not quoted.
+``<aØ attr=''/>``     yes      Non-ASCII tag name.
+``kind&ethical``      yes      The ``&eth`` part would be converted to ``ð``.
+``kind&eth;ical``     no       The character reference seems to be intentional.
+``three&lte;four``    yes      The ``&lte;`` part would be converted to ``<e;``.
+``three&lf;four``     yes      The character reference is not valid.
+``three<{ $val }``    yes      The Fluent variable may unintentionally become a tag.
+``&l{ $val }``        yes      The Fluent variable may unintentionally become a character reference.
+===================   ======   ======
+
+.. note::
+
+   This check will *not* ensure the inner HTML is safe or sanitized, and is not
+   meant to protect against malicious attempts to alter the inner HTML.
+   Moreover, it should be remembered that Fluent variables and references may
+   expand to arbitrary strings, so could expand to arbitrary HTML unless they
+   are escaped. As an exception, a ``<`` or ``&`` character before a Fluent
+   reference will trigger this check since even an escaped value could lead to
+   unexpected results.
+
+.. note::
+
+   The Fluent DOM package has further limitations, such as allowed tags and
+   attributes, which this check will not enforce.
+
+.. seealso::
+
+  :ref:`check-fluent-target-inner-html`,
+  `Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>`_
+
+.. _check-fluent-source-syntax:
+
+Fluent source syntax
+~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+:Summary: Fluent syntax error in source
+:Scope: source strings
+:Check class: ``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``
+:Check identifier: ``fluent-source-syntax``
+:Flag to enable: ``fluent-source-syntax``
+:Flag to ignore: ``ignore-fluent-source-syntax``
+
+In Weblate, Fluent strings use Fluent syntax for references and variables, but
+also for more complex features like defining attributes and selector variants,
+including plurals. This check ensures that the syntax used in source will be
+valid for Fluent.
+
+.. seealso::
+
+  :ref:`check-fluent-target-syntax`,
+  `Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_
+  `Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax.html>`_
 
 .. _check-icu-message-format-syntax:
 

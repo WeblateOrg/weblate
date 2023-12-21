@@ -15,5 +15,8 @@ List of Weblate supporters:
 * Richard Nespithal
 * MyExpenses.Mobi
 * Michael Totschnig
+* James Valleroy
+* wallabag.org
+* `Scenari (Kelis) <https://scenari.software/>`_
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.

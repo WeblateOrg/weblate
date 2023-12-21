@@ -7,7 +7,7 @@ import re
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.legal.models import Agreement
 from weblate.utils import messages
@@ -38,7 +38,7 @@ class RequireTOSMiddleware:
         if not agreement.is_current():
             messages.info(
                 request,
-                _(
+                gettext(
                     "We have new version of the Terms of Service document, "
                     "please read it and confirm that you agree with it."
                 ),

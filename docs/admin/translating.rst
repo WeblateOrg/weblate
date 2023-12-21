@@ -46,12 +46,12 @@ including explanations, string priorities, check flags and visual context. Some
 of that info may be extracted from the translation files and some may be added
 by editing the additional string info:
 
-.. image:: /screenshots/source-review-edit.png
+.. image:: /screenshots/source-review-edit.webp
 
 Access this directly from the translation interface by clicking the
 "Edit" icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`.
 
-.. image:: /screenshots/source-information.png
+.. image:: /screenshots/source-information.webp
 
 .. seealso::
 
@@ -76,11 +76,6 @@ using the ``priority`` flag.
 Translation flags
 +++++++++++++++++
 
-.. versionchanged:: 3.3
-
-      Previously called :guilabel:`Quality checks flags`, it no
-      longer configures only checks.
-
 Customization of quality checks and other Weblate behavior, see
 :ref:`custom-checks`.
 
@@ -104,7 +99,7 @@ Explanation
 
 .. versionchanged:: 4.18
 
-   Support for synching explanation with a file was introduced.
+   Support for syncing explanation with a file was introduced.
 
 Use the explanation to clarify scope or usage of the translation. You can use
 Markdown to include links and other markup.
@@ -127,14 +122,33 @@ be translated.
 
 The uploaded screenshot is shown in the translation context sidebar:
 
-.. image:: /screenshots/screenshot-context.png
+.. image:: /screenshots/screenshot-context.webp
 
 In addition to :ref:`additional`, screenshots have a separate management
 interface under the :guilabel:`Tools` menu.
-Upload screenshots, assign them to source strings manually, or use
-optical character recognition to do so.
+Upload screenshots, assign them to source strings manually, or use optical
+character recognition (OCR) to do so by pressing the :guilabel:`Automatically
+recognize` button.
 
 Once a screenshot is uploaded, this interface handles
 management and source string association:
 
-.. image:: /screenshots/screenshot-ocr.png
+.. image:: /screenshots/screenshot-ocr.webp
+
+You can add or update screenshots directly from your
+Version Control System (VCS) repository.
+
+To enable this feature, you can either set a screenshot file mask
+when creating a component, which will be monitored for updates in
+the repository, or you can add or update screenshots when uploading them manually.
+
+When the repository is updated, the system will automatically scan
+for changes. Existing screenshots in the repository will be updated,
+and new screenshots matching the specified screenshot file mask will
+be added to the component.
+
+.. image:: /screenshots/screenshot-filemask-repository-filename.webp
+
+.. seealso::
+
+   :ref:`component-screenshot_filemask`

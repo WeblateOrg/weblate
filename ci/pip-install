@@ -19,7 +19,7 @@ if [ "${1:-latest}" = migrations ] ; then
     # shellcheck disable=SC2046
     pip install $(grep -E '^(psycopg|mysqlclient)' requirements-optional.txt)
     # shellcheck disable=SC2046
-    pip install $(grep -E '^coverage[>=<]' requirements-test.txt)
+    pip install $(grep -E '^coverage[>=<]' requirements-ci.txt)
     pip install -r requirements.txt
 elif [ "${1:-latest}" = minimal ] ; then
     # Build list of minimal requirements
@@ -42,6 +42,8 @@ else
         pip install --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
         pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip
         pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/translation-finder/archive/main.zip
+        # TODO: remove once https://github.com/celery/django-celery-beat/issues/680 is fixed
+        pip install --no-deps --upgrade --force-reinstall https://github.com/celery/django-celery-beat/archive/refs/heads/main.zip
         pip install --upgrade --pre Django
     fi
 fi

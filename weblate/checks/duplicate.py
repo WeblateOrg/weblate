@@ -5,7 +5,7 @@
 import re
 
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
@@ -19,7 +19,7 @@ IGNORES = {
     "fy": {"jo", "mei"},
     "fr": {"vous", "nous"},
     "hi": {"कर"},
-    "tr": {"tek"},
+    "tr": {"tek", "adım", "gıcır", "sık"},
     "sq": {"të"},
 }
 
@@ -28,15 +28,15 @@ class DuplicateCheck(TargetCheck):
     """Check for duplicated tokens."""
 
     check_id = "duplicate"
-    name = _("Consecutive duplicated words")
-    description = _("Text contains the same word twice in a row:")
+    name = gettext_lazy("Consecutive duplicated words")
+    description = gettext_lazy("Text contains the same word twice in a row:")
 
     def extract_groups(self, text: str, language_code: str):
         previous = None
         group = 1
         groups = []
         words = []
-        ignored = IGNORES.get(language_code, {})
+        ignored = IGNORES.get(language_code, set())
         for word in NON_WORD.split(text):
             if not word:
                 continue

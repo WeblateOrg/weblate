@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.fonts.utils import get_font_name
 from weblate.fonts.validators import validate_font
@@ -20,13 +20,20 @@ FONT_STORAGE = FileSystemStorage(location=data_dir("fonts"))
 
 
 class Font(models.Model, UserDisplayMixin):
-    family = models.CharField(verbose_name=_("Font family"), max_length=100, blank=True)
-    style = models.CharField(verbose_name=_("Font style"), max_length=100, blank=True)
+    family = models.CharField(
+        verbose_name=gettext_lazy("Font family"),
+        max_length=100,
+        blank=True,
+        db_index=False,
+    )
+    style = models.CharField(
+        verbose_name=gettext_lazy("Font style"), max_length=100, blank=True
+    )
     font = models.FileField(
-        verbose_name=_("Font file"),
+        verbose_name=gettext_lazy("Font file"),
         validators=[validate_font],
         storage=FONT_STORAGE,
-        help_text=_("OpenType and TrueType fonts are supported."),
+        help_text=gettext_lazy("OpenType and TrueType fonts are supported."),
     )
     project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -88,25 +95,29 @@ class FontGroupQuerySet(models.QuerySet):
 
 class FontGroup(models.Model):
     name = models.SlugField(
-        verbose_name=_("Font group name"),
+        verbose_name=gettext_lazy("Font group name"),
         max_length=100,
-        help_text=_(
+        help_text=gettext_lazy(
             "Identifier you will use in checks to select this font group. "
             "Avoid whitespaces and special characters."
         ),
     )
     font = models.ForeignKey(
         Font,
-        verbose_name=_("Default font"),
+        verbose_name=gettext_lazy("Default font"),
         on_delete=models.deletion.CASCADE,
-        help_text=_("Default font is used unless per language override matches."),
+        help_text=gettext_lazy(
+            "Default font is used unless per language override matches."
+        ),
     )
-    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
+    project = models.ForeignKey(
+        Project, on_delete=models.deletion.CASCADE, db_index=False
+    )
 
     objects = FontGroupQuerySet.as_manager()
 
     class Meta:
-        unique_together = [("name", "project")]
+        unique_together = [("project", "name")]
         verbose_name = "Font group"
         verbose_name_plural = "Font groups"
 
@@ -120,12 +131,16 @@ class FontGroup(models.Model):
 
 
 class FontOverride(models.Model):
-    group = models.ForeignKey(FontGroup, on_delete=models.deletion.CASCADE)
+    group = models.ForeignKey(
+        FontGroup, on_delete=models.deletion.CASCADE, db_index=False
+    )
     font = models.ForeignKey(
-        Font, on_delete=models.deletion.CASCADE, verbose_name=_("Font")
+        Font, on_delete=models.deletion.CASCADE, verbose_name=gettext_lazy("Font")
     )
     language = models.ForeignKey(
-        Language, on_delete=models.deletion.CASCADE, verbose_name=_("Language")
+        Language,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=gettext_lazy("Language"),
     )
 
     class Meta:

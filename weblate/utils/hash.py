@@ -2,16 +2,35 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from siphashc import siphash
 
 
-def raw_hash(*parts: str):
+def raw_hash(*parts: str | bytes) -> int:
     """Calculates checksum identifying translation."""
-    data = "".join(part for part in parts)
+    if not parts:
+        data = ""
+    elif len(parts) == 1:
+        data = parts[0]
+    else:
+        data = "".join(part for part in parts)
     return siphash("Weblate Sip Hash", data)
 
 
-def calculate_hash(*parts: str):
+def calculate_dict_hash(data: dict) -> int:
+    """
+    Calculates checksum of a dict.
+
+    * Ordering independent.
+    * Coerces all values to string.
+
+    Returns unsigned int.
+    """
+    return raw_hash(*(f"{part[0]}:{part[1]}" for part in sorted(data.items())))
+
+
+def calculate_hash(*parts: str) -> int:
     """Calculates checksum identifying translation."""
     # Need to convert it from unsigned 64-bit int to signed 64-bit int
     return raw_hash(*parts) - 2**63

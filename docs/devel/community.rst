@@ -1,18 +1,22 @@
-Building translators community
-==============================
+Building a translators community
+================================
 
-Following these recommendations supports the creation of a full, multilingual post-editing tool. Good translations are defined through the systemic-functional model of House which aims at a contextual correct translation. Write your own `post-editing guide <https://en.wikipedia.org/wiki/Postediting>`_ and alter these recommendations to fit your own definitions. In most cases the `browser-plugin of languageTool <https://languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool.
+Following these recommendations supports the creation of a full, multilingual post-editing tool. Good translations are defined through the systemic-functional model of House which aims at a contextual correct translation. Write your own `post-editing guide <https://en.wikipedia.org/wiki/Postediting>`_ and alter these recommendations to fit your own definitions. In most cases the `browser-plugin of languageTool <https://languagetool.org/#firefox_chrome>`_  is useful as a proof-reading tool.
+
+Many times translators will find problems with the source strings. Make sure it is easy for them to report such problems.
+To gather this feedback, you can set up the :ref:`component-repoweb` field on your Weblate component, for translators to
+propose their changes to the upstream repository. You can also receive translator comments if you setup :ref:`component-report_source_bugs`.
 
 Community localization checklist
 --------------------------------
-
-.. versionadded:: 3.9
 
 The :guilabel:`Community localization checklist` which can be found in the
 menu of each component can give you guidance to make your
 localization process easy for community translators.
 
-.. image:: /screenshots/guide.png
+
+
+.. image:: /screenshots/guide.webp
 
 Terminology management
 ----------------------
@@ -25,11 +29,14 @@ The quality of the automatic translation (often measured with the BLEU-score) co
 
 Review translations
 -------------------
-The translations should be reviewed by a second person after the post-editing. With an impartial and competent revisor, the two man rule reduces the errors and improves the quality and consistency of the content.
+The translations should be reviewed by a second person after the post-editing. With an impartial and competent reviewer, the two people rule reduces the errors and improves the quality and consistency of the content.
+Providing reviewers with previews or alpha translations will make for the best review.
+Screenshots, explanations also help to review the strings in context.
 
 Structured feedback
 -------------------
-There are many :doc:`/user/checks` in Weblate which provide structured feedback on quality of the translations.
+There are many :doc:`/user/checks` in Weblate that provide structured feedback on the quality of the translations.
+They also give visual feedback during translation. This prevents recurring mistakes, and helps translators to understand how the code works.
 
 Translation definition
 ----------------------
@@ -41,4 +48,4 @@ Sources
 -------
 1. Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf
 2. Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der Übersetzungskritik starting on page number 101
-3. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://aclanthology.org/P19-1175.pdf
+3. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural Machine Translation, 2019 https://aclanthology.org/P19-1175.pdf

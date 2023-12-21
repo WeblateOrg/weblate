@@ -2,73 +2,38 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import os
-from typing import Optional
+from __future__ import annotations
 
+import os
+
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.translation import gettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.logger import LOGGER
+from weblate.utils.data import data_dir
 
 
-class URLMixin:
-    """Mixin for models providing standard shortcut API for few standard URLs."""
-
-    _reverse_url_name: Optional[str] = None
-
-    def get_reverse_url_kwargs(self):
-        """Return kwargs for URL reversing."""
+class BaseURLMixin:
+    def get_url_path(self):
         raise NotImplementedError
-
-    def reverse_url(self, name=None):
-        """Generic reverser for URL."""
-        if name is None:
-            urlname = self._reverse_url_name
-        else:
-            urlname = f"{name}_{self._reverse_url_name}"
-        return reverse(urlname, kwargs=self.get_reverse_url_kwargs())
-
-    def get_absolute_url(self):
-        return self.reverse_url()
-
-    def get_commit_url(self):
-        return self.reverse_url("commit")
-
-    def get_update_url(self):
-        return self.reverse_url("update")
-
-    def get_push_url(self):
-        return self.reverse_url("push")
-
-    def get_reset_url(self):
-        return self.reverse_url("reset")
-
-    def get_cleanup_url(self):
-        return self.reverse_url("cleanup")
-
-    def get_file_sync_url(self):
-        return self.reverse_url("file_sync")
-
-    def get_file_scan_url(self):
-        return self.reverse_url("file_scan")
-
-    def get_lock_url(self):
-        return self.reverse_url("lock")
-
-    def get_unlock_url(self):
-        return self.reverse_url("unlock")
-
-    def get_remove_url(self):
-        return self.reverse_url("remove")
-
-
-class LoggerMixin:
-    """Mixin for models with logging."""
 
     @cached_property
     def full_slug(self):
-        return self.slug
+        return "/".join(self.get_url_path())
+
+
+class URLMixin(BaseURLMixin):
+    """Mixin for models providing standard shortcut API for few standard URLs."""
+
+    def get_absolute_url(self):
+        return reverse("show", kwargs={"path": self.get_url_path()})
+
+
+class LoggerMixin(BaseURLMixin):
+    """Mixin for models with logging."""
 
     def log_hook(self, level, msg, *args):
         return
@@ -90,12 +55,12 @@ class LoggerMixin:
         return LOGGER.error(f"{self.full_slug}: {msg}", *args)
 
 
-class PathMixin(LoggerMixin):
+class PathMixin(LoggerMixin, URLMixin):
     """Mixin for models with path manipulations."""
 
     def _get_path(self):
         """Actual calculation of path."""
-        raise NotImplementedError
+        return os.path.join(data_dir("vcs"), *self.get_url_path())
 
     @cached_property
     def full_path(self):
@@ -146,4 +111,43 @@ class UserDisplayMixin:
 class CacheKeyMixin:
     @cached_property
     def cache_key(self):
-        return f"{self.__class__.__name__}-{self.pk}"
+        return f"{self.__class__.__name__}-{self.id}"
+
+
+class ComponentCategoryMixin:
+    def _clean_unique_together(self, field: str, msg: str, lookup: str):
+        if self.category:
+            matching_components = self.category.component_set.filter(**{field: lookup})
+            matching_categories = self.category.category_set.filter(**{field: lookup})
+        else:
+            matching_components = self.project.component_set.filter(
+                category=None, **{field: lookup}
+            )
+            matching_categories = self.project.category_set.filter(
+                category=None, **{field: lookup}
+            )
+
+        if self.id:
+            if self.__class__.__name__ == "Component":
+                matching_components = matching_components.exclude(pk=self.id)
+            else:
+                matching_categories = matching_categories.exclude(pk=self.id)
+
+        if matching_categories.exists() or matching_components.exists():
+            raise ValidationError({field: msg})
+
+    def clean_unique_together(self):
+        self._clean_unique_together(
+            "slug",
+            gettext(
+                "Component or category with the same URL slug already exists at this level."
+            ),
+            self.slug,
+        )
+        self._clean_unique_together(
+            "name",
+            gettext(
+                "Component or category with the same name already exists at this level."
+            ),
+            self.name,
+        )

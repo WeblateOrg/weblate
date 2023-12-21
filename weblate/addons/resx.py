@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from translate.storage.resx import RESXFile
 
 from weblate.addons.cleanup import BaseCleanupAddon
@@ -11,8 +11,8 @@ from weblate.addons.cleanup import BaseCleanupAddon
 
 class ResxUpdateAddon(BaseCleanupAddon):
     name = "weblate.resx.update"
-    verbose = _("Update RESX files")
-    description = _(
+    verbose = gettext_lazy("Update RESX files")
+    description = gettext_lazy(
         "Update all translation files to match the monolingual upstream base file. "
         "Unused strings are removed, and new ones added as copies of the source "
         "string."
@@ -26,12 +26,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
     @staticmethod
     def build_index(storage):
-        index = {}
-
-        for unit in storage.units:
-            index[unit.getid()] = unit
-
-        return index
+        return {unit.getid(): unit for unit in storage.units}
 
     def build_indexes(self):
         index = self.build_index(self.template_store)

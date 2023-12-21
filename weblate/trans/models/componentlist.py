@@ -8,7 +8,7 @@ import re
 
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin
@@ -22,24 +22,24 @@ class ComponentListQuerySet(models.QuerySet):
 
 class ComponentList(models.Model, CacheKeyMixin):
     name = models.CharField(
-        verbose_name=_("Component list name"),
+        verbose_name=gettext_lazy("Component list name"),
         max_length=100,
         unique=True,
-        help_text=_("Display name"),
+        help_text=gettext_lazy("Display name"),
     )
 
     slug = models.SlugField(
-        verbose_name=_("URL slug"),
+        verbose_name=gettext_lazy("URL slug"),
         db_index=True,
         unique=True,
         max_length=100,
-        help_text=_("Name used in URLs and filenames."),
+        help_text=gettext_lazy("Name used in URLs and filenames."),
     )
     show_dashboard = models.BooleanField(
-        verbose_name=_("Show on dashboard"),
+        verbose_name=gettext_lazy("Show on dashboard"),
         default=True,
         db_index=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "When enabled this component list will be shown as a tab on "
             "the dashboard"
         ),
@@ -69,20 +69,24 @@ class ComponentList(models.Model, CacheKeyMixin):
 
 class AutoComponentList(models.Model):
     project_match = RegexField(
-        verbose_name=_("Project regular expression"),
+        verbose_name=gettext_lazy("Project regular expression"),
         max_length=200,
         default="^$",
-        help_text=_("Regular expression which is used to match project slug."),
+        help_text=gettext_lazy(
+            "Regular expression which is used to match project slug."
+        ),
     )
     component_match = RegexField(
-        verbose_name=_("Component regular expression"),
+        verbose_name=gettext_lazy("Component regular expression"),
         max_length=200,
         default="^$",
-        help_text=_("Regular expression which is used to match component slug."),
+        help_text=gettext_lazy(
+            "Regular expression which is used to match component slug."
+        ),
     )
     componentlist = models.ForeignKey(
         ComponentList,
-        verbose_name=_("Component list to assign"),
+        verbose_name=gettext_lazy("Component list to assign"),
         on_delete=models.deletion.CASCADE,
     )
 

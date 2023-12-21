@@ -23,7 +23,7 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v4.1.1
       with:
         submodules: true
     - uses: actions/cache@v3
@@ -33,7 +33,7 @@ jobs:
           ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     - name: Install dependencies
@@ -43,7 +43,7 @@ jobs:
     - run: ./scripts/generate-license-data
     - name: Update renovate branch
       if: github.ref != 'refs/heads/main'
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'utils: Update SPDX license data'
     - name: Create Pull Request

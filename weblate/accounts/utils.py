@@ -15,13 +15,13 @@ from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
 
 
-def remove_user(user, request):
+def remove_user(user, request, **params):
     """Remove user account."""
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
-    AuditLog.objects.create(user, request, "removed")
+    AuditLog.objects.create(user, request, "removed", **params)
 
     # Remove any email validation codes
     invalidate_reset_codes(user)

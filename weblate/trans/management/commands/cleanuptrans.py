@@ -18,7 +18,7 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "clenups orphaned checks and suggestions"
+    help = "cleanups orphaned checks and suggestions"
 
     def handle(self, *args, **options):
         """Perform cleanup of Weblate database."""

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import StoreBaseAddon
 from weblate.addons.forms import JSONCustomizeForm
@@ -10,8 +10,8 @@ from weblate.addons.forms import JSONCustomizeForm
 
 class JSONCustomizeAddon(StoreBaseAddon):
     name = "weblate.json.customize"
-    verbose = _("Customize JSON output")
-    description = _(
+    verbose = gettext_lazy("Customize JSON output")
+    description = gettext_lazy(
         "Allows adjusting JSON output behavior, for example indentation or sorting."
     )
     settings_form = JSONCustomizeForm

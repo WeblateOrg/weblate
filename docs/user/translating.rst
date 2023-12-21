@@ -27,7 +27,7 @@ Translation projects
 
 Translation projects hold related components; resources for the same software, book, or project.
 
-.. image:: /screenshots/project-overview.png
+.. image:: /screenshots/project-overview.webp
 
 .. _strings-to-check:
 
@@ -40,7 +40,7 @@ The translation is further divided into individual checks, like
 is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
-.. image:: /screenshots/strings-to-check.png
+.. image:: /screenshots/strings-to-check.webp
 
 Suggestions
 -----------
@@ -148,9 +148,9 @@ by the Unicode Consortium is a more detailed description.
 
 .. seealso::
 
-   :ref:`plural-formula`
+   :ref:`plural-definitions`
 
-.. image:: /screenshots/plurals.png
+.. image:: /screenshots/plurals.webp
 
 .. _alternative-translations:
 
@@ -268,7 +268,7 @@ The shown symbols factor into three categories:
 * Per-language characters provided by Weblate (e.g. quotes or RTL specific characters)
 * Characters configured using :setting:`SPECIAL_CHARS`
 
-.. image:: /screenshots/visual-keyboard.png
+.. image:: /screenshots/visual-keyboard.webp
 
 .. _source-context:
 
@@ -333,6 +333,8 @@ Based on configuration and your translated language, Weblate provides suggestion
 from several machine translation tools and :ref:`translation-memory`.
 All machine translations are available in a single tab of each translation page.
 
+You can also perform a concordance search on the :ref:`translation-memory`.
+
 .. seealso::
 
    You can find the list of supported tools in :ref:`machine-translation-setup`.
@@ -346,7 +348,7 @@ You can use automatic translation to bootstrap translation based on external
 sources. This tool is called :guilabel:`Automatic translation` accessible in
 the :guilabel:`Tools` menu, once you have selected a component and a language:
 
-.. image:: /screenshots/automatic-translation.png
+.. image:: /screenshots/automatic-translation.webp
 
 Two modes of operation are possible:
 

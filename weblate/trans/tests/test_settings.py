@@ -14,7 +14,7 @@ from weblate.trans.tests.utils import create_test_billing
 
 class SettingsTest(ViewTestCase):
     def test_project_denied(self):
-        url = reverse("settings", kwargs=self.kw_project)
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
         response = self.client.post(url)
@@ -23,7 +23,7 @@ class SettingsTest(ViewTestCase):
     def test_project(self):
         self.project.add_user(self.user, "Administration")
         self.project.component_set.update(license="MIT")
-        url = reverse("settings", kwargs=self.kw_project)
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
         response = self.client.get(url)
         self.assertContains(response, "Settings")
         data = response.context["form"].initial
@@ -34,10 +34,47 @@ class SettingsTest(ViewTestCase):
             Project.objects.get(pk=self.project.pk).web, "https://example.com/test/"
         )
 
+    def test_project_language_denied(self):
+        projlang = self.project.project_languages[self.translation.language]
+        url = reverse("settings", kwargs={"path": projlang.get_url_path()})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_project_language(self):
+        projlang = self.project.project_languages[self.translation.language]
+        self.assertIsNone(projlang.workflow_settings)
+        self.project.add_user(self.user, "Administration")
+        self.project.component_set.update(license="MIT")
+        url = reverse("settings", kwargs={"path": projlang.get_url_path()})
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+        response = self.client.post(
+            url,
+            {"workflow-enable": 1, "workflow-suggestion_autoaccept": 0},
+            follow=True,
+        )
+        self.assertContains(response, "Settings saved")
+        self.assertIsNotNone(
+            Project.objects.get(pk=self.project.pk)
+            .project_languages[self.translation.language]
+            .workflow_settings
+        )
+        response = self.client.post(
+            url, {"workflow-suggestion_autoaccept": 0}, follow=True
+        )
+        self.assertContains(response, "Settings saved")
+        self.assertIsNone(
+            Project.objects.get(pk=self.project.pk)
+            .project_languages[self.translation.language]
+            .workflow_settings
+        )
+
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_change_access(self):
         self.project.add_user(self.user, "Administration")
-        url = reverse("settings", kwargs=self.kw_project)
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
 
         # Get initial form data
         response = self.client.get(url)

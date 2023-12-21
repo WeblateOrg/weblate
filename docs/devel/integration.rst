@@ -72,7 +72,7 @@ you most likely have an existing workflow for developers to introduce new string
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid introducing errors.
 
-When translation files are separated from the code, there following ways can
+When translation files are separated from the code, the following ways can
 introduce new strings into Weblate.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
@@ -127,15 +127,20 @@ develop the code. You might want to introduce review of those strings using
 :ref:`source-quality-gateway`.
 
 Bilingual formats typically extract strings from the source code using some
-tooling. Follow your localization-framework documentation for instructions on
-how to do that. Once strings are extracted, an additional step might be
-needed to update existing translations, see :ref:`updating-target-files`.
+tooling (like :program:`xgettext` or :program:`intltool-update`). Follow your
+localization framework documentation for instructions how to do that. Once the
+strings are extracted, there might be an additional step needed to update
+existing translations, see :ref:`updating-target-files`.
 
 .. hint::
 
-   Integrate this into your contrinuous-integration pipelines
-   if you want new strings to appear automatically for translation.
-   Such a pipeline should also cover :ref:`avoid-merge-conflicts`.
+   Automating string extraction is presently out of scope for Weblate. It
+   typically involves executing untrusted code what makes it more suitable for
+   a generic continuous integration than localization-specific platform.
+
+   You might want to integrate this into your continuous integration pipelines
+   to make new strings automatically appear for translation. Such pipeline
+   should also cover :ref:`avoid-merge-conflicts`.
 
 .. seealso::
 
@@ -157,7 +162,7 @@ The :guilabel:`Repository maintenance` allows manipulating the repository.
    With :doc:`/admin/continuous` any changes are auto-pushed from the
    repository, and there is usually no need to manually manipulate it.
 
-.. image:: /screenshots/component-repository.png
+.. image:: /screenshots/component-repository.webp
 
 .. seealso::
 

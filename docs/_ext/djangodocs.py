@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Sphinx plugins for Weblate documentation."""
 import re
 

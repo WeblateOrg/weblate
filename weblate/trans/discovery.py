@@ -9,6 +9,7 @@ from itertools import chain
 from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.utils.translation import gettext
 
 from weblate.logger import LOGGER
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
@@ -43,6 +44,7 @@ COPY_ATTRIBUTES = (
     "edit_template",
     "manage_units",
     "variant_regex",
+    "category_id",
 )
 
 
@@ -128,9 +130,11 @@ class ComponentDiscovery:
 
                 # Calculate file mask for match
                 replacements = [(matches.start("language"), matches.end("language"))]
-                for group in matches.groupdict():
-                    if group.startswith("_language_"):
-                        replacements.append((matches.start(group), matches.end(group)))
+                replacements.extend(
+                    (matches.start(group), matches.end(group))
+                    for group in matches.groupdict()
+                    if group.startswith("_language_")
+                )
                 maskparts = []
                 maskpath = path
                 for start, end in sorted(replacements, reverse=True):
@@ -264,39 +268,38 @@ class ComponentDiscovery:
 
         return deleted
 
-    def check_valid(self, match):
-        def valid_file(name):
-            if not name:
-                return True
-            fullname = os.path.join(self.component.full_path, name)
-            return os.path.exists(fullname)
-
+    def get_skip_reason(self, match):
         # Skip matches to main component
         if match["mask"] == self.component.filemask:
-            return False
+            return gettext("File mask matches the main component.")
 
-        if not valid_file(match["base_file"]):
-            return False
+        for param in ("base_file", "new_base", "intermediate"):
+            name = match[param]
+            if not name:
+                continue
+            fullname = os.path.join(self.component.full_path, name)
+            if not os.path.exists(fullname):
+                return gettext("{filename} ({parameter}) does not exist.").format(
+                    filename=name,
+                    parameter=param,
+                )
 
-        if not valid_file(match["new_base"]):
-            return False
-
-        if not valid_file(match["intermediate"]):
-            return False
-
-        return True
+        return None
 
     def perform(self, preview=False, remove=False, background=False):
         created = []
         matched = []
         deleted = []
+        skipped = []
         processed = set()
 
         main = self.component
 
         for match in self.matched_components.values():
             # Skip invalid matches
-            if not self.check_valid(match):
+            reason = self.get_skip_reason(match)
+            if reason is not None:
+                skipped.append((match, reason))
                 continue
 
             try:
@@ -316,4 +319,4 @@ class ComponentDiscovery:
         if remove:
             deleted = self.cleanup(main, processed, preview)
 
-        return created, matched, deleted
+        return created, matched, deleted, skipped

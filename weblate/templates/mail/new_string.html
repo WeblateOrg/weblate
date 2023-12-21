@@ -3,7 +3,11 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
+{% include "mail/snippets/source-string.html" %}
+
 <div class="line buttons">
-    <a class="button" href="{{ change.get_absolute_url }}">{% trans "View" %}</a>
+    <a class="button" href="{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
 </div>
+
+{% include "mail/snippets/unit-screenshots.html" %}
 {% endblock %}

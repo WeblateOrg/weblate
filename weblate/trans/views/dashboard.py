@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import translation
 from django.utils.html import format_html
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 
 from weblate.accounts.models import Profile
@@ -79,9 +79,8 @@ def guess_user_language(request, translations):
             pass
 
     # Try getting from Accept-Language
-    language = Language.objects.get_request_language(request)
-    if language is not None:
-        return language
+    if request.accepted_language:
+        return request.accepted_language
 
     # Random language from existing translations, we do not want to list all
     # languages by default
@@ -137,7 +136,7 @@ def home(request):
     if "removed" in request.GET:
         messages.warning(
             request,
-            _(
+            gettext(
                 "The project you were looking for has been removed, "
                 "however you are welcome to contribute to other ones."
             ),
@@ -146,7 +145,7 @@ def home(request):
     if "show_set_password" in request.session:
         messages.warning(
             request,
-            _(
+            gettext(
                 "You have activated your account, now you should set "
                 "the password to be able to sign in next time."
             ),
@@ -161,7 +160,7 @@ def home(request):
             format_html(
                 '<a href="{}">{}</a>',
                 reverse("profile") + "#account",
-                _("Please set your full name and e-mail in your profile."),
+                gettext("Please set your full name and e-mail in your profile."),
             ),
         )
 

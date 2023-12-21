@@ -4,7 +4,7 @@
 
 from django.contrib import admin
 from django.contrib.admin import RelatedOnlyFieldListFilter
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.wladmin.models import WeblateModelAdmin
 
@@ -55,13 +55,13 @@ class BillingAdmin(WeblateModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("projects", "owners")
 
-    @admin.display(description=_("Projects"))
+    @admin.display(description=gettext_lazy("Projects"))
     def list_projects(self, obj):
         if not obj.all_projects:
             return "none projects associated"
         return ",".join(project.name for project in obj.all_projects)
 
-    @admin.display(description=_("Owners"))
+    @admin.display(description=gettext_lazy("Owners"))
     def list_owners(self, obj):
         return ",".join(owner.full_name for owner in obj.owners.all())
 

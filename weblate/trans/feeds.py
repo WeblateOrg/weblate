@@ -6,11 +6,12 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.lang.models import Language
-from weblate.trans.models import Change
-from weblate.utils.views import get_component, get_project, get_translation
+from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.utils.stats import ProjectLanguage
+from weblate.utils.views import parse_path
 
 
 class ChangesFeed(Feed):
@@ -20,10 +21,12 @@ class ChangesFeed(Feed):
         return request.user
 
     def title(self):
-        return _("Recent changes in %s") % settings.SITE_TITLE
+        return gettext("Recent changes in %s") % settings.SITE_TITLE
 
     def description(self):
-        return _("All recent changes made using Weblate in %s.") % (settings.SITE_TITLE)
+        return gettext("All recent changes made using Weblate in %s.") % (
+            settings.SITE_TITLE
+        )
 
     def link(self):
         return reverse("home")
@@ -47,34 +50,24 @@ class ChangesFeed(Feed):
 class TranslationChangesFeed(ChangesFeed):
     """RSS feed for changes in translation."""
 
-    def get_object(self, request, project, component, lang):
-        return get_translation(request, project, component, lang)
+    def get_object(self, request, path):
+        return parse_path(
+            request,
+            path,
+            (Translation, Component, Project, Language, Unit, ProjectLanguage),
+        )
 
     def title(self, obj):
-        return _("Recent changes in %s") % obj
+        return gettext("Recent changes in %s") % obj
 
     def description(self, obj):
-        return _("All recent changes made using Weblate in %s.") % obj
+        return gettext("All recent changes made using Weblate in %s.") % obj
 
     def link(self, obj):
         return obj.get_absolute_url()
 
     def items(self, obj):
         return obj.change_set.prefetch().order()[:10]
-
-
-class ComponentChangesFeed(TranslationChangesFeed):
-    """RSS feed for changes in component."""
-
-    def get_object(self, request, project, component):
-        return get_component(request, project, component)
-
-
-class ProjectChangesFeed(TranslationChangesFeed):
-    """RSS feed for changes in project."""
-
-    def get_object(self, request, project):
-        return get_project(request, project)
 
 
 class LanguageChangesFeed(TranslationChangesFeed):

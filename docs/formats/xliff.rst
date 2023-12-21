@@ -6,6 +6,10 @@ XLIFF
 .. index::
     pair: XLIFF; file format
 
+.. note::
+
+   Weblate currently supports XLIFF 1.2. XLIFF 2.0 is not supported and is not backwards compatible with XLIFF 1.2.
+
 XML-based format created to standardize translation files, but in the end it
 is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
@@ -13,11 +17,11 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
 Weblate supports XLIFF in several variants:
 
-`XLIFF translation file`
+`XLIFF 1.2 translation file`
    Simple XLIFF file where content of the elements is stored as plain text (all XML elements being escaped).
-`XLIFF with placeables support`
+`XLIFF 1.2 with placeables support`
    Standard XLIFF supporting placeables and other XML elements.
-`XLIFF with gettext extensions`
+`XLIFF 1.2 with gettext extensions`
    XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
 
 
@@ -26,7 +30,7 @@ Weblate supports XLIFF in several variants:
     `XML Localization Interchange File Format (XLIFF)`_ specification,
     `XLIFF 1.2 Representation Guide for Gettext PO`_,
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
-    :doc:`tt:formats/xliff`,
+    :doc:`tt:formats/xliff`
 
 .. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
 .. _XLIFF 1.2 Representation Guide for Gettext PO: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-po/xliff-profile-po-1.2-cd02.html
@@ -34,10 +38,6 @@ Weblate supports XLIFF in several variants:
 
 Translation states
 +++++++++++++++++++
-
-.. versionchanged:: 3.3
-
-   Weblate ignored the ``state`` attribute prior to the 3.3 release.
 
 The ``state`` attribute in the file is partially processed and mapped to the
 "Needs edit" state in Weblate (the following states are used to flag the string as
@@ -125,6 +125,14 @@ unit making it more suitable for Weblate to display instead of ``id``. The
 ``resname`` has to be unique in the whole XLIFF file. This is required by
 Weblate and is not covered by the XLIFF standard - it does not put any
 uniqueness restrictions on this attribute.
+
+Example files
++++++++++++++
+
+Example XLIFF file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.xliff
+    :language: xml
 
 Weblate configuration
 +++++++++++++++++++++

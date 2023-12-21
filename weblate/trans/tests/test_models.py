@@ -249,6 +249,8 @@ class TranslationTest(RepoTestCase):
 class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
 
+    CREATE_GLOSSARIES: bool = True
+
     def test_slug(self):
         """Test ComponentList slug."""
         clist = ComponentList()

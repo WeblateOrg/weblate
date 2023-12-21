@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
@@ -9,6 +10,12 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="alert alert-warning" role="alert">
+  {% trans "Changing plural rules might not have a desired effect." %}
+  <a href="{% documentation "admin/languages" "plural-definitions" %}">{% trans "Please see a documentation for more info." %}</a>
+</div>
+
 
 <form method="post">
 {% csrf_token %}

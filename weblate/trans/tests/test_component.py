@@ -228,6 +228,12 @@ class ComponentTest(RepoTestCase):
         self.assertEqual(unit.source, "Hello world!\n")
         self.assertEqual(unit.target, "Hello, world!\n")
 
+    def test_component_screenshot_filemask(self):
+        component = self._create_component(
+            "json", "intermediate/*.json", screenshot_filemask="screenshots/*.png"
+        )
+        self.assertEqual(component.screenshot_filemask, "screenshots/*.png")
+
     def test_switch_json_intermediate(self):
         component = self._create_component(
             "json",
@@ -451,6 +457,10 @@ class ComponentTest(RepoTestCase):
         component.save()
         self.assertEqual(Check.objects.count(), 0)
 
+
+class AutoAddonTest(RepoTestCase):
+    CREATE_GLOSSARIES = True
+
     @override_settings(
         DEFAULT_ADDONS={
             # Invalid addon name
@@ -502,7 +512,7 @@ class ComponentDeleteTest(RepoTestCase):
         self.assertTrue(os.path.exists(component.full_path))
         component.delete()
         self.assertFalse(os.path.exists(component.full_path))
-        self.assertEqual(1, Component.objects.count())
+        self.assertEqual(0, Component.objects.count())
 
     def test_delete_link(self):
         component = self.create_link()
@@ -718,6 +728,15 @@ class ComponentValidationTest(RepoTestCase):
     def test_filemask(self):
         """Invalid mask."""
         self.component.filemask = "foo/x.po"
+        self.assertRaisesMessage(
+            ValidationError,
+            "File mask does not contain * as a language placeholder!",
+            self.component.full_clean,
+        )
+
+    def test_screenshot_filemask(self):
+        """Invalid screenshot filemask."""
+        self.component.screenshot_filemask = "foo/x.png"
         self.assertRaisesMessage(
             ValidationError,
             "File mask does not contain * as a language placeholder!",

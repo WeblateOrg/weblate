@@ -3,30 +3,22 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation
 
-from .forms import KeyURLMachineryForm
+from .forms import LibreTranslateMachineryForm
 
 
 class LibreTranslateTranslation(MachineTranslation):
     """LibreTranslate machine translation support."""
 
     name = "LibreTranslate"
-    max_score = 88
+    max_score = 89
     language_map = {
         "zh_hans": "zh",
     }
-    settings_form = KeyURLMachineryForm
+    settings_form = LibreTranslateMachineryForm
     request_timeout = 20
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "url": settings.MT_LIBRETRANSLATE_API_URL,
-            "key": settings.MT_LIBRETRANSLATE_KEY,
-        }
 
     def download_languages(self):
         response = self.request(

@@ -12,13 +12,17 @@ from .forms import KeyURLMachineryForm
 class IBMTranslation(MachineTranslation):
     """IBM Watson Language Translator support."""
 
-    name = "IBM"
+    name = "IBM Watson Language Translator"
     max_score = 88
     language_map = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
     }
     settings_form = KeyURLMachineryForm
+
+    @classmethod
+    def get_identifier(cls):
+        return "ibm"
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""

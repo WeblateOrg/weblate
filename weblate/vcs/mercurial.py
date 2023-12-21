@@ -4,18 +4,23 @@
 
 """Mercurial version control system abstraction for Weblate needs."""
 
+from __future__ import annotations
+
 import os
 import os.path
 import re
 from configparser import RawConfigParser
-from datetime import datetime
-from typing import Iterator, List, Optional
+from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.utils import format_address
-from weblate.vcs.base import Repository, RepositoryException
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.ssh import SSH_WRAPPER
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from datetime import datetime
 
 
 class HgRepository(Repository):
@@ -129,7 +134,7 @@ class HgRepository(Repository):
                 self.configure_merge()
                 try:
                     self.execute(["rebase", "-d", "remote(.)"])
-                except RepositoryException as error:
+                except RepositoryError as error:
                     # Mercurial 3.8 changed error code and output
                     if (
                         error.retcode in (1, 255)
@@ -142,7 +147,7 @@ class HgRepository(Repository):
         self.clean_revision_cache()
 
     def merge(
-        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+        self, abort: bool = False, message: str | None = None, no_ff: bool = False
     ):
         """Merge remote branch or reverts the merge."""
         if abort:
@@ -155,7 +160,7 @@ class HgRepository(Repository):
                 # Fallback to merge
                 try:
                     self.execute(["merge", "-r", "remote(.)"])
-                except RepositoryException as error:
+                except RepositoryError as error:
                     if error.retcode == 255:
                         # Nothing to merge
                         self.clean_revision_cache()
@@ -164,7 +169,7 @@ class HgRepository(Repository):
                 self.execute(["commit", "--message", "Merge"])
         self.clean_revision_cache()
 
-    def needs_commit(self, filenames: Optional[List[str]] = None):
+    def needs_commit(self, filenames: list[str] | None = None):
         """Check whether repository needs commit."""
         cmd = ["status", "--"]
         if filenames:
@@ -240,15 +245,15 @@ class HgRepository(Repository):
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError(f"Failed to parse version string: {output}")
+            raise OSError(f"Could not parse version string: {output}")
         return matches.group(1)
 
     def commit(
         self,
         message: str,
-        author: Optional[str] = None,
-        timestamp: Optional[datetime] = None,
-        files: Optional[List[str]] = None,
+        author: str | None = None,
+        timestamp: datetime | None = None,
+        files: list[str] | None = None,
     ) -> bool:
         """Create new revision."""
         # Build the commit command
@@ -264,10 +269,10 @@ class HgRepository(Repository):
             for name in files:
                 try:
                     self.execute(["add", "--", name])
-                except RepositoryException:
+                except RepositoryError:
                     try:
                         self.execute(["remove", "--", name])
-                    except RepositoryException:
+                    except RepositoryError:
                         continue
                 cmd.append(name)
 
@@ -283,7 +288,7 @@ class HgRepository(Repository):
 
         return True
 
-    def remove(self, files: List[str], message: str, author: Optional[str] = None):
+    def remove(self, files: list[str], message: str, author: str | None = None):
         """Remove files and creates new revision."""
         self.execute(["remove", "--force", "--", *files])
         self.commit(message, author)
@@ -337,7 +342,7 @@ class HgRepository(Repository):
         """Push given branch to remote repository."""
         try:
             self.execute(["push", f"--branch={self.branch}"])
-        except RepositoryException as error:
+        except RepositoryError as error:
             if error.retcode == 1:
                 # No changes found
                 return
@@ -359,15 +364,15 @@ class HgRepository(Repository):
         self.execute(["pull", f"--branch={self.branch}"])
         self.clean_revision_cache()
 
-    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
+    def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
         """Parses output with changed files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 
-    def list_changed_files(self, refspec: str) -> List:
+    def list_changed_files(self, refspec: str) -> list:
         try:
             return super().list_changed_files(refspec)
-        except RepositoryException as error:
+        except RepositoryError as error:
             if error.retcode == 255:
                 # Empty revision set
                 return []

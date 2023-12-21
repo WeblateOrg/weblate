@@ -24,3 +24,7 @@ their size minimal by doing shallow clones.
 
     Actual requirements for your installation of Weblate vary heavily based on the size of
     the translations managed in it.
+
+.. hint::
+
+   For systems with less memory than recommended, :ref:`minimal-celery` is recommended.

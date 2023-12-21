@@ -30,13 +30,14 @@ def remove_readonly(func, path, excinfo):
     else:
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
     if func in (os.open, os.lstat, os.rmdir):
-        # Failed to remove a directory
+        # Could not remove a directory
         remove_tree(path)
     else:
         func(path)
 
 
 def remove_tree(path: str, ignore_errors: bool = False):
+    # TODO: switch to onexc with Python >= 3.12
     shutil.rmtree(path, ignore_errors=ignore_errors, onerror=remove_readonly)
 
 

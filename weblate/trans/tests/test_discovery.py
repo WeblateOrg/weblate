@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from django.test.utils import override_settings
+
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.tests.test_models import RepoTestCase
 
@@ -113,22 +115,28 @@ class ComponentDiscoveryTest(RepoTestCase):
 
     def test_perform(self):
         # Preview should not create anything
-        created, matched, deleted = self.discovery.perform(preview=True)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = self.discovery.perform(preview=True)
         self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 1)
 
         # Create components
-        created, matched, deleted = self.discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = self.discovery.perform()
         self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 1)
 
         # Test second call does nothing
-        created, matched, deleted = self.discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = self.discovery.perform()
         self.assertEqual(len(created), 0)
         self.assertEqual(len(matched), 3)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 1)
 
         # Remove some files
         repository = self.component.repository
@@ -147,22 +155,30 @@ class ComponentDiscoveryTest(RepoTestCase):
         )
 
         # Test component removal preview
-        created, matched, deleted = discovery.perform(preview=True, remove=True)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform(
+                preview=True, remove=True
+            )
         self.assertEqual(len(created), 0)
         self.assertEqual(len(matched), 1)
         self.assertEqual(len(deleted), 2)
+        self.assertEqual(len(skipped), 1)
 
         # Test component removal
-        created, matched, deleted = discovery.perform(remove=True)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
         self.assertEqual(len(matched), 1)
         self.assertEqual(len(deleted), 2)
+        self.assertEqual(len(skipped), 1)
 
         # Components should be now removed
-        created, matched, deleted = discovery.perform(remove=True)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
         self.assertEqual(len(matched), 1)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 1)
 
     def test_duplicates(self):
         # Create all components with desired name po
@@ -173,10 +189,12 @@ class ComponentDiscoveryTest(RepoTestCase):
             language_regex="^(?!xx).*$",
             file_format="po",
         )
-        created, matched, deleted = discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
         self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 1)
 
     def test_multi_language(self):
         discovery = ComponentDiscovery(
@@ -186,11 +204,13 @@ class ComponentDiscoveryTest(RepoTestCase):
             name_template="{{ component }}",
             file_format="po",
         )
-        created, matched, deleted = discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
         self.assertEqual(len(created), 1)
         self.assertEqual(created[0][0]["mask"], "localization/*/component.*.po")
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 0)
 
     def test_named_group(self):
         discovery = ComponentDiscovery(
@@ -200,10 +220,12 @@ class ComponentDiscoveryTest(RepoTestCase):
             name_template="{{ path }}: {{ component }}",
             file_format="po",
         )
-        created, matched, deleted = discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
         self.assertEqual(len(created), 1)
         self.assertEqual(created[0][0]["mask"], "localization/*/component.*.po")
         self.assertEqual(created[0][0]["name"], "localization: component")
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(skipped), 0)

@@ -9,7 +9,7 @@ from django.contrib.auth.views import LogoutView
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django_celery_beat.admin import (
     ClockedSchedule,
@@ -72,8 +72,8 @@ from weblate.wladmin.models import ConfigurationError
 
 class WeblateAdminSite(AdminSite):
     login_form = AdminLoginForm
-    site_header = _("Weblate administration")
-    site_title = _("Weblate administration")
+    site_header = gettext_lazy("Weblate administration")
+    site_title = gettext_lazy("Weblate administration")
     index_template = "admin/weblate-index.html"
     enable_nav_sidebar = False
 
@@ -182,16 +182,16 @@ class WeblateAdminSite(AdminSite):
     @method_decorator(never_cache)
     def logout(self, request, extra_context=None):
         if request.method == "POST":
-            messages.info(request, _("Thank you for using Weblate."))
+            messages.info(request, gettext("Thank you for using Weblate."))
             request.current_app = self.name
             return LogoutView.as_view(next_page=reverse("admin:login"))(request)
         context = self.each_context(request)
-        context["title"] = _("Sign out")
+        context["title"] = gettext("Sign out")
         return render(request, "admin/logout-confirm.html", context)
 
     def each_context(self, request):
         result = super().each_context(request)
-        empty = [_("Object listing turned off")]
+        empty = [gettext("Object listing turned off")]
         result["empty_selectable_objects_list"] = [empty]
         result["empty_objects_list"] = empty
         result["configuration_errors"] = ConfigurationError.objects.filter(

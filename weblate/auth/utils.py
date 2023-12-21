@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from email.headerregistry import Address
-from typing import Set
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
 
 from weblate.auth.data import (
     GLOBAL_PERMISSIONS,
@@ -56,7 +58,7 @@ def migrate_permissions(model):
     model.objects.exclude(id__in=ids).delete()
 
 
-def migrate_roles(model, perm_model) -> Set[str]:
+def migrate_roles(model, perm_model) -> set[str]:
     """Create roles as defined in the data."""
     result = set()
     for role, permissions in ROLES:
@@ -83,15 +85,21 @@ def migrate_groups(model, role_model, update=False):
 
 
 def create_anonymous(model, group_model, update=True):
-    user, created = model.objects.get_or_create(
-        username=settings.ANONYMOUS_USER_NAME,
-        defaults={
-            "full_name": "Anonymous",
-            "email": "noreply@weblate.org",
-            "is_active": False,
-            "password": make_password(None),
-        },
-    )
+    try:
+        user, created = model.objects.get_or_create(
+            username=settings.ANONYMOUS_USER_NAME,
+            defaults={
+                "full_name": "Anonymous",
+                "email": "noreply@weblate.org",
+                "is_active": False,
+                "password": make_password(None),
+            },
+        )
+    except IntegrityError as error:
+        raise ValueError(
+            f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
+            "most likely because other user is using noreply@weblate.org e-mail.: {error}"
+        ) from error
     if user.is_active:
         raise ValueError(
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) already exists and is "
@@ -109,4 +117,10 @@ def create_anonymous(model, group_model, update=True):
 
 def format_address(display_name, email):
     """Format e-mail address with display name."""
-    return str(Address(display_name=display_name, addr_spec=email))
+    # While Address does quote the name following RFC 5322,
+    # git still doesn't like <> being used in the string
+    return str(
+        Address(
+            display_name=display_name.replace("<", "").replace(">", ""), addr_spec=email
+        )
+    )

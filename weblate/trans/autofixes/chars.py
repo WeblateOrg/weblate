@@ -2,8 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+import re
 
+from django.utils.translation import gettext_lazy
+
+from weblate.checks.chars import (
+    FRENCH_PUNCTUATION_FIXUP_RE,
+    FRENCH_PUNCTUATION_MISSING_RE,
+)
 from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
@@ -12,7 +18,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     """Replace trailing dots with an ellipsis."""
 
     fix_id = "end-ellipsis"
-    name = _("Trailing ellipsis")
+    name = gettext_lazy("Trailing ellipsis")
 
     def fix_single_target(self, target, source, unit):
         if source and source[-1] == "…" and target.endswith("..."):
@@ -24,7 +30,7 @@ class RemoveZeroSpace(AutoFix):
     """Remove zero width space if there is none in the source."""
 
     fix_id = "zero-width-space"
-    name = _("Zero-width space")
+    name = gettext_lazy("Zero-width space")
 
     def fix_single_target(self, target, source, unit):
         if unit.translation.language.base_code == "km":
@@ -38,7 +44,7 @@ class RemoveControlChars(AutoFix):
     """Remove control characters from the string."""
 
     fix_id = "control-chars"
-    name = _("Control characters")
+    name = gettext_lazy("Control characters")
 
     def fix_single_target(self, target, source, unit):
         result = target.translate(CONTROLCHARS_TRANS)
@@ -49,13 +55,35 @@ class DevanagariDanda(AutoFix):
     """Fixes Bangla sentence ender."""
 
     fix_id = "devanadari-danda"
-    name = _("Devanagari danda")
+    name = gettext_lazy("Devanagari danda")
 
     def fix_single_target(self, target, source, unit):
         if (
-            unit.translation.language.base_code in ("hi", "bn", "or")
+            unit.translation.language.is_base(("hi", "bn", "or"))
             and source.endswith(".")
             and target.endswith((".", "\u09F7", "|"))
         ):
             return f"{target[:-1]}\u0964", True
+        return target, False
+
+
+class PunctuationSpacing(AutoFix):
+    """Ensures French and Breton use correct punctuation spacing."""
+
+    fix_id = "punctuation-spacing"
+    name = gettext_lazy("Punctuation spacing")
+
+    def fix_single_target(self, target, source, unit):
+        if (
+            unit.translation.language.is_base(("fr", "br"))
+            and unit.translation.language.code != "fr_CA"
+            and "ignore-punctuation-spacing" not in unit.all_flags
+        ):
+            # Fix existing
+            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE, "\u202F\\2", target)
+            # Add missing
+            new_target = re.sub(
+                FRENCH_PUNCTUATION_MISSING_RE, "\\1\u202F\\2", new_target
+            )
+            return new_target, new_target != target
         return target, False

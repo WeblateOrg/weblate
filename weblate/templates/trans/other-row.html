@@ -25,16 +25,19 @@
   <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
 </td>
 <td>
-  {% format_translation item.context item.translation.component.source_language wrap=True simple=True %}
+  {% format_source_string item.context item wrap=True simple=True %}
+</td>
+<td>
+  {% format_unit_source item wrap=True simple=True %}
 </td>
 <td>
   <label for="merge_{{ item.pk }}">
-    {% format_translation item.target item.translation.language item.translation.plural simple=True %}
+    {% format_unit_target item simple=True %}
   </label>
 </td>
 <td>
   {% if item.differently_translated %}
-    {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
+    {% format_unit_target item diff=unit.target simple=True %}
   {% endif %}
 </td>
 </tr>

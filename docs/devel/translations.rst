@@ -100,12 +100,10 @@ see all variants of the string at one place.
 Automated key based variants
 ++++++++++++++++++++++++++++
 
-.. versionadded:: 3.11
-
 You can define regular expression to group the strings based on the key of
 monolingual translations in the :ref:`component`:
 
-.. image:: /screenshots/variants-settings.png
+.. image:: /screenshots/variants-settings.webp
 
 In case the :guilabel:`Key` matches the expression, the matching part is
 removed to generate root key of the variant. Then all the strings with the same
@@ -135,11 +133,11 @@ should be considered together when translating.
 The additional variant for a string can also be added using the :guilabel:`Tools` while translating
 (when :ref:`component-manage_units` is turned on):
 
-.. image:: /screenshots/glossary-tools.png
+.. image:: /screenshots/glossary-tools.webp
 
 .. note::
 
-   There the variant source string has to at most 768 characters long. This is
+   The variant source string has to be at most 768 characters long. This is a
    technical limitation due to compatibility with MySQL database.
 
 .. seealso::
@@ -152,7 +150,7 @@ Variants while translating
 
 The variant is later grouped when translating:
 
-.. image:: /screenshots/variants-translate.png
+.. image:: /screenshots/variants-translate.webp
 
 .. _labels:
 
@@ -161,7 +159,7 @@ String labels
 
 Split component translation strings into categories by text and colour in the project configuration.
 
-.. image:: /screenshots/labels.png
+.. image:: /screenshots/labels.webp
 
 .. hint::
 

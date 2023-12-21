@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -32,14 +33,14 @@
 <tbody>
 <tr>
 <th>{{ object }}</th>
-<td>{{ site_url }}{% url 'rss-project' project=object.slug %}</td>
-<td><a href="{{ site_url }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss' path=object.get_url_path %}</td>
+<td><a href="{{ site_url }}{% url 'rss' path=object.get_url_path %}">{% trans "RSS" %}</a></td>
 </tr>
 {% for component in components %}
 <tr>
 <th>{{ component }}</th>
-<td>{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}</td>
-<td><a href="{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss' path=component.get_url_path %}</td>
+<td><a href="{{ site_url }}{% url 'rss' path=component.get_url_path %}">{% trans "RSS" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -79,8 +80,8 @@
 <p>{% trans "You can fetch statistics for all translations in one component like this:" %}</p>
 
 <pre>
-curl \
-    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
+<button type="button" class="btn btn-link btn-xs pull-right" data-visibility=".auth-token" title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
+    -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
     {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=component.slug %}
 </pre>
 {% endif %}
@@ -123,9 +124,9 @@ curl \
 <p>{% trans "You pull changes from a remote repository to Weblate like this:" %}</p>
 
 <pre>
-curl \
+<button type="button" class="btn btn-link btn-xs pull-right" data-visibility=".auth-token" title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
     -d operation=pull \
-    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
+    -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
     {{ site_url }}{% url 'api:project-repository' slug=object.slug %}
 </pre>
 

@@ -24,7 +24,9 @@
       var $el = $(e.target);
       var raw = $el.parent().parent().data("raw");
 
-      $(this.$translationArea.get(raw.plural_form)).replaceValue(raw.text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -34,7 +36,9 @@
       var $el = $(e.target);
       var raw = $el.parent().parent().data("raw");
 
-      $(this.$translationArea.get(raw.plural_form)).replaceValue(raw.text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -477,7 +481,6 @@
 
       var target = $(e.currentTarget);
       var text = target.find(".target").text();
-      console.log(target);
       if (target.hasClass("warning")) {
         text = target.find(".source").text();
       }
@@ -565,15 +568,19 @@
     }
 
     renderTranslation(el, service) {
+      el.plural_forms = [el.plural_form];
       var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
           .attr("class", "target machinery-text")
           .attr("lang", this.state.lang)
           .attr("dir", this.state.dir)
-          .text(el.text),
+          .html(el.html),
       );
-      row.append($("<td/>").attr("class", "machinery-text").text(el.source));
+      row.append($("<td>").html(el.diff));
+      row.append(
+        $("<td/>").attr("class", "machinery-text").html(el.source_diff),
+      );
       row.append(service);
 
       /* Quality score as bar with the text */
@@ -681,8 +688,12 @@
             base.text == translation.text &&
             base.source == translation.source
           ) {
+            // Add plural
+            if (!base.plural_forms.includes(translation.plural_form)) {
+              base.plural_forms.push(translation.plural_form);
+            }
             // Add origin to current ones
-            var current = $this.children("td:nth-child(3)");
+            var current = $this.children("td:nth-child(4)");
             if (base.quality < translation.quality) {
               service.append("<br/>");
               service.append(current.html());

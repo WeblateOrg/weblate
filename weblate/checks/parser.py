@@ -7,15 +7,26 @@ import re
 from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
 
 
-def single_value_flag(func):
+def single_value_flag(func, validation=None):
     def parse_values(val):
         if not val:
             raise ValueError("Missing required parameter")
         if len(val) > 1:
             raise ValueError("Too many parameters")
-        return func(val[0])
+        result = func(val[0])
+        if validation is not None:
+            validation(result)
+        return result
 
     return parse_values
+
+
+def length_validation(length: int):
+    def validate_length(val):
+        if len(val) > length:
+            raise ValueError("String too long")
+
+    return validate_length
 
 
 def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
@@ -35,12 +46,9 @@ class RawQuotedString(QuotedString):
     def __init__(self, quote_char, esc_char="\\"):
         super().__init__(quote_char, esc_char=esc_char, convert_whitespace_escapes=True)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
-        self.escCharReplacePattern = (
-            re.escape(esc_char)
-            + "(["
-            + re.escape(quote_char)
-            + re.escape(esc_char)
-            + "])"
+        self.unquote_scan_re = re.compile(
+            rf"({'|'.join(re.escape(k) for k in self.ws_map)})|({re.escape(self.esc_char)}[{re.escape(quote_char)}{re.escape(esc_char)}])|(\n|.)",
+            flags=self.re_flags,
         )
 
 

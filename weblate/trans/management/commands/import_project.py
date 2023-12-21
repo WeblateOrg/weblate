@@ -17,7 +17,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.util import is_repo_link
 from weblate.utils.files import remove_tree
 from weblate.utils.management.base import BaseCommand
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 
@@ -135,13 +135,13 @@ class Command(BaseCommand):
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.full_path)
         # Make the temporary directory readable by others
-        os.chmod(workdir, 0o755)  # nosec
+        os.chmod(workdir, 0o755)  # noqa: S103, nosec
 
         # Initialize git repository
         self.logger.info("Cloning git repository...")
         try:
             gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir, branch)
-        except RepositoryException as error:
+        except RepositoryError as error:
             raise CommandError(f"Failed clone: {error}")
         self.logger.info("Updating working copy in git repository...")
         with gitrepo.lock:
@@ -197,7 +197,7 @@ class Command(BaseCommand):
                 compiled = re.compile(self.filemask)
             except re.error as error:
                 raise CommandError(
-                    f"Failed to compile regular expression {self.filemask!r}: {error}"
+                    f"Could not compile regular expression {self.filemask!r}: {error}"
                 )
             if (
                 "component" not in compiled.groupindex
@@ -310,7 +310,7 @@ class Command(BaseCommand):
                     continue
             # Pick random
             if component is None:
-                match = list(discovery.matched_components.values())[0]
+                match = next(iter(discovery.matched_components.values()))
 
         try:
             if component is None:

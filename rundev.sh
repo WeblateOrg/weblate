@@ -58,7 +58,7 @@ case $1 in
             sleep 1
             docker compose ps
             TIMEOUT=$((TIMEOUT + 1))
-            if [ $TIMEOUT -gt 60 ] ; then
+            if [ $TIMEOUT -gt 120 ] ; then
               docker compose logs
               exit 1
             fi

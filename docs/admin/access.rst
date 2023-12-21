@@ -6,12 +6,6 @@ Access control
 Weblate comes with a fine-grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
 
-.. versionchanged:: 3.0
-
-    Before Weblate 3.0, the privilege system was based on Django privilege system only,
-    but is specifically built for Weblate now. If using anything older, please consult
-    the documentation for the specific version you are using.
-
 .. _access-simple:
 
 Simple access control
@@ -59,7 +53,7 @@ You can limit user’s access to individual projects by selecting a different
 
    Only chosen users can access VCS repository.
 
-   **Choose this for projects that should not be publicly exposed at all.**
+   **Choose this for projects that should not be exposed publicly at all.**
 :guilabel:`Custom`
    Visible only to chosen users.
 
@@ -77,7 +71,7 @@ You can limit user’s access to individual projects by selecting a different
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
-.. image:: /screenshots/project-access.png
+.. image:: /screenshots/project-access.webp
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
@@ -150,7 +144,7 @@ VCS
 Billing
     Can access billing info and settings (see :ref:`billing`).
 
-.. image:: /screenshots/manage-users.png
+.. image:: /screenshots/manage-users.webp
 
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
@@ -168,26 +162,27 @@ team. This is useful in case you want to build self-governed teams.
 New user invitation
 ^^^^^^^^^^^^^^^^^^^
 
-Also, besides adding an existing user to the project, it is possible to invite
-new ones. Any new user will be created immediately, but the account will
-remain inactive until signing in with a link in the invitation sent via an e-mail.
+Adding existing users will send them invitation to confirm. With
+:setting:`REGISTRATION_OPEN` the administrator can also invite new users using
+e-mail. Invited users have to complete the registration process to get access
+to the project.
+
 It is not required to have any site-wide privileges in order to do so, access management
 permission on the project’s scope (e.g. a membership in the `Administration`
 team) would be sufficient.
 
 .. hint::
 
-   If the invited user missed the validity of the invitation, they can set their
-   password using invited e-mail address in the password reset form as the account
-   is created already.
-
-.. versionadded:: 3.11
-
-  It is possible to resend the e-mail for user invitations (invalidating any
-  previously sent invitation).
+   If the invited user missed the validity of the invitation, a new invitation
+   has to be created.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+
+.. versionchanged:: 5.0
+
+   Weblate now does not automatically create accounts or add users to the
+   teams. This is only done after confirmation from the user.
 
 .. _block-user:
 
@@ -388,6 +383,9 @@ the following rules:
   granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
+  Using huge component lists might have a performance impact, please consider
+  giving access via projects instead.
+
 - If the team specifies any :guilabel:`Components`, all the permissions given to
   the members of that team are granted for all the components attached to the
   team, and an access with no additional permissions is granted for all the
@@ -439,15 +437,16 @@ the following rules:
 Automatic team assignments
 +++++++++++++++++++++++++++
 
-On the bottom of the :guilabel:`Group` editing page in the
-:ref:`Django admin interface <admin-interface>`, you can specify
-:guilabel:`Automatic team assignments`, which is a list of regular expressions
+While editing the :guilabel:`Team`, you can specify
+:guilabel:`Automatic assignments`, which is a list of regular expressions
 used to automatically assign newly created users to a team based on their
 e-mail addresses. This assignment only happens upon account creation.
 
 The most common use-case for the feature is to assign all new users to some
-default team. In order to do so, you will probably want to keep the default
-value (``^.*$``) in the regular expression field. Another use-case for this option might be to
+default team. This behavior is used for the default `Users` and `Guest` teams
+(see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users.
+
+Another use-case for this option might be to
 give some additional privileges to employees of your company by default.
 Assuming all of them use corporate e-mail addresses on your domain, this can
 be accomplished with an expression like ``^.*@mycompany.com``.

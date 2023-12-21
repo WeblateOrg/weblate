@@ -15,8 +15,6 @@ FROM weblate/weblate:bleeding
 
 #WORKDIR /srv
 
-# TODO: put some new dependencies here
-
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
@@ -31,8 +29,6 @@ RUN if ! getent group "${GROUP_ID}"; then \
 # Following are removed during cleanup of weblate/weblate
 RUN apt-get update && apt-get install -y \
     pkg-config \
-    libleptonica-dev \
-    libtesseract-dev \
     libmariadb-dev \
     libxml2-dev \
     libffi-dev \
@@ -52,4 +48,4 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt
 # List should match weblate/weblate
-RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d
+RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime

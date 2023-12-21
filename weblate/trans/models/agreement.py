@@ -25,7 +25,7 @@ class ContributorAgreementManager(models.Manager):
 
 class ContributorAgreement(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE, db_index=False
     )
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now=True)

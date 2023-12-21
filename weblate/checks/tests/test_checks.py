@@ -7,6 +7,7 @@
 import random
 
 from django.test import SimpleTestCase
+from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
@@ -20,7 +21,14 @@ class MockLanguage(Language):
 
     def __init__(self, code="cs"):
         super().__init__(code=code)
-        self.plural = Plural(language=self)
+        # We need different language codes to have different pk
+        self.pk = -abs(hash(code))
+        try:
+            _, number, formula = languages[code]
+        except KeyError:
+            self.plural = Plural(language=self)
+        else:
+            self.plural = Plural(language=self, number=number, formula=formula)
 
 
 class MockProject:
@@ -30,6 +38,20 @@ class MockProject:
         self.id = 1
         self.use_shared_tm = True
         self.name = "MockProject"
+        self.slug = "mock"
+
+    def get_glossary_tsv_cache_key(self, source_language, language):
+        return f"project-glossary-tsv-test-{source_language.code}-{language.code}"
+
+    @property
+    def glossaries(self):
+        return []
+
+    @property
+    def glossary_automaton(self):
+        from weblate.glossary.models import get_glossary_automaton
+
+        return get_glossary_automaton(self)
 
 
 class MockComponent:
@@ -63,10 +85,18 @@ class MockUnit:
     """Mock unit object."""
 
     def __init__(
-        self, id_hash=None, flags="", code="cs", source="", note="", is_source=None
+        self,
+        id_hash=None,
+        flags="",
+        code="cs",
+        source="",
+        note="",
+        is_source=None,
+        target="",
+        context="",
     ):
         if id_hash is None:
-            id_hash = random.randint(0, 65536)
+            id_hash = random.randint(0, 65536)  # noqa: S311
         self.id_hash = id_hash
         self.flags = Flags(flags)
         self.translation = MockTranslation(code)
@@ -80,10 +110,18 @@ class MockUnit:
         self.translated = True
         self.readonly = False
         self.state = 20
+        if isinstance(target, str):
+            self.target = target
+            self.targets = [target]
+        else:
+            self.target = target[0]
+            self.targets = target
         self.note = note
         self.check_cache = {}
         self.machinery = None
         self.is_source = is_source
+        self.context = context
+        self.glossary_terms = None
 
     @property
     def all_flags(self):
@@ -91,6 +129,9 @@ class MockUnit:
 
     def get_source_plurals(self):
         return self.sources
+
+    def get_target_plurals(self):
+        return self.targets
 
     @property
     def source_string(self):

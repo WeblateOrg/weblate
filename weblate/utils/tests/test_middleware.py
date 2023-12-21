@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from unittest import TestCase
+from unittest.mock import patch
 
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
@@ -61,3 +62,17 @@ class ProxyTest(TestCase):
         request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4"
         middleware = ProxyMiddleware(self.get_response)
         self.assertEqual(middleware(request), "response")
+
+    @override_settings(
+        IP_BEHIND_REVERSE_PROXY=True,
+        IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
+        IP_PROXY_OFFSET=-1,
+    )
+    def test_proxy_invalid_last(self):
+        with patch("weblate.middleware.report_error") as mock_report_error:
+            request = HttpRequest()
+            request.META["REMOTE_ADDR"] = "1.2.3.4"
+            request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4, 1.2.3.4"
+            middleware = ProxyMiddleware(self.get_response)
+            self.assertEqual(middleware(request), "response")
+            mock_report_error.assert_not_called()

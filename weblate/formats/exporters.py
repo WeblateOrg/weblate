@@ -9,16 +9,16 @@ from itertools import chain
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
-from translate.storage.jsonl10n import JsonFile
+from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
-from translate.storage.properties import stringsfile
+from translate.storage.properties import stringsutf8file
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
@@ -58,6 +58,7 @@ class BaseExporter:
         translation=None,
         fieldnames=None,
     ):
+        self.translation = translation
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
@@ -123,7 +124,8 @@ class BaseExporter:
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
-        for location in unit.location.split():
+        for location in unit.location.split(","):
+            location = location.strip()
             if location:
                 output.addlocation(location)
 
@@ -173,12 +175,20 @@ class BaseExporter:
         if hasattr(output, "markapproved"):
             output.markapproved(unit.approved)
 
-    def get_response(self, filetemplate="{project}-{language}.{extension}"):
-        filename = filetemplate.format(
+    def get_filename(self, filetemplate: str = "{path}.{extension}"):
+        return filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
             extension=self.extension,
+            path="-".join(
+                self.translation.get_url_path()
+                if self.translation
+                else (self.project.slug, self.language.code)
+            ),
         )
+
+    def get_response(self, filetemplate: str = "{path}.{extension}"):
+        filename = self.get_filename(filetemplate)
 
         response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
         response["Content-Disposition"] = f"attachment; filename={filename}"
@@ -200,7 +210,7 @@ class PoExporter(BaseExporter):
     name = "po"
     content_type = "text/x-po"
     extension = "po"
-    verbose = _("gettext PO")
+    verbose = gettext_lazy("gettext PO")
     storage_class = pofile
 
     def store_flags(self, output, flags):
@@ -246,7 +256,7 @@ class PoXliffExporter(XMLExporter):
     content_type = "application/x-xliff+xml"
     extension = "xlf"
     set_id = True
-    verbose = _("XLIFF 1.1 with gettext extensions")
+    verbose = gettext_lazy("XLIFF 1.1 with gettext extensions")
     storage_class = PoXliffFile
 
     def store_flags(self, output, flags):
@@ -277,7 +287,7 @@ class XliffExporter(PoXliffExporter):
     content_type = "application/x-xliff+xml"
     extension = "xlf"
     set_id = True
-    verbose = _("XLIFF 1.1")
+    verbose = gettext_lazy("XLIFF 1.1")
     storage_class = xlifffile
 
 
@@ -285,7 +295,7 @@ class TBXExporter(XMLExporter):
     name = "tbx"
     content_type = "application/x-tbx"
     extension = "tbx"
-    verbose = _("TBX")
+    verbose = gettext_lazy("TBX")
     storage_class = tbxfile
 
 
@@ -293,7 +303,7 @@ class TMXExporter(XMLExporter):
     name = "tmx"
     content_type = "application/x-tmx"
     extension = "tmx"
-    verbose = _("TMX")
+    verbose = gettext_lazy("TMX")
     storage_class = tmxfile
 
 
@@ -301,7 +311,7 @@ class MoExporter(PoExporter):
     name = "mo"
     content_type = "application/x-gettext-catalog"
     extension = "mo"
-    verbose = _("gettext MO")
+    verbose = gettext_lazy("gettext MO")
     storage_class = mofile
 
     def __init__(
@@ -375,7 +385,7 @@ class CSVExporter(CVSBaseExporter):
     name = "csv"
     content_type = "text/csv"
     extension = "csv"
-    verbose = _("CSV")
+    verbose = gettext_lazy("CSV")
 
     def string_filter(self, text):
         """
@@ -397,7 +407,7 @@ class XlsxExporter(XMLFilterMixin, CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"
-    verbose = _("XLSX")
+    verbose = gettext_lazy("XLSX")
 
     def serialize(self):
         """Return storage content."""
@@ -423,7 +433,13 @@ class JSONExporter(MonolingualExporter):
     name = "json"
     content_type = "application/json"
     extension = "json"
-    verbose = _("JSON")
+    verbose = gettext_lazy("JSON")
+
+
+class JSONNestedExporter(JSONExporter):
+    name = "json-nested"
+    verbose = gettext_lazy("JSON nested structure file")
+    storage_class = JsonNestedFile
 
 
 class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
@@ -431,7 +447,7 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
     name = "aresource"
     content_type = "application/xml"
     extension = "xml"
-    verbose = _("Android String Resource")
+    verbose = gettext_lazy("Android String Resource")
 
     def add(self, unit, word):
         # Need to have storage to handle plurals
@@ -448,11 +464,11 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
 
 class StringsExporter(MonolingualExporter):
-    storage_class = stringsfile
+    storage_class = stringsutf8file
     name = "strings"
     content_type = "text/plain"
     extension = "strings"
-    verbose = _("iOS strings")
+    verbose = gettext_lazy("iOS strings")
 
     def create_unit(self, source):
         return self.storage.UnitClass(source, self.storage.personality.name)

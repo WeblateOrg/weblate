@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from operator import itemgetter
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
@@ -10,9 +12,9 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
-from weblate.trans.models.change import Change
-from weblate.trans.util import redirect_param
-from weblate.utils.views import get_component, get_project, show_form_errors
+from weblate.trans.models import Change, Component, Project
+from weblate.trans.util import count_words, redirect_param
+from weblate.utils.views import parse_path, show_form_errors
 
 # Header, two longer fields for name and email, shorter fields for numbers
 RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)
@@ -48,25 +50,23 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
         )
         if not authors:
             continue
-        result.append({language.name: sorted(authors, key=lambda item: item[2])})
+        result.append({language.name: sorted(authors, key=itemgetter(2))})
 
     return result
 
 
 @login_required
 @require_POST
-def get_credits(request, project=None, component=None):
+def get_credits(request, path=None):
     """View for credits."""
-    if project is None:
-        obj = None
+    obj = parse_path(request, path, (Component, Project, None))
+    if obj is None:
         kwargs = {"translation__isnull": False}
         scope = {}
-    elif component is None:
-        obj = get_project(request, project)
+    elif isinstance(obj, Project):
         kwargs = {"translation__component__project": obj}
         scope = {"project": obj}
     else:
-        obj = get_component(request, project, component)
         kwargs = {"translation__component": obj}
         scope = {"component": obj}
 
@@ -172,7 +172,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
     base = Change.objects.content().filter(unit__isnull=False)
     base = base.filter(author=user) if user else base.filter(author__isnull=False)
     if language_code:
-        Change.objects.filter(language__code=language_code)
+        base = base.filter(language__code=language_code)
 
     changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
@@ -189,7 +189,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
-        tgt_words = len(change.target.split())
+        tgt_words = count_words(change.target)
         edits = change.get_distance()
 
         current["chars"] += src_chars
@@ -213,16 +213,14 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
 
 @login_required
 @require_POST
-def get_counts(request, project=None, component=None):
+def get_counts(request, path=None):
     """View for work counts."""
-    if project is None:
-        obj = None
+    obj = parse_path(request, path, (Component, Project, None))
+    if obj is None:
         kwargs = {}
-    elif component is None:
-        obj = get_project(request, project)
+    elif isinstance(obj, Project):
         kwargs = {"project": obj}
     else:
-        obj = get_component(request, project, component)
         kwargs = {"component": obj}
 
     form = ReportsForm(kwargs, request.POST)

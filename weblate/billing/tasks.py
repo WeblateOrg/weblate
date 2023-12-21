@@ -8,7 +8,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing
@@ -79,12 +79,12 @@ def notify_expired():
         if bill.state == Billing.STATE_ACTIVE and bill.check_payment_status(now=True):
             continue
         if bill.plan.price:
-            note = _(
+            note = gettext(
                 "You will stop receiving this notification once "
                 "you pay the bills or the project is removed."
             )
         else:
-            note = _(
+            note = gettext(
                 "You will stop receiving this notification once "
                 "you change to regular subscription or the project is removed."
             )
@@ -114,22 +114,28 @@ def schedule_removal():
 
 
 @app.task(trail=False)
+def remove_single_billing(billing_id: int):
+    bill = Billing.objects.get(pk=billing_id)
+    for user in bill.get_notify_users():
+        send_notification_email(
+            user.profile.language,
+            [user.email],
+            "billing_expired",
+            context={"billing": bill, "final_removal": True},
+            info=bill,
+        )
+    for prj in bill.projects.iterator():
+        prj.log_warning("removing due to unpaid billing")
+        project_removal(prj.id, None)
+    bill.removal = None
+    bill.state = Billing.STATE_TERMINATED
+    bill.save()
+
+
+@app.task(trail=False)
 def perform_removal():
-    for bill in Billing.objects.filter(removal__lte=timezone.now()):
-        for user in bill.get_notify_users():
-            send_notification_email(
-                user.profile.language,
-                [user.email],
-                "billing_expired",
-                context={"billing": bill, "final_removal": True},
-                info=bill,
-            )
-        for prj in bill.projects.iterator():
-            prj.log_warning("removing due to unpaid billing")
-            project_removal(prj.id, None)
-        bill.removal = None
-        bill.state = Billing.STATE_TERMINATED
-        bill.save()
+    for bill in Billing.objects.filter(removal__lte=timezone.now()).iterator():
+        remove_single_billing.delay(bill.pk)
 
 
 @app.on_after_finalize.connect

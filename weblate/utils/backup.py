@@ -3,11 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Backup automation based on borg."""
+from __future__ import annotations
+
 import os
 import string
 import subprocess
 from random import SystemRandom
-from typing import Dict, List
 from urllib.parse import urlparse
 
 import borg
@@ -61,9 +62,11 @@ def tag_cache_dirs():
         data_dir("projectbackups"),
     ]
     # Django file based caches
-    for cache in settings.CACHES.values():
-        if cache["BACKEND"] == "django.core.cache.backends.filebased.FileBasedCache":
-            dirs.append(cache["LOCATION"])
+    dirs.extend(
+        cache["LOCATION"]
+        for cache in settings.CACHES.values()
+        if cache["BACKEND"] == "django.core.cache.backends.filebased.FileBasedCache"
+    )
 
     # Create CACHEDIR.TAG in each cache dir
     for name in dirs:
@@ -73,7 +76,7 @@ def tag_cache_dirs():
                 handle.write(CACHEDIR)
 
 
-def run_borg(cmd: List[str], env: Dict[str, str] = None) -> str:
+def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
     """Wrapper to execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
@@ -86,13 +89,13 @@ def run_borg(cmd: List[str], env: Dict[str, str] = None) -> str:
             )
         except OSError as error:
             report_error()
-            raise BackupError(f"Could not execute borg program: {error}")
+            raise BackupError(f"Could not execute borg program: {error}") from error
         except subprocess.CalledProcessError as error:
             add_breadcrumb(
                 category="backup", message="borg output", stdout=error.stdout
             )
             report_error()
-            raise BackupError(error.stdout)
+            raise BackupError(error.stdout) from error
 
 
 def initialize(location: str, passphrase: str) -> str:
@@ -124,6 +127,8 @@ def backup(location: str, passphrase: str) -> str:
         "--exclude-caches",
         "--exclude",
         "*/.config/borg",
+        "--exclude",
+        "lost+found",
         "--compression",
         "auto,zstd",
     ]

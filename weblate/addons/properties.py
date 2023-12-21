@@ -13,7 +13,7 @@ src/main/java/org/freeplane/ant/FormatTranslation.java
 
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT
@@ -127,8 +127,8 @@ def format_file(filename):
 class PropertiesSortAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.properties.sort"
-    verbose = _("Format the Java properties file")
-    description = _("Formats and sorts the Java properties file.")
+    verbose = gettext_lazy("Format the Java properties file")
+    description = gettext_lazy("Formats and sorts the Java properties file.")
     compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
     icon = "sort-alphabetical.svg"
 

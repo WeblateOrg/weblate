@@ -9,6 +9,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin import ModelAdmin
 from django.core.cache import cache
+from django.core.checks import run_checks
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -29,6 +30,7 @@ from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
+from weblate.utils.validators import validate_backup_path
 from weblate.vcs.ssh import ensure_ssh_key
 
 
@@ -46,11 +48,60 @@ class WeblateModelAdmin(ModelAdmin):
     delete_selected_confirmation_template = "wladmin/delete_selected_confirmation.html"
 
 
+class ConfigurationErrorManager(models.Manager):
+    def configuration_health_check(self, checks=None):
+        # Run deployment checks if needed
+        if checks is None:
+            checks = run_checks(include_deployment_checks=True)
+        checks_dict = {check.id: check for check in checks}
+        criticals = {
+            "weblate.E002",
+            "weblate.E003",
+            "weblate.E007",
+            "weblate.E009",
+            "weblate.E012",
+            "weblate.E013",
+            "weblate.E014",
+            "weblate.E015",
+            "weblate.E017",
+            "weblate.E018",
+            "weblate.E019",
+            "weblate.C023",
+            "weblate.C029",
+            "weblate.C030",
+            "weblate.C031",
+            "weblate.C032",
+            "weblate.E034",
+            "weblate.C035",
+            "weblate.C036",
+        }
+        removals = []
+        existing = {error.name: error for error in self.all()}
+
+        for check_id in criticals:
+            if check_id in checks_dict:
+                check = checks_dict[check_id]
+                if check_id in existing:
+                    error = existing[check_id]
+                    if error.message != check.msg:
+                        error.message = check.msg
+                        error.save(update_fields=["message"])
+                else:
+                    self.create(name=check_id, message=check.msg)
+            elif check_id in existing:
+                removals.append(check_id)
+
+        if removals:
+            self.filter(name__in=removals).delete()
+
+
 class ConfigurationError(models.Model):
     name = models.CharField(unique=True, max_length=150)
     message = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now)
     ignored = models.BooleanField(default=False, db_index=True)
+
+    objects = ConfigurationErrorManager()
 
     class Meta:
         indexes = [
@@ -149,12 +200,14 @@ class SupportStatus(models.Model):
         stats = GlobalStats()
         current_values = {
             "hosted_words": stats.all_words,
+            "hosted_strings": stats.all,
             "source_strings": stats.source_strings,
             "projects": Project.objects.count(),
             "languages": stats.languages,
         }
         names = {
             "hosted_words": gettext_lazy("Hosted words"),
+            "hosted_strings": gettext_lazy("Hosted strings"),
             "source_strings": gettext_lazy("Source strings"),
             "projects": gettext_lazy("Projects"),
             "languages": gettext_lazy("Languages"),
@@ -185,6 +238,7 @@ class BackupService(models.Model):
             "or user@host:/path/to/repo "
             "or ssh://user@host:port/path/to/backups for remote SSH backups."
         ),
+        validators=[validate_backup_path],
     )
     enabled = models.BooleanField(default=True)
     timestamp = models.DateTimeField(default=timezone.now)

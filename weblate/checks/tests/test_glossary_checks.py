@@ -10,6 +10,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 class GlossaryCheckTest(ViewTestCase):
     check = GlossaryCheck()
+    CREATE_GLOSSARIES = True
 
     def setUp(self):
         super().setUp()

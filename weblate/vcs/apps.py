@@ -5,14 +5,14 @@
 import os
 
 from django.apps import AppConfig
-from django.core.checks import Critical, Warning, register
+from django.core.checks import Warning, register
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.ssh import ensure_ssh_key
 
@@ -42,26 +42,21 @@ def check_vcs(app_configs, **kwargs):
     ]
 
 
-def check_vcs_deprecated(app_configs, **kwargs):
-    from weblate.vcs.models import VCS_REGISTRY
-
-    return [
-        weblate_check(
-            f"weblate.C040.{key}",
-            f"{key} uses not supported configuration, please switch "
-            f"to {cls.identifier.upper()}_CREDENTIALS",
-            Critical,
-        )
-        for key, cls in VCS_REGISTRY.items()
-        if cls.uses_deprecated_setting()
-    ]
-
-
 def check_git(app_configs, **kwargs):
     template = "Failure in configuring Git: {}"
     return [
         weblate_check("weblate.C035", template.format(message))
         for message in GIT_ERRORS
+    ]
+
+
+def check_vcs_credentials(app_configs, **kwargs):
+    from weblate.vcs.models import VCS_REGISTRY
+
+    return [
+        weblate_check("weblate.C040", error)
+        for instance in VCS_REGISTRY.values()
+        for error in instance.validate_configuration()
     ]
 
 
@@ -73,9 +68,9 @@ class VCSConfig(AppConfig):
     def ready(self):
         super().ready()
         register(check_vcs)
-        register(check_vcs_deprecated)
         register(check_git, deploy=True)
         register(check_gpg, deploy=True)
+        register(check_vcs_credentials)
 
         home = data_dir("home")
         if not os.path.exists(home):
@@ -96,12 +91,12 @@ class VCSConfig(AppConfig):
         with lockfile:
             try:
                 GitRepository.global_setup()
-            except RepositoryException as error:
+            except RepositoryError as error:
                 GIT_ERRORS.append(str(error))
             if SubversionRepository.is_supported():
                 try:
                     SubversionRepository.global_setup()
-                except RepositoryException as error:
+                except RepositoryError as error:
                     GIT_ERRORS.append(str(error))
 
         # Use it for *.po by default

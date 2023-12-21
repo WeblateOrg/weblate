@@ -15,21 +15,30 @@ class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
 
     def test_view_widgets(self):
-        response = self.client.get(reverse("widgets", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("widgets", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertContains(response, "Test")
 
     def test_view_widgets_lang(self):
         response = self.client.get(
-            reverse("widgets", kwargs=self.kw_project), {"lang": "cs"}
+            reverse("widgets", kwargs={"path": self.project.get_url_path()}),
+            {"lang": "cs"},
         )
         self.assertContains(response, "Test")
 
     def test_view_engage(self):
-        response = self.client.get(reverse("engage", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("engage", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertContains(response, "Test")
 
     def test_view_engage_lang(self):
-        response = self.client.get(reverse("engage", kwargs=self.kw_lang_project))
+        response = self.client.get(
+            reverse(
+                "engage", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
+            )
+        )
         self.assertContains(response, "Test")
 
     def test_site_og(self):
@@ -54,12 +63,7 @@ class WidgetsMeta(type):
 
 class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
     def assert_widget(self, widget, response):
-        if hasattr(WIDGETS[widget], "redirect"):
-            if hasattr(response, "redirect_chain"):
-                self.assertEqual(response.redirect_chain[0][1], 301)
-            else:
-                self.assertEqual(response.status_code, 301)
-        elif "svg" in WIDGETS[widget].content_type:
+        if "svg" in WIDGETS[widget].content_type:
             self.assert_svg(response)
         else:
             self.assert_png(response)
@@ -69,7 +73,7 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": self.project.slug,
+                    "path": self.project.get_url_path(),
                     "widget": widget,
                     "color": color,
                     "extension": WIDGETS[widget].extension,
@@ -85,13 +89,14 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
         for translated in (0, 3, 4):
             # Fake translated stats
             for translation in Translation.objects.iterator():
+                translation.stats.ensure_loaded()
                 translation.stats.store("translated", translated)
                 translation.stats.save()
             response = self.client.get(
                 reverse(
                     "widget-image",
                     kwargs={
-                        "project": self.project.slug,
+                        "path": self.project.get_url_path(),
                         "widget": widget,
                         "color": color,
                         "extension": WIDGETS[widget].extension,
@@ -108,8 +113,7 @@ class WidgetsComponentRenderTest(WidgetsRenderTest):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": self.project.slug,
-                    "component": self.component.slug,
+                    "path": self.component.get_url_path(),
                     "widget": widget,
                     "color": color,
                     "extension": WIDGETS[widget].extension,
@@ -126,10 +130,9 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": self.project.slug,
+                    "path": [*self.project.get_url_path(), "-", "cs"],
                     "widget": widget,
                     "color": color,
-                    "lang": "cs",
                     "extension": WIDGETS[widget].extension,
                 },
             )
@@ -144,7 +147,7 @@ class WidgetsRedirectRenderTest(WidgetsRenderTest):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": self.project.slug,
+                    "path": self.project.get_url_path(),
                     "widget": widget,
                     "color": color,
                     "extension": "svg",
@@ -162,10 +165,9 @@ class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": self.project.slug,
+                    "path": [*self.project.get_url_path(), "-", "cs"],
                     "widget": widget,
                     "color": color,
-                    "lang": "cs",
                     "extension": "svg",
                 },
             ),

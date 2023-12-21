@@ -136,7 +136,7 @@ function screenshotFailure() {
 }
 
 function screenshotAddString() {
-  var pk = $(this).data("pk");
+  var pk = this.getAttribute("data-pk");
   var form = $("#screenshot-add-form");
 
   $("#add-source").val(pk);
@@ -157,7 +157,7 @@ function screenshotAddString() {
   });
 }
 
-function screnshotResultError(severity, message) {
+function screenshotResultError(severity, message) {
   $("#search-results tbody.unit-listing-body").html(
     $("<tr/>")
       .addClass(severity)
@@ -168,9 +168,9 @@ function screnshotResultError(severity, message) {
 function screenshotLoaded(data) {
   decreaseLoading("screenshots");
   if (data.responseCode !== 200) {
-    screnshotResultError("danger", gettext("Error loading search results!"));
+    screenshotResultError("danger", gettext("Error loading search results!"));
   } else if (data.results.length === 0) {
-    screnshotResultError(
+    screenshotResultError(
       "warning",
       gettext("No new matching source strings found."),
     );
@@ -185,8 +185,8 @@ function isNumber(n) {
 }
 
 function extractText(cell) {
-  var value = $(cell).data("value");
-  if (typeof value !== "undefined") {
+  var value = cell.getAttribute("data-value");
+  if (value !== null) {
     return value;
   }
   return $.text(cell);
@@ -379,6 +379,9 @@ function initHighlight(root) {
     if (editor.readOnly) {
       highlight.classList.add("readonly");
     }
+    if (editor.disabled) {
+      highlight.classList.add("disabled");
+    }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
       highlight.setAttribute("dir", editor.getAttribute("dir"));
@@ -402,7 +405,7 @@ function initHighlight(root) {
       let whitespace_regex = new RegExp(
         [
           "  +|(^) +| +(?=$)| +\n|\n +|\t|",
-          "\u00A0|\u1680|\u2000|\u2001|",
+          "\u00A0|\u00AD|\u1680|\u2000|\u2001|",
           "\u2002|\u2003|\u2004|\u2005|",
           "\u2006|\u2007|\u2008|\u2009|",
           "\u200A|\u202F|\u205F|\u3000",
@@ -584,13 +587,15 @@ $(function () {
     var $this = $(this);
     var $form = $("#link-post");
 
-    if ($this.data("action")) {
+    var action = this.getAttribute("data-action");
+
+    if (action) {
       $.ajax({
         type: "POST",
-        url: $this.data("action"),
+        url: action,
         data: {
           csrfmiddlewaretoken: $form.find("input").val(),
-          id: $this.data("id"),
+          id: this.getAttribute("data-id"),
         },
         error: function (jqXHR, textStatus, errorThrown) {
           addAlert(errorThrown);
@@ -657,9 +662,9 @@ $(function () {
     $("#screenshotModal").text($this.attr("title"));
 
     var detailsLink = $("#modalDetailsLink");
-    detailsLink.attr("href", $this.data("details-url"));
-    if ($this.data("can-edit")) {
-      detailsLink.text(detailsLink.data("edit-text"));
+    detailsLink.attr("href", this.getAttribute("data-details-url"));
+    if (this.getAttribute("data-can-edit")) {
+      detailsLink.text(detailsLink.getAttribute("data-edit-text"));
     }
 
     $("#imagemodal").modal("show");
@@ -672,7 +677,7 @@ $(function () {
     screenshotStart();
     $.ajax({
       type: "POST",
-      url: $this.data("href"),
+      url: this.getAttribute("data-href"),
       data: $this.parent().serialize(),
       dataType: "json",
       success: screenshotLoaded,
@@ -927,7 +932,7 @@ $(function () {
       $("#position-input").show();
       $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
-      document.removeEventListener("click", clickedOutsideEditableInput);
+      document.emoveEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
     }
   };
@@ -1152,24 +1157,156 @@ $(function () {
     }
   });
 
+  /* Notifications removal */
+  document
+    .querySelectorAll(".nav-pills > li > a > button.close")
+    .forEach((button) => {
+      button.addEventListener("click", (e) => {
+        let link = button.parentElement;
+        document
+          .querySelectorAll(link.getAttribute("href") + " select")
+          .forEach((select) => select.remove());
+        //      document.getElementById(link.getAttribute("href").substring(1)).remove();
+        link.parentElement.remove();
+        /* Activate watched tab */
+        $("a[href='#notifications__1']").tab("show");
+        addAlert(
+          gettext(
+            "Notification settings removed, please do not forget to save the changes.",
+          ),
+          "info",
+        );
+      });
+    });
+
+  /* User autocomplete */
+  document
+    .querySelectorAll(".user-autocomplete")
+    .forEach((autoCompleteInput) => {
+      let autoCompleteJS = new autoComplete({
+        selector: () => {
+          return autoCompleteInput;
+        },
+        debounce: 300,
+        resultsList: {
+          class: "autoComplete dropdown-menu",
+        },
+        resultItem: {
+          class: "autoComplete_result",
+          element: (item, data) => {
+            item.textContent = "";
+            let child = document.createElement("a");
+            child.textContent = data.value.full_name;
+            item.appendChild(child);
+          },
+          selected: "autoComplete_selected",
+        },
+        data: {
+          keys: ["username"],
+          src: async (query) => {
+            try {
+              // Fetch Data from external Source
+              const source = await fetch(`/api/users/?username=${query}`);
+              // Data should be an array of `Objects` or `Strings`
+              const data = await source.json();
+              return data.results.map((user) => {
+                return {
+                  username: user.username,
+                  full_name: `${user.full_name} (${user.username})`,
+                };
+              });
+            } catch (error) {
+              return error;
+            }
+          },
+        },
+        events: {
+          input: {
+            focus() {
+              if (autoCompleteInput.value.length) autoCompleteJS.start();
+            },
+            selection(event) {
+              const feedback = event.detail;
+              autoCompleteInput.blur();
+              const selection =
+                feedback.selection.value[feedback.selection.key];
+              autoCompleteInput.value = selection;
+            },
+          },
+        },
+      });
+    });
+
+  /* Site-wide search */
+  let siteSearch = new autoComplete({
+    /*name: "sitewide-search",*/
+    selector: "#sitewide-search",
+    debounce: 300,
+    resultsList: {
+      class: "autoComplete dropdown-menu",
+    },
+    resultItem: {
+      class: "autoComplete_result",
+      element: (item, data) => {
+        item.textContent = "";
+        let child = document.createElement("a");
+        child.setAttribute("href", data.value.url);
+        child.textContent = `${data.value.name} `;
+        let category = document.createElement("span");
+        category.setAttribute("class", "badge");
+        category.textContent = data.value.category;
+        child.appendChild(category);
+        item.appendChild(child);
+      },
+      selected: "autoComplete_selected",
+    },
+    data: {
+      keys: ["name"],
+      src: async (query) => {
+        try {
+          const source = await fetch(`/api/search/?q=${query}`);
+          const data = await source.json();
+          return data;
+        } catch (error) {
+          return error;
+        }
+      },
+    },
+    events: {
+      input: {
+        focus() {
+          if (siteSearch.input.value.length) siteSearch.start();
+        },
+      },
+    },
+  });
+
+  document.querySelectorAll("[data-visibility]").forEach((toggle) => {
+    toggle.addEventListener("click", (event) => {
+      document
+        .querySelectorAll(toggle.getAttribute("data-visibility"))
+        .forEach((element) => {
+          element.classList.toggle("visible");
+        });
+    });
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
-    "%c" +
-      pgettext("Alert to user when opening browser developer console", "Stop!"),
+    "%c%s",
     "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
+    pgettext("Alert to user when opening browser developer console", "Stop!"),
   );
   console.log(
-    "%c" +
-      gettext(
-        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
-      ),
+    "%c%s",
     "font-size: 20px; font-family: sans-serif",
+    gettext(
+      "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
+    ),
   );
   console.log(
-    "%c" +
-      gettext(
-        "See https://en.wikipedia.org/wiki/Self-XSS for more information.",
-      ),
+    "%c%s",
     "font-size: 20px; font-family: sans-serif",
+    gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
 });

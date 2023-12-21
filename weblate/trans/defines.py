@@ -26,3 +26,11 @@ EMAIL_LENGTH = 190
 # Language
 LANGUAGE_CODE_LENGTH = 50
 LANGUAGE_NAME_LENGTH = 100
+
+# Variant
+VARIANT_REGEX_LENGTH = 190
+# Needed for unique index on MySQL
+VARIANT_KEY_LENGTH = 576
+
+# Maximal categories depth
+CATEGORY_DEPTH = 3

@@ -22,5 +22,6 @@ class TranslationChecklist(list):
                 getattr(stats, name),
                 level,
                 getattr(stats, f"{name}_words"),
+                getattr(stats, f"{name}_chars"),
             )
         )

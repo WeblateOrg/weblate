@@ -1,28 +1,29 @@
 #!/bin/bash
-#
-# Three-way merge driver for PO files, runs on multiple CPUs where possible
-#
+
 # Copyright Marco Ciampa
 # Copyright Mikko Rantalainen <mikko.rantalainen@iki.fi>
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: MIT
+
+#
+# Three-way merge driver for PO files, runs on multiple CPUs where possible
 #
 # Original source:
 # https://stackoverflow.com/a/68799310
 # https://stackoverflow.com/a/29535676/334451
 # https://github.com/mezis/git-whistles/blob/fef61bd7abbc0e69c9ad021aa6dee3889db180f4/libexec/git-merge-po.sh
 #
-# Install with
+# This merge driver is now automatically installed for all Weblate cloned
+# repositories.
+#
+# For use outside of Weblate install with
 # git config merge.merge-po-files.driver "./bin/merge-po-files %O %A %B %P"
 #
 # Note that you also need file `.gitattributes` with following lines:
 #
 # [attr]POFILE merge=merge-po-files
 # locale/*.po POFILE
-#
-# This merge driver is now automatically installed for all Weblate internal
-# repositories.
 #
 ##########################################################################
 # CONFIG:

@@ -4,8 +4,9 @@
 
 """Tests for notitifications."""
 
+from __future__ import annotations
+
 from copy import deepcopy
-from typing import List, Optional
 
 from django.conf import settings
 from django.core import mail
@@ -83,7 +84,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
     def validate_notifications(
-        self, count, subject: Optional[str] = None, subjects: Optional[List[str]] = None
+        self, count, subject: str | None = None, subjects: list[str] | None = None
     ):
         for i, message in enumerate(mail.outbox):
             self.assertNotIn("TEMPLATE_BUG", message.subject)
@@ -194,25 +195,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
 
     def test_notify_new_string(self):
-        Change.objects.create(
-            translation=self.get_translation(), action=Change.ACTION_NEW_STRING
-        )
+        Change.objects.create(unit=self.get_unit(), action=Change.ACTION_NEW_UNIT)
 
         # Check mail
         self.validate_notifications(
             1, "[Weblate] New string to translate in Test/Test — Czech"
-        )
-
-    def test_notify_new_strings(self):
-        Change.objects.create(
-            translation=self.get_translation(),
-            action=Change.ACTION_NEW_STRING,
-            details={"count": 10},
-        )
-
-        # Check mail
-        self.validate_notifications(
-            1, "[Weblate] New strings to translate in Test/Test — Czech"
         )
 
     def test_notify_new_translation(self):
@@ -223,8 +210,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_CHANGE,
         )
 
-        # Check mail - ChangedStringNotificaton and TranslatedStringNotificaton
-        self.validate_notifications(2, "[Weblate] New translation in Test/Test — Czech")
+        # Check mail - TranslatedStringNotificaton
+        self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
 
     def test_notify_approved_translation(self):
         Change.objects.create(
@@ -234,11 +221,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_APPROVE,
         )
 
-        # Check mail - ChangedStringNotificaton and ApprovedStringNotificaton
+        # Check mail - ApprovedStringNotificaton
         self.validate_notifications(
-            2,
+            1,
             subjects=[
-                "[Weblate] New translation in Test/Test — Czech",
                 "[Weblate] Approved translation in Test/Test — Czech",
             ],
         )
@@ -328,9 +314,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change = self.get_unit().recent_content_changes[0]
         change.user = self.anotheruser
         change.save()
-        # Notification for other user edit
-        # ChangedStringNotificaton and TranslatedStringNotificaton
-        self.assertEqual(len(mail.outbox), 2)
+        # Notification for other user edit via  TranslatedStringNotificaton
+        self.assertEqual(len(mail.outbox), 1)
         mail.outbox = []
 
     def test_notify_new_component(self):
@@ -414,7 +399,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         change=Change.ACTION_FAILED_MERGE,
-        subj="Repository failure",
+        subj="Repository operation failed",
     ):
         Subscription.objects.filter(
             frequency=FREQ_INSTANT,
@@ -446,7 +431,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.test_digest(FREQ_MONTHLY, notify_monthly)
 
     def test_digest_new_lang(self):
-        self.test_digest(change=Change.ACTION_REQUESTED_LANGUAGE, subj="New language")
+        self.test_digest(
+            change=Change.ACTION_REQUESTED_LANGUAGE,
+            subj="New language was added or requested",
+        )
 
     def test_reminder(
         self,

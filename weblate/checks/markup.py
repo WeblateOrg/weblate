@@ -2,67 +2,31 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import re
-from typing import Any, Tuple
+from __future__ import annotations
 
-import nh3
+import re
+from typing import Any
+
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.html import extract_html_tags
+from weblate.utils.html import (
+    MD_BROKEN_LINK,
+    MD_LINK,
+    MD_REFLINK,
+    MD_SYNTAX,
+    MD_SYNTAX_GROUPS,
+    HTMLSanitizer,
+)
 from weblate.utils.xml import parse_xml
 
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
 
-MD_LINK = re.compile(
-    r"""
-    (?:
-    !?                                                          # Exclamation for images
-    \[((?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]               # Link text
-    \(
-        \s*(<)?([\s\S]*?)(?(2)>)                                # URL
-        (?:\s+['"]([\s\S]*?)['"])?\s*                           # Title
-    \)
-    |
-    <(https?://[^>]+)>                                          # URL
-    |
-    <([^>]+@[^>]+\.[^>]+)>                                      # E-mail
-    )
-    """,
-    re.VERBOSE,
-)
-MD_BROKEN_LINK = re.compile(r"\] +\(")
-MD_REFLINK = re.compile(
-    r"!?\[("  # leading [
-    r"(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*"  # link text
-    r")\]\s*\[([^^\]]*)\]"  # trailing ] with optional target
-)
-MD_SYNTAX = re.compile(
-    r"""
-    (_{2})(?:[\s\S]+?)_{2}(?!_)         # __word__
-    |
-    (\*{2})(?:[\s\S]+?)\*{2}(?!\*)      # **word**
-    |
-    \b(_)(?:(?:__|[^_])+?)_\b           # _word_
-    |
-    (\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)    # *word*
-    |
-    (`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)   # `code`
-    |
-    (~~)(?=\S)(?:[\s\S]*?\S)~~          # ~~word~~
-    |
-    (<)(?:https?://[^>]+)>              # URL
-    |
-    (<)(?:[^>]+@[^>]+\.[^>]+)>          # E-mail
-    """,
-    re.VERBOSE,
-)
-MD_SYNTAX_GROUPS = 8
 
 XML_MATCH = re.compile(r"<[^>]+>")
 XML_ENTITY_MATCH = re.compile(r"&#?\w+;")
@@ -77,8 +41,8 @@ class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
 
     check_id = "bbcode"
-    name = _("BBCode markup")
-    description = _("BBCode in translation does not match source")
+    name = gettext_lazy("BBCode markup")
+    description = gettext_lazy("BBCode in translation does not match source")
 
     def check_single(self, source, target, unit):
         # Parse source
@@ -105,7 +69,7 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def detect_xml_wrapping(self, text: str) -> Tuple[Any, bool]:
+    def detect_xml_wrapping(self, text: str) -> tuple[Any, bool]:
         """Detect whether wrapping is desired."""
         try:
             return self.parse_xml(text, True), True
@@ -158,8 +122,8 @@ class XMLValidityCheck(BaseXMLCheck):
     """Check whether XML in target is valid."""
 
     check_id = "xml-invalid"
-    name = _("XML syntax")
-    description = _("The translation is not valid XML")
+    name = gettext_lazy("XML syntax")
+    description = gettext_lazy("The translation is not valid XML")
 
     def check_single(self, source, target, unit):
         # Check if source is XML
@@ -183,8 +147,8 @@ class XMLTagsCheck(BaseXMLCheck):
     """Check whether XML in target matches source."""
 
     check_id = "xml-tags"
-    name = _("XML markup")
-    description = _("XML tags in translation do not match source")
+    name = gettext_lazy("XML markup")
+    description = gettext_lazy("XML tags in translation do not match source")
 
     def check_single(self, source, target, unit):
         # Check if source is XML
@@ -211,10 +175,11 @@ class XMLTagsCheck(BaseXMLCheck):
             return []
         if not self.can_parse_xml(source):
             return []
-        ret = []
         # Include XML markup
-        for match in XML_MATCH.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
+        ret = [
+            (match.start(), match.end(), match.group())
+            for match in XML_MATCH.finditer(source)
+        ]
         # Add XML entities
         skipranges = [x[:2] for x in ret]
         skipranges.append((len(source), len(source)))
@@ -241,8 +206,8 @@ class MarkdownBaseCheck(TargetCheck):
 
 class MarkdownRefLinkCheck(MarkdownBaseCheck):
     check_id = "md-reflink"
-    name = _("Markdown references")
-    description = _("Markdown link references do not match source")
+    name = gettext_lazy("Markdown references")
+    description = gettext_lazy("Markdown link references do not match source")
 
     def check_single(self, source, target, unit):
         src_match = MD_REFLINK.findall(source)
@@ -258,8 +223,8 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
 
 class MarkdownLinkCheck(MarkdownBaseCheck):
     check_id = "md-link"
-    name = _("Markdown links")
-    description = _("Markdown links do not match source")
+    name = gettext_lazy("Markdown links")
+    description = gettext_lazy("Markdown links do not match source")
 
     def check_single(self, source, target, unit):
         src_match = MD_LINK.findall(source)
@@ -287,8 +252,8 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
 
 class MarkdownSyntaxCheck(MarkdownBaseCheck):
     check_id = "md-syntax"
-    name = _("Markdown syntax")
-    description = _("Markdown syntax does not match source")
+    name = gettext_lazy("Markdown syntax")
+    description = gettext_lazy("Markdown syntax does not match source")
 
     @staticmethod
     def extract_match(match):
@@ -320,8 +285,8 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 
 class URLCheck(TargetCheck):
     check_id = "url"
-    name = _("URL")
-    description = _("The translation does not contain an URL")
+    name = gettext_lazy("URL")
+    description = gettext_lazy("The translation does not contain an URL")
     default_disabled = True
 
     @cached_property
@@ -340,8 +305,8 @@ class URLCheck(TargetCheck):
 
 class SafeHTMLCheck(TargetCheck):
     check_id = "safe-html"
-    name = _("Unsafe HTML")
-    description = _("The translation uses unsafe HTML markup")
+    name = gettext_lazy("Unsafe HTML")
+    description = gettext_lazy("The translation uses unsafe HTML markup")
     default_disabled = True
 
     def check_single(self, source, target, unit):
@@ -349,4 +314,7 @@ class SafeHTMLCheck(TargetCheck):
         if "md-text" in unit.all_flags:
             target = MD_LINK.sub("", target)
 
-        return nh3.clean(target, link_rel=None, **extract_html_tags(source)) != target
+        sanitizer = HTMLSanitizer()
+        cleaned_target = sanitizer.clean(target, source, unit.all_flags)
+
+        return cleaned_target != target

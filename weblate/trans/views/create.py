@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic.edit import CreateView
 
 from weblate.trans.backups import ProjectBackup
@@ -33,7 +33,7 @@ from weblate.trans.forms import (
     ProjectImportCreateForm,
     ProjectImportForm,
 )
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -203,7 +203,8 @@ class CreateComponent(BaseCreateView):
     model = Component
     projects = None
     stage = None
-    selected_project = ""
+    selected_project = None
+    selected_category = None
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
     form_class = ComponentInitCreateForm
@@ -229,7 +230,7 @@ class CreateComponent(BaseCreateView):
 
     def get_success_url(self):
         return reverse(
-            "component_progress", kwargs=self.object.get_reverse_url_kwargs()
+            "component_progress", kwargs={"path": self.object.get_url_path()}
         )
 
     def warn_outdated(self, form):
@@ -239,7 +240,7 @@ class CreateComponent(BaseCreateView):
             if linked.repo_needs_merge():
                 messages.warning(
                     self.request,
-                    _(
+                    gettext(
                         "The repository is outdated, you might not get "
                         "expected results until you update it."
                     ),
@@ -269,7 +270,9 @@ class CreateComponent(BaseCreateView):
                     self.initial["license"] = license
                     messages.info(
                         self.request,
-                        _("Detected license as %s, please check whether it is correct.")
+                        gettext(
+                            "Detected license as %s, please check whether it is correct."
+                        )
                         % license,
                     )
                     return
@@ -302,7 +305,9 @@ class CreateComponent(BaseCreateView):
         form = super().get_form(form_class)
         if "project" in form.fields:
             project_field = form.fields["project"]
+            category_field = form.fields["category"]
             project_field.queryset = self.projects
+            category_field.queryset = Category.objects.filter(project__in=self.projects)
             project_field.empty_label = None
             if self.selected_project:
                 project_field.initial = self.selected_project
@@ -310,6 +315,8 @@ class CreateComponent(BaseCreateView):
                     form.fields["source_language"].initial = Component.objects.filter(
                         project=self.selected_project
                     )[0].source_language_id
+                if self.selected_category:
+                    category_field.initial = self.selected_category
         self.empty_form = False
         return form
 
@@ -325,7 +332,13 @@ class CreateComponent(BaseCreateView):
                 request.POST.get("project", request.GET.get("project", ""))
             )
         except ValueError:
-            self.selected_project = ""
+            self.selected_project = None
+        try:
+            self.selected_category = int(
+                request.POST.get("category", request.GET.get("category", ""))
+            )
+        except ValueError:
+            self.selected_category = None
         if request.user.is_superuser:
             self.projects = Project.objects.order()
         elif self.has_billing:
@@ -373,7 +386,7 @@ class CreateFromZip(CreateComponent):
         try:
             create_component_from_zip(form.cleaned_data)
         except BadZipfile:
-            form.add_error("zipfile", _("Failed to parse uploaded ZIP file."))
+            form.add_error("zipfile", gettext("Could not parse uploaded ZIP file."))
             return self.form_invalid(form)
 
         # Move to discover phase
@@ -394,7 +407,9 @@ class CreateFromDoc(CreateComponent):
         if self.stage != "init":
             return super().form_valid(form)
 
-        fake = create_component_from_doc(form.cleaned_data)
+        fake = create_component_from_doc(
+            form.cleaned_data, form.cleaned_data.pop("docfile")
+        )
 
         # Move to discover phase
         self.stage = "discover"
@@ -404,7 +419,7 @@ class CreateFromDoc(CreateComponent):
         self.initial["branch"] = "main"
         self.initial["template"] = fake.template
         self.initial["filemask"] = fake.filemask
-        self.initial.pop("docfile")
+
         self.request.method = "GET"
         return self.get(self, self.request)
 
@@ -495,7 +510,7 @@ class CreateComponentSelection(CreateComponent):
             project = form.cleaned_data["project"]
             component = project.scratch_create_component(**form.cleaned_data)
             return redirect(
-                reverse("component_progress", kwargs=component.get_reverse_url_kwargs())
+                reverse("component_progress", kwargs={"path": component.get_url_path()})
             )
         component = form.cleaned_data["component"]
         if self.origin == "existing":
@@ -511,7 +526,7 @@ class CreateComponentSelection(CreateComponent):
             form.instance.save()
             return redirect(
                 reverse(
-                    "component_progress", kwargs=form.instance.get_reverse_url_kwargs()
+                    "component_progress", kwargs={"path": form.instance.get_url_path()}
                 )
             )
 

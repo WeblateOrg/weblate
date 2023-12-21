@@ -8,8 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.lang.models import Language
 
@@ -132,6 +131,6 @@ class Announcement(models.Model):
 
     def clean(self):
         if self.project and self.component and self.component.project != self.project:
-            raise ValidationError(_("Do not specify both component and project!"))
+            raise ValidationError(gettext("Do not specify both component and project!"))
         if not self.project and self.component:
             self.project = self.component.project

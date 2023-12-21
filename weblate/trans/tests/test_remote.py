@@ -7,6 +7,7 @@ import os
 from unittest import SkipTest
 
 from django.db import transaction
+from django.test.utils import override_settings
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
@@ -56,20 +57,21 @@ class MultiRepoTest(ViewTestCase):
         if self._vcs not in VCS_REGISTRY:
             raise SkipTest(f"VCS {self._vcs} not available!")
         repo = push = self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
-        self.component2 = Component.objects.create(
-            name="Test 2",
-            slug="test-2",
-            project=self.project,
-            repo=repo,
-            push=push,
-            vcs=self._vcs,
-            filemask=self._filemask,
-            template="",
-            file_format="po",
-            repoweb=REPOWEB_URL,
-            new_base="",
-            branch=self._branch,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component2 = Component.objects.create(
+                name="Test 2",
+                slug="test-2",
+                project=self.project,
+                repo=repo,
+                push=push,
+                vcs=self._vcs,
+                filemask=self._filemask,
+                template="",
+                file_format="po",
+                repoweb=REPOWEB_URL,
+                new_base="",
+                branch=self._branch,
+            )
         self.request = self.get_request()
 
     def push_first(self, propagate=True, newtext="Nazdar svete!\n"):

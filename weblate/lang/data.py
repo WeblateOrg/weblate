@@ -44,6 +44,7 @@ ONE_OTHER_PLURALS = (
     "(n % 10 == 1 && n % 100 != 11) ? 0 : 1",
     "n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9)",
     "(n==0 || n==1)",
+    "(n%10==1 && n%100!=11 ? 0 : 1)",
 )
 
 TWO_OTHER_PLURALS = ("(n==2) ? 1 : 0",)
@@ -57,12 +58,14 @@ ONE_FEW_MANY_PLURALS = (
     "(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2)",
     "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2)",
     "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+    "((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2)",
 )
 ONE_FEW_OTHER_PLURALS = (
     "n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2",
     "(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2)",
     "(n == 0 || n == 1) ? 0 : ((n >= 2 && n <= 10) ? 1 : 2)",
     "(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && n % 100 <= 19) ? 1 : 2)",
+    "(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2)",
 )
 ZERO_ONE_FEW_OTHER_PLURALS = (
     "n == 0 ? 0 : n == 1 ? 1 : ((n >= 2 && n <= 10) ? 2 : 3)",
@@ -72,6 +75,10 @@ ZERO_ONE_FEW_OTHER_PLURALS = (
     "n==0 ? 0 : (n==1) ? 1 : (n>=2 && n<=4) ? 2 : 3",
     "n==0 ? 0 : n%10==1 && n%100!=11 ? 1 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 2 : 3",
     "n==0 ? 0 : (n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 1 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 2 : 3)",
+)
+
+ONE_ZERO_FEW_OTHER_PLURALS = (
+    "(n==1 ? 0 : (n==0 || (n%100>=1 && n%100<=10)) ? 1 : (n%100>=11 && n%100<=19) ? 2 : 3)",
 )
 
 ZERO_ONE_OTHER_PLURALS = (
@@ -85,12 +92,15 @@ ZERO_ONE_OTHER_PLURALS = (
     "n==0 ? 0 : n % 10 != 1 || n % 100 == 11 ? 1 :2",
     "n==0 ? 0 : n >= 2 && (n < 11 || n > 99) ? 1 : 2",
     "n==0 ? 0 : n%10==1 && n%100!=11 ? 1 : 2",
+    "(n==1 ? 0 : (n%10==4 || n%10==6 || n%10== 9) ? 1 : 2)",
 )
 
 ONE_TWO_OTHER_PLURALS = (
     "n==1 ? 0 : n==2 ? 1 : 2",
     "(n == 1) ? 0 : ((n == 2) ? 1 : 2)",
     "n%100==1 ? 0 : n%100==2 ? 1 : 2",
+    "(n==1 ? 0 : n==2 ? 1 : 2)",
+    "(n%100==1 ? 0 : n%100==2 ? 1 : 2)",
 )
 ZERO_ONE_TWO_OTHER_PLURALS = (
     "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : 3",
@@ -109,6 +119,7 @@ ONE_TWO_FEW_OTHER_PLURALS = (
     "(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))",
     "(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))",
     "(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3",
+    "(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)",
 )
 ZERO_ONE_TWO_FEW_OTHER_PLURALS = (
     "n==0 ? 0 : (n==1 || n==11) ? 1 : (n==2 || n==12) ? 2 : (n > 2 && n < 20) ? 3 : 4",
@@ -139,9 +150,13 @@ ONE_FEW_MANY_OTHER_PLURALS = (
 )
 ZERO_ONE_FEW_MANY_OTHER_PLURALS = (
     "n==0 ? 0 : n==1 ? 1 : ( n%100>1 && n%100<11) ? 2 : (n%100>10 && n%100<20 ) ? 3 : 4",
+    "(n==0 ? 0 : n==1 ? 1 : (n>=2 && n<=5) ? 2 : n==6 ? 3 : 4)",
 )
 
-ONE_OTHER_ZERO_PLURALS = ("n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",)
+ONE_OTHER_ZERO_PLURALS = (
+    "n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",
+    "(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2)",
+)
 
 ZERO_ONE_TWO_FEW_MANY_OTHER_PLURALS = (
     "(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5",
@@ -150,6 +165,7 @@ ZERO_ONE_TWO_FEW_MANY_OTHER_PLURALS = (
     "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : (n>2 && n<7) ? 3 :(n>6 && n<11) ? 4 : 5",
     "n==0 ? 0 : (n % 10 == 1 && n % 100 != 11 && n % 100 != 71 && n % 100 != 91) ? 1 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 && n % 100 != 92) ? 2 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && (n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 < 90 || n % 100 > 99)) ? 3 : ((n != 0 && n % 1000000 == 0) ? 4 : 5)))",
     "(n == 0) ? 0 : (n == 1) ? 1 : ((n == 2) ? 2 : ((n == 0 || n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 19) ? 4 : 5)))",
+    "(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : (n%100>=3 && n%100<=10) ? 3 : n%100>=11 ? 4 : 5)",
 )
 ONE_MANY_OTHER_PLURALS = (
     "(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2)",
@@ -185,6 +201,7 @@ PLURAL_ZERO_ONE_FEW_MANY_OTHER = 19
 PLURAL_ONE_MANY_OTHER = 20
 PLURAL_ZERO_ONE_MANY_OTHER = 21
 PLURAL_ONE_FEW_MANY = 22
+PLURAL_ONE_ZERO_FEW_OTHER = 23
 PLURAL_UNKNOWN = 666
 
 # Extra zero plural handling for stringsdict
@@ -236,6 +253,7 @@ PLURAL_MAPPINGS = (
     (nospace_set(ONE_OTHER_PLURALS), PLURAL_ONE_OTHER),
     (nospace_set(ONE_FEW_OTHER_PLURALS), PLURAL_ONE_FEW_OTHER),
     (nospace_set(ZERO_ONE_FEW_OTHER_PLURALS), PLURAL_ZERO_ONE_FEW_OTHER),
+    (nospace_set(ONE_ZERO_FEW_OTHER_PLURALS), PLURAL_ONE_ZERO_FEW_OTHER),
     (nospace_set(ONE_TWO_OTHER_PLURALS), PLURAL_ONE_TWO_OTHER),
     (nospace_set(ZERO_ONE_TWO_OTHER_PLURALS), PLURAL_ZERO_ONE_TWO_OTHER),
     (nospace_set(ONE_OTHER_TWO_PLURALS), PLURAL_ONE_OTHER_TWO),
@@ -274,6 +292,12 @@ PLURAL_NAMES = {
     PLURAL_ZERO_ONE_FEW_OTHER: (
         pgettext_lazy("Plural form description", "Zero"),
         pgettext_lazy("Plural form description", "One"),
+        pgettext_lazy("Plural form description", "Few"),
+        pgettext_lazy("Plural form description", "Other"),
+    ),
+    PLURAL_ONE_ZERO_FEW_OTHER: (
+        pgettext_lazy("Plural form description", "One"),
+        pgettext_lazy("Plural form description", "Zero"),
         pgettext_lazy("Plural form description", "Few"),
         pgettext_lazy("Plural form description", "Other"),
     ),

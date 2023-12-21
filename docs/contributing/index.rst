@@ -14,6 +14,7 @@ coding, graphics design, documentation, sponsorship, or an idea:
 * :ref:`contributing-docs`
 * :ref:`discussions`
 * :ref:`funding-weblate`
+* :doc:`communication`
 
 .. _translating-weblate:
 

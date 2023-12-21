@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import datetime
 from itertools import zip_longest
-from typing import Dict, Optional, Set
 
 from django.core.cache import cache
 from django.db import models
@@ -18,9 +19,21 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, ComponentList, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Change,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
+from weblate.utils.stats import (
+    CategoryLanguage,
+    GlobalStats,
+    ProjectLanguage,
+    prefetch_stats,
+)
 
 BASIC_KEYS = {
     "all",
@@ -76,26 +89,16 @@ METRIC_ORDER = [
 
 
 class MetricQuerySet(models.QuerySet):
-    def get_kwargs(self, scope: int, relation: int, secondary: int = 0) -> Dict:
-        """Build the query params."""
-        kwargs = {
-            "scope": scope,
-            "relation": relation,
-        }
-        if secondary:
-            # If secondary is 0 it is not used for this metric
-            kwargs["secondary"] = secondary
-        return kwargs
-
     def filter_metric(
         self, scope: int, relation: int, secondary: int = 0
-    ) -> "MetricQuerySet":
-        kwargs = self.get_kwargs(scope, relation, secondary)
-        return self.filter(**kwargs)
+    ) -> MetricQuerySet:
+        # Include secondary in the query as it is part of unique index
+        # and makes subsequent date filtering more effective.
+        return self.filter(scope=scope, relation=relation, secondary=secondary)
 
     def get_current_metric(
         self, obj, scope: int, relation: int, secondary: int = 0
-    ) -> "Metric":
+    ) -> Metric:
         today = timezone.now().date()
         yesterday = today - datetime.timedelta(days=1)
 
@@ -122,9 +125,9 @@ class MetricQuerySet(models.QuerySet):
 class MetricManager(models.Manager):
     def create_metrics(
         self,
-        data: Dict,
-        stats: Optional[Dict],
-        keys: Set,
+        data: dict,
+        stats: dict | None,
+        keys: set,
         scope: int,
         relation: int,
         secondary: int = 0,
@@ -142,7 +145,7 @@ class MetricManager(models.Manager):
         if data:
             db_data = [data.pop(name, 0) for name in METRIC_ORDER]
             if data:
-                raise ValueError(f"Usupported data: {data}")
+                raise ValueError(f"Unsupported data: {data}")
 
         metric, created = self.get_or_create(
             scope=scope,
@@ -186,14 +189,23 @@ class MetricManager(models.Manager):
         """
         if obj is None:
             changes = Change.objects.all()
-        elif isinstance(obj, (Translation, Component, Project, User)):
+        elif isinstance(
+            obj,
+            (
+                Translation,
+                Component,
+                Project,
+                User,
+                Language,
+                ProjectLanguage,
+                CategoryLanguage,
+            ),
+        ):
             changes = obj.change_set.all()
         elif isinstance(obj, ComponentList):
             changes = Change.objects.filter(component__in=obj.components.all())
-        elif isinstance(obj, ProjectLanguage):
-            changes = obj.project.change_set.filter(translation__language=obj.language)
-        elif isinstance(obj, Language):
-            changes = Change.objects.filter(translation__language=obj)
+        elif isinstance(obj, Category):
+            changes = Change.objects.for_category(obj)
         else:
             raise TypeError(f"Unsupported type for metrics: {obj!r}")
 
@@ -214,10 +226,14 @@ class MetricManager(models.Manager):
             return self.collect_component(obj)
         if isinstance(obj, Project):
             return self.collect_project(obj)
+        if isinstance(obj, Category):
+            return self.collect_category(obj)
         if isinstance(obj, ComponentList):
             return self.collect_component_list(obj)
         if isinstance(obj, ProjectLanguage):
             return self.collect_project_language(obj)
+        if isinstance(obj, CategoryLanguage):
+            return self.collect_category_language(obj)
         if isinstance(obj, Language):
             return self.collect_language(obj)
         raise ValueError(f"Unsupported type for metrics: {obj!r}")
@@ -269,6 +285,61 @@ class MetricManager(models.Manager):
             Metric.SCOPE_PROJECT_LANGUAGE,
             project.pk,
             project_language.language.pk,
+        )
+
+    def collect_category_language(self, category_language: CategoryLanguage):
+        category = category_language.category
+        changes = category.project.change_set.for_category(category).filter(
+            translation__language=category_language.language
+        )
+
+        data = {
+            "changes": changes.filter(
+                timestamp__date=timezone.now().date() - datetime.timedelta(days=1),
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+
+        return self.create_metrics(
+            data,
+            category_language.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_CATEGORY_LANGUAGE,
+            category.project.pk,
+            category_language.language.pk,
+        )
+
+    def collect_category(self, category: Category):
+        languages = prefetch_stats(
+            [CategoryLanguage(category, language) for language in category.languages]
+        )
+        for category_language in languages:
+            self.collect_category_language(category_language)
+        changes = Change.objects.for_category(category)
+        data = {
+            "components": category.component_set.count(),
+            "translations": Translation.objects.filter(
+                component__category=category
+            ).count(),
+            "changes": changes.filter(
+                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+
+        return self.create_metrics(
+            data, category.stats, SOURCE_KEYS, Metric.SCOPE_CATEGORY, category.pk
         )
 
     def collect_project(self, project: Project):
@@ -394,7 +465,7 @@ class MetricManager(models.Manager):
         return self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
     def collect_language(self, language: Language):
-        changes = Change.objects.filter(translation__language=language)
+        changes = language.change_set.all()
         data = {
             "changes": changes.filter(
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1),
@@ -426,6 +497,8 @@ class Metric(models.Model):
     SCOPE_COMPONENT_LIST = 5
     SCOPE_PROJECT_LANGUAGE = 6
     SCOPE_LANGUAGE = 7
+    SCOPE_CATEGORY = 8
+    SCOPE_CATEGORY_LANGUAGE = 9
 
     id = models.BigAutoField(primary_key=True)  # noqa: A003
     date = models.DateField(default=datetime.date.today)
@@ -438,7 +511,7 @@ class Metric(models.Model):
     objects = MetricManager.from_queryset(MetricQuerySet)()
 
     class Meta:
-        unique_together = (("date", "scope", "relation", "secondary"),)
+        unique_together = (("scope", "relation", "secondary", "date"),)
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"
 
@@ -446,7 +519,7 @@ class Metric(models.Model):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.changes} {self.data}"
 
     @cached_property
-    def dict_data(self) -> Dict:
+    def dict_data(self) -> dict:
         return dict(zip_longest(METRIC_ORDER, self.data or [], fillvalue=0))
 
     def __getitem__(self, item: str):
@@ -462,6 +535,15 @@ def create_metrics_project(sender, instance, created=False, **kwargs):
     if created:
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_PROJECT, relation=instance.pk
+        )
+
+
+@receiver(post_save, sender=Category)
+@disable_for_loaddata
+def create_metrics_category(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(
+            scope=Metric.SCOPE_CATEGORY, relation=instance.pk
         )
 
 
@@ -488,6 +570,15 @@ def create_metrics_translation(sender, instance, created=False, **kwargs):
 def create_metrics_user(sender, instance, created=False, **kwargs):
     if created:
         Metric.objects.initialize_metrics(scope=Metric.SCOPE_USER, relation=instance.pk)
+
+
+@receiver(post_delete, sender=Category)
+@disable_for_loaddata
+def delete_metrics_category(sender, instance, **kwargs):
+    Metric.objects.filter(
+        scope__in=(Metric.SCOPE_CATEGORY_LANGUAGE, Metric.SCOPE_CATEGORY),
+        relation=instance.pk,
+    ).delete()
 
 
 @receiver(post_delete, sender=Project)

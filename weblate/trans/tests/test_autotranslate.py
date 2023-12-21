@@ -6,11 +6,12 @@
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 
 
 class AutoTranslationTest(ViewTestCase):
@@ -21,19 +22,20 @@ class AutoTranslationTest(ViewTestCase):
         self.user.save()
         self.project.translation_review = True
         self.project.save()
-        self.component2 = Component.objects.create(
-            name="Test 2",
-            slug="test-2",
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs="git",
-            filemask="po/*.po",
-            template="",
-            file_format="po",
-            new_base="",
-            allow_translation_propagation=False,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component2 = Component.objects.create(
+                name="Test 2",
+                slug="test-2",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
 
     def test_none(self):
         """Test for automatic translation with no content."""
@@ -47,8 +49,8 @@ class AutoTranslationTest(ViewTestCase):
 
     def perform_auto(self, expected=1, expected_count=None, **kwargs):
         self.make_different()
-        params = {"project": "test", "lang": "cs", "component": "test-2"}
-        url = reverse("auto_translation", kwargs=params)
+        path_params = {"path": [*self.component2.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "others"
         kwargs["threshold"] = "100"
         if "filter_type" not in kwargs:
@@ -65,7 +67,7 @@ class AutoTranslationTest(ViewTestCase):
                 response, "Automatic translation completed, no strings were updated."
             )
 
-        self.assertRedirects(response, reverse("translation", kwargs=params))
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
         # Check we've translated something
         translation = self.component2.translation_set.get(language_code="cs")
         translation.invalidate_cache()
@@ -164,35 +166,26 @@ class AutoTranslationTest(ViewTestCase):
             call_command("auto_translate", "test", "test", "xxx")
 
 
-class AutoTranslationMtTest(ViewTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
     def setUp(self):
         super().setUp()
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
-        self.component3 = Component.objects.create(
-            name="Test 3",
-            slug="test-3",
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs="git",
-            filemask="po/*.po",
-            template="",
-            file_format="po",
-            new_base="",
-            allow_translation_propagation=False,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component3 = Component.objects.create(
+                name="Test 3",
+                slug="test-3",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
         self.update_fulltext_index()
         self.configure_mt()
 
@@ -207,8 +200,8 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
-        params = {"project": "test", "lang": "cs", "component": "test-3"}
-        url = reverse("auto_translation", kwargs=params)
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "mt"
         if "filter_type" not in kwargs:
             kwargs["filter_type"] = "todo"
@@ -224,7 +217,7 @@ class AutoTranslationMtTest(ViewTestCase):
                 response, "Automatic translation completed, no strings were updated."
             )
 
-        self.assertRedirects(response, reverse("translation", kwargs=params))
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
         # Check we've translated something
         translation = self.component3.translation_set.get(language_code="cs")
         translation.invalidate_cache()

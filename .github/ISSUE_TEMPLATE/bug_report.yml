@@ -10,7 +10,10 @@ body:
 - type: markdown
   attributes:
     value: |
-      Thank you for reporting an issue on Weblate! This form will guide you to create a useful issue report.
+      Thank you for reporting an issue.
+      This form guides you in creating a useful issue report.
+
+      Want your answer quickly and guaranteed? Visit https://weblate.org/support/ to reach our dedicated support team. As a subscriber, you will always have priority and help Weblate growing.
 - type: textarea
   id: what-happened
   attributes:
@@ -18,7 +21,7 @@ body:
     description: >
       A clear and concise description of the problem you are facing.
 
-      Please include important information as file format you are using or add-ons being installed.
+      Please include important information, like the file format you are using and installed add-ons.
     placeholder: Tell us what you see!
   validations:
     required: true
@@ -26,22 +29,22 @@ body:
   id: tried
   attributes:
     label: I already tried
-    description: If you didn’t try already, try to search the documentation and existing issues what you wrote above.
+    description: If you didn’t try already, try searching the documentation and existing issues.
     options:
     - label: I've read and searched [the documentation](https://docs.weblate.org/).
       required: true
-    - label: I've searched for similar issues in this repository.
+    - label: I've searched for similar filed issues in this repository.
       required: true
 - type: textarea
   id: reproducer
   attributes:
     label: Steps to reproduce the behavior
-    description: What did you do before the problem has appeared?
+    description: What did you do before the problem appeared?
     placeholder: |
-      1. Go to '...'
-      2. Scroll down to '...'
-      3. Click on '...'
-      4. See error
+      1. Go to '…'
+      2. Scroll down to '…'
+      3. Click on '…'
+      4. The error occurs
   validations:
     required: true
 - type: textarea
@@ -49,6 +52,7 @@ body:
   attributes:
     label: Expected behavior
     description: A clear and concise description of what you expected to happen.
+    placeholder: Tell us what you want to see!
 - type: textarea
   id: screenshots
   attributes:
@@ -59,11 +63,11 @@ body:
   attributes:
     label: Exception traceback
     description: >
-      In case you observed server error or crash, please see
+      In case you observed a server error or crash, please read
       [the debugging documentation](https://docs.weblate.org/en/latest/contributing/debugging.html)
-      for information how to obtain that.
+      for information on obtaining the relevant logs.
 
-      This will be rendered as Python traceback automatically.
+      This field will be rendered as a Python traceback automatically.
     render: pytb
 - type: dropdown
   id: installation
@@ -82,16 +86,16 @@ body:
   attributes:
     label: Weblate versions
     description: >
-      Please paste the output of
+      Please paste the output of the
       [list_versions](https://docs.weblate.org/en/latest/admin/management.html#list-versions)
-      command over here.
+      command here.
 
       Depending on the installation, these can be executed in a different
       way. Please consult [the management commands
       documentation](https://docs.weblate.org/en/latest/admin/management.html)
       for more details.
 
-      On pip installed Weblate:
+      On pip-installed Weblate:
 
       ```
       weblate list_versions
@@ -147,4 +151,4 @@ body:
   id: additional
   attributes:
     label: Additional context
-    description: Add any other context about the problem here.
+    description: Add any other contextual info about the problem here.

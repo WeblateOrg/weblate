@@ -6,7 +6,7 @@ import django.views.defaults
 import rest_framework.exceptions
 from django.conf import settings
 from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from sentry_sdk import last_event_id
 
 from weblate.trans.util import render
@@ -19,16 +19,18 @@ def bad_request(request, exception=None):
         return rest_framework.exceptions.bad_request(request, exception)
     if exception:
         report_error(cause="Bad request")
-    return render(request, "400.html", {"title": _("Bad Request")}, status=400)
+    return render(request, "400.html", {"title": gettext("Bad Request")}, status=400)
 
 
 def not_found(request, exception=None):
     """Error handler showing list of available projects."""
-    return render(request, "404.html", {"title": _("Page Not Found")}, status=404)
+    return render(request, "404.html", {"title": gettext("Page Not Found")}, status=404)
 
 
 def denied(request, exception=None):
-    return render(request, "403.html", {"title": _("Permission Denied")}, status=403)
+    return render(
+        request, "403.html", {"title": gettext("Permission Denied")}, status=403
+    )
 
 
 def csrf_failure(request, reason=""):
@@ -36,7 +38,7 @@ def csrf_failure(request, reason=""):
         request,
         "403_csrf.html",
         {
-            "title": _("Permission Denied"),
+            "title": gettext("Permission Denied"),
             "no_referer": reason == REASON_NO_REFERER,
             "no_cookie": reason == REASON_NO_CSRF_COOKIE,
         },
@@ -61,7 +63,7 @@ def server_error(request):
             request,
             "500.html",
             {
-                "title": _("Internal Server Error"),
+                "title": gettext("Internal Server Error"),
                 "sentry_dsn": settings.SENTRY_DSN,
                 "sentry_event_id": last_event_id(),
             },

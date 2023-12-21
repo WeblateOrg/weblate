@@ -5,7 +5,7 @@
 
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from .format import BaseFormatCheck
 
@@ -27,8 +27,8 @@ class AngularJSInterpolationCheck(BaseFormatCheck):
     """Check for AngularJS interpolation string."""
 
     check_id = "angularjs_format"
-    name = _("AngularJS interpolation string")
-    description = _("AngularJS interpolation strings do not match source")
+    name = gettext_lazy("AngularJS interpolation string")
+    description = gettext_lazy("AngularJS interpolation strings do not match source")
     regexp = ANGULARJS_INTERPOLATION_MATCH
 
     def cleanup_string(self, text):

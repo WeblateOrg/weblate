@@ -80,7 +80,7 @@ class Command(WeblateTranslationCommand):
 
         if options["mt"]:
             for translator in options["mt"]:
-                if translator not in MACHINERY.keys():
+                if translator not in MACHINERY:
                     raise CommandError(
                         f"Machine translation {translator} is not available"
                     )

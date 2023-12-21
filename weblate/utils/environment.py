@@ -2,18 +2,44 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+import ast
 import os
-from typing import Dict, List, Optional
 
 
-def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
+def get_env_str(
+    name: str,
+    default: str | None = None,
+    required: bool = False,
+    fallback_name: str | None = None,
+) -> str:
+    file_env = f"{name}_FILE"
+    if filename := os.environ.get(file_env):
+        try:
+            with open(filename) as handle:
+                result = handle.read()
+        except OSError as error:
+            raise ValueError(
+                f"Failed to open {filename} as specified by {file_env}: {error}"
+            ) from error
+    else:
+        if fallback_name and name not in os.environ:
+            name = fallback_name
+        result = os.environ.get(name, default)
+    if required and not result:
+        raise ValueError(f"{name} has to be configured!")
+    return result
+
+
+def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
     """Helper to get list from environment."""
     if name not in os.environ:
         return default or []
     return os.environ[name].split(",")
 
 
-def get_env_map(name: str, default: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, str]:
     """
     Helper to get mapping from environment.
 
@@ -31,7 +57,7 @@ def get_env_int(name: str, default: int = 0) -> int:
     try:
         return int(os.environ[name])
     except ValueError as error:
-        raise ValueError(f"{name} is not an integer: {error}")
+        raise ValueError(f"{name} is not an integer: {error}") from error
 
 
 def get_env_float(name: str, default: float = 0.0) -> float:
@@ -41,7 +67,7 @@ def get_env_float(name: str, default: float = 0.0) -> float:
     try:
         return float(os.environ[name])
     except ValueError as error:
-        raise ValueError(f"{name} is not an float: {error}")
+        raise ValueError(f"{name} is not an float: {error}") from error
 
 
 def get_env_bool(name: str, default: bool = False) -> bool:
@@ -52,7 +78,7 @@ def get_env_bool(name: str, default: bool = False) -> bool:
     return os.environ[name].lower() in true_values
 
 
-def modify_env_list(current: List[str], name: str) -> List[str]:
+def modify_env_list(current: list[str], name: str) -> list[str]:
     """Helper to modify list (for example checks)."""
     for item in reversed(get_env_list(f"WEBLATE_ADD_{name}")):
         current.insert(0, item)
@@ -63,17 +89,28 @@ def modify_env_list(current: List[str], name: str) -> List[str]:
 
 def get_env_credentials(
     name: str,
-) -> Dict[str, Dict[str, str]]:
+) -> dict[str, dict[str, str]]:
     """Parses VCS integration credentials."""
+    if found_env_credentials := get_env_str(f"WEBLATE_{name}_CREDENTIALS"):
+        return ast.literal_eval(found_env_credentials)
     username = os.environ.get(f"WEBLATE_{name}_USERNAME")
     token = os.environ.get(f"WEBLATE_{name}_TOKEN")
     host = os.environ.get(f"WEBLATE_{name}_HOST")
+    organization = os.environ.get(f"WEBLATE_{name}_ORGANIZATION")
 
-    if not host and (username or token):
-        raise ValueError(
-            f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
-        )
-    return {host: {"username": username, "token": token}}
+    if not host:
+        if username or token:
+            raise ValueError(
+                f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
+            )
+        return {}
+
+    credentials = {host: {"username": username, "token": token}}
+
+    if organization is not None:
+        credentials[host]["organization"] = organization
+
+    return credentials
 
 
 def get_env_ratelimit(name: str, default: str) -> str:
@@ -86,10 +123,10 @@ def get_env_ratelimit(name: str, default: str) -> str:
     try:
         num, period = value.split("/")
     except ValueError as error:
-        raise ValueError(f"Failed to parse {name}: {error}")
+        raise ValueError(f"Could not parse {name}: {error}") from error
     if not num.isdigit():
-        raise ValueError(f"Failed to parse {name}: rate is not numeric: {num}")
+        raise ValueError(f"Could not parse {name}: rate is not numeric: {num}")
     if period[0] not in ("s", "m", "h", "d"):
-        raise ValueError(f"Failed to parse {name}: unknown period: {period}")
+        raise ValueError(f"Could not parse {name}: unknown period: {period}")
 
     return value

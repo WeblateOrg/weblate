@@ -32,7 +32,7 @@ class WeblateMemory(InternalMachineTranslation):
             user,
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,
-        ).iterator():
+        ):
             quality = self.comparer.similarity(text, result.source)
             if quality < threshold:
                 continue

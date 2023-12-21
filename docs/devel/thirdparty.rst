@@ -10,6 +10,7 @@ lists third-party libraries which integrate Weblate.
 * `JWeblate, a Java-based Weblate library <https://github.com/javierllorente/jweblate>`_
 * `Spring MessageSource backed by a Weblate server <https://github.com/porscheinformatik/weblate-spring>`_
 * `GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_
+* `Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-perceval-weblate>`_
 
 .. hint::
 

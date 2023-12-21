@@ -49,14 +49,18 @@
           <td>
             {% include "auth/teams-components.html" %}
           </td>
-          <td class="number">{{ group.user__count|intcomma }}</td>
+          <td class="number">
+            {% include "auth/teams-count.html" %}
+          </td>
           <td>
             <a href="{{ group.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
               {% icon 'pencil.svg' %}
             </a>
-            <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
-              {% icon 'delete.svg' %}
-            </a>
+            {% if not group.internal %}
+              <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+                {% icon 'delete.svg' %}
+              </a>
+            {% endif %}
             <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{request.get_full_path}}" />

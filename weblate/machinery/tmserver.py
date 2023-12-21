@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 from requests.exceptions import HTTPError
 
 from .base import MachineTranslation
@@ -16,12 +15,6 @@ class TMServerTranslation(MachineTranslation):
 
     name = "tmserver"
     settings_form = URLMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "url": settings.MT_TMSERVER,
-        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

@@ -52,6 +52,7 @@ class WeblateConf(AppConf):
         "weblate.trans.autofixes.chars.RemoveZeroSpace",
         "weblate.trans.autofixes.chars.RemoveControlChars",
         "weblate.trans.autofixes.chars.DevanagariDanda",
+        "weblate.trans.autofixes.chars.PunctuationSpacing",
         "weblate.trans.autofixes.html.BleachHTML",
     )
 
@@ -80,6 +81,8 @@ class WeblateConf(AppConf):
 
     # Hiding repository credentials
     HIDE_REPO_CREDENTIALS = True
+
+    CREATE_GLOSSARIES = True
 
     # Default committer
     DEFAULT_COMMITER_EMAIL = "noreply@weblate.org"
@@ -144,7 +147,7 @@ Current translation status:
     # Rate limiting
     IP_BEHIND_REVERSE_PROXY = False
     IP_PROXY_HEADER = "HTTP_X_FORWARDED_FOR"
-    IP_PROXY_OFFSET = 0
+    IP_PROXY_OFFSET = -1
 
     # Authentication
     AUTH_TOKEN_VALID = 172800

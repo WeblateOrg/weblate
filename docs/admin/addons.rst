@@ -12,7 +12,7 @@ translation component.
    You can also configure add-ons using :ref:`API <addons-api>`,
    :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`.
 
-.. image:: /screenshots/addons.png
+.. image:: /screenshots/addons.webp
 
 Built-in add-ons
 ++++++++++++++++
@@ -22,8 +22,6 @@ Built-in add-ons
 
 Automatic translation
 ---------------------
-
-.. versionadded:: 3.9
 
 :Add-on ID: ``weblate.autotranslate.autotranslate``
 :Configuration: +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
@@ -55,7 +53,7 @@ Automatic translation
                 |                 |                                  |                                                                                                      |
                 |                 |                                  | ``mt`` -- Machine translation                                                                        |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``component``   | Components                       | Enter slug of a component to use as source, keep blank to use all components in the current project. |
+                | ``component``   | Component                        | Enter slug of a component to use as source, keep blank to use all components in the current project. |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``engines``     | Machine translation engines      |                                                                                                      |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
@@ -102,6 +100,17 @@ to load localization in the JavaScript code.
 
 Generates a unique URL for your component you can include in
 HTML pages to localize them. See :ref:`weblate-cdn` for more details.
+
+.. note::
+
+   This add-on requires additional configuration on the Weblate server.
+   :setting:`LOCALIZE_CDN_PATH` configures where generated files will be
+   written (on a filesystem), and :setting:`LOCALIZE_CDN_URL` defines where
+   they will be served (URL). Serving of the files is not done by Weblate and
+   has to be set up externally (typically using a CDN service).
+
+   This add-on is configured on :guilabel:`Hosted Weblate` and serves the files
+   via ``https://weblate-cdn.com/``.
 
 .. seealso::
 
@@ -223,7 +232,7 @@ You can use Django template markup in all filename fields, for example:
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
-.. image:: /screenshots/addon-discovery.png
+.. image:: /screenshots/addon-discovery.webp
 
 Component discovery examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -281,8 +290,8 @@ Matching files:
    - :file:`locale/de/website/de.po`
 
 
-Splitted Android strings
-########################
+Split Android strings
+#####################
 
 Android resource strings, split into several files.
 
@@ -328,8 +337,6 @@ Matching files:
 
 Bulk edit
 ---------
-
-.. versionadded:: 3.11
 
 :Add-on ID: ``weblate.flags.bulk``
 :Configuration: +-------------------+-----------------------------+-------------------------+
@@ -392,8 +399,6 @@ Other automated operations for Weblate metadata can also be done.
 Flag unchanged translations as "Needs editing"
 ----------------------------------------------
 
-.. versionadded:: 3.1
-
 :Add-on ID: ``weblate.flags.same_edit``
 :Configuration: `This add-on has no configuration.`
 :Triggers: unit post-create
@@ -444,6 +449,19 @@ translations created by the developers.
 .. seealso::
 
    :ref:`states`
+
+.. _addon-weblate.generate.fill_read_only:
+
+Fill read-only strings with source
+----------------------------------
+
+.. versionadded:: 4.18
+
+:Add-on ID: ``weblate.generate.fill_read_only``
+:Configuration: `This add-on has no configuration.`
+:Triggers: component update, daily
+
+Fills in translation of read-only strings with source string.
 
 .. _addon-weblate.generate.generate:
 
@@ -653,9 +671,11 @@ Generate MO files
 -----------------
 
 :Add-on ID: ``weblate.gettext.mo``
-:Configuration: +----------+---------------------------+-------------------------------------------------------------+
-                | ``path`` | Path of generated MO file | If not specified, the location of the PO file will be used. |
-                +----------+---------------------------+-------------------------------------------------------------+
+:Configuration: +-----------+---------------------------------+----------------------------------------------------------------------------------+
+                | ``path``  | Path of generated MO file       | If not specified, the location of the PO file will be used.                      |
+                +-----------+---------------------------------+----------------------------------------------------------------------------------+
+                | ``fuzzy`` | Include strings needing editing | Strings needing editing (fuzzy) are typically not ready for use as translations. |
+                +-----------+---------------------------------+----------------------------------------------------------------------------------+
 :Triggers: repository pre-commit
 
 Automatically generates a MO file for every changed PO file.
@@ -781,8 +801,6 @@ Formats and sorts the Java properties file.
 Stale comment removal
 ---------------------
 
-.. versionadded:: 3.7
-
 :Add-on ID: ``weblate.removal.comments``
 :Configuration: +---------+--------------+--+
                 | ``age`` | Days to keep |  |
@@ -799,8 +817,6 @@ getting old does not mean they have lost their importance.
 
 Stale suggestion removal
 ------------------------
-
-.. versionadded:: 3.7
 
 :Add-on ID: ``weblate.removal.suggestions``
 :Configuration: +-----------+------------------+-------------------------------------------------------------------------+
@@ -820,8 +836,6 @@ don't receive enough positive votes in a given timeframe.
 
 Update RESX files
 -----------------
-
-.. versionadded:: 3.9
 
 :Add-on ID: ``weblate.resx.update``
 :Configuration: `This add-on has no configuration.`
@@ -852,15 +866,12 @@ Customize XML output
                 +------------------+----------------------------------------+--+
 :Triggers: storage post-load
 
-Allows adjusting XML output behavior, for example closing tags instead of self-
-closing tags for empty tags.
+Allows adjusting XML output behavior, for example closing tags.
 
 .. _addon-weblate.yaml.customize:
 
 Customize YAML output
 ---------------------
-
-.. versionadded:: 3.10.2
 
 :Add-on ID: ``weblate.yaml.customize``
 :Configuration: +----------------+---------------------+------------------------------------+
@@ -974,37 +985,25 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_COMPONENT_SLUG
 
-   .. versionadded:: 3.9
-
    Component slug used to construct URL.
 
 .. envvar:: WL_PROJECT_SLUG
-
-   .. versionadded:: 3.9
 
    Project slug used to construct URL.
 
 .. envvar:: WL_COMPONENT_NAME
 
-   .. versionadded:: 3.9
-
    Component name.
 
 .. envvar:: WL_PROJECT_NAME
-
-   .. versionadded:: 3.9
 
    Project name.
 
 .. envvar:: WL_COMPONENT_URL
 
-   .. versionadded:: 3.9
-
    Component URL.
 
 .. envvar:: WL_ENGAGE_URL
-
-   .. versionadded:: 3.9
 
    Project engage URL.
 

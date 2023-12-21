@@ -29,7 +29,7 @@ with open("README.rst") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
-EXTRAS = {"all": []}
+EXTRAS = {"all": [], "test": []}
 with open("requirements-optional.txt") as requirements:
     section = None
     for line in requirements:
@@ -43,6 +43,14 @@ with open("requirements-optional.txt") as requirements:
             EXTRAS[section] = dep
             if section not in ("MySQL", "zxcvbn"):
                 EXTRAS["all"].append(dep)
+with open("requirements-test.txt") as requirements:
+    section = None
+    for line in requirements:
+        line = line.strip()
+        if line.startswith(("-r", "#")) or not line:
+            continue
+        dep = line.split(";")[0].strip()
+        EXTRAS["test"].append(dep)
 
 
 class WeblateBuildPy(build_py):
@@ -84,8 +92,8 @@ class WeblateBuild(build):
 
 setup(
     name="Weblate",
-    version="4.18",
-    python_requires=">=3.8",
+    version="5.4",
+    python_requires=">=3.9",
     packages=find_packages(),
     include_package_data=True,
     description=(
@@ -121,8 +129,6 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

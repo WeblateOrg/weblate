@@ -3,9 +3,13 @@ Upstream-Name: Weblate
 Upstream-Contact: Michal Čihař <michal@weblate.org>
 Source: https://weblate.org/
 
-Files: docs/* README.rst BACKERS.rst CONTACT.md CONTRIBUTING.md ci/README.rst dev-docker/README.rst weblate/examples/* weblate/static/security.txt
+Files: docs/**.html docs/**.png docs/**.webp docs/**.rst README.rst BACKERS.rst CONTACT.md CONTRIBUTING.md ci/README.rst dev-docker/README.rst weblate/static/security.txt
 Copyright: Michal Čihař <michal@weblate.org>
 License: GPL-3.0-or-later
+
+Files: docs/schemas/*.json
+Copyright: Michal Čihař <michal@weblate.org>
+License: MIT
 
 Files: weblate/trans/tests/data/* weblate/trans/fixtures/simple-project.json weblate/billing/test-data/00000.pdf
 Copyright: Michal Čihař <michal@weblate.org>
@@ -15,11 +19,7 @@ Files: weblate/templates/* weblate/wladmin/templates/* weblate/legal/templates/*
 Copyright: Michal Čihař <michal@weblate.org>
 License: GPL-3.0-or-later
 
-Files: weblate/locale/*
-Copyright: Michal Čihař <michal@weblate.org>
-License: GPL-3.0-or-later
-
-Files: .coveragerc .editorconfig .gitattributes .gitignore .gitmodules .imgbotconfig .pre-commit-config.yaml .prettierrc.yaml .pylintrc .readthedocs.yml .weblate MANIFEST.in codecov.yml pyproject.toml requirements*.txt dev-docker/environment scripts/yarn/.gitignore scripts/yarn/package.json scripts/yarn/yarn.lock setup.cfg tox.ini
+Files: .coveragerc .editorconfig .gitattributes .gitignore .gitmodules .imgbotconfig .pre-commit-config.yaml .prettierrc.yaml .pylintrc .readthedocs.yml .weblate MANIFEST.in codecov.yml pyproject.toml requirements*.txt dev-docker/environment scripts/yarn/.gitignore scripts/yarn/package.json scripts/yarn/yarn.lock setup.cfg tox.ini docs/requirements.txt
 Copyright: Michal Čihař <michal@weblate.org>
 License: GPL-3.0-or-later
 
@@ -35,14 +35,6 @@ Files: weblate/static/icons/*.svg weblate/static/state/*.svg weblate/static/sort
 Copyright: Pictogrammers
 License: Apache-2.0
 
-Files: weblate/static/vendor/autosize.js
-Copyright: Jack Moore <hello@jacklmoore.com>
-License: MIT
-
-Files: weblate/static/vendor/bootstrap/*
-Copyright: The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-License: MIT
-
 Files: weblate/static/vendor/font-kurinto/*
 Copyright: Copyright ©2017-2021, Clinton F. Goss
 License: OFL-1.1
@@ -51,34 +43,6 @@ Files: weblate/static/vendor/font-source/*
 Copyright: Paul D. Hunt
 License: OFL-1.1
 
-Files: weblate/static/vendor/jquery.js
-Copyright: OpenJS Foundation and other contributors
-License: MIT
-
-Files: weblate/static/vendor/mousetrap.js weblate/static/vendor/mousetrap-global-bind.js
-Copyright: Craig Campbell
-License: Apache-2.0
-
-Files: weblate/static/vendor/js.cookie.js
-Copyright: Klaus Hartl
-License: MIT
-
-Files: weblate/static/vendor/multi.css weblate/static/vendor/multi.js
-Copyright: Fabian Lindfors
-License: MIT
-
 Files: weblate/static/vendor/prism/*
 Copyright: Lea Verou
-License: MIT
-
-Files: weblate/static/vendor/sentry.js
-Copyright: Sentry
-License: BSD-3-Clause
-
-Files: weblate/static/vendor/slugify.js
-Copyright: Simeon Velichkov <simeonvelichkov@gmail.com>
-License: MIT
-
-Files: weblate/static/vendor/tribute.js
-Copyright: Jordan Humphreys <jordan@zurb.com>
 License: MIT

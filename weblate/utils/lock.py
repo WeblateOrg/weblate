@@ -2,19 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 from contextlib import suppress
-from typing import Optional
 
 import sentry_sdk
 from django.core.cache import cache
 from filelock import FileLock, Timeout
-from redis_lock import AlreadyAcquired, Lock, NotAcquired
+from redis_lock import AlreadyAcquired, NotAcquired
 
 from weblate.utils.cache import IS_USING_REDIS
 
 
-class WeblateLockTimeout(Exception):
+class WeblateLockTimeoutError(Exception):
     """Weblate lock timeout."""
 
 
@@ -28,7 +29,7 @@ class WeblateLock:
         key: int,
         slug: str,
         cache_template: str = "lock:{scope}:{key}",
-        file_template: Optional[str] = "{slug}-{scope}.lock",
+        file_template: str | None = "{slug}-{scope}.lock",
         timeout: int = 1,
     ):
         self._timeout = timeout
@@ -37,20 +38,20 @@ class WeblateLock:
         self._key = key
         self._slug = slug
         self._depth = 0
-        self.use_redis = IS_USING_REDIS
-        if self.use_redis:
+        if IS_USING_REDIS:
             # Prefer Redis locking as it works distributed
             self._name = self._format_template(cache_template)
-            self._lock = Lock(
-                cache.client.get_client(),
-                name=self._name,
-                expire=60,
+            self._lock = cache.lock(
+                key=self._name,
+                expire=3600,
                 auto_renewal=True,
             )
+            self._enter_implementation = self._enter_redis
         else:
             # Fall back to file based locking
             self._name = os.path.join(lock_path, self._format_template(file_template))
             self._lock = FileLock(self._name, timeout=self._timeout)
+            self._enter_implementation = self._enter_file
 
     def _format_template(self, template: str):
         return template.format(
@@ -59,27 +60,30 @@ class WeblateLock:
             slug=self._slug,
         )
 
+    def _enter_redis(self):
+        try:
+            lock_result = self._lock.acquire(timeout=self._timeout)
+        except AlreadyAcquired:
+            return
+
+        if not lock_result:
+            raise WeblateLockTimeoutError(
+                f"Lock on {self._name} could not be acquired in {self._timeout}s"
+            )
+
+    def _enter_file(self):
+        # Fall back to file based locking
+        try:
+            self._lock.acquire()
+        except Timeout as error:
+            raise WeblateLockTimeoutError(str(error)) from error
+
     def __enter__(self):
         self._depth += 1
         if self._depth > 1:
             return
         with sentry_sdk.start_span(op="lock.wait", description=self._name):
-            if self.use_redis:
-                try:
-                    lock_result = self._lock.acquire(timeout=self._timeout)
-                except AlreadyAcquired:
-                    pass
-                else:
-                    if not lock_result:
-                        raise WeblateLockTimeout(
-                            f"Lock could not be acquired in {self._timeout}s"
-                        )
-            else:
-                # Fall back to file based locking
-                try:
-                    self._lock.acquire()
-                except Timeout as error:
-                    raise WeblateLockTimeout(str(error))
+            self._enter_implementation()
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._depth -= 1

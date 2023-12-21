@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import subprocess
 import tempfile
 from base64 import b64encode
@@ -11,7 +13,7 @@ from django.urls import reverse
 
 from weblate.gitexport.models import get_export_url
 from weblate.gitexport.views import authenticate
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
@@ -61,24 +63,25 @@ class GitExportTest(ViewTestCase):
             authenticate(request, self.get_auth_string(self.user.auth_token.key))
         )
 
-    def get_git_url(self, path, component=None):
-        kwargs = {"path": ""}
+    def get_git_url(self, *, path: str = "info/refs", component: Component = None):
         if component is None:
-            component = self.kw_component
-        kwargs.update(component)
-        return reverse("git-export", kwargs=kwargs) + path
+            component = self.component
+        kwargs = {"git_request": path, "path": component.get_url_path()}
+        return reverse("git-export", kwargs=kwargs)
 
     def test_git_root(self):
-        response = self.client.get(self.get_git_url(""))
-        self.assertEqual(302, response.status_code)
+        response = self.client.get(self.get_git_url().replace("info/refs", ""))
+        self.assertEqual(301, response.status_code)
 
     def test_git_info(self):
-        response = self.client.get(self.get_git_url("info"), follow=True)
+        response = self.client.get(
+            self.get_git_url().replace("info/refs", "info/"), follow=True
+        )
         self.assertEqual(404, response.status_code)
 
     def git_receive(self, **kwargs):
         return self.client.get(
-            self.get_git_url("info/refs"),
+            self.get_git_url(),
             QUERY_STRING="?service=git-upload-pack",
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
             **kwargs,
@@ -87,7 +90,7 @@ class GitExportTest(ViewTestCase):
     def test_redirect_link(self):
         linked = self.create_link_existing()
         response = self.client.get(
-            self.get_git_url("info/refs", component=linked.get_reverse_url_kwargs()),
+            self.get_git_url(component=linked),
             QUERY_STRING="?service=git-upload-pack",
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
         )
@@ -98,9 +101,7 @@ class GitExportTest(ViewTestCase):
         )
 
     def test_reject_push(self):
-        response = self.client.get(
-            self.get_git_url("info/refs"), {"service": "git-receive-pack"}
-        )
+        response = self.client.get(self.get_git_url(), {"service": "git-receive-pack"})
         self.assertEqual(403, response.status_code)
 
     def test_wrong_auth(self):
@@ -110,6 +111,10 @@ class GitExportTest(ViewTestCase):
     def test_git_receive(self):
         response = self.git_receive()
         self.assertContains(response, "refs/heads/main")
+
+    def test_git_receive_error(self):
+        response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
+        self.assertEqual(404, response.status_code)
 
     def enable_acl(self):
         self.project.access_control = Project.ACCESS_PRIVATE

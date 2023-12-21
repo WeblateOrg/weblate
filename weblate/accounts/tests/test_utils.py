@@ -5,13 +5,13 @@
 """Tests for various helper utilities."""
 
 
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 
 from weblate.accounts.pipeline import slugify_username
 from weblate.accounts.tasks import cleanup_auditlog, cleanup_social_auth
 
 
-class PipelineTest(TestCase):
+class PipelineTest(SimpleTestCase):
     def test_slugify(self):
         self.assertEqual(slugify_username("zkouska"), "zkouska")
         self.assertEqual(slugify_username("Zkouska"), "Zkouska")

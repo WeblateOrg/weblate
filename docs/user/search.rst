@@ -3,14 +3,15 @@
 Searching
 =========
 
-.. versionadded:: 3.9
+Searching for strings
++++++++++++++++++++++
 
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
 find the strings you want.
 
 When no field is defined, the lookup happens on source, target, and context strings.
 
-.. image:: /screenshots/search.png
+.. image:: /screenshots/search.webp
 
 Simple search
 -------------
@@ -150,11 +151,41 @@ Predefined queries
 
 You can select out of predefined queries on the search page, this allows you to quickly access the most frequent searches:
 
-.. image:: /screenshots/query-dropdown.png
+.. image:: /screenshots/query-dropdown.webp
 
 Ordering the results
 --------------------
 
 There are many options to order the strings according to your needs:
 
-.. image:: /screenshots/query-sort.png
+.. image:: /screenshots/query-sort.webp
+
+
+Searching for users
++++++++++++++++++++
+
+.. versionadded:: 4.18
+
+The user browsing has similar search abilities:
+
+``username:TEXT``
+   Search in usernames.
+``full_name:TEXT``
+   Search in full names.
+``language:TEXT``
+   User configured translation language (see :ref:`profile-translated-languages`).
+``joined:DATETIME``
+   String content was changed on date, supports :ref:`search-operators`.
+``translates:TEXT``
+   User has contributed to a given language in the past month.
+``contributes:TEXT``
+   User has contributed to a given project or component in the past month.
+
+Additional lookups are available in the :ref:`management-interface`:
+
+``is:bot``
+   Search for bots (used for project scoped tokens).
+``is:active``
+   Search for active users.
+``email:TEXT``
+   Search by e-mail.

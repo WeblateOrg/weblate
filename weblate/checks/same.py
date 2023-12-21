@@ -5,7 +5,7 @@
 import re
 
 from django.utils.html import strip_tags
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from weblate_language_data.check_languages import LANGUAGES
 
 from weblate.checks.base import TargetCheck
@@ -79,13 +79,10 @@ def strip_format(msg, flags):
     return regex.sub("", msg)
 
 
-def strip_string(msg, flags):
+def strip_string(msg):
     """Strip (usually) untranslated parts from the string."""
     # Strip HTML markup
     stripped = strip_tags(msg)
-
-    # Strip format strings
-    stripped = strip_format(stripped, flags)
 
     # Remove emojis
     stripped = EMOJI_RE.sub(" ", stripped)
@@ -106,10 +103,7 @@ def strip_string(msg, flags):
     stripped = PATH_RE.sub("", stripped)
 
     # Strip template markup
-    stripped = TEMPLATE_RE.sub("", stripped)
-
-    # Cleanup trailing/leading chars
-    return stripped
+    return TEMPLATE_RE.sub("", stripped)
 
 
 def test_word(word, extra_ignore):
@@ -137,19 +131,30 @@ class SameCheck(TargetCheck):
     """Check for untranslated entries."""
 
     check_id = "same"
-    name = _("Unchanged translation")
-    description = _("Source and translation are identical")
+    name = gettext_lazy("Unchanged translation")
+    description = gettext_lazy("Source and translation are identical")
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
 
-        if "strict-same" in unit.all_flags:
-            return False
         # Ignore some docbook tags
         if unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS:
             return True
+
+        stripped = source
+        flags = unit.all_flags
+
+        # Strip format strings
+        stripped = strip_format(stripped, flags)
+
+        # Strip placeholder strings
+        if "placeholders" in TYPED_FLAGS and "placeholders" in flags:
+            stripped = strip_placeholders(stripped, unit)
+
+        if "strict-same" in flags:
+            return not stripped
 
         # Ignore name of the project
         extra_ignore = set(
@@ -169,8 +174,7 @@ class SameCheck(TargetCheck):
             return True
 
         # Strip glossary terms
-        stripped = source
-        if "check-glossary" in unit.all_flags:
+        if "check-glossary" in flags:
             # Extract untranslatable terms
             terms = [
                 re.escape(term.source)
@@ -180,12 +184,8 @@ class SameCheck(TargetCheck):
             if terms:
                 stripped = re.sub("|".join(terms), "", source, flags=re.IGNORECASE)
 
-        # Strip format strings
-        stripped = strip_string(stripped, unit.all_flags)
-
-        # Strip placeholder strings
-        if "placeholders" in TYPED_FLAGS and "placeholders" in unit.all_flags:
-            stripped = strip_placeholders(stripped, unit)
+        # Strip typically untranslatable parts
+        stripped = strip_string(stripped)
 
         # Ignore strings which don't contain any string to translate
         # or just single letter (usually unit or something like that)
@@ -210,8 +210,8 @@ class SameCheck(TargetCheck):
         # Ignore the check for source language,
         # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
-        if self.is_language(unit, source_language) or (
-            source_language == "en" and self.is_language(unit, ("en", "ia"))
+        if unit.translation.language.is_base(source_language) or (
+            source_language == "en" and unit.translation.language.is_base(("en", "ia"))
         ):
             return True
 

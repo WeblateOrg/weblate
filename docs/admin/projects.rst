@@ -4,11 +4,16 @@ Translation projects
 Translation organization
 ------------------------
 
-Weblate organizes translatable VCS content of project/components into a tree-like structure.
+Weblate organizes translatable VCS content of project/components into a
+tree-like structure. You can additionally organize components within a project
+using categories.
 
 * The bottom level object is :ref:`project`, which should hold all translations belonging
   together (for example translation of an application in several versions
   and/or accompanying documentation).
+
+* The middle level is optionally created by :ref:`category`. The categories can
+  be nested to achieve more complex structure.
 
 * On the level above, :ref:`component`, which is
   actually the component to translate, you define the VCS repository to use, and
@@ -32,34 +37,29 @@ monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 Adding translation projects and components
 ------------------------------------------
 
-.. versionchanged:: 3.2
-
-   An interface for adding projects and components is included,
-   and you no longer have to use :ref:`admin-interface`.
-
-.. versionchanged:: 3.4
-
-   The process of adding components is now multi staged,
-   with automated discovery of most parameters.
-
 Based on your permissions, new translation projects and components can be
 created. It is always permitted for users with the :guilabel:`Add new projects`
 permission, and if your instance uses billing (e.g. like
 https://hosted.weblate.org/ see :ref:`billing`), you can also create those
 based on your plans allowance from the user account that manages billing.
 
+.. hint::
+
+   To grant every user permission to create new projects create new
+   :ref:`autoteam` for the :guilabel:`Project creators` team.
+
 You can view your current billing plan on a separate page:
 
-.. image:: /screenshots/user-billing.png
+.. image:: /screenshots/user-billing.webp
 
 The project creation can be initiated from there, or using the menu in the navigation
 bar, filling in basic info about the translation project to complete addition of it:
 
-.. image:: /screenshots/user-add-project.png
+.. image:: /screenshots/user-add-project.webp
 
 After creating the project, you are taken directly to the project page:
 
-.. image:: /screenshots/user-add-project-done.png
+.. image:: /screenshots/user-add-project-done.webp
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
@@ -85,15 +85,15 @@ for additional files or branches using same repository.
 
 First you need to fill in name and repository location:
 
-.. image:: /screenshots/user-add-component-init.png
+.. image:: /screenshots/user-add-component-init.webp
 
 On the next page, you are presented with a list of discovered translatable resources:
 
-.. image:: /screenshots/user-add-component-discovery.png
+.. image:: /screenshots/user-add-component-discovery.webp
 
 As a last step, you review the translation component info and fill in optional details:
 
-.. image:: /screenshots/user-add-component.png
+.. image:: /screenshots/user-add-component.webp
 
 .. seealso::
 
@@ -183,9 +183,13 @@ Contribute to shared translation memory
 
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
 
+This also affects whether the project can be used as source for :ref:`automatic-translation`.
+
 The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
-.. include:: /snippets/not-hosted.rst
+.. note::
+
+    This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use_shared_tm`.
 
 .. _project-access_control:
 
@@ -202,6 +206,10 @@ Enable reviews
 ++++++++++++++
 
 Enable review workflow for translations, see :ref:`reviews`.
+
+.. seealso::
+
+   :ref:`workflow-customization`
 
 .. _project-source_review:
 
@@ -248,7 +256,7 @@ Using non standard code: ``ia_FOO:ia``
 .. hint::
 
    The language codes are mapped when matching the translation files and the
-   matches are case sensitive, so make sure you use the source language codes
+   matches are case sensitive, so ensure you use the source language codes
    in same form as used in the filenames.
 
 .. seealso::
@@ -428,6 +436,38 @@ to be escaped as ``[[]`` or ``[]]``.
    :ref:`bimono`,
    :ref:`faq-duplicate-files`
 
+.. _component-screenshot_filemask:
+
+Screenshot file mask
+++++++++++++++++++++
+
+This feature allows the discovery and updating of screenshots through screenshot file masks, using paths from the VCS repository.
+This operates at the component level and necessitates the use of an asterisk "*" to replace the screenshot file name.
+
+Allowed formats are WebP, JPEG, PNG, APNG and GIF.
+
+Note:
+
+1. The file mask and screenshot file mask are not related. Configure them separately.
+2. It is a manual job to link a discovered screenshot in a component to a specific translation key.
+
+For example:
+
+Let's assume your VCS repository has a structure like this:
+
+.. code-block:: text
+
+    component_A
+    └── docs
+        ├── image1.png
+        └── image2.jpg
+
+For component_A, you want to allow discovery and updates of PNG screenshots.
+You'd set the screenshot file mask for component_A as ``component_A/docs/*.png``.
+This means any PNG images under docs in component_A can be discovered and updated.
+So, if you want to update ``image1.png``, the new screenshot you provide should be named ``image1.png``,
+matching the existing ``filename``, and stored under ``component_A/docs/``.
+
 .. _component-template:
 
 Monolingual base language file
@@ -445,7 +485,14 @@ Base file containing string definitions for :ref:`monolingual`.
 Edit base file
 ++++++++++++++
 
-Whether to allow editing the base file for :ref:`monolingual`.
+Whether to allow editing strings in the :ref:`component-template`.
+
+.. seealso::
+
+   :ref:`bimono`,
+   :ref:`monolingual`,
+   :ref:`faq-duplicate-files`,
+   :ref:`component-manage_units`
 
 .. _component-intermediate:
 
@@ -510,6 +557,9 @@ Source string bug reporting address
 Email address used for reporting upstream bugs. This address will also receive
 notification about any source string comments made in Weblate.
 
+With the :ref:`gettext` format, this address is also saved by Weblate in the
+:mailheader:`Report-Msgid-Bugs-To` header of the file.
+
 .. _component-allow_translation_propagation:
 
 Allow translation propagation
@@ -535,6 +585,10 @@ Enable suggestions
 
 Whether translation suggestions are accepted for this component.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _component-suggestion_voting:
 
 Suggestion voting
@@ -542,12 +596,20 @@ Suggestion voting
 
 Turns on vote casting for suggestions, see :ref:`voting`.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _component-suggestion_autoaccept:
 
 Autoaccept suggestions
 ++++++++++++++++++++++
 
 Automatically accept voted suggestions, see :ref:`voting`.
+
+.. seealso::
+
+   :ref:`workflow-customization`
 
 .. _component-check_flags:
 
@@ -637,6 +699,11 @@ For monolingual formats, the strings are managed only on source language and
 are automatically added or removed in the translations. The strings appear in
 the translation files once they are translated.
 
+.. hint::
+
+   You might want to turn on :ref:`component-edit_template` together with
+   :guilabel:`Manage strings` for monolingual formats.
+
 .. seealso::
 
    :ref:`bimono`,
@@ -664,6 +731,9 @@ POSIX style using underscore as a separator
 POSIX style using underscore as a separator, including country code
    POSIX style language code including the country code even when not necessary
    (for example ``cs_CZ``).
+POSIX style using underscore as a separator, including country code (lowercase)
+   POSIX style language code including the country code even when not necessary (lowercase)
+   (for example ``cs_cz``).
 BCP style using hyphen as a separator
    Typically used on web platforms, produces language codes like
    ``pt-BR``.
@@ -874,7 +944,7 @@ The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
-   This applies to project admins as well — please make sure you will not
+   This applies to project admins as well — please ensure you will not
    loose access to the component after toggling the status.
 
 .. _component-links:
@@ -917,6 +987,14 @@ Glossary color
 ++++++++++++++
 
 Display color for a glossary used when showing word matches.
+
+.. _category:
+
+Category
+--------
+
+Categories are there to give structure to components within a project. You can
+nest them to achieve a more complex structure.
 
 .. _markup:
 

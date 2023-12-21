@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import boto3
-from django.conf import settings
 from django.utils.functional import cached_property
 
 from .base import MachineTranslation
@@ -13,13 +12,17 @@ from .forms import AWSMachineryForm
 class AWSTranslation(MachineTranslation):
     """AWS machine translation."""
 
-    name = "AWS"
+    name = "Amazon Translate"
     max_score = 88
     language_map = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
     }
     settings_form = AWSMachineryForm
+
+    @classmethod
+    def get_identifier(cls):
+        return "aws"
 
     @cached_property
     def client(self):
@@ -29,14 +32,6 @@ class AWSTranslation(MachineTranslation):
             aws_access_key_id=self.settings["key"],
             aws_secret_access_key=self.settings["secret"],
         )
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "region": settings.MT_AWS_REGION,
-            "key": settings.MT_AWS_ACCESS_KEY_ID,
-            "secret": settings.MT_AWS_SECRET_ACCESS_KEY,
-        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

@@ -9,9 +9,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
-import weblate.screenshots.views
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
@@ -39,6 +38,7 @@ CONTEXT_SETTINGS = [
     "AVATAR_URL_PREFIX",
     "HIDE_VERSION",
     "EXTRA_HTML_HEAD",
+    "PRIVATE_COMMIT_EMAIL_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]
@@ -109,7 +109,7 @@ def get_interledger_payment_pointer():
     if not interledger_payment_pointers:
         return None
 
-    return random.choice(interledger_payment_pointers)
+    return random.choice(interledger_payment_pointers)  # noqa: S311
 
 
 def weblate_context(request):
@@ -121,13 +121,18 @@ def weblate_context(request):
 
     # Load user translations if user is authenticated
     watched_projects = None
-    if hasattr(request, "user") and request.user.is_authenticated:
-        watched_projects = request.user.watched_projects
+    theme = "auto"
+    if hasattr(request, "user"):
+        if request.user.is_authenticated:
+            watched_projects = request.user.watched_projects
+        theme = request.user.profile.theme
 
     if settings.OFFER_HOSTING:
-        description = _("Hosted Weblate, the place to localize your software project.")
+        description = gettext(
+            "Hosted Weblate, the place to localize your software project."
+        )
     else:
-        description = _(
+        description = gettext(
             "This site runs Weblate for localizing various software projects."
         )
 
@@ -163,7 +168,6 @@ def weblate_context(request):
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
         "login_redirect_url": login_redirect_url,
-        "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
         "has_sentry": bool(settings.SENTRY_DSN),
         "watched_projects": watched_projects,
@@ -174,6 +178,7 @@ def weblate_context(request):
         "preconnect_list": get_preconnect_list(),
         "custom_css_hash": CustomCSSView.get_hash(request),
         "interledger_payment_pointer": get_interledger_payment_pointer(),
+        "theme": theme,
     }
 
     add_error_logging_context(context)

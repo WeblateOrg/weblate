@@ -2,20 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Optional
+from __future__ import annotations
 
 from weblate.lang.models import Language
 from weblate.trans.models import Component
 from weblate.utils.celery import app
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
     retry_backoff=60,
 )
-def sync_glossary_languages(pk: int, component: Optional[Component] = None):
+def sync_glossary_languages(pk: int, component: Component | None = None):
     """Add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)
@@ -42,10 +42,10 @@ def sync_glossary_languages(pk: int, component: Optional[Component] = None):
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
     retry_backoff=60,
 )
-def sync_terminology(pk: int, component: Optional[Component] = None):
+def sync_terminology(pk: int, component: Component | None = None):
     """Sync terminology and add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)

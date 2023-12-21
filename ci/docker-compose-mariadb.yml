@@ -6,13 +6,13 @@ version: '3'
 
 services:
   database:
-    image: mariadb:10.11.3
+    image: mariadb:11.2.2
     ports:
     - 60000:3306
     environment:
       MYSQL_ROOT_PASSWORD: weblate
   cache:
-    image: redis:7.0.11-alpine
+    image: redis:7.2.3-alpine
     restart: always
     ports:
     - 60001:6379

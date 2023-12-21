@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Dict
+from __future__ import annotations
 
 from django.db import models
 
 
 class SettingQuerySet(models.QuerySet):
-    def get_settings_dict(self, category: int) -> Dict:
+    def get_settings_dict(self, category: int) -> dict:
         return dict(self.filter(category=category).values_list("name", "value"))
 
 

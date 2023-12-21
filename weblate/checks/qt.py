@@ -4,7 +4,7 @@
 
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.format import BaseFormatCheck
 
@@ -31,8 +31,8 @@ class QtFormatCheck(BaseFormatCheck):
     """Check for Qt format string."""
 
     check_id = "qt_format"
-    name = _("Qt format")
-    description = _("Qt format string does not match source")
+    name = gettext_lazy("Qt format")
+    description = gettext_lazy("Qt format string does not match source")
     regexp = QT_FORMAT_MATCH
 
     def is_position_based(self, string):
@@ -44,8 +44,8 @@ class QtPluralCheck(BaseFormatCheck):
     """Check for Qt plural string."""
 
     check_id = "qt_plural_format"
-    name = _("Qt plural format")
-    description = _("Qt plural format string does not match source")
+    name = gettext_lazy("Qt plural format")
+    description = gettext_lazy("Qt plural format string does not match source")
     regexp = QT_PLURAL_MATCH
 
     def is_position_based(self, string):

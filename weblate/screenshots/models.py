@@ -2,20 +2,30 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import fnmatch
+import os
+
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.files import File
+from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
+from weblate.auth.models import get_anonymous
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
+from weblate.trans.signals import vcs_post_update
 from weblate.trans.tasks import component_alerts
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.errors import report_error
+from weblate.utils.validators import validate_bitmap
 
 
 class ScreenshotQuerySet(models.QuerySet):
@@ -23,22 +33,32 @@ class ScreenshotQuerySet(models.QuerySet):
         return self.order_by("name")
 
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(translation__component__project__in=user.allowed_projects)
-            & (
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(
+                translation__component__project__in=user.allowed_projects
+            )
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
                 Q(translation__component__restricted=False)
                 | Q(translation__component_id__in=user.component_permissions)
             )
-        )
+        return result
 
 
 class Screenshot(models.Model, UserDisplayMixin):
-    name = models.CharField(verbose_name=_("Screenshot name"), max_length=200)
+    name = models.CharField(
+        verbose_name=gettext_lazy("Screenshot name"), max_length=200
+    )
+    repository_filename = models.CharField(
+        verbose_name=gettext_lazy("Repository path to screenshot"),
+        help_text=gettext_lazy("Scan for screenshot file change on repository update."),
+        blank=True,
+        max_length=200,
+    )
     image = ScreenshotField(
-        verbose_name=_("Image"),
-        help_text=_("Upload JPEG or PNG images up to 2000x2000 pixels."),
+        verbose_name=gettext_lazy("Image"),
+        help_text=gettext_lazy("Upload image up to 2000x2000 pixels."),
         upload_to="screenshots/",
     )
     translation = models.ForeignKey(Translation, on_delete=models.deletion.CASCADE)
@@ -76,3 +96,65 @@ def change_screenshot_assignment(sender, instance, action, **kwargs):
         name="UnusedScreenshot"
     ).exists():
         component_alerts.delay([instance.pk])
+
+
+def validate_screenshot_image(component, filename):
+    """Returns True if image is validated."""
+    try:
+        full_name = os.path.join(component.full_path, filename)
+        with open(full_name, "rb") as f:
+            image_file = File(f, name=os.path.basename(filename))
+            validate_bitmap(image_file)
+    except ValidationError as error:
+        component.log_error("failed to validate screenshot %s: %s", filename, error)
+        report_error(cause="Could not validate image from repository")
+        return False
+    return True
+
+
+@receiver(vcs_post_update)
+def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
+    repository = component.repository
+    changed_files = repository.get_changed_files(compare_to=previous_head)
+
+    screenshots = Screenshot.objects.filter(
+        translation__component=component, repository_filename__in=changed_files
+    )
+
+    # Update existing screenshots
+    for screenshot in screenshots:
+        filename = screenshot.repository_filename
+        component.log_debug("detected screenshot change in repository: %s", filename)
+        changed_files.remove(filename)
+
+        if validate_screenshot_image(component, filename):
+            full_name = os.path.join(component.full_path, filename)
+            with open(full_name, "rb") as f:
+                screenshot.image = File(
+                    f,
+                    name=default_storage.get_available_name(os.path.basename(filename)),
+                )
+                screenshot.save(update_fields=["image"])
+                component.log_info("updated screenshot from repository: %s", filename)
+
+    # Add new screenshots matching screenshot filemask
+    for filename in changed_files:
+        if fnmatch.fnmatch(
+            filename, component.screenshot_filemask
+        ) and validate_screenshot_image(component, filename):
+            full_name = os.path.join(component.full_path, filename)
+            with open(full_name, "rb") as f:
+                screenshot = Screenshot.objects.create(
+                    name=filename,
+                    repository_filename=filename,
+                    image=File(
+                        f,
+                        name=default_storage.get_available_name(
+                            os.path.basename(filename)
+                        ),
+                    ),
+                    translation=component.source_translation,
+                    user=get_anonymous(),
+                )
+                screenshot.save()
+                component.log_info("create screenshot from repository: %s", filename)

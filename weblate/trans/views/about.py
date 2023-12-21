@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db.models import Sum
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
@@ -14,9 +14,9 @@ from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_all_key_data
 
 MENU = (
-    ("index", "about", _("About Weblate")),
-    ("stats", "stats", _("Statistics")),
-    ("keys", "keys", _("Keys")),
+    ("index", "about", gettext_lazy("About Weblate")),
+    ("stats", "stats", gettext_lazy("Statistics")),
+    ("keys", "keys", gettext_lazy("Keys")),
 )
 
 
@@ -26,7 +26,7 @@ class AboutView(TemplateView):
     def page_context(self, context):
         context.update(
             {
-                "title": _("About Weblate"),
+                "title": gettext("About Weblate"),
                 "versions": get_versions_list(),
                 "allow_index": True,
             }
@@ -50,7 +50,7 @@ class StatsView(AboutView):
     page = "stats"
 
     def page_context(self, context):
-        context["title"] = _("Weblate statistics")
+        context["title"] = gettext("Weblate statistics")
 
         stats = GlobalStats()
 
@@ -80,7 +80,7 @@ class KeysView(AboutView):
     def page_context(self, context):
         context.update(
             {
-                "title": _("Weblate keys"),
+                "title": gettext("Weblate keys"),
                 "gpg_key_id": get_gpg_sign_key(),
                 "gpg_key": get_gpg_public_key(),
                 "public_ssh_keys": get_all_key_data(),

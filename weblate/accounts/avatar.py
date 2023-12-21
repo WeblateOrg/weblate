@@ -24,7 +24,7 @@ def avatar_for_email(email, size=80):
     if not email:
         email = "noreply@weblate.org"
 
-    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # nosec
+    mail_hash = hashlib.md5(email.lower().encode(), usedforsecurity=False).hexdigest()
 
     return "{}avatar/{}?d={}&s={}".format(
         settings.AVATAR_URL_PREFIX,
@@ -63,7 +63,7 @@ def get_avatar_image(user, size: int):
             image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (OSError, CertificateError):
-            report_error(cause=f"Failed to fetch avatar for {username}")
+            report_error(cause=f"Could not fetch avatar for {username}")
             return get_fallback_avatar(size)
 
     return image

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import subprocess
-from functools import lru_cache
+from functools import cache as functools_cache
 
 from django.core.management.utils import find_command
 
@@ -15,8 +15,7 @@ GIT_PATHS = [
 ]
 
 
-# TODO: Use functools.cache when Python 3.9+
-@lru_cache(maxsize=None)
+@functools_cache
 def find_git_http_backend():
     """Find Git HTTP back-end."""
     try:

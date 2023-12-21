@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import Iterable, Optional
+from typing import TYPE_CHECKING, Any
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -14,9 +16,13 @@ from django.core.signing import TimestampSigner
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import get_language, get_language_bidi
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import override
+from django.utils.translation import (
+    get_language,
+    get_language_bidi,
+    gettext_lazy,
+    override,
+    pgettext_lazy,
+)
 from siphashc import siphash
 
 from weblate.accounts.tasks import send_mails
@@ -30,6 +36,9 @@ from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
 FREQ_NONE = 0
 FREQ_INSTANT = 1
 FREQ_DAILY = 2
@@ -37,11 +46,11 @@ FREQ_WEEKLY = 3
 FREQ_MONTHLY = 4
 
 FREQ_CHOICES = (
-    (FREQ_NONE, _("Do not notify")),
-    (FREQ_INSTANT, _("Instant notification")),
-    (FREQ_DAILY, _("Daily digest")),
-    (FREQ_WEEKLY, _("Weekly digest")),
-    (FREQ_MONTHLY, _("Monthly digest")),
+    (FREQ_NONE, gettext_lazy("No notification")),
+    (FREQ_INSTANT, gettext_lazy("Instant notification")),
+    (FREQ_DAILY, gettext_lazy("Daily digest")),
+    (FREQ_WEEKLY, gettext_lazy("Weekly digest")),
+    (FREQ_MONTHLY, gettext_lazy("Monthly digest")),
 )
 
 SCOPE_ALL = 0
@@ -80,11 +89,13 @@ class Notification:
     filter_languages: bool = False
     ignore_watched: bool = False
     any_watched: bool = False
-    required_attr: Optional[str] = None
+    required_attr: str | None = None
+    skip_when_notify: list[Any] = []
 
     def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
         self.subscription_cache = {}
+        self.child_notify = None
         if perm_cache is not None:
             self.perm_cache = perm_cache
         else:
@@ -254,7 +265,9 @@ class Notification:
             result["changes"] = changes
         if subscription is not None:
             result["unsubscribe_nonce"] = TimestampSigner().sign(subscription.pk)
-            result["user"] = subscription.user
+            result["subscription_user"] = subscription.user
+        else:
+            result["subscription_user"] = None
         if extracontext:
             result.update(extracontext)
         if change:
@@ -336,8 +349,24 @@ class Notification:
                 self.get_headers(context),
             )
 
+    def _convert_change_skip(self, change):
+        return change
+
     def should_skip(self, user, change):
-        return False
+        if not self.skip_when_notify:
+            return False
+        if self.child_notify is None:
+            self.child_notify = [
+                notify_class(None, self.perm_cache)
+                for notify_class in self.skip_when_notify
+            ]
+        converted_change = self._convert_change_skip(change)
+        return any(
+            list(
+                child_notify.get_users(FREQ_INSTANT, converted_change, users=[user.pk])
+            )
+            for child_notify in self.child_notify
+        )
 
     def notify_immediate(self, change):
         for user in self.get_users(FREQ_INSTANT, change):
@@ -412,32 +441,6 @@ class Notification:
 
 
 @register_notification
-class MergeFailureNotification(Notification):
-    actions = (
-        Change.ACTION_FAILED_MERGE,
-        Change.ACTION_FAILED_REBASE,
-        Change.ACTION_FAILED_PUSH,
-    )
-    # Translators: Notification name
-    verbose = _("Repository failure")
-    template_name = "repository_error"
-
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
-
-    def should_skip(self, user, change):
-        fake = copy(change)
-        fake.action = Change.ACTION_ALERT
-        fake.alert = Alert(name="MergeFailure", details={"error": ""})
-        if self.fake_notify is None:
-            self.fake_notify = NewAlertNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, fake, users=[user.pk]))
-        )
-
-
-@register_notification
 class RepositoryNotification(Notification):
     actions = (
         Change.ACTION_COMMIT,
@@ -446,8 +449,9 @@ class RepositoryNotification(Notification):
         Change.ACTION_REBASE,
         Change.ACTION_MERGE,
     )
-    # Translators: Notification name
-    verbose = _("Repository operation")
+    verbose = pgettext_lazy(
+        "Notification name", "Operation was performed in the repository"
+    )
     template_name = "repository_operation"
 
 
@@ -457,24 +461,21 @@ class LockNotification(Notification):
         Change.ACTION_LOCK,
         Change.ACTION_UNLOCK,
     )
-    # Translators: Notification name
-    verbose = _("Component locking")
+    verbose = pgettext_lazy("Notification name", "Component was locked or unlocked")
     template_name = "component_lock"
 
 
 @register_notification
 class LicenseNotification(Notification):
     actions = (Change.ACTION_LICENSE_CHANGE, Change.ACTION_AGREEMENT_CHANGE)
-    # Translators: Notification name
-    verbose = _("Changed license")
+    verbose = pgettext_lazy("Notification name", "License was changed")
     template_name = "component_license"
 
 
 @register_notification
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
-    # Translators: Notification name
-    verbose = _("Parse error")
+    verbose = pgettext_lazy("Notification name", "Parse error occured")
     template_name = "parse_error"
 
     def get_context(
@@ -490,18 +491,21 @@ class ParseErrorNotification(Notification):
 
 @register_notification
 class NewStringNotificaton(Notification):
-    actions = (Change.ACTION_NEW_STRING,)
-    # Translators: Notification name
-    verbose = _("New string")
+    actions = (Change.ACTION_NEW_UNIT, Change.ACTION_NEW_UNIT_REPO)
+    verbose = pgettext_lazy(
+        "Notification name", "New string is available for translation"
+    )
     template_name = "new_string"
     filter_languages = True
+    required_attr = "unit"
 
 
 @register_notification
 class NewContributorNotificaton(Notification):
     actions = (Change.ACTION_NEW_CONTRIBUTOR,)
-    # Translators: Notification name
-    verbose = _("New contributor")
+    verbose = pgettext_lazy(
+        "Notification name", "Contributor made their first translation"
+    )
     template_name = "new_contributor"
     filter_languages = True
 
@@ -509,68 +513,42 @@ class NewContributorNotificaton(Notification):
 @register_notification
 class NewSuggestionNotificaton(Notification):
     actions = (Change.ACTION_SUGGESTION,)
-    # Translators: Notification name
-    verbose = _("New suggestion")
+    verbose = pgettext_lazy("Notification name", "Suggestion was added")
     template_name = "new_suggestion"
     filter_languages = True
     required_attr = "suggestion"
 
 
 @register_notification
-class LastAuthorCommentNotificaton(Notification):
+class NewCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
-    # Translators: Notification name
-    verbose = _("Comment on own translation")
+    verbose = pgettext_lazy("Notification name", "Comment was added")
     template_name = "new_comment"
-    ignore_watched = True
+    filter_languages = True
     required_attr = "comment"
 
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
+    def get_language_filter(self, change, translation):
+        if not change.comment.unit.is_source:
+            return translation.language
+        return None
 
-    def should_skip(self, user, change):
-        if self.fake_notify is None:
-            self.fake_notify = MentionCommentNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
-        )
+    def notify_immediate(self, change):
+        super().notify_immediate(change)
 
-    def get_users(
-        self,
-        frequency,
-        change=None,
-        project=None,
-        component=None,
-        translation=None,
-        users=None,
-    ):
-        last_author = change.unit.get_last_content_change()[0]
-        users = [] if last_author.is_anonymous else [last_author.pk]
-        return super().get_users(
-            frequency, change, project, component, translation, users
-        )
+        # Notify upstream
+        report_source_bugs = change.component.report_source_bugs
+        if change.comment and change.comment.unit.is_source and report_source_bugs:
+            self.send_immediate("en", report_source_bugs, change)
 
 
 @register_notification
 class MentionCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
-    # Translators: Notification name
-    verbose = _("Mentioned in comment")
+    verbose = pgettext_lazy("Notification name", "You were mentioned in a comment")
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
-
-    def should_skip(self, user, change):
-        if self.fake_notify is None:
-            self.fake_notify = NewCommentNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
-        )
+    skip_when_notify = [NewCommentNotificaton]
 
     def get_users(
         self,
@@ -596,42 +574,34 @@ class MentionCommentNotificaton(Notification):
 
 
 @register_notification
-class NewCommentNotificaton(Notification):
+class LastAuthorCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
-    # Translators: Notification name
-    verbose = _("New comment")
+    verbose = pgettext_lazy("Notification name", "Your translation received a comment")
     template_name = "new_comment"
-    filter_languages = True
+    ignore_watched = True
     required_attr = "comment"
+    skip_when_notify = [MentionCommentNotificaton]
 
-    def get_language_filter(self, change, translation):
-        if not change.comment.unit.is_source:
-            return translation.language
-        return None
-
-    def notify_immediate(self, change):
-        super().notify_immediate(change)
-
-        # Notify upstream
-        report_source_bugs = change.component.report_source_bugs
-        if change.comment and change.comment.unit.is_source and report_source_bugs:
-            self.send_immediate("en", report_source_bugs, change)
-
-
-@register_notification
-class ChangedStringNotificaton(Notification):
-    actions = Change.ACTIONS_CONTENT
-    # Translators: Notification name
-    verbose = _("Changed string")
-    template_name = "changed_translation"
-    filter_languages = True
+    def get_users(
+        self,
+        frequency,
+        change=None,
+        project=None,
+        component=None,
+        translation=None,
+        users=None,
+    ):
+        last_author = change.unit.get_last_content_change()[0]
+        users = [] if last_author.is_anonymous else [last_author.pk]
+        return super().get_users(
+            frequency, change, project, component, translation, users
+        )
 
 
 @register_notification
 class TranslatedStringNotificaton(Notification):
-    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
-    # Translators: Notification name
-    verbose = _("Translated string")
+    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW, Change.ACTION_ACCEPT)
+    verbose = pgettext_lazy("Notification name", "String was edited by user")
     template_name = "translated_string"
     filter_languages = True
 
@@ -639,17 +609,24 @@ class TranslatedStringNotificaton(Notification):
 @register_notification
 class ApprovedStringNotificaton(Notification):
     actions = (Change.ACTION_APPROVE,)
-    # Translators: Notification name
-    verbose = _("Approved string")
+    verbose = pgettext_lazy("Notification name", "String was approved")
     template_name = "approved_string"
     filter_languages = True
 
 
 @register_notification
+class ChangedStringNotificaton(Notification):
+    actions = Change.ACTIONS_CONTENT
+    verbose = pgettext_lazy("Notification name", "String was changed")
+    template_name = "changed_translation"
+    filter_languages = True
+    skip_when_notify = [TranslatedStringNotificaton, ApprovedStringNotificaton]
+
+
+@register_notification
 class NewTranslationNotificaton(Notification):
     actions = (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE)
-    # Translators: Notification name
-    verbose = _("New language")
+    verbose = pgettext_lazy("Notification name", "New language was added or requested")
     template_name = "new_language"
 
     def get_context(
@@ -665,16 +642,16 @@ class NewTranslationNotificaton(Notification):
 @register_notification
 class NewComponentNotificaton(Notification):
     actions = (Change.ACTION_CREATE_COMPONENT,)
-    # Translators: Notification name
-    verbose = _("New translation component")
+    verbose = pgettext_lazy(
+        "Notification name", "New translation component was created"
+    )
     template_name = "new_component"
 
 
 @register_notification
 class NewAnnouncementNotificaton(Notification):
     actions = (Change.ACTION_ANNOUNCEMENT,)
-    # Translators: Notification name
-    verbose = _("New announcement")
+    verbose = pgettext_lazy("Notification name", "Announcement was published")
     template_name = "new_announcement"
     required_attr = "announcement"
     any_watched: bool = True
@@ -689,8 +666,7 @@ class NewAnnouncementNotificaton(Notification):
 @register_notification
 class NewAlertNotificaton(Notification):
     actions = (Change.ACTION_ALERT,)
-    # Translators: Notification name
-    verbose = _("New alert")
+    verbose = pgettext_lazy("Notification name", "New alert emerged in a component")
     template_name = "new_alert"
     required_attr = "alert"
 
@@ -719,6 +695,24 @@ class NewAlertNotificaton(Notification):
             fake.project = fake.component.project
             return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
         return False
+
+
+@register_notification
+class MergeFailureNotification(Notification):
+    actions = (
+        Change.ACTION_FAILED_MERGE,
+        Change.ACTION_FAILED_REBASE,
+        Change.ACTION_FAILED_PUSH,
+    )
+    verbose = pgettext_lazy("Notification name", "Repository operation failed")
+    template_name = "repository_error"
+    skip_when_notify = [NewAlertNotificaton]
+
+    def _convert_change_skip(self, change):
+        fake = copy(change)
+        fake.action = Change.ACTION_ALERT
+        fake.alert = Alert(name="MergeFailure", details={"error": ""})
+        return fake
 
 
 class SummaryNotification(Notification):
@@ -777,8 +771,7 @@ class SummaryNotification(Notification):
 
 @register_notification
 class PendingSuggestionsNotification(SummaryNotification):
-    # Translators: Notification name
-    verbose = _("Pending suggestions")
+    verbose = pgettext_lazy("Notification name", "Pending suggestions exist")
     digest_template = "pending_suggestions"
 
     @staticmethod
@@ -788,8 +781,7 @@ class PendingSuggestionsNotification(SummaryNotification):
 
 @register_notification
 class ToDoStringsNotification(SummaryNotification):
-    # Translators: Notification name
-    verbose = _("Unfinished strings")
+    verbose = pgettext_lazy("Notification name", "Unfinished strings exist")
     digest_template = "todo_strings"
 
     @staticmethod

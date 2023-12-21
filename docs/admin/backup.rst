@@ -35,8 +35,6 @@ The generated backups are kept on the server as configured by
 Automated backup using BorgBackup
 ---------------------------------
 
-.. versionadded:: 3.9
-
 Weblate has built-in support for creating service backups using `BorgBackup`_.
 Borg creates space-effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface from the
@@ -52,7 +50,7 @@ The backups using Borg are incremental and Weblate is configured to keep followi
 * Weekly backups for 8 weeks back
 * Monthly backups for 6 months back
 
-.. image:: /screenshots/backups.png
+.. image:: /screenshots/backups.webp
 
 .. _borg-keys:
 
@@ -187,7 +185,7 @@ Restoring from BorgBackup
    When using Docker container place the data into the data volume, see
    :ref:`docker-volume`.
 
-   Please make sure the files have correct ownership and permissions, see :ref:`file-permissions`.
+   Please ensure the files have correct ownership and permissions, see :ref:`file-permissions`.
 
 The Borg session might look like this:
 
@@ -351,15 +349,13 @@ Using a cron job, you can set up a Bash command to be executed on a daily basis,
 
 .. code-block:: console
 
-     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups vcs ssh home media fonts secret
-
-The string between the quotes after `XZ_OPT` allows you to choose your xz options, for instance the amount of memory used for compression; see https://linux.die.net/man/1/xz
+     $ tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups vcs ssh home media fonts secret
 
 You can adjust the list of folders and files to your needs. To avoid saving the translation memory (in backups folder), you can use:
 
 .. code-block:: console
 
-     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups/database.sql backups/settings.py vcs ssh home media fonts secret
+     $ tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups/database.sql backups/settings.py vcs ssh home media fonts secret
 
 Restoring manual backup
 -----------------------
@@ -380,5 +376,5 @@ by following the backing up and restoration instructions above.
 
 .. seealso::
 
-   :ref:`py3`,
+   `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_,
    :ref:`database-migration`

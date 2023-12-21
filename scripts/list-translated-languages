@@ -9,7 +9,7 @@ from importlib.util import module_from_spec, spec_from_file_location
 import requests
 from icu import Locale
 
-URL = "http://hosted.weblate.org/exports/stats/weblate/application/"
+URL = "https://hosted.weblate.org/exports/stats/weblate/application/"
 THRESHOLD = 40
 
 
@@ -21,7 +21,7 @@ def print_language(lang, fmt="{0} ({1})"):
 
 def main():
     # load and parse data
-    data = requests.get(URL).json()
+    data = requests.get(URL, timeout=5).json()
 
     # select languages
     languages = []

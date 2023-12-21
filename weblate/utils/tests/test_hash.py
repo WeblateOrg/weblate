@@ -6,6 +6,7 @@ from django.test import SimpleTestCase
 
 from weblate.utils.hash import (
     calculate_checksum,
+    calculate_dict_hash,
     calculate_hash,
     checksum_to_hash,
     hash_to_checksum,
@@ -44,3 +45,17 @@ class HashTest(SimpleTestCase):
 
     def test_calculate_checksum(self):
         self.assertEqual(calculate_checksum("Message"), "f5351ff85ab23173")
+
+    def test_calculate_dict_hash(self):
+        self.assertEqual(
+            calculate_dict_hash({"a": 1, "b": 2}),
+            calculate_dict_hash({"b": 2, "a": 1}),
+        )
+        self.assertEqual(
+            calculate_dict_hash({"a": "1", "b": "2"}),
+            calculate_dict_hash({"a": 1, "b": 2}),
+        )
+        self.assertNotEqual(
+            calculate_dict_hash({"a": 2, "b": 2}),
+            calculate_dict_hash({"a": 1, "b": 2}),
+        )

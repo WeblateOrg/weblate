@@ -11,9 +11,9 @@ from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.util import sort_unicode
-from weblate.utils.views import get_component, get_project, get_translation
+from weblate.utils.views import parse_path
 
 
 def get_unit_translations(request, unit_id):
@@ -30,10 +30,7 @@ def get_unit_translations(request, unit_id):
                 unit.source_unit.unit_set.exclude(pk=unit.pk)
                 .prefetch()
                 .prefetch_full(),
-                lambda unit: "{}-{}".format(
-                    user.profile.get_translation_order(unit.translation),
-                    unit.translation.language,
-                ),
+                user.profile.get_translation_orderer(request),
             ),
             "component": unit.translation.component,
         },
@@ -83,14 +80,22 @@ def ignore_check_source(request, check_id):
     )
 
 
-def git_status_shared(request, obj, repositories):
+@login_required
+def git_status(request, path):
+    obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("meta:vcs.status", obj):
         raise PermissionDenied
 
-    changes = obj.change_set.filter(action__in=Change.ACTIONS_REPOSITORY).order()[:10]
+    repo_components = obj.all_repo_components
 
+    # Filter events from repository
+    changes = Change.objects.filter(
+        component__in=repo_components, action__in=Change.ACTIONS_REPOSITORY
+    ).order()[:10]
+
+    # Get push label for the first component
     try:
-        push_label = repositories[0].repository_class.push_label
+        push_label = repo_components[0].repository_class.push_label
     except IndexError:
         push_label = ""
 
@@ -100,45 +105,18 @@ def git_status_shared(request, obj, repositories):
         {
             "object": obj,
             "changes": changes.prefetch(),
-            "repositories": repositories,
+            "repositories": repo_components,
             "pending_units": obj.count_pending_units,
-            "outgoing_commits": sum(repo.count_repo_outgoing for repo in repositories),
-            "missing_commits": sum(repo.count_repo_missing for repo in repositories),
+            "outgoing_commits": sum(
+                repo.count_repo_outgoing for repo in repo_components
+            ),
+            "missing_commits": sum(repo.count_repo_missing for repo in repo_components),
             "supports_push": any(
-                repo.repository_class.supports_push for repo in repositories
+                repo.repository_class.supports_push for repo in repo_components
             ),
             "push_label": push_label,
         },
     )
-
-
-@login_required
-def git_status_project(request, project):
-    obj = get_project(request, project)
-
-    return git_status_shared(request, obj, obj.all_repo_components)
-
-
-@login_required
-def git_status_component(request, project, component):
-    obj = get_component(request, project, component)
-
-    target = obj
-    if target.is_repo_link:
-        target = target.linked_component
-
-    return git_status_shared(request, obj, [obj])
-
-
-@login_required
-def git_status_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
-
-    target = obj.component
-    if target.is_repo_link:
-        target = target.linked_component
-
-    return git_status_shared(request, obj, [obj.component])
 
 
 @cache_control(max_age=3600)

@@ -8,7 +8,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
@@ -20,7 +20,7 @@ BUILT_IN_ROLES = {role[0] for role in ROLES}
 
 
 def block_group_edit(obj):
-    """Whether to allo user editing of an group."""
+    """Whether to allow user editing of a group."""
     return obj and obj.internal
 
 
@@ -147,17 +147,17 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     add_form = WeblateUserCreationForm
     add_fieldsets = (
         (None, {"fields": ("username",)}),
-        (_("Personal info"), {"fields": ("full_name", "email")}),
-        (_("Authentication"), {"fields": ("password1", "password2")}),
+        (gettext_lazy("Personal info"), {"fields": ("full_name", "email")}),
+        (gettext_lazy("Authentication"), {"fields": ("password1", "password2")}),
     )
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("full_name", "email")}),
+        (gettext_lazy("Personal info"), {"fields": ("full_name", "email")}),
         (
-            _("Permissions"),
+            gettext_lazy("Permissions"),
             {"fields": ("is_active", "is_bot", "is_superuser", "groups")},
         ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (gettext_lazy("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     list_filter = ("is_superuser", "is_active", "is_bot", "groups")
     filter_horizontal = ("groups",)
@@ -214,13 +214,15 @@ class GroupChangeForm(forms.ModelForm):
             if fields:
                 raise ValidationError(
                     {
-                        field: _("This is not used when a component list is selected.")
+                        field: gettext(
+                            "This is not used when a component list is selected."
+                        )
                         for field in fields
                     }
                 )
         elif has_component and has_project:
             raise ValidationError(
-                {"projects": _("This is not used when a component is selected.")}
+                {"projects": gettext("This is not used when a component is selected.")}
             )
 
 
