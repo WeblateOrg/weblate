@@ -34,6 +34,9 @@
   {% include "billing/status.html" %}
 {% if billing.is_active %}
   <div class="panel-footer">
+  {% if billing.all_projects %}
+    <p class="text-danger">{% trans "To terminate billing you have to remove all projects first." %}</p>
+  {% endif %}
   <form method="post">
   {% csrf_token %}
   {% if payment_enabled and billing.can_be_paid %}
