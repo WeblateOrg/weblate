@@ -3,6 +3,7 @@
     :maxdepth: 1
 
     contributing/index
+    contributing/communication
     contributing/start
     contributing/code
     contributing/debugging
@@ -14,5 +15,6 @@
     contributing/schemas
     contributing/release
     contributing/security
+    contributing/modules
     contributing/about
     contributing/license

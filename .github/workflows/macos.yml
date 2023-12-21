@@ -1,0 +1,41 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: macOS
+
+on:
+  push:
+    branches-ignore:
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    # This verifies that installation instructions works, any changes here
+    # need to be reflected in docs/admin/install/venv-macos.rst
+    runs-on: macos-13
+    env:
+      PYTHONUNBUFFERED: 1
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+    steps:
+    - uses: actions/checkout@v4
+    - run: brew update
+    - name: Install Python
+      run: brew link --overwrite python
+    - name: Install brew dependencies
+      run: |
+        # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
+        wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
+        brew install --formula /tmp/libxmlsec1.rb
+        brew pin libxmlsec1
+
+        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+    - name: Install Weblate
+      run: pip3 install -e .[all,test]

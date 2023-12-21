@@ -1,25 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from crispy_forms.helper import FormHelper
 from django import forms
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.accounts.forms import EmailField
 from weblate.wladmin.models import BackupService
@@ -27,19 +12,21 @@ from weblate.wladmin.models import BackupService
 
 class ActivateForm(forms.Form):
     secret = forms.CharField(
-        label=_("Activation token"),
+        label=gettext_lazy("Activation token"),
         required=True,
         max_length=400,
-        help_text=_(
+        help_text=gettext_lazy(
             "Please enter the activation token obtained when making the subscription."
         ),
     )
 
 
 class SSHAddForm(forms.Form):
-    host = forms.CharField(label=_("Hostname"), required=True, max_length=400)
+    host = forms.CharField(
+        label=gettext_lazy("Hostname"), required=True, max_length=400
+    )
     port = forms.IntegerField(
-        label=_("Port"), required=False, min_value=1, max_value=65535
+        label=gettext_lazy("Port"), required=False, min_value=1, max_value=65535
     )
 
     def __init__(self, *args, **kwargs):
@@ -53,8 +40,8 @@ class SSHAddForm(forms.Form):
 class TestMailForm(forms.Form):
     email = EmailField(
         required=True,
-        label=_("E-mail"),
-        help_text=_("The test e-mail will be sent to this address."),
+        label=gettext_lazy("E-mail"),
+        help_text=gettext_lazy("The test e-mail will be sent to this address."),
     )
 
 
@@ -64,14 +51,11 @@ class BackupForm(forms.ModelForm):
         fields = ("repository",)
 
 
-class UserSearchForm(forms.Form):
-    email = forms.CharField(label=_("Username or registered e-mail"))
-
-
 class FontField(forms.CharField):
     def __init__(self, **kwargs):
         super().__init__(
-            help_text=_("Please provide font family suitable for CSS."), **kwargs
+            help_text=gettext_lazy("Please provide font family suitable for CSS."),
+            **kwargs,
         )
 
 
@@ -81,8 +65,8 @@ class ColorField(forms.CharField):
 
 
 class AppearanceForm(forms.Form):
-    page_font = FontField(label=_("Page font"), required=False)
-    brand_font = FontField(label=_("Header font"), required=False)
+    page_font = FontField(label=gettext_lazy("Page font"), required=False)
+    brand_font = FontField(label=gettext_lazy("Header font"), required=False)
     header_color = ColorField(
         label=("Navigation color"), required=False, initial="#2a3744"
     )
@@ -92,13 +76,19 @@ class AppearanceForm(forms.Form):
     navi_color = ColorField(
         label=("Navigation color"), required=False, initial="#1fa385"
     )
-    focus_color = ColorField(label=_("Focus color"), required=False, initial="#2eccaa")
-    hover_color = ColorField(label=_("Hover color"), required=False, initial="#144d3f")
-    hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)
+    focus_color = ColorField(
+        label=gettext_lazy("Focus color"), required=False, initial="#2eccaa"
+    )
+    hover_color = ColorField(
+        label=gettext_lazy("Hover color"), required=False, initial="#144d3f"
+    )
+    hide_footer = forms.BooleanField(
+        label=gettext_lazy("Hide page footer"), required=False
+    )
     enforce_hamburger = forms.BooleanField(
-        label=_("Always show hamburger menu"),
+        label=gettext_lazy("Always show hamburger menu"),
         required=False,
-        help_text=_(
+        help_text=gettext_lazy(
             "Persistent navigational drop-down menu in the top right corner, "
             "even if there is room for a full menu."
         ),
@@ -108,3 +98,8 @@ class AppearanceForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+
+class ChangedCharField(forms.CharField):
+    def has_changed(self, initial, data):
+        return True

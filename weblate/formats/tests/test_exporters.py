@@ -1,27 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     AndroidResourceExporter,
     CSVExporter,
     JSONExporter,
+    JSONNestedExporter,
     MoExporter,
     PoExporter,
     PoXliffExporter,
@@ -30,7 +16,7 @@ from weblate.formats.exporters import (
     XliffExporter,
     XlsxExporter,
 )
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
@@ -58,7 +44,7 @@ class PoExporterTest(BaseTestCase):
             language=lang,
             source_language=Language.objects.get(code="en"),
             project=Project(slug="test", name="TEST"),
-            **kwargs
+            **kwargs,
         )
 
     def check_export(self, exporter):
@@ -71,10 +57,7 @@ class PoExporterTest(BaseTestCase):
         self.assertIn(b"msgstr[2]", result)
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
-        if nplurals == 3:
-            formula = "n==0 ? 0 : n==1 ? 1 : 2"
-        else:
-            formula = "0"
+        formula = "n==0 ? 0 : n==1 ? 1 : 2" if nplurals == 3 else "0"
         lang = Language.objects.create(code="zz")
         plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
         project = Project(slug="test")
@@ -87,8 +70,8 @@ class PoExporterTest(BaseTestCase):
         )
         translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files
-        translation.store = EmptyFormat(BytesIOMode("", b""))
-        unit = Unit(translation=translation, id_hash=-1, **kwargs)
+        translation.store = EmptyFormat(NamedBytesIO("", b""))
+        unit = Unit(translation=translation, id_hash=-1, pk=-1, **kwargs)
         if source_info:
             for key, value in source_info.items():
                 setattr(unit, key, value)
@@ -115,8 +98,19 @@ class PoExporterTest(BaseTestCase):
     def test_unit_markup(self):
         self.check_unit(source="<b>foo</b>", target="<b>bar</b>")
 
+    def test_unit_location(self):
+        self.check_unit(source="xxx", target="yyy", location="file.c:333, file.c:444")
+
+    def test_unit_location_custom(self):
+        self.check_unit(
+            source="xxx", target="yyy", location="docs/config.md:block 1 (header)"
+        )
+
     def test_unit_special(self):
         self.check_unit(source="bar\x1e\x1efoo", target="br\x1eff")
+
+    def test_unit_bom(self):
+        self.check_unit(source="For example ￾￾", target="For example ￾￾")
 
     def _encode(self, string):
         return string.encode("utf-8")
@@ -301,13 +295,13 @@ class JSONExporterTest(PoExporterTest):
         pass
 
 
+class JSONNestedExporterTest(JSONExporterTest):
+    _class = JSONNestedExporter
+
+
 class StringsExporterTest(PoExporterTest):
     _class = StringsExporter
     _has_comments = False
-
-    def _encode(self, string):
-        # Skip BOM
-        return string.encode("utf-16")[2:]
 
     def check_plurals(self, result):
         # Doesn't support plurals

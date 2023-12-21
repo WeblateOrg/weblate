@@ -1,48 +1,183 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import difflib
+import os
+from contextlib import contextmanager
+from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
+from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
+from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Component, Unit
 from weblate.utils import messages
-from weblate.utils.locale import c_locale
+from weblate.utils.data import data_dir
+from weblate.utils.lock import WeblateLock
+from weblate.utils.requests import request
 from weblate.utils.search import parse_query
-from weblate.utils.views import ComponentViewMixin
+from weblate.utils.views import PathViewMixin
 
-try:
-    with c_locale():
-        from tesserocr import RIL, PyTessBaseAPI
-    HAS_OCR = True
-except ImportError:
-    HAS_OCR = False
+if TYPE_CHECKING:
+    from weblate.lang.models import Language
+
+
+TESSERACT_LANGUAGES = {
+    "af": "afr",  # Afrikaans
+    "am": "amh",  # Amharic
+    "ar": "ara",  # Arabic
+    "as": "asm",  # Assamese
+    "az": "aze",  # Azerbaijani
+    "az@Cyrl": "aze_cyrl",  # Azerbaijani - Cyrillic
+    "be": "bel",  # Belarusian
+    "bn": "ben",  # Bengali
+    "bo": "bod",  # Tibetan
+    "bs": "bos",  # Bosnian
+    "bg": "bul",  # Bulgarian
+    "ca": "cat",  # Catalan; Valencian
+    "ceb": "ceb",  # Cebuano
+    "cs": "ces",  # Czech
+    "zh_Hans": "chi_sim",  # Chinese - Simplified
+    "zh_Hant": "chi_tra",  # Chinese - Traditional
+    "chr": "chr",  # Cherokee
+    "cy": "cym",  # Welsh
+    "da": "dan",  # Danish
+    "de": "deu",  # German
+    "dz": "dzo",  # Dzongkha
+    "el": "ell",  # Greek, Modern (1453-)
+    "en": "eng",  # English
+    "enm": "enm",  # English, Middle (1100-1500)
+    "eo": "epo",  # Esperanto
+    "et": "est",  # Estonian
+    "eu": "eus",  # Basque
+    "fa": "fas",  # Persian
+    "fi": "fin",  # Finnish
+    "fr": "fra",  # French
+    "frk": "frk",  # German Fraktur
+    "frm": "frm",  # French, Middle (ca. 1400-1600)
+    "ga": "gle",  # Irish
+    "gl": "glg",  # Galician
+    "grc": "grc",  # Greek, Ancient (-1453)
+    "gu": "guj",  # Gujarati
+    "ht": "hat",  # Haitian; Haitian Creole
+    "he": "heb",  # Hebrew
+    "hi": "hin",  # Hindi
+    "hr": "hrv",  # Croatian
+    "hu": "hun",  # Hungarian
+    "iu": "iku",  # Inuktitut
+    "id": "ind",  # Indonesian
+    "is": "isl",  # Icelandic
+    "it": "ita",  # Italian
+    #    "": "ita_old",  # Italian - Old
+    "jv": "jav",  # Javanese
+    "ja": "jpn",  # Japanese
+    "kn": "kan",  # Kannada
+    "ka": "kat",  # Georgian
+    #    "": "kat_old",  # Georgian - Old
+    "kk": "kaz",  # Kazakh
+    "km": "khm",  # Central Khmer
+    "ky": "kir",  # Kirghiz; Kyrgyz
+    "ko": "kor",  # Korean
+    "ku": "kur",  # Kurdish
+    "lo": "lao",  # Lao
+    "la": "lat",  # Latin
+    "lv": "lav",  # Latvian
+    "lt": "lit",  # Lithuanian
+    "ml": "mal",  # Malayalam
+    "mr": "mar",  # Marathi
+    "mk": "mkd",  # Macedonian
+    "mt": "mlt",  # Maltese
+    "ms": "msa",  # Malay
+    "my": "mya",  # Burmese
+    "ne": "nep",  # Nepali
+    "nl": "nld",  # Dutch; Flemish
+    "nb_NO": "nor",  # Norwegian
+    #    "": "ori",  # Oriya
+    "pa": "pan",  # Panjabi; Punjabi
+    "pl": "pol",  # Polish
+    "pt": "por",  # Portuguese
+    "ps": "pus",  # Pushto; Pashto
+    "ro": "ron",  # Romanian; Moldavian; Moldovan
+    "ru": "rus",  # Russian
+    "sa": "san",  # Sanskrit
+    "si": "sin",  # Sinhala; Sinhalese
+    "sk": "slk",  # Slovak
+    "sl": "slv",  # Slovenian
+    "es": "spa",  # Spanish; Castilian
+    #    "": "spa_old",  # Spanish; Castilian - Old
+    "sq": "sqi",  # Albanian
+    "sr": "srp",  # Serbian
+    "sr_Latn": "srp_latn",  # Serbian - Latin
+    "sw": "swa",  # Swahili
+    "sv": "swe",  # Swedish
+    "syr": "syr",  # Syriac
+    "ta": "tam",  # Tamil
+    "te": "tel",  # Telugu
+    "tg": "tgk",  # Tajik
+    "tl": "tgl",  # Tagalog
+    "th": "tha",  # Thai
+    "ti": "tir",  # Tigrinya
+    "tr": "tur",  # Turkish
+    "ug": "uig",  # Uighur; Uyghur
+    "uk": "ukr",  # Ukrainian
+    "ur": "urd",  # Urdu
+    "uz_Latn": "uzb",  # Uzbek
+    "uz": "uzb_cyrl",  # Uzbek - Cyrillic
+    "vi": "vie",  # Vietnamese
+    "yi": "yid",  # Yiddish
+}
+
+TESSERACT_URL = "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{}"
+
+
+def ensure_tesseract_language(lang: str):
+    """
+    Ensure that tesseract trained data is present for a language.
+
+    It also always includes eng (English) and osd (Orientation and script detection).
+    """
+    tessdata = data_dir("cache", "tesseract")
+
+    # Operate with a lock held to avoid concurrent downloads
+    with WeblateLock(
+        data_dir("home"),
+        "screenshots:tesseract-download",
+        0,
+        "screenshots:tesseract-download",
+        timeout=600,
+    ), sentry_sdk.start_span(op="ocr.models"):
+        if not os.path.isdir(tessdata):
+            os.makedirs(tessdata)
+
+        for code in (lang, "eng", "osd"):
+            filename = f"{code}.traineddata"
+            full_name = os.path.join(tessdata, filename)
+            if os.path.exists(full_name):
+                continue
+
+            url = TESSERACT_URL.format(filename)
+
+            LOGGER.debug("downloading tesseract data %s", url)
+
+            with sentry_sdk.start_span(op="ocr.download", description=url):
+                response = request("GET", url, allow_redirects=True)
+
+            with open(full_name, "xb") as handle:
+                handle.write(response.content)
 
 
 def try_add_source(request, obj):
@@ -58,34 +193,33 @@ def try_add_source(request, obj):
     return True
 
 
-class ScreenshotList(ListView, ComponentViewMixin):
+class ScreenshotList(PathViewMixin, ListView):
     paginate_by = 25
     model = Screenshot
+    supported_path_types = (Component,)
     _add_form = None
 
     def get_queryset(self):
-        self.kwargs["component"] = self.get_component()
         return (
-            Screenshot.objects.filter(translation__component=self.kwargs["component"])
+            Screenshot.objects.filter(translation__component=self.path_object)
             .prefetch_related("translation__language")
             .order()
         )
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        component = self.kwargs["component"]
-        result["object"] = component
-        if self.request.user.has_perm("screenshot.add", component):
+        result["object"] = self.path_object
+        if self.request.user.has_perm("screenshot.add", self.path_object):
             if self._add_form is not None:
                 result["add_form"] = self._add_form
             else:
-                result["add_form"] = ScreenshotForm(component)
+                result["add_form"] = ScreenshotForm(self.path_object)
         return result
 
     def post(self, request, **kwargs):
-        component = self.get_component()
+        component = self.path_object
         if not request.user.has_perm("screenshot.add", component):
-            raise PermissionDenied()
+            raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
@@ -101,14 +235,14 @@ class ScreenshotList(ListView, ComponentViewMixin):
             try_add_source(request, obj)
             messages.success(
                 request,
-                _(
+                gettext(
                     "Screenshot has been uploaded, "
                     "you can now assign it to source strings."
                 ),
             )
             return redirect(obj)
         messages.error(
-            request, _("Failed to upload screenshot, please fix errors below.")
+            request, gettext("Could not upload screenshot, please fix errors below.")
         )
         return self.get(request, **kwargs)
 
@@ -159,21 +293,19 @@ def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     component = obj.translation.component
     if not request.user.has_perm("screenshot.delete", obj.translation):
-        raise PermissionDenied()
-
-    kwargs = {"project": component.project.slug, "component": component.slug}
+        raise PermissionDenied
 
     obj.delete()
 
-    messages.success(request, _("Screenshot %s has been deleted.") % obj.name)
+    messages.success(request, gettext("Screenshot %s has been deleted.") % obj.name)
 
-    return redirect("screenshots", **kwargs)
+    return redirect("screenshots", path=component.get_url_path())
 
 
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     if not request.user.has_perm("screenshot.edit", obj.translation.component):
-        raise PermissionDenied()
+        raise PermissionDenied
     return obj
 
 
@@ -184,7 +316,7 @@ def remove_source(request, pk):
 
     obj.units.remove(request.POST["source"])
 
-    messages.success(request, _("Source has been removed."))
+    messages.success(request, gettext("Source has been removed."))
 
     return redirect(obj)
 
@@ -193,11 +325,9 @@ def search_results(request, code, obj, units=None):
     if units is None:
         units = []
     else:
-        units = (
-            units.exclude(id__in=obj.units.values_list("id", flat=True))
-            .prefetch()
-            .prefetch_full()
-        )
+        units = units.exclude(
+            id__in=obj.units.values_list("id", flat=True)
+        ).prefetch_full()
 
     return JsonResponse(
         data={
@@ -233,50 +363,77 @@ def search_source(request, pk):
     )
 
 
-def ocr_extract(api, image, strings):
+def ocr_get_strings(api, image: str, resolution: int = 72):
+    try:
+        api.SetImageFile(image)
+    except RuntimeError:
+        pass
+    else:
+        api.SetSourceResolution(resolution)
+
+        with sentry_sdk.start_span(op="ocr.recognize", description=image):
+            api.Recognize()
+
+        with sentry_sdk.start_span(op="ocr.iterate", description=image):
+            iterator = api.GetIterator()
+            level = RIL.TEXTLINE
+            for r in iterate_level(iterator, level):
+                with sentry_sdk.start_span(op="ocr.text", description=image):
+                    try:
+                        yield r.GetUTF8Text(level)
+                    except RuntimeError:
+                        continue
+    finally:
+        api.Clear()
+
+
+def ocr_extract(api, image: str, strings, resolution: int):
     """Extract closes matches from an image."""
-    api.SetImage(image)
-    for item in api.GetComponentImages(RIL.TEXTLINE, True):
-        api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
-        ocr_result = api.GetUTF8Text()
-        parts = [ocr_result] + ocr_result.split("|") + ocr_result.split()
+    for ocr_result in ocr_get_strings(api, image, resolution):
+        parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
-    api.Clear()
+
+
+@contextmanager
+def get_tesseract(language: Language) -> PyTessBaseAPI:
+    # Get matching language
+    try:
+        tess_language = TESSERACT_LANGUAGES[language.code]
+    except KeyError:
+        try:
+            tess_language = TESSERACT_LANGUAGES[language.base_code]
+        except KeyError:
+            tess_language = "eng"
+
+    ensure_tesseract_language(tess_language)
+
+    with PyTessBaseAPI(
+        path=data_dir("cache", "tesseract") + "/",
+        psm=PSM.SPARSE_TEXT_OSD,
+        oem=OEM.LSTM_ONLY,
+        lang=tess_language,
+    ) as api:
+        yield api
 
 
 @login_required
 @require_POST
 def ocr_search(request, pk):
     obj = get_screenshot(request, pk)
-    if not HAS_OCR:
-        return search_results(request, 500, obj)
     translation = obj.translation
-
-    # Load image
-    original_image = Image.open(obj.image.path)
-    # Convert to greyscale
-    original_image = original_image.convert("L")
-    # Resize image (tesseract works best around 300dpi)
-    scaled_image = original_image.copy().resize(
-        [size * 4 for size in original_image.size], Image.BICUBIC
-    )
 
     # Find all our strings
     sources = dict(translation.unit_set.values_list("source", "pk"))
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with c_locale(), PyTessBaseAPI() as api:
+    with Image.open(obj.image.path), get_tesseract(translation.language) as api:
         results = {
             sources[match]
-            for image in (original_image, scaled_image)
-            for match in ocr_extract(api, image, strings)
+            for resolution in (72, 300)
+            for match in ocr_extract(api, obj.image.path, strings, resolution)
         }
-
-    # Close images
-    original_image.close()
-    scaled_image.close()
 
     return search_results(
         request, 200, obj, translation.unit_set.filter(pk__in=results)

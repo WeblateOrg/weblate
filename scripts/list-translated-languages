@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from importlib.util import module_from_spec, spec_from_file_location
 
 import requests
 from icu import Locale
 
-URL = "http://hosted.weblate.org/exports/stats/weblate/application/"
+URL = "https://hosted.weblate.org/exports/stats/weblate/application/"
 THRESHOLD = 40
 
 
@@ -17,16 +21,14 @@ def print_language(lang, fmt="{0} ({1})"):
 
 def main():
     # load and parse data
-    data = requests.get(URL).json()
+    data = requests.get(URL, timeout=5).json()
 
     # select languages
     languages = []
     for lang in data:
         if lang["translated_percent"] > THRESHOLD:
             code = lang["code"].replace("_", "-").lower()
-            if code == "be-latn":
-                code = "be@latin"
-            elif code == "nb-no":
+            if code == "nb-no":
                 code = "nb"
             languages.append(code)
     languages.sort()

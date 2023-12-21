@@ -1,26 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for changes done in remote repository."""
 import os
 from unittest import SkipTest
 
 from django.db import transaction
+from django.test.utils import override_settings
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
@@ -70,20 +57,21 @@ class MultiRepoTest(ViewTestCase):
         if self._vcs not in VCS_REGISTRY:
             raise SkipTest(f"VCS {self._vcs} not available!")
         repo = push = self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
-        self.component2 = Component.objects.create(
-            name="Test 2",
-            slug="test-2",
-            project=self.project,
-            repo=repo,
-            push=push,
-            vcs=self._vcs,
-            filemask=self._filemask,
-            template="",
-            file_format="po",
-            repoweb=REPOWEB_URL,
-            new_base="",
-            branch=self._branch,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component2 = Component.objects.create(
+                name="Test 2",
+                slug="test-2",
+                project=self.project,
+                repo=repo,
+                push=push,
+                vcs=self._vcs,
+                filemask=self._filemask,
+                template="",
+                file_format="po",
+                repoweb=REPOWEB_URL,
+                new_base="",
+                branch=self._branch,
+            )
         self.request = self.get_request()
 
     def push_first(self, propagate=True, newtext="Nazdar svete!\n"):
@@ -222,7 +210,8 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(translation.stats.all, 1)
 
     def test_deleted_stale_unit(self):
-        """Test removing several units from remote repo.
+        """
+        Test removing several units from remote repo.
 
         There is no other reference, so full cleanup has to happen.
         """

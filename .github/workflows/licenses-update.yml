@@ -1,9 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: licenses update
 
 on:
   push:
     branches:
-    - dependabot/**
     - deepsource-fix-**
     - renovate/**
     - main
@@ -14,29 +17,38 @@ on:
 
 jobs:
   licenses-update:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v4.1.1
       with:
         submodules: true
-    - name: Set up Python
-      uses: actions/setup-python@v2.3.2
+    - uses: actions/cache@v3
       with:
-        python-version: '3.10'
-    - run: pip install black
+        path: |
+          ~/.cache/pip
+          ~/.cache/pre-commit
+        key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip wheel
+        pip install -r requirements-lint.txt
     - run: ./scripts/generate-license-data
-    - name: Update dependabot branch
+    - name: Update renovate branch
       if: github.ref != 'refs/heads/main'
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'utils: Update SPDX license data'
     - name: Create Pull Request
       if: github.ref == 'refs/heads/main'
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v5
       with:
         branch: create-pull-request/licenses-update
         title: 'utils: Update SPDX license data'

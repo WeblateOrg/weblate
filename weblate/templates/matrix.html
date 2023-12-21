@@ -2,22 +2,22 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load icons %}
+{% load translations %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'matrix' project=object.project.slug component=object.slug %}">{% trans "Matrix" %}</a></li>
+{% path_object_breadcrumbs object %}
+<li><a href="{% url 'matrix' path=object.get_url_path %}">{% trans "Matrix" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% if languages %}
+{% if translations %}
 <table class="table matrix">
 <thead>
 <tr>
-<th><a href="{% url 'translation' project=object.project.slug component=object.slug lang=object.source_language.code %}">{{ object.source_language }}</a></th>
-{% for language in languages %}
-<th><a href="{% url 'translation' project=object.project.slug component=object.slug lang=language.code %}">{{ language }}</a></th>
+<th><a href="{{ object.source_translation.get_absolute_url }}">{{ object.source_language }}</a></th>
+{% for translation in translations %}
+<th><a href="{{ translatin.get_absolute_url }}">{{ translation.language }}</a></th>
 {% endfor %}
 </tr>
 </thead>
@@ -26,7 +26,7 @@
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 {% loading_icon "next" %}
-<a href="{% url 'matrix-load' project=object.project.slug component=object.slug %}?lang={{ language_codes }}" class="hidden" id="matrix-load" data-offset="0" data-last="0"></a>
+<a href="{% url 'matrix-load' path=object.get_url_path %}?{{ language_codes_url }}" class="hidden" id="matrix-load" data-offset="0" data-last="0"></a>
 </td></tr>
 </tfoot>
 </table>

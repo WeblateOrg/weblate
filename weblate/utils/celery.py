@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Celery integration helper tools."""
 
@@ -46,7 +31,7 @@ def handle_task_failure(exception=None, **kwargs):
     from weblate.utils.errors import report_error
 
     report_error(
-        extra_data=kwargs,
+        extra_log=repr(kwargs),
         cause="Failure while executing task",
         skip_sentry=True,
         print_tb=True,
@@ -95,7 +80,8 @@ def get_queue_stats():
 
 
 def is_task_ready(task):
-    """Workaround broken ready() for failed Celery results.
+    """
+    Workaround broken ready() for failed Celery results.
 
     In case the task ends with an exception, the result tries to reconstruct
     that. It can fail in case the exception can not be reconstructed using

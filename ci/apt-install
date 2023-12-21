@@ -1,11 +1,19 @@
 #!/bin/sh
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e -x
 
 CI_DATABASE="$1"
 
 mkdir -p /run/user/1000
 chown -R 1000:1000 /run/user/1000
+
+# Add PostgreSQL repo
+echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 # Update package lists
 apt-get update
@@ -23,25 +31,19 @@ apt-get install -y \
     git-svn \
     gnupg \
     subversion \
-    postgresql-client \
+    postgresql-client-16 \
     pkg-config \
-    python3-dev \
     libxml2-dev \
     libacl1-dev \
     libxmlsec1-dev \
-    libleptonica-dev \
-    libtesseract-dev \
     libsasl2-dev \
     libldap2-dev \
     libssl-dev \
     libffi-dev \
-    libenchant1c2a \
     libgirepository1.0-dev \
     libcairo-dev \
     liblz4-dev \
-    gir1.2-pango-1.0 \
-    cython \
-    tesseract-ocr
+    gir1.2-pango-1.0
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
 if [ "$CI_DATABASE" = "mariadb" ] ; then

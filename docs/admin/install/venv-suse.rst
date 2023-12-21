@@ -8,15 +8,17 @@ Installing on SUSE and openSUSE
 .. code-block:: sh
 
    zypper install \
-      libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel \
-      cairo-devel typelib-1_0-Pango-1_0 gobject-introspection-devel libacl-devel \
-      python3-pip python3-virtualenv python3-devel git
+      libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel \
+      libyaml-devel libffi-devel cairo-devel pango-devel \
+      gobject-introspection-devel libacl-devel python3-pip python3-virtualenv \
+      python3-devel git
 
 .. include:: steps/install-system-optional.rst
 
 .. code-block:: sh
 
-    zypper install tesseract-ocr tesseract-devel leptonica-devel
+    zypper install libldap2-devel libsasl2-devel
+    zypper install libxmlsec1-devel
 
 .. include:: steps/install-system-server.rst
 
@@ -36,6 +38,9 @@ Installing on SUSE and openSUSE
 
     # SMTP server
     zypper install postfix
+
+    # Gettext for the msgmerge add-on
+    zypper install gettext
 
 .. include:: steps/install-python.rst
 

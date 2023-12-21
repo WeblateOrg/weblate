@@ -22,7 +22,7 @@ Contributor agreement
 If you specify a contributor license agreement, only users who have agreed to it will
 be able to contribute. This is a clearly visible step when accessing the translation:
 
-.. image:: /screenshots/contributor-agreement.png
+.. image:: /screenshots/contributor-agreement.webp
 
 The entered text is formatted into paragraphs and external links can be included.
 HTML markup can not be used.
@@ -32,4 +32,4 @@ User licenses
 
 Any user can review all translation licenses of all public projects on the instance from their profile:
 
-.. image:: /screenshots/profile-licenses.png
+.. image:: /screenshots/profile-licenses.webp

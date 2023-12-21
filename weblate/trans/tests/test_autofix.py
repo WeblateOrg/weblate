@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for automatix fixups."""
 
@@ -24,6 +9,8 @@ from django.test import TestCase
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
+    DevanagariDanda,
+    PunctuationSpacing,
     RemoveControlChars,
     RemoveZeroSpace,
     ReplaceTrailingDotsWithEllipsis,
@@ -80,7 +67,11 @@ class AutoFixTest(TestCase):
         )
         self.assertEqual(
             fix.fix_target(["<https://weblate.org>"], unit),
-            (["&lt;https://weblate.org&gt;"], True),
+            ([""], True),
+        )
+        self.assertEqual(
+            fix.fix_target(["%(percent)s %%"], unit),
+            (["%(percent)s %%"], False),
         )
 
     def test_html_markdown(self):
@@ -115,7 +106,7 @@ class AutoFixTest(TestCase):
         unit = MockUnit(source="Foo\x1b")
         fix = RemoveControlChars()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
-        self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar\x1b"], False))
+        self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar"], True))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
 
     def test_no_controlchars(self):
@@ -138,12 +129,13 @@ class AutoFixTest(TestCase):
         # No flags
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string, but forced
-        unit.flags = "java-messageformat"
+        unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string
         unit.flags = "auto-java-messageformat"
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         unit.source = "test {0}"
+        unit.sources = [unit.source]
         # Nothing to fix
         self.assertEqual(fix.fix_target(["r {0}"], unit), (["r {0}"], False))
         # Correct string
@@ -161,5 +153,32 @@ class AutoFixTest(TestCase):
         # Quoted format
         self.assertEqual(fix.fix_target(["'r''' {0}"], unit), (["''r'' {0}"], True))
         unit.source = "foo"
-        unit.flags = "java-messageformat"
+        unit.sources = [unit.source]
+        unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))
+
+    def test_devanagaridanda(self):
+        non_unit = MockUnit(source="Foo", code="bn")
+        bn_unit = MockUnit(source="Foo.", code="bn")
+        cs_unit = MockUnit(source="Foo.", code="cs")
+        fix = DevanagariDanda()
+        self.assertEqual(fix.fix_target(["Bar."], non_unit), (["Bar."], False))
+        self.assertEqual(fix.fix_target(["Bar."], bn_unit), (["Bar।"], True))
+        self.assertEqual(fix.fix_target(["Bar|"], bn_unit), (["Bar।"], True))
+        self.assertEqual(fix.fix_target(["Bar।"], bn_unit), (["Bar।"], False))
+        self.assertEqual(fix.fix_target(["Bar."], cs_unit), (["Bar."], False))
+
+    def test_punctuation_spacing(self):
+        fix = PunctuationSpacing()
+        non_unit = MockUnit(source="Foo", code="bn")
+        fr_unit = MockUnit(source="Foo:", code="fr")
+        fr_ca_unit = MockUnit(source="Foo:", code="fr_CA")
+        cs_unit = MockUnit(source="Foo:", code="cs")
+        self.assertEqual(fix.fix_target(["Bar:"], non_unit), (["Bar:"], False))
+        self.assertEqual(
+            fix.fix_target(["Bar\u202F:"], fr_unit), (["Bar\u202F:"], False)
+        )
+        self.assertEqual(fix.fix_target(["Bar :"], fr_unit), (["Bar\u202F:"], True))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar\u202F:"], True))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
+        self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))

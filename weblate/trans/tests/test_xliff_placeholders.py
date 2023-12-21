@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for XLIFF rich string."""
 
@@ -41,8 +26,8 @@ class XliffPlaceholdersTest(TestCase):
 
         for string in cases:
             rich = xliff_string_to_rich(string)
-            self.assertTrue(isinstance(rich, list))
-            self.assertTrue(isinstance(rich[0], StringElem))
+            self.assertIsInstance(rich, list)
+            self.assertIsInstance(rich[0], StringElem)
 
             final_string = rich_to_xliff_string(rich)
             self.assertEqual(string, final_string)

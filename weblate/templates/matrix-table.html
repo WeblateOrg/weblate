@@ -3,11 +3,15 @@
 {% for source, translations in data %}
 <tr {% if last %} id="last-section"{% endif %}>
 <td>
-<a href="{{ source.get_absolute_url }}">{% format_translation source.source source.translation.component.source_language num_plurals=source.translation.plural.number unit=source simple=True %}</a>
+<a href="{{ source.get_absolute_url }}">{% format_unit_source source simple=True %}</a>
 </td>
 {% for unit in translations %}
 <td>
-<a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural unit=unit simple=True %}</a>
+  {% if unit %}
+    <a href="{{ unit.get_absolute_url }}">{% format_unit_target unit simple=True %}</a>
+  {% else %}
+    <p><em>{% trans "String missing" %}</em></p>
+  {% endif %}
 </td>
 {% endfor %}
 </tr>

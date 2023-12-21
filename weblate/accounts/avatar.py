@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import hashlib
 import os.path
@@ -27,8 +11,7 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.cache import InvalidCacheBackendError, caches
 from django.urls import reverse
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext, pgettext
 
 from weblate.utils.errors import report_error
@@ -41,7 +24,7 @@ def avatar_for_email(email, size=80):
     if not email:
         email = "noreply@weblate.org"
 
-    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # nosec
+    mail_hash = hashlib.md5(email.lower().encode(), usedforsecurity=False).hexdigest()
 
     return "{}avatar/{}?d={}&s={}".format(
         settings.AVATAR_URL_PREFIX,
@@ -65,7 +48,8 @@ def get_fallback_avatar(size: int):
 
 def get_avatar_image(user, size: int):
     """Return avatar image from cache (if available) or download it."""
-    cache_key = "-".join(("avatar-img", user.username, str(size)))
+    username = user.username
+    cache_key = "-".join(("avatar-img", username, str(size)))
 
     # Try using avatar specific cache if available
     try:
@@ -79,10 +63,7 @@ def get_avatar_image(user, size: int):
             image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (OSError, CertificateError):
-            report_error(
-                extra_data={"avatar": user.username},
-                cause="Failed to fetch avatar",
-            )
+            report_error(cause=f"Could not fetch avatar for {username}")
             return get_fallback_avatar(size)
 
     return image
@@ -115,10 +96,6 @@ def get_user_display(user, icon: bool = True, link: bool = False):
             # Use full name in case username matches e-mail
             username = full_name
 
-    # Escape HTML
-    full_name = escape(full_name)
-    username = escape(username)
-
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
         if email == "noreply@weblate.org":
@@ -126,11 +103,18 @@ def get_user_display(user, icon: bool = True, link: bool = False):
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
-        alt = escape(gettext("User avatar"))
-        username = f'<img src="{avatar}" class="avatar w32" alt="{alt}" /> {username}'
+        username = format_html(
+            '<img src="{}" class="avatar w32" alt="{}" /> {}',
+            avatar,
+            gettext("User avatar"),
+            username,
+        )
 
     if link and user is not None:
-        return mark_safe(
-            f'<a href="{user.get_absolute_url()}" title="{full_name}">{username}</a>'
+        return format_html(
+            '<a href="{}" title="{}">{}</a>',
+            user.get_absolute_url(),
+            full_name,
+            username,
         )
-    return mark_safe(f'<span title="{full_name}">{username}</span>')
+    return format_html('<span title="{}">{}</span>', full_name, username)

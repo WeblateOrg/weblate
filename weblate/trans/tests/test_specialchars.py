@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for special chars."""
 
@@ -38,11 +23,11 @@ class SpecialCharsTest(TestCase):
 
     def test_af(self):
         chars = list(get_special_chars(Language(code="af")))
-        self.assertEqual(len(chars), 11)
+        self.assertEqual(len(chars), 12)
 
     def test_cs(self):
         chars = list(get_special_chars(Language(code="cs")))
-        self.assertEqual(len(chars), 10)
+        self.assertEqual(len(chars), 11)
 
     def test_brx(self):
         chars = list(get_special_chars(Language(code="brx")))
@@ -55,17 +40,17 @@ class SpecialCharsTest(TestCase):
     @override_settings(SPECIAL_CHARS=[chr(x) for x in range(256)])
     def test_settings(self):
         chars = list(get_special_chars(Language(code="cs")))
-        self.assertEqual(len(chars), 262)
+        self.assertEqual(len(chars), 263)
 
     def test_additional(self):
         self.check_chars(
-            Language(code="cs"), 14, ["a", "h", "o", "j"], additional="ahoj"
+            Language(code="cs"), 15, ["a", "h", "o", "j"], additional="ahoj"
         )
 
     def test_arrows(self):
-        self.check_chars(Language(code="cs"), 12, ["→", "⇒"], source="→⇒→⇒")
+        self.check_chars(Language(code="cs"), 13, ["→", "⇒"], source="→⇒→⇒")
 
     def test_arrows_rtl(self):
         self.check_chars(
-            Language(code="ar", direction="rtl"), 13, ["←", "⇐"], source="→⇒→⇒"
+            Language(code="ar", direction="rtl"), 14, ["←", "⇐"], source="→⇒→⇒"
         )

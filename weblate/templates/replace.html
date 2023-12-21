@@ -4,18 +4,7 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
-{% if component %}
-{% include "snippets/component-breadcrumb.html" with object=component %}
-{% if translation %}
-{% include "snippets/translation-breadcrumb.html" with object=translation %}
-{% endif %}
-{% elif language %}
-<li>
-  <a href="{{ language.get_absolute_url }}">{{ language }}</a>
-</li>
-
-{% endif %}
+{% path_object_breadcrumbs path_object %}
 <li>{% trans "Search and replace" %}</li>
 {% endblock %}
 
@@ -46,9 +35,9 @@
   <a href="{{ unit.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">{% icon "pencil.svg" %}</a>
   <label for="confirm_{{ unit.pk }}">{{ unit.translation }}: {{ unit.position }}{% if unit.context %}({{ unit.context }}){% endif %}</label>
   <br/>
-  {% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query match='replaced'%}
+  {% format_unit_target unit search_match=search_query match='replaced' %}
   <br/>
-  {% format_translation unit.replacement unit.translation.language unit.translation.plural search_match=replacement match='replacement' %}
+  {% format_unit_target unit value=unit.replacement search_match=replacement match='replacement' %}
 </td>
 </tr>
 {% endfor %}

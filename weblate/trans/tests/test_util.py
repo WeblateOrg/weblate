@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.test import SimpleTestCase
 from translate.misc.multistring import multistring
@@ -23,7 +8,9 @@ from translate.misc.multistring import multistring
 from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
+    count_words,
     get_string,
+    join_plural,
     translation_percent,
 )
 
@@ -112,3 +99,27 @@ class TextConversionTest(SimpleTestCase):
 
     def test_int(self):
         self.assertEqual(get_string(42), "42")
+
+
+class WordCountTestCase(SimpleTestCase):
+    def test_words(self):
+        self.assertEqual(count_words("count words"), 2)
+
+    def test_plural(self):
+        self.assertEqual(count_words(join_plural(["count word", "count words"])), 4)
+
+    def test_unused(self):
+        self.assertEqual(
+            count_words(join_plural(["<unused singular 1>", "count words"])), 2
+        )
+
+    def test_sentence(self):
+        self.assertEqual(count_words("You need to count a word!"), 6)
+
+    def test_numbers(self):
+        self.assertEqual(count_words("There are 123 words"), 4)
+
+    def test_complex(self):
+        self.assertEqual(
+            count_words("I've just realized that they have 5 %(color)s cats."), 9
+        )

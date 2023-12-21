@@ -6,6 +6,26 @@ Language definitions
 To present different translations properly, info about language name,
 text direction, plural definitions and language code is needed.
 
+.. _included-languages:
+
+Built-in language definitions
+-----------------------------
+
+Definitions for about 650 languages are included in Weblate and the list is
+extended in every release. Whenever Weblate is upgraded (more specifically
+whenever :wladmin:`migrate` is executed, see
+:ref:`generic-upgrade-instructions`) the database of languages is updated to
+include all language definitions shipped in Weblate.
+
+This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
+enforce updating the database to match Weblate built-in data using
+:wladmin:`setuplang`.
+
+.. seealso::
+
+   :ref:`extending-languages`,
+   `Current language definitions <https://github.com/WeblateOrg/language-data/blob/main/languages.csv>`_
+
 .. _language-parsing-codes:
 
 Parsing language codes
@@ -43,7 +63,7 @@ upcoming Weblate release.
 .. seealso::
 
     :ref:`language-code`,
-    :ref:`new-translations`
+    :ref:`adding-translation`
 
 
 .. _changing-languages:
@@ -54,39 +74,20 @@ Changing language definitions
 You can change language definitions in the languages interface
 (:file:`/languages/` URL).
 
-While editing, make sure all fields are correct (especially plurals and
+While editing, ensure all fields are correct (especially plurals and
 text direction), otherwise translators will be unable to properly edit
 those translations.
-
-.. _included-languages:
-
-Built-in language definitions
------------------------------
-
-Definitions for about 600 languages are included in Weblate and the list is
-extended in every release. Whenever Weblate is upgraded (more specifically
-whenever :program:`weblate migrate` is executed, see
-:ref:`generic-upgrade-instructions`) the database of languages is updated to
-include all language definitions shipped in Weblate.
-
-This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
-enforce updating the database to match Weblate built-in data using
-:djadmin:`setuplang`.
-
-.. seealso::
-
-   :ref:`extending-lanugages`
 
 .. _ambiguous-languages:
 
 Ambiguous language codes and macrolanguages
 -------------------------------------------
 
-In many cases it is not a good idea to use macro language code for a
+In many cases it is not a good idea to use macrolanguage code for a
 translation. The typical problematic case might be Kurdish language, which
 might be written in Arabic or Latin script, depending on actual variant. To get
 correct behavior in Weblate, it is recommended to use individual language codes
-only and avoid macro languages.
+only and avoid macrolanguages.
 
 .. seealso::
 
@@ -114,7 +115,7 @@ have two letter code. It can also support extended codes as defined by `BCP 47`_
 .. seealso::
 
    :ref:`language-parsing-codes`,
-   :ref:`new-translations`
+   :ref:`adding-translation`
 
 .. _language-name:
 
@@ -130,6 +131,32 @@ Text direction
 
 Determines whether language is written right to left or left to right. This
 property is autodetected correctly for most of the languages.
+
+.. _language-population:
+
+Number of speakers
+++++++++++++++++++
+
+Number of worldwide speakers of this language.
+
+
+.. _plural-definitions:
+
+Plural definitions
+------------------
+
+Weblate comes with a built-in set of plural definitions. These are based on
+file-format specifications, CLDR, and other sources.
+
+.. warning::
+
+   Doing changes to the built-in plural definitions will most likely won't have
+   desired effect, as these rules need to match underlying implementation.
+
+   Changing plural number or formula will affect only displaying of the
+   strings, but not parsing and storing strings to the files. Should you think
+   Weblate behaves incorrectly, please file a issue in our issue tracker.
+
 
 .. _plural-number:
 
@@ -151,69 +178,4 @@ Gettext compatible plural formula used to determine which plural form is used fo
    `GNU gettext utilities: Plural forms <https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_,
    `Language Plural Rules by the Unicode Consortium`_
 
-.. _Language Plural Rules by the Unicode Consortium: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
-
-.. _new-translations:
-
-Adding new translations
------------------------
-
-.. versionchanged:: 2.18
-
-    In versions prior to 2.18 the behaviour of adding new translations was file
-    format specific.
-
-Weblate can automatically start new translation for all of the file
-formats.
-
-Some formats expect to start with an empty file and only translated strings to
-be included (for example :ref:`aresource`), while others expect to have all
-keys present (for example :ref:`gettext`). The document-based formats (for
-example :ref:`odf`) start with a copy of the source document and all strings
-marked as needing editing.  In some situations this really doesn't depend on
-the format, but rather on the framework you use to handle the translation (for
-example with :ref:`json`).
-
-When you specify :ref:`component-new_base` in :ref:`component`, Weblate will
-use this file to start new translations. Any exiting translations will be
-removed from the file when doing so.
-
-When :ref:`component-new_base` is empty and the file format
-supports it, an empty file is created where new strings will be added once they are
-translated.
-
-The :ref:`component-language_code_style` allows you to customize language code used
-in generated filenames:
-
-Default based on the file format
-   Dependent on file format, for most of them POSIX is used.
-POSIX style using underscore as a separator
-   Typically used by gettext and related tools, produces language codes like
-   ``pt_BR``.
-POSIX style using underscore as a separator, including country code
-   POSIX style language code including the country code even when not necessary
-   (for example ``cs_CZ``).
-BCP style using hyphen as a separator
-   Typically used on web platforms, produces language codes like
-   ``pt-BR``.
-BCP style using hyphen as a separator, including country code
-   BCP style language code including the country code even when not necessary
-   (for example ``cs-CZ``).
-Android style
-   Only used in Android apps, produces language codes like
-   ``pt-rBR``.
-Java style
-   Used by Java—mostly BCP with legacy codes for Chinese.
-
-Additionally, any mappings defined in :ref:`project-language_aliases` are
-applied in reverse.
-
-.. note::
-
-   Weblate recognizes any of these when parsing translation files, the above
-   settings only influences how new files are created.
-
-.. seealso::
-
-    :ref:`language-code`,
-    :ref:`language-parsing-codes`
+.. _Language Plural Rules by the Unicode Consortium: https://www.unicode.org/cldr/charts/43/supplemental/language_plural_rules.html

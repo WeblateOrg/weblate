@@ -1,34 +1,26 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os
-from typing import List
 
+from celery.schedules import crontab
+from django.db import Error as DjangoDatabaseError
 from django.db import transaction
+from django.db.models import F, Q
+from django.http import HttpRequest
+from django.utils import timezone
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
-from weblate.addons.models import Addon
+from weblate.addons.models import Addon, handle_addon_error
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Component
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.requests import request
 
 IGNORED_TAGS = {"script", "style"}
@@ -45,9 +37,9 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
     for filename in files.splitlines():
         filename = filename.strip()
         try:
-            if filename.startswith("http://") or filename.startswith("https://"):
+            if filename.startswith(("http://", "https://")):
                 with request("get", filename) as handle:
-                    content = handle.read()
+                    content = handle.text
             else:
                 with open(os.path.join(component.full_path, filename)) as handle:
                     content = handle.read()
@@ -80,15 +72,26 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
         component.delete_alert("CDNAddonError")
 
 
-@app.task(trail=False)
-def language_consistency(project_id: int, language_ids: List[int]):
-    project = Project.objects.get(pk=project_id)
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def language_consistency(addon_id: int, language_ids: list[int]):
+    addon = Addon.objects.get(pk=addon_id)
+    project = addon.component.project
     languages = Language.objects.filter(id__in=language_ids)
+    request = HttpRequest()
+    request.user = addon.addon.user
 
     for component in project.component_set.iterator():
-        missing = languages.exclude(translation__component=component)
+        missing = languages.exclude(
+            Q(translation__component=component) | Q(component=component)
+        )
         if not missing:
             continue
+        component.commit_pending("language consistency", None)
         for language in missing:
             component.add_new_language(
                 language,
@@ -101,14 +104,28 @@ def language_consistency(project_id: int, language_ids: List[int]):
 
 @app.task(trail=False)
 def daily_addons():
-    for addon in Addon.objects.filter(event__event=EVENT_DAILY).prefetch_related(
-        "component"
-    ):
+    today = timezone.now()
+    addons = Addon.objects.annotate(hourmod=F("component_id") % 24).filter(
+        hourmod=today.hour, event__event=EVENT_DAILY
+    )
+    for addon in addons.prefetch_related("component"):
         with transaction.atomic():
             addon.component.log_debug("running daily add-on: %s", addon.name)
-            addon.addon.daily(addon.component)
+            try:
+                addon.addon.daily(addon.component)
+            except DjangoDatabaseError:
+                raise
+            except Exception:
+                handle_addon_error(addon, addon.component)
+
+
+@app.task(trail=False)
+def postconfigure_addon(addon_id: int, addon=None):
+    if addon is None:
+        addon = Addon.objects.get(pk=addon_id)
+    addon.addon.post_configure_run()
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600 * 24, daily_addons.s(), name="daily-addons")
+    sender.add_periodic_task(crontab(minute=45), daily_addons.s(), name="daily-addons")

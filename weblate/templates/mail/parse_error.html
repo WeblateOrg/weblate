@@ -13,7 +13,11 @@
 <h2>{% trans "Failing file" %}</h2>
 
 <p>
-{{ details.filename }}
+{% if details.filelink %}
+    <a href="{{ details.filelink }}">{{ details.filename }}</a>
+{% else %}
+    {{ details.filename }}
+{% endif %}
 </p>
 
 {% endblock %}

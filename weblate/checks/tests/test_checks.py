@@ -1,27 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Helper for quality checks tests."""
 
 import random
 
 from django.test import SimpleTestCase
+from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
@@ -35,7 +21,14 @@ class MockLanguage(Language):
 
     def __init__(self, code="cs"):
         super().__init__(code=code)
-        self.plural = Plural(language=self)
+        # We need different language codes to have different pk
+        self.pk = -abs(hash(code))
+        try:
+            _, number, formula = languages[code]
+        except KeyError:
+            self.plural = Plural(language=self)
+        else:
+            self.plural = Plural(language=self, number=number, formula=formula)
 
 
 class MockProject:
@@ -45,6 +38,20 @@ class MockProject:
         self.id = 1
         self.use_shared_tm = True
         self.name = "MockProject"
+        self.slug = "mock"
+
+    def get_glossary_tsv_cache_key(self, source_language, language):
+        return f"project-glossary-tsv-test-{source_language.code}-{language.code}"
+
+    @property
+    def glossaries(self):
+        return []
+
+    @property
+    def glossary_automaton(self):
+        from weblate.glossary.models import get_glossary_automaton
+
+        return get_glossary_automaton(self)
 
 
 class MockComponent:
@@ -56,6 +63,7 @@ class MockComponent:
         self.project = MockProject()
         self.name = "MockComponent"
         self.file_format = "auto"
+        self.is_multivalue = False
 
 
 class MockTranslation:
@@ -66,6 +74,7 @@ class MockTranslation:
         self.component = MockComponent()
         self.is_template = False
         self.is_source = False
+        self.plural = self.language.plural
 
     @staticmethod
     def log_debug(text, *args):
@@ -76,29 +85,53 @@ class MockUnit:
     """Mock unit object."""
 
     def __init__(
-        self, id_hash=None, flags="", code="cs", source="", note="", is_source=None
+        self,
+        id_hash=None,
+        flags="",
+        code="cs",
+        source="",
+        note="",
+        is_source=None,
+        target="",
+        context="",
     ):
         if id_hash is None:
-            id_hash = random.randint(0, 65536)
+            id_hash = random.randint(0, 65536)  # noqa: S311
         self.id_hash = id_hash
         self.flags = Flags(flags)
         self.translation = MockTranslation(code)
-        self.source = source
+        if isinstance(source, str) or source is None:
+            self.source = source
+            self.sources = [source]
+        else:
+            self.source = source[0]
+            self.sources = source
         self.fuzzy = False
         self.translated = True
         self.readonly = False
         self.state = 20
+        if isinstance(target, str):
+            self.target = target
+            self.targets = [target]
+        else:
+            self.target = target[0]
+            self.targets = target
         self.note = note
         self.check_cache = {}
-        self.machinery = {"best": -1}
+        self.machinery = None
         self.is_source = is_source
+        self.context = context
+        self.glossary_terms = None
 
     @property
     def all_flags(self):
         return self.flags
 
     def get_source_plurals(self):
-        return [self.source]
+        return self.sources
+
+    def get_target_plurals(self):
+        return self.targets
 
     @property
     def source_string(self):
@@ -140,17 +173,19 @@ class CheckTestCase(SimpleTestCase):
         # Verify skip logic
         should_skip = self.check.should_skip(unit)
         if expected:
-            self.assertFalse(should_skip, f"Check should not skip for {params}")
+            self.assertFalse(should_skip, msg=f"Check should not skip for {params}")
         elif should_skip:
             # There is nothing to test here
             return
 
         # Verify check logic
-        result = self.check.check_single(data[0], data[1], unit)
+        result = self.check.check_single(
+            data[0][0] if isinstance(data[0], list) else data[0], data[1], unit
+        )
         if expected:
-            self.assertTrue(result, f"Check did not fire for {params}")
+            self.assertTrue(result, msg=f"Check did not fire for {params}")
         else:
-            self.assertFalse(result, f"Check did fire for {params}")
+            self.assertFalse(result, msg=f"Check did fire for {params}")
 
     def test_single_good_matching(self):
         self.do_test(False, self.test_good_matching)

@@ -2,19 +2,15 @@
 
 {%- block extrahead %}
 {{ super() }}
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="Weblate: {{ title|striptags|e }}" />
-  <meta property="og:image" content="https://weblate.org/static/og.png" />
-
-  <meta property="fb:app_id" content="741121112629028" />
-  <meta property="fb:page_id" content="371217713079025" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@WeblateOrg" />
-
   {% if READTHEDOCS %}
     <link rel="preconnect" href="https://stats.cihar.com" />
     <link rel="preconnect" href="https://assets.readthedocs.org" />
     <link rel="preconnect" href="https://readthedocs.org" />
   {% endif %}
+  <link rel="preload" href="https://s.weblate.org/cdn/font-source/source-sans-3.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://s.weblate.org/cdn/font-source/source-code-pro.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://s.weblate.org/cdn/font-source/source-sans-3.css">
+    <link rel="stylesheet" href="https://s.weblate.org/cdn/font-source/source-code-pro.css">
+  </noscript>
 {% endblock %}

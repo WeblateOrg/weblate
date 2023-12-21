@@ -4,13 +4,12 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
+{% path_object_breadcrumbs object %}
+<li><a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a></li>
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'settings' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'settings' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
 
 {% crispy form %}
 

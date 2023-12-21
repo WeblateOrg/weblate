@@ -1,0 +1,35 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Rundev
+
+on:
+  push:
+    branches-ignore:
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
+  pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  rundev:
+    runs-on: ubuntu-22.04
+    name: Test development Docker
+    env:
+      PYTHONUNBUFFERED: 1
+    steps:
+    - uses: actions/checkout@v4
+    - run: ./rundev.sh build
+    - run: ./rundev.sh start
+    - run: ./rundev.sh wait
+    - run: ./rundev.sh check
+    - run: ./rundev.sh test --failfast weblate.vcs
+    - run: ./rundev.sh logs
+    - run: ./rundev.sh stop

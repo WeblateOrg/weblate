@@ -1,38 +1,26 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+# ruff: noqa: S105
+
+from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Tuple
 
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.models import CHECKS
 from weblate.checks.parser import (
     SYNTAXCHARS,
     FlagsParser,
+    length_validation,
     multi_value_flag,
     single_value_flag,
 )
 from weblate.fonts.utils import get_font_weight
+from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 PLAIN_FLAGS = {
     v.enable_string: v.name
@@ -54,8 +42,10 @@ PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
 )
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
+PLAIN_FLAGS["strict-format"] = gettext_lazy("Strict format string checks")
 PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
+PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
 
 TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = single_value_flag(str)
@@ -65,9 +55,9 @@ TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
-TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat Flags")
+TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat flags")
 TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
-TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat Tag Prefix")
+TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat tag prefix")
 TYPED_FLAGS_ARGS["icu-tag-prefix"] = single_value_flag(str)
 TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
@@ -76,7 +66,11 @@ TYPED_FLAGS_ARGS["max-length"] = single_value_flag(int)
 TYPED_FLAGS["replacements"] = gettext_lazy("Replacements while rendering")
 TYPED_FLAGS_ARGS["replacements"] = multi_value_flag(str, modulo=2)
 TYPED_FLAGS["variant"] = gettext_lazy("String variant")
-TYPED_FLAGS_ARGS["variant"] = single_value_flag(str)
+TYPED_FLAGS_ARGS["variant"] = single_value_flag(
+    str, length_validation(VARIANT_KEY_LENGTH)
+)
+TYPED_FLAGS["fluent-type"] = gettext_lazy("Fluent type")
+TYPED_FLAGS_ARGS["fluent-type"] = single_value_flag(str)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
@@ -88,7 +82,7 @@ def _parse_flags_text(flags: str):
     state = 0
     name = None
     value = []
-    tokens = list(FlagsParser.parseString(flags, parseAll=True))
+    tokens = list(FlagsParser.parse_string(flags, parseAll=True))
     for pos, token in enumerate(tokens):
         if state == 0 and token == ",":
             pass
@@ -148,7 +142,7 @@ def _parse_flags_text(flags: str):
 
 
 @lru_cache(maxsize=512)
-def parse_flags_text(flags: str) -> Tuple:
+def parse_flags_text(flags: str) -> tuple:
     """Parse comma separated list of flags."""
     return tuple(_parse_flags_text(flags))
 
@@ -234,11 +228,14 @@ class Flags:
     @staticmethod
     def format_value(value):
         # Regexp objects
+        prefix = ""
         if hasattr(value, "pattern"):
             value = value.pattern
-        if " " in value or any(c in value for c in SYNTAXCHARS):
-            return '"{}"'.format(
-                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r")
+            prefix = "r"
+        if prefix or " " in value or any(c in value for c in SYNTAXCHARS):
+            return '{}"{}"'.format(
+                prefix,
+                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r"),
             )
         return value
 
@@ -261,21 +258,21 @@ class Flags:
             is_typed = name in TYPED_FLAGS
             is_plain = name in PLAIN_FLAGS or name in IGNORE_CHECK_FLAGS
             if not is_typed and not is_plain:
-                raise ValidationError(_('Invalid translation flag: "%s"') % name)
+                raise ValidationError(gettext('Invalid translation flag: "%s"') % name)
             if name in self._values:
                 if is_plain:
                     raise ValidationError(
-                        _('Translation flag has no parameters: "%s"') % name
+                        gettext('The translation flag has no parameters: "%s"') % name
                     )
                 try:
                     self.get_value(name)
                 except Exception:
                     raise ValidationError(
-                        _('Wrong parameters for translation flag: "%s"') % name
+                        gettext('Wrong parameters for translation flag: "%s"') % name
                     )
             elif is_typed:
                 raise ValidationError(
-                    _('Missing parameters for translation flag: "%s"') % name
+                    gettext('Missing parameters for translation flag: "%s"') % name
                 )
 
     def set_value(self, name, value):

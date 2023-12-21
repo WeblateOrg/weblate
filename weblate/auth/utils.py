@@ -1,26 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Set
+from __future__ import annotations
+
+from email.headerregistry import Address
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
 
 from weblate.auth.data import (
     GLOBAL_PERMISSIONS,
@@ -70,7 +58,7 @@ def migrate_permissions(model):
     model.objects.exclude(id__in=ids).delete()
 
 
-def migrate_roles(model, perm_model) -> Set[str]:
+def migrate_roles(model, perm_model) -> set[str]:
     """Create roles as defined in the data."""
     result = set()
     for role, permissions in ROLES:
@@ -86,30 +74,32 @@ def migrate_roles(model, perm_model) -> Set[str]:
 def migrate_groups(model, role_model, update=False):
     """Create groups as defined in the data."""
     for group, roles, selection in GROUPS:
-        defaults = {
-            "internal": True,
-            "project_selection": selection,
-            "language_selection": SELECTION_ALL,
-        }
-        instance, created = model.objects.get_or_create(name=group, defaults=defaults)
+        instance, created = model.objects.get_or_create(
+            name=group,
+            internal=True,
+            project_selection=selection,
+            language_selection=SELECTION_ALL,
+        )
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
-        if update:
-            for key, value in defaults.items():
-                setattr(instance, key, value)
-            instance.save()
 
 
 def create_anonymous(model, group_model, update=True):
-    user, created = model.objects.get_or_create(
-        username=settings.ANONYMOUS_USER_NAME,
-        defaults={
-            "full_name": "Anonymous",
-            "email": "noreply@weblate.org",
-            "is_active": False,
-            "password": make_password(None),
-        },
-    )
+    try:
+        user, created = model.objects.get_or_create(
+            username=settings.ANONYMOUS_USER_NAME,
+            defaults={
+                "full_name": "Anonymous",
+                "email": "noreply@weblate.org",
+                "is_active": False,
+                "password": make_password(None),
+            },
+        )
+    except IntegrityError as error:
+        raise ValueError(
+            f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
+            "most likely because other user is using noreply@weblate.org e-mail.: {error}"
+        ) from error
     if user.is_active:
         raise ValueError(
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) already exists and is "
@@ -123,3 +113,14 @@ def create_anonymous(model, group_model, update=True):
         user.groups.set(
             group_model.objects.filter(name__in=("Guests", "Viewers")), clear=True
         )
+
+
+def format_address(display_name, email):
+    """Format e-mail address with display name."""
+    # While Address does quote the name following RFC 5322,
+    # git still doesn't like <> being used in the string
+    return str(
+        Address(
+            display_name=display_name.replace("<", "").replace(">", ""), addr_spec=email
+        )
+    )

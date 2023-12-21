@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for management views."""
 import os.path
 
 from django.core import mail
 from django.urls import reverse
 
+from weblate.lang.models import Language
 from weblate.trans.models import Announcement, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
@@ -31,100 +18,121 @@ from weblate.utils.files import remove_tree
 class RemovalTest(ViewTestCase):
     def test_translation(self):
         self.make_manager()
-        kwargs = {"lang": "cs"}
-        kwargs.update(self.kw_component)
-        url = reverse("remove_translation", kwargs=kwargs)
+        url = reverse("remove", kwargs=self.kw_translation)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/test/cs"}, follow=True)
-        self.assertContains(response, "Translation has been removed.")
+        self.assertContains(response, "The translation has been removed.")
 
     def test_component(self):
         self.make_manager()
-        url = reverse("remove_component", kwargs=self.kw_component)
+        url = reverse("remove", kwargs=self.kw_component)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/test"}, follow=True)
         self.assertContains(
-            response, "Translation component was scheduled for removal."
+            response, "The translation component was scheduled for removal."
         )
 
     def test_project(self):
         self.make_manager()
-        url = reverse("remove_project", kwargs=self.kw_project)
+        url = reverse("remove", kwargs={"path": self.project.get_url_path()})
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test"}, follow=True)
-        self.assertContains(response, "Project was scheduled for removal.")
+        self.assertContains(response, "The project was scheduled for removal.")
 
     def test_project_language(self):
         self.make_manager()
-        self.assertEqual(Translation.objects.count(), 8)
-        url = reverse(
-            "remove-project-language",
-            kwargs={"project": self.project.slug, "lang": "cs"},
-        )
+        self.assertEqual(Translation.objects.count(), 4)
+        url = reverse("remove", kwargs={"path": [self.project.slug, "-", "cs"]})
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
         )
-        response = self.client.post(url, {"confirm": "test/cs"}, follow=True)
-        self.assertContains(response, "Language of the project was removed.")
-        self.assertEqual(Translation.objects.count(), 6)
+        response = self.client.post(url, {"confirm": "test/-/cs"}, follow=True)
+        self.assertContains(response, "A language in the project was removed.")
+        self.assertEqual(Translation.objects.count(), 3)
 
 
 class RenameTest(ViewTestCase):
     def test_denied(self):
         self.assertNotContains(
-            self.client.get(reverse("project", kwargs=self.kw_project)), "#rename"
+            self.client.get(self.project.get_absolute_url()), "#organize"
         )
         self.assertNotContains(
-            self.client.get(reverse("component", kwargs=self.kw_component)), "#rename"
+            self.client.get(self.component.get_absolute_url()), "#organize"
         )
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_project), {"slug": "xxxx"}
+            reverse("rename", kwargs={"path": self.project.get_url_path()}),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.project.name},
         )
         self.assertEqual(response.status_code, 403)
 
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.component.name},
         )
         self.assertEqual(response.status_code, 403)
 
         other = Project.objects.create(name="Other", slug="other")
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component), {"project": other.pk}
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": other.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
         )
         self.assertEqual(response.status_code, 403)
 
     def test_move_component(self):
         self.make_manager()
         other = Project.objects.create(name="Other project", slug="other")
+        # Other project should be visible as target for moving
         self.assertContains(
-            self.client.get(reverse("component", kwargs=self.kw_component)),
+            self.client.get(self.component.get_absolute_url()),
             "Other project",
         )
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component), {"project": other.pk}
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": other.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
         )
         self.assertRedirects(response, "/projects/other/test/")
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.project.slug, "other")
         self.assertIsNotNone(component.repository.last_remote_revision)
 
+    def test_rename_invalid(self):
+        url = self.component.get_absolute_url()
+        Component.objects.filter(pk=self.component.id).update(filemask="invalid/*.po")
+        self.make_manager()
+        self.assertContains(self.client.get(url), "#organize")
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.component.name},
+            follow=True,
+        )
+        self.assertRedirects(response, f"{url}#organize")
+        self.assertContains(response, "due to outstanding issue in its settings")
+
     def test_rename_component(self):
         self.make_manager()
-        self.assertContains(
-            self.client.get(reverse("component", kwargs=self.kw_component)), "#rename"
-        )
+        original_url = self.component.get_absolute_url()
+        self.assertContains(self.client.get(original_url), "#organize")
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.component.name},
         )
         self.assertRedirects(response, "/projects/test/xxxx/")
         component = Component.objects.get(pk=self.component.pk)
@@ -133,8 +141,8 @@ class RenameTest(ViewTestCase):
         response = self.client.get(component.get_absolute_url())
         self.assertContains(response, "/projects/test/xxxx/")
 
-        # Test rename redirect in middleware
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        # Test rename redirect for the old name in middleware
+        response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
 
     def test_rename_project(self):
@@ -144,10 +152,11 @@ class RenameTest(ViewTestCase):
             remove_tree(target)
         self.make_manager()
         self.assertContains(
-            self.client.get(reverse("project", kwargs=self.kw_project)), "#rename"
+            self.client.get(self.project.get_absolute_url()), "#organize"
         )
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_project), {"slug": "xxxx"}
+            reverse("rename", kwargs={"path": self.project.get_url_path()}),
+            {"slug": "xxxx", "name": self.project.name},
         )
         self.assertRedirects(response, "/projects/xxxx/")
         project = Project.objects.get(pk=self.project.pk)
@@ -158,7 +167,7 @@ class RenameTest(ViewTestCase):
             self.assertContains(response, "/projects/xxxx/")
 
         # Test rename redirect in middleware
-        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        response = self.client.get(self.project.get_absolute_url())
         self.assertRedirects(response, project.get_absolute_url(), status_code=301)
 
     def test_rename_project_conflict(self):
@@ -166,7 +175,9 @@ class RenameTest(ViewTestCase):
         self.make_manager()
         Project.objects.create(name="Other project", slug="other")
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_project), {"slug": "other"}, follow=True
+            reverse("rename", kwargs={"path": self.project.get_url_path()}),
+            {"slug": "other", "name": self.project.name},
+            follow=True,
         )
         self.assertContains(response, "Project with this URL slug already exists.")
 
@@ -175,10 +186,13 @@ class RenameTest(ViewTestCase):
         self.make_manager()
         self.create_link_existing()
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "test2"}, follow=True
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "test2", "name": self.component.name},
+            follow=True,
         )
         self.assertContains(
-            response, "Component with this URL slug already exists in the project."
+            response,
+            "Component or category with the same URL slug already exists at this level.",
         )
 
 
@@ -192,22 +206,23 @@ class AnnouncementTest(ViewTestCase):
         self.make_manager()
         # Add second user to receive notifications
         self.project.add_user(self.anotheruser, "Administration")
+        czech = Language.objects.get(code="cs")
+        self.anotheruser.profile.languages.add(czech)
+
         response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)
 
     def test_translation(self):
-        kwargs = {"lang": "cs"}
-        kwargs.update(self.kw_component)
-        url = reverse("announcement_translation", kwargs=kwargs)
+        url = reverse("announcement", kwargs=self.kw_translation)
         self.perform_test(url)
 
     def test_component(self):
-        url = reverse("announcement_component", kwargs=self.kw_component)
+        url = reverse("announcement", kwargs=self.kw_component)
         self.perform_test(url)
 
     def test_project(self):
-        url = reverse("announcement_project", kwargs=self.kw_project)
+        url = reverse("announcement", kwargs={"path": self.project.get_url_path()})
         self.perform_test(url)
 
     def test_delete(self):

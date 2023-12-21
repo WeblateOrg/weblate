@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% for component in group.components.all %}
+  <span class="badge">{{ component }}</span>
+{% empty %}
+  <em>{% trans "No components specified" %}</em>
+{% endfor %}

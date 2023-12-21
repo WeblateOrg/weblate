@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from unittest import TestCase
 
@@ -33,21 +18,21 @@ class LoadClassTest(TestCase):
     def test_invalid_name(self):
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            'Error importing class unittest in TEST: .*"' "(not enough|need more than)",
+            "Error importing class 'unittest' in TEST: (not enough|need more than)",
         ):
             load_class("unittest", "TEST")
 
     def test_invalid_module(self):
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            'weblate.trans.tests.missing in TEST: "' "No module named .*missing[\"']",
+            "'weblate.trans.tests.missing' in TEST: No module named .*missing",
         ):
             load_class("weblate.trans.tests.missing.Foo", "TEST")
 
     def test_invalid_class(self):
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            '"weblate.utils.tests.test_classloader"' ' does not define a "Foo" class',
+            "'weblate.utils.tests.test_classloader' does not define a 'Foo' class",
         ):
             load_class("weblate.utils.tests.test_classloader.Foo", "TEST")
 

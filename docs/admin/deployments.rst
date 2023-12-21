@@ -21,20 +21,22 @@ Bitnami Weblate stack
 ---------------------
 
 Bitnami provides a Weblate stack for many platforms at
-<https://bitnami.com/stack/weblate>. The setup will be adjusted during
-installation, see <https://bitnami.com/stack/weblate/README.txt> for more
-documentation.
+<https://bitnami.com/stack/weblate>.
+
+.. seealso::
+
+   `Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/>`_
 
 Weblate Cloudron Package
 ------------------------
 
-`Cloudron <https://cloudron.io/>`_ is a platform for self-hosting web applications.
+`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web applications.
 Weblate installed with Cloudron will be automatically kept up-to-date.
 The package is maintained by the Cloudron team at their `Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_.
 
 .. image:: /images/cloudron.png
    :alt: Install Weblate with Cloudron
-   :target: https://cloudron.io/button.html?app=org.weblate.cloudronapp
+   :target: https://www.cloudron.io/button.html?app=org.weblate.cloudronapp
 
 Weblate in YunoHost
 -------------------

@@ -6,7 +6,7 @@
   {% if not is_zen %}
     {% if prev_unit_url %}
       <a id="button-first" class="btn btn-default green" href="{{ first_unit_url }}" title="{% trans "First" %}">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
-      <a id="button-prev" class="btn btn-default green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
+      <a id="button-prev" class="btn btn-default green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}" rel="prev">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
     {% else %}
       <a id="button-first" class="btn btn-default green disabled" title="{% trans "First" %}">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
       <a id="button-prev" class="btn btn-default green disabled" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
@@ -21,13 +21,13 @@
     </div>
     <div class="btn btn-default" id="position-input-editable" title="{% trans "Go to position" %}" >
           <div class="input-group">
-            <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}" id="id_position">
+            <input type="hidden" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}" id="position-input-editable-input">
             <span class="input-group-addon">{% blocktrans with filter_count=filter_count|intcomma %}/ {{ filter_count }}{% endblocktrans %}</span>
           </div>
     </div>
   {% if not is_zen %}
     {% if next_unit_url %}
-      <a id="button-next" class="btn btn-default green" href="{{ next_unit_url }}" title="{% trans "Next" %}">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
+      <a id="button-next" class="btn btn-default green" href="{{ next_unit_url }}" title="{% trans "Next" %}" rel="next">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
       <a id="button-end" class="btn btn-default green" href="{{ last_unit_url }}" title="{% trans "Last" %}">{% if not LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
     {% else %}
       <a id="button-next" class="btn btn-default green disabled" title="{% trans "Next" %}">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>

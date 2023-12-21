@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 (function () {
   var EditorBase = WLT.Editor.Base;
 
@@ -31,7 +35,7 @@
 
             this.init();
             initHighlight(document);
-          }
+          },
         );
       }
     });
@@ -49,7 +53,7 @@
           {
             scrollTop: rowOffset,
           },
-          100
+          100,
         );
       }
     });
@@ -98,7 +102,7 @@
     $window.on("beforeunload", function () {
       if ($(".translation-modified").length > 0) {
         return gettext(
-          "There are some unsaved changes, are you sure you want to leave?"
+          "There are some unsaved changes, are you sure you want to leave?",
         );
       }
     });
@@ -124,7 +128,7 @@
       $editors.css(
         "min-height",
         (tdHeight - (contentHeight - editorHeight - 10)) / $editors.length +
-          "px"
+          "px",
       );
     });
   };
@@ -150,10 +154,15 @@
 
     var form = $row.find("form");
     statusdiv.addClass("unit-state-saving");
+    var payload = form.serialize();
+    if (payload == statusdiv.data("last-payload")) {
+      return;
+    }
+    statusdiv.data("last-payload", payload);
     $.ajax({
       type: "POST",
       url: form.attr("action"),
-      data: form.serialize(),
+      data: payload,
       dataType: "json",
       error: function (jqXHR, textStatus, errorThrown) {
         addAlert(errorThrown);

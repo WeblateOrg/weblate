@@ -5,12 +5,11 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Community localization checklist" %}</a></li>
+{% path_object_breadcrumbs path_object %}
+<li><a href="{% url 'guide' path=object.get_url_path %}">{% trans "Community localization checklist" %}</a></li>
 
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=object.project.slug component=object.slug widget='svg' color='badge' extension='svg' %}" />
+<img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
 </a>
 {% endblock %}
 
@@ -41,6 +40,8 @@
     <td>
         {% if guide.passed %}
         <span class="green">{% icon "check.svg" %}</span>
+        {% elif guide.hint %}
+        {% icon "wrench.svg" %}
         {% else %}
         <span class="red">{% icon "alert.svg" %}</span>
         {% endif %}
@@ -60,7 +61,7 @@
 {% endfor %}
 </table>
 <div class="panel-footer">
-<a href="{% url 'component' project=object.project.slug component=object.slug %}" class="btn btn-primary">{% trans "Return to the component" %}</a>
+<a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% trans "Return to the component" %}</a>
 </div>
 </div>
 

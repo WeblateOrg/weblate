@@ -1,31 +1,58 @@
 Managing translations
 =====================
 
+Adding new strings
+------------------
+
+New strings can be made available for translation when they appear in the base file,
+called :ref:`component-new_base` (see :ref:`component`).
+If your file format doesn't require such a file, as is the case with most monolingual
+translation flows, you can start with empty files.
+
 .. _adding-translation:
 
 Adding new translations
 -----------------------
 
-New strings can be made available for translation when they appear in the base file,
-called :guilabel:`Template for new translations` (see :ref:`component`).
-If your file format doesn't require such a file, as is the case with most monolingual
-translation flows, you can start with blank files).
-
 New languages can be added right away when requested by a user in Weblate, or a
 notification will be sent to project admins for approval and manual addition.
 This can be done using :ref:`component-new_lang` in :ref:`component`.
 
-.. note::
+Some formats expect to start with an empty file and only translated strings to
+be included (for example :ref:`aresource`), while others expect to have all
+keys present (for example :ref:`gettext`). The document-based formats (for
+example :ref:`odf`) start with a copy of the source document and all strings
+marked as needing editing.  In some situations this really doesn't depend on
+the format, but rather on the framework you use to handle the translation (for
+example with :ref:`json`).
 
-    If you add a language file in connected remote repository, respective
-    translation will be added to the component when Weblate updates local repository.
+When you specify :ref:`component-new_base` in :ref:`component`, Weblate uses
+this file to start new translations. Any existing translations is
+removed from the file when doing so.
 
-    More info on the repository update settings can be found on the :ref:`update-vcs`.
+When :ref:`component-new_base` is empty and the file format
+supports it, an empty file is created where new strings are added once they are
+translated.
+
+The :ref:`component-language_code_style` allows you to customize language code
+used in generated filenames. Additionally, any mappings defined in
+:ref:`project-language_aliases` are applied in reverse.
 
 .. seealso::
 
    :ref:`component-new_lang`,
-   :ref:`new-translations`
+   :ref:`component-new_base`,
+   :ref:`component-language_code_style`,
+   :ref:`language-code`,
+   :ref:`project-language_aliases`,
+   :ref:`language-parsing-codes`
+
+.. note::
+
+    If you add a language file in connected remote repository, respective
+    translation is added to the component when Weblate updates local repository.
+
+    More info on the repository update settings can be found on the :ref:`update-vcs`.
 
 .. _removing-translation:
 
@@ -73,12 +100,10 @@ see all variants of the string at one place.
 Automated key based variants
 ++++++++++++++++++++++++++++
 
-.. versionadded:: 3.11
-
 You can define regular expression to group the strings based on the key of
 monolingual translations in the :ref:`component`:
 
-.. image:: /screenshots/variants-settings.png
+.. image:: /screenshots/variants-settings.webp
 
 In case the :guilabel:`Key` matches the expression, the matching part is
 removed to generate root key of the variant. Then all the strings with the same
@@ -108,11 +133,11 @@ should be considered together when translating.
 The additional variant for a string can also be added using the :guilabel:`Tools` while translating
 (when :ref:`component-manage_units` is turned on):
 
-.. image:: /screenshots/glossary-tools.png
+.. image:: /screenshots/glossary-tools.webp
 
 .. note::
 
-   There the variant source string has to at most 768 characters long. This is
+   The variant source string has to be at most 768 characters long. This is a
    technical limitation due to compatibility with MySQL database.
 
 .. seealso::
@@ -125,7 +150,7 @@ Variants while translating
 
 The variant is later grouped when translating:
 
-.. image:: /screenshots/variants-translate.png
+.. image:: /screenshots/variants-translate.webp
 
 .. _labels:
 
@@ -134,7 +159,7 @@ String labels
 
 Split component translation strings into categories by text and colour in the project configuration.
 
-.. image:: /screenshots/labels.png
+.. image:: /screenshots/labels.webp
 
 .. hint::
 

@@ -1,0 +1,5 @@
+{% load i18n %}
+{% load icons %}
+
+<button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ unit.get_target_plurals.0 }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+<button type="button" class="btn btn-link btn-xs" data-clone-text="{{ unit.get_target_plurals.0 }}" title="{% trans "Clone to translation" %}">{% icon "clone.svg" %}</button>

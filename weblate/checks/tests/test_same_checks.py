@@ -1,27 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for quality checks."""
 
-
 from weblate.checks.same import SameCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class SameCheckTest(CheckTestCase):
@@ -91,16 +77,16 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                "(c) Copyright © 2013–2022 Michal Čihař",
-                "(c) Copyright © 2013–2022 Michal Čihař",
+                "(c) Copyright © 2013–2023 Michal Čihař",
+                "(c) Copyright © 2013–2023 Michal Čihař",
                 "",
             ),
         )
         self.do_test(
             False,
             (
-                "© Copyright © 2013–2022 Michal Čihař",
-                "© Copyright © 2013–2022 Michal Čihař",
+                "© Copyright © 2013–2023 Michal Čihař",
+                "© Copyright © 2013–2023 Michal Čihař",
                 "",
             ),
         )
@@ -228,6 +214,18 @@ class SameCheckTest(CheckTestCase):
     def test_same_placeholders(self):
         self.do_test(True, ("%location%", "%location%", ""))
         self.do_test(False, ("%location%", "%location%.", "placeholders:%location%"))
+        self.do_test(
+            False,
+            ("%SCHOOLING_PERIOD%", "%SCHOOLING_PERIOD%", r'placeholders:r"%\w+%"'),
+        )
+        self.do_test(
+            False,
+            (
+                "%SCHOOLING_PERIOD%",
+                "%SCHOOLING_PERIOD%",
+                r'placeholders:r"%\w+%",strict-same',
+            ),
+        )
 
     def test_same_project(self):
         self.do_test(False, ("MockProject", "MockProject", ""))
@@ -241,3 +239,53 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             True, ("routine_foobar, routine2, ...", "routine_foobar, routine2, ...", "")
         )
+
+
+class GlossarySameCheckTest(ViewTestCase):
+    check = SameCheck()
+    CREATE_GLOSSARIES = True
+
+    def setUp(self):
+        super().setUp()
+        self.unit = self.get_unit()
+        self.unit.translate(self.user, self.unit.source, STATE_TRANSLATED)
+        self.unit.check_cache = {}
+        self.unit.glossary_terms = None
+        del self.unit.__dict__["all_flags"]
+        self.glossary = self.project.glossaries[0].translation_set.get(
+            language=self.unit.translation.language
+        )
+
+    def add_glossary(self, source: str, flags: str):
+        self.glossary.add_unit(None, context="", source=source, extra_flags=flags)
+
+    def add_glossary_words(self, flags: str = "terminology,read-only"):
+        self.add_glossary("hello", flags)
+        self.add_glossary("world", flags)
+
+    def add_glossary_sentence(self, flags: str = "terminology,read-only"):
+        self.add_glossary("Hello, world", flags)
+
+    def test_disabled(self):
+        self.add_glossary_words()
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_words(self):
+        self.add_glossary_words()
+        self.unit.extra_flags = "check-glossary"
+        self.assertTrue(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_translatable_words(self):
+        self.add_glossary_words("terminology")
+        self.unit.extra_flags = "check-glossary"
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_sentence(self):
+        self.add_glossary_sentence()
+        self.unit.extra_flags = "check-glossary"
+        self.assertTrue(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_translatable_sentence(self):
+        self.add_glossary_sentence("terminology")
+        self.unit.extra_flags = "check-glossary"
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))

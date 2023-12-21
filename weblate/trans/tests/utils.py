@@ -1,38 +1,28 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
+
 import os.path
 import shutil
 import sys
 from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
-from typing import Set
 from unittest import SkipTest
 
+import social_core.backends.utils
 from celery.contrib.testing.tasks import ping
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.auth.models import User
+from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
 from weblate.utils.files import remove_tree
@@ -77,12 +67,14 @@ def create_another_user():
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos: Set[str] = set()
+    updated_base_repos: set[str] = set()
+    CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"
 
     def optional_extract(self, output, tarname):
-        """Extract test repository data if needed.
+        """
+        Extract test repository data if needed.
 
         Checks whether directory exists or is older than archive.
         """
@@ -91,7 +83,6 @@ class RepoTestMixin:
         if not os.path.exists(output) or os.path.getmtime(output) < os.path.getmtime(
             tarname
         ):
-
             # Remove directory if outdated
             if os.path.exists(output):
                 remove_tree(output)
@@ -223,18 +214,28 @@ class RepoTestMixin:
             else:
                 branch = VCS_REGISTRY[vcs].get_remote_branch(repo)
 
-        return Component.objects.create(
-            repo=repo,
-            push=push,
-            branch=branch,
-            filemask=mask,
-            template=template,
-            file_format=file_format,
-            repoweb=REPOWEB_URL,
-            new_base=new_base,
-            vcs=vcs,
-            **kwargs,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                repo=repo,
+                push=push,
+                branch=branch,
+                filemask=mask,
+                template=template,
+                file_format=file_format,
+                repoweb=REPOWEB_URL,
+                new_base=new_base,
+                vcs=vcs,
+                **kwargs,
+            )
+
+    @staticmethod
+    def configure_mt():
+        for engine in ["weblate", "weblate-translation-memory"]:
+            Setting.objects.get_or_create(
+                category=Setting.CATEGORY_MT,
+                name=engine,
+                defaults={"value": {}},
+            )
 
     def create_component(self):
         """Wrapper method for providing test component."""
@@ -378,45 +379,55 @@ class RepoTestMixin:
         return self._create_component("appstore", "metadata/*", "metadata/en-US")
 
     def create_html(self):
-        return self._create_component("html", "html/*.html", "html/en.html")
+        return self._create_component(
+            "html", "html/*.html", "html/en.html", edit_template=False
+        )
 
     def create_idml(self):
-        return self._create_component("idml", "idml/*.idml", "idml/en.idml")
+        return self._create_component(
+            "idml", "idml/*.idml", "idml/en.idml", edit_template=False
+        )
 
     def create_odt(self):
-        return self._create_component("odf", "odt/*.odt", "odt/en.odt")
+        return self._create_component(
+            "odf", "odt/*.odt", "odt/en.odt", edit_template=False
+        )
 
     def create_winrc(self):
-        return self._create_component("rc", "winrc/*.rc", "winrc/en-US.rc")
+        return self._create_component(
+            "rc", "winrc/*.rc", "winrc/en-US.rc", edit_template=False
+        )
 
     def create_tbx(self):
         return self._create_component("tbx", "tbx/*.tbx")
 
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
-        return Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=parent.project,
-            repo="weblate://test/test",
-            file_format="po",
-            filemask="po/*.po",
-            new_lang="contact",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=parent.project,
+                repo="weblate://test/test",
+                file_format="po",
+                filemask="po/*.po",
+                new_lang="contact",
+            )
 
     def create_link_existing(self):
         component = self.component
         if "linked_childs" in component.__dict__:
             del component.__dict__["linked_childs"]
-        return Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=self.project,
-            repo=component.get_repo_link_url(),
-            file_format="po",
-            filemask="po-duplicates/*.dpo",
-            new_lang="contact",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=self.project,
+                repo=component.get_repo_link_url(),
+                file_format="po",
+                filemask="po-duplicates/*.dpo",
+                new_lang="contact",
+            )
 
 
 class TempDirMixin:
@@ -451,3 +462,30 @@ def create_test_billing(user, invoice=True):
             end=timezone.now() + timedelta(days=1),
         )
     return billing
+
+
+class SocialCacheMixin:
+    """
+    Safely changes AUTHENTICATION_BACKENDS.
+
+    Purge social_core authentication backends cache needs to be done upon any
+    change to AUTHENTICATION_BACKENDS.
+    """
+
+    def enable(self):
+        super().enable()
+        social_core.backends.utils.BACKENDSCACHE = {}
+
+    def disable(self):
+        super().disable()
+        social_core.backends.utils.BACKENDSCACHE = {}
+
+
+# Lowercase name to be consistent with Django
+class social_core_override_settings(SocialCacheMixin, override_settings):  # noqa: N801
+    pass
+
+
+# Lowercase name to be consistent with Django
+class social_core_modify_settings(SocialCacheMixin, modify_settings):  # noqa: N801
+    pass

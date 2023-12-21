@@ -2,22 +2,26 @@
 {% load static %}
 
 {% compress css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
 {% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
 {% endif %}
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap-datepicker3.css' %}{{ cache_param }}" />
   {% if not fonts_cdn_url %}
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-source/source-sans-3.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-source/source-code-pro.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'vendor/font-source/source-sans-3.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'vendor/font-source/source-code-pro.css' %}{{ cache_param }}" />
   {% endif %}
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/multi.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'vendor/multi.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
+{% if theme == "auto" %}
+  <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" media="(prefers-color-scheme: dark)" />
+{% elif theme == "dark" %}
+  <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" />
+{% endif %}
 {% endcompress %}
 {% if fonts_cdn_url %}
-  <link rel="stylesheet" type="text/css" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
-  <link rel="stylesheet" type="text/css" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
+  <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
+  <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
 {% endif %}
 {% if custom_css_hash %}
-  <link rel="stylesheet" type="text/css" href="{% url "css-custom" %}?{{ custom_css_hash }}" />
+  <link rel="stylesheet" href="{% url "css-custom" %}?{{ custom_css_hash }}" />
 {% endif %}

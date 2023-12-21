@@ -11,7 +11,7 @@ Python modules
 
    .. code-block:: sh
 
-        virtualenv --python=python3 ~/weblate-env
+        virtualenv ~/weblate-env
 
 #. Activate the virtualenv for Weblate:
 
@@ -23,9 +23,10 @@ Python modules
 
    .. code-block:: sh
 
+        # Install Weblate with all optional dependencies
         pip install "Weblate[all]"
 
-   Please check :ref:`optional-deps` for fine-tuning of optional dependencies.
+   Please check :ref:`python-deps` for fine-tuning of optional dependencies.
 
    .. note::
 

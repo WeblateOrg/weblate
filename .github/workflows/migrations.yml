@@ -1,9 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: Migrations
 
 on:
   push:
     branches-ignore:
-    - dependabot/**
     - deepsource-fix-**
     - renovate/**
     - weblate
@@ -12,9 +15,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   migrations:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         database: [postgresql, mysql]
@@ -29,54 +35,30 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
-    - name: Cache pip
-      uses: actions/cache@v2.1.7
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2.3.2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.7
+        python-version: |-
+          3.11
+        cache: pip
+        cache-dependency-path: '**/requirements*.txt'
     - name: Install pip dependencies
       run: |
-        ./ci/pip-install
+        ./ci/pip-install migrations
     - name: Check missing migrations
       run: ./ci/run-checkmigrate
-    - name: Migrate from 4.0
-      run: ./ci/run-migrate 4.0
-    - name: Migrate from 4.0.4
-      run: ./ci/run-migrate 4.0.4
-    - name: Migrate from 4.1
-      run: ./ci/run-migrate 4.1
-    - name: Migrate from 4.2
-      run: ./ci/run-migrate 4.2
-    - name: Migrate from 4.3
-      run: ./ci/run-migrate 4.3
-    - name: Migrate from 4.4
-      run: ./ci/run-migrate 4.4
-    - name: Migrate from 4.5
-      run: ./ci/run-migrate 4.5
-    - name: Migrate from 4.6
-      run: ./ci/run-migrate 4.6
-    - name: Migrate from 4.7
-      run: ./ci/run-migrate 4.7
-    - name: Migrate from 4.8
-      run: ./ci/run-migrate 4.8
-    - name: Migrate from 4.9
-      run: ./ci/run-migrate 4.9
-    - name: Migrate from 4.10
-      run: ./ci/run-migrate 4.10
+    - name: Migrate from 5.0
+      run: ./ci/run-migrate 5.0.2
     - name: Coverage
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: codecov/codecov-action@v3
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations

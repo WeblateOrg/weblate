@@ -1,22 +1,8 @@
 #!/usr/bin/env python3
+
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """
 Helper script to generate Python code for licenses.
@@ -27,26 +13,12 @@ See https://github.com/spdx/license-list-data
 import json
 import subprocess
 
-HEADER = '''#
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
+HEADER = '''# Copyright © Michal Čihař <michal@weblate.org>
 #
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-"""License data definitions.
+"""
+License data definitions.
 
 This is an automatically generated file, see scripts/generate-license-data
 """
@@ -75,29 +47,32 @@ with open("scripts/spdx-license-list/json/licenses.json") as handle:
 with open("weblate/utils/licensedata.py", "w") as output:
     output.write(HEADER)
     output.write("LICENSES = (\n")
-    for license in sorted(data["licenses"], key=lambda x: x["name"].lower()):
-        if license["isDeprecatedLicenseId"]:
+    for item in sorted(data["licenses"], key=lambda x: x["name"].lower()):
+        if item["isDeprecatedLicenseId"]:
             continue
         with open(
-            f"scripts/spdx-license-list/json/details/{license['licenseId']}.json"
+            f"scripts/spdx-license-list/json/details/{item['licenseId']}.json"
         ) as handle:
             details = json.load(handle)
         libre = (
             details.get("isFsfLibre", False)
             or details["isOsiApproved"]
-            or license.get("isFsfLibre", False)
-            or license["isOsiApproved"]
-            or license["licenseId"] in EXCEPTIONS
+            or item.get("isFsfLibre", False)
+            or item["isOsiApproved"]
+            or item["licenseId"] in EXCEPTIONS
         )
         output.write(
             TEMPLATE.format(
-                license["licenseId"],
-                license["name"].replace('"', '\\"'),
-                license["reference"],
+                item["licenseId"],
+                item["name"].replace('"', '\\"'),
+                item["reference"],
                 "True" if libre else "False",
             )
         )
     output.write(")\n")
 
 # Apply coding style
-subprocess.run(["black", "weblate/utils/licensedata.py"])
+subprocess.run(
+    ["pre-commit", "run", "--files", "weblate/utils/licensedata.py"],
+    check=False,
+)

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -117,16 +102,16 @@ class DashboardTest(ViewTestCase):
         # add a subscription
         self.user.profile.watched.add(self.project)
         response = self.client.get(reverse("home"))
-        self.assertEqual(len(response.context["usersubscriptions"]), 2)
+        self.assertEqual(len(response.context["usersubscriptions"]), 1)
 
     def test_user_nolang(self):
         self.user.profile.languages.clear()
         # This picks up random language
-        self.client.get(reverse("home"), HTTP_ACCEPT_LANGUAGE="en")
+        self.client.get(reverse("home"), headers={"accept-language": "en"})
         self.client.get(reverse("home"))
 
         # Pick language from request
-        response = self.client.get(reverse("home"), HTTP_ACCEPT_LANGUAGE="cs")
+        response = self.client.get(reverse("home"), headers={"accept-language": "cs"})
         self.assertTrue(response.context["suggestions"])
         self.assertFalse(self.user.profile.languages.exists())
 
@@ -140,12 +125,12 @@ class DashboardTest(ViewTestCase):
     @override_settings(SINGLE_PROJECT=True)
     def test_single_project(self):
         response = self.client.get(reverse("home"))
-        self.assertRedirects(response, reverse("component", kwargs=self.kw_component))
+        self.assertRedirects(response, self.component.get_absolute_url())
 
     @override_settings(SINGLE_PROJECT="test")
     def test_single_project_slug(self):
         response = self.client.get(reverse("home"))
-        self.assertRedirects(response, reverse("project", kwargs=self.kw_project))
+        self.assertRedirects(response, self.project.get_absolute_url())
 
     @override_settings(SINGLE_PROJECT=True)
     def test_single_project_restricted(self):

@@ -1,31 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-from collections import namedtuple
 
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository
-
-# This has to stay here for compatibility reasons - it is stored pickled in
-# the cache and moving it around breaks ugprades.
-Release = namedtuple("Release", ["version", "timestamp"])
 
 
 def get_root_dir():
@@ -35,10 +15,10 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "4.11-dev"
+VERSION = "5.4-dev"
 
 # Version string without suffix
-VERSION_BASE = VERSION.replace("-dev", "")
+VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
 
 # User-Agent string to use
 USER_AGENT = f"Weblate/{VERSION}"
@@ -53,7 +33,7 @@ try:
     GIT_VERSION = GIT_REPO.describe()
     GIT_REVISION = GIT_REPO.last_revision
     del GIT_REPO
-except (RepositoryException, OSError):
+except (RepositoryError, OSError):
     # Special case for Docker bleeding builds
     if "WEBLATE_DOCKER_GIT_REVISION" in os.environ:
         GIT_REVISION = os.environ["WEBLATE_DOCKER_GIT_REVISION"]
@@ -66,7 +46,7 @@ except (RepositoryException, OSError):
 
 if GIT_REVISION:
     GIT_LINK = f"https://github.com/WeblateOrg/weblate/commits/{GIT_REVISION}"
-elif "-dev" not in VERSION:
+elif VERSION == VERSION_BASE:
     GIT_LINK = f"https://github.com/WeblateOrg/weblate/releases/tag/weblate-{VERSION}"
 else:
     GIT_LINK = None

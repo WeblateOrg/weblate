@@ -1,31 +1,24 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import re
-from io import StringIO
+from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.http import Http404
+from django.utils.html import conditional_escape, format_html, format_html_join
+from django.utils.translation import gettext
 from lxml import etree
-from lxml.etree import XMLSyntaxError
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
+from weblate.utils.xml import parse_xml
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class Check:
@@ -38,7 +31,7 @@ class Check:
     source = False
     ignore_untranslated = True
     default_disabled = False
-    propagates = False
+    propagates: bool = False
     param_type = None
     always_display = False
     batch_project_wide = False
@@ -47,6 +40,14 @@ class Check:
     def get_identifier(self):
         return self.check_id
 
+    def get_propagated_value(self, unit):
+        return None
+
+    def get_propagated_units(self, unit, target: str | None = None):
+        from weblate.trans.models import Unit
+
+        return Unit.objects.none()
+
     def __init__(self):
         id_dash = self.check_id.replace("_", "-")
         self.url_id = f"check:{self.check_id}"
@@ -54,14 +55,18 @@ class Check:
         self.enable_string = id_dash
         self.ignore_string = f"ignore-{id_dash}"
 
+    def is_ignored(self, all_flags):
+        return self.ignore_string in all_flags or "ignore-all-checks" in all_flags
+
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""
+        all_flags = unit.all_flags
         # Is this check ignored
-        if self.ignore_string in unit.all_flags:
+        if self.is_ignored(all_flags):
             return True
 
         # Is this disabled by default
-        if self.default_disabled and self.enable_string not in unit.all_flags:
+        if self.default_disabled and self.enable_string not in all_flags:
             return True
 
         return False
@@ -91,23 +96,23 @@ class Check:
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
-        source = sources[0]
-        # Check singular
-        if self.check_single(source, targets[0], unit):
-            return True
-        # Do we have more to check?
-        if len(sources) > 1:
-            source = sources[1]
-        # Check plurals against plural from source
-        for target in targets[1:]:
-            if self.check_single(source, target, unit):
-                return True
-        # Check did not fire
-        return False
+        from weblate.lang.models import PluralMapper
+
+        source_plural = unit.translation.component.source_language.plural
+        target_plural = unit.translation.plural
+        if len(sources) != source_plural.number or len(targets) != target_plural.number:
+            return any(
+                self.check_single(sources[-1], target, unit) for target in targets
+            )
+        plural_mapper = PluralMapper(source_plural, target_plural)
+        return any(
+            self.check_single(source, target, unit)
+            for source, target in plural_mapper.zip(sources, targets, unit)
+        )
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_source(self, source, unit):
         """Check source strings."""
@@ -117,7 +122,7 @@ class Check:
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_chars(self, source, target, pos, chars):
         """Generic checker for chars presence."""
@@ -129,16 +134,13 @@ class Check:
 
         return (src in chars) != (tgt in chars)
 
-    def is_language(self, unit, vals):
-        """Detect whether language is in given list, ignores variants."""
-        return unit.translation.language.base_code in vals
-
     def get_doc_url(self, user=None):
         """Return link to documentation."""
         return get_doc_url("user/checks", self.doc_id, user=user)
 
     def check_highlight(self, source, unit):
-        """Return parts of the text that match to hightlight them.
+        """
+        Return parts of the text that match to highlight them.
 
         Result is list that contains lists of two elements with start position of the
         match and the value of the match
@@ -165,8 +167,8 @@ class Check:
     def get_replacement_function(self, unit):
         def strip_xml(content):
             try:
-                tree = etree.parse(StringIO(f"<x>{content}</x>"))
-            except XMLSyntaxError:
+                tree = parse_xml(f"<x>{content}</x>")
+            except etree.XMLSyntaxError:
                 return content
             return etree.tostring(tree, encoding="unicode", method="text")
 
@@ -176,10 +178,7 @@ class Check:
         flags = unit.all_flags
 
         # chain XML striping if needed
-        if "xml-text" in flags:
-            replacement = strip_xml
-        else:
-            replacement = noop
+        replacement = strip_xml if "xml-text" in flags else noop
 
         if not flags.has_value("replacements"):
             return replacement
@@ -192,20 +191,26 @@ class Check:
         )
 
         # Build regexp matcher
-        pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+        pattern = re.compile("|".join(re.escape(key) for key in replacements))
 
         return lambda text: pattern.sub(
             lambda m: replacements[m.group(0)], replacement(text)
         )
 
+
+class BatchCheckMixin:
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)
         return self.check_id in unit.all_checks_names
 
     def check_component(self, component):
-        return []
+        raise NotImplementedError
 
     def perform_batch(self, component):
+        with sentry_sdk.start_span(op="check.perform_batch", description=self.check_id):
+            self._perform_batch(component)
+
+    def _perform_batch(self, component):
         from weblate.checks.models import Check
         from weblate.trans.models import Component
 
@@ -266,7 +271,33 @@ class TargetCheck(Check):
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
+
+    def format_value(self, value: str):
+        from weblate.trans.templatetags.translations import Formatter
+
+        fmt = Formatter(0, value, None, None, None, None, None)
+        fmt.parse()
+        return format_html(
+            """<span class="hlcheck" data-value="{}">{}</span>""", value, fmt.format()
+        )
+
+    def get_values_text(self, message: str, values: Iterable[str]):
+        return format_html_join(
+            ", ",
+            conditional_escape(message),
+            ((self.format_value(value),) for value in sorted(values)),
+        )
+
+    def get_missing_text(self, values: Iterable[str]):
+        return self.get_values_text(
+            gettext("The following format strings are missing: {}"), values
+        )
+
+    def get_extra_text(self, values: Iterable[str]):
+        return self.get_values_text(
+            gettext("The following format strings are extra: {}"), values
+        )
 
 
 class SourceCheck(Check):
@@ -275,19 +306,18 @@ class SourceCheck(Check):
     source = True
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
-class TargetCheckParametrized(Check):
+class TargetCheckParametrized(TargetCheck):
     """Basic class for target checks with flag value."""
 
     default_disabled = True
-    target = True
 
     def get_value(self, unit):
         return unit.all_flags.get_value(self.enable_string)
@@ -304,14 +334,10 @@ class TargetCheckParametrized(Check):
         return False
 
     def check_target_params(self, sources, targets, unit, value):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""
-        return False
-
-    def check_source_unit(self, source, unit):
-        """We don't check source strings here."""
         return False
 
 

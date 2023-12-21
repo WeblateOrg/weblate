@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for ICU MessageFormat checks."""
 
@@ -36,10 +21,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         elif flags and self.flags:
             flags = f"{self.flags}:{flags}"
 
-        if flags:
-            flags = f"{self.flag}, icu-flags:{flags}"
-        else:
-            flags = self.flag
+        flags = f"{self.flag}, icu-flags:{flags}" if flags else self.flag
 
         return MockUnit(
             self.id_hash, flags=flags, source=source, is_source=source is not None
@@ -61,10 +43,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
         self.assertTrue(result)
-        self.assertTrue("syntax" in result)
+        self.assertIn("syntax", result)
         syntax = result["syntax"]
         self.assertTrue(isinstance(syntax, list) and len(syntax) == 1)
-        self.assertTrue("Expected , or }" in syntax[0].msg)
+        self.assertIn("Expected , or }", syntax[0].msg)
 
     def test_malformed_source(self):
         # When dealing with a translation and not the source,
@@ -81,10 +63,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
         self.assertTrue(result)
-        self.assertTrue("syntax" in result)
+        self.assertIn("syntax", result)
         syntax = result["syntax"]
         self.assertTrue(isinstance(syntax, list) and len(syntax) == 1)
-        self.assertTrue("Expected , or }" in syntax[0].msg)
+        self.assertIn("Expected , or }", syntax[0].msg)
 
     def test_source(self):
         check = ICUSourceCheck()
@@ -298,7 +280,6 @@ class ICUMessageFormatCheckTest(CheckTestCase):
 # This is a sub-class of our existing test set because this format is an extension
 # of the other format and it should handle all existing syntax properly.
 class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
-
     flags = "xml"
 
     def test_tags(self):
@@ -391,7 +372,6 @@ class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
 
 
 class ICUXMLStrictFormatCheckTest(ICUXMLFormatCheckTest):
-
     flags = "strict-xml"
 
     def test_tag_prefix(self):
@@ -404,7 +384,7 @@ class ICUXMLStrictFormatCheckTest(ICUXMLFormatCheckTest):
         )
 
         self.assertTrue(result)
-        self.assertTrue("syntax" in result)
+        self.assertIn("syntax", result)
         syntax = result["syntax"]
         self.assertTrue(isinstance(syntax, list) and len(syntax) == 1)
-        self.assertTrue("Expected > or />" in syntax[0].msg)
+        self.assertIn("Expected > or />", syntax[0].msg)
