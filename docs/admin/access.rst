@@ -8,12 +8,6 @@ for the whole instance with predefined roles, or by assigning one or more
 groups of permissions to users for everything, or individual projects, components,
 glossaries, and so on.
 
-.. versionchanged:: 3.0
-
-    Before Weblate 3.0, the privilege system was based on Django, but is now
-    specifically built for Weblate. Please consult the documentation for the
-    specific version you are using if it is older.
-
 .. _access-simple:
 
 Simple access control
@@ -27,27 +21,57 @@ instead of an entire Weblate installation, the following is sufficient:
 Project access-control
 ++++++++++++++++++++++
 
-.. include:: /snippets/not-hosted-libre.rst
+.. note::
+
+    Projects running the gratis Libre plan on Hosted Weblate are always
+    :guilabel:`Public`. You can switch to the paid plan if you want to restrict
+    access to your project.
 
 Limit user access to individual projects by selecting a different
 :guilabel:`Access control` setting. The available options are:
 
-Public
-    Publicly visible, translatable for all logged-in users.
-Protected
-    Publicly visible, but translatable only for selected users.
-Private
-    Visible and translatable only for selected users.
-Custom
-    :ref:`User management <manage-acl>` features are off; by
-    default users can not do anything in any of the projects.
-    All permissions are granted using :ref:`custom-acl`.
+:guilabel:`Public`
+   Visible to everybody.
+
+   Any authenticated user can contribute.
+
+   VCS repository might be exposed to everybody.
+
+   **Choose this for open-source projects, or when your Weblate instance is private or locked-down.**
+:guilabel:`Protected`
+   Visible to everybody.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   **Choose this to gain visibility, but still have control over who can contribute.**
+:guilabel:`Private`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   **Choose this for projects that should not be exposed publicly at all.**
+:guilabel:`Custom`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   Not available on Hosted Weblate.
+
+   You will have to set up all the permissions using :ref:`custom-acl`.
+
+   **Choose this on your own Weblate instance if you want to define access in a specific, finely customizable way.**
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
-.. image:: /screenshots/project-access.png
+.. image:: /screenshots/project-access.webp
 
 Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
@@ -62,13 +86,6 @@ Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
     Administraotrs can change what default permissions are available to users
     of `Public`, `Protected`, and `Private` projects by using :ref:`custom settings <custom-acl>`.
 
-.. warning::
-
-    Turning on `Custom` access control for a project removes all its
-    created :ref:`special groups <manage-acl>`.
-    This means you instantly lose access to the project if you don't have
-    admin access to the whole project beforehand.
-
 .. seealso::
 
     :ref:`project-access_control`
@@ -78,10 +95,11 @@ Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 Managing per-project access control
 +++++++++++++++++++++++++++++++++++
 
-Users with :guilabel:`Manage project access` (see :ref:`privileges`)
-can manage users in projects by assigning them to groups.
-More can be added, and/or limited to languages with distinct roles for fine-grained access control.
-This is the initial set of teams provided for each project:
+Users with the :guilabel:`Manage project access` privilege (see
+:ref:`privileges`) can manage users in projects via adding them to the teams.
+The initial collection of teams is provided by Weblate, but additional ones can
+be defined providing more fine-grained access control. You can limit teams to
+languages and assign them designated access roles (see :ref:`privileges`).
 
 The following teams are automatically created for every project:
 
@@ -119,6 +137,9 @@ Screenshots
     Manage screenshots (add, remove, and associate them to source
     strings).
 
+Automatic translation
+    Can use automatic translation.
+
 VCS
     Manage VCS and access the exported repository.
 
@@ -131,33 +152,45 @@ Billing
     The actual name of those groups (as shown in the Django-admin interface) is
     ``Project@Group``. They can't be edited from the Weblate-user interface.
 
-.. image:: /screenshots/manage-users.png
+.. image:: /screenshots/manage-users.webp
 
 These features are available on the :guilabel:`Access control` page in
 the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
+
+Team administrators
+^^^^^^^^^^^^^^^^^^^
+
+.. versionadded:: 4.15
+
+Each team can have team administrator, who can add and remove users within the
+team. This is useful in case you want to build self-governed teams.
 
 .. _invite-user:
 
 New user invitation
 ^^^^^^^^^^^^^^^^^^^
 
-Besides adding existing users to a project, new ones can be invited to it.
-The system creates an account that remains inactive until accessed via the link in the
-invitation sent via e-mail. Site-wide privileges are not needed to do so, only
-access to manage the project’s scope is (e.g. membership in the `Administration` group).
+Adding existing users will send them invitation to confirm. With
+:setting:`REGISTRATION_OPEN` the administrator can also invite new users using
+e-mail. Invited users have to complete the registration process to get access
+to the project.
+
+It is not required to have any site-wide privileges in order to do so, access management
+permission on the project’s scope (e.g. a membership in the `Administration`
+team) would be sufficient.
 
 .. hint::
 
-   If the invitation expires, it is still possible to request resetting the password
-   for it for anyone with access to the e-mail address it is sent to.
-
-.. versionadded:: 3.11
-
-  Sending a new invitation to a previously invited e-mail address invalidates
-  the prior invitation by deleting the account for it.
+   If the invited user missed the validity of the invitation, a new invitation
+   has to be created.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+
+.. versionchanged:: 5.0
+
+   Weblate now does not automatically create accounts or add users to the
+   teams. This is only done after confirmation from the user.
 
 .. _block-user:
 
@@ -176,22 +209,27 @@ Per-project permission management
 You can set your projects to `Protected` or `Private`, and
 :ref:`manage users <manage-acl>` per-project in the Weblate-user interface.
 
-By default this prevents access provided by `Users` and `Viewers` :ref:`default groups <default-groups>`.
-Change site-wide permissions to such projects by altering the default groups,
-creating a new one, or adding settings for its components as described in :ref:`custom-acl` below.
+By default this prevents Weblate from granting access provided by
+`Users` and `Viewers` :ref:`default teams <default-teams>` due to these teams’
+own configuration. This doesn’t prevent you from granting permissions to those
+projects site-wide by altering default teams, creating a new one, or creating
+additional custom settings for individual component as described in :ref:`custom-acl` below.
 
-One of the main benefits of managing permissions through the Weblate-user
-interface is the ability to delegate it to other users (without grating
-site-wide administrator access) by adding them to the `Administration`
-group of the project.
+One of the main benefits of managing permissions through the Weblate
+user interface is that you can delegate it to other users without giving them
+the superuser privilege. In order to do so, add them to the `Administration`
+team of the project.
 
 .. _custom-acl:
 
 Custom access-control
 ---------------------
 
-.. include:: /snippets/not-hosted-libre.rst
+.. include:: /snippets/not-hosted.rst
 
+The permission system is based on teams and roles, where roles define a set of
+permissions, and teams link them to users and translations, see
+:ref:`auth-model` for more details.
 
 .. hint::
 
@@ -214,33 +252,36 @@ Common setups
 Site-wide permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Manage permissions for a whole instance at once by adding users to
-their appropriate :ref:`default groups <default-groups>`:
+To manage permissions for a whole instance at once, add users to
+appropriate :ref:`default teams <default-teams>`:
 
-* `Users` (done by default with
-  :ref:`automatic group assignment <autogroup>` on).
-* `Reviewers` (only if :ref:`review workflow <reviews>` with dedicated
-  reviewers is on).
-* `Managers` (to delegate most management operations to someone else).
+* `Users` (this is done by default by the
+  :ref:`automatic team assignment <autoteam>`).
+* `Reviewers` (if you are using :ref:`review workflow <reviews>` with dedicated
+  reviewers).
+* `Managers` (if you want to delegate most of the management operations to somebody
+  else).
 
-Keep all projects `Public` (see :ref:`acl`), otherwise the site-wide
-permissions provided by membership in the `Users` and `Reviewers` groups
+You should keep all projects configured as `Public` (see :ref:`acl`), otherwise
+the site-wide permissions provided by membership in the `Users` and `Reviewers` teams
 won’t have any effect.
 
-Additional permissions can be granted to the default groups.
-In this example the ability manage screenshots for all `Users`.
+You may also grant some additional permissions of your choice to the default
+teams. For example, you may want to give a permission to manage screenshots to all
+the `Users`.
 
-To keep managing your permissions site-wide for custom groups you create,
-choose an appropriate value for the :guilabel:`Project selection` (e.g.
+You can define some new custom teams as well. If you want to
+keep managing your permissions site-wide for these teams, choose an
+appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
 Custom permissions for languages, components or projects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Dedicated groups to manage permissions for languages, components, and projects
-can be created. These groups can only grant additional privileges that can not
-revoke any permission granted by site-wide or per-project groups by adding another
-custom group.
+You can create your own dedicated teams to manage permissions for distinct
+objects such as languages, components, and projects. Although these teams can
+only grant additional privileges, you can’t revoke any permission granted
+by site-wide or per-project teams by adding another custom team.
 
 **Example:**
 
@@ -249,7 +290,7 @@ custom group.
 
   1. Remove the permission to translate `Czech` from all users. In the
      default configuration this can be done by altering the `Users`
-     :ref:`default group <default-groups>`.
+     :ref:`default team <default-teams>`.
 
      .. list-table:: Group `Users`
          :stub-columns: 1
@@ -261,7 +302,7 @@ custom group.
 
 ..
 
-  2. Add a dedicated group for `Czech` translators.
+  2. Add a dedicated team for `Czech` translators.
 
      .. list-table:: Group `Czech translators`
          :stub-columns: 1
@@ -277,15 +318,15 @@ custom group.
 
 ..
 
-  3. Add users you wish to grant the permissions to the newly created group.
+  3. Add users you wish to give the permissions to into this team.
 
 Management permissions this way is powerful, but can be quite a tedious.
 You can ony delegate it to other site-wide administrators.
 
 .. _auth-model:
 
-Users, roles, groups, and permissions
-+++++++++++++++++++++++++++++++++++++
+Users, roles, teams, and permissions
+++++++++++++++++++++++++++++++++++++
 
 The authentication models consist of several objects:
 
@@ -296,7 +337,7 @@ The authentication models consist of several objects:
     A role defines a set of permissions (and can be reused in several
     places).
 `User`
-    A user can belong to several groups.
+    A user can belong to several teams.
 `Group`
     Groups connect roles, users, and projects, languages, and component lists).
 
@@ -315,15 +356,16 @@ The authentication models consist of several objects:
 
 .. note::
 
-  A group can have no roles assigned to it.
-  In this case public access to browse the project is assumed (see below).
+  A team can have no roles assigned to it, in that case access to browse the
+  project by anyone is assumed (see below).
 
 Project browsing access
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A user has to be a member of a group linked to the project, or any component
-inside it. Membership is enough to browse projects, no specific permissions are
-needed (as per the default `Viewers` group, see :ref:`default-groups`).
+A user has to be a member of a team linked to the project, or any component
+inside that project. Having membership is enough, no specific permissions are
+needed to browse the project (this is used in the default `Viewers` team, see
+:ref:`default-teams`).
 
 Component-browsing access
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -335,28 +377,35 @@ or component lists are granted explicitly.
 
 .. _perm-check:
 
-Group permissions
-^^^^^^^^^^^^^^^^^
+Scope of teams
+^^^^^^^^^^^^^^^
 
-Roles in the groups are made from the following rules:
+The scope of the permission assigned by the roles in the teams are applied by
+the following rules:
 
-- Specifying any :guilabel:`Component list` for a group grants members in it
-  all group permission for the components in the list, along with browsing access
-  to the projects they are in. :guilabel:`Components`
+- If the team specifies any :guilabel:`Component list`, all the permissions given to
+  members of that team are granted for all the components in the component
+  lists attached to the team, and an access with no additional permissions is
+  granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
-- Specifying any :guilabel:`Components` for the group grants members of it
-  permission for components in the list, along with browsing access
-  to the projects they are in. :guilabel:`Projects` are ignored.
+  Using huge component lists might have a performance impact, please consider
+  giving access via projects instead.
 
-- Otherwise, adding any :guilabel:`Projects` to a group (either by directly
-  listing them or by having :guilabel:`Selected projects` set to :guilabel:`All
-  public`) grants the group all the project permissions it has. (Effectively
-  the same permissions as being given access to :ref:`unrestricted components <component-restricted>`
-  in such projects.)
+- If the team specifies any :guilabel:`Components`, all the permissions given to
+  the members of that team are granted for all the components attached to the
+  team, and an access with no additional permissions is granted for all the
+  projects these components are in. :guilabel:`Projects` are ignored.
 
-- Restrictions imposed by a group’s :guilabel:`Languages` only affect
-  actions directly related to the translation process itself, like
+- Otherwise, if the team specifies any :guilabel:`Projects`, either by directly
+  listing them or by having :guilabel:`Projects selection` set to a value like :guilabel:`All
+  public projects`, all those permissions are applied to all the projects, which
+  effectively grants the same permissions to access all projects
+  :ref:`unrestricted components <component-restricted>`.
+
+- The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
+  when it’s verified if a user has an access to perform certain actions. Namely,
+  it’s applied only to actions directly related to the translation process itself like
   reviewing, saving translations, adding suggestions, etc.
 
 .. hint::
@@ -368,7 +417,7 @@ Roles in the groups are made from the following rules:
 
   A project ``foo`` with the components: ``foo/bar`` and
   ``foo/baz``, with reviewing and management rights, in the
-  following group:
+  following team:
 
   .. list-table:: Group `Spanish Admin-Reviewers`
          :stub-columns: 1
@@ -382,7 +431,8 @@ Roles in the groups are made from the following rules:
 
 ..
 
-  Members of the group have these permissions (assuming default role settings):
+
+  Members of that team will have these permissions (assuming the default role settings):
 
     - General (browsing) access to the whole project ``foo`` including both
       components in it: ``foo/bar`` and ``foo/baz``.
@@ -390,61 +440,45 @@ Roles in the groups are made from the following rules:
     - Manage VCS for the whole ``foo/bar`` repository e.g. commit pending
       changes made by translators for all languages.
 
-.. _autogroup:
+.. _autoteam:
 
-Automatic group assignments
+Automatic team assignments
 +++++++++++++++++++++++++++
 
-At the bottom of the :guilabel:`Group` editing page in the
-:ref:`Django admin interface <admin-interface>`, specify
-:guilabel:`Automatic group assignments`.
+While editing the :guilabel:`Team`, you can specify
+:guilabel:`Automatic assignments`, which is a list of regular expressions
+used to automatically assign newly created users to a team based on their
+e-mail addresses. This assignment only happens upon account creation.
+
+The most common use-case for the feature is to assign all new users to some
+default team. This behavior is used for the default `Users` and `Guest` teams
+(see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users.
+
+Another use-case for this option might be to
+give some additional privileges to employees of your company by default.
+Assuming all of them use corporate e-mail addresses on your domain, this can
+be accomplished with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
-   This is a list of regular expressions
-   used to put newly created users in a group based on their
-   e-mail addresses.
-
-.. hint::
-    Assignment only occurs upon account creation.
-
-This is often used to put new users in a default group.
-To do so, you will probably want to keep the default
-value (``^.*$``) in the regular expression field.
-It can be used to grant additional privileges to employees
-of your company by default.
-Assuming they all have corporate e-mail addresses on your domain,
-it can be done with an expression like ``^.*@mycompany.com``.
+    Automatic team assignment to `Users` and `Viewers` is always recreated
+    when upgrading from one Weblate version to another. If you want to turn it off, set the regular expression to
+    ``^$`` (which won’t match anything).
 
 .. note::
 
-    Ensure you are not giving out e-mail addresses with open
-    replies for issue tracking if want to grant priviliges
-    based on e-mail address.
+    As for now, there is no way to bulk-add already existing users to some team
+    via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
 
-.. note::
-
-    Automatic group assignment to `Users` and `Viewers` is always recreated
-    when upgrading from one Weblate version to another.
-    Turn it off by setting the regular expression to ``^$`` (which won’t
-    match anything).
-
-.. note::
-
-    For now, there is no way to add many existing users to any group
-    via the user interface. You can however use the :ref:`REST API <api>`
-    to do so.
-
-Default groups and roles
+Default teams and roles
 ++++++++++++++++++++++++
 
-After installation, a default set of groups is created (see :ref:`default-groups`).
+After installation, a default set of teams is created (see :ref:`default-teams`).
 
-These roles and groups are created upon installation.
-The built-in roles are always kept up to date by the database migration when upgrading.
-Define your own set of permissions by creating a new role.
-Editing the built-in roles is not possible from the UI and any changes are
-lost when upgrading.
+These roles and teams are created upon installation. The built-in roles are
+always kept up to date by the database migration when upgrading. You can’t
+actually change them, please define a new role if you want to define your own
+set of permissions.
 
 .. _privileges:
 
@@ -454,149 +488,123 @@ List of privileges and built-in roles
 ..
    Generated using ./manage.py list_permissions
 
-Billing (see :ref:`billing`)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-View billing info [`Administration`, `Billing`]
-
-Changes
-~~~~~~~
-Download changes [`Administration`]
-
-Comments
-
-Post comment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Delete comment [`Administration`]
-
-Component
-~~~~~~~~~
-Edit component settings [`Administration`]
-
-Lock components (preventing translations) [`Administration`]
-
-Glossary
-~~~~~~~~
-Add glossary entries [`Administration`, `Manage glossary`, `Power user`]
-
-Edit glossary entries [`Administration`, `Manage glossary`, `Power user`]
-
-Delete glossary entries [`Administration`, `Manage glossary`, `Power user`]
-
-Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
-
-Automatic suggestions
-~~~~~~~~~~~~~~~~~~~~~
-Use automatic suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Translation memory
-~~~~~~~~~~~~~~~~~~
-Edit translation memory [`Administration`, `Manage translation memory`]
-
-Delete translation memory [`Administration`, `Manage translation memory`]
-
-Projects
-~~~~~~~~
-Edit project settings [`Administration`]
-
-Manage project access [`Administration`]
-
-Reports
-~~~~~~~
-Download reports [`Administration`]
-
-Screenshots
-
-Add screenshots [`Administration`, `Manage screenshots`]
-
-Edit screenshots [`Administration`, `Manage screenshots`]
-
-Delete screenshots [`Administration`, `Manage screenshots`]
-
-Source strings
-~~~~~~~~~~~~~~
-Edit additional string info [`Administration`, `Edit source`]
-
-Strings
-
-Add new strings [`Administration`]
-
-Remove strings [`Administration`]
-
-Dismiss failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Review strings [`Administration`, `Review strings`]
-
-Edit strings when suggestions are enforced [`Administration`, `Review strings`]
-
-Edit source strings [`Administration`, `Edit source`, `Power user`]
-
-Suggestions
-
-Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Add suggestions [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`]
-
-Delete suggestions [`Administration`, `Power user`]
-
-Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Translations
-~~~~~~~~~~~~
-Add languages for translation [`Administration`, `Power user`, `Manage languages`]
-
-Perform automatic translation [`Administration`, `Automatic translation`]
-
-Delete existing translation [`Administration`, `Manage languages`]
-
-Download translation files [`Administration`, `Edit source`, `Access repository`, `Power user`, `Review strings`, `Translate`, `Manage languages`]
-
-Add several languages for translation [`Administration`, `Manage languages`]
-
-Uploads
-
-Define the author of an uploaded translation [`Administration`]
-
-Overwrite existing strings with upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-Upload translations [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
-
-VCS
-~~~
-Access the internal repository [`Administration`, `Access repository`, `Power user`, `Manage repository`]
-
-Commit changes to the internal repository [`Administration`, `Manage repository`]
-
-Push changes from the internal repository [`Administration`, `Manage repository`]
-
-Reset changes in the internal repository [`Administration`, `Manage repository`]
-
-View the upstream repository location [`Administration`, `Access repository`, `Power user`, `Manage repository`]
-
-Update the internal repository [`Administration`, `Manage repository`]
-
-Site-wide privileges
-~~~~~~~~~~~~~~~~~~~~
-Use the management interface
-
-Add new projects
-
-Add language definitions
-
-Manage language definitions
-
-Manage groups
-
-Manage users
-
-Manage roles
-
-Manage announcements
-
-Manage translation memory
-
-Manage component lists
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Scope                        | Permission                                | Roles                                                                                                                 |
++==============================+===========================================+=======================================================================================================================+
+| Billing (see :ref:`billing`) | View billing info                         | `Administration`, `Billing`                                                                                           |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Changes                      | Download changes                          | `Administration`                                                                                                      |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Comments                     | Post comment                              | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Delete comment                            | `Administration`                                                                                                      |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Resolve comment                           | `Administration`, `Review strings`                                                                                    |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Component                    | Edit component settings                   | `Administration`                                                                                                      |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Lock component, preventing translations   | `Administration`                                                                                                      |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Glossary                     | Add glossary entry                        | `Administration`, `Manage glossary`, `Power user`                                                                     |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Edit glossary entry                       | `Administration`, `Manage glossary`, `Power user`                                                                     |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Delete glossary entry                     | `Administration`, `Manage glossary`, `Power user`                                                                     |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Upload glossary entries                   | `Administration`, `Manage glossary`, `Power user`                                                                     |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Automatic suggestions        | Use automatic suggestions                 | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Translation memory           | Edit translation memory                   | `Administration`, `Manage translation memory`                                                                         |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Delete translation memory                 | `Administration`, `Manage translation memory`                                                                         |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Projects                     | Edit project settings                     | `Administration`                                                                                                      |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage project access                     | `Administration`                                                                                                      |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Reports                      | Download reports                          | `Administration`                                                                                                      |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Screenshots                  | Add screenshot                            | `Administration`, `Manage screenshots`                                                                                |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Edit screenshot                           | `Administration`, `Manage screenshots`                                                                                |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Delete screenshot                         | `Administration`, `Manage screenshots`                                                                                |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Source strings               | Edit additional string info               | `Administration`, `Edit source`                                                                                       |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Strings                      | Add new string                            | `Administration`                                                                                                      |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Remove a string                           | `Administration`                                                                                                      |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Dismiss failing check                     | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Edit strings                              | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Review strings                            | `Administration`, `Review strings`                                                                                    |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Edit string when suggestions are enforced | `Administration`, `Review strings`                                                                                    |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Edit source strings                       | `Administration`, `Edit source`, `Power user`                                                                         |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Suggestions                  | Accept suggestion                         | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Add suggestion                            | `Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`                        |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Delete suggestion                         | `Administration`, `Power user`                                                                                        |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Vote on suggestion                        | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Translations                 | Add language for translation              | `Administration`, `Power user`, `Manage languages`                                                                    |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Perform automatic translation             | `Administration`, `Automatic translation`                                                                             |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Delete existing translation               | `Administration`, `Manage languages`                                                                                  |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Download translation file                 | `Administration`, `Edit source`, `Access repository`, `Power user`, `Review strings`, `Translate`, `Manage languages` |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Add several languages for translation     | `Administration`, `Manage languages`                                                                                  |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Uploads                      | Define author of uploaded translation     | `Administration`                                                                                                      |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Overwrite existing strings with upload    | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Upload translations                       | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| VCS                          | Access the internal repository            | `Administration`, `Access repository`, `Power user`, `Manage repository`                                              |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Commit changes to the internal repository | `Administration`, `Manage repository`                                                                                 |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Push change from the internal repository  | `Administration`, `Manage repository`                                                                                 |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Reset changes in the internal repository  | `Administration`, `Manage repository`                                                                                 |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | View upstream repository location         | `Administration`, `Access repository`, `Power user`, `Manage repository`                                              |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Update the internal repository            | `Administration`, `Manage repository`                                                                                 |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Site wide privileges         | Use management interface                  |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Add new projects                          |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Add language definitions                  |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage language definitions               |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage teams                              |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage users                              |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage roles                              |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage announcements                      |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage translation memory                 |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage machinery                          |                                                                                                                       |
++                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+|                              | Manage component lists                    |                                                                                                                       |
++------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
 
 
 .. note::
@@ -605,43 +613,39 @@ Manage component lists
    These are powerful and quite close to site-wide administrator status.
    Most of them affect all projects in your Weblate installation.
 
-.. _default-groups:
+.. _default-teams:
 
-List of groups
+List of teams
 ^^^^^^^^^^^^^^
 
-These groups are created upon installation (or after executing
-:djadmin:`setupgroups`) and can be modified.
-
-.. note::
-
-    The migration will, however, re-create those that have
-    been deleted or renamed.
+The following teams are created upon installation (or after executing
+:wladmin:`setupgroups`) and you are free to modify them. The migration will,
+however, re-create them if you delete or rename them.
 
 `Guests`
     Defines permissions for non-authenticated users.
 
-    This group only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
+    This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
 
-    Remove roles from this group to limit permissions for
+    Remove roles from this team to limit permissions for
     non-authenticated users.
 
     Default roles: `Add suggestion`, `Access repository`
 
 `Viewers`
     This role ensures all users visibility of public projects.
-    By default, all users are members of this group.
+    By default, all users are members of this team.
 
-    By default, :ref:`automatic group assignment <autogroup>` makes all new
-    accounts members of this group when they join.
+    By default, :ref:`automatic team assignment <autoteam>` makes all new
+    accounts members of this team when they join.
 
     Default roles: none
 
 `Users`
-    Default group for all users.
+    Default team for all users.
 
-    By default, :ref:`automatic group assignment <autogroup>` makes all new
-    accounts members of this group when they join.
+    By default, :ref:`automatic team assignment <autoteam>` makes all new
+    accounts members of this team when they join.
 
     Default roles: `Power user`
 
@@ -657,7 +661,7 @@ These groups are created upon installation (or after executing
 
 .. warning::
 
-    Never remove the predefined Weblate groups and users, as this can lead to
+    Never remove the predefined Weblate teams and users, as this can lead to
     unexpected problems! If you have no use for them, remove all their
     privileges instead.
 
@@ -665,11 +669,13 @@ Locking down Weblate
 --------------------
 
 
-If you experience problems with malice on your Weblate installation,
-set :setting:`REQUIRE_LOGIN` to ``False`, which requires users from signing in
-and :setting:`REGISTRATION_OPEN` to ``/.*``, which prevents new registrations.
-Use the built-in :ref:`invitations <manage-acl>` to add new users.
+If you want to use your Weblate installation in a less public manner, i.e. allow
+new users on an invitational basis only, it can be done by configuring Weblate
+in such a way that only known users have an access to it. In order to do so, you can set
+:setting:`REGISTRATION_OPEN` to ``False`` to prevent registrations of any new
+users, and set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access
+all the site pages. This is basically the way to lock your Weblate installation.
 
 .. hint::
 
-   This can also be used to conduct a translation effort in a secritive manner.
+    You can use built-in :ref:`invite-user` to add new users.

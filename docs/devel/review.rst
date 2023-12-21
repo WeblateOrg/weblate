@@ -13,7 +13,7 @@ Activity reports check changes of translations, for projects, components or indi
 The activity reports for a project or component is accessible from its dashboard, on the :guilabel:`Info`
 tab.
 
-.. image:: /screenshots/activity.png
+.. image:: /screenshots/activity.webp
 
 More reports are accessible on the :guilabel:`Insights`
 tab, selecting :guilabel:`Translation reports`.
@@ -42,7 +42,7 @@ source strings. To make source strings review easier, Weblate automatically
 creates a translation for the source language and shows you source level checks
 there:
 
-.. image:: /screenshots/source-review.png
+.. image:: /screenshots/source-review.webp
 
 One of the most interesting checks here is the :ref:`check-multiple-failures` -
 it is triggered whenever there is failure on multiple translations of a given string.
@@ -51,7 +51,7 @@ problems translating properly.
 
 The detailed listing is a per language overview:
 
-.. image:: /screenshots/source-review-detail.png
+.. image:: /screenshots/source-review-detail.webp
 
 .. _report-source:
 

@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Minimal makefile for Sphinx documentation
 #
 
@@ -17,22 +21,18 @@ help:
 run-selenium:
 	@rm -rf ../data-test ../test-images
 	@cd .. && \
-		. scripts/test-database && \
+		. scripts/test-database.sh && \
 		./manage.py collectstatic --noinput && \
-		./manage.py test --failfast weblate.trans.tests.test_selenium.SeleniumTests
+		./manage.py test --keepdb --failfast weblate.trans.tests.test_selenium.SeleniumTests
 
-SCREENSHOTS = $(wildcard screenshots/*.png)
+SCREENSHOTS = $(wildcard screenshots/*.webp)
 
 ../test-images/%.png: run-selenium
 	@true
 
-screenshots/%.png: ../test-images/%.png run-selenium
+screenshots/%.webp: ../test-images/%.png run-selenium
 	@echo "Processing $@"
-	@cp $< $<.tmp
-	@pngnq -s 1 -f -n 255 $<.tmp
-	@rm -f $@
-	@zopflipng -m $<.tmp $@
-	@rm -f $<.tmp
+	@convert $< $@
 
 update-screenshots: $(SCREENSHOTS)
 	@echo $(SCREENSHOTS)

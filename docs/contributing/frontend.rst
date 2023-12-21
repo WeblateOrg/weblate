@@ -85,5 +85,5 @@ Additionally, there is :file:`scripts/optimize-svg` to reduce size of the SVG
 as most of the icons are embedded inside the HTML to allow styling of the
 paths.
 
-.. _Material Design Icons: https://materialdesignicons.com/
-.. _Material Design Resources: https://fonts.google.com/icons?selected=Material+Icons
+.. _Material Design Icons: https://pictogrammers.com/library/mdi/
+.. _Material Design Resources: https://fonts.google.com/icons

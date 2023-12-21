@@ -1,7 +1,7 @@
 Installing from sources
 =======================
 
-#. Please follow the installation instructions for your system first:
+#. Please follow the installation instructions for your system first up to installing Weblate:
 
    * :doc:`venv-debian`
    * :doc:`venv-suse`
@@ -23,7 +23,9 @@ Installing from sources
    .. code-block:: sh
 
         . ~/weblate-env/bin/activate
-        pip install -e weblate-src
+        pip install -e 'weblate-src[all]'
+        # In case you intentd to run testsuite, install test deps as well:
+        pip install -e 'weblate-src[all,test]'
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`.
 

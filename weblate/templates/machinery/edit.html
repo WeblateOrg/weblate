@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load icons %}
+
+{% block breadcrumbs %}
+{% if project %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'machinery-list' project=project.slug %}">{% trans "Automatic suggestions" %}</a></li>
+<li><a href="{% url 'machinery-edit' project=project.slug machinery=machinery_id %}">{{ machinery_name }}</a></li>
+{% else %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-machinery' %}">{% trans "Automatic suggestions" %}</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/machine' machinery_doc_anchor right=True %}
+    {{ machinery_name }}
+  </h4></div>
+  <div class="panel-body">
+  {% crispy form %}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

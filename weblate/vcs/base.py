@@ -1,46 +1,37 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Version control system abstraction for Weblate needs."""
+
+from __future__ import annotations
 
 import hashlib
 import logging
 import os
 import os.path
 import subprocess
-from datetime import datetime
-from distutils.version import LooseVersion
-from typing import Iterator, List, Optional
+from typing import TYPE_CHECKING
 
 from dateutil import parser
-from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from sentry_sdk import add_breadcrumb
+from django.utils.translation import gettext_lazy
+from packaging.version import Version
 
 from weblate.trans.util import get_clean_env, path_separator
+from weblate.utils.errors import add_breadcrumb
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from datetime import datetime
 
 LOGGER = logging.getLogger("weblate.vcs")
 
 
-class RepositoryException(Exception):
+class RepositoryError(Exception):
     """Error while working with a repository."""
 
     def __init__(self, retcode, message):
@@ -60,16 +51,18 @@ class Repository:
     """Basic repository object."""
 
     _cmd = "false"
-    _cmd_last_revision: Optional[List[str]] = None
-    _cmd_last_remote_revision: Optional[List[str]] = None
+    _cmd_last_revision: list[str] | None = None
+    _cmd_last_remote_revision: list[str] | None = None
     _cmd_status = ["status"]
-    _cmd_list_changed_files: Optional[List[str]] = None
+    _cmd_list_changed_files: list[str] | None = None
 
     name = None
-    identifier: Optional[str] = None
-    req_version: Optional[str] = None
+    identifier: str | None = None
+    req_version: str | None = None
     default_branch = ""
     needs_push_url = True
+    supports_push = True
+    push_label = gettext_lazy("This will push changes to the upstream repository.")
 
     _version = None
 
@@ -80,7 +73,7 @@ class Repository:
     def __init__(
         self,
         path: str,
-        branch: Optional[str] = None,
+        branch: str | None = None,
         component=None,
         local: bool = False,
         skip_init: bool = False,
@@ -101,6 +94,7 @@ class Repository:
             file_template="{slug}.lock",
             timeout=120,
         )
+        self._config_updated = False
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
@@ -109,15 +103,21 @@ class Repository:
                 self.init()
 
     @classmethod
-    def get_remote_branch(cls, repo: str):
+    def get_remote_branch(cls, repo: str):  # noqa: ARG003
         return cls.default_branch
 
     @classmethod
     def add_breadcrumb(cls, message, **data):
-        # Add breadcrumb only if settings are already loaded,
-        # we do not want to force loading settings early
-        if settings.configured and getattr(settings, "SENTRY_DSN", None):
-            add_breadcrumb(category="vcs", message=message, data=data, level="info")
+        add_breadcrumb(category="vcs", message=message, **data)
+
+    @classmethod
+    def add_response_breadcrumb(cls, response):
+        cls.add_breadcrumb(
+            "http.response",
+            status_code=response.status_code,
+            text=response.text,
+            headers=response.headers,
+        )
 
     @classmethod
     def log(cls, message, level: int = logging.DEBUG):
@@ -125,22 +125,25 @@ class Repository:
 
     def ensure_config_updated(self):
         """Ensures the configuration is periodically checked."""
+        if self._config_updated:
+            return
         cache_key = f"sp-config-check-{self.component.pk}"
         if cache.get(cache_key) is None:
             self.check_config()
             cache.set(cache_key, True, 86400)
+        self._config_updated = True
 
     def check_config(self):
         """Check VCS configuration."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def is_valid(self):
         """Check whether this is a valid repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def init(self):
         """Initialize the repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def resolve_symlinks(self, path):
         """Resolve any symlinks in the path."""
@@ -168,19 +171,19 @@ class Repository:
     @classmethod
     def _popen(
         cls,
-        args: List[str],
-        cwd: Optional[str] = None,
+        args: list[str],
+        cwd: str | None = None,
         merge_err: bool = True,
         fullcmd: bool = False,
         raw: bool = False,
         local: bool = False,
-        stdin: Optional[str] = None,
+        stdin: str | None = None,
     ):
         """Execute the command using popen."""
         if args is None:
-            raise RepositoryException(0, "Not supported functionality")
+            raise RepositoryError(0, "Not supported functionality")
         if not fullcmd:
-            args = [cls._cmd] + list(args)
+            args = [cls._cmd, *list(args)]
         text_cmd = " ".join(args)
         kwargs = {}
         # These are mutually exclusive
@@ -206,18 +209,18 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            raise RepositoryException(
+            raise RepositoryError(
                 process.returncode, process.stdout + (process.stderr or "")
             )
         return process.stdout
 
     def execute(
         self,
-        args: List[str],
+        args: list[str],
         needs_lock: bool = True,
         fullcmd: bool = False,
         merge_err: bool = True,
-        stdin: Optional[str] = None,
+        stdin: str | None = None,
     ):
         """Execute command and caches its output."""
         if needs_lock:
@@ -235,7 +238,7 @@ class Repository:
                 merge_err=merge_err,
                 stdin=stdin,
             )
-        except RepositoryException as error:
+        except RepositoryError as error:
             if not is_status and not self.local:
                 self.log_status(error)
             raise
@@ -245,7 +248,7 @@ class Repository:
         try:
             self.log(f"failure {error}")
             self.log(self.status())
-        except RepositoryException:
+        except RepositoryError:
             pass
 
     def clean_revision_cache(self):
@@ -272,7 +275,7 @@ class Repository:
     @classmethod
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @classmethod
     def clone(cls, source: str, target: str, branch: str, component=None):
@@ -284,7 +287,7 @@ class Repository:
 
     def update_remote(self):
         """Update remote repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def status(self):
         """Return status of the repository."""
@@ -292,7 +295,7 @@ class Repository:
 
     def push(self, branch):
         """Push given branch to remote repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def unshallow(self):
         """Unshallow working copy."""
@@ -300,21 +303,21 @@ class Repository:
 
     def reset(self):
         """Reset working copy to match remote branch."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def merge(
-        self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
+        self, abort: bool = False, message: str | None = None, no_ff: bool = False
     ):
         """Merge remote branch or reverts the merge."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
-    def needs_commit(self, filenames: Optional[List[str]] = None):
+    def needs_commit(self, filenames: list[str] | None = None):
         """Check whether repository needs commit."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def count_missing(self):
         """Count missing commits."""
@@ -331,14 +334,16 @@ class Repository:
         )
 
     def needs_merge(self):
-        """Check whether repository needs merge with upstream.
+        """
+        Check whether repository needs merge with upstream.
 
         It is missing some revisions.
         """
         return self.count_missing() > 0
 
     def needs_push(self):
-        """Check whether repository needs push to upstream.
+        """
+        Check whether repository needs push to upstream.
 
         It has additional revisions.
         """
@@ -346,7 +351,7 @@ class Repository:
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -369,15 +374,17 @@ class Repository:
         return True
 
     @classmethod
+    def validate_configuration(cls) -> list[str]:
+        return []
+
+    @classmethod
     def is_supported(cls):
         """Check whether this VCS backend is supported."""
         try:
             version = cls.get_version()
         except Exception:
             return False
-        return cls.req_version is None or LooseVersion(version) >= LooseVersion(
-            cls.req_version
-        )
+        return cls.req_version is None or Version(version) >= Version(cls.req_version)
 
     @classmethod
     def get_version(cls):
@@ -388,7 +395,6 @@ class Repository:
             except Exception as error:
                 cls._version = error
         if isinstance(cls._version, Exception):
-            # pylint: disable=raising-bad-type
             raise cls._version
         return cls._version
 
@@ -398,22 +404,22 @@ class Repository:
         return cls._popen(["--version"], merge_err=False)
 
     def set_committer(self, name, mail):
-        """Configure commiter name."""
-        raise NotImplementedError()
+        """Configure committer name."""
+        raise NotImplementedError
 
     def commit(
         self,
         message: str,
-        author: Optional[str] = None,
-        timestamp: Optional[datetime] = None,
-        files: Optional[List[str]] = None,
+        author: str | None = None,
+        timestamp: datetime | None = None,
+        files: list[str] | None = None,
     ) -> bool:
         """Create new revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
-    def remove(self, files: List[str], message: str, author: Optional[str] = None):
+    def remove(self, files: list[str], message: str, author: str | None = None):
         """Remove files and creates new revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
     def update_hash(objhash, filename, extra=None):
@@ -430,14 +436,15 @@ class Repository:
         objhash.update(data)
 
     def get_object_hash(self, path):
-        """Return hash of object in the VCS.
+        """
+        Return hash of object in the VCS.
 
         For files in a way compatible with Git (equivalent to git ls-tree HEAD), for
         dirs it behaves differently as we do not need to track some attributes (for
         example permissions).
         """
         real_path = os.path.join(self.path, self.resolve_symlinks(path))
-        objhash = hashlib.sha1()  # nosec
+        objhash = hashlib.sha1(usedforsecurity=False)
 
         if os.path.isdir(real_path):
             files = []
@@ -456,19 +463,19 @@ class Repository:
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
         """Configure remote repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def configure_branch(self, branch):
         """Configure repository branch."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def describe(self):
         """Verbosely describes current revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
     def get_examples_paths():
@@ -494,34 +501,37 @@ class Repository:
 
     def cleanup(self):
         """Remove not tracked files from the repository."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def log_revisions(self, refspec):
-        """Log revisions for given refspec.
+        """
+        Log revisions for given refspec.
 
         This is not universal as refspec is different per vcs.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
-    def list_changed_files(self, refspec: str) -> List:
-        """List changed files for given refspec.
+    def list_changed_files(self, refspec: str) -> list:
+        """
+        List changed files for given refspec.
 
         This is not universal as refspec is different per vcs.
         """
         lines = self.execute(
-            self._cmd_list_changed_files + [refspec], needs_lock=False, merge_err=False
+            [*self._cmd_list_changed_files, refspec], needs_lock=False, merge_err=False
         ).splitlines()
         return list(self.parse_changed_files(lines))
 
-    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
-        """Parses output with chanaged files."""
-        raise NotImplementedError()
+    def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
+        """Parses output with changed files."""
+        raise NotImplementedError
 
-    def list_upstream_changed_files(self):
-        """List files missing upstream."""
-        return self.list_changed_files(
-            self.ref_to_remote.format(self.get_remote_branch_name())
-        )
+    def get_changed_files(self, compare_to: str | None = None):
+        """Get files missing upstream or changes between revisions."""
+        if compare_to is None:
+            compare_to = self.get_remote_branch_name()
+
+        return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
     def get_remote_branch_name(self):
         return f"origin/{self.branch}"

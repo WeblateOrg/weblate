@@ -1,8 +1,12 @@
 #!/bin/sh
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e
 
-if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
+if [ "$1" = "--help" ] || [ "$1" = "-h" ] ; then
     echo "Usage: ./scripts/create-release [--tag]"
     exit 1
 fi
@@ -13,28 +17,32 @@ if ! git diff --exit-code --quiet ; then
 fi
 
 DO_TAG=0
-if [ "x$1" = "x--tag" ] ; then
+if [ "$1" = "--tag" ] ; then
     DO_TAG=1
     shift
 fi
 
+# Build the documentation (for release notes)
+make -C docs html
+
 # Start with clean build environment
 ./setup.py clean
+find weblate/locale/ docs/locales/ -name '*.mo' -delete
 rm -rf build
 
 # Grab version
-. scripts/test-database
+. scripts/test-database.sh
 version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
-namever=weblate-$version
-tarver=Weblate-$version
+namever="weblate-$version"
+tarver="Weblate-$version"
 
 # What are we going to build?
 if [ "$DO_TAG" -eq 1 ] ; then
     ./scripts/prepare-release
-    git tag -s $namever -m "Version $version"
+    git tag -s "$namever" -m "Version $version"
     cd ~/weblate/test
     git pull -q
-    git tag -s $namever -m "Test data for version $version"
+    git tag -s "$namever" -m "Test data for version $version"
     cd ~/weblate/weblate
 fi
 
@@ -47,39 +55,47 @@ fakeroot ./setup.py sdist
 fakeroot ./setup.py bdist_wheel
 
 # Recompress tarballs
-zcat dist/$tarver.tar.gz | xz > dist/$tarver.tar.xz
-zcat dist/$tarver.tar.gz | bzip2 > dist/$tarver.tar.bz2
+zcat "dist/$tarver.tar.gz" | xz > "dist/$tarver.tar.xz"
+zcat "dist/$tarver.tar.gz" | bzip2 > "dist/$tarver.tar.bz2"
 
 # Upload release
 if [ "$DO_TAG" -eq 1 ] ; then
-    # PyPi archive upload
-    twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.gz
-    twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver*.whl
-
-    # Sign remaining files
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.xz
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.bz2
-
-    # Download server
-    scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
-
     # Git tags
     git push --tags
     cd ~/weblate/test
     git push --tags
     cd ~/weblate/weblate
 
+    # PyPi archive upload
+    twine upload "dist/$tarver.tar.gz" "dist/$tarver*.whl"
+
+    # Sign remaining files
+    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.gz"
+    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.xz"
+    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.bz2"
+
+    # Download server
+    # shellcheck disable=SC2086
+    scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
+
     # Update stable branch
     git checkout stable
-    git merge $namever
+    git merge "$namever"
     git push origin stable
     git checkout main
 
+    # Convert release notes to markdown
+    sed "s/latest/$namever/" < scripts/release-notes-filter.lua > scripts/release-notes-filter.version.lua
+    ./scripts/extract-release-notes "$version" > "dist/Weblate-$version.html"
+    pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
+    rm scripts/release-notes-filter.version.lua
+
     # Upload to GitHub
-    ./scripts/extract-release-notes $version > dist/Weblate-$version.md
-    hub release create --file=dist/Weblate-$version.md $namever
-    hub release edit -m '' --attach=dist/$tarver.tar.gz $namever
-    hub release edit -m '' --attach=dist/$tarver.tar.gz.asc $namever
-    hub release edit -m '' --attach=dist/$tarver.tar.xz $namever
-    hub release edit -m '' --attach=dist/$tarver.tar.xz.asc $namever
+    sleep 10
+    hub release create --file="dist/Weblate-$version.md" "$namever"
+    sleep 10
+    hub release edit -m '' --attach="dist/$tarver.tar.gz" "$namever"
+    hub release edit -m '' --attach="dist/$tarver.tar.gz.asc" "$namever"
+    hub release edit -m '' --attach="dist/$tarver.tar.xz" "$namever"
+    hub release edit -m '' --attach="dist/$tarver.tar.xz.asc" "$namever"
 fi

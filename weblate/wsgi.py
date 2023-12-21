@@ -1,23 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-"""WSGI config for weblate project.
+"""
+WSGI config for weblate project.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable
@@ -34,9 +20,24 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+
+def preload_url_patterns():
+    """
+    Ensures Django URL resolver is loaded.
+
+    This avoids expensive load with a first request and makes memory sharing work
+    better between uwsgi workers.
+    """
+    from django.conf import settings
+    from django.urls import get_resolver
+
+    return get_resolver(settings.ROOT_URLCONF).url_patterns
+
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 application = get_wsgi_application()
+preload_url_patterns()

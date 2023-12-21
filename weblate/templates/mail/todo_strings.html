@@ -12,7 +12,7 @@
 <td>{{ summary.translation }}</td>
 <td>{{ summary.translation.stats.todo }}</td>
 <td>
-    <a class="button" href="{{ summary.translation.get_absolute_url }}?type=todo">{% trans "View" %}</a>
+    <a class="button" href="{{ summary.translation.get_translate_url }}?q=state:&lt;translated">{% trans "View" %}</a>
 </td>
 </tr>
 {% endfor %}

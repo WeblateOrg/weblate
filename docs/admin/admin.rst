@@ -7,7 +7,7 @@ The management interface offer administration settings under the
 :file:`/manage/` URL. It is available for users signed in with admin
 privileges, accessible by using the wrench icon top right:
 
-.. image:: /screenshots/support.png
+.. image:: /screenshots/support.webp
 
 It includes basic overview of your Weblate:
 
@@ -25,13 +25,13 @@ The Django admin interface
 
 .. warning::
 
-   Will be removed in the future,
-   as its use is discouraged—most features can be managed directly in Weblate.
+   Use with caution as this is a low level interface. You should not need it
+   in most cases as most things are comfortably approachable through Weblate UI or API.
 
 Here you can manage objects stored in the database, such as users, translations
 and other settings:
 
-.. image:: /screenshots/admin.png
+.. image:: /screenshots/admin.webp
 
 In the :guilabel:`Reports` section, you can check the status of your site, tweak
 it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-repos`.
@@ -50,7 +50,7 @@ Adding a project serves as container for all components.
 Usually you create one project for one piece of software, or book
 (See :ref:`project` for info on individual parameters):
 
-.. image:: /screenshots/add-project.png
+.. image:: /screenshots/add-project.webp
 
 .. seealso::
 
@@ -64,7 +64,7 @@ Bilingual components
 Once you have added a project, translation components can be added to it.
 (See :ref:`component` for info regarding individual parameters):
 
-.. image:: /screenshots/add-component.png
+.. image:: /screenshots/add-component.webp
 
 .. seealso::
 
@@ -80,7 +80,7 @@ For easier translation of these, provide a template file containing the
 mapping of message IDs to its respective source language (usually English).
 (See :ref:`component` for info regarding individual parameters):
 
-.. image:: /screenshots/add-component-mono.png
+.. image:: /screenshots/add-component-mono.webp
 
 .. seealso::
 

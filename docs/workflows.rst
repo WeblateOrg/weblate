@@ -10,6 +10,37 @@ features you want to make use of.
 The following is not a complete list of ways to configure Weblate.
 You can base other workflows on the most usual examples listed here.
 
+.. _workflow-customization:
+
+Workflow customization
+----------------------
+
+In addition to configuration at :ref:`project` and :ref:`component` (as
+:ref:`project-translation_review`, :ref:`component-enable_suggestions`,
+:ref:`component-suggestion_voting`, and
+:ref:`component-suggestion_autoaccept`), the translation workflow can be
+customized per language.
+
+Site-wide workflow customization can be done while :ref:`changing-languages`.
+
+Per-project customization can be done on each language page of the project.
+
+All workflow settings can be overridden, the only limitation is that
+:ref:`project-translation_review` needs to be turned on and can only be
+disabled in customization.
+
+The first existing setting applies:
+
+1. Project-language customization
+2. Language customization
+3. The project/component settings
+
+.. note::
+
+   Please be careful when using site-wide override as that applies to all
+   projects (unless they have own overrides for a given language).
+
+
 Translation access
 ------------------
 
@@ -27,7 +58,7 @@ that has a :guilabel:`Translate` permission for the project.
 Translation states
 ------------------
 
-Each translated string can be in one of following states:
+Each translated string can be in one of the following states:
 
 Untranslated
     Translation is empty, it might or not be stored in the file, depending
@@ -43,6 +74,8 @@ Approved
     Translation has been approved in the review. It can no longer be changed by
     translators, but only by reviewers. Translators can only add suggestions to
     it.
+
+    This state is only available when reviews are enabled.
 Suggestions
     Suggestions are stored in Weblate only and not in the translation file.
 
@@ -50,7 +83,7 @@ The states are represented in the translation files when possible.
 
 .. hint::
 
-   In case file format you use does not support storing states, you might want
+   If the file format you use does not support storing states, you might want
    to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
    as needing editing.
 
@@ -62,7 +95,7 @@ The states are represented in the translation files when possible.
 
 Direct translation
 ------------------
-This is most usual setup for smaller teams, anybody can directly translate.
+This is the most usual setup for smaller teams, anybody can directly translate.
 This is also the default setup in Weblate.
 
 * *Any user* can edit translations.
@@ -94,7 +127,7 @@ This is also the default setup in Weblate.
 Peer review
 -----------
 
-With this workflow, anybody can add suggestions, and need approval
+With this workflow, anybody can add a suggestion, which needs approval
 from additional member(s) before it is accepted as a translation.
 
 * *Any user* can add suggestions.
@@ -110,7 +143,7 @@ from additional member(s) before it is accepted as a translation.
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
 +------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 1           | You can set higher value to        |
+| Autoaccept suggestions | 1           | You can set a higher value to      |
 |                        |             | require more peer reviews.         |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
@@ -124,10 +157,6 @@ from additional member(s) before it is accepted as a translation.
 
 Dedicated reviewers
 -------------------
-
-.. versionadded:: 2.18
-
-    The proper review workflow is supported since Weblate 2.18.
 
 With dedicated reviewers you have two groups of users, one able to submit
 translations, and one able to review them to ensure translations are
@@ -166,13 +195,7 @@ Reviews can be turned on in the project configuration, from the
 :guilabel:`Workflow` subpage of project settings (to be found in the
 :guilabel:`Manage` → :guilabel:`Settings` menu):
 
-.. image:: /screenshots/project-workflow.png
-
-.. note::
-
-    Depending on Weblate configuration, the setting might not be available to
-    you. For example on Hosted Weblate this is not available for projects hosted
-    for free.
+.. image:: /screenshots/project-workflow.webp
 
 .. _source-quality-gateway:
 
@@ -181,10 +204,9 @@ Quality gateway for the source strings
 
 In many cases the original source language strings are coming from developers,
 because they write the code and provide initial strings. However developers are
-often not a native speakers in the source language and do not provide desired
-quality of the source strings. The intermediate translation can help you in
-addressing this - there is additional quality gateway for the strings between
-developers and translators and users.
+often not native speakers in the source language and do not provide desired
+quality of the source strings. The intermediate translation can help you address this - there is an additional quality gateway for the strings between
+developers and translators.
 
 By setting :ref:`component-intermediate`, this file will be used as source for
 the strings, but it will be edited to source language to polish it.  Once the

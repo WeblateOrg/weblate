@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-teams' %}">{% trans "Teams" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      {% trans "Manage teams" %}
+    </h4>
+  </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Roles" %}</th>
+          <th>{% trans "Languages" %}</th>
+          <th>{% trans "Projects" %}</th>
+          <th>{% trans "Components" %}</th>
+          <th>{% trans "Members" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in object_list %}
+        <tr>
+          <td>
+            {{ group.name }}
+          </td>
+          <td>
+            {% include "auth/teams-roles.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-languages.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-projects.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-components.html" %}
+          </td>
+          <td class="number">
+            {% include "auth/teams-count.html" %}
+          </td>
+          <td>
+            <a href="{{ group.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
+              {% icon 'pencil.svg' %}
+            </a>
+            {% if not group.internal %}
+              <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+                {% icon 'delete.svg' %}
+              </a>
+            {% endif %}
+            <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{request.get_full_path}}" />
+              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                    </div>
+                    <div class="modal-body" id="delete_group_body_{{ group.id }}">
+                      {% blocktrans with name=group.name %}This will delete the group <b>{{ name }}</b>.{% endblocktrans %}
+                      {% if group.user__count %}
+                        {% blocktrans count count=group.user__count %}There is {{count}} member of this group. Deleting the group might affect their access.{% plural %}There are {{count}} members of this group. Deleting the group might affect their access.{% endblocktrans %}
+                      {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-danger" name="delete" value="{% trans "Delete" %}" />
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      <tbody>
+    </table>
+    <div class="panel-footer">
+      {% include "paginator.html" %}
+    </div>
+</div>
+
+<form method="POST">
+{% csrf_token %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      {% trans "Create new team" %}
+    </h4>
+  </div>
+  <div class="panel-body">
+    {{ form | crispy }}
+  </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

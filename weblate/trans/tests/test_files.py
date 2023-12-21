@@ -1,31 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for import and export."""
 
-from copy import copy
+from io import BytesIO
 
 from django.contrib.messages import ERROR
 from django.test import SimpleTestCase
 from django.urls import reverse
+from openpyxl import load_workbook
 
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
@@ -75,7 +61,7 @@ class ImportBaseTest(ViewTestCase):
             }
             params.update(kwargs)
             return self.client.post(
-                reverse("upload_translation", kwargs=self.kw_translation),
+                reverse("upload", kwargs=self.kw_translation),
                 params,
                 follow=follow,
             )
@@ -85,6 +71,7 @@ class ImportTest(ImportBaseTest):
     """Testing of file imports."""
 
     test_file = TEST_PO
+    has_plurals = True
 
     def test_import_normal(self):
         """Test importing normally."""
@@ -150,7 +137,7 @@ class ImportTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
-        self.assertEqual(unit.fuzzy, True)
+        self.assertTrue(unit.fuzzy)
 
         # Verify stats
         translation = self.get_translation()
@@ -165,18 +152,22 @@ class ImportTest(ImportBaseTest):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEqual(unit.translated, False)
+        self.assertFalse(unit.translated)
 
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(translation.stats.suggestions, 1)
+        self.assertEqual(
+            translation.stats.suggestions, 2 if self.test_file == TEST_XLIFF else 1
+        )
 
     def test_import_xliff(self):
         response = self.do_import(test_file=TEST_XLIFF, follow=True)
-        self.assertContains(response, "updated: 1")
+        self.assertContains(
+            response, "updated: 2" if self.has_plurals else "updated: 1"
+        )
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
@@ -186,7 +177,8 @@ class ImportErrorTest(ImportBaseTest):
     """Testing import of broken files."""
 
     def test_mismatched_plurals(self):
-        """Test importing a file with different number of plural forms.
+        """
+        Test importing a file with different number of plural forms.
 
         In response to issue #900
         """
@@ -277,26 +269,64 @@ class ImportMoPoTest(ImportTest):
 
 
 class ImportJoomlaTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_joomla()
 
 
+class ImportCSVTest(ImportTest):
+    has_plurals = False
+
+    def create_component(self):
+        return self.create_csv_mono()
+
+    def test_import_source(self):
+        with open(TEST_CSV, "rb") as handle:
+            response = self.client.post(
+                reverse(
+                    "upload",
+                    kwargs={"path": self.component.source_translation.get_url_path()},
+                ),
+                {
+                    "file": handle,
+                    "method": "replace",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
+                },
+                follow=True,
+            )
+        self.assertRedirects(
+            response, self.component.source_translation.get_absolute_url()
+        )
+        messages = list(response.context["messages"])
+        self.assertIn("Processed 1 string from the uploaded files", messages[0].message)
+
+
 class ImportJSONTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_json()
 
 
 class ImportJSONMonoTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_json_mono()
 
 
 class ImportPHPMonoTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_php_mono()
 
 
 class StringsImportTest(ImportTest):
+    has_plurals = False
+
     def create_component(self):
         return self.create_iphone()
 
@@ -308,7 +338,7 @@ class AndroidImportTest(ViewTestCase):
     def test_import(self):
         with open(TEST_ANDROID, "rb") as handle:
             self.client.post(
-                reverse("upload_translation", kwargs=self.kw_translation),
+                reverse("upload", kwargs=self.kw_translation),
                 {
                     "file": handle,
                     "method": "translate",
@@ -325,11 +355,12 @@ class AndroidImportTest(ViewTestCase):
     def test_replace(self):
         self.user.is_superuser = True
         self.user.save()
-        kwargs = copy(self.kw_translation)
-        kwargs["lang"] = "en"
         with open(TEST_ANDROID, "rb") as handle:
             self.client.post(
-                reverse("upload_translation", kwargs=kwargs),
+                reverse(
+                    "upload",
+                    kwargs={"path": self.component.source_translation.get_url_path()},
+                ),
                 {
                     "file": handle,
                     "method": "replace",
@@ -353,7 +384,7 @@ class CSVImportTest(ViewTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
         with open(self.test_file, "rb") as handle:
             self.client.post(
-                reverse("upload_translation", kwargs=self.kw_translation),
+                reverse("upload", kwargs=self.kw_translation),
                 {
                     "file": handle,
                     "method": "translate",
@@ -419,17 +450,13 @@ class ExportTest(ViewTestCase):
             )
 
     def test_export(self):
-        response = self.client.get(
-            reverse("download_translation", kwargs=self.kw_translation)
-        )
+        response = self.client.get(reverse("download", kwargs=self.kw_translation))
         self.assert_response_contains(response, self.test_match_1, self.test_match_2)
         self.assertEqual(response["Content-Disposition"], self.test_header)
 
     def export_format(self, fmt, **extra):
         extra["format"] = fmt
-        return self.client.get(
-            reverse("download_translation", kwargs=self.kw_translation), extra
-        )
+        return self.client.get(reverse("download", kwargs=self.kw_translation), extra)
 
     def test_export_po(self):
         response = self.export_format("po")
@@ -467,24 +494,16 @@ class ExportTest(ViewTestCase):
 
     def test_export_xlsx(self):
         response = self.export_format("xlsx")
+        self.assert_excel(response)
         self.assertEqual(
             response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
-        )
-        self.assertEqual(
-            response["Content-Type"],
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            "; charset=utf-8",
         )
 
     def test_export_xlsx_empty(self):
         response = self.export_format("xlsx", q="check:inconsistent")
+        self.assert_excel(response)
         self.assertEqual(
             response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
-        )
-        self.assertEqual(
-            response["Content-Type"],
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            "; charset=utf-8",
         )
 
     def test_export_invalid(self):
@@ -545,13 +564,12 @@ class ImportSourceTest(ImportBaseTest):
 
     def setUp(self):
         super().setUp()
-        self.kw_translation["lang"] = "en"
-        self.translation_url = reverse("translation", kwargs=self.kw_translation)
+        self.translation = self.component.source_translation
 
     def test_import(self):
         """Test importing normally."""
         response = self.do_import(method="source", follow=True)
-        self.assertRedirects(response, self.translation_url)
+        self.assertRedirects(response, self.translation.get_absolute_url())
         messages = list(response.context["messages"])
         self.assertIn(self.expected, messages[0].message)
 
@@ -612,23 +630,20 @@ class ImportSourceBrokenTest(ImportSourceTest):
 
 class DownloadMultiTest(ViewTestCase):
     def test_component(self):
-        response = self.client.get(
-            reverse("download_component", kwargs=self.kw_component)
-        )
-        self.assert_zip(response)
+        response = self.client.get(reverse("download", kwargs=self.kw_component))
+        self.assert_zip(response, "test/test/po/cs.po")
 
     def test_project(self):
-        response = self.client.get(reverse("download_project", kwargs=self.kw_project))
-        self.assert_zip(response)
+        response = self.client.get(
+            reverse("download", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assert_zip(response, "test/test/po/de.po")
 
     def test_project_lang(self):
         response = self.client.get(
-            reverse(
-                "download_lang_project",
-                kwargs={"lang": "cs", "project": self.project.slug},
-            )
+            reverse("download", kwargs={"path": (self.project.slug, "-", "cs")})
         )
-        self.assert_zip(response)
+        self.assert_zip(response, "test/test/po/cs.po")
 
     def test_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
@@ -636,7 +651,20 @@ class DownloadMultiTest(ViewTestCase):
         response = self.client.get(
             reverse("download_component_list", kwargs={"name": "testcl"})
         )
-        self.assert_zip(response)
+        self.assert_zip(response, "test/test/po/cs.po")
+
+    def test_component_csv(self):
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
+        )
+        self.assert_zip(response, "test-test-cs.csv")
+
+    def test_component_xlsx(self):
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component), {"format": "zip:xlsx"}
+        )
+        content = self.assert_zip(response, "test-test-cs.xlsx")
+        load_workbook(BytesIO(content))
 
 
 EXPECTED_CSV = """"location","source","target","id","fuzzy","context","translator_comments","developer_comments"\r
@@ -663,12 +691,12 @@ class ImportExportAddTest(ViewTestCase):
 
     def test_notchanged(self):
         response = self.client.get(
-            reverse("download_translation", kwargs=self.kw_translation),
+            reverse("download", kwargs=self.kw_translation),
             {"format": "csv"},
         )
         self.assertEqual(response.content.decode(), EXPECTED_CSV)
 
-        handle = BytesIOMode("test.csv", UPLOAD_CSV.encode())
+        handle = NamedBytesIO("test.csv", UPLOAD_CSV.encode())
         params = {
             "file": handle,
             "method": "translate",
@@ -676,7 +704,7 @@ class ImportExportAddTest(ViewTestCase):
             "author_email": self.user.email,
         }
         response = self.client.post(
-            reverse("upload_translation", kwargs=self.kw_translation),
+            reverse("upload", kwargs=self.kw_translation),
             params,
             follow=True,
         )
@@ -685,14 +713,14 @@ class ImportExportAddTest(ViewTestCase):
     def test_changed(self):
         self.edit_unit("Hello, world!\n", "Hi, World!\n", "en")
         response = self.client.get(
-            reverse("download_translation", kwargs=self.kw_translation),
+            reverse("download", kwargs=self.kw_translation),
             {"format": "csv"},
         )
         self.assertEqual(
             response.content.decode(), EXPECTED_CSV.replace("Hello, world", "Hi, World")
         )
 
-        handle = BytesIOMode(
+        handle = NamedBytesIO(
             "test.csv", UPLOAD_CSV.replace("Hello, world", "Hi, World").encode()
         )
         params = {
@@ -702,7 +730,7 @@ class ImportExportAddTest(ViewTestCase):
             "author_email": self.user.email,
         }
         response = self.client.post(
-            reverse("upload_translation", kwargs=self.kw_translation),
+            reverse("upload", kwargs=self.kw_translation),
             params,
             follow=True,
         )

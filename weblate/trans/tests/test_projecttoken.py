@@ -1,7 +1,13 @@
+# Copyright © Christian Köberl
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import re
 
 from django.urls import reverse
 
+from weblate.auth.models import User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -17,7 +23,7 @@ class ProjectTokenTest(ViewTestCase):
         self.make_manager()
         response = self.client.post(
             reverse("create-project-token", kwargs=self.kw_project),
-            {"name": "Test Token", "expires": "2999-12-31", "project": self.project.id},
+            {"full_name": "Test Token", "date_expires": "2999-12-31"},
             follow=True,
         )
         html = response.content.decode("utf-8")
@@ -29,12 +35,10 @@ class ProjectTokenTest(ViewTestCase):
         return result.group(1)
 
     def delete_token(self):
-        response = self.client.get(self.access_url)
-        html = response.content.decode("utf-8")
-        token_id = re.search(r'name="token" value="([0-9]+)"', html).group(1)
+        token = User.objects.filter(is_bot=True).get()
         response = self.client.post(
-            reverse("delete-project-token", kwargs=self.kw_project),
-            {"token": token_id},
+            reverse("delete-user", kwargs=self.kw_project),
+            {"user": token.username},
             follow=True,
         )
 
@@ -44,7 +48,7 @@ class ProjectTokenTest(ViewTestCase):
         """Managers should be able to create new tokens."""
         token = self.create_token()
 
-        self.assertTrue(token is not None)
+        self.assertIsNotNone(token)
         self.assertGreaterEqual(len(token), 10)
 
     def test_use_token(self):
@@ -54,7 +58,7 @@ class ProjectTokenTest(ViewTestCase):
 
         response = self.client.get(
             reverse("api:project-detail", kwargs={"slug": self.project.slug}),
-            **{"HTTP_AUTHORIZATION": f"Token {token}"},
+            headers={"authorization": f"Token {token}"},
         )
 
         self.assertEqual(response.data["slug"], self.project.slug)
@@ -67,7 +71,7 @@ class ProjectTokenTest(ViewTestCase):
 
         response = self.client.get(
             reverse("api:project-detail", kwargs={"slug": self.project.slug}),
-            **{"HTTP_AUTHORIZATION": f"Token {token}"},
+            headers={"authorization": f"Token {token}"},
         )
 
         self.assertEqual(response.status_code, 401)
@@ -82,8 +86,8 @@ class ProjectTokenTest(ViewTestCase):
             reverse("api:unit-detail", kwargs={"pk": unit.pk}),
             {"state": "20", "target": ["Test translation"]},
             content_type="application/json",
-            HTTP_AUTHORIZATION=f"Token {token}",
+            headers={"authorization": f"Token {token}"},
         )
 
-        self.assertEqual(response.data["target"], ["Test translation\n"])
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["target"], ["Test translation\n"])

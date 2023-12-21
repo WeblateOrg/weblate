@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+import re
 import sys
 
 if len(sys.argv) != 2:
-    raise Exception("Missing argument")
+    raise ValueError("Missing version argument")
 
-start = f"Weblate {sys.argv[1]}\n"
-display = False
+tag = '<section id="weblate-{}">.+?<h1>(.+?)<a(.+?)</a></h1>(.+?)</section>'.format(
+    sys.argv[1].replace(".", "-")
+)
 
-with open("docs/changes.rst") as handle:
-    for line in handle:
-        if display:
-            if line.startswith("Weblate "):
-                break
-            elif not line.startswith("--"):
-                print(line, end="")
-        elif line == start:
-            display = True
-            print(line, end="")
+with open("docs/_build/html/changes.html") as handle:
+    data = handle.read()
+
+for match in re.findall(tag, data, re.MULTILINE | re.DOTALL):
+    print(match[0])
+    print()
+    print(match[2])

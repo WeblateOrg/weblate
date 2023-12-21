@@ -11,12 +11,15 @@
 <tr id="row-status-{{ item.unit.checksum }}">
 <td colspan="3">
 {% if item.unit.context %}
-  {{ item.unit.context }}
+  {% format_source_string item.unit.context item.unit simple=True wrap=True search_match=search_query whitespace=False %}
 {% else %}
   {{ item.unit.position }}
 {% endif %}
-<a href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip full-edit-link" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
-{% get_location_links user.profile item.unit %}
+<div class="pull-right flip btn-padded">
+  <a class="btn btn-link btn-xs" href="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-message="{% trans "Permalink copied to clipboard." %}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
+  <a class="btn btn-link btn-xs" href="{% url 'translate' path=object.get_url_path  %}?{{ search_url }}&amp;offset={{ item.offset }}" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
+</div>
+{% get_location_links user item.unit %}
 </td>
 </tr>
 
@@ -54,7 +57,7 @@
   {% if user.profile.hide_source_secondary %}
     {% include "snippets/note-badge.html" with unit=item.unit %}
   {% endif %}
-  {% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}
+  {% format_unit_target unit show_copy=True %}
 </div>
 {% endfor %}
 {% endif %}
@@ -62,7 +65,7 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.component.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
+{% format_unit_source item.unit diff=item.unit.previous_source %}
 </div>
 {% endif %}
 
@@ -70,7 +73,7 @@
 <div class="form-group">
   <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
   {% include "snippets/note-badge.html" with unit=item.unit %}
-  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit glossary=item.glossary %}
+  {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
 </div>
 {% endif %}
 

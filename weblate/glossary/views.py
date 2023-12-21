@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -52,15 +37,21 @@ def add_glossary_term(request, unit_id):
             terms = form.cleaned_data["terms"]
             terms.append(added.pk)
             code = 200
+
+            # Fetch matching terms
+            all_terms = get_glossary_terms(unit)
+            # Add newly added one
+            all_terms.append(added)
+
+            # Add previously present ones
+            missing_terms = set(terms) - {term.pk for term in all_terms}
+            if missing_terms:
+                all_terms.extend(translation.unit_set.filter(pk__in=missing_terms))
+
             results = render_to_string(
                 "snippets/glossary.html",
                 {
-                    "glossary": (
-                        # distinct is needed as get_glossary_terms is distict
-                        # and mixed queries can not be combined
-                        get_glossary_terms(unit)
-                        | translation.unit_set.filter(pk__in=terms).distinct()
-                    ),
+                    "glossary": all_terms,
                     "unit": unit,
                     "user": user,
                 },

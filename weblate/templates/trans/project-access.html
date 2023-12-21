@@ -4,6 +4,7 @@
 {% load crispy_forms_tags %}
 {% load permissions %}
 {% load icons %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -37,102 +38,27 @@
           {% if can_edit_user %}
             <th>{% trans "E-mail" %}</th>
           {% endif %}
-          <th>{% trans "Last login" %}</th>
+          <th>{% trans "Last sign in" %}</th>
           <th>{% trans "Teams" %}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         {% for user in all_users %}
-          <tr>
-            <td>
-              <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
-            </td>
-            <td>
-              {{ user.full_name }}
-            </td>
-            {% if can_edit_user %}
-              <td>{{ user.email }}</td>
-            {% endif %}
-            <td>
-              {% if user.last_login %}
-                {{ user.last_login|naturaltime }}
-              {% else %}
-                {% trans "Not yet signed in" %}
-              {% endif %}
-            </td>
-            <td>
-              {% for group in user.project_groups %}
-                <span class="badge">{{ group }}</span>
-              {% endfor %}
-            </td>
-            <td>
-              <a href="#" data-toggle="modal" data-target="#edit_user_{{ user.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
-                {% icon 'pencil.svg' %}
-              </a>
-              <a href="#" data-toggle="modal" data-target="#delete_user_{{ user.id }}" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
-                {% icon 'delete.svg' %}
-              </a>
-              <form action="{% url "delete-user" project=object.slug %}" method="post" class="inlineform">
-                {% csrf_token %}
-                <input type="hidden" name="user" value="{{ user.username }}" />
-                <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
-                      </div>
-                      <div class="modal-body">
-                        {% blocktrans with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktrans %}
-                      </div>
-                      <div class="modal-footer">
-                        <input type="submit" class="btn btn-danger" value="{% trans "Remove" %}" />
-                      </div>
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
-              </form>
-
-              <form action="{% url "set-groups" project=object.slug %}" method="post" class="inlineform">
-                {% csrf_token %}
-                <div class="modal fade" tabindex="-1" role="dialog" id="edit_user_{{ user.id }}">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{% blocktrans with username=user.username %}Edit team membership for {{ username }}{% endblocktrans %}</h4>
-                      </div>
-                      <div class="modal-body">
-                        {{ user.group_edit_form| crispy }}
-                      </div>
-                      <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
-                      </div>
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
-              </form>
-
-
-              {% if not user.last_login %}
-                <form action="{% url "resend_invitation" project=object.slug %}" method="post" class="inlineform">
-                  {% csrf_token %}
-                  <input type="hidden" name="user" value="{{ user.username }}" />
-                  <button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
-                  {% icon 'refresh.svg' %}
-                  </button>
-                </form>
-              {% endif %}
-            </td>
-          </tr>
+          {% include "trans/project-access-row.html" %}
         {% endfor %}
         {% for userblock in blocked_users %}
           <tr>
             <td><a href="{{ userblock.user.get_absolute_url }}">{{ userblock.user.username }}</a></td>
             <td>{{ userblock.user.full_name }}</td>
             <td>{{ userblock.user.email }}</td>
-            <td>{% if userblock.user.last_login %}{{ userblock.user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
+            <td>
+              {% if userblock.user.last_login %}
+                {{ userblock.user.last_login|naturaltime }}
+              {% else %}
+                <em>{% trans "Not yet signed in" %}</em>
+              {% endif %}
+            </td>
             <td>
               <strong>
                 {% if userblock.expiry %}
@@ -148,6 +74,42 @@
                 <input type="hidden" name="user" value="{{ userblock.user.username }}" />
                 <button type="submit" class="btn btn-link btn-xs" title="{% trans "Unblock user" %}">
                 {% icon 'close.svg' %}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        {% for invitation in invitations %}
+          <tr>
+            {% if invitation.user %}
+              <td><a href="{{ invitation.user.get_absolute_url }}">{{ invitation.user.username }}</a></td>
+              <td>{{ invitation.user.full_name }}</td>
+              {% if can_edit_user %}
+                <td>{{ invitation.user.email }}</td>
+              {% endif %}
+            {% else %}
+              <td colspan="{% if can_edit_user %}3{% else %}2{% endif %}">
+                <em>{% blocktrans with email=invitation.email %}Invitation for {{ email }}{% endblocktrans %}</em>
+              </td>
+            {% endif %}
+            <td><em>{% trans "Pending invitation" %}</em></td>
+            <td>
+              <span class="badge">{{ invitation.group }}</span>
+            </td>
+            <td>
+              <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="resend" />
+                <button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
+                {% icon 'refresh.svg' %}
+                </button>
+              </form>
+              <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ site_url }}{{ invitation.get_absolute_url }}" data-clipboard-message="{% trans "Invitation link copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+              <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="remove" />
+                <button type="submit" class="btn btn-link btn-xs red" title="{% trans "Remove invitation" %}">
+                {% icon 'delete.svg' %}
                 </button>
               </form>
             </td>
@@ -170,7 +132,7 @@
             {% trans "Add a user" %}
           </h4></div>
           <div class="panel-body">
-            {{ add_user_form|crispy }}
+            {{ invite_user_form|crispy }}
           </div>
           <div class="panel-footer">
           <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
@@ -193,6 +155,7 @@
         </div>
       </form>
     </div>
+    {% if invite_email_form %}
     <div class="col-sm-6">
       <form action="{% url "invite-user" project=object.slug %}" method="post">
         {% csrf_token %}
@@ -202,7 +165,7 @@
             {% trans "Invite new user" %}
           </h4></div>
           <div class="panel-body">
-            {{ invite_user_form|crispy }}
+            {{ invite_email_form|crispy }}
           </div>
           <div class="panel-footer">
           <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
@@ -210,6 +173,7 @@
         </div>
       </form>
     </div>
+    {% endif %}
   </div>
 </div>
 
@@ -227,6 +191,8 @@
           <th>{% trans "Name" %}</th>
           <th>{% trans "Roles" %}</th>
           <th>{% trans "Languages" %}</th>
+          <th>{% trans "Components" %}</th>
+          <th>{% trans "Members" %}</th>
           <th></th>
         </tr>
       </thead>
@@ -237,31 +203,27 @@
             {{ group.name }}
           </td>
           <td>
-            {% for role in group.roles.all %}
-              <span class="badge">{{ role }}</span>
-            {% empty %}
-              <em>{% trans "Access only" %}</em>
-            {% endfor %}
+            {% include "auth/teams-roles.html" %}
           </td>
           <td>
-            {% if group.language_selection %}
-              <em>{% trans "All languages" %}</em>
-            {% else %}
-              {% for language in group.languages.all %}
-                <span class="badge">{{ language }}</span>
-              {% endfor %}
-            {% endif %}
+            {% include "auth/teams-languages.html" %}
           </td>
           <td>
-            <a href="#" data-toggle="modal" data-target="#edit_group_{{ group.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
+            {% include "auth/teams-components.html" %}
+          </td>
+          <td class="number">
+            {% include "auth/teams-count.html" %}
+          </td>
+          <td>
+            <a href="{{ group.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
               {% icon 'pencil.svg' %}
             </a>
             <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
               {% icon 'delete.svg' %}
             </a>
-            <form action="{% url "delete-project-group" project=object.slug %}" method="post" class="inlineform">
+            <form action="{{ group.get_absolute_url }}" method="post" class="inlineform">
               {% csrf_token %}
-              <input type="hidden" name="group" value="{{ group.id }}" />
+              <input type="hidden" name="next" value="{{request.get_full_path}}" />
               <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -270,30 +232,13 @@
                       <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
                     </div>
                     <div class="modal-body" id="delete_group_body_{{ group.id }}">
-                      {% blocktrans with group=group.name %}This will delete the project group <b>{{ group }}</b> from this project.{% endblocktrans %}
+                      {% blocktrans with name=group.name %}This will delete the team <b>{{ name }}</b> from this project.{% endblocktrans %}
+                      {% if group.user__count %}
+                        {% blocktrans count count=group.user__count %}This team contains {{count}} member. Deleting the team might affect their access to the project.{% plural %}This team contains {{count}} members. Deleting the team might affect their access to the project.{% endblocktrans %}
+                      {% endif %}
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
-                    </div>
-                  </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-              </div><!-- /.modal -->
-            </form>
-            <form action="{% url "edit-project-group" project=object.slug pk=group.id %}" method="post" class="inlineform">
-              {% csrf_token %}
-              <input type="hidden" name="group" value="{{ group.id }}" />
-              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_group_title_{{ group.id }}" aria-describedby="edit_group_body_{{ group.id }}" id="edit_group_{{ group.id }}">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="edit_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
-                    </div>
-                    <div class="modal-body" id="edit_group_body_{{ group.id }}">
-                      {% crispy group.edit_form %}
-                    </div>
-                    <div class="modal-footer">
-                      <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+                      <input type="submit" class="btn btn-danger" name="delete" value="{% trans "Delete" %}" />
                     </div>
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -336,40 +281,13 @@
         <tr>
           <th>{% trans "Name" %}</th>
           <th>{% trans "Expires" %}</th>
+          <th>{% trans "Teams" %}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        {% for token in project_tokens %}
-        <tr>
-          <td>{{ token.name }}</td>
-          <td>{{ token.expires }}</td>
-          <td>
-            <a href="#" data-toggle="modal" data-target="#delete_token_{{ token.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
-              {% icon 'delete.svg' %}
-            </a>
-            <form action="{% url "delete-project-token" project=object.slug %}" method="post" class="inlineform">
-              {% csrf_token %}
-              <input type="hidden" name="token" value="{{ token.id }}" />
-              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_token_title_{{ token.id }}" aria-describedby="delete_token_body_{{ token.id }}" id="delete_token_{{ token.id }}">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="delete_token_title_{{ token.id }}">{% trans "Are you absolutely sure?" %}</h4>
-                    </div>
-                    <div class="modal-body" id="delete_token_body_{{ token.id }}">
-                      {% blocktrans with token=token.name %}This will delete the project token <b>{{ token }}</b> from this project.{% endblocktrans %}
-                    </div>
-                    <div class="modal-footer">
-                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
-                    </div>
-                  </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-              </div><!-- /.modal -->
-            </form>
-          </td>
-        </tr>
+        {% for user in project_tokens %}
+          {% include "trans/project-access-row.html" %}
         {% endfor %}
       <tbody>
     </table>
@@ -405,7 +323,8 @@
           <tr>
             <th>{% trans "Your personal API key:" %}</th>
             <td>
-                {{ user.auth_token.key }}
+                <span class="auth-token">{{ user.auth_token.key }}</span>
+                <button type="button" class="btn btn-link btn-xs" data-visibility=".auth-token" title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
                 <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
             </td>
           </tr>
@@ -416,19 +335,7 @@
       </div>
     </div>
   </div>
-  {% if ssh_key %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        {% documentation_icon 'vcs' right=True %}
-        {% trans "SSH key" %}
-      </h4>
-    </div>
-    <div class="panel-body">
-      {% include "snippets/ssh-key.html" %}
-    </div>
-  </div>
-  {% endif %}
+  {% include "snippets/ssh-key.html" %}
 {% documentation_icon 'vcs' right=True %}
 </div>
 </div>

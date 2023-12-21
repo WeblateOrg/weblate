@@ -1,29 +1,21 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+import os
+
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
 from weblate.utils.render import validate_editor
 from weblate.utils.validators import (
     clean_fullname,
+    validate_backup_path,
     validate_filename,
     validate_fullname,
+    validate_project_web,
     validate_re,
 )
 
@@ -67,7 +59,7 @@ class FullNameCleanTest(SimpleTestCase):
         self.assertEqual("ahoj", clean_fullname(" ahoj "))
 
     def test_none(self):
-        self.assertEqual(None, clean_fullname(None))
+        self.assertIsNone(clean_fullname(None))
 
     def test_invalid(self):
         with self.assertRaises(ValidationError):
@@ -113,3 +105,54 @@ class RegexTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_re("(Min|Short)", ("component",))
         validate_re("(?P<component>Min|Short)", ("component",))
+
+
+class WebsiteTest(SimpleTestCase):
+    def test_regexp(self):
+        validate_project_web("https://weblate.org")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_RE="https://weblate.org"
+        ), self.assertRaises(ValidationError):
+            validate_project_web("https://weblate.org")
+
+    def test_host(self):
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://localhost")
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://localHOST")
+        with override_settings(PROJECT_WEB_RESTRICT_HOST={}):
+            validate_project_web("https://localhost")
+        with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
+            with self.assertRaises(ValidationError):
+                validate_project_web("https://example.com")
+            with self.assertRaises(ValidationError):
+                validate_project_web("https://foo.example.com")
+
+    def test_numeric(self):
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://1.1.1.1")
+        with self.assertRaises(ValidationError):
+            validate_project_web("https://[2606:4700:4700::1111]")
+        with override_settings(PROJECT_WEB_RESTRICT_NUMERIC=False):
+            validate_project_web("https://[2606:4700:4700::1111]")
+            validate_project_web("https://1.1.1.1")
+
+
+class BackupTest(SimpleTestCase):
+    def test_ssh(self):
+        with self.assertRaises(ValidationError):
+            validate_backup_path("ssh://")
+        validate_backup_path("ssh://example.com/path")
+        validate_backup_path("user@host:/path/to/repo")
+        validate_backup_path(
+            "ssh://u123456-sub0@u113456-sub0.your-storagebox.de:23/./backups "
+        )
+
+    def test_filesystem(self):
+        validate_backup_path("/backups")
+        with self.assertRaises(ValidationError):
+            validate_backup_path("./backups")
+        validate_backup_path(os.path.join(settings.DATA_DIR, "..", "backups"))
+        with self.assertRaises(ValidationError):
+            validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
+        validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))

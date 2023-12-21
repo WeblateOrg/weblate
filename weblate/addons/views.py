@@ -1,58 +1,37 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
+from weblate.trans.models import Component
 from weblate.utils import messages
-from weblate.utils.views import ComponentViewMixin
+from weblate.utils.views import PathViewMixin
 
 
-class AddonViewMixin(ComponentViewMixin):
+class AddonList(PathViewMixin, ListView):
+    paginate_by = None
+    model = Addon
+    supported_path_types = (Component,)
+
     def get_queryset(self):
-        component = self.get_component()
-        if not self.request.user.has_perm("component.edit", component):
+        if not self.request.user.has_perm("component.edit", self.path_object):
             raise PermissionDenied("Can not edit component")
-        self.kwargs["component_obj"] = component
-        return Addon.objects.filter_component(component)
+        self.kwargs["component_obj"] = self.path_object
+        return Addon.objects.filter_component(self.path_object)
 
     def get_success_url(self):
-        component = self.get_component()
-        return reverse(
-            "addons",
-            kwargs={"project": component.project.slug, "component": component.slug},
-        )
+        return reverse("addons", kwargs={"path": self.path_object.get_url_path()})
 
     def redirect_list(self, message=None):
         if message:
             messages.error(self.request, message)
         return redirect(self.get_success_url())
-
-
-class AddonList(AddonViewMixin, ListView):
-    paginate_by = None
-    model = Addon
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
@@ -71,7 +50,8 @@ class AddonList(AddonViewMixin, ListView):
         return result
 
     def post(self, request, **kwargs):
-        component = self.get_component()
+        component = self.path_object
+        component.acting_user = request.user
         name = request.POST.get("name")
         addon = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
@@ -81,7 +61,7 @@ class AddonList(AddonViewMixin, ListView):
             or not addon.can_install(component, request.user)
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(_("Invalid add-on name specified!"))
+            return self.redirect_list(gettext("Invalid add-on name specified!"))
 
         form = None
         if addon.settings_form is None:
@@ -94,7 +74,9 @@ class AddonList(AddonViewMixin, ListView):
                 if addon.stay_on_create:
                     messages.info(
                         self.request,
-                        _("Add-on installed, please review integration instructions."),
+                        gettext(
+                            "Add-on installed, please review integration instructions."
+                        ),
                     )
                     return redirect(instance)
                 return self.redirect_list()
@@ -112,7 +94,7 @@ class AddonList(AddonViewMixin, ListView):
         )
 
 
-class AddonDetail(AddonViewMixin, UpdateView):
+class AddonDetail(UpdateView):
     model = Addon
     template_name_suffix = "_detail"
 
@@ -128,9 +110,21 @@ class AddonDetail(AddonViewMixin, UpdateView):
         result["addon"] = self.object.addon
         return result
 
+    def get_success_url(self):
+        return reverse("addons", kwargs={"path": self.object.component.get_url_path()})
+
+    def get_object(self):
+        obj = super().get_object()
+        if not self.request.user.has_perm("component.edit", obj.component):
+            raise PermissionDenied("Can not edit component")
+        return obj
+
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
         if "delete" in request.POST:
+            obj.component.acting_user = request.user
             obj.delete()
-            return self.redirect_list()
+            return redirect(
+                reverse("addons", kwargs={"path": obj.component.get_url_path()})
+            )
         return super().post(request, *args, **kwargs)

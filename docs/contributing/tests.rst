@@ -9,9 +9,11 @@ functionality, and verify that it works.
 Continuous integration
 ++++++++++++++++++++++
 
-Current test results can be found on
-`GitHub Actions <https://github.com/WeblateOrg/weblate/actions>`_ and coverage
-is reported on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
+Current test results can be found on `GitHub Actions`_ and coverage is reported
+on `Codecov`_.
+
+.. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
+.. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
 
 There are several jobs to verify different aspects:
 
@@ -25,16 +27,16 @@ The configuration for the CI is in :file:`.github/workflows` directory. It
 heavily uses helper scripts stored in :file:`ci` directory. The scripts can be
 also executed manually, but they require several environment variables, mostly
 defining Django settings file to use and database connection. The example
-definition of that is in :file:`scripts/test-database`:
+definition of that is in :file:`scripts/test-database.sh`:
 
-.. literalinclude:: ../../scripts/test-database
+.. literalinclude:: ../../scripts/test-database.sh
    :language: sh
 
 The simple execution can look like:
 
 .. code-block:: sh
 
-   . scripts/test-database
+   . scripts/test-database.sh
    ./ci/run-migrate
    ./ci/run-test
    ./ci/run-docs
@@ -43,6 +45,8 @@ The simple execution can look like:
 
 Local testing
 +++++++++++++
+
+Before running test, please ensure test dependencies are installed. This can be done by `pip install -r requirements-dev.txt` or `pip install -e .[test]`.
 
 To run a testsuite locally, use:
 
@@ -61,7 +65,7 @@ To run a testsuite locally, use:
 The :file:`weblate/settings_test.py` is used in CI environment as well (see
 :ref:`ci-tests`) and can be tuned using environment variables:
 
-.. literalinclude:: ../../scripts/test-database
+.. literalinclude:: ../../scripts/test-database.sh
    :language: sh
 
 Prior to running tests you should collect static files as some tests rely on them being present:

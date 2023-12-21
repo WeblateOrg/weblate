@@ -1,29 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for translation views."""
+
 
 import time
 from unittest import SkipTest
 
 from django.urls import reverse
 
+from weblate.addons.resx import ResxUpdateAddon
+from weblate.checks.models import Check
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
@@ -44,7 +32,6 @@ class EditTest(ViewTestCase):
 
     def setUp(self):
         super().setUp()
-        self.translation = self.get_translation()
         self.translate_url = reverse("translate", kwargs=self.kw_translation)
 
     def test_edit(self):
@@ -121,10 +108,10 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
 
-        # Should have was translated check
+        # Should not have was translated check
         self.edit_unit(self.source, "")
         unit = self.get_unit(source=self.source)
-        self.assertTrue(unit.has_failing_check)
+        self.assertFalse(unit.has_failing_check)
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():
@@ -139,9 +126,7 @@ class EditTest(ViewTestCase):
             reverse(
                 "new-unit",
                 kwargs={
-                    "project": self.component.project.slug,
-                    "component": self.component.slug,
-                    "lang": language,
+                    "path": [self.component.project.slug, self.component.slug, language]
                 },
             ),
             args,
@@ -208,12 +193,12 @@ class EditValidationTest(ViewTestCase):
     def test_edit_invalid(self):
         """Editing with invalid params."""
         response = self.edit()
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_suggest_invalid(self):
         """Suggesting with invalid params."""
         response = self.edit(suggest="1")
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_merge(self):
         """Merging with invalid parameter."""
@@ -285,9 +270,25 @@ class EditResourceTest(EditTest):
             self.component.commit_pending("test", None)
         self.assertEqual(Unit.objects.filter(pending=True).count(), 0)
         self.assertEqual(Unit.objects.filter(context="key").count(), 2)
+        self.assertEqual(
+            Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
+        )
+        self.component.create_translations(force=True)
+        self.assertEqual(
+            Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
+        )
 
     def test_new_unit_translate_commit_translation(self, commit_translation=False):
         self.test_new_unit_translate(commit_translation=True)
+
+
+class EditResxTest(EditTest):
+    has_plurals = False
+
+    def create_component(self):
+        component = self.create_resx()
+        ResxUpdateAddon.create(component)
+        return component
 
 
 class EditLanguageTest(EditTest):
@@ -297,7 +298,7 @@ class EditLanguageTest(EditTest):
         super().setUp()
         self.translate_url = reverse(
             "translate",
-            kwargs={"project": self.project.slug, "lang": "cs", "component": "-"},
+            kwargs={"path": [self.project.slug, "-", "cs"]},
         )
 
     def edit_unit(self, source, target, language="cs", **kwargs):
@@ -321,7 +322,8 @@ class EditResourceSourceTest(ViewTestCase):
 
     def test_edit(self):
         translate_url = reverse(
-            "translate", kwargs={"project": "test", "component": "test", "lang": "en"}
+            "translate",
+            kwargs={"path": self.component.source_translation.get_url_path()},
         )
 
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
@@ -399,6 +401,7 @@ class EditPoMonoTest(EditTest):
 
     def test_remove_unit(self):
         self.assertEqual(self.component.stats.all, 16)
+        unit_count = Unit.objects.count()
         unit = self.get_unit()
         # Deleting translation unit
         response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
@@ -421,6 +424,7 @@ class EditPoMonoTest(EditTest):
         self.assertEqual(response.status_code, 302)
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
+        self.assertEqual(unit_count - 4, Unit.objects.count())
 
 
 class EditIphoneTest(EditTest):
@@ -472,6 +476,15 @@ class EditJSONMonoTest(EditTest):
 
     def create_component(self):
         return self.create_json_mono()
+
+    def test_new_unit_validation(self):
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.file_format = "json-nested"
+        self.component.save()
+        response = self.add_unit("key")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New string has been added")
 
 
 class EditJavaTest(EditTest):
@@ -592,12 +605,14 @@ class ZenViewTest(ViewTestCase):
 
     def test_load_zen_offset(self):
         response = self.client.get(
-            reverse("load_zen", kwargs=self.kw_translation), {"offset": "2"}
+            reverse("load_zen", kwargs=self.kw_translation),
+            {"offset": "2"},
         )
         self.assertNotContains(response, "Hello, world")
         self.assertContains(response, "Orangutan has %d bananas")
         response = self.client.get(
-            reverse("load_zen", kwargs=self.kw_translation), {"offset": "bug"}
+            reverse("load_zen", kwargs=self.kw_translation),
+            {"offset": "bug"},
         )
         self.assertContains(response, "Hello, world")
 
@@ -611,7 +626,8 @@ class ZenViewTest(ViewTestCase):
             "review": "20",
         }
         response = self.client.post(
-            reverse("save_zen", kwargs=self.kw_translation), params
+            reverse("save_zen", kwargs=self.kw_translation),
+            params,
         )
         self.assertContains(
             response,
@@ -631,7 +647,8 @@ class ZenViewTest(ViewTestCase):
             "review": "20",
         }
         response = self.client.post(
-            reverse("save_zen", kwargs=self.kw_translation), params
+            reverse("save_zen", kwargs=self.kw_translation),
+            params,
         )
         self.assertContains(
             response, "Insufficient privileges for saving translations."
@@ -640,7 +657,10 @@ class ZenViewTest(ViewTestCase):
     def test_browse(self):
         response = self.client.get(reverse("browse", kwargs=self.kw_translation))
         self.assertContains(response, "Thank you for using Weblate.")
-        self.assertContains(response, "Orangutan has %d banana")
+        self.assertContains(
+            response,
+            'Orangutan has <span class="hlcheck" data-value="%d"><span class="highlight-number"></span>%d</span> banana.',
+        )
 
 
 class EditComplexTest(ViewTestCase):
@@ -805,22 +825,34 @@ class EditComplexTest(ViewTestCase):
             reverse("js-ignore-check", kwargs={"check_id": check_id})
         )
         self.assertContains(response, "ok")
+
         # Should have one less failing check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 1)
         self.assertEqual(len(unit.active_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
+
         # Ignore check for all languages
+        ignore_flag = Check.objects.get(pk=int(check_id)).check_obj.ignore_string
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(ignore_url)
-        self.assertContains(response, "ok")
+        self.assertEqual(response.headers["Content-Type"], "application/json")
+
         # Should have one less check
         unit = self.get_unit()
+        self.assertJSONEqual(
+            response.content.decode("utf-8"),
+            {
+                "extra_flags": ignore_flag,
+                "all_flags": unit.all_flags.format(),
+                "ignore_check": ignore_flag,
+            },
+        )
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(len(unit.active_checks), 0)
@@ -880,7 +912,7 @@ class EditComplexTest(ViewTestCase):
     def test_edit_locked(self):
         self.component.locked = True
         self.component.save()
-        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", follow=True)
         # We should get to second message
         self.assertContains(
             response,
@@ -895,7 +927,7 @@ class EditComplexTest(ViewTestCase):
             "Hello, world!\n", "Nazdar svete!\n", contentsum="aaa"
         )
         # We should get an error message
-        self.assertContains(response, "Source string has been changed meanwhile")
+        self.assertContains(response, "The source string has changed meanwhile.")
         self.assert_backend(0)
 
     def test_edit_changed_translation(self):
@@ -905,7 +937,7 @@ class EditComplexTest(ViewTestCase):
         )
         # We should get an error message
         self.assertContains(
-            response, "Translation of the string has been changed meanwhile"
+            response, "The translation of the string has changed meanwhile."
         )
         self.assert_backend(0)
 
@@ -913,12 +945,76 @@ class EditComplexTest(ViewTestCase):
         url = self.get_unit("Hello, world!\n").get_absolute_url()
         response = self.client.get(url)
         form = response.context["form"]
-        params = {}
-        for field in form.fields.keys():
-            params[field] = form[field].value()
+        params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
+
+    def test_remove_unit(self):
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit_count = Unit.objects.count()
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+        all_units = source_unit.unit_set.exclude(pk__in=[unit.pk, source_unit.pk])
+        # Delete all other units
+        for i, other in enumerate(all_units):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": other.pk})
+            )
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(unit_count - 1 - i, Unit.objects.count())
+        # Deleting translation unit
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 302)
+
+        # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())
+
+
+class EditSourceTest(ViewTestCase):
+    def create_component(self):
+        return self.create_ts_mono()
+
+    def test_edit_source_pending(self):
+        old_revision = self.get_translation().revision
+
+        # Edit source string
+        self.edit_unit("Hello, world!\n", "Hello, beautiful world!\n", language="en")
+
+        # Force commiting source string change
+        self.component.commit_pending("test", None)
+
+        # Translation revision should have been updated now
+        self.assertNotEqual(old_revision, self.get_translation().revision)
+
+        # Add translation
+        self.edit_unit("Hello, beautiful world!\n", "Ahoj, světe!\n", language="cs")
+
+        # Verify it has been stored in the database
+        self.assertEqual(
+            self.get_unit("Hello, beautiful world!\n", language="cs").target,
+            "Ahoj, světe!\n",
+        )
+
+        # Check sync should be no-op now
+        self.component.create_translations()
+
+        # Check that translation was preserved
+        self.assertEqual(
+            self.get_unit("Hello, beautiful world!\n", language="cs").target,
+            "Ahoj, světe!\n",
+        )
+
+
+class EditSourceAddonTest(EditSourceTest):
+    def create_component(self):
+        # This pulls in cleanup add-on
+        return self.create_android()

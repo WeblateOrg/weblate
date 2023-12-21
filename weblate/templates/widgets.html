@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'widgets' project=object.slug %}">{% trans "Widgets" %}</a></li>
+<li><a href="{% url 'widgets' path=object.get_url_path %}">{% trans "Widgets" %}</a></li>
 {% endblock %}
 
 {% block content %}

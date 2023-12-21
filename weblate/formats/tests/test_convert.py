@@ -1,47 +1,85 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """File format specific behavior."""
 
+import os
+from tempfile import NamedTemporaryFile
+from unittest import SkipTest
+
+from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
     HTMLFormat,
     IDMLFormat,
+    MarkdownFormat,
     OpenDocumentFormat,
     PlainTextFormat,
     WindowsRCFormat,
 )
-from weblate.formats.helpers import BytesIOMode
-from weblate.formats.tests.test_formats import AutoFormatTest
+from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.state import STATE_TRANSLATED
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
+MARKDOWN_FILE = get_test_file("cs.md")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
 TEST_TXT = get_test_file("cs.txt")
 
 
-class ConvertFormatTest(AutoFormatTest):
+class ConvertFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = None
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
-    def parse_file(self, filename):
-        return self.FORMAT(filename, template_store=self.FORMAT(filename))
+    CONVERT_TEMPLATE = ""
+    CONVERT_TRANSLATION = ""
+    CONVERT_EXPECTED = ""
+    CONVERT_EXISTING = []
+
+    def test_convert(self):
+        if not self.CONVERT_TEMPLATE:
+            raise SkipTest(f"Test template not provided for {self.FORMAT.format_id}")
+        template = NamedTemporaryFile(delete=False, mode="w+")
+        translation = NamedTemporaryFile(delete=False, mode="w+")
+        try:
+            # Generate test files
+            template.write(self.CONVERT_TEMPLATE)
+            template.close()
+            translation.write(self.CONVERT_TRANSLATION)
+            translation.close()
+
+            # Parse
+            storage = self.FORMAT(
+                translation.name,
+                template_store=self.FORMAT(template.name, is_template=True),
+                existing_units=self.CONVERT_EXISTING,
+            )
+
+            # Ensure it is parsed correctly
+            self.assertEqual(len(storage.content_units), 2)
+            unit1, unit2 = storage.content_units
+            self.assertEqual(unit1.source, "Hello")
+            self.assertEqual(unit1.target, "Ahoj")
+            self.assertEqual(unit2.source, "Bye")
+            self.assertEqual(unit2.target, "")
+
+            # Translation
+            unit2.set_target("Nazdar")
+            unit2.set_state(STATE_TRANSLATED)
+
+            # Save
+            storage.save()
+
+            # Check translation
+            with open(translation.name) as handle:
+                self.assertEqual(handle.read(), self.CONVERT_EXPECTED)
+        finally:
+            os.unlink(template.name)
+            os.unlink(translation.name)
 
 
 class HTMLFormatTest(ConvertFormatTest):
@@ -52,13 +90,88 @@ class HTMLFormatTest(ConvertFormatTest):
     COUNT = 5
     MASK = "*/translations.html"
     EXPECTED_PATH = "cs_CZ/translations.html"
-    FIND_CONTEXT = "+html.body.p:5-1"
+    FIND = "Orangutan has five bananas."
     FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"<body>"
     NEW_UNIT_MATCH = None
     BASE = HTML_FILE
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = "<html><body><p>Hello</p><p>Bye</p></body></html>"
+    CONVERT_TRANSLATION = "<html><body><p>Ahoj</p><p></p></body></html>"
+    CONVERT_EXPECTED = "<html><body><p>Ahoj</p><p>Nazdar</p></body></html>"
+
+
+class MarkdownFormatTest(ConvertFormatTest):
+    FORMAT = MarkdownFormat
+    FILE = MARKDOWN_FILE
+    MIME = "text/markdown"
+    EXT = "md"
+    COUNT = 5
+    MASK = "*/translations.md"
+    EXPECTED_PATH = "cs_CZ/translations.md"
+    FIND = "Orangutan has five bananas."
+    FIND_MATCH = ""
+    MATCH = b"#"
+    NEW_UNIT_MATCH = None
+    BASE = MARKDOWN_FILE
+    EXPECTED_FLAGS = ""
+    EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = """# Hello
+
+Bye
+"""
+    CONVERT_TRANSLATION = """# Ahoj
+"""
+    CONVERT_EXPECTED = """# Ahoj
+
+Nazdar
+"""
+    CONVERT_EXISTING = [MockUnit(source="Hello", target="Ahoj")]
+
+    def test_existing_units(self):
+        with open(self.FILE, "rb") as handle:
+            testdata = handle.read()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+
+        # Write test data to file
+        with open(testfile, "wb") as handle:
+            handle.write(testdata)
+
+        # Parse test file
+        storage = self.FORMAT(
+            testfile,
+            template_store=self.FORMAT(testfile, is_template=True),
+            existing_units=[
+                MockUnit(
+                    source="Orangutan has five bananas.",
+                    target="Orangutan má pět banánů.",
+                )
+            ],
+        )
+
+        # Save test file
+        storage.save()
+
+        # Read new content
+        with open(testfile) as handle:
+            newdata = handle.read()
+
+        self.assertEqual(
+            newdata,
+            """# Ahoj světe!
+
+Orangutan má pět banánů.
+
+Try Weblate at [weblate.org](https://demo.weblate.org/)!
+
+*Thank you for using Weblate.*
+""",
+        )
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):
@@ -82,7 +195,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
     @staticmethod
     def extract_document(content):
         return bytes(
-            OpenDocumentFormat.convertfile(BytesIOMode("test.odt", content), None)
+            OpenDocumentFormat.convertfile(NamedBytesIO("test.odt", content), None)
         ).decode()
 
     def assert_same(self, newdata, testdata):
@@ -100,10 +213,7 @@ class IDMLFormatTest(ConvertFormatTest):
     COUNT = 6
     MASK = "*/translations.idml"
     EXPECTED_PATH = "cs_CZ/translations.idml"
-    FIND_CONTEXT = (
-        "idPkg:Story[0]/{}Story[0]/{}XMLElement[0]/{}ParagraphStyleRange[0]"
-        "Stories/Story_mainmainmainmainmainmainmainmainmainmainmainu188.xml"
-    )
+    FIND = """<g id="0"><g id="1">THE HEADLINE HERE</g></g>"""
     FIND_MATCH = """<g id="0"><g id="1">THE HEADLINE HERE</g></g>"""
     MATCH = b"PK"
     NEW_UNIT_MATCH = None
@@ -114,7 +224,7 @@ class IDMLFormatTest(ConvertFormatTest):
     @staticmethod
     def extract_document(content):
         return bytes(
-            IDMLFormat.convertfile(BytesIOMode("test.idml", content), None)
+            IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
         ).decode()
 
     def assert_same(self, newdata, testdata):
@@ -134,9 +244,33 @@ class WindowsRCFormatTest(ConvertFormatTest):
     MASK = "rc/*.rc"
     EXPECTED_PATH = "rc/cs-CZ.rc"
     MATCH = "STRINGTABLE"
-    FIND_CONTEXT = "STRINGTABLE.IDS_MSG1"
+    FIND = "Hello, world!\n"
     FIND_MATCH = "Hello, world!\n"
     EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = """LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+
+STRINGTABLE
+BEGIN
+    IDS_MSG1                "Hello"
+    IDS_MSG2                "Bye"
+END
+"""
+    CONVERT_TRANSLATION = """LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+
+STRINGTABLE
+BEGIN
+    IDS_MSG1                "Ahoj"
+END
+"""
+    CONVERT_EXPECTED = """LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+
+STRINGTABLE
+BEGIN
+    IDS_MSG1                "Ahoj"
+    IDS_MSG2                "Nazdar"
+END
+"""
 
 
 class PlainTextFormatTest(ConvertFormatTest):
@@ -149,6 +283,10 @@ class PlainTextFormatTest(ConvertFormatTest):
     MASK = "txt/*.txt"
     EXPECTED_PATH = "txt/cs_CZ.txt"
     MATCH = "Hello"
-    FIND_CONTEXT = "cs.txt:2"
+    FIND = "Hello, world!"
     FIND_MATCH = "Hello, world!"
     EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = "Hello\n\nBye"
+    CONVERT_TRANSLATION = "Ahoj\n\n"
+    CONVERT_EXPECTED = "Ahoj\n\nNazdar"

@@ -93,7 +93,7 @@ selector to process all elements.
 .. note::
 
    Right now, only text of the elements is extracted. This add-on doesn't support localization
-   of element attributes or elements with childs.
+   of element attributes or elements with children.
 
 .. _cdn-addon-html:
 

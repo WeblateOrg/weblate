@@ -1,22 +1,49 @@
 #!/bin/sh
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e -x
 
+# Install CI requirements
 python -m pip install -r requirements-ci.txt
-pip install -r requirements-test.txt
-if [ ${1:-latest} = minimal ] ; then
-    requirements-builder --req requirements.txt --level min > requirements-min.txt
-    requirements-builder --req requirements-optional.txt --level min >> requirements-min.txt
+
+# Workaround for
+# SystemError: ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)
+pip install --no-binary :all: cffi
+
+if [ "${1:-latest}" = migrations ] ; then
+    # shellcheck disable=SC2046
+    pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements.txt)
+    # shellcheck disable=SC2046
+    pip install $(grep -E '^(psycopg|mysqlclient)' requirements-optional.txt)
+    # shellcheck disable=SC2046
+    pip install $(grep -E '^coverage[>=<]' requirements-ci.txt)
+    pip install -r requirements.txt
+elif [ "${1:-latest}" = minimal ] ; then
+    # Build list of minimal requirements
+    requirements-builder --req requirements-test.txt --level min > requirements-min.txt
+
     # Install cython and pycairo first, these are needed during install of others
-    pip install $(grep -E '^(Cython|pycairo)==' requirements-min.txt)
+    # shellcheck disable=SC2046
+    pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements-min.txt)
+
     pip install -r requirements-min.txt
 else
-    pip install Cython pycairo
-    pip install --upgrade-strategy eager -U -r requirements-optional.txt
-    if [ ${1:-latest} = edge ] ; then
-        pip install --upgrade https://github.com/translate/translate/archive/master.zip
-        pip install --upgrade https://github.com/WeblateOrg/language-data/archive/main.zip
-        pip install --upgrade https://github.com/WeblateOrg/translation-finder/archive/main.zip
+    # Install cython and pycairo first, these are needed during install of others
+    # shellcheck disable=SC2046
+    pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements.txt)
+
+    pip install -r requirements-test.txt
+    if [ "${1:-latest}" = edge ] ; then
+        pip install --upgrade-strategy eager -U -r requirements-test.txt -r requirements-ci.txt
+        # Install from git / pre-release
+        pip install --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
+        pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip
+        pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/translation-finder/archive/main.zip
+        # TODO: remove once https://github.com/celery/django-celery-beat/issues/680 is fixed
+        pip install --no-deps --upgrade --force-reinstall https://github.com/celery/django-celery-beat/archive/refs/heads/main.zip
         pip install --upgrade --pre Django
     fi
 fi

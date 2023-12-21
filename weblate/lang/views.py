@@ -1,42 +1,19 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
-from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
-from weblate.trans.forms import (
-    BulkEditForm,
-    ProjectLanguageDeleteForm,
-    ReplaceForm,
-    SearchForm,
-)
-from weblate.trans.models import Change
+from weblate.trans.forms import SearchForm, WorkflowSettingForm
+from weblate.trans.models import Change, WorkflowSetting
 from weblate.trans.models.project import prefetch_project_flags
-from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
 from weblate.utils.stats import (
@@ -45,21 +22,28 @@ from weblate.utils.stats import (
     ProjectLanguageStats,
     prefetch_stats,
 )
-from weblate.utils.views import get_project, optional_form
 
 
 def show_languages(request):
+    custom_workflows = set()
     if request.user.has_perm("language.edit"):
         languages = Language.objects.all()
+        custom_workflows = set(
+            WorkflowSetting.objects.filter(project=None).values_list(
+                "language_id", flat=True
+            )
+        )
     else:
         languages = Language.objects.have_translation()
+
     return render(
         request,
         "languages.html",
         {
             "allow_index": True,
             "languages": prefetch_stats(sort_objects(languages)),
-            "title": _("Languages"),
+            "custom_workflows": custom_workflows,
+            "title": gettext("Languages"),
             "global_stats": GlobalStats(),
         },
     )
@@ -79,14 +63,14 @@ def show_language(request, lang):
     if request.method == "POST" and user.has_perm("language.edit"):
         if obj.translation_set.exists():
             messages.error(
-                request, _("Remove all translations using this language first.")
+                request, gettext("Remove all translations using this language first.")
             )
         else:
             obj.delete()
-            messages.success(request, _("Language %s removed.") % obj)
+            messages.success(request, gettext("Language %s removed.") % obj)
             return redirect("languages")
 
-    last_changes = Change.objects.last_changes(user).filter(language=obj)[:10].preload()
+    last_changes = Change.objects.last_changes(user, language=obj)[:10].preload()
     projects = user.allowed_projects
     projects = prefetch_project_flags(
         prefetch_stats(projects.filter(component__translation__language=obj).distinct())
@@ -102,77 +86,8 @@ def show_language(request, lang):
             "allow_index": True,
             "object": obj,
             "last_changes": last_changes,
-            "last_changes_url": urlencode({"lang": obj.code}),
             "search_form": SearchForm(user, language=obj),
             "projects": projects,
-        },
-    )
-
-
-def show_project(request, lang, project):
-    try:
-        language_object = Language.objects.get(code=lang)
-    except Language.DoesNotExist:
-        language_object = Language.objects.fuzzy_get(lang)
-        if isinstance(language_object, Language):
-            return redirect(language_object)
-        raise Http404("No Language matches the given query.")
-
-    project_object = get_project(request, project)
-    obj = ProjectLanguage(project_object, language_object)
-    user = request.user
-
-    last_changes = (
-        Change.objects.last_changes(user)
-        .filter(language=language_object, project=project_object)[:10]
-        .preload()
-    )
-
-    translations = list(obj.translation_set)
-
-    # Add ghost translations
-    if user.is_authenticated:
-        existing = {translation.component.slug for translation in translations}
-        for component in project_object.child_components:
-            if component.slug in existing:
-                continue
-            if component.can_add_new_language(user, fast=True):
-                translations.append(GhostTranslation(component, language_object))
-
-    return render(
-        request,
-        "language-project.html",
-        {
-            "allow_index": True,
-            "language": language_object,
-            "project": project_object,
-            "object": obj,
-            "last_changes": last_changes,
-            "last_changes_url": urlencode(
-                {"lang": language_object.code, "project": project_object.slug}
-            ),
-            "translations": translations,
-            "title": f"{project_object} - {language_object}",
-            "search_form": SearchForm(user, language=language_object),
-            "licenses": project_object.component_set.exclude(license="").order_by(
-                "license"
-            ),
-            "language_stats": project_object.stats.get_single_language_stats(
-                language_object
-            ),
-            "delete_form": optional_form(
-                ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
-            ),
-            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
-            "bulk_state_form": optional_form(
-                BulkEditForm,
-                user,
-                "translation.auto",
-                obj,
-                user=user,
-                obj=obj,
-                project=obj.project,
-            ),
         },
     )
 
@@ -205,6 +120,48 @@ class CreateLanguageView(CreateView):
 class EditLanguageView(UpdateView):
     form_class = LanguageForm
     model = Language
+
+    def get_context_data(self, **kwargs):
+        """Insert the form into the context dict."""
+        if "workflow_form" not in kwargs:
+            kwargs["workflow_form"] = self.get_workflow_form()
+        return super().get_context_data(**kwargs)
+
+    def get_workflow_form(self):
+        kwargs = self.get_form_kwargs()
+        kwargs.pop("instance", None)
+        kwargs.pop("initial", None)
+        if self.workflow_object:
+            kwargs["instance"] = self.workflow_object
+        return WorkflowSettingForm(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.workflow_object = self.object.workflowsetting_set.get(project=None)
+        except WorkflowSetting.DoesNotExist:
+            self.workflow_object = None
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.workflow_object = self.object.workflowsetting_set.get(project=None)
+        except WorkflowSetting.DoesNotExist:
+            self.workflow_object = None
+        form = self.get_form()
+        workflow_form = self.get_workflow_form()
+        if form.is_valid() and workflow_form.is_valid():
+            return self.form_valid(form, workflow_form)
+        return self.render_to_response(
+            self.get_context_data(form=form, workflow_form=workflow_form)
+        )
+
+    def form_valid(self, form, workflow_form):
+        """If the form is valid, save the associated model."""
+        workflow_form.instance.language = self.object
+        self.workflow_object = workflow_form.save()
+        return super().form_valid(form)
 
 
 @method_decorator(permission_required("language.edit"), name="dispatch")

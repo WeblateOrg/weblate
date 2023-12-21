@@ -16,9 +16,7 @@
 {% perm 'reports.view' None as user_can_view_reports %}
 
 <ul class="nav nav-pills">
-{% if user.is_authenticated %}
 <li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions.paginator.count }}</span></a></li>
-{% endif %}
 {% if all_componentlists %}
 <li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
 {% endif %}
@@ -34,16 +32,13 @@
     <li><a href="{% url 'changes' %}">{% trans "History" %}</a></li>
     <li><a href="{% url 'changes' %}?action=51&amp;action=50">{% trans "Recent additions" %}</a></li>
     <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
-    {% if user.is_authenticated %}
     <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
-      {% endif %}
   </ul>
 </li>
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 </ul>
 
 <div class="tab-content">
-{% if user.is_authenticated %}
 <div {% active_tab "your-subscriptions" %}>
 {% if watched_projects %}
     {% if usersubscriptions %}
@@ -58,7 +53,6 @@
 {% endif %}
 </div>
 
-{% endif %} {# user.is_authenticated #}
 
 {% if all_componentlists %}
 <div {% active_tab "componentlists" %}>
@@ -89,7 +83,6 @@
 
 </div>
 
-{% if user.is_authenticated %}
 <div class="tab-pane" id="reports">
 {% if not user_can_view_reports %}
 {% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
@@ -136,7 +129,6 @@
 </div>
 </div>
 </div>
-{% endif %}
 
 </div>
 

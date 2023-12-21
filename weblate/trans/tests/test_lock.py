@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for locking."""
 
@@ -38,7 +23,7 @@ class LockTest(ViewTestCase):
             slug=self.component.slug, project__slug=self.project.slug
         )
         self.assertTrue(component.locked)
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(
             response,
             "The translation is temporarily closed for contributions due "
@@ -50,7 +35,7 @@ class LockTest(ViewTestCase):
             slug=self.component.slug, project__slug=self.project.slug
         )
         self.assertFalse(component.locked)
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertNotContains(
             response,
             "The translation is temporarily closed for contributions due "
@@ -58,34 +43,32 @@ class LockTest(ViewTestCase):
         )
 
     def test_component(self):
-        response = self.client.post(reverse("lock_component", kwargs=self.kw_component))
-        redirect_url = "{}#repository".format(
-            reverse("component", kwargs=self.kw_component)
-        )
+        response = self.client.post(reverse("lock", kwargs=self.kw_component))
+        redirect_url = f"{self.component.get_absolute_url()}#repository"
         self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
-        response = self.client.post(
-            reverse("unlock_component", kwargs=self.kw_component)
-        )
+        response = self.client.post(reverse("unlock", kwargs=self.kw_component))
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
 
     def test_project(self):
-        response = self.client.post(reverse("lock_project", kwargs=self.kw_project))
-        redirect_url = "{}#repository".format(
-            reverse("project", kwargs=self.kw_project)
+        response = self.client.post(
+            reverse("lock", kwargs={"path": self.project.get_url_path()})
         )
+        redirect_url = f"{self.project.get_absolute_url()}#repository"
         self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(
             response,
             "The translation is temporarily closed for contributions due "
             "to maintenance, please come back later.",
         )
 
-        response = self.client.post(reverse("unlock_project", kwargs=self.kw_project))
+        response = self.client.post(
+            reverse("unlock", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()

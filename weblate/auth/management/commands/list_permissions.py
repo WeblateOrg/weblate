@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, PERMISSIONS, ROLES
 from weblate.utils.management.base import BaseCommand
@@ -45,26 +30,54 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """List permissions."""
+        self.stdout.write("Managing per-project access control\n\n")
+
         for name in ACL_GROUPS:
-            self.stdout.write(f".. describe:: {name}\n\n\n")
+            self.stdout.write(f"{name}\n\n\n")
 
         self.stdout.write("\n\n")
 
         last = ""
 
+        table = []
+        rows = []
+
         for key, name in PERMISSIONS:
             base = key.split(".")[0]
             if base != last:
-                self.stdout.write(PERM_NAMES[base])
-                self.stdout.write("~" * len(PERM_NAMES[base]))
+                if last:
+                    table.append((PERM_NAMES[last], rows))
                 last = base
-            roles = "`, `".join(
-                name for name, permissions in ROLES if key in permissions
-            )
-            self.stdout.write(f"{name} [`{roles}`]")
-            self.stdout.write("\n")
+                rows = []
 
-        self.stdout.write("Site wide privileges")
-        self.stdout.write("~~~~~~~~~~~~~~~~~~~~")
-        for _key, name in GLOBAL_PERMISSIONS:
-            self.stdout.write(f"{name}\n\n")
+            rows.append(
+                (
+                    name,
+                    ", ".join(
+                        f"`{name}`" for name, permissions in ROLES if key in permissions
+                    ),
+                )
+            )
+        table.append((PERM_NAMES[last], rows))
+
+        rows = [(name, "") for _key, name in GLOBAL_PERMISSIONS]
+        table.append(("Site wide privileges", rows))
+
+        len_1 = max(len(group) for group, _rows in table)
+        len_2 = max(len(name) for _group, rows in table for name, _role in rows)
+        len_3 = max(len(role) for _group, rows in table for _name, role in rows)
+
+        sep = f"+-{'-' * len_1}-+-{'-' * len_2}-+-{'-' * len_3}-+"
+        blank_sep = f"+ {' ' * len_1} +-{'-' * len_2}-+-{'-' * len_3}-+"
+        row = f"| {{:{len_1}}} | {{:{len_2}}} | {{:{len_3}}} |"
+        self.stdout.write(sep)
+        self.stdout.write(row.format("Scope", "Permission", "Roles"))
+        self.stdout.write(sep.replace("-", "="))
+        for scope, rows in table:
+            number = 0
+            for name, role in rows:
+                if number:
+                    self.stdout.write(blank_sep)
+                self.stdout.write(row.format(scope if number == 0 else "", name, role))
+                number += 1
+            self.stdout.write(sep)

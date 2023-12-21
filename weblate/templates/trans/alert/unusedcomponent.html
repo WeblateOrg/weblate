@@ -1,0 +1,5 @@
+{% load i18n %}
+
+<p>{% blocktranslate count count=analysis.days %}The component has not received any translation within {{ count }} day.{% plural %}The component has not received any translation within {{ count }} days.{% endblocktranslate %}</p>
+
+<p>{% trans "Please consider removing the component if it is no longer useful." %}</p>

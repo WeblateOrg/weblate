@@ -4,18 +4,12 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-{% if project %}
-<li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
-{% if component %}
-{% include "snippets/component-breadcrumb.html" with object=component %}
-{% endif %}
-{% if language %}
-<li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
-{% endif %}
-{% elif language %}
-<li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
-{% endif %}
-<li><a href="{% if back_url %}{{ back_url }}#search{% else %}{% url 'search' %}{% endif %}">{% trans "Search" %}</a></li>
+  {% if path_object %}
+    {% path_object_breadcrumbs path_object %}
+    <li><a href="{{ back_url }}#search">{% trans "Search" %}</a></li>
+  {% else %}
+    <li><a href="{% url 'search' %}">{% trans "Search" %}</a></li>
+  {% endif %}
 {% endblock %}
 
 {% block content %}

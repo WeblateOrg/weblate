@@ -1,29 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
-from weblate.machinery.base import (
-    MachineTranslation,
-    MachineTranslationError,
-    MissingConfiguration,
-)
+from .base import MachineTranslation, MachineTranslationError
+from .forms import KeyMachineryForm
 
 
 class YandexTranslation(MachineTranslation):
@@ -31,12 +12,7 @@ class YandexTranslation(MachineTranslation):
 
     name = "Yandex"
     max_score = 90
-
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_YANDEX_KEY is None:
-            raise MissingConfiguration("Yandex Translate requires API key")
+    settings_form = KeyMachineryForm
 
     def check_failure(self, response):
         if "code" not in response or response["code"] == 200:
@@ -50,7 +26,7 @@ class YandexTranslation(MachineTranslation):
         response = self.request(
             "get",
             "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
-            params={"key": settings.MT_YANDEX_KEY, "ui": "en"},
+            params={"key": self.settings["key"], "ui": "en"},
         )
         payload = response.json()
         self.check_failure(payload)
@@ -63,7 +39,6 @@ class YandexTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
@@ -71,7 +46,7 @@ class YandexTranslation(MachineTranslation):
             "get",
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             params={
-                "key": settings.MT_YANDEX_KEY,
+                "key": self.settings["key"],
                 "text": text,
                 "lang": f"{source}-{language}",
                 "target": language,

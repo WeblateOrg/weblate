@@ -1,24 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from django.contrib import admin
 from django.contrib.admin import RelatedOnlyFieldListFilter
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.wladmin.models import WeblateModelAdmin
 
@@ -69,17 +55,15 @@ class BillingAdmin(WeblateModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("projects", "owners")
 
+    @admin.display(description=gettext_lazy("Projects"))
     def list_projects(self, obj):
         if not obj.all_projects:
             return "none projects associated"
         return ",".join(project.name for project in obj.all_projects)
 
-    list_projects.short_description = _("Projects")
-
+    @admin.display(description=gettext_lazy("Owners"))
     def list_owners(self, obj):
         return ",".join(owner.full_name for owner in obj.owners.all())
-
-    list_owners.short_description = _("Owners")
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

@@ -1,5 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # This file is maintained in https://github.com/WeblateOrg/meta/
 name: Sync labels
+
 on:
   push:
     branches:
@@ -7,15 +12,16 @@ on:
     paths:
     - .github/labels.yml
     - .github/workflows/label-sync.yml
+
+permissions:
+  issues: write
+
 jobs:
   build:
     name: Sync labels
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2.4.0
-    - uses: micnncim/action-label-syncer@v1.3.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
+    - uses: actions/checkout@v4
+    - uses: srealmoreno/label-sync-action@v1
       with:
-        manifest: .github/labels.yml
+        clean-labels: true

@@ -1,27 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 from weblate.trans.models import Change, Component, Project, Translation
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import ProjectLanguage, prefetch_stats
 
 
 class PagesSitemap(Sitemap):
@@ -53,10 +38,15 @@ class WeblateSitemap(Sitemap):
     changefreq = None
 
     def items(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def lastmod(self, item):
         return item.stats.last_changed
+
+    def get_latest_lastmod(self):
+        # Finding latest lastmod is expensive as it needs fetching
+        # stats for all objects
+        return None
 
 
 class ProjectSitemap(WeblateSitemap):
@@ -102,10 +92,10 @@ class EngageSitemap(ProjectSitemap):
     priority = 1.0
 
     def location(self, obj):
-        return reverse("engage", kwargs={"project": obj.slug})
+        return reverse("engage", kwargs={"path": obj.get_url_path()})
 
 
-class EngageLangSitemap(Sitemap):
+class EngageLangSitemap(EngageSitemap):
     """Wrapper to generate sitemap for all per language engage pages."""
 
     priority = 0.9
@@ -115,10 +105,13 @@ class EngageLangSitemap(Sitemap):
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
         ).order_by("id")
-        return [(project, lang) for project in projects for lang in project.languages]
-
-    def location(self, obj):
-        return reverse("engage", kwargs={"project": obj[0].slug, "lang": obj[1].code})
+        return prefetch_stats(
+            [
+                ProjectLanguage(project=project, language=lang)
+                for project in projects
+                for lang in project.languages
+            ]
+        )
 
 
 SITEMAPS = {

@@ -26,6 +26,7 @@
 <li><a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
+<li><a data-toggle="tab" href="#teams">{% trans "Teams" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
@@ -80,7 +81,14 @@
 
 <ul class="nav nav-pills">
 {% for form in notification_forms %}
-    <li {% if form.is_active %}class="active"{% endif %}><a data-toggle="tab" href="#{{ form.prefix }}">{{ form.get_name }}</a></li>
+  <li {% if form.is_active %}class="active"{% endif %}>
+    <a data-toggle="tab" href="#{{ form.prefix }}">
+      {{ form.get_name }}
+      {% if form.removable %}
+        <button type="button" class="close" title="{% trans "Remove this notification setting" %}"><span aria-hidden="true">&times;</span></button>
+      {% endif %}
+    </a>
+  </li>
 {% endfor %}
 </ul>
 
@@ -108,7 +116,13 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
 {% crispy userform %}
-    <p class="help-block">{% trans "Your name and e-mail will appear as commit authorship." %}</p>
+{% crispy commitform %}
+  <p class="help-block">
+    {% if has_email_auth %}
+      <a href="" class="link-post pull-right flip btn btn-link" data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
+    {% endif %}
+    {% trans "The e-mail address can be chosen from verified addresses only." %}
+  </p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
@@ -152,7 +166,7 @@
 
 {% if new_backends %}
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new association" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new user identity" %}</h4></div>
   <div class="panel-body">
 {% for name in new_backends %}
   <a href="" class="btn btn-link link-post" data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name %}</a>
@@ -210,6 +224,69 @@
 
 </div>
 
+<div class="tab-pane" id="teams">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Team" %}</th>
+        <th>{% trans "Roles" %}</th>
+        <th>{% trans "Projects" %}</th>
+        <th>{% trans "Languages" %}</th>
+        <th>{% trans "Components" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for group in user_groups %}
+        <tr>
+          <td><a href="{{ group.get_absolute_url }}">{{ group }}</a></td>
+          <td>
+            {% include "auth/teams-roles.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-projects.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-languages.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-components.html" %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    {% with invitations=user.invitation_set.all %}
+      {% if invitations %}
+        <tbody>
+        {% for invitation in invitations %}
+          {% with group=invitation.group %}
+            <tr>
+              <td>
+                <a href="{{ invitation.get_absolute_url }}">
+                  {{ group }}
+                  <span class="badge">{% translate "Pending invitation" %}</span>
+                </a>
+              </td>
+              <td>
+                {% include "auth/teams-roles.html" %}
+              </td>
+              <td>
+                {% include "auth/teams-projects.html" %}
+              </td>
+              <td>
+                {% include "auth/teams-languages.html" %}
+              </td>
+              <td>
+                {% include "auth/teams-components.html" %}
+              </td>
+            </tr>
+          {% endwith %}
+        {% endfor %}
+        </tbody>
+      {% endif %}
+    {% endwith %}
+  </table>
+</div>
+
 <div class="tab-pane" id="audit">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
@@ -259,7 +336,8 @@
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
 <td>
-    {{ user.auth_token.key }}
+    <span class="auth-token">{{ user.auth_token.key }}</span>
+    <button type="button" class="btn btn-link btn-xs" data-visibility=".auth-token" title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <a href="" class="pull-right flip btn btn-primary link-post" data-href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
@@ -275,7 +353,7 @@
 <td colspan="2">
 <pre dir="ltr">
 curl \
-    -H "Authorization: Token {{ user.auth_token.key }}" \
+    -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
     {{ site_url }}{% url 'api:api-root' %}
 </pre>
 </td>
@@ -287,7 +365,7 @@ curl \
 <td colspan="2">
 <pre dir="ltr">
 wlc \
-    --key {{ user.auth_token.key }} \
+    --key <span class="auth-token">{{ user.auth_token.key }}</span> \
     --url {{ site_url }}{% url 'api:api-root' %} \
     list-projects
 </pre>
@@ -302,7 +380,7 @@ wlc \
   <div class="panel-body">
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
     <pre dir="ltr">
-git clone 'https://{{ user.username|urlencode }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
+git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
   </div>
 </div>
 {% endif %}
@@ -323,7 +401,7 @@ git clone 'https://{{ user.username|urlencode }}:{{ user.auth_token.key }}@{{ si
 <p>{% trans "You have agreed to the following as a contributor:" %}</p>
 <ul>
 {% for agreement in agreements %}
-<li><a href="{% url 'contributor-agreement' project=agreement.component.project.slug component=agreement.component.slug %}">{{ agreement.component }}</a></li>
+<li><a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

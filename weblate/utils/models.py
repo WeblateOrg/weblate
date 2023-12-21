@@ -1,30 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from appconf import AppConf
-from django.core.cache import cache
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-from weblate.trans.models import Change
-from weblate.utils.decorators import disable_for_loaddata
 
 
 class WeblateConf(AppConf):
@@ -52,6 +30,8 @@ class WeblateConf(AppConf):
     RATELIMIT_LANGUAGE_WINDOW = 300
     RATELIMIT_LANGUAGE_LOCKOUT = 600
 
+    RATELIMIT_MESSAGE_ATTEMPTS = 2
+
     RATELIMIT_TRIAL_ATTEMPTS = 1
     RATELIMIT_TRIAL_WINDOW = 60
     RATELIMIT_TRIAL_LOCKOUT = 600
@@ -63,14 +43,17 @@ class WeblateConf(AppConf):
     SENTRY_DSN = None
     SENTRY_SECURITY = None
     SENTRY_ENVIRONMENT = "devel"
-    SENTRY_ORGANIZATION = "weblate"
     SENTRY_TOKEN = None
+    SENTRY_SEND_PII = True
     SENTRY_PROJECTS = ["weblate"]
     SENTRY_EXTRA_ARGS = {}
     SENTRY_TRACES_SAMPLE_RATE = 0
+    SENTRY_PROFILES_SAMPLE_RATE = 0
 
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"
+
+    STATS_LAZY = False
 
     DATABASE_BACKUP = "plain"
 
@@ -84,21 +67,12 @@ class WeblateConf(AppConf):
     CSP_STYLE_SRC = []
     CSP_FONT_SRC = []
 
+    INTERLEDGER_PAYMENT_POINTERS = ["$ilp.uphold.com/ENU7fREdeZi9"]
+
+    PROJECT_NAME_RESTRICT_RE = None
+    PROJECT_WEB_RESTRICT_RE = None
+    PROJECT_WEB_RESTRICT_HOST = {"localhost"}
+    PROJECT_WEB_RESTRICT_NUMERIC = True
+
     class Meta:
         prefix = ""
-
-
-@receiver(post_save, sender=Change)
-@disable_for_loaddata
-def update_source(sender, instance, created, **kwargs):
-    if (
-        not created
-        or instance.action not in Change.ACTIONS_CONTENT
-        or instance.translation is None
-    ):
-        return
-    cache.set(
-        f"last-content-change-{instance.translation.pk}",
-        instance.pk,
-        180 * 86400,
-    )

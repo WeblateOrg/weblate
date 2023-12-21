@@ -1,44 +1,29 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
+from contextlib import suppress
 from datetime import timedelta
 
 from appconf import AppConf
 from django.conf import settings
+from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.models import Prefetch, Q
-from django.db.models.signals import m2m_changed, post_save
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import ngettext
+from django.utils.html import format_html
+from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import JSONField
 from weblate.utils.stats import prefetch_stats
 
 
@@ -157,43 +142,47 @@ class Billing(models.Model):
     EXPIRING_STATES = (STATE_TRIAL,)
 
     plan = models.ForeignKey(
-        Plan, on_delete=models.deletion.CASCADE, verbose_name=_("Billing plan")
+        Plan,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=gettext_lazy("Billing plan"),
     )
     projects = models.ManyToManyField(
-        Project, blank=True, verbose_name=_("Billed projects")
+        Project, blank=True, verbose_name=gettext_lazy("Billed projects")
     )
-    owners = models.ManyToManyField(User, blank=True, verbose_name=_("Billing owners"))
+    owners = models.ManyToManyField(
+        User, blank=True, verbose_name=gettext_lazy("Billing owners")
+    )
     state = models.IntegerField(
         choices=(
-            (STATE_ACTIVE, _("Active")),
-            (STATE_TRIAL, _("Trial")),
-            (STATE_TERMINATED, _("Terminated")),
+            (STATE_ACTIVE, gettext_lazy("Active")),
+            (STATE_TRIAL, gettext_lazy("Trial")),
+            (STATE_TERMINATED, gettext_lazy("Terminated")),
         ),
         default=STATE_ACTIVE,
-        verbose_name=_("Billing state"),
+        verbose_name=gettext_lazy("Billing state"),
     )
     expiry = models.DateTimeField(
         blank=True,
         null=True,
-        default=None,
-        verbose_name=_("Trial expiry date"),
+        verbose_name=gettext_lazy("Trial expiry date"),
         help_text="After expiry removal with 15 days grace period is scheduled.",
     )
     removal = models.DateTimeField(
         blank=True,
         null=True,
-        default=None,
-        verbose_name=_("Scheduled removal"),
+        verbose_name=gettext_lazy("Scheduled removal"),
         help_text="This is automatically set after trial expiry.",
     )
-    paid = models.BooleanField(default=True, verbose_name=_("Paid"), editable=False)
+    paid = models.BooleanField(
+        default=True, verbose_name=gettext_lazy("Paid"), editable=False
+    )
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
-        default=True, verbose_name=_("In limits"), editable=False
+        default=True, verbose_name=gettext_lazy("In limits"), editable=False
     )
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False, default={})
+    payment = models.JSONField(editable=False, default=dict, encoder=DjangoJSONEncoder)
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
@@ -207,7 +196,7 @@ class Billing(models.Model):
         if projects:
             base = projects
         elif owners:
-            base = ", ".join(x.get_author_name(False) for x in owners)
+            base = ", ".join(x.get_visible_name() for x in owners)
         else:
             base = "Unassigned"
         trial = ", trial" if self.is_trial else ""
@@ -221,12 +210,14 @@ class Billing(models.Model):
         update_fields=None,
         skip_limits=False,
     ):
-        if not skip_limits and self.pk:
-            if self.check_limits(save=False) and update_fields:
-                update_fields = set(update_fields)
-                update_fields.update(
-                    ("state", "expiry", "removal", "paid", "in_limits")
-                )
+        if (
+            not skip_limits
+            and self.pk
+            and self.check_limits(save=False)
+            and update_fields
+        ):
+            update_fields = set(update_fields)
+            update_fields.update(("state", "expiry", "removal", "paid", "in_limits"))
 
         super().save(
             force_insert=force_insert,
@@ -268,35 +259,31 @@ class Billing(models.Model):
             return True
         return self.count_projects > 0
 
+    @admin.display(description=gettext_lazy("Changes in last month"))
     @cached_property
     def monthly_changes(self):
         return sum(project.stats.monthly_changes for project in self.all_projects)
 
-    monthly_changes.short_description = _("Changes in last month")
-
+    @admin.display(description=gettext_lazy("Number of changes"))
     @cached_property
     def total_changes(self):
         return sum(project.stats.total_changes for project in self.all_projects)
-
-    total_changes.short_description = _("Number of changes")
 
     @cached_property
     def count_projects(self):
         return len(self.all_projects)
 
+    @admin.display(description=gettext_lazy("Projects"))
     def display_projects(self):
         return f"{self.count_projects} / {self.plan.display_limit_projects}"
-
-    display_projects.short_description = _("Projects")
 
     @cached_property
     def count_strings(self):
         return sum(p.stats.source_strings for p in self.all_projects)
 
+    @admin.display(description=gettext_lazy("Source strings"))
     def display_strings(self):
         return f"{self.count_strings} / {self.plan.display_limit_strings}"
-
-    display_strings.short_description = _("Source strings")
 
     @cached_property
     def count_words(self):
@@ -306,21 +293,17 @@ class Billing(models.Model):
     def hosted_words(self):
         return sum(p.stats.all_words for p in self.all_projects)
 
+    @admin.display(description=gettext_lazy("Source words"))
     def display_words(self):
         return f"{self.count_words}"
 
-    display_words.short_description = _("Source words")
-
     @cached_property
     def count_languages(self):
-        if not self.all_projects:
-            return 0
-        return max(p.stats.languages for p in self.all_projects)
+        return max((p.stats.languages for p in self.all_projects), default=0)
 
+    @admin.display(description=gettext_lazy("Languages"))
     def display_languages(self):
         return f"{self.count_languages} / {self.plan.display_limit_languages}"
-
-    display_languages.short_description = _("Languages")
 
     def flush_cache(self):
         keys = list(self.__dict__.keys())
@@ -347,20 +330,22 @@ class Billing(models.Model):
             and self.expiry < timezone.now()
         )
 
+    @admin.display(description=gettext_lazy("Number of strings"))
     def unit_count(self):
         return sum(p.stats.all for p in self.all_projects)
 
-    unit_count.short_description = _("Number of strings")
-
+    @admin.display(description=gettext_lazy("Last invoice"))
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
-            return f"{invoice.start} - {invoice.end}"
         except IndexError:
-            return _("N/A")
+            return gettext("N/A")
+        return f"{invoice.start} - {invoice.end}"
 
-    last_invoice.short_description = _("Last invoice")
-
+    @admin.display(
+        description=gettext_lazy("In display limits"),
+        boolean=True,
+    )
     def in_display_limits(self, plan=None):
         if plan is None:
             plan = self.plan
@@ -379,12 +364,11 @@ class Billing(models.Model):
             )
         )
 
-    in_display_limits.boolean = True
     # Translators: Whether the package is inside displayed (soft) limits
-    in_display_limits.short_description = _("In display limits")
 
     def check_payment_status(self, now: bool = False):
-        """Check current payment status.
+        """
+        Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """
@@ -434,20 +418,21 @@ class Billing(models.Model):
         return users.exclude(is_superuser=True)
 
     def _get_libre_checklist(self):
-        yield LibreCheck(
-            self.count_projects == 1,
-            ngettext("Contains %d project", "Contains %d projects", self.count_projects)
-            % self.count_projects,
+        message = ngettext(
+            "Contains %d project", "Contains %d projects", self.count_projects
         )
+        # Ignore when format string is not present
+        with suppress(TypeError):
+            message = message % self.count_projects
+        yield LibreCheck(self.count_projects == 1, message)
         for project in self.all_projects:
             yield LibreCheck(
                 bool(project.web),
-                mark_safe(
-                    '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>'.format(
-                        escape(project.get_absolute_url()),
-                        escape(project),
-                        escape(project.web),
-                    )
+                format_html(
+                    '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>',
+                    project.get_absolute_url(),
+                    project,
+                    project.web,
                 ),
             )
         components = Component.objects.filter(
@@ -461,19 +446,18 @@ class Billing(models.Model):
         for component in components:
             yield LibreCheck(
                 component.libre_license,
-                mark_safe(
+                format_html(
                     """
                     <a href="{0}">{1}</a>,
                     <a href="{2}">{3}</a>,
                     <a href="{4}">{4}</a>,
-                    {5}""".format(
-                        escape(component.get_absolute_url()),
-                        escape(component.name),
-                        escape(component.license_url or "#"),
-                        escape(component.get_license_display() or _("Missing license")),
-                        escape(component.repo),
-                        escape(component.get_file_format_display()),
-                    )
+                    {5}""",
+                    component.get_absolute_url(),
+                    component.name,
+                    component.license_url or "#",
+                    component.get_license_display() or gettext("Missing license"),
+                    component.repo,
+                    component.get_file_format_display(),
                 ),
                 component=component,
             )
@@ -515,7 +499,7 @@ class Invoice(models.Model):
     note = models.TextField(blank=True)
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False, default={})
+    payment = models.JSONField(editable=False, default=dict)
 
     objects = InvoiceQuerySet.as_manager()
 
@@ -524,9 +508,7 @@ class Invoice(models.Model):
         verbose_name_plural = "Invoices"
 
     def __str__(self):
-        return "{} - {}: {}".format(
-            self.start, self.end, self.billing if self.billing_id else None
-        )
+        return f"{self.start} - {self.end}: {self.billing if self.billing_id else None}"
 
     @cached_property
     def filename(self):
@@ -575,7 +557,28 @@ class Invoice(models.Model):
 def update_project_bill(sender, instance, **kwargs):
     if isinstance(instance, Component):
         instance = instance.project
-    for billing in instance.billing_set.iterator():
+    for billing in instance.billing_set.all():
+        billing.check_limits()
+
+
+@receiver(pre_delete, sender=Project)
+@receiver(pre_delete, sender=Component)
+@disable_for_loaddata
+def record_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Component):
+        instance = instance.project
+    # Track billings to update for delete_project_bill
+    instance.billings_to_update = list(instance.billing_set.all())
+
+
+@receiver(post_delete, sender=Project)
+@receiver(post_delete, sender=Component)
+@disable_for_loaddata
+def delete_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Component):
+        instance = instance.project
+    # This is set in record_project_bill
+    for billing in instance.billings_to_update:
         billing.check_limits()
 
 

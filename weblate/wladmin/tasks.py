@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 
 from celery.schedules import crontab
+from django.conf import settings
+from django.utils import timezone
 
 from weblate.utils.celery import app
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.wladmin.models import BackupService, SupportStatus
 
 
@@ -39,17 +26,24 @@ def backup():
         backup_service.delay(service.pk)
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def backup_service(pk):
     service = BackupService.objects.get(pk=pk)
     service.ensure_init()
     service.backup()
     service.prune()
+    today = timezone.now().date()
+    if today.weekday() == 3:
+        service.cleanup()
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
+    # Randomize this per site to avoid all instances hitting server at the same time
+    minute_to_run = hash(settings.SITE_DOMAIN) % 1440
     sender.add_periodic_task(
-        24 * 3600, support_status_update.s(), name="support-status-update"
+        crontab(hour=minute_to_run // 60, minute=minute_to_run % 60),
+        support_status_update.s(),
+        name="support-status-update",
     )
     sender.add_periodic_task(crontab(hour=2, minute=0), backup.s(), name="backup")

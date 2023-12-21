@@ -1,18 +1,15 @@
 #!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Wrapper around yarn to update our javascript dependencies
 set -e
 
 cd scripts/yarn/
 
 yarn install --check-files
-if [ "$1" != "--no-upgrade" ] ; then
-  yarn upgrade-interactive
-fi
-yarn run build --scripts-prepend-node-path
-
-# Bootstrap Datepicker
-cp node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ../../weblate/static/vendor/bootstrap/css/
-cp node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js ../../weblate/static/vendor/bootstrap/js/
 
 # Autosize
 cp node_modules/autosize/dist/autosize.js ../../weblate/static/vendor/
@@ -39,36 +36,42 @@ cp node_modules/prismjs/components/prism-rest.js ../../weblate/static/vendor/pri
 cp node_modules/prismjs/components/prism-markdown.js ../../weblate/static/vendor/prism/
 cp node_modules/prismjs/components/prism-icu-message-format.js ../../weblate/static/vendor/prism/
 
-# Clipboard
-cp node_modules/clipboard/dist/clipboard.js ../../weblate/static/vendor/
+# autocomplete
+cp node_modules/@tarekraafat/autocomplete.js/dist/autoComplete.js ../../weblate/static/vendor/
 
 # multi.js
 cp node_modules/multi.js/src/multi.js ../../weblate/static/vendor/
 cp node_modules/multi.js/src/multi.css ../../weblate/static/vendor/
 
-# Modernizr
-mv modernizr.js ../../weblate/static/vendor/
-
 # Slugify
 cp node_modules/slugify/slugify.js ../../weblate/static/vendor/slugify.js
 
 # Sentry
-cp node_modules/@sentry/browser/build/bundle.js ../../weblate/static/vendor/sentry.js
+./node_modules/.bin/browserify node_modules/@sentry/browser/cjs/index.js --standalone Sentry > ../../weblate/static/vendor/sentry.js
 
 # Source Sans/Code Pro fonts
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans/source-sans-3.css > ../../weblate/static/vendor/font-source/source-sans-3.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css
-find node_modules/source-sans/WOFF node_modules/source-sans/WOFF2 node_modules/source-sans/TTF node_modules/source-code-pro/ -name SourceSans3-ExtraLight.* -o  -name SourceSans3-Light.* -o  -name SourceSans3-Semibold.* -o -name SourceSans3-Black.* -o -name SourceSans3-Bold.* -o -name SourceSans3-Regular.* -o -name SourceSans3-It.* -o -name SourceSans3-BoldIt.* -o -name SourceCodePro-Medium.* -o -name SourceCodePro-Regular.* -o -name SourceCodePro-Bold.* -o -name SourceCodePro-Semibold.* | while read name ; do
-    target=`echo $name | sed 's@node_modules/source-\(sans\|code-pro\)/@../../weblate/static/vendor/font-source/@'`
-    dir=`dirname $target`
-    if [ ! -d $dir ] ; then
-        mkdir -p $dir
+find node_modules/source-sans/WOFF node_modules/source-sans/WOFF2 node_modules/source-sans/TTF node_modules/source-code-pro/ \
+  -name 'SourceSans3-ExtraLight.*' \
+  -o -name 'SourceSans3-Light.*' \
+  -o -name 'SourceSans3-Semibold.*' \
+  -o -name 'SourceSans3-Black.*' \
+  -o -name 'SourceSans3-Bold.*' \
+  -o -name 'SourceSans3-Regular.*' \
+  -o -name 'SourceSans3-It.*' \
+  -o -name 'SourceSans3-BoldIt.*' \
+  -o -name 'SourceCodePro-Medium.*' \
+  -o -name 'SourceCodePro-Regular.*' \
+  -o -name 'SourceCodePro-Bold.*' \
+  -o -name 'SourceCodePro-Semibold.*' | while read -r name ; do
+    target=$(echo "$name" | sed 's@node_modules/source-\(sans\|code-pro\)/@../../weblate/static/vendor/font-source/@')
+    dir=$(dirname "$target")
+    if [ ! -d "$dir" ] ; then
+        mkdir -p "$dir"
     fi
-    cp $name $target
+    cp "$name" "$target"
 done
-
-# DejaVu font
-cp node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf node_modules/dejavu-fonts-ttf/ttf/DejaVuSans-Bold.ttf ../../weblate/static/vendor/font-dejavu
 
 # Not updated:
 # Bootstrap, use online customizer

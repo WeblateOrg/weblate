@@ -1,27 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
-from datetime import date
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
 from django.db import transaction
-from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY
@@ -32,8 +16,8 @@ from weblate.trans.tasks import auto_translate_component
 class AutoTranslateAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
     name = "weblate.autotranslate.autotranslate"
-    verbose = _("Automatic translation")
-    description = _(
+    verbose = gettext_lazy("Automatic translation")
+    description = gettext_lazy(
         "Automatically translates strings using machine translation or "
         "other components."
     )
@@ -54,7 +38,7 @@ class AutoTranslateAddon(BaseAddon):
         # not matter that much that we run this less often.
         if settings.BACKGROUND_TASKS == "never":
             return
-        today = date.today()
+        today = timezone.now()
         if settings.BACKGROUND_TASKS == "monthly" and component.id % 30 != today.day:
             return
         if (

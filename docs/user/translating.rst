@@ -14,7 +14,7 @@ Please see :ref:`workflows` for more info on translation workflow.
 
 Options for translation project visibility:
 
-* Publicly visible and anybody can contribute
+* Publicly visible
 * Visible only to a certain group of translators
 
 .. seealso::
@@ -27,7 +27,7 @@ Translation projects
 
 Translation projects hold related components; resources for the same software, book, or project.
 
-.. image:: /screenshots/project-overview.png
+.. image:: /screenshots/project-overview.webp
 
 .. _strings-to-check:
 
@@ -40,7 +40,7 @@ The translation is further divided into individual checks, like
 is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
-.. image:: /screenshots/strings-to-check.png
+.. image:: /screenshots/strings-to-check.webp
 
 Suggestions
 -----------
@@ -148,17 +148,28 @@ by the Unicode Consortium is a more detailed description.
 
 .. seealso::
 
-   :ref:`plural-formula`
+   :ref:`plural-definitions`
 
-.. image:: /screenshots/plurals.png
+.. image:: /screenshots/plurals.webp
+
+.. _alternative-translations:
+
+Alternative translations
+++++++++++++++++++++++++
+
+.. versionadded:: 4.13
+
+.. note::
+
+   This is currently only supported with :ref:`multivalue-csv`.
+
+With some formats, it is possible to have more translations for a single
+string. You can add more alternative translations using the :guilabel:`Tools`
+menu. Any blank alternative translations will be automatically removed upon
+saving.
 
 Keyboard shortcuts
 ++++++++++++++++++
-
-.. versionchanged:: 2.18
-
-    The keyboard shortcuts have been revamped in 2.18 to less likely collide
-    with browser or system defaults.
 
 The following keyboard shortcuts can be utilized during translation:
 
@@ -185,15 +196,17 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Submit current form, while editing translation this is same as        |
-|                                           | pressing :guilabel:`Save and continue`.                               |
-| :kbd:`Ctrl+Enter` or                      |                                                                       |
-|                                           |                                                                       |
+| :kbd:`Ctrl+Enter` or                      | Submit current form; this is same as                                  |
+|                                           | pressing :guilabel:`Save and continue` while editing translation.     |
 | :kbd:`Cmd+Enter`                          |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+Shift+Enter` or                | Unmark translation as needing edit and submit it.                     |
 |                                           |                                                                       |
 | :kbd:`Cmd+Shift+Enter`                    |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt+Enter` or                       | Submit the string as a suggestion; this is same as                    |
+|                                           | pressing :guilabel:`Suggest` while editing translation.               |
+| :kbd:`Option+Enter`                       |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+E` or                          | Focus translation editor.                                             |
 |                                           |                                                                       |
@@ -211,13 +224,17 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+M`\+\ :kbd:`1` to :kbd:`9` or  | Copy the machine translation of given number to current translation.  |
+| :kbd:`Ctrl+M` followed by                 | Copy the machine translation of given number to current translation.  |
+| :kbd:`1` to :kbd:`9` or                   |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd+M`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
+| :kbd:`Cmd+M` followed by                  |                                                                       |
+| :kbd:`1` to :kbd:`9`                      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+I`\+\ :kbd:`1` to :kbd:`9` or  | Ignore one item in the list of failing checks.                        |
+| :kbd:`Ctrl+I` followed by                 | Ignore one item in the list of failing checks.                        |
+| :kbd:`1` to :kbd:`9` or                   |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd+I`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
+| :kbd:`Cmd+I` followed by                  |                                                                       |
+| :kbd:`1` to :kbd:`9`                      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+J` or                          | Shows the :guilabel:`Nearby strings` tab.                             |
 |                                           |                                                                       |
@@ -231,7 +248,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+O`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` flag.                            |
+| :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` checkbox.                        |
 |                                           |                                                                       |
 | :kbd:`Cmd+Y`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
@@ -247,11 +264,11 @@ otherwise hard to type handy.
 
 The shown symbols factor into three categories:
 
-* User configured characters defined in the :ref:`user-profile`
+* User configured :ref:`profile-specialchars` defined in the :ref:`user-profile`
 * Per-language characters provided by Weblate (e.g. quotes or RTL specific characters)
 * Characters configured using :setting:`SPECIAL_CHARS`
 
-.. image:: /screenshots/visual-keyboard.png
+.. image:: /screenshots/visual-keyboard.webp
 
 .. _source-context:
 
@@ -316,6 +333,8 @@ Based on configuration and your translated language, Weblate provides suggestion
 from several machine translation tools and :ref:`translation-memory`.
 All machine translations are available in a single tab of each translation page.
 
+You can also perform a concordance search on the :ref:`translation-memory`.
+
 .. seealso::
 
    You can find the list of supported tools in :ref:`machine-translation-setup`.
@@ -329,7 +348,7 @@ You can use automatic translation to bootstrap translation based on external
 sources. This tool is called :guilabel:`Automatic translation` accessible in
 the :guilabel:`Tools` menu, once you have selected a component and a language:
 
-.. image:: /screenshots/automatic-translation.png
+.. image:: /screenshots/automatic-translation.webp
 
 Two modes of operation are possible:
 
@@ -349,7 +368,7 @@ components (for example the application and its website) or when bootstrapping
 a translation for a new component using existing translations
 (translation memory).
 
-The automatically translated strings are labelled by :guilabel:`Automatically
+The automatically translated strings are labelled :guilabel:`Automatically
 translated`.
 
 .. seealso::

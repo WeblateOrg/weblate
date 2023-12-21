@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -12,20 +16,21 @@
 #
 import os
 import sys
+from pathlib import Path
+
+from matplotlib import font_manager
 
 # -- Path setup --------------------------------------------------------------
 
-# sys.path.insert(0, os.path.abspath('.'))
+file_dir = Path(__file__).parent.resolve()
+weblate_dir = file_dir.parent
 # Our extension
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
+sys.path.append(str(file_dir / "_ext"))
 # Weblate code
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(str(weblate_dir))
 
 
 def setup(app):
-    app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-3.css")
-    app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
-    app.add_css_file("docs.css")
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",
@@ -34,15 +39,27 @@ def setup(app):
         indextemplate="pair: %s; configuration value",
     )
 
+    font_dirs = [
+        str(weblate_dir / font_dir)
+        for font_dir in (
+            "weblate/static/vendor/font-source/TTF/",
+            "weblate/static/vendor/font-kurinto/",
+        )
+    ]
+    font_files = font_manager.findSystemFonts(fontpaths=font_dirs)
+
+    for font_file in font_files:
+        font_manager.fontManager.addfont(font_file)
+
 
 # -- Project information -----------------------------------------------------
 
 project = "Weblate"
-copyright = "2012–2022 Michal Čihař"
+copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.11"
+release = "5.4"
 
 
 # -- General configuration ---------------------------------------------------
@@ -57,7 +74,8 @@ extensions = [
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",
-    "sphinx_rtd_theme",
+    "sphinx_copybutton",
+    "sphinxext.opengraph",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -74,13 +92,25 @@ exclude_patterns = [
     "devel/reporting-example.rst",
 ]
 
+ogp_social_cards = {
+    "image": "../weblate/static/logo-1024.png",
+    "line_color": "#144d3f",
+    "site_url": "docs.weblate.org",
+    "font": ["Source Sans 3", "Kurinto Sans"],
+}
+ogp_custom_meta_tags = [
+    '<meta property="fb:app_id" content="741121112629028" />',
+    '<meta property="fb:page_id" content="371217713079025" />',
+    '<meta name="twitter:site" content="@WeblateOrg" />',
+]
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+# html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -90,6 +120,24 @@ html_static_path = ["../weblate/static/"]
 
 html_logo = "../weblate/static/logo-128.png"
 
+
+html_theme_options = {
+    "source_repository": "https://github.com/WeblateOrg/weblate/",
+    "source_branch": "main",
+    "source_directory": "docs/",
+    "dark_css_variables": {
+        "font-stack": '"Source Sans 3", sans-serif',
+        "font-stack--monospace": '"Source Code Pro", monospace',
+        "color-brand-primary": "#1fa385",
+        "color-brand-content": "#1fa385",
+    },
+    "light_css_variables": {
+        "font-stack": '"Source Sans 3", sans-serif',
+        "font-stack--monospace": '"Source Code Pro", monospace',
+        "color-brand-primary": "#1fa385",
+        "color-brand-content": "#1fa385",
+    },
+}
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
@@ -231,7 +279,7 @@ intersphinx_mapping = {
     "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
     "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
-    "celery": ("https://docs.celeryproject.org/en/latest/", None),
+    "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
@@ -262,8 +310,24 @@ linkcheck_ignore = [
     "http://127.0.0.1:8080/",
     # Requires a valid token
     "https://api.deepl.com/v2/translate",
+    # Requires authentication
+    "https://gitlab.com/profile/applications",
     # Anchors are used to specify channel name here
     "https://web.libera.chat/#",
+    # Site is unreliable
+    "https://docwiki.embarcadero.com/",
+    # 403 for linkcheck
+    "https://docs.github.com/",
+    "https://translate.yandex.com/",
+    # These are PDF and fails with Unicode decode error
+    "http://ftp.pwg.org/",
+    # Access to our service has been temporarily blocked
+    "https://yandex.com/dev/translate/",
+    # TODO: Temporarily unavailable
+    "https://wiki.gnupg.org/",
+    # 403
+    "https://platform.openai.com/account/api-keys",
+    "https://platform.openai.com/docs/models",
 ]
 
 # HTTP docs
@@ -276,6 +340,7 @@ autodoc_mock_imports = [
     "celery",
     "sentry_sdk",
     "crispy_forms",
+    "weblate.utils.errors",
     "weblate.trans.discovery",
     "weblate.checks.models",
     "weblate.trans.forms",
@@ -290,6 +355,7 @@ autodoc_mock_imports = [
     "siphashc",
     "git",
     "PIL",
+    "borg",
     "weblate.addons.models",
     "weblate.trans.models",
     "weblate.lang.models",

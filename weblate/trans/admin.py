@@ -1,24 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.auth.models import User
 from weblate.trans.models import AutoComponentList, Translation, Unit
@@ -27,6 +12,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 
 class RepoAdminMixin:
+    @admin.action(description=gettext_lazy("Commit pending changes"))
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for obj in queryset:
@@ -35,22 +21,20 @@ class RepoAdminMixin:
             request, f"Flushed changes in {queryset.count():d} git repos."
         )
 
-    force_commit.short_description = _("Commit pending changes")
-
+    @admin.action(description=gettext_lazy("Update VCS repository"))
     def update_from_git(self, request, queryset):
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
-    update_from_git.short_description = _("Update VCS repository")
-
     def get_qs_units(self, queryset):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_qs_translations(self, queryset):
-        raise NotImplementedError()
+        raise NotImplementedError
 
+    @admin.action(description=gettext_lazy("Update quality checks"))
     def update_checks(self, request, queryset):
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
@@ -61,8 +45,6 @@ class RepoAdminMixin:
             translation.invalidate_cache()
 
         self.message_user(request, f"Updated checks for {len(units):d} units.")
-
-    update_checks.short_description = _("Update quality checks")
 
 
 class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
@@ -82,33 +64,28 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     search_fields = ["name", "slug", "web"]
     actions = ["update_from_git", "update_checks", "force_commit"]
 
+    @admin.display(description=gettext_lazy("Administrators"))
     def list_admins(self, obj):
         return ", ".join(
             User.objects.all_admins(obj).values_list("username", flat=True)
         )
 
-    list_admins.short_description = _("Administrators")
-
+    @admin.display(description=gettext_lazy("Source strings"))
     def get_total(self, obj):
         return obj.stats.source_strings
 
-    get_total.short_description = _("Source strings")
-
+    @admin.display(description=gettext_lazy("Source words"))
     def get_source_words(self, obj):
         return obj.stats.source_words
 
-    get_source_words.short_description = _("Source words")
-
+    @admin.display(description=gettext_lazy("Languages"))
     def get_language_count(self, obj):
         """Return number of languages used in this project."""
         return obj.stats.languages
 
-    get_language_count.short_description = _("Languages")
-
+    @admin.display(description=gettext_lazy("VCS repositories"))
     def num_vcs(self, obj):
         return obj.component_set.with_repo().count()
-
-    num_vcs.short_description = _("VCS repositories")
 
     def get_qs_units(self, queryset):
         return Unit.objects.filter(translation__component__project__in=queryset)

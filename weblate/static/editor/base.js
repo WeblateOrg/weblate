@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 var WLT = WLT || {};
 
 WLT.Config = (function () {
@@ -13,14 +17,14 @@ WLT.Utils = (function () {
     },
 
     markFuzzy: function ($el) {
-      /* Standard worflow */
+      /* Standard workflow */
       $el.find('input[name="fuzzy"]').prop("checked", true);
       /* Review workflow */
       $el.find('input[name="review"][value="10"]').prop("checked", true);
     },
 
     markTranslated: function ($el) {
-      /* Standard worflow */
+      /* Standard workflow */
       $el.find('input[name="fuzzy"]').prop("checked", false);
       /* Review workflow */
       $el.find('input[name="review"][value="20"]').prop("checked", true);
@@ -72,20 +76,23 @@ WLT.Editor = (function () {
     /* Copy source text */
     this.$editor.on("click", "[data-clone-text]", function (e) {
       var $this = $(this);
+      var $document = $(document);
       var cloneText = this.getAttribute("data-clone-text");
 
       var row = $this.closest(".zen-unit");
       if (row.length === 0) {
         row = $this.closest(".translator");
       }
+      if (row.length === 0) {
+        row = $document.find(".translator");
+      }
       var editors = row.find(".translation-editor");
-      var $document = $(document);
       if (editors.length == 1) {
         editors.replaceValue(cloneText);
       } else {
         addAlert(
           gettext("Please select target plural by clicking."),
-          (kind = "info")
+          (kind = "info"),
         );
         editors.addClass("editor-click-select");
         editors.click(function () {
@@ -119,7 +126,7 @@ WLT.Editor = (function () {
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
       var $this = $(this);
-      var text = $this.data("value");
+      var text = this.getAttribute("data-value");
 
       $this
         .closest(".translation-item")
@@ -143,11 +150,7 @@ WLT.Editor = (function () {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       var $this = $(this);
-      var text = $this.clone();
-
-      text.find(hlNumberSelector).remove();
-      text = text.text();
-      insertEditor(text, $this);
+      insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
     });
 
@@ -173,7 +176,7 @@ WLT.Editor = (function () {
             title = interpolate(gettext("Ctrl+%s"), [key]);
           }
           $this.attr("title", title);
-          $this.find(hlNumberSelector).html("<kbd>" + key + "</kbd>");
+          $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
           Mousetrap.bindGlobal("mod+" + key, function (e) {
             $this.click();
@@ -191,25 +194,28 @@ WLT.Editor = (function () {
       function (e) {
         $(hlNumberSelector).show();
       },
-      "keydown"
+      "keydown",
     );
     Mousetrap.bindGlobal(
       "mod",
       function (e) {
         $(hlNumberSelector).hide();
       },
-      "keyup"
+      "keyup",
     );
   };
 
   function insertEditor(text, element) {
     var root;
 
-    /* Find withing root element */
+    /* Find within root element */
     if (typeof element !== "undefined") {
       root = element.closest(".zen-unit");
       if (root.length === 0) {
         root = element.closest(".translation-form");
+      }
+      if (root.length === 0) {
+        root = $(document);
       }
     } else {
       root = $(document);
@@ -223,7 +229,7 @@ WLT.Editor = (function () {
       }
     }
 
-    editor.insertAtCaret($.trim(text));
+    editor.insertAtCaret(text);
   }
 
   return {

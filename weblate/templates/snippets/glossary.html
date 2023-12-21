@@ -17,7 +17,7 @@
           {% icon "cancel.svg" %}
         </span>
       {% endif %}
-      {% format_translation item.target unit.translation.language unit.translation.plural simple=True %}
+      {% format_unit_target unit value=item.target simple=True %}
     </td>
     <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
     <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit glossary term" %}">{% icon "pencil.svg" %}</a>
@@ -31,7 +31,7 @@
         </td>
       </tr>
     {% endif %}
-    {% if item != item.source_unit and item.explanation %}
+    {% if not item.is_source and item.explanation %}
       <tr>
         <td colspan="4">
           <em>
