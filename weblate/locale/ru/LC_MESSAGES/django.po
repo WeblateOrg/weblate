@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-21 21:58+0000\n"
+"PO-Revision-Date: 2023-12-22 14:58+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -64,7 +64,7 @@ msgstr "Имя также используется в коммитах сист�
 
 #: weblate/accounts/forms.py:176 weblate/accounts/models.py:603
 msgid "Commit e-mail"
-msgstr "Фиксация электронной почты"
+msgstr "Электронная почта коммита"
 
 #: weblate/accounts/forms.py:177
 msgid "Use account e-mail address"
@@ -391,7 +391,7 @@ msgstr "Вход совершён с помощью {method} ({name}) с нов�
 
 #: weblate/accounts/models.py:151
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Кто-то попытался зарегистрироваться с помощью вашего e-mail ."
+msgstr "Кто-то попытался зарегистрироваться с помощью вашей электронной почты."
 
 #: weblate/accounts/models.py:153
 msgid "Somebody attempted to register using your e-mail address."
@@ -497,12 +497,12 @@ msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
 "Если это были вы, пожалуйста, сбросьте пароль для восстановления доступа к "
-"вашей учетной записи."
+"вашей учётной записи."
 
 #: weblate/accounts/models.py:313 weblate/templates/accounts/profile.html:304
 #: weblate/templates/accounts/user.html:242
 msgid "Account activity"
-msgstr "Активность аккаунта"
+msgstr "Активность учётной записи"
 
 #: weblate/accounts/models.py:386
 msgid "Interface Language"
@@ -5404,8 +5404,7 @@ msgid ""
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
 "Для вопросов о конкретном проекте перевода не используйте эту форму. "
-"Обратитесь к закладке \"Информация\" проекта и свяжитесь с его "
-"сопровождающими."
+"Обратитесь к вкладке «О проекте» и свяжитесь с его кураторами."
 
 #: weblate/templates/accounts/contact.html:27
 #, python-format
@@ -5415,7 +5414,7 @@ msgid ""
 "correct server."
 msgstr ""
 "Если вы обращаетесь за поддержкой не для сервера %(site_title)s, а для "
-"любого другого развертывания Weblate, пожалуйста, проверьте предложения по "
+"любого другого развёртывания Weblate, пожалуйста, проверьте предложения по "
 "поддержке по адресу %(weblate_link)s или воспользуйтесь этой формой на "
 "нужном сервере."
 
@@ -5850,7 +5849,7 @@ msgid ""
 "authenticate to it."
 msgstr ""
 "Вы можете управлять Weblate с помощью HTTP REST API, используя ваш API-ключ "
-"для аутентификации в нём."
+"для авторизации в нём."
 
 #: weblate/templates/accounts/profile.html:337
 #: weblate/templates/trans/project-access.html:324
@@ -10291,7 +10290,7 @@ msgstr "Поделиться на X"
 
 #: weblate/templates/snippets/share-menu.html:14
 msgid "Share on Fediverse"
-msgstr "Поделиться на Федивёрсе"
+msgstr "Поделиться на Fediverse"
 
 #: weblate/templates/snippets/share-menu.html:17
 msgid "Engage page"
@@ -10537,15 +10536,15 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
-"Репозиторий верхнего уровня не найден. Пожалуйста, проверьте, существует ли "
-"он и доступен ли он для Weblate."
+"Вышестоящий репозиторий не найден. Пожалуйста, проверьте, существует ли он и "
+"доступен ли он для Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:8
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
-"Не удалось получить доступ к репозиторию вышестоящего уровня. Пожалуйста, "
+"Не удалось получить доступ к вышестоящему репозиторию. Пожалуйста, "
 "проверьте, доступен ли он для Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:12
@@ -10553,17 +10552,16 @@ msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
-"Не удалось временно получить доступ к репозиторию вышестоящего уровня. "
-"Пожалуйста, повторите попытку позже."
+"Не удалось временно получить доступ к вышестоящему репозиторию. Пожалуйста, "
+"повторите попытку позже."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
 msgstr ""
-"В URL-адресе вашего репозитория, по-видимому, отсутствуют учетные данные. "
-"Либо укажите их в URL, либо используйте SSH с аутентификацией на основе "
-"ключей."
+"В URL-адресе вашего репозитория, по-видимому, отсутствуют учётные данные. "
+"Либо укажите их в URL, либо используйте SSH с авторизацией на основе ключей."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid "You might want to use following URL instead:"
@@ -12899,7 +12897,7 @@ msgstr "Компонент разблокирован"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
 msgid "Changes committed"
-msgstr "Изменения закоммичены"
+msgstr "Изменения отправлены"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:327
@@ -12914,12 +12912,12 @@ msgstr "Сброс репозитория"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:331
 msgid "Repository merged"
-msgstr "Репозиторий объединен"
+msgstr "Репозиторий объединён"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:333
 msgid "Repository rebased"
-msgstr "Обновление данных репозитория"
+msgstr "Смена базы репозитория"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:335
@@ -12929,7 +12927,7 @@ msgstr "Сбой слияния репозиториев"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:337
 msgid "Repository rebase failed"
-msgstr "Не удалось выполнить операцию восстановления репозитория"
+msgstr "Не удалось выполнить операцию смены базы репозитория"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:339
@@ -12974,7 +12972,7 @@ msgstr "Добавлена строка"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:355
 msgid "Bulk status changed"
-msgstr "Общий статус изменен"
+msgstr "Общий статус изменён"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
@@ -12989,7 +12987,7 @@ msgstr "Добавлено пользователем"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:361
 msgid "User removed"
-msgstr "Пользователь удален"
+msgstr "Пользователь удалён"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:363
@@ -13049,12 +13047,12 @@ msgstr "Добавление языка"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
 msgid "Language requested"
-msgstr "Запрошенный язык"
+msgstr "Запрошен язык"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
 msgid "Project created"
-msgstr "Созданный проект"
+msgstr "Проект создан"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
@@ -13074,7 +13072,7 @@ msgstr "Получено уведомление от репозитория"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:395
 msgid "Translation replaced file by upload"
-msgstr "Перевод заменен файлом загрузки"
+msgstr "Перевод заменён загруженным файлом"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:397
@@ -13129,7 +13127,7 @@ msgstr "Комментарий удалён"
 #: weblate/trans/models/change.py:419
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Комментарий исправлен"
+msgstr "Комментарий решён"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:422
@@ -15384,7 +15382,7 @@ msgstr ""
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
 #, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Не удалось получить открытый ключ для узла: %s"
+msgstr "Не удалось получить открытый ключ для сервера: %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
