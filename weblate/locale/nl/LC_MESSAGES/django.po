@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Heimen Stoffels <vistausss@fastmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-23 03:14+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -62,6 +63,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Wordt gebruikt in versiebeheer-commits. Let op: het adres blijft voor altijd "
+"in de repo zodra Weblate wijzigingen doorvoert."
 
 #: weblate/accounts/forms.py:211 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -77,16 +80,16 @@ msgid "Component list: %s"
 msgstr "Onderdelenlijst: %s"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Accountverwijdering"
+msgstr "E-mailadres van account"
 
 #: weblate/accounts/forms.py:348
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Wordt gebruikt om e-mailmeldingen te sturen en als commitadres (indien niet "
+"apart ingesteld)."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -398,10 +401,9 @@ msgid "Account and all private data removed."
 msgstr "Uw account en alle privégegevens zijn verwijderd."
 
 #: weblate/accounts/models.py:158
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Er is een bevestigingse-mail verstuurd naar {email}."
+msgstr "Er is een verwijderbevestiging verstuurd naar {email}."
 
 #: weblate/accounts/models.py:159
 #, python-brace-format
@@ -441,16 +443,12 @@ msgid "Access to project {project} was blocked"
 msgstr "De toegang tot ‘{project}’ is geblokkeerd"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "Bericht is naar de administrator gestuurd."
+msgstr "De gebruiker is ingeschakeld door de beheerder"
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "Bericht is naar de administrator gestuurd."
+msgstr "De gebruiker is uitgeschakeld door de beheerder"
 
 #: weblate/accounts/models.py:175
 msgid "Configured password to sign in."
@@ -469,10 +467,9 @@ msgid "Could not sign in using password."
 msgstr "Het inloggen met wachtwoord is mislukt."
 
 #: weblate/accounts/models.py:181
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Uitgenodigd voor {site_title} door {username}."
+msgstr "Uitgenodigd voor {project} door {username}."
 
 #: weblate/accounts/models.py:187
 msgid "To restore access to your account, please reset your password."
@@ -486,15 +483,11 @@ msgstr ""
 "klopt."
 
 #: weblate/accounts/models.py:193 weblate/accounts/models.py:196
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation link is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
-"Als de bevestigingslink verlopen is, kunt u wachtwoordherstel gebruiken om "
-"toegang te krijgen tot uw account."
+"Als u dit was, kunt u wachtwoordherstel gebruiken om opnieuw toegang te "
+"krijgen tot uw account."
 
 #: weblate/accounts/models.py:313 weblate/templates/accounts/profile.html:304
 #: weblate/templates/accounts/user.html:242
@@ -757,10 +750,8 @@ msgstr ""
 "U kunt geen vertalingen indienen omdat u geen e-mailadres hebt opgegeven."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Meldingen"
+msgstr "Geen meldingen"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -779,145 +770,104 @@ msgid "Monthly digest"
 msgstr "Maandelijks overzicht"
 
 #: weblate/accounts/notifications.py:453
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Tekenreeks bijgewerkt in de opslagruimte"
+msgstr "Actie is uitgevoerd in de opslagruimte"
 
 #: weblate/accounts/notifications.py:464
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Onderdeel ontgrendeld"
+msgstr "Onderdeel ontgrendeld of vergrendeld"
 
 #: weblate/accounts/notifications.py:471
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
 msgstr "Licentie gewijzigd"
 
 #: weblate/accounts/notifications.py:478
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
 msgstr "Verwerkingsfout"
 
 #: weblate/accounts/notifications.py:496
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Nieuwe tekenreeks om te vertalen in %(translation)s"
+msgstr "Nieuwe tekenreeks om te vertalen"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Bijdragen aan gedeeld vertaalgeheugen"
+msgstr "Eerste bijdrage geleverd aan vertaling"
 
 #: weblate/accounts/notifications.py:516
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
 msgstr "Suggestie toegevoegd"
 
 #: weblate/accounts/notifications.py:525
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Opmerking toegevoegd"
 
 #: weblate/accounts/notifications.py:547
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Genoemd in opmerking"
+msgstr "U bent genoemd in een opmerking"
 
 #: weblate/accounts/notifications.py:579
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Uw vertaalproject werd verwijderd"
+msgstr "Er is een opmerking op uw vertaalproject geplaatst"
 
 #: weblate/accounts/notifications.py:604
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Tekenreeks aangepast door"
+msgstr "Tekenreeks aangepast door gebruiker"
 
 #: weblate/accounts/notifications.py:612
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "Tekenreeks met context"
+msgstr "Tekenreeks is goedgekeurd"
 
 #: weblate/accounts/notifications.py:620
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Tekenreeks aangepast door"
+msgstr "Tekenreeks aangepast"
 
 #: weblate/accounts/notifications.py:629
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "Nieuwe taal toegevoegd aan %(component)s"
+msgstr "Nieuwe taal toegevoegd of aangevraagd"
 
 #: weblate/accounts/notifications.py:646
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "Nieuw vertaalonderdeel"
+msgstr "Nieuw vertaalonderdeel aangemaakt"
 
 #: weblate/accounts/notifications.py:654
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "Aankondigingen"
+msgstr "Aankondiging geplaatst"
 
 #: weblate/accounts/notifications.py:669
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Nieuwe waarschuwing bij %(component)s"
+msgstr "Nieuwe waarschuwing in een onderdeel"
 
 #: weblate/accounts/notifications.py:707
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Opslagruimtebewerking"
+msgstr "Opslagruimtebewerking mislukt"
 
 #: weblate/accounts/notifications.py:774
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "Openstaande suggesties"
+msgstr "Er zijn openstaande suggesties"
 
 #: weblate/accounts/notifications.py:784
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Onafgeronde tekenreeksen"
+msgstr "Er zijn onafgeronde tekenreeksen"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1312,16 +1262,16 @@ msgid "If not specified, the location of the PO file will be used."
 msgstr "Laat leeg om de locatie van het po-bestand te gebruiken."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "Importeren als aan te passen tekenreeks"
+msgstr "Aan te passen tekenreeksen tonen"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Aan te passen tekenreeksen (‘fuzzy’) zijn doorgaans niet gereed voor "
+"vertaling."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -2314,11 +2264,9 @@ msgid "Managers"
 msgstr "Beheerders"
 
 #: weblate/auth/data.py:248
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control group"
 msgid "Project creators"
-msgstr "Projectinformatie"
+msgstr "Projectaanmakers"
 
 #: weblate/auth/data.py:257
 msgctxt "Per-project access-control group"
@@ -2553,15 +2501,11 @@ msgid "Teams"
 msgstr "Teams"
 
 #: weblate/auth/models.py:389 weblate/auth/models.py:989
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
 "De gebruiker krijgt alle bevoegdheden die opgenomen zijn in het lidmaatschap "
-"van deze groepen."
+"van deze teams."
 
 #: weblate/auth/models.py:769
 msgid "Regular expression for e-mail address"
@@ -2654,10 +2598,8 @@ msgid "Reviews are not enabled."
 msgstr "Beoordelingen zijn uitgeschakeld."
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "De brontekenreeks kan niet worden aangepast."
+msgstr "De brontekenreeks dient te worden nagekeken."
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -2687,6 +2629,8 @@ msgstr ""
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"De terminologie kan niet worden verwijderd. Verwijder in plaats daarvan de "
+"brontekenreeks."
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -3183,10 +3127,7 @@ msgstr ""
 "tekenverwĳzing. U kunt hiervoor ‘{suggestion}’ gebruiken."
 
 #: weblate/checks/fluent/inner_html.py:171
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -3196,10 +3137,7 @@ msgstr ""
 "van ‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:184
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the name is not valid. If "
-#| "you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
@@ -3209,10 +3147,7 @@ msgstr ""
 "‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
-#| "{close}. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
@@ -3230,11 +3165,7 @@ msgstr ""
 "gebruiken."
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the sequence {attribute} "
-#| "is not a valid attribute with a value. If you do not want to begin a HTML "
-#| "tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
@@ -3322,11 +3253,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"De Fluent-waarde is niet voorzien van de html-tag ‘{tag}’ in de volgende "
+"varianten: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "De Fluent-waarde bevat een onverwachte aanvullende html-tag ‘{tag}’."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3334,6 +3267,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"De Fluent-waarde bevat een onverwachte aanvullende html-tag ‘{tag}’ in de "
+"volgende varianten: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3342,12 +3277,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"De volgende varianten in de oorspronkelijke Fluent-waarde bevatten niet "
+"minstens één overeenkomende variant in de vertaling met dezelfde html-"
+"elementen: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"De vertaalde Fluent-waarde bevat geen overeenkomende variant in het "
+"origineel met dezelfde html-elementen."
 
 #: weblate/checks/fluent/inner_html.py:1138
 #, python-brace-format
@@ -3355,49 +3295,50 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"De volgende varianten in de vertaalde Fluent-waarde bevatten niet minstens "
+"één overeenkomende variant in de vertaling met dezelfde html-elementen: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1219
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Huidige vertaling"
+msgstr "Fluent-vertaling binnen html"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Het Fluent-doel dient geldige html te bevatten"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "De Fluent-waarde ontbreekt."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "De Fluent-waarde dient leeg te worden gelaten."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Ontbrekend Fluent-attribuut: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Onverwacht Fluent-attribuut: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent-bestand"
+msgstr "Fluent-onderdelen"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "De Fluent-onderdelen dienen overeen te komen"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
 msgstr ""
+"Het Fluent-attribuut ‘{attribute}’ bevat geen Fluent-referentie "
+"‘{reference}’."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3405,11 +3346,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Het Fluent-attribuut ‘{attribute}’ bevat geen Fluent-referentie ‘{reference}’"
+" in de volgende varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "De Fluent-waarde bevat geen Fluent-referentie ‘{reference}’."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3417,6 +3360,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"De Fluent-waarde bevat geen Fluent-referentie ‘{reference}’ in de volgende "
+"waarden: {variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3424,6 +3369,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"Het Fluent-attribuut ‘{attribute}’ bevat een onverwachte aanvullende Fluent-"
+"referentie ‘{reference}’."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3431,11 +3378,15 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"Het Fluent-attribuut ‘{attribute}’ bevat een onverwachte aanvullende Fluent-"
+"referentie ‘{reference}’ in de volgende varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
 msgstr ""
+"De Fluent-waarde bevat een onverwachte aanvullende Fluent-referentie "
+"‘{reference}’."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3443,6 +3394,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"De Fluent-waarde bevat een onverwachte aanvullende Fluent-referentie "
+"‘{reference}’ in de volgende varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3451,6 +3404,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"De volgende varianten in het oorspronkelijke Fluent-attribuut ‘{attribute}’ "
+"bevatten niet minstens één overeenkomende variant in de vertaling met "
+"dezelfde Fluent-referenties: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3459,6 +3415,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"De volgende varianten in de oorspronkelijke Fluent-waarde bevatten niet "
+"minstens één overeenkomende variant in de vertaling met dezelfde Fluent-"
+"referenties: {variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3466,6 +3425,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"Het vertaalde Fluent-attribuut ‘{attribute}’ bevat geen overeenkomende "
+"variant in de vertaling met dezelfde Fluent-referenties."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3474,12 +3435,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"De volgende varianten in het vertaalde Fluent-attribuut ‘{attribute}’ "
+"bevatten niet minstens één overeenkomende variant in het origineel met "
+"dezelfde Fluent-referenties: {variant_list}."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"De vertaalde Fluent-waarde bevat geen overeenkomende variant in het "
+"origineel met dezelfde Fluent-referenties."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3488,12 +3454,13 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"De volgende varianten in de vertaalde Fluent-waarde bevatten geen "
+"overeenkomende variant in het origineel met dezelfde Fluent-referenties: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Voorkeuren"
+msgstr "Fluent-referenties"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
@@ -5432,11 +5399,11 @@ msgid "Confirm"
 msgstr "Bevestigen"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
 msgstr ""
-"U kunt hier alleen contact opnemen met de beheerders van %(site_title)s."
+"U kunt hier alleen contact opnemen met de beheerders van de "
+"%(site_title)s-server."
 
 #: weblate/templates/accounts/contact.html:19
 msgid "You can only contact administrators of the whole server here."
@@ -8704,14 +8671,12 @@ msgid "Password reset on %(site_title)s"
 msgstr "Wachtwoordherstel op %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid "If this was not done by you, report it by clicking the button below."
 msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
 msgstr ""
-"Als u dit niet heeft gedaan, meld dit voorval dan door op onderstaande knop "
-"te klikken."
+"Als u dit niet heeft gedaan, meld dit voorval dan aan de serverbeheerders "
+"door op onderstaande knop te klikken."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid "Report"
