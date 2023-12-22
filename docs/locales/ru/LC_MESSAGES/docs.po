@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-22 14:58+0000\n"
+"PO-Revision-Date: 2023-12-22 15:51+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1865,10 +1865,10 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
-"Это дополнение требует дополнительной настройки на сервере Weblate. :setting:"
-"`LOCALIZE_CDN_PATH` определяет место записи сгенерированных файлов (в "
+"Это дополнение требует дополнительной настройки на сервере Weblate. "
+":setting:`LOCALIZE_CDN_PATH` определяет место записи созданных файлов (в "
 "файловой системе), а :setting:`LOCALIZE_CDN_URL` - место их обслуживания "
-"(URL). Сервировка файлов не выполняется Weblate и должна быть настроена "
+"(URL). Обслуживание файлов не выполняется Weblate и должна быть настроена "
 "извне (обычно с помощью CDN-сервиса)."
 
 #: ../../admin/addons.rst:112
@@ -3065,14 +3065,14 @@ msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:677
 msgid "Include strings needing editing"
-msgstr "Включить строки, требующие правки"
+msgstr "Включить строки с флагом «На правку»"
 
 #: ../../admin/addons.rst:677
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
-"Строки, нуждающиеся в правке, обычно не готовы к использованию в качестве "
+"Строки с флагом «На правку», обычно не готовы к использованию в качестве "
 "переводов."
 
 #: ../../admin/addons.rst:681
@@ -3217,7 +3217,7 @@ msgstr "репозиторий после коммита"
 
 #: ../../admin/addons.rst:741
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Склеивание Git-коммитов перед публикацией изменений."
+msgstr "Уплотнение Git-коммитов перед публикацией изменений."
 
 #: ../../admin/addons.rst:743
 msgid ""
@@ -8077,8 +8077,8 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"Словарь конфигурации состоит из учетных данных, определенных для каждого "
-"узла API. Структура словаря одинакова практически для всех интеграций с "
+"Словарь конфигурации состоит из учётных данных, определённых для каждого "
+"сервера API. Структура словаря одинакова практически для всех интеграций с "
 "системой управления версиями и описана в :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:752
@@ -8112,7 +8112,8 @@ msgstr "Список учётных данных для серверов GitHub.
 #: ../../admin/config.rst:802
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgstr ""
-"Используйте ``api.github.com`` в качестве хоста API для https://github.com/."
+"Используйте ``api.github.com`` в качестве сервера API для https://github.com/"
+"."
 
 #: ../../admin/config.rst:808
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
@@ -8140,7 +8141,7 @@ msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:845
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Список учетных данных для серверов Azure DevOps."
+msgstr "Список учётных данных для серверов Azure DevOps."
 
 #: ../../admin/config.rst:857 ../../admin/config.rst:2064
 msgid ""
@@ -8209,9 +8210,9 @@ msgid ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
-":ref:`vcs-azure-devops`, `Azure DevOps: Персональный токен доступа <https://"
-"learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-"
-"access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
+":ref:`vcs-azure-devops`, `Azure DevOps: Личный маркер доступа <https://learn."
+"microsoft.com/ru-ru/azure/devops/organizations/accounts/use-personal-access-"
+"tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:883
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8735,7 +8736,7 @@ msgid ""
 "e-mail."
 msgstr ""
 "Эта настройка применяется только к тем пользователям, которые не выбрали в "
-"явном виде e-mail для фиксации."
+"явном виде эл. почту для коммита."
 
 #: ../../admin/config.rst:1328
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -9188,7 +9189,7 @@ msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "on by default."
 msgstr ""
-"Разрешить Sentry собирать определенную персональную информацию. Включено по "
+"Разрешить Sentry собирать определённую персональную информацию. Включено по "
 "умолчанию."
 
 #: ../../admin/config.rst:1654
@@ -9206,7 +9207,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1660 ../../admin/install/docker.rst:1691
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr "`Профилирование часовых <https://docs.sentry.io/product/profiling/>`_"
+msgstr "`Профилирование Sentry <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/config.rst:1665
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -9670,7 +9671,7 @@ msgstr ""
 
 #: ../../admin/config.rst:2055
 msgid "Configuring version control credentials"
-msgstr "Настройка учетных данных контроля версий"
+msgstr "Настройка учётных данных контроля версий"
 
 #: ../../admin/config.rst:2059
 msgid ""
@@ -9679,10 +9680,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"В этом разделе описаны такие переменные учетных данных VCS, как :setting:"
-"`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, :setting:"
-"`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
-"`BITBUCKETSERVER_CREDENTIALS`."
+"В этом разделе описаны такие переменные учётных данных VCS, как "
+":setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, "
+":setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:2071
 msgid "API user, required."
@@ -9778,7 +9779,7 @@ msgstr ""
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`push-changes`)."
 msgstr ""
-"Изменения подталкиваются обратно в репозиторий upstream (см. :ref:`push-"
+"Изменения отправляются обратно в вышестоящий репозиторий (см. :ref:`push-"
 "changes`)."
 
 #: ../../admin/continuous.rst:73
@@ -9786,8 +9787,8 @@ msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
-"Хостинг кода Upstream не обязателен, можно использовать Weblate с :ref:`vcs-"
-"local`, где есть только репозиторий внутри Weblate."
+"Хостинг вышестоящего кода не обязателен, можно использовать Weblate с :ref"
+":`vcs-local`, где есть только репозиторий внутри Weblate."
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
@@ -9977,8 +9978,8 @@ msgid ""
 "not squashing changes."
 msgstr ""
 "Чтобы решить эту проблему, необходимо либо минимизировать количество "
-"ожидающих изменений в Weblate при слиянии запроса на вытягивание, либо "
-"полностью избежать конфликтов, не сглаживая изменения."
+"ожидающих изменений в Weblate при слиянии запроса на извлечение, либо "
+"полностью избежать конфликтов, не уплотняя изменения."
 
 #: ../../admin/continuous.rst:180
 msgid "Here are few options how to avoid that:"
@@ -9989,9 +9990,9 @@ msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
-"Не используйте ни :ref:`addon-weblate.git.squash`, ни сквоширование во время "
+"Не используйте ни :ref:`addon-weblate.git.squash`, ни уплотнение во время "
 "слияния. Это основная причина того, что git не распознает изменения после "
-"слияния."
+"объединения."
 
 #: ../../admin/continuous.rst:183
 msgid ""
@@ -9999,8 +10000,8 @@ msgid ""
 "request with all its changes and both repositories will be in sync."
 msgstr ""
 "Позвольте Weblate зафиксировать оставшиеся изменения перед слиянием. Это "
-"обновит pull request со всеми его изменениями, и оба репозитория будут "
-"синхронизированы."
+"обновит запрос на извлечение со всеми его изменениями, и оба репозитория "
+"будут синхронизированы."
 
 #: ../../admin/continuous.rst:184
 msgid ""
@@ -10399,7 +10400,7 @@ msgstr "Pagure ’вский запрос на слияние из ветки"
 
 #: ../../admin/continuous.rst:372
 msgid "Azure DevOps pull request from fork"
-msgstr "Azure DevOps тянуть запрос из форка"
+msgstr "Запрос на извлечение Azure DevOps из форка"
 
 #: ../../admin/continuous.rst:372 ../../admin/continuous.rst:374
 #: ../../changes.rst:69
@@ -10408,7 +10409,7 @@ msgstr ":ref:`vcs-azure-devops`"
 
 #: ../../admin/continuous.rst:374
 msgid "Azure DevOps pull request from branch"
-msgstr "Запрос на вытягивание Azure DevOps из ветви"
+msgstr "Запрос на извлечение Azure DevOps из ветви"
 
 #: ../../admin/continuous.rst:377
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -11119,7 +11120,7 @@ msgid ""
 "there are few outstanding issues:"
 msgstr ""
 "Хотя в самом Weblate нет ничего, препятствующего использованию Python 3.12, "
-"есть несколько нерешенных вопросов:"
+"есть несколько нерешённых вопросов:"
 
 #: ../../admin/install.rst:164
 msgid ""
@@ -13448,7 +13449,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1675 ../../admin/install/docker.rst:1638
 msgid "Collecting error reports and monitoring performance"
-msgstr "Сбор отчетов об ошибках и мониторинг производительности"
+msgstr "Сбор отчётов об ошибках и мониторинг производительности"
 
 #: ../../admin/install.rst:1677
 msgid ""
@@ -13495,7 +13496,7 @@ msgid ""
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 msgstr ""
 "`Мониторинг производительности Sentry <https://docs.sentry.io/product/"
-"performance/>`_, `Профилирование Sentry <https://docs.sentry.io/product/"
+"performance/>`_, `профилирование Sentry <https://docs.sentry.io/product/"
 "profiling/>`_"
 
 #: ../../admin/install.rst:1703
@@ -14892,7 +14893,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:995
 msgid "Code hosting sites credentials"
-msgstr "Учетные данные сайтов хостинга кода"
+msgstr "Учётные данные сайтов хостинга кода"
 
 #: ../../admin/install/docker.rst:997
 msgid ""
@@ -14901,10 +14902,10 @@ msgid ""
 "once.  The following examples are for :ref:`vcs-github`, but applies to all :"
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
-"В контейнере Docker учетные данные хостинга кода могут быть настроены как в "
+"В контейнере Docker учётные данные хостинга кода могут быть настроены как в "
 "отдельных переменных, так и с помощью словаря Python для их одновременного "
-"задания.  Приведенные ниже примеры относятся к :ref:`vcs-github`, но "
-"применимы ко всем :ref:`vcs` с соответствующим изменением имен переменных."
+"задания.  Приведённые ниже примеры относятся к :ref:`vcs-github`, но "
+"применимы ко всем :ref:`vcs` с соответствующим изменением имён переменных."
 
 #: ../../admin/install/docker.rst:1002
 msgid "An example configuration for GitHub might look like:"
@@ -14933,7 +14934,7 @@ msgstr "Настраивает :ref:`vcs-github`, изменяя :setting:`GITHU
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
-":ref:`Конфигурирование учетных данных хостинга кода в Docker <docker-vcs-"
+":ref:`Конфигурирование учётных данных хостинга кода в Docker <docker-vcs-"
 "config>`"
 
 #: ../../admin/install/docker.rst:1048
@@ -14947,8 +14948,8 @@ msgstr "Конфигурирует :ref:`vcs-gitea`, изменяя :setting:`GI
 #: ../../admin/install/docker.rst:1066
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
-"Конфигурирует :ref:`vcs-pagure` путем изменения :setting:"
-"`PAGURE_CREDENTIALS`."
+"Конфигурирует :ref:`vcs-pagure` путём изменения "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1075
 msgid ""
@@ -25636,19 +25637,19 @@ msgstr "процент переведенных символов"
 
 #: ../../api.rst:2473
 msgid "number of fuzzy (marked for edit) words"
-msgstr "количество нечетких (помеченных для редактирования) слов"
+msgstr "количество неточных (отмеченных «на правку») слов"
 
 #: ../../api.rst:2474
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "количество нечетких (помеченных для редактирования) символов"
+msgstr "количество неточных (отмеченных «на правку») символов"
 
 #: ../../api.rst:2476
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "процент нечетких (помеченных для редактирования) слов"
+msgstr "процент неточных (отмеченных «на правку») слов"
 
 #: ../../api.rst:2477
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "процент нечетких (помеченных для редактирования) символов"
+msgstr "процент неточных (отмеченных «на правку») символов"
 
 #: ../../api.rst:2478
 msgid "number of failing checks"
@@ -25660,15 +25661,15 @@ msgstr "процент неудачных проверок"
 
 #: ../../api.rst:2480
 msgid "number of approved strings"
-msgstr "количество утвержденных строк"
+msgstr "количество одобренных строк"
 
 #: ../../api.rst:2481
 msgid "number of approved words"
-msgstr "количество утвержденных слов"
+msgstr "количество одобренных слов"
 
 #: ../../api.rst:2482
 msgid "number of approved characters"
-msgstr "количество разрешенных символов"
+msgstr "количество одобренных символов"
 
 #: ../../api.rst:2483
 msgid "percentage of approved strings"
@@ -25676,7 +25677,7 @@ msgstr "процент одобренных строк"
 
 #: ../../api.rst:2484
 msgid "percentage of approved words"
-msgstr "процент утвержденных слов"
+msgstr "процент одобренных слов"
 
 #: ../../api.rst:2485
 msgid "percentage of approved characters"
@@ -26447,8 +26448,8 @@ msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
 msgstr ""
-":ref:`addon-weblate.gettext.mo` может опционально включать строки, требующие "
-"редактирования."
+":ref:`addon-weblate.gettext.mo` может необязательно включать строки с флагом "
+"«На правку»."
 
 #: ../../changes.rst:79
 msgid ""
@@ -35964,8 +35965,8 @@ msgid ""
 "To check the code quality, you can use :program:`ruff`, its configuration is "
 "stored in :file:`pyproject.toml`."
 msgstr ""
-"Для проверки качества кода можно использовать :программу:`ruff`, ее "
-"конфигурация хранится в :файле:`pyproject.toml`."
+"Для проверки качества кода можно использовать :program:`ruff`, её "
+"конфигурация хранится в :file:`pyproject.toml`."
 
 #: ../../contributing/snippets/pre-commit.rst:10
 msgid ""
@@ -39582,7 +39583,7 @@ msgid ""
 "a generic continuous integration than localization-specific platform."
 msgstr ""
 "Автоматизация извлечения строк в настоящее время не входит в задачи Weblate. "
-"Как правило, она связана с выполнением недоверенного кода, что делает ее "
+"Как правило, она связана с выполнением недоверенного кода, что делает её "
 "более подходящей для общей платформы непрерывной интеграции, а не для "
 "платформы, ориентированной на локализацию."
 
@@ -42922,7 +42923,7 @@ msgid ""
 "it can include :ref:`component-report_source_bugs` and :ref:`project-"
 "set_language_team`."
 msgstr ""
-"Заголовок PO-файла автоматически поддерживается Weblate. Опционально он "
+"Заголовок PO-файла автоматически поддерживается Weblate. Необязательно он "
 "может включать :ref:`component-report_source_bugs` и :ref:`project-"
 "set_language_team`."
 
@@ -48201,9 +48202,9 @@ msgid ""
 "`download`."
 msgstr ""
 "Файлы перевода компонента, категории или проекта могут быть загружены вместе "
-"через меню :guilabel:`Files`. Загрузка всегда выполняется в виде ZIP-файла; "
-"вы можете выбрать оригинальные или преобразованные форматы так же, как и в :"
-"ref:`download`."
+"через меню :guilabel:`«Файлы»`. Загрузка всегда выполняется в виде ZIP-файла;"
+" вы можете выбрать изначальные или преобразованные форматы так же, как и в "
+":ref:`download`."
 
 #: ../../user/files.rst:67
 msgid ":http:get:`/api/components/(string:project)/(string:component)/file/`"
@@ -48374,7 +48375,7 @@ msgstr "Игнорировать загруженные переводы, кот
 
 #: ../../user/files.rst:146
 msgid "Change translated strings (``replace-translated``)"
-msgstr "Изменение переведенных строк (``replace-translated``)"
+msgstr "Изменение переведённых строк (``replace-translated``)"
 
 #: ../../user/files.rst:147
 msgid ""
@@ -48388,8 +48389,7 @@ msgstr "Изменять переведённые и одобренные стр
 #: ../../user/files.rst:149
 msgid ""
 "Replace existing translations with uploaded ones, including approved ones."
-msgstr ""
-"Заменить существующие переводы на загруженные, в том числе утвержденные."
+msgstr "Заменить существующие переводы на загруженные, в том числе одобренные."
 
 #: ../../user/files.rst:154
 msgid "Strings needing edit"
@@ -50648,9 +50648,9 @@ msgid ""
 "`Weblate push user`)."
 msgstr ""
 "Для Hosted Weblate на GitHub, Bitbucket, Codeberg и GitLab зарегистрирован "
-"специальный пользователь push (с именем пользователя :guilabel:`weblate`, e-"
-"mail ``hosted@weblate.org``, а также именем или описанием профиля :guilabel:"
-"`Weblate push user`)."
+"специальный пользователь отправки (с именем пользователя :guilabel:`weblate`"
+", электронной почтой ``hosted@weblate.org``, а также именем или описанием "
+"профиля :guilabel:`Weblate push user`)."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -50660,7 +50660,8 @@ msgid ""
 msgstr ""
 "На платформах может быть больше пользователей Weblate, назначенных для "
 "других экземпляров Weblate. Для поиска нужного пользователя для Hosted "
-"Weblate рекомендуется использовать поиск по e-mail ``hosted@weblate.org``."
+"Weblate рекомендуется использовать поиск по адресу эл. почты ``hosted@weblate"
+".org``."
 
 #: ../../vcs.rst:37
 msgid ""
@@ -52058,8 +52059,8 @@ msgstr ""
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
-"Настройка рабочего процесса в масштабах сайта может быть выполнена при :ref:"
-"`изменении языка`."
+"Настройка рабочего процесса в масштабах сайта может быть выполнена при :ref:`"
+"изменении языка <changing-languages>`."
 
 #: ../../workflows.rst:26
 msgid ""
@@ -52076,7 +52077,7 @@ msgid ""
 msgstr ""
 "Все настройки рабочего процесса могут быть переопределены, единственным "
 "ограничением является то, что :ref:`project-translation_review` должен быть "
-"включен и может быть отключен только в настройке."
+"включён и может быть отключён только в настройке."
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
@@ -52298,8 +52299,8 @@ msgid ""
 "additional member(s) before it is accepted as a translation."
 msgstr ""
 "При такой схеме работы каждый может добавить предложение, которое перед "
-"принятием в качестве перевода должно быть одобрено дополнительным участником "
-"(участниками)."
+"принятием в качестве перевода должно быть одобрено дополнительным "
+"участниками."
 
 #: ../../workflows.rst:133
 msgid "*Any user* can add suggestions."
@@ -52392,7 +52393,7 @@ msgid ""
 "can help you address this - there is an additional quality gateway for the "
 "strings between developers and translators."
 msgstr ""
-"Во многих случаях исходные строки на языке оригинала поступают от "
+"Во многих случаях исходные строки на изначальном языке поступают от "
 "разработчиков, поскольку именно они пишут код и предоставляют исходные "
 "строки. Однако разработчики часто не являются носителями исходного языка и "
 "не обеспечивают желаемого качества исходных строк. Промежуточный перевод "
