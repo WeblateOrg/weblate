@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-23 03:14+0000\n"
+"PO-Revision-Date: 2023-12-23 11:55+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -3977,7 +3977,7 @@ msgstr ""
 "В установке по умолчанию Weblate использует python-social-auth, форму на "
 "сайте для обработки регистраций новых пользователей. После подтверждения "
 "своей электронной почты новый пользователь может вносить свой вклад в "
-"переводы или пройти аутентификацию, воспользовавшись одним из сторонних "
+"переводы или пройти авторизацию, воспользовавшись одним из сторонних "
 "сервисов."
 
 #: ../../admin/auth.rst:11
@@ -3991,12 +3991,12 @@ msgstr ""
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
 msgstr ""
-"Попытки аутентификации учитываются при применении :ref:`ограничений на "
-"частоту запросов <rate-limit>`."
+"Попытки авторизации учитываются при применении :ref:`ограничений на частоту "
+"запросов <rate-limit>`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr "Способы аутентификации"
+msgstr "Способы авторизации"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -4004,17 +4004,17 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Для аутентификации используется встроенное решение Django, включающее в себя "
-"для этого аутентификацию от различных социальных сетей. Использование этого "
+"Для авторизации используется встроенное решение Django, включающее в себя "
+"для этого авторизацию от различных социальных сетей. Использование этого "
 "решения означает, что вы сможете импортировать себе базу данных "
-"пользователей других проектов, написанных на Django (смотрите раздел :ref:"
-"`pootle-migration`)."
+"пользователей других проектов, написанных на Django (смотрите раздел :ref"
+":`pootle-migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
-"Кроме того, аутентификация в Django может быть настроена и с использованием "
+"Кроме того, авторизация в Django может быть настроена и с использованием "
 "других способов."
 
 #: ../../admin/auth.rst:29
@@ -4022,12 +4022,12 @@ msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
-"В разделе :ref:`docker-auth` описано, как настроить аутентификацию в "
+"В разделе :ref:`docker-auth` описано, как настроить авторизацию в "
 "официальном образе Docker."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr "Социальная аутентификация"
+msgstr "Социальная авторизация"
 
 #: ../../admin/auth.rst:35
 msgid ""
@@ -4035,8 +4035,8 @@ msgid ""
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
 "Благодаря пакету :doc:`Python Social Auth <psa:index>`, Weblate поддерживает "
-"аутентификацию с использованием множества сторонних сервисов, таких как "
-"GitLab, Ubuntu, Fedora и другие."
+"авторизацию с использованием множества сторонних сервисов, таких как GitLab, "
+"Ubuntu, Fedora и другие."
 
 #: ../../admin/auth.rst:38
 msgid ""
@@ -4053,7 +4053,7 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"По умолчанию Weblate полагается на сторонние сервисы аутентификации для "
+"По умолчанию Weblate полагается на сторонние сервисы авторизации для "
 "предоставления подтверждённого адреса электронной почты. Если некоторые "
 "сервисы, которые вы хотите использовать, это не поддерживают, включите "
 "принудительную проверку адреса электронной почты на стороне Weblate, "
@@ -4072,13 +4072,13 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
-"Включить конкретный способ аутентификации довольно просто: нужно всего-"
-"навсего добавить его имя в параметр :setting:`django:"
-"AUTHENTICATION_BACKENDS`, а также, по необходимости, задать необходимые ему "
-"ключи доступа. Обратите внимание, что некоторые способы по умолчанию не "
-"предоставляют адрес электронной почты пользователя, в этом случае вы должны "
-"запросить его явно, иначе Weblate не сможет правильно указать авторство "
-"выполненных пользователями переводов."
+"Включить конкретный способ авторизации довольно просто: нужно всего-навсего "
+"добавить его имя в параметр :setting:`django:AUTHENTICATION_BACKENDS`, а "
+"также, по необходимости, задать необходимые ему ключи доступа. Обратите "
+"внимание, что некоторые способы по умолчанию не предоставляют адрес "
+"электронной почты пользователя, в этом случае вы должны запросить его явно, "
+"иначе Weblate не сможет правильно указать авторство выполненных "
+"пользователями переводов."
 
 #: ../../admin/auth.rst:62
 msgid ""
@@ -4087,10 +4087,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
-"Большинство бэкендов аутентификации требуют HTTPS. Как только HTTPS включен "
-"на вашем веб-сервере, пожалуйста, настройте Weblate, чтобы он сообщал об "
-"этом должным образом, используя :setting:`ENABLE_HTTPS`, или :envvar:"
-"`WEBLATE_ENABLE_HTTPS` в контейнере Docker."
+"Большинство бэкендов авторизации требуют HTTPS. Как только HTTPS включён на "
+"вашем веб-сервере, пожалуйста, настройте Weblate, чтобы он сообщал об этом "
+"должным образом, используя :setting:`ENABLE_HTTPS`, или "
+":envvar:`WEBLATE_ENABLE_HTTPS` в контейнере Docker."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -4098,7 +4098,7 @@ msgstr ":doc:`Бэкэнд пакета Python Social Auth <psa:backends/index>`
 
 #: ../../admin/auth.rst:71
 msgid "OpenID authentication"
-msgstr "Аутентификация OpenID"
+msgstr "Авторизация OpenID"
 
 #: ../../admin/auth.rst:73
 msgid ""
@@ -4107,7 +4107,7 @@ msgid ""
 "Ubuntu:"
 msgstr ""
 "Для сервисов, основанных на OpenID, обычно это просто вопрос её включения. "
-"Следующий блок кода включает аутентификацию OpenID для OpenSUSE, Fedora и "
+"Следующий блок кода включает авторизацию OpenID для OpenSUSE, Fedora и "
 "Ubuntu:"
 
 #: ../../admin/auth.rst:89
@@ -4116,7 +4116,7 @@ msgstr ":doc:`OpenID <psa:backends/openid>`"
 
 #: ../../admin/auth.rst:94
 msgid "GitHub authentication"
-msgstr "Аутентификация GitHub"
+msgstr "Авторизация GitHub"
 
 #: ../../admin/auth.rst:96
 msgid ""
@@ -4158,7 +4158,7 @@ msgid ""
 "this, see :ref:`production-site`."
 msgstr ""
 "Weblate предоставляет URL-адрес обратного вызова, вызываемый во время "
-"аутентификации, в который включён настроенный домен. В случае, если вы "
+"авторизации, в который включён настроенный домен. В случае, если вы "
 "получаете ошибки о несовпадении URL, возможно, вы захотите это исправить, "
 "смотрите раздел :ref:`production-site`."
 
@@ -4206,7 +4206,7 @@ msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
-msgstr "Аутентификация Bitbucket"
+msgstr "Авторизация Bitbucket"
 
 #: ../../admin/auth.rst:170
 msgid ""
@@ -4302,7 +4302,7 @@ msgid ""
 "authentication."
 msgstr ""
 "Weblate можно настроить на использование общих или конкретных арендаторов "
-"для аутентификации."
+"для авторизации."
 
 #: ../../admin/auth.rst:293
 msgid ""
@@ -4312,7 +4312,7 @@ msgid ""
 msgstr ""
 "URL-адрес перенаправления — ``https://СЕРВЕР WEBLATE/accounts/complete/"
 "azuread-oauth2/`` для общей и ``https://СЕРВЕР WEBLATE/accounts/complete/"
-"azuread-tenant-oauth2/`` для конкретной для арендатора аутентификации."
+"azuread-tenant-oauth2/`` для конкретной для арендатора авторизации."
 
 #: ../../admin/auth.rst:297
 msgid "You will need following:"
@@ -4371,7 +4371,7 @@ msgstr ":doc:`Slack <psa:backends/slack>`"
 
 #: ../../admin/auth.rst:373
 msgid "Overriding authentication method names and icons"
-msgstr "Переопределение имён и значков методов аутентификации"
+msgstr "Переопределение имён и значков методов авторизации"
 
 #: ../../admin/auth.rst:375
 msgid ""
@@ -4379,14 +4379,14 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
-"Вы можете переопределить отображаемое имя метода аутентификации и иконку, "
+"Вы можете переопределить отображаемое имя метода авторизации и иконку, "
 "используя параметры ``SOCIAL_AUTH_<NAME>_IMAGE`` и "
 "``SOCIAL_AUTH_<NAME>_TITLE``. Например, переопределение именования для Auth0 "
 "будет выглядеть следующим образом:"
 
 #: ../../admin/auth.rst:387
 msgid "Turning off password authentication"
-msgstr "Отключение аутентификации по паролю"
+msgstr "Отключение авторизации по паролю"
 
 #: ../../admin/auth.rst:389
 msgid ""
@@ -4395,17 +4395,18 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
-"Аутентификацию по электронной почте и паролю можно отключить, удалив "
-"``social_core.backends.email.EmailAuth`` из параметра :setting:`django:"
-"AUTHENTICATION_BACKENDS`. Никогда не удаляйте оттуда ``weblate.accounts.auth."
-"WeblateUserBackend``, он необходим для работы основных функций Weblate."
+"Авторизацию по электронной почте и паролю можно отключить, удалив "
+"``social_core.backends.email.EmailAuth`` из параметра "
+":setting:`django:AUTHENTICATION_BACKENDS`. Никогда не удаляйте оттуда "
+"``weblate.accounts.auth.WeblateUserBackend``, он необходим для работы "
+"основных функций Weblate."
 
 #: ../../admin/auth.rst:395
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
 msgstr ""
-"Отключение аутентификации по электронной почте приведет к отключению всех "
+"Отключение авторизации по электронной почте приведёт к отключению всех "
 "функций, связанных с электронной почтой, включая приглашение пользователя "
 "или функцию сброса пароля."
 
@@ -4414,7 +4415,7 @@ msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
 msgstr ""
-"Вы всё ещё можете использовать аутентификацию по паролю для интерфейса "
+"Вы всё ещё можете использовать авторизацию по паролю для интерфейса "
 "администратора и для пользователей, которых вы создаёте там вручную. Просто "
 "зайдите на ``/admin/login/``."
 
@@ -4423,12 +4424,12 @@ msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
-"Например, аутентификация с использованием только провайдера openSUSE Open ID "
+"Например, авторизация с использованием только провайдера openSUSE Open ID "
 "может быть достигнута при помощи следующего кода:"
 
 #: ../../admin/auth.rst:417
 msgid "Password authentication"
-msgstr "Аутентификация по паролю"
+msgstr "Авторизация по паролю"
 
 #: ../../admin/auth.rst:419
 msgid ""
@@ -4480,7 +4481,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:439
 msgid "SAML authentication"
-msgstr "Аутентификация через SAML"
+msgstr "Авторизация через SAML"
 
 #: ../../admin/auth.rst:443
 msgid ""
@@ -4591,15 +4592,15 @@ msgstr ""
 
 #: ../../admin/auth.rst:523
 msgid "LDAP authentication"
-msgstr "Аутентификация через LDAP"
+msgstr "Авторизация через LDAP"
 
 #: ../../admin/auth.rst:525
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
-"Аутентификацию через LDAP лучше всего реализовать с помощью пакета `django-"
-"auth-ldap`. Установить его вы можете как обычно:"
+"Авторизация через LDAP лучше всего реализовать с помощью пакета `django-auth-"
+"ldap`. Установить его вы можете как обычно:"
 
 #: ../../admin/auth.rst:538
 msgid ""
@@ -4626,7 +4627,7 @@ msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
-"После установки пакета вы сможете подключить его к системе аутентификации "
+"После установки пакета вы сможете подключить его к системе авторизации "
 "Django:"
 
 #: ../../admin/auth.rst:585
@@ -4657,7 +4658,7 @@ msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
-"Если вы не можете использовать для аутентификации прямую привязку, вам нужно "
+"Если вы не можете использовать для авторизации прямую привязку, вам нужно "
 "будет использовать поиск, и предоставить для поиска привязываемого "
 "пользователя. Например:"
 
@@ -4668,18 +4669,18 @@ msgstr "Интеграция с Active Directory"
 #: ../../admin/auth.rst:644
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
 msgstr ""
-":doc:`Аутентификация в Django через LDAP <ldap:index>`, :doc:`Аутентификация "
+":doc:`Авторизация в Django через LDAP <ldap:index>`, :doc:`авторизация "
 "<ldap:authentication>`"
 
 #: ../../admin/auth.rst:651
 msgid "CAS authentication"
-msgstr "Аутентификация через CAS"
+msgstr "Авторизация через CAS"
 
 #: ../../admin/auth.rst:653
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
-"Аутентификация через CAS может быть выполнена с помощью такого пакета, как "
+"Авторизация через CAS может быть выполнена с помощью такого пакета, как "
 "`django-cas-ng`."
 
 #: ../../admin/auth.rst:655
@@ -4708,7 +4709,7 @@ msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
-"После установки пакета вы сможете подключить его к системе аутентификации "
+"После установки пакета вы сможете подключить его к системе авторизации "
 "Django, изменив файл :file:`settings.py`:"
 
 #: ../../admin/auth.rst:685
@@ -4741,7 +4742,7 @@ msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:711
 msgid "Configuring third party Django authentication"
-msgstr "Настройка сторонней аутентификации Django"
+msgstr "Настройка сторонней авторизации Django"
 
 #: ../../admin/auth.rst:713
 msgid ""
@@ -4749,9 +4750,9 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
-"Как правило, с Weblate должен заработать любой плагин аутентификации Django. "
+"Как правило, с Weblate должен заработать любой плагин авторизации Django. "
 "Просто следуйте инструкциям для установки плагина и не забудьте оставить в "
-"способах аутентификации пользователя Weblate."
+"способах авторизации пользователя Weblate."
 
 #: ../../admin/auth.rst:719
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
@@ -4763,10 +4764,10 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
-"Обычно установка заключается в том, чтобы добавить способ аутентификации в "
+"Обычно установка заключается в том, чтобы добавить способ авторизации в "
 "список :setting:`django:AUTHENTICATION_BACKENDS` и установить "
-"соответствующее приложение аутентификации (если таковое имеется) и добавить "
-"его в список :setting:`django:INSTALLED_APPS`:"
+"соответствующее приложение авторизации (если таковое имеется) и добавить его "
+"в список :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -6882,7 +6883,7 @@ msgid ""
 msgstr ""
 "Для анонимных пользователей настройки панели управления изменяются из "
 "интерфейса администратора, в котором определяется, какая панель управления "
-"будет показана не аутентифицированным пользователям."
+"будет показана неавторизованным пользователям."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -7015,7 +7016,7 @@ msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
-"Максимальное количество неудачных попыток аутентификации до применения "
+"Максимальное количество неудачных попыток авторизации до применения "
 "ограничения частоты запросов."
 
 #: ../../admin/config.rst:58
@@ -7153,7 +7154,7 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
-"Сколько времени действует токен аутентификации и временный пароль из писем "
+"Сколько времени действует токен авторизации и временный пароль из писем "
 "сброса пароля. Устанавливается в количество секунд, по умолчанию равен "
 "172800 (2 дня)."
 
@@ -8887,7 +8888,7 @@ msgstr "RATELIMIT_ATTEMPTS"
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
-"Максимальное количество попыток аутентификации до применения ограничения "
+"Максимальное количество попыток авторизации до применения ограничения "
 "частоты запросов."
 
 #: ../../admin/config.rst:1449
@@ -8907,8 +8908,8 @@ msgstr "RATELIMIT_WINDOW"
 #: ../../admin/config.rst:1462
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
-"Как долго будет приниматься аутентификация после применения ограничения "
-"частоты запросов."
+"Как долго будет приниматься авторизация после применения ограничения частоты "
+"запросов."
 
 #: ../../admin/config.rst:1464
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
@@ -8929,7 +8930,7 @@ msgstr "RATELIMIT_LOCKOUT"
 #: ../../admin/config.rst:1477
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
-"Как долго аутентификация будет заблокирована после применения ограничения "
+"Как долго авторизация будет заблокирована после применения ограничения "
 "частоты запросов."
 
 #: ../../admin/config.rst:1479
@@ -8952,10 +8953,10 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
-"Список методов аутентификации (backends), с помощью которых доступна "
+"Список методов авторизации (backends), с помощью которых доступна "
 "регистрация. Это вводит ограничения только на новые регистрации. Независимо "
 "от данного параметра пользователи смогут добавлять и использовать любые "
-"разрешённые в параметрах и настроенные методы аутентификации."
+"разрешённые в параметрах и настроенные методы авторизации."
 
 #: ../../admin/config.rst:1498
 msgid ""
@@ -9054,10 +9055,10 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
-"Этот параметр влияет на встроенную аутентификацию по адресу электронной "
-"почты или через Python Social Auth (при помощи параметра :setting:"
-"`REGISTRATION_ALLOW_BACKENDS` вы можете занести определённые бэкэнды в белый "
-"список)."
+"Этот параметр влияет на встроенную авторизацию по адресу электронной почты "
+"или через Python Social Auth (при помощи параметра "
+":setting:`REGISTRATION_ALLOW_BACKENDS` вы можете занести определённые "
+"бэкэнды в белый список)."
 
 #: ../../admin/config.rst:1560
 msgid ""
@@ -9065,10 +9066,10 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
-"При использовании сторонних методов аутентификации, вроде :ref:"
-"`аутентификации через LDAP <ldap-auth>`, этот параметр просто скрывает форму "
-"регистрации, но новые пользователи всё равно смогут входить в систему и "
-"создавать учётные записи."
+"При использовании сторонних методов авторизации, вроде :ref:`авторизации "
+"через LDAP <ldap-auth>`, этот параметр просто скрывает форму регистрации, но "
+"новые пользователи всё равно смогут входить в систему и создавать учётные "
+"записи."
 
 #: ../../admin/config.rst:1566
 msgid ""
@@ -9218,9 +9219,9 @@ msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"Задать время истечения сессии аутентифицированных пользователей. Этот "
-"параметр дополняет :setting:`django:SESSION_COOKIE_AGE`, который "
-"используется для неаутентифицированных пользователей."
+"Задать время истечения сессии авторизованных пользователей. Этот параметр "
+"дополняет :setting:`django:SESSION_COOKIE_AGE`, который используется для "
+"неавторизованных пользователей."
 
 #: ../../admin/config.rst:1674
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
@@ -11978,12 +11979,12 @@ msgid ""
 "insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
-"Если вы получаете ошибку о том , что аутентификация не поддерживается "
-"(например, ``SMTP AUTH extension not supported by server``, «расширение SMTP "
+"Если вы получаете ошибку о том , что авторизация не поддерживается ("
+"например, ``SMTP AUTH extension not supported by server``, «расширение SMTP "
 "AUTH не поддерживается сервером»), то скорей всего это вызвано тем, что "
 "используется небезопасное соединение и из-за этого сервер отказывается "
-"производить аутентификацию. В таком случае попробуйте включить :setting:"
-"`django:EMAIL_USE_TLS`."
+"производить авторизацию. В таком случае попробуйте включить "
+":setting:`django:EMAIL_USE_TLS`."
 
 #: ../../admin/install.rst:724
 msgid ""
@@ -13598,7 +13599,7 @@ msgid ""
 "Redis, Cron jobs or custom authentication backends."
 msgstr ""
 "Не забудьте переместить и другие сервисы, которые Weblate мог использовать, "
-"например, Redis, задачи Cron или модули пользовательской аутентификации."
+"например, Redis, задачи Cron или модули пользовательской авторизации."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
@@ -27516,7 +27517,7 @@ msgstr "Weblate 1.7"
 
 #: ../../changes/v1.rst:39
 msgid "Released on October 7th 2013."
-msgstr "Выпущен 7 октября 2013 года."
+msgstr "Выпущено 7 октября 2013 года."
 
 #: ../../changes/v1.rst:42
 msgid "Support for checking Python brace format string."
@@ -27576,7 +27577,7 @@ msgstr "Weblate 1.6"
 
 #: ../../changes/v1.rst:58
 msgid "Released on July 25th 2013."
-msgstr "Выпущен 25 июля 2013 года."
+msgstr "Выпущено 25 июля 2013 года."
 
 #: ../../changes/v1.rst:60
 msgid "Nicer error handling on registration."
@@ -27650,7 +27651,7 @@ msgstr "Weblate 1.5"
 
 #: ../../changes/v1.rst:80
 msgid "Released on April 16th 2013."
-msgstr "Выпущен 16 апреля 2013 года."
+msgstr "Выпущено 16 апреля 2013 года."
 
 #: ../../changes/v1.rst:83
 msgid "Added public user pages."
@@ -27740,7 +27741,7 @@ msgstr "Weblate 1.4"
 
 #: ../../changes/v1.rst:104
 msgid "Released on January 23rd 2013."
-msgstr "Выпущен 23 января 2013 года."
+msgstr "Выпущено 23 января 2013 года."
 
 #: ../../changes/v1.rst:106
 msgid "Fixed deleting of checks/comments on string deletion."
@@ -27839,7 +27840,7 @@ msgstr "Weblate 1.3"
 
 #: ../../changes/v1.rst:130
 msgid "Released on November 16th 2012."
-msgstr "Выпущен 16 ноября 2012 года."
+msgstr "Выпущено 16 ноября 2012 года."
 
 #: ../../changes/v1.rst:132
 msgid "Compatibility with PostgreSQL database backend."
@@ -27926,7 +27927,7 @@ msgstr "Weblate 1.2"
 
 #: ../../changes/v1.rst:154
 msgid "Released on August 14th 2012."
-msgstr "Выпущен 14 августа 2012 года."
+msgstr "Выпущено 14 августа 2012 года."
 
 #: ../../changes/v1.rst:156
 msgid ""
@@ -28031,7 +28032,7 @@ msgstr "Weblate 1.1"
 
 #: ../../changes/v1.rst:182
 msgid "Released on July 4th 2012."
-msgstr "Выпущен 4 июля 2012 года."
+msgstr "Выпущено 4 июля 2012 года."
 
 #: ../../changes/v1.rst:184
 msgid "Improved several translations."
@@ -28059,7 +28060,7 @@ msgstr "Weblate 1.0"
 
 #: ../../changes/v1.rst:193
 msgid "Released on May 10th 2012."
-msgstr "Выпущен 10 мая 2012 года."
+msgstr "Выпущено 10 мая 2012 года."
 
 #: ../../changes/v1.rst:195
 msgid "Improved validation while adding/saving component."
@@ -28093,7 +28094,7 @@ msgstr "Weblate 2.20"
 
 #: ../../changes/v2.rst:7
 msgid "Released on April 4th 2018."
-msgstr "Выпущен 4 апреля 2018 года."
+msgstr "Выпущено 4 апреля 2018 года."
 
 #: ../../changes/v2.rst:9
 msgid "Improved speed of cloning subversion repositories."
@@ -28183,7 +28184,7 @@ msgstr "Weblate 2.19.1"
 
 #: ../../changes/v2.rst:29
 msgid "Released on February 20th 2018."
-msgstr "Выпущен 20 февраля 2018 года."
+msgstr "Выпущено 20 февраля 2018 года."
 
 #: ../../changes/v2.rst:31
 msgid "Fixed migration issue on upgrade from 2.18."
@@ -28199,7 +28200,7 @@ msgstr "Weblate 2.19"
 
 #: ../../changes/v2.rst:37
 msgid "Released on February 15th 2018."
-msgstr "Выпущен 15 февраля 2018 года."
+msgstr "Выпущено 15 февраля 2018 года."
 
 #: ../../changes/v2.rst:39
 msgid "Fixed imports across some file formats."
@@ -28289,7 +28290,7 @@ msgstr "Weblate 2.18"
 
 #: ../../changes/v2.rst:61
 msgid "Released on December 15th 2017."
-msgstr "Выпущен 15 декабря 2017 года."
+msgstr "Выпущено 15 декабря 2017 года."
 
 #: ../../changes/v2.rst:63
 msgid "Extended contributor stats."
@@ -28348,7 +28349,7 @@ msgstr "Weblate 2.17.1"
 
 #: ../../changes/v2.rst:78 ../../changes/v2.rst:86
 msgid "Released on October 13th 2017."
-msgstr "Выпущен 13 октября 2017 года."
+msgstr "Выпущено 13 октября 2017 года."
 
 #: ../../changes/v2.rst:80
 msgid "Fixed running testsuite in some specific situations."
@@ -28422,7 +28423,7 @@ msgstr "Weblate 2.16"
 
 #: ../../changes/v2.rst:104
 msgid "Released on August 11th 2017."
-msgstr "Выпущен 11 августа 2017 года."
+msgstr "Выпущено 11 августа 2017 года."
 
 #: ../../changes/v2.rst:107
 msgid "Added support for nested JSON format."
@@ -28468,7 +28469,7 @@ msgstr "Weblate 2.15"
 
 #: ../../changes/v2.rst:120
 msgid "Released on June 30th 2017."
-msgstr "Выпущен 30 июня 2017 года."
+msgstr "Выпущено 30 июня 2017 года."
 
 #: ../../changes/v2.rst:122
 msgid "Show more related translations in other translations."
@@ -28523,7 +28524,7 @@ msgstr "Weblate 2.14.1"
 
 #: ../../changes/v2.rst:136
 msgid "Released on May 24th 2017."
-msgstr "Выпущен 24 мая 2017 года."
+msgstr "Выпущено 24 мая 2017 года."
 
 #: ../../changes/v2.rst:138
 msgid "Fixed possible error when paginating search results."
@@ -28553,7 +28554,7 @@ msgstr "Weblate 2.14"
 
 #: ../../changes/v2.rst:147
 msgid "Released on May 17th 2017."
-msgstr "Выпущен 17 мая 2017 года."
+msgstr "Выпущено 17 мая 2017 года."
 
 #: ../../changes/v2.rst:149
 msgid "Add glossary entries using AJAX."
@@ -28649,7 +28650,7 @@ msgstr "Weblate 2.13.1"
 
 #: ../../changes/v2.rst:171 ../../changes/v2.rst:181
 msgid "Released on Apr 12th 2017."
-msgstr "Выпущен 12 апреля 2017 года."
+msgstr "Выпущено 12 апреля 2017 года."
 
 #: ../../changes/v2.rst:173
 msgid "Fixed listing of managed projects in profile."
@@ -28746,7 +28747,7 @@ msgstr "Weblate 2.12"
 
 #: ../../changes/v2.rst:200
 msgid "Released on Mar 3rd 2017."
-msgstr "Выпущен 3 марта 2017 года."
+msgstr "Выпущено 3 марта 2017 года."
 
 #: ../../changes/v2.rst:202
 msgid "Improved admin interface for groups."
@@ -28810,7 +28811,7 @@ msgstr "Weblate 2.11"
 
 #: ../../changes/v2.rst:218
 msgid "Released on Jan 31st 2017."
-msgstr "Выпущен 31 января 2017 года."
+msgstr "Выпущено 31 января 2017 года."
 
 #: ../../changes/v2.rst:220
 msgid "Include language detailed information on language page."
@@ -28879,7 +28880,7 @@ msgstr "Weblate 2.10.1"
 
 #: ../../changes/v2.rst:237
 msgid "Released on Jan 20th 2017."
-msgstr "Выпущен 20 января 2017 года."
+msgstr "Выпущено 20 января 2017 года."
 
 #: ../../changes/v2.rst:239
 msgid "Do not leak account existence on password reset form (CVE-2017-5537)."
@@ -28893,7 +28894,7 @@ msgstr "Weblate 2.10"
 
 #: ../../changes/v2.rst:244
 msgid "Released on Dec 15th 2016."
-msgstr "Выпущен 15 декабря 2016 года."
+msgstr "Выпущено 15 декабря 2016 года."
 
 #: ../../changes/v2.rst:246
 msgid ""
@@ -28955,7 +28956,7 @@ msgstr "Weblate 2.9"
 
 #: ../../changes/v2.rst:262
 msgid "Released on Nov 4th 2016."
-msgstr "Выпущен 4 ноября 2016 года."
+msgstr "Выпущено 4 ноября 2016 года."
 
 #: ../../changes/v2.rst:264
 msgid "Extended parameters for createadmin management command."
@@ -29039,7 +29040,7 @@ msgstr "Weblate 2.8"
 
 #: ../../changes/v2.rst:284
 msgid "Released on Aug 31st 2016."
-msgstr "Выпущен 31 августа 2016 года."
+msgstr "Выпущено 31 августа 2016 года."
 
 #: ../../changes/v2.rst:287
 msgid "Translations."
@@ -29111,7 +29112,7 @@ msgstr "Weblate 2.7"
 
 #: ../../changes/v2.rst:306
 msgid "Released on Jul 10th 2016."
-msgstr "Выпущен 10 июля 2016 года."
+msgstr "Выпущено 10 июля 2016 года."
 
 #: ../../changes/v2.rst:308
 msgid "Removed Google web translate machine translation."
@@ -29159,7 +29160,7 @@ msgstr "Weblate 2.6"
 
 #: ../../changes/v2.rst:321
 msgid "Released on Apr 28th 2016."
-msgstr "Выпущен 28 апреля 2016 года."
+msgstr "Выпущено 28 апреля 2016 года."
 
 #: ../../changes/v2.rst:323
 msgid "Fixed validation of components with language filter."
@@ -29191,7 +29192,7 @@ msgstr "Weblate 2.5"
 
 #: ../../changes/v2.rst:333
 msgid "Released on Mar 10th 2016."
-msgstr "Выпущен 10 марта 2016 года."
+msgstr "Выпущено 10 марта 2016 года."
 
 #: ../../changes/v2.rst:335
 msgid "Fixed automatic translation for project owners."
@@ -29365,7 +29366,7 @@ msgstr "Weblate 2.4"
 
 #: ../../changes/v2.rst:380
 msgid "Released on Sep 20th 2015."
-msgstr "Выпущен 20 сентября 2015 года."
+msgstr "Выпущено 20 сентября 2015 года."
 
 #: ../../changes/v2.rst:382
 msgid "Improved support for PHP files."
@@ -29516,7 +29517,7 @@ msgstr "Weblate 2.3"
 
 #: ../../changes/v2.rst:416
 msgid "Released on May 22nd 2015."
-msgstr "Выпущен 22 мая 2015 года."
+msgstr "Выпущено 22 мая 2015 года."
 
 #: ../../changes/v2.rst:418
 msgid "Dropped support for Django 1.6 and South migrations."
@@ -29587,7 +29588,7 @@ msgstr "Weblate 2.2"
 
 #: ../../changes/v2.rst:436
 msgid "Released on Feb 19th 2015."
-msgstr "Выпущен 19 февраля 2015 года."
+msgstr "Выпущено 19 февраля 2015 года."
 
 #: ../../changes/v2.rst:438 ../../changes/v4.rst:631
 msgid "Performance improvements."
@@ -29645,7 +29646,7 @@ msgstr "Weblate 2.1"
 
 #: ../../changes/v2.rst:454
 msgid "Released on Dec 5th 2014."
-msgstr "Выпущен 5 декабря 2014 года."
+msgstr "Выпущено 5 декабря 2014 года."
 
 #: ../../changes/v2.rst:456
 msgid "Added support for Mercurial repositories."
@@ -29700,7 +29701,7 @@ msgstr "Weblate 2.0"
 
 #: ../../changes/v2.rst:472
 msgid "Released on Nov 6th 2014."
-msgstr "Выпущен 6 ноября 2014 года."
+msgstr "Выпущено 6 ноября 2014 года."
 
 #: ../../changes/v2.rst:474
 msgid "New responsive UI using Bootstrap."
@@ -29785,7 +29786,7 @@ msgstr "Weblate 3.11.3"
 
 #: ../../changes/v3.rst:7
 msgid "Released on March 11th 2020."
-msgstr "Выпущен 11 марта 2020 года."
+msgstr "Выпущено 11 марта 2020 года."
 
 #: ../../changes/v3.rst:9
 msgid "Fixed searching for fields with certain priority."
@@ -29872,7 +29873,7 @@ msgstr "Weblate 3.11.2"
 
 #: ../../changes/v3.rst:31
 msgid "Released on February 22nd 2020."
-msgstr "Выпущен 22 февраля 2020 года."
+msgstr "Выпущено 22 февраля 2020 года."
 
 #: ../../changes/v3.rst:33
 msgid "Fixed rendering of suggestions."
@@ -29889,7 +29890,7 @@ msgstr "Weblate 3.11.1"
 
 #: ../../changes/v3.rst:39
 msgid "Released on February 20th 2020."
-msgstr "Выпущен 20 февраля 2020 года."
+msgstr "Выпущено 20 февраля 2020 года."
 
 #: ../../changes/v3.rst:41
 msgid "Documented Celery setup changes."
@@ -29921,7 +29922,7 @@ msgstr "Weblate 3.11"
 
 #: ../../changes/v3.rst:51
 msgid "Released on February 17th 2020."
-msgstr "Выпущен 17 февраля 2020 года."
+msgstr "Выпущено 17 февраля 2020 года."
 
 #: ../../changes/v3.rst:53
 msgid "Allow using VCS push URL during component creation via API."
@@ -30049,7 +30050,7 @@ msgstr "Weblate 3.10.3"
 
 #: ../../changes/v3.rst:82 ../../changes/v3.rst:89
 msgid "Released on January 18th 2020."
-msgstr "Выпущен 18 января 2020 года."
+msgstr "Выпущено 18 января 2020 года."
 
 #: ../../changes/v3.rst:84
 msgid "Support for translate-toolkit 2.5.0."
@@ -30116,7 +30117,7 @@ msgstr "Weblate 3.10.1"
 
 #: ../../changes/v3.rst:106
 msgid "Released on January 9th 2020."
-msgstr "Выпущен 9 января 2020 года."
+msgstr "Выпущено 9 января 2020 года."
 
 #: ../../changes/v3.rst:108
 msgid "Extended API with translation creation."
@@ -30160,7 +30161,7 @@ msgstr "Weblate 3.10"
 
 #: ../../changes/v3.rst:121
 msgid "Released on December 20th 2019."
-msgstr "Выпущен 20 декабря 2019 года."
+msgstr "Выпущено 20 декабря 2019 года."
 
 #: ../../changes/v3.rst:123
 msgid "Improved application user interface."
@@ -30262,7 +30263,7 @@ msgstr "Weblate 3.9.1"
 
 #: ../../changes/v3.rst:150
 msgid "Released on October 28th 2019."
-msgstr "Выпущен 28 октября 2019 года."
+msgstr "Выпущено 28 октября 2019 года."
 
 #: ../../changes/v3.rst:152
 msgid "Remove some unneeded files from backups."
@@ -30323,7 +30324,7 @@ msgstr "Weblate 3.9"
 
 #: ../../changes/v3.rst:167
 msgid "Released on October 15th 2019."
-msgstr "Выпущен 15 октября 2019 года."
+msgstr "Выпущено 15 октября 2019 года."
 
 #: ../../changes/v3.rst:169
 msgid "Include Weblate metadata in downloaded files."
@@ -30478,7 +30479,7 @@ msgstr "Weblate 3.8"
 
 #: ../../changes/v3.rst:205
 msgid "Released on August 15th 2019."
-msgstr "Выпущен 15 августа 2019 года."
+msgstr "Выпущено 15 августа 2019 года."
 
 #: ../../changes/v3.rst:207
 msgid "Added support for simplified creating of similar components."
@@ -30610,7 +30611,7 @@ msgstr "Weblate 3.7.1"
 
 #: ../../changes/v3.rst:239
 msgid "Released on June 28th 2019."
-msgstr "Выпущен 28 июня 2019 года."
+msgstr "Выпущено 28 июня 2019 года."
 
 #: ../../changes/v3.rst:242
 msgid "Fixed some requirements constraints."
@@ -30644,7 +30645,7 @@ msgstr "Weblate 3.7"
 
 #: ../../changes/v3.rst:252
 msgid "Released on June 21st 2019."
-msgstr "Выпущен 21 июня 2019 года."
+msgstr "Выпущено 21 июня 2019 года."
 
 #: ../../changes/v3.rst:254
 msgid "Added separate Celery queue for notifications."
@@ -30777,7 +30778,7 @@ msgstr "Weblate 3.6.1"
 
 #: ../../changes/v3.rst:287
 msgid "Released on April 26th 2019."
-msgstr "Выпущен 26 апреля 2019 года."
+msgstr "Выпущено 26 апреля 2019 года."
 
 #: ../../changes/v3.rst:290
 msgid "Fixed digest notifications in some corner cases."
@@ -30811,7 +30812,7 @@ msgstr "Weblate 3.6"
 
 #: ../../changes/v3.rst:300
 msgid "Released on April 20th 2019."
-msgstr "Выпущен 20 апреля 2019 года."
+msgstr "Выпущено 20 апреля 2019 года."
 
 #: ../../changes/v3.rst:302
 msgid "Add support for downloading user data."
@@ -30904,7 +30905,7 @@ msgstr "Weblate 3.5.1"
 
 #: ../../changes/v3.rst:324
 msgid "Released on March 10th 2019."
-msgstr "Выпущен 10 марта 2019 года."
+msgstr "Выпущено 10 марта 2019 года."
 
 #: ../../changes/v3.rst:326
 msgid "Fixed Celery systemd unit example."
@@ -30956,7 +30957,7 @@ msgstr "Weblate 3.5"
 
 #: ../../changes/v3.rst:340
 msgid "Released on March 3rd 2019."
-msgstr "Выпущен 3 марта 2019 года."
+msgstr "Выпущено 3 марта 2019 года."
 
 #: ../../changes/v3.rst:342
 msgid "Improved performance of built-in translation memory."
@@ -31033,7 +31034,7 @@ msgstr "Weblate 3.4"
 
 #: ../../changes/v3.rst:362
 msgid "Released on January 22nd 2019."
-msgstr "Выпущен 22 января 2019 года."
+msgstr "Выпущено 22 января 2019 года."
 
 #: ../../changes/v3.rst:364
 msgid "Added support for XLIFF placeholders."
@@ -31106,7 +31107,7 @@ msgstr "Weblate 3.3"
 
 #: ../../changes/v3.rst:382
 msgid "Released on November 30th 2018."
-msgstr "Выпущен 30 ноября 2018 года."
+msgstr "Выпущено 30 ноября 2018 года."
 
 #: ../../changes/v3.rst:384
 msgid "Added support for component and project removal."
@@ -31147,7 +31148,7 @@ msgstr "Weblate 3.2.2"
 
 #: ../../changes/v3.rst:395
 msgid "Released on October 20th 2018."
-msgstr "Выпущен 20 октября 2018 года."
+msgstr "Выпущено 20 октября 2018 года."
 
 #: ../../changes/v3.rst:397
 msgid "Remove no longer needed Babel dependency."
@@ -31190,7 +31191,7 @@ msgstr "Weblate 3.2.1"
 
 #: ../../changes/v3.rst:409
 msgid "Released on October 10th 2018."
-msgstr "Выпущен 10 октября 2018 года."
+msgstr "Выпущено 10 октября 2018 года."
 
 #: ../../changes/v3.rst:411
 msgid "Document dependency on backports.csv on Python 2.7."
@@ -31235,7 +31236,7 @@ msgstr "Weblate 3.2"
 
 #: ../../changes/v3.rst:424
 msgid "Released on October 6th 2018."
-msgstr "Выпущен 6 октября 2018 года."
+msgstr "Выпущено 6 октября 2018 года."
 
 #: ../../changes/v3.rst:426
 msgid "Add install_addon management command for automated add-on installation."
@@ -31347,7 +31348,7 @@ msgstr "Weblate 3.1.1"
 
 #: ../../changes/v3.rst:454 ../../changes/v3.rst:461
 msgid "Released on July 27th 2018."
-msgstr "Выпущен 27 июля 2018 года."
+msgstr "Выпущено 27 июля 2018 года."
 
 #: ../../changes/v3.rst:456
 msgid "Fix testsuite failure on some setups."
@@ -31420,7 +31421,7 @@ msgstr "Weblate 3.0.1"
 
 #: ../../changes/v3.rst:479
 msgid "Released on June 10th 2018."
-msgstr "Выпущен 10 июня 2018 года."
+msgstr "Выпущено 10 июня 2018 года."
 
 #: ../../changes/v3.rst:481
 msgid "Fixed possible migration issue from 2.20."
@@ -31448,7 +31449,7 @@ msgstr "Weblate 3.0"
 
 #: ../../changes/v3.rst:491
 msgid "Released on June 1st 2018."
-msgstr "Выпущен 1 июня 2018 года."
+msgstr "Выпущено 1 июня 2018 года."
 
 #: ../../changes/v3.rst:493
 msgid "Rewritten access control."
@@ -31521,7 +31522,7 @@ msgstr "Weblate 4.18.2"
 
 #: ../../changes/v4.rst:7
 msgid "Released on June 30th 2023."
-msgstr "Выпущено 30 июня 2023 г."
+msgstr "Выпущено 30 июня 2023 года."
 
 #: ../../changes/v4.rst:9
 msgid "Fixed parsing notes from TBX."
@@ -31558,7 +31559,7 @@ msgstr "Weblate 4.18.1"
 
 #: ../../changes/v4.rst:20
 msgid "Released on June 16th 2023."
-msgstr "Выпущено 16 июня 2023 г."
+msgstr "Выпущено 16 июня 2023 года."
 
 #: ../../changes/v4.rst:22
 msgid "Fixed language code format for i18next."
@@ -31582,7 +31583,7 @@ msgstr "Weblate 4.18"
 
 #: ../../changes/v4.rst:30
 msgid "Released on June 15th 2023."
-msgstr "Выпущен 15 июня 2023 года."
+msgstr "Выпущено 15 июня 2023 года."
 
 #: ../../changes/v4.rst:32
 msgid "Improved API error messages on permission denied."
@@ -31712,7 +31713,7 @@ msgstr "Weblate 4.17"
 
 #: ../../changes/v4.rst:66
 msgid "Released on April 17th 2023."
-msgstr "Выпущено 17 апреля 2023 г."
+msgstr "Выпущено 17 апреля 2023 года."
 
 #: ../../changes/v4.rst:68
 msgid "Allow to filter on language in reports."
@@ -31826,7 +31827,7 @@ msgstr "Weblate 4.16.4"
 
 #: ../../changes/v4.rst:109
 msgid "Released on March 16th 2023."
-msgstr "Выпущен 16 марта 2023 года."
+msgstr "Выпущено 16 марта 2023 года."
 
 #: ../../changes/v4.rst:111 ../../changes/v4.rst:122
 msgid "Dependencies updates."
@@ -31850,7 +31851,7 @@ msgstr "Weblate 4.16.3"
 
 #: ../../changes/v4.rst:119
 msgid "Released on March 15th 2023."
-msgstr "Выпущено 15 марта 2023 г."
+msgstr "Выпущено 15 марта 2023 года."
 
 #: ../../changes/v4.rst:121
 msgid "Improved session handling with project backups."
@@ -31870,7 +31871,7 @@ msgstr "Weblate 4.16.2"
 
 #: ../../changes/v4.rst:131
 msgid "Released on March 8th 2023."
-msgstr "Выпущен 8 марта 2023 года."
+msgstr "Выпущено 8 марта 2023 года."
 
 #: ../../changes/v4.rst:133
 msgid "Fixed searching in the translation memory."
@@ -31908,7 +31909,7 @@ msgstr "Weblate 4.16.1"
 
 #: ../../changes/v4.rst:144 ../../changes/v4.rst:153
 msgid "Released on March 1st 2023."
-msgstr "Выпущен 1 марта 2023 года."
+msgstr "Выпущено 1 марта 2023 года."
 
 #: ../../changes/v4.rst:146
 msgid "Fixed testsuite error."
@@ -32029,7 +32030,7 @@ msgstr "Weblate 4.15.2"
 
 #: ../../changes/v4.rst:183
 msgid "Released on January 25th 2023."
-msgstr "Выпущен 25 января 2023 года."
+msgstr "Выпущено 25 января 2023 года."
 
 #: ../../changes/v4.rst:185
 msgid ""
@@ -32058,7 +32059,7 @@ msgstr "Weblate 4.15.1"
 
 #: ../../changes/v4.rst:194
 msgid "Released on January 19th 2023."
-msgstr "Выпущен 19 января 2023 года."
+msgstr "Выпущено 19 января 2023 года."
 
 #: ../../changes/v4.rst:196
 msgid "Fixed suggestions from automatic translation."
@@ -32260,7 +32261,7 @@ msgstr "Weblate 4.14.2"
 
 #: ../../changes/v4.rst:253
 msgid "Released on November 5th 2022."
-msgstr "Выпущен 5 ноября 2022 года."
+msgstr "Выпущено 5 ноября 2022 года."
 
 #: ../../changes/v4.rst:255
 msgid "Added support for removing entries from translation memory."
@@ -32344,7 +32345,7 @@ msgstr "Weblate 4.14.1"
 
 #: ../../changes/v4.rst:276
 msgid "Released on September 15th 2022."
-msgstr "Выпущен 15 сентября 2022 года."
+msgstr "Выпущено 15 сентября 2022 года."
 
 #: ../../changes/v4.rst:278
 msgid "Fixed generating project backups in some situations."
@@ -32421,7 +32422,7 @@ msgstr "Weblate 4.14"
 
 #: ../../changes/v4.rst:299
 msgid "Released on August 22nd 2022."
-msgstr "Выпущен 22 августа 2022 года."
+msgstr "Выпущено 22 августа 2022 года."
 
 #: ../../changes/v4.rst:301
 msgid "Track add-on changes in a history."
@@ -32524,7 +32525,7 @@ msgstr "Weblate 4.13.1"
 
 #: ../../changes/v4.rst:334
 msgid "Released on July 1st 2022."
-msgstr "Выпущен 1 июля 2022 года."
+msgstr "Выпущено 1 июля 2022 года."
 
 #: ../../changes/v4.rst:336
 msgid "Fixed tracking suggestions in history."
@@ -32577,7 +32578,7 @@ msgstr "Weblate 4.13"
 
 #: ../../changes/v4.rst:351
 msgid "Released on June 15th 2022."
-msgstr "Выпущен 15 июня 2022 года."
+msgstr "Выпущено 15 июня 2022 года."
 
 #: ../../changes/v4.rst:353
 msgid "Changed behavior of updating language names."
@@ -32702,7 +32703,7 @@ msgstr "Weblate 4.12.2"
 
 #: ../../changes/v4.rst:389
 msgid "Released on May 11th 2022."
-msgstr "Выпущен 11 мая 2022 года."
+msgstr "Выпущено 11 мая 2022 года."
 
 #: ../../changes/v4.rst:391
 msgid "Fixed rebuilding project translation-memory for some components."
@@ -32735,7 +32736,7 @@ msgstr "Weblate 4.12.1"
 
 #: ../../changes/v4.rst:401
 msgid "Released on April 29th 2022."
-msgstr "Выпущен 29 апреля 2022 года."
+msgstr "Выпущено 29 апреля 2022 года."
 
 #: ../../changes/v4.rst:403
 msgid "Fixed pull request message title."
@@ -32771,7 +32772,7 @@ msgstr "Weblate 4.12"
 
 #: ../../changes/v4.rst:414
 msgid "Released on April 20th 2022."
-msgstr "Выпущен 20 апреля 2022 года."
+msgstr "Выпущено 20 апреля 2022 года."
 
 #: ../../changes/v4.rst:416
 msgid "Added support for Amharic in :ref:`check-end-stop`."
@@ -32857,7 +32858,7 @@ msgstr "Weblate 4.11.2"
 
 #: ../../changes/v4.rst:441 ../../changes/v4.rst:450
 msgid "Released on March 4th 2022."
-msgstr "Выпущен 4 марта 2022 года."
+msgstr "Выпущено 4 марта 2022 года."
 
 #: ../../changes/v4.rst:443
 msgid "Fixed corrupted MO files in the binary release."
@@ -32915,7 +32916,7 @@ msgstr "Weblate 4.11"
 
 #: ../../changes/v4.rst:463
 msgid "Released on February 25th 2022."
-msgstr "Выпущен 25 февраля 2022 года."
+msgstr "Выпущено 25 февраля 2022 года."
 
 #: ../../changes/v4.rst:465
 msgid ""
@@ -33255,7 +33256,7 @@ msgstr "Weblate 4.9.1"
 
 #: ../../changes/v4.rst:559
 msgid "Released on November 19th 2021."
-msgstr "Выпущен 19 ноября 2021 года."
+msgstr "Выпущено 19 ноября 2021 года."
 
 #: ../../changes/v4.rst:561
 msgid "Fixed upload of monolingual files after changing template."
@@ -33291,7 +33292,7 @@ msgstr "Weblate 4.9"
 
 #: ../../changes/v4.rst:572
 msgid "Released on November 10th 2021."
-msgstr "Выпущен 10 ноября 2021 года."
+msgstr "Выпущено 10 ноября 2021 года."
 
 #: ../../changes/v4.rst:574
 msgid "Provide more details for events in history."
@@ -33409,7 +33410,7 @@ msgstr "Weblate 4.8.1"
 
 #: ../../changes/v4.rst:605
 msgid "Released on September 10th 2021."
-msgstr "Выпущен 10 сентября 2021 года."
+msgstr "Выпущено 10 сентября 2021 года."
 
 #: ../../changes/v4.rst:607
 msgid "Fixed user removal in Django admin interface."
@@ -33478,7 +33479,7 @@ msgstr "Weblate 4.8"
 
 #: ../../changes/v4.rst:625
 msgid "Released on August 21th 2021."
-msgstr "Выпущен 21 августа 2021 года."
+msgstr "Выпущено 21 августа 2021 года."
 
 #: ../../changes/v4.rst:627
 msgid "Added support for Apple stringsdict format."
@@ -33538,7 +33539,7 @@ msgstr "Weblate 4.7.2"
 
 #: ../../changes/v4.rst:651
 msgid "Released on July 15th 2021."
-msgstr "Выпущен 15 июля 2021 года."
+msgstr "Выпущено 15 июля 2021 года."
 
 #: ../../changes/v4.rst:653
 msgid "Support more language aliases to be configured on a project."
@@ -33575,7 +33576,7 @@ msgstr "Weblate 4.7.1"
 
 #: ../../changes/v4.rst:664
 msgid "Released on June 30th 2021."
-msgstr "Выпущен 30 июня 2021 года."
+msgstr "Выпущено 30 июня 2021 года."
 
 #: ../../changes/v4.rst:666
 msgid "Improved popup for adding terms to glossary."
@@ -33607,7 +33608,7 @@ msgstr "Weblate 4.7"
 
 #: ../../changes/v4.rst:676
 msgid "Released on June 17th 2021."
-msgstr "Выпущен 17 июня 2021 года."
+msgstr "Выпущено 17 июня 2021 года."
 
 #: ../../changes/v4.rst:678
 msgid "Improved configuration health check."
@@ -33729,7 +33730,7 @@ msgstr "Weblate 4.6.2"
 
 #: ../../changes/v4.rst:711
 msgid "Released on May 8th 2021."
-msgstr "Выпущен 8 мая 2021 года."
+msgstr "Выпущено 8 мая 2021 года."
 
 #: ../../changes/v4.rst:713
 msgid "Fixed crash after moving shared component between projects."
@@ -33780,7 +33781,7 @@ msgstr "Weblate 4.6.1"
 
 #: ../../changes/v4.rst:727
 msgid "Released on May 2nd 2021."
-msgstr "Выпущен 2 мая 2021 года."
+msgstr "Выпущено 2 мая 2021 года."
 
 #: ../../changes/v4.rst:729
 msgid "Remove obsolete spam protection code."
@@ -33831,7 +33832,7 @@ msgstr "Weblate 4.6"
 
 #: ../../changes/v4.rst:743
 msgid "Released on April 19th 2021."
-msgstr "Выпущен 19 апреля 2021 года."
+msgstr "Выпущено 19 апреля 2021 года."
 
 #: ../../changes/v4.rst:745
 msgid ""
@@ -33955,7 +33956,7 @@ msgstr "Weblate 4.5.3"
 
 #: ../../changes/v4.rst:780
 msgid "Released on April 1st 2021."
-msgstr "Выпущен 1 апреля 2021 года."
+msgstr "Выпущено 1 апреля 2021 года."
 
 #: ../../changes/v4.rst:782
 msgid "Fixed metrics collection."
@@ -33980,7 +33981,7 @@ msgstr "Weblate 4.5.2"
 
 #: ../../changes/v4.rst:790
 msgid "Released on March 26th 2021."
-msgstr "Выпущен 26 марта 2021 года."
+msgstr "Выпущено 26 марта 2021 года."
 
 #: ../../changes/v4.rst:792
 msgid "Configurable schedule for automatic translation."
@@ -34043,7 +34044,7 @@ msgstr "Weblate 4.5.1"
 
 #: ../../changes/v4.rst:809
 msgid "Released on March 5th 2021."
-msgstr "Выпущен 5 марта 2021 года."
+msgstr "Выпущено 5 марта 2021 года."
 
 #: ../../changes/v4.rst:811
 msgid "Fixed editing of glossary flags in some corner cases."
@@ -34114,7 +34115,7 @@ msgstr "Weblate 4.5"
 
 #: ../../changes/v4.rst:829
 msgid "Released on February 19th 2021."
-msgstr "Выпущен 19 февраля 2021 года."
+msgstr "Выпущено 19 февраля 2021 года."
 
 #: ../../changes/v4.rst:831
 msgid "Added support for ``lua-format`` used in gettext PO."
@@ -34275,7 +34276,7 @@ msgstr "Weblate 4.4.2"
 
 #: ../../changes/v4.rst:876
 msgid "Released on January 14th 2021."
-msgstr "Выпущен 14 января 2021 года."
+msgstr "Выпущено 14 января 2021 года."
 
 #: ../../changes/v4.rst:878
 msgid "Fixed corruption of one distributed MO file."
@@ -34287,7 +34288,7 @@ msgstr "Weblate 4.4.1"
 
 #: ../../changes/v4.rst:883
 msgid "Released on January 13th 2021."
-msgstr "Выпущен 13 января 2021 года."
+msgstr "Выпущено 13 января 2021 года."
 
 #: ../../changes/v4.rst:885
 msgid "Fixed reverting plural changes."
@@ -34366,7 +34367,7 @@ msgstr "Weblate 4.4"
 
 #: ../../changes/v4.rst:905
 msgid "Released on December 15th 2020."
-msgstr "Выпущен 15 декабря 2020 года."
+msgstr "Выпущено 15 декабря 2020 года."
 
 #: ../../changes/v4.rst:907
 msgid "Improved validation when creating a component."
@@ -34534,7 +34535,7 @@ msgstr "Weblate 4.3.2"
 
 #: ../../changes/v4.rst:951
 msgid "Released on November 4th 2020."
-msgstr "Выпущен 4 ноября 2020 года."
+msgstr "Выпущено 4 ноября 2020 года."
 
 #: ../../changes/v4.rst:953
 msgid "Fixed crash on certain component file masks."
@@ -34609,7 +34610,7 @@ msgstr "Weblate 4.3.1"
 
 #: ../../changes/v4.rst:970
 msgid "Released on October 21st 2020."
-msgstr "Выпущен 21 октября 2020 года."
+msgstr "Выпущено 21 октября 2020 года."
 
 #: ../../changes/v4.rst:972
 msgid "Improved auto-translation performance."
@@ -34658,7 +34659,7 @@ msgstr "Weblate 4.3"
 
 #: ../../changes/v4.rst:986
 msgid "Released on October 15th 2020."
-msgstr "Выпущен 15 октября 2020 года."
+msgstr "Выпущено 15 октября 2020 года."
 
 #: ../../changes/v4.rst:988
 msgid "Include user stats in the API."
@@ -34868,7 +34869,7 @@ msgstr "Weblate 4.2.2"
 
 #: ../../changes/v4.rst:1043
 msgid "Released on September 2nd 2020."
-msgstr "Выпущен 2 сентября 2020 года."
+msgstr "Выпущено 2 сентября 2020 года."
 
 #: ../../changes/v4.rst:1045
 msgid "Fixed matching of source strings for JSON formats."
@@ -34904,7 +34905,7 @@ msgstr "Weblate 4.2.1"
 
 #: ../../changes/v4.rst:1055
 msgid "Released on August 21st 2020."
-msgstr "Выпущен 21 августа 2020 года."
+msgstr "Выпущено 21 августа 2020 года."
 
 #: ../../changes/v4.rst:1057
 msgid "Fixed saving plurals for some locales in Android resources."
@@ -34928,7 +34929,7 @@ msgstr "Weblate 4.2"
 
 #: ../../changes/v4.rst:1064
 msgid "Released on August 18th 2020."
-msgstr "Выпущен 18 августа 2020 года."
+msgstr "Выпущено 18 августа 2020 года."
 
 #: ../../changes/v4.rst:1066
 msgid "Improved user pages and added listing of users."
@@ -35124,7 +35125,7 @@ msgstr "Weblate 4.1.1"
 
 #: ../../changes/v4.rst:1111
 msgid "Released on June 19th 2020."
-msgstr "Выпущен 19 июня 2020 года."
+msgstr "Выпущено 19 июня 2020 года."
 
 #: ../../changes/v4.rst:1113
 msgid "Fixed changing autofix or add-ons configuration in Docker."
@@ -35179,7 +35180,7 @@ msgstr "Weblate 4.1"
 
 #: ../../changes/v4.rst:1127
 msgid "Released on June 15th 2020."
-msgstr "Выпущен 15 июня 2020 года."
+msgstr "Выпущено 15 июня 2020 года."
 
 #: ../../changes/v4.rst:1129
 msgid "Added support for creating new translations with included country code."
@@ -35402,7 +35403,7 @@ msgstr "Weblate 4.0.4"
 
 #: ../../changes/v4.rst:1184
 msgid "Released on May 7th 2020."
-msgstr "Выпущен 7 мая 2020 года."
+msgstr "Выпущено 7 мая 2020 года."
 
 #: ../../changes/v4.rst:1186
 msgid "Fixed testsuite execution on some Python 3.8 environments."
@@ -35450,7 +35451,7 @@ msgstr "Weblate 4.0.3"
 
 #: ../../changes/v4.rst:1198
 msgid "Released on May 2nd 2020."
-msgstr "Выпущен 2 мая 2020 года."
+msgstr "Выпущено 2 мая 2020 года."
 
 #: ../../changes/v4.rst:1200
 msgid "Fixed possible crash in reports."
@@ -35479,7 +35480,7 @@ msgstr "Weblate 4.0.2"
 
 #: ../../changes/v4.rst:1209
 msgid "Released on April 27th 2020."
-msgstr "Выпущен 27 апреля 2020 года."
+msgstr "Выпущено 27 апреля 2020 года."
 
 #: ../../changes/v4.rst:1211
 msgid "Improved performance of translation stats."
@@ -35558,7 +35559,7 @@ msgstr "Weblate 4.0.1"
 
 #: ../../changes/v4.rst:1233 ../../changes/v4.rst:1240
 msgid "Released on April 16th 2020."
-msgstr "Выпущен 16 апреля 2020 года."
+msgstr "Выпущено 16 апреля 2020 года."
 
 #: ../../changes/v4.rst:1235
 msgid "Fixed package installation from PyPI."
