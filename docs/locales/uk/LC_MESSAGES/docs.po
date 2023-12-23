@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-19 09:45+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-24 14:21+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3\n"
+"X-Generator: Weblate 5.4-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -5548,14 +5548,6 @@ msgid "Customizing behavior using flags"
 msgstr "Налаштовування поведінки за допомогою прапорців"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune Weblate's behavior by using flags. The flags provide "
-#| "visual feedback to the translators and help them to improve their "
-#| "translation. This can be done on the source string level (see :ref:"
-#| "`additional`), or in the :ref:`component` (:ref:`component-check_flags`). "
-#| "Some file formats also allow to specify flags directly in the format "
-#| "(see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
@@ -5563,16 +5555,11 @@ msgid ""
 msgstr ""
 "Ви можете скоригувати поведінку Weblate за допомогою прапорців. Прапорці "
 "надають візуальні настанови перекладачам і допомагають їм удосконалити "
-"переклад. Зробити це можна на рівні початкових рядків (див. :ref:"
-"`additional`) або на рівні :ref:`component` (:ref:`component-check_flags`). "
-"Для деяких форматів файлів можна вказати прапорці безпосередньо у записі "
-"формату (див. :ref:`formats`)."
+"переклад. Прапори об'єднані з таких джерел:"
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string description"
 msgid "Source string, see :ref:`additional`."
-msgstr "Опис початкового рядка"
+msgstr "Початковий рядок, див. :ref:`additional`."
 
 #: ../../admin/checks.rst:34
 #, fuzzy
@@ -5591,10 +5578,8 @@ msgid "File-format specific flags."
 msgstr ""
 
 #: ../../admin/checks.rst:37
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`additional`, :ref:`component-check_flags`"
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:39
 msgid ""
@@ -11620,10 +11605,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:484
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
-msgstr "Типовим значенням є :envvar:`WEBLATE_WORKERS`."
+msgstr ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 
 #: ../../admin/install.rst:491
 msgid "PostgreSQL"
@@ -17429,7 +17412,7 @@ msgstr "Дані службового облікового запису Google �
 
 #: ../../admin/machine.rst:228
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Введіть JSON-ключ для облікового запису служби."
 
 #: ../../admin/machine.rst:230
 msgid "``project``"
@@ -17441,7 +17424,7 @@ msgstr "Проєкт Google Перекладач"
 
 #: ../../admin/machine.rst:230
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Введіть цифровий або буквено-цифровий ID вашого проєкту в Google Cloud."
 
 #: ../../admin/machine.rst:232
 msgid "``location``"
@@ -17456,18 +17439,16 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Виберіть регіон Google Cloud Translation, який використовується для проєкту "
+"Google Cloud або найближчого до вас."
 
 #: ../../admin/machine.rst:237
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
 msgstr ""
-"Ця служба використовує програмний інтерфейс перекладу — вам слід отримати "
-"ключ до програмного інтерфейсу від Yandex."
+"Ця служба використовує програмний інтерфейс Google Translation, і для "
+"доступу до нього вам потрібні облікові дані у форматі JSON."
 
 #: ../../admin/machine.rst:239
 msgid ""
@@ -17843,6 +17824,8 @@ msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Опишіть особистість перекладача, щоб підвищити точність перекладу. Наприклад:"
+" \"Ви розводите білок\"."
 
 #: ../../admin/machine.rst:462
 msgid "Translator style"
@@ -17852,12 +17835,11 @@ msgstr "Стиль перекладача"
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr ""
+"Опишіть стиль перекладу. Наприклад: \"Використовуйте неформальну мову\"."
 
 #: ../../admin/machine.rst:465
-#, fuzzy
-#| msgid "Performs full update on translation unit."
 msgid "Performs translation using `OpenAI`_."
-msgstr "Виконує повне оновлення модуля перекладу."
+msgstr "Виконує переклад за допомогою `OpenAI`_."
 
 #: ../../admin/machine.rst:467
 msgid ""
@@ -17879,6 +17861,8 @@ msgid ""
 "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API keys "
 "<https://platform.openai.com/account/api-keys>`_"
 msgstr ""
+"`Моделі OpenAI <https://platform.openai.com/docs/models>`_, `Ключі OpenAI "
+"API <https://platform.openai.com/account/api-keys>`_"
 
 #: ../../admin/machine.rst:487
 msgid "SAP Translation Hub"
@@ -24104,20 +24088,16 @@ msgid ">json string name"
 msgstr "вік рядків"
 
 #: ../../api.rst:1157 ../../api.rst:1168
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "name of the label"
-msgstr "Ось деякі з цих складників:"
+msgstr "назва мітки"
 
 #: ../../api.rst:0
 msgid ">json string color"
 msgstr ""
 
 #: ../../api.rst:1158 ../../api.rst:1169
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "color of the label"
-msgstr "Ось деякі з цих складників:"
+msgstr "колір мітки"
 
 #: ../../api.rst:1164
 #, fuzzy
@@ -26011,32 +25991,22 @@ msgid "**New features**"
 msgstr "**Нові можливості**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
-msgstr "Налаштовано служби автоматичних пропозицій"
+msgstr "Служба автоматичних пропозицій :ref:`mt-openai`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
-msgstr "Доступні служби автоматичних пропозицій"
+msgstr "Служба автоматичних пропозицій :ref:`mt-alibaba`."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"адреса списку змін, див. :http:get:`/api/projects/(string:project)/changes/`"
+"Додано мітки API, див. :http:get:`/api/projects/(string:project)/labels/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:12
 #, fuzzy
@@ -26071,16 +26041,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator` підтримує :ref:`glossary-mt`."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "Удосконалений вибір регіону в :ref:`mt-google-translate-api-v3`."
 
 #: ../../changes.rst:21
 msgid "Addded nested JSON exporter in :ref:`download`."
