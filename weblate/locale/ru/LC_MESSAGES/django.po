@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-23 03:14+0000\n"
+"PO-Revision-Date: 2023-12-24 14:21+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -922,8 +922,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Ваша эл. почта больше не принадлежит подтверждённому аккаунту, он был "
-"изменён на {0}."
+"Ваша эл. почта больше не принадлежит подтверждённой учётной записи, она была "
+"изменена на {0}."
 
 #: weblate/accounts/views.py:155 weblate/accounts/views.py:937
 #: weblate/accounts/views.py:1003 weblate/templates/accounts/reset.html:7
@@ -1011,8 +1011,7 @@ msgstr "Регистрация эл. почты"
 
 #: weblate/accounts/views.py:882 weblate/accounts/views.py:958
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr ""
-"Не удается сбросить пароль, аутентификация по электронной почте отключена."
+msgstr "Не удаётся сбросить пароль, авторизация по электронной почте отключена."
 
 #: weblate/accounts/views.py:913 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:147
@@ -1039,7 +1038,7 @@ msgstr "Не удалось завершить регистрацию."
 
 #: weblate/accounts/views.py:1206
 msgid "Please check if you have already registered an account."
-msgstr "Пожалуйста, проверьте, зарегистрировали ли вы уже аккаунт."
+msgstr "Пожалуйста, проверьте, зарегистрировали ли вы уже учётную запись."
 
 #: weblate/accounts/views.py:1209
 msgid "You can also request a new password, if you have lost your credentials."
@@ -1062,8 +1061,7 @@ msgstr ""
 #: weblate/accounts/views.py:1236
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
-"Не удалось получить адрес электронной почты у стороннего сервиса "
-"аутентификации."
+"Не удалось получить адрес электронной почты у стороннего сервиса авторизации."
 
 #: weblate/accounts/views.py:1238
 msgid "Please register using e-mail instead."
@@ -1077,16 +1075,16 @@ msgstr "Регистрация новых пользователей отклю�
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Не удалось аутентифицироваться, вероятно, из-за истёкшего токена или ошибки "
+"Не удалось авторизоваться, вероятно, из-за истёкшего токена или ошибки "
 "соединения."
 
 #: weblate/accounts/views.py:1311
 msgid "Authentication cancelled."
-msgstr "Аутентификация отменена."
+msgstr "Авторизация отменена."
 
 #: weblate/accounts/views.py:1314
 msgid "The server does not allow authentication."
-msgstr "Сервер не разрешает аутентификацию."
+msgstr "Сервер не разрешает авторизацию."
 
 #: weblate/accounts/views.py:1319
 msgid "The supplied e-mail address is already in use for another account."
@@ -1940,12 +1938,12 @@ msgstr "Добавление записей в словарь"
 #. Translators: Permission name
 #: weblate/auth/data.py:37
 msgid "Edit glossary entry"
-msgstr "Правка записей глоссария"
+msgstr "Правка записей словаря"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
 msgid "Delete glossary entry"
-msgstr "Удаление записей из глоссария"
+msgstr "Удаление записей из словаря"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:41
@@ -2207,7 +2205,7 @@ msgstr "Доступ к репозиторию"
 #: weblate/auth/data.py:183
 msgctxt "Access-control role"
 msgid "Manage glossary"
-msgstr "Управление глоссарием"
+msgstr "Управление словарём"
 
 #: weblate/auth/data.py:187
 msgctxt "Access-control role"
@@ -2656,7 +2654,7 @@ msgstr "Формат файла это не поддерживает."
 
 #: weblate/auth/views.py:115
 msgid "Cannot remove built-in team!"
-msgstr "Не удается удалить встроенную команду!"
+msgstr "Не удаётся удалить встроенную команду!"
 
 #: weblate/auth/views.py:189
 msgid "User invitation was removed."
@@ -3658,15 +3656,15 @@ msgstr ""
 
 #: weblate/checks/glossary.py:16
 msgid "Does not follow glossary"
-msgstr "Не соответствует глоссарию"
+msgstr "Не соответствует словарю"
 
 #: weblate/checks/glossary.py:18
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Этот перевод не содержит термин, указанный в глоссарии."
+msgstr "Этот перевод не содержит термин, указанный в словаре."
 
 #: weblate/checks/glossary.py:69
 msgid "Following terms are not translated according to glossary: {}"
-msgstr "Следующие термины переведены не в соответствии с глоссарием: {}"
+msgstr "Следующие термины переведены не в соответствии с словарём: {}"
 
 #: weblate/checks/icu.py:249
 msgid "ICU MessageFormat syntax"
@@ -4299,7 +4297,7 @@ msgstr "Неправильный список целочисленных!"
 
 #: weblate/glossary/forms.py:31
 msgid "String will be part of the glossary in all languages"
-msgstr "Строка будет частью глоссария на всех языках"
+msgstr "Строка будет частью словаря на всех языках"
 
 #: weblate/glossary/forms.py:39
 msgid "Untranslatable term"
@@ -4686,8 +4684,8 @@ msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
-"Для опознания аутентифицируемых пользователей требуются аутентификационные "
-"файлы cookies."
+"Для опознания авторизованных пользователей требуются авторизационные файлы "
+"куки."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid "Preferences cookie to store user preferences in certain situations."
@@ -4802,7 +4800,7 @@ msgstr "Базовый URL приложения"
 #: weblate/machinery/forms.py:147
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "URL-адрес службы аутентификации"
+msgstr "URL-адрес службы авторизации"
 
 #: weblate/machinery/forms.py:156
 msgid "Regional or multi-service can be specified using region field below."
@@ -4812,7 +4810,7 @@ msgstr ""
 #: weblate/machinery/forms.py:162
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Регион службы аутентификации"
+msgstr "Регион службы авторизации"
 
 #: weblate/machinery/forms.py:172
 msgctxt "Automatic suggestion service configuration"
@@ -5381,8 +5379,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
-"После подтверждения этого вы сможете аутентифицироваться на Weblate, "
-"используя %(backend_verbose)s (%(uid)s)."
+"После подтверждения этого вы сможете авторизоваться на Weblate, используя "
+"%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
 msgid "Confirm"
@@ -5594,11 +5592,11 @@ msgstr "Зарегистрировать новую учётную запись"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr "Включите аутентификацию по паролю для защиты своей учётной записи."
+msgstr "Включите авторизацию по паролю для защиты своей учётной записи."
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
-msgstr "Вы также сможете аутентифицироваться, используя сторонние сервисы."
+msgstr "Вы также сможете авторизоваться, используя сторонние сервисы."
 
 #: weblate/templates/accounts/password-warning.html:9
 msgid "The password is used to verify important changes on your account."
@@ -5892,7 +5890,7 @@ msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
-"Этот API-ключ также используется для аутентификации для автоматически "
+"Этот API-ключ также используется для авторизации для автоматически "
 "экспортируемых репозиториев Git."
 
 #: weblate/templates/accounts/profile.html:394
@@ -5924,7 +5922,7 @@ msgstr "Лицензии для отдельных переводов"
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
 msgid "Redirecting you to the authentication provider."
-msgstr "Перенаправляем к провайдеру аутентификации."
+msgstr "Перенаправляем к провайдеру авторизации."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -6043,11 +6041,11 @@ msgstr "Присоединился(-ась) %(date)s"
 #: weblate/templates/accounts/user.html:30
 #, python-format
 msgid "Last sign-in on %(date)s"
-msgstr "Последний вход в аккаунт был %(date)s"
+msgstr "Последний вход в учётную запись был %(date)s"
 
 #: weblate/templates/accounts/user.html:32
 msgid "Never signed-in"
-msgstr "В этот аккаунт никогда не входили"
+msgstr "В эту учётную запись никогда не входили"
 
 #: weblate/templates/accounts/user.html:52
 #: weblate/templates/snippets/info.html:50
@@ -10789,7 +10787,7 @@ msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Не удается привести репозиторий VCS в актуальное состояние в соответствии с "
+"Не удаётся привести репозиторий VCS в актуальное состояние в соответствии с "
 "вышестоящим. Выполните слияние изменений вручную или установите и настройте "
 "обработчики (hooks), чтобы автоматизировать это."
 
@@ -11052,7 +11050,7 @@ msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
 msgstr ""
-"Это включает, память переводов, глоссарии и разрешения пользователей, но не "
+"Это включает, память переводов, словари и разрешения пользователей, но не "
 "ограничивается оными."
 
 #: weblate/templates/trans/delete-category.html:11
@@ -11339,11 +11337,11 @@ msgstr "Скопировать постоянную ссылку"
 
 #: weblate/templates/translate.html:74
 msgid "Forbidden glossary term"
-msgstr "Запрещённый термин в глоссарии"
+msgstr "Запрещённый термин в словаре"
 
 #: weblate/templates/translate.html:76
 msgid "Glossary term"
-msgstr "Термин глоссария"
+msgstr "Термин словаря"
 
 #: weblate/templates/translate.html:105 weblate/templates/zen-units.html:67
 msgid "Source change"
@@ -11857,7 +11855,7 @@ msgstr "Править в однострочном режиме"
 
 #: weblate/templates/zen.html:42
 msgid "Exit Zen"
-msgstr "Выйти из Дзена"
+msgstr "Выйти из «Дзен»"
 
 #: weblate/trans/admin.py:15
 msgid "Commit pending changes"
@@ -13636,11 +13634,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:734
 msgid "Use as a glossary"
-msgstr "Использовать в качестве глоссария"
+msgstr "Использовать в качестве словаря"
 
 #: weblate/trans/models/component.py:739
 msgid "Glossary color"
-msgstr "Цвет глоссария"
+msgstr "Цвет словаря"
 
 #: weblate/trans/models/component.py:1475
 msgid ""
@@ -13655,7 +13653,7 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
-"Данный репозиторий требует аутентификации: укажите в URL учётные данные или "
+"Данный репозиторий требует авторизации: укажите в URL учётные данные или "
 "используйте доступ по SSH."
 
 #: weblate/trans/models/component.py:1490
@@ -13821,8 +13819,8 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
-"Похоже, в ваша ссылки для отправки изменений нет учётных данных. Укажите их "
-"или используйте SSH-ключ для аутентификации."
+"Похоже, в вашей ссылке для отправки изменений нет учётных данных. Укажите их "
+"или используйте SSH-ключ для авторизации."
 
 #: weblate/trans/models/component.py:2871
 #, python-format
@@ -14228,7 +14226,7 @@ msgstr "Непереводимый термин: %s"
 #: weblate/trans/templatetags/translations.py:259
 #, python-format
 msgid "Glossary translation: %s"
-msgstr "Перевод в глоссарии: %s"
+msgstr "Перевод в словаре: %s"
 
 #: weblate/trans/templatetags/translations.py:326
 msgid "New line"
