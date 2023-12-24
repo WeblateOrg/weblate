@@ -7,6 +7,7 @@ from __future__ import annotations
 import locale
 import os
 import sys
+import re
 from operator import itemgetter
 from types import GeneratorType
 from typing import Any
@@ -34,6 +35,8 @@ PRIORITY_CHOICES = (
     (120, gettext_lazy("Low")),
     (140, gettext_lazy("Very low")),
 )
+
+CJK_PATTERN = re.compile(r"([ᄀ-ᇿ⺀-⿟⿰-鿿ꥠ-꥿가-퟿豈-﫿︰-﹏＀-￯𚿰-𛅯🈀-🋿\U00020000-\U0003FFFF]+)")
 
 # Initialize to sane Unicode locales for strxfrm
 if locale.strxfrm("a") == "a":
@@ -333,6 +336,20 @@ def is_unused_string(string: str):
     return string.startswith("<unused singular")
 
 
-def count_words(string: str):
+def count_words(string: str, lang_code=""):
     """Count number of words in a string."""
-    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+    if is_ngram_code(lang_code):
+        count = 0
+        even = True
+        for sec in CJK_PATTERN.split(string):
+            if even:
+                count += len(sec.split())
+            else:
+                count += len(sec)
+            even = not even
+        return count
+    else:
+        return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+
+def is_ngram_code(string: str):
+    return string in ("ja", "zh", "ko")
