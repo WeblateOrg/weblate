@@ -340,13 +340,15 @@ def count_words(string: str, lang_code=""):
     """Count number of words in a string."""
     if is_ngram_code(lang_code):
         count = 0
-        even = True
-        for sec in CJK_PATTERN.split(string):
-            if even:
-                count += len(sec.split())
-            else:
-                count += len(sec)
-            even = not even
+        for s in split_plural(string):
+            continue if is_unused_string(s)
+            even = True
+            for sec in CJK_PATTERN.split(string):
+                if even:
+                    count += len(sec.split())
+                else:
+                    count += len(sec)
+                even = not even
         return count
     else:
         return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
