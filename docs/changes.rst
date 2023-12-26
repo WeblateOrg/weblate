@@ -61,7 +61,7 @@ Released on December 14th 2023.
 * :ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:`glossary-mt`.
 * :ref:`mt-microsoft-translator` supports :ref:`glossary-mt`.
 * Improved region selection in :ref:`mt-google-translate-api-v3`.
-* Addded nested JSON exporter in :ref:`download`.
+* Added nested JSON exporter in :ref:`download`.
 * Improved :ref:`git-exporter` performance on huge repositories.
 
 **Bug fixes**
@@ -70,7 +70,7 @@ Released on December 14th 2023.
 
 **Compatibility**
 
-* Dropped Microsoft Terminology service for automatic suggestions as it is no longer provided by Microsoft.
+* Dropped Microsoft Terminology service for automatic suggestions, as it is no longer provided by Microsoft.
 * ``labels`` in units API now expose full label info, see :http:get:`/api/units/(int:id)/`.
 
 **Upgrading**
