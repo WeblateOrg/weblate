@@ -546,6 +546,8 @@ class SuperuserUserTermExpr(UserTermExpr):
             return Q(is_active=True)
         if text == "bot":
             return Q(is_bot=True)
+        if text == "superuser":
+            return Q(is_superuser=True)
 
         return super().is_field(text, context)
 

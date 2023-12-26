@@ -450,6 +450,8 @@ class UserQueryParserTest(TestCase, SearchMixin):
         with self.assertRaises(ValueError):
             self.assert_query("is:bot", Q(is_bot=True))
         with self.assertRaises(ValueError):
+            self.assert_query("is:superuser", Q(is_superuser=True))
+        with self.assertRaises(ValueError):
             self.assert_query("is:active", Q(is_active=True))
 
     def test_language(self):
@@ -532,6 +534,7 @@ class SuperuserQueryParserTest(UserQueryParserTest):
 
     def test_is(self):
         self.assert_query("is:bot", Q(is_bot=True))
+        self.assert_query("is:superuser", Q(is_superuser=True))
         self.assert_query("is:active", Q(is_active=True))
 
 
