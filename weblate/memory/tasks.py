@@ -43,7 +43,11 @@ def handle_unit_translation_change(unit_id, user_id=None):
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
-    unit = Unit.objects.prefetch().get(pk=unit_id)
+    try:
+        unit = Unit.objects.prefetch().get(pk=unit_id)
+    except Unit.DoesNotExist:
+        # Unit was removed meanwhile
+        return
     update_memory(user, unit)
 
 
