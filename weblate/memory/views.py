@@ -94,7 +94,7 @@ class RebuildView(MemoryFormView):
         entries = Memory.objects.filter_type(**self.objects)
         if origin:
             entries = entries.filter(origin=origin)
-        entries.delete()
+        entries.using("default").delete()
         # Delete possible shared entries
         if origin:
             slugs = [origin]
@@ -102,7 +102,7 @@ class RebuildView(MemoryFormView):
             slugs = [
                 component.full_slug for component in project.component_set.prefetch()
             ]
-        Memory.objects.filter(origin__in=slugs, shared=True).delete()
+        Memory.objects.filter(origin__in=slugs, shared=True).using("default").delete()
         # Rebuild memory in background
         import_memory.delay(project_id=project.id, component_id=component_id)
         messages.success(
