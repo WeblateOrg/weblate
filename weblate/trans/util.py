@@ -341,7 +341,8 @@ def count_words(string: str, lang_code=""):
     if is_ngram_code(lang_code):
         count = 0
         for s in split_plural(string):
-            continue if is_unused_string(s)
+            if is_unused_string(s):
+                continue
             even = True
             for sec in CJK_PATTERN.split(string):
                 if even:
