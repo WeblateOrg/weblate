@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-28 20:05+0000\n"
+"PO-Revision-Date: 2023-12-30 19:17+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -1129,7 +1129,7 @@ msgstr "Kendiliğinden öneriler"
 
 #: ../../admin/access.rst:508
 msgid "Use automatic suggestions"
-msgstr "Kendiliğinden önerileri kullanma"
+msgstr "Kendiliğinden önerileri kullanmak"
 
 #: ../../admin/access.rst:510 ../../user/translating.rst:292
 msgid "Translation memory"
@@ -1365,7 +1365,7 @@ msgstr "Site genelindeki izinler"
 
 #: ../../admin/access.rst:578
 msgid "Use management interface"
-msgstr "Yönetim arayüzünü kullanma"
+msgstr "Yönetim arayüzünü kullanmak"
 
 #: ../../admin/access.rst:580
 msgid "Add new projects"
@@ -3302,7 +3302,7 @@ msgstr "Yeni satır karakterlerini Unix karakterleri olarak değiştirir."
 #: ../../admin/addons.rst:794
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
-msgstr "Unicode kaçış dizilerini büyük harfle biçimlendirir (varsa)."
+msgstr "Unicode kaçınma dizilerini büyük harfle biçimlendirir (varsa)."
 
 #: ../../admin/addons.rst:795
 msgid "Strips blank lines and comments."
@@ -5136,7 +5136,7 @@ msgid ""
 "Please ensure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
-"Lütfen dosyaların sahiplik ve erişim izinlerinin doğru olduğundan emin olun. "
+"Lütfen dosyaların sahiplik ve izinlerinin doğru olduğundan emin olun. "
 "Ayrıntılı bilgi almak için: :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:190
@@ -5509,14 +5509,6 @@ msgid "Customizing behavior using flags"
 msgstr "Parametreleri kullanarak davranışı özelleştirmek"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune Weblate's behavior by using flags. The flags provide "
-#| "visual feedback to the translators and help them to improve their "
-#| "translation. This can be done on the source string level (see :ref:"
-#| "`additional`), or in the :ref:`component` (:ref:`component-check_flags`). "
-#| "Some file formats also allow to specify flags directly in the format "
-#| "(see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
@@ -5524,38 +5516,33 @@ msgid ""
 msgstr ""
 "İmleri kullanarak Weblate davranışında ince ayarlar yapabilirsiniz. İmler "
 "çevirmenlere görsel bildirim sağlayarak çeviriyi iyileştirmelerine yardımcı "
-"olur. Bu işlem kaynak dizge düzeyinde (ayrıntılı bilgi almak için: :ref:"
-"`additional`) ya da :ref:`component` (:ref:`component-check_flags`) içinde "
-"yapılabilir. Bazı dosya biçimleri, imlerin doğrudan biçimde belirtilmesini "
-"de sağlar (ayrıntılı bilgi almak için: :ref:`formats`."
+"olur. Yer imleri şu kaynaklardan aktarılabilir:"
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string description"
 msgid "Source string, see :ref:`additional`."
-msgstr "Kaynak dizge açıklaması"
+msgstr "Kaynak dizge, ayrıntılı bilgi almak için: :ref:`additional`."
 
 #: ../../admin/checks.rst:34
-#, fuzzy
-#| msgid "Translation file format, see also :ref:`formats`."
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
-msgstr "Çeviri dosyası biçimi. Ayrıntılı bilgi almak için: :ref:`formats`."
+msgstr ""
+"Dosya biçiminden ayıklanan her dizgenin yer imleri. Ayrıntılı bilgi almak "
+"için: :ref:`formats`."
 
 #: ../../admin/checks.rst:35
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
 msgstr ""
+"Çeviri yer imleri (şu anda yalnızca iki dilli kaynak dizge için ``salt "
+"okunur`` yer imi)."
 
 #: ../../admin/checks.rst:36
 msgid "File-format specific flags."
-msgstr ""
+msgstr "Dosya biçimine özel yer imleri."
 
 #: ../../admin/checks.rst:37
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`additional`, :ref:`component-check_flags`"
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:39
 msgid ""
@@ -5573,7 +5560,7 @@ msgid ""
 "escaped using backslash:"
 msgstr ""
 "Hem tek hem de çift tırnak işaretleri kabul edilir. Ters bölü kullanılarak "
-"özel karakterlerden kaçılır:"
+"özel karakterlerden kaçınılır:"
 
 #: ../../admin/checks.rst:57
 msgid ""
@@ -5581,16 +5568,16 @@ msgid ""
 "A failing check will be triggered if the string '### Index' is translated as "
 "'# Indice'"
 msgstr ""
-"Çevirmenlerin bir Markdown belgesinin başlığını değiştirmediğini doğrulamak "
-"için: ‘### Index’ dizgesi ‘# Indice’ olarak çevrilirse denetim başarısız olur"
+"Çevirmenlerin bir Markdown belgesinin başlığını değiştirmediğini doğrular: "
+"‘### Index’ dizgesi ‘# Indice’ olarak çevrilirse denetim başarısız olur"
 
 #: ../../admin/checks.rst:64
 msgid ""
 "To ensure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
-"İç bağlantıların çevrilmediğinden emin olmak için (`[test](../checks)`, "
-"`[test](../chequeos)` olarak çevrilmez."
+"İç bağlantıların çevrilmediğinden emin olur (örneğin `[test](../checks)`, "
+"`[test](../denetimler)` olarak çevrilmez."
 
 #: ../../admin/checks.rst:69
 msgid "Here is a list of flags currently accepted:"
@@ -9792,8 +9779,8 @@ msgstr ""
 "dizgeler ekleyebilir ve dosyaların tüm düzenleme işlemlerini orada "
 "yapabilirsiniz. İki dilli dosyalar için, kaynak kodundan çevrilebilir "
 "dosyalar oluşturmak için genellikle bir tür ileti ayıklama işlemi vardır. "
-"Bazı durumlarda bu işlem iki bölüme ayrılabilir. Birinci adım ayıklama "
-"kalıbını oluşturur (örneğin Gettext POT :program:`xgettext` kullanılarak "
+"Bazı durumlarda bu işlem iki bölüme ayrılabilir. Birinci adım olan ayıklama, "
+"kalıbı oluşturur (örneğin Gettext POT :program:`xgettext` kullanılarak "
 "oluşturulur) ve ikinci adım onu gerçek çevirilerle birleştirir (Gettext PO "
 "dosyaları :program:`msgmerge` kullanılarak güncellenir). İkinci adımı "
 "Weblate içinde yapabilirsiniz ve bu işlemden önce bekleyen tüm "
@@ -11172,10 +11159,8 @@ msgid "``OpenAI``"
 msgstr "``OpenAI``"
 
 #: ../../admin/install.rst:226
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`openai <https://pypi.org/project/openai>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`openai <https://pypi.org/project/openai>`_"
 
 #: ../../admin/install.rst:227 ../../user/glossary.rst:127
 msgid ":ref:`mt-openai`"
@@ -11363,9 +11348,9 @@ msgid ""
 "was released. You should also verify the date of the signature to ensure "
 "that you downloaded the latest version."
 msgstr ""
-"İmzanın indirdiğiniz arşivle eşleştiğini doğrulamanız gerekir. Bu şekilde, "
-"yayınlanan kodu değiştirilmemiş olduğundan emin olabilirsiniz. Güncel sürümü "
-"indirdiğinizden emin olmak için imzanın tarihini de doğrulamalısınız."
+"İmzanın indirdiğiniz arşivle eşleştiğini doğrulamanız gerekir. Böylece, "
+"yayınlanmış kodun değiştirilmemiş olduğundan emin olabilirsiniz. Güncel "
+"sürümü indirdiğinizden emin olmak için imzanın tarihini de doğrulamalısınız."
 
 #: ../../admin/install.rst:318
 msgid ""
@@ -11518,18 +11503,10 @@ msgstr ""
 "migration`"
 
 #: ../../admin/install.rst:460
-#, fuzzy
-#| msgid "Database backup settings"
 msgid "Database connections"
-msgstr "Veri tabanı yedekleme ayarları"
+msgstr "Veri tabanı bağlantıları"
 
 #: ../../admin/install.rst:462
-#, fuzzy
-#| msgid ""
-#| "Persistent connections improve Weblate responsiveness, but might require "
-#| "more resources for the database server. Please consult :setting:`django:"
-#| "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
-#| "info."
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -11537,24 +11514,22 @@ msgid ""
 "Please consult :setting:`django:CONN_MAX_AGE` and :ref:`django:persistent-"
 "database-connections` for more info."
 msgstr ""
-"Kalıcı bağlantılar Weblate yanıt verme hızını artırır ancak veri tabanı "
-"sunucusu için daha fazla kaynak gerekebilir. Ayrıntılı bilgi almak için :"
-"setting:`Django:CONN_MAX_AGE` ve :ref:`Django:persistent-database-"
-"connections` bölümlerine bakabilirsiniz."
+"Varsayılan yapılandırmada, her Weblate işlemi veri tabanı ile kalıcı bir "
+"bağlantı kurar. Kalıcı bağlantılar Weblate yanıt verme hızını artırır ancak "
+"veri tabanı sunucusu için daha fazla kaynak gerekebilir. Ayrıntılı bilgi "
+"almak için :setting:`Django:CONN_MAX_AGE` bölümüne bakabilirsiniz."
 
 #: ../../admin/install.rst:468
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate needs at least the following number of connections:"
-msgstr "Weblate kapsayıcıları şu kayıt defterlerinde yayınlanmıştır:"
+msgstr "Weblate en az şu sayıda bağlantıya gerek duyar:"
 
 #: ../../admin/install.rst:470
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
-msgstr ""
+msgstr "Celery işlemleri için :math:`(4 \\times \\mathit{nCPUs}) + 2`"
 
 #: ../../admin/install.rst:471
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
-msgstr ""
+msgstr "WSGI işlemleri için :math:`\\mathit{nCPUs} + 1`"
 
 #: ../../admin/install.rst:473
 msgid ""
@@ -11562,30 +11537,34 @@ msgid ""
 "provided in this documentation, but the numbers will change once you "
 "customize the amount of WSGI workers or adjust parallelism of Celery."
 msgstr ""
+"Bu durum, bu belgede belirtilen Docker kapsayıcı varsayılanları ve örnek "
+"yapılandırmalar için geçerlidir. Ancak WSGI işlemlerinin sayısını "
+"özelleştirdiğinizde veya Celery paralelliğini ayarladığınızda sayılar "
+"değişir."
 
 #: ../../admin/install.rst:477
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
 msgstr ""
+"Aşağıdaki durumları hesaba katmak için gerçek veri tabanı bağlantı sayısı "
+"sınırının daha yüksek olması gerekir:"
 
 #: ../../admin/install.rst:480
-#, fuzzy
-#| msgid ":ref:`autofix` are now applied to suggestions as well."
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref:`autofix` artık önerilere de uygulanıyor."
+msgstr ":ref:`manage` kendi bağlantılarına gerek duyar."
 
 #: ../../admin/install.rst:481
 msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
+"Olay işlemi sonlandırılırsa (örneğin bellek tükendi sonlandırıcısı "
+"tarafından), geçerli bağlantı zaman aşımına uğrayana kadar engellenebilir."
 
 #: ../../admin/install.rst:484
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
-msgstr "Varsayılan değer: :envvar:`WEBLATE_WORKERS`."
+msgstr ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 
 #: ../../admin/install.rst:491
 msgid "PostgreSQL"
@@ -12807,12 +12786,6 @@ msgstr ""
 "ile ilgili Django belgelerine bakın."
 
 #: ../../admin/install.rst:1376
-#, fuzzy
-#| msgid ""
-#| "The Django built-in server serves static files only with :setting:`DEBUG` "
-#| "enabled as it is intended for development only. For production use, "
-#| "please see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-"
-#| "gunicorn`, and :ref:`static-files`."
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -12822,7 +12795,7 @@ msgstr ""
 "Django içindeki sunucu, yalnızca geliştirme amaçlı olduğundan yalnızca "
 "durağan dosyaları :setting:`DEBUG` seçeneği kullanıma alınmış olarak sunar. "
 "Üretim kullanımı için lütfen :ref:`uwsgi`, :ref:`apache`, :ref:`apache-"
-"gunicorn` ve :ref:`static-files` içindeki wsgi kurulumlarına bakın."
+"gunicorn` ve :ref:`static-files` içindeki WSGI kurulumlarına bakın."
 
 #: ../../admin/install.rst:1384
 msgid "Serving static files"
@@ -12924,13 +12897,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX ve uWSGI için örnek yapılandırma"
 
 #: ../../admin/install.rst:1435
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the wsgi wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`).  Don't forget to set the "
-#| "Python search path to your virtualenv as well (for example using "
-#| "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -12939,7 +12905,7 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 "Üretim amacıyla kullanılacak site sunucusu çalıştırmak için, Weblate ile "
-"kurulan wsgi sarmalayıcısını kullanın (sanal ortamdaysanız :file:`~/weblate-"
+"kurulan WSGI sarmalayıcısını kullanın (sanal ortamdaysanız :file:`~/weblate-"
 "env/lib/python3.9/site-packages/weblate/wsgi.py` olarak kurulur). "
 "Kullandığınız virtualenv üzerinde Python arama yolunu ayarlamayı da "
 "unutmayın (uWSGI üzerinde ``virtualenv = /home/user/weblate-env`` gibi)."
@@ -13080,10 +13046,8 @@ msgid "Sending digest notifications."
 msgstr "Toplu bildirimleri göndermek."
 
 #: ../../admin/install.rst:1530
-#, fuzzy
-#| msgid "Offloading expensive operations from the wsgi process."
 msgid "Offloading expensive operations from the WSGI process."
-msgstr "Yük oluşturan işlemleri wsgi işlemi üzerinden almak."
+msgstr "Yük oluşturan işlemleri WSGI işlemi üzerinden almak."
 
 #: ../../admin/install.rst:1531
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -13129,10 +13093,8 @@ msgstr ""
 "Ayrıca :ref:`file-permissions` ve :ref:`server` bölümlerine bakabilirsiniz."
 
 #: ../../admin/install.rst:1563
-#, fuzzy
-#| msgid "Executing Celery tasks in the wsgi using eager mode"
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr "Wsgi üzerinde Celery görevlerini yürütürken eager kipini kullanmak"
+msgstr "WSGI üzerinde Celery görevlerini yürütürken eager kipini kullanmak"
 
 #: ../../admin/install.rst:1567
 msgid ""
@@ -16681,9 +16643,8 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
-"Düzenleme yaparken, tüm alanların doğru olduğundan emin olun (özellikle "
-"çoğullar ve metin yönü). Yoksa çevirmenler çevirileri olması gerektiği gibi "
-"düzenleyemez."
+"Düzenlerken, tüm alanların doğru olduğundan emin olun (özellikle çoğullar ve "
+"metin yönü). Yoksa çevirmenler çevirileri olması gerektiği gibi düzenleyemez."
 
 #: ../../admin/languages.rst:84
 msgid "Ambiguous language codes and macrolanguages"
@@ -16960,7 +16921,7 @@ msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:32
 msgid "Alibaba"
-msgstr ""
+msgstr "Alibaba"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -16992,11 +16953,8 @@ msgid "``secret``"
 msgstr "``secret``"
 
 #: ../../admin/machine.rst:40
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgid "Access key secret"
-msgstr "Erişim anahtarı kimliği"
+msgstr "Erişim anahtarı parolası"
 
 #: ../../admin/machine.rst:42 ../../admin/machine.rst:102
 #: ../../admin/machine.rst:344
@@ -17004,32 +16962,24 @@ msgid "``region``"
 msgstr "``region``"
 
 #: ../../admin/machine.rst:42
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgid "Region ID"
-msgstr "Bölge adı"
+msgstr "Bölge kimliği"
 
 #: ../../admin/machine.rst:45
-#, fuzzy
-#| msgid ""
-#| "Amazon Translate is a neural machine translation service for translating "
-#| "text to and from English across a breadth of supported languages."
 msgid ""
 "Alibaba Translate is a neural machine translation service for translating "
 "text and it supports up to 214 language pairs."
 msgstr ""
-"Amazon Translate, desteklenen çok sayıda dilde İngilizce'ye ve İngilizce'den "
-"metin çevirme için kullanılabilecek bir nöral makine çevirisi hizmetidir."
+"Alibaba Translate, metin çevirisine yönelik bir sinirsel makine çeviri "
+"hizmetidir ve 214 kadar dil çiftini destekler."
 
 #: ../../admin/machine.rst:50
-#, fuzzy
-#| msgid ""
-#| "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
 msgid ""
 "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
 "machine-translation>`_"
-msgstr "`Amazon Translate belgeleri <https://docs.aws.amazon.com/translate/>`_"
+msgstr ""
+"`Alibaba Translate belgeleri <https://www.alibabacloud.com/help/en/machine-"
+"translation>`_"
 
 #: ../../admin/machine.rst:55
 msgid "Amagama"
@@ -17097,10 +17047,8 @@ msgstr ""
 "<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:94
-#, fuzzy
-#| msgid "Translate"
 msgid "Amazon Translate"
-msgstr "Çevir"
+msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:96
 msgid "``aws``"
@@ -17190,7 +17138,7 @@ msgstr "Resmilik"
 
 #: ../../admin/machine.rst:143
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr "Dilin resmi olmadığı belirtilmemişse belirtilen resmilik kullanılır"
+msgstr "Dil resmi olup olmadığı belirtilmemişse, belirtilen resmilik kullanılır"
 
 #: ../../admin/machine.rst:146
 msgid ""
@@ -17284,6 +17232,8 @@ msgstr ""
 #: ../../admin/machine.rst:475
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgstr ""
+"Hizmet otomatik olarak :ref:`glossary` kullanır. Ayrıntılı bilgi almak için: "
+":ref:`glossary-mt`."
 
 #: ../../admin/machine.rst:180
 msgid ""
@@ -17323,31 +17273,23 @@ msgid "`Glosbe website <https://glosbe.com/>`_"
 msgstr "`Glosbe sitesi <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:205
-#, fuzzy
-#| msgid "Google Translate location"
 msgid "Google Cloud Translation Basic"
-msgstr "Google Çeviri konumu"
+msgstr "Google Cloud Translation Basic"
 
 #: ../../admin/machine.rst:207
 msgid "``google-translate``"
 msgstr "``google-translate``"
 
 #: ../../admin/machine.rst:212 ../../admin/machine.rst:235
-#, fuzzy
-#| msgid "Machine translation service provided by Google Cloud services."
 msgid "Machine translation service provided by the Google Cloud services."
 msgstr "Google Cloud hizmetleri tarafından sunulan makine çevirisi hizmeti."
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "This service uses the Google Translation API, and you need to obtain an "
-#| "API key and turn on billing in the Google API console."
 msgid ""
 "This service uses the Google Translation API v2, and you need to obtain an "
 "API key and turn on billing in the Google API console."
 msgstr ""
-"Bu hizmet, Google Çeviri API uygulamasını kullanır. Bir API anahtarı "
+"Bu hizmet, Google Çeviri API v2 uygulamasını kullanır. Bir API anahtarı "
 "edinmeli ve Google API konsolundan faturalamayı açmalısınız."
 
 #: ../../admin/machine.rst:219
@@ -17357,10 +17299,8 @@ msgstr ""
 "`Google translate belgeleri <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:224
-#, fuzzy
-#| msgid "Google Translate"
 msgid "Google Cloud Translation Advanced"
-msgstr "Google Translate"
+msgstr "Google Cloud Translation Advanced"
 
 #: ../../admin/machine.rst:226
 msgid "``google-translate-api-v3``"
@@ -17376,7 +17316,7 @@ msgstr "Google Çeviri hizmeti hesap bilgileri"
 
 #: ../../admin/machine.rst:228
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Hizmet hesabı için bir JSON anahtarı yazın."
 
 #: ../../admin/machine.rst:230
 msgid "``project``"
@@ -17388,7 +17328,7 @@ msgstr "Google Çeviri projesi"
 
 #: ../../admin/machine.rst:230
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Google Cloud projenizin sayısal ya da alfasayısal kimliğini yazın."
 
 #: ../../admin/machine.rst:232
 msgid "``location``"
@@ -17403,44 +17343,40 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Google Cloud projesi için kullanılan ya da size en yakın Google Cloud "
+"Translation bölgesini seçin."
 
 #: ../../admin/machine.rst:237
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
 msgstr ""
-"Bu hizmet bir Translation API uygulaması kullanır ve Yandex üzerinden bir "
-"API anahtarı edinmeniz gerekir."
+"Bu hizmet bir Translation API v3 uygulamasını kullanır ve Yandex üzerinden "
+"bir API anahtarı edinmeniz gerekir."
 
 #: ../../admin/machine.rst:239
 msgid ""
 "In order to use this service, you first need to go through the following "
 "steps:"
 msgstr ""
+"Bu hizmeti kullanabilmek için öncelikle aşağıdaki adımları uygulamanız "
+"gerekmektedir:"
 
 #: ../../admin/machine.rst:241
 msgid "`Select or create a Cloud Platform project.`_"
-msgstr ""
+msgstr "`Bir Cloud Platform projesi seçin ya da oluşturun.`_"
 
 #: ../../admin/machine.rst:242
 msgid "`Enable billing for your project.`_"
-msgstr ""
+msgstr "`Projeniz için faturalandırmayı etkinleştirin.`_"
 
 #: ../../admin/machine.rst:243
-#, fuzzy
-#| msgid "Enable machine translation"
 msgid "`Enable the Cloud Translation.`_"
-msgstr "Makine çevirisi kullanılsın"
+msgstr "`Cloud Translation hizmetini etkinleştirin.`_"
 
 #: ../../admin/machine.rst:244
-#, fuzzy
-#| msgid "Authentication"
 msgid "`Setup Authentication.`_"
-msgstr "Kimlik doğrulama"
+msgstr "`Kimlik doğrulamayı kurun.`_"
 
 #: ../../admin/machine.rst:253
 msgid ""
@@ -17471,6 +17407,8 @@ msgid ""
 "This service is deprecated by vendor and will be withdrawn entirely as of 10 "
 "December 2024."
 msgstr ""
+"Bu hizmet üreticisi tarafından kullanımdan kaldırıldı ve 10 Aralık 2024 "
+"tarihinde durdurulacak."
 
 #: ../../admin/machine.rst:276
 msgid ""
@@ -17530,10 +17468,8 @@ msgstr ""
 "mirrors>`_"
 
 #: ../../admin/machine.rst:314
-#, fuzzy
-#| msgid "Microsoft Translator"
 msgid "Azure AI Translator"
-msgstr "Microsoft Translator"
+msgstr "Azure AI Translator"
 
 #: ../../admin/machine.rst:316
 msgid "``microsoft-translator``"
@@ -17731,10 +17667,8 @@ msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
 msgstr "`NetEase Sight çeviri platformu <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:442
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI"
-msgstr "Zen kipi"
+msgstr "OpenAI"
 
 #: ../../admin/machine.rst:446
 msgid "``openai``"
@@ -17745,38 +17679,32 @@ msgid "``model``"
 msgstr "``model``"
 
 #: ../../admin/machine.rst:450
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI model"
-msgstr "Zen kipi"
+msgstr "OpenAI modeli"
 
 #: ../../admin/machine.rst:452
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "``auto`` -- Automatic selection"
-msgstr "Kendiliğinden algılama"
+msgstr "``auto`` -- Otomatik seçim"
 
 #: ../../admin/machine.rst:454
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
-msgstr ""
+msgstr "``gpt-4-1106-preview`` -- GPT-4 Turbo"
 
 #: ../../admin/machine.rst:456
 msgid "``gpt-4`` -- GPT-4"
-msgstr ""
+msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:458
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
-msgstr ""
+msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:460
 msgid "``persona``"
 msgstr "``persona``"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Translator persona"
-msgstr "Çeviri raporları"
+msgstr "Çevirmen kişiliği"
 
 #: ../../admin/machine.rst:460
 msgid ""
@@ -17787,10 +17715,8 @@ msgstr ""
 "Örneğin: “Sen bir sincap yetiştiricisisin.”"
 
 #: ../../admin/machine.rst:462
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translator style"
-msgstr "Çeviri dosyası"
+msgstr "Çevirmen tarzı"
 
 #: ../../admin/machine.rst:462
 msgid ""
@@ -17798,10 +17724,8 @@ msgid ""
 msgstr "Çeviri tarzını açıklayın. Örneğin: “Resmi olmayan bir dil kullanın.”"
 
 #: ../../admin/machine.rst:465
-#, fuzzy
-#| msgid "Performs full update on translation unit."
 msgid "Performs translation using `OpenAI`_."
-msgstr "Çeviri birimi üzerinde tüm güncellemeleri yapar."
+msgstr "`OpenAI`_ kullanarak çeviri yapar."
 
 #: ../../admin/machine.rst:467
 msgid ""
@@ -17810,6 +17734,9 @@ msgid ""
 "available, but you might want to choose a specific model that matches your "
 "needs."
 msgstr ""
+"OpenAI API, farklı yetenekleri ve fiyatları olan çeşitli modeller sunar. "
+"Otomatik seçim var olan en iyi modeli seçer ancak gereksinimlerinize uygun "
+"başka bir model seçmek isteyebilirsiniz."
 
 #: ../../admin/machine.rst:471
 msgid ""
@@ -17817,12 +17744,17 @@ msgid ""
 "be used in a prompt for OpenAI and allow you to change the style of the "
 "translations."
 msgstr ""
+"Çeviriler üzerinde daha fazla ince ayar yapmak için kişilik ve tarz "
+"alanlarını kullanın. Bunlar OpenAI isteminde kullanılır ve çevirilerin "
+"tarzını değiştirmenizi sağlar."
 
 #: ../../admin/machine.rst:479
 msgid ""
 "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API keys "
 "<https://platform.openai.com/account/api-keys>`_"
 msgstr ""
+"`OpenAI modelleri <https://platform.openai.com/docs/models>`_, `OpenAI API "
+"anahtarları <https://platform.openai.com/account/api-keys>`_"
 
 #: ../../admin/machine.rst:487
 msgid "SAP Translation Hub"
@@ -20424,8 +20356,8 @@ msgid ""
 "in same form as used in the filenames."
 msgstr ""
 "Çeviri dosyaları eşleştirilirken dil kodlarına bakılır ve eşleşmeler büyük/"
-"küçük harfe duyarlıdır. Bu nedenle kaynak dil kodlarını dosya adlarındakiler "
-"ile aynı şekilde kullandığınızdan emin olun."
+"küçük harfe duyarlıdır. Bu nedenle kaynak dil kodlarının dosya adlarında "
+"bulunanlar ile aynı olduğundan emin olun."
 
 #: ../../admin/projects.rst:264
 msgid ""
@@ -24000,58 +23932,44 @@ msgid "string"
 msgstr "dizge"
 
 #: ../../api.rst:1152
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns labels for a project."
-msgstr "Bir projenin istatistiklerini görüntüler."
+msgstr "Bir projenin etiketlerini görüntüler."
 
 #: ../../api.rst:0
 msgid ">json int id"
-msgstr ""
+msgstr ">json int id"
 
 #: ../../api.rst:1156
-#, fuzzy
-#| msgid "ID of term"
 msgid "ID of the label"
-msgstr "Terimin kimliği"
+msgstr "Etiketin kimliği"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid ">json string name"
-msgstr "dizge yaşı"
+msgstr ">json string name"
 
 #: ../../api.rst:1157 ../../api.rst:1168
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "name of the label"
-msgstr "Bunların bazıları şunlardır:"
+msgstr "Etiketin adı"
 
 #: ../../api.rst:0
 msgid ">json string color"
-msgstr ""
+msgstr ">json string color"
 
 #: ../../api.rst:1158 ../../api.rst:1169
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "color of the label"
-msgstr "Bunların bazıları şunlardır:"
+msgstr "Etiketin rengi"
 
 #: ../../api.rst:1164
-#, fuzzy
-#| msgid "Creates a new project."
 msgid "Creates a label for a project."
-msgstr "Yeni bir proje oluşturur."
+msgstr "Bir proje için bir etiket oluşturur."
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid "<json string name"
-msgstr "dizge yaşı"
+msgstr "<json string name"
 
 #: ../../api.rst:0
 msgid "<json string color"
-msgstr ""
+msgstr "<json string color"
 
 #: ../../api.rst:1176
 msgid ""
@@ -25925,16 +25843,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`Vikipedi üzerinde RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.3"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.3"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 14th 2023."
-msgstr "16 Aralık 2022 tarihinde yayınlandı."
+msgstr "14 Aralık 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:6 ../../changes.rst:67 ../../changes.rst:108
 #: ../../changes.rst:135 ../../changes.rst:211 ../../changes.rst:252
@@ -25942,45 +25856,36 @@ msgid "**New features**"
 msgstr "**Yeni özellikler**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
-msgstr "Yapılandırılmış kendiliğinden öneri hizmetleri"
+msgstr ":ref:`mt-openai` kendiliğinden öneri hizmeti."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
-msgstr "Kullanılabilecek kendiliğinden öneri hizmetleri"
+msgstr ":ref:`mt-alibaba` kendiliğinden öneri hizmeti."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"Değişiklikler listesi adresi. Ayrıntılı bilgi almak için: :http:get:`/api/"
-"projects/(string:project)/changes/`"
+"Etiketler API uygulaması eklendi. Ayrıntılı bilgi almak için: :http:get:`/"
+"api/projects/(string:project)/labels/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "New automatic fixed for :ref:`autofix-punctuation-spacing`."
-msgstr "Fransızca noktalama aralığı için özel denetim eklendi."
+msgstr ""
+":ref:`autofix-punctuation-spacing` için yeni kendiliğinden düzeltme eklendi."
 
 #: ../../changes.rst:13
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
 msgstr ""
+":ref:`mt-google-translate-api-v3` artık yerleştirilebilir ögeleri veya satır "
+"sonlarını daha iyi dikkate alıyor."
 
 #: ../../changes.rst:15 ../../changes.rst:43 ../../changes.rst:71
 #: ../../changes.rst:110 ../../changes.rst:143 ../../changes.rst:186
@@ -25989,32 +25894,28 @@ msgid "**Improvements**"
 msgstr "**İyileştirmeler**"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Reduced memory usage."
 msgid "Reduced memory usage for statistics."
-msgstr "Bellek kullanımı azaltıldı."
+msgstr "İstatistiklerin bellek kullanımı azaltıldı."
 
 #: ../../changes.rst:18
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
 msgstr ""
+":ref:`mt-deepl`, :ref:`auto-translation` başarımı iyileştirildi ve :ref"
+":`glossary-mt` desteği eklendi."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator` için :ref:`glossary-mt` desteği eklendi."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ":ref:`mt-google-translate-api-v3` için bölge seçimi iyileştirildi."
 
 #: ../../changes.rst:21
 msgid "Addded nested JSON exporter in :ref:`download`."
-msgstr ""
+msgstr ":ref:`download` içine, iç içe JSON dışa aktarıcısı eklendi."
 
 #: ../../changes.rst:23 ../../changes.rst:48 ../../changes.rst:84
 #: ../../changes.rst:117 ../../changes.rst:158 ../../changes.rst:191
@@ -26024,7 +25925,7 @@ msgstr "**Hata düzeltmeleri**"
 
 #: ../../changes.rst:25
 msgid "Removing stale VCS directories."
-msgstr ""
+msgstr "Eski sürüm denetimi sistemi klasörlerinin kaldırılması sağlandı."
 
 #: ../../changes.rst:27 ../../changes.rst:92 ../../changes.rst:122
 #: ../../changes.rst:167 ../../changes.rst:234 ../../changes.rst:289
@@ -26036,16 +25937,16 @@ msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions as it is no "
 "longer provided by Microsoft."
 msgstr ""
+"Artık Microsoft tarafından sunulmadığından, kendiliğinden öneriler için "
+"Microsoft Terminology hizmeti kaldırıldı."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
 msgstr ""
-"Kaynak birim bağlantısı. Ayrıntılı bilgi almak için: :http:get:`/api/units/"
-"(int:id)/`"
+"Birimler API uygulamasında ``labels`` tam etiket bilgilerinin görüntülenmesi "
+"sağlandı. Ayrıntılı bilgi almak için: :http:get:`/api/units/(int:id)/`."
 
 #: ../../changes.rst:32 ../../changes.rst:56 ../../changes.rst:97
 #: ../../changes.rst:124 ../../changes.rst:171 ../../changes.rst:198
@@ -26074,74 +25975,65 @@ msgstr ""
 "Güncellemek için :ref:`generic-upgrade-instructions` adımlarını izleyin."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/104?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/104?closed=1>`__."
+"milestone/107?closed=1>`__."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.2.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.2.1"
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 22nd 2023."
-msgstr "16 Kasım 2023 tarihinde yayınlandı."
+msgstr "22 Kasım 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "Displays similar strings while translating."
 msgid "Show search field after no strings found while translating."
-msgstr "Çeviri sırasında benzer dizgeleri görüntüleme özelliği eklendi."
+msgstr ""
+"Çeviri sırasında herhangi bir dizge bulunamadığında arama alanının "
+"görüntülenmesi sağlandı."
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid "Improved configuration of special characters virtual keyboard."
 msgid "Added soft hyphen to special-characters toolbar."
-msgstr "Özel karakterler sanal klavye yapılandırması iyileştirildi."
+msgstr "Özel karakterler araç çubuğuna kısa tire eklendi."
 
 #: ../../changes.rst:50
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr ""
+"Veri tabanı yedeklerinin Alibaba Cloud Database PolarDB ile uyumluluğu "
+"sağlandı."
 
 #: ../../changes.rst:51
 msgid "Crash on loading statistics calculated by previous versions."
 msgstr ""
+"Önceki sürümler tarafından hesaplanmış istatistikler yüklenirken yaşanan "
+"çökme sorunu düzeltildi."
 
 #: ../../changes.rst:52
 msgid "Sort icons in dark mode."
-msgstr ""
+msgstr "Koyu kipte simgeleri düzeltildi."
 
 #: ../../changes.rst:53
 msgid "Project level statistics no longer count categorized components twice."
 msgstr ""
+"Proje düzeyindeki istatistiklerin kategorilere ayrılmış bileşenleri iki kez "
+"sayması sorunu düzeltildi."
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Possible discarding pending translations after editing source strings."
-msgstr "Çeviri dizgelerini kaynak dizgeler ile doldurur."
+msgstr ""
+"Kaynak dizgeler düzenlendikten sonra bekleyen çevirilerin silinmesi sağlandı."
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/104?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/104?closed=1>`__."
+"milestone/108?closed=1>`__."
 
 #: ../../changes.rst:63
 msgid "Weblate 5.2"
@@ -26242,6 +26134,8 @@ msgstr ""
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
 msgstr ""
+"Python 3.12 desteği eklendi, ancak önerilmiyor. Ayrıntılı bilgi almak için: "
+":ref:`python-deps`."
 
 #: ../../changes.rst:101
 msgid ""
@@ -26284,7 +26178,7 @@ msgstr "İstatistiklerin derlenmesi sırasında oluşan yük azaltıldı."
 #: ../../changes.rst:119
 msgid "Added plurals validation when editing string using the API."
 msgstr ""
-"API kullanarak dizge düzenlenirken çoğul biçimleri doğrulama özelliği "
+"Dizgeler API kullanılarak düzenlenirken çoğul biçimleri doğrulama özelliği "
 "eklendi."
 
 #: ../../changes.rst:120
@@ -32292,7 +32186,7 @@ msgstr "Django 4.1 uyumluluğu sağlandı."
 
 #: ../../changes/v4.rst:363
 msgid "Added support for storing escaped XML elements in XLIFF."
-msgstr "XLIFF içinde kaçırılan XML ögelerini depolama özelliği eklendi."
+msgstr "XLIFF içinde kaçınılan XML ögelerini depolama özelliği eklendi."
 
 #: ../../changes/v4.rst:364
 msgid "Improved formatting of placeholder-check errors."
@@ -32602,7 +32496,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
-msgstr "API kullanarak eklenti kurulumu sorunu düzeltildi."
+msgstr "API kullanılarak eklenti kurulumu sorunu düzeltildi."
 
 #: ../../changes/v4.rst:467
 msgid ""
@@ -33123,7 +33017,7 @@ msgstr "Makine çevirilerinde yer belirticilerin işlenmesi iyileştirildi."
 
 #: ../../changes/v4.rst:612
 msgid "Fixed creating add-ons using the API."
-msgstr "API kullanarak eklenti oluşturma sorunu düzeltildi."
+msgstr "API kullanılarak eklentiler oluşturma sorunu düzeltildi."
 
 #: ../../changes/v4.rst:613
 msgid ""
@@ -33755,7 +33649,7 @@ msgstr "TMX dosyalarında doğru kaynak dilin kaydedilmesi sağlandı."
 
 #: ../../changes/v4.rst:814
 msgid "Better handling for uploads of monolingual PO using the API."
-msgstr "API kullanarak tek dilli PO yüklemelerinin işlenmesi iyileştirildi."
+msgstr "API kullanılarak tek dilli PO yüklemelerinin işlenmesi iyileştirildi."
 
 #: ../../changes/v4.rst:815
 msgid "Improved alerts behavior on glossary components."
@@ -34569,7 +34463,7 @@ msgstr ""
 #: ../../changes/v4.rst:1050
 msgid "Fixed creating local VCS components using the API."
 msgstr ""
-"API kullanarak yerel sürüm denetimi sistemi bileşenleri oluşturma sorunu "
+"API kullanılarak yerel sürüm denetimi sistemi bileşenleri oluşturma sorunu "
 "düzeltildi."
 
 #: ../../changes/v4.rst:1053
@@ -36354,10 +36248,8 @@ msgid "wallabag.org"
 msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:20
-#, fuzzy
-#| msgid "`curl <https://curl.se/>`_"
 msgid "`Scenari (Kelis) <https://scenari.software/>`_"
-msgstr "`curl <https://curl.se/>`_"
+msgstr "`Scenari (Kelis) <https://scenari.software/>`_"
 
 #: ../../../BACKERS.rst:22
 msgid ""
@@ -37947,7 +37839,7 @@ msgid ""
 "[test]`."
 msgstr ""
 "Sınamayı çalıştırmadan önce lütfen sınama bağımlılıklarının kurulu "
-"olduğundan emin olun. Bunu, ‘pip install -r requirements-dev.txt’ ya da ‘pip "
+"olduğundan emin olun. Bunu, `pip install -r requirements-dev.txt` ya da `pip "
 "install -e .[test]’ komutları ile yapabilirsiniz."
 
 #: ../../contributing/tests.rst:51
@@ -39089,8 +38981,8 @@ msgid ""
 "Programmatically, using the API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"Programlamada API kullanarak :http:post:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/units/`."
+"Programlamada API kullanılarak: http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:79
 msgid ""
@@ -41882,32 +41774,36 @@ msgstr ""
 "dosyalardan farklı bir konumda tutulur -- :file:`res/values/strings.xml`."
 
 #: ../../formats/android.rst:15
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate does following escaping of strings:"
-msgstr "Weblate kapsayıcıları şu kayıt defterlerinde yayınlanmıştır:"
+msgstr "Weblate, dizeglerden şu şekilde kaçar:"
 
 #: ../../formats/android.rst:17
 msgid "If a strings is valid XML, it is inserted as XML to translation."
-msgstr ""
+msgstr "Bir dizge geçerli bir XML ise, çeviriye XML olarak eklenir."
 
 #: ../../formats/android.rst:18
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid intepreting them as style or resource references."
 msgstr ""
+"``?`` ve ``@`` karakterlerinin biçem veya kaynak referansları olarak "
+"yorumlanmasından kaçınılması için dizgenin başına ``\\\\`` eklenir."
 
 #: ../../formats/android.rst:19
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
 msgstr ""
+"Dizgede birden fazla boşluk bulunuyorsa, çift tırnak (``\"``) arasına alınır."
 
 #: ../../formats/android.rst:20
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"Yeni satırlardan ``\\\\n"
+"`` şeklinde kaçınılır, ancak gerçek satır sonu da okunabilirlik amacıyla "
+"korunur."
 
 #: ../../formats/android.rst:24
 msgid ""
@@ -42914,16 +42810,16 @@ msgid ""
 msgstr ""
 "Weblate, bu biçimin ISO-8859-1, UTF-8 ve UTF-16 çeşitlerini destekler. Hepsi "
 "tüm Unicode karakterlerinin tutulmasını destekler, yalnızca farklı şekilde "
-"kodlanmıştır. ISO-8859-1 içinde, Unicode kaçış dizileri kullanılır "
-"(``zkou\\u0161ka`` gibi), diğerlerinde karakterler doğrudan UTF-8 ya da "
-"UTF-16 olarak kodlanır."
+"kodlanmıştır. ISO-8859-1 içinde, Unicode kaçınma dizileri kullanılır (``"
+"zkou\\u0161ka`` gibi), diğerlerinde karakterler doğrudan UTF-8 ya da UTF-16 "
+"olarak kodlanır."
 
 #: ../../formats/java.rst:21
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
 msgstr ""
-"Kaçış dizilerinin yüklenmesi UTF-8 kipinde de çalışır. Bu nedenle lütfen "
+"Kaçınma dizilerinin yüklenmesi UTF-8 kipinde de çalışır. Bu nedenle lütfen "
 "uygulama gereksinimlerinize uygun doğru kodlama kümesini seçerken dikkatli "
 "olun."
 
@@ -43287,16 +43183,16 @@ msgid "`ResourceDictionary file`"
 msgstr "`ResourceDictionary dosyası`"
 
 #: ../../formats/resx.rst:4
-#, fuzzy
-#| msgid ".NET resource file"
 msgid ".NET resource files (RESX, RESW)"
-msgstr ".NET kaynak dosyası"
+msgstr ".NET kaynak dosyaları (RESX, RESW)"
 
 #: ../../formats/resx.rst:11
 msgid ""
 "A .NET XML resource file employs a monolingual XML file format used in "
 "Microsoft .NET applications."
 msgstr ""
+"Bir .NET XML kaynak dosyası, Microsoft .NET uygulamalarında kullanılan tek "
+"dilli bir XML dosya biçimi kullanır."
 
 #: ../../formats/resx.rst:14
 msgid ""
@@ -43304,6 +43200,9 @@ msgid ""
 "extension, the ``.resw`` file format is identical to the ``.resx`` file "
 "format, except that ``.resw`` files may contain only strings and file paths."
 msgstr ""
+"``.resx`` ya da ``.resw`` uzantısını kullanabilir. Dosya uzantısındaki "
+"farklılığa rağmen, ``.resw`` dosya biçimi ``.resx`` dosya biçimiyle aynıdır. "
+"Ancak ``.resw`` dosyalarında yalnızca dizgeler ve dosya yolları bulunabilir."
 
 #: ../../formats/resx.rst:20
 msgid ""
@@ -43483,10 +43382,8 @@ msgstr ""
 "sunulur. Her paragraf ayrı bir dizge olarak çevrilir."
 
 #: ../../formats/txt.rst:11
-#, fuzzy
-#| msgid "There are three flavors of this format:"
 msgid "There are several flavors of this format:"
-msgstr "Bu biçimin üç çeşidi vardır:"
+msgstr "Bu biçimin birkaç çeşidi vardır:"
 
 #: ../../formats/txt.rst:13
 msgid "Plain text file"
@@ -43539,12 +43436,6 @@ msgstr ""
 "anda yorumların bulunduğu dosya türünü desteklemiyor."
 
 #: ../../formats/webextension.rst:16
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-#| "docs/extensions/reference/i18n/>`_, `Mozilla Extensions "
-#| "Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
-#| "Add-ons/WebExtensions/Internationalization>`_"
 msgid ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
 "docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
@@ -43552,7 +43443,7 @@ msgid ""
 "ons/WebExtensions/Internationalization>`_"
 msgstr ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/i18n/>`_, `Mozilla Eklenti Yerelleştirmesi "
+"docs/extensions/reference/api/i18n>`_, `Mozilla Eklenti Yerelleştirmesi "
 "<https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
 "Internationalization>`_"
 
@@ -43648,7 +43539,7 @@ msgid ""
 "XML elements being escaped)."
 msgstr ""
 "Bileşenlerin içeriğinin düz metin olarak tutulduğu basit XLIFF dosyası (tüm "
-"XML bileşenlerinden kaçış)."
+"XML bileşenlerinden kaçınma)."
 
 #: ../../formats/xliff.rst:22
 msgid "`XLIFF 1.2 with placeables support`"
@@ -44007,12 +43898,6 @@ msgstr ""
 "üzerinden erişebilirsiniz."
 
 #: ../../../README.rst:79
-#, fuzzy
-#| msgid ""
-#| "This program is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General "
-#| "Public License`_ for more details."
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
@@ -44021,8 +43906,8 @@ msgid ""
 msgstr ""
 "Bu yazılım, yararlı olacağı umuduyla dağıtılır. Ancak HERHANGİ BİR GARANTİ "
 "VERİLMEZ; TİCARETE UYGUNLUK VEYA BELİRLİ BİR AMACA UYGUNLUK GARANTİSİ "
-"VERİLMEZ. Ayrıntılı bilgi almak için `GNU Genel Kamu Lisansı`_ koşullarına "
-"bakabilirsiniz."
+"VERİLMEZ. Ayrıntılı bilgi almak için `GNU Genel Kamu Lisansı <https://www.gnu"
+".org/licenses/gpl-3.0.html>`_ koşullarına bakabilirsiniz."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
@@ -44449,16 +44334,16 @@ msgid "Punctuation spacing"
 msgstr "Noktalama aralığı"
 
 #: ../../user/checks.rst:55
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "Ensures French and Breton use correct punctuation spacing."
-msgstr "Fransızca noktalama aralığı için özel denetim eklendi."
+msgstr "Fransızca ve Breton noktalama aralığının doğru olmasını sağlar."
 
 #: ../../user/checks.rst:57
 msgid ""
 "This fixup can be disable via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
+"Bu düzeltme ``ignore-punctuation-spacing`` imiyle kapatılabilir (bu :ref"
+":`check-punctuation-spacing` seçeneğini de kapatır)."
 
 #: ../../user/checks.rst:63
 msgid "Unsafe HTML cleanup"
@@ -46292,9 +46177,9 @@ msgid ""
 "fails if the number of ``\\n`` literals in translation does not match the "
 "source."
 msgstr ""
-"Kaçışlı yeni satır kodları genellikle program çıktısını biçimlendirmek için "
-"önemlidir. Çevirideki ``\\n`` kodlarının sayısı kaynakla aynı değilse "
-"denetim hatası oluşur."
+"Kaçınılan yeni satır kodları genellikle program çıktısını biçimlendirmek "
+"için önemlidir. Çevirideki ``\\n"
+"`` kodlarının sayısı kaynakla aynı değilse denetim hatası oluşur."
 
 #: ../../user/checks.rst:1108
 msgid "Mismatched colon"
@@ -47339,10 +47224,10 @@ msgstr ""
 "Bu denetim, iç HTML kodunun güvenli veya temizlenmiş olmasını *sağlamaz* ve "
 "iç HTML kodunu değiştirmeye yönelik kötü niyetli girişimlere karşı koruma "
 "sağlama amacı taşımaz. Ayrıca, Fluent değişkenleri ve başvurularının "
-"rastgele dizgelere açılabileceği, dolayısıyla kaçış yapılmadığı sürece "
-"isteğe bağlı HTML koduna açılabileceği unutulmamalıdır. Bir istisna olarak, "
-"Fluent başvurusundan önce gelen bir ``<`` veya ``&`` karakteri bu denetimi "
-"tetikler çünkü kaçışlı bir değer bile beklenmeyen sonuçlara yol açabilir."
+"rastgele dizgelere açılabileceği, dolayısıyla kaçınılmadığı sürece isteğe "
+"bağlı HTML koduna açılabileceği unutulmamalıdır. Bir istisna olarak, Fluent "
+"başvurusundan önce gelen bir ``<`` veya ``&`` karakteri bu denetimi tetikler "
+"çünkü kaçınılan bir değer bile beklenmeyen sonuçlara yol açabilir."
 
 #: ../../user/checks.rst:1682
 msgid ""
@@ -47649,12 +47534,12 @@ msgid "JSON (only available for monolingual translations) (``json``)"
 msgstr "JSON (yalnızca tek dilli çeviriler için kullanılabilir) (``json``)"
 
 #: ../../user/files.rst:39
-#, fuzzy
-#| msgid "JSON (only available for monolingual translations) (``json``)"
 msgid ""
 "JSON nested structure file (only available for monolingual translations) "
 "(``json-nested``)"
-msgstr "JSON (yalnızca tek dilli çeviriler için kullanılabilir) (``json``)"
+msgstr ""
+"JSON iç içe yapı dosyası (yalnızca tek dilli çeviriler için kullanılabilir) "
+"(``json-nested``)"
 
 #: ../../user/files.rst:40
 msgid ""
@@ -48094,18 +47979,15 @@ msgid ":ref:`variants`"
 msgstr ":ref:`variants`"
 
 #: ../../user/glossary.rst:121
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Glossaries in automatic suggestion"
-msgstr "Kendiliğinden önerileri kullanma"
+msgstr "Kendiliğinden önerilerde sözlükleri kullanmak"
 
 #: ../../user/glossary.rst:125
-#, fuzzy
-#| msgid "The following keyboard shortcuts can be utilized during translation:"
 msgid ""
 "Following automatic suggestion services utilize glossaries during the "
 "translation:"
-msgstr "Çeviri sırasında şu klavye kısayolları kullanılabilir:"
+msgstr ""
+"Çeviri sırasında şu kendiliğinden öneri hizmetleri sözlükleri kullanabilir:"
 
 #: ../../user/glossary.rst:128
 msgid ":ref:`mt-deepl`"
@@ -48117,22 +47999,24 @@ msgstr ":ref:`mt-microsoft-translator`"
 
 #: ../../user/glossary.rst:131
 msgid "The glossary is processed before exposed to the service:"
-msgstr ""
+msgstr "Sözlük hizmete sunulmadan önce işlenir:"
 
 #: ../../user/glossary.rst:133
 msgid ""
 "Duplicate source entries are not allowed, any additional entries with the "
 "same source are skipped."
 msgstr ""
+"Yinelenen kaynak kayıtlarına izin verilmez. Kaynağı aynı olan ek kayıtlar "
+"atlanır."
 
 #: ../../user/glossary.rst:134
 msgid ""
 "Any control characters and leading and trailing whitespace are stripped."
-msgstr ""
+msgstr "Tüm kontrol karakterleri ile baştaki ve sondaki boşluklar ayıklanır."
 
 #: ../../user/glossary.rst:135
 msgid ":ref:`glossary-forbidden` are skipped."
-msgstr ""
+msgstr ":ref:`glossary-forbidden` atlandı."
 
 #: ../../user/glossary.rst:139
 msgid ""
@@ -48140,6 +48024,9 @@ msgid ""
 "of saved glossaries. Weblate always deletes the oldest glossary if it runs "
 "out of space."
 msgstr ""
+"Birçok hizmet, sözlükleri sunucu tarafında tutar ve kaydedilebilecek sözlük "
+"sayısına sınırlama getirir. Depolama alanı biterse Weblate her zaman en eski "
+"sözlüğü siler."
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
@@ -50158,6 +50045,8 @@ msgid ""
 "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
 msgstr ""
+"Kod barındırma sitelerindeki depolara erişmek (GitHub, GitLab, Bitbucket, "
+"Azure DevOps, …)"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -50168,12 +50057,21 @@ msgid ""
 "repository. You can then use SSH URL to access the repository (see :ref:`ssh-"
 "repos`)."
 msgstr ""
+"Kod barındırma sitelerindeki depolara erişim genellikle Weblate SSH "
+"anahtarıyla ilişkilendirilmiş özel bir kullanıcı oluşturularak yapılır ("
+"Ayrıntılı bilgi almak için: :ref:`weblate-ssh-key`). Bu şekilde, Weblate SSH "
+"anahtarını tek bir kullanıcıyla ilişkilendirirsiniz (bu uygulama platform "
+"tarafından sıklıkla yapılır) ve bu kullanıcıya depoya erişim izni "
+"verirsiniz. Daha sonra depoya erişmek için SSH adresini kullanabilirsiniz ("
+"Ayrıntılı bilgi almak için: :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
 "On a Hosted Weblate, this is pre-cofigured for most of the public sites, "
 "please see :ref:`hosted-push`."
 msgstr ""
+"Hosted Weblate üzerinde bu yapılandırma, herkese açık sitelerin çoğu için "
+"önceden hazırlanmıştır. Ayrıntılı bilgi almak için: :ref:`hosted-Push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
