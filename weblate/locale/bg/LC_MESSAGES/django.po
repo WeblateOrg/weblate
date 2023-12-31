@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # 109247019824 <stoyan@gmx.com>, 2023.
-# Любомир Василев <lyubomirv@gmx.com>, 2023.
+# Любомир Василев <lyubomirv@gmx.com>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-31 23:45+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -66,6 +66,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Използва се при подавания към системата за контрол на версиите. Адресът ще "
+"остане в хранилището завинаги, след като промените бъдат подадени от Weblate."
 
 #: weblate/accounts/forms.py:211 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -91,6 +93,8 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Използва се за известия по е-поща и като е-поща при подавания, ако нещо "
+"друго не бъде настроено по-долу."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -441,16 +445,12 @@ msgid "Access to project {project} was blocked"
 msgstr "Достъпът до проекта {project} е спрян"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "Съобщението беше изпратено до администратор."
+msgstr "Потребителят беше активиран от администратор"
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "Съобщението беше изпратено до администратор."
+msgstr "Потребителят беше деактивиран от администратор"
 
 #: weblate/accounts/models.py:175
 msgid "Configured password to sign in."
@@ -1277,6 +1277,8 @@ msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Низовете, които изискват редактиране (с неточни съвпадения) обикновено не са "
+"готови за ползване като преводи."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -2249,7 +2251,7 @@ msgstr "Таксуване"
 #: weblate/auth/data.py:221
 msgctxt "Access-control role"
 msgid "Add new projects"
-msgstr "Добавяне на проекти"
+msgstr "Добавяне на нови проекти"
 
 #: weblate/auth/data.py:227
 msgctxt "Access-control group"
@@ -2640,6 +2642,8 @@ msgstr "Добавянето на низове в настройката на к
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"Преводът на термина не може да бъде премахнат. Вместо това може да "
+"премахнете изходния низ."
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -4563,7 +4567,7 @@ msgstr "Вид на множественото число"
 
 #: weblate/lang/models.py:884
 msgid "Example counts for this plural form."
-msgstr ""
+msgstr "Примери за тази форма на множествено число."
 
 #: weblate/lang/models.py:893
 msgid "Singular"
@@ -4810,7 +4814,7 @@ msgstr "Информация за регистрацията в услугата
 #: weblate/machinery/forms.py:177
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Въведете ключ JSON на регистрацията за услугата."
 
 #: weblate/machinery/forms.py:182
 msgctxt "Automatic suggestion service configuration"
@@ -4821,6 +4825,8 @@ msgstr "Проект на Гугъл Преводач"
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
 msgstr ""
+"Въведете числовия или буквено-числовия идентификатор за проекта си в Гугъл "
+"Облак."
 
 #: weblate/machinery/forms.py:191
 msgctxt "Automatic suggestion service configuration"
@@ -4833,6 +4839,8 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Изберете регион за облачните преводи на Гугъл, който се ползва за проекта Ви "
+"в Гугъл Облак, или който е най-близо до Вас."
 
 #: weblate/machinery/forms.py:200
 #, fuzzy
@@ -4844,12 +4852,12 @@ msgstr "Глобални числа"
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Европа"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "САЩ"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4902,6 +4910,8 @@ msgstr "Сомалийски"
 #: weblate/machinery/forms.py:254
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Ако формата на езика не е специално определена като учтива (или неучтива), "
+"ще се ползва посочената форма на учтивост"
 
 #: weblate/machinery/forms.py:271
 #, fuzzy
@@ -4929,6 +4939,8 @@ msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Опишете личността на преводача, за да подобрите точността на превода. "
+"Например: “Вие сте гледач на катерици“"
 
 #: weblate/machinery/forms.py:299
 #, fuzzy
@@ -4940,7 +4952,7 @@ msgstr "Файл за превод"
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "Опишете стила на превода. Например: „Ползвайте учтива форма“"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -5406,17 +5418,15 @@ msgstr ""
 "му директно, а не чрез тази страница."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Ако търсите поддръжка за друг сървър, използващ Weblate, или искате да "
-"докладвате за грешка, използвайте страницата: %(weblate_link)s."
+"Ако търсите поддръжка за друг сървър, използващ Weblate, който не е на адрес "
+"%(site_title)s, проверете възможностите за поддръжка на %(weblate_link)s или "
+"използвайте този формуляр на правилния сървър."
 
 #: weblate/templates/accounts/contact.html:31
 #, fuzzy, python-format
@@ -8163,10 +8173,8 @@ msgid "disabled"
 msgstr "изключено"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "Услугата в момента е недостъпна."
+msgstr "Услугата вече не е достъпна"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -10150,10 +10158,9 @@ msgstr ""
 "поотделно за всеки компонент:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Преводи на низа на други езици"
+msgstr ""
+"Работният процес за преводите може да бъде персонализиран и според езика:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -10572,18 +10579,21 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
+"Отдалеченото хранилище не беше намерено. Провеете дали то съществува и дали "
+"е достъпно за Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:8
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
+"Отдалеченото хранилище не е достъпно. Проверете дали е достъпно за Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:12
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
-msgstr ""
+msgstr "Отдалеченото хранилище е временно недостъпно. Опитайте отново по-късно."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 #, fuzzy
@@ -10626,6 +10636,8 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
+"Weblate ще опита да извърши действието отново, когато това е нужно, така че "
+"предупреждението може да изчезне от само себе си, ако проблемите са временни."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
@@ -12248,7 +12260,7 @@ msgstr "Моля, посочете правилно кратко име за а�
 
 #: weblate/trans/forms.py:1013
 msgid "Source component needs to have same source language as target one."
-msgstr ""
+msgstr "Изходният компонент трябва да има един и същ изходен и целеви език."
 
 #: weblate/trans/forms.py:1023
 msgid "Scope"
@@ -12608,6 +12620,9 @@ msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
+"Работният процес на превода се настройва за проекта и компонентите. Ако "
+"включите персонализирането тук, може да направите различни настройки за този "
+"език."
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
@@ -13115,7 +13130,7 @@ msgstr "Обявления"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:381
 msgid "Alert triggered"
-msgstr ""
+msgstr "Активирано е предупреждение"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:383
@@ -13221,11 +13236,9 @@ msgid "Comment removed"
 msgstr "Компонент за премахване"
 
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Проблемът в коментара е разрешен."
+msgstr "Проблемът в коментара е разрешен"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:422
@@ -13301,14 +13314,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Оригинална ревизия: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Лични: {}"
+msgstr "Нова ревизия: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -14173,10 +14183,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Чакащите промени не успяха да бъдат подадени: %s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Редактирането на шаблони не се поддържа при този файлов формат."
+msgstr "Множествените числа не се поддържат при този файлов формат!"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -14259,7 +14267,7 @@ msgstr "Вмъкване на многоточие"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Вмъкване на маркер за пренасяне"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
@@ -15471,10 +15479,9 @@ msgstr ""
 "Моля, уверете се, че всичко е правилно."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Could not fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Неуспешно получаване на публичния ключ на хост!"
+msgstr "Неуспешно получаване на публичния ключ за хост: %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
