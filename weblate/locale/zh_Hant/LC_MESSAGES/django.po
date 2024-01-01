@@ -4,7 +4,7 @@
 # Chang-Chia Tseng <pswo10680@gmail.com>, 2023.
 # Jimmy Young <LNDDYL@users.noreply.hosted.weblate.org>, 2023.
 # notlin4 <iamnotlin4@gmail.com>, 2023.
-# pan93412 <pan93412@gmail.com>, 2023.
+# pan93412 <pan93412@gmail.com>, 2023, 2024.
 # Kagamine_Rinrin <a12076543@sina.com>, 2023.
 # Haowei Hsu <hwhsu1231@gmail.com>, 2023.
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-30 19:17+0000\n"
-"Last-Translator: notlin4 <iamnotlin4@gmail.com>\n"
+"PO-Revision-Date: 2024-01-02 20:09+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -84,13 +84,13 @@ msgstr "組件列表：%s"
 
 #: weblate/accounts/forms.py:346
 msgid "Account e-mail"
-msgstr "帳號電子郵件"
+msgstr "帳號郵件信箱"
 
 #: weblate/accounts/forms.py:348
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
-msgstr ""
+msgstr "用作郵件信箱通知，以及下方未設定時使用的提交信箱。"
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -966,7 +966,7 @@ msgstr "無法移除使用者身份"
 
 #: weblate/accounts/views.py:1156
 msgid "Add another identity by confirming your e-mail address first."
-msgstr "需要先確認過您的電子信箱位址，才能加入其他身分。"
+msgstr "需要先確認過您的郵件信箱位址，才能加入其他身分。"
 
 #: weblate/accounts/views.py:1203
 msgid "Could not complete registration."
@@ -1184,16 +1184,14 @@ msgid "If not specified, the location of the PO file will be used."
 msgstr "如果未指定，將使用 PO 檔的位置。"
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "匯入為需要編輯的字串"
+msgstr "包含需要編輯的字串"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
-msgstr ""
+msgstr "需要編輯的字串 (fuzzy) 通常無法直接被用為譯文。"
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -1268,9 +1266,9 @@ msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"額外資訊的列看起來類似於 RFC 822 電子信箱標頭，位於送交訊息的其他自由格式部分"
-"的末尾，例如「Co-authored-by: …」。"
+msgstr "額外資訊的列看起來類似於 RFC 822 "
+"郵件信箱標頭，位於送交訊息的其他自由格式部分的末尾，例如「Co-authored-by: "
+"…」。"
 
 #: weblate/addons/forms.py:175
 msgid "Commit message"
@@ -2450,7 +2448,7 @@ msgstr "若要貢獻此翻譯，必須同意貢獻者協議書。"
 #: weblate/trans/views/edit.py:443 weblate/trans/views/edit.py:463
 #: weblate/trans/views/edit.py:981
 msgid "Insufficient privileges for saving translations."
-msgstr "權利不足，無法儲存翻譯。"
+msgstr "無權儲存翻譯。"
 
 #: weblate/auth/permissions.py:173
 msgid "Insufficient privileges for editing source strings."
@@ -2483,10 +2481,8 @@ msgid "Reviews are not enabled."
 msgstr "未啟用檢閱。"
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "無法編輯來源字串。"
+msgstr "來源字串需要檢閱。"
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -2513,7 +2509,7 @@ msgstr "已在組件組態中停用「加入字串」功能。"
 
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
-msgstr ""
+msgstr "無法移除專有名詞的翻譯，請改移除來源字串。"
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -4620,7 +4616,7 @@ msgstr "Google 翻譯服務帳號資訊"
 #: weblate/machinery/forms.py:177
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "輸入服務帳號的 JSON 金鑰。"
 
 #: weblate/machinery/forms.py:182
 msgctxt "Automatic suggestion service configuration"
@@ -4630,7 +4626,7 @@ msgstr "Google 翻譯專案"
 #: weblate/machinery/forms.py:186
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "輸入您 Google Cloud 專案的數字或字母 ID。"
 
 #: weblate/machinery/forms.py:191
 msgctxt "Automatic suggestion service configuration"
@@ -4642,24 +4638,23 @@ msgctxt "Google Cloud Translation configuration"
 msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
-msgstr ""
+msgstr "選擇您用在 Google Cloud 專案，或者是位置最靠近您的 Google Cloud Translation "
+"區域。"
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "全域數字"
+msgstr "全域"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "歐洲"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "美國"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4687,70 +4682,54 @@ msgid "Access key ID"
 msgstr "存取金鑰 ID"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "存取金鑰 ID"
+msgstr "存取金鑰 secret"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "區域名稱"
+msgstr "區域 ID"
 
 #: weblate/machinery/forms.py:252
-#, fuzzy
-#| msgid "Somali"
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "索馬利語"
+msgstr "正式程度"
 
 #: weblate/machinery/forms.py:254
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr ""
+msgstr "如果語言沒有特別指定是否為書面語，則使用指定的正式程度"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "自動偵測"
+msgstr "自動選擇"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "禪譯模式"
+msgstr "OpenAI 模型"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "翻譯報告"
+msgstr "翻譯者角色描述"
 
 #: weblate/machinery/forms.py:292
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr ""
+msgstr "描述翻譯者的角色描述，提高翻譯的準確性，比如：「你是名松鼠飼養員。」"
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "翻譯檔"
+msgstr "翻譯者風格"
 
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "描述翻譯風格，如：「翻譯得口語化。」"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -4950,7 +4929,7 @@ msgstr "取用遭拒"
 
 #: weblate/templates/403.html:14
 msgid "Insufficient privileges to display this page."
-msgstr "權利不足，無法顯示此頁面。"
+msgstr "無權顯示此頁面。"
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:20
 #: weblate/templates/base.html:130 weblate/templates/base.html:322
@@ -5287,10 +5266,8 @@ msgstr "請修正註冊表單中的錯誤。"
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:122
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "新增郵件信箱地址"
+msgstr "驗證新的郵件信箱地址"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5478,16 +5455,12 @@ msgid "Notification settings"
 msgstr "通知設定"
 
 #: weblate/templates/accounts/profile.html:88
-#, fuzzy
-#| msgid "Change notification settings"
 msgid "Remove this notification setting"
-msgstr "變更通知設定"
+msgstr "移除此通知設定"
 
 #: weblate/templates/accounts/profile.html:124
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "從已經驗證的郵件信箱地址中選擇送交信箱。"
+msgstr "只能從驗證過的郵件信箱地址中選擇。"
 
 #: weblate/templates/accounts/profile.html:133
 msgid "Current user identities"
@@ -5664,8 +5637,7 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
 "project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱與電子郵件作為送交資訊，並依各個在地化專案所"
+msgstr "一旦註冊，即代表您同意以您的名稱與郵件信箱作為送交資訊，並依各個在地化專案所"
 "使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/accounts/profile.html:401
@@ -6858,17 +6830,13 @@ msgid "Add a category"
 msgstr "加入類別"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "重新命名類別"
+msgstr "組織類別"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
-msgstr "重新命名類別亦會變更類別中所有組件的 URL。"
+msgstr "移動或重新命名類別亦會變更類別中所有組件的 URL。"
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -6879,10 +6847,8 @@ msgstr "使用者得更新書籤、複製儲存庫的引用連結或 API 呼叫�
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "組織或移除"
+msgstr "組織"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7011,16 +6977,12 @@ msgstr ""
 "會顯示直到訊息被刪除。"
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "建立組件"
+msgstr "組織組件"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moving or renaming the component will also change its URLs."
-msgstr "重新命名組件亦會變更其 URL。"
+msgstr "移動或重新命名組件亦會變更其 URL。"
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:359 weblate/templates/translation.html:439
@@ -7803,10 +7765,8 @@ msgid "disabled"
 msgstr "已停用"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "服務目前無法使用。"
+msgstr "服務不再可用"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -8213,7 +8173,7 @@ msgstr "%(component)s 中有儲存庫操作"
 msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
-msgstr "%(site_title)s 沒有用這個電子信箱註冊的帳號，因此無法重設密碼。"
+msgstr "%(site_title)s 沒有用這個郵件信箱註冊的帳號，因此無法重設密碼。"
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
@@ -8790,16 +8750,12 @@ msgid "off"
 msgstr "關閉"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "共享條目數"
+msgstr "此 Weblate 執行個體中的共享條目數"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "總條目數"
+msgstr "此 Weblate 執行個體的總條目數"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -8936,10 +8892,8 @@ msgstr ""
 "會顯示直到訊息被刪除。"
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "建立專案"
+msgstr "組織專案"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9585,16 +9539,10 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "當您註冊或登入此服務，即表示您接受我們的："
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
-msgstr ""
-"本頁內容基於服務條款與隱私權政策而來，您應該仍要閱讀原始文件以完全明瞭其內"
-"容："
+msgstr "下文快速帶過服務條款與隱私權政策，但您應該仍要閱讀原始文件以完全明瞭其內容："
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -9606,18 +9554,12 @@ msgstr ""
 "個您所翻譯的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱與郵件信箱作為版本控制系統的送交資訊，並依各"
-"個您所翻譯的專案所使用的授權條款提供您的貢獻。"
+msgstr "一旦註冊，即代表您同意以您的名稱作為版本控制系統的送交資訊，並依各個您所翻譯"
+"的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -9906,10 +9848,8 @@ msgid "Accept"
 msgstr "接受"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "接受並編輯"
+msgstr "接受並核可"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
@@ -11086,10 +11026,8 @@ msgstr "單字"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "字元 % 數"
+msgstr "字元數"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -11618,7 +11556,7 @@ msgstr "請輸入有效組件 slug！"
 
 #: weblate/trans/forms.py:1013
 msgid "Source component needs to have same source language as target one."
-msgstr ""
+msgstr "來源組件的來源語言需要和目標組件相同。"
 
 #: weblate/trans/forms.py:1023
 msgid "Scope"
@@ -12569,14 +12507,11 @@ msgstr "「%(component)s」組件的授權條款已從 %(old)s 更改為 %(targe
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "原始修訂版：{}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "個人：{}"
+msgstr "新的修訂版：{}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -13354,10 +13289,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "無法送交未決的更動：%s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "這個檔案格式不支援編輯模版。"
+msgstr "此檔案格式不支援複數形！"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -13437,7 +13370,7 @@ msgstr "插入水平刪節號"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "插入軟連字號 (soft hyphen)"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
@@ -13904,7 +13837,7 @@ msgstr "您的建議留空白！"
 
 #: weblate/trans/views/edit.py:297
 msgid "You don't have privileges to add suggestions!"
-msgstr "您沒有加入建議的權利！"
+msgstr "您無權加入建議！"
 
 #: weblate/trans/views/edit.py:305
 msgid "Your suggestion has been identified as spam!"
@@ -14285,7 +14218,7 @@ msgstr "銀色"
 
 #: weblate/utils/fields.py:38
 msgid "A user with this e-mail already exists."
-msgstr "已有同電子信箱的使用者。"
+msgstr "已有同郵件信箱的使用者。"
 
 #: weblate/utils/forms.py:34
 msgid "Missing query string."
@@ -14499,16 +14432,12 @@ msgid "This will force push changes to the upstream repository."
 msgstr "這將會強制推送更動到上游儲存庫。"
 
 #: weblate/vcs/git.py:1095
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request"
-msgstr "Bitbucket Server 拉取請求"
+msgstr "Azure DevOps 拉取請求"
 
 #: weblate/vcs/git.py:1103
-#, fuzzy
-#| msgid "This will push changes and create a Gitea pull request."
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "這將會推送更動，並建立一個 Gitea 拉取請求。"
+msgstr "這將會推送更動，並建立一個 Azure DevOps 拉取請求。"
 
 #: weblate/vcs/git.py:1336
 msgid "GitHub pull request"
@@ -14678,11 +14607,8 @@ msgid "Premium self-hosted support"
 msgstr "自行架設的進階支援"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
-msgstr "託管字串"
+msgstr "託管字串數"
 
 #: weblate/wladmin/models.py:185
 msgid "Backup repository URL"
@@ -14777,12 +14703,8 @@ msgid ""
 msgstr "請更改設定中的 SITE_TITLE，讓您的 Weblate 更容易被發現。"
 
 #: weblate/wladmin/views.py:191 weblate/wladmin/views.py:208
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid "Could not activate your installation. Please try again later."
-msgstr "無法啟用安裝實體。請確保您的啟用代符是正確的。"
+msgstr "無法啟用安裝實體。請稍後重試。"
 
 #: weblate/wladmin/views.py:200
 msgid ""
@@ -14791,10 +14713,9 @@ msgid ""
 msgstr "無法啟用安裝實體。請確保您的啟用代符是正確的。"
 
 #: weblate/wladmin/views.py:215
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "無法取得譯文：%s"
+msgstr "無法啟用您的安裝實體：%s"
 
 #: weblate/wladmin/views.py:219
 msgid "Activation completed."
