@@ -1182,6 +1182,12 @@ LICENSES = (
         "https://spdx.org/licenses/FSFAP.html",
         True,
     ),
+    (
+        "FSFAP-no-warranty-disclaimer",
+        "FSF All Permissive License (without Warranty)",
+        "https://spdx.org/licenses/FSFAP-no-warranty-disclaimer.html",
+        False,
+    ),
     ("FSFUL", "FSF Unlimited License", "https://spdx.org/licenses/FSFUL.html", False),
     (
         "FSFULLRWD",
@@ -1472,6 +1478,12 @@ LICENSES = (
         "HPND-doc",
         "Historical Permission Notice and Disclaimer - documentation variant",
         "https://spdx.org/licenses/HPND-doc.html",
+        False,
+    ),
+    (
+        "HPND-Kevlin-Henney",
+        "Historical Permission Notice and Disclaimer - Kevlin Henney variant",
+        "https://spdx.org/licenses/HPND-Kevlin-Henney.html",
         False,
     ),
     (
@@ -2781,6 +2793,12 @@ LICENSES = (
         True,
     ),
     ("xinetd", "xinetd License", "https://spdx.org/licenses/xinetd.html", True),
+    (
+        "xkeyboard-config-Zinoviev",
+        "xkeyboard-config Zinoviev License",
+        "https://spdx.org/licenses/xkeyboard-config-Zinoviev.html",
+        False,
+    ),
     ("xlock", "xlock License", "https://spdx.org/licenses/xlock.html", False),
     ("xpp", "XPP License", "https://spdx.org/licenses/xpp.html", False),
     ("XSkat", "XSkat License", "https://spdx.org/licenses/XSkat.html", False),
