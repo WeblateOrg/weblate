@@ -10,6 +10,7 @@ from django.core.cache import cache
 from openai import OpenAI
 
 from weblate.glossary.models import get_glossary_tsv
+from weblate.utils.errors import report_error
 
 from .base import BatchMachineTranslation, MachineTranslationError
 from .forms import OpenAIMachineryForm
@@ -109,13 +110,18 @@ class OpenAITranslation(BatchMachineTranslation):
         )
 
         result = {}
+        choices = response.choices
         for index, text in enumerate(texts):
             # Extract the assistant's reply from the response
-            assistant_reply = response.choices[index].message.content.strip()
+            try:
+                chat = choices[index]
+            except IndexError:
+                report_error(cause="Missing assistant reply")
+                continue
 
             result[text] = [
                 {
-                    "text": assistant_reply,
+                    "text": chat.message.content.strip(),
                     "quality": self.max_score,
                     "service": self.name,
                     "source": text,
