@@ -3,6 +3,8 @@
 aliyun-python-sdk-alimt>=3.2.0,<4.0.0
 # Amazon
 boto3>=1.28.62,<1.35.0
+certifi>=2023.7.22 # not directly required, pinned by Snyk to avoid a vulnerability
+cryptography>=41.0.6 # not directly required, pinned by Snyk to avoid a vulnerability
 # LDAP
 django-auth-ldap>=4.1.0,<5.0.0
 # zxcvbn
@@ -23,6 +25,4 @@ psycopg[binary]>=3.1.8,<4
 python-akismet>=0.4.2,<0.5
 # SAML
 python3-saml>=1.2.1
-certifi>=2023.7.22 # not directly required, pinned by Snyk to avoid a vulnerability
-cryptography>=41.0.6 # not directly required, pinned by Snyk to avoid a vulnerability
 requests>=2.31.0 # not directly required, pinned by Snyk to avoid a vulnerability
