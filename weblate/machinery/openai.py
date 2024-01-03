@@ -40,6 +40,7 @@ Use the following glossary during the translation:
 class OpenAITranslation(BatchMachineTranslation):
     name = "OpenAI"
     max_score = 90
+    request_timeout = 20
 
     settings_form = OpenAIMachineryForm
 
