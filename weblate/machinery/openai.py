@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING
 
 from django.core.cache import cache
@@ -27,6 +28,7 @@ with precision and nuance.
 {style}
 You always reply with translated string only.
 You do not include transliteration.
+You receive an input as JSON list of strings and reply as JSON list in the same order.
 {glossary}
 """
 GLOSSARY_PROMPT = """
@@ -68,6 +70,13 @@ class OpenAITranslation(BatchMachineTranslation):
 
         raise MachineTranslationError(f"Unsupported model: {self.settings['model']}")
 
+    def format_prompt_part(self, name: str):
+        text = self.settings[name]
+        text = text.strip()
+        if text and not text.endswith("."):
+            text = f"{text}."
+        return text
+
     def get_prompt(
         self, source_language: str, target_language: str, translation
     ) -> str:
@@ -79,8 +88,8 @@ class OpenAITranslation(BatchMachineTranslation):
         return PROMPT.format(
             source_language=source_language,
             target_language=target_language,
-            persona=self.settings["persona"],
-            style=self.settings["style"],
+            persona=self.format_prompt_part("persona"),
+            style=self.format_prompt_part("style"),
             glossary=glossary,
         )
 
@@ -97,31 +106,38 @@ class OpenAITranslation(BatchMachineTranslation):
         prompt = self.get_prompt(source, language, unit.translation if unit else None)
         messages = [
             {"role": "system", "content": prompt},
-            *({"role": "user", "content": text} for text in texts),
+            {"role": "user", "content": json.dumps(texts)},
         ]
 
         response = self.client.chat.completions.create(
             model=self.get_model(),
             messages=messages,
             temperature=0,
-            max_tokens=1000,
             frequency_penalty=0,
             presence_penalty=0,
         )
 
         result = {}
-        choices = response.choices
+
+        translations_string = response.choices[0].message.content
+
+        try:
+            translations = json.loads(translations_string)
+        except json.JSONDecodeError as error:
+            report_error(cause="Failed to parse assistant reply")
+            raise MachineTranslationError("Could not parse assistant reply") from error
+
         for index, text in enumerate(texts):
             # Extract the assistant's reply from the response
             try:
-                chat = choices[index]
+                translation = translations[index]
             except IndexError:
                 report_error(cause="Missing assistant reply")
                 continue
 
             result[text] = [
                 {
-                    "text": chat.message.content.strip(),
+                    "text": translation,
                     "quality": self.max_score,
                     "service": self.name,
                     "source": text,

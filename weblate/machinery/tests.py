@@ -1468,7 +1468,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
