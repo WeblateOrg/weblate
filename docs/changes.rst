@@ -18,6 +18,7 @@ Not yet released.
 **Bug fixes**
 
 * Plural forms handling in :doc:`/formats/qt`.
+* Added missing documentation for :setting:`ADMINS_CONTACT`.
 
 **Compatibility**
 

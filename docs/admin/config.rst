@@ -18,6 +18,25 @@ All settings are stored in :file:`settings.py` (as is usual for Django).
     Please also check :doc:`Django's documentation <django:ref/settings>` for
     parameters configuring Django itself.
 
+.. setting:: ADMINS_CONTACT
+
+ADMINS_CONTACT
+--------------
+
+Configures where contact form sends e-mails. If not configured,
+e-mail addresses from :setting:`ADMINS` are used.
+
+Configure this as a list of e-mail addresses:
+
+.. code-block:: python
+
+   ADMINS_CONTACT = ["admin@example.com", "support@example.com"]
+
+.. seealso::
+
+   :setting:`CONTACT_FORM`,
+   :setting:`ADMINS`
+
 .. setting:: AKISMET_API_KEY
 
 AKISMET_API_KEY
@@ -390,6 +409,11 @@ Choose a configuration that matches the configuration of your mail server.
 ``"from"``
    The sender is used in as :mailheader:`From`. Your mail server needs to allow
    sending such e-mails.
+
+
+.. seealso::
+
+   :setting:`ADMINS_CONTACT`
 
 .. setting:: DATA_DIR
 

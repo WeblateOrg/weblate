@@ -551,6 +551,10 @@ Generic settings
         :std:setting:`django:DEFAULT_FROM_EMAIL`,
         :ref:`production-email`
 
+.. envvar:: WEBLATE_ADMINS_CONTACT
+
+   Configures :setting:`ADMINS_CONTACT`.
+
 .. envvar:: WEBLATE_CONTACT_FORM
 
      Configures contact form behavior, see :setting:`CONTACT_FORM`.

@@ -803,9 +803,13 @@ options:
     List of site administrators to receive notifications when something goes
     wrong, for example notifications on failed merges, or Django errors.
 
+    Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT`
+    is configured.
+
     .. seealso::
 
         :setting:`django:ADMINS`,
+        :setting:`ADMINS_CONTACT`,
         :ref:`production-admins`
 
 .. setting:: ALLOWED_HOSTS
