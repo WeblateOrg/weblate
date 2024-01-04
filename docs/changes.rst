@@ -7,6 +7,7 @@ Not yet released.
 
 * :ref:`check-perl-brace-format` quality check.
 * :doc:`/formats/moko`.
+* :doc:`/formats/formatjs`.
 
 **Improvements**
 

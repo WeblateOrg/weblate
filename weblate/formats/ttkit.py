@@ -1515,6 +1515,14 @@ class GoTextFormat(JSONFormat):
     supports_plural: bool = True
 
 
+class FormatJSFormat(JSONFormat):
+    name = gettext_lazy("Format.JS JSON file")
+    format_id = "formatjs"
+    loader = ("jsonl10n", "FormatJSJsonFile")
+    autoload = ()
+    check_flags = ("icu-message-format",)
+
+
 class CSVFormat(TTKitFormat):
     name = gettext_lazy("CSV file")
     format_id = "csv"
