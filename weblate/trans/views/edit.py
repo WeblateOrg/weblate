@@ -705,7 +705,7 @@ def translate(request, path):  # noqa: C901
             "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit),
             "addterm_form": TermForm(unit, user),
-            "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
+            "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order(),

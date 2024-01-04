@@ -607,9 +607,6 @@ class UserPage(UpdateView):
         # Filter all user activity
         all_changes = Change.objects.last_changes(request.user).filter(user=user)
 
-        # Last user activity
-        last_changes = all_changes[:10]
-
         # Filter where project is active
         user_translation_ids = set(
             all_changes.filter(
@@ -626,7 +623,8 @@ class UserPage(UpdateView):
         )
 
         context["page_profile"] = user.profile
-        context["last_changes"] = last_changes.preload()
+        # Last user activity
+        context["last_changes"] = all_changes.recent()
         context["last_changes_url"] = urlencode({"user": user.username})
         context["page_user_translations"] = translation_prefetch_tasks(
             prefetch_stats(user_translations)
