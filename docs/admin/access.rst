@@ -6,20 +6,10 @@ Access control
 Weblate comes with a fine-grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
 
-.. _access-simple:
-
-Simple access control
----------------------
-
-If you are not administrating the whole Weblate installation and just have
-access to manage certain projects (like on `Hosted Weblate <https://hosted.weblate.org/>`_),
-your access control management options are limited to following settings.
-If you don’t need any complex setup, those are sufficient for you.
-
 .. _acl:
 
 Project access control
-++++++++++++++++++++++
+----------------------
 
 .. note::
 
@@ -95,7 +85,7 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 .. _manage-acl:
 
 Managing per-project access control
-+++++++++++++++++++++++++++++++++++
+-----------------------------------
 
 Users with the :guilabel:`Manage project access` privilege (see
 :ref:`privileges`) can manage users in projects via adding them to the teams.
@@ -150,7 +140,7 @@ These features are available on the :guilabel:`Access control` page, which can b
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
 Team administrators
-^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++
 
 .. versionadded:: 4.15
 
@@ -160,7 +150,7 @@ team. This is useful in case you want to build self-governed teams.
 .. _invite-user:
 
 New user invitation
-^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++
 
 Adding existing users will send them invitation to confirm. With
 :setting:`REGISTRATION_OPEN` the administrator can also invite new users using
@@ -187,7 +177,7 @@ The same kind of invitations are available site-wide from the
 .. _block-user:
 
 Blocking users
-^^^^^^^^^^^^^^
+++++++++++++++
 
 .. versionadded:: 4.7
 
@@ -196,10 +186,11 @@ them from contributing. The blocked user still will be able to see the project
 if he has permissions for that, but he won't be able to contribute.
 
 Per-project permission management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++++++++++++++
 
-You can set your projects to `Protected` or `Private`, and
-:ref:`manage users <manage-acl>` per-project in the Weblate user interface.
+You can set your projects to :guilabel:`Protected` or :guilabel:`Private` (see
+:ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the Weblate
+user interface.
 
 By default this prevents Weblate from granting access provided by
 `Users` and `Viewers` :ref:`default teams <default-teams>` due to these teams’
@@ -214,8 +205,8 @@ team of the project.
 
 .. _custom-acl:
 
-Custom access control
----------------------
+Site-wide access control
+------------------------
 
 .. include:: /snippets/not-hosted.rst
 
@@ -223,25 +214,19 @@ The permission system is based on teams and roles, where roles define a set of
 permissions, and teams link them to users and translations, see
 :ref:`auth-model` for more details.
 
-The most powerful features of the Weblate’s access control system for now are
-available only through the :ref:`Django admin interface <admin-interface>`. You
-can use it to manage permissions of any project. You don’t necessarily have to
-switch it to `Custom` :ref:`access control <acl>` to utilize it. However
-you must have superuser privileges in order to use it.
+The most powerful features of the Weblate’s access control system can be configured
+in the :ref:`management-interface`. You can use it to manage permissions of any
+project. You don’t necessarily have to switch it to :guilabel:`Custom` :ref:`access
+control <acl>` to utilize it. However you must have superuser privileges in
+order to use it.
 
 If you are not interested in details of implementation, and just want to create a
 simple-enough configuration based on the defaults, or don’t have a site-wide access
 to the whole Weblate installation (like on `Hosted Weblate <https://hosted.weblate.org/>`_),
-please refer to the :ref:`access-simple` section.
-
-Common setups
-+++++++++++++
-
-This section contains an overview of some common configurations you may be
-interested in.
+please refer to the :ref:`manage-acl` section.
 
 Site-wide permission management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++++++++++++
 
 To manage permissions for a whole instance at once, add users to
 appropriate :ref:`default teams <default-teams>`:
@@ -267,7 +252,7 @@ appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
 Custom permissions for languages, components or projects
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 You can create your own dedicated teams to manage permissions for distinct
 objects such as languages, components, and projects. Although these teams can
@@ -319,7 +304,7 @@ delegate it to another user, unless granting superuser permissions.
 .. _auth-model:
 
 Users, roles, teams, and permissions
-++++++++++++++++++++++++++++++++++++
+------------------------------------
 
 The authentication models consist of several objects:
 
@@ -354,7 +339,7 @@ The authentication models consist of several objects:
   project by anyone is assumed (see below).
 
 Access for browse to a project
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++
 
 A user has to be a member of a team linked to the project, or any component
 inside that project. Having membership is enough, no specific permissions are
@@ -362,7 +347,7 @@ needed to browse the project (this is used in the default `Viewers` team, see
 :ref:`default-teams`).
 
 Access for browse to a component
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++++
 
 A user can access unrestricted components once able to access the components’
 project (and will have all the permissions the user was granted for the
@@ -372,7 +357,7 @@ requires explicit permissions for the component (or a component list the compone
 .. _perm-check:
 
 Scope of teams
-^^^^^^^^^^^^^^^
+++++++++++++++
 
 The scope of the permission assigned by the roles in the teams are applied by
 the following rules:
@@ -435,7 +420,7 @@ the following rules:
 .. _autoteam:
 
 Automatic team assignments
-+++++++++++++++++++++++++++
+--------------------------
 
 While editing the :guilabel:`Team`, you can specify
 :guilabel:`Automatic assignments`, which is a list of regular expressions
@@ -463,7 +448,7 @@ be accomplished with an expression like ``^.*@mycompany.com``.
     via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
 
 Default teams and roles
-++++++++++++++++++++++++
+-----------------------
 
 After installation, a default set of teams is created (see :ref:`default-teams`).
 
@@ -475,7 +460,7 @@ set of permissions.
 .. _privileges:
 
 List of privileges and built-in roles
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++++++++++++++++++
 
 ..
    Generated using ./manage.py list_permissions
@@ -608,7 +593,7 @@ List of privileges and built-in roles
 .. _default-teams:
 
 List of teams
-^^^^^^^^^^^^^^
++++++++++++++
 
 The following teams are created upon installation (or after executing
 :wladmin:`setupgroups`) and you are free to modify them. The migration will,

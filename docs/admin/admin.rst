@@ -17,6 +17,7 @@ It includes basic overview of your Weblate:
 * Performance report to review Weblate health and length of Celery queues
 * SSH keys management, see :ref:`ssh-repos`
 * Alerts overview for all components, see :ref:`alerts`
+* Users and teams, see :ref:`custom-acl`
 
 .. _admin-interface:
 
