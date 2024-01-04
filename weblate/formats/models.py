@@ -99,6 +99,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.GoI18V2JSONFormat",
         "weblate.formats.ttkit.GoTextFormat",
         "weblate.formats.ttkit.ARBFormat",
+        "weblate.formats.ttkit.FormatJSFormat",
         "weblate.formats.ttkit.CSVFormat",
         "weblate.formats.ttkit.CSVUtf8Format",
         "weblate.formats.ttkit.CSVSimpleFormat",
