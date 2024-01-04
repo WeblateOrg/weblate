@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2024-01-03 18:17+0000\n"
+"PO-Revision-Date: 2024-01-05 12:06+0000\n"
 "Last-Translator: Michalis <michalisntovas@yahoo.gr>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
@@ -1619,13 +1619,15 @@ msgstr "Μεταβλητό επίθημα κειμένου"
 
 #: weblate/addons/forms.py:577
 msgid "Variable part multiplier"
-msgstr ""
+msgstr "Πολλαπλασιαστής μεταβλητού μέρους"
 
 #: weblate/addons/forms.py:581
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Πόσες φορές θα επαναληφθεί το μεταβλητό μέρος ανάλογα με το μήκος του "
+"κειμένου πηγής."
 
 #: weblate/addons/forms.py:586
 msgid "Include read-only strings"
@@ -12993,10 +12995,8 @@ msgstr "Λήψη ειδοποίησης αποθετηρίου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:395
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation replaced file by upload"
-msgstr "Το αρχείο αντικαταστάθηκε από μεταφόρτωση"
+msgstr "Η μετάφραση αντικαταστάθηκε από το μεταφορτωμένο"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:397
@@ -13803,16 +13803,12 @@ msgid "The template for new translations is invalid."
 msgstr "Το πρότυπο για νέες μεταφράσεις είναι άκυρο."
 
 #: weblate/trans/models/component.py:3506
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language is used as a source language."
-msgstr "Η δεδομένη γλώσσα φιλτράρεται από το φίλτρο γλώσσας."
+msgstr "Η δεδομένη γλώσσα χρησιμοποιείται ως γλώσσα πηγής."
 
 #: weblate/trans/models/component.py:3511
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid "The given language already exists."
-msgstr "Η δεδομένη γλώσσα φιλτράρεται από το φίλτρο γλώσσας."
+msgstr "Η δεδομένη γλώσσα υπάρχει ήδη."
 
 #: weblate/trans/models/component.py:3518
 msgid "The given language is filtered by the language filter."
@@ -13970,10 +13966,8 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:144
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "Απέτυχε η αποδοχή της πρότασης!"
+msgstr "Δεν ήταν δυνατή η αποδοχή της πρότασης!"
 
 #: weblate/trans/models/translation.py:213
 #, python-format
@@ -13985,10 +13979,9 @@ msgstr ""
 "μετάφρασης, προσθέστε αρχείο γλώσσας στο αποθετήριο."
 
 #: weblate/trans/models/translation.py:222
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error)s"
+msgstr "Δεν ήταν δυνατή η ανάλυση του αρχείου %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1034
 #: weblate/trans/models/translation.py:1116
@@ -14044,16 +14037,12 @@ msgid "Mark as read-only"
 msgstr "Σημείωση ως μόνο για ανάγνωση"
 
 #: weblate/trans/models/unit.py:1671
-#, fuzzy
-#| msgid "Unmark as forbidden translation"
 msgid "Unmark as untranslatable"
-msgstr "Αναίρεση σημείωσης ως απαγορευμένη μετάφραση"
+msgstr "Κατάργηση επισήμανσης ως αμετάφραστο"
 
 #: weblate/trans/models/unit.py:1675
-#, fuzzy
-#| msgid "Mark as forbidden translation"
 msgid "Mark as untranslatable"
-msgstr "Σημείωση ως απαγορευμένη μετάφραση"
+msgstr "Επισήμανση ως αμετάφραστο"
 
 #: weblate/trans/models/unit.py:1682
 msgid "Unmark as forbidden translation"
@@ -14158,10 +14147,9 @@ msgid "Forbidden translation: %s"
 msgstr "Απαγορευμένη μετάφραση: %s"
 
 #: weblate/trans/templatetags/translations.py:257
-#, fuzzy, python-format
-#| msgid "Not-translatable: %s"
+#, python-format
 msgid "Untranslatable: %s"
-msgstr "Μη μεταφράσιμο: %s"
+msgstr "Αμετάφραστο: %s"
 
 #: weblate/trans/templatetags/translations.py:259
 #, python-format
@@ -14425,15 +14413,12 @@ msgid "Very low"
 msgstr "Πολύ χαμηλά"
 
 #: weblate/trans/util.py:211
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "{0} is translated into {1} languages using Weblate. Join the translation "
-#| "or start translating your own project."
+#, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
 "translation or start translating your own project."
 msgstr ""
-"Το {0} έχει μεταφραστεί σε {1} γλώσσες με τη χρήση του Weblate. Συμμετέχετε "
+"Το {0} μεταφράζεται σε {1} γλώσσες χρησιμοποιώντας το Weblate. Συμμετέχετε "
 "στη μετάφραση ή ξεκινήστε να μεταφράζετε το δικό σας έργο."
 
 #: weblate/trans/validators.py:22
@@ -14449,10 +14434,9 @@ msgstr ""
 "χρήστες να ψηφίζουν τις δικές τους προτάσεις."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
-msgstr "Απέτυχε η ανάλυση των δεικτών: %s"
+msgstr "Δεν ήταν δυνατή η ανάλυση των δεικτών: %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
@@ -14551,10 +14535,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "Εντοπίστηκε άδεια χρήσης ως %s, ελέγξτε αν είναι σωστή."
 
 #: weblate/trans/views/create.py:389
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
-msgstr "Απέτυχε η ανάλυση του απεσταλμένου αρχείου ZIP."
+msgstr "Δεν ήταν δυνατή η ανάλυση του μεταφορτωμένου αρχείου ZIP."
 
 #: weblate/trans/views/dashboard.py:140
 msgid ""
@@ -14600,16 +14582,13 @@ msgid "Your suggestion already exists!"
 msgstr "Η πρότασή σας υπάρχει ήδη!"
 
 #: weblate/trans/views/edit.py:375
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
-"Προστέθηκε το %(project)s στα παρακολουθούμενα έργα σας. Μπορείτε να τα "
-"προσαρμόσετε, όπως και τη συμπεριφορά αυτή στις ρυθμίσεις."
+"Προστέθηκε το %(project)s στα παρακολουθούμενα έργα σας. Μπορείτε να "
+"προσαρμόσετε αυτή τη συμπεριφορά στις ρυθμίσεις."
 
 #: weblate/trans/views/edit.py:394
 #, python-brace-format
@@ -14654,10 +14633,8 @@ msgstr "Μη έγκυρη αναζήτηση κειμένου!"
 
 #: weblate/trans/views/edit.py:746 weblate/trans/views/search.py:50
 #: weblate/trans/views/search.py:202
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
-msgstr "Απέτυχε η προώθηση της φόμρας!"
+msgstr "Δεν ήταν δυνατή η επεξεργασία της φόρμας!"
 
 #: weblate/trans/views/edit.py:768
 msgid "Automatic translation in progress"
@@ -14672,10 +14649,8 @@ msgid "Posted new comment"
 msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
 #: weblate/trans/views/edit.py:810
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "Απέτυχε η προσθήκη σχολίου!"
+msgstr "Δεν ήταν δυνατή η προσθήκη σχολίου!"
 
 #: weblate/trans/views/edit.py:830
 msgid "Comment has been deleted."
@@ -14690,10 +14665,9 @@ msgid "New string has been added."
 msgstr "Προστέθηκε νέο κείμενο."
 
 #: weblate/trans/views/edit.py:1046
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
-msgstr "Απέτυχε η αφαίρεση του κειμένου: %s"
+msgstr "Δεν ήταν δυνατή η αφαίρεση του κειμένου: %s"
 
 #: weblate/trans/views/error.py:22
 msgid "Bad Request"
@@ -14734,11 +14708,10 @@ msgid "File upload has failed: %s"
 msgstr "Η μεταφόρτωση του αρχείου απέτυχε: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
 msgstr ""
-"Απέτυχε το κλείδωμα του αποθετηρίου, μια άλλη διαδικασία είναι σε εξέλιξη."
+"Δεν ήταν δυνατό το κλείδωμα του αποθετηρίου, μια άλλη λειτουργία βρίσκεται "
+"σε εξέλιξη."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -14761,10 +14734,8 @@ msgid "Translation files have been synchronized."
 msgstr "Τα αρχεία μετάφρασης έχουν συγχρονιστεί."
 
 #: weblate/trans/views/git.py:127
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "Το σχόλιο της μετάφρασης έχει διαγραφεί."
+msgstr "Οι μεταφράσεις έχουν ενημερωθεί."
 
 #: weblate/trans/views/git.py:143
 msgid "All pending translations were committed."
@@ -14834,52 +14805,36 @@ msgid "Invalid settings. Please check the form for errors."
 msgstr "Μη έγκυρες ρυθμίσεις. Παρακαλώ ελέγξτε τη φόρμα για σφάλματα."
 
 #: weblate/trans/views/settings.py:132
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Το αποθετήριο είναι ξεπερασμένο, μπορεί να μην έχετε τα αναμενόμενα "
+"Το αποθετήριο είναι ξεπερασμένο. Μπορεί να μην έχετε τα αναμενόμενα "
 "αποτελέσματα μέχρι να το ενημερώσετε."
 
 #: weblate/trans/views/settings.py:184
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "The translation has been removed."
-msgstr "Η μετάφραση έχει απομακρυνθεί."
+msgstr "Η μετάφραση έχει αφαιρεθεί."
 
 #: weblate/trans/views/settings.py:189
-#, fuzzy
-#| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
-msgstr "Το στοιχείο μετάφρασης είχε προγραμματιστεί για κατάργηση."
+msgstr "Το στοιχείο μετάφρασης είχε προγραμματιστεί για αφαίρεση."
 
 #: weblate/trans/views/settings.py:194
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "Το έργο είχε προγραμματιστεί για κατάργηση."
+msgstr "Η κατηγορία είχε προγραμματιστεί για αφαίρεση."
 
 #: weblate/trans/views/settings.py:198
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
-msgstr "Το έργο είχε προγραμματιστεί για κατάργηση."
+msgstr "Το έργο είχε προγραμματιστεί για αφαίρεση."
 
 #: weblate/trans/views/settings.py:204
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the project was removed."
-msgstr "Η γλώσσα του έργου αφαιρέθηκε."
+msgstr "Μια γλώσσα στο έργο αφαιρέθηκε."
 
 #: weblate/trans/views/settings.py:210
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "A language in the category was removed."
-msgstr "Η γλώσσα του έργου αφαιρέθηκε."
+msgstr "Μια γλώσσα στην κατηγορία αφαιρέθηκε."
 
 #: weblate/trans/views/settings.py:225
 #, python-format
@@ -14891,10 +14846,8 @@ msgid "Backup scheduled. It will be available soon."
 msgstr ""
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
-msgstr "Αποτυχία αλλαγής πρόσθετων πληροφοριών κειμένου!"
+msgstr "Δεν ήταν δυνατή η αλλαγή πρόσθετων πληροφοριών κειμένου!"
 
 #: weblate/trans/widgets.py:214
 msgid "Big status badge"
@@ -14914,10 +14867,8 @@ msgid "Project {}"
 msgstr "Έργο {}"
 
 #: weblate/trans/widgets.py:291
-#, fuzzy
-#| msgid "Component: {}"
 msgid "Component {}"
-msgstr "Περιεχόμενο: {}"
+msgstr "Στοιχείο {}"
 
 #: weblate/trans/widgets.py:339
 msgid "Status badge"
@@ -15043,10 +14994,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "Απροσδιόριστη μεταβλητή: \"%s\""
 
 #: weblate/utils/render.py:116
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "Απέτυχε η απόδοση του προτύπου: {}"
+msgstr "Δεν ήταν δυνατή η απόδοση του προτύπου: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -15180,10 +15129,8 @@ msgstr "Σφάλμα σύνταξης στα ψευδώνυμα γλώσσας."
 
 #: weblate/utils/validators.py:270 weblate/utils/validators.py:279
 #: weblate/utils/validators.py:288
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
-msgstr "Αυτό το όνομα απαγορεύεται"
+msgstr "Αυτή η διεύθυνση URL απαγορεύεται"
 
 #: weblate/utils/views.py:160 weblate/utils/views.py:186
 msgid "Position and priority"
@@ -15206,10 +15153,8 @@ msgid "Number of failing checks"
 msgstr "Αριθμός αποτυχημένων ελέγχων"
 
 #: weblate/utils/views.py:172
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Τοποθεσία κειμένου προέλευσης"
+msgstr "Τοποθεσία κειμένου"
 
 #: weblate/utils/views.py:513
 #, python-format
@@ -15217,16 +15162,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Σφάλμα στην παράμετρο %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:65
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Το Weblate δεν μπόρεσε να προωθήσει τις αλλαγές στο ανάντη αποθετήριο."
+msgstr "Αυτό θα προωθήσει τις αλλαγές στο ανάντη αποθετήριο."
 
 #: weblate/vcs/git.py:56
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Το Weblate δεν μπόρεσε να προωθήσει τις αλλαγές στο ανάντη αποθετήριο."
+msgstr "Αυτό θα προωθήσει τις αλλαγές στο ανάντη Git αποθετήριο."
 
 #: weblate/vcs/git.py:522
 msgid "Possible cleanups:"
@@ -15245,16 +15186,12 @@ msgid "Git with force push"
 msgstr "Git με εξαναγκασμένη προώθηση"
 
 #: weblate/vcs/git.py:724
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Το Weblate δεν μπόρεσε να προωθήσει τις αλλαγές στο ανάντη αποθετήριο."
+msgstr "Αυτό θα επιβάλει την προώθηση των αλλαγών στο ανάντη αποθετήριο."
 
 #: weblate/vcs/git.py:1095
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Azure DevOps pull request"
-msgstr "Αίτημα έλξης στο GitHub"
+msgstr "Αίτημα έλξης Azure DevOps"
 
 #: weblate/vcs/git.py:1103
 msgid "This will push changes and create a Azure DevOps pull request."
@@ -15273,10 +15210,8 @@ msgstr ""
 "GitHub."
 
 #: weblate/vcs/git.py:1450
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Gitea pull request"
-msgstr "Αίτημα έλξης στο GitHub"
+msgstr "Αίτημα έλξης Gitea"
 
 #: weblate/vcs/git.py:1454
 msgid "This will push changes and create a Gitea pull request."
@@ -15309,10 +15244,8 @@ msgstr ""
 
 #. Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:1865
-#, fuzzy
-#| msgid "GitHub pull request"
 msgid "Bitbucket Server pull request"
-msgstr "Αίτημα έλξης στο GitHub"
+msgstr "Αίτημα έλξης διακομιστή Bitbucket"
 
 #: weblate/vcs/git.py:1871
 msgid "This will push changes and create a Bitbucket Server pull request."
@@ -15321,10 +15254,8 @@ msgstr ""
 "διακομιστή Bitbucket."
 
 #: weblate/vcs/mercurial.py:45
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Το Weblate δεν μπόρεσε να προωθήσει τις αλλαγές στο ανάντη αποθετήριο."
+msgstr "Αυτό θα προωθήσει τις αλλαγές στο ανάντη Mercurial αποθετήριο."
 
 #: weblate/vcs/ssh.py:31
 msgctxt "SSH key type"
@@ -15342,10 +15273,9 @@ msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
 #: weblate/vcs/ssh.py:168
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "Απέτυχε η δημιουργία κλειδιού: %s"
+msgstr "Δεν ήταν δυνατή η δημιουργία κλειδιού: %s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -15371,10 +15301,9 @@ msgstr ""
 "Δεν ήταν δυνατή η λήψη δημόσιου κλειδιού για έναν κεντρικό υπολογιστή: %s"
 
 #: weblate/vcs/ssh.py:237
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Απέτυχε η λήψη κλειδιού φιλοξενητή: %s"
+msgstr "Δεν ήταν δυνατή η λήψη του κλειδιού του φιλοξενητή: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
@@ -15452,11 +15381,8 @@ msgid "Premium self-hosted support"
 msgstr "Premium αυτο-φιλοξενούμενη υποστήριξη"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
-msgstr "Σύνολο Κειμένων"
+msgstr "Φιλοξενούμενα κείμενα"
 
 #: weblate/wladmin/models.py:185
 msgid "Backup repository URL"
