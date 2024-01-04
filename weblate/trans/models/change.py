@@ -119,20 +119,16 @@ class ChangeQuerySet(models.QuerySet):
         )
 
     @staticmethod
-    def preload_list(results, *args):
+    def preload_list(results, skip: str | None = None):
         """Companion for prefetch to fill in nested references."""
         for item in results:
-            if item.component and "component" not in args:
+            if item.component and skip != "component":
                 item.component.project = item.project
-            if item.translation and "translation" not in args:
+            if item.translation and skip != "translation":
                 item.translation.component = item.component
-            if item.unit and "unit" not in args:
+            if item.unit and skip != "unit":
                 item.unit.translation = item.translation
         return results
-
-    def preload(self, *args):
-        """Companion for prefetch to fill in nested references."""
-        return self.preload_list(self, *args)
 
     def authors_list(self, date_range=None):
         """Return list of authors."""
@@ -148,6 +144,21 @@ class ChangeQuerySet(models.QuerySet):
 
     def order(self):
         return self.order_by("-timestamp")
+
+    def recent(self, *, count: int = 10, skip_preload: str | None = None):
+        """
+        Return recent changes to show on object pages.
+
+        This uses iterator() as server-side cursors are typically
+        more effective here.
+        """
+        result = []
+        with transaction.atomic():
+            for change in self.order().iterator(chunk_size=count):
+                result.append(change)
+                if len(result) >= count:
+                    break
+            return self.preload_list(result, skip_preload)
 
     def bulk_create(self, *args, **kwargs):
         """Adds processing to bulk creation."""
