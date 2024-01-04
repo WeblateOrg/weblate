@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2023.
+# Eduardo Addad de Oliveira <duduaddad@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-11 12:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-01-05 12:06+0000\n"
+"Last-Translator: Eduardo Addad de Oliveira <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -128,13 +129,10 @@ msgid "Visible only to chosen users."
 msgstr "Visível apenas para os usuários escolhidos."
 
 #: ../../admin/access.rst:56
-#, fuzzy
-#| msgid ""
-#| "**Choose this for projects that should not be publicly exposed at all.**"
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
-"**Escolha este para projetos que não devem ser expostos publicamente.**"
+"**Escolha esta opção para projetos que não devem ser expostos publicamente.**"
 
 #: ../../admin/access.rst:68 ../../admin/config.rst:470
 msgid ":guilabel:`Custom`"
@@ -370,40 +368,22 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:170
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` team) would be "
-#| "sufficient."
 msgid ""
 "It is not required to have any site-wide privileges in order to do so, "
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
-"Além de adicionar um usuário existente ao projeto, também é possível "
-"convidar novos. Qualquer novo usuário será criado imediatamente, mas a conta "
-"permanecerá inativa até que você entre com um link no convite enviado por e-"
-"mail. Não é necessário ter nenhum privilégio de todo o site para fazer isso, "
-"a permissão de gerenciamento de acesso no escopo do projeto (por exemplo, "
-"uma associação na equipe `Administração`) seria suficiente."
+"Não é necessário ter nenhum privilégio em todo o site para fazer isso; a "
+"permissão de gerenciamento de acesso no escopo do projeto (por exemplo, ser "
+"membro da equipe de `Administração`) seria suficiente."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
-"Se o usuário convidado perdeu a validade do convite, ele pode definir sua "
-"senha usando o endereço de e-mail convidado no formulário de redefinição de "
-"senha, pois a conta já foi criada."
+"Caso o usuário convidado tenha perdido a validade do convite, um novo "
+"convite deverá ser criado."
 
 #: ../../admin/access.rst:179
 msgid ""
@@ -480,14 +460,8 @@ msgid "Custom access control"
 msgstr "Controle de acesso personalizado"
 
 #: ../../snippets/not-hosted.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is unavailable for projects running the Libre plan on Hosted "
-#| "Weblate."
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr ""
-"Este recurso está indisponível para projetos que executam o plan Libre no "
-"Hosted Weblate."
+msgstr "Este recurso não está disponível no Hosted Weblate."
 
 #: ../../admin/access.rst:222
 msgid ""
@@ -1886,12 +1860,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
-msgstr "No Hosted Weblate, é usada com ``https://weblate-cdn.com/``."
+msgstr ""
+"Essa extensão é configurado em :guilabel:`Hosted Weblate` e disponibiliza os "
+"arquivos via ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -2169,18 +2143,15 @@ msgstr ""
 "ajuda de extensões."
 
 #: ../../admin/addons.rst:219
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language. All named groups in the regular "
 "expression can be used as variables in the template fields."
 msgstr ""
 "A expressão regular para corresponder aos arquivos de tradução deve conter "
-"dois grupos nomeados para corresponder ao componente e idioma, alguns "
-"exemplos:"
+"dois grupos nomeados para corresponder ao componente e ao idioma. Todos os "
+"grupos nomeados na expressão regular podem ser usados como variáveis nos "
+"campos do modelo."
 
 #: ../../admin/addons.rst:223
 #, fuzzy
@@ -2193,36 +2164,28 @@ msgstr ""
 "conteúdo, por exemplo:"
 
 #: ../../admin/addons.rst:225
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
 msgstr "Correspondência do nome do arquivo"
 
 #: ../../admin/addons.rst:227
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component|title }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:228
 msgid "Component filename with upper case first letter"
 msgstr "Nome do arquivo do componente com a primeira letra em maiúscula"
 
 #: ../../admin/addons.rst:230
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:230
-#, fuzzy
-#| msgid "Component regular expression"
 msgid "Custom match group from the regular expression"
-msgstr "Expressão regular do componente"
+msgstr "Grupo de correspondência personalizado da expressão regular"
 
 #: ../../admin/addons.rst:232
 msgid ""
@@ -2235,16 +2198,12 @@ msgstr ""
 "configuração realmente corresponde às suas necessidades:"
 
 #: ../../admin/addons.rst:238
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery examples"
-msgstr "Descoberta de componente"
+msgstr "Exemplos de descoberta de componentes"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid "Deletes the language."
 msgid "One folder per language"
-msgstr "Exclui o idioma."
+msgstr "Uma pasta por idioma"
 
 #: ../../admin/addons.rst:243
 msgid "One folder per language containing translation files for components."
@@ -2253,51 +2212,34 @@ msgstr "Uma pasta por idioma contendo arquivos de traduções para componentes."
 #: ../../admin/addons.rst:245 ../../admin/addons.rst:258
 #: ../../admin/addons.rst:271 ../../admin/addons.rst:284
 #: ../../admin/addons.rst:298 ../../admin/addons.rst:311
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "Expressão regular"
+msgstr "Expressão regular:"
 
 #: ../../admin/addons.rst:246
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:291
 #: ../../admin/addons.rst:304 ../../admin/addons.rst:320
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "Arquivos correspondentes"
+msgstr "Arquivos correspondentes:"
 
 #: ../../admin/addons.rst:248
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`cs/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:249
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`cs/website.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:250
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`de/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`de/application.po`"
 
 #: ../../admin/addons.rst:251
-#, fuzzy
-#| msgid ":file:`weblate-*.png`"
 msgid ":file:`de/website.po`"
-msgstr ":file:`weblate-*.png`"
+msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:254
 msgid "Gettext locales layout"
@@ -2308,68 +2250,44 @@ msgid "Usual structure for storing gettext PO files."
 msgstr "Estrutura usual para armazenar arquivos PO."
 
 #: ../../admin/addons.rst:259
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:261
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:262
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:263
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:264
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:267
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Correspondência do nome do arquivo"
+msgstr "Nomes de arquivos complexos"
 
 #: ../../admin/addons.rst:269
 msgid "Using both component and language name within filename."
 msgstr "Usando ambos componente e nome do idioma no nome do arquivo."
 
 #: ../../admin/addons.rst:272
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:274
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`src/locale/application.cs.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`src/locale/application.cs.po`"
 
 #: ../../admin/addons.rst:275
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`src/locale/website.cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`src/locale/website.cs.po`"
 
 #: ../../admin/addons.rst:276
 msgid ":file:`src/locale/application.de.po`"
@@ -2380,86 +2298,60 @@ msgid ":file:`src/locale/website.de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:280
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Códigos de idioma estrangeiros"
+msgstr "Código de idioma repetido"
 
 #: ../../admin/addons.rst:282
 msgid "Using language in both path and filename."
 msgstr "Usando idioma em ambos caminho e nome do arquivo."
 
 #: ../../admin/addons.rst:285
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:288
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`locale/cs/website/cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`locale/cs/website/cs.po`"
 
 #: ../../admin/addons.rst:289
 msgid ":file:`locale/de/application/de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:290
-#, fuzzy
-#| msgid ":file:`/etc/xdg/weblate`"
 msgid ":file:`locale/de/website/de.po`"
-msgstr ":file:`/etc/xdg/weblate`"
+msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:294
-#, fuzzy
-#| msgid "Apple iOS strings"
 msgid "Split Android strings"
-msgstr "Textos de Apple iOS"
+msgstr "Dividir textos do Android"
 
 #: ../../admin/addons.rst:296
 msgid "Android resource strings, split into several files."
 msgstr "Textos de recurso do Android, divididos em vários arquivos."
 
 #: ../../admin/addons.rst:299
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:301
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-about.xml`"
 
 #: ../../admin/addons.rst:302
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-help.xml`"
 
 #: ../../admin/addons.rst:303
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-about.xml`"
 
 #: ../../admin/addons.rst:304
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:307
 #, fuzzy
@@ -2478,10 +2370,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:313
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "Nome do componente"
+msgstr "Nome do componente:"
 
 #: ../../admin/addons.rst:314
 msgid "``{{ originalHierarchy }}: {{ component }}``"
@@ -2738,10 +2628,8 @@ msgid "Fill read-only strings with source"
 msgstr "Preencher textos somente leitura com a fonte"
 
 #: ../../admin/addons.rst:460
-#, fuzzy
-#| msgid "``weblate.generate.prefill``"
 msgid "``weblate.generate.fill_read_only``"
-msgstr "``weblate.generate.prefill``"
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:464
 msgid "Fills in translation of read-only strings with source string."
@@ -4212,27 +4100,14 @@ msgstr ""
 "Weblate todos os seus segredos:"
 
 #: ../../admin/auth.rst:112
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://WEBLATE "
 "SERVER/accounts/complete/github/``."
 msgstr ""
 "O GitHub deve ser configurado para ter URL de um retorno de chamada como "
-"``https://example.com/accounts/complete/github/``."
+"``https://WEBLATE SERVER/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:115
-#, fuzzy
-#| msgid ""
-#| "There are similar authentication backends for GitHub for Organizations "
-#| "and GitHub for Teams. Their settings are named "
-#| "``SOCIAL_AUTH_GITHUB_ORG_*`` and ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they "
-#| "require additional setting of the scope - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-#| "or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their callback URLs are ``https://"
-#| "example.com/accounts/complete/github-org/`` and ``https://example.com/"
-#| "accounts/complete/github-teams/``."
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -4246,8 +4121,8 @@ msgstr ""
 "``SOCIAL_AUTH_GITHUB_ORG_*`` e ``SOCIAL_AUTH_GITHUB_TEAM_*``, e requerem "
 "configuração adicional do escopo -- ``SOCIAL_AUTH_GITHUB_ORG_NAME`` ou "
 "``SOCIAL_AUTH_GITHUB_TEAM_ID``. Seus URLs de retorno de chamada são "
-"``https://example.com/accounts/complete/github-org/`` e ``https://example."
-"com/accounts/complete/github-teams/``."
+"``https://WEBLATE SERVER/accounts/complete/github-org/`` e ``https://WEBLATE "
+"SERVER/accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -4264,10 +4139,8 @@ msgid ":doc:`psa:backends/github`"
 msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:131
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub EE authentication"
-msgstr "Autenticação por GitHub"
+msgstr "Autenticação por GitHub EE"
 
 #: ../../admin/auth.rst:133
 #, fuzzy
@@ -4302,10 +4175,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:163
-#, fuzzy
-#| msgid ":doc:`psa:backends/github`"
 msgid ":doc:`psa:backends/github_enterprise`"
-msgstr ":doc:`psa:backends/github`"
+msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
@@ -5604,10 +5475,8 @@ msgid "Restore all data you have backed up."
 msgstr "Restaure todos os dados dos quais você tenha feito backup."
 
 #: ../../admin/backup.rst:365
-#, fuzzy
-#| msgid "Update all repositories using :djadmin:`updategit`."
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr "Atualize todos repositórios usando o :djadmin:`updategit`."
+msgstr "Atualize todos repositórios usando o :wladmin:`updategit`."
 
 #: ../../admin/backup.rst:372
 msgid "Moving a Weblate installation"
@@ -5698,10 +5567,8 @@ msgstr ""
 "formato (veja :ref:`formats`)."
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string description"
 msgid "Source string, see :ref:`additional`."
-msgstr "Descrição do texto fonte"
+msgstr "Texto de origem, consulte :ref:`additional`."
 
 #: ../../admin/checks.rst:34
 #, fuzzy
@@ -5720,10 +5587,8 @@ msgid "File-format specific flags."
 msgstr ""
 
 #: ../../admin/checks.rst:37
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`additional`, :ref:`component-check_flags`"
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:39
 #, fuzzy
@@ -7107,16 +6972,12 @@ msgid "AUDITLOG_EXPIRY"
 msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:46
-#, fuzzy
-#| msgid ""
-#| "How many days Weblate should keep audit logs, which contain info about "
-#| "account activity."
 msgid ""
 "How many days Weblate should keep audit logs (which contain info about "
 "account activity)."
 msgstr ""
-"Quantos dias o Weblate deve manter registros de auditoria, que contêm "
-"informações sobre a atividade da conta."
+"Quantos dias o Weblate deve manter registros de auditoria (que contêm "
+"informações sobre a atividade da conta)."
 
 #: ../../admin/config.rst:49 ../../admin/config.rst:140
 msgid "Defaults to 180 days."
@@ -7147,10 +7008,6 @@ msgstr ""
 "uma nova senha."
 
 #: ../../admin/config.rst:62
-#, fuzzy
-#| msgid ""
-#| "Password reset. Prevents new e-mails from being sent, avoiding spamming "
-#| "users with too many password reset attempts."
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
@@ -7191,8 +7048,6 @@ msgstr ""
 "compatibilidade com versões anteriores."
 
 #: ../../admin/config.rst:86
-#, fuzzy
-#| msgid "Options are:"
 msgid "The options are:"
 msgstr "As opções são:"
 
@@ -7281,15 +7136,11 @@ msgid "AUTH_PASSWORD_DAYS"
 msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:131
-#, fuzzy
-#| msgid ""
-#| "How many days will Weblate reject reusing previously used password for an "
-#| "user."
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
 msgstr ""
-"Quantos dias o Weblate rejeitará a reutilização de senha usada anteriormente "
-"para um usuário."
+"Quantos dias o Weblate rejeita a reutilização de uma senha usada "
+"anteriormente para um usuário."
 
 #: ../../admin/config.rst:133
 msgid ""
@@ -17682,6 +17533,8 @@ msgstr "Somali"
 #: ../../admin/machine.rst:143
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Usa a formalidade especificada se o idioma não for especificado como "
+"(in)formal"
 
 #: ../../admin/machine.rst:146
 msgid ""
@@ -18302,6 +18155,9 @@ msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Could not parse JSON file: %sDescreva a personalidade do tradutor para "
+"melhorar a precisão da tradução. Por exemplo: “Você é um criador de "
+"esquilos.”"
 
 #: ../../admin/machine.rst:462
 #, fuzzy
@@ -18312,7 +18168,7 @@ msgstr "Arquivo de tradução"
 #: ../../admin/machine.rst:462
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "Descreva o estilo de tradução. Por exemplo: “Use linguagem informal.”"
 
 #: ../../admin/machine.rst:465
 #, fuzzy
@@ -46045,14 +45901,12 @@ msgstr ""
 "que significa que o espaço duplo é intencional."
 
 #: ../../user/checks.rst:184
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Arquivo Fluent"
+msgstr "Partes Fluent"
 
 #: ../../user/checks.rst:188
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "As partes Fluent devem corresponder"
 
 #: ../../user/checks.rst:190
 #, fuzzy
@@ -46099,14 +45953,12 @@ msgid ""
 msgstr "`Site do projeto Fluent <https://projectfluent.org/>`_"
 
 #: ../../user/checks.rst:224
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Preferências"
+msgstr "Referências Fluent"
 
 #: ../../user/checks.rst:228
 msgid "Fluent references should match"
-msgstr ""
+msgstr "As referências Fluent devem corresponder"
 
 #: ../../user/checks.rst:230
 #, fuzzy
@@ -46184,14 +46036,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:295
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Tradução atual"
+msgstr "Tradução Fluent HTML interno"
 
 #: ../../user/checks.rst:299
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "O destino Fluent deve ser um HTML interno válido que corresponda"
 
 #: ../../user/checks.rst:301
 #, fuzzy
@@ -46274,16 +46124,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:363
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Tradução atual"
+msgstr "Sintaxe de tradução Fluent"
 
 #: ../../user/checks.rst:367
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Comentário em sua própria tradução"
+msgstr "Erro de sintaxe Fluent na tradução"
 
 #: ../../user/checks.rst:369
 #, fuzzy
@@ -48636,14 +48482,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1693
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Preencher com o texto fonte"
+msgstr "Sintaxe de origem Fluent"
 
 #: ../../user/checks.rst:1697
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Erro de sintaxe Fluent na fonte"
 
 #: ../../user/checks.rst:1699
 #, fuzzy
