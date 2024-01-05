@@ -15,6 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.signing import TimestampSigner
 from django.db.models import Q
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import (
     get_language,
@@ -271,7 +272,9 @@ class Notification:
         if changes is not None:
             result["changes"] = changes
         if subscription is not None:
-            result["unsubscribe_nonce"] = TimestampSigner().sign(subscription.pk)
+            result["unsubscribe_url"] = "{}?i={}".format(
+                reverse("unsubscribe"), TimestampSigner().sign(subscription.pk)
+            )
             result["subscription_user"] = subscription.user
         else:
             result["subscription_user"] = None
@@ -328,6 +331,8 @@ class Notification:
             references = f"<{references}@{get_site_domain()}>"
             headers["In-Reply-To"] = references
             headers["References"] = references
+        if unsubscribe_url := context.get("unsubscribe_url"):
+            headers["List-Unsubscribe"] = unsubscribe_url
         return headers
 
     def send_immediate(
