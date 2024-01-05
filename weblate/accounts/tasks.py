@@ -2,20 +2,26 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import logging
 import os
 from datetime import timedelta
 from email.mime.image import MIMEImage
+from smtplib import SMTP
+from types import MethodType
 
 import sentry_sdk
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
+from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.utils.timezone import now
 from html2text import HTML2Text
 from social_django.models import Code, Partial
 
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
+
+LOGGER = logging.getLogger("weblate.smtp")
 
 
 @app.task(trail=False)
@@ -105,6 +111,32 @@ def notify_auditlog(log_id, email):
     )
 
 
+SMTP_DATA_PATCH = "_weblate_patched_data"
+
+
+def weblate_logging_smtp_data(self, msg):
+    (code, msg) = getattr(self, SMTP_DATA_PATCH)(msg)
+    if code == 250:
+        LOGGER.debug("SMTP completed (%s): %s", code, msg.decode())
+    else:
+        LOGGER.error("SMTP failed (%s): %s", code, msg.decode())
+    return (code, msg)
+
+
+def monkey_patch_smtp_logging(connection):
+    if isinstance(connection, DjangoSMTPEmailBackend):
+        # Ensure the connection is open
+        connection.open()
+
+        # Monkey patch smtplib.SMTP or smtplib.SMTP_SSL
+        backend = connection.connection
+        if isinstance(backend, SMTP) and not hasattr(backend, SMTP_DATA_PATCH):
+            setattr(backend, SMTP_DATA_PATCH, backend.data)
+            backend.data = MethodType(weblate_logging_smtp_data, backend)
+
+    return connection
+
+
 @app.task(trail=False)
 def send_mails(mails):
     """Send multiple mails in single connection."""
@@ -123,9 +155,11 @@ def send_mails(mails):
         try:
             connection.open()
         except Exception:
+            LOGGER.exception("Could not initialize e-mail backend")
             report_error(cause="Could not send notifications")
             connection.close()
             return
+        connection = monkey_patch_smtp_logging(connection)
 
     html2text = HTML2Text(bodywidth=78)
     html2text.unicode_snob = True
@@ -148,6 +182,7 @@ def send_mails(mails):
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")
             with sentry_sdk.start_span(op="email.send"):
+                LOGGER.debug("sending e-mail to %s", mail["address"])
                 email.send()
     finally:
         connection.close()
