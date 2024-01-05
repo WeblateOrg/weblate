@@ -231,7 +231,7 @@ def show_project_language(request, obj):
         user, project=project_object, language=language_object
     ).recent()
 
-    translations = list(obj.translation_set)
+    translations = translation_prefetch_tasks(prefetch_stats(obj.translation_set))
 
     # Add ghost translations
     if user.is_authenticated:
