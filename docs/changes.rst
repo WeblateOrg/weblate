@@ -20,6 +20,8 @@ Not yet released.
 
 * Plural forms handling in :doc:`/formats/qt`.
 * Added missing documentation for :setting:`ADMINS_CONTACT`.
+* Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new whitespace.
+*
 
 **Compatibility**
 
@@ -55,7 +57,7 @@ Released on December 14th 2023.
 * :ref:`mt-alibaba` automatic suggestion service.
 * Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
 * :ref:`glossary-mt`.
-* New automatic fixed for :ref:`autofix-punctuation-spacing`.
+* New automatic fixer for :ref:`autofix-punctuation-spacing`.
 * :ref:`mt-google-translate-api-v3` now better honors placeables or line breaks.
 
 **Improvements**

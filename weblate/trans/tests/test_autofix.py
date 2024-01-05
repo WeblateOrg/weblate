@@ -179,6 +179,6 @@ class AutoFixTest(TestCase):
             fix.fix_target(["Bar\u202F:"], fr_unit), (["Bar\u202F:"], False)
         )
         self.assertEqual(fix.fix_target(["Bar :"], fr_unit), (["Bar\u202F:"], True))
-        self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar\u202F:"], True))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))
