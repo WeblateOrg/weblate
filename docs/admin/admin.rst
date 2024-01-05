@@ -18,6 +18,8 @@ It includes basic overview of your Weblate:
 * SSH keys management, see :ref:`ssh-repos`
 * Alerts overview for all components, see :ref:`alerts`
 * Users and teams, see :ref:`custom-acl`
+* Appearance customization.
+* Configure :ref:`machine-translation-setup`.
 
 .. _admin-interface:
 
