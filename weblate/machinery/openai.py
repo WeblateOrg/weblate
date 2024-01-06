@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import json
 from typing import TYPE_CHECKING
 
 from django.core.cache import cache
@@ -19,6 +18,9 @@ from .forms import OpenAIMachineryForm
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
+
+SEPARATOR = "\n==WEBLATE_PART==\n"
+
 PROMPT = """
 You are a highly skilled translation assistant, adept at translating text
 from language '{source_language}'
@@ -28,8 +30,8 @@ with precision and nuance.
 {style}
 You always reply with translated string only.
 You do not include transliteration.
-You receive an input as JSON list of strings and reply as JSON list in the same order.
-You treat strings like [X0X] or [X123X] as placeables for user input and keep them intact.
+You receive an input as strings separated by {separator} and your answer separates strings by {separator}.
+You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
 {glossary}
 """
 GLOSSARY_PROMPT = """
@@ -93,6 +95,9 @@ class OpenAITranslation(BatchMachineTranslation):
             persona=self.format_prompt_part("persona"),
             style=self.format_prompt_part("style"),
             glossary=glossary,
+            separator=SEPARATOR,
+            placeable_1=self.format_replacement(0, -1, "", None),
+            placeable_2=self.format_replacement(123, -1, "", None),
         )
 
     def download_multiple_translations(
@@ -108,7 +113,7 @@ class OpenAITranslation(BatchMachineTranslation):
         prompt = self.get_prompt(source, language, unit.translation if unit else None)
         messages = [
             {"role": "system", "content": prompt},
-            {"role": "user", "content": json.dumps(texts)},
+            {"role": "user", "content": SEPARATOR.join(texts)},
         ]
 
         response = self.client.chat.completions.create(
@@ -123,13 +128,12 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations_string = response.choices[0].message.content
 
-        try:
-            translations = json.loads(translations_string)
-        except json.JSONDecodeError as error:
+        translations = translations_string.split(SEPARATOR)
+        if len(translations) != len(texts):
             report_error(
                 cause="Failed to parse assistant reply", extra_log=translations_string
             )
-            raise MachineTranslationError("Could not parse assistant reply") from error
+            raise MachineTranslationError("Could not parse assistant reply")
 
         for index, text in enumerate(texts):
             # Extract the assistant's reply from the response
