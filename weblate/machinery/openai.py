@@ -29,6 +29,7 @@ with precision and nuance.
 You always reply with translated string only.
 You do not include transliteration.
 You receive an input as JSON list of strings and reply as JSON list in the same order.
+You treat strings like [X0X] or [X123X] as placeables for user input and keep them intact.
 {glossary}
 """
 GLOSSARY_PROMPT = """
@@ -125,7 +126,9 @@ class OpenAITranslation(BatchMachineTranslation):
         try:
             translations = json.loads(translations_string)
         except json.JSONDecodeError as error:
-            report_error(cause="Failed to parse assistant reply")
+            report_error(
+                cause="Failed to parse assistant reply", extra_log=translations_string
+            )
             raise MachineTranslationError("Could not parse assistant reply") from error
 
         for index, text in enumerate(texts):
