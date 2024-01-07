@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2024-01-07 06:35+0000\n"
+"PO-Revision-Date: 2024-01-08 01:34+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -8421,8 +8421,9 @@ msgstr "PRIVATE_COMMIT_EMAIL_OPT_IN"
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
-msgstr "ユーザーごとのコミット用の匿名メールアドレスを使用するかどうかの初期値を設定"
-"します（デフォルトは初期状態では使用しない）。"
+msgstr ""
+"ユーザーごとのコミット用の匿名メールアドレスを使用するかどうかの初期値を設定"
+"します。デフォルトはオプトイン（選択したユーザーのみ使用する）です。"
 
 #: ../../admin/config.rst:1324
 msgid ""
@@ -36549,10 +36550,10 @@ msgid ""
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
-"インタープリターを設定したあと、忘れてはいけないインストールが必要な依存関"
-"係:　依存関係は、コンソール（デフォルトでは、IDE のコンソールが virtualenv を"
-"直接使用する）からインストールします。また、依存関係が存在しない、という警告"
-"が表示されたときはインターフェースからインストールします。"
+"インタープリターを設定したら、依存関係をインストールすることを忘れないでくだ"
+"さい:　依存関係は、コンソール（デフォルトでは、IDE のコンソールが virtualenv "
+"を直接使用する）からインストールします。また、依存関係が存在しない、という警"
+"告が表示されたときはインターフェースからインストールします。"
 
 #: ../../contributing/start.rst:153
 msgid ""
@@ -46504,9 +46505,8 @@ msgstr "用語集の用語"
 msgid ""
 "Glossary terms are translated the same way regular strings are. You can "
 "toggle additional features using the :guilabel:`Tools` menu for each term."
-msgstr ""
-"用語集の用語は、通常の翻訳と同じ方法で翻訳します。各用語に対して :guilabel:"
-"`Tools` メニューから機能を追加できます。"
+msgstr "用語集の用語は、通常の翻訳と同じ方法で翻訳します。各用語に対して "
+":guilabel:`ツール` メニューから追加の機能を切り替えられます。"
 
 #: ../../user/glossary.rst:57
 msgid "Untranslatable terms"
@@ -46582,18 +46582,14 @@ msgid ":ref:`variants`"
 msgstr ":ref:`variants`"
 
 #: ../../user/glossary.rst:121
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Glossaries in automatic suggestion"
-msgstr "自動提案の使用"
+msgstr "自動提案における用語集"
 
 #: ../../user/glossary.rst:125
-#, fuzzy
-#| msgid "The following keyboard shortcuts can be utilized during translation:"
 msgid ""
 "Following automatic suggestion services utilize glossaries during the "
 "translation:"
-msgstr "翻訳中に利用できるキーボード ショートカット:"
+msgstr "以下の自動提案サービスは、翻訳する際に用語集を利用します。"
 
 #: ../../user/glossary.rst:128
 msgid ":ref:`mt-deepl`"
@@ -46605,22 +46601,22 @@ msgstr ":ref:`mt-microsoft-translator`"
 
 #: ../../user/glossary.rst:131
 msgid "The glossary is processed before exposed to the service:"
-msgstr ""
+msgstr "用語集はサービスに渡される前に処理されます。"
 
 #: ../../user/glossary.rst:133
 msgid ""
 "Duplicate source entries are not allowed, any additional entries with the "
 "same source are skipped."
-msgstr ""
+msgstr "原文の重複は許されず、同じ原文を持つ2つ目以降の項目はスキップされます。"
 
 #: ../../user/glossary.rst:134
 msgid ""
 "Any control characters and leading and trailing whitespace are stripped."
-msgstr ""
+msgstr "制御文字や前後の空白文字は取り除かれます。"
 
 #: ../../user/glossary.rst:135
 msgid ":ref:`glossary-forbidden` are skipped."
-msgstr ""
+msgstr ":ref:`glossary-forbidden` はスキップされます。"
 
 #: ../../user/glossary.rst:139
 msgid ""
@@ -46628,6 +46624,8 @@ msgid ""
 "of saved glossaries. Weblate always deletes the oldest glossary if it runs "
 "out of space."
 msgstr ""
+"多くのサービスは用語集をサーバーサイドに保存し、保存する用語の数に制限を設け"
+"ています。Weblateは、容量が不足した場合、必ず最も古い用語を削除します。"
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
