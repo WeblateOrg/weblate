@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Copyright © Your Name <your@email.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """
 Generates optimized regexp pattern to match CJK characters.
 Character ranges should be made as contiguous as possible for maximum performance.
@@ -64,4 +68,10 @@ for r in cjkranges:
     prev = r
 cjkmerged.append(prev)
 
-print(rf'CJK_PATTERN = re.compile(r"([{"".join([f"{r[0]}-{r[1]}" for r in cjkmerged])}\U00020000-\U0003FFFF]+)")')
+def hexchar(char):
+    val = ord(char)
+    if val > 0xffff:
+        return rf"\U{val:08x}"
+    return rf"\u{val:04x}"
+
+print(rf'CJK_PATTERN = re.compile(r"([{"".join([f"{hexchar(r[0])}-{hexchar(r[1])}" for r in cjkmerged])}\U00020000-\U0003FFFF]+)")')
