@@ -467,7 +467,11 @@ class SetPasswordForm(DjangoSetPasswordForm):
     @transaction.atomic
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
-            self.user, request, "password", password=self.user.password
+            self.user,
+            request,
+            "password",
+            password=self.user.password,
+            method="changed" if self.user.has_usable_password() else "configured",
         )
         # Change the password
         password = self.cleaned_data["new_password1"]

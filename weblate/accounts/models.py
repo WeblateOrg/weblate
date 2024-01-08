@@ -180,6 +180,9 @@ ACCOUNT_ACTIVITY_METHOD = {
     "project": {
         "invited": gettext_lazy("Invited to {project} by {username}."),
     },
+    "configured": {
+        "password": gettext_lazy("Password configured."),
+    },
 }
 
 EXTRA_MESSAGES = {
