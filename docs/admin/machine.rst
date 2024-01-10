@@ -305,8 +305,7 @@ and there are several mirrors available to use the API for free.
 .. seealso::
 
     `LibreTranslate website <https://libretranslate.com/>`_,
-    `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_,
-    `LibreTranslate mirrors <https://github.com/LibreTranslate/LibreTranslate#mirrors>`_
+    `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_
 
 .. _mt-microsoft-translator:
 
