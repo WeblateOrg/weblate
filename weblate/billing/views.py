@@ -56,10 +56,14 @@ def download_invoice(request, pk):
 
 def handle_post(request, billing):
     if "extend" in request.POST and request.user.is_superuser:
-        billing.state = Billing.STATE_TRIAL
-        billing.expiry = timezone.now() + timedelta(days=14)
-        billing.removal = None
-        billing.save(update_fields=["expiry", "removal", "state"])
+        if billing.is_trial:
+            billing.state = Billing.STATE_TRIAL
+            billing.expiry = timezone.now() + timedelta(days=14)
+            billing.removal = None
+            billing.save(update_fields=["expiry", "removal", "state"])
+        elif billing.removal:
+            billing.removal = timezone.now() + timedelta(days=14)
+            billing.save(update_fields=["removal"])
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
             del billing.payment["recurring"]
