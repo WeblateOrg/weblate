@@ -7,6 +7,7 @@ from io import StringIO
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test import SimpleTestCase
 from django.urls import reverse
 from jsonschema import validate
 from weblate_schemas import load_schema
@@ -307,3 +308,32 @@ class MemoryViewTest(FixtureTestCase):
             {"format": "json", "kind": "shared"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
+
+
+class ThresholdTestCase(SimpleTestCase):
+    def test_search(self):
+        self.assertAlmostEqual(Memory.objects.threshold_to_similarity("x", 10), 0.5)
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 10), 0.5
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 10), 0.8252817775415949
+        )
+
+    def test_machine(self):
+        self.assertAlmostEqual(Memory.objects.threshold_to_similarity("x", 75), 0.9)
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 75), 0.95
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 75), 0.98
+        )
+
+    def test_machine_exact(self):
+        self.assertAlmostEqual(Memory.objects.threshold_to_similarity("x", 100), 1.0)
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 100), 1.0
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 100), 1.0
+        )

@@ -60,17 +60,45 @@ class MemoryQuerySet(models.QuerySet):
             query.append(Q(user=user))
         return base.filter(reduce(lambda x, y: x | y, query))
 
-    def lookup(
-        self, source_language, target_language, text: str, user, project, use_shared
-    ):
+    @staticmethod
+    def threshold_to_similarity(text: str, threshold: int) -> float:
+        """
+        Convert machinery threshold into PostgreSQL similarity threshold.
+
+        Machinery threshold is typically 75 for machinery and 10 for search.
+
+        PostgreSQL similarity threshold needs to be higher to avoid too slow
+        queries.
+        """
         # Basic similarity for short strings
         length = len(text)
-        threshold = 0.5
+
+        if threshold < 50:
+            if length > 50:
+                return 1 - 28.1838 * math.log(0.0443791 * length) / length
+            return 0.5
+        if threshold >= 99:
+            return 1.0
+        if length > 200:
+            return 0.98
+        if length > 20:
+            return 0.95
+        return 0.9
+
+    def lookup(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        user,
+        project,
+        use_shared,
+        threshold: int = 75,
+    ):
         # Adjust similarity based on string length to get more relevant matches
         # for long strings
-        if length > 50:
-            threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
-        adjust_similarity_threshold(threshold)
+        adjust_similarity_threshold(self.threshold_to_similarity(text, threshold))
+
         # Actual database query
         return (
             self.prefetch_project()
