@@ -682,7 +682,6 @@ def new_language(request, path):
             kwargs = {
                 "user": user,
                 "author": user,
-                "component": obj,
                 "details": {},
             }
             with obj.repository.lock:
@@ -697,11 +696,11 @@ def new_language(request, path):
                             kwargs["translation"] = translation
                             if len(langs) == 1:
                                 result = translation
-                            Change.objects.create(
+                            obj.change_set.create(
                                 action=Change.ACTION_ADDED_LANGUAGE, **kwargs
                             )
                     elif obj.new_lang == "contact":
-                        Change.objects.create(
+                        obj.change_set.create(
                             action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
                         )
                         messages.success(

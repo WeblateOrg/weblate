@@ -353,8 +353,7 @@ def component_removal(pk, uid):
     try:
         component = Component.objects.get(pk=pk)
         component.acting_user = user
-        Change.objects.create(
-            project=component.project,
+        component.project.change_set.create(
             action=Change.ACTION_REMOVE_COMPONENT,
             target=component.slug,
             user=user,
@@ -383,8 +382,7 @@ def category_removal(pk, uid):
         category_removal(child.pk, uid)
     for component_id in category.component_set.values_list("id", flat=True):
         component_removal(component_id, uid)
-    Change.objects.create(
-        project=category.project,
+    category.project.change_set.create(
         action=Change.ACTION_REMOVE_CATEGORY,
         target=category.slug,
         user=user,
@@ -516,7 +514,7 @@ def create_component(addons_from=None, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
     component = Component.objects.create(**kwargs)
-    Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
+    component.change_set.create(action=Change.ACTION_CREATE_COMPONENT)
     if addons_from:
         addons = Addon.objects.filter(
             component__pk=addons_from, project_scope=False, repo_scope=False
@@ -629,8 +627,7 @@ def detect_completed_translation(change_id: int, old_translated: int):
 
     translated = change.translation.stats.translated
     if old_translated < translated and translated == change.translation.stats.all:
-        Change.objects.create(
-            translation=change.translation,
+        change.translation.change_set.create(
             action=Change.ACTION_COMPLETE,
             user=change.user,
             author=change.author,

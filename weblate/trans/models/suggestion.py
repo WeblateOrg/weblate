@@ -173,8 +173,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             report_spam(
                 self.userdetails["address"], self.userdetails["agent"], self.target
             )
-        Change.objects.create(
-            unit=self.unit,
+        self.unit.change_set.create(
             action=change,
             user=user,
             target=self.target,

@@ -77,8 +77,7 @@ def set_groups(request, project):
             if group.id in current_groups:
                 continue
             user.groups.add(group)
-            Change.objects.create(
-                project=obj,
+            obj.change_set.create(
                 action=Change.ACTION_ADD_USER,
                 user=request.user,
                 details={"username": user.username, "group": group.name},
@@ -88,8 +87,7 @@ def set_groups(request, project):
                 messages.error(request, gettext("You can not remove yourself!"))
                 continue
             user.groups.remove(group)
-            Change.objects.create(
-                project=obj,
+            obj.change_set.create(
                 action=Change.ACTION_REMOVE_USER,
                 user=request.user,
                 details={"username": user.username, "group": group.name},
@@ -198,8 +196,7 @@ def delete_user(request, project):
                 remove_user(user, request)
             else:
                 obj.remove_user(user)
-            Change.objects.create(
-                project=obj,
+            obj.change_set.create(
                 action=Change.ACTION_REMOVE_USER,
                 user=request.user,
                 details={"username": user.username},

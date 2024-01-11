@@ -110,10 +110,9 @@ class Addon(models.Model):
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
     def store_change(self, action):
-        Change.objects.create(
+        self.component.change_set.create(
             action=action,
             user=self.component.acting_user,
-            component=self.component,
             target=self.name,
             details=self.configuration,
         )

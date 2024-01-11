@@ -62,7 +62,7 @@ class InviteUserForm(forms.ModelForm):
             else:
                 details = {"email": self.instance.email}
             Change.objects.create(
-                project=self.project,
+                project=self.project,  # Might be None
                 action=Change.ACTION_INVITE_USER,
                 user=author,
                 details=details,

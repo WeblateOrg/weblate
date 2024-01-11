@@ -1151,8 +1151,7 @@ class Unit(models.Model, LoggerMixin):
 
             # Save unit and change
             unit.save()
-            Change.objects.create(
-                unit=unit,
+            unit.change_set.create(
                 action=Change.ACTION_SOURCE_CHANGE,
                 user=user,
                 author=author,
@@ -1173,7 +1172,7 @@ class Unit(models.Model, LoggerMixin):
             and not user.is_bot
             and not self.translation.change_set.filter(user=user).exists()
         ):
-            Change.objects.create(
+            self.change_set.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,
                 user=user,
