@@ -8,6 +8,10 @@
   <p>{% trans "The upstream repository could not be accessed. Please check whether it is accessible to Weblate." %}</p>
 {% endif %}
 
+{% if analysis.gerrit %}
+  <p>{% trans "Gerrit prohibited this push. You might need a gerrit-account that has the forge author permissions for the repository/branch or have to use the squash addon on this component in Weblate." %}</p>
+{% endif %}
+
 {% if analysis.temporary %}
   <p>{% trans "The upstream repository could not be temporarily accessed. Please try it again later." %}</p>
 {% endif %}

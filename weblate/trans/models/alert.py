@@ -229,6 +229,10 @@ class PushFailure(ErrorAlert):
         "protected branch hook declined",
         "GH006:",
     )
+    gerrit_messages = (
+        "is not registered in your account, and you lack 'forge",
+        "prohibited by Gerrit",
+    )
     doc_page = "admin/continuous"
     doc_anchor = "push-changes"
 
@@ -266,6 +270,7 @@ class PushFailure(ErrorAlert):
             "permission": any(
                 message in self.error for message in self.permission_messages
             ),
+            "gerrit": any(message in self.error for message in self.gerrit_messages),
             "temporary": any(
                 message in self.error for message in self.temporary_messages
             ),
