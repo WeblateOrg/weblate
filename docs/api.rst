@@ -1934,6 +1934,9 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
+    :resheader Last-Modified: Timestamp of last change to this file.
+    :reqheader If-Modified-Since: Skips response if the file has not been modified since that time.
+
     :query format: File format to use; if not specified no format conversion happens; see :ref:`download` for supported formats
     :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
 

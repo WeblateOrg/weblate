@@ -96,12 +96,13 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         superuser: bool = False,
         method="get",
         request=None,
+        headers=None,
         skip=(),
         format: str = "multipart",
     ):
         self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request, format)
+        response = getattr(self.client, method)(url, request, format, headers=headers)
         content = response.content if hasattr(response, "content") else "<stream>"
 
         self.assertEqual(
@@ -2290,6 +2291,21 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
+
+    def test_download_modified(self):
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            headers={"If-Modified-Since": "Wed, 21 Oct 2015 07:28:00 GMT"},
+            code=200,
+        )
+        self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
+        self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            headers={"If-Modified-Since": response["Last-Modified"]},
+            code=304,
+        )
 
     def test_download_args(self):
         response = self.do_request(

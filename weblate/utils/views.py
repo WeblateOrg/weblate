@@ -7,15 +7,23 @@
 from __future__ import annotations
 
 import os
+import time
 from contextlib import suppress
-from time import mktime
 from typing import Any
 from zipfile import ZipFile
 
 from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
-from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
+from django.http import (
+    FileResponse,
+    Http404,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseBase,
+    HttpResponseRedirect,
+)
 from django.shortcuts import get_object_or_404
+from django.utils.cache import get_conditional_response
 from django.utils.http import http_date
 from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
@@ -26,7 +34,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.stats import BaseStats, CategoryLanguage, ProjectLanguage
 from weblate.vcs.git import LocalRepository
 
 
@@ -445,6 +453,22 @@ def zip_download(
     return response
 
 
+def handle_last_modified(
+    request: HttpRequest, stats: BaseStats
+) -> tuple[str, HttpResponseBase | None]:
+    last_modified = stats.last_changed
+    if last_modified:
+        last_modified = int(last_modified.timestamp())
+        # Respond with 302/412 response if needed
+        response = get_conditional_response(request, last_modified=last_modified)
+    else:
+        # Use current timestamp if stats do not have any
+        last_modified = int(time.time())
+        response = None
+
+    return http_date(last_modified), response
+
+
 @gzip_page
 def download_translation_file(
     request,
@@ -452,6 +476,10 @@ def download_translation_file(
     fmt: str | None = None,
     query_string: str | None = None,
 ):
+    last_modified_response, response = handle_last_modified(request, translation.stats)
+    if response is not None:
+        return response
+
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]
@@ -504,10 +532,7 @@ def download_translation_file(
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"
 
-    if translation.stats.last_changed:
-        response["Last-Modified"] = http_date(
-            mktime(translation.stats.last_changed.timetuple())
-        )
+    response["Last-Modified"] = last_modified_response
 
     return response
 
