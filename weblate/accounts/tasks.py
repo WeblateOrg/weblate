@@ -15,11 +15,11 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.utils.timezone import now
-from html2text import HTML2Text
 from social_django.models import Code, Partial
 
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
+from weblate.utils.html import HTML2Text
 
 LOGGER = logging.getLogger("weblate.smtp")
 
@@ -161,10 +161,7 @@ def send_mails(mails):
             return
         connection = monkey_patch_smtp_logging(connection)
 
-    html2text = HTML2Text(bodywidth=78)
-    html2text.unicode_snob = True
-    html2text.ignore_images = True
-    html2text.pad_tables = True
+    html2text = HTML2Text()
 
     try:
         for mail in mails:

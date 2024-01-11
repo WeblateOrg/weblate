@@ -6,6 +6,7 @@ import re
 from collections import defaultdict
 
 import nh3
+from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
 
 MD_LINK = re.compile(
@@ -113,3 +114,14 @@ class HTMLSanitizer:
         for replacement, original in self.replacements.items():
             text = text.replace(replacement, original)
         return text
+
+
+class HTML2Text(_HTML2Text):
+    def __init__(self, bodywidth: int = 78):
+        super().__init__(bodywidth=bodywidth)
+        # Use Unicode characters instead of their ascii pseudo-replacements
+        self.unicode_snob = True
+        #  Do not include any formatting for images
+        self.ignore_images = True
+        # Pad the cells to equal column width in tables
+        self.pad_tables = True
