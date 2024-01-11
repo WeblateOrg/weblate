@@ -605,6 +605,10 @@ class Change(models.Model, UserDisplayMixin):
             # Update cache for stats so that it does not have to hit
             # the database again
             self.translation.stats.last_change_cache = self
+            if self.translation.stats.is_loaded:
+                self.translation.stats.fetch_last_change()
+            self.translation.invalidate_cache()
+
             transaction.on_commit(self.update_cache_last_change)
 
     def get_absolute_url(self):
@@ -654,7 +658,7 @@ class Change(models.Model, UserDisplayMixin):
         cache.set(cache_key, change.pk if change else 0, 180 * 86400)
 
     def is_last_content_change_storable(self):
-        return self.translation_id and self.action in self.ACTIONS_CONTENT
+        return self.translation_id
 
     def update_cache_last_change(self):
         self.store_last_change(self.translation, self)

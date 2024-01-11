@@ -81,9 +81,6 @@ class TranslationManager(models.Manager):
             translation.check_flags = flags
             translation.save(update_fields=["check_flags"])
         translation.check_sync(force, request=request, change=change)
-        if created:
-            Change.store_last_change(translation, None)
-
         return translation
 
 

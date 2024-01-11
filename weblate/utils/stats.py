@@ -172,6 +172,7 @@ class BaseStats:
 
         Used in stats endpoints.
         """
+        self.ensure_loaded()
         percents = [
             "translated_percent",
             "approved_percent",
@@ -688,7 +689,7 @@ class TranslationStats(BaseStats):
             except Change.DoesNotExist:
                 pass
         try:
-            last_change = self._object.change_set.content().order()[0]
+            last_change = self._object.change_set.order()[0]
         except IndexError:
             Change.store_last_change(self._object, None)
             return None
