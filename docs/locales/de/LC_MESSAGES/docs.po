@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2024-01-03 08:55+0000\n"
+"PO-Revision-Date: 2024-01-11 08:28+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -7823,8 +7823,9 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
-"Konfiguriert, ob :guilabel:`Projekte nach Beitrag automatisch beobachten` "
-"für neue Benutzer aktiviert werden soll. Der Standardwert ist ``True``."
+"Konfiguriert, ob :guilabel:`Automatisch Projekte nach einem Beitrag "
+"beobachten` für neue Benutzer aktiviert werden soll. Der Standardwert ist "
+"``True``."
 
 #: ../../admin/config.rst:492
 msgid ":ref:`subscriptions`"
@@ -49316,6 +49317,10 @@ msgid ""
 "level (for example merge errors). These two groups of notifications are "
 "visually separated in the settings."
 msgstr ""
+"Einige der Benachrichtigungen werden nur bei Ereignissen in Ihren Sprachen "
+"verschickt (z. B. über neue zu übersetzende Zeichenketten), während andere "
+"auf Komponentenebene ausgelöst werden (z. B. Merge-Fehler). Diese beiden "
+"Gruppen von Benachrichtigungen sind in den Einstellungen visuell getrennt."
 
 #: ../../user/profile.rst:166
 msgid ""
@@ -49324,6 +49329,10 @@ msgid ""
 "the component overview page and select appropriate choice from the :guilabel:"
 "`Watching` menu."
 msgstr ""
+"Sie können die Benachrichtigungen für beobachtete Projekte und verwaltete "
+"Projekte umschalten und pro Projekt und Komponente weiter optimieren (oder "
+"stummschalten). Besuchen Sie die Übersichtsseite der Komponenten und wählen "
+"Sie die entsprechende Option aus dem Menü :guilabel:`Beobachtet`."
 
 #: ../../user/profile.rst:170
 msgid ""
@@ -49331,16 +49340,23 @@ msgid ""
 "you will automatically start watching projects upon translating a string. "
 "The default value depends on :setting:`DEFAULT_AUTO_WATCH`."
 msgstr ""
+"Wenn :guilabel:`Automatisch Projekte nach einem Beitrag beobachten` "
+"aktiviert ist, wird automatisch mit der Beobachtung von Projekten begonnen, "
+"sobald Sie eine Zeichenkette übersetzt haben. Der Standardwert hängt von "
+":setting:`DEFAULT_AUTO_WATCH` ab."
 
 #: ../../user/profile.rst:176
 msgid "You will not receive notifications for your own actions."
-msgstr ""
+msgstr "Sie erhalten keine Benachrichtigungen für Ihre eigenen Aktionen."
 
 #: ../../user/profile.rst:180
 msgid ""
 "Sending out notifications is limited, you will not receive more than 1000 e-"
 "mails per day. Any further notifications for you will be discarded."
 msgstr ""
+"Das Versenden von Benachrichtigungen ist begrenzt, Sie werden nicht mehr als "
+"1000 E-Mails pro Tag erhalten. Alle weiteren Benachrichtigungen für Sie "
+"werden verworfen."
 
 #: ../../user/profile.rst:188
 msgid "Account"
@@ -50687,10 +50703,15 @@ msgid ""
 "Project info like instructions for translators, or a directory or link to "
 "the string in the version control system repository the project uses."
 msgstr ""
+"Projektinformationen wie Anweisungen für Übersetzer oder ein Verzeichnis "
+"oder Link zur Zeichenkette im Repository der Versionsverwaltung, welches das "
+"Projekt verwendet."
 
 #: ../../user/translating.rst:302
 msgid "If you want direct links, the translation format has to support it."
 msgstr ""
+"Wenn Sie direkte Links möchten, muss das Übersetzungsformat dies "
+"unterstützen."
 
 #: ../../user/translating.rst:305
 msgid "Translation history"
@@ -50702,16 +50723,22 @@ msgid ""
 "in the database, and can be reverted. Optionally one can still also revert "
 "anything in the underlying version control system."
 msgstr ""
+"Jede Änderung wird standardmäßig (sofern nicht in den Komponenten-"
+"Einstellungen ausgeschaltet) in der Datenbank gespeichert und kann "
+"rückgängig gemacht werden. Optional kann auch alles in der zugrundeliegenden "
+"Versionsverwaltung rückgängig gemacht werden."
 
 #: ../../user/translating.rst:312
 msgid "Translated string length"
-msgstr ""
+msgstr "Länge der übersetzten Zeichenkette"
 
 #: ../../user/translating.rst:314
 msgid ""
 "Weblate can limit the length of a translation in several ways to ensure the "
 "translated string is not too long:"
 msgstr ""
+"Weblate kann die Länge einer Übersetzung auf verschiedene Weise begrenzen, "
+"um sicherzustellen, dass die übersetzte Zeichenkette nicht zu lang ist:"
 
 #: ../../user/translating.rst:317
 msgid ""
@@ -50722,17 +50749,29 @@ msgid ""
 "bilingual one, making Weblate mistaking the translation key for the actual "
 "source string. See :ref:`bimono` for more info."
 msgstr ""
+"Die Standardbegrenzung für Übersetzungen ist die zehnfache Länge der "
+"Ausgangszeichenkette. Dies kann durch "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` ausgeschaltet werden. "
+"Falls Sie auf dieses Problem stoßen, kann es auch daran liegen, dass eine "
+"einsprachige Übersetzung fälschlicherweise als zweisprachig eingerichtet "
+"wurde, so dass Weblate den Übersetzungsschlüssel mit der eigentlichen "
+"Ausgangszeichenkette verwechselt. Siehe :ref:`bimono` für weitere "
+"Informationen."
 
 #: ../../user/translating.rst:323
 msgid ""
 "Maximal length in characters defined by translation file or flag, see :ref:"
 "`check-max-length`."
 msgstr ""
+"Maximale Länge in Zeichen, definiert durch die Übersetzungsdatei oder -"
+"Markierung, siehe :ref:`check-max-length`."
 
 #: ../../user/translating.rst:325
 msgid ""
 "Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`."
 msgstr ""
+"Maximale gerenderte Größe in Pixeln, definiert durch Markierungen, siehe :ref"
+":`check-max-size`."
 
 #: ../../user/translating.rst:332
 msgid ""
@@ -50741,6 +50780,10 @@ msgid ""
 "memory`. All machine translations are available in a single tab of each "
 "translation page."
 msgstr ""
+"Basierend auf der Konfiguration und Ihrer übersetzten Sprache bietet Weblate "
+"Übersetzungsvorschläge von verschiedenen maschinellen Übersetzungen und :ref"
+":`translation-memory`. Alle maschinellen Übersetzungen sind in einer "
+"einzigen Reiterkarte auf jeder Übersetzungsseite verfügbar."
 
 #: ../../user/translating.rst:336
 #, fuzzy
