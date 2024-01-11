@@ -17,6 +17,7 @@ Not yet released.
 * :ref:`mt-openai` better handles batch translations.
 * :ref:`mt-libretranslate` better handles batch translations.
 * Text variant of notification e-mails now properly indicate changed strings.
+* File downloads now honor :http:header:`If-Modified-Since`.
 
 **Bug fixes**
 
