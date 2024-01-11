@@ -216,7 +216,10 @@ ROLES = (
         pgettext_noop("Access-control role", "Manage screenshots"),
         filter_perms("screenshot."),
     ),
-    (pgettext_noop("Access-control role", "Manage repository"), filter_perms("vcs.")),
+    (
+        pgettext_noop("Access-control role", "Manage repository"),
+        filter_perms("vcs.") | {"component.lock"},
+    ),
     (pgettext_noop("Access-control role", "Billing"), filter_perms("billing.")),
     (pgettext_noop("Access-control role", "Add new projects"), {"project.add"}),
 )
