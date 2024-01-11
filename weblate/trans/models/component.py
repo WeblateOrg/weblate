@@ -3295,11 +3295,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
 
     @property
-    def count_pending_units(self):
-        """Check for uncommitted changes."""
+    def pending_units(self):
         from weblate.trans.models import Unit
 
-        return Unit.objects.filter(translation__component=self, pending=True).count()
+        return Unit.objects.filter(translation__component=self, pending=True)
+
+    @property
+    def count_pending_units(self):
+        """Check for uncommitted changes."""
+        return self.pending_units.count()
 
     @property
     def count_repo_missing(self):
