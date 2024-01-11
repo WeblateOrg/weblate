@@ -16,6 +16,7 @@ Not yet released.
 * Adding string in a repository triggers :ref:`subscriptions`.
 * :ref:`mt-openai` better handles batch translations.
 * :ref:`mt-libretranslate` better handles batch translations.
+* Text variant of notification e-mails now properly indicate changed strings.
 
 **Bug fixes**
 

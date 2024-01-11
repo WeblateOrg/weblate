@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 
@@ -116,6 +118,14 @@ class HTMLSanitizer:
         return text
 
 
+# Map tags to open and closing text
+WEBLATE_TAGS = {
+    # Word diff syntax for text changes
+    "ins": ("{+", "+}"),
+    "del": ("[-", "-]"),
+}
+
+
 class HTML2Text(_HTML2Text):
     def __init__(self, bodywidth: int = 78):
         super().__init__(bodywidth=bodywidth)
@@ -125,3 +135,14 @@ class HTML2Text(_HTML2Text):
         self.ignore_images = True
         # Pad the cells to equal column width in tables
         self.pad_tables = True
+        # Hook additional callback for tags
+        # This needs unbound method as it receives self as explicit arg
+        self.tag_callback = self.__class__.handle_weblate_tags
+
+    def handle_weblate_tags(
+        self, tag: str, attrs: dict[str, str | None], start: bool
+    ) -> bool:
+        if tag in WEBLATE_TAGS:
+            self.o(WEBLATE_TAGS[tag][not start])
+            return True
+        return False

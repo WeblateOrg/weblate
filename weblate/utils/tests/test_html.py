@@ -69,3 +69,18 @@ very long text | other text \n\
 
 """,
         )
+
+    def test_html2text_diff(self):
+        html2text = HTML2Text()
+        self.assertEqual(
+            html2text.handle("text<ins>add</ins><del>remove</del>"),
+            "text{+add+}[-remove-]\n\n",
+        )
+        self.assertEqual(
+            html2text.handle("text <ins>add</ins><del>remove</del>"),
+            "text {+add+}[-remove-]\n\n",
+        )
+        self.assertEqual(
+            html2text.handle("text<ins> </ins>"),
+            "text{+ +}\n\n",
+        )
