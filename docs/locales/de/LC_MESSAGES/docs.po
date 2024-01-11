@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2024-01-11 09:38+0000\n"
+"PO-Revision-Date: 2024-01-12 06:17+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5470,10 +5470,9 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
-"Wenn Sie SSH- oder GPG-Schlüssel verwenden, die von Weblate generiert "
-"wurden, sollten Sie von diesen Speicherorten eine Sicherung erstellen. "
-"Andernfalls gehen die privaten Schlüssel verloren und Sie müssen neue "
-"Schlüssel generieren."
+"Wenn Sie SSH- oder GPG-Schlüssel verwenden, die von Weblate erzeugt wurden, "
+"sollten Sie von diesen Speicherorten eine Sicherung erstellen. Andernfalls "
+"gehen die privaten Schlüssel verloren und Sie müssen neue Schlüssel erzeugen."
 
 #: ../../admin/backup.rst:327
 msgid "User uploaded files"
@@ -9687,9 +9686,9 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
-"Der Weblate-GPG-Keyring wird nach einem passenden Schlüssel durchsucht (:"
-"file:`home/.gnupg` unter :setting:`DATA_DIR`). Wenn er nicht gefunden wird, "
-"wird ein Schlüssel generiert, siehe :ref:`gpg-sign` für weitere Details."
+"Der Weblate-GPG-Keyring wird nach einem passenden Schlüssel durchsucht "
+"(:file:`home/.gnupg` unter :setting:`DATA_DIR`). Wenn er nicht gefunden "
+"wird, wird ein Schlüssel erzeugt, siehe :ref:`gpg-sign` für weitere Details."
 
 #: ../../admin/config.rst:2041 ../../admin/install/docker.rst:803
 msgid ":ref:`gpg-sign`"
@@ -10085,9 +10084,9 @@ msgid ""
 "changes back."
 msgstr ""
 "Wenn Sie Hosted Weblate verwenden, empfiehlt es sich, die `Weblate-App "
-"<https://github.com/apps/weblate>`_ zu installieren, damit Sie die korrekte "
-"Einrichtung erhalten, ohne viel einrichten zu müssen. Sie kann auch zum "
-"Zurückschieben von Änderungen verwendet werden."
+"<https://github.com/apps/weblate>`_ zu installieren. Auf diese Weise "
+"erhalten Sie die korrekte Einrichtung, ohne viel einrichten zu müssen. Sie "
+"kann auch zum Zurückpushen von Änderungen verwendet werden."
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -19958,9 +19957,9 @@ msgid ""
 "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG "
 "key when needed and will use it to sign all translation commits.)"
 msgstr ""
-"1. :setting:`WEBLATE_GPG_IDENTITY` einschalten. (Weblate generiert bei "
-"Bedarf einen GnuPG-Schlüssel und verwendet ihn zum Signieren aller Commits "
-"von Übersetzungen.)"
+"1. :setting:`WEBLATE_GPG_IDENTITY` einschalten. (Weblate erzeugt bei Bedarf "
+"einen GnuPG-Schlüssel und verwendet ihn zum Signieren aller Commits von "
+"Übersetzungen.)"
 
 #: ../../admin/optionals.rst:223
 msgid "This feature needs GnuPG 2.1 or newer installed."
@@ -19990,11 +19989,11 @@ msgid ""
 "recommended to see the effect of such change."
 msgstr ""
 "Das Schlüsselmaterial wird von Weblate über einen längeren Zeitraum "
-"zwischengespeichert. Falls Sie Weblate einen Schlüssel mit :setting:"
-"`WEBLATE_GPG_IDENTITY` generieren lassen und dann einen Schlüssel mit der "
-"gleichen Identität importieren, um einen bestehenden Schlüssel zu verwenden, "
-"wird empfohlen, den Redis-Cache zu leeren, um die Auswirkungen einer solchen "
-"Änderung zu sehen."
+"zwischengespeichert. Falls Sie Weblate einen Schlüssel mit "
+":setting:`WEBLATE_GPG_IDENTITY` erzeugen lassen und dann einen Schlüssel mit "
+"der gleichen Identität importieren, um einen bestehenden Schlüssel zu "
+"verwenden, wird empfohlen, den Redis-Cache zu leeren, um die Auswirkungen "
+"einer solchen Änderung zu sehen."
 
 #: ../../admin/optionals.rst:243
 msgid ""
@@ -20921,7 +20920,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:403
 msgid "Push branch"
-msgstr "Push Branch"
+msgstr "Push-Branch"
 
 #: ../../admin/projects.rst:405
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
@@ -32893,8 +32892,8 @@ msgstr ""
 #: ../../changes/v4.rst:394
 msgid "Ensure Weblate SSH key is generated during migrations."
 msgstr ""
-"Sicherstellen, dass der Weblate-SSH-Schlüssel während der Migration "
-"generiert wird."
+"Sicherstellen, dass der Weblate-SSH-Schlüssel während der Migration erzeugt "
+"wird."
 
 #: ../../changes/v4.rst:396
 msgid ""
@@ -50981,6 +50980,10 @@ msgid ""
 "removes additional UI elements such as :guilabel:`Nearby strings` or the :"
 "guilabel:`Glossary`."
 msgstr ""
+"Der Zen-Editor kann durch Klicken auf die Schaltfläche :guilabel:`Zen` oben "
+"rechts aktiviert werden, während eine Komponente übersetzt wird. Er "
+"vereinfacht das Layout und entfernt zusätzliche UI-Elemente wie :guilabel:`"
+"Benachbarte Zeichenketten` oder das :guilabel:`Glossar`."
 
 #: ../../user/translating.rst:442
 msgid ""
@@ -50989,6 +50992,11 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side` depending on your personal preference."
 msgstr ""
+"Sie können den Zen-Editor als Standard-Editor auswählen, indem Sie den "
+"Reiter :ref:`profile-preferences` in Ihrem :ref:`user-profile` verwenden. "
+"Hier können Sie auch auswählen, ob die Übersetzungen :guilabel:`Von oben "
+"nach unten` oder :guilabel:`Nebeneinander` aufgelistet werden sollen, je "
+"nach Ihrer persönlichen Vorliebe."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -51018,10 +51026,15 @@ msgid ""
 "repositories or for push URLs the setup is more complex and requires "
 "authentication."
 msgstr ""
+"Das VCS-Repository, das Sie verwenden möchten, muss für Weblate zugänglich "
+"sein. Bei einem öffentlich zugänglichen Repository müssen Sie nur die "
+"korrekte URL eingeben (z. B. ``https://github.com/WeblateOrg/weblate.git``), "
+"aber für private Repositorys oder für Push-URLs ist die Einrichtung "
+"komplexer und erfordert eine Authentifizierung."
 
 #: ../../vcs.rst:25
 msgid "Accessing repositories from Hosted Weblate"
-msgstr "Zugriff auf Repositorys von Hosted Weblate aus"
+msgstr "Zugriff auf Repositorys über Hosted Weblate"
 
 #: ../../vcs.rst:27
 msgid ""
@@ -51030,6 +51043,10 @@ msgid ""
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"Für Hosted Weblate gibt es einen dedizierten Push-Benutzer, der auf GitHub, "
+"Bitbucket, Codeberg und GitLab registriert ist (mit dem Benutzernamen "
+":guilabel:`weblate`, der E-Mail ``hosted@weblate.org`` und einem Namen oder "
+"einer Profilbeschreibung :guilabel:`Weblate push user`)."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -51037,6 +51054,10 @@ msgid ""
 "Weblate instances. Searching by e-mail ``hosted@weblate.org`` is recommended "
 "to find the correct user for Hosted Weblate."
 msgstr ""
+"Auf den Plattformen kann es weitere Benutzer von Weblate geben, die für "
+"andere Weblate-Instanzen bestimmt sind. Es wird empfohlen, nach der E-Mail "
+"``hosted@weblate.org`` zu suchen, um den richtigen Benutzer für Hosted "
+"Weblate zu finden."
 
 #: ../../vcs.rst:37
 msgid ""
@@ -51046,6 +51067,11 @@ msgid ""
 "settings, this happens immediately, or requires confirmation on the Weblate "
 "side."
 msgstr ""
+"Sie müssen diesen Benutzer als Mitwirkenden hinzufügen und ihm die "
+"entsprechenden Berechtigungen für Ihr Repository erteilen (für das Klonen "
+"reicht ein Lesezugriff aus, für das Pushen ist ein Schreibzugriff "
+"erforderlich). Je nach Dienst und den Einstellungen Ihrer Organisation "
+"geschieht dies sofort oder erfordert eine Bestätigung auf der Weblate-Seite."
 
 #: ../../vcs.rst:42
 msgid ""
@@ -51053,6 +51079,9 @@ msgid ""
 "within five minutes. Manual processing might be needed on the other "
 "services, so please be patient."
 msgstr ""
+"Der Benutzer :guilabel:`weblate` auf GitHub nimmt Einladungen automatisch "
+"innerhalb von fünf Minuten an. Bei den anderen Diensten kann eine manuelle "
+"Bearbeitung erforderlich sein, also haben Sie bitte etwas Geduld."
 
 #: ../../vcs.rst:45
 msgid ""
@@ -51060,12 +51089,18 @@ msgid ""
 "configure :ref:`component-repo` and :ref:`component-push` using the SSH "
 "protocol (for example ``git@github.com:WeblateOrg/weblate.git``)."
 msgstr ""
+"Sobald der Benutzer :guilabel:`weblate` zu Ihrem Repository hinzugefügt "
+"wurde, können Sie das :ref:`component-repo` und die :ref:`component-push` "
+"über das SSH-Protokoll konfigurieren (zum Beispiel ``git@github.com:"
+"WeblateOrg/weblate.git``)."
 
 #: ../../vcs.rst:50
 msgid ""
 "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
 msgstr ""
+"Zugriff auf Repositorys von Code-Hosting-Sites (GitHub, GitLab, Bitbucket, "
+"Azure DevOps, …)"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -51076,12 +51111,21 @@ msgid ""
 "repository. You can then use SSH URL to access the repository (see :ref:`ssh-"
 "repos`)."
 msgstr ""
+"Der Zugriff auf Repositorys von Code-Hosting-Sites erfolgt in der Regel "
+"durch das Erstellen eines speziellen Benutzers, der mit einem SSH-Schlüssel "
+"von Weblate verknüpft ist (siehe :ref:`weblate-ssh-key`). Auf diese Weise "
+"verknüpfen Sie den SSH-Schlüssel von Weblate mit einem einzigen Benutzer ("
+"dies wird häufig von der Plattform erzwungen) und gewähren diesem Benutzer "
+"Zugriff auf das Repository. Sie können dann die SSH-URL für den Zugriff auf "
+"das Repository verwenden (siehe :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
 "On a Hosted Weblate, this is pre-cofigured for most of the public sites, "
 "please see :ref:`hosted-push`."
 msgstr ""
+"Bei einem Hosted Weblate ist dies für die meisten öffentlichen Plattformen "
+"vorkonfiguriert, siehe :ref:`hosted-push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
@@ -51093,12 +51137,18 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
+"Die am häufigsten verwendete Methode, um auf private Repositorys "
+"zuzugreifen, basiert auf SSH. Autorisieren Sie den öffentlichen Weblate-SSH-"
+"Schlüssel (siehe :ref:`weblate-ssh-key`), um auf diese Weise auf das "
+"Upstream-Repository zuzugreifen."
 
 #: ../../vcs.rst:75
 msgid ""
 "On GitHub, each key can only be used once, see :ref:`vcs-repos-github` and :"
 "ref:`hosted-push`."
 msgstr ""
+"Auf GitHub kann jeder Schlüssel nur einmal verwendet werden, siehe :ref:`vcs-"
+"repos-github` und :ref:`hosted-push`."
 
 #: ../../vcs.rst:78
 msgid ""
@@ -51106,6 +51156,9 @@ msgid ""
 "fails to connect to the host should it be changed later (see :ref:`verify-"
 "ssh`)."
 msgstr ""
+"Weblate speichert auch den Fingerabdruck des Host-Schlüssels bei der ersten "
+"Verbindung und stellt keine Verbindung zum Host her, wenn er später geändert "
+"wird (siehe :ref:`verify-ssh`)."
 
 #: ../../vcs.rst:81
 msgid "In case adjustment is needed, do so from the Weblate admin interface:"
@@ -51122,6 +51175,8 @@ msgid ""
 "Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is "
 "recommended for new setups."
 msgstr ""
+"Weblate erzeugt jetzt sowohl RSA- als auch Ed25519-SSH-Schlüssel. Die "
+"Verwendung von Ed25519 wird für neue Installationen empfohlen."
 
 #: ../../vcs.rst:95
 msgid ""
@@ -51137,22 +51192,27 @@ msgid ""
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
 "page."
 msgstr ""
+"Administratoren können den öffentlichen Schlüssel, der aktuell von Weblate "
+"in der Verbindung verwendet wird (aus :guilabel:`SSH-Schlüssel`), auf der "
+"Einstiegsseite der Adminoberfläche erzeugen oder anzeigen."
 
 #: ../../vcs.rst:102
 msgid ""
 "The corresponding private SSH key can not currently have a password, so make "
 "sure it is well protected."
 msgstr ""
+"Der zugehörige private SSH-Schlüssel kann aktuell kein Passwort haben, "
+"stellen Sie also sicher, dass er gut geschützt ist."
 
 #: ../../vcs.rst:107
 msgid "Make a backup of the generated private Weblate SSH key."
 msgstr ""
-"Erstellen Sie eine Sicherungskopie des generierten privaten Weblate-SSH-"
+"Erstellen Sie eine Sicherungskopie des erzeugten privaten Weblate-SSH-"
 "Schlüssels."
 
 #: ../../vcs.rst:112
 msgid "Verifying SSH host keys"
-msgstr ""
+msgstr "SSH-Hostschlüssel überprüfen"
 
 #: ../../vcs.rst:114
 msgid ""
@@ -51170,14 +51230,23 @@ msgid ""
 "the hostname you are going to access (e.g. ``gitlab.com``), and press :"
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
+"Wenn Sie den Fingerabdruck des Schlüssels vor der Verbindung mit dem "
+"Repository überprüfen möchten, fügen Sie die SSH-Schlüssel der Server, auf "
+"die Sie zugreifen möchten, unter :guilabel:`Hostschlüssel hinzufügen` im "
+"selben Abschnitt der Adminoberfläche hinzu. Geben Sie den Rechnernamen ein, "
+"auf den Sie zugreifen wollen (z. B. ``gitlab.com``), und drücken Sie "
+":guilabel:`Absenden`. Überprüfen Sie, ob der Fingerabdruck mit dem von Ihnen "
+"hinzugefügten Server übereinstimmt."
 
 #: ../../vcs.rst:123
 msgid "The added keys with fingerprints are shown in the confirmation message:"
 msgstr ""
+"Die hinzugefügten Schlüssel mit Fingerabdrücken werden in der "
+"Bestätigungsnachricht angezeigt:"
 
 #: ../../vcs.rst:128
 msgid "Connecting to legacy SSH servers"
-msgstr ""
+msgstr "Verbindung zu älteren SSH-Servern"
 
 #: ../../vcs.rst:130
 msgid ""
@@ -51187,6 +51256,11 @@ msgid ""
 "broken, and it is possible to create chosen-prefix hash collisions for "
 "<USD$50K."
 msgstr ""
+"Aktuelle OpenSSH-Versionen (z. B. die im Weblate-Docker-Container verwendete)"
+" deaktivieren standardmäßig RSA-Signaturen mit dem SHA-1-Hash-Algorithmus. "
+"Diese Änderung wurde vorgenommen, da der SHA-1-Hash-Algorithmus "
+"kryptografisch gebrochen ist und es möglich ist, Hash-Kollisionen mit "
+"gewählten Präfixen für unter USD$ 50k zu erstellen."
 
 #: ../../vcs.rst:135
 msgid ""
@@ -51195,6 +51269,11 @@ msgid ""
 "signatures since release 7.2 and existing ssh-rsa keys will automatically "
 "use the stronger algorithm where possible."
 msgstr ""
+"Für die meisten Benutzer sollte diese Änderung unsichtbar sein und es "
+"besteht keine Notwendigkeit, SSH-RSA-Schlüssel zu ersetzen. OpenSSH "
+"unterstützt RFC8332-RSA/SHA-256/512-Signaturen seit Version 7.2 und "
+"existierende SSH-RSA-Schlüssel werden automatisch den stärkeren Algorithmus "
+"verwenden, wenn möglich."
 
 #: ../../vcs.rst:140
 msgid ""
@@ -51202,6 +51281,10 @@ msgid ""
 "that have not been upgraded or have not closely tracked improvements in the "
 "SSH protocol. The SSH connection to such server will fail with:"
 msgstr ""
+"Inkompatibilität ist wahrscheinlicher, wenn eine Verbindung zu älteren SSH-"
+"Implementierungen hergestellt wird, die nicht aktualisiert wurden oder die "
+"Verbesserungen des SSH-Protokolls nicht genau verfolgt haben. Die SSH-"
+"Verbindung zu einem solchen Server schlägt fehl mit:"
 
 #: ../../vcs.rst:148
 msgid ""
@@ -51211,6 +51294,12 @@ msgid ""
 "`DATA_DIR/ssh/config` will enable RSA/SHA1 for host and user authentication "
 "for a single destination host:"
 msgstr ""
+"In diesen Fällen kann es notwendig sein, RSA/SHA1 selektiv wieder zu "
+"aktivieren, um die Authentifizierung von Verbindungen und/oder Benutzern "
+"über die Optionen HostkeyAlgorithms und PubkeyAcceptedAlgorithms zu "
+"ermöglichen. Der folgende Dreizeiler in :file:`DATA_DIR/ssh/config` "
+"aktiviert beispielsweise RSA/SHA1 für die Host- und Benutzer-"
+"Authentifizierung für einen einzelnen Ziel-Host:"
 
 #: ../../vcs.rst:160
 msgid ""
@@ -51218,6 +51307,9 @@ msgid ""
 "implementations can be upgraded or reconfigured with another key type (such "
 "as ECDSA or Ed25519)."
 msgstr ""
+"Wir empfehlen, RSA/SHA1 nur als Überbrückungsmaßnahme zu aktivieren, bis "
+"veraltete Implementierungen aktualisiert oder mit einem anderen Schlüsseltyp "
+"(wie ECDSA oder Ed25519) neu konfiguriert werden können."
 
 #: ../../vcs.rst:167
 msgid "GitHub repositories"
@@ -51240,6 +51332,10 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
+"Falls der :ref:`component-push_branch` nicht gesetzt ist, wird das Projekt "
+"geforkt und die Änderungen durch einen Fork gepusht. Ist er gesetzt, werden "
+"die Änderungen an das vorgelagerte Repository und den gewählten Branch "
+"gepusht."
 
 #: ../../vcs.rst:177
 msgid ""
@@ -51247,6 +51343,9 @@ msgid ""
 "token and your GitHub account, see `Creating an access token for command-"
 "line use`_."
 msgstr ""
+"Für kleinere Bereitstellungen verwenden Sie die HTTPS-Authentifizierung mit "
+"einem persönlichen Token und Ihrem GitHub-Benutzerkonto, siehe `Creating an "
+"access token for command-line use`_."
 
 #: ../../vcs.rst:182
 msgid ""
@@ -51256,6 +51355,12 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
+"Bei größeren Installationen ist es in der Regel besser, einen eigenen "
+"Benutzer für Weblate zu erstellen, ihm den in Weblate erstellten "
+"öffentlichen SSH-Schlüssel zuzuweisen (siehe :ref:`weblate-ssh-key`) und ihm "
+"Zugang zu allen Repositorys zu gewähren, die Sie übersetzen wollen. Dieser "
+"Ansatz wird auch für Hosted Weblate verwendet, dafür gibt es einen eigenen "
+":guilabel:`weblate`-Benutzer."
 
 #: ../../vcs.rst:190
 msgid ":ref:`hosted-push`"
@@ -51290,24 +51395,33 @@ msgid ""
 "if it finds a component with a matching repository setup. You can override "
 "this in the last step of the component configuration."
 msgstr ""
+"Weblate passt die Repository-URL beim Erstellen einer Komponente automatisch "
+"an, wenn es eine Komponente mit einem passenden Repository-Setup findet. Sie "
+"können dies im letzten Schritt der Konfiguration der Komponente außer Kraft "
+"setzen."
 
 #: ../../vcs.rst:209
 msgid "Reasons to use this:"
-msgstr ""
+msgstr "Gründe dafür:"
 
 #: ../../vcs.rst:211
 msgid "Saves disk space on the server, the repository is stored just once."
 msgstr ""
+"Spart Speicherplatz auf dem Server, das Repository wird nur einmal "
+"gespeichert."
 
 #: ../../vcs.rst:212
 msgid "Makes the updates faster, only one repository is updated."
 msgstr ""
+"Beschleunigt die Aktualisierungen, da nur ein Repository aktualisiert wird."
 
 #: ../../vcs.rst:213
 msgid ""
 "There is just single exported repository with Weblate translations (see :ref:"
 "`git-exporter`)."
 msgstr ""
+"Es gibt nur ein einziges exportiertes Repository mit Weblate-Übersetzungen ("
+"siehe :ref:`git-exporter`)."
 
 #: ../../vcs.rst:214
 msgid ""
@@ -51327,12 +51441,19 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
+"Um auf geschützte HTTPS-Repositorys zuzugreifen, geben Sie den Benutzernamen "
+"und das Passwort in der URL an. Keine Sorge, Weblate entfernt diese "
+"Informationen, wenn die URL den Benutzern angezeigt wird (wenn sie die URL "
+"des Repositorys überhaupt sehen dürfen)."
 
 #: ../../vcs.rst:224
 msgid ""
 "For example the GitHub URL with authentication added might look like: "
 "``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 msgstr ""
+"Die GitHub-URL mit hinzugefügter Authentifizierung könnte zum Beispiel so "
+"aussehen: `https://user:your_access_token@github.com/WeblateOrg/weblate.git` "
+"\"."
 
 #: ../../vcs.rst:229
 msgid ""
@@ -51353,6 +51474,8 @@ msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
 msgstr ""
+"Wenn Sie auf HTTP/HTTPS-VCS-Repositorys über einen Proxyserver zugreifen "
+"müssen, konfigurieren Sie das VCS so, dass es diesen verwendet."
 
 #: ../../vcs.rst:239
 msgid ""
@@ -51361,6 +51484,9 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
+"Dies kann mit Hilfe der Umgebungsvariablen ``http_proxy``, ``https_proxy`` "
+"und ``all_proxy`` geschehen (wie in der `cURL-Dokumentation <https://curl.se/"
+"docs/>`_ beschrieben) oder z. B. in der VCS-Konfiguration erzwungen werden:"
 
 #: ../../vcs.rst:249
 msgid ""
@@ -51368,12 +51494,18 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
+"Die Proxy-Konfiguration muss unter dem Benutzer erfolgen, unter dem Weblate "
+"läuft (siehe auch :ref:`file-permissions`) und mit ``HOME=$DATA_DIR/home`` ("
+"siehe :setting:`DATA_DIR`), sonst wird Git, das von Weblate ausgeführt wird, "
+"es nicht nutzen."
 
 #: ../../vcs.rst:255
 msgid ""
 "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
+"`Die cURL-Manpage <https://curl.se/docs/manpage.html>`_, `Git-"
+"Konfigurationsdokumentation <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:262
 msgid "Git"
@@ -51401,16 +51533,21 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
+"Dies verhält sich genau wie Git selbst, mit dem einzigen Unterschied, dass "
+"es immer Pushes erzwingt. Dies ist nur für den Fall vorgesehen, dass ein "
+"separates Repository für Übersetzungen verwendet wird."
 
 #: ../../vcs.rst:283
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
 msgstr ""
+"Seien Sie vorsichtig, da dies leicht zu verlorenen Commits in Ihrem Upstream-"
+"Repository führt."
 
 #: ../../vcs.rst:287
 msgid "Customizing Git configuration"
-msgstr ""
+msgstr "Git-Konfiguration anpassen"
 
 #: ../../vcs.rst:289
 msgid ""
@@ -51418,6 +51555,9 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
+"Weblate ruft alle VCS-Befehle mit ``HOME=$DATA_DIR/home`` auf (siehe "
+":setting:`DATA_DIR`), daher muss das Bearbeiten der Benutzer-Konfiguration "
+"in ``DATA_DIR/home/.git`` erfolgen."
 
 #: ../../vcs.rst:296
 msgid "Git remote helpers"
@@ -51428,6 +51568,9 @@ msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
 msgstr ""
+"Sie können auch Git `remote helpers`_ verwenden, um zusätzlich andere "
+"Versionsverwaltungen zu unterstützen, aber seien Sie darauf vorbereitet, "
+"dass dies zu Problemen bei der Fehlersuche führen kann."
 
 #: ../../vcs.rst:301
 msgid ""
@@ -51437,26 +51580,36 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
+"Derzeit sind Hilfsprogramme für Bazaar und Mercurial in separaten "
+"Repositorys auf GitHub verfügbar: `git-remote-hg`_ und `git-remote-bzr`_. "
+"Laden Sie diese manuell herunter und fügen Sie sie irgendwo in Ihren "
+"Suchpfad ein (zum Beispiel :file:`~/bin`). Stellen Sie sicher, dass Sie die "
+"entsprechenden Versionsverwaltungen installiert haben."
 
 #: ../../vcs.rst:307
 msgid ""
 "Once you have these installed, such remotes can be used to specify a "
 "repository in Weblate."
 msgstr ""
+"Sobald Sie dies installiert haben, können solche Remote-Repositorys "
+"verwendet werden, um ein Repository in Weblate anzugeben."
 
 #: ../../vcs.rst:310
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar::"
-msgstr ""
+msgstr "So klonen Sie das Projekt ``gnuhello`` von Launchpad mit Bazaar::"
 
 #: ../../vcs.rst:314
 msgid "For the ``hello`` repository from selenic.com using Mercurial::"
-msgstr ""
+msgstr "Für das Repository ``hello`` von selenic.com mit Mercurial::"
 
 #: ../../vcs.rst:324
 msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
+"Der Nachteil beim Verwenden von Git-Remote-Helfern ist, dass zum Beispiel "
+"bei Mercurial der Remote-Helfer manchmal einen neuen Tipp erstellt, wenn er "
+"Änderungen zurückpusht."
 
 #: ../../vcs.rst:331
 msgid "GitHub pull requests"
@@ -51468,6 +51621,9 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` unter Verwendung der `"
+"GitHub API`_ hinzu, um das Pushen von Übersetzungsänderungen als Pull "
+"Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:336
 msgid ""
@@ -51485,6 +51641,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Damit dies funktioniert, müssen die API-Zugangsdaten "
+"(:setting:`GITHUB_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
+"werden. Nach der Konfiguration ist die Option :guilabel:`GitHub` sichtbar, "
+"wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:346
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
@@ -51500,6 +51660,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` unter Verwendung der `"
+"GitLab API`_ hinzu, um das Pushen von Übersetzungsänderungen als Merge "
+"Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:361
 msgid ""
@@ -51520,6 +51683,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Damit dies funktioniert, müssen die API-Zugangsdaten "
+"(:setting:`GITLAB_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
+"werden. Nach der Konfiguration ist die Option :guilabel:`GitLab` sichtbar, "
+"wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:372
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
@@ -51535,6 +51702,9 @@ msgid ""
 "allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` unter Verwendung der `Gitea "
+"API`_ hinzu, um das Pushen von Übersetzungsänderungen als Pull Requests zu "
+"ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:389
 msgid ""
@@ -51555,10 +51725,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Damit dies funktioniert, müssen die API-Anmeldeinformationen (:setting:"
-"`GITEA_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert werden. Nach "
-"der Konfiguration ist die Option :guilabel:`Gitea` sichtbar, wenn :ref:"
-"`component-vcs` ausgewählt wird."
+"Damit dies funktioniert, müssen die API-Zugangsdaten "
+"(:setting:`GITEA_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
+"werden. Nach der Konfiguration ist die Option :guilabel:`Gitea` sichtbar, "
+"wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:400
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
@@ -51574,10 +51744,13 @@ msgid ""
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` unter Verwendung der `"
+"Bitbucket Server API`_ hinzu, um das Pushen von Übersetzungsänderungen als "
+"Pull Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:419
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Dies unterstützt die Bitbucket-Cloud-API nicht."
 
 #: ../../vcs.rst:422
 msgid ""
@@ -51599,10 +51772,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
-"Damit dies funktioniert, müssen die API-Anmeldeinformationen (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
-"werden. Nach der Konfiguration ist die Option :guilabel:`Bitbucket Server` "
-"sichtbar, wenn :ref:`component-vcs` ausgewählt wird."
+"Damit dies funktioniert, müssen die API-Zugangsdaten "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) in den Weblate-Einstellungen "
+"konfiguriert werden. Nach der Konfiguration ist die Option :guilabel:`"
+"Bitbucket Server` sichtbar, wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:433
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -51618,6 +51791,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` unter Verwendung der `"
+"Pagure API`_ hinzu, um das Pushen von Übersetzungsänderungen als Merge "
+"Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:450
 msgid ""
@@ -51638,6 +51814,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Damit dies funktioniert, müssen die API-Zugangsdaten "
+"(:setting:`PAGURE_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
+"werden. Nach der Konfiguration ist die Option :guilabel:`Pagure` sichtbar, "
+"wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:461
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
@@ -51653,6 +51833,9 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` mit dem Werkzeug `git-"
+"review`_ hinzu, um das Pushen von Übersetzungsänderungen als Gerrit-Review-"
+"Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:475
 msgid ""
@@ -51672,6 +51855,9 @@ msgid ""
 "allow pushing translation changes as pull requests, instead of pushing "
 "directly to the repository."
 msgstr ""
+"Dies fügt eine dünne Schicht über :ref:`vcs-git` unter Verwendung der `Azure "
+"DevOps API`_ hinzu, um das Pushen von Übersetzungsänderungen als Pull "
+"Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: ../../vcs.rst:487
 msgid ""
@@ -51689,10 +51875,10 @@ msgid ""
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Damit dies funktioniert, müssen die API-Anmeldeinformationen (:setting:"
-"`AZURE_DEVOPS_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
-"werden. Nach der Konfiguration ist die Option :guilabel:`Azure DevOps` "
-"sichtbar, wenn :ref:`component-vcs` ausgewählt wird."
+"Damit dies funktioniert, müssen die API-Zugangsdaten "
+"(:setting:`AZURE_DEVOPS_CREDENTIALS`) in den Weblate-Einstellungen "
+"konfiguriert werden. Nach der Konfiguration ist die Option :guilabel:`Azure "
+"DevOps` sichtbar, wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:497
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
@@ -51705,6 +51891,8 @@ msgstr "Mercurial"
 #: ../../vcs.rst:509
 msgid "Mercurial is another VCS you can use directly in Weblate."
 msgstr ""
+"Mercurial ist eine weitere Versionsverwaltung, die Sie direkt in Weblate "
+"verwenden können."
 
 #: ../../vcs.rst:513
 msgid ""
@@ -51712,6 +51900,9 @@ msgid ""
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
+"Es sollte mit jeder Mercurial-Version funktionieren, aber es gibt manchmal "
+"inkompatible Änderungen an der Befehlszeile, welche die Weblate-Integration "
+"stören."
 
 #: ../../vcs.rst:525
 msgid "Subversion"
@@ -51723,6 +51914,10 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
+"Weblate verwendet `git-svn`_ zur Interaktion mit `subversion`_-Repositorys. "
+"Es handelt sich um ein Perl-Skript, mit dem Subversion von einem Git-Client "
+"verwendet werden kann, so dass Benutzer einen vollständigen Klon des "
+"internen Repositorys pflegen und lokal Commits durchführen können."
 
 #: ../../vcs.rst:533
 msgid ""
@@ -51734,10 +51929,18 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
+"Weblate versucht, das Layout des Subversion-Repositorys automatisch zu "
+"erkennen – es unterstützt sowohl direkte URLs für Branches als auch "
+"Repositorys mit Standardlayout (branches/, tags/ und trunk/). Mehr "
+"Informationen dazu finden Sie in der `git-svn-Dokumentation <https://git-scm."
+"com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_. Wenn Ihr "
+"Repository kein Standardlayout hat und Sie auf Fehler stoßen, versuchen Sie, "
+"den Namen des Branches in die Repository-URL aufzunehmen und den Branch leer "
+"zu lassen."
 
 #: ../../vcs.rst:545
 msgid "Subversion credentials"
-msgstr ""
+msgstr "Subversion-Zugangsdaten"
 
 #: ../../vcs.rst:547
 msgid ""
@@ -51746,6 +51949,11 @@ msgid ""
 "`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
 "`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
+"Ihre Weblate-Installation erwartet, dass Sie das Zertifikat (und ggf. Ihre "
+"Zugangsdaten) im Voraus akzeptiert haben. Es wird versuchen, sie in das "
+"Verzeichnis :setting:`DATA_DIR` einzufügen. Akzeptieren Sie das Zertifikat, "
+"indem Sie einmal `svn` verwenden, wobei die Einsatzumgebungsvariable `$HOME` "
+"auf :setting:`DATA_DIR` gesetzt ist:"
 
 #: ../../vcs.rst:565
 msgid "Local files"
@@ -51767,6 +51975,10 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
+"Weblate kann auch ohne ein Remote-VCS betrieben werden. Die ersten "
+"Übersetzungen werden durch Hochladen importiert. Später können Sie einzelne "
+"Dateien durch Dateiupload ersetzen oder Zeichenketten direkt aus Weblate "
+"hinzufügen (aktuell nur für einsprachige Übersetzungen verfügbar)."
 
 #: ../../vcs.rst:577
 msgid ""
@@ -51775,6 +51987,10 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
+"Im Hintergrund erstellt Weblate ein Git-Repository für Sie, in dem alle "
+"Änderungen nachverfolgt werden. Falls Sie sich später entscheiden, ein VCS "
+"zur Speicherung der Übersetzungen zu verwenden, haben Sie bereits ein "
+"Repository in Weblate, auf das Sie Ihre Integration stützen können."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
@@ -52247,16 +52463,24 @@ msgid ""
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
+"Zusätzlich zur Konfiguration unter :ref:`project` und :ref:`component` (wie "
+":ref:`project-translation_review`, :ref:`component-enable_suggestions`, :ref"
+":`component-suggestion_voting`, und :ref:`component-suggestion_autoaccept`) "
+"kann der Übersetzungsablauf pro Sprache angepasst werden."
 
 #: ../../workflows.rst:24
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
+"Das plattformweite Anpassen des Arbeitsablaufs kann während dem :ref"
+":`changing-languages` vorgenommen werden."
 
 #: ../../workflows.rst:26
 msgid ""
 "Per-project customization can be done on each language page of the project."
 msgstr ""
+"Das Anpassen pro Projekt kann auf jeder Sprachenseite des Projekts "
+"vorgenommen werden."
 
 #: ../../workflows.rst:28
 msgid ""
@@ -52264,22 +52488,21 @@ msgid ""
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in customization."
 msgstr ""
+"Alle Einstellungen des Ablaufs können überschrieben werden, die einzige "
+"Einschränkung ist, dass :ref:`project-translation_review` eingeschaltet sein "
+"muss und nur in der Anpassung deaktiviert werden kann."
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
-msgstr ""
+msgstr "Es gilt die erste vorhandene Einstellung:"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid "Project language to remove"
 msgid "Project-language customization"
-msgstr "Zu entfernende Projektsprache"
+msgstr "Anpassung der Projektsprache"
 
 #: ../../workflows.rst:35
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Language customization"
-msgstr "Anpassungen zurücksetzen"
+msgstr "Anpassung der Sprache"
 
 #: ../../workflows.rst:36
 msgid "The project/component settings"
@@ -52290,6 +52513,9 @@ msgid ""
 "Please be careful when using site-wide override as that applies to all "
 "projects (unless they have own overrides for a given language)."
 msgstr ""
+"Bitte seien Sie vorsichtig, wenn Sie plattformweite Überschreibungen "
+"verwenden, da diese für alle Projekte gelten (es sei denn, sie haben eigene "
+"Überschreibungen für eine bestimmte Sprache)."
 
 #: ../../workflows.rst:45
 msgid "Translation access"
