@@ -23,7 +23,6 @@ Not yet released.
 * Plural forms handling in :doc:`/formats/qt`.
 * Added missing documentation for :setting:`ADMINS_CONTACT`.
 * Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new whitespace.
-*
 
 **Compatibility**
 
