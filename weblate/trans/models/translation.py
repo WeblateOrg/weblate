@@ -1324,8 +1324,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         transaction.on_commit(self.component.schedule_update_checks)
 
         # Record change
-        Change.objects.create(
-            component=self.component,
+        self.component.change_set.create(
             action=Change.ACTION_REMOVE_TRANSLATION,
             target=self.filename,
             user=user,

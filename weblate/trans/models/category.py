@@ -200,11 +200,10 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             current_value = getvalue(self, attribute)
 
             if old_value != current_value:
-                Change.objects.create(
+                self.project.change_set.create(
                     action=action,
                     old=old_value,
                     target=current_value,
-                    project=self.project,
                     user=self.acting_user,
                 )
 

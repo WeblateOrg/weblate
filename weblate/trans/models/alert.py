@@ -48,9 +48,8 @@ class Alert(models.Model):
         if is_new:
             from weblate.trans.models import Change
 
-            Change.objects.create(
+            self.component.change_set.create(
                 action=Change.ACTION_ALERT,
-                component=self.component,
                 alert=self,
                 details={"alert": self.name},
             )

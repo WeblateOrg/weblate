@@ -907,11 +907,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             current_value = getvalue(self, attribute)
 
             if old_value != current_value:
-                Change.objects.create(
+                self.change_set.create(
                     action=action,
                     old=old_value,
                     target=current_value,
-                    component=self,
                     user=self.acting_user,
                 )
 
@@ -1703,9 +1702,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             except RepositoryError as error:
                 error_text = self.error_text(error)
                 report_error(cause="Could not push the repo", project=self.project)
-                Change.objects.create(
+                self.change_set.create(
                     action=Change.ACTION_FAILED_PUSH,
-                    component=self,
                     target=error_text,
                     user=request.user if request else self.acting_user,
                 )
@@ -1784,9 +1782,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if not result:
             return False
 
-        Change.objects.create(
+        self.change_set.create(
             action=Change.ACTION_PUSH,
-            component=self,
             user=request.user if request else self.acting_user,
         )
 
@@ -1818,9 +1815,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
                 return False
 
-            Change.objects.create(
+            self.change_set.create(
                 action=Change.ACTION_RESET,
-                component=self,
                 user=request.user if request else self.acting_user,
                 details={
                     "new_head": self.repository.last_revision,
@@ -2052,8 +2048,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             filename = self.template if translation is None else translation.filename
         self.trigger_alert("ParseError", error=error_message, filename=filename)
         if self.id:
-            Change.objects.create(
-                component=self,
+            self.change_set.create(
                 translation=translation,
                 action=Change.ACTION_PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
@@ -2119,8 +2114,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
                 # Log error
                 if self.id:
-                    Change.objects.create(
-                        component=self,
+                    self.change_set.create(
                         action=action_failed,
                         target=error,
                         user=user,
@@ -2143,8 +2137,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.store_local_revision()
 
                 # Record change
-                Change.objects.create(
-                    component=self,
+                self.change_set.create(
                     action=action,
                     user=user,
                     details={"new_head": new_head, "previous_head": previous_head},
@@ -3611,8 +3604,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.locked = lock
         # We avoid save here because it has unwanted side effects
         Component.objects.filter(pk=self.pk).update(locked=lock)
-        Change.objects.create(
-            component=self,
+        self.change_set.create(
             user=user,
             action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
             details={"auto": auto},
@@ -3638,9 +3630,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return self.license.replace("-or-later", "").replace("-only", "")
 
     def post_create(self, user):
-        Change.objects.create(
+        self.change_set.create(
             action=Change.ACTION_CREATE_COMPONENT,
-            component=self,
             user=user,
             author=user,
         )

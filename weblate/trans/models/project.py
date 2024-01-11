@@ -262,11 +262,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
             if old_value != current_value:
-                Change.objects.create(
+                self.change_set.create(
                     action=action,
                     old=old_value,
                     target=current_value,
-                    project=self,
                     user=self.acting_user,
                 )
 
@@ -443,8 +442,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             self.save()
         if not user.is_superuser:
             self.add_user(user, "Administration")
-        Change.objects.create(
-            action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user
+        self.change_set.create(
+            action=Change.ACTION_CREATE_PROJECT, user=user, author=user
         )
 
     @cached_property

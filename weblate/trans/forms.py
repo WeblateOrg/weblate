@@ -2079,8 +2079,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
     def save(self, commit: bool = True):
         super().save(commit=commit)
         if self.changed_access:
-            Change.objects.create(
-                project=self.instance,
+            self.instance.change_set.create(
                 action=Change.ACTION_ACCESS_EDIT,
                 user=self.user,
                 details={"access_control": self.instance.access_control},
