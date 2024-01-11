@@ -352,8 +352,7 @@ def count_words(string: str, lang_code=""):
                     count += len(sec)
                 even = not even
         return count
-    else:
-        return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
 
 def is_ngram_code(string: str):
     return string in ("ja", "zh", "ko")
