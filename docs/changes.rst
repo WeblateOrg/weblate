@@ -26,6 +26,8 @@ Not yet released.
 
 **Compatibility**
 
+* Last changed timestamp now reflects changes outside Weblate as well. This affects both :ref:`api` and user interface.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
