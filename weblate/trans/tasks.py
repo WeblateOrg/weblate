@@ -129,13 +129,14 @@ def commit_pending(hours=None, pks=None, logger=None):
         else:
             age = timezone.now() - timedelta(hours=hours)
 
-        last_change = component.stats.last_changed
-        if not last_change:
-            continue
-        if last_change > age:
+        units = component.pending_units.prefetch_recent_content_changes()
+
+        # No pending units
+        if not units:
             continue
 
-        if not component.needs_commit():
+        # All pending units are recent
+        if all(unit.recent_content_changes[0].timestamp > age for unit in units):
             continue
 
         if logger:
