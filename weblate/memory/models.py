@@ -65,25 +65,22 @@ class MemoryQuerySet(models.QuerySet):
         """
         Convert machinery threshold into PostgreSQL similarity threshold.
 
-        Machinery threshold is typically 75 for machinery and 10 for search.
+        Machinery threshold typical values:
+
+        - 75 machinery
+        - 80 automatic translation (default value)
+        - 10 search
 
         PostgreSQL similarity threshold needs to be higher to avoid too slow
         queries.
         """
-        # Basic similarity for short strings
         length = len(text)
 
-        if threshold < 50:
-            if length > 50:
-                return 1 - 28.1838 * math.log(0.0443791 * length) / length
-            return 0.5
-        if threshold >= 99:
-            return 1.0
-        if length > 200:
-            return 0.98
-        if length > 20:
-            return 0.95
-        return 0.9
+        base = 0.172489 * math.log(threshold) + 0.207051
+        bonus = 7.03436 * math.exp(-6.07957 * base)
+        length_bonus = (0.0733418 * math.log(length) + 0.324497) * bonus
+
+        return max(0.6, min(1.0, round(base + length_bonus, 3)))
 
     def lookup(
         self,
