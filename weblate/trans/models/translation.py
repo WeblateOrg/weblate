@@ -1075,6 +1075,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 files=filenames,
                 author=request.user.get_author_name(),
                 extra_context={"addon_name": "Source update"},
+                signals=False,
             ):
                 self.handle_store_change(
                     request,
@@ -1082,6 +1083,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     previous_revision,
                     change=Change.ACTION_REPLACE_UPLOAD,
                 )
+                # Emit signals later to avoid cleanup add-on to store translation
+                # revision before parsing
+                component.send_post_commit_signal()
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
     def handle_replace(self, request, fileobj):
@@ -1112,7 +1116,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Commit to VCS
             previous_revision = self.component.repository.last_revision
             if self.git_commit(
-                request.user, request.user.get_author_name(), store_hash=False
+                request.user,
+                request.user.get_author_name(),
+                store_hash=False,
+                signals=False,
             ):
                 # Drop store cache
                 self.handle_store_change(
@@ -1121,6 +1128,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     previous_revision,
                     change=Change.ACTION_REPLACE_UPLOAD,
                 )
+                # Emit signals later to avoid cleanup add-on to store translation
+                # revision before parsing
+                self.component.send_post_commit_signal()
 
         return (0, 0, self.unit_set.count(), len(store2.content_units))
 

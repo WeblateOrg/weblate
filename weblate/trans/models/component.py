@@ -1971,7 +1971,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         # Fire postponed post commit signals
         for component in components.values():
-            vcs_post_commit.send(sender=self.__class__, component=component)
+            component.send_post_commit_signal()
             component.store_local_revision()
             component.update_import_alerts(delete=False)
 
@@ -2024,7 +2024,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             # Send post commit signal
             if signals:
-                vcs_post_commit.send(sender=self.__class__, component=self)
+                self.send_post_commit_signal()
 
             self.store_local_revision()
 
@@ -2033,6 +2033,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.push_if_needed()
 
             return True
+
+    def send_post_commit_signal(self):
+        vcs_post_commit.send(sender=self.__class__, component=self)
 
     def get_parse_error_message(self, error) -> str:
         error_message = getattr(error, "strerror", "")

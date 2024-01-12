@@ -13,7 +13,7 @@ from openpyxl import load_workbook
 
 from weblate.formats.helpers import NamedBytesIO
 from weblate.trans.forms import SimpleUploadForm
-from weblate.trans.models import ComponentList
+from weblate.trans.models import Change, ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -353,10 +353,14 @@ class AndroidImportTest(ViewTestCase):
         self.assertEqual(translation.stats.all, 4)
 
     def test_replace(self):
+        translation = self.get_translation()
+        self.assertFalse(
+            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).exists()
+        )
         self.user.is_superuser = True
         self.user.save()
         with open(TEST_ANDROID, "rb") as handle:
-            self.client.post(
+            response = self.client.post(
                 reverse(
                     "upload",
                     kwargs={"path": self.component.source_translation.get_url_path()},
@@ -367,12 +371,18 @@ class AndroidImportTest(ViewTestCase):
                     "author_name": self.user.full_name,
                     "author_email": self.user.email,
                 },
+                follow=True,
             )
+            messages = list(response.context["messages"])
+            self.assertIn("updated: 2", messages[0].message)
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 2)
+        self.assertTrue(
+            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).exists()
+        )
 
 
 class CSVImportTest(ViewTestCase):
@@ -561,6 +571,7 @@ class ImportSourceTest(ImportBaseTest):
     test_file = TEST_POT_CHARSET
     expected = "Processed 3 strings from the uploaded files"
     expected_count = 3
+    expected_uploads = 1
 
     def setUp(self):
         super().setUp()
@@ -568,6 +579,10 @@ class ImportSourceTest(ImportBaseTest):
 
     def test_import(self):
         """Test importing normally."""
+        translation = self.get_translation()
+        self.assertFalse(
+            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).exists()
+        )
         response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
         messages = list(response.context["messages"])
@@ -582,6 +597,11 @@ class ImportSourceTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, "")
+
+        self.assertEqual(
+            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).count(),
+            self.expected_uploads,
+        )
 
 
 class ImportAddTest(ImportBaseTest):
@@ -626,6 +646,7 @@ class ImportSourceBrokenTest(ImportSourceTest):
     test_file = TEST_POT
     expected = 'Charset "CHARSET" is not a portable encoding name.'
     expected_count = 4
+    expected_uploads = 0
 
 
 class DownloadMultiTest(ViewTestCase):
