@@ -12,7 +12,7 @@ from copy import copy
 from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -108,6 +108,9 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
+
+if TYPE_CHECKING:
+    from weblate.addons.models import Addon
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -3659,12 +3662,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         from weblate.addons.models import Addon
 
         result = defaultdict(list)
+        result["__lookup__"] = {}
         for addon in Addon.objects.filter_component(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
             result["__all__"].append(addon)
             result["__names__"].append(addon.name)
+            result["__lookup__"][addon.name] = addon
         return result
+
+    def get_addon(self, name: str) -> Addon | None:
+        return self.addons_cache["__lookup__"].get(name)
 
     def schedule_sync_terminology(self):
         """Trigger terminology sync in the background."""
