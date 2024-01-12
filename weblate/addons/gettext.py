@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import os
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
 from django.utils.translation import gettext_lazy
 
@@ -236,6 +235,20 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             return False
         return super().can_install(component, user)
 
+    def get_msgmerge_args(self, component):
+        args = []
+        if not self.instance.configuration.get("fuzzy", True):
+            args.append("--no-fuzzy-matching")
+        if self.instance.configuration.get("previous", True):
+            args.append("--previous")
+        if self.instance.configuration.get("no_location", False):
+            args.append("--no-location")
+
+        # Apply gettext customize add-on configuration
+        if customize_addon := component.get_addon(GettextCustomizeAddon.name):
+            args.extend(customize_addon.addon.get_msgmerge_args(component))
+        return args
+
     def update_translations(self, component, previous_head):
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
@@ -265,21 +278,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             self.trigger_alerts(component)
             component.log_info("%s addon skipped, new base was not found", self.name)
             return
-        args = []
-        if not self.instance.configuration.get("fuzzy", True):
-            args.append("--no-fuzzy-matching")
-        if self.instance.configuration.get("previous", True):
-            args.append("--previous")
-        if self.instance.configuration.get("no_location", False):
-            args.append("--no-location")
-        try:
-            width = component.addon_set.get(
-                name="weblate.gettext.customize"
-            ).configuration["width"]
-            if width != 77:
-                args.append("--no-wrap")
-        except ObjectDoesNotExist:
-            pass
+        args = self.get_msgmerge_args(component)
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if (
@@ -321,6 +320,11 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
 
     def store_post_load(self, translation, store):
         store.store.wrapper.width = int(self.instance.configuration.get("width", 77))
+
+    def get_msgmerge_args(self, component):
+        if int(self.instance.configuration.get("width", 77)) != 77:
+            return ["--no-wrap"]
+        return []
 
 
 class GettextAuthorComments(GettextBaseAddon):

@@ -1020,6 +1020,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def handle_source(self, request, fileobj):
         """Replace source translations with uploaded one."""
+        from weblate.addons.gettext import GettextCustomizeAddon, MsgmergeAddon
+
         component = self.component
         filenames = []
         with component.repository.lock:
@@ -1040,28 +1042,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             temp.close()
 
             try:
-                # Prepare msgmerge args, this is merely a copy from
-                # weblate.addons.gettext.MsgmergeAddon and should be turned into
-                # file format parameters
-                args = ["--previous"]
-                try:
-                    addon = component.addon_set.get(name="weblate.gettext.customize")
-                    addon_config = addon.configuration
-                    if addon_config["width"] != 77:
-                        args.append("--no-wrap")
-                except ObjectDoesNotExist:
-                    pass
-                try:
-                    addon = component.addon_set.get(name="weblate.gettext.msgmerge")
-                    addon_config = addon.configuration
-                    if not addon_config.get("fuzzy", True):
-                        args.append("--no-fuzzy-matching")
-                    if addon_config.get("previous", True):
-                        args.append("--previous")
-                    if addon_config.get("no_location", False):
-                        args.append("--no-location")
-                except ObjectDoesNotExist:
-                    pass
+                # Prepare msgmerge args based on add-ons (if configured)
+                if addon := component.get_addon(MsgmergeAddon.name):
+                    args = addon.addon.get_msgmerge_args(component)
+                else:
+                    args = ["--previous"]
+                    if addon := component.get_addon(GettextCustomizeAddon.name):
+                        args.extend(addon.addon.get_msgmerge_args(component))
 
                 # Update translation files
                 for translation in component.translation_set.exclude(
