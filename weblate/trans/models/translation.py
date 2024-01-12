@@ -1239,6 +1239,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     None,
                     as_template=True,
                 )
+                if isinstance(template_store, component.file_format_cls):
+                    store_post_load.send(
+                        sender=self.__class__, translation=self, store=template_store
+                    )
             else:
                 template_store = component.template_store
             store = try_load(
@@ -1247,6 +1251,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 component.file_format_cls,
                 template_store,
             )
+            if isinstance(store, component.file_format_cls):
+                store_post_load.send(
+                    sender=self.__class__, translation=self, store=store
+                )
 
             # Check valid plural forms
             if hasattr(store.store, "parseheader"):
