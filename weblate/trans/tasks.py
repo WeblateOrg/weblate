@@ -82,10 +82,15 @@ def perform_load(
     langs: list[str] | None = None,
     changed_template: bool = False,
     from_link: bool = False,
+    change: int | None = None,
 ):
     component = Component.objects.get(pk=pk)
     component.create_translations(
-        force=force, langs=langs, changed_template=changed_template, from_link=from_link
+        force=force,
+        langs=langs,
+        changed_template=changed_template,
+        from_link=from_link,
+        change=change,
     )
 
 

@@ -2316,6 +2316,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     "langs": langs,
                     "changed_template": changed_template,
                     "from_link": from_link,
+                    "change": change,
                 },
                 countdown=60,
             )
