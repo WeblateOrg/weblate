@@ -1110,15 +1110,17 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     @classmethod
     def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
         """Wrapper around msgmerge."""
-        args = [
+        cmd = [
+            "msgmerge",
+            *kwargs.pop("args", ["--previous"]),
             "--output-file",
             out_file,
             in_file,
             template,
         ]
-        args = kwargs["args"] + args if "args" in kwargs else ["--previous", *args]
+        if kwargs:
+            raise ValueError(f"Unsupported arguments: {kwargs!r}")
 
-        cmd = ["msgmerge", *args]
         try:
             result = subprocess.run(
                 cmd,
