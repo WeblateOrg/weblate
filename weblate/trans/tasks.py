@@ -124,10 +124,9 @@ def commit_pending(hours=None, pks=None, logger=None):
         components = Component.objects.filter(translation__pk__in=pks).distinct()
 
     for component in prefetch_stats(components.prefetch()):
-        if hours is None:
-            age = timezone.now() - timedelta(hours=component.commit_pending_age)
-        else:
-            age = timezone.now() - timedelta(hours=hours)
+        age = timezone.now() - timedelta(
+            hours=component.commit_pending_age if hours is None else hours
+        )
 
         units = component.pending_units.prefetch_recent_content_changes()
 
