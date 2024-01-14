@@ -477,6 +477,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_MARKED_EDIT,
         ACTION_SOURCE_CHANGE,
         ACTION_EXPLANATION,
+        ACTION_NEW_UNIT,
     }
 
     # Actions shown on the repository management page
