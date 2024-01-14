@@ -33,7 +33,7 @@ from weblate.lang import data
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
-from weblate.trans.util import sort_objects, sort_unicode, is_ngram_code
+from weblate.trans.util import is_ngram_code, sort_objects, sort_unicode
 from weblate.utils.validators import validate_plural_formula
 
 PLURAL_RE = re.compile(
