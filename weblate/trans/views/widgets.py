@@ -18,7 +18,7 @@ from weblate.trans.util import render
 from weblate.trans.widgets import WIDGETS, SiteOpenGraphWidget
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
-from weblate.utils.views import parse_path, try_set_language
+from weblate.utils.views import parse_path, show_form_errors, try_set_language
 
 
 def widgets_sorter(widget):
@@ -36,6 +36,8 @@ def widgets(request, path):
     if form.is_valid():
         lang = form.cleaned_data["lang"]
         component = form.cleaned_data["component"]
+    else:
+        show_form_errors(request, form)
 
     if component:
         if lang:

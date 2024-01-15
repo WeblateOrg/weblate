@@ -16,7 +16,7 @@ from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, validate_slug
 from django.db.models import Q
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
@@ -1056,10 +1056,18 @@ class CommentForm(forms.Form):
             self.fields["scope"].choices = self.fields["scope"].choices[1:]
 
 
+class LanguageCodeChoiceField(forms.ModelChoiceField):
+    def to_python(self, value):
+        # Add explicit validation here to avoid DataError on invalid input
+        # such as: PostgreSQL text fields cannot contain NUL (0x00) bytes
+        validate_slug(value)
+        return super().to_python(value)
+
+
 class EngageForm(forms.Form):
     """Form to choose language for engagement widgets."""
 
-    lang = forms.ModelChoiceField(
+    lang = LanguageCodeChoiceField(
         Language.objects.none(),
         empty_label=gettext_lazy("All languages"),
         required=False,
