@@ -234,7 +234,8 @@ class ComponentDiscovery:
                 "intermediate": match["intermediate"],
                 "file_format": self.file_format,
                 "language_regex": self.language_re,
-                "addons_from": main.pk if self.copy_addons and main else None,
+                "copy_from": main.pk if main else None,
+                "copy_addons": self.copy_addons,
             }
         )
 
