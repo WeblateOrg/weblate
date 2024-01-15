@@ -2441,7 +2441,7 @@ Tasks
 
 .. http:get:: /api/tasks/(str:uuid)/
 
-    Returns information about a task
+    Returns information about a task.
 
     :param uuid: Task UUID
     :type uuid: string
