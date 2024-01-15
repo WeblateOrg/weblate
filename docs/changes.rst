@@ -18,6 +18,7 @@ Not yet released.
 * :ref:`mt-libretranslate` better handles batch translations.
 * Text variant of notification e-mails now properly indicate changed strings.
 * File downloads now honor :http:header:`If-Modified-Since`.
+* :ref:`num-words` support for CJK languages.
 
 **Bug fixes**
 

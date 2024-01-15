@@ -17,8 +17,15 @@ You can choose predefined periods or enter a custom date range. In that case,
 the contributions are counted at midnight – that means that it includes the
 starting date and excludes the ending date.
 
+.. _num-words:
+
 Number of words
 ---------------
+
+.. hint::
+
+   Number of words is a metric widely used in Indo-European languages, but
+   might not have a well-defined behavior for some Asian languages.
 
 A word is any sequence of characters (letters, numerics, special characters) between whitespace (spaces, tabs, newlines).
 In the example string below, the word count is 9.
@@ -30,6 +37,9 @@ In the example string below, the word count is 9.
 
 For plural strings, the number of words is counted as the sum of words for all
 plural forms.
+
+For Chinese, Japanese, or Korean languages, the number of words is the number
+of CJK characters plus the number of words in non-CJK characters.
 
 .. _credits:
 
