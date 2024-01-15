@@ -23,6 +23,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import handle_unit_translation_change
+from weblate.memory.utils import is_valid_memory_entry
 from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
@@ -891,7 +892,7 @@ class Unit(models.Model, LoggerMixin):
             and (not translation.is_source or component.intermediate)
             and (created or not same_source or not same_target)
         ):
-            transaction.on_commit(lambda: handle_unit_translation_change.delay(self.id))
+            self.update_translation_memory()
 
     def update_state(self):
         """
@@ -1482,9 +1483,7 @@ class Unit(models.Model, LoggerMixin):
             and self.state >= STATE_TRANSLATED
             and not component.is_glossary
         ):
-            transaction.on_commit(
-                lambda: handle_unit_translation_change.delay(self.id, user.id)
-            )
+            self.update_translation_memory(user.id)
 
         if change_action == Change.ACTION_AUTO:
             self.labels.add(component.project.automatically_translated_label)
@@ -1760,3 +1759,9 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
+
+    def update_translation_memory(self, user_id: int | None = None):
+        if is_valid_memory_entry(source=self.source, target=self.target):
+            transaction.on_commit(
+                lambda: handle_unit_translation_change.delay(self.id, user_id)
+            )
