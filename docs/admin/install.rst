@@ -148,6 +148,10 @@ following services running:
 * SMTP server for outgoing e-mail, see :ref:`out-mail`.
 * Filesystem storage (networked if you plan to scale Weblate horizontally) for storing VCS repositories.
 
+.. hint::
+
+   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+
 .. _python-deps:
 
 Python dependencies
