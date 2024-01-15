@@ -3649,7 +3649,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @property
     def context_label(self):
-        if self.file_format in ("po", "po-mono"):
+        if self.file_format in ("po", "po-mono", "tbx"):
             # Translators: Translation context for Gettext
             return gettext("Context")
         # Translators: Translation key for monolingual translations
