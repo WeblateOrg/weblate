@@ -214,8 +214,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             basename = component.slug if component else "weblate"
             filename = f"{basename}.zip"
         else:
-            with open(filename, "rb") as handle:
-                response = HttpResponse(handle.read(), content_type=content_type)
+            try:
+                with open(filename, "rb") as handle:
+                    response = HttpResponse(handle.read(), content_type=content_type)
+            except FileNotFoundError as error:
+                raise Http404("File not found") from error
             filename = os.path.basename(filename)
         response["Content-Disposition"] = f'attachment; filename="{filename}"'  # noqa: B028
         return response
