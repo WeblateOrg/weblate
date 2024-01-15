@@ -1077,7 +1077,7 @@ def browse(request, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "component": getattr(obj, "component", None),
+            "component": obj.component if isinstance(obj, Translation) else None,
             "units": units,
             "search_query": search_result["query"],
             "search_url": search_result["url"],
