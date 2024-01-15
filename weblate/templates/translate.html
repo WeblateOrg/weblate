@@ -144,13 +144,16 @@
         {% if not user.profile.hide_source_secondary or not secondary %}
           <!-- source -->
           <div class="form-group source-language-group">
-            {% if unit.context %}
+            <div>
+              {% if unit.context %}
                 <div class="pull-right flip">
                 <label>{{ unit.translation.component.context_label }}</label>
                 {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
                 </div>
-            {% endif %}
-            <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
+              {% endif %}
+              <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
+              <div class="clearfix"></div>
+            </div>
             {% if unit.translation.component.project.source_review %}
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
