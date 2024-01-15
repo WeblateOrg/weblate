@@ -682,6 +682,7 @@ def new_language(request, path):
             kwargs = {
                 "user": user,
                 "author": user,
+                "component": obj,
                 "details": {},
             }
             with obj.repository.lock:
