@@ -19,6 +19,7 @@ Not yet released.
 * Text variant of notification e-mails now properly indicate changed strings.
 * File downloads now honor :http:header:`If-Modified-Since`.
 * :ref:`num-words` support for CJK languages.
+* :ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`.
 
 **Bug fixes**
 

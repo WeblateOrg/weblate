@@ -34,6 +34,7 @@ from weblate.trans.models import (
     Change,
     Comment,
     Component,
+    ComponentList,
     Project,
     Suggestion,
     Translation,
@@ -510,22 +511,29 @@ def auto_translate_component(
 
 
 @app.task(trail=False)
-def create_component(addons_from=None, in_task=False, **kwargs):
+def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
     component = Component.objects.create(**kwargs)
     component.change_set.create(action=Change.ACTION_CREATE_COMPONENT)
-    if addons_from:
-        addons = Addon.objects.filter(
-            component__pk=addons_from, project_scope=False, repo_scope=False
-        )
-        for addon in addons:
-            # Avoid installing duplicate addons
-            if component.addon_set.filter(name=addon.name).exists():
-                continue
-            if not addon.addon.can_install(component, None):
-                continue
-            addon.addon.create(component, configuration=addon.configuration)
+    if copy_from:
+        # Copy non-automatic component lists
+        for clist in ComponentList.objects.filter(
+            components__id=copy_from, autocomponentlist__isnull=True
+        ):
+            clist.components.add(component)
+        # Copy add-ons
+        if copy_addons:
+            addons = Addon.objects.filter(
+                component__pk=copy_from, project_scope=False, repo_scope=False
+            )
+            for addon in addons:
+                # Avoid installing duplicate addons
+                if component.addon_set.filter(name=addon.name).exists():
+                    continue
+                if not addon.addon.can_install(component, None):
+                    continue
+                addon.addon.create(component, configuration=addon.configuration)
     if in_task:
         return {"component": component.id}
     return component
