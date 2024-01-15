@@ -24,7 +24,7 @@ from weblate.memory.utils import (
     CATEGORY_PRIVATE_OFFSET,
     CATEGORY_SHARED,
     CATEGORY_USER_OFFSET,
-    is_valid_entry,
+    is_valid_memory_entry,
 )
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.errors import report_error
@@ -236,7 +236,7 @@ class MemoryManager(models.Manager):
         return found
 
     def update_entry(self, **kwargs):
-        if not is_valid_entry(**kwargs):
+        if not is_valid_memory_entry(**kwargs):
             return
         if not self.filter(**kwargs).exists():
             self.create(**kwargs)

@@ -4,12 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from weblate.trans.util import split_plural
-
-if TYPE_CHECKING:
-    from weblate.lang.models import Language
 
 CATEGORY_FILE = 1
 CATEGORY_SHARED = 2
@@ -32,13 +27,6 @@ def parse_category(category):
     return False, False, None, category - CATEGORY_USER_OFFSET
 
 
-def is_valid_entry(
-    source: str,
-    target: str,
-    source_language: Language,
-    target_language: Language,
-    origin: str,
-    **kwargs,
-):
+def is_valid_memory_entry(*, source: str, target: str, **kwargs):
     """Validates whether translation memory entry has content."""
     return any(split_plural(source)) and any(split_plural(target))
