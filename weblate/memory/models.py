@@ -236,7 +236,7 @@ class MemoryManager(models.Manager):
         return found
 
     def update_entry(self, **kwargs):
-        if not is_valid_memory_entry(**kwargs):
+        if not is_valid_memory_entry(**kwargs):  # pylint: disable=missing-kwoa
             return
         if not self.filter(**kwargs).exists():
             self.create(**kwargs)
