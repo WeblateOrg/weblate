@@ -1,7 +1,7 @@
 .. _gettext:
 
-GNU gettext
------------
+GNU gettext PO (Portable Object)
+--------------------------------
 
 .. index::
     pair: gettext; file format
