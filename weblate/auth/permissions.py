@@ -490,9 +490,9 @@ def check_memory_perms(user, permission, memory):
     if isinstance(memory, Memory):
         if memory.user_id == user.id:
             return True
-        if memory.project is None:
-            return check_global_permission(user, "memory.manage")
         project = memory.project
     else:
         project = memory
+    if project is None:
+        return check_global_permission(user, "memory.manage")
     return check_permission(user, permission, project)

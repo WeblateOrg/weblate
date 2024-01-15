@@ -41,7 +41,7 @@ def check_perm(user, permission, objects):
         # User can edit own translation memory
         return True
     if "from_file" in objects:
-        return user.has_perm("memory.edit")
+        return user.has_perm(permission)
     return False
 
 
