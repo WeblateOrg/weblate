@@ -57,3 +57,13 @@ class MarkdownMentionTestCase(TestCase):
                 )
             ),
         )
+
+    def test_get_mentions_non_mention(self):
+        self.assertEqual(
+            set(),
+            set(
+                get_mention_users("trans@lists.fedoraproject.org").values_list(
+                    "pk", flat=True
+                )
+            ),
+        )

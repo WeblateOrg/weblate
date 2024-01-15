@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 
 from weblate.auth.models import User
 
-MENTION_RE = re.compile(r"(@[\w.@+-]+)\b")
+MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
 
 
 def get_mention_users(text):
