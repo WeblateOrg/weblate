@@ -13,21 +13,6 @@ from django.db import migrations, models
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        # This ensures that extensions are loaded into the session. Without that
-        # the next ALTER database fails unless we're running as superuser (which
-        # is allowed to set non existing parameters, so missing extension doesn't
-        # matter)
-        # See https://www.postgresql.org/message-id/6376.1533675236%40sss.pgh.pa.us
-        schema_editor.execute("SELECT show_limit()")
-
-        settings = schema_editor.connection.settings_dict
-
-        schema_editor.execute(
-            "ALTER ROLE {} SET pg_trgm.similarity_threshold = 0.5".format(
-                schema_editor.quote_name(settings.get("ALTER_ROLE", settings["USER"]))
-            )
-        )
-
         # TODO: Find a better way for these indexes, used to avoid duplicate entries
         schema_editor.execute(
             "CREATE INDEX memory_source_index ON memory_memory USING HASH (source)"
