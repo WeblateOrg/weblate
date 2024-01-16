@@ -887,11 +887,7 @@ class Unit(models.Model, LoggerMixin):
             )
 
         # Update translation memory if needed
-        if (
-            self.state >= STATE_TRANSLATED
-            and (not translation.is_source or component.intermediate)
-            and (created or not same_source or not same_target)
-        ):
+        if created or not same_source or not same_target:
             self.update_translation_memory()
 
     def update_state(self):
@@ -1479,12 +1475,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state = STATE_FUZZY
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
-        if (
-            user
-            and self.target != self.old_unit["target"]
-            and self.state >= STATE_TRANSLATED
-            and not component.is_glossary
-        ):
+        if user and self.target != self.old_unit["target"]:
             self.update_translation_memory(user.id)
 
         if change_action == Change.ACTION_AUTO:
@@ -1763,7 +1754,14 @@ class Unit(models.Model, LoggerMixin):
         return (self.translation.component.priority, self.source.lower())
 
     def update_translation_memory(self, user_id: int | None = None):
-        if is_valid_memory_entry(source=self.source, target=self.target):
+        translation = self.translation
+        component = translation.component
+        if (
+            (not translation.is_source or component.intermediate)
+            and self.state >= STATE_TRANSLATED
+            and not component.is_glossary
+            and is_valid_memory_entry(source=self.source, target=self.target)
+        ):
             transaction.on_commit(
                 lambda: handle_unit_translation_change.delay(self.id, user_id)
             )
