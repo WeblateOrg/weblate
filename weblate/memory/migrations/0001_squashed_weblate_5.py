@@ -13,7 +13,8 @@ from django.db import migrations, models
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        # TODO: Find a better way for these indexes, used to avoid duplicate entries
+        # Substring index to faster lookup existing entries
+        # We need separate indexes as HASH does not support multi-column indexing.
         schema_editor.execute(
             "CREATE INDEX memory_source_index ON memory_memory USING HASH (source)"
         )
@@ -23,14 +24,17 @@ def create_index(apps, schema_editor):
         schema_editor.execute(
             "CREATE INDEX memory_origin_index ON memory_memory USING HASH (origin)"
         )
+        # Fulltext for translation memory search
         schema_editor.execute(
             "CREATE INDEX memory_source_trgm ON memory_memory USING GIN "
             "(source gin_trgm_ops, target_language_id, source_language_id)"
         )
     elif vendor == "mysql":
+        # Fulltext for translation memory search
         schema_editor.execute(
             "CREATE FULLTEXT INDEX memory_source_fulltext ON memory_memory(source)"
         )
+        # Substring index to faster lookup existing entries
         schema_editor.execute(
             "CREATE INDEX memory_lookup_index ON "
             "memory_memory(source(255), target(255), origin(255))"

@@ -278,6 +278,7 @@ class Memory(models.Model):
     class Meta:
         verbose_name = "Translation memory entry"
         verbose_name_plural = "Translation memory entries"
+        # Note: additional indexes are created manually in the migration
 
     def __str__(self):
         return f"Memory: {self.source_language}:{self.target_language}"
