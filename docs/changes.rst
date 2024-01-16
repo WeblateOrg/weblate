@@ -8,6 +8,7 @@ Not yet released.
 * :ref:`check-perl-brace-format` quality check.
 * :doc:`/formats/moko`.
 * :doc:`/formats/formatjs`.
+* Search input is now syntax highlighted, see :doc:`/user/search`.
 
 **Improvements**
 
