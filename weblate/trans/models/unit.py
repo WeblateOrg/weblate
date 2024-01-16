@@ -1137,6 +1137,7 @@ class Unit(models.Model, LoggerMixin):
             if unit.state == STATE_FUZZY and unit.previous_source == self.target:
                 # Unset fuzzy on reverted
                 unit.original_state = unit.state = STATE_TRANSLATED
+                unit.pending = True
                 unit.previous_source = ""
             elif (
                 unit.original_state == STATE_FUZZY
@@ -1150,6 +1151,7 @@ class Unit(models.Model, LoggerMixin):
                 unit.original_state = STATE_FUZZY
                 if unit.state < STATE_READONLY:
                     unit.state = STATE_FUZZY
+                    unit.pending = True
                 unit.previous_source = previous_source
 
             # Save unit and change
