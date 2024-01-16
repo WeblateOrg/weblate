@@ -170,13 +170,17 @@ def render_glossary_units_tsv(units) -> str:
     def cleanup(text):
         return text.translate(CONTROLCHARS_TRANS).strip()
 
+    # We can get list or iterator as well
+    if hasattr(units, "prefetch_related"):
+        units = units.prefetch_related(
+            "source_unit",
+            "translation",
+            Prefetch("translation__component", queryset=Component.objects.defer_huge()),
+        )
+
     included = set()
     output = []
-    for unit in units.prefetch_related(
-        "source_unit",
-        "translation",
-        Prefetch("translation__component", queryset=Component.objects.defer_huge()),
-    ):
+    for unit in units:
         # Skip forbidden term
         if "forbidden" in unit.all_flags:
             continue

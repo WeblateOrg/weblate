@@ -4,12 +4,16 @@
 
 from __future__ import annotations
 
+from itertools import chain
 from typing import TYPE_CHECKING
 
 from django.core.cache import cache
 from openai import OpenAI
 
-from weblate.glossary.models import get_glossary_tsv
+from weblate.glossary.models import (
+    get_glossary_terms,
+    render_glossary_units_tsv,
+)
 from weblate.utils.errors import report_error
 
 from .base import BatchMachineTranslation, MachineTranslationError
@@ -82,13 +86,15 @@ class OpenAITranslation(BatchMachineTranslation):
         return text
 
     def get_prompt(
-        self, source_language: str, target_language: str, translation
+        self, source_language: str, target_language: str, units: list
     ) -> str:
         glossary = ""
-        if translation:
-            glossary = get_glossary_tsv(translation)
-        if glossary:
-            glossary = GLOSSARY_PROMPT.format(glossary)
+        if any(units):
+            glossary = render_glossary_units_tsv(
+                chain.from_iterable(get_glossary_terms(unit) for unit in units)
+            )
+            if glossary:
+                glossary = GLOSSARY_PROMPT.format(glossary)
         return PROMPT.format(
             source_language=source_language,
             target_language=target_language,
@@ -109,8 +115,8 @@ class OpenAITranslation(BatchMachineTranslation):
         threshold: int = 75,
     ) -> dict[str, list[dict[str, str]]]:
         texts = [text for text, _unit in sources]
-        unit = sources[0][1]
-        prompt = self.get_prompt(source, language, unit.translation if unit else None)
+        units = [unit for _text, unit in sources]
+        prompt = self.get_prompt(source, language, units)
         messages = [
             {"role": "system", "content": prompt},
             {"role": "user", "content": SEPARATOR.join(texts)},

@@ -14,7 +14,7 @@ Not yet released.
 * Better logging in :wladmin:`createadmin`.
 * :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
 * Adding string in a repository triggers :ref:`subscriptions`.
-* :ref:`mt-openai` better handles batch translations.
+* :ref:`mt-openai` better handles batch translations and glossaries.
 * :ref:`mt-libretranslate` better handles batch translations.
 * Text variant of notification e-mails now properly indicate changed strings.
 * File downloads now honor :http:header:`If-Modified-Since`.
