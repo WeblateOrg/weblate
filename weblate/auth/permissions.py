@@ -162,6 +162,9 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
     # Perform usual permission check
     if not check_permission(user, permission, obj):
+        if not user.is_authenticated:
+            # Signing in might help, but user still might need additional privileges
+            return Denied(gettext("Sign in to save the translation."))
         return Denied(gettext("Insufficient privileges for saving translations."))
 
     # Special check for source strings (templates)
