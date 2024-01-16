@@ -428,6 +428,11 @@ class GitRepository(Repository):
         updates = [
             ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
             ("user", "name", settings.DEFAULT_COMMITER_NAME),
+            (
+                'protocol "file"',
+                "allow",
+                "always" if settings.VCS_FILE_PROTOCOL else "never",
+            ),
         ]
         if merge_driver is not None:
             updates.append(
