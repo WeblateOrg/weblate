@@ -356,6 +356,58 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
+  root.querySelectorAll("textarea[name='q']").forEach((input) => {
+    console.log(input);
+    var parent = input.parentElement;
+    if (parent.classList.contains("editor-wrap")) {
+      return;
+    }
+
+    /* Create wrapper element */
+    var wrapper = document.createElement("div");
+    wrapper.setAttribute("class", "editor-wrap");
+
+    /* Inject wrapper */
+    parent.replaceChild(wrapper, input);
+
+    /* Create highlighter */
+    var highlight = document.createElement("div");
+    highlight.setAttribute("class", "highlighted-output");
+    highlight.setAttribute("role", "status");
+    wrapper.appendChild(highlight);
+
+    /* Add input to wrapper */
+    wrapper.appendChild(input);
+
+    var syncContent = function () {
+      highlight.innerHTML = Prism.highlight(
+        input.value,
+        Prism.languages.weblatesearch,
+        "weblatesearch",
+      );
+    };
+    syncContent();
+    input.addEventListener("input", syncContent);
+
+    /* Handle scrolling */
+    input.addEventListener("scroll", (event) => {
+      highlight.scrollTop = input.scrollTop;
+      highlight.scrollLeft = input.scrollLeft;
+    });
+
+    /* Handle resizing */
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.target === input) {
+          // match the height and width of the output area to the input area
+          highlight.style.height = input.offsetHeight + "px";
+          highlight.style.width = input.offsetWidth + "px";
+        }
+      }
+    });
+
+    resizeObserver.observe(input);
+  });
   root.querySelectorAll(".highlight-editor").forEach(function (editor) {
     var parent = editor.parentElement;
     var hasFocus = editor == document.activeElement;
@@ -440,6 +492,7 @@ function initHighlight(root) {
 
     /* Handle scrolling */
     editor.addEventListener("scroll", (event) => {
+      console.log(event);
       highlight.scrollTop = editor.scrollTop;
       highlight.scrollLeft = editor.scrollLeft;
     });
@@ -968,7 +1021,7 @@ $(function () {
     }
 
     if ($group.hasClass("query-field")) {
-      $group.find("input[name=q]").val($this.data("field"));
+      $group.find("textarea[name=q]").val($this.data("field"));
       if ($this.closest(".result-page-form").length) {
         var $form = $this.closest("form");
         $form.find("input[name=offset]").prop("disabled", true);

@@ -25,6 +25,8 @@ class QueryField(forms.CharField):
             kwargs["label"] = gettext_lazy("Query")
         if "required" not in kwargs:
             kwargs["required"] = False
+        if "widget" not in kwargs:
+            kwargs["widget"] = forms.Textarea(attrs={"cols": None, "rows": 1})
         self.parser = parser
         super().__init__(**kwargs)
 

@@ -119,7 +119,7 @@
     });
     Mousetrap.bindGlobal("mod+s", function (e) {
       $("#search-dropdown").click();
-      $('input[name="q"]').focus();
+      $('textarea[name="q"]').focus();
       return false;
     });
     Mousetrap.bindGlobal("mod+u", function (e) {
