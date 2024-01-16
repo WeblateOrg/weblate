@@ -67,7 +67,7 @@ def update_memory(user, unit, component=None, project=None):
 
     add_project = True
     add_shared = project.contribute_shared_tm
-    add_user = user is not None
+    add_user = user is not None and not user.is_bot
 
     # Check matching entries in memory
     for matching in Memory.objects.filter(from_file=False, **params):
