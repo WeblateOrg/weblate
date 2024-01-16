@@ -743,6 +743,8 @@ class Unit(models.Model, LoggerMixin):
             report_error(cause="Unit update error", project=component.project)
             translation.component.handle_parse_error(error, translation)
 
+        pending = False
+
         # Ensure we track source string for bilingual, this can not use
         # Unit.is_source as that depends on source_unit attribute, which
         # we set here
@@ -787,7 +789,7 @@ class Unit(models.Model, LoggerMixin):
                     if not previous_source:
                         source_change = previous_source = self.source
                     state = STATE_FUZZY
-                self.pending = True
+                pending = True
             elif (
                 self.state == STATE_FUZZY
                 and state == STATE_FUZZY
@@ -803,7 +805,7 @@ class Unit(models.Model, LoggerMixin):
             and explanation == self.explanation
             and note == self.note
             and pos == self.position
-            and not self.pending
+            and not pending
         )
         same_data = (
             not created
@@ -833,7 +835,7 @@ class Unit(models.Model, LoggerMixin):
         self.context = context
         self.note = note
         self.previous_source = previous_source
-        self.pending = False
+        self.pending = pending
         self.update_priority(save=False)
 
         # Metadata update only, these do not trigger any actions in Weblate and
