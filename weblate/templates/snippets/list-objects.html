@@ -199,7 +199,7 @@
 {% endif %}
 </td>
 <th class="object-link">
-{% if name_source == "component_name" %}
+{% if name_source == "component_name" or name_source == "translation" %}
   {% include "snippets/component-glossary-badge.html" with object=object.component %}
 {% else %}
   {% include "snippets/component-glossary-badge.html" %}
