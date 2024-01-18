@@ -1569,19 +1569,16 @@ class ComponentSettingsForm(
                 ),
                 Tab(
                     gettext("Commit messages"),
-                    Fieldset(
-                        gettext("Commit messages"),
-                        ContextDiv(
-                            template="trans/messages_help.html",
-                            context={"user": request.user},
-                        ),
-                        "commit_message",
-                        "add_message",
-                        "delete_message",
-                        "merge_message",
-                        "addon_message",
-                        "pull_message",
+                    ContextDiv(
+                        template="trans/messages_help.html",
+                        context={"user": request.user},
                     ),
+                    "commit_message",
+                    "add_message",
+                    "delete_message",
+                    "merge_message",
+                    "addon_message",
+                    "pull_message",
                     css_id="messages",
                 ),
                 Tab(
