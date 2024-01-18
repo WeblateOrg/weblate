@@ -1502,7 +1502,17 @@ class ComponentSettingsForm(
             TabHolder(
                 Tab(
                     gettext("Basic"),
-                    Fieldset(gettext("Name"), "name"),
+                    Fieldset(
+                        gettext("Name"),
+                        "name",
+                        ContextDiv(
+                            template="snippets/settings-organize.html",
+                            context={
+                                "object": self.instance,
+                                "type": "component",
+                            },
+                        ),
+                    ),
                     Fieldset(gettext("License"), "license", "agreement"),
                     Fieldset(gettext("Upstream links"), "report_source_bugs"),
                     Fieldset(
@@ -2114,6 +2124,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 Tab(
                     gettext("Basic"),
                     "name",
+                    ContextDiv(
+                        template="snippets/settings-organize.html",
+                        context={
+                            "object": self.instance,
+                            "type": "project",
+                        },
+                    ),
                     "web",
                     "instructions",
                     css_id="basic",
