@@ -4,13 +4,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # mohammadA <mohammadAbdulhadi1@gmail.com>, 2023.
 # ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>, 2023.
+# Mohammed Al Otaibi <mopes.03.belle@icloud.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-11-12 11:48+0000\n"
-"Last-Translator: mohammadA <mohammadAbdulhadi1@gmail.com>\n"
+"PO-Revision-Date: 2024-01-18 19:42+0000\n"
+"Last-Translator: Mohammed Al Otaibi <mopes.03.belle@icloud.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
 "Language: ar\n"
@@ -19,26 +20,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
 msgid "None"
-msgstr "لا شيء"
+msgstr "بلا"
 
 #: weblate/accounts/avatar.py:109 weblate/templates/accounts/profile.html:219
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:265
 #: weblate/templates/snippets/user-list.html:14
 msgid "User avatar"
-msgstr "صورة المستخدم"
+msgstr "الصورة الرمزية للمستخدم"
 
 #: weblate/accounts/forms.py:73
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
-"عُنوان البريد الإلكتروني المُدخَل مُسجّلٌ لدينا مسبقًا، نرجو تزويدنا بعنوان بريد "
-"آخر."
+"هذا البريد الإلكتروني قيد الاستخدام بالفعل. يرجى تقديم عنوان بريد إلكتروني "
+"مختلف."
 
 #: weblate/accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
@@ -68,6 +69,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"تستخدم في عمليات التحكم في الإصدار. سيبقى العنوان في المستودع إلى الأبد "
+"بمجرد إجراء التغييرات بواسطة Weblate."
 
 #: weblate/accounts/forms.py:211 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -93,6 +96,8 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"يُستخدم لإشعارات البريد الإلكتروني وكبريد إلكتروني للالتزام إذا لم يتم "
+"تكوينه أدناه."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -469,6 +474,8 @@ msgstr "الرجاء التواصل مع مشرفي المشروع إن شعرت
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
+"إذا كنت أنت من فعل ذلك، فيرجى استخدام إعادة تعيين كلمة المرور لاستعادة "
+"الوصول إلى حسابك."
 
 #: weblate/accounts/models.py:313 weblate/templates/accounts/profile.html:304
 #: weblate/templates/accounts/user.html:242
@@ -651,23 +658,25 @@ msgstr "Liberapay هي عبارة عن منصة للتبرع بالمال للف
 
 #: weblate/accounts/models.py:553
 msgid "Fediverse URL"
-msgstr ""
+msgstr "عنوان URL متنوع"
 
 #: weblate/accounts/models.py:556
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
+"اربط بملف تعريف Fediverse الخاص بك للحصول على الخدمات الموحدة مثل Mastodon "
+"أو diaspora*."
 
 #: weblate/accounts/models.py:561
-#, fuzzy
-#| msgid "License URL"
 msgid "Code site URL"
-msgstr "رابط الرخصة"
+msgstr "عنوان URL لموقع الكود"
 
 #: weblate/accounts/models.py:564
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
+"قم بالارتباط بملف تعريف التعليمات البرمجية الخاص بك للحصول على خدمات مثل "
+"Codeberg أو GitLab."
 
 #: weblate/accounts/models.py:568
 msgid "GitHub username"
@@ -742,11 +751,9 @@ msgid "Operation was performed in the repository"
 msgstr "نفِّذت العملية في المستودع"
 
 #: weblate/accounts/notifications.py:464
-#, fuzzy
-#| msgid "Component locked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "العنصر مغلق"
+msgstr "تم تأمين المكون أو إلغاء تأمينه"
 
 #: weblate/accounts/notifications.py:471
 msgctxt "Notification name"
@@ -813,18 +820,14 @@ msgid "New language was added or requested"
 msgstr "أُضيفت لغة جديدة إلى %(component)s"
 
 #: weblate/accounts/notifications.py:646
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "مكون ترجمة جديد"
+msgstr "تم إنشاء مكون ترجمة جديد"
 
 #: weblate/accounts/notifications.py:654
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "تصريحات"
+msgstr "تم نشر الإعلان"
 
 #: weblate/accounts/notifications.py:669
 #, fuzzy
@@ -841,18 +844,14 @@ msgid "Repository operation failed"
 msgstr "إجراء في المستودع"
 
 #: weblate/accounts/notifications.py:774
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "الاقتراحات المُعلّقة"
+msgstr "وجود إقتراحات معلّقة"
 
 #: weblate/accounts/notifications.py:784
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "السلاسل غير المكتملة"
+msgstr "توجد سلاسل غير مكتملة"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -983,7 +982,6 @@ msgid "Register e-mail"
 msgstr "سجل البريد الإلكتروني"
 
 #: weblate/accounts/views.py:882 weblate/accounts/views.py:958
-#, fuzzy
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "لا يمكن ارجاع كلمة السر، استيثاق البريد الإلكتروني معطل."
 
@@ -1011,11 +1009,11 @@ msgstr "تعذر إكمال التسجيل."
 
 #: weblate/accounts/views.py:1206
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "يرجى التحقق مما إذا كنت قد قمت بالفعل بتسجيل حساب."
 
 #: weblate/accounts/views.py:1209
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr ""
+msgstr "يمكنك أيضًا طلب كلمة مرور جديدة، إذا فقدت بيانات الاعتماد الخاصة بك."
 
 #: weblate/accounts/views.py:1220
 #, fuzzy
@@ -2773,7 +2771,7 @@ msgstr "تكوين المكونات غير المدعومة"
 
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
-msgstr ""
+msgstr "لا يمكن إزالة ترجمة المصطلحات، وإزالة سلسلة المصدر بدلا من ذلك."
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 #, fuzzy
