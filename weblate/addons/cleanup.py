@@ -5,7 +5,7 @@
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import UpdateBaseAddon
-from weblate.addons.events import EVENT_POST_COMMIT, EVENT_POST_UPDATE, EVENT_PRE_COMMIT
+from weblate.addons.events import AddonEvent
 from weblate.trans.exceptions import FileParseError
 
 
@@ -26,7 +26,7 @@ class CleanupAddon(BaseCleanupAddon):
         "no longer present in the base file."
     )
     icon = "eraser.svg"
-    events = (EVENT_PRE_COMMIT, EVENT_POST_UPDATE)
+    events = (AddonEvent.EVENT_PRE_COMMIT, AddonEvent.EVENT_POST_UPDATE)
 
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
@@ -54,7 +54,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
     description = gettext_lazy(
         "Removes strings without a translation from translation files."
     )
-    events = (EVENT_POST_COMMIT, EVENT_POST_UPDATE)
+    events = (AddonEvent.EVENT_POST_COMMIT, AddonEvent.EVENT_POST_UPDATE)
     icon = "eraser.svg"
 
     def update_translations(self, component, previous_head):

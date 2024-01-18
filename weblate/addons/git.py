@@ -8,7 +8,7 @@ from itertools import chain
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_COMMIT
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
@@ -32,7 +32,7 @@ class GitSquashAddon(BaseAddon):
             "azure_devops",
         }
     }
-    events = (EVENT_POST_COMMIT,)
+    events = (AddonEvent.EVENT_POST_COMMIT,)
     icon = "compress.svg"
     repo_scope = True
 

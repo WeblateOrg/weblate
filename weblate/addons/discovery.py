@@ -6,13 +6,13 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_UPDATE
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import DiscoveryForm
 from weblate.trans.discovery import ComponentDiscovery
 
 
 class DiscoveryAddon(BaseAddon):
-    events = (EVENT_POST_UPDATE,)
+    events = (AddonEvent.EVENT_POST_UPDATE,)
     name = "weblate.discovery.discovery"
     verbose = gettext_lazy("Component discovery")
     description = gettext_lazy(

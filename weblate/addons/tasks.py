@@ -14,7 +14,7 @@ from django.http import HttpRequest
 from django.utils import timezone
 from lxml import html
 
-from weblate.addons.events import EVENT_DAILY
+from weblate.addons.events import AddonEvent
 from weblate.addons.models import Addon, handle_addon_error
 from weblate.lang.models import Language
 from weblate.trans.models import Component
@@ -106,7 +106,7 @@ def language_consistency(addon_id: int, language_ids: list[int]):
 def daily_addons():
     today = timezone.now()
     addons = Addon.objects.annotate(hourmod=F("component_id") % 24).filter(
-        hourmod=today.hour, event__event=EVENT_DAILY
+        hourmod=today.hour, event__event=AddonEvent.EVENT_DAILY
     )
     for addon in addons.prefetch_related("component"):
         with transaction.atomic():

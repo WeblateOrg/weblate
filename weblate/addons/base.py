@@ -14,14 +14,7 @@ from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
-from weblate.addons.events import (
-    EVENT_COMPONENT_UPDATE,
-    EVENT_DAILY,
-    EVENT_POST_COMMIT,
-    EVENT_POST_PUSH,
-    EVENT_POST_UPDATE,
-    EVENT_STORE_POST_LOAD,
-)
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.addons.tasks import postconfigure_addon
 from weblate.trans.exceptions import FileParseError
@@ -136,20 +129,20 @@ class BaseAddon:
 
         previous = component.repository.last_revision
 
-        if EVENT_POST_COMMIT in self.events:
+        if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
             self.post_commit(component)
-        if EVENT_POST_UPDATE in self.events:
+        if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
             self.post_update(component, "", False)
-        if EVENT_COMPONENT_UPDATE in self.events:
+        if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
             self.component_update(component)
-        if EVENT_POST_PUSH in self.events:
+        if AddonEvent.EVENT_POST_PUSH in self.events:
             component.log_debug("running post_push add-on: %s", self.name)
             self.post_push(component)
-        if EVENT_DAILY in self.events:
+        if AddonEvent.EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
             self.daily(component)
 
@@ -365,7 +358,7 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events = (EVENT_POST_UPDATE,)
+    events = (AddonEvent.EVENT_POST_UPDATE,)
 
     def __init__(self, storage=None):
         super().__init__(storage)
@@ -410,5 +403,5 @@ class TestCrashAddon(UpdateBaseAddon):
 class StoreBaseAddon(BaseAddon):
     """Base class for add-ons tweaking store."""
 
-    events = (EVENT_STORE_POST_LOAD,)
+    events = (AddonEvent.EVENT_STORE_POST_LOAD,)
     icon = "wrench.svg"
