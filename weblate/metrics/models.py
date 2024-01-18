@@ -8,7 +8,7 @@ import datetime
 from itertools import zip_longest
 
 from django.core.cache import cache
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Count, Q
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -238,6 +238,7 @@ class MetricManager(models.Manager):
             return self.collect_language(obj)
         raise ValueError(f"Unsupported type for metrics: {obj!r}")
 
+    @transaction.atomic
     def collect_global(self):
         stats = GlobalStats()
         data = {
@@ -259,6 +260,7 @@ class MetricManager(models.Manager):
         }
         return self.create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
 
+    @transaction.atomic
     def collect_project_language(self, project_language: ProjectLanguage):
         project = project_language.project
         changes = project.change_set.filter(
@@ -287,6 +289,7 @@ class MetricManager(models.Manager):
             project_language.language.pk,
         )
 
+    @transaction.atomic
     def collect_category_language(self, category_language: CategoryLanguage):
         category = category_language.category
         changes = category.project.change_set.for_category(category).filter(
@@ -315,6 +318,7 @@ class MetricManager(models.Manager):
             category_language.language.pk,
         )
 
+    @transaction.atomic
     def collect_category(self, category: Category):
         languages = prefetch_stats(
             [CategoryLanguage(category, language) for language in category.languages]
@@ -342,6 +346,7 @@ class MetricManager(models.Manager):
             data, category.stats, SOURCE_KEYS, Metric.SCOPE_CATEGORY, category.pk
         )
 
+    @transaction.atomic
     def collect_project(self, project: Project):
         languages = prefetch_stats(
             [ProjectLanguage(project, language) for language in project.languages]
@@ -382,6 +387,7 @@ class MetricManager(models.Manager):
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
         )
 
+    @transaction.atomic
     def collect_component(self, component: Component):
         data = {
             "translations": component.translation_set.count(),
@@ -402,6 +408,7 @@ class MetricManager(models.Manager):
             data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
         )
 
+    @transaction.atomic
     def collect_component_list(self, clist: ComponentList):
         changes = Change.objects.filter(component__in=clist.components.all())
         data = {
@@ -423,6 +430,7 @@ class MetricManager(models.Manager):
             clist.pk,
         )
 
+    @transaction.atomic
     def collect_translation(self, translation: Translation):
         data = {
             "screenshots": translation.screenshot_set.count(),
@@ -444,6 +452,7 @@ class MetricManager(models.Manager):
             translation.pk,
         )
 
+    @transaction.atomic
     def collect_user(self, user: User):
         data = user.change_set.filter(
             timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
@@ -464,6 +473,7 @@ class MetricManager(models.Manager):
         )
         return self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
+    @transaction.atomic
     def collect_language(self, language: Language):
         changes = language.change_set.all()
         data = {
