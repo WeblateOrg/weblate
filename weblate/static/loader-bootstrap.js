@@ -357,11 +357,19 @@ function initHighlight(root) {
     return;
   }
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
-    console.log(input);
     var parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
       return;
     }
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        if (!event.repeat) {
+          event.target.form.requestSubmit();
+        }
+        event.preventDefault();
+      }
+    });
 
     /* Create wrapper element */
     var wrapper = document.createElement("div");
