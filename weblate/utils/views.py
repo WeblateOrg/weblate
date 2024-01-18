@@ -440,7 +440,7 @@ def zip_download(
     extra: dict[str, bytes] | None = None,
 ):
     response = HttpResponse(content_type="application/zip")
-    with ZipFile(response, "w") as zipfile:
+    with ZipFile(response, "w", strict_timestamps=False) as zipfile:
         for filename in iter_files(filenames):
             try:
                 zipfile.write(filename, arcname=os.path.relpath(filename, root))
