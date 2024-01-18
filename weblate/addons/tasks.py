@@ -7,15 +7,13 @@ from __future__ import annotations
 import os
 
 from celery.schedules import crontab
-from django.db import Error as DjangoDatabaseError
-from django.db import transaction
 from django.db.models import F, Q
 from django.http import HttpRequest
 from django.utils import timezone
 from lxml import html
 
 from weblate.addons.events import AddonEvent
-from weblate.addons.models import Addon, handle_addon_error
+from weblate.addons.models import Addon, handle_addon_event
 from weblate.lang.models import Language
 from weblate.trans.models import Component
 from weblate.utils.celery import app
@@ -104,19 +102,18 @@ def language_consistency(addon_id: int, language_ids: list[int]):
 
 @app.task(trail=False)
 def daily_addons():
+    def daily_callback(addon):
+        addon.addon.daily(addon.component)
+
     today = timezone.now()
-    addons = Addon.objects.annotate(hourmod=F("component_id") % 24).filter(
-        hourmod=today.hour, event__event=AddonEvent.EVENT_DAILY
+    handle_addon_event(
+        AddonEvent.EVENT_DAILY,
+        daily_callback,
+        addon_queryset=Addon.objects.annotate(hourmod=F("component_id") % 24).filter(
+            hourmod=today.hour, event__event=AddonEvent.EVENT_DAILY
+        ),
+        auto_scope=True,
     )
-    for addon in addons.prefetch_related("component"):
-        with transaction.atomic():
-            addon.component.log_debug("running daily add-on: %s", addon.name)
-            try:
-                addon.addon.daily(addon.component)
-            except DjangoDatabaseError:
-                raise
-            except Exception:
-                handle_addon_error(addon, addon.component)
 
 
 @app.task(trail=False)

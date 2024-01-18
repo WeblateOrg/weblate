@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -13,7 +15,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 
 from weblate.addons.events import AddonEvent
-from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models import Change, Component, Translation, Unit
 from weblate.trans.signals import (
     component_post_update,
     store_post_load,
@@ -187,41 +189,86 @@ class AddonsConf(AppConf):
         prefix = ""
 
 
-def handle_addon_error(addon, component):
-    report_error(cause=f"add-on {addon.name} failed", project=component.project)
-    # Uninstall no longer compatible add-ons
-    if not addon.addon.can_install(component, None):
-        addon.disable()
+def handle_addon_event(
+    event: AddonEvent,
+    method: str | callable,
+    args: tuple | None = None,
+    *,
+    component: Component | None = None,
+    translation: Translation | None = None,
+    addon_queryset: AddonQuerySet | None = None,
+    auto_scope: bool = False,
+):
+    # Scope is used for logging
+    scope = translation or component
+
+    # Shortcuts for frequently used variables
+    if component is None and translation is not None:
+        component = translation.component
+
+    # EVENT_DAILY uses custom queryset because it is not triggered from the
+    # object scope
+    if addon_queryset is None:
+        addon_queryset = Addon.objects.filter_event(component, event)
+
+    # Filter matching events
+    for addon in addon_queryset:
+        with transaction.atomic():
+            # Extract scope from the add-on model, used for EVENT_DAILY
+            if auto_scope:
+                component = scope = addon.component
+
+            scope.log_debug("running %s add-on: %s", event.label, addon.name)
+            try:
+                # Execute event in senty span to track performance
+                with sentry_sdk.start_span(
+                    op=f"addon.{event.name}", description=addon.name
+                ):
+                    if isinstance(method, str):
+                        getattr(addon.addon, method)(*args)
+                    else:
+                        # Callback is used in tasks
+                        method(addon)
+            except DjangoDatabaseError:
+                raise
+            except Exception as error:
+                # Log failure
+                scope.log_error(
+                    "failed %s add-on: %s: %s", event.label, addon.name, error
+                )
+                report_error(
+                    cause=f"add-on {addon.name} failed", project=component.project
+                )
+                # Uninstall no longer compatible add-ons
+                if not addon.addon.can_install(component, None):
+                    scope.log_warning(
+                        "uninstalling incompatible %s add-on: %s",
+                        event.label,
+                        addon.name,
+                    )
+                    addon.disable()
+            else:
+                scope.log_debug("completed %s add-on: %s", event.label, addon.name)
 
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_PRE_PUSH):
-        component.log_debug("running pre_push add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.pre_push", description=addon.name):
-                addon.addon.pre_push(component)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            component.log_debug("completed pre_push add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_PRE_PUSH,
+        "pre_push",
+        (component,),
+        component=component,
+    )
 
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_POST_PUSH):
-        component.log_debug("running post_push add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.post_push", description=addon.name):
-                addon.addon.post_push(component)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            component.log_debug("completed post_push add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_POST_PUSH,
+        "post_push",
+        (component,),
+        component=component,
+    )
 
 
 @receiver(vcs_post_update)
@@ -233,160 +280,90 @@ def post_update(
     skip_push: bool = False,
     **kwargs,
 ):
-    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_POST_UPDATE):
-        if child and addon.repo_scope:
-            continue
-        component.log_debug("running post_update add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.post_update", description=addon.name):
-                addon.addon.post_update(component, previous_head, skip_push)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            component.log_debug("completed post_update add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_POST_UPDATE,
+        "post_update",
+        (component, previous_head, skip_push),
+        component=component,
+    )
 
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(
-        component, AddonEvent.EVENT_COMPONENT_UPDATE
-    ):
-        component.log_debug("running component_update add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(
-                op="addon.component_update", description=addon.name
-            ):
-                addon.addon.component_update(component)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            component.log_debug("completed component_update add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_COMPONENT_UPDATE,
+        "component_update",
+        (component,),
+        component=component,
+    )
 
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_PRE_UPDATE):
-        component.log_debug("running pre_update add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.pre_update", description=addon.name):
-                addon.addon.pre_update(component)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            component.log_debug("completed pre_update add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_PRE_UPDATE,
+        "pre_update",
+        (component,),
+        component=component,
+    )
 
 
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
-    component = translation.component
-    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_PRE_COMMIT)
-    for addon in addons:
-        translation.log_debug("running pre_commit add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.pre_commit", description=addon.name):
-                addon.addon.pre_commit(translation, author)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            translation.log_debug("completed pre_commit add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_PRE_COMMIT,
+        "pre_commit",
+        (translation, author),
+        translation=translation,
+    )
 
 
 @receiver(vcs_post_commit)
 def post_commit(sender, component, **kwargs):
-    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_POST_COMMIT)
-    for addon in addons:
-        component.log_debug("running post_commit add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.post_commit", description=addon.name):
-                addon.addon.post_commit(component)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            component.log_debug("completed post_commit add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_POST_COMMIT,
+        "post_commit",
+        (component,),
+        component=component,
+    )
 
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
-    component = translation.component
-    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_POST_ADD)
-    for addon in addons:
-        translation.log_debug("running post_add add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(op="addon.post_add", description=addon.name):
-                addon.addon.post_add(translation)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            translation.log_debug("completed post_add add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_POST_ADD,
+        "post_add",
+        (translation,),
+        translation=translation,
+    )
 
 
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit, **kwargs):
-    translation = unit.translation
-    component = translation.component
-    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_UNIT_PRE_CREATE)
-    for addon in addons:
-        translation.log_debug("running unit_pre_create add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(
-                op="addon.unit_pre_create", description=addon.name
-            ):
-                addon.addon.unit_pre_create(unit)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            translation.log_debug("completed unit_pre_create add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_UNIT_PRE_CREATE,
+        "unit_pre_create",
+        (unit,),
+        translation=unit.translation,
+    )
 
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance, created, **kwargs):
-    translation = instance.translation
-    component = translation.component
-    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_UNIT_POST_SAVE)
-    for addon in addons:
-        translation.log_debug("running unit_post_save add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(
-                op="addon.unit_post_save", description=addon.name
-            ):
-                addon.addon.unit_post_save(instance, created)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            translation.log_debug("completed unit_post_save add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_UNIT_POST_SAVE,
+        "unit_post_save",
+        (instance, created),
+        translation=instance.translation,
+    )
 
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
-    component = translation.component
-    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_STORE_POST_LOAD)
-    for addon in addons:
-        translation.log_debug("running store_post_load add-on: %s", addon.name)
-        try:
-            with sentry_sdk.start_span(
-                op="addon.store_post_load", description=addon.name
-            ):
-                addon.addon.store_post_load(translation, store)
-        except DjangoDatabaseError:
-            raise
-        except Exception:
-            handle_addon_error(addon, component)
-        else:
-            translation.log_debug("completed store_post_load add-on: %s", addon.name)
+    handle_addon_event(
+        AddonEvent.EVENT_STORE_POST_LOAD,
+        "store_post_load",
+        (translation, store),
+        translation=translation,
+    )
