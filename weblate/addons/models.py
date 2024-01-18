@@ -12,20 +12,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
-from weblate.addons.events import (
-    EVENT_CHOICES,
-    EVENT_COMPONENT_UPDATE,
-    EVENT_POST_ADD,
-    EVENT_POST_COMMIT,
-    EVENT_POST_PUSH,
-    EVENT_POST_UPDATE,
-    EVENT_PRE_COMMIT,
-    EVENT_PRE_PUSH,
-    EVENT_PRE_UPDATE,
-    EVENT_STORE_POST_LOAD,
-    EVENT_UNIT_POST_SAVE,
-    EVENT_UNIT_PRE_CREATE,
-)
+from weblate.addons.events import AddonEvent
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.signals import (
     component_post_update,
@@ -150,7 +137,7 @@ class Addon(models.Model):
 
 class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE, db_index=False)
-    event = models.IntegerField(choices=EVENT_CHOICES)
+    event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
         unique_together = [("addon", "event")]
@@ -209,7 +196,7 @@ def handle_addon_error(addon, component):
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
+    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_PRE_PUSH):
         component.log_debug("running pre_push add-on: %s", addon.name)
         try:
             with sentry_sdk.start_span(op="addon.pre_push", description=addon.name):
@@ -224,7 +211,7 @@ def pre_push(sender, component, **kwargs):
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
+    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_POST_PUSH):
         component.log_debug("running post_push add-on: %s", addon.name)
         try:
             with sentry_sdk.start_span(op="addon.post_push", description=addon.name):
@@ -246,7 +233,7 @@ def post_update(
     skip_push: bool = False,
     **kwargs,
 ):
-    for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
+    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_POST_UPDATE):
         if child and addon.repo_scope:
             continue
         component.log_debug("running post_update add-on: %s", addon.name)
@@ -263,7 +250,9 @@ def post_update(
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
+    for addon in Addon.objects.filter_event(
+        component, AddonEvent.EVENT_COMPONENT_UPDATE
+    ):
         component.log_debug("running component_update add-on: %s", addon.name)
         try:
             with sentry_sdk.start_span(
@@ -280,7 +269,7 @@ def component_update(sender, component, **kwargs):
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
-    for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
+    for addon in Addon.objects.filter_event(component, AddonEvent.EVENT_PRE_UPDATE):
         component.log_debug("running pre_update add-on: %s", addon.name)
         try:
             with sentry_sdk.start_span(op="addon.pre_update", description=addon.name):
@@ -296,7 +285,7 @@ def pre_update(sender, component, **kwargs):
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
     component = translation.component
-    addons = Addon.objects.filter_event(component, EVENT_PRE_COMMIT)
+    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_PRE_COMMIT)
     for addon in addons:
         translation.log_debug("running pre_commit add-on: %s", addon.name)
         try:
@@ -312,7 +301,7 @@ def pre_commit(sender, translation, author, **kwargs):
 
 @receiver(vcs_post_commit)
 def post_commit(sender, component, **kwargs):
-    addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
+    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_POST_COMMIT)
     for addon in addons:
         component.log_debug("running post_commit add-on: %s", addon.name)
         try:
@@ -329,7 +318,7 @@ def post_commit(sender, component, **kwargs):
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
     component = translation.component
-    addons = Addon.objects.filter_event(component, EVENT_POST_ADD)
+    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_POST_ADD)
     for addon in addons:
         translation.log_debug("running post_add add-on: %s", addon.name)
         try:
@@ -347,7 +336,7 @@ def post_add(sender, translation, **kwargs):
 def unit_pre_create_handler(sender, unit, **kwargs):
     translation = unit.translation
     component = translation.component
-    addons = Addon.objects.filter_event(component, EVENT_UNIT_PRE_CREATE)
+    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_UNIT_PRE_CREATE)
     for addon in addons:
         translation.log_debug("running unit_pre_create add-on: %s", addon.name)
         try:
@@ -368,7 +357,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
 def unit_post_save_handler(sender, instance, created, **kwargs):
     translation = instance.translation
     component = translation.component
-    addons = Addon.objects.filter_event(component, EVENT_UNIT_POST_SAVE)
+    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_UNIT_POST_SAVE)
     for addon in addons:
         translation.log_debug("running unit_post_save add-on: %s", addon.name)
         try:
@@ -387,7 +376,7 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
     component = translation.component
-    addons = Addon.objects.filter_event(component, EVENT_STORE_POST_LOAD)
+    addons = Addon.objects.filter_event(component, AddonEvent.EVENT_STORE_POST_LOAD)
     for addon in addons:
         translation.log_debug("running store_post_load add-on: %s", addon.name)
         try:
