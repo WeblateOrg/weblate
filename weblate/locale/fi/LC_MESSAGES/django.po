@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2024-01-19 18:08+0000\n"
+"PO-Revision-Date: 2024-01-20 04:29+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -10842,17 +10842,16 @@ msgstr ""
 "jos jotain riippuvuuksia puuttu."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Lukittu käännöskomponentti ei voi vastaanottaa käännöspäivityksiä."
-msgstr[1] "Lukittu käännöskomponentti ei voi vastaanottaa käännöspäivityksiä."
+msgstr[0] "Komponentti ei ole saanut käännöksiä yhteen päivään."
+msgstr[1] "Komponentti ei ole saanut käännöksiä %(count)s päivään."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "Harkitse komponentin poistamista, jos sitä ei enää tarvita."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -12851,11 +12850,11 @@ msgstr "URL-osoitteissa käytettävä nimi ja tiedostonimet."
 
 #: weblate/trans/models/category.py:136
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "Liikaa sisäkkäisiä luokkia!"
 
 #: weblate/trans/models/category.py:141
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "Emoluokan täytyy olla samassa projektissa!"
 
 #: weblate/trans/models/category.py:146
 #, fuzzy
@@ -13023,10 +13022,8 @@ msgstr "Tilan massamuutos"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
-#, fuzzy
-#| msgid "Last change"
 msgid "Visibility changed"
-msgstr "Viimeinen muutos"
+msgstr "Näkyvyyttä muutettu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:359
@@ -13099,10 +13096,8 @@ msgstr "Kieli lisätty"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language requested"
-msgstr "Kielikoodin tyyli"
+msgstr "Kieltä pyydetty"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
@@ -14708,16 +14703,13 @@ msgid "Your suggestion already exists!"
 msgstr "Ehdotuksesi on jo olemassa!"
 
 #: weblate/trans/views/edit.py:375
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
-"%(project)s lisätty seuraamiisi projekteihin. Voit säätää niitä ja tätä "
-"toimintaa asetuksista."
+"%(project)s lisätty seuraamiisi projekteihin. Voit säätää tätä toimintaa "
+"asetuksista."
 
 #: weblate/trans/views/edit.py:394
 #, python-brace-format
