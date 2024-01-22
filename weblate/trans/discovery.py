@@ -6,6 +6,7 @@ import os
 import re
 from itertools import chain
 
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -185,7 +186,7 @@ class ComponentDiscovery:
         else:
             LOGGER.info(*args)
 
-    def create_component(self, main, match, background=False, **kwargs):
+    def create_component(self, main, match, background=False, preview=False, **kwargs):
         max_length = COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -239,7 +240,27 @@ class ComponentDiscovery:
             }
         )
 
+        # Create non-saved object for validation
+        component_kwargs = kwargs.copy()
+        component_kwargs.pop("copy_from")
+        component_kwargs.pop("copy_addons")
+        component = Component(**component_kwargs, linked_component=main)
+
+        # Special handling for new_lang
+        try:
+            component.clean_new_lang()
+        except ValidationError as error:
+            component.new_lang = kwargs["new_lang"] = "none"
+            self.log("Disabling adding new languages for %s because of %s", name, error)
+
+        # This might raise an exception
+        component.full_clean()
+
         self.log("Creating component %s", name)
+
+        if preview:
+            return component
+
         # Can't pass objects, pass only IDs
         kwargs["project"] = kwargs["project"].pk
         kwargs["source_language"] = kwargs["source_language"].pk
@@ -310,12 +331,16 @@ class ComponentDiscovery:
                 processed.add(found.id)
             except IndexError:
                 # Create new component
-                component = None
-                if not preview:
-                    component = self.create_component(main, match, background)
-                if component:
-                    processed.add(component.id)
-                created.append((match, component))
+                try:
+                    component = self.create_component(
+                        main, match, background=background, preview=preview
+                    )
+                except ValidationError as error:
+                    skipped.append((match, str(error)))
+                else:
+                    if component is not None and component.id:
+                        processed.add(component.id)
+                    created.append((match, component))
 
         if remove:
             deleted = self.cleanup(main, processed, preview)

@@ -530,7 +530,11 @@ def auto_translate_component(
 def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
-    component = Component.objects.create(**kwargs)
+    component = Component(**kwargs)
+    # Perform validation to avoid creating duplicate components via background
+    # tasks in discovery
+    component.full_clean()
+    component.save(force_insert=True)
     component.change_set.create(action=Change.ACTION_CREATE_COMPONENT)
     if copy_from:
         # Copy non-automatic component lists
