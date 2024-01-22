@@ -609,9 +609,9 @@ class UserPage(UpdateView):
 
         # Filter where project is active
         user_translation_ids = set(
-            all_changes.filter(
-                timestamp__gte=timezone.now() - timedelta(days=90)
-            ).values_list("translation", flat=True)
+            all_changes.content()
+            .filter(timestamp__gte=timezone.now() - timedelta(days=90))
+            .values_list("translation", flat=True)
         )
         user_translations = (
             Translation.objects.prefetch()
@@ -652,7 +652,7 @@ class UserPage(UpdateView):
 def user_contributions(request, user: str):
     user = get_object_or_404(User, username=user)
     user_translation_ids = set(
-        Change.objects.filter(user=user).values_list("translation", flat=True)
+        Change.objects.content().filter(user=user).values_list("translation", flat=True)
     )
     user_translations = (
         Translation.objects.filter_access(request.user)
