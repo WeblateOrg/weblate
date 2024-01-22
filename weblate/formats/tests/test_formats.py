@@ -13,7 +13,7 @@ from unittest import SkipTest, TestCase
 from lxml import etree
 from translate.storage.po import pofile
 
-from weblate.formats.auto import AutodetectFormat, detect_filename
+from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import UpdateError
 from weblate.formats.ttkit import (
     AndroidFormat,
@@ -100,7 +100,13 @@ TEST_FLUENT = get_test_file("cs.ftl")
 class AutoLoadTest(TestCase):
     def single_test(self, filename, fileclass):
         with open(filename, "rb") as handle:
-            store = AutodetectFormat.parse(handle)
+            store = try_load(
+                filename,
+                handle.read(),
+                None,
+                None,
+                is_template=fileclass.monolingual is None or fileclass.monolingual,
+            )
             self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
 
@@ -144,7 +150,7 @@ class AutoLoadTest(TestCase):
             data = handle.read()
 
         handle = BytesIO(data)
-        store = AutodetectFormat.parse(handle)
+        store = AutodetectFormat(handle)
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 

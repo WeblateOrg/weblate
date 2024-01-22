@@ -2710,7 +2710,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         dir_path = self.full_path
         for match in matches:
             try:
-                store = self.file_format_cls.parse(
+                store = self.file_format_cls(
                     os.path.join(dir_path, match), self.template_store
                 )
                 store.check_valid()
@@ -3382,7 +3382,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        store = self.file_format_cls.parse(
+        store = self.file_format_cls(
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
@@ -3412,7 +3412,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         with sentry_sdk.start_span(
             op="load_template_store", description=self.get_template_filename()
         ):
-            store = self.file_format_cls.parse(
+            store = self.file_format_cls(
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
