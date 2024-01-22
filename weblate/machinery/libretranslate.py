@@ -47,7 +47,7 @@ class LibreTranslateTranslation(BatchMachineTranslation):
         response = self.request(
             "post",
             self.get_api_url("translate"),
-            data={
+            json={
                 "api_key": self.settings["key"],
                 "q": texts,
                 "source": source,
