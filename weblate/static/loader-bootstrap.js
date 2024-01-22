@@ -1064,7 +1064,7 @@ $(function () {
         return false;
       }
     });
-  $("#id_q").on("change", function (event) {
+  $("#id_q").on("input", function (event) {
     var $form = $(this).closest("form");
     $form.find("input[name=offset]").prop("disabled", true);
   });
