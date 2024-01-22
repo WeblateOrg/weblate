@@ -79,6 +79,12 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query("note:TEXT", Q(note__substring="TEXT"))
         self.assert_query("location:TEXT", Q(location__substring="TEXT"))
 
+    def test_newline(self):
+        self.assert_query("location:TEXT\r\n", Q(location__substring="TEXT"))
+        self.assert_query("location:TEXT\r", Q(location__substring="TEXT"))
+        self.assert_query("location:TEXT\n", Q(location__substring="TEXT"))
+        self.assert_query("location:'TEXT'\r\n", Q(location__substring="TEXT"))
+
     def test_comment(self):
         self.assert_query(
             "comment:TEXT",

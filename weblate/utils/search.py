@@ -86,7 +86,7 @@ def build_parser(term_expression: object):
     field = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
 
     # Match token
-    word = Regex(r"""[^ \(\)]([^ '"]*[^ '"\)])?""")
+    word = Regex(r"""[^ \r\n\(\)]([^ \r\n'"]*[^ \r\n'"\)])?""")
     date = Word("0123456789:.-T")
 
     # Date range
