@@ -40,6 +40,6 @@ class XlsxFormatTest(BaseFormatTest):
         )
 
     def test_japanese(self):
-        storage = self.FORMAT.parse(JAPANESE_FILE)
+        storage = self.FORMAT(JAPANESE_FILE)
         self.assertEqual(len(storage.all_units), 1)
         self.assertEqual(storage.all_units[0].target, "秒")

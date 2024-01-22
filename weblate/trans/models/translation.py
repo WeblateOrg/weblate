@@ -264,7 +264,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     NamedBytesIO(fileobj.name, fileobj.read())
                 )
                 fileobj.seek(0)
-            store = self.component.file_format_cls.parse(
+            store = self.component.file_format_cls(
                 fileobj,
                 template,
                 language_code=self.language_code,
@@ -1234,7 +1234,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     filecopy,
                     component.file_format_cls,
                     None,
-                    as_template=True,
+                    is_template=True,
                 )
                 if isinstance(template_store, component.file_format_cls):
                     store_post_load.send(

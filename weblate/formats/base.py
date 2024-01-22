@@ -268,31 +268,6 @@ class TranslationFormat:
     def get_identifier(cls):
         return cls.format_id
 
-    @classmethod
-    def parse(
-        cls,
-        storefile,
-        template_store=None,
-        language_code: str | None = None,
-        source_language: str | None = None,
-        is_template: bool = False,
-        existing_units: list[Any] | None = None,
-    ):
-        """
-        Parse store and returns TranslationFormat instance.
-
-        This wrapper is needed for AutodetectFormat to be able to return instance of
-        different class.
-        """
-        return cls(
-            storefile,
-            template_store=template_store,
-            language_code=language_code,
-            source_language=source_language,
-            is_template=is_template,
-            existing_units=existing_units,
-        )
-
     def __init__(
         self,
         storefile,
