@@ -93,7 +93,7 @@ def language_consistency(addon_id: int, language_ids: list[int]):
         for language in missing:
             component.add_new_language(
                 language,
-                None,
+                request,
                 send_signal=False,
                 create_translations=False,
             )
