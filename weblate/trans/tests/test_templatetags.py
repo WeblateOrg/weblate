@@ -397,7 +397,8 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             <span class="glossary-term"
-                title="Glossary translation: ahoj">Hello</span>
+                title="Glossary term:
+ahoj [hello]">Hello</span>
             world
             """,
         )
@@ -414,10 +415,13 @@ class TranslationFormatTestCase(FixtureTestCase):
                 ],
             )["items"][0]["content"],
             """
-            <span class="glossary-term" title="Glossary translation: ahoj svete, ahoj">
+            <span class="glossary-term" title="Glossary terms:
+ahoj svete [hello world]
+ahoj [hello]">
                 Hello
             </span>
-            <span class="glossary-term" title="Glossary translation: ahoj svete">
+            <span class="glossary-term" title="Glossary term:
+ahoj svete [hello world]">
                 world
             </span>
             """,
@@ -432,7 +436,8 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             <span class="glossary-term"
-                title="Glossary translation: ahoj">[Hello]</span>
+                title="Glossary term:
+ahoj [[hello]]">[Hello]</span>
             world
             """,
         )
@@ -453,7 +458,8 @@ class TranslationFormatTestCase(FixtureTestCase):
                 </span>
             </span>
             <span class="glossary-term"
-                title="Glossary translation: ahoj">Hello</span>
+                title="Glossary term:
+ahoj [hello]">Hello</span>
             world
             """,
         )
@@ -467,7 +473,8 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             <span class="glossary-term"
-                title="Glossary translation: &lt;b&gt;ahoj&quot;">Hello</span>
+                title="Glossary term:
+&lt;b&gt;ahoj&quot; [hello]">Hello</span>
             world
             """,
         )
@@ -484,9 +491,11 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             <span class="glossary-term"
-                title="Glossary translation: ahoj">Hello</span>
+                title="Glossary term:
+ahoj [hello]">Hello</span>
             <span class="glossary-term"
-                title="Glossary translation: glosář">glossary</span>
+                title="Glossary term:
+glosář [glossary]">glossary</span>
             """,
         )
 
