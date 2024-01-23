@@ -10,7 +10,8 @@ from weblate.utils.celery import app
 @app.task(trail=False)
 def batch_update_checks(component_id, checks):
     component = Component.objects.get(pk=component_id)
-    for check in checks:
-        check_obj = CHECKS[check]
-        component.log_info("batch updating check %s", check)
-        check_obj.perform_batch(component)
+    with component.lock:
+        for check in checks:
+            check_obj = CHECKS[check]
+            component.log_info("batch updating check %s", check)
+            check_obj.perform_batch(component)
