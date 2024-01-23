@@ -1619,6 +1619,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         extra_flags: str | None = None,
         explanation: str = "",
         state: int | None = None,
+        skip_existing: bool = False,
     ):
         component = self.component
         extra = {}
