@@ -2299,7 +2299,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock, self.start_sentry_span("create_translations"):
+            with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
