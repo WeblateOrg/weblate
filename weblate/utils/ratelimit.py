@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 
 from weblate.logger import LOGGER
 from weblate.utils import messages
-from weblate.utils.cache import IS_USING_REDIS
+from weblate.utils.cache import is_redis_cache
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
@@ -61,7 +61,7 @@ def revert_rate_limit(scope, request):
 def rate_limit(key: str, attempts: int, window: int) -> bool:
     """Generic rate limit helper."""
     # Initialize the bucket (atomically on redis)
-    if not IS_USING_REDIS:
+    if not is_redis_cache():
         if cache.get(key) is None:
             cache.set(key, attempts, window)
     else:

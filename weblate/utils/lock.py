@@ -12,7 +12,7 @@ from django.core.cache import cache
 from filelock import FileLock, Timeout
 from redis_lock import AlreadyAcquired, NotAcquired
 
-from weblate.utils.cache import IS_USING_REDIS
+from weblate.utils.cache import is_redis_cache
 
 
 class WeblateLockTimeoutError(Exception):
@@ -38,7 +38,7 @@ class WeblateLock:
         self._key = key
         self._slug = slug
         self._depth = 0
-        if IS_USING_REDIS:
+        if is_redis_cache():
             # Prefer Redis locking as it works distributed
             self._name = self._format_template(cache_template)
             self._lock = cache.lock(
