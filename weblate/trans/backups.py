@@ -267,6 +267,7 @@ class ProjectBackup:
             f"{self.VCS_PREFIX}{component.slug}",
         )
 
+    @transaction.atomic
     def backup_project(self, project):
         """Backup whole project."""
         # Generate data

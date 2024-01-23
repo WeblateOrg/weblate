@@ -15,7 +15,7 @@ from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.cache import cache
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Count, F
 from django.http import Http404
 from django.utils import timezone
@@ -392,23 +392,39 @@ def category_removal(pk, uid):
     category.delete()
 
 
+@app.task(
+    trail=False,
+    autoretry_for=(IntegrityError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def actual_project_removal(pk: int, uid: int | None):
+    """
+    Remove project.
+
+    This is separated from project_removal to allow retry on integrity errors.
+    """
+    with transaction.atomic():
+        user = get_anonymous() if uid is None else User.objects.get(pk=uid)
+        try:
+            project = Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return
+        Change.objects.create(
+            action=Change.ACTION_REMOVE_PROJECT,
+            target=project.slug,
+            user=user,
+            author=user,
+        )
+        project.delete()
+        transaction.on_commit(project.stats.update_parents)
+
+
 @app.task(trail=False)
-@transaction.atomic
 def project_removal(pk: int, uid: int | None):
-    user = get_anonymous() if uid is None else User.objects.get(pk=uid)
-    try:
-        project = Project.objects.get(pk=pk)
-    except Project.DoesNotExist:
-        return
+    """Backup project and schedule actual removal."""
     create_project_backup(pk)
-    Change.objects.create(
-        action=Change.ACTION_REMOVE_PROJECT,
-        target=project.slug,
-        user=user,
-        author=user,
-    )
-    project.delete()
-    transaction.on_commit(project.stats.update_parents)
+    actual_project_removal.delay(pk, uid)
 
 
 @app.task(
