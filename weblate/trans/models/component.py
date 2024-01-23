@@ -3512,7 +3512,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
-            messages.error(request, self.new_lang_error_message)
+            messages.error(request, self.new_lang_error_message, fail_silently=True)
             return None
 
         file_format = self.file_format_cls
@@ -3527,12 +3527,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if new_lang is not None:
             if new_lang == self.source_language:
                 messages.error(
-                    request, gettext("The given language is used as a source language.")
+                    request,
+                    gettext("The given language is used as a source language."),
+                    fail_silently=True,
                 )
                 return None
 
             if self.translation_set.filter(language=new_lang).exists():
-                messages.error(request, gettext("The given language already exists."))
+                messages.error(
+                    request,
+                    gettext("The given language already exists."),
+                    fail_silently=True,
+                )
                 return None
 
         # Check if language code is valid
@@ -3540,6 +3546,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             messages.error(
                 request,
                 gettext("The given language is filtered by the language filter."),
+                fail_silently=True,
             )
             return None
 
@@ -3563,7 +3570,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Ignore request if file exists (possibly race condition as
             # the processing of new language can take some time and user
             # can submit again)
-            messages.error(request, gettext("Translation file already exists!"))
+            messages.error(
+                request, gettext("Translation file already exists!"), fail_silently=True
+            )
         else:
             with self.repository.lock:
                 if create_translations:
@@ -3594,7 +3603,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Trigger parsing of the newly added file
         if create_translations and not self.create_translations(request=request):
             messages.warning(
-                request, gettext("The translation will be updated in the background.")
+                request,
+                gettext("The translation will be updated in the background."),
+                fail_silently=True,
             )
 
         # Delete no matches alert as we have just added the file
