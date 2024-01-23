@@ -1953,9 +1953,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             continue
 
                     components[component.pk] = component
-                with sentry_sdk.start_span(
-                    op="commit_pending", description=translation.full_slug
-                ):
+                with self.start_sentry_span("commit_pending"):
                     translation._commit_pending(reason, user)
                 if component.has_template():
                     translation_pks[component.pk].append(translation.pk)
@@ -2008,7 +2006,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self,
             )
 
-        with sentry_sdk.start_span(op="commit_files", description=self.full_slug):
+        with self.start_sentry_span("commit_files"):
             if message is None:
                 # Handle context
                 context = {"component": component or self, "author": author}
@@ -2301,9 +2299,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock, sentry_sdk.start_span(
-                op="create_translations", description=self.full_slug
-            ):
+            with self.lock, self.start_sentry_span("create_translations"):
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
@@ -3409,9 +3405,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
-        with sentry_sdk.start_span(
-            op="load_template_store", description=self.get_template_filename()
-        ):
+        with self.start_sentry_span("load_template_store"):
             store = self.file_format_cls(
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
@@ -3777,6 +3771,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.is_repo_link:
             return [self.linked_component]
         return [self]
+
+    def start_sentry_span(self, op: str):
+        return sentry_sdk.start_span(op=op, description=self.full_slug)
 
 
 @receiver(m2m_changed, sender=Component.links.through)
