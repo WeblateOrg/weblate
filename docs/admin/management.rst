@@ -314,6 +314,10 @@ Make sure the celery tasks are running before running this command.
 
 This can be useful when developing Weblate.
 
+.. weblate-admin-option:: --delete
+
+   Removes existing demo project.
+
 
 import_json
 -----------
