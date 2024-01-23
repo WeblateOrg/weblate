@@ -322,15 +322,18 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             unit_sources_and_positions(get_glossary_terms(unit)), {("thank", ((0, 5),))}
         )
 
-    def do_add_unit(self, **kwargs):
-        unit = self.get_unit("Thank you for using Weblate.")
+    def do_add_unit(self, language="cs", **kwargs):
+        unit = self.get_unit("Thank you for using Weblate.", language=language)
+        glossary = self.glossary_component.translation_set.get(
+            language=unit.translation.language
+        )
         # Add term
         response = self.client.post(
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
             {
                 "source": "source",
                 "target": "překlad",
-                "translation": self.glossary.pk,
+                "translation": glossary.pk,
                 **kwargs,
             },
         )
@@ -346,6 +349,16 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
     def test_add_terminology(self):
         start = Unit.objects.count()
+        self.do_add_unit(terminology=1)
+        # Should be added to all languages
+        self.assertEqual(Unit.objects.count(), start + 4)
+
+    def test_add_terminology_existing(self):
+        self.make_manager()
+        start = Unit.objects.count()
+        # Add unit to other translation
+        self.do_add_unit(language="it")
+        # Add terminology to translation where unit does not exist
         self.do_add_unit(terminology=1)
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)

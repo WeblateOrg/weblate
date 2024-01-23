@@ -123,4 +123,5 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             "auto_context": True,
             "extra_flags": self.get_glossary_flags(),
             "explanation": self.cleaned_data.get("explanation"),
+            "skip_existing": bool(self.cleaned_data.get("terminology")),
         }
