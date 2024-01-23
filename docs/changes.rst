@@ -21,6 +21,7 @@ Not yet released.
 * File downloads now honor :http:header:`If-Modified-Since`.
 * :ref:`num-words` support for CJK languages.
 * :ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`.
+* Nicer formatting of :ref:`glossary` tooltips.
 
 **Bug fixes**
 
