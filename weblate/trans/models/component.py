@@ -2519,9 +2519,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             from weblate.checks.tasks import batch_update_checks
 
             batched_checks = list(self.batched_checks)
-            transaction.on_commit(
-                lambda: batch_update_checks.delay(self.id, batched_checks)
-            )
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                batch_update_checks(self.id, batched_checks, component=self)
+            else:
+                transaction.on_commit(
+                    lambda: batch_update_checks.delay(self.id, batched_checks)
+                )
         self.batch_checks = False
         self.batched_checks = set()
 
