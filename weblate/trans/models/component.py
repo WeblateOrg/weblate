@@ -2301,7 +2301,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock and sentry_sdk.start_span(
+            with self.lock, sentry_sdk.start_span(
                 op="create_translations", description=self.full_slug
             ):
                 return self._create_translations(
