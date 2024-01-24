@@ -20,6 +20,7 @@ const LIGHT_THEME = {
   backgroundHover: '#f6f6f7',
   foreground: '#2b2233',
   border: '1.5px solid rgba(41, 35, 47, 0.13)',
+  borderRadius: '12px',
   boxShadow: '0px 4px 24px 0px rgba(43, 34, 51, 0.12)',
 
   success: '#268d75',
@@ -43,6 +44,9 @@ const LIGHT_THEME = {
   inputForeground: INHERIT,
   inputBorder: 'var(--border)',
   inputOutlineFocus: SUBMIT_COLOR,
+
+  formBorderRadius: '20px',
+  formContentBorderRadius: '6px',
 };
 
 const DEFAULT_THEME = {
@@ -302,7 +306,7 @@ function createActorStyles(d) {
   align-items: center;
   gap: 8px;
 
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
@@ -384,7 +388,7 @@ function createDialogStyles(d) {
   top: var(--top);
 
   border: var(--border);
-  border-radius: 20px;
+  border-radius: var(--form-border-radius);
   background-color: var(--background);
   color: var(--foreground);
 
@@ -459,7 +463,7 @@ function createDialogStyles(d) {
   background-color: var(--input-background);
   box-sizing: border-box;
   border: var(--input-border);
-  border-radius: 6px;
+  border-radius: var(--form-content-border-radius);
   color: var(--input-foreground);
   font-size: 14px;
   font-weight: 500;
@@ -484,7 +488,7 @@ function createDialogStyles(d) {
 .btn {
   line-height: inherit;
   border: var(--cancel-border);
-  border-radius: 6px;
+  border-radius: var(--form-content-border-radius);
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
@@ -524,7 +528,7 @@ function createDialogStyles(d) {
 .success-message {
   background-color: var(--background);
   border: var(--border);
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   font-weight: 600;
   color: var(--success);
@@ -553,6 +557,7 @@ function getThemedCssVariables(theme) {
   --error: ${theme.error};
   --success: ${theme.success};
   --border: ${theme.border};
+  --border-radius: ${theme.borderRadius};
   --box-shadow: ${theme.boxShadow};
 
   --submit-background: ${theme.submitBackground};
@@ -573,6 +578,9 @@ function getThemedCssVariables(theme) {
   --input-foreground: ${theme.inputForeground};
   --input-border: ${theme.inputBorder};
   --input-outline-focus: ${theme.inputOutlineFocus};
+
+  --form-border-radius: ${theme.formBorderRadius};
+  --form-content-border-radius: ${theme.formContentBorderRadius};
   `;
 }
 
@@ -1573,10 +1581,17 @@ function createWidget({
 
 const doc = WINDOW.document;
 
+const feedbackIntegration = ((options) => {
+  // eslint-disable-next-line deprecation/deprecation
+  return new Feedback(options);
+}) ;
+
 /**
  * Feedback integration. When added as an integration to the SDK, it will
  * inject a button in the bottom-right corner of the window that opens a
  * feedback modal when clicked.
+ *
+ * @deprecated Use `feedbackIntegration()` instead.
  */
 class Feedback  {
   /**
@@ -1646,7 +1661,7 @@ class Feedback  {
     onSubmitError,
     onSubmitSuccess,
   } = {}) {
-    // Initializations
+    // eslint-disable-next-line deprecation/deprecation
     this.name = Feedback.id;
 
     // tsc fails if these are not initialized explicitly constructor, e.g. can't call `_initialize()`
@@ -1922,10 +1937,11 @@ class Feedback  {
 } Feedback.__initStatic();
 
 exports.Feedback = Feedback;
+exports.feedbackIntegration = feedbackIntegration;
 exports.sendFeedback = sendFeedback;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],2:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],2:[function(require,module,exports){
 var {
     _optionalChain
 } = require('@sentry/utils');
@@ -2669,10 +2685,8 @@ const CANVAS_QUALITY = {
 
 const INTEGRATION_NAME = 'ReplayCanvas';
 
-/**
- * An integration to add canvas recording to replay.
- */
-const replayCanvasIntegration = ((options = {}) => {
+/** Exported only for type safe tests. */
+const _replayCanvasIntegration = ((options = {}) => {
   const _canvasOptions = {
     quality: options.quality || 'medium',
     enableManualSnapshot: options.enableManualSnapshot,
@@ -2706,16 +2720,24 @@ const replayCanvasIntegration = ((options = {}) => {
   };
 }) ;
 
-// TODO(v8)
+/**
+ * Add this in addition to `replayIntegration()` to enable canvas recording.
+ */
+const replayCanvasIntegration = core.defineIntegration(_replayCanvasIntegration);
+
+/**
+ * @deprecated Use `replayCanvasIntegration()` instead
+ */
 // eslint-disable-next-line deprecation/deprecation
 const ReplayCanvas = core.convertIntegrationFnToClass(INTEGRATION_NAME, replayCanvasIntegration)
 
 ;
 
 exports.ReplayCanvas = ReplayCanvas;
+exports.replayCanvasIntegration = replayCanvasIntegration;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],3:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],3:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2758,7 +2780,7 @@ function registerBackgroundTabDetection() {
 exports.registerBackgroundTabDetection = registerBackgroundTabDetection;
 
 
-},{"../common/debug-build.js":22,"./types.js":10,"@sentry/core":66,"@sentry/utils":131}],4:[function(require,module,exports){
+},{"../common/debug-build.js":22,"./types.js":10,"@sentry/core":66,"@sentry/utils":133}],4:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -3019,7 +3041,7 @@ class BrowserTracing  {
       scope.setPropagationContext({
         traceId: idleTransaction.spanContext().traceId,
         spanId: idleTransaction.spanContext().spanId,
-        parentSpanId: idleTransaction.parentSpanId,
+        parentSpanId: core.spanToJSON(idleTransaction).parent_span_id,
         sampled: core.spanIsSampled(idleTransaction),
       });
     }
@@ -3109,7 +3131,7 @@ exports.BrowserTracing = BrowserTracing;
 exports.getMetaContent = getMetaContent;
 
 
-},{"../common/debug-build.js":22,"./backgroundtab.js":3,"./metrics/index.js":6,"./request.js":8,"./router.js":9,"./types.js":10,"@sentry/core":66,"@sentry/utils":131}],5:[function(require,module,exports){
+},{"../common/debug-build.js":22,"./backgroundtab.js":3,"./metrics/index.js":6,"./request.js":8,"./router.js":9,"./types.js":10,"@sentry/core":66,"@sentry/utils":133}],5:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -3281,7 +3303,7 @@ exports.addLcpInstrumentationHandler = addLcpInstrumentationHandler;
 exports.addPerformanceInstrumentationHandler = addPerformanceInstrumentationHandler;
 
 
-},{"../common/debug-build.js":22,"./web-vitals/getCLS.js":11,"./web-vitals/getFID.js":12,"./web-vitals/getLCP.js":13,"./web-vitals/lib/observe.js":20,"@sentry/utils":131}],6:[function(require,module,exports){
+},{"../common/debug-build.js":22,"./web-vitals/getCLS.js":11,"./web-vitals/getFID.js":12,"./web-vitals/getLCP.js":13,"./web-vitals/lib/observe.js":20,"@sentry/utils":133}],6:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -3514,24 +3536,7 @@ function addPerformanceEntries(transaction) {
 
   // Measurements are only available for pageload transactions
   if (op === 'pageload') {
-    // Generate TTFB (Time to First Byte), which measured as the time between the beginning of the transaction and the
-    // start of the response in milliseconds
-    if (typeof responseStartTimestamp === 'number' && transactionStartTime) {
-      debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding TTFB');
-      _measurements['ttfb'] = {
-        value: (responseStartTimestamp - transactionStartTime) * 1000,
-        unit: 'millisecond',
-      };
-
-      if (typeof requestStartTimestamp === 'number' && requestStartTimestamp <= responseStartTimestamp) {
-        // Capture the time spent making the request and receiving the first byte of the response.
-        // This is the time between the start of the request and the start of the response in milliseconds.
-        _measurements['ttfb.requestTime'] = {
-          value: (responseStartTimestamp - requestStartTimestamp) * 1000,
-          unit: 'millisecond',
-        };
-      }
-    }
+    _addTtfbToMeasurements(_measurements, responseStartTimestamp, requestStartTimestamp, transactionStartTime);
 
     ['fcp', 'fp', 'lcp'].forEach(name => {
       if (!_measurements[name] || !transactionStartTime || timeOrigin >= transactionStartTime) {
@@ -3814,15 +3819,54 @@ function setResourceEntrySizeData(
   }
 }
 
+/**
+ * Add ttfb information to measurements
+ *
+ * Exported for tests
+ */
+function _addTtfbToMeasurements(
+  _measurements,
+  responseStartTimestamp,
+  requestStartTimestamp,
+  transactionStartTime,
+) {
+  // Generate TTFB (Time to First Byte), which measured as the time between the beginning of the transaction and the
+  // start of the response in milliseconds
+  if (typeof responseStartTimestamp === 'number' && transactionStartTime) {
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding TTFB');
+    _measurements['ttfb'] = {
+      // As per https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/responseStart,
+      // responseStart can be 0 if the request is coming straight from the cache.
+      // This might lead us to calculate a negative ttfb if we don't use Math.max here.
+      //
+      // This logic is the same as what is in the web-vitals library to calculate ttfb
+      // https://github.com/GoogleChrome/web-vitals/blob/2301de5015e82b09925238a228a0893635854587/src/onTTFB.ts#L92
+      // TODO(abhi): We should use the web-vitals library instead of this custom calculation.
+      value: Math.max(responseStartTimestamp - transactionStartTime, 0) * 1000,
+      unit: 'millisecond',
+    };
+
+    if (typeof requestStartTimestamp === 'number' && requestStartTimestamp <= responseStartTimestamp) {
+      // Capture the time spent making the request and receiving the first byte of the response.
+      // This is the time between the start of the request and the start of the response in milliseconds.
+      _measurements['ttfb.requestTime'] = {
+        value: (responseStartTimestamp - requestStartTimestamp) * 1000,
+        unit: 'millisecond',
+      };
+    }
+  }
+}
+
 exports._addMeasureSpans = _addMeasureSpans;
 exports._addResourceSpans = _addResourceSpans;
+exports._addTtfbToMeasurements = _addTtfbToMeasurements;
 exports.addPerformanceEntries = addPerformanceEntries;
 exports.startTrackingInteractions = startTrackingInteractions;
 exports.startTrackingLongTasks = startTrackingLongTasks;
 exports.startTrackingWebVitals = startTrackingWebVitals;
 
 
-},{"../../common/debug-build.js":22,"../instrument.js":5,"../types.js":10,"../web-vitals/lib/getVisibilityWatcher.js":18,"./utils.js":7,"@sentry/core":66,"@sentry/utils":131}],7:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"../instrument.js":5,"../types.js":10,"../web-vitals/lib/getVisibilityWatcher.js":18,"./utils.js":7,"@sentry/core":66,"@sentry/utils":133}],7:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -4140,7 +4184,7 @@ exports.shouldAttachHeaders = shouldAttachHeaders;
 exports.xhrCallback = xhrCallback;
 
 
-},{"../common/fetch.js":23,"./instrument.js":5,"@sentry/core":66,"@sentry/utils":131}],9:[function(require,module,exports){
+},{"../common/fetch.js":23,"./instrument.js":5,"@sentry/core":66,"@sentry/utils":133}],9:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4211,7 +4255,7 @@ function instrumentRoutingWithDefaults(
 exports.instrumentRoutingWithDefaults = instrumentRoutingWithDefaults;
 
 
-},{"../common/debug-build.js":22,"./types.js":10,"@sentry/utils":131}],10:[function(require,module,exports){
+},{"../common/debug-build.js":22,"./types.js":10,"@sentry/utils":133}],10:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4221,7 +4265,7 @@ const WINDOW = utils.GLOBAL_OBJ ;
 exports.WINDOW = WINDOW;
 
 
-},{"@sentry/utils":131}],11:[function(require,module,exports){
+},{"@sentry/utils":133}],11:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const bindReporter = require('./lib/bindReporter.js');
@@ -5014,7 +5058,7 @@ exports.addTracingHeadersToFetchRequest = addTracingHeadersToFetchRequest;
 exports.instrumentFetchRequest = instrumentFetchRequest;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],24:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],24:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -5087,7 +5131,7 @@ function addExtensionMethods() {
 exports.addExtensionMethods = addExtensionMethods;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],25:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],25:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -5140,7 +5184,7 @@ exports.instrumentFetchRequest = fetch.instrumentFetchRequest;
 exports.addExtensionMethods = extensions.addExtensionMethods;
 
 
-},{"./browser/browsertracing.js":4,"./browser/instrument.js":5,"./browser/request.js":8,"./common/fetch.js":23,"./extensions.js":24,"./node/integrations/apollo.js":26,"./node/integrations/express.js":27,"./node/integrations/graphql.js":28,"./node/integrations/lazy.js":29,"./node/integrations/mongo.js":30,"./node/integrations/mysql.js":31,"./node/integrations/postgres.js":32,"./node/integrations/prisma.js":33,"@sentry/core":66,"@sentry/utils":131}],26:[function(require,module,exports){
+},{"./browser/browsertracing.js":4,"./browser/instrument.js":5,"./browser/request.js":8,"./common/fetch.js":23,"./extensions.js":24,"./node/integrations/apollo.js":26,"./node/integrations/express.js":27,"./node/integrations/graphql.js":28,"./node/integrations/lazy.js":29,"./node/integrations/mongo.js":30,"./node/integrations/mysql.js":31,"./node/integrations/postgres.js":32,"./node/integrations/prisma.js":33,"@sentry/core":66,"@sentry/utils":133}],26:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -5330,7 +5374,7 @@ function wrapResolver(
 exports.Apollo = Apollo;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":131}],27:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":133}],27:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -5826,7 +5870,7 @@ exports.extractOriginalRoute = extractOriginalRoute;
 exports.preventDuplicateSegments = preventDuplicateSegments;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/core":66,"@sentry/utils":131}],28:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/core":66,"@sentry/utils":133}],28:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -5914,7 +5958,7 @@ class GraphQL  {
 exports.GraphQL = GraphQL;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":131}],29:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":133}],29:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5967,7 +6011,7 @@ const lazyLoadedNodePerformanceMonitoringIntegrations = [
 exports.lazyLoadedNodePerformanceMonitoringIntegrations = lazyLoadedNodePerformanceMonitoringIntegrations;
 
 
-},{"@sentry/utils":131}],30:[function(require,module,exports){
+},{"@sentry/utils":133}],30:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -6231,7 +6275,7 @@ class Mongo  {
 exports.Mongo = Mongo;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":131}],31:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":133}],31:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -6368,7 +6412,7 @@ class Mysql  {
 exports.Mysql = Mysql;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":131}],32:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":133}],32:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -6500,7 +6544,7 @@ class Postgres  {
 exports.Postgres = Postgres;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":131}],33:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/utils":133}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6590,7 +6634,7 @@ class Prisma  {
 exports.Prisma = Prisma;
 
 
-},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/core":66,"@sentry/utils":131}],34:[function(require,module,exports){
+},{"../../common/debug-build.js":22,"./utils/node-utils.js":34,"@sentry/core":66,"@sentry/utils":133}],34:[function(require,module,exports){
 var {
  _optionalChain
 } = require('@sentry/utils');
@@ -6614,7 +6658,7 @@ function shouldDisableAutoInstrumentation(getCurrentHub) {
 exports.shouldDisableAutoInstrumentation = shouldDisableAutoInstrumentation;
 
 
-},{"@sentry/utils":131}],35:[function(require,module,exports){
+},{"@sentry/utils":133}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6643,18 +6687,7 @@ class BrowserClient extends core.BaseClient {
    */
    constructor(options) {
     const sdkSource = helpers.WINDOW.SENTRY_SDK_SOURCE || utils.getSDKSource();
-
-    options._metadata = options._metadata || {};
-    options._metadata.sdk = options._metadata.sdk || {
-      name: 'sentry.javascript.browser',
-      packages: [
-        {
-          name: `${sdkSource}:@sentry/browser`,
-          version: core.SDK_VERSION,
-        },
-      ],
-      version: core.SDK_VERSION,
-    };
+    core.applySdkMetadata(options, 'browser', ['browser'], sdkSource);
 
     super(options);
 
@@ -6744,7 +6777,7 @@ class BrowserClient extends core.BaseClient {
 exports.BrowserClient = BrowserClient;
 
 
-},{"./debug-build.js":36,"./eventbuilder.js":37,"./helpers.js":38,"./userfeedback.js":56,"@sentry/core":66,"@sentry/utils":131}],36:[function(require,module,exports){
+},{"./debug-build.js":36,"./eventbuilder.js":37,"./helpers.js":38,"./userfeedback.js":56,"@sentry/core":66,"@sentry/utils":133}],36:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
 },{"dup":22}],37:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -7069,7 +7102,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],38:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],38:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -7232,7 +7265,7 @@ exports.shouldIgnoreOnError = shouldIgnoreOnError;
 exports.wrap = wrap;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],39:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],39:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -7301,11 +7334,13 @@ exports.getCurrentHub = core.getCurrentHub;
 exports.getCurrentScope = core.getCurrentScope;
 exports.getHubFromCarrier = core.getHubFromCarrier;
 exports.inboundFiltersIntegration = core.inboundFiltersIntegration;
+exports.isInitialized = core.isInitialized;
 exports.lastEventId = core.lastEventId;
 exports.makeMain = core.makeMain;
 exports.makeMultiplexedTransport = core.makeMultiplexedTransport;
 exports.metrics = core.metrics;
 exports.moduleMetadataIntegration = core.moduleMetadataIntegration;
+exports.parameterize = core.parameterize;
 exports.setContext = core.setContext;
 exports.setCurrentClient = core.setCurrentClient;
 exports.setExtra = core.setExtra;
@@ -7340,13 +7375,17 @@ exports.createUserFeedbackEnvelope = userfeedback.createUserFeedbackEnvelope;
 exports.captureUserFeedback = sdk.captureUserFeedback;
 exports.defaultIntegrations = sdk.defaultIntegrations;
 exports.forceLoad = sdk.forceLoad;
+exports.getDefaultIntegrations = sdk.getDefaultIntegrations;
 exports.init = sdk.init;
 exports.onLoad = sdk.onLoad;
 exports.showReportDialog = sdk.showReportDialog;
 exports.wrap = sdk.wrap;
 exports.Replay = replay.Replay;
+exports.replayIntegration = replay.replayIntegration;
 exports.ReplayCanvas = replayCanvas.ReplayCanvas;
+exports.replayCanvasIntegration = replayCanvas.replayCanvasIntegration;
 exports.Feedback = feedback.Feedback;
+exports.feedbackIntegration = feedback.feedbackIntegration;
 exports.sendFeedback = feedback.sendFeedback;
 exports.BrowserTracing = tracing.BrowserTracing;
 exports.defaultRequestInstrumentationOptions = tracing.defaultRequestInstrumentationOptions;
@@ -7363,7 +7402,7 @@ exports.Dedupe = dedupe.Dedupe;
 exports.Integrations = INTEGRATIONS;
 
 
-},{"./client.js":35,"./eventbuilder.js":37,"./helpers.js":38,"./integrations/breadcrumbs.js":40,"./integrations/dedupe.js":41,"./integrations/globalhandlers.js":42,"./integrations/httpcontext.js":43,"./integrations/index.js":44,"./integrations/linkederrors.js":45,"./integrations/trycatch.js":46,"./profiling/hubextensions.js":47,"./profiling/integration.js":48,"./sdk.js":50,"./stack-parsers.js":51,"./transports/fetch.js":52,"./transports/offline.js":53,"./transports/xhr.js":55,"./userfeedback.js":56,"@sentry-internal/feedback":1,"@sentry-internal/replay-canvas":2,"@sentry-internal/tracing":25,"@sentry/core":66,"@sentry/replay":111}],40:[function(require,module,exports){
+},{"./client.js":35,"./eventbuilder.js":37,"./helpers.js":38,"./integrations/breadcrumbs.js":40,"./integrations/dedupe.js":41,"./integrations/globalhandlers.js":42,"./integrations/httpcontext.js":43,"./integrations/index.js":44,"./integrations/linkederrors.js":45,"./integrations/trycatch.js":46,"./profiling/hubextensions.js":47,"./profiling/integration.js":48,"./sdk.js":50,"./stack-parsers.js":51,"./transports/fetch.js":52,"./transports/offline.js":53,"./transports/xhr.js":55,"./userfeedback.js":56,"@sentry-internal/feedback":1,"@sentry-internal/replay-canvas":2,"@sentry-internal/tracing":25,"@sentry/core":66,"@sentry/replay":113}],40:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -7699,7 +7738,7 @@ function _isEvent(event) {
 exports.Breadcrumbs = Breadcrumbs;
 
 
-},{"../debug-build.js":36,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":131}],41:[function(require,module,exports){
+},{"../debug-build.js":36,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],41:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -7895,7 +7934,7 @@ function _getFramesFromEvent(event) {
 exports.Dedupe = Dedupe;
 
 
-},{"../debug-build.js":36,"@sentry/core":66,"@sentry/utils":131}],42:[function(require,module,exports){
+},{"../debug-build.js":36,"@sentry/core":66,"@sentry/utils":133}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8128,7 +8167,7 @@ function getOptions() {
 exports.GlobalHandlers = GlobalHandlers;
 
 
-},{"../debug-build.js":36,"../eventbuilder.js":37,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":131}],43:[function(require,module,exports){
+},{"../debug-build.js":36,"../eventbuilder.js":37,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],43:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8239,7 +8278,7 @@ const LinkedErrors = core.convertIntegrationFnToClass(INTEGRATION_NAME, linkedEr
 exports.LinkedErrors = LinkedErrors;
 
 
-},{"../eventbuilder.js":37,"@sentry/core":66,"@sentry/utils":131}],46:[function(require,module,exports){
+},{"../eventbuilder.js":37,"@sentry/core":66,"@sentry/utils":133}],46:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8517,7 +8556,7 @@ function _wrapEventTarget(target) {
 exports.TryCatch = TryCatch;
 
 
-},{"../helpers.js":38,"@sentry/core":66,"@sentry/utils":131}],47:[function(require,module,exports){
+},{"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],47:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8677,7 +8716,7 @@ exports.onProfilingStartRouteTransaction = onProfilingStartRouteTransaction;
 exports.startProfileForTransaction = startProfileForTransaction;
 
 
-},{"../debug-build.js":36,"../helpers.js":38,"./utils.js":49,"@sentry/core":66,"@sentry/utils":131}],48:[function(require,module,exports){
+},{"../debug-build.js":36,"../helpers.js":38,"./utils.js":49,"@sentry/core":66,"@sentry/utils":133}],48:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8790,7 +8829,7 @@ const BrowserProfilingIntegration = core.convertIntegrationFnToClass(
 exports.BrowserProfilingIntegration = BrowserProfilingIntegration;
 
 
-},{"../debug-build.js":36,"./hubextensions.js":47,"./utils.js":49,"@sentry/core":66,"@sentry/utils":131}],49:[function(require,module,exports){
+},{"../debug-build.js":36,"./hubextensions.js":47,"./utils.js":49,"@sentry/core":66,"@sentry/utils":133}],49:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9394,7 +9433,7 @@ exports.startJSSelfProfile = startJSSelfProfile;
 exports.takeProfileFromGlobalCache = takeProfileFromGlobalCache;
 
 
-},{"../debug-build.js":36,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":131}],50:[function(require,module,exports){
+},{"../debug-build.js":36,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],50:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9412,10 +9451,12 @@ const stackParsers = require('./stack-parsers.js');
 const fetch = require('./transports/fetch.js');
 const xhr = require('./transports/xhr.js');
 
-/* eslint-disable deprecation/deprecation */
+/** @deprecated Use `getDefaultIntegrations(options)` instead. */
 const defaultIntegrations = [
+  /* eslint-disable deprecation/deprecation */
   new core.InboundFilters(),
   new core.FunctionToString(),
+  /* eslint-enable deprecation/deprecation */
   new trycatch.TryCatch(),
   new breadcrumbs.Breadcrumbs(),
   new globalhandlers.GlobalHandlers(),
@@ -9423,7 +9464,15 @@ const defaultIntegrations = [
   new dedupe.Dedupe(),
   new httpcontext.HttpContext(),
 ];
-/* eslint-enable deprecation/deprecation */
+
+/** Get the default integrations for the browser SDK. */
+function getDefaultIntegrations(_options) {
+  // We return a copy of the defaultIntegrations here to avoid mutating this
+  return [
+    // eslint-disable-next-line deprecation/deprecation
+    ...defaultIntegrations,
+  ];
+}
 
 /**
  * A magic string that build tooling can leverage in order to inject a release value into the SDK.
@@ -9488,7 +9537,7 @@ const defaultIntegrations = [
  */
 function init(options = {}) {
   if (options.defaultIntegrations === undefined) {
-    options.defaultIntegrations = defaultIntegrations;
+    options.defaultIntegrations = getDefaultIntegrations();
   }
   if (options.release === undefined) {
     // This allows build tooling to find-and-replace __SENTRY_RELEASE__ to inject a release value
@@ -9659,13 +9708,14 @@ function captureUserFeedback(feedback) {
 exports.captureUserFeedback = captureUserFeedback;
 exports.defaultIntegrations = defaultIntegrations;
 exports.forceLoad = forceLoad;
+exports.getDefaultIntegrations = getDefaultIntegrations;
 exports.init = init;
 exports.onLoad = onLoad;
 exports.showReportDialog = showReportDialog;
 exports.wrap = wrap;
 
 
-},{"./client.js":35,"./debug-build.js":36,"./helpers.js":38,"./integrations/breadcrumbs.js":40,"./integrations/dedupe.js":41,"./integrations/globalhandlers.js":42,"./integrations/httpcontext.js":43,"./integrations/linkederrors.js":45,"./integrations/trycatch.js":46,"./stack-parsers.js":51,"./transports/fetch.js":52,"./transports/xhr.js":55,"@sentry/core":66,"@sentry/utils":131}],51:[function(require,module,exports){
+},{"./client.js":35,"./debug-build.js":36,"./helpers.js":38,"./integrations/breadcrumbs.js":40,"./integrations/dedupe.js":41,"./integrations/globalhandlers.js":42,"./integrations/httpcontext.js":43,"./integrations/linkederrors.js":45,"./integrations/trycatch.js":46,"./stack-parsers.js":51,"./transports/fetch.js":52,"./transports/xhr.js":55,"@sentry/core":66,"@sentry/utils":133}],51:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -9843,7 +9893,7 @@ exports.opera11StackLineParser = opera11StackLineParser;
 exports.winjsStackLineParser = winjsStackLineParser;
 
 
-},{"@sentry/utils":131}],52:[function(require,module,exports){
+},{"@sentry/utils":133}],52:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9911,7 +9961,7 @@ function makeFetchTransport(
 exports.makeFetchTransport = makeFetchTransport;
 
 
-},{"./utils.js":54,"@sentry/core":66,"@sentry/utils":131}],53:[function(require,module,exports){
+},{"./utils.js":54,"@sentry/core":66,"@sentry/utils":133}],53:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -10051,7 +10101,7 @@ exports.makeBrowserOfflineTransport = makeBrowserOfflineTransport;
 exports.pop = pop;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],54:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],54:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10141,7 +10191,7 @@ exports.clearCachedFetchImplementation = clearCachedFetchImplementation;
 exports.getNativeFetchImplementation = getNativeFetchImplementation;
 
 
-},{"../debug-build.js":36,"../helpers.js":38,"@sentry/utils":131}],55:[function(require,module,exports){
+},{"../debug-build.js":36,"../helpers.js":38,"@sentry/utils":133}],55:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -10197,7 +10247,7 @@ function makeXHRTransport(options) {
 exports.makeXHRTransport = makeXHRTransport;
 
 
-},{"@sentry/core":66,"@sentry/utils":131}],56:[function(require,module,exports){
+},{"@sentry/core":66,"@sentry/utils":133}],56:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10242,7 +10292,7 @@ function createUserFeedbackEnvelopeItem(feedback) {
 exports.createUserFeedbackEnvelope = createUserFeedbackEnvelope;
 
 
-},{"@sentry/utils":131}],57:[function(require,module,exports){
+},{"@sentry/utils":133}],57:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10341,7 +10391,7 @@ exports.getEnvelopeEndpointWithUrlEncodedAuth = getEnvelopeEndpointWithUrlEncode
 exports.getReportDialogEndpoint = getReportDialogEndpoint;
 
 
-},{"@sentry/utils":131}],58:[function(require,module,exports){
+},{"@sentry/utils":133}],58:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11137,7 +11187,7 @@ exports.BaseClient = BaseClient;
 exports.addEventProcessor = addEventProcessor;
 
 
-},{"./api.js":57,"./debug-build.js":61,"./envelope.js":62,"./exports.js":64,"./hub.js":65,"./integration.js":67,"./metrics/envelope.js":78,"./session.js":87,"./tracing/dynamicSamplingContext.js":89,"./utils/prepareEvent.js":108,"@sentry/utils":131}],59:[function(require,module,exports){
+},{"./api.js":57,"./debug-build.js":61,"./envelope.js":62,"./exports.js":64,"./hub.js":65,"./integration.js":67,"./metrics/envelope.js":78,"./session.js":87,"./tracing/dynamicSamplingContext.js":89,"./utils/prepareEvent.js":109,"@sentry/utils":133}],59:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11185,7 +11235,7 @@ function createCheckInEnvelopeItem(checkIn) {
 exports.createCheckInEnvelope = createCheckInEnvelope;
 
 
-},{"@sentry/utils":131}],60:[function(require,module,exports){
+},{"@sentry/utils":133}],60:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const DEFAULT_ENVIRONMENT = 'production';
@@ -11274,7 +11324,7 @@ exports.createEventEnvelope = createEventEnvelope;
 exports.createSessionEnvelope = createSessionEnvelope;
 
 
-},{"@sentry/utils":131}],63:[function(require,module,exports){
+},{"@sentry/utils":133}],63:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11333,7 +11383,7 @@ exports.getGlobalEventProcessors = getGlobalEventProcessors;
 exports.notifyEventProcessors = notifyEventProcessors;
 
 
-},{"./debug-build.js":61,"@sentry/utils":131}],64:[function(require,module,exports){
+},{"./debug-build.js":61,"@sentry/utils":133}],64:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11701,6 +11751,13 @@ function getClient() {
 }
 
 /**
+ * Returns true if Sentry has been properly initialized.
+ */
+function isInitialized() {
+  return !!getClient();
+}
+
+/**
  * Get the currently active scope.
  */
 function getCurrentScope() {
@@ -11816,6 +11873,7 @@ exports.endSession = endSession;
 exports.flush = flush;
 exports.getClient = getClient;
 exports.getCurrentScope = getCurrentScope;
+exports.isInitialized = isInitialized;
 exports.lastEventId = lastEventId;
 exports.setContext = setContext;
 exports.setExtra = setExtra;
@@ -11831,7 +11889,7 @@ exports.withMonitor = withMonitor;
 exports.withScope = withScope;
 
 
-},{"./constants.js":60,"./debug-build.js":61,"./hub.js":65,"./session.js":87,"./utils/prepareEvent.js":108,"@sentry/utils":131}],65:[function(require,module,exports){
+},{"./constants.js":60,"./debug-build.js":61,"./hub.js":65,"./session.js":87,"./utils/prepareEvent.js":109,"@sentry/utils":133}],65:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -12603,7 +12661,7 @@ exports.setAsyncContextStrategy = setAsyncContextStrategy;
 exports.setHubOnCarrier = setHubOnCarrier;
 
 
-},{"./constants.js":60,"./debug-build.js":61,"./scope.js":83,"./session.js":87,"./version.js":110,"@sentry/utils":131}],66:[function(require,module,exports){
+},{"./constants.js":60,"./debug-build.js":61,"./scope.js":83,"./session.js":87,"./version.js":112,"@sentry/utils":133}],66:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const hubextensions = require('./tracing/hubextensions.js');
@@ -12638,8 +12696,10 @@ const checkin = require('./checkin.js');
 const hasTracingEnabled = require('./utils/hasTracingEnabled.js');
 const isSentryRequestUrl = require('./utils/isSentryRequestUrl.js');
 const handleCallbackErrors = require('./utils/handleCallbackErrors.js');
+const parameterize = require('./utils/parameterize.js');
 const spanUtils = require('./utils/spanUtils.js');
 const getRootSpan = require('./utils/getRootSpan.js');
+const sdkMetadata = require('./utils/sdkMetadata.js');
 const constants = require('./constants.js');
 const metadata = require('./integrations/metadata.js');
 const requestdata = require('./integrations/requestdata.js');
@@ -12676,6 +12736,7 @@ exports.getDynamicSamplingContextFromClient = dynamicSamplingContext.getDynamicS
 exports.getDynamicSamplingContextFromSpan = dynamicSamplingContext.getDynamicSamplingContextFromSpan;
 exports.setMeasurement = measurement.setMeasurement;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_OP = semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_OP;
+exports.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN = semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE = semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE = semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE;
 exports.createEventEnvelope = envelope.createEventEnvelope;
@@ -12692,6 +12753,7 @@ exports.endSession = exports$1.endSession;
 exports.flush = exports$1.flush;
 exports.getClient = exports$1.getClient;
 exports.getCurrentScope = exports$1.getCurrentScope;
+exports.isInitialized = exports$1.isInitialized;
 exports.lastEventId = exports$1.lastEventId;
 exports.setContext = exports$1.setContext;
 exports.setExtra = exports$1.setExtra;
@@ -12746,10 +12808,12 @@ exports.createCheckInEnvelope = checkin.createCheckInEnvelope;
 exports.hasTracingEnabled = hasTracingEnabled.hasTracingEnabled;
 exports.isSentryRequestUrl = isSentryRequestUrl.isSentryRequestUrl;
 exports.handleCallbackErrors = handleCallbackErrors.handleCallbackErrors;
+exports.parameterize = parameterize.parameterize;
 exports.spanIsSampled = spanUtils.spanIsSampled;
 exports.spanToJSON = spanUtils.spanToJSON;
 exports.spanToTraceHeader = spanUtils.spanToTraceHeader;
 exports.getRootSpan = getRootSpan.getRootSpan;
+exports.applySdkMetadata = sdkMetadata.applySdkMetadata;
 exports.DEFAULT_ENVIRONMENT = constants.DEFAULT_ENVIRONMENT;
 exports.ModuleMetadata = metadata.ModuleMetadata;
 exports.moduleMetadataIntegration = metadata.moduleMetadataIntegration;
@@ -12765,7 +12829,7 @@ exports.metrics = exports$2.metrics;
 exports.Integrations = Integrations;
 
 
-},{"./api.js":57,"./baseclient.js":58,"./checkin.js":59,"./constants.js":60,"./envelope.js":62,"./eventProcessors.js":63,"./exports.js":64,"./hub.js":65,"./integration.js":67,"./integrations/functiontostring.js":68,"./integrations/inboundfilters.js":69,"./integrations/index.js":70,"./integrations/linkederrors.js":71,"./integrations/metadata.js":72,"./integrations/requestdata.js":73,"./metrics/exports.js":79,"./scope.js":83,"./sdk.js":84,"./semanticAttributes.js":85,"./server-runtime-client.js":86,"./session.js":87,"./sessionflusher.js":88,"./tracing/dynamicSamplingContext.js":89,"./tracing/hubextensions.js":91,"./tracing/idletransaction.js":92,"./tracing/measurement.js":93,"./tracing/span.js":95,"./tracing/spanstatus.js":96,"./tracing/trace.js":97,"./tracing/transaction.js":98,"./tracing/utils.js":99,"./transports/base.js":100,"./transports/multiplexed.js":101,"./transports/offline.js":102,"./utils/applyScopeDataToEvent.js":103,"./utils/getRootSpan.js":104,"./utils/handleCallbackErrors.js":105,"./utils/hasTracingEnabled.js":106,"./utils/isSentryRequestUrl.js":107,"./utils/prepareEvent.js":108,"./utils/spanUtils.js":109,"./version.js":110}],67:[function(require,module,exports){
+},{"./api.js":57,"./baseclient.js":58,"./checkin.js":59,"./constants.js":60,"./envelope.js":62,"./eventProcessors.js":63,"./exports.js":64,"./hub.js":65,"./integration.js":67,"./integrations/functiontostring.js":68,"./integrations/inboundfilters.js":69,"./integrations/index.js":70,"./integrations/linkederrors.js":71,"./integrations/metadata.js":72,"./integrations/requestdata.js":73,"./metrics/exports.js":79,"./scope.js":83,"./sdk.js":84,"./semanticAttributes.js":85,"./server-runtime-client.js":86,"./session.js":87,"./sessionflusher.js":88,"./tracing/dynamicSamplingContext.js":89,"./tracing/hubextensions.js":91,"./tracing/idletransaction.js":92,"./tracing/measurement.js":93,"./tracing/span.js":95,"./tracing/spanstatus.js":96,"./tracing/trace.js":97,"./tracing/transaction.js":98,"./tracing/utils.js":99,"./transports/base.js":100,"./transports/multiplexed.js":101,"./transports/offline.js":102,"./utils/applyScopeDataToEvent.js":103,"./utils/getRootSpan.js":104,"./utils/handleCallbackErrors.js":105,"./utils/hasTracingEnabled.js":106,"./utils/isSentryRequestUrl.js":107,"./utils/parameterize.js":108,"./utils/prepareEvent.js":109,"./utils/sdkMetadata.js":110,"./utils/spanUtils.js":111,"./version.js":112}],67:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -12954,7 +13018,7 @@ exports.setupIntegration = setupIntegration;
 exports.setupIntegrations = setupIntegrations;
 
 
-},{"./debug-build.js":61,"./eventProcessors.js":63,"./exports.js":64,"./hub.js":65,"@sentry/utils":131}],68:[function(require,module,exports){
+},{"./debug-build.js":61,"./eventProcessors.js":63,"./exports.js":64,"./hub.js":65,"@sentry/utils":133}],68:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13002,7 +13066,7 @@ exports.FunctionToString = FunctionToString;
 exports.functionToStringIntegration = functionToStringIntegration;
 
 
-},{"../integration.js":67,"@sentry/utils":131}],69:[function(require,module,exports){
+},{"../integration.js":67,"@sentry/utils":133}],69:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13226,7 +13290,7 @@ exports.InboundFilters = InboundFilters;
 exports.inboundFiltersIntegration = inboundFiltersIntegration;
 
 
-},{"../debug-build.js":61,"../integration.js":67,"@sentry/utils":131}],70:[function(require,module,exports){
+},{"../debug-build.js":61,"../integration.js":67,"@sentry/utils":133}],70:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const functiontostring = require('./functiontostring.js');
@@ -13290,7 +13354,7 @@ exports.LinkedErrors = LinkedErrors;
 exports.linkedErrorsIntegration = linkedErrorsIntegration;
 
 
-},{"../integration.js":67,"@sentry/utils":131}],72:[function(require,module,exports){
+},{"../integration.js":67,"@sentry/utils":133}],72:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13357,7 +13421,7 @@ exports.ModuleMetadata = ModuleMetadata;
 exports.moduleMetadataIntegration = moduleMetadataIntegration;
 
 
-},{"../integration.js":67,"../metadata.js":74,"@sentry/utils":131}],73:[function(require,module,exports){
+},{"../integration.js":67,"../metadata.js":74,"@sentry/utils":133}],73:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13537,7 +13601,7 @@ exports.RequestData = RequestData;
 exports.requestDataIntegration = requestDataIntegration;
 
 
-},{"../integration.js":67,"../utils/spanUtils.js":109,"@sentry/utils":131}],74:[function(require,module,exports){
+},{"../integration.js":67,"../utils/spanUtils.js":111,"@sentry/utils":133}],74:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13642,7 +13706,7 @@ exports.getMetadataForUrl = getMetadataForUrl;
 exports.stripMetadataFromStackFrames = stripMetadataFromStackFrames;
 
 
-},{"@sentry/utils":131}],75:[function(require,module,exports){
+},{"@sentry/utils":133}],75:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils$1 = require('@sentry/utils');
@@ -13798,7 +13862,7 @@ class MetricsAggregator  {
 exports.MetricsAggregator = MetricsAggregator;
 
 
-},{"./constants.js":77,"./instance.js":80,"./utils.js":82,"@sentry/utils":131}],76:[function(require,module,exports){
+},{"./constants.js":77,"./instance.js":80,"./utils.js":82,"@sentry/utils":133}],76:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils$1 = require('@sentry/utils');
@@ -13886,7 +13950,7 @@ class BrowserMetricsAggregator  {
 exports.BrowserMetricsAggregator = BrowserMetricsAggregator;
 
 
-},{"./constants.js":77,"./instance.js":80,"./utils.js":82,"@sentry/utils":131}],77:[function(require,module,exports){
+},{"./constants.js":77,"./instance.js":80,"./utils.js":82,"@sentry/utils":133}],77:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const COUNTER_METRIC_TYPE = 'c' ;
@@ -13988,7 +14052,7 @@ function createMetricEnvelopeItem(metricBucketItems) {
 exports.createMetricEnvelope = createMetricEnvelope;
 
 
-},{"./utils.js":82,"@sentry/utils":131}],79:[function(require,module,exports){
+},{"./utils.js":82,"@sentry/utils":133}],79:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -14086,7 +14150,7 @@ exports.metrics = metrics;
 exports.set = set;
 
 
-},{"../debug-build.js":61,"../exports.js":64,"../utils/spanUtils.js":109,"./constants.js":77,"./integration.js":81,"@sentry/utils":131}],80:[function(require,module,exports){
+},{"../debug-build.js":61,"../exports.js":64,"../utils/spanUtils.js":111,"./constants.js":77,"./integration.js":81,"@sentry/utils":133}],80:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('./constants.js');
@@ -14331,7 +14395,7 @@ exports.serializeMetricBuckets = serializeMetricBuckets;
 exports.simpleHash = simpleHash;
 
 
-},{"./constants.js":77,"@sentry/utils":131}],83:[function(require,module,exports){
+},{"./constants.js":77,"@sentry/utils":133}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15026,7 +15090,7 @@ exports.getGlobalScope = getGlobalScope;
 exports.setGlobalScope = setGlobalScope;
 
 
-},{"./eventProcessors.js":63,"./session.js":87,"./utils/applyScopeDataToEvent.js":103,"@sentry/utils":131}],84:[function(require,module,exports){
+},{"./eventProcessors.js":63,"./session.js":87,"./utils/applyScopeDataToEvent.js":103,"@sentry/utils":133}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15097,7 +15161,7 @@ exports.initAndBind = initAndBind;
 exports.setCurrentClient = setCurrentClient;
 
 
-},{"./debug-build.js":61,"./exports.js":64,"./hub.js":65,"@sentry/utils":131}],85:[function(require,module,exports){
+},{"./debug-build.js":61,"./exports.js":64,"./hub.js":65,"@sentry/utils":133}],85:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -15117,7 +15181,13 @@ const SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE = 'sentry.sample_rate';
  */
 const SEMANTIC_ATTRIBUTE_SENTRY_OP = 'sentry.op';
 
+/**
+ * Use this attribute to represent the origin of a span.
+ */
+const SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN = 'sentry.origin';
+
 exports.SEMANTIC_ATTRIBUTE_SENTRY_OP = SEMANTIC_ATTRIBUTE_SENTRY_OP;
+exports.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN = SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE = SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE = SEMANTIC_ATTRIBUTE_SENTRY_SOURCE;
 
@@ -15386,7 +15456,7 @@ class ServerRuntimeClient
 exports.ServerRuntimeClient = ServerRuntimeClient;
 
 
-},{"./baseclient.js":58,"./checkin.js":59,"./debug-build.js":61,"./exports.js":64,"./metrics/aggregator.js":75,"./sessionflusher.js":88,"./tracing/dynamicSamplingContext.js":89,"./tracing/hubextensions.js":91,"./tracing/spanstatus.js":96,"./utils/getRootSpan.js":104,"./utils/spanUtils.js":109,"@sentry/utils":131}],87:[function(require,module,exports){
+},{"./baseclient.js":58,"./checkin.js":59,"./debug-build.js":61,"./exports.js":64,"./metrics/aggregator.js":75,"./sessionflusher.js":88,"./tracing/dynamicSamplingContext.js":89,"./tracing/hubextensions.js":91,"./tracing/spanstatus.js":96,"./utils/getRootSpan.js":104,"./utils/spanUtils.js":111,"@sentry/utils":133}],87:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15552,7 +15622,7 @@ exports.makeSession = makeSession;
 exports.updateSession = updateSession;
 
 
-},{"@sentry/utils":131}],88:[function(require,module,exports){
+},{"@sentry/utils":133}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15658,7 +15728,7 @@ class SessionFlusher  {
 exports.SessionFlusher = SessionFlusher;
 
 
-},{"./exports.js":64,"@sentry/utils":131}],89:[function(require,module,exports){
+},{"./exports.js":64,"@sentry/utils":133}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15758,7 +15828,7 @@ exports.getDynamicSamplingContextFromClient = getDynamicSamplingContextFromClien
 exports.getDynamicSamplingContextFromSpan = getDynamicSamplingContextFromSpan;
 
 
-},{"../constants.js":60,"../exports.js":64,"../utils/getRootSpan.js":104,"../utils/spanUtils.js":109,"@sentry/utils":131}],90:[function(require,module,exports){
+},{"../constants.js":60,"../exports.js":64,"../utils/getRootSpan.js":104,"../utils/spanUtils.js":111,"@sentry/utils":133}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15800,7 +15870,7 @@ errorCallback.tag = 'sentry_tracingErrorCallback';
 exports.registerErrorInstrumentation = registerErrorInstrumentation;
 
 
-},{"../debug-build.js":61,"./utils.js":99,"@sentry/utils":131}],91:[function(require,module,exports){
+},{"../debug-build.js":61,"./utils.js":99,"@sentry/utils":133}],91:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15944,7 +16014,7 @@ exports.addTracingExtensions = addTracingExtensions;
 exports.startIdleTransaction = startIdleTransaction;
 
 
-},{"../debug-build.js":61,"../hub.js":65,"../utils/spanUtils.js":109,"./errors.js":90,"./idletransaction.js":92,"./sampling.js":94,"./transaction.js":98,"@sentry/utils":131}],92:[function(require,module,exports){
+},{"../debug-build.js":61,"../hub.js":65,"../utils/spanUtils.js":111,"./errors.js":90,"./idletransaction.js":92,"./sampling.js":94,"./transaction.js":98,"@sentry/utils":133}],92:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16352,7 +16422,7 @@ exports.IdleTransactionSpanRecorder = IdleTransactionSpanRecorder;
 exports.TRACING_DEFAULTS = TRACING_DEFAULTS;
 
 
-},{"../debug-build.js":61,"../utils/spanUtils.js":109,"./span.js":95,"./transaction.js":98,"@sentry/utils":131}],93:[function(require,module,exports){
+},{"../debug-build.js":61,"../utils/spanUtils.js":111,"./span.js":95,"./transaction.js":98,"@sentry/utils":133}],93:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('./utils.js');
@@ -16502,7 +16572,7 @@ function isValidSampleRate(rate) {
 exports.sampleTransaction = sampleTransaction;
 
 
-},{"../debug-build.js":61,"../semanticAttributes.js":85,"../utils/hasTracingEnabled.js":106,"../utils/spanUtils.js":109,"@sentry/utils":131}],95:[function(require,module,exports){
+},{"../debug-build.js":61,"../semanticAttributes.js":85,"../utils/hasTracingEnabled.js":106,"../utils/spanUtils.js":111,"@sentry/utils":133}],95:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16545,10 +16615,6 @@ class SpanRecorder {
  */
 class Span  {
   /**
-   * @inheritDoc
-   */
-
-  /**
    * Tags for the span.
    * @deprecated Use `getSpanAttributes(span)` instead.
    */
@@ -16580,10 +16646,6 @@ class Span  {
    * @deprecated This field will be removed.
    */
 
-  /**
-   * The origin of the span, giving context about what created the span.
-   */
-
   /** Epoch timestamp in seconds when the span started. */
 
   /** Epoch timestamp in seconds when the span ended. */
@@ -16608,12 +16670,14 @@ class Span  {
     this._attributes = spanContext.attributes ? { ...spanContext.attributes } : {};
     // eslint-disable-next-line deprecation/deprecation
     this.instrumenter = spanContext.instrumenter || 'sentry';
-    this.origin = spanContext.origin || 'manual';
+
+    this.setAttribute(semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN, spanContext.origin || 'manual');
+
     // eslint-disable-next-line deprecation/deprecation
     this._name = spanContext.name || spanContext.description;
 
     if (spanContext.parentSpanId) {
-      this.parentSpanId = spanContext.parentSpanId;
+      this._parentSpanId = spanContext.parentSpanId;
     }
     // We want to include booleans as well here
     if ('sampled' in spanContext) {
@@ -16695,6 +16759,24 @@ class Span  {
    */
    set spanId(spanId) {
     this._spanId = spanId;
+  }
+
+  /**
+   * @inheritDoc
+   *
+   * @deprecated Use `startSpan` functions instead.
+   */
+   set parentSpanId(string) {
+    this._parentSpanId = string;
+  }
+
+  /**
+   * @inheritDoc
+   *
+   * @deprecated Use `spanToJSON(span).parent_span_id` instead.
+   */
+   get parentSpanId() {
+    return this._parentSpanId;
   }
 
   /**
@@ -16796,6 +16878,24 @@ class Span  {
    */
    set op(op) {
     this.setAttribute(semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_OP, op);
+  }
+
+  /**
+   * The origin of the span, giving context about what created the span.
+   *
+   * @deprecated Use `spanToJSON().origin` to read the origin instead.
+   */
+   get origin() {
+    return this._attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN] ;
+  }
+
+  /**
+   * The origin of the span, giving context about what created the span.
+   *
+   * @deprecated Use `startSpan()` functions to set the origin instead.
+   */
+   set origin(origin) {
+    this.setAttribute(semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN, origin);
   }
 
   /* eslint-enable @typescript-eslint/member-ordering */
@@ -16997,7 +17097,7 @@ class Span  {
       endTimestamp: this._endTime,
       // eslint-disable-next-line deprecation/deprecation
       op: this.op,
-      parentSpanId: this.parentSpanId,
+      parentSpanId: this._parentSpanId,
       sampled: this._sampled,
       spanId: this._spanId,
       startTimestamp: this._startTime,
@@ -17021,7 +17121,7 @@ class Span  {
     this._endTime = spanContext.endTimestamp;
     // eslint-disable-next-line deprecation/deprecation
     this.op = spanContext.op;
-    this.parentSpanId = spanContext.parentSpanId;
+    this._parentSpanId = spanContext.parentSpanId;
     this._sampled = spanContext.sampled;
     this._spanId = spanContext.spanId || this._spanId;
     this._startTime = spanContext.startTimestamp || this._startTime;
@@ -17055,7 +17155,7 @@ class Span  {
       data: this._getData(),
       description: this._name,
       op: this._attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_OP] ,
-      parent_span_id: this.parentSpanId,
+      parent_span_id: this._parentSpanId,
       span_id: this._spanId,
       start_timestamp: this._startTime,
       status: this._status,
@@ -17063,7 +17163,7 @@ class Span  {
       tags: Object.keys(this.tags).length > 0 ? this.tags : undefined,
       timestamp: this._endTime,
       trace_id: this._traceId,
-      origin: this.origin,
+      origin: this._attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN] ,
     });
   }
 
@@ -17160,7 +17260,7 @@ exports.SpanRecorder = SpanRecorder;
 exports.spanStatusfromHttpCode = spanStatusfromHttpCode;
 
 
-},{"../debug-build.js":61,"../semanticAttributes.js":85,"../utils/getRootSpan.js":104,"../utils/spanUtils.js":109,"@sentry/utils":131}],96:[function(require,module,exports){
+},{"../debug-build.js":61,"../semanticAttributes.js":85,"../utils/getRootSpan.js":104,"../utils/spanUtils.js":111,"@sentry/utils":133}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** The status of an Span.
@@ -17478,7 +17578,7 @@ exports.startSpanManual = startSpanManual;
 exports.trace = trace;
 
 
-},{"../debug-build.js":61,"../exports.js":64,"../hub.js":65,"../utils/handleCallbackErrors.js":105,"../utils/hasTracingEnabled.js":106,"../utils/spanUtils.js":109,"@sentry/utils":131}],98:[function(require,module,exports){
+},{"../debug-build.js":61,"../exports.js":64,"../hub.js":65,"../utils/handleCallbackErrors.js":105,"../utils/hasTracingEnabled.js":106,"../utils/spanUtils.js":111,"@sentry/utils":133}],98:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17811,7 +17911,7 @@ class Transaction extends span.Span  {
 exports.Transaction = Transaction;
 
 
-},{"../debug-build.js":61,"../hub.js":65,"../semanticAttributes.js":85,"../utils/spanUtils.js":109,"./dynamicSamplingContext.js":89,"./span.js":95,"@sentry/utils":131}],99:[function(require,module,exports){
+},{"../debug-build.js":61,"../hub.js":65,"../semanticAttributes.js":85,"../utils/spanUtils.js":111,"./dynamicSamplingContext.js":89,"./span.js":95,"@sentry/utils":133}],99:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17850,7 +17950,7 @@ exports.extractTraceparentData = extractTraceparentData;
 exports.getActiveTransaction = getActiveTransaction;
 
 
-},{"../hub.js":65,"@sentry/utils":131}],100:[function(require,module,exports){
+},{"../hub.js":65,"@sentry/utils":133}],100:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17957,7 +18057,7 @@ exports.DEFAULT_TRANSPORT_BUFFER_SIZE = DEFAULT_TRANSPORT_BUFFER_SIZE;
 exports.createTransport = createTransport;
 
 
-},{"../debug-build.js":61,"@sentry/utils":131}],101:[function(require,module,exports){
+},{"../debug-build.js":61,"@sentry/utils":133}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18080,7 +18180,7 @@ exports.eventFromEnvelope = eventFromEnvelope;
 exports.makeMultiplexedTransport = makeMultiplexedTransport;
 
 
-},{"../api.js":57,"@sentry/utils":131}],102:[function(require,module,exports){
+},{"../api.js":57,"@sentry/utils":133}],102:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18209,7 +18309,7 @@ exports.START_DELAY = START_DELAY;
 exports.makeOfflineTransport = makeOfflineTransport;
 
 
-},{"../debug-build.js":61,"@sentry/utils":131}],103:[function(require,module,exports){
+},{"../debug-build.js":61,"@sentry/utils":133}],103:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18409,7 +18509,7 @@ exports.mergeAndOverwriteScopeData = mergeAndOverwriteScopeData;
 exports.mergeScopeData = mergeScopeData;
 
 
-},{"../tracing/dynamicSamplingContext.js":89,"./getRootSpan.js":104,"./spanUtils.js":109,"@sentry/utils":131}],104:[function(require,module,exports){
+},{"../tracing/dynamicSamplingContext.js":89,"./getRootSpan.js":104,"./spanUtils.js":111,"@sentry/utils":133}],104:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -18498,7 +18598,7 @@ function maybeHandlePromiseRejection(
 exports.handleCallbackErrors = handleCallbackErrors;
 
 
-},{"@sentry/utils":131}],106:[function(require,module,exports){
+},{"@sentry/utils":133}],106:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const exports$1 = require('../exports.js');
@@ -18571,6 +18671,28 @@ exports.isSentryRequestUrl = isSentryRequestUrl;
 
 
 },{}],108:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * Tagged template function which returns paramaterized representation of the message
+ * For example: parameterize`This is a log statement with ${x} and ${y} params`, would return:
+ * "__sentry_template_string__": 'This is a log statement with %s and %s params',
+ * "__sentry_template_values__": ['first', 'second']
+ * @param strings An array of string values splitted between expressions
+ * @param values Expressions extracted from template string
+ * @returns String with template information in __sentry_template_string__ and __sentry_template_values__ properties
+ */
+function parameterize(strings, ...values) {
+  const formatted = new String(String.raw(strings, ...values)) ;
+  formatted.__sentry_template_string__ = strings.join('\x00').replace(/%/g, '%%').replace(/\0/g, '%s');
+  formatted.__sentry_template_values__ = values;
+  return formatted;
+}
+
+exports.parameterize = parameterize;
+
+
+},{}],109:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18964,7 +19086,45 @@ exports.parseEventHintOrCaptureContext = parseEventHintOrCaptureContext;
 exports.prepareEvent = prepareEvent;
 
 
-},{"../constants.js":60,"../eventProcessors.js":63,"../scope.js":83,"./applyScopeDataToEvent.js":103,"./spanUtils.js":109,"@sentry/utils":131}],109:[function(require,module,exports){
+},{"../constants.js":60,"../eventProcessors.js":63,"../scope.js":83,"./applyScopeDataToEvent.js":103,"./spanUtils.js":111,"@sentry/utils":133}],110:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const version = require('../version.js');
+
+/**
+ * A builder for the SDK metadata in the options for the SDK initialization.
+ *
+ * Note: This function is identical to `buildMetadata` in Remix and NextJS and SvelteKit.
+ * We don't extract it for bundle size reasons.
+ * @see https://github.com/getsentry/sentry-javascript/pull/7404
+ * @see https://github.com/getsentry/sentry-javascript/pull/4196
+ *
+ * If you make changes to this function consider updating the others as well.
+ *
+ * @param options SDK options object that gets mutated
+ * @param names list of package names
+ */
+function applySdkMetadata(options, name, names = [name], source = 'npm') {
+  const metadata = options._metadata || {};
+
+  if (!metadata.sdk) {
+    metadata.sdk = {
+      name: `sentry.javascript.${name}`,
+      packages: names.map(name => ({
+        name: `${source}:@sentry/${name}`,
+        version: version.SDK_VERSION,
+      })),
+      version: version.SDK_VERSION,
+    };
+  }
+
+  options._metadata = metadata;
+}
+
+exports.applySdkMetadata = applySdkMetadata;
+
+
+},{"../version.js":112}],111:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -19084,15 +19244,15 @@ exports.spanToTraceContext = spanToTraceContext;
 exports.spanToTraceHeader = spanToTraceHeader;
 
 
-},{"@sentry/utils":131}],110:[function(require,module,exports){
+},{"@sentry/utils":133}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.94.1';
+const SDK_VERSION = '7.95.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
 
-},{}],111:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 var {
     _nullishCoalesce,
     _optionalChain
@@ -28227,8 +28387,14 @@ const DEFAULT_NETWORK_HEADERS = ['content-length', 'content-type', 'accept'];
 
 let _initialized = false;
 
+const replayIntegration = ((options) => {
+  // eslint-disable-next-line deprecation/deprecation
+  return new Replay(options);
+}) ;
+
 /**
  * The main replay integration class, to be passed to `init({  integrations: [] })`.
+ * @deprecated Use `replayIntegration()` instead.
  */
 class Replay  {
   /**
@@ -28303,6 +28469,7 @@ class Replay  {
     // eslint-disable-next-line deprecation/deprecation
     ignoreClass,
   } = {}) {
+    // eslint-disable-next-line deprecation/deprecation
     this.name = Replay.id;
 
     const privacyOptions = getPrivacyOptions({
@@ -28612,9 +28779,10 @@ function _getMergedNetworkHeaders(headers) {
 }
 
 exports.Replay = Replay;
+exports.replayIntegration = replayIntegration;
 
 
-},{"@sentry-internal/tracing":25,"@sentry/core":66,"@sentry/utils":131}],112:[function(require,module,exports){
+},{"@sentry-internal/tracing":25,"@sentry/core":66,"@sentry/utils":133}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -28763,7 +28931,7 @@ function truncateAggregateExceptions(exceptions, maxValueLength) {
 exports.applyAggregateErrorsToEvent = applyAggregateErrorsToEvent;
 
 
-},{"./is.js":141,"./string.js":158}],113:[function(require,module,exports){
+},{"./is.js":143,"./string.js":159}],115:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -28841,7 +29009,7 @@ exports.callFrameToStackFrame = callFrameToStackFrame;
 exports.watchdogTimer = watchdogTimer;
 
 
-},{"./node-stack-trace.js":147,"./object.js":150}],114:[function(require,module,exports){
+},{"./node-stack-trace.js":149,"./object.js":152}],116:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -29000,7 +29168,7 @@ exports.baggageHeaderToDynamicSamplingContext = baggageHeaderToDynamicSamplingCo
 exports.dynamicSamplingContextToSentryBaggageHeader = dynamicSamplingContextToSentryBaggageHeader;
 
 
-},{"./debug-build.js":125,"./is.js":141,"./logger.js":143}],115:[function(require,module,exports){
+},{"./debug-build.js":127,"./is.js":143,"./logger.js":145}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -29200,7 +29368,7 @@ exports.getLocationHref = getLocationHref;
 exports.htmlTreeAsString = htmlTreeAsString;
 
 
-},{"./is.js":141,"./worldwide.js":167}],116:[function(require,module,exports){
+},{"./is.js":143,"./worldwide.js":168}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _nullishCoalesce = require('./_nullishCoalesce.js');
@@ -29236,7 +29404,7 @@ async function _asyncNullishCoalesce(lhs, rhsFn) {
 exports._asyncNullishCoalesce = _asyncNullishCoalesce;
 
 
-},{"./_nullishCoalesce.js":119}],117:[function(require,module,exports){
+},{"./_nullishCoalesce.js":121}],119:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -29299,7 +29467,7 @@ async function _asyncOptionalChain(ops) {
 exports._asyncOptionalChain = _asyncOptionalChain;
 
 
-},{}],118:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _asyncOptionalChain = require('./_asyncOptionalChain.js');
@@ -29335,7 +29503,7 @@ async function _asyncOptionalChainDelete(ops) {
 exports._asyncOptionalChainDelete = _asyncOptionalChainDelete;
 
 
-},{"./_asyncOptionalChain.js":117}],119:[function(require,module,exports){
+},{"./_asyncOptionalChain.js":119}],121:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
@@ -29391,7 +29559,7 @@ function _nullishCoalesce(lhs, rhsFn) {
 exports._nullishCoalesce = _nullishCoalesce;
 
 
-},{}],120:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -29454,7 +29622,7 @@ function _optionalChain(ops) {
 exports._optionalChain = _optionalChain;
 
 
-},{}],121:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _optionalChain = require('./_optionalChain.js');
@@ -29491,7 +29659,7 @@ function _optionalChainDelete(ops) {
 exports._optionalChainDelete = _optionalChainDelete;
 
 
-},{"./_optionalChain.js":120}],122:[function(require,module,exports){
+},{"./_optionalChain.js":122}],124:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -29562,7 +29730,7 @@ function makeFifoCache(
 exports.makeFifoCache = makeFifoCache;
 
 
-},{}],123:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const envelope = require('./envelope.js');
@@ -29591,7 +29759,7 @@ function createClientReportEnvelope(
 exports.createClientReportEnvelope = createClientReportEnvelope;
 
 
-},{"./envelope.js":128,"./time.js":161}],124:[function(require,module,exports){
+},{"./envelope.js":130,"./time.js":162}],126:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -29676,9 +29844,9 @@ function parseCookie(str) {
 exports.parseCookie = parseCookie;
 
 
-},{}],125:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],126:[function(require,module,exports){
+},{"dup":22}],128:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -29813,7 +29981,7 @@ exports.dsnToString = dsnToString;
 exports.makeDsn = makeDsn;
 
 
-},{"./debug-build.js":125,"./logger.js":143}],127:[function(require,module,exports){
+},{"./debug-build.js":127,"./logger.js":145}],129:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -29852,7 +30020,7 @@ exports.getSDKSource = getSDKSource;
 exports.isBrowserBundle = isBrowserBundle;
 
 
-},{}],128:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dsn = require('./dsn.js');
@@ -30100,7 +30268,7 @@ exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
-},{"./dsn.js":126,"./normalize.js":149,"./object.js":150}],129:[function(require,module,exports){
+},{"./dsn.js":128,"./normalize.js":151,"./object.js":152}],131:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -30121,7 +30289,7 @@ class SentryError extends Error {
 exports.SentryError = SentryError;
 
 
-},{}],130:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -30288,7 +30456,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"./is.js":141,"./misc.js":146,"./normalize.js":149,"./object.js":150}],131:[function(require,module,exports){
+},{"./is.js":143,"./misc.js":148,"./normalize.js":151,"./object.js":152}],133:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const aggregateErrors = require('./aggregate-errors.js');
@@ -30324,7 +30492,6 @@ const url = require('./url.js');
 const userIntegrations = require('./userIntegrations.js');
 const cache = require('./cache.js');
 const eventbuilder = require('./eventbuilder.js');
-const parameterize = require('./parameterize.js');
 const anr = require('./anr.js');
 const lru = require('./lru.js');
 const _asyncNullishCoalesce = require('./buildPolyfills/_asyncNullishCoalesce.js');
@@ -30491,7 +30658,6 @@ exports.eventFromMessage = eventbuilder.eventFromMessage;
 exports.eventFromUnknownInput = eventbuilder.eventFromUnknownInput;
 exports.exceptionFromError = eventbuilder.exceptionFromError;
 exports.parseStackFrames = eventbuilder.parseStackFrames;
-exports.parameterize = parameterize.parameterize;
 exports.callFrameToStackFrame = anr.callFrameToStackFrame;
 exports.watchdogTimer = anr.watchdogTimer;
 exports.LRUMap = lru.LRUMap;
@@ -30515,7 +30681,7 @@ exports.escapeStringForRegex = escapeStringForRegex.escapeStringForRegex;
 exports.supportsHistory = supportsHistory.supportsHistory;
 
 
-},{"./aggregate-errors.js":112,"./anr.js":113,"./baggage.js":114,"./browser.js":115,"./buildPolyfills/_asyncNullishCoalesce.js":116,"./buildPolyfills/_asyncOptionalChain.js":117,"./buildPolyfills/_asyncOptionalChainDelete.js":118,"./buildPolyfills/_nullishCoalesce.js":119,"./buildPolyfills/_optionalChain.js":120,"./buildPolyfills/_optionalChainDelete.js":121,"./cache.js":122,"./clientreport.js":123,"./dsn.js":126,"./env.js":127,"./envelope.js":128,"./error.js":129,"./eventbuilder.js":130,"./instrument/_handlers.js":132,"./instrument/console.js":133,"./instrument/dom.js":134,"./instrument/fetch.js":135,"./instrument/globalError.js":136,"./instrument/globalUnhandledRejection.js":137,"./instrument/history.js":138,"./instrument/index.js":139,"./instrument/xhr.js":140,"./is.js":141,"./isBrowser.js":142,"./logger.js":143,"./lru.js":144,"./memo.js":145,"./misc.js":146,"./node-stack-trace.js":147,"./node.js":148,"./normalize.js":149,"./object.js":150,"./parameterize.js":151,"./path.js":152,"./promisebuffer.js":153,"./ratelimit.js":154,"./requestdata.js":155,"./severity.js":156,"./stacktrace.js":157,"./string.js":158,"./supports.js":159,"./syncpromise.js":160,"./time.js":161,"./tracing.js":162,"./url.js":163,"./userIntegrations.js":164,"./vendor/escapeStringForRegex.js":165,"./vendor/supportsHistory.js":166,"./worldwide.js":167}],132:[function(require,module,exports){
+},{"./aggregate-errors.js":114,"./anr.js":115,"./baggage.js":116,"./browser.js":117,"./buildPolyfills/_asyncNullishCoalesce.js":118,"./buildPolyfills/_asyncOptionalChain.js":119,"./buildPolyfills/_asyncOptionalChainDelete.js":120,"./buildPolyfills/_nullishCoalesce.js":121,"./buildPolyfills/_optionalChain.js":122,"./buildPolyfills/_optionalChainDelete.js":123,"./cache.js":124,"./clientreport.js":125,"./dsn.js":128,"./env.js":129,"./envelope.js":130,"./error.js":131,"./eventbuilder.js":132,"./instrument/_handlers.js":134,"./instrument/console.js":135,"./instrument/dom.js":136,"./instrument/fetch.js":137,"./instrument/globalError.js":138,"./instrument/globalUnhandledRejection.js":139,"./instrument/history.js":140,"./instrument/index.js":141,"./instrument/xhr.js":142,"./is.js":143,"./isBrowser.js":144,"./logger.js":145,"./lru.js":146,"./memo.js":147,"./misc.js":148,"./node-stack-trace.js":149,"./node.js":150,"./normalize.js":151,"./object.js":152,"./path.js":153,"./promisebuffer.js":154,"./ratelimit.js":155,"./requestdata.js":156,"./severity.js":157,"./stacktrace.js":158,"./string.js":159,"./supports.js":160,"./syncpromise.js":161,"./time.js":162,"./tracing.js":163,"./url.js":164,"./userIntegrations.js":165,"./vendor/escapeStringForRegex.js":166,"./vendor/supportsHistory.js":167,"./worldwide.js":168}],134:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('../debug-build.js');
@@ -30576,7 +30742,7 @@ exports.resetInstrumentationHandlers = resetInstrumentationHandlers;
 exports.triggerHandlers = triggerHandlers;
 
 
-},{"../debug-build.js":125,"../logger.js":143,"../stacktrace.js":157}],133:[function(require,module,exports){
+},{"../debug-build.js":127,"../logger.js":145,"../stacktrace.js":158}],135:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const logger = require('../logger.js');
@@ -30623,7 +30789,7 @@ function instrumentConsole() {
 exports.addConsoleInstrumentationHandler = addConsoleInstrumentationHandler;
 
 
-},{"../logger.js":143,"../object.js":150,"../worldwide.js":167,"./_handlers.js":132}],134:[function(require,module,exports){
+},{"../logger.js":145,"../object.js":152,"../worldwide.js":168,"./_handlers.js":134}],136:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const misc = require('../misc.js');
@@ -30864,7 +31030,7 @@ exports.addClickKeypressInstrumentationHandler = addClickKeypressInstrumentation
 exports.instrumentDOM = instrumentDOM;
 
 
-},{"../misc.js":146,"../object.js":150,"../worldwide.js":167,"./_handlers.js":132}],135:[function(require,module,exports){
+},{"../misc.js":148,"../object.js":152,"../worldwide.js":168,"./_handlers.js":134}],137:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('../object.js');
@@ -30991,7 +31157,7 @@ exports.addFetchInstrumentationHandler = addFetchInstrumentationHandler;
 exports.parseFetchArgs = parseFetchArgs;
 
 
-},{"../object.js":150,"../supports.js":159,"../worldwide.js":167,"./_handlers.js":132}],136:[function(require,module,exports){
+},{"../object.js":152,"../supports.js":160,"../worldwide.js":168,"./_handlers.js":134}],138:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -31044,7 +31210,7 @@ function instrumentError() {
 exports.addGlobalErrorInstrumentationHandler = addGlobalErrorInstrumentationHandler;
 
 
-},{"../worldwide.js":167,"./_handlers.js":132}],137:[function(require,module,exports){
+},{"../worldwide.js":168,"./_handlers.js":134}],139:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -31087,7 +31253,7 @@ function instrumentUnhandledRejection() {
 exports.addGlobalUnhandledRejectionInstrumentationHandler = addGlobalUnhandledRejectionInstrumentationHandler;
 
 
-},{"../worldwide.js":167,"./_handlers.js":132}],138:[function(require,module,exports){
+},{"../worldwide.js":168,"./_handlers.js":134}],140:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('../object.js');
@@ -31163,7 +31329,7 @@ function instrumentHistory() {
 exports.addHistoryInstrumentationHandler = addHistoryInstrumentationHandler;
 
 
-},{"../debug-build.js":125,"../logger.js":143,"../object.js":150,"../vendor/supportsHistory.js":166,"../worldwide.js":167,"./_handlers.js":132}],139:[function(require,module,exports){
+},{"../debug-build.js":127,"../logger.js":145,"../object.js":152,"../vendor/supportsHistory.js":167,"../worldwide.js":168,"./_handlers.js":134}],141:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('../debug-build.js');
@@ -31216,7 +31382,7 @@ exports.addXhrInstrumentationHandler = xhr.addXhrInstrumentationHandler;
 exports.addInstrumentationHandler = addInstrumentationHandler;
 
 
-},{"../debug-build.js":125,"../logger.js":143,"./console.js":133,"./dom.js":134,"./fetch.js":135,"./globalError.js":136,"./globalUnhandledRejection.js":137,"./history.js":138,"./xhr.js":140}],140:[function(require,module,exports){
+},{"../debug-build.js":127,"../logger.js":145,"./console.js":135,"./dom.js":136,"./fetch.js":137,"./globalError.js":138,"./globalUnhandledRejection.js":139,"./history.js":140,"./xhr.js":142}],142:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('../is.js');
@@ -31379,7 +31545,7 @@ exports.addXhrInstrumentationHandler = addXhrInstrumentationHandler;
 exports.instrumentXHR = instrumentXHR;
 
 
-},{"../is.js":141,"../object.js":150,"../worldwide.js":167,"./_handlers.js":132}],141:[function(require,module,exports){
+},{"../is.js":143,"../object.js":152,"../worldwide.js":168,"./_handlers.js":134}],143:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -31604,7 +31770,7 @@ exports.isThenable = isThenable;
 exports.isVueViewModel = isVueViewModel;
 
 
-},{}],142:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const node = require('./node.js');
@@ -31629,7 +31795,7 @@ function isElectronNodeRenderer() {
 exports.isBrowser = isBrowser;
 
 
-},{"./node.js":148,"./worldwide.js":167}],143:[function(require,module,exports){
+},{"./node.js":150,"./worldwide.js":168}],145:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -31728,7 +31894,7 @@ exports.logger = logger;
 exports.originalConsoleMethods = originalConsoleMethods;
 
 
-},{"./debug-build.js":125,"./worldwide.js":167}],144:[function(require,module,exports){
+},{"./debug-build.js":127,"./worldwide.js":168}],146:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** A simple Least Recently Used map */
@@ -31794,7 +31960,7 @@ class LRUMap {
 exports.LRUMap = LRUMap;
 
 
-},{}],145:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -31843,7 +32009,7 @@ function memoBuilder() {
 exports.memoBuilder = memoBuilder;
 
 
-},{}],146:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -32065,7 +32231,7 @@ exports.parseSemver = parseSemver;
 exports.uuid4 = uuid4;
 
 
-},{"./object.js":150,"./string.js":158,"./worldwide.js":167}],147:[function(require,module,exports){
+},{"./object.js":152,"./string.js":159,"./worldwide.js":168}],149:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -32179,7 +32345,7 @@ exports.filenameIsInApp = filenameIsInApp;
 exports.node = node;
 
 
-},{}],148:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -32253,7 +32419,7 @@ exports.loadModule = loadModule;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./env.js":127,"_process":168}],149:[function(require,module,exports){
+},{"./env.js":129,"_process":169}],151:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -32559,7 +32725,7 @@ exports.walk = visit;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is.js":141,"./memo.js":145,"./object.js":150,"./stacktrace.js":157}],150:[function(require,module,exports){
+},{"./is.js":143,"./memo.js":147,"./object.js":152,"./stacktrace.js":158}],152:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -32868,29 +33034,7 @@ exports.objectify = objectify;
 exports.urlEncode = urlEncode;
 
 
-},{"./browser.js":115,"./debug-build.js":125,"./is.js":141,"./logger.js":143,"./string.js":158}],151:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * Tagged template function which returns paramaterized representation of the message
- * For example: parameterize`This is a log statement with ${x} and ${y} params`, would return:
- * "__sentry_template_string__": "My raw message with interpreted strings like %s",
- * "__sentry_template_values__": ["this"]
- * @param strings An array of string values splitted between expressions
- * @param values Expressions extracted from template string
- * @returns String with template information in __sentry_template_string__ and __sentry_template_values__ properties
- */
-function parameterize(strings, ...values) {
-  const formatted = new String(String.raw(strings, ...values)) ;
-  formatted.__sentry_template_string__ = strings.join('\x00').replace(/%/g, '%%').replace(/\0/g, '%s');
-  formatted.__sentry_template_values__ = values;
-  return formatted;
-}
-
-exports.parameterize = parameterize;
-
-
-},{}],152:[function(require,module,exports){
+},{"./browser.js":117,"./debug-build.js":127,"./is.js":143,"./logger.js":145,"./string.js":159}],153:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -33112,7 +33256,7 @@ exports.relative = relative;
 exports.resolve = resolve;
 
 
-},{}],153:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -33218,7 +33362,7 @@ function makePromiseBuffer(limit) {
 exports.makePromiseBuffer = makePromiseBuffer;
 
 
-},{"./error.js":129,"./syncpromise.js":160}],154:[function(require,module,exports){
+},{"./error.js":131,"./syncpromise.js":161}],155:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Intentionally keeping the key broad, as we don't know for sure what rate limit headers get returned from backend
@@ -33323,7 +33467,7 @@ exports.parseRetryAfterHeader = parseRetryAfterHeader;
 exports.updateRateLimits = updateRateLimits;
 
 
-},{}],155:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const cookie = require('./cookie.js');
@@ -33702,7 +33846,7 @@ exports.winterCGHeadersToDict = winterCGHeadersToDict;
 exports.winterCGRequestToRequestData = winterCGRequestToRequestData;
 
 
-},{"./cookie.js":124,"./debug-build.js":125,"./is.js":141,"./logger.js":143,"./normalize.js":149,"./url.js":163}],156:[function(require,module,exports){
+},{"./cookie.js":126,"./debug-build.js":127,"./is.js":143,"./logger.js":145,"./normalize.js":151,"./url.js":164}],157:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Note: Ideally the `SeverityLevel` type would be derived from `validSeverityLevels`, but that would mean either
@@ -33744,7 +33888,7 @@ exports.severityLevelFromString = severityLevelFromString;
 exports.validSeverityLevels = validSeverityLevels;
 
 
-},{}],157:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const nodeStackTrace = require('./node-stack-trace.js');
@@ -33900,7 +34044,7 @@ exports.stackParserFromStackParserOptions = stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stripSentryFramesAndReverse;
 
 
-},{"./node-stack-trace.js":147}],158:[function(require,module,exports){
+},{"./node-stack-trace.js":149}],159:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -34049,7 +34193,7 @@ exports.stringMatchesSomePattern = stringMatchesSomePattern;
 exports.truncate = truncate;
 
 
-},{"./is.js":141}],159:[function(require,module,exports){
+},{"./is.js":143}],160:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -34226,7 +34370,7 @@ exports.supportsReferrerPolicy = supportsReferrerPolicy;
 exports.supportsReportingObserver = supportsReportingObserver;
 
 
-},{"./debug-build.js":125,"./logger.js":143,"./worldwide.js":167}],160:[function(require,module,exports){
+},{"./debug-build.js":127,"./logger.js":145,"./worldwide.js":168}],161:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -34424,7 +34568,7 @@ exports.rejectedSyncPromise = rejectedSyncPromise;
 exports.resolvedSyncPromise = resolvedSyncPromise;
 
 
-},{"./is.js":141}],161:[function(require,module,exports){
+},{"./is.js":143}],162:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('./worldwide.js');
@@ -34559,7 +34703,7 @@ exports.timestampInSeconds = timestampInSeconds;
 exports.timestampWithMs = timestampWithMs;
 
 
-},{"./worldwide.js":167}],162:[function(require,module,exports){
+},{"./worldwide.js":168}],163:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const baggage = require('./baggage.js');
@@ -34661,7 +34805,7 @@ exports.generateSentryTraceHeader = generateSentryTraceHeader;
 exports.tracingContextFromHeaders = tracingContextFromHeaders;
 
 
-},{"./baggage.js":114,"./misc.js":146}],163:[function(require,module,exports){
+},{"./baggage.js":116,"./misc.js":148}],164:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -34741,7 +34885,7 @@ exports.parseUrl = parseUrl;
 exports.stripUrlQueryAndFragment = stripUrlQueryAndFragment;
 
 
-},{}],164:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -34779,6 +34923,8 @@ function setNestedKey(obj, keyPath, value) {
  * @param userIntegrations Integrations defined by the user.
  * @param forcedOptions Options with which to patch an existing user-derived instance on the integration.
  * @returns A final integrations array.
+ *
+ * @deprecated This will be removed in v8.
  */
 function addOrUpdateIntegration(
   defaultIntegrationInstance,
@@ -34844,7 +34990,7 @@ function addOrUpdateIntegrationInFunction(
 exports.addOrUpdateIntegration = addOrUpdateIntegration;
 
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Based on https://github.com/sindresorhus/escape-string-regexp but with modifications to:
@@ -34885,7 +35031,7 @@ function escapeStringForRegex(regexString) {
 exports.escapeStringForRegex = escapeStringForRegex;
 
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -34918,7 +35064,7 @@ function supportsHistory() {
 exports.supportsHistory = supportsHistory;
 
 
-},{"../worldwide.js":167}],167:[function(require,module,exports){
+},{"../worldwide.js":168}],168:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -34996,7 +35142,7 @@ exports.getGlobalSingleton = getGlobalSingleton;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],168:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
