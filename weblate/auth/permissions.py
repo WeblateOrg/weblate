@@ -120,7 +120,7 @@ def check_ignore_check(user, permission, check):
     return check_permission(user, permission, check.unit.translation)
 
 
-def check_can_edit(user, permission, obj, is_vote=False):
+def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
     translation = component = None
 
     if isinstance(obj, Translation):
@@ -165,6 +165,10 @@ def check_can_edit(user, permission, obj, is_vote=False):
         if not user.is_authenticated:
             # Signing in might help, but user still might need additional privileges
             return Denied(gettext("Sign in to save the translation."))
+        if permission == "unit.review":
+            return Denied(
+                gettext("Insufficient privileges for approving translations.")
+            )
         return Denied(gettext("Insufficient privileges for saving translations."))
 
     # Special check for source strings (templates)
