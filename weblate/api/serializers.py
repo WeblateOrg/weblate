@@ -869,12 +869,10 @@ class UploadRequestSerializer(ReadOnlySerializer):
             raise serializers.ValidationError(
                 {"conflicts": "You can not overwrite existing translations."}
             )
-        if data["conflicts"] == "replace-approved" and not user.has_perm(
-            "unit.review", obj
+        if data["conflicts"] == "replace-approved" and not (
+            denied := user.has_perm("unit.review", obj)
         ):
-            raise serializers.ValidationError(
-                {"conflicts": "You can not overwrite existing approved translations."}
-            )
+            raise serializers.ValidationError({"conflicts": denied.reason})
 
         if data["method"] == "source" and not obj.is_source:
             raise serializers.ValidationError(
