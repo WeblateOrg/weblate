@@ -957,7 +957,7 @@ need to fix all of them):
 
     weblate check --deploy
 
-You can also review the very same checklist from the :ref:`management-interface`.
+You can also review the very same checklist at :ref:`manage-performance` in the :ref:`management-interface`.
 
 .. seealso::
 
