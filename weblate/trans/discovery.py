@@ -208,8 +208,8 @@ class ComponentDiscovery:
         if "repo" not in kwargs:
             kwargs["repo"] = main.get_repo_link_url()
 
-        # Deal with duplicate name or slug
-        components = Component.objects.filter(project=kwargs["project"])
+        # Deal with duplicate name or slug in the same (or none) category
+        components = kwargs["project"].component_set.filter(category=main.category)
         if components.filter(Q(slug__iexact=slug) | Q(name__iexact=name)).exists():
             base_name = get_val("name", 4)
             base_slug = get_val("slug", 4)
