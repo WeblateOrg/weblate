@@ -209,7 +209,9 @@ class ComponentDiscovery:
             kwargs["repo"] = main.get_repo_link_url()
 
         # Deal with duplicate name or slug in the same (or none) category
-        components = kwargs["project"].component_set.filter(category=main.category)
+        components = kwargs["project"].component_set.filter(
+            category=main.category if main is not None else None
+        )
         if components.filter(Q(slug__iexact=slug) | Q(name__iexact=name)).exists():
             base_name = get_val("name", 4)
             base_slug = get_val("slug", 4)
@@ -244,6 +246,7 @@ class ComponentDiscovery:
         component_kwargs = kwargs.copy()
         component_kwargs.pop("copy_from")
         component_kwargs.pop("copy_addons")
+        # main can be None as well
         component = Component(**component_kwargs, linked_component=main)
 
         # Special handling for new_lang
