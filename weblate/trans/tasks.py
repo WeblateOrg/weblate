@@ -569,17 +569,18 @@ def update_checks(pk: int, update_token: str, update_state: bool = False):
         return
 
     component.batch_checks = True
-    for translation in component.translation_set.exclude(
-        pk=component.source_translation.pk
-    ).prefetch():
-        for unit in translation.unit_set.prefetch():
+    # Source translation as last
+    translations = (
+        *component.translation_set.exclude(
+            pk=component.source_translation.pk
+        ).prefetch(),
+        component.source_translation,
+    )
+    for translation in translations:
+        for unit in translation.unit_set.prefetch().prefetch_all_checks():
             if update_state:
                 unit.update_state()
             unit.run_checks()
-    for unit in component.source_translation.unit_set.prefetch():
-        if update_state:
-            unit.update_state()
-        unit.run_checks()
     component.run_batched_checks()
     component.invalidate_cache()
 
