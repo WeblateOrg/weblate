@@ -110,10 +110,18 @@ class UnitQuerySet(models.QuerySet):
             "translation__component__source_language",
         )
 
+    def prefetch_all_checks(self):
+        return self.prefetch_related(
+            models.Prefetch(
+                "check_set",
+                to_attr="all_checks",
+            ),
+        )
+
     def prefetch_full(self):
         from weblate.trans.models import Component
 
-        return self.prefetch_related(
+        return self.prefetch_all_checks().prefetch_related(
             "source_unit",
             "source_unit__translation",
             models.Prefetch(
@@ -122,7 +130,6 @@ class UnitQuerySet(models.QuerySet):
             ),
             "source_unit__translation__component__source_language",
             "source_unit__translation__component__project",
-            "check_set",
             "labels",
             models.Prefetch(
                 "suggestion_set",
