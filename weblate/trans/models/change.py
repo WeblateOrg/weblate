@@ -130,7 +130,12 @@ class ChangeQuerySet(models.QuerySet):
                 item.unit.translation = item.translation
         return results
 
-    def authors_list(self, date_range=None):
+    def authors_list(
+        self,
+        date_range: tuple[datetime, datetime] | None = None,
+        *,
+        values_list: tuple[str, ...] = (),
+    ):
         """Return list of authors."""
         authors = self.content()
         if date_range is not None:
@@ -139,7 +144,9 @@ class ChangeQuerySet(models.QuerySet):
             authors.exclude(author__isnull=True)
             .values("author")
             .annotate(change_count=Count("id"))
-            .values_list("author__email", "author__full_name", "change_count")
+            .values_list(
+                "author__email", "author__full_name", "change_count", *values_list
+            )
         )
 
     def order(self):
