@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-01-23 18:11+0000\n"
-"PO-Revision-Date: 2024-01-22 16:00+0000\n"
+"PO-Revision-Date: 2024-01-26 03:14+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.4-dev\n"
 
 #: weblate/accounts/avatar.py:84
@@ -468,10 +468,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Poziv za {project} od {username}."
 
 #: weblate/accounts/models.py:184
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Lozinka promijenjena."
+msgstr "Lozinka je konfigurirana."
 
 #: weblate/accounts/models.py:190
 msgid "To restore access to your account, please reset your password."
@@ -1095,7 +1093,7 @@ msgstr ""
 #: weblate/addons/autotranslate.py:19 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
 msgid "Automatic translation"
-msgstr "Automatsko prevođenje"
+msgstr "Automatski prijevod"
 
 #: weblate/addons/autotranslate.py:21
 msgid ""
@@ -2193,7 +2191,7 @@ msgstr "Upravljaj jezicima"
 #: weblate/auth/data.py:208
 msgctxt "Access-control role"
 msgid "Automatic translation"
-msgstr "Automatsko prevođenje"
+msgstr "Automatski prijevod"
 
 #: weblate/auth/data.py:212
 msgctxt "Access-control role"
@@ -2293,7 +2291,7 @@ msgstr "Snimke ekrana"
 #: weblate/auth/data.py:274
 msgctxt "Per-project access-control group"
 msgid "Automatic translation"
-msgstr "Automatsko prevođenje"
+msgstr "Automatski prijevod"
 
 #: weblate/auth/data.py:276
 msgctxt "Per-project access-control group"
@@ -2535,10 +2533,8 @@ msgstr ""
 "Doprinošenje ovom prijevodu zahtijeva prihvaćanje ugovora za doprinositelje."
 
 #: weblate/auth/permissions.py:167
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Sign in to save the translation."
-msgstr "Za spremanje prijevoda moraš se prijaviti."
+msgstr "Prijavi se za spremanje prijevoda."
 
 #: weblate/auth/permissions.py:168 weblate/trans/views/edit.py:421
 #: weblate/trans/views/edit.py:443 weblate/trans/views/edit.py:463
@@ -3027,10 +3023,8 @@ msgid "Ignore all checks"
 msgstr "Zanemari sve provjere"
 
 #: weblate/checks/flags.py:49
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Rezervirana mjesta postotka"
+msgstr "Koristi rezervirana mjesta bez razlikovanja velikih i malih slova"
 
 #: weblate/checks/flags.py:51 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -3496,16 +3490,12 @@ msgid "C format string does not match source"
 msgstr "Izraz u C formatu se ne poklapa s izvorom"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Perl format"
+msgstr "Perl format s vitičastim zagradama"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Izraz u Perl formatu se ne poklapa s izvorom"
+msgstr "Izraz u Perl formatu s vitičastim zagradama se ne poklapa s izvorom"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -4136,10 +4126,8 @@ msgid ".NET resource file"
 msgstr "Datoteka .NET resursa"
 
 #: weblate/formats/ttkit.py:1417
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Resurs Android izraza"
+msgstr "Mobile Kotlin resurs"
 
 #: weblate/formats/ttkit.py:1430
 #, python-format
@@ -4179,10 +4167,8 @@ msgid "gotext JSON file"
 msgstr "gotext JSON datoteka"
 
 #: weblate/formats/ttkit.py:1521
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "gotext JSON datoteka"
+msgstr "Format.JS JSON datoteka"
 
 #: weblate/formats/ttkit.py:1529
 msgid "CSV file"
@@ -4508,12 +4494,9 @@ msgid "One/few/many"
 msgstr "Jedan/nekoliko/mnogo"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Jedan/dva/nekoliko/ostalo"
+msgstr "Jedan/nula/nekoliko/ostalo"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4545,10 +4528,8 @@ msgid "Android plural"
 msgstr "Android množina"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "stringsdict množina"
+msgstr "Qt Linguist množina"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -6342,10 +6323,8 @@ msgid "The following components matched existing ones"
 msgstr "Sljedeće komponente se poklapaju s postojećima"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "Sljedeće komponente bi se stvorile"
+msgstr "Sljedeće komponente se nisu mogle stvoriti"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -7967,7 +7946,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:126
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr ""
+msgstr "Također uklanja stare grane koje Weblate ne koristi."
 
 #: weblate/templates/js/git-status.html:127
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -9919,10 +9898,8 @@ msgid "No strings to translate"
 msgstr "Nema izraza za prevođenje"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Dodaj nove projekte"
+msgstr "Dodaj projekt"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10248,6 +10225,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organiziraj projekt</a> za mijenjanje ili uklanjanje "
+"njegovog URL naziva stranice."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10255,6 +10234,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organiziraj komponentu</a> za mijenjanje ili uklanjanje "
+"njenog URL naziva stranice."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -11094,10 +11075,6 @@ msgstr[1] "Ovime će se ukloniti %(count)s komponente."
 msgstr[2] "Ovime će se ukloniti %(count)s komponenta."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
@@ -11110,6 +11087,8 @@ msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Komponenta glosara automatski održava prijevod za svaki korišteni jezik u "
+"projektu. Uklonjeni jezik se s njom može ponovo dodati."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -11912,16 +11891,13 @@ msgstr ""
 "Ovo web mjesto pokreće Weblate za lokalizaciju raznih softverskih projekata."
 
 #: weblate/trans/discovery.py:275
-#, fuzzy
-#| msgid "View translation component"
 msgid "File mask matches the main component."
-msgstr "Pogledaj prevodilačku komponentu"
+msgstr "Maska datoteke se poklapa s glavnom komponentom."
 
 #: weblate/trans/discovery.py:283
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Datoteka ne postoji."
+msgstr "{filename} ({parameter}) ne postoji."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12631,13 +12607,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Koristi oznake za označavanje posebnih izraza u tvom prijevodu."
 
 #: weblate/trans/guide.py:210
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Dodaj „safe-html” oznaku za izbjegavanje opasnih HTML-a od prevodilaca."
+"Dodaj „safe-html” oznaku za izbjegavanje opasnih HTML-a od prevodilaca za "
+"izraze koji se prikazuju kao HTML."
 
 #: weblate/trans/guide.py:241
 msgid "Workflow customization"
@@ -13159,10 +13134,8 @@ msgstr "Spremanje izraza neuspjelo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:444
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Izraz aktualiziran u repozitoriju"
+msgstr "Izraz dodan u repozitorij"
 
 #: weblate/trans/models/change.py:518
 msgid "The component was automatically locked because of an alert."
@@ -14145,7 +14118,7 @@ msgstr "Umetni poveznicu"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Umetni neprekidajući razmak"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14218,34 +14191,28 @@ msgstr "Moguća konfiguracija"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Zabranjen prijevod"
-msgstr[1] "Zabranjen prijevod"
-msgstr[2] "Zabranjen prijevod"
+msgstr[0] "Zabranjen prijevod:"
+msgstr[1] "Zabranjeni prijevodi:"
+msgstr[2] "Zabranjeni prijevodi:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Neprevodiv pojam"
-msgstr[1] "Neprevodiv pojam"
-msgstr[2] "Neprevodiv pojam"
+msgstr[0] "Neprevodiv pojam:"
+msgstr[1] "Neprevodivi pojmovi:"
+msgstr[2] "Neprevodivi pojmovi:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Pojam glosara"
-msgstr[1] "Pojam glosara"
-msgstr[2] "Pojam glosara"
+msgstr[0] "Pojam glosara:"
+msgstr[1] "Pojmovi glosara:"
+msgstr[2] "Pojmovi glosara:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
