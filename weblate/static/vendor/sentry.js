@@ -3151,17 +3151,29 @@ let _previousLcp;
 /**
  * Add a callback that will be triggered when a CLS metric is available.
  * Returns a cleanup callback which can be called to remove the instrumentation handler.
+ *
+ * Pass `stopOnCallback = true` to stop listening for CLS when the cleanup callback is called.
+ * This will lead to the CLS being finalized and frozen.
  */
-function addClsInstrumentationHandler(callback) {
-  return addMetricObserver('cls', callback, instrumentCls, _previousCls);
+function addClsInstrumentationHandler(
+  callback,
+  stopOnCallback = false,
+) {
+  return addMetricObserver('cls', callback, instrumentCls, _previousCls, stopOnCallback);
 }
 
 /**
  * Add a callback that will be triggered when a LCP metric is available.
  * Returns a cleanup callback which can be called to remove the instrumentation handler.
+ *
+ * Pass `stopOnCallback = true` to stop listening for LCP when the cleanup callback is called.
+ * This will lead to the LCP being finalized and frozen.
  */
-function addLcpInstrumentationHandler(callback) {
-  return addMetricObserver('lcp', callback, instrumentLcp, _previousLcp);
+function addLcpInstrumentationHandler(
+  callback,
+  stopOnCallback = false,
+) {
+  return addMetricObserver('lcp', callback, instrumentLcp, _previousLcp, stopOnCallback);
 }
 
 /**
@@ -3213,7 +3225,7 @@ function triggerHandlers(type, data) {
 }
 
 function instrumentCls() {
-  getCLS.onCLS(metric => {
+  return getCLS.onCLS(metric => {
     triggerHandlers('cls', {
       metric,
     });
@@ -3222,7 +3234,7 @@ function instrumentCls() {
 }
 
 function instrumentFid() {
-  getFID.onFID(metric => {
+  return getFID.onFID(metric => {
     triggerHandlers('fid', {
       metric,
     });
@@ -3231,7 +3243,7 @@ function instrumentFid() {
 }
 
 function instrumentLcp() {
-  getLCP.onLCP(metric => {
+  return getLCP.onLCP(metric => {
     triggerHandlers('lcp', {
       metric,
     });
@@ -3244,11 +3256,14 @@ function addMetricObserver(
   callback,
   instrumentFn,
   previousValue,
+  stopOnCallback = false,
 ) {
   addHandler(type, callback);
 
+  let stopListening;
+
   if (!instrumented[type]) {
-    instrumentFn();
+    stopListening = instrumentFn();
     instrumented[type] = true;
   }
 
@@ -3256,7 +3271,7 @@ function addMetricObserver(
     callback({ metric: previousValue });
   }
 
-  return getCleanupCallback(type, callback);
+  return getCleanupCallback(type, callback, stopOnCallback ? stopListening : undefined);
 }
 
 function instrumentPerformanceObserver(type) {
@@ -3282,8 +3297,16 @@ function addHandler(type, handler) {
 }
 
 // Get a callback which can be called to remove the instrumentation handler
-function getCleanupCallback(type, callback) {
+function getCleanupCallback(
+  type,
+  callback,
+  stopListening,
+) {
   return () => {
+    if (stopListening) {
+      stopListening();
+    }
+
     const typeHandlers = handlers[type];
 
     if (!typeHandlers) {
@@ -3336,7 +3359,8 @@ let _lcpEntry;
 let _clsEntry;
 
 /**
- * Start tracking web vitals
+ * Start tracking web vitals.
+ * The callback returned by this function can be used to stop tracking & ensure all measurements are final & captured.
  *
  * @returns A function that forces web vitals collection
  */
@@ -3426,7 +3450,7 @@ function startTrackingInteractions() {
 /** Starts tracking the Cumulative Layout Shift on the current page. */
 function _trackCLS() {
   return instrument.addClsInstrumentationHandler(({ metric }) => {
-    const entry = metric.entries.pop();
+    const entry = metric.entries[metric.entries.length - 1];
     if (!entry) {
       return;
     }
@@ -3434,13 +3458,13 @@ function _trackCLS() {
     debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding CLS');
     _measurements['cls'] = { value: metric.value, unit: '' };
     _clsEntry = entry ;
-  });
+  }, true);
 }
 
 /** Starts tracking the Largest Contentful Paint on the current page. */
 function _trackLCP() {
   return instrument.addLcpInstrumentationHandler(({ metric }) => {
-    const entry = metric.entries.pop();
+    const entry = metric.entries[metric.entries.length - 1];
     if (!entry) {
       return;
     }
@@ -3448,13 +3472,13 @@ function _trackLCP() {
     debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding LCP');
     _measurements['lcp'] = { value: metric.value, unit: 'millisecond' };
     _lcpEntry = entry ;
-  });
+  }, true);
 }
 
 /** Starts tracking the First Input Delay on the current page. */
 function _trackFID() {
   return instrument.addFidInstrumentationHandler(({ metric }) => {
-    const entry = metric.entries.pop();
+    const entry = metric.entries[metric.entries.length - 1];
     if (!entry) {
       return;
     }
@@ -4114,22 +4138,19 @@ function xhrCallback(
   }
 
   const scope = core.getCurrentScope();
-  const parentSpan = core.getActiveSpan();
 
-  const span =
-    shouldCreateSpanResult && parentSpan
-      ? // eslint-disable-next-line deprecation/deprecation
-        parentSpan.startChild({
-          data: {
-            type: 'xhr',
-            'http.method': sentryXhrData.method,
-            url: sentryXhrData.url,
-          },
-          description: `${sentryXhrData.method} ${sentryXhrData.url}`,
-          op: 'http.client',
-          origin: 'auto.http.browser',
-        })
-      : undefined;
+  const span = shouldCreateSpanResult
+    ? core.startInactiveSpan({
+        attributes: {
+          type: 'xhr',
+          'http.method': sentryXhrData.method,
+          url: sentryXhrData.url,
+        },
+        name: `${sentryXhrData.method} ${sentryXhrData.url}`,
+        op: 'http.client',
+        origin: 'auto.http.browser',
+      })
+    : undefined;
 
   if (span) {
     xhr.__sentry_xhr_span_id__ = span.spanContext().spanId;
@@ -4936,24 +4957,21 @@ function instrumentFetchRequest(
 
   const scope = core.getCurrentScope();
   const client = core.getClient();
-  const parentSpan = core.getActiveSpan();
 
   const { method, url } = handlerData.fetchData;
 
-  const span =
-    shouldCreateSpanResult && parentSpan
-      ? // eslint-disable-next-line deprecation/deprecation
-        parentSpan.startChild({
-          data: {
-            url,
-            type: 'fetch',
-            'http.method': method,
-          },
-          description: `${method} ${url}`,
-          op: 'http.client',
-          origin: spanOrigin,
-        })
-      : undefined;
+  const span = shouldCreateSpanResult
+    ? core.startInactiveSpan({
+        attributes: {
+          url,
+          type: 'fetch',
+          'http.method': method,
+        },
+        name: `${method} ${url}`,
+        op: 'http.client',
+        origin: spanOrigin,
+      })
+    : undefined;
 
   if (span) {
     handlerData.fetchData.__span = span.spanContext().spanId;
@@ -7277,6 +7295,12 @@ const stackParsers = require('./stack-parsers.js');
 const eventbuilder = require('./eventbuilder.js');
 const userfeedback = require('./userfeedback.js');
 const sdk = require('./sdk.js');
+const breadcrumbs = require('./integrations/breadcrumbs.js');
+const dedupe = require('./integrations/dedupe.js');
+const globalhandlers = require('./integrations/globalhandlers.js');
+const httpcontext = require('./integrations/httpcontext.js');
+const linkederrors = require('./integrations/linkederrors.js');
+const trycatch = require('./integrations/trycatch.js');
 const index = require('./integrations/index.js');
 const replay = require('@sentry/replay');
 const replayCanvas = require('@sentry-internal/replay-canvas');
@@ -7285,12 +7309,6 @@ const tracing = require('@sentry-internal/tracing');
 const offline = require('./transports/offline.js');
 const hubextensions = require('./profiling/hubextensions.js');
 const integration = require('./profiling/integration.js');
-const globalhandlers = require('./integrations/globalhandlers.js');
-const trycatch = require('./integrations/trycatch.js');
-const breadcrumbs = require('./integrations/breadcrumbs.js');
-const linkederrors = require('./integrations/linkederrors.js');
-const httpcontext = require('./integrations/httpcontext.js');
-const dedupe = require('./integrations/dedupe.js');
 
 let windowIntegrations = {};
 
@@ -7299,6 +7317,7 @@ if (helpers.WINDOW.Sentry && helpers.WINDOW.Sentry.Integrations) {
   windowIntegrations = helpers.WINDOW.Sentry.Integrations;
 }
 
+/** @deprecated Import the integration function directly, e.g. `inboundFiltersIntegration()` instead of `new Integrations.InboundFilter(). */
 const INTEGRATIONS = {
   ...windowIntegrations,
   // eslint-disable-next-line deprecation/deprecation
@@ -7380,6 +7399,18 @@ exports.init = sdk.init;
 exports.onLoad = sdk.onLoad;
 exports.showReportDialog = sdk.showReportDialog;
 exports.wrap = sdk.wrap;
+exports.Breadcrumbs = breadcrumbs.Breadcrumbs;
+exports.breadcrumbsIntegration = breadcrumbs.breadcrumbsIntegration;
+exports.Dedupe = dedupe.Dedupe;
+exports.dedupeIntegration = dedupe.dedupeIntegration;
+exports.GlobalHandlers = globalhandlers.GlobalHandlers;
+exports.globalHandlersIntegration = globalhandlers.globalHandlersIntegration;
+exports.HttpContext = httpcontext.HttpContext;
+exports.httpContextIntegration = httpcontext.httpContextIntegration;
+exports.LinkedErrors = linkederrors.LinkedErrors;
+exports.linkedErrorsIntegration = linkederrors.linkedErrorsIntegration;
+exports.TryCatch = trycatch.TryCatch;
+exports.browserApiErrorsIntegration = trycatch.browserApiErrorsIntegration;
 exports.Replay = replay.Replay;
 exports.replayIntegration = replay.replayIntegration;
 exports.ReplayCanvas = replayCanvas.ReplayCanvas;
@@ -7393,12 +7424,6 @@ exports.instrumentOutgoingRequests = tracing.instrumentOutgoingRequests;
 exports.makeBrowserOfflineTransport = offline.makeBrowserOfflineTransport;
 exports.onProfilingStartRouteTransaction = hubextensions.onProfilingStartRouteTransaction;
 exports.BrowserProfilingIntegration = integration.BrowserProfilingIntegration;
-exports.GlobalHandlers = globalhandlers.GlobalHandlers;
-exports.TryCatch = trycatch.TryCatch;
-exports.Breadcrumbs = breadcrumbs.Breadcrumbs;
-exports.LinkedErrors = linkederrors.LinkedErrors;
-exports.HttpContext = httpcontext.HttpContext;
-exports.Dedupe = dedupe.Dedupe;
 exports.Integrations = INTEGRATIONS;
 
 
@@ -7417,7 +7442,7 @@ const MAX_ALLOWED_STRING_LENGTH = 1024;
 
 const INTEGRATION_NAME = 'Breadcrumbs';
 
-const breadcrumbsIntegration = ((options = {}) => {
+const _breadcrumbsIntegration = ((options = {}) => {
   const _options = {
     console: true,
     dom: true,
@@ -7455,8 +7480,12 @@ const breadcrumbsIntegration = ((options = {}) => {
   };
 }) ;
 
+const breadcrumbsIntegration = core.defineIntegration(_breadcrumbsIntegration);
+
 /**
  * Default Breadcrumbs instrumentations
+ *
+ * @deprecated Use `breadcrumbsIntegration()` instead.
  */
 // eslint-disable-next-line deprecation/deprecation
 const Breadcrumbs = core.convertIntegrationFnToClass(INTEGRATION_NAME, breadcrumbsIntegration)
@@ -7736,6 +7765,7 @@ function _isEvent(event) {
 }
 
 exports.Breadcrumbs = Breadcrumbs;
+exports.breadcrumbsIntegration = breadcrumbsIntegration;
 
 
 },{"../debug-build.js":36,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],41:[function(require,module,exports){
@@ -7747,7 +7777,7 @@ const debugBuild = require('../debug-build.js');
 
 const INTEGRATION_NAME = 'Dedupe';
 
-const dedupeIntegration = (() => {
+const _dedupeIntegration = (() => {
   let previousEvent;
 
   return {
@@ -7774,7 +7804,12 @@ const dedupeIntegration = (() => {
   };
 }) ;
 
-/** Deduplication filter */
+const dedupeIntegration = core.defineIntegration(_dedupeIntegration);
+
+/**
+ * Deduplication filter.
+ * @deprecated Use `dedupeIntegration()` instead.
+ */
 // eslint-disable-next-line deprecation/deprecation
 const Dedupe = core.convertIntegrationFnToClass(INTEGRATION_NAME, dedupeIntegration)
 
@@ -7932,6 +7967,7 @@ function _getFramesFromEvent(event) {
 }
 
 exports.Dedupe = Dedupe;
+exports.dedupeIntegration = dedupeIntegration;
 
 
 },{"../debug-build.js":36,"@sentry/core":66,"@sentry/utils":133}],42:[function(require,module,exports){
@@ -7947,7 +7983,7 @@ const helpers = require('../helpers.js');
 
 const INTEGRATION_NAME = 'GlobalHandlers';
 
-const globalHandlersIntegration = ((options = {}) => {
+const _globalHandlersIntegration = ((options = {}) => {
   const _options = {
     onerror: true,
     onunhandledrejection: true,
@@ -7972,7 +8008,12 @@ const globalHandlersIntegration = ((options = {}) => {
   };
 }) ;
 
-/** Global handlers */
+const globalHandlersIntegration = core.defineIntegration(_globalHandlersIntegration);
+
+/**
+ * Global handlers.
+ * @deprecated Use `globalHandlersIntegration()` instead.
+ */
 // eslint-disable-next-line deprecation/deprecation
 const GlobalHandlers = core.convertIntegrationFnToClass(
   INTEGRATION_NAME,
@@ -8165,6 +8206,7 @@ function getOptions() {
 }
 
 exports.GlobalHandlers = GlobalHandlers;
+exports.globalHandlersIntegration = globalHandlersIntegration;
 
 
 },{"../debug-build.js":36,"../eventbuilder.js":37,"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],43:[function(require,module,exports){
@@ -8175,7 +8217,7 @@ const helpers = require('../helpers.js');
 
 const INTEGRATION_NAME = 'HttpContext';
 
-const httpContextIntegration = (() => {
+const _httpContextIntegration = (() => {
   return {
     name: INTEGRATION_NAME,
     // TODO v8: Remove this
@@ -8203,13 +8245,19 @@ const httpContextIntegration = (() => {
   };
 }) ;
 
-/** HttpContext integration collects information about HTTP request headers */
+const httpContextIntegration = core.defineIntegration(_httpContextIntegration);
+
+/**
+ * HttpContext integration collects information about HTTP request headers.
+ * @deprecated Use `httpContextIntegration()` instead.
+ */
 // eslint-disable-next-line deprecation/deprecation
 const HttpContext = core.convertIntegrationFnToClass(INTEGRATION_NAME, httpContextIntegration)
 
 ;
 
 exports.HttpContext = HttpContext;
+exports.httpContextIntegration = httpContextIntegration;
 
 
 },{"../helpers.js":38,"@sentry/core":66}],44:[function(require,module,exports){
@@ -8222,7 +8270,7 @@ const linkederrors = require('./linkederrors.js');
 const httpcontext = require('./httpcontext.js');
 const dedupe = require('./dedupe.js');
 
-
+/* eslint-disable deprecation/deprecation */
 
 exports.GlobalHandlers = globalhandlers.GlobalHandlers;
 exports.TryCatch = trycatch.TryCatch;
@@ -8244,7 +8292,7 @@ const DEFAULT_LIMIT = 5;
 
 const INTEGRATION_NAME = 'LinkedErrors';
 
-const linkedErrorsIntegration = ((options = {}) => {
+const _linkedErrorsIntegration = ((options = {}) => {
   const limit = options.limit || DEFAULT_LIMIT;
   const key = options.key || DEFAULT_KEY;
 
@@ -8269,13 +8317,19 @@ const linkedErrorsIntegration = ((options = {}) => {
   };
 }) ;
 
-/** Aggregrate linked errors in an event. */
+const linkedErrorsIntegration = core.defineIntegration(_linkedErrorsIntegration);
+
+/**
+ * Aggregrate linked errors in an event.
+ * @deprecated Use `linkedErrorsIntegration()` instead.
+ */
 // eslint-disable-next-line deprecation/deprecation
 const LinkedErrors = core.convertIntegrationFnToClass(INTEGRATION_NAME, linkedErrorsIntegration)
 
 ;
 
 exports.LinkedErrors = LinkedErrors;
+exports.linkedErrorsIntegration = linkedErrorsIntegration;
 
 
 },{"../eventbuilder.js":37,"@sentry/core":66,"@sentry/utils":133}],46:[function(require,module,exports){
@@ -8321,7 +8375,7 @@ const DEFAULT_EVENT_TARGET = [
 
 const INTEGRATION_NAME = 'TryCatch';
 
-const browserApiErrorsIntegration = ((options = {}) => {
+const _browserApiErrorsIntegration = ((options = {}) => {
   const _options = {
     XMLHttpRequest: true,
     eventTarget: true,
@@ -8361,7 +8415,12 @@ const browserApiErrorsIntegration = ((options = {}) => {
   };
 }) ;
 
-/** Wrap timer functions and event targets to catch errors and provide better meta data */
+const browserApiErrorsIntegration = core.defineIntegration(_browserApiErrorsIntegration);
+
+/**
+ * Wrap timer functions and event targets to catch errors and provide better meta data.
+ * @deprecated Use `browserApiErrorsIntegration()` instead.
+ */
 // eslint-disable-next-line deprecation/deprecation
 const TryCatch = core.convertIntegrationFnToClass(
   INTEGRATION_NAME,
@@ -8554,6 +8613,7 @@ function _wrapEventTarget(target) {
 }
 
 exports.TryCatch = TryCatch;
+exports.browserApiErrorsIntegration = browserApiErrorsIntegration;
 
 
 },{"../helpers.js":38,"@sentry/core":66,"@sentry/utils":133}],47:[function(require,module,exports){
@@ -9441,28 +9501,26 @@ const utils = require('@sentry/utils');
 const client = require('./client.js');
 const debugBuild = require('./debug-build.js');
 const helpers = require('./helpers.js');
-const globalhandlers = require('./integrations/globalhandlers.js');
-const trycatch = require('./integrations/trycatch.js');
 const breadcrumbs = require('./integrations/breadcrumbs.js');
-const linkederrors = require('./integrations/linkederrors.js');
-const httpcontext = require('./integrations/httpcontext.js');
 const dedupe = require('./integrations/dedupe.js');
+const globalhandlers = require('./integrations/globalhandlers.js');
+const httpcontext = require('./integrations/httpcontext.js');
+const linkederrors = require('./integrations/linkederrors.js');
+const trycatch = require('./integrations/trycatch.js');
 const stackParsers = require('./stack-parsers.js');
 const fetch = require('./transports/fetch.js');
 const xhr = require('./transports/xhr.js');
 
 /** @deprecated Use `getDefaultIntegrations(options)` instead. */
 const defaultIntegrations = [
-  /* eslint-disable deprecation/deprecation */
-  new core.InboundFilters(),
-  new core.FunctionToString(),
-  /* eslint-enable deprecation/deprecation */
-  new trycatch.TryCatch(),
-  new breadcrumbs.Breadcrumbs(),
-  new globalhandlers.GlobalHandlers(),
-  new linkederrors.LinkedErrors(),
-  new dedupe.Dedupe(),
-  new httpcontext.HttpContext(),
+  core.inboundFiltersIntegration(),
+  core.functionToStringIntegration(),
+  trycatch.browserApiErrorsIntegration(),
+  breadcrumbs.breadcrumbsIntegration(),
+  globalhandlers.globalHandlersIntegration(),
+  linkederrors.linkedErrorsIntegration(),
+  dedupe.dedupeIntegration(),
+  httpcontext.httpContextIntegration(),
 ];
 
 /** Get the default integrations for the browser SDK. */
@@ -19247,7 +19305,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":133}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.95.0';
+const SDK_VERSION = '7.96.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
