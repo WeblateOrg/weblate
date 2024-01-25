@@ -19305,7 +19305,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":133}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.96.0';
+const SDK_VERSION = '7.97.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
