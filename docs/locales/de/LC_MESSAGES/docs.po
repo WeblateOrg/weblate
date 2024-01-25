@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-01-23 19:12+0100\n"
-"PO-Revision-Date: 2024-01-25 13:30+0000\n"
+"PO-Revision-Date: 2024-01-25 14:19+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -27854,7 +27854,7 @@ msgstr "Verschiedene Optimierungen auf häufig genutzten Seiten."
 
 #: ../../changes/v1.rst:66
 msgid "Highlights searched phrase in search results."
-msgstr "Hervorhebung des gesuchten Begriffs in den Suchergebnissen."
+msgstr "Hervorhebung der gesuchten Phrase in den Suchergebnissen."
 
 #: ../../changes/v1.rst:67
 msgid "Support for automatic fixups while saving the message."
@@ -40156,6 +40156,9 @@ msgid ""
 "Number of words is a metric widely used in Indo-European languages, but "
 "might not have a well-defined behavior for some Asian languages."
 msgstr ""
+"Die Anzahl der Wörter ist eine in indoeuropäischen Sprachen weit verbreitete "
+"Metrik, die für einige asiatische Sprachen jedoch möglicherweise kein klar "
+"definiertes Verhalten aufweist."
 
 #: ../../devel/reporting.rst:30
 msgid ""
@@ -40181,6 +40184,9 @@ msgid ""
 "For Chinese, Japanese, or Korean languages, the number of words is the "
 "number of CJK characters plus the number of words in non-CJK characters."
 msgstr ""
+"Bei chinesischen, japanischen oder koreanischen Sprachen ist die Anzahl der "
+"Wörter die Anzahl der CJK-Zeichen plus die Anzahl der Wörter in Nicht-CJK-"
+"Zeichen."
 
 #: ../../devel/reporting.rst:47
 msgid "Translator credits"
@@ -43417,34 +43423,32 @@ msgstr "JSON-Datei Format.JS"
 msgid ""
 "File format used when translating Format.JS and React-Intl applications."
 msgstr ""
+"Dateiformat, das beim Übersetzen von Format.JS- und React-Intl-Anwendungen "
+"verwendet wird."
 
 #: ../../formats/formatjs.rst:12
 msgid ""
 ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs.io/"
 "docs/getting-started/message-extraction>`_"
 msgstr ""
+":doc:`tt:formats/json`, `Format.JS-Nachrichtenextraktion <https://formatjs."
+"io/docs/getting-started/message-extraction>`_"
 
 #: ../../formats/formatjs.rst:45
-#, fuzzy
-#| msgid "``langs/*.json``"
 msgid "``src/lang/*.json``"
-msgstr "``langs/*.json``"
+msgstr "``src/lang/*.json``"
 
 #: ../../formats/formatjs.rst:47
-#, fuzzy
-#| msgid "``langs/translation-en.json``"
 msgid "``src/extracted/en.json``"
-msgstr "``langs/translation-en.json``"
+msgstr "``src/extracted/en.json``"
 
 #: ../../formats/formatjs.rst:51
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "`Format.JS JSON file`"
-msgstr "JSON-Datei gotext"
+msgstr "`JSON-Datei Format.JS`"
 
 #: ../../formats/gettext.rst:4
 msgid "GNU gettext PO (Portable Object)"
-msgstr ""
+msgstr "GNU gettext PO (Portable Object)"
 
 #: ../../formats/gettext.rst:10
 msgid "Most widely used format for translating libre software."
@@ -44186,20 +44190,20 @@ msgid ""
 "`Mobile Kotlin resources`_ specific format heavily based on :doc:`/formats/"
 "android`."
 msgstr ""
+"`Mobile-Kotlin-Ressourcen`_-spezifisches Format, stark basierend auf :doc:`/"
+"formats/android`."
 
 #: ../../formats/moko.rst:17
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
-msgstr ""
+msgstr "``shared/src/commonMain/resources/MR/*/plurals.xml``"
 
 #: ../../formats/moko.rst:19
 msgid "``shared/src/commonMain/resources/MR/base/plurals.xml``"
-msgstr ""
+msgstr "``shared/src/commonMain/resources/MR/base/plurals.xml``"
 
 #: ../../formats/moko.rst:23
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "`Mobile Kotlin Resource`"
-msgstr "Android-Zeichenketten-Ressource"
+msgstr "`Mobile-Kotlin-Ressource`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -44520,26 +44524,30 @@ msgstr ""
 "`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats/tbx.rst:23
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanations"
-msgstr "Erklärung"
+msgstr "Erklärungen"
 
 #: ../../formats/tbx.rst:25
 msgid ""
 "Weblate loads and saves explanation from TBX files to be displayed in :ref:"
 "`glossary`."
 msgstr ""
+"Weblate lädt und speichert Erklärungen aus TBX-Dateien, um sie im "
+":ref:`glossary` anzuzeigen."
 
 #: ../../formats/tbx.rst:27
 msgid ""
 "Translation explanation is stored as ``<note from=\"translator\"></note>`` "
 "tag."
 msgstr ""
+"Die Erklärung der Übersetzung wird als Tag ``<note from=\"translator\""
+"></note>`` gespeichert."
 
 #: ../../formats/tbx.rst:28
 msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgstr ""
+"Die Erklärung der Ausgangszeichenkette wird als Tag ``<descrip></descrip>` "
+"gespeichert."
 
 #: ../../formats/tbx.rst:44
 msgid "``tbx/*.tbx``"
@@ -46750,32 +46758,24 @@ msgid "Perl brace format string does not match source"
 msgstr "Perl-Brace-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:717
-#, fuzzy
-#| msgid "``weblate.checks.format.PerlFormatCheck``"
 msgid "``weblate.checks.format.PerlBraceFormatCheck``"
-msgstr "``weblate.checks.format.PerlFormatCheck``"
+msgstr "``weblate.checks.format.PerlBraceFormatCheck``"
 
 #: ../../user/checks.rst:718
 msgid "``perl_brace_format``"
 msgstr "``perl_brace_format``"
 
 #: ../../user/checks.rst:721
-#, fuzzy
-#| msgid "``There are ${number} apples``"
 msgid "``There are {number} apples``"
-msgstr "``There are ${number} apples``"
+msgstr "``There are {number} apples``"
 
 #: ../../user/checks.rst:725
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/perl_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript-Format-Zeichenketten <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+":ref:`check-formats`, `Perl-Format-Zeichenketten <https://www.gnu.org/"
+"software/gettext/manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:731
 msgid "Perl format"
@@ -49822,12 +49822,6 @@ msgid "Simple search"
 msgstr "Einfache Suche"
 
 #: ../../user/search.rst:19
-#, fuzzy
-#| msgid ""
-#| "Any phrase typed into the search box is split into words. Strings "
-#| "containing any of them are shown. To look for an exact phrase, put \"the "
-#| "searchphrase\" into quotes (both single (') and double (\") quotes will "
-#| "work): ``\"this is a quoted string\"`` or ``'another quoted string'``."
 msgid ""
 "Any phrase typed into the search box is split into words. Strings containing "
 "all of them are shown. To look for an exact phrase, put \"the searchphrase\" "
@@ -49835,9 +49829,9 @@ msgid ""
 "\"this is a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
 "Jede in das Suchfeld eingegebene Phrase wird in Wörter zerlegt. "
-"Zeichenketten, die eines dieser Wörter enthalten, werden angezeigt. Um nach "
+"Zeichenketten, die alle diese Wörter enthalten, werden angezeigt. Um nach "
 "einem genauen Ausdruck zu suchen, setzen Sie „die Suchphrase“ in "
-"Anführungszeichen (sowohl einfache (') als auch doppelte (\") "
+"Anführungszeichen (sowohl einfache (``'``) als auch doppelte (``\"``) "
 "Anführungszeichen sind möglich): ``\"dies ist eine Zeichenkette in "
 "Anführungszeichen\"`` oder ``'eine andere Zeichenkette in "
 "Anführungszeichen'``."
@@ -51541,10 +51535,6 @@ msgstr ""
 "Einstiegsseite der Adminoberfläche erzeugen oder anzeigen."
 
 #: ../../vcs.rst:102
-#, fuzzy
-#| msgid ""
-#| "The corresponding private SSH key can not currently have a password, so "
-#| "make sure it is well protected."
 msgid ""
 "The corresponding private SSH key can not currently have a password, so "
 "ensure it is well protected."
