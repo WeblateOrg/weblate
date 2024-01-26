@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Agnieszka C <aga_04@o2.pl>, 2023.
+# Agnieszka C <aga_04@o2.pl>, 2023, 2024.
 # Maciej Olko <maciej.olko@gmail.com>, 2023.
 # WaldiS <sto@tutanota.de>, 2023.
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-01-23 18:11+0000\n"
-"PO-Revision-Date: 2023-12-17 15:49+0000\n"
+"PO-Revision-Date: 2024-01-26 12:15+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -17,9 +17,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -472,10 +472,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Zaproszony do {project} przez {username}."
 
 #: weblate/accounts/models.py:184
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Hasło zostało zmienione."
+msgstr "Hasło skonfigurowane."
 
 #: weblate/accounts/models.py:190
 msgid "To restore access to your account, please reset your password."
@@ -2564,8 +2562,6 @@ msgid ""
 msgstr "Udział w tym tłumaczeniu wymaga zgody na współpracę."
 
 #: weblate/auth/permissions.py:167
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Sign in to save the translation."
 msgstr "Zaloguj się, aby zapisać tłumaczenie."
 
@@ -3056,10 +3052,8 @@ msgid "Ignore all checks"
 msgstr "Ignoruj wszystkie kontrole"
 
 #: weblate/checks/flags.py:49
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Procent symboli zastępczych"
+msgstr "Użycie symboli zastępczych niewrażliwych na wielkość liter"
 
 #: weblate/checks/flags.py:51 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -3528,16 +3522,12 @@ msgid "C format string does not match source"
 msgstr "Ciąg w formacie C nie pasuje do źródła"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Format języka Perl"
+msgstr "Format nawiasów klamrowych Perla"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Ciąg w formacie Perl nie pasuje do źródła"
+msgstr "Ciąg w formacie nawiasów klamrowych Perla nie pasuje do źródła"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -4171,10 +4161,8 @@ msgid ".NET resource file"
 msgstr "Plik zasobów .Net"
 
 #: weblate/formats/ttkit.py:1417
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Android String Resource"
+msgstr "Mobile Kotlin Resource"
 
 #: weblate/formats/ttkit.py:1430
 #, python-format
@@ -4214,10 +4202,8 @@ msgid "gotext JSON file"
 msgstr "Plik gotext JSON"
 
 #: weblate/formats/ttkit.py:1521
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "Plik gotext JSON"
+msgstr "Plik JSON Format.JS"
 
 #: weblate/formats/ttkit.py:1529
 msgid "CSV file"
@@ -4543,12 +4529,9 @@ msgid "One/few/many"
 msgstr "Jeden/kilka/wiele"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Jeden/dwa/kilka/inne"
+msgstr "Jeden/zero/kilka/inne"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4580,10 +4563,8 @@ msgid "Android plural"
 msgstr "Liczba mnoga Android"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "Liczba mnoga stringsdict"
+msgstr "Liczba mnoga Qt Linguist"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -6397,10 +6378,8 @@ msgid "The following components matched existing ones"
 msgstr "Następujące komponenty pasowały do istniejących"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "Następujące komponenty zostaną utworzone"
+msgstr "Nie udało się utworzyć następujących komponentów"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -8028,7 +8007,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:126
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr ""
+msgstr "Usuwa również nieaktualne gałęzie, które nie są używane przez Weblate."
 
 #: weblate/templates/js/git-status.html:127
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -9993,10 +9972,8 @@ msgid "No strings to translate"
 msgstr "Brak ciągów do przetłumaczenia"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Dodaj nowe projekty"
+msgstr "Dodaj projekt"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10324,6 +10301,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organizuj projekt</a>, aby zmienić jego końcówkę adresu "
+"URL lub ją usunąć."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10331,6 +10310,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organizuj komponent</a>, aby zmienić jego końcówkę "
+"adresu URL, przenieść ją lub usunąć."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -10618,6 +10599,9 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"Gerrit zabronił tego wypchnięcia. Możesz potrzebować konta gerrit z "
+"uprawnieniami autora forge do repozytorium/gałęzi lub będziesz musiał użyć "
+"dodatku do squasha na tym komponencie w Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
@@ -11170,10 +11154,6 @@ msgstr[1] "%(count)s komponenty zostaną przez to usunięte."
 msgstr[2] "%(count)s komponentów zostanie przez to usuniętych."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
@@ -11186,6 +11166,8 @@ msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Komponent słownika automatycznie utrzymuje tłumaczenie dla każdego języka "
+"użytego w projekcie, usunięty język może zostać ponownie dodany."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -11215,7 +11197,7 @@ msgstr "Typowy przepływ pracy do rozwiązywania konfliktów scalania"
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
+msgstr "Otwórz istniejący checkout repozytorium nadrzędnego lub wykonaj nowy."
 
 #: weblate/templates/trans/merge_instructions.html:13
 msgid ""
@@ -12000,16 +11982,13 @@ msgstr ""
 "oprogramowania."
 
 #: weblate/trans/discovery.py:275
-#, fuzzy
-#| msgid "Browse changes"
 msgid "File mask matches the main component."
-msgstr "Przeglądaj zmiany"
+msgstr "Maska pliku pasuje do głównego komponentu."
 
 #: weblate/trans/discovery.py:283
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Plik nie istnieje."
+msgstr "{filename} ({parameter}) nie istnieje."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12724,13 +12703,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Użyj flag, aby wskazać specjalne ciągi w tłumaczeniu."
 
 #: weblate/trans/guide.py:210
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Dodaj flagę safe-html, aby uniknąć niebezpiecznego kodu HTML od tłumaczy."
+"Dodaj flagę safe-html, aby uniknąć niebezpiecznego kodu HTML od tłumaczy dla "
+"ciągów renderowanych jako HTML."
 
 #: weblate/trans/guide.py:241
 msgid "Workflow customization"
@@ -13253,10 +13231,8 @@ msgstr "Zapisywanie ciągu nie powiodło się"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:444
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Zaktualizowano ciąg w repozytorium"
+msgstr "Dodano ciąg w repozytorium"
 
 #: weblate/trans/models/change.py:518
 msgid "The component was automatically locked because of an alert."
@@ -14248,7 +14224,7 @@ msgstr "Wstaw miękki łącznik"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Wstaw niełamliwą spację"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14321,34 +14297,28 @@ msgstr "Możliwa konfiguracja"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Tłumaczenie zabronione"
-msgstr[1] "Tłumaczenie zabronione"
-msgstr[2] "Tłumaczenie zabronione"
+msgstr[0] "Zabronione tłumaczenie:"
+msgstr[1] "Zabronione tłumaczenia:"
+msgstr[2] "Zabronione tłumaczenia:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Termin nieprzetłumaczalny"
-msgstr[1] "Termin nieprzetłumaczalny"
-msgstr[2] "Termin nieprzetłumaczalny"
+msgstr[0] "Nieprzetłumaczalny termin:"
+msgstr[1] "Nieprzetłumaczalne terminy:"
+msgstr[2] "Nieprzetłumaczalne terminy:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Słownik terminów"
-msgstr[1] "Słownik terminów"
-msgstr[2] "Słownik terminów"
+msgstr[0] "Termin ze słownika:"
+msgstr[1] "Terminy ze słownika:"
+msgstr[2] "Terminy ze słownika:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
