@@ -5,7 +5,6 @@
 import json
 import math
 import os
-from functools import reduce
 
 from django.conf import settings
 from django.db import models
@@ -49,16 +48,16 @@ class MemoryQuerySet(models.QuerySet):
         base = self
         if "memory_db" in settings.DATABASES:
             base = base.using("memory_db")
-        query = []
+        query = Q()
         if from_file:
-            query.append(Q(from_file=from_file))
+            query |= Q(from_file=from_file)
         if use_shared:
-            query.append(Q(shared=use_shared))
+            query |= Q(shared=use_shared)
         if project:
-            query.append(Q(project=project))
+            query |= Q(project=project)
         if user:
-            query.append(Q(user=user))
-        return base.filter(reduce(lambda x, y: x | y, query))
+            query |= Q(user=user)
+        return base.filter(query)
 
     @staticmethod
     def threshold_to_similarity(text: str, threshold: int) -> float:
