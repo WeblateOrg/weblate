@@ -76,6 +76,16 @@ def count_alnum(string):
 
 
 class PostgreSQLFallbackLookupMixin:
+    """
+    Mixin to block PostgreSQL from using trigram index.
+
+    It is ineffective for very short strings as these produce a lot of matches
+    which need to be rechecked and full table scan is more effecive in that
+    case.
+
+    It is performed by concatenating empty string which will prevent index usage.
+    """
+
     def process_lhs(self, compiler, connection, lhs=None):
         if self._needs_fallback:
             lhs_sql, params = super().process_lhs(compiler, connection, lhs)
