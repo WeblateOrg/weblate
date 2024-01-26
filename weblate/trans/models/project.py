@@ -55,6 +55,28 @@ class ProjectQuerySet(models.QuerySet):
     def search(self, query: str):
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
 
+    def prefetch_languages(self):
+        # Bitmap for languages
+        language_map = set(
+            self.values_list("id", "component__translation__language_id").distinct()
+        )
+        # All used languages
+        languages = (
+            Language.objects.filter(translation__component__project__in=self)
+            .order()
+            .distinct()
+        )
+
+        # Prefetch languages attribute
+        for project in self:
+            project.languages = [
+                language
+                for language in languages
+                if (project.id, language.id) in language_map
+            ]
+
+        return self
+
 
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}

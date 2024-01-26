@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from itertools import chain
+
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 from weblate.trans.models import Change, Component, Project, Translation
-from weblate.utils.stats import ProjectLanguage, prefetch_stats
+from weblate.utils.stats import prefetch_stats
 
 
 class PagesSitemap(Sitemap):
@@ -102,15 +104,15 @@ class EngageLangSitemap(EngageSitemap):
 
     def items(self):
         """Return list of existing project, language tuples."""
-        projects = Project.objects.filter(
-            access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by("id")
+        projects = (
+            Project.objects.filter(access_control__lt=Project.ACCESS_PRIVATE)
+            .order_by("id")
+            .prefetch_languages()
+        )
         return prefetch_stats(
-            [
-                ProjectLanguage(project=project, language=lang)
-                for project in projects
-                for lang in project.languages
-            ]
+            chain.from_iterable(
+                project.project_languages.preload() for project in projects
+            )
         )
 
 
