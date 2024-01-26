@@ -25,7 +25,6 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
-from weblate.utils.db import conditional_sum
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -712,8 +711,8 @@ class TranslationStats(BaseStats):
             recently = self.last_changed - timedelta(hours=6)
             changes = self._object.change_set.content().aggregate(
                 total=Count("id"),
-                recent=conditional_sum(timestamp__gt=recently),
-                monthly=conditional_sum(timestamp__gt=monthly),
+                recent=Count("id", filter=Q(timestamp__gt=recently)),
+                monthly=Count("id", filter=Q(timestamp__gt=monthly)),
             )
             self.store("recent_changes", changes["recent"])
             self.store("monthly_changes", changes["monthly"])
