@@ -102,6 +102,8 @@ def database_backup():
                 "pg_dump",
                 # Superuser only, crashes on Alibaba Cloud Database PolarDB
                 "--no-subscriptions",
+                "--clean",
+                "--if-exists",
                 "--dbname",
                 database["NAME"],
             ]
