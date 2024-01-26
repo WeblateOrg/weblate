@@ -459,6 +459,10 @@ It is recommended to run Weblate with a PostgreSQL database server.
 
 PostgreSQL 12 and higher is supported.
 
+:ref:`mysql` is supported, but not recommended for new installs.
+
+No other database servers are supported.
+
 .. seealso::
 
    :ref:`production-database`,
