@@ -19,9 +19,9 @@ MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
 MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
 
 
-def conditional_sum(value=1, **cond):
+def conditional_sum(**cond):
     """Wrapper to generate SUM on boolean/enum values."""
-    return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
+    return Sum(Case(When(then=1, **cond), default=0, output_field=IntegerField()))
 
 
 def using_postgresql():

@@ -62,13 +62,12 @@ class CheckList(PathViewMixin, ListView):
         return queryset.annotate(
             check_count=Count(f"{prefix}unit__check"),
             dismissed_check_count=conditional_sum(
-                1, **{f"{prefix}unit__check__dismissed": True}
+                **{f"{prefix}unit__check__dismissed": True}
             ),
             active_check_count=conditional_sum(
-                1, **{f"{prefix}unit__check__dismissed": False}
+                **{f"{prefix}unit__check__dismissed": False}
             ),
             translated_check_count=conditional_sum(
-                1,
                 **{
                     f"{prefix}unit__check__dismissed": False,
                     f"{prefix}unit__state__gte": STATE_TRANSLATED,
@@ -132,10 +131,10 @@ class CheckList(PathViewMixin, ListView):
                 CheckWrapper(**item, path_object=self.path_object)
                 for item in all_checks.values("name").annotate(
                     check_count=Count("id"),
-                    dismissed_check_count=conditional_sum(1, dismissed=True),
-                    active_check_count=conditional_sum(1, dismissed=False),
+                    dismissed_check_count=conditional_sum(dismissed=True),
+                    active_check_count=conditional_sum(dismissed=False),
                     translated_check_count=conditional_sum(
-                        1, dismissed=False, unit__state__gte=STATE_TRANSLATED
+                        dismissed=False, unit__state__gte=STATE_TRANSLATED
                     ),
                 )
             ]
