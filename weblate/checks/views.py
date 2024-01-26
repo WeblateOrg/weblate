@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -13,7 +13,6 @@ from django.views.generic import ListView
 from weblate.checks.models import CHECKS, Check
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
-from weblate.utils.db import conditional_sum
 from weblate.utils.random import get_random_identifier
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
@@ -59,19 +58,23 @@ class CheckList(PathViewMixin, ListView):
     template_name = "check_list.html"
 
     def annotate(self, queryset, prefix: str):
+        id_field = f"{prefix}unit__check"
         return queryset.annotate(
-            check_count=Count(f"{prefix}unit__check"),
-            dismissed_check_count=conditional_sum(
-                **{f"{prefix}unit__check__dismissed": True}
+            check_count=Count(id_field),
+            dismissed_check_count=Count(
+                id_field, filter=Q(**{f"{prefix}unit__check__dismissed": True})
             ),
-            active_check_count=conditional_sum(
-                **{f"{prefix}unit__check__dismissed": False}
+            active_check_count=Count(
+                id_field, filter=Q(**{f"{prefix}unit__check__dismissed": False})
             ),
-            translated_check_count=conditional_sum(
-                **{
-                    f"{prefix}unit__check__dismissed": False,
-                    f"{prefix}unit__state__gte": STATE_TRANSLATED,
-                },
+            translated_check_count=Count(
+                id_field,
+                filter=Q(
+                    **{
+                        f"{prefix}unit__check__dismissed": False,
+                        f"{prefix}unit__state__gte": STATE_TRANSLATED,
+                    },
+                ),
             ),
         )
 
@@ -131,10 +134,11 @@ class CheckList(PathViewMixin, ListView):
                 CheckWrapper(**item, path_object=self.path_object)
                 for item in all_checks.values("name").annotate(
                     check_count=Count("id"),
-                    dismissed_check_count=conditional_sum(dismissed=True),
-                    active_check_count=conditional_sum(dismissed=False),
-                    translated_check_count=conditional_sum(
-                        dismissed=False, unit__state__gte=STATE_TRANSLATED
+                    dismissed_check_count=Count("id", filter=Q(dismissed=True)),
+                    active_check_count=Count("id", filter=Q(dismissed=False)),
+                    translated_check_count=Count(
+                        "id",
+                        filter=Q(dismissed=False, unit__state__gte=STATE_TRANSLATED),
                     ),
                 )
             ]
