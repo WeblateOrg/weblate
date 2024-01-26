@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models import Count, Q, Value
 from django.db.models.functions import MD5, Lower
 from django.http import (
     HttpResponse,
@@ -120,13 +120,7 @@ def get_other_units(unit):
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
-            .annotate(
-                matches_current=Case(
-                    When(condition=match, then=1),
-                    default=0,
-                    output_field=IntegerField(),
-                )
-            )
+            .annotate(matches_current=Count("id", filter=match))
             .prefetch()
             .select_related("source_unit")
             .order_by("-matches_current")
