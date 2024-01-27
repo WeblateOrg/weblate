@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-01-23 18:11+0000\n"
-"PO-Revision-Date: 2024-01-12 18:05+0000\n"
+"PO-Revision-Date: 2024-01-27 10:18+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Generator: Weblate 5.4-dev\n"
 
 #: weblate/accounts/avatar.py:84
@@ -2550,10 +2550,8 @@ msgstr ""
 "Podieľanie sa na tomto preklade vyžaduje súhlas s dohodou s prispievateľom."
 
 #: weblate/auth/permissions.py:167
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Sign in to save the translation."
-msgstr "Základný súbor pre nové preklady"
+msgstr "Prihláste sa pre uloženie prekladu."
 
 #: weblate/auth/permissions.py:168 weblate/trans/views/edit.py:421
 #: weblate/trans/views/edit.py:443 weblate/trans/views/edit.py:463
@@ -3602,11 +3600,11 @@ msgstr "Nezodpovedá slovníku"
 
 #: weblate/checks/glossary.py:18
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Tento preklad nezodpovedá termínom zadaným v slovníku."
+msgstr "Tento preklad nezodpovedá výrazom zadaným v slovníku."
 
 #: weblate/checks/glossary.py:69
 msgid "Following terms are not translated according to glossary: {}"
-msgstr "Nasledujúce termíny nie sú preložené ako v slovníku: {}"
+msgstr "Nasledujúce výrazy nie sú preložené ako v slovníku: {}"
 
 #: weblate/checks/icu.py:249
 msgid "ICU MessageFormat syntax"
@@ -4251,7 +4249,7 @@ msgstr "Reťazec bude súčasťou slovníka vo všetkých jazykoch"
 
 #: weblate/glossary/forms.py:39
 msgid "Untranslatable term"
-msgstr "Nepreložiteľný termín"
+msgstr "Nepreložiteľný výraz"
 
 #: weblate/glossary/forms.py:97 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4477,12 +4475,9 @@ msgid "One/few/many"
 msgstr "Jeden/niekoľko/veľa"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Jeden/dva/niekoľko/ostatné"
+msgstr "Jeden/nula/niekoľko/ostatné"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4861,12 +4856,9 @@ msgid "Access key secret"
 msgstr "ID prístupového kľúča"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Názov regiónu"
+msgstr "Región ID"
 
 #: weblate/machinery/forms.py:252
 #, fuzzy
@@ -4880,11 +4872,9 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Automatická detekcia"
+msgstr "Automatický výber"
 
 #: weblate/machinery/forms.py:281
 #, fuzzy
@@ -11327,7 +11317,7 @@ msgstr "Zakázaný slovníkový výraz"
 
 #: weblate/templates/translate.html:76
 msgid "Glossary term"
-msgstr "Termín slovníka"
+msgstr "Výraz slovníka"
 
 #: weblate/templates/translate.html:105 weblate/templates/zen-units.html:67
 msgid "Source change"
@@ -11546,7 +11536,7 @@ msgstr "Prechádzať slovník %(name)s"
 
 #: weblate/templates/translate.html:582 weblate/templates/translate.html:592
 msgid "Add term to glossary"
-msgstr "Pridať termín do slovníka"
+msgstr "Pridať výraz do slovníka"
 
 #: weblate/templates/translate.html:611
 msgid "String information"
@@ -12787,8 +12777,8 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Správa nebude zobrazená po tomto dátume. Použite napríklad na oznámenie "
-"zmrazenia reťazca a termínu prekladu pre ďalšie vydanie."
+"Správa nebude zobrazená po tomto dátume. Použite napríklad pre oznámenie "
+"termínu ukončenia prekladov pre ďalšie vydanie."
 
 #: weblate/trans/models/announcement.py:119
 msgid "Notify users"
@@ -13161,10 +13151,8 @@ msgstr "Uloženie reťazca zlyhalo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:444
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Reťazec bol zmenený v repozitári"
+msgstr "Reťazec pridaný do repozitára"
 
 #: weblate/trans/models/change.py:518
 msgid "The component was automatically locked because of an alert."
@@ -13886,7 +13874,7 @@ msgstr "Kľúč"
 
 #: weblate/trans/models/component.py:3747
 msgid "Add new glossary term"
-msgstr "Pridať nový termín do slovníka"
+msgstr "Pridať nový výraz do slovníka"
 
 #: weblate/trans/models/component.py:3748
 msgid "Add new translation string"
@@ -14043,10 +14031,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Nepodarilo sa zapísať čakajúce zmeny: %s"
 
 #: weblate/trans/models/translation.py:1629
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Nepodporovaný formát súboru."
+msgstr "Množné čísla nie sú podporované formátom súboru!"
 
 #: weblate/trans/models/translation.py:1634 weblate/trans/models/unit.py:667
 #, python-format
@@ -14208,31 +14194,25 @@ msgid "{target} [{source}]"
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
 msgstr[0] "Zakázaný preklad"
-msgstr[1] "Zakázaný preklad"
-msgstr[2] "Zakázaný preklad"
+msgstr[1] "Zakázané preklady"
+msgstr[2] "Zakázaných prekladov"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Nepreložiteľný termín"
-msgstr[1] "Nepreložiteľný termín"
-msgstr[2] "Nepreložiteľný termín"
+msgstr[0] "Nepreložiteľný výraz:"
+msgstr[1] "Nepreložiteľné výrazy:"
+msgstr[2] "Nepreložiteľných výrazov:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Termín slovníka"
-msgstr[1] "Termín slovníka"
-msgstr[2] "Termín slovníka"
+msgstr[0] "Výraz slovníka"
+msgstr[1] "Výrazy slovníka"
+msgstr[2] "Výrazov slovníka"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
