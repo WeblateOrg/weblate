@@ -6,6 +6,7 @@ import re
 
 from django.utils.translation import gettext_lazy
 
+from weblate.checks.chars import BeginSpaceCheck, EndSpaceCheck
 from weblate.trans.autofixes.base import AutoFix
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
@@ -18,6 +19,10 @@ class SameBookendingWhitespace(AutoFix):
 
     fix_id = "end-whitespace"
     name = gettext_lazy("Trailing and leading whitespace")
+
+    @staticmethod
+    def get_related_checks():
+        return [BeginSpaceCheck(), EndSpaceCheck()]
 
     def fix_single_target(self, target, source, unit):
         # normalize newlines of source

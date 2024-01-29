@@ -11,6 +11,10 @@ class AutoFix:
     def get_identifier(self):
         return self.fix_id
 
+    @staticmethod
+    def get_related_checks():
+        return []
+
     def fix_single_target(self, target, source, unit):
         """Fix a single target, implement this method in subclasses."""
         raise NotImplementedError
