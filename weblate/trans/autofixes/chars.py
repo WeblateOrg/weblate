@@ -6,7 +6,12 @@ import re
 
 from django.utils.translation import gettext_lazy
 
-from weblate.checks.chars import FRENCH_PUNCTUATION_FIXUP_RE
+from weblate.checks.chars import (
+    FRENCH_PUNCTUATION_FIXUP_RE,
+    EndEllipsisCheck,
+    PunctuationSpacingCheck,
+    ZeroWidthSpaceCheck,
+)
 from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
@@ -16,6 +21,10 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
 
     fix_id = "end-ellipsis"
     name = gettext_lazy("Trailing ellipsis")
+
+    @staticmethod
+    def get_related_checks():
+        return [EndEllipsisCheck()]
 
     def fix_single_target(self, target, source, unit):
         if source and source[-1] == "…" and target.endswith("..."):
@@ -28,6 +37,10 @@ class RemoveZeroSpace(AutoFix):
 
     fix_id = "zero-width-space"
     name = gettext_lazy("Zero-width space")
+
+    @staticmethod
+    def get_related_checks():
+        return [ZeroWidthSpaceCheck()]
 
     def fix_single_target(self, target, source, unit):
         if unit.translation.language.base_code == "km":
@@ -69,6 +82,10 @@ class PunctuationSpacing(AutoFix):
 
     fix_id = "punctuation-spacing"
     name = gettext_lazy("Punctuation spacing")
+
+    @staticmethod
+    def get_related_checks():
+        return [PunctuationSpacingCheck()]
 
     def fix_single_target(self, target, source, unit):
         if (
