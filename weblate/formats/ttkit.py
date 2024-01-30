@@ -1419,7 +1419,7 @@ class MOKOFormat(AndroidFormat):
     loader = ("aresource", "MOKOResourceFile")
 
 
-class DictStoreMixin:
+class DictStoreFormat(TTKitFormat):
     @classmethod
     def validate_context(cls, context: str):
         id_class = cls.get_class().UnitClass.IdClass
@@ -1430,7 +1430,7 @@ class DictStoreMixin:
             raise ValidationError(gettext("Could not parse the key: %s") % error)
 
 
-class JSONFormat(DictStoreMixin, TTKitFormat):
+class JSONFormat(DictStoreFormat):
     name = gettext_lazy("JSON file")
     format_id = "json"
     loader = JsonFile
@@ -1652,7 +1652,7 @@ class CSVUtf8SimpleFormat(CSVSimpleFormat):
     autoload: tuple[str, ...] = ()
 
 
-class YAMLFormat(DictStoreMixin, TTKitFormat):
+class YAMLFormat(DictStoreFormat):
     name = gettext_lazy("YAML file")
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
@@ -2030,7 +2030,7 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     monolingual = True
 
 
-class StringsdictFormat(DictStoreMixin, TTKitFormat):
+class StringsdictFormat(DictStoreFormat):
     name = gettext_lazy("Stringsdict file")
     format_id = "stringsdict"
     loader = ("stringsdict", "StringsDictFile")
