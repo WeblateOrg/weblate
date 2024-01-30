@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import sys
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.conf import settings
@@ -57,7 +60,10 @@ from weblate.wladmin.forms import (
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
 
-MENU = (
+if TYPE_CHECKING:
+    from django.utils.functional import Promise
+
+MENU: tuple[tuple[str, str, Promise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),
     ("backups", "manage-backups", gettext_lazy("Backups")),
     ("memory", "manage-memory", gettext_lazy("Translation memory")),
