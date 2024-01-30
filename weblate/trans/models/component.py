@@ -517,7 +517,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     )
     # This should match definition in WorkflowSetting
     suggestion_autoaccept = models.PositiveSmallIntegerField(
-        verbose_name=gettext_lazy("Autoaccept suggestions"),
+        verbose_name=gettext_lazy("Automatically accept suggestions"),
         default=0,
         help_text=gettext_lazy(
             "Automatically accept suggestions with this number of votes,"
