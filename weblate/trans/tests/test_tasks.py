@@ -24,10 +24,10 @@ class CleanupTest(ViewTestCase):
         unit = self.get_unit()
 
         # Add two suggestions
-        Suggestion.objects.add(unit, "Zkouška\n", request)
-        Suggestion.objects.add(unit, "zkouška\n", request)
+        Suggestion.objects.add(unit, ["Zkouška\n"], request)
+        Suggestion.objects.add(unit, ["zkouška\n"], request)
         # This should be ignored
-        Suggestion.objects.add(unit, "zkouška\n", request)
+        Suggestion.objects.add(unit, ["zkouška\n"], request)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
@@ -46,8 +46,8 @@ class CleanupTest(ViewTestCase):
         unit = self.get_unit()
 
         # Add two suggestions
-        Suggestion.objects.add(unit, "Zkouška", request)
-        Suggestion.objects.add(unit, "zkouška", request)
+        Suggestion.objects.add(unit, ["Zkouška"], request)
+        Suggestion.objects.add(unit, ["zkouška"], request)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
@@ -64,9 +64,9 @@ class CleanupTest(ViewTestCase):
     def test_cleanup_old_suggestions(self, expected=2):
         request = self.get_request()
         unit = self.get_unit()
-        Suggestion.objects.add(unit, "Zkouška", request)
+        Suggestion.objects.add(unit, ["Zkouška"], request)
         Suggestion.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
-        Suggestion.objects.add(unit, "Zkouška 2", request)
+        Suggestion.objects.add(unit, ["Zkouška 2"], request)
         cleanup_old_suggestions()
         self.assertEqual(Suggestion.objects.count(), expected)
 
