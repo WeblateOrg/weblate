@@ -56,7 +56,7 @@ class ProjectBackup:
         self.project = None
         self.project_schema = load_schema("weblate-backup.schema.json")
         self.component_schema = load_schema("weblate-component.schema.json")
-        self.languages_cache = None
+        self.languages_cache = {}
         self.labels_map = None
         self.user_cache = {}
 
@@ -517,14 +517,15 @@ class ProjectBackup:
         component.schedule_update_checks()
 
     def import_language(self, code: str):
-        if self.languages_cache is None:
+        if not self.languages_cache:
             self.languages_cache = {lang.code: lang for lang in Language.objects.all()}
-        if code in self.languages_cache:
+        try:
             return self.languages_cache[code]
-        self.languages_cache[code] = language = Language.objects.auto_get_or_create(
-            code
-        )
-        return language
+        except KeyError:
+            self.languages_cache[code] = language = Language.objects.auto_get_or_create(
+                code
+            )
+            return language
 
     @transaction.atomic
     def restore(self, project_name: str, project_slug: str, user, billing=None):
