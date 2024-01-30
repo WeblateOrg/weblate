@@ -125,7 +125,17 @@ ignore = [
   "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
   "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
   "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
-  "ANN",  # TODO: we are missing many annotations
+  "ANN001",  # TODO: Missing type annotation for function argument
+  "ANN002",  # TODO: Missing type annotation for `*args`
+  "ANN003",  # TODO: Missing type annotation for `**kwargs`
+  "ANN101",  # TODO: Missing type annotation for `self` in method
+  "ANN102",  # TODO: Missing type annotation for `cls` in classmethod
+  "ANN201",  # TODO: Missing return type annotation for public function
+  "ANN202",  # TODO:  Missing return type annotation for private function
+  "ANN204",  # TODO: Missing return type annotation for special method
+  "ANN205",  # TODO: Missing return type annotation for staticmethod
+  "ANN206",  # TODO: Missing return type annotation for classmethod
+  "ANN401",  # TODO: Dynamically typed expressions (typing.Any)
   "D10",  # TODO: we are missing many docstrings
   "D401",  # TODO: many strings need rephrasing
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
