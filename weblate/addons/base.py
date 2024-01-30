@@ -49,6 +49,7 @@ class BaseAddon:
     def __init__(self, storage=None):
         self.instance = storage
         self.alerts = []
+        self.extra_files = []
 
     @cached_property
     def doc_anchor(self):
@@ -359,10 +360,6 @@ class UpdateBaseAddon(BaseAddon):
     """
 
     events = (AddonEvent.EVENT_POST_UPDATE,)
-
-    def __init__(self, storage=None):
-        super().__init__(storage)
-        self.extra_files = []
 
     @staticmethod
     def iterate_translations(component):
