@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from requests.exceptions import HTTPError
 
 from .base import MachineTranslation
-from .forms import URLMachineryForm
+from .forms import BaseMachineryForm, URLMachineryForm
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -14,7 +16,7 @@ class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
 
     name = "tmserver"
-    settings_form = URLMachineryForm
+    settings_form: None | type[BaseMachineryForm] = URLMachineryForm
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

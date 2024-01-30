@@ -198,7 +198,7 @@ class BaseMachineTranslationTest(TestCase):
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
     EXPECTED_LEN = 2
-    CONFIGURATION = {}
+    CONFIGURATION: dict[str, str | int | bool] = {}
 
     def get_machine(self, cache=False):
         machine = self.MACHINE_CLS(self.CONFIGURATION)

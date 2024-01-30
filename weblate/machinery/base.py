@@ -603,7 +603,7 @@ class GlossaryMachineTranslationMixin:
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
-    glossary_count_limit = None
+    glossary_count_limit = 0
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         return True
