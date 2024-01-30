@@ -26,7 +26,7 @@ def widgets_sorter(widget):
     return WIDGETS[widget].order
 
 
-def widgets(request, path):
+def widgets(request, path: list[str]):
     engage_obj = project = parse_path(request, path, (Project,))
 
     # Parse possible language selection
@@ -131,7 +131,7 @@ class WidgetRedirectView(RedirectView):
 
 @vary_on_cookie
 @cache_control(max_age=3600)
-def render_widget(request, path: str, widget: str, color: str, extension: str):
+def render_widget(request, path: list[str], widget: str, color: str, extension: str):
     # We intentionally skip ACL here to allow widget sharing
     obj = parse_path(
         request, path, (Component, ProjectLanguage, Project, Translation), skip_acl=True

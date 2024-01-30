@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
-from typing import Any
+from typing import TYPE_CHECKING
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -36,6 +36,11 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.stats import BaseStats, CategoryLanguage, ProjectLanguage
 from weblate.vcs.git import LocalRepository
+
+if TYPE_CHECKING:
+    from django.db.models import Model
+
+    from weblate.trans.mixins import BaseURLMixin
 
 
 class UnsupportedPathObjectError(Http404):
@@ -150,7 +155,7 @@ def get_paginator(request, object_list, page_limit=None):
 
 
 class PathViewMixin:
-    supported_path_types = None
+    supported_path_types: tuple[type[Model | BaseURLMixin] | None, ...] = None
 
     def get_path_object(self):
         if self.supported_path_types is None:
@@ -199,7 +204,11 @@ def get_sort_name(request, obj=None):
 
 
 def parse_path(  # noqa: C901
-    request, path: list[str] | None, types: tuple[Any], *, skip_acl: bool = False
+    request,
+    path: list[str] | tuple[str, ...] | None,
+    types: tuple[type[Model | BaseURLMixin] | None, ...],
+    *,
+    skip_acl: bool = False,
 ):
     if None in types and not path:
         return None
@@ -294,7 +303,11 @@ def parse_path(  # noqa: C901
     return get_object_or_404(translation.unit_set, pk=int(unitid))
 
 
-def parse_path_units(request, path: list[str], types: tuple[Any]):
+def parse_path_units(
+    request,
+    path: list[str] | tuple[str, ...],
+    types: tuple[type[Model | BaseURLMixin] | None, ...],
+):
     obj = parse_path(request, path, types)
 
     context = {"components": None, "path_object": obj}
