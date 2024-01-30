@@ -40,6 +40,8 @@ from weblate.utils.version import USER_AGENT
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.utils.functional import Promise
+
 FREQ_NONE = 0
 FREQ_INSTANT = 1
 FREQ_DAILY = 2
@@ -91,7 +93,7 @@ def register_notification(handler):
 
 class Notification:
     actions: Iterable[int] = ()
-    verbose: str = ""
+    verbose: str | Promise = ""
     template_name: str = ""
     digest_template: str = "digest"
     filter_languages: bool = False
