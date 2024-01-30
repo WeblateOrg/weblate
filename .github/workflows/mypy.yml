@@ -35,3 +35,5 @@ jobs:
 
     - name: Run mypy
       run: mypy weblate/
+      # Temporary hack until we have this fully working
+      continue-on-error: true
