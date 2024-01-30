@@ -4,11 +4,13 @@
 
 """Exporter using translate-toolkit."""
 
+from __future__ import annotations
+
 import re
 from itertools import chain
 
 from django.http import HttpResponse
-from django.utils.functional import cached_property
+from django.utils.functional import Promise, cached_property
 from django.utils.translation import gettext_lazy
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
@@ -46,7 +48,7 @@ class BaseExporter:
     content_type = "text/plain"
     extension = "txt"
     name = ""
-    verbose = ""
+    verbose: str | Promise = ""
     set_id = False
 
     def __init__(
