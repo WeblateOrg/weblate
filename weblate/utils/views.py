@@ -155,10 +155,10 @@ def get_paginator(request, object_list, page_limit=None):
 
 
 class PathViewMixin:
-    supported_path_types: tuple[type[Model | BaseURLMixin] | None, ...] = None
+    supported_path_types: tuple[type[Model | BaseURLMixin] | None, ...] = ()
 
     def get_path_object(self):
-        if self.supported_path_types is None:
+        if not self.supported_path_types:
             raise ValueError("Specifying supported path types is required")
         return parse_path(
             self.request, self.kwargs.get("path", ""), self.supported_path_types
@@ -219,6 +219,9 @@ def parse_path(  # noqa: C901
     def check_type(cls):
         if cls not in allowed_types:
             raise UnsupportedPathObjectError(f"Not supported object type: {cls}")
+
+    if path is None:
+        raise UnsupportedPathObjectError("Missing path")
 
     path = list(path)
 
