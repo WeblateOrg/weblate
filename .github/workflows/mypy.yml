@@ -34,6 +34,9 @@ jobs:
         pip install -r requirements-dev.txt
 
     - name: Run mypy
-      run: mypy weblate/
+      uses: liskin/gh-problem-matcher-wrap@v2
+      with:
+        linters: mypy
+        run: mypy --show-column-numbers weblate
       # Temporary hack until we have this fully working
       continue-on-error: true
