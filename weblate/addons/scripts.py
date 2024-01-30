@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 
 from weblate.addons.base import BaseAddon
@@ -13,8 +15,8 @@ class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
     icon = "script.svg"
-    script = None
-    add_file = None
+    script: None | str = None
+    add_file: None | str = None
     alert = "AddonScriptError"
 
     def run_script(self, component=None, translation=None, env=None):
