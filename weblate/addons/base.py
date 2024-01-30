@@ -11,7 +11,7 @@ from itertools import chain
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.utils.functional import cached_property
+from django.utils.functional import Promise, cached_property
 from django.utils.translation import gettext
 
 from weblate.addons.events import AddonEvent
@@ -34,8 +34,8 @@ class BaseAddon:
     name = ""
     compat = {}
     multiple = False
-    verbose = "Base add-on"
-    description = "Base add-on"
+    verbose: str | Promise = "Base add-on"
+    description: str | Promise = "Base add-on"
     icon = "cog.svg"
     project_scope = False
     repo_scope = False
