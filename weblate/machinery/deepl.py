@@ -143,7 +143,7 @@ class DeepLTranslation(
         target_language = target_language.split("-")[0]
         return (source_language, target_language) in languages
 
-    def list_glossaries(self) -> dict[str:str]:
+    def list_glossaries(self) -> dict[str, str]:
         response = self.request("get", self.get_api_url("glossaries"))
         return {
             glossary["name"]: glossary["glossary_id"]

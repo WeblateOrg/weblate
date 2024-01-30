@@ -607,7 +607,7 @@ class GlossaryMachineTranslationMixin:
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         return True
 
-    def list_glossaries(self) -> dict[str:str]:
+    def list_glossaries(self) -> dict[str, str]:
         """
         Lists glossaries from the service.
 

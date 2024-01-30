@@ -72,7 +72,7 @@ NOTIFICATIONS = []
 NOTIFICATIONS_ACTIONS = {}
 
 
-def get_email_headers(notification: str) -> dict[str:str]:
+def get_email_headers(notification: str) -> dict[str, str]:
     return {
         "X-Mailer": "Weblate" if settings.HIDE_VERSION else USER_AGENT,
         "X-Weblate-Notification": notification,
