@@ -68,4 +68,4 @@ class RemoveBlankAddon(BaseCleanupAddon):
                 translation.store_hash()
 
     def post_commit(self, component):
-        self.post_update(component, "weblate:post-commit", skip_push=True)
+        self.post_update(component, "weblate:post-commit", skip_push=True, child=False)
