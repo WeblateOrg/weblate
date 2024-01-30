@@ -72,15 +72,14 @@ class VCSConfig(AppConfig):
         register(check_gpg, deploy=True)
         register(check_vcs_credentials)
 
-        home = data_dir("home")
-        if not os.path.exists(home):
-            os.makedirs(home)
-
         post_migrate.connect(self.post_migrate, sender=self)
 
     def post_migrate(self, sender, **kwargs):
         ensure_ssh_key()
         home = data_dir("home")
+
+        if not os.path.exists(home):
+            os.makedirs(home)
 
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
