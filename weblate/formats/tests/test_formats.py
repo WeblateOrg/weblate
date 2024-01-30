@@ -970,7 +970,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         self.FORMAT.add_language(out, language, self.BASE)
         template_storage = self.parse_file(self.FILE)
         new_language = self.FORMAT(out, template_storage, language.code)
-        unit, add = new_language.find_unit("job.status.success")
+        unit, add = new_language.find_unit("job.status.success", "")
         self.assertTrue(add)
         unit.set_target("Fait")
         new_language.add_unit(unit.unit)
