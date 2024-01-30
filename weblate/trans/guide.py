@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -14,6 +17,9 @@ from weblate.addons.models import ADDONS
 from weblate.trans.models import Change
 from weblate.utils.docs import get_doc_url
 
+if TYPE_CHECKING:
+    from django.utils.functional import Promise
+
 GUIDELINES = []
 
 
@@ -23,7 +29,7 @@ def register(cls):
 
 
 class Guideline:
-    description = ""
+    description: str | Promise = ""
     group = False
     url = ""
     anchor = ""
