@@ -29,10 +29,10 @@ from weblate.utils.validators import validate_filename
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: tuple[int, ...] = ()
+    events: tuple[AddonEvent, ...] = ()
     settings_form: None | type[AddonFormMixin] = None
     name = ""
-    compat = {}
+    compat: dict[str, set[str]] = {}
     multiple = False
     verbose: str | Promise = "Base add-on"
     description: str | Promise = "Base add-on"
@@ -359,7 +359,7 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events = (AddonEvent.EVENT_POST_UPDATE,)
+    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_POST_UPDATE,)
 
     @staticmethod
     def iterate_translations(component):
@@ -400,5 +400,5 @@ class TestCrashAddon(UpdateBaseAddon):
 class StoreBaseAddon(BaseAddon):
     """Base class for add-ons tweaking store."""
 
-    events = (AddonEvent.EVENT_STORE_POST_LOAD,)
+    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_STORE_POST_LOAD,)
     icon = "wrench.svg"
