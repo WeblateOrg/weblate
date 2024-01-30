@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import Callable
+
 import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
@@ -191,7 +193,7 @@ class AddonsConf(AppConf):
 
 def handle_addon_event(
     event: AddonEvent,
-    method: str | callable,
+    method: str | Callable,
     args: tuple | None = None,
     *,
     component: Component | None = None,
