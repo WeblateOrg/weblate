@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os.path
+from typing import TYPE_CHECKING
 
 import cairo
 import gi
@@ -28,8 +29,12 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.utils.views import get_percent_color
 
+if TYPE_CHECKING:
+    from django.utils.functional import Promise
+
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+
 from gi.repository import Pango, PangoCairo  # noqa: E402
 
 COLOR_DATA = {
@@ -53,7 +58,7 @@ class Widget:
     """Generic widget class."""
 
     name = ""
-    verbose = ""
+    verbose: str | Promise = ""
     colors: tuple[str, ...] = ()
     extension = "png"
     content_type = "image/png"
