@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 from dateutil import parser
 from django.core.cache import cache
-from django.utils.functional import cached_property
+from django.utils.functional import Promise, cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
@@ -56,13 +56,15 @@ class Repository:
     _cmd_status = ["status"]
     _cmd_list_changed_files: list[str] | None = None
 
-    name = None
-    identifier: str | None = None
+    name: str | Promise = ""
+    identifier: str = ""
     req_version: str | None = None
-    default_branch = ""
-    needs_push_url = True
-    supports_push = True
-    push_label = gettext_lazy("This will push changes to the upstream repository.")
+    default_branch: str = ""
+    needs_push_url: bool = True
+    supports_push: bool = True
+    push_label: Promise = gettext_lazy(
+        "This will push changes to the upstream repository."
+    )
 
     _version = None
 

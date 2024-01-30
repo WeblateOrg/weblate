@@ -16,7 +16,7 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.ssh import ensure_ssh_key
 
-GIT_ERRORS = []
+GIT_ERRORS: list[str] = []
 
 
 def check_gpg(app_configs, **kwargs):

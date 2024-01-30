@@ -54,7 +54,7 @@ class GitRepository(Repository):
 
     name = "Git"
     push_label = gettext_lazy("This will push changes to the upstream Git repository.")
-    req_version = "2.12"
+    req_version: str | None = "2.12"
     default_branch = "master"
     ref_to_remote = "..{0}"
     ref_from_remote = "{0}.."
