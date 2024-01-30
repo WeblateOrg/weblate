@@ -195,7 +195,7 @@ class MultipleFieldMixin:
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: tuple[str, ...] = ()
-    raw_formats = EXPORTERS
+    raw_formats: tuple[str, ...] = tuple(EXPORTERS)
 
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
@@ -830,7 +830,7 @@ class ComponentViewSet(
 ):
     """Translation components API."""
 
-    raw_urls: tuple[str, ...] = "component-file"
+    raw_urls: tuple[str, ...] = ("component-file",)
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
 
     queryset = Component.objects.none()
@@ -1783,7 +1783,9 @@ class Search(APIView):
 
 
 class TasksViewSet(ViewSet):
-    def get_task(self, request, pk, permission: str | None = None) -> AsyncResult:
+    def get_task(
+        self, request, pk, permission: str | None = None
+    ) -> tuple[AsyncResult, Component | None]:
         task = AsyncResult(str(pk))
         result = task.result
         if task.state == "PENDING" or isinstance(result, Exception):

@@ -43,7 +43,7 @@ from weblate.utils.views import (
 
 def get_reverse_kwargs(
     obj, lookup_field: tuple[str, ...], strip_parts: int = 0
-) -> dict[str, str]:
+) -> dict[str, str] | None:
     kwargs = {}
     was_slug = False
     for lookup in lookup_field:
