@@ -4,15 +4,22 @@
 
 """Provide user friendly names for social authentication methods."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
+if TYPE_CHECKING:
+    from django.utils.functional import Promise
+
 register = template.Library()
 
-SOCIALS = {
+SOCIALS: dict[str, dict[str, str | Promise]] = {
     "auth0": {"name": "Auth0", "image": "auth0.svg"},
     "saml": {"name": "SAML", "image": "saml.svg"},
     "google": {"name": "Google", "image": "google.svg"},
