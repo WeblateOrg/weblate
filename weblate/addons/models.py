@@ -283,7 +283,7 @@ def post_update(
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
-        (component, previous_head, skip_push),
+        (component, previous_head, skip_push, child),
         component=component,
     )
 

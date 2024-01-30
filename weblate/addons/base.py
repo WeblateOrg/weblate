@@ -135,7 +135,7 @@ class BaseAddon:
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
-            self.post_update(component, "", False)
+            self.post_update(component, "", False, False)
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
             self.component_update(component)
@@ -179,7 +179,7 @@ class BaseAddon:
         """Hook triggered before repository is updated from upstream."""
         # To be implemented in a subclass
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         """
         Hook triggered after repository is updated from upstream.
 
@@ -373,7 +373,7 @@ class UpdateBaseAddon(BaseAddon):
     def update_translations(self, component, previous_head):
         raise NotImplementedError
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         # Ignore file parse error, it will be properly tracked as an alert
         with suppress(FileParseError):
             self.update_translations(component, previous_head)

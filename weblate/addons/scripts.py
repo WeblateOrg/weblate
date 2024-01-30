@@ -49,7 +49,7 @@ class BaseScriptAddon(BaseAddon):
     def post_push(self, component):
         self.run_script(component)
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
     def post_commit(self, component):
