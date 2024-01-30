@@ -171,12 +171,14 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
     FIND = "Hello, world!\n"
     FIND_CONTEXT = ""
     FIND_MATCH = "Ahoj světe!\n"
-    NEW_UNIT_MATCH: str | bytes | None = b'\nmsgctxt "key"\nmsgid "Source string"\n'
+    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[
+        str, ...
+    ] | None = b'\nmsgctxt "key"\nmsgid "Source string"\n'
     NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
-    EXPECTED_FLAGS = "c-format, max-length:100"
+    EXPECTED_FLAGS: str | list[str] = "c-format, max-length:100"
     EDIT_OFFSET = 0
-    EDIT_TARGET = "Nazdar, svete!\n"
+    EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
     MONOLINGUAL = False
 
     @classmethod
@@ -418,7 +420,7 @@ class PoFormatTest(BaseFormatTest):
 
 
 class PropertiesFormatTest(BaseFormatTest):
-    FORMAT = PropertiesFormat
+    FORMAT: type[TranslationFormat] = PropertiesFormat
     FILE = TEST_PROPERTIES
     MIME = "text/plain"
     COUNT = 12
@@ -499,7 +501,7 @@ class JSONFormatTest(BaseFormatTest):
     MATCH = "{}\n"
     BASE = ""
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: str | list[str] = ""
 
     def assert_same(self, newdata, testdata):
         self.assertJSONEqual(newdata.decode(), testdata.decode())
