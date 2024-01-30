@@ -6,8 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.fluent.utils import (
@@ -667,8 +666,8 @@ class FluentReferencesCheck(TargetCheck):
     """
 
     check_id = "fluent-references"
-    name = _("Fluent references")
-    description = _("Fluent references should match")
+    name = gettext_lazy("Fluent references")
+    description = gettext_lazy("Fluent references should match")
     default_disabled = True
 
     @classmethod
