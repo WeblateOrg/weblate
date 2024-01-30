@@ -11,7 +11,7 @@ import tempfile
 from copy import copy
 from typing import Any, Callable
 
-from django.utils.functional import cached_property
+from django.utils.functional import Promise, cached_property
 from django.utils.translation import gettext
 from weblate_language_data.countries import DEFAULT_LANGS
 
@@ -242,7 +242,7 @@ class TranslationUnit:
 class TranslationFormat:
     """Generic object defining file format loader."""
 
-    name: str = ""
+    name: str | Promise = ""
     format_id: str = ""
     monolingual: bool | None = None
     check_flags: tuple[str, ...] = ()
@@ -255,7 +255,7 @@ class TranslationFormat:
     new_translation: str | bytes | None = None
     autoaddon: dict[str, dict[str, str]] = {}
     create_empty_bilingual: bool = False
-    bilingual_class = None
+    bilingual_class: type[TranslationFormat] | None = None
     create_style = "create"
     has_multiple_strings: bool = False
     supports_explanation: bool = False
