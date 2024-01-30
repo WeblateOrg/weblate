@@ -15,7 +15,7 @@ from django.utils.functional import Promise, cached_property
 from django.utils.translation import gettext
 from weblate_language_data.countries import DEFAULT_LANGS
 
-from weblate.trans.util import get_string
+from weblate.trans.util import get_string, join_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
@@ -362,7 +362,9 @@ class TranslationFormat:
         except KeyError:
             return None
 
-    def _find_unit_monolingual(self, context: str, source: str) -> tuple[Any, bool]:
+    def _find_unit_monolingual(
+        self, context: str, source: str
+    ) -> tuple[TranslationUnit, bool]:
         # We search by ID when using template
         id_hash = self._calculate_string_hash(context, source)
         try:
@@ -388,14 +390,16 @@ class TranslationFormat:
             self.has_template or self.is_template, get_string(source), context
         )
 
-    def _find_unit_bilingual(self, context: str, source: str) -> tuple[Any, bool]:
+    def _find_unit_bilingual(
+        self, context: str, source: str
+    ) -> tuple[TranslationUnit, bool]:
         id_hash = self._calculate_string_hash(context, source)
         try:
             return (self._unit_index[id_hash], False)
         except KeyError:
             raise UnitNotFoundError(context, source)
 
-    def find_unit(self, context: str, source: str | None = None) -> tuple[Any, bool]:
+    def find_unit(self, context: str, source: str) -> tuple[TranslationUnit, bool]:
         """
         Find unit by context and source.
 
@@ -659,7 +663,9 @@ class TranslationFormat:
             if self.is_template:
                 template_unit = unit
             else:
-                template_unit = self._find_unit_monolingual(key, source)
+                template_unit = self._find_unit_monolingual(
+                    key, join_plural(source) if isinstance(source, list) else source
+                )[0]
         else:
             template_unit = None
         result = self.unit_class(self, unit, template_unit)
@@ -716,7 +722,7 @@ class TranslationFormat:
         self._invalidate_units()
         return result
 
-    def cleanup_blank(self) -> list[str]:
+    def cleanup_blank(self) -> list[str] | None:
         """
         Removes strings without translations.
 
