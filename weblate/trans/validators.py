@@ -16,7 +16,7 @@ from weblate.trans.defines import LANGUAGE_CODE_LENGTH
 
 
 def validate_filemask(val):
-    """Validate that filemask contains *."""
+    """Validate that the filemask contains *."""
     if "*" not in val:
         raise ValidationError(
             gettext("File mask does not contain * as a language placeholder!")
@@ -24,18 +24,18 @@ def validate_filemask(val):
 
 
 def validate_autoaccept(val):
-    """Validate correct value for autoaccept."""
+    """Validate correct value for automatical acceptance."""
     if val == 1:
         raise ValidationError(
             gettext(
-                "A value of 1 is not allowed for autoaccept as "
+                "A value of 1 is not allowed for automatical acceptance as "
                 "it would permit users to vote on their own suggestions."
             )
         )
 
 
 def validate_check_flags(val):
-    """Validate check influencing flags."""
+    """Validate check-influencing flags."""
     try:
         flags = Flags(val)
     except (ParseException, re.error) as error:
