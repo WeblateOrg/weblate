@@ -34,8 +34,8 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
+    BatchMachineTranslation,
     MachineryRateLimitError,
-    MachineTranslation,
     MachineTranslationError,
 )
 from weblate.machinery.deepl import DeepLTranslation
@@ -189,11 +189,11 @@ MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "dat
 class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
 
-    MACHINE_CLS: type[MachineTranslation] = DummyTranslation
+    MACHINE_CLS: type[BatchMachineTranslation] = DummyTranslation
     ENGLISH = "en"
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
-    NOTSUPPORTED = "de"
+    NOTSUPPORTED: str | None = "de"
     NOTSUPPORTED_VARIANT = "de_CZ"
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"

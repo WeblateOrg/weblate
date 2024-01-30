@@ -32,6 +32,7 @@ from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
+    from weblate.machinery.forms import BaseMachineryForm
     from weblate.trans.models import Unit
 
 
@@ -68,7 +69,7 @@ class BatchMachineTranslation:
     accounting_key = "external"
     force_uncleanup = False
     hightlight_syntax = False
-    settings_form = None
+    settings_form: None | type[BaseMachineryForm] = None
     validate_payload = ("en", "de", [("test", None)], None, 75)
     request_timeout = 5
     is_available = True
