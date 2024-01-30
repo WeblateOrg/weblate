@@ -8,6 +8,59 @@ target-version = ['py39']
 [tool.codespell]
 skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
 
+[tool.django-stubs]
+django_settings_module = "weblate.settings_test"
+strict_settings = false
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+disallow_untyped_defs = true
+ignore_missing_imports = true
+module = [
+  "simple_sso.*",
+  "social_django.*",
+  "social_core.*",
+  "ruamel.*",
+  "aliyunsdkcore.*",
+  "aliyunsdkalimt.*",
+  "google.oauth2.*",
+  "botocore.*",
+  "boto3.*",
+  "user_agents.*",
+  "siphashc.*",
+  "translation_finder.*",
+  "weblate_language_data.*",
+  "django_redis.*",
+  "pygments.*",
+  "redis_lock.*",
+  "borg.*",
+  "rollbar.*",
+  "crispy_forms.*",
+  "akismet.*",
+  "gi.*",
+  "misaka.*",
+  "diff_match_patch.*",
+  "saml2.*",
+  "ldap.*",
+  "django_auth_ldap.*",
+  "pyicumessageformat.*",
+  "django_filters.*",
+  "tesserocr.*",
+  "django_celery_beat.*",
+  "translate.*",
+  "appconf.*",
+  "rest_framework.*",
+  "wllegal.*",
+  "wlhosted.*",
+  "djangosaml2idp.*",
+  "debug_toolbar.*",
+  "weblate_schemas.*",
+  "celery.contrib.testing.tasks",
+  "django.db.backends.postgresql.psycopg_any"
+]
+
 [tool.pylint.main]
 disable = [
   "C",
