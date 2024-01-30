@@ -366,7 +366,7 @@ class PluralField(forms.CharField):
         super().__init__(widget=PluralTextarea, **kwargs)
 
     def to_python(self, value):
-        """Return list or string as returned by PluralTextarea."""
+        """Return list of strings as returned by PluralTextarea."""
         return value
 
     def clean(self, value):

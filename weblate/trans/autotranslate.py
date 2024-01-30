@@ -55,7 +55,7 @@ class AutoTranslate:
                 },
             )
 
-    def update(self, unit, state, target, user=None):
+    def update(self, unit, state: int, target: list[str], user=None):
         if isinstance(target, str):
             target = [target]
         if self.mode == "suggest" or any(
