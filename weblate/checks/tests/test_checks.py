@@ -4,13 +4,19 @@
 
 """Helper for quality checks tests."""
 
+from __future__ import annotations
+
 import random
+from typing import TYPE_CHECKING
 
 from django.test import SimpleTestCase
 from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
+
+if TYPE_CHECKING:
+    from weblate.checks.base import Check
 
 
 class MockLanguage(Language):
@@ -141,7 +147,7 @@ class MockUnit:
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
 
-    check = None
+    check: None | Check = None
     default_lang = "cs"
 
     def setUp(self):
