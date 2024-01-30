@@ -22,16 +22,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cache/pip
-          ~/.cache/pre-commit
-        key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
+        cache: pip
+        cache-dependency-path: '**/requirements*.txt'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
