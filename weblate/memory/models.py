@@ -59,8 +59,7 @@ class MemoryQuerySet(models.QuerySet):
             query |= Q(user=user)
         return base.filter(query)
 
-    @staticmethod
-    def threshold_to_similarity(text: str, threshold: int) -> float:
+    def threshold_to_similarity(self, text: str, threshold: int) -> float:
         """
         Convert machinery threshold into PostgreSQL similarity threshold.
 
