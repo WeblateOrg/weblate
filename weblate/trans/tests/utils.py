@@ -13,7 +13,7 @@ from tempfile import mkdtemp
 from unittest import SkipTest
 
 import social_core.backends.utils
-from celery.contrib.testing.tasks import ping
+from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
