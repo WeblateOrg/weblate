@@ -31,7 +31,7 @@ class BackupsTest(ViewTestCase):
     def test_create_backup(self):
         # Additional content to test on backups
         label = self.project.label_set.create(name="Label", color="navy")
-        unit = self.component.source_translation.unit_set.first()
+        unit = self.component.source_translation.unit_set.all()[0]
         unit.labels.add(label)
         shot = Screenshot.objects.create(
             name="Obrazek", translation=self.component.source_translation

@@ -690,9 +690,7 @@ class NewAlertNotificaton(Notification):
             fake.project = fake.component.project
             return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
         if change.alert.obj.project_wide:
-            first_component = change.component.project.component_set.order_by(
-                "id"
-            ).first()
+            first_component = change.component.project.component_set.order_by("id")[0]
             # Notify for the first component
             if change.component.id == first_component.id:
                 return True

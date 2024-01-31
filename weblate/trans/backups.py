@@ -397,8 +397,10 @@ class ProjectBackup:
         source_translation_id = -1
         for item in data["translations"]:
             language = self.import_language(item["language_code"])
-            plural = language.plural_set.filter(**item["plural"]).first()
-            if plural is None:
+            plurals = language.plural_set.filter(**item["plural"])
+            try:
+                plural = plurals[0]
+            except IndexError:
                 if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
                     plural = language.plural
                 elif item["plural"]["source"] in (
@@ -409,7 +411,7 @@ class ProjectBackup:
                 else:
                     plural = language.plural_set.filter(
                         source=item["plural"]["source"]
-                    ).first()
+                    )[0]
             translation = Translation(
                 component=component,
                 filename=item["filename"],
