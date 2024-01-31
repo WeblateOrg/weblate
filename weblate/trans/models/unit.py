@@ -505,7 +505,7 @@ class Unit(models.Model, LoggerMixin):
         self.trigger_update_variants = True
         self.fixups = []
         # Data for machinery integration
-        self.machinery = None
+        self.machinery = {}
         # PluralMapper integration
         self.plural_map = None
         # Data for glossary integration

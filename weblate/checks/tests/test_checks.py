@@ -124,7 +124,7 @@ class MockUnit:
             self.targets = target
         self.note = note
         self.check_cache = {}
-        self.machinery = None
+        self.machinery = {}
         self.is_source = is_source
         self.context = context
         self.glossary_terms = None

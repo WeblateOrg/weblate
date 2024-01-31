@@ -517,9 +517,7 @@ class BatchMachineTranslation:
 
         for unit in units:
             result = unit.machinery
-            if result is None:
-                result = unit.machinery = {}
-            elif min(result.get("quality", ()), default=0) >= self.max_score:
+            if min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
             translation_lists = [translations[text] for text in unit.plural_map]
             plural_count = len(translation_lists)
