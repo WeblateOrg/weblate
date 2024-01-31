@@ -496,7 +496,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
 
 class CaptchaForm(forms.Form):
-    captcha = MathCaptcha()
+    captcha = forms.IntegerField(required=True)
 
     def __init__(self, request, form=None, data=None, *args, **kwargs):
         super().__init__(data, *args, **kwargs)
