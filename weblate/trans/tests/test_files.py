@@ -688,14 +688,14 @@ class DownloadMultiTest(ViewTestCase):
         load_workbook(BytesIO(content))
 
 
-EXPECTED_CSV = """"location","source","target","id","fuzzy","context","translator_comments","developer_comments"\r
-"","Hello, world!
-","","","False","hello","",""\r
-"","Orangutan has %d banana.
-","","","False","orangutan","",""\r
-"","Try Weblate at https://demo.weblate.org/!
-","","","False","try","",""\r
-"","Thank you for using Weblate.","","","False","thanks","",""\r
+EXPECTED_CSV = """location,source,target,id,fuzzy,context,translator_comments,developer_comments\r
+,"Hello, world!
+",,,False,hello,,\r
+,"Orangutan has %d banana.
+",,,False,orangutan,,\r
+,"Try Weblate at https://demo.weblate.org/!
+",,,False,try,,\r
+,Thank you for using Weblate.,,,False,thanks,,\r
 """
 
 UPLOAD_CSV = """
