@@ -21,7 +21,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.pii import mask_email
-from weblate.utils.state import STATE_LOOKUP
+from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -696,9 +696,9 @@ class Change(models.Model, UserDisplayMixin):
 
     def get_state_display(self):
         state = self.details.get("state")
-        if not state:
+        if state is None:
             return ""
-        return STATE_LOOKUP[state]
+        return StringState(state).label
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE

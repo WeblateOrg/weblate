@@ -47,11 +47,11 @@ from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
-    STATE_CHOICES,
     STATE_EMPTY,
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
+    StringState,
 )
 
 if TYPE_CHECKING:
@@ -351,8 +351,10 @@ class Unit(models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
-    state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
-    original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
+    state = models.IntegerField(default=STATE_EMPTY, choices=StringState.choices)
+    original_state = models.IntegerField(
+        default=STATE_EMPTY, choices=StringState.choices
+    )
     details = models.JSONField(default=dict)
 
     position = models.IntegerField()
