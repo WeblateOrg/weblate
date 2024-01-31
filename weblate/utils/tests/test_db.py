@@ -53,7 +53,7 @@ class SearchSQLOperatorTest(FixtureTestCase):
         # This is essentially what bulk edit does with such search
         from weblate.trans.models import Component, Project, Unit
 
-        obj = Project.objects.first()
+        obj = Project.objects.all()[0]
         unit_set = Unit.objects.filter(translation__component__project=obj).prefetch()
         matching = unit_set.search("10°", project=obj)
         components = Component.objects.filter(

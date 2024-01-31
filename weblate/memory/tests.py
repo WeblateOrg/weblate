@@ -69,7 +69,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                     "original_source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
-                    "delete_url": f"/api/memory/{Memory.objects.first().pk}/",
+                    "delete_url": f"/api/memory/{Memory.objects.all()[0].pk}/",
                 }
             ],
         )
