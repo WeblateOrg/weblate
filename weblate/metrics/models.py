@@ -29,6 +29,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.stats import (
+    BaseStats,
     CategoryLanguage,
     GlobalStats,
     ProjectLanguage,
@@ -126,7 +127,7 @@ class MetricManager(models.Manager):
     def create_metrics(
         self,
         data: dict,
-        stats: dict | None,
+        stats: BaseStats | None,
         keys: set,
         scope: int,
         relation: int,
@@ -471,7 +472,7 @@ class MetricManager(models.Manager):
                 ),
             ),
         )
-        return self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
+        return self.create_metrics(data, None, set(), Metric.SCOPE_USER, user.pk)
 
     @transaction.atomic
     def collect_language(self, language: Language):
