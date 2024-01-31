@@ -78,7 +78,7 @@ class BatchMachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: dict[str, str]):
+    def __init__(self, settings: dict[str, str | int | bool]):
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
