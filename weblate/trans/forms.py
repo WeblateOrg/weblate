@@ -76,11 +76,12 @@ from weblate.utils.forms import (
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.state import (
     STATE_APPROVED,
-    STATE_CHOICES,
     STATE_EMPTY,
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
+    StringState,
+    get_state_label,
 )
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
@@ -448,9 +449,9 @@ class TranslationForm(UnitForm):
     review = forms.ChoiceField(
         label=gettext_lazy("Review state"),
         choices=[
-            (STATE_FUZZY, gettext_lazy("Needs editing")),
-            (STATE_TRANSLATED, gettext_lazy("Waiting for review")),
-            (STATE_APPROVED, gettext_lazy("Approved")),
+            (state, get_state_label(state, label, True))
+            for state, label in StringState.choices
+            if state not in (STATE_READONLY, STATE_EMPTY)
         ],
         required=False,
         widget=forms.RadioSelect,
@@ -483,7 +484,9 @@ class TranslationForm(UnitForm):
             for field in ["target", "fuzzy", "review"]:
                 self.fields[field].widget.attrs["readonly"] = 1
             self.fields["review"].choices = [
-                (STATE_READONLY, gettext_lazy("Read only")),
+                (state, label)
+                for state, label in StringState.choices
+                if state == STATE_READONLY
             ]
         self.user = user
         self.fields["target"].widget.attrs["tabindex"] = tabindex
@@ -2510,13 +2513,11 @@ class BulkEditForm(forms.Form):
 
         # Filter offered states
         choices = self.fields["state"].choices
-        for value, label in STATE_CHOICES:
-            if value in excluded:
-                continue
-            if value == STATE_TRANSLATED and show_review:
-                label = gettext("Waiting for review")
-
-            choices.append((value, label))
+        choices.extend(
+            (state, get_state_label(state, label, show_review))
+            for state, label in StringState.choices
+            if state not in excluded
+        )
         self.fields["state"].choices = choices
 
         self.helper = FormHelper(self)

@@ -50,6 +50,7 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
+    StringState,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
 
@@ -1372,7 +1373,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         auto_context: bool = False,
         is_batch_update: bool = False,
         skip_existing: bool = False,
-        state: int | None = None,
+        state: StringState | None = None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1466,9 +1467,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if unit is None:
                 if "read-only" in translation.all_flags:
                     unit_state = STATE_READONLY
-                elif has_translation and (state is None or state == STATE_EMPTY):
+                elif state is None:
+                    unit_state = STATE_TRANSLATED if has_translation else STATE_EMPTY
+                elif has_translation and state == STATE_EMPTY:
                     unit_state = STATE_TRANSLATED
-                elif not has_translation and (state is None or state != STATE_EMPTY):
+                elif not has_translation and state != STATE_EMPTY:
                     unit_state = STATE_EMPTY
                 else:
                     unit_state = state
