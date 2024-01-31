@@ -36,7 +36,7 @@ jobs:
       with:
         python-version: '3.11'
         cache: pip
-        cache-dependency-path: '**/requirements*.txt'
+        cache-dependency-path: requirements*.txt
     - name: Used versions
       run: ./ci/print-versions
     - name: Install pip dependencies

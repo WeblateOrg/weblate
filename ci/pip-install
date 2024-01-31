@@ -35,7 +35,11 @@ else
     # shellcheck disable=SC2046
     pip install $(grep -E '^(Cython|pycairo)[>=<]' requirements.txt)
 
-    pip install -r requirements-test.txt
+    if [ "${1:-latest}" = mypy ] ; then
+      pip install -r requirements-mypy.txt
+    else
+      pip install -r requirements-test.txt
+    fi
     if [ "${1:-latest}" = edge ] ; then
         pip install --upgrade-strategy eager -U -r requirements-test.txt -r requirements-ci.txt
         # Install from git / pre-release

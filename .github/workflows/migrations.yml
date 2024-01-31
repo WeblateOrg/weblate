@@ -48,8 +48,7 @@ jobs:
         cache: pip
         cache-dependency-path: '**/requirements*.txt'
     - name: Install pip dependencies
-      run: |
-        ./ci/pip-install migrations
+      run: ./ci/pip-install migrations
     - name: Check missing migrations
       run: ./ci/run-checkmigrate
     - name: Migrate from 5.0
