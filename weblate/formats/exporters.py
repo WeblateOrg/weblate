@@ -380,7 +380,12 @@ class CVSBaseExporter(BaseExporter):
     storage_class = csvfile
 
     def get_storage(self):
-        return self.storage_class(fieldnames=self.fieldnames)
+        storage = self.storage_class(fieldnames=self.fieldnames)
+        # Use Excel dialect instead of translate-toolkit "default" to avoid
+        # unnecessary escaping with backslash which later confuses our importer
+        # at it is typically used occasionally.
+        storage.dialect = "excel"
+        return storage
 
 
 class CSVExporter(CVSBaseExporter):
