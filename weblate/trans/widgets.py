@@ -30,7 +30,7 @@ from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
-    from django.utils.functional import Promise
+    from django_stubs_ext import StrOrPromise
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -58,7 +58,7 @@ class Widget:
     """Generic widget class."""
 
     name = ""
-    verbose: str | Promise = ""
+    verbose: StrOrPromise = ""
     colors: tuple[str, ...] = ()
     extension = "png"
     content_type = "image/png"

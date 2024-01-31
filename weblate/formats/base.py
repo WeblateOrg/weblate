@@ -9,9 +9,9 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any, Callable
 
-from django.utils.functional import Promise, cached_property
+from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from weblate_language_data.countries import DEFAULT_LANGS
 
@@ -19,6 +19,10 @@ from weblate.trans.util import get_string, join_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
@@ -242,7 +246,7 @@ class TranslationUnit:
 class TranslationFormat:
     """Generic object defining file format loader."""
 
-    name: str | Promise = ""
+    name: StrOrPromise = ""
     format_id: str = ""
     monolingual: bool | None = None
     check_flags: tuple[str, ...] = ()

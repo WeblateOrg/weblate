@@ -20,15 +20,15 @@ from weblate.utils.xml import parse_xml
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from django.utils.functional import Promise
+    from django_stubs_ext import StrOrPromise
 
 
 class Check:
     """Basic class for checks."""
 
     check_id = ""
-    name: str | Promise = ""
-    description: str | Promise = ""
+    name: StrOrPromise = ""
+    description: StrOrPromise = ""
     target = False
     source = False
     ignore_untranslated = True

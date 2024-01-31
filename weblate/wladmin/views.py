@@ -61,9 +61,9 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.wladmin.tasks import backup_service, support_status_update
 
 if TYPE_CHECKING:
-    from django.utils.functional import Promise
+    from django_stubs_ext import StrOrPromise
 
-MENU: tuple[tuple[str, str, Promise], ...] = (
+MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),
     ("backups", "manage-backups", gettext_lazy("Backups")),
     ("memory", "manage-memory", gettext_lazy("Translation memory")),

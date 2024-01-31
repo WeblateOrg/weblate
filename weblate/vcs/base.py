@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 from dateutil import parser
 from django.core.cache import cache
-from django.utils.functional import Promise, cached_property
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
@@ -27,6 +27,8 @@ from weblate.vcs.ssh import SSH_WRAPPER
 if TYPE_CHECKING:
     from collections.abc import Iterator
     from datetime import datetime
+
+    from django_stubs_ext import StrOrPromise
 
 LOGGER = logging.getLogger("weblate.vcs")
 
@@ -56,13 +58,13 @@ class Repository:
     _cmd_status = ["status"]
     _cmd_list_changed_files: list[str] | None = None
 
-    name: str | Promise = ""
+    name: StrOrPromise = ""
     identifier: str = ""
     req_version: str | None = None
     default_branch: str = ""
     needs_push_url: bool = True
     supports_push: bool = True
-    push_label: Promise = gettext_lazy(
+    push_label: StrOrPromise = gettext_lazy(
         "This will push changes to the upstream repository."
     )
 

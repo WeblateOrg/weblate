@@ -8,10 +8,11 @@ import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.utils.functional import Promise, cached_property
+from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
 from weblate.addons.events import AddonEvent
@@ -25,6 +26,9 @@ from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 
 class BaseAddon:
     """Base class for Weblate add-ons."""
@@ -34,8 +38,8 @@ class BaseAddon:
     name = ""
     compat: dict[str, set[str]] = {}
     multiple = False
-    verbose: str | Promise = "Base add-on"
-    description: str | Promise = "Base add-on"
+    verbose: StrOrPromise = "Base add-on"
+    description: StrOrPromise = "Base add-on"
     icon = "cog.svg"
     project_scope = False
     repo_scope = False

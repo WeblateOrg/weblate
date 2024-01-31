@@ -2,17 +2,24 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.functional import cached_property
 from django.utils.text import format_lazy
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.models import CHECKS
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 
 class FilterRegistry:
     @cached_property
     def full_list(self):
-        result = [
+        result: list[tuple[str, StrOrPromise, str]] = [
             ("all", gettext_lazy("All strings"), ""),
             ("readonly", gettext_lazy("Read-only strings"), "state:read-only"),
             ("nottranslated", gettext_lazy("Untranslated strings"), "state:empty"),

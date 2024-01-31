@@ -18,7 +18,7 @@ from weblate.trans.models import Change
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
-    from django.utils.functional import Promise
+    from django_stubs_ext import StrOrPromise
 
 GUIDELINES = []
 
@@ -29,7 +29,7 @@ def register(cls):
 
 
 class Guideline:
-    description: str | Promise = ""
+    description: StrOrPromise = ""
     group = False
     url = ""
     anchor = ""

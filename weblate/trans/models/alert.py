@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
@@ -11,6 +14,9 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 ALERTS = {}
 ALERTS_IMPORT = set()
@@ -63,7 +69,7 @@ class Alert(models.Model):
 
 
 class BaseAlert:
-    verbose = ""
+    verbose: StrOrPromise = ""
     on_import = False
     link_wide = False
     project_wide = False

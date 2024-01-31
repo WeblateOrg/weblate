@@ -41,6 +41,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
     from datetime import datetime
 
+    from django_stubs_ext import StrOrPromise
+
 
 class GitRepository(Repository):
     """Repository implementation for Git."""
@@ -52,7 +54,7 @@ class GitRepository(Repository):
     _cmd_push = ["push"]
     _cmd_status = ["--no-optional-locks", "status"]
 
-    name = "Git"
+    name: StrOrPromise = "Git"
     push_label = gettext_lazy("This will push changes to the upstream Git repository.")
     req_version: str | None = "2.12"
     default_branch = "master"

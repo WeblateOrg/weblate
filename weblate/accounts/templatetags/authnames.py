@@ -15,11 +15,11 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
 if TYPE_CHECKING:
-    from django.utils.functional import Promise
+    from django_stubs_ext import StrOrPromise
 
 register = template.Library()
 
-SOCIALS: dict[str, dict[str, str | Promise]] = {
+SOCIALS: dict[str, dict[str, StrOrPromise]] = {
     "auth0": {"name": "Auth0", "image": "auth0.svg"},
     "saml": {"name": "SAML", "image": "saml.svg"},
     "google": {"name": "Google", "image": "google.svg"},
