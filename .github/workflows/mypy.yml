@@ -22,6 +22,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
     - name: Setup Python
       uses: actions/setup-python@v5
       with:

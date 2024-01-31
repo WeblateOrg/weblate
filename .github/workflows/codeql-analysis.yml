@@ -30,7 +30,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4.1.1
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install $CI_DATABASE
+      run: sudo ./ci/apt-install
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
