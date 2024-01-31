@@ -10,13 +10,14 @@ import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest import SkipTest
 
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django.utils.functional import cached_property
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -132,11 +133,14 @@ class SeleniumTests(
         else:
             os.environ["LANG"] = backup_lang
 
-        if cls.driver is not None:
-            cls.driver.implicitly_wait(5)
-            cls.actions = webdriver.ActionChains(cls.driver)
+        if cls._driver is not None:
+            cls._driver.implicitly_wait(5)
 
         super().setUpClass()
+
+    @cached_property
+    def actions(self):
+        return webdriver.ActionChains(self.driver)
 
     @property
     def driver(self) -> WebDriver:
@@ -471,9 +475,10 @@ class SeleniumTests(
         project = self.create_component()
         language = Language.objects.get(code="cs")
 
-        source = Unit.objects.get(
-            source=text, translation__language=language
-        ).source_unit
+        source = cast(
+            Unit,
+            Unit.objects.get(source=text, translation__language=language).source_unit,
+        )
         source.explanation = "Help text for automatic translation tool"
         source.save()
         self.create_glossary(project, language)
