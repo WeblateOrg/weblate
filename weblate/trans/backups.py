@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from shutil import copyfileobj
@@ -329,6 +330,18 @@ class ProjectBackup:
                     raise ValueError(
                         f'Component {data["component"]["name"]} uses unsupported VCS: {data["component"]["vcs"]}'
                     )
+                # Validate translations have unique languages
+                languages = defaultdict(list)
+                for item in data["translations"]:
+                    language = self.import_language(item["language_code"])
+                    languages[language.code].append(item["language_code"])
+
+                for code, values in languages.items():
+                    if len(values) > 1:
+                        raise ValueError(
+                            f"Several languages from backup map to single language on this server {values} -> {code}"
+                        )
+
                 if callback is not None:
                     callback(zipfile, data)
 
