@@ -413,7 +413,7 @@ class ContactForm(forms.Form):
     )
 
 
-class EmailForm(forms.Form, UniqueEmailMixin):
+class EmailForm(UniqueEmailMixin):
     """Email change form."""
 
     required_css_class = "required"
