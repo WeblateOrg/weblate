@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import cast
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -48,7 +52,7 @@ from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_ra
 from weblate.utils.validators import validate_fullname
 
 
-class UniqueEmailMixin:
+class UniqueEmailMixin(forms.Form):
     validate_unique_mail = False
 
     def clean_email(self):
@@ -492,7 +496,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
 
 class CaptchaForm(forms.Form):
-    captcha = forms.IntegerField(required=True)
+    captcha = MathCaptcha()
 
     def __init__(self, request, form=None, data=None, *args, **kwargs):
         super().__init__(data, *args, **kwargs)
@@ -518,7 +522,7 @@ class CaptchaForm(forms.Form):
             % self.captcha.display
         )
         if self.is_bound:
-            self["captcha"].label = self.fields["captcha"].label
+            self["captcha"].label = cast(str, self.fields["captcha"].label)
 
     def generate_captcha(self):
         self.captcha = MathCaptcha()
@@ -602,7 +606,7 @@ class LoginForm(forms.Form):
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
-        self.user_cache = None
+        self.user_cache: User | None = None
         super().__init__(*args, **kwargs)
 
     def clean(self):
@@ -626,8 +630,9 @@ class LoginForm(forms.Form):
                     )
                     % lockout_period
                 )
-            self.user_cache = authenticate(
-                self.request, username=username, password=password
+            self.user_cache = cast(
+                User | None,
+                authenticate(self.request, username=username, password=password),
             )
             if self.user_cache is None:
                 for user in try_get_user(username, True):
