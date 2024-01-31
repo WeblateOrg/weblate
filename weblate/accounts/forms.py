@@ -508,7 +508,7 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             self.fresh = True
         else:
-            self.captcha = MathCaptcha.unserialize(request.session["captcha"])
+            self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
             self.set_label()
 
     def set_label(self):
@@ -519,19 +519,19 @@ class CaptchaForm(forms.Form):
                 "the %s is an arithmetic problem",
                 "What is %s?",
             )
-            % self.captcha.display
+            % self.mathcaptcha.display
         )
         if self.is_bound:
             self["captcha"].label = cast(str, self.fields["captcha"].label)
 
     def generate_captcha(self):
-        self.captcha = MathCaptcha()
-        self.request.session["captcha"] = self.captcha.serialize()
+        self.mathcaptcha = MathCaptcha()
+        self.request.session["captcha"] = self.mathcaptcha.serialize()
         self.set_label()
 
     def clean_captcha(self):
         """Validation for CAPTCHA."""
-        if self.fresh or not self.captcha.validate(self.cleaned_data["captcha"]):
+        if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
@@ -544,7 +544,7 @@ class CaptchaForm(forms.Form):
         LOGGER.info(
             "Correct CAPTCHA for %s (%s = %s)",
             mail,
-            self.captcha.question,
+            self.mathcaptcha.question,
             self.cleaned_data["captcha"],
         )
 
