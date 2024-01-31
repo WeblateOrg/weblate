@@ -23,6 +23,7 @@ from weblate.trans.tests.utils import get_test_file
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
+TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
 
 
 class BackupsTest(ViewTestCase):
@@ -153,6 +154,13 @@ class BackupsTest(ViewTestCase):
             {("Label", "navy")},
             set(restored.label_set.values_list("name", "color")),
         )
+
+    def test_restore_duplicate(self):
+        if not connection.features.can_return_rows_from_bulk_insert:
+            raise SkipTest("Not supported")
+        restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
+        with self.assertRaises(ValueError):
+            restore.validate()
 
     def test_cleanup(self):
         cleanup_project_backups()
