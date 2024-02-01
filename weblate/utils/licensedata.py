@@ -2301,6 +2301,12 @@ LICENSES = (
     ),
     ("OpenSSL", "OpenSSL License", "https://spdx.org/licenses/OpenSSL.html", True),
     (
+        "OpenSSL-standalone",
+        "OpenSSL License - standalone",
+        "https://spdx.org/licenses/OpenSSL-standalone.html",
+        False,
+    ),
+    (
         "OSET-PL-2.1",
         "OSET Public License version 2.1",
         "https://spdx.org/licenses/OSET-PL-2.1.html",
@@ -2593,6 +2599,12 @@ LICENSES = (
         "ssh-keyscan",
         "ssh-keyscan License",
         "https://spdx.org/licenses/ssh-keyscan.html",
+        False,
+    ),
+    (
+        "SSLeay-standalone",
+        "SSLeay License - standalone",
+        "https://spdx.org/licenses/SSLeay-standalone.html",
         False,
     ),
     (
