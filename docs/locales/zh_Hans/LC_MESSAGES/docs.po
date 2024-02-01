@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-01-23 19:12+0100\n"
+"POT-Creation-Date: 2024-02-01 19:59+0100\n"
 "PO-Revision-Date: 2024-01-26 03:14+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -447,10 +447,9 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"Weblate 访问控制系统最强大的功能可以在 "
-":ref:`管理界面`进行配置。您可以使用它来管理任何项目的权限。"
-"你不一定要将它切换到 :guilabel:`自定义` :ref:`访问控制 <acl>` "
-"来使用它。但是你必须有超级用户权限才能使用它。"
+"Weblate 访问控制系统最强大的功能可以在 :ref:`管理界面`进行配置。您可以使用它"
+"来管理任何项目的权限。你不一定要将它切换到 :guilabel:`自定义` :ref:`访问控制 "
+"<acl>` 来使用它。但是你必须有超级用户权限才能使用它。"
 
 #: ../../admin/access.rst:223
 msgid ""
@@ -460,9 +459,9 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
-"如果您对实现的细节不感兴趣，只是想创建一个基于默认值的足够简单的配置，"
-"或者不能访问整个 Weblate 安装（如 `Hosted Weblate <https://hosted.weblate."
-"org/>`_），请参见 :ref:`manage-acl` 部分。"
+"如果您对实现的细节不感兴趣，只是想创建一个基于默认值的足够简单的配置，或者不"
+"能访问整个 Weblate 安装（如 `Hosted Weblate <https://hosted.weblate.org/"
+">`_），请参见 :ref:`manage-acl` 部分。"
 
 #: ../../admin/access.rst:229
 msgid "Site-wide permission management"
@@ -3462,7 +3461,12 @@ msgid "Shared translation memory, see :doc:`memory`"
 msgstr "共享的翻译记忆库，见 :doc:`memory`"
 
 #: ../../admin/admin.rst:17
-msgid "Performance report to review Weblate health and length of Celery queues"
+#, fuzzy
+#| msgid ""
+#| "Performance report to review Weblate health and length of Celery queues"
+msgid ""
+":ref:`manage-performance` to review Weblate health and length of Celery "
+"queues"
 msgstr "性能报告，来复查 Weblate 的健康状况和 Celery 队列的长度"
 
 #: ../../admin/admin.rst:18
@@ -3478,18 +3482,84 @@ msgid "Users and teams, see :ref:`custom-acl`"
 msgstr "用户和团队，见 :ref:`custom-acl`"
 
 #: ../../admin/admin.rst:21
-msgid "Appearance customization."
-msgstr "外观自定义."
+#, fuzzy
+#| msgid ":ref:`language-parsing-codes`"
+msgid ":ref:`manage-appearance`."
+msgstr ":ref:`language-parsing-codes`"
 
 #: ../../admin/admin.rst:22
 msgid "Configure :ref:`machine-translation-setup`."
 msgstr "配置 :ref:`machine-translation-setup`."
 
 #: ../../admin/admin.rst:27
+msgid "Performance report"
+msgstr "性能报告"
+
+#: ../../admin/admin.rst:29
+msgid ""
+"This page provides an overview of Weblate configuration and performance "
+"status."
+msgstr ""
+
+#: ../../admin/admin.rst:31
+msgid ""
+":guilabel:`Configuration errors` indicate issues present in your "
+"environment. It covers missing optional dependencies (see :ref:`python-"
+"deps`), configuration issues or delayed processing of background tasks  "
+"(see :ref:`celery`)."
+msgstr ""
+
+#: ../../admin/admin.rst:35
+msgid ""
+":guilabel:`System checks` lists possible configuration issues. These can be "
+"silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also :doc:"
+"`django:howto/deployment/checklist`."
+msgstr ""
+
+#: ../../admin/admin.rst:39
+msgid ""
+":guilabel:`Celery queues` provides overview of Celery queues. These "
+"typically should be close to zero. The same can be obtained on the command "
+"line using :wladmin:`celery_queues`."
+msgstr ""
+
+#: ../../admin/admin.rst:43
+msgid ""
+":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
+"This needs to be configured in your system, see :ref:`production-encoding`."
+msgstr ""
+
+#: ../../admin/admin.rst:46
+msgid ""
+":guilabel:`Connectivity` shows latencies to the database, cache, and Celery. "
+"This might be useful to diagnose connectivity issues."
+msgstr ""
+
+#: ../../admin/admin.rst:53
+#, fuzzy
+#| msgid "Appearance customization."
+msgid "Appearance customization"
+msgstr "外观自定义."
+
+#: ../../admin/admin.rst:59
+msgid ""
+"The colors are currently used in both dark and light theme, so be careful "
+"when choosing them."
+msgstr ""
+
+#: ../../admin/admin.rst:62
+msgid "Colors, fonts, and page appearance can be customized here."
+msgstr ""
+
+#: ../../admin/admin.rst:64
+msgid "If you are looking for more customization, see :doc:`/admin/customize`."
+msgstr ""
+
+#: ../../admin/admin.rst:69
 msgid "The Django admin interface"
 msgstr "Django 管理界面"
 
-#: ../../admin/admin.rst:31
+#: ../../admin/admin.rst:73
 msgid ""
 "Use with caution as this is a low level interface. You should not need it in "
 "most cases as most things are comfortably approachable through Weblate UI or "
@@ -3498,13 +3568,13 @@ msgstr ""
 "请小心使用，因为这是一个底层接口。多数情况下你不应该使用它，因为通过 Weblate "
 "用户界面或 API 你可以舒服地访问多数设置项。"
 
-#: ../../admin/admin.rst:34
+#: ../../admin/admin.rst:76
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
 msgstr "可以在这里管理数据库中存储的对象，如用户、翻译和其他设置："
 
-#: ../../admin/admin.rst:39
+#: ../../admin/admin.rst:81
 msgid ""
 "In the :guilabel:`Reports` section, you can check the status of your site, "
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
@@ -3513,7 +3583,7 @@ msgstr ""
 "在 :guilabel:`报告` 部分，可以检查网站的状态，为 :ref:`production` 进行调整，"
 "或者管理用于访问的 SSH 密钥 :ref:`vcs-repos`。"
 
-#: ../../admin/admin.rst:42
+#: ../../admin/admin.rst:84
 msgid ""
 "Manage database objects under any of the sections. The most interesting one "
 "is probably :guilabel:`Weblate translations`, where you can manage "
@@ -3522,18 +3592,18 @@ msgstr ""
 "管理任意部分下的数据库对象。最有趣的也许是 :guilabel:`Weblate 翻译`，你可以在"
 "这里管理可翻译的项目，请参见 :ref:`project` 和 :ref:`component`。"
 
-#: ../../admin/admin.rst:46
+#: ../../admin/admin.rst:88
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
 ":guilabel:`Weblate 语言` 保持语言定义，在 :ref:`languages` 中进一步解释。"
 
-#: ../../admin/admin.rst:50
+#: ../../admin/admin.rst:92
 msgid "Adding a project"
 msgstr "添加项目"
 
-#: ../../admin/admin.rst:52
+#: ../../admin/admin.rst:94
 msgid ""
 "Adding a project serves as container for all components. Usually you create "
 "one project for one piece of software, or book (See :ref:`project` for info "
@@ -3542,15 +3612,15 @@ msgstr ""
 "添加项目作为所有部件的容器。通常可以为一部分软件或图书（各自参数的信息请参"
 "见 :ref:`project` ）来建立一个项目："
 
-#: ../../admin/admin.rst:60
+#: ../../admin/admin.rst:102
 msgid ":ref:`project`"
 msgstr ":ref:`project`"
 
-#: ../../admin/admin.rst:65
+#: ../../admin/admin.rst:107
 msgid "Bilingual components"
 msgstr "双语部件"
 
-#: ../../admin/admin.rst:67
+#: ../../admin/admin.rst:109
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
@@ -3558,15 +3628,15 @@ msgstr ""
 "一旦添加了一个项目，就可以添加翻译部件了。（关于各自参数的信息，请参见 :ref:"
 "`component` ）："
 
-#: ../../admin/admin.rst:74 ../../admin/admin.rst:90
+#: ../../admin/admin.rst:116 ../../admin/admin.rst:132
 msgid ":ref:`component`, :ref:`bimono`"
 msgstr ":ref:`component`, :ref:`bimono`"
 
-#: ../../admin/admin.rst:80
+#: ../../admin/admin.rst:122
 msgid "Monolingual components"
 msgstr "单语言部件"
 
-#: ../../admin/admin.rst:82
+#: ../../admin/admin.rst:124
 msgid ""
 "For easier translation of these, provide a template file containing the "
 "mapping of message IDs to its respective source language (usually English). "
@@ -4450,11 +4520,19 @@ msgstr ""
 "`PROJECT_BACKUP_KEEP_COUNT`的配置保留在服务器上（默认情况下最多保留 3 个备份 "
 "30 天）。"
 
-#: ../../admin/backup.rst:36
+#: ../../admin/backup.rst:37
+msgid ""
+"Restoring of the backup might fail if the restoring server has different set "
+"of :ref:`languages` or different configuration of :setting:"
+"`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
+"not be processed and you can then add missing langage definitions manually."
+msgstr ""
+
+#: ../../admin/backup.rst:44
 msgid "Automated backup using BorgBackup"
 msgstr "使用 BorgBackup 进行的自动化备份"
 
-#: ../../admin/backup.rst:38
+#: ../../admin/backup.rst:46
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
@@ -4465,35 +4543,35 @@ msgstr ""
 "加密备份，可以安全地存储在云中。可以从管理界面中的 :guilabel:`备份` 选项卡上"
 "控制备份。"
 
-#: ../../admin/backup.rst:45
+#: ../../admin/backup.rst:53
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr "PostgreSQL 和 MySQL/MariaDB 数据库都包括在自动备份中。"
 
-#: ../../admin/backup.rst:47
+#: ../../admin/backup.rst:55
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr "使用 Borg 的备份是增量的，Weblate 被配置为保留以下备份："
 
-#: ../../admin/backup.rst:49
+#: ../../admin/backup.rst:57
 msgid "Daily backups for 14 days back"
 msgstr "每天备份之前 14 天的内容"
 
-#: ../../admin/backup.rst:50
+#: ../../admin/backup.rst:58
 msgid "Weekly backups for 8 weeks back"
 msgstr "前 8 周的每周备份"
 
-#: ../../admin/backup.rst:51
+#: ../../admin/backup.rst:59
 msgid "Monthly backups for 6 months back"
 msgstr "前 6 个月的每月备份"
 
-#: ../../admin/backup.rst:58
+#: ../../admin/backup.rst:66
 msgid "Borg encryption key"
 msgstr "Borg 加密密钥"
 
-#: ../../admin/backup.rst:60
+#: ../../admin/backup.rst:68
 msgid ""
 "`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
 "them without the passphrase. The passphrase is generated when adding a new "
@@ -4502,7 +4580,7 @@ msgstr ""
 "`BorgBackup`_ 创建加密的备份，如果没有密码，你将无法恢复它们。密码是在添加新"
 "的备份服务时生成的，你应该复制它并将其保存在一个安全的地方。"
 
-#: ../../admin/backup.rst:64
+#: ../../admin/backup.rst:72
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
@@ -4510,27 +4588,27 @@ msgstr ""
 "如果你在使用 :ref:`cloudbackup`，请同样备份你的私有 SSH 密钥，因为它用来访问"
 "你的备份。"
 
-#: ../../admin/backup.rst:69
+#: ../../admin/backup.rst:77
 msgid ":doc:`borg:usage/init`"
 msgstr ":doc:`borg:usage/init`"
 
-#: ../../admin/backup.rst:72
+#: ../../admin/backup.rst:80
 msgid "Customizing backup"
 msgstr "定制备份"
 
-#: ../../admin/backup.rst:74
+#: ../../admin/backup.rst:82
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr "可通过 :setting:`DATABASE_BACKUP` 配置数据库备份。"
 
-#: ../../admin/backup.rst:75
+#: ../../admin/backup.rst:83
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr "可以使用 :setting:`BORG_EXTRA_ARGS `自定义备份创建。"
 
-#: ../../admin/backup.rst:80
+#: ../../admin/backup.rst:88
 msgid "Weblate provisioned backup storage"
 msgstr "Weblate 提供的备份存储"
 
-#: ../../admin/backup.rst:82
+#: ../../admin/backup.rst:90
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
@@ -4539,33 +4617,33 @@ msgstr ""
 "备份你的 Weblate 实例的最简单方式是购买 `weblate.org 的备份服务<https://"
 "weblate.org/support/#backup>`_。这是你如何让它运行起来的方式："
 
-#: ../../admin/backup.rst:86
+#: ../../admin/backup.rst:94
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr "在 https://weblate.org/support/#backup 购买 `备份服务`。"
 
-#: ../../admin/backup.rst:87
+#: ../../admin/backup.rst:95
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr "在管理界面输入得到的密钥，请参见 :ref:`activate-support`。"
 
-#: ../../admin/backup.rst:88
+#: ../../admin/backup.rst:96
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr "Weblate 将连接到云服务，并获取备份的访问信息。"
 
-#: ../../admin/backup.rst:89
+#: ../../admin/backup.rst:97
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr "在 :guilabel:`备份` 选项卡下开启新的备份配置。"
 
-#: ../../admin/backup.rst:90
+#: ../../admin/backup.rst:98
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr "备份你的 Borg 凭据，以便能够恢复备份，请参见 :ref:`borg-keys`。"
 
-#: ../../admin/backup.rst:94
+#: ../../admin/backup.rst:102
 msgid ""
 "The manual step of turning everything on is there for your safety. Without "
 "your consent no data is sent to the backup repository obtained through the "
@@ -4574,11 +4652,11 @@ msgstr ""
 "为了安全起见，有打开所有东西的手动步骤。没有你的同意，就不会有数据发送到通过"
 "注册步骤得到的备份仓库。"
 
-#: ../../admin/backup.rst:101
+#: ../../admin/backup.rst:109
 msgid "Using custom backup storage"
 msgstr "使用客户的备份存储"
 
-#: ../../admin/backup.rst:103
+#: ../../admin/backup.rst:111
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
@@ -4587,15 +4665,15 @@ msgstr ""
 "也可以使用自己的存储来备份。SSH 可以用于在远程目的地存储备份，目标服务器需要"
 "安装 `BorgBackup`_。"
 
-#: ../../admin/backup.rst:109
+#: ../../admin/backup.rst:117
 msgid ":doc:`borg:usage/general` in the Borg documentation"
 msgstr "Borg 文档中的 :doc:`borg:usage/general`"
 
-#: ../../admin/backup.rst:112
+#: ../../admin/backup.rst:120
 msgid "Local filesystem"
 msgstr "本地文件系统"
 
-#: ../../admin/backup.rst:114
+#: ../../admin/backup.rst:122
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
@@ -4606,7 +4684,7 @@ msgstr ""
 "weblate 的用户写入（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
 "Weblate 会尝试新建它，但需要适当的权限才能这么做。"
 
-#: ../../admin/backup.rst:121
+#: ../../admin/backup.rst:129
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
@@ -4615,7 +4693,7 @@ msgstr ""
 "在 Docker 中运行 Weblate时，请确保备份位置暴露为来自 Weblate 容器的一个卷。否"
 "则，备份文件将在其所在的容器重启时被 Docker 丢弃。"
 
-#: ../../admin/backup.rst:125
+#: ../../admin/backup.rst:133
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
@@ -4623,7 +4701,7 @@ msgstr ""
 "一个选项是将备份放置在一个现有的卷中。例如，:file:`/app/data/borgbackup`。这"
 "是容器中的一个现有的卷。"
 
-#: ../../admin/backup.rst:128
+#: ../../admin/backup.rst:136
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
@@ -4631,17 +4709,17 @@ msgstr ""
 "你也可以在 Docker 的编写文件中为备份目的添加一个新的容器，例如使用 :file:`/"
 "borgbackup`:"
 
-#: ../../admin/backup.rst:139
+#: ../../admin/backup.rst:147
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr "备份所存储的目录由 UID 1000 所有，否则 Weblate 将无法把备份写入那里。"
 
-#: ../../admin/backup.rst:143
+#: ../../admin/backup.rst:151
 msgid "Remote backups"
 msgstr "远程备份"
 
-#: ../../admin/backup.rst:145
+#: ../../admin/backup.rst:153
 msgid ""
 "For creating remote backups, you will have to install `BorgBackup`_ onto "
 "another server that’s accessible for your Weblate deployment via SSH using "
@@ -4650,17 +4728,17 @@ msgstr ""
 "要创建远程备份，你必须将 `BorgBackup`_ 安装到另一台服务器上，你的 Weblate 部"
 "署要能使用如下 Weblate SSH 密钥通过 SSH 访问此服务器："
 
-#: ../../admin/backup.rst:149
+#: ../../admin/backup.rst:157
 msgid "Prepare a server where your backups will be stored."
 msgstr "准备一个用于存储备份的服务器。"
 
-#: ../../admin/backup.rst:150
+#: ../../admin/backup.rst:158
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr "在上面安装SSH服务器（大多数Linux发行版默认情况下都会安装SSH服务器）。"
 
-#: ../../admin/backup.rst:151
+#: ../../admin/backup.rst:159
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
@@ -4668,13 +4746,13 @@ msgstr ""
 "在该服务器上安装 `BorgBackup`_；大多数 Linux 发行版都有可用的软件包（参见 :"
 "doc:`borg:installation`）。"
 
-#: ../../admin/backup.rst:152
+#: ../../admin/backup.rst:160
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr "选择一个现有用户或创建一个用于备份的新用户。"
 
-#: ../../admin/backup.rst:153
+#: ../../admin/backup.rst:161
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
@@ -4682,7 +4760,7 @@ msgstr ""
 "为用户添加 Weblate SSH 密钥，使 Weblate 可以在不需要密码的情况下 SSH 到服务器"
 "（参见 :ref:`weblate-ssh-key`）。"
 
-#: ../../admin/backup.rst:154
+#: ../../admin/backup.rst:162
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
@@ -4690,35 +4768,35 @@ msgstr ""
 "将 Weblate 备份位置配置为 ``user@host:/path/to/backups`` 或 ``ssh://"
 "user@host:port/path/to/backups``."
 
-#: ../../admin/backup.rst:158
+#: ../../admin/backup.rst:166
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ":ref:`cloudbackup` 为你提供毫不费力的自动远程备份。"
 
-#: ../../admin/backup.rst:162
+#: ../../admin/backup.rst:170
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 msgstr ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 
-#: ../../admin/backup.rst:165
+#: ../../admin/backup.rst:173
 msgid "Restoring from BorgBackup"
 msgstr "从 BorgBackup 恢复"
 
-#: ../../admin/backup.rst:167
+#: ../../admin/backup.rst:175
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr "恢复功能会访问你的备份仓库，并准备备份密码。"
 
-#: ../../admin/backup.rst:169
+#: ../../admin/backup.rst:177
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr "用 ``borg list REPOSITORY`` 列出服务器上的所有备份。"
 
-#: ../../admin/backup.rst:171
+#: ../../admin/backup.rst:179
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr "使用 ``borg extract REPOSITORY::ARCHIVE`` 将所需备份恢复到当前目录。"
 
-#: ../../admin/backup.rst:173
+#: ../../admin/backup.rst:181
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
@@ -4726,7 +4804,7 @@ msgstr ""
 "从放置在 Weblate 数据目录下 ``backup`` 目录中的 SQL 备份中恢复数据库（请参"
 "见 :ref:`backup-dumps`）。"
 
-#: ../../admin/backup.rst:175
+#: ../../admin/backup.rst:183
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
@@ -4734,7 +4812,7 @@ msgstr ""
 "将 Weblate 配置 （ :file:`backups/settings.py`，请参见 :ref:`backup-dumps` ）"
 "复制到正确的位置，请参见 :ref:`configuration`。"
 
-#: ../../admin/backup.rst:178
+#: ../../admin/backup.rst:186
 msgid ""
 "When using Docker container, the settings file is already included in the "
 "container and you should restore the original environment variables. The :"
@@ -4744,43 +4822,43 @@ msgstr ""
 "使用 Docker 容器时，设置文件已经包含在容器中，您应该恢复原始环境变量。:file:"
 "`environment.yml` 文件可能会帮助你解决这个问题（参见 :ref:`backup-dumps`）。"
 
-#: ../../admin/backup.rst:182
+#: ../../admin/backup.rst:190
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr "将整个存储的数据目录复制到 :setting:`DATA_DIR` 所配置的位置。"
 
-#: ../../admin/backup.rst:185
+#: ../../admin/backup.rst:193
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr "使用 Docker 容器时，将数据置于数据卷，见 :ref:`docker-volume`。"
 
-#: ../../admin/backup.rst:188
+#: ../../admin/backup.rst:196
 msgid ""
 "Please ensure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr "请确保文件具有正确的所有权和权限，请参阅 :ref:`file-permissions`。"
 
-#: ../../admin/backup.rst:190
+#: ../../admin/backup.rst:198
 msgid "The Borg session might look like this:"
 msgstr "Borg 会话可能看上去是这个样子的："
 
-#: ../../admin/backup.rst:202
+#: ../../admin/backup.rst:210
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
-#: ../../admin/backup.rst:210
+#: ../../admin/backup.rst:218
 msgid "Manual backup"
 msgstr "手动备份"
 
-#: ../../admin/backup.rst:212
+#: ../../admin/backup.rst:220
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr "根据要保存的内容，备份 Weblate 在各个地方存储的数据类型。"
 
-#: ../../admin/backup.rst:216
+#: ../../admin/backup.rst:224
 msgid ""
 "If you are doing the manual backups, you might want to silence Weblate's "
 "warning about a lack of backups by adding ``weblate.I028`` to :setting:"
@@ -4792,26 +4870,26 @@ msgstr ""
 "SILENCED_SYSTEM_CHECKS`；对于 Docker，则是 :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS`。"
 
-#: ../../admin/backup.rst:226
+#: ../../admin/backup.rst:234
 msgid "Database"
 msgstr "数据库"
 
-#: ../../admin/backup.rst:228
+#: ../../admin/backup.rst:236
 msgid "The actual storage location depends on your database setup."
 msgstr "实际存储位置取决于数据库的设置。"
 
-#: ../../admin/backup.rst:232
+#: ../../admin/backup.rst:240
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
 "数据库是最重要的存储。定期对数据库进行备份。没有数据库，所有的翻译都会消失。"
 
-#: ../../admin/backup.rst:236
+#: ../../admin/backup.rst:244
 msgid "Native database backup"
 msgstr "本地数据库备份"
 
-#: ../../admin/backup.rst:238
+#: ../../admin/backup.rst:246
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
@@ -4822,7 +4900,7 @@ msgstr ""
 "来保存数据库的转储。这通常比 Django 备份表现得好，并且可以连同数据一道，恢复"
 "完整表格。"
 
-#: ../../admin/backup.rst:242
+#: ../../admin/backup.rst:250
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
@@ -4832,11 +4910,11 @@ msgstr ""
 "它将执行所有必需的迁移。请参考 :doc:`upgrade` 了解如何在版本间升级的更多详细"
 "信息。"
 
-#: ../../admin/backup.rst:247
+#: ../../admin/backup.rst:255
 msgid "Django database backup"
 msgstr "Django 数据库备份"
 
-#: ../../admin/backup.rst:249
+#: ../../admin/backup.rst:257
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
@@ -4845,7 +4923,7 @@ msgstr ""
 "另外，可以使用 Django 的 :djadmin:`django:dumpdata` 命令备份你的数据库。那种"
 "方式是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
 
-#: ../../admin/backup.rst:253
+#: ../../admin/backup.rst:261
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -4857,7 +4935,7 @@ msgstr ""
 "版本。这是必要的，因为数据库结构在不同版本之间会发生变化，你可能会以某种方式"
 "破坏数据。安装相同版本后，用 :wladmin:`migrate` 运行所有数据库迁移。"
 
-#: ../../admin/backup.rst:259
+#: ../../admin/backup.rst:267
 msgid ""
 "Afterwards some entries will already be created in the database and you will "
 "have them in the database backup as well. The recommended approach is to "
@@ -4867,11 +4945,11 @@ msgstr ""
 "之后，一些条目将已经在数据库中创建，你也会在数据库备份中看到它们。推荐的方法"
 "是使用管理 shell 手动删除这些条目 (见：ref:`invoke-manage`)："
 
-#: ../../admin/backup.rst:270
+#: ../../admin/backup.rst:278
 msgid "Files"
 msgstr "文件"
 
-#: ../../admin/backup.rst:272
+#: ../../admin/backup.rst:280
 msgid ""
 "If you have enough backup space, simply back up the whole :setting:"
 "`DATA_DIR`. This is a safe bet even if it includes some files you don't "
@@ -4881,21 +4959,21 @@ msgstr ""
 "如果你有足够的备份空间，只需备份整个 :setting:`DATA_DIR`。这是一个安全带，即"
 "使它包含一些你不想要的文件。下面的部分详细描述了应该备份和可以跳过的内容。"
 
-#: ../../admin/backup.rst:280
+#: ../../admin/backup.rst:288
 msgid "Dumped data for backups"
 msgstr "下载的数据用于备份"
 
-#: ../../admin/backup.rst:284
+#: ../../admin/backup.rst:292
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr "环境变量被转储在 :file:`environment.yml`，以帮助在 Docker 中恢复环境。"
 
-#: ../../admin/backup.rst:287
+#: ../../admin/backup.rst:295
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
 msgstr "存储在 :setting:`DATA_DIR` ``/backups`` 中。"
 
-#: ../../admin/backup.rst:289
+#: ../../admin/backup.rst:297
 msgid ""
 "Weblate dumps various data here, and you can include these files for more "
 "complete backups. The files are updated daily (requires a running Celery "
@@ -4904,7 +4982,7 @@ msgstr ""
 "Weblate 这里备份各种数据，可以包括这些文件用于更完整的备份。文件每日更新（需"
 "要运行 Celery beat 服务器，请参见 :ref:`celery` ）。当前，这包括："
 
-#: ../../admin/backup.rst:293
+#: ../../admin/backup.rst:301
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
@@ -4912,15 +4990,15 @@ msgstr ""
 "Weblate 设置为 :file:`settings.py` （还有扩展版，在 :file:`settings-expanded."
 "py` ）。"
 
-#: ../../admin/backup.rst:294
+#: ../../admin/backup.rst:302
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "PostgreSQL 数据库备份为 :file:`database.sql`。"
 
-#: ../../admin/backup.rst:295
+#: ../../admin/backup.rst:303
 msgid "Environment dump as :file:`environment.yml`."
 msgstr "环境变量转储在 :file:`environment.yml`。"
 
-#: ../../admin/backup.rst:297
+#: ../../admin/backup.rst:305
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
@@ -4928,20 +5006,20 @@ msgstr ""
 "数据库备份默认保存为纯文本，但也可以通过 :setting:`DATABASE_BACKUP`来进行压缩"
 "或整个跳过。"
 
-#: ../../admin/backup.rst:300
+#: ../../admin/backup.rst:308
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr "要恢复数据库备份，请使用数据库工具加载它，例如:"
 
-#: ../../admin/backup.rst:307
+#: ../../admin/backup.rst:315
 msgid "Version control repositories"
 msgstr "版本控制仓库"
 
-#: ../../admin/backup.rst:309
+#: ../../admin/backup.rst:317
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "存储在 :setting:`DATA_DIR` ``/vcs``中。"
 
-#: ../../admin/backup.rst:311
+#: ../../admin/backup.rst:319
 msgid ""
 "The version control repositories contain a copy of your upstream "
 "repositories with Weblate changes. If you have :ref:`component-"
@@ -4954,17 +5032,17 @@ msgstr ""
 "了:ref:`component-push_on_commit``，那么所有 Weblate 变化都包括在上游。不需要"
 "在 Weblate 端备份仓库，因为它们可以从上游位置再次克隆，不会丢失数据。"
 
-#: ../../admin/backup.rst:318
+#: ../../admin/backup.rst:326
 msgid "SSH and GPG keys"
 msgstr "SSH 和 GPG 密钥"
 
-#: ../../admin/backup.rst:320
+#: ../../admin/backup.rst:328
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
 "存储在 :setting:`DATA_DIR` ``/ssh`` 和 :setting:`DATA_DIR` ``/home`` 中。"
 
-#: ../../admin/backup.rst:322
+#: ../../admin/backup.rst:330
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations. Otherwise you will lose the private keys and you will have "
@@ -4973,23 +5051,23 @@ msgstr ""
 "如果正在使用 Weblate 生成的 SSH 或 GPG 密钥，你应该备份这些位置。否则将丢失私"
 "有密钥，并且你将不得不重新生成新的密钥。"
 
-#: ../../admin/backup.rst:327
+#: ../../admin/backup.rst:335
 msgid "User uploaded files"
 msgstr "用户上传的文件"
 
-#: ../../admin/backup.rst:329
+#: ../../admin/backup.rst:337
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "存储在 :setting:`DATA_DIR` ``/media`` 中。"
 
-#: ../../admin/backup.rst:331
+#: ../../admin/backup.rst:339
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr "你应当备份所有用户上传的文件（例如 :ref:`screenshots` ）。"
 
-#: ../../admin/backup.rst:334
+#: ../../admin/backup.rst:342
 msgid "Celery tasks"
 msgstr "Celery 任务"
 
-#: ../../admin/backup.rst:336
+#: ../../admin/backup.rst:344
 msgid ""
 "The Celery task queue might contain some info, but is usually not needed for "
 "a backup. At most you will lose updates not yet been processed to "
@@ -5000,21 +5078,21 @@ msgstr ""
 "记忆库处理的更新。无论如何，建议在恢复时执行全文或仓库更新，这样就不会有丢失"
 "这些内容的问题。"
 
-#: ../../admin/backup.rst:343
+#: ../../admin/backup.rst:351
 msgid ":ref:`celery`"
 msgstr ":ref:`celery`"
 
-#: ../../admin/backup.rst:346
+#: ../../admin/backup.rst:354
 msgid "Command-line for manual backup"
 msgstr "手动备份的命令行"
 
-#: ../../admin/backup.rst:348
+#: ../../admin/backup.rst:356
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr "使用 cron 作业，您可以设置一条每天执行的 Bash 命令，例如："
 
-#: ../../admin/backup.rst:354
+#: ../../admin/backup.rst:362
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
@@ -5022,29 +5100,29 @@ msgstr ""
 "你可以根据需要调整文件夹和文件的列表。为了避免保存翻译记忆库（在备份文件夹"
 "中），你可以使用："
 
-#: ../../admin/backup.rst:361
+#: ../../admin/backup.rst:369
 msgid "Restoring manual backup"
 msgstr "恢复手动备份"
 
-#: ../../admin/backup.rst:363
+#: ../../admin/backup.rst:371
 msgid "Restore all data you have backed up."
 msgstr "将已经备份的所有数据恢复。"
 
-#: ../../admin/backup.rst:365
+#: ../../admin/backup.rst:373
 msgid "Update all repositories using :wladmin:`updategit`."
 msgstr "使用 :wladmin:`updategit` 更新所有仓库。"
 
-#: ../../admin/backup.rst:372
+#: ../../admin/backup.rst:380
 msgid "Moving a Weblate installation"
 msgstr "移动 Weblate 安装"
 
-#: ../../admin/backup.rst:374
+#: ../../admin/backup.rst:382
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr "按照上面备份与恢复说明，将你的安装迁移到不同系统。"
 
-#: ../../admin/backup.rst:379
+#: ../../admin/backup.rst:387
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
@@ -5176,8 +5254,8 @@ msgstr "``dos-eol``"
 
 #: ../../admin/checks.rst:74
 msgid ""
-"Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
-"\\n``)."
+"Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of "
+"``\\n``)."
 msgstr ""
 "使用 DOS 的行尾标记，而不使用 Unix 的（使用 ``\\r\\n`` 而不使用 ``\\n``）。"
 
@@ -6423,8 +6501,9 @@ msgstr "ADMINS_CONTACT"
 msgid ""
 "Configures where contact form sends e-mails. If not configured, e-mail "
 "addresses from :setting:`ADMINS` are used."
-msgstr "配置联络表单向何处发送电子邮件。如未配置，将使用来自 "
-":setting:`ADMINS`的电子邮件地址。"
+msgstr ""
+"配置联络表单向何处发送电子邮件。如未配置，将使用来自 :setting:`ADMINS`的电子"
+"邮件地址。"
 
 #: ../../admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
@@ -6607,8 +6686,8 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
-"身份验证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 "
-"172800（ 2 天）。"
+"身份验证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 172800"
+"（ 2 天）。"
 
 #: ../../admin/config.rst:148
 msgid "AUTH_PASSWORD_DAYS"
@@ -8072,8 +8151,8 @@ msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1362
 msgid ""
-"Template to generate private commit e-mail for an user. Defaults to ``"
-"\"{username}@users.noreply.{site_domain}\"``."
+"Template to generate private commit e-mail for an user. Defaults to "
+"``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
 "为用户生成专用提交电子邮箱的模板。默认为 ``\"{username}@users.noreply."
 "{site_domain}\"``."
@@ -9084,11 +9163,10 @@ msgid ""
 msgstr ""
 "对于单语文件来说，第一种方法很简单——您可以在 Weblate 中添加新字符串，并将文件"
 "的整个编辑留在那里。对于双语文件，通常存在某种信息提取过程可以从源代码生成可"
-"翻译文件。在一些情况下，这可以分成两部分——一部分是提取生成模板（例如使用 "
-":program:`xgettext` 生成 gettex POT "
-"），然后下一步处理将其合并到真正的翻译中（例如使用 :program:`msgmerge` 更新 "
-"gettext PO 文件）。您可以在 Weblate "
-"中执行第二步，它将确保在此操作之前包含所有的待处理更改。"
+"翻译文件。在一些情况下，这可以分成两部分——一部分是提取生成模板（例如使用 :"
+"program:`xgettext` 生成 gettex POT ），然后下一步处理将其合并到真正的翻译中"
+"（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。您可以在 Weblate 中执"
+"行第二步，它将确保在此操作之前包含所有的待处理更改。"
 
 #: ../../admin/continuous.rst:122
 msgid ""
@@ -9130,8 +9208,8 @@ msgid ""
 "are squashing commits outside of Weblate (for example when merging a pull "
 "request)."
 msgstr ""
-"即便 Weblate 是翻译文件更改的单一来源，当使用 :ref:`addon-weblate.git.squash`"
-" 附加组件、 :ref:`component-merge_style`被配置为 :guilabel:`Rebase`，"
+"即便 Weblate 是翻译文件更改的单一来源，当使用 :ref:`addon-weblate.git."
+"squash` 附加组件、 :ref:`component-merge_style`被配置为 :guilabel:`Rebase`，"
 "或者你在挤压 Weblate 外面的提交（比如合并拉取请求）时，也可能发生冲突。"
 
 #: ../../admin/continuous.rst:170
@@ -9144,8 +9222,8 @@ msgid ""
 msgstr ""
 "此情形下，合并冲突的原因是不同的。比如，在你合并 Weblate 提交后，Weblate 中发"
 "生了更改。出现这种情况通常是因为合并操作不是自动进行的，而是等待几天或数周进"
-"行人工审核。Git 有时会无法识别上游的更改是否与 Weblate "
-"匹配，并拒绝执行变基操作。"
+"行人工审核。Git 有时会无法识别上游的更改是否与 Weblate 匹配，并拒绝执行变基操"
+"作。"
 
 #: ../../admin/continuous.rst:176
 msgid ""
@@ -9683,8 +9761,8 @@ msgstr ""
 "如果你想更频繁地提交更改而无需检查存在时间，你可以设置一个定时任务来执行提"
 "交。方法是使用 :ref:`admin-interface` 中的 :guilabel:`Periodic Tasks`。首先，"
 "创建期望的 :guilabel:`Interval` （比如 120 秒）。接着，添加新的定时任务并选"
-"择 ``weblate.trans.tasks.commit_pending`` 为 :guilabel:`Task`， ``{\"hours"
-"\": 0}`` 为 :guilabel:`Keyword Arguments` 和想要的间隔。"
+"择 ``weblate.trans.tasks.commit_pending`` 为 :guilabel:`Task`， "
+"``{\"hours\": 0}`` 为 :guilabel:`Keyword Arguments` 和想要的间隔。"
 
 #: ../../admin/continuous.rst:447
 msgid "Processing repository with scripts"
@@ -9774,23 +9852,36 @@ msgstr ""
 "到。"
 
 #: ../../admin/customize.rst:11
+#, fuzzy
+#| msgid ""
+#| "You can also review the very same checklist from the :ref:`management-"
+#| "interface`."
+msgid "You can also customize Weblate look in :ref:`manage-appearance`."
+msgstr "您也可以从 :ref:`management-interface` 查看完全一样的检查清单。"
+
+#: ../../admin/customize.rst:16
+#, fuzzy
+#| msgid ""
+#| "Neither internal interfaces nor templates are considered a stable API. "
+#| "Please review your own customizations for every upgrade, the interfaces "
+#| "or their semantics might change without notice."
 msgid ""
 "Neither internal interfaces nor templates are considered a stable API. "
-"Please review your own customizations for every upgrade, the interfaces or "
-"their semantics might change without notice."
+"Please review your customizations for every upgrade, the interfaces or their "
+"semantics might change without notice."
 msgstr ""
 "内部界面与模板都不被认为是稳定的 API。请对每次升级都复查自己的定制，接口或其"
 "语义可能未经通知就进行更改。"
 
-#: ../../admin/customize.rst:17
+#: ../../admin/customize.rst:22
 msgid ":ref:`contributing`"
 msgstr ":ref:`contributing`"
 
-#: ../../admin/customize.rst:22
+#: ../../admin/customize.rst:27
 msgid "Creating a Python module"
 msgstr "建立 Python 模块"
 
-#: ../../admin/customize.rst:24
+#: ../../admin/customize.rst:29
 msgid ""
 "If you are not familiar with Python, you might want to look into `Python For "
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
@@ -9799,7 +9890,7 @@ msgstr ""
 "如果不熟悉 Python，你可以查看 `适合初学者的 Python（英文） <https://www."
 "python.org/about/gettingstarted/>`_ ，它解释了其基本内容并指向了高级教程。"
 
-#: ../../admin/customize.rst:28
+#: ../../admin/customize.rst:33
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
@@ -9810,7 +9901,7 @@ msgstr ""
 "路径（通常像 :file:`/usr/lib/python3.9/site-packages/` 的地方），或者在 "
 "Weblate 目录下，同样也添加到解释程序搜索路径下。"
 
-#: ../../admin/customize.rst:35
+#: ../../admin/customize.rst:40
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules in :"
 "file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded "
@@ -9821,32 +9912,32 @@ msgstr ""
 "app/data/python/` (见 :ref:`docker-volume`) 以便它们可以由 Weblate 从 :ref:"
 "`settings override file <docker-settings-override>` 等处进行加载。"
 
-#: ../../admin/customize.rst:40
+#: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
 msgstr "更好地是，将你的定制化转变为适当的 Python 包："
 
-#: ../../admin/customize.rst:42
+#: ../../admin/customize.rst:47
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr "为你的包建立文件夹（我们会使用 `weblate_customization` ）。"
 
-#: ../../admin/customize.rst:43
+#: ../../admin/customize.rst:48
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgstr "在里面新建`setup.py` 文件来描述包："
 
-#: ../../admin/customize.rst:60
+#: ../../admin/customize.rst:65
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
 "建立定制代码的 Python 模块（ 也被成为 ``weblate_customization`` ）的文件夹。"
 
-#: ../../admin/customize.rst:62
+#: ../../admin/customize.rst:67
 msgid ""
 "Within it, create a :file:`__init__.py` file to ensure Python can import the "
 "module."
 msgstr "在里面建立 :file:`__init__.py` 文件来确认 Python 可以导入模块。"
 
-#: ../../admin/customize.rst:63
+#: ../../admin/customize.rst:68
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
@@ -9854,7 +9945,7 @@ msgstr ""
 "现在可以使用 :command:`pip install -e` 安装这个包。更多信息可以在 :ref:`pip:"
 "editable-installs` 中找到。"
 
-#: ../../admin/customize.rst:64
+#: ../../admin/customize.rst:69
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
@@ -9862,11 +9953,11 @@ msgstr ""
 "模块一旦安装，就可以用在 Webalte 配置中（例如 ``weblate_customization.checks."
 "FooCheck`` ）。"
 
-#: ../../admin/customize.rst:67
+#: ../../admin/customize.rst:72
 msgid "Your package structure should look like this:"
 msgstr "你的包结构应该看起来像这样："
 
-#: ../../admin/customize.rst:78
+#: ../../admin/customize.rst:83
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
@@ -9874,11 +9965,11 @@ msgstr ""
 "可以在 <https://github.com/WeblateOrg/customize-example> 找到定制 Weblate 的"
 "示例，它涵盖了下面描述的所有题目。"
 
-#: ../../admin/customize.rst:83
+#: ../../admin/customize.rst:88
 msgid "Changing the logo"
 msgstr "更改标志"
 
-#: ../../admin/customize.rst:85
+#: ../../admin/customize.rst:90
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
@@ -9886,72 +9977,72 @@ msgstr ""
 "建立简单的 Django app 来包含想要覆盖的静态文件（请参见 :ref:`custom-"
 "module` ）。"
 
-#: ../../admin/customize.rst:88
+#: ../../admin/customize.rst:93
 msgid "Branding appears in the following files:"
 msgstr "品牌出现在后面的文件中："
 
-#: ../../admin/customize.rst:90
+#: ../../admin/customize.rst:95
 msgid ":file:`icons/weblate.svg`"
 msgstr ":file:`icons/weblate.svg`"
 
-#: ../../admin/customize.rst:91
+#: ../../admin/customize.rst:96
 msgid "Logo shown in the navigation bar."
 msgstr "导航栏中显示的标志。"
 
-#: ../../admin/customize.rst:92
+#: ../../admin/customize.rst:97
 msgid ":file:`logo-*.png`"
 msgstr ":file:`logo-*.png`"
 
-#: ../../admin/customize.rst:93
+#: ../../admin/customize.rst:98
 msgid "Web icons depending on screen resolution and web-browser."
 msgstr "网页图标取决于屏幕分辨率和浏览器。"
 
-#: ../../admin/customize.rst:94
+#: ../../admin/customize.rst:99
 msgid ":file:`favicon.ico`"
 msgstr ":file:`favicon.ico`"
 
-#: ../../admin/customize.rst:95
+#: ../../admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
 msgstr "传统浏览器使用的网页图标。"
 
-#: ../../admin/customize.rst:96
+#: ../../admin/customize.rst:101
 msgid ":file:`weblate-*.png`"
 msgstr ":file:`weblate-*.png`"
 
-#: ../../admin/customize.rst:97
+#: ../../admin/customize.rst:102
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr "机器人或匿名用户使用的头像。一些浏览器将这些图标用作快捷方式图标。"
 
-#: ../../admin/customize.rst:99
+#: ../../admin/customize.rst:104
 msgid ":file:`email-logo.png`"
 msgstr ":file:`email-logo.png`"
 
-#: ../../admin/customize.rst:99
+#: ../../admin/customize.rst:104
 msgid "Used in notifications e-mails."
 msgstr "在通知电子邮件中使用。"
 
-#: ../../admin/customize.rst:101
+#: ../../admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
 msgstr "把它添加到:setting:`django:INSTALLED_APPS`:"
 
-#: ../../admin/customize.rst:111
+#: ../../admin/customize.rst:116
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
 "运行 :samp:`weblate collectstatic --noinput`，来收集提供给客户端的静态文件。"
 
-#: ../../admin/customize.rst:116
+#: ../../admin/customize.rst:121
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
-#: ../../admin/customize.rst:123
+#: ../../admin/customize.rst:128
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr "定制的质量检查、附加组件和自动修复"
 
-#: ../../admin/customize.rst:125
+#: ../../admin/customize.rst:130
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` in Weblate:"
@@ -9959,7 +10050,7 @@ msgstr ""
 "要在 Weblate 中安装你的 :ref:`custom-autofix`，:ref:`own-checks` 或 :ref:"
 "`own-addon` 代码："
 
-#: ../../admin/customize.rst:128
+#: ../../admin/customize.rst:133
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
@@ -9967,7 +10058,7 @@ msgstr ""
 "将文件放进你的包含 Weblate 定制的 Python 模块中（请参见 :ref:`custom-"
 "module` ）。"
 
-#: ../../admin/customize.rst:130
+#: ../../admin/customize.rst:135
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
@@ -9975,7 +10066,7 @@ msgstr ""
 "在专用设置（ :setting:`WEBLATE_ADDONS` 、 :setting:`CHECK_LIST` 或 :setting:"
 "`AUTOFIX_LIST` ）中将其完全合法的路径添加到 Python 类中："
 
-#: ../../admin/customize.rst:146
+#: ../../admin/customize.rst:151
 msgid ""
 ":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
@@ -10193,7 +10284,8 @@ msgstr ""
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
 "installation easier."
-msgstr ":doc:`/admin/install/docker` 包括 PostgreSQL 和 Redis，让安装更加容易。"
+msgstr ""
+":doc:`/admin/install/docker` 包括 PostgreSQL 和 Redis，让安装更加容易。"
 
 #: ../../admin/install.rst:158
 msgid "Python dependencies"
@@ -10700,7 +10792,17 @@ msgstr "推荐使用 PostgreSQL 数据库服务器来运行 Weblate。"
 msgid "PostgreSQL 12 and higher is supported."
 msgstr "支持 PostgreSQL 12 及更高版本。"
 
+#: ../../admin/install.rst:462
+msgid ":ref:`mysql` is supported, but not recommended for new installs."
+msgstr ""
+
 #: ../../admin/install.rst:464
+#, fuzzy
+#| msgid "No other data is submitted."
+msgid "No other database servers are supported."
+msgstr "没有提交其它数据。"
+
+#: ../../admin/install.rst:468
 msgid ""
 ":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
 "migration`"
@@ -10708,11 +10810,11 @@ msgstr ""
 ":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
 "migration`"
 
-#: ../../admin/install.rst:471
+#: ../../admin/install.rst:475
 msgid "Database connections"
 msgstr "数据库连接"
 
-#: ../../admin/install.rst:473
+#: ../../admin/install.rst:477
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -10725,19 +10827,19 @@ msgstr ""
 "setting:`django:CONN_MAX_AGE` 和 :ref:`django:persistent-database-"
 "connections` 。"
 
-#: ../../admin/install.rst:479
+#: ../../admin/install.rst:483
 msgid "Weblate needs at least the following number of connections:"
 msgstr "Weblate 需要至少下列连接数："
 
-#: ../../admin/install.rst:481
+#: ../../admin/install.rst:485
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
 msgstr "Celery 进程的 :math:`(4 \\times \\mathit{nCPUs}) + 2`"
 
-#: ../../admin/install.rst:482
+#: ../../admin/install.rst:486
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
 msgstr "WSGI workers 的 :math:`\\mathit{nCPUs} + 1`"
 
-#: ../../admin/install.rst:484
+#: ../../admin/install.rst:488
 msgid ""
 "This applies to Docker container defaults and example configurations "
 "provided in this documentation, but the numbers will change once you "
@@ -10746,32 +10848,32 @@ msgstr ""
 "这应用到 Docker 容器默认值及此文档中提供的示例配置，不过一旦你自定义 WSGI "
 "worker 数目或调整 Celery 并行数，相关数字就会变化。"
 
-#: ../../admin/install.rst:488
+#: ../../admin/install.rst:492
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
 msgstr "考虑下列情况，数据库连接数的实际限制需要较高："
 
-#: ../../admin/install.rst:491
+#: ../../admin/install.rst:495
 msgid ":ref:`manage` need their connection as well."
 msgstr ":ref:`manage` 也需要它们的连接。"
 
-#: ../../admin/install.rst:492
+#: ../../admin/install.rst:496
 msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
 "如果进程被杀（比如被 OOM killer 干掉），可能造成现有连接被拦截，导致超时。"
 
-#: ../../admin/install.rst:495
+#: ../../admin/install.rst:499
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 msgstr ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 
-#: ../../admin/install.rst:502
+#: ../../admin/install.rst:506
 msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
-#: ../../admin/install.rst:504
+#: ../../admin/install.rst:508
 msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
@@ -10779,7 +10881,7 @@ msgstr ""
 "PostgreSQL 通常是基于 Django 的网站的最好选择。它是实现 Django 数据库层而使用"
 "的参考数据库。"
 
-#: ../../admin/install.rst:509
+#: ../../admin/install.rst:513
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
@@ -10787,21 +10889,21 @@ msgstr ""
 "Weblate 使用三字母的扩展名，在某些情况下需要单独安装。查找 ``postgresql-"
 "contrib`` 或类似命名的包。"
 
-#: ../../admin/install.rst:514
+#: ../../admin/install.rst:518
 msgid ":ref:`django:postgresql-notes`"
 msgstr ":ref:`django:postgresql-notes`"
 
-#: ../../admin/install.rst:519 ../../admin/upgrade.rst:149
+#: ../../admin/install.rst:523 ../../admin/upgrade.rst:149
 msgid "Creating a database in PostgreSQL"
 msgstr "创建 PostgreSQL 数据库"
 
-#: ../../admin/install.rst:521 ../../admin/upgrade.rst:151
+#: ../../admin/install.rst:525 ../../admin/upgrade.rst:151
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
 msgstr "在另一个单独的数据库中运行 Weblate，并将用户账户分开通常是个好方法："
 
-#: ../../admin/install.rst:536
+#: ../../admin/install.rst:540
 msgid ""
 "If you don't want to make the Weblate user a superuser in PostgreSQL, you "
 "can omit that. In that case you will have to perform some of the migration "
@@ -10810,15 +10912,15 @@ msgstr ""
 "如果不想 Weblate 在 PostgreSQL 中使用超级用户，可以省略掉。在模式中必须作为 "
 "PostgreSQL 超级用户，来手动执行一些迁移步骤的情况下，Weblate 将使用："
 
-#: ../../admin/install.rst:548
+#: ../../admin/install.rst:552
 msgid "Configuring Weblate to use PostgreSQL"
 msgstr "配置 Weblate 来使用 PostgreSQL"
 
-#: ../../admin/install.rst:550
+#: ../../admin/install.rst:554
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
 msgstr "PostgreSQL 的 :file:`settings.py` 片段："
 
-#: ../../admin/install.rst:577
+#: ../../admin/install.rst:581
 msgid ""
 "The database migration performs `ALTER ROLE <https://www.postgresql.org/"
 "docs/12/sql-alterrole.html>`_ on database role used by Weblate. In most "
@@ -10838,16 +10940,16 @@ msgstr ""
 "会在 PostgreSQL 的 Azure 数据库时发生，但并不仅限于这种环境。请将 "
 "``ALTER_ROLE`` 设置为数据库合并过程中 Weblate 应该更改的角色的名称。"
 
-#: ../../admin/install.rst:589 ../../admin/install.rst:666
-#: ../../admin/install.rst:705
+#: ../../admin/install.rst:593 ../../admin/install.rst:670
+#: ../../admin/install.rst:709
 msgid ":ref:`db-connections`"
 msgstr ":ref:`db-connections`"
 
-#: ../../admin/install.rst:594
+#: ../../admin/install.rst:598
 msgid "MySQL and MariaDB"
 msgstr "MySQL 和 MariaDB"
 
-#: ../../admin/install.rst:598
+#: ../../admin/install.rst:602
 msgid ""
 "While MySQL and MariaDB support is still maintained in Weblate, our primary "
 "focus is PostgreSQL. It is recommended to use PostgreSQL for new installs, "
@@ -10858,7 +10960,7 @@ msgstr ""
 "上。新安装推荐使用 PostgreSQL，要迁移现有安装到 PostgreSQL，请见 :ref:"
 "`database-migration`。"
 
-#: ../../admin/install.rst:603
+#: ../../admin/install.rst:607
 msgid ""
 "Some Weblate features will perform better with :ref:`postgresql`. This "
 "includes searching and translation memory, which both utilize full-text "
@@ -10867,7 +10969,7 @@ msgstr ""
 "一些 Weblate 功能使用 :ref:`postgresql` 会表现得更好。这包括搜索与翻译记忆"
 "库，它们都利用了数据库中的全文特性，而且 PostgreSQL 的实现更胜一筹。"
 
-#: ../../admin/install.rst:607
+#: ../../admin/install.rst:611
 msgid ""
 "Weblate can be also used with MySQL or MariaDB, please see :ref:`django:"
 "mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with "
@@ -10878,15 +10980,15 @@ msgstr ""
 "告，请参见 :ref:`django:mysql-notes` 和 :ref:`django:mariadb-notes`。由于这些"
 "限制，我们建议对新安装使用 :ref:`postgresql`。"
 
-#: ../../admin/install.rst:612
+#: ../../admin/install.rst:616
 msgid "Weblate requires MySQL at least 8 or MariaDB at least 10.4."
 msgstr "Weblate 需要至少 8.0 版的 MySQL 或至少 10.4 版的 MariaDB。"
 
-#: ../../admin/install.rst:614
+#: ../../admin/install.rst:618
 msgid "Following configuration is recommended for Weblate:"
 msgstr "推荐 Weblate 使用后面的设置："
 
-#: ../../admin/install.rst:616
+#: ../../admin/install.rst:620
 msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
@@ -10894,22 +10996,22 @@ msgstr ""
 "使用 ``utf8mb4`` 字符集来允许表示更高的 Unicode 平面（例如 emojis 表情符"
 "号）。"
 
-#: ../../admin/install.rst:617
+#: ../../admin/install.rst:621
 msgid ""
 "Configure the server with ``innodb_large_prefix`` to allow longer indices on "
 "text fields."
 msgstr ""
 "用 ``innodb_large_prefix`` 配置服务器，以允许在文本字段上有更长的索引。"
 
-#: ../../admin/install.rst:618
+#: ../../admin/install.rst:622
 msgid "Set the isolation level to ``READ COMMITTED``."
 msgstr "设置隔离级别为 ``READ COMMITTED``。"
 
-#: ../../admin/install.rst:619
+#: ../../admin/install.rst:623
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
 msgstr "SQL 模式应该设置为 ``STRICT_TRANS_TABLES``。"
 
-#: ../../admin/install.rst:621
+#: ../../admin/install.rst:625
 msgid ""
 "MySQL 8.x, MariaDB 10.5.x or newer have reasonable default configuration so "
 "that no server tweaking should be necessary and all what is needed can be "
@@ -10918,7 +11020,7 @@ msgstr ""
 "MySQL 8.x、MariaDB 10.5.x 或更新版本具有合理的默认配置，因此无需调整服务器，"
 "所有需要的都可以在客户端进行配置。"
 
-#: ../../admin/install.rst:625
+#: ../../admin/install.rst:629
 msgid ""
 "Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB "
 "of RAM. These settings should be sufficient for most installs. MySQL and "
@@ -10932,7 +11034,7 @@ msgstr ""
 "计划有大量并发用户访问系统，否则这些可调整部分被认为是不必要的。这些细节请查"
 "看各厂商的文档。"
 
-#: ../../admin/install.rst:632
+#: ../../admin/install.rst:636
 msgid ""
 "It is absolutely critical to reduce issues when installing that the setting "
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
@@ -10941,7 +11043,7 @@ msgstr ""
 "在运行您的 Weblate 前设置好 ``innodb_file_per_table`` 设置并重启 MySQL/"
 "MariaDB，这对减少安装时的问题绝对重要。"
 
-#: ../../admin/install.rst:655
+#: ../../admin/install.rst:659
 msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please update your configuration to include the "
@@ -10950,7 +11052,7 @@ msgstr ""
 "如遇 ``#1071 - Specified key was too long; max key length is 767 bytes`` 错"
 "误, 请更新你的配置以包含上方的 ``innodb`` 设置并重新启动你的安装。"
 
-#: ../../admin/install.rst:661
+#: ../../admin/install.rst:665
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
@@ -10958,15 +11060,15 @@ msgstr ""
 "在得到错误信息 ``#2006 - MySQL server has gone away`` 的形况下，配置 :"
 "setting:`django:CONN_MAX_AGE` 可能会有帮助。"
 
-#: ../../admin/install.rst:669
+#: ../../admin/install.rst:673
 msgid "Configuring Weblate to use MySQL/MariaDB"
 msgstr "配置 Weblate 来使用 MySQL/MariaDB"
 
-#: ../../admin/install.rst:671
+#: ../../admin/install.rst:675
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
 msgstr "MySQL 和 MariaDB 的 :file:`settings.py` 片段："
 
-#: ../../admin/install.rst:695
+#: ../../admin/install.rst:699
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
@@ -10974,15 +11076,15 @@ msgstr ""
 "开始安装前还应该在 MySQL 或 MariaDB 中创建 ``weblate`` 用户账户。使用下面的命"
 "令来实现："
 
-#: ../../admin/install.rst:708
+#: ../../admin/install.rst:712
 msgid "Other configurations"
 msgstr "其他配置"
 
-#: ../../admin/install.rst:713
+#: ../../admin/install.rst:717
 msgid "Configuring outgoing e-mail"
 msgstr "配置电子邮件发件箱"
 
-#: ../../admin/install.rst:715
+#: ../../admin/install.rst:719
 msgid ""
 "Weblate sends out e-mails on various occasions - for account activation and "
 "on various notifications configured by users. For this it needs access to an "
@@ -10991,7 +11093,7 @@ msgstr ""
 "Weblate 在各种情况下会发出电子邮件——用于激活账户，以及用户配置的各种通知。对"
 "于这些需要访问 SMTP 服务器。"
 
-#: ../../admin/install.rst:719
+#: ../../admin/install.rst:723
 msgid ""
 "The mail server setup is configured using these settings: :setting:`django:"
 "EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:"
@@ -11005,7 +11107,7 @@ msgstr ""
 "`django:EMAIL_PORT`。从名称就可以大概知道它们的含义，但是你可以在Django 文档"
 "中找到更多信息。"
 
-#: ../../admin/install.rst:728
+#: ../../admin/install.rst:732
 msgid ""
 "In case you get error about not supported authentication (for example ``SMTP "
 "AUTH extension not supported by server``), it is most likely caused by using "
@@ -11016,7 +11118,7 @@ msgstr ""
 "server``），这最可能因为使用不安全的链接并且服务器拒绝以这种方式认证而导致。"
 "在这种情况下尝试启动 :setting:`django:EMAIL_USE_TLS`。"
 
-#: ../../admin/install.rst:735
+#: ../../admin/install.rst:739
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
@@ -11024,11 +11126,11 @@ msgstr ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 
-#: ../../admin/install.rst:741
+#: ../../admin/install.rst:745
 msgid "Running behind reverse proxy"
 msgstr "在反向代理之后运行"
 
-#: ../../admin/install.rst:743
+#: ../../admin/install.rst:747
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
@@ -11036,14 +11138,14 @@ msgstr ""
 "Weblate 的几个特性依赖于能够得到客户端 IP 地址。这包括 :ref:`rate-limit` 、 :"
 "ref:`spam-protection` 或 :ref:`audit-log`。"
 
-#: ../../admin/install.rst:746
+#: ../../admin/install.rst:750
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
 msgstr ""
 "在默认设置中，Weblate 从 WSGI 句柄设置的 ``REMOTE_ADDR`` 中解析 IP 地址。"
 
-#: ../../admin/install.rst:749
+#: ../../admin/install.rst:753
 msgid ""
 "In case you are running a reverse proxy, this field will most likely contain "
 "its address. You need to configure Weblate to trust additional HTTP headers "
@@ -11059,7 +11161,7 @@ msgstr ""
 "设置就足够了，但你还必须调整 :setting:`IP_PROXY_HEADER` 和 :setting:"
 "`IP_PROXY_OFFSET`。"
 
-#: ../../admin/install.rst:757
+#: ../../admin/install.rst:761
 msgid ""
 "Another thing to take care of is the :http:header:`Host` header. It should "
 "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
@@ -11072,7 +11174,7 @@ msgstr ""
 "用``ProxyPreserveHost On``，或在 nginx 中使用 ``proxy_set_header Host $host;"
 "``）。"
 
-#: ../../admin/install.rst:764
+#: ../../admin/install.rst:768
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
@@ -11082,11 +11184,11 @@ msgstr ""
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install.rst:773
+#: ../../admin/install.rst:777
 msgid "HTTP proxy"
 msgstr "HTTP 代理"
 
-#: ../../admin/install.rst:775
+#: ../../admin/install.rst:779
 msgid ""
 "Weblate does execute VCS commands and those accept proxy configuration from "
 "environment. The recommended approach is to define proxy settings in :file:"
@@ -11095,21 +11197,21 @@ msgstr ""
 "Weblate 执行版本控制系统命令，这些命令接受来自环境的代理配置。推荐在 :file:"
 "`settings.py` 中定义代理设置："
 
-#: ../../admin/install.rst:788
+#: ../../admin/install.rst:792
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr "`代理环境变量 <https://everything.curl.dev/usingcurl/proxies/env>`_"
 
-#: ../../admin/install.rst:793
+#: ../../admin/install.rst:797
 msgid "Adjusting configuration"
 msgstr "调整配置"
 
-#: ../../admin/install.rst:797
+#: ../../admin/install.rst:801
 msgid ":ref:`sample-configuration`"
 msgstr ":ref:`sample-configuration`"
 
-#: ../../admin/install.rst:799
+#: ../../admin/install.rst:803
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and "
 "adjust it to match your setup. You will probably want to adjust the "
@@ -11118,44 +11220,45 @@ msgstr ""
 "将 :file:`weblate/settings_example.py` 复制到 :file:`weblate/settings.py`，并"
 "且调整它与你的设置匹配。你可能想要调整后面的选项："
 
-#: ../../admin/install.rst:805
+#: ../../admin/install.rst:809
 msgid "``ADMINS``"
 msgstr "``ADMINS``"
 
-#: ../../admin/install.rst:807
+#: ../../admin/install.rst:811
 msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr "出现问题时接收通知站点管理员名单，例如合并失败或 Django 错误的通知。"
 
-#: ../../admin/install.rst:810
+#: ../../admin/install.rst:814
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
-msgstr "联络表单也会在这些情况下发送电子邮件，除非你对 :setting:`ADMINS_CONTACT` "
-"进行了配置。"
+msgstr ""
+"联络表单也会在这些情况下发送电子邮件，除非你对 :setting:`ADMINS_CONTACT` 进行"
+"了配置。"
 
-#: ../../admin/install.rst:815
+#: ../../admin/install.rst:819
 msgid ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 msgstr ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 
-#: ../../admin/install.rst:821
+#: ../../admin/install.rst:825
 msgid "``ALLOWED_HOSTS``"
 msgstr "``ALLOWED_HOSTS``"
 
-#: ../../admin/install.rst:823
+#: ../../admin/install.rst:827
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr "需要设置这个，来列出你的网站支持服务的主机。例如："
 
-#: ../../admin/install.rst:830
+#: ../../admin/install.rst:834
 msgid "Alternatively you can include wildcard:"
 msgstr "另外可以包括通配符："
 
-#: ../../admin/install.rst:838
+#: ../../admin/install.rst:842
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
@@ -11163,11 +11266,11 @@ msgstr ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 
-#: ../../admin/install.rst:844
+#: ../../admin/install.rst:848
 msgid "``SESSION_ENGINE``"
 msgstr "``SESSION_ENGINE``"
 
-#: ../../admin/install.rst:846
+#: ../../admin/install.rst:850
 msgid ""
 "Configure how your sessions will be stored. In case you keep the default "
 "database backend engine, you should schedule: :command:`weblate "
@@ -11176,7 +11279,7 @@ msgstr ""
 "配置如何存储会话。在保持默认的数据库后端引擎的情况下，应该安排 :command:"
 "`weblate clearsessions` 从数据库中删除旧的会话。"
 
-#: ../../admin/install.rst:851
+#: ../../admin/install.rst:855
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
@@ -11184,21 +11287,21 @@ msgstr ""
 "如果使用 Redis 作为缓存（请参见 :ref:`production-cache` ），推荐也使用它作为"
 "会话："
 
-#: ../../admin/install.rst:860
+#: ../../admin/install.rst:864
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
-#: ../../admin/install.rst:865
+#: ../../admin/install.rst:869
 msgid "``DATABASES``"
 msgstr "``DATABASES``"
 
-#: ../../admin/install.rst:867
+#: ../../admin/install.rst:871
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr "连接到数据库服务器，请查阅 Django 的文档了解详情。"
 
-#: ../../admin/install.rst:872
+#: ../../admin/install.rst:876
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
@@ -11206,11 +11309,11 @@ msgstr ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 
-#: ../../admin/install.rst:878
+#: ../../admin/install.rst:882
 msgid "``DEBUG``"
 msgstr "``DEBUG``"
 
-#: ../../admin/install.rst:880
+#: ../../admin/install.rst:884
 msgid ""
 "Disable this for any production server. With debug mode enabled, Django will "
 "show backtraces in case of error to users, when you disable it, errors will "
@@ -11219,35 +11322,35 @@ msgstr ""
 "对于任何生产服务器禁止这项。允许调试模式时，Django 会在出错的情况下向用户显示"
 "回溯信息，当禁止时，错误将每封电子邮件发送到 ``ADMINS`` （请参见上面）。"
 
-#: ../../admin/install.rst:884
+#: ../../admin/install.rst:888
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
 "调试模式还使 Weblate 变慢，因为在这种情况下 Django 内部存储了非常多的信息。"
 
-#: ../../admin/install.rst:889
+#: ../../admin/install.rst:893
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
 msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
-#: ../../admin/install.rst:894
+#: ../../admin/install.rst:898
 msgid "``DEFAULT_FROM_EMAIL``"
 msgstr "``DEFAULT_FROM_EMAIL``"
 
-#: ../../admin/install.rst:896
+#: ../../admin/install.rst:900
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr "用于发送电子邮件的电子邮件发件人地址，例如注册电子邮箱。"
 
-#: ../../admin/install.rst:900
+#: ../../admin/install.rst:904
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
-#: ../../admin/install.rst:904
+#: ../../admin/install.rst:908
 msgid "``SECRET_KEY``"
 msgstr "``SECRET_KEY``"
 
-#: ../../admin/install.rst:906
+#: ../../admin/install.rst:910
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
@@ -11255,29 +11358,29 @@ msgstr ""
 "Django 使用的密钥，用于在 cookie 中登录一些信息，更多信息请参见 :ref:"
 "`production-secret`。"
 
-#: ../../admin/install.rst:911
+#: ../../admin/install.rst:915
 msgid ":setting:`django:SECRET_KEY`"
 msgstr ":setting:`django:SECRET_KEY`"
 
-#: ../../admin/install.rst:915
+#: ../../admin/install.rst:919
 msgid "``SERVER_EMAIL``"
 msgstr "``SERVER_EMAIL``"
 
-#: ../../admin/install.rst:917
+#: ../../admin/install.rst:921
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr "用作向管理员发送电子邮件的发送者地址的电子邮箱，例如通知失败的合并。"
 
-#: ../../admin/install.rst:922
+#: ../../admin/install.rst:926
 msgid ":setting:`django:SERVER_EMAIL`"
 msgstr ":setting:`django:SERVER_EMAIL`"
 
-#: ../../admin/install.rst:927
+#: ../../admin/install.rst:931
 msgid "Filling up the database"
 msgstr "填满数据库"
 
-#: ../../admin/install.rst:929
+#: ../../admin/install.rst:933
 msgid ""
 "After your configuration is ready, you can run :wladmin:`migrate` to create "
 "the database structure. Now you should be able to create translation "
@@ -11286,7 +11389,7 @@ msgstr ""
 "在配置准备好之后，可以运行 :wladmin:`migrate` 来建立数据库结构。现在你将能够"
 "使用管理界面建立翻译项目。"
 
-#: ../../admin/install.rst:933
+#: ../../admin/install.rst:937
 msgid ""
 "Once you are done, you should also check the :guilabel:`Performance report` "
 "in the admin interface, which will give you hints of potential non optimal "
@@ -11295,15 +11398,15 @@ msgstr ""
 "完成后，你还应该在管理界面查看 :guilabel:`Performance report`，它会提示你站点"
 "上可能存在的非最佳配置。"
 
-#: ../../admin/install.rst:939
+#: ../../admin/install.rst:943
 msgid ":ref:`config`, :ref:`privileges`"
 msgstr ":ref:`config`, :ref:`privileges`"
 
-#: ../../admin/install.rst:945
+#: ../../admin/install.rst:949
 msgid "Production setup"
 msgstr "生产设置"
 
-#: ../../admin/install.rst:947
+#: ../../admin/install.rst:951
 msgid ""
 "For a production setup you should carry out adjustments described in the "
 "following sections. The most critical settings will trigger a warning, which "
@@ -11313,31 +11416,35 @@ msgstr ""
 "对于生产设置，你应该进行以下部分中所述的调整。最关键的设置将触发警告：如果以"
 "超级用户身份登录，则会在顶部栏中显示一个叹号："
 
-#: ../../admin/install.rst:953
+#: ../../admin/install.rst:957
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr "同样也推荐查看由 Django 触发的检查（尽管可能不需要修复所有的检查）："
 
-#: ../../admin/install.rst:960
+#: ../../admin/install.rst:964
+#, fuzzy
+#| msgid ""
+#| "You can also review the very same checklist from the :ref:`management-"
+#| "interface`."
 msgid ""
-"You can also review the very same checklist from the :ref:`management-"
-"interface`."
+"You can also review the very same checklist at :ref:`manage-performance` in "
+"the :ref:`management-interface`."
 msgstr "您也可以从 :ref:`management-interface` 查看完全一样的检查清单。"
 
-#: ../../admin/install.rst:964
+#: ../../admin/install.rst:968
 msgid ":doc:`django:howto/deployment/checklist`"
 msgstr ":doc:`django:howto/deployment/checklist`"
 
-#: ../../admin/install.rst:969
+#: ../../admin/install.rst:973
 msgid "Disable debug mode"
 msgstr "禁止调试模式"
 
-#: ../../admin/install.rst:971
+#: ../../admin/install.rst:975
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr "禁止 Django 的调试模式（ :setting:`DEBUG` ）："
 
-#: ../../admin/install.rst:977
+#: ../../admin/install.rst:981
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
@@ -11345,15 +11452,15 @@ msgstr ""
 "在调试模式打开时，Django 存储所有执行的查询，并将错误的回溯显示给用户，这在生"
 "产设置中是不需要的。"
 
-#: ../../admin/install.rst:982 ../../admin/install.rst:998
+#: ../../admin/install.rst:986 ../../admin/install.rst:1002
 msgid ":ref:`configuration`"
 msgstr ":ref:`configuration`"
 
-#: ../../admin/install.rst:987
+#: ../../admin/install.rst:991
 msgid "Properly configure admins"
 msgstr "是当地配置管理设置"
 
-#: ../../admin/install.rst:989
+#: ../../admin/install.rst:993
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to defining "
 "who will receive e-mails in case something goes wrong on the server, for "
@@ -11362,11 +11469,11 @@ msgstr ""
 "将正确的管理地址设置到 :setting:`ADMINS` 设置中，来确定服务器出现一些故障时谁"
 "接收电子邮件，例如："
 
-#: ../../admin/install.rst:1003
+#: ../../admin/install.rst:1007
 msgid "Set correct site domain"
 msgstr "设置正确的网站域名"
 
-#: ../../admin/install.rst:1005
+#: ../../admin/install.rst:1009
 msgid ""
 "Adjust site name and domain in the admin interface, otherwise links in RSS "
 "or registration e-mails will not work. This is configured using :setting:"
@@ -11375,7 +11482,7 @@ msgstr ""
 "在管理界面调整网站名称和域名，否则 RSS 中的链接或注册电子邮箱地址将不工作。这"
 "使用 :setting:`SITE_DOMAIN` 来配置，它应该包含网站域名。"
 
-#: ../../admin/install.rst:1011
+#: ../../admin/install.rst:1015
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
@@ -11383,7 +11490,7 @@ msgstr ""
 "在 4.2 版本之前，替代使用了 Django 网站框架，请参见 :doc:`django:ref/contrib/"
 "sites`。"
 
-#: ../../admin/install.rst:1016
+#: ../../admin/install.rst:1020
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
@@ -11391,11 +11498,11 @@ msgstr ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
-#: ../../admin/install.rst:1025
+#: ../../admin/install.rst:1029
 msgid "Correctly configure HTTPS"
 msgstr "正确配置 HTTPS"
 
-#: ../../admin/install.rst:1027
+#: ../../admin/install.rst:1031
 msgid ""
 "It is strongly recommended to run Weblate using the encrypted HTTPS "
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
@@ -11404,7 +11511,7 @@ msgstr ""
 "强烈推荐使用加密的 HTTPS 协议 运行 Weblate。将其允许后，可以在设置中设置 :"
 "setting:`ENABLE_HTTPS` ："
 
-#: ../../admin/install.rst:1036
+#: ../../admin/install.rst:1040
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
@@ -11412,17 +11519,17 @@ msgstr ""
 "你还会想要新建 HSTS，更多细节请参见 :ref:`django:security-recommendation-"
 "ssl`。"
 
-#: ../../admin/install.rst:1041
+#: ../../admin/install.rst:1045
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
-#: ../../admin/install.rst:1047
+#: ../../admin/install.rst:1051
 msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr "适当设置 SECURE_HSTS_SECONDS"
 
-#: ../../admin/install.rst:1049
+#: ../../admin/install.rst:1053
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
@@ -11432,7 +11539,7 @@ msgstr ""
 "setting:`django:SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport "
 "Security （ HTTP 脚本传输安全）。默认设置为 0，如下所示。"
 
-#: ../../admin/install.rst:1057
+#: ../../admin/install.rst:1061
 msgid ""
 "If set to a non-zero integer value, the :class:`django:django.middleware."
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
@@ -11442,7 +11549,7 @@ msgstr ""
 "middleware.security.SecurityMiddleware` 设置 :ref:`django:http-strict-"
 "transport-security` 标头。"
 
-#: ../../admin/install.rst:1062
+#: ../../admin/install.rst:1066
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
@@ -11450,17 +11557,17 @@ msgstr ""
 "不正确的设置这项会导致你的网站不可逆地（在一段时间内）崩溃。请首先阅读 :ref:"
 "`django:http-strict-transport-security` 文档。"
 
-#: ../../admin/install.rst:1069
+#: ../../admin/install.rst:1073
 msgid "Use a powerful database engine"
 msgstr "使用强力的数据库引擎"
 
-#: ../../admin/install.rst:1071
+#: ../../admin/install.rst:1075
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr "请使用 PostgreSQL 作为生产环境，更多信息请参见 :ref:`database-setup`。"
 
-#: ../../admin/install.rst:1073
+#: ../../admin/install.rst:1077
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
@@ -11468,7 +11575,7 @@ msgstr ""
 "请在邻近的位置部署数据库服务器，否则网络性能或可靠性问题可能会破坏你的Weblate"
 "体验。"
 
-#: ../../admin/install.rst:1075
+#: ../../admin/install.rst:1079
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
@@ -11476,7 +11583,7 @@ msgstr ""
 "检查数据库服务器性能或调整其配置，例如使用 `PGTune <https://pgtune.leopard."
 "in.ua/>`_.。"
 
-#: ../../admin/install.rst:1080
+#: ../../admin/install.rst:1084
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
@@ -11484,18 +11591,18 @@ msgstr ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 
-#: ../../admin/install.rst:1088
+#: ../../admin/install.rst:1092
 msgid "Enable caching"
 msgstr "允许缓存"
 
-#: ../../admin/install.rst:1090
+#: ../../admin/install.rst:1094
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
 "如果可能，通过调整 ``CACHES`` 配置变量来使用来自 Django 的 Redis，例如："
 
-#: ../../admin/install.rst:1111
+#: ../../admin/install.rst:1115
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
@@ -11503,15 +11610,15 @@ msgstr ""
 "在为缓存更改 Redis 设置的情况下，也会需要为 Celery 来调整，请参见 :ref:"
 "`celery`。"
 
-#: ../../admin/install.rst:1116
+#: ../../admin/install.rst:1120
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
-#: ../../admin/install.rst:1122
+#: ../../admin/install.rst:1126
 msgid "Avatar caching"
 msgstr "头像缓存"
 
-#: ../../admin/install.rst:1124
+#: ../../admin/install.rst:1128
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
@@ -11519,7 +11626,7 @@ msgstr ""
 "除了 Django 的缓存，Weblate 还执行头像缓存。推荐使用单独的、文件后端缓存来用"
 "于这个目的："
 
-#: ../../admin/install.rst:1151
+#: ../../admin/install.rst:1155
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
@@ -11527,11 +11634,11 @@ msgstr ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 
-#: ../../admin/install.rst:1160
+#: ../../admin/install.rst:1164
 msgid "Configure e-mail sending"
 msgstr "配置电子邮件发送的设置"
 
-#: ../../admin/install.rst:1162
+#: ../../admin/install.rst:1166
 msgid ""
 "Weblate needs to send out e-mails on several occasions, and these e-mails "
 "should have a correct sender address, please configure :setting:"
@@ -11542,7 +11649,7 @@ msgstr ""
 "配置:setting:`SERVER_EMAIL` 和 :setting:`DEFAULT_FROM_EMAIL`，与你的环境匹"
 "配，例如："
 
-#: ../../admin/install.rst:1174
+#: ../../admin/install.rst:1178
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
@@ -11550,13 +11657,13 @@ msgstr ""
 "为了禁止 Weblate 发送电子邮件，将 :setting:`django:EMAIL_BACKEND` 设置为 "
 "``django.core.mail.backends.dummy.EmailBackend``。"
 
-#: ../../admin/install.rst:1177
+#: ../../admin/install.rst:1181
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr "这将禁止 *所有* 电子邮件的投递，包括注册或密码重置电子邮件。"
 
-#: ../../admin/install.rst:1182
+#: ../../admin/install.rst:1186
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
@@ -11564,11 +11671,11 @@ msgstr ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
-#: ../../admin/install.rst:1192
+#: ../../admin/install.rst:1196
 msgid "Allowed hosts setup"
 msgstr "允许主机设置"
 
-#: ../../admin/install.rst:1194
+#: ../../admin/install.rst:1198
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
@@ -11576,7 +11683,7 @@ msgstr ""
 "Django 需要 :setting:`ALLOWED_HOSTS` 保存你的网站允许服务的域名列表，将其保持"
 "空置会屏蔽任何请求。"
 
-#: ../../admin/install.rst:1197
+#: ../../admin/install.rst:1201
 msgid ""
 "In case this is not configured to match your HTTP server, you will get "
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
@@ -11585,12 +11692,12 @@ msgstr ""
 "在没有配置来匹配 HTTP 服务器的情况下，会得到错误信息，如 :samp:`Invalid "
 "HTTP_HOST header: '1.1.1.1'. You may need to add '1.1.1.1' to ALLOWED_HOSTS.`"
 
-#: ../../admin/install.rst:1203
+#: ../../admin/install.rst:1207
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr "在 Docker 容器上，这可以使用，为 :envvar:`WEBLATE_ALLOWED_HOSTS`。"
 
-#: ../../admin/install.rst:1207
+#: ../../admin/install.rst:1211
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
@@ -11598,11 +11705,11 @@ msgstr ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 
-#: ../../admin/install.rst:1214
+#: ../../admin/install.rst:1218
 msgid "Django secret key"
 msgstr "Django 密钥"
 
-#: ../../admin/install.rst:1216
+#: ../../admin/install.rst:1220
 msgid ""
 "The :setting:`SECRET_KEY` setting is used by Django to sign cookies, and you "
 "should really generate your own value rather than using the one from the "
@@ -11611,7 +11718,7 @@ msgstr ""
 ":setting:`SECRET_KEY` 设置由 Django 使用来进行 cookies 签名，应该真正产生自己"
 "的值，而不是使用来自举例的设置的值。"
 
-#: ../../admin/install.rst:1219
+#: ../../admin/install.rst:1223
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
@@ -11619,15 +11726,15 @@ msgstr ""
 "可以使用与 Weblate 一起上市的 :program:`weblate-generate-secret-key`，来产生"
 "新的密钥。"
 
-#: ../../admin/install.rst:1224
+#: ../../admin/install.rst:1228
 msgid ":setting:`SECRET_KEY`"
 msgstr ":setting:`SECRET_KEY`"
 
-#: ../../admin/install.rst:1229
+#: ../../admin/install.rst:1233
 msgid "Running maintenance tasks"
 msgstr "运行维护任务"
 
-#: ../../admin/install.rst:1231
+#: ../../admin/install.rst:1235
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
@@ -11636,11 +11743,11 @@ msgstr ""
 "为了优化性能，在后台运行一些维护任务是个好方法。这由 :ref:`celery` 自动进行，"
 "并且包括下列任务："
 
-#: ../../admin/install.rst:1234
+#: ../../admin/install.rst:1238
 msgid "Configuration health check (hourly)."
 msgstr "配置健康性的检查（每小时）。"
 
-#: ../../admin/install.rst:1235
+#: ../../admin/install.rst:1239
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
@@ -11648,30 +11755,30 @@ msgstr ""
 "提交待处理的更改（每小时），请参见 :ref:`lazy-commit` 和 :wladmin:"
 "`commit_pending`。"
 
-#: ../../admin/install.rst:1236
+#: ../../admin/install.rst:1240
 msgid "Updating component alerts (daily)."
 msgstr "更新部件警报（每天）。"
 
-#: ../../admin/install.rst:1237
+#: ../../admin/install.rst:1241
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr "更新远程分支（每晚），请参见 :setting:`AUTO_UPDATE`。"
 
-#: ../../admin/install.rst:1238
+#: ../../admin/install.rst:1242
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr "翻译记忆库备份到 JSON （每天），请参见 :wladmin:`dump_memory`。"
 
-#: ../../admin/install.rst:1239
+#: ../../admin/install.rst:1243
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
 msgstr ""
 "全文本和数据库维护任务（每天和每周任务），请参见 :wladmin:`cleanuptrans`。"
 
-#: ../../admin/install.rst:1244
+#: ../../admin/install.rst:1248
 msgid "System locales and encoding"
 msgstr "系统的地区与编码"
 
-#: ../../admin/install.rst:1246
+#: ../../admin/install.rst:1250
 msgid ""
 "The system locales should be configured to UTF-8 capable ones. On most Linux "
 "distributions this is the default setting. In case it is not the case on "
@@ -11680,13 +11787,13 @@ msgstr ""
 "系统的地区应该设置为兼容 UTF-8 的。在多数 Linux 发行版中这是默认设置。在你的"
 "系统不能兼容的情况下，请将地区更改为 UTF-8 变体。"
 
-#: ../../admin/install.rst:1250
+#: ../../admin/install.rst:1254
 msgid ""
-"For example by editing :file:`/etc/default/locale` and setting there ``LANG="
-"\"C.UTF-8\"``."
+"For example by editing :file:`/etc/default/locale` and setting there "
+"``LANG=\"C.UTF-8\"``."
 msgstr "例如通过编辑 :file:`/etc/default/locale` 并设置 ``LANG=\"C.UTF-8\"``。"
 
-#: ../../admin/install.rst:1253
+#: ../../admin/install.rst:1257
 msgid ""
 "In some cases the individual services have separate configuration for "
 "locales. This varies between distribution and web servers, so check "
@@ -11695,11 +11802,11 @@ msgstr ""
 "某些情况下，各个服务具有不同的区域设置配置。这在不同发行版和 web 服务器之间是"
 "不同的，所以请查阅你的 web 服务器包的文档。"
 
-#: ../../admin/install.rst:1257
+#: ../../admin/install.rst:1261
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
 msgstr "Ubuntu系统下的Apache使用 :file:`/etc/apache2/envvars`:"
 
-#: ../../admin/install.rst:1264
+#: ../../admin/install.rst:1268
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
@@ -11707,11 +11814,11 @@ msgstr ""
 "CentOS系统下的Apache使用 :file:`/etc/sysconfig/httpd`（或 :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`）:"
 
-#: ../../admin/install.rst:1274
+#: ../../admin/install.rst:1278
 msgid "Using custom certificate authority"
 msgstr "使用定制的证书授权"
 
-#: ../../admin/install.rst:1276
+#: ../../admin/install.rst:1280
 msgid ""
 "Weblate does verify SSL certificates during HTTP requests. In case you are "
 "using custom certificate authority which is not trusted in default bundles, "
@@ -11720,7 +11827,7 @@ msgstr ""
 "Weblate 在 HTTP 请求时验证 SSL 证书。在使用 定制的证书授权的情况下，这样定制"
 "的证书授权在默认 bundles 的中不被信任，你必须将其证书添加为可信任。"
 
-#: ../../admin/install.rst:1280
+#: ../../admin/install.rst:1284
 msgid ""
 "The preferred approach is to do this at system level, please check your "
 "distro documentation for more details (for example on debian this can be "
@@ -11731,13 +11838,13 @@ msgstr ""
 "这可以通过将 CA 证书放置在 :file:`/usr/local/share/ca-certificates/`，并运"
 "行 :command:`update-ca-certificates` 来完成）。"
 
-#: ../../admin/install.rst:1285
+#: ../../admin/install.rst:1289
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr "一旦完成，系统工具就会信任证书，这包括 Git。"
 
-#: ../../admin/install.rst:1288
+#: ../../admin/install.rst:1292
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
@@ -11747,11 +11854,11 @@ msgstr ""
 "个。这可以通过将后面的模板放到 :file:`settings.py` 来实现（路径是 Debian 特有"
 "的）："
 
-#: ../../admin/install.rst:1302
+#: ../../admin/install.rst:1306
 msgid "Compressing client assets"
 msgstr "压缩客户端资源"
 
-#: ../../admin/install.rst:1304
+#: ../../admin/install.rst:1308
 msgid ""
 "Weblate comes with a bunch of JavaScript and CSS files. For performance "
 "reasons it is good to compress them before sending to a client. In default "
@@ -11765,7 +11872,7 @@ msgstr ""
 "中，推荐允许离线压缩模式。这需要在配置中完成，并且必须在每次 weblate 升级时触"
 "发压缩。"
 
-#: ../../admin/install.rst:1311
+#: ../../admin/install.rst:1315
 msgid ""
 "The configuration switch is simple by enabling :attr:`compressor:django.conf."
 "settings.COMPRESS_OFFLINE` and configuring :attr:`compressor:django.conf."
@@ -11776,58 +11883,58 @@ msgstr ""
 "COMPRESS_OFFLINE`，并配置 :attr:`compressor:django.conf.settings."
 "COMPRESS_OFFLINE_CONTEXT` （后者已经包括在示例的配置中）："
 
-#: ../../admin/install.rst:1320
+#: ../../admin/install.rst:1324
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr "在每个部署中，您需要压缩文件来匹配当前的版本："
 
-#: ../../admin/install.rst:1328
+#: ../../admin/install.rst:1332
 msgid "The official Docker image has this feature already enabled."
 msgstr "官方 Docker 镜像已经允许了这个特性。"
 
-#: ../../admin/install.rst:1332
+#: ../../admin/install.rst:1336
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
 msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
-#: ../../admin/install.rst:1338
+#: ../../admin/install.rst:1342
 msgid "Running server"
 msgstr "运行服务器"
 
-#: ../../admin/install.rst:1342
+#: ../../admin/install.rst:1346
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr "如果你对下面描述的服务没有经验，你可以尝试 :doc:`install/docker`。"
 
-#: ../../admin/install.rst:1344
+#: ../../admin/install.rst:1348
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr "需要几个服务来运行Weblate，推荐的设置包括："
 
-#: ../../admin/install.rst:1346
+#: ../../admin/install.rst:1350
 msgid "Database server (see :ref:`database-setup`)"
 msgstr "数据库服务器（请参见 :ref:`database-setup` ）"
 
-#: ../../admin/install.rst:1347
+#: ../../admin/install.rst:1351
 msgid "Cache server (see :ref:`production-cache`)"
 msgstr "缓存服务器（请参见 :ref:`production-cache` ）"
 
-#: ../../admin/install.rst:1348
+#: ../../admin/install.rst:1352
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
 "用于静态文件和终结 SSL 的前端 web 服务器（请参见 :ref:`static-files` ）"
 
-#: ../../admin/install.rst:1349
+#: ../../admin/install.rst:1353
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr "用于动态内容的 WSGI 服务器（请参见 :ref:`uwsgi` ）"
 
-#: ../../admin/install.rst:1350
+#: ../../admin/install.rst:1354
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr "用于执行后台任务的 Celery （请参见 :ref:`celery` ）"
 
-#: ../../admin/install.rst:1354
+#: ../../admin/install.rst:1358
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
@@ -11835,7 +11942,7 @@ msgstr ""
 "这些服务之间由一些依赖项，例如当启动 Celery 或 uwsgi 进程时，缓存和数据库应该"
 "运行。"
 
-#: ../../admin/install.rst:1357
+#: ../../admin/install.rst:1361
 msgid ""
 "In most cases, you will run all services on single (virtual) server, but in "
 "case your installation is heavy loaded, you can split up the services. The "
@@ -11846,7 +11953,7 @@ msgstr ""
 "况下，可以将这些服务拆开。对此的唯一限制是 Celery 和 Wsgi 服务器需要访问 :"
 "setting:`DATA_DIR`。"
 
-#: ../../admin/install.rst:1364
+#: ../../admin/install.rst:1368
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
@@ -11855,15 +11962,15 @@ msgstr ""
 "WSGI 进程和 Celery 进程必须在同一用户下被执行，否则 :setting:`DATA_DIR` 中的"
 "文件将以混合的所有权来存储，导致运行问题。"
 
-#: ../../admin/install.rst:1368
+#: ../../admin/install.rst:1372
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
 msgstr "还请参见 :ref:`file-permissions` 和 :ref:`celery`。"
 
-#: ../../admin/install.rst:1371
+#: ../../admin/install.rst:1375
 msgid "Running web server"
 msgstr "运行 web 服务器"
 
-#: ../../admin/install.rst:1373
+#: ../../admin/install.rst:1377
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as uWSGI or fcgi (see examples for "
@@ -11872,11 +11979,11 @@ msgstr ""
 "运行 Weblate 与运行其他任何基于 Django 的程序没什么不同。Django通常作为 "
 "uWSGI 或 fcgi 执行（请参见下面不同 web 服务器的示例）。"
 
-#: ../../admin/install.rst:1377
+#: ../../admin/install.rst:1381
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr "为了检测的目的，您可以在 Django 中使用内建的 web 服务器："
 
-#: ../../admin/install.rst:1385
+#: ../../admin/install.rst:1389
 msgid ""
 "DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through "
 "security audits or performance tests. See also Django documentation on :"
@@ -11885,7 +11992,7 @@ msgstr ""
 "不要使用在生产设置中这个服务器。它还没有通过安全审查或性能检测。请参见 "
 "Django 文档中的 :djadmin:`django:runserver`。"
 
-#: ../../admin/install.rst:1391
+#: ../../admin/install.rst:1395
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -11896,11 +12003,11 @@ msgstr ""
 "开发的目的。对于生产使用，请参见 :ref:`uwsgi` 、:ref:`apache`、:ref:`apache-"
 "gunicorn` 和 :ref:`static-files` 中的 WSGI 设置。"
 
-#: ../../admin/install.rst:1399
+#: ../../admin/install.rst:1403
 msgid "Serving static files"
 msgstr "为静态文件提供服务"
 
-#: ../../admin/install.rst:1401
+#: ../../admin/install.rst:1405
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -11912,18 +12019,18 @@ msgstr ""
 "collectstatic --noinput`。这会将静态文件复制到 :setting:`django:STATIC_ROOT` "
 "设置指定的文件夹中（这默认为 :setting:`CACHE_DIR`内的 ``static`` 文件夹）。"
 
-#: ../../admin/install.rst:1406
+#: ../../admin/install.rst:1410
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
 "推荐直接从你的 web 服务器为静态文件提供服务，对于后面的路径应该使用它："
 
-#: ../../admin/install.rst:1410
+#: ../../admin/install.rst:1414
 msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
-#: ../../admin/install.rst:1410
+#: ../../admin/install.rst:1414
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
@@ -11931,24 +12038,24 @@ msgstr ""
 "给 Weblate 和管理界面提供静态文件（文件源由 :setting:`django:STATIC_ROOT`定"
 "义）。"
 
-#: ../../admin/install.rst:1412
+#: ../../admin/install.rst:1416
 msgid ":file:`/media/`"
 msgstr ":file:`/media/`"
 
-#: ../../admin/install.rst:1413
+#: ../../admin/install.rst:1417
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr "用于上传用户媒体（例如截屏）。"
 
-#: ../../admin/install.rst:1415
+#: ../../admin/install.rst:1419
 msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
-#: ../../admin/install.rst:1415
+#: ../../admin/install.rst:1419
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr "应该重写，重写规则为 :file:`/static/favicon.ico` 提供服务。"
 
-#: ../../admin/install.rst:1419
+#: ../../admin/install.rst:1423
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
@@ -11958,11 +12065,11 @@ msgstr ""
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 
-#: ../../admin/install.rst:1429
+#: ../../admin/install.rst:1433
 msgid "Content security policy"
 msgstr "内容安全政策"
 
-#: ../../admin/install.rst:1431
+#: ../../admin/install.rst:1435
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -11975,7 +12082,7 @@ msgstr ""
 "Protection``。这些被默认新建，与 Weblate 及其配置一起工作，但这对你的环境需要"
 "定制化。"
 
-#: ../../admin/install.rst:1438
+#: ../../admin/install.rst:1442
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
@@ -11983,11 +12090,11 @@ msgstr ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
-#: ../../admin/install.rst:1447
+#: ../../admin/install.rst:1451
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX 和 uWSGI 的配置示例"
 
-#: ../../admin/install.rst:1450
+#: ../../admin/install.rst:1454
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -12000,38 +12107,38 @@ msgstr ""
 "py` ）。别忘了将 Python 的搜索路径同样设置为 您的虚拟 env （例如在 uWSGI 中使"
 "用 ``virtualenv = /home/user/weblate-env`` ）。"
 
-#: ../../admin/install.rst:1456
+#: ../../admin/install.rst:1460
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr "后面的配置将 Weblate 作为 NGINX web 服务器下的 uWSGI 来运行。"
 
-#: ../../admin/install.rst:1458
+#: ../../admin/install.rst:1462
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
 "NGINX 的配置（还作为 :file:`weblate/examples/weblate.nginx.conf` 来获得）："
 
-#: ../../admin/install.rst:1463
+#: ../../admin/install.rst:1467
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
 "uWSGI 的配置（还作为 :file:`weblate/examples/weblate.uwsgi.ini` 来获得）："
 
-#: ../../admin/install.rst:1470
+#: ../../admin/install.rst:1474
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
 msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
-#: ../../admin/install.rst:1475
+#: ../../admin/install.rst:1479
 msgid "Sample configuration for Apache"
 msgstr "Apache 的配置示例"
 
-#: ../../admin/install.rst:1477 ../../admin/install.rst:1517
+#: ../../admin/install.rst:1481 ../../admin/install.rst:1521
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "推荐当 Weblate 使用 WSGI 时使用 prefork MPM。"
 
-#: ../../admin/install.rst:1479
+#: ../../admin/install.rst:1483
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
@@ -12039,7 +12146,7 @@ msgstr ""
 "后面的配置将 Weblate 作为 WSGI 来运行，您需要允许 ``mod_wsgi``（作为 :file:"
 "`weblate/examples/apache.conf` 来获得）："
 
-#: ../../admin/install.rst:1487
+#: ../../admin/install.rst:1491
 msgid ""
 "Weblate requires Python 3, so please ensure you are running Python 3 variant "
 "of the modwsgi. Usually it is available as a separate package, for example "
@@ -12048,20 +12155,20 @@ msgstr ""
 "Weblate 需要 Python 3，所以请确认您运行 modwsgi 的 Python 3 变体。它通常作为"
 "独立的包来获得，例如 ``libapache2-mod-wsgi-py3``。"
 
-#: ../../admin/install.rst:1491
+#: ../../admin/install.rst:1495
 msgid "Use matching Python version to install Weblate."
 msgstr "使用匹配的 Python 版本来安装 Weblate。"
 
-#: ../../admin/install.rst:1495
+#: ../../admin/install.rst:1499
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
 ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
-#: ../../admin/install.rst:1501
+#: ../../admin/install.rst:1505
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Apache 和 Gunicorn 的配置示例"
 
-#: ../../admin/install.rst:1503
+#: ../../admin/install.rst:1507
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
@@ -12069,15 +12176,15 @@ msgstr ""
 "后面的配置在 Gunicorn 和 Apache 2.4 中运行 Weblate （作为 :file:`weblate/"
 "examples/apache.gunicorn.conf` 获得）："
 
-#: ../../admin/install.rst:1511
+#: ../../admin/install.rst:1515
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
 msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
-#: ../../admin/install.rst:1515
+#: ../../admin/install.rst:1519
 msgid "Running Weblate under path"
 msgstr "在路径下运行 Weblate"
 
-#: ../../admin/install.rst:1519
+#: ../../admin/install.rst:1523
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
@@ -12086,15 +12193,15 @@ msgstr ""
 "为``/weblate`` 下的 Weblate 提供服务的 Apache 配置的示例。再次使用 "
 "``mod_wsgi`` （还作为 :file:`weblate/examples/apache-path.conf` 获得）："
 
-#: ../../admin/install.rst:1525
+#: ../../admin/install.rst:1529
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
 msgstr "此外，您必须调整 :file:`weblate/settings.py` ："
 
-#: ../../admin/install.rst:1534
+#: ../../admin/install.rst:1538
 msgid "Background tasks using Celery"
 msgstr "使用 Celery 的后台任务"
 
-#: ../../admin/install.rst:1536
+#: ../../admin/install.rst:1540
 msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
@@ -12103,11 +12210,11 @@ msgstr ""
 "Weblate使用Celery来执行常规和后台任务。你应该运行一个Celery服务来执行这些任"
 "务。例如，它负责处理以下操作（此列表并不完整）："
 
-#: ../../admin/install.rst:1540
+#: ../../admin/install.rst:1544
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
 msgstr "接收来自外部服务的webhooks（请见 :ref:`hooks`）。"
 
-#: ../../admin/install.rst:1541
+#: ../../admin/install.rst:1545
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
@@ -12115,27 +12222,27 @@ msgstr ""
 "运行定期的维护任务，如备份、清理、日常附加组件或更新（请见 :ref:`backup`, :"
 "setting:`BACKGROUND_TASKS`, :ref:`addons`）。"
 
-#: ../../admin/install.rst:1543
+#: ../../admin/install.rst:1547
 msgid "Running :ref:`auto-translation`."
 msgstr "正在运行 :ref:`auto-translation`."
 
-#: ../../admin/install.rst:1544
+#: ../../admin/install.rst:1548
 msgid "Sending digest notifications."
 msgstr "发送摘要通知。"
 
-#: ../../admin/install.rst:1545
+#: ../../admin/install.rst:1549
 msgid "Offloading expensive operations from the WSGI process."
 msgstr "从 WSGI 进程中卸载高负载操作。"
 
-#: ../../admin/install.rst:1546
+#: ../../admin/install.rst:1550
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "提交待处理更改（参见 :ref:`lazy-commit`）。"
 
-#: ../../admin/install.rst:1548
+#: ../../admin/install.rst:1552
 msgid "A typical setup using Redis as a backend looks like this:"
 msgstr "使用 Redis 作为后端的典型安装看上去是这样的："
 
-#: ../../admin/install.rst:1558
+#: ../../admin/install.rst:1562
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
@@ -12143,7 +12250,7 @@ msgstr ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 
-#: ../../admin/install.rst:1560
+#: ../../admin/install.rst:1564
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
@@ -12152,7 +12259,7 @@ msgstr ""
 "您应该启动 Celery 工作进程来处理任务，并且定时任务，这可以直接在命令行完成"
 "（调试和开发时最有用）："
 
-#: ../../admin/install.rst:1571
+#: ../../admin/install.rst:1575
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
@@ -12161,15 +12268,15 @@ msgstr ""
 "Celery 进程和 WSGI 进程必须在同一用户下被执行，否则 :setting:`DATA_DIR` 中的"
 "文件将以混合的所有权来存储，导致运行问题。"
 
-#: ../../admin/install.rst:1575
+#: ../../admin/install.rst:1579
 msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr "还请参见 :ref:`file-permissions` 和 :ref:`server`。"
 
-#: ../../admin/install.rst:1578
+#: ../../admin/install.rst:1582
 msgid "Executing Celery tasks in the WSGI using eager mode"
 msgstr "在WSGI中使用eager模式执行Celery任务"
 
-#: ../../admin/install.rst:1582
+#: ../../admin/install.rst:1586
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
@@ -12178,18 +12285,18 @@ msgstr ""
 "这将对web界面的性能产生严重影响，并会破坏依赖于常规触发器的功能（例如提交挂起"
 "的更改、摘要通知或备份）。"
 
-#: ../../admin/install.rst:1586
+#: ../../admin/install.rst:1590
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
 "对于开发，你可能希望使用 eager configuration，它可以适当地处理所有任务："
 
-#: ../../admin/install.rst:1596
+#: ../../admin/install.rst:1600
 msgid "Running Celery as system service"
 msgstr "运行 Celery 作为系统服务"
 
-#: ../../admin/install.rst:1598
+#: ../../admin/install.rst:1602
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -12200,20 +12307,20 @@ msgstr ""
 "daemonizing` 来涵盖。对于使用 systemd 的最通常的 Linux 设置，您可以使用与下面"
 "列出的 :file:`examples` 文件夹一起上市的示例文件。"
 
-#: ../../admin/install.rst:1603
+#: ../../admin/install.rst:1607
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
 "Systemd 单元作为 :file:`/etc/systemd/system/celery-weblate.service` 放置："
 
-#: ../../admin/install.rst:1608
+#: ../../admin/install.rst:1612
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr "环境配置作为 :file:`/etc/default/celery-weblate` 放置："
 
-#: ../../admin/install.rst:1613
+#: ../../admin/install.rst:1617
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
@@ -12221,11 +12328,11 @@ msgstr ""
 "使用 :command:`logrotate` 来旋转 Celery 记录的额外配置将被放置为 :file:`/etc/"
 "logrotate.d/celery`:"
 
-#: ../../admin/install.rst:1620
+#: ../../admin/install.rst:1624
 msgid "Periodic tasks using Celery beat"
 msgstr "使用 Celery beat 的周期性任务"
 
-#: ../../admin/install.rst:1622
+#: ../../admin/install.rst:1626
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. You can however "
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
@@ -12234,7 +12341,7 @@ msgstr ""
 "Weblate 带有内建的定时任务设置。然而您可以在 :file:`settings.py` 中定义另外的"
 "任务，例如请参见 :ref:`lazy-commit`。"
 
-#: ../../admin/install.rst:1625
+#: ../../admin/install.rst:1629
 msgid ""
 "The tasks are supposed to be executed by Celery beats daemon. In case it is "
 "not working properly, it might not be running or its database was corrupted. "
@@ -12243,11 +12350,11 @@ msgstr ""
 "任务应该由 Celery beats 守护进程执行。在不能正常工作的情况下，它可能不会运"
 "行，或者其数据库崩溃。在这样的情况下检查 Celery 启动日志，来找出根本原因。"
 
-#: ../../admin/install.rst:1632
+#: ../../admin/install.rst:1636
 msgid "Monitoring Celery status"
 msgstr "监测 Celery 状态"
 
-#: ../../admin/install.rst:1634
+#: ../../admin/install.rst:1638
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
@@ -12258,7 +12365,7 @@ msgstr ""
 "可以使用在命令中使用 :wladmin:`celery_queues`。如果队列太长，你也会在管理界面"
 "中得到配置错误。"
 
-#: ../../admin/install.rst:1641
+#: ../../admin/install.rst:1645
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
@@ -12267,7 +12374,7 @@ msgstr ""
 "Celery 错误默认之存储在 Celery 日志中，并且用户不可见。在您想要了解故障概况的"
 "情况下，推荐配置 :ref:`collecting-errors`。"
 
-#: ../../admin/install.rst:1647
+#: ../../admin/install.rst:1651
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
@@ -12277,11 +12384,11 @@ msgstr ""
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
-#: ../../admin/install.rst:1658
+#: ../../admin/install.rst:1662
 msgid "Single-process Celery setup"
 msgstr "单进程 Celery 设置"
 
-#: ../../admin/install.rst:1660
+#: ../../admin/install.rst:1664
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
@@ -12290,15 +12397,15 @@ msgstr ""
 "如果你的内存有限，你或许会想要减少 Weblate 进程数。使用以下命令可以在单进程中"
 "执行所有 Celery 任务："
 
-#: ../../admin/install.rst:1669
+#: ../../admin/install.rst:1673
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr "这会对 Weblate 性能产生显著影响。"
 
-#: ../../admin/install.rst:1674
+#: ../../admin/install.rst:1678
 msgid "Monitoring Weblate"
 msgstr "监测 Weblate"
 
-#: ../../admin/install.rst:1676
+#: ../../admin/install.rst:1680
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
@@ -12307,14 +12414,14 @@ msgstr ""
 "Weblate 提供了 ``/healthz/`` URL，可用于简单的健康检查，例如使用 Kubernetes。"
 "Docker 容器内置了使用此 URL 的健康检查。"
 
-#: ../../admin/install.rst:1679
+#: ../../admin/install.rst:1683
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
 "为了检测Weblate的各项指标，你可以使用 :http:get:`/api/metrics/` API端点。"
 
-#: ../../admin/install.rst:1683
+#: ../../admin/install.rst:1687
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
@@ -12322,11 +12429,11 @@ msgstr ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate 的 Munin 插件 "
 "<https://github.com/WeblateOrg/munin>`_"
 
-#: ../../admin/install.rst:1690 ../../admin/install/docker.rst:1642
+#: ../../admin/install.rst:1694 ../../admin/install/docker.rst:1642
 msgid "Collecting error reports and monitoring performance"
 msgstr "收集错误报告并监控性能"
 
-#: ../../admin/install.rst:1692
+#: ../../admin/install.rst:1696
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -12338,11 +12445,11 @@ msgstr ""
 "第三方服务来收集此类信息。这在 Celery 任务失败的情况下尤其有用，否则将只会向"
 "日志报告错误，而您不会收到有关它们的通知。Weblate 支持以下服务："
 
-#: ../../admin/install.rst:1699
+#: ../../admin/install.rst:1703
 msgid "Sentry"
 msgstr "Sentry"
 
-#: ../../admin/install.rst:1701
+#: ../../admin/install.rst:1705
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
@@ -12350,7 +12457,7 @@ msgstr ""
 "Weblate 内置了对 `Sentry <https://sentry.io/>`_ 的支持。要使用它，只需在 :"
 "file:`settings.py` 中设置 :setting:`SENTRY_DSN`："
 
-#: ../../admin/install.rst:1708
+#: ../../admin/install.rst:1712
 msgid ""
 "Sentry can be also used to monitor performance of Weblate by collecting "
 "traces and profiles for defined percentage of operations. This can be "
@@ -12361,7 +12468,7 @@ msgstr ""
 "使用 :setting:`SENTRY_TRACES_SAMPLE_RATE` 和 :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`进行配置。"
 
-#: ../../admin/install.rst:1714
+#: ../../admin/install.rst:1718
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
@@ -12369,11 +12476,11 @@ msgstr ""
 "`Sentry性能监控 <https://docs.sentry.io/product/performance/>`_, `Sentry "
 "Profiling <https://docs.sentry.io/product/profiling/>`_"
 
-#: ../../admin/install.rst:1718
+#: ../../admin/install.rst:1722
 msgid "Rollbar"
 msgstr "Rollbar"
 
-#: ../../admin/install.rst:1720
+#: ../../admin/install.rst:1724
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
@@ -12383,17 +12490,17 @@ msgstr ""
 "循 `Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_ 的"
 "说明即可。"
 
-#: ../../admin/install.rst:1723
+#: ../../admin/install.rst:1727
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr "简而言之，您需要调整 :file:`settings.py` ："
 
-#: ../../admin/install.rst:1742
+#: ../../admin/install.rst:1746
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr "其他所有内容都是自动集成的，您现在将同时收集服务器和客户端错误。"
 
-#: ../../admin/install.rst:1747
+#: ../../admin/install.rst:1751
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
@@ -12401,11 +12508,11 @@ msgstr ""
 "错误日志记录还包括已正常处理但可能指示存在问题的异常，例如上传文件的解析失"
 "败。"
 
-#: ../../admin/install.rst:1751
+#: ../../admin/install.rst:1755
 msgid "Migrating Weblate to another server"
 msgstr "将 Weblate 迁移到其他服务其中"
 
-#: ../../admin/install.rst:1753
+#: ../../admin/install.rst:1757
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
@@ -12414,11 +12521,11 @@ msgstr ""
 "将 Weblate 迁移到其他服务器应该非常简单，然而它将数据存储在几个位置，您应该小"
 "心迁移。最佳的方式时停止 Weblate 再迁移。"
 
-#: ../../admin/install.rst:1758
+#: ../../admin/install.rst:1762
 msgid "Migrating database"
 msgstr "迁移数据库"
 
-#: ../../admin/install.rst:1760
+#: ../../admin/install.rst:1764
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -12430,15 +12537,15 @@ msgstr ""
 "生工具，因它们通常最有效（如 :command:`mysqldump` 或 :command:`pg_dump`）。如"
 "果你的数据库支持的话，你也可以使用复制。"
 
-#: ../../admin/install.rst:1768
+#: ../../admin/install.rst:1772
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr "在数据库之间进行迁移的内容，见 :ref:`database-migration`。"
 
-#: ../../admin/install.rst:1771
+#: ../../admin/install.rst:1775
 msgid "Migrating VCS repositories"
 msgstr "迁移版本控制系统仓库"
 
-#: ../../admin/install.rst:1773
+#: ../../admin/install.rst:1777
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
@@ -12447,11 +12554,11 @@ msgstr ""
 "存储在 :setting:`DATA_DIR` 下的版本控制系统同样需要迁移。您可以简单地复制它"
 "们，或使用 :command:`rsync` 来更有效地迁移。"
 
-#: ../../admin/install.rst:1778
+#: ../../admin/install.rst:1782
 msgid "Other notes"
 msgstr "其他注意事项"
 
-#: ../../admin/install.rst:1780
+#: ../../admin/install.rst:1784
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -12470,9 +12577,9 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and Redis as "
 "a caching backend."
 msgstr ""
-"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate "
-"实例。Weblate 的所有依赖项已包含在内。PostgreSQL 被设为默认数据库，Redis "
-"被设为缓存后端。"
+"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实"
+"例。Weblate 的所有依赖项已包含在内。PostgreSQL 被设为默认数据库，Redis 被设为"
+"缓存后端。"
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -15196,9 +15303,14 @@ msgid "You can stop the test server with Ctrl+C."
 msgstr "您可以使用 Ctrl+C 来停止测试的服务器。"
 
 #: ../../admin/install/steps/install-after.rst:11
+#, fuzzy
+#| msgid ""
+#| "Review potential issues with your installation either on ``/manage/"
+#| "performance/`` URL (see :ref:`management-interface`) or using :command:"
+#| "`weblate check --deploy`, see :ref:`production`."
 msgid ""
 "Review potential issues with your installation either on ``/manage/"
-"performance/`` URL (see :ref:`management-interface`) or using :command:"
+"performance/`` URL (see :ref:`manage-performance`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
 "在 ``/manage/performance/`` URL （参见 :ref:`management-interface`）上或使"
@@ -15944,8 +16056,8 @@ msgid ""
 "Replace the XXX with your auth_key. If you receive a JSON object which "
 "contains \"Bonjour\", you have the correct URL; if not, try the other three."
 msgstr ""
-"将链接中的xxx替换为你自己deepl账号的auth_key。如果你收到了一个包含有\"Bonjour"
-"\"（你好）的JSON对象，说明URL是正确，否则，试试其他方式。"
+"将链接中的xxx替换为你自己deepl账号的auth_key。如果你收到了一个包含有"
+"\"Bonjour\"（你好）的JSON对象，说明URL是正确，否则，试试其他方式。"
 
 #: ../../admin/machine.rst:173
 msgid ""
@@ -16293,8 +16405,8 @@ msgstr ""
 ">`_, `基 URLs <https://learn.microsoft.com/en-us/azure/ai-services/"
 "translator/reference/v3-0-reference#base-urls>`_, `\"使用多服务资源进行身份验"
 "证\" <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
-"reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_ `"
-"\"使用访问令牌验证身份\" 部分 <https://learn.microsoft.com/en-us/azure/ai-"
+"reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_ "
+"`\"使用访问令牌验证身份\" 部分 <https://learn.microsoft.com/en-us/azure/ai-"
 "services/translator/reference/v3-0-reference#authenticating-with-an-access-"
 "token>`_"
 
@@ -16568,9 +16680,8 @@ msgid ""
 ":doc:`tt:commands/tmserver`, :ref:`amagama:installation`, :doc:`virtaal:"
 "amagama`, `Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
-":doc:`tt:commands/tmserver`、 :ref:`amagama:installation`、 "
-":doc:`virtaal:amagama`、 `Amagama 翻译记忆库 <https://amagama.translatehouse."
-"org/>`_"
+":doc:`tt:commands/tmserver`、 :ref:`amagama:installation`、 :doc:`virtaal:"
+"amagama`、 `Amagama 翻译记忆库 <https://amagama.translatehouse.org/>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:564
 msgid "Weblate"
@@ -17410,8 +17521,8 @@ msgstr "列出 MediaWiki 标记中支持的语言——语言代码、英语名�
 
 #: ../../admin/management.rst:628
 msgid ""
-"This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
-"%C3%A1zvy_jazyk%C5%AF>."
+"This is used to generate <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
 "这用来生成 <https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 
@@ -17780,9 +17891,9 @@ msgstr "用户界面"
 #: ../../admin/memory.rst:75
 msgid ""
 "Personal translation memory management is available by clicking the user "
-"avatar in the top-right corner of the UI and selecting \"Translation memory"
-"\" from the dropdown menu. Entries attributed to the user are listed in "
-"scopes – total, for each respective project, component, or language "
+"avatar in the top-right corner of the UI and selecting \"Translation "
+"memory\" from the dropdown menu. Entries attributed to the user are listed "
+"in scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
 "要管理个人翻译记忆库请单击用户界面右上角的用户头像，从下拉菜单中选中“翻译记忆"
@@ -18200,8 +18311,8 @@ msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
-"2. 另外您还可以将现有的密钥导入 Weblate 中，当调用 pgp 时只设置 ``HOME="
-"$DATA_DIR/home``。"
+"2. 另外您还可以将现有的密钥导入 Weblate 中，当调用 pgp 时只设置 "
+"``HOME=$DATA_DIR/home``。"
 
 #: ../../admin/optionals.rst:235
 msgid ""
@@ -19387,7 +19498,9 @@ msgstr "为建议打开投票，请参见 :ref:`voting`。"
 
 #: ../../admin/projects.rst:606 ../../workflows.rst:115 ../../workflows.rst:146
 #: ../../workflows.rst:180
-msgid "Autoaccept suggestions"
+#, fuzzy
+#| msgid "Autoaccept suggestions"
+msgid "Automatically accept suggestions"
 msgstr "自动接受建议"
 
 #: ../../admin/projects.rst:608
@@ -20592,11 +20705,19 @@ msgid "Translation process"
 msgstr "翻译进程"
 
 #: ../../admin/translating.rst:9
+#, fuzzy
+#| msgid ""
+#| "Everyone can add suggestions by default, to be accepted by signed in "
+#| "users. Suggestion voting can be used to make use of a string when more "
+#| "than one signed-in user agrees, by setting up the :ref:`component` with :"
+#| "guilabel:`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept "
+#| "suggestions` to set a threshold for accepted suggestions (this includes a "
+#| "vote from the user making the suggestion if it is cast)."
 msgid ""
 "Everyone can add suggestions by default, to be accepted by signed in users. "
 "Suggestion voting can be used to make use of a string when more than one "
 "signed-in user agrees, by setting up the :ref:`component` with :guilabel:"
-"`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept "
+"`Suggestion voting` to turn on voting, and :guilabel:`Automatically accept "
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
@@ -21273,9 +21394,9 @@ msgid ""
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
 "要访问嵌套在 :ref:`category` 内的部件，你需要将分类名通过 URL 编码成用斜杠分"
-"隔的部件名。比如， 置于 ``docs`` 分类中的 ``usage`` 需要转换成 ``docs"
-"%252Fusage`` ，此示例的完整 URL 应形如 ``https://example.com/api/components/"
-"hello/docs%252Fusage/repository/``."
+"隔的部件名。比如， 置于 ``docs`` 分类中的 ``usage`` 需要转换成 "
+"``docs%252Fusage`` ，此示例的完整 URL 应形如 ``https://example.com/api/"
+"components/hello/docs%252Fusage/repository/``."
 
 #: ../../api.rst:173
 msgid "API rate limiting"
@@ -24018,7 +24139,8 @@ msgstr "新增对 CJK 语言 :ref:`num-words` 的支持。"
 #: ../../changes.rst:23
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
-msgstr ":ref:`addon-weblate.discovery.discovery` 现在保留 :ref:`componentlists`."
+msgstr ""
+":ref:`addon-weblate.discovery.discovery` 现在保留 :ref:`componentlists`."
 
 #: ../../changes.rst:24
 msgid "Nicer formatting of :ref:`glossary` tooltips."
@@ -24059,7 +24181,8 @@ msgstr "**兼容性**"
 msgid ""
 "Last changed timestamp now reflects changes outside Weblate as well. This "
 "affects both :ref:`api` and user interface."
-msgstr "上次更改时间戳现在同样反应 Website 之外的更改。这影响 :ref:`api` 和用户界面。"
+msgstr ""
+"上次更改时间戳现在同样反应 Website 之外的更改。这影响 :ref:`api` 和用户界面。"
 
 #: ../../changes.rst:37 ../../changes.rst:52 ../../changes.rst:90
 #: ../../changes.rst:114 ../../changes.rst:155 ../../changes.rst:182
@@ -24093,8 +24216,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
-"109?closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/109?"
+"closed=1>`__。"
 
 #: ../../changes.rst:44
 msgid "Weblate 5.3.1"
@@ -24113,8 +24236,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
-"110?closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/110?"
+"closed=1>`__。"
 
 #: ../../changes.rst:59
 msgid "Weblate 5.3"
@@ -24187,7 +24310,8 @@ msgstr "删除陈旧的 VCS 目录。"
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions, as it is no "
 "longer provided by Microsoft."
-msgstr "Microsoft Terminology 服务无法再用于自动建议，因 Microsoft 不再提供此服务。"
+msgstr ""
+"Microsoft Terminology 服务无法再用于自动建议，因 Microsoft 不再提供此服务。"
 
 #: ../../changes.rst:88
 msgid ""
@@ -34853,8 +34977,8 @@ msgstr "从代码库开始"
 #: ../../contributing/start.rst:10
 msgid ""
 "Familiarize yourself with the Weblate codebase, by having a go at the bugs "
-"labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
-"%20first%20issue>`_."
+"labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_."
 msgstr ""
 "想熟悉 Weblate 代码库，不如先试试对带有 `good first issue <https://github."
 "com/WeblateOrg/weblate/labels/good%20first%20issue>`_ 标签的那些 bug 下手。"
@@ -36163,8 +36287,8 @@ msgid ""
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
 "如您的翻译文件与代码一起存储在一个远程版本控制系统中，您很可能有一个现有的工"
-"作流供开发人员引入新的字符串。任何添加字符串的方法都将被采用，但请考虑使用 "
-":ref:`source-quality-gateway` 以避免引入错误。"
+"作流供开发人员引入新的字符串。任何添加字符串的方法都将被采用，但请考虑使用 :"
+"ref:`source-quality-gateway` 以避免引入错误。"
 
 #: ../../devel/integration.rst:73
 msgid ""
@@ -36371,8 +36495,9 @@ msgstr "字词数量"
 msgid ""
 "Number of words is a metric widely used in Indo-European languages, but "
 "might not have a well-defined behavior for some Asian languages."
-msgstr "单词数是印欧语中普遍使用的度量单位，但对某些亚洲语言也许没有被很好定义的行为"
-"。"
+msgstr ""
+"单词数是印欧语中普遍使用的度量单位，但对某些亚洲语言也许没有被很好定义的行"
+"为。"
 
 #: ../../devel/reporting.rst:30
 msgid ""
@@ -36393,7 +36518,8 @@ msgstr "对于复数字符串，按照所有复数形式的词的总数计算词
 msgid ""
 "For Chinese, Japanese, or Korean languages, the number of words is the "
 "number of CJK characters plus the number of words in non-CJK characters."
-msgstr "对中文、日语和韩国语来说，单词数是 CJK 字符加上非 CJK 字符表示的单词数之和。"
+msgstr ""
+"对中文、日语和韩国语来说，单词数是 CJK 字符加上非 CJK 字符表示的单词数之和。"
 
 #: ../../devel/reporting.rst:47
 msgid "Translator credits"
@@ -36822,8 +36948,8 @@ msgid ""
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
 "选择你平台上的标准格式，尽量避免重复发明轮子，避免通过创建你自己的框架来处理"
-"本地化问题。Weblate 支持大多数广泛使用的框架，更多信息请参见 :ref:`formats`"
-"\\ （特别是 :ref:`fmt_capabs`）。"
+"本地化问题。Weblate 支持大多数广泛使用的框架，更多信息请参见 :ref:"
+"`formats`\\ （特别是 :ref:`fmt_capabs`）。"
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -38684,8 +38810,8 @@ msgid ""
 "used in different scopes (for example `Sun` can be used as an abbreviated "
 "name of the day \"Sunday\" or as the name of our closest star)."
 msgstr ""
-"上下文用于区分双语格式下用于不同领域的相同字符串（例如 `Sun` 可以是 \"Sunday"
-"\" 的缩写，也可以是离我们最近的恒星的名字）。"
+"上下文用于区分双语格式下用于不同领域的相同字符串（例如 `Sun` 可以是 "
+"\"Sunday\" 的缩写，也可以是离我们最近的恒星的名字）。"
 
 #: ../../formats.rst:469
 msgid ""
@@ -38789,8 +38915,8 @@ msgstr ""
 
 #: ../../formats/android.rst:19
 msgid ""
-"In case string contains multiple spaces, it is quoted with double quotes (``"
-"\"``)."
+"In case string contains multiple spaces, it is quoted with double quotes "
+"(``\"``)."
 msgstr "如果字符串包含多个空格，将用双引号 (``\"``)进行引用。"
 
 #: ../../formats/android.rst:20
@@ -40327,8 +40453,8 @@ msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<note from=\"translator\">``."
 msgstr ""
-"源字符串解释从 ``<descrip>`` 标签保存和加载，翻译字符串解释从 ``<note from="
-"\"translator\">`` 保存和加载。"
+"源字符串解释从 ``<descrip>`` 标签保存和加载，翻译字符串解释从 ``<note "
+"from=\"translator\">`` 保存和加载。"
 
 #: ../../formats/tbx.rst:14
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -40350,7 +40476,8 @@ msgstr "解释"
 msgid ""
 "Weblate loads and saves explanation from TBX files to be displayed in :ref:"
 "`glossary`."
-msgstr "Weblate 加载并保存解释，这些来自 TBX 文件的解释将被展示在 :ref:`glossary`中。"
+msgstr ""
+"Weblate 加载并保存解释，这些来自 TBX 文件的解释将被展示在 :ref:`glossary`中。"
 
 #: ../../formats/tbx.rst:27
 msgid ""
@@ -40640,8 +40767,8 @@ msgstr "XLIFF 中的空格和换行符"
 #: ../../formats/xliff.rst:73
 msgid ""
 "Generally types or amounts of whitespace is not differentiated between in "
-"XML formats. If you want to keep it, you have to add the ``xml:space="
-"\"preserve\"`` flag to the string."
+"XML formats. If you want to keep it, you have to add the ``xml:"
+"space=\"preserve\"`` flag to the string."
 msgstr ""
 "通常空格的类型和数量和在 XML 格式中的一样对待。如果想要保留，必须将 ``xml:"
 "space=\"preserve\"`` 标记添加到字符串中。"
@@ -45155,13 +45282,12 @@ msgstr "简单搜索"
 msgid ""
 "Any phrase typed into the search box is split into words. Strings containing "
 "all of them are shown. To look for an exact phrase, put \"the searchphrase\" "
-"into quotes (both single (``'``) and double (``\"``) quotes will work): ``"
-"\"this is a quoted string\"`` or ``'another quoted string'``."
+"into quotes (both single (``'``) and double (``\"``) quotes will work): "
+"``\"this is a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
 "在搜索框中输入的任何短语都会被分割成单词。包含所有单词的字符串才会显示。要精"
-"确查找短语，把 \"要搜索的短语 \"放入引号中（单(``'``)双(``\""
-"``)引号都可以）):``\"this is a quoted string\"`` 或 ``'another quoted "
-"string'``."
+"确查找短语，把 \"要搜索的短语 \"放入引号中（单(``'``)双(``\"``)引号都可以）):"
+"``\"this is a quoted string\"`` 或 ``'another quoted string'``."
 
 #: ../../user/search.rst:25
 msgid "Fields"
@@ -45547,8 +45673,8 @@ msgstr "正则表达式"
 
 #: ../../user/search.rst:144
 msgid ""
-"Anywhere text is accepted you can also specify a regular expression as ``r"
-"\"regexp\"``."
+"Anywhere text is accepted you can also specify a regular expression as "
+"``r\"regexp\"``."
 msgstr "任何地方都可以接受文本，您也可以将正则表达式指定为 ``r\"regexp\"``。"
 
 #: ../../user/search.rst:146
@@ -45556,8 +45682,8 @@ msgid ""
 "For example, to search for all source strings which contain any digit "
 "between 2 and 5, use ``source:r\"[2-5]\"``."
 msgstr ""
-"例如，要搜索包含 2 到 5 之间任何数字的所有源字符串，请使用 ``source:r"
-"\"[2-5]\"``。"
+"例如，要搜索包含 2 到 5 之间任何数字的所有源字符串，请使用 ``source:"
+"r\"[2-5]\"``。"
 
 #: ../../user/search.rst:150
 msgid "Predefined queries"
@@ -46720,8 +46846,8 @@ msgid ""
 "Recent OpenSSH releases (for example the one used in Weblate Docker "
 "container) disable RSA signatures using the SHA-1 hash algorithm by default. "
 "This change has been made as the SHA-1 hash algorithm is cryptographically "
-"broken, and it is possible to create chosen-prefix hash collisions for <USD"
-"$50K."
+"broken, and it is possible to create chosen-prefix hash collisions for "
+"<USD$50K."
 msgstr ""
 "最近的 OpenSSH 发行版（比如用于 Weblate Docker 容器中的 OpenSSH) 默认禁用了使"
 "用 SHA-1 哈希算法的 RSA 签名。做出此变化是因为 SHA-1 哈希算法存在密码学缺陷，"
@@ -46895,8 +47021,8 @@ msgstr ""
 #: ../../vcs.rst:229
 msgid ""
 "If your username or password contains special characters, those have to be "
-"URL encoded, for example ``https://user%40example.com:%24password"
-"%23@bitbucket.org/…``."
+"URL encoded, for example ``https://user%40example.com:"
+"%24password%23@bitbucket.org/…``."
 msgstr ""
 "如果你的用户名和密码包含特殊字符，需要对URL进行encode编码，例如 ``https://"
 "user%40example.com:%24password%23@bitbucket.org/…``。"
@@ -47335,8 +47461,8 @@ msgstr "Subversion 凭据"
 msgid ""
 "Weblate expects you to have accepted the certificate up-front (and your "
 "credentials if needed). It will look to insert them into the :setting:"
-"`DATA_DIR` directory. Accept the certificate by using `svn` once with the `"
-"$HOME` environment variable set to the :setting:`DATA_DIR`:"
+"`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
+"`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate 希望您预先接受证书（如果需要，还需要您的凭据）。它会将它们插入到 :"
 "setting:`DATA_DIR` 目录中。在 `$HOME` 环境变量设置为 :setting:`DATA_DIR` 的情"
@@ -47781,18 +47907,27 @@ msgid "Translation workflows"
 msgstr "翻译工作流"
 
 #: ../../workflows.rst:6
+#, fuzzy
+#| msgid ""
+#| "Using Weblate is a process that brings your users closer to you, by "
+#| "bringing you closer to your translators.  It is up to you to decide how "
+#| "many of its features you want to make use of."
 msgid ""
-"Using Weblate is a process that brings your users closer to you, by bringing "
-"you closer to your translators.  It is up to you to decide how many of its "
-"features you want to make use of."
+"Using Weblate raises quality, reduces manual work, and brings everyone "
+"involved in the localization process closer to each other. It is up to you "
+"to decide how many of Weblate features you want to make use of."
 msgstr ""
 "使用 Weblate 是一个让您的用户更接近您的过程，它让您更接近您的翻译人员。由您决"
 "定要使用多少功能。"
 
 #: ../../workflows.rst:10
+#, fuzzy
+#| msgid ""
+#| "The following is not a complete list of ways to configure Weblate. You "
+#| "can base other workflows on the most usual examples listed here."
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
-"base other workflows on the most usual examples listed here."
+"base other workflows on the examples listed here."
 msgstr ""
 "以下不是配置 Weblate 的方法的完整列表。您可以将其他工作流基于此处列出的最常见"
 "的示例。"
@@ -47872,10 +48007,15 @@ msgstr ""
 "档。"
 
 #: ../../workflows.rst:52
+#, fuzzy
+#| msgid ""
+#| "In the following chapters, *any user* means a user who has access to the "
+#| "translation. It can be any authenticated user if the project is public, "
+#| "or a user that has a :guilabel:`Translate` permission for the project."
 msgid ""
 "In the following chapters, *any user* means a user who has access to the "
 "translation. It can be any authenticated user if the project is public, or a "
-"user that has a :guilabel:`Translate` permission for the project."
+"user with :guilabel:`Translate` permission to the project."
 msgstr ""
 "在以下各章中，*任何用户* 都是指有权访问翻译的用户。如果项目是公共项目，则可以"
 "是任何经过身份验证的用户，也可以是具有项目 :guilabel:`翻译` 权限的用户。"
@@ -47899,11 +48039,17 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: ../../workflows.rst:67
+#, fuzzy
+#| msgid ""
+#| "Translation needs editing, this is usually the result of a source string "
+#| "change, fuzzy matching or translator action. The translation is stored in "
+#| "the file, depending on the file format it might be marked as needing edit "
+#| "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
 "the file, depending on the file format it might be marked as needing edit "
-"(for example as it gets a ``fuzzy`` flag in the Gettext file)."
+"(for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
 "翻译需要编辑，这通常是源字符串更改、模糊匹配或译者操作的结果。翻译存储在文件"
 "中，具体取决于文件格式，它可能被标记为需要编辑（例如，当它在 Gettext 文件中获"
@@ -47944,10 +48090,15 @@ msgid "The states are represented in the translation files when possible."
 msgstr "状态在可能的情况下会呈现在翻译文件中。"
 
 #: ../../workflows.rst:86
+#, fuzzy
+#| msgid ""
+#| "If the file format you use does not support storing states, you might "
+#| "want to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
+#| "strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
-"to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
-"as needing editing."
+"to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
+"strings as needing editing."
 msgstr ""
 "如果您使用的文件格式不支持存储状态，您可能需要使用 :ref:`addon-weblate.flags."
 "same_edit` 附加组件将未更改的字符串标记为需要编辑。"
@@ -47961,9 +48112,13 @@ msgid "Direct translation"
 msgstr "直接翻译"
 
 #: ../../workflows.rst:98
+#, fuzzy
+#| msgid ""
+#| "This is the most usual setup for smaller teams, anybody can directly "
+#| "translate. This is also the default setup in Weblate."
 msgid ""
-"This is the most usual setup for smaller teams, anybody can directly "
-"translate. This is also the default setup in Weblate."
+"The most common setup for smaller teams, where anybody can translate "
+"directly. This is also the default setup in Weblate."
 msgstr ""
 "这是小型团队最常用的设置，任何人都可以直接翻译。这也是 Weblate 中的默认设置。"
 
@@ -47999,7 +48154,9 @@ msgid "on"
 msgstr "已开启"
 
 #: ../../workflows.rst:110 ../../workflows.rst:175
-msgid "It is useful for users to be able to suggest when they are not sure."
+#, fuzzy
+#| msgid "It is useful for users to be able to suggest when they are not sure."
+msgid "Useful for users to be able to suggest when they are not sure."
 msgstr "用户可以在不确定时提出建议，这很有用。"
 
 #: ../../workflows.rst:117 ../../workflows.rst:149 ../../workflows.rst:182
@@ -48048,7 +48205,9 @@ msgid ""
 msgstr "在获得预定数量的票数后，建议就会成为翻译。"
 
 #: ../../workflows.rst:146
-msgid "You can set a higher value to require more peer reviews."
+#, fuzzy
+#| msgid "You can set a higher value to require more peer reviews."
+msgid "You can set higher value to require more peer reviews."
 msgstr "您可以设置更高的值，以要求更多的同行评审。"
 
 #: ../../workflows.rst:153
@@ -48120,11 +48279,17 @@ msgstr ""
 "关。"
 
 #: ../../workflows.rst:211
+#, fuzzy
+#| msgid ""
+#| "By setting :ref:`component-intermediate`, this file will be used as "
+#| "source for the strings, but it will be edited to source language to "
+#| "polish it.  Once the string is ready in the source language, it will be "
+#| "also available for translators to translate into additional languages."
 msgid ""
-"By setting :ref:`component-intermediate`, this file will be used as source "
-"for the strings, but it will be edited to source language to polish it.  "
-"Once the string is ready in the source language, it will be also available "
-"for translators to translate into additional languages."
+"By setting :ref:`component-intermediate`, this file is used for translating "
+"strings to the source language by translators/editors. Once this stage is "
+"done, strings are available for translations to target languages, based on "
+"what is now a polished source language."
 msgstr ""
 "通过设置 :ref:`component-intermediate` ，这个文件将被用作字符串的源，但它会被"
 "编辑为源语言来润色它。一旦字符串在源语言中准备就绪，翻译人员也可以将其翻译成"
@@ -48140,39 +48305,60 @@ msgid "Source strings reviews"
 msgstr "源字符串复查"
 
 #: ../../workflows.rst:264
+#, fuzzy
+#| msgid ""
+#| "With :ref:`project-source_review` enabled, the review process can be "
+#| "applied on the source strings. Once enabled, users can report issues in "
+#| "the source strings.  The actual process depends on whether you use "
+#| "bilingual or monolingual formats."
 msgid ""
 "With :ref:`project-source_review` enabled, the review process can be applied "
-"on the source strings. Once enabled, users can report issues in the source "
-"strings.  The actual process depends on whether you use bilingual or "
-"monolingual formats."
+"for source strings. Once enabled, users can report issues with source "
+"strings. The actual process depends on whether bilingual or monolingual "
+"formats are in use."
 msgstr ""
 "通过 :ref:`project-source_review`，可以对源字符串应用复查过程。启用后，用户可"
 "以报告源字符串中的问题。实际过程取决于使用的是双语言还是单语言格式。"
 
-#: ../../workflows.rst:269
+#: ../../workflows.rst:268
+#, fuzzy
+#| msgid ""
+#| "For monolingual formats, the source string review behaves similarly as "
+#| "with :ref:`reviews` - once issue is reported on the source string, it is "
+#| "marked as :guilabel:`Needs editing`."
 msgid ""
-"For monolingual formats, the source string review behaves similarly as with :"
-"ref:`reviews` - once issue is reported on the source string, it is marked "
-"as :guilabel:`Needs editing`."
+"For monolingual formats, source string review functions similarly to :ref:"
+"`reviews` — once an issue with a source string is reported, it is marked as :"
+"guilabel:`Needs editing`."
 msgstr ""
 "对于单语言格式，源字符串复查的行为与 :ref:`reviews` 相似——一旦源字符串汇报了"
 "情况，就会被标记为 :guilabel:`需要编辑`。"
 
-#: ../../workflows.rst:273
+#: ../../workflows.rst:272
+#, fuzzy
+#| msgid ""
+#| "The bilingual formats do not allow direct editing of the source strings "
+#| "(these are typically extracted directly from the source code). In this "
+#| "case :guilabel:`Source needs review` label is attached to strings "
+#| "reported by translators. You should review such strings and either edit "
+#| "them in the source or remove the label."
 msgid ""
-"The bilingual formats do not allow direct editing of the source strings "
-"(these are typically extracted directly from the source code). In this case :"
+"Bilingual formats do not allow direct editing of source strings (these are "
+"typically extracted directly from the source code). In this case, a :"
 "guilabel:`Source needs review` label is attached to strings reported by "
 "translators. You should review such strings and either edit them in the "
-"source or remove the label."
+"source code, or remove the label."
 msgstr ""
 "双语格式不允许直接编辑源字符串（通常都是直接从源代码中提取源字符串）。在这种"
 "情况下， :guilabel:`原文需要审校` 标签会被附加到译者报告的字符串上。您应该复"
 "查此类字符串，然后编辑原文或删除标签。"
 
-#: ../../workflows.rst:281
+#: ../../workflows.rst:280
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#~ msgid "Autoaccept suggestions"
+#~ msgstr "自动接受建议"
 
 #~ msgid ""
 #~ "If you are not administrating the whole Weblate installation and just "
@@ -49234,9 +49420,6 @@ msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 #~ msgid "App store metadata style"
 #~ msgstr "应用商店元数据样式"
 
-#~ msgid ":ref:`language-parsing-codes`"
-#~ msgstr ":ref:`language-parsing-codes`"
-
 #~ msgid ""
 #~ "Configures GitHub personal access token for GitHub pull-requests via API "
 #~ "by changing :setting:`GITHUB_TOKEN`."
@@ -49675,8 +49858,8 @@ msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 #~ msgstr "MT_MICROSOFT_ENDPOINT_URL"
 
 #~ msgid ""
-#~ "Region endpoint URL domain for access token as defined in the `"
-#~ "\"Authenticating with an access token\" section <https://docs.microsoft."
+#~ "Region endpoint URL domain for access token as defined in the "
+#~ "`\"Authenticating with an access token\" section <https://docs.microsoft."
 #~ "com/en-us/azure/cognitive-services/translator/reference/v3-0-"
 #~ "reference#authenticating-with-an-access-token>`_."
 #~ msgstr ""

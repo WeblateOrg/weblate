@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-01-23 19:12+0100\n"
+"POT-Creation-Date: 2024-02-01 19:59+0100\n"
 "PO-Revision-Date: 2024-01-24 12:46+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -3602,7 +3602,12 @@ msgid "Shared translation memory, see :doc:`memory`"
 msgstr "共有翻訳メモリ。参照: :doc:`memory`"
 
 #: ../../admin/admin.rst:17
-msgid "Performance report to review Weblate health and length of Celery queues"
+#, fuzzy
+#| msgid ""
+#| "Performance report to review Weblate health and length of Celery queues"
+msgid ""
+":ref:`manage-performance` to review Weblate health and length of Celery "
+"queues"
 msgstr "Weblate の健全性や Celery のキューの長さを確認する性能レポート"
 
 #: ../../admin/admin.rst:18
@@ -3621,9 +3626,9 @@ msgstr "翻訳フラグの変更（参照: :ref:`custom-checks`）"
 
 #: ../../admin/admin.rst:21
 #, fuzzy
-#| msgid "Reset customization"
-msgid "Appearance customization."
-msgstr "カスタマイズの初期化"
+#| msgid ":ref:`component-branch`"
+msgid ":ref:`manage-appearance`."
+msgstr ":ref:`component-branch`"
 
 #: ../../admin/admin.rst:22
 #, fuzzy
@@ -3632,10 +3637,74 @@ msgid "Configure :ref:`machine-translation-setup`."
 msgstr ":ref:`aws` の機械翻訳を設定します。"
 
 #: ../../admin/admin.rst:27
+msgid "Performance report"
+msgstr "性能レポート"
+
+#: ../../admin/admin.rst:29
+msgid ""
+"This page provides an overview of Weblate configuration and performance "
+"status."
+msgstr ""
+
+#: ../../admin/admin.rst:31
+msgid ""
+":guilabel:`Configuration errors` indicate issues present in your "
+"environment. It covers missing optional dependencies (see :ref:`python-"
+"deps`), configuration issues or delayed processing of background tasks  "
+"(see :ref:`celery`)."
+msgstr ""
+
+#: ../../admin/admin.rst:35
+msgid ""
+":guilabel:`System checks` lists possible configuration issues. These can be "
+"silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also :doc:"
+"`django:howto/deployment/checklist`."
+msgstr ""
+
+#: ../../admin/admin.rst:39
+msgid ""
+":guilabel:`Celery queues` provides overview of Celery queues. These "
+"typically should be close to zero. The same can be obtained on the command "
+"line using :wladmin:`celery_queues`."
+msgstr ""
+
+#: ../../admin/admin.rst:43
+msgid ""
+":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
+"This needs to be configured in your system, see :ref:`production-encoding`."
+msgstr ""
+
+#: ../../admin/admin.rst:46
+msgid ""
+":guilabel:`Connectivity` shows latencies to the database, cache, and Celery. "
+"This might be useful to diagnose connectivity issues."
+msgstr ""
+
+#: ../../admin/admin.rst:53
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Appearance customization"
+msgstr "カスタマイズの初期化"
+
+#: ../../admin/admin.rst:59
+msgid ""
+"The colors are currently used in both dark and light theme, so be careful "
+"when choosing them."
+msgstr ""
+
+#: ../../admin/admin.rst:62
+msgid "Colors, fonts, and page appearance can be customized here."
+msgstr ""
+
+#: ../../admin/admin.rst:64
+msgid "If you are looking for more customization, see :doc:`/admin/customize`."
+msgstr ""
+
+#: ../../admin/admin.rst:69
 msgid "The Django admin interface"
 msgstr "Django 管理画面"
 
-#: ../../admin/admin.rst:31
+#: ../../admin/admin.rst:73
 msgid ""
 "Use with caution as this is a low level interface. You should not need it in "
 "most cases as most things are comfortably approachable through Weblate UI or "
@@ -3644,7 +3713,7 @@ msgstr ""
 "これは低レベルのインターフェイスであり、使用には注意が必要です。通常は、"
 "Weblate UI または API を通じて快適に操作できるので使用する必要はありません。"
 
-#: ../../admin/admin.rst:34
+#: ../../admin/admin.rst:76
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
@@ -3652,7 +3721,7 @@ msgstr ""
 "ここでは、ユーザー、翻訳、その他の設定など、データベースに保存しているオブ"
 "ジェクトを管理できます。"
 
-#: ../../admin/admin.rst:39
+#: ../../admin/admin.rst:81
 msgid ""
 "In the :guilabel:`Reports` section, you can check the status of your site, "
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
@@ -3662,7 +3731,7 @@ msgstr ""
 "`production` 用に設定したり、:ref:`vcs-repos` へのアクセスに使用する SSH 鍵を"
 "管理できます。"
 
-#: ../../admin/admin.rst:42
+#: ../../admin/admin.rst:84
 msgid ""
 "Manage database objects under any of the sections. The most interesting one "
 "is probably :guilabel:`Weblate translations`, where you can manage "
@@ -3672,7 +3741,7 @@ msgstr ""
 "く :guilabel:`Weblate translations` であり、翻訳可能なプロジェクトを管理でき"
 "ます。参照: :ref:`project` および :ref:`component`。"
 
-#: ../../admin/admin.rst:46
+#: ../../admin/admin.rst:88
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
@@ -3680,11 +3749,11 @@ msgstr ""
 ":guilabel:`Weblate languages` に言語設定を保管しています。詳細については、:"
 "ref:`languages` を確認してください。"
 
-#: ../../admin/admin.rst:50
+#: ../../admin/admin.rst:92
 msgid "Adding a project"
 msgstr "プロジェクトの追加"
 
-#: ../../admin/admin.rst:52
+#: ../../admin/admin.rst:94
 msgid ""
 "Adding a project serves as container for all components. Usually you create "
 "one project for one piece of software, or book (See :ref:`project` for info "
@@ -3694,15 +3763,15 @@ msgstr ""
 "常、一つのソフトウェアや本につき一つのプロジェクトを作成します (個別の引数の"
 "情報は :ref:`project` を参照してください):"
 
-#: ../../admin/admin.rst:60
+#: ../../admin/admin.rst:102
 msgid ":ref:`project`"
 msgstr ":ref:`project`"
 
-#: ../../admin/admin.rst:65
+#: ../../admin/admin.rst:107
 msgid "Bilingual components"
 msgstr "バイリンガル コンポーネント"
 
-#: ../../admin/admin.rst:67
+#: ../../admin/admin.rst:109
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
@@ -3710,15 +3779,15 @@ msgstr ""
 "プロジェクトを追加すると、翻訳コンポーネントをプロジェクトに追加できます"
 "（個々のパラメータについては、:ref:`component` を参照）。"
 
-#: ../../admin/admin.rst:74 ../../admin/admin.rst:90
+#: ../../admin/admin.rst:116 ../../admin/admin.rst:132
 msgid ":ref:`component`, :ref:`bimono`"
 msgstr ":ref:`component`、:ref:`bimono`"
 
-#: ../../admin/admin.rst:80
+#: ../../admin/admin.rst:122
 msgid "Monolingual components"
 msgstr "モノリンガル コンポーネント"
 
-#: ../../admin/admin.rst:82
+#: ../../admin/admin.rst:124
 msgid ""
 "For easier translation of these, provide a template file containing the "
 "mapping of message IDs to its respective source language (usually English). "
@@ -4665,11 +4734,19 @@ msgstr ""
 "`PROJECT_BACKUP_KEEP_COUNT` に設定した通りにサーバーに保存します（デフォルト"
 "では、最大 3 つのバックアップを 30 日間保存します）。"
 
-#: ../../admin/backup.rst:36
+#: ../../admin/backup.rst:37
+msgid ""
+"Restoring of the backup might fail if the restoring server has different set "
+"of :ref:`languages` or different configuration of :setting:"
+"`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
+"not be processed and you can then add missing langage definitions manually."
+msgstr ""
+
+#: ../../admin/backup.rst:44
 msgid "Automated backup using BorgBackup"
 msgstr "BorgBackup を使用した自動バックアップ"
 
-#: ../../admin/backup.rst:38
+#: ../../admin/backup.rst:46
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
@@ -4681,7 +4758,7 @@ msgstr ""
 "ラウドに安全に保存します。バックアップは、管理画面の :guilabel:`バックアップ"
 "` タブから管理します。"
 
-#: ../../admin/backup.rst:45
+#: ../../admin/backup.rst:53
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
@@ -4689,7 +4766,7 @@ msgstr ""
 "PostgreSQL と MySQL/MariaDB の両方のデータベースが自動バックアップに含まれて"
 "います。"
 
-#: ../../admin/backup.rst:47
+#: ../../admin/backup.rst:55
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
@@ -4697,23 +4774,23 @@ msgstr ""
 "Borg を使用したバックアップは増分バックアップです。 Weblate は以下のバック"
 "アップを保持します。"
 
-#: ../../admin/backup.rst:49
+#: ../../admin/backup.rst:57
 msgid "Daily backups for 14 days back"
 msgstr "日次バックアップ、過去 14 日分"
 
-#: ../../admin/backup.rst:50
+#: ../../admin/backup.rst:58
 msgid "Weekly backups for 8 weeks back"
 msgstr "週次バックアップ、過去 6 週分"
 
-#: ../../admin/backup.rst:51
+#: ../../admin/backup.rst:59
 msgid "Monthly backups for 6 months back"
 msgstr "月次バックアップ、過去 6 か月分"
 
-#: ../../admin/backup.rst:58
+#: ../../admin/backup.rst:66
 msgid "Borg encryption key"
 msgstr "Borg 暗号鍵"
 
-#: ../../admin/backup.rst:60
+#: ../../admin/backup.rst:68
 msgid ""
 "`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
 "them without the passphrase. The passphrase is generated when adding a new "
@@ -4723,7 +4800,7 @@ msgstr ""
 "復元できません。パスフレーズは、新しいバックアップ サービスを追加するときに生"
 "成されるので、コピーして安全な場所に保管しておくことが必要です。"
 
-#: ../../admin/backup.rst:64
+#: ../../admin/backup.rst:72
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
@@ -4731,30 +4808,30 @@ msgstr ""
 ":ref:`cloudbackup` を使用している場合は、バックアップに接続するための SSH 秘"
 "密鍵もバックアップしてください。"
 
-#: ../../admin/backup.rst:69
+#: ../../admin/backup.rst:77
 msgid ":doc:`borg:usage/init`"
 msgstr ":doc:`borg:usage/init`"
 
-#: ../../admin/backup.rst:72
+#: ../../admin/backup.rst:80
 msgid "Customizing backup"
 msgstr "バックアップのカスタマイズ"
 
-#: ../../admin/backup.rst:74
+#: ../../admin/backup.rst:82
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr ""
 "データベースのバックアップは、:setting:`DATABASE_BACKUP` から設定します。"
 
-#: ../../admin/backup.rst:75
+#: ../../admin/backup.rst:83
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
 "バックアップの作成は、:setting:`BORG_EXTRA_ARGS` を使用してカスタマイズできま"
 "す。"
 
-#: ../../admin/backup.rst:80
+#: ../../admin/backup.rst:88
 msgid "Weblate provisioned backup storage"
 msgstr "Weblate 専用のバックアップ ストレージ"
 
-#: ../../admin/backup.rst:82
+#: ../../admin/backup.rst:90
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
@@ -4764,30 +4841,30 @@ msgstr ""
 "クアップサービス <https://weblate.org/support/#backup>`_ を購入することです。"
 "購入してバックアップをする方法:"
 
-#: ../../admin/backup.rst:86
+#: ../../admin/backup.rst:94
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
 "https://weblate.org/support/#backup から `バックアップ サービス` を購入する。"
 
-#: ../../admin/backup.rst:87
+#: ../../admin/backup.rst:95
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr "取得したキーを管理画面から入力する。参照: :ref:`activate-support`。"
 
-#: ../../admin/backup.rst:88
+#: ../../admin/backup.rst:96
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
 "Weblate はクラウド サービスに接続し、バックアップのための接続情報を取得する。"
 
-#: ../../admin/backup.rst:89
+#: ../../admin/backup.rst:97
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
 ":guilabel:`バックアップ` タブから、新しいバックアップの設定を有効にする。"
 
-#: ../../admin/backup.rst:90
+#: ../../admin/backup.rst:98
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
@@ -4795,7 +4872,7 @@ msgstr ""
 "Borg 資格情報をバックアップして、バックアップを復元できるようにします。参"
 "照: :ref:`borg-keys`。"
 
-#: ../../admin/backup.rst:94
+#: ../../admin/backup.rst:102
 msgid ""
 "The manual step of turning everything on is there for your safety. Without "
 "your consent no data is sent to the backup repository obtained through the "
@@ -4804,11 +4881,11 @@ msgstr ""
 "手動ですべてを有効にすることが必要なのは、安全のためです。ユーザーの同意がな"
 "ければ、登録の過程で取得したデータはバックアップ リポジトリに送信しません。"
 
-#: ../../admin/backup.rst:101
+#: ../../admin/backup.rst:109
 msgid "Using custom backup storage"
 msgstr "独自のバックアップ ストレージの使用"
 
-#: ../../admin/backup.rst:103
+#: ../../admin/backup.rst:111
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
@@ -4818,15 +4895,15 @@ msgstr ""
 "先にバックアップを保存します。対象のサーバーには `BorgBackup`_ のインストール"
 "が必要です。"
 
-#: ../../admin/backup.rst:109
+#: ../../admin/backup.rst:117
 msgid ":doc:`borg:usage/general` in the Borg documentation"
 msgstr "Borgドキュメント項目 :doc:`borg:usage/general`"
 
-#: ../../admin/backup.rst:112
+#: ../../admin/backup.rst:120
 msgid "Local filesystem"
 msgstr "ローカル ファイルシステム"
 
-#: ../../admin/backup.rst:114
+#: ../../admin/backup.rst:122
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
@@ -4838,7 +4915,7 @@ msgstr ""
 "す（参照: :ref:`file-permissions`）。ディレクトリが存在しない場合は、Weblate "
 "が作成を試みますが、そのためには書き込み権限が必要です。"
 
-#: ../../admin/backup.rst:121
+#: ../../admin/backup.rst:129
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
@@ -4849,7 +4926,7 @@ msgstr ""
 "アップは、Docker が含まれているコンテナーを再起動したときに Docker によって破"
 "棄されます。"
 
-#: ../../admin/backup.rst:125
+#: ../../admin/backup.rst:133
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
@@ -4857,7 +4934,7 @@ msgstr ""
 "1 つの選択肢は、バックアップを既存のボリュームに配置することです。例えば、:"
 "file:`/app/data/borgbackup`。これは、コンテナ内の既存のボリュームです。"
 
-#: ../../admin/backup.rst:128
+#: ../../admin/backup.rst:136
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
@@ -4865,7 +4942,7 @@ msgstr ""
 "例えば :file:`/borgbackup` として、バックアップ用の新しいコンテナをDocker "
 "Composeファイルに追加する方法:"
 
-#: ../../admin/backup.rst:139
+#: ../../admin/backup.rst:147
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
@@ -4873,11 +4950,11 @@ msgstr ""
 "バックアップが保存されるディレクトリは、UID 1000 が所有者であることが必要で"
 "す。異なる場合、Weblate はそこにバックアップを書き込むことができません。"
 
-#: ../../admin/backup.rst:143
+#: ../../admin/backup.rst:151
 msgid "Remote backups"
 msgstr "リモート バックアップ"
 
-#: ../../admin/backup.rst:145
+#: ../../admin/backup.rst:153
 msgid ""
 "For creating remote backups, you will have to install `BorgBackup`_ onto "
 "another server that’s accessible for your Weblate deployment via SSH using "
@@ -4886,11 +4963,11 @@ msgstr ""
 "Weblate を導入したサーバーとは別に、Weblate の SSH 鍵を使用して SSH で接続で"
 "きるサーバーが必要です。バックアップ サーバーの準備方法:"
 
-#: ../../admin/backup.rst:149
+#: ../../admin/backup.rst:157
 msgid "Prepare a server where your backups will be stored."
 msgstr "バックアップを保存するサーバーを準備する。"
 
-#: ../../admin/backup.rst:150
+#: ../../admin/backup.rst:158
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
@@ -4898,7 +4975,7 @@ msgstr ""
 "SSH サーバーをインストールする（ほとんどの Linux ディストリビューションではデ"
 "フォルトで提供されている）。"
 
-#: ../../admin/backup.rst:151
+#: ../../admin/backup.rst:159
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
@@ -4907,13 +4984,13 @@ msgstr ""
 "トリビューションにはパッケージが用意されている（参照: :doc:`borg:"
 "installation`）。"
 
-#: ../../admin/backup.rst:152
+#: ../../admin/backup.rst:160
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr "既存のユーザーを選択するか、バックアップ用の新しいユーザーを作成する。"
 
-#: ../../admin/backup.rst:153
+#: ../../admin/backup.rst:161
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
@@ -4921,7 +4998,7 @@ msgstr ""
 "Weblate がパスワードを使用せずに、サーバーに SSH で接続できるように、Weblate "
 "SSH 鍵をユーザーに追加する（参照: :ref:`weblate-ssh-key`）。"
 
-#: ../../admin/backup.rst:154
+#: ../../admin/backup.rst:162
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
@@ -4929,35 +5006,35 @@ msgstr ""
 "Weblate のバックアップ先を、``user@host:/path/to/backups`` または ``ssh://"
 "user@host:port/path/to/backups`` に設定する。"
 
-#: ../../admin/backup.rst:158
+#: ../../admin/backup.rst:166
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
 ":ref:`cloudbackup` を使用すると、リモート バックアップを簡単に自動化できま"
 "す。"
 
-#: ../../admin/backup.rst:162
+#: ../../admin/backup.rst:170
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 msgstr ":ref:`weblate-ssh-key`、:doc:`borg:usage/general`"
 
-#: ../../admin/backup.rst:165
+#: ../../admin/backup.rst:173
 msgid "Restoring from BorgBackup"
 msgstr "BorgBackup から復元"
 
-#: ../../admin/backup.rst:167
+#: ../../admin/backup.rst:175
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
 "バックアップ リポジトリへのアクセスを復元し、バックアップ パスフレーズを準備"
 "する。"
 
-#: ../../admin/backup.rst:169
+#: ../../admin/backup.rst:177
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
 "``borg list REPOSITORY`` を使用して、サーバー上のすべてのバックアップを一覧表"
 "示する。"
 
-#: ../../admin/backup.rst:171
+#: ../../admin/backup.rst:179
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
@@ -4965,7 +5042,7 @@ msgstr ""
 "``borg extract REPOSITORY::ARCHIVE`` を使用して、目的のバックアップを現在の"
 "ディレクトリに復元する。"
 
-#: ../../admin/backup.rst:173
+#: ../../admin/backup.rst:181
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
@@ -4973,7 +5050,7 @@ msgstr ""
 "Weblate データ ディレクトリーの ``backup`` ディレクトリーに置かれた SQL ダン"
 "プから、データベースを復元する（参照: :ref:`backup-dumps`）。"
 
-#: ../../admin/backup.rst:175
+#: ../../admin/backup.rst:183
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
@@ -4981,7 +5058,7 @@ msgstr ""
 "Weblate の設定ファイル（:file:`backups/settings.py`、参照: :ref:`backup-"
 "dumps`）を正しい場所にコピーする。"
 
-#: ../../admin/backup.rst:178
+#: ../../admin/backup.rst:186
 msgid ""
 "When using Docker container, the settings file is already included in the "
 "container and you should restore the original environment variables. The :"
@@ -4992,7 +5069,7 @@ msgstr ""
 "元の環境変数の復元が必要です。:file:`environment.yml` ファイルは復元に便利か"
 "も（参照: :ref:`backup-dumps`）。"
 
-#: ../../admin/backup.rst:182
+#: ../../admin/backup.rst:190
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
@@ -5000,7 +5077,7 @@ msgstr ""
 "復元したデータ ディレクトリ全体を、:setting:`DATA_DIR` に設定した場所にコピー"
 "する。"
 
-#: ../../admin/backup.rst:185
+#: ../../admin/backup.rst:193
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
@@ -5008,7 +5085,7 @@ msgstr ""
 "Docker コンテナを使用する場合は、データーをデータ ボリュームに配置する（参"
 "照: :ref:`docker-volume`）。"
 
-#: ../../admin/backup.rst:188
+#: ../../admin/backup.rst:196
 msgid ""
 "Please ensure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
@@ -5016,19 +5093,19 @@ msgstr ""
 "ファイルの所有権とアクセス権限が正しいかどうか確認する（参照: :ref:`file-"
 "permissions`）。"
 
-#: ../../admin/backup.rst:190
+#: ../../admin/backup.rst:198
 msgid "The Borg session might look like this:"
 msgstr "Borg セッションの実行例:"
 
-#: ../../admin/backup.rst:202
+#: ../../admin/backup.rst:210
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 msgstr ":doc:`borg:usage/list`、:doc:`borg:usage/extract`"
 
-#: ../../admin/backup.rst:210
+#: ../../admin/backup.rst:218
 msgid "Manual backup"
 msgstr "手動バックアップ"
 
-#: ../../admin/backup.rst:212
+#: ../../admin/backup.rst:220
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
@@ -5036,7 +5113,7 @@ msgstr ""
 "保存する内容に応じて、Weblate がそれぞれの場所に保存するデータを種類ごとに"
 "バックアップします。"
 
-#: ../../admin/backup.rst:216
+#: ../../admin/backup.rst:224
 msgid ""
 "If you are doing the manual backups, you might want to silence Weblate's "
 "warning about a lack of backups by adding ``weblate.I028`` to :setting:"
@@ -5048,15 +5125,15 @@ msgstr ""
 "に ``weblate.I028`` を追加する。Docker の場合は :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` を追加してください。"
 
-#: ../../admin/backup.rst:226
+#: ../../admin/backup.rst:234
 msgid "Database"
 msgstr "データベース"
 
-#: ../../admin/backup.rst:228
+#: ../../admin/backup.rst:236
 msgid "The actual storage location depends on your database setup."
 msgstr "実際の保存場所は、データベースの設定によって異なります。"
 
-#: ../../admin/backup.rst:232
+#: ../../admin/backup.rst:240
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
@@ -5064,11 +5141,11 @@ msgstr ""
 "データベースは最も重要なストレージです。データベースの定期的なバックアップを"
 "設定してください。データベースがなくなれば、すべての翻訳が消失します。"
 
-#: ../../admin/backup.rst:236
+#: ../../admin/backup.rst:244
 msgid "Native database backup"
 msgstr "データベース自身でバックアップ"
 
-#: ../../admin/backup.rst:238
+#: ../../admin/backup.rst:246
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
@@ -5080,7 +5157,7 @@ msgstr ""
 "は通常 Django のバックアップよりも性能が良く、テーブルをすべてのデータと共に"
 "完全に復元できます。"
 
-#: ../../admin/backup.rst:242
+#: ../../admin/backup.rst:250
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
@@ -5091,11 +5168,11 @@ msgstr ""
 "す。バージョン間のアップグレードの方法についてのより詳細な情報は、:doc:"
 "`upgrade` を確認してください。"
 
-#: ../../admin/backup.rst:247
+#: ../../admin/backup.rst:255
 msgid "Django database backup"
 msgstr "Django データベースのバックアップ"
 
-#: ../../admin/backup.rst:249
+#: ../../admin/backup.rst:257
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
@@ -5105,7 +5182,7 @@ msgstr ""
 "をバックアップできます。これにより、データベースに依存しないバックアップがで"
 "きます。データベースのバックエンドを変更したい場合に使用します。"
 
-#: ../../admin/backup.rst:253
+#: ../../admin/backup.rst:261
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -5119,7 +5196,7 @@ msgstr ""
 "後、:wladmin:`migrate` を使用して、すべてのデータベースのマイグレーションを実"
 "行します。"
 
-#: ../../admin/backup.rst:259
+#: ../../admin/backup.rst:267
 msgid ""
 "Afterwards some entries will already be created in the database and you will "
 "have them in the database backup as well. The recommended approach is to "
@@ -5130,11 +5207,11 @@ msgstr ""
 "プにも作成されます。できれば、管理シェルを使用して、このようなエントリを手動"
 "で削除してください（参照: :ref:`invoke-manage`）。"
 
-#: ../../admin/backup.rst:270
+#: ../../admin/backup.rst:278
 msgid "Files"
 msgstr "ファイル"
 
-#: ../../admin/backup.rst:272
+#: ../../admin/backup.rst:280
 msgid ""
 "If you have enough backup space, simply back up the whole :setting:"
 "`DATA_DIR`. This is a safe bet even if it includes some files you don't "
@@ -5146,11 +5223,11 @@ msgstr ""
 "す。次のセクションでは、バックアップすべきものと除外できるものについて詳しく"
 "説明します。"
 
-#: ../../admin/backup.rst:280
+#: ../../admin/backup.rst:288
 msgid "Dumped data for backups"
 msgstr "バックアップ用にダンプしたデータ"
 
-#: ../../admin/backup.rst:284
+#: ../../admin/backup.rst:292
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
@@ -5158,11 +5235,11 @@ msgstr ""
 "環境ダンプは、Docker 環境での復元を支援するために 、:file:`environment.yml` "
 "として追加されました。"
 
-#: ../../admin/backup.rst:287
+#: ../../admin/backup.rst:295
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
 msgstr "保存先: :setting:`DATA_DIR` ``/backups``。"
 
-#: ../../admin/backup.rst:289
+#: ../../admin/backup.rst:297
 msgid ""
 "Weblate dumps various data here, and you can include these files for more "
 "complete backups. The files are updated daily (requires a running Celery "
@@ -5173,7 +5250,7 @@ msgstr ""
 "中の Celery beats サーバーが必要。参照: :ref:`celery`）。現在、ダンプに含まれ"
 "る項目:"
 
-#: ../../admin/backup.rst:293
+#: ../../admin/backup.rst:301
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
@@ -5181,16 +5258,16 @@ msgstr ""
 "Weblate の設定ファイル :file:`settings.py`（拡張版として :file:`settings-"
 "expanded.py` も存在する）。"
 
-#: ../../admin/backup.rst:294
+#: ../../admin/backup.rst:302
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr ""
 "PostgreSQL データベースを、:file:`database.sql` としてバックアップする。"
 
-#: ../../admin/backup.rst:295
+#: ../../admin/backup.rst:303
 msgid "Environment dump as :file:`environment.yml`."
 msgstr "環境ダンプ ファイル :file:`environment.yml`。"
 
-#: ../../admin/backup.rst:297
+#: ../../admin/backup.rst:305
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
@@ -5199,22 +5276,22 @@ msgstr ""
 "す。しかし、:setting:`DATABASE_BACKUP` を使用して、圧縮したり、何も実行しない"
 "かを選択できます。"
 
-#: ../../admin/backup.rst:300
+#: ../../admin/backup.rst:308
 msgid ""
 "To restore the database backup load it using database tools, for example:"
 msgstr ""
 "データベースのバックアップを復元するには、データベース ツールを使用して読み込"
 "みます。読み込み例:"
 
-#: ../../admin/backup.rst:307
+#: ../../admin/backup.rst:315
 msgid "Version control repositories"
 msgstr "バージョン管理レポジトリ"
 
-#: ../../admin/backup.rst:309
+#: ../../admin/backup.rst:317
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "保存先: :setting:`DATA_DIR` ``/vcs``。"
 
-#: ../../admin/backup.rst:311
+#: ../../admin/backup.rst:319
 msgid ""
 "The version control repositories contain a copy of your upstream "
 "repositories with Weblate changes. If you have :ref:`component-"
@@ -5231,17 +5308,17 @@ msgstr ""
 "ジトリのバックアップを取る必要はありません。上流リポジトリから再びクローンす"
 "れば、データを失うことはありません。"
 
-#: ../../admin/backup.rst:318
+#: ../../admin/backup.rst:326
 msgid "SSH and GPG keys"
 msgstr "SSH 鍵および GPG 鍵"
 
-#: ../../admin/backup.rst:320
+#: ../../admin/backup.rst:328
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
 "保存先: :setting:`DATA_DIR` ``/ssh`` および :setting:`DATA_DIR` ``/home``。"
 
-#: ../../admin/backup.rst:322
+#: ../../admin/backup.rst:330
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations. Otherwise you will lose the private keys and you will have "
@@ -5251,25 +5328,25 @@ msgstr ""
 "アップしてください。バックアップしなければ、秘密鍵を消失し、新しい鍵の再生成"
 "が必要となります。"
 
-#: ../../admin/backup.rst:327
+#: ../../admin/backup.rst:335
 msgid "User uploaded files"
 msgstr "ユーザーがアップロードしたファイル"
 
-#: ../../admin/backup.rst:329
+#: ../../admin/backup.rst:337
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "保存先: :setting:`DATA_DIR` ``/media``。"
 
-#: ../../admin/backup.rst:331
+#: ../../admin/backup.rst:339
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
 "ユーザーがアップロードしたファイルは、すべてバックアップしてください（例: :"
 "ref:`screenshots`）。"
 
-#: ../../admin/backup.rst:334
+#: ../../admin/backup.rst:342
 msgid "Celery tasks"
 msgstr "Celery タスク"
 
-#: ../../admin/backup.rst:336
+#: ../../admin/backup.rst:344
 msgid ""
 "The Celery task queue might contain some info, but is usually not needed for "
 "a backup. At most you will lose updates not yet been processed to "
@@ -5281,15 +5358,15 @@ msgstr ""
 "す。どちらにしても、復元時にフル テキストまたはリポジトリの更新を実行をすれ"
 "ば、消失しても問題はありません。"
 
-#: ../../admin/backup.rst:343
+#: ../../admin/backup.rst:351
 msgid ":ref:`celery`"
 msgstr ":ref:`celery`"
 
-#: ../../admin/backup.rst:346
+#: ../../admin/backup.rst:354
 msgid "Command-line for manual backup"
 msgstr "手動バックアップのコマンドライン"
 
-#: ../../admin/backup.rst:348
+#: ../../admin/backup.rst:356
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
@@ -5297,7 +5374,7 @@ msgstr ""
 "cron job を使用すると、毎日実行する Bash コマンドを設定できます。コマンド設定"
 "例:"
 
-#: ../../admin/backup.rst:354
+#: ../../admin/backup.rst:362
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
@@ -5305,23 +5382,23 @@ msgstr ""
 "必要に応じて、フォルダとファイルの一覧を修正できます。（バックアップ フォルダ"
 "内の）翻訳メモリを保存しないようにするコマンド:"
 
-#: ../../admin/backup.rst:361
+#: ../../admin/backup.rst:369
 msgid "Restoring manual backup"
 msgstr "手動バックアップの復元"
 
-#: ../../admin/backup.rst:363
+#: ../../admin/backup.rst:371
 msgid "Restore all data you have backed up."
 msgstr "バックアップしたデータをすべて復元する。"
 
-#: ../../admin/backup.rst:365
+#: ../../admin/backup.rst:373
 msgid "Update all repositories using :wladmin:`updategit`."
 msgstr ":wladmin:`updategit` を使用して、すべてのリポジトリを更新する。"
 
-#: ../../admin/backup.rst:372
+#: ../../admin/backup.rst:380
 msgid "Moving a Weblate installation"
 msgstr "Weblate 設置場所の移動"
 
-#: ../../admin/backup.rst:374
+#: ../../admin/backup.rst:382
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
@@ -5329,7 +5406,7 @@ msgstr ""
 "上記のバックアップと復元の手順に従い、インストールした Weblate を、他のシステ"
 "ムに移動します。"
 
-#: ../../admin/backup.rst:379
+#: ../../admin/backup.rst:387
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
@@ -5472,8 +5549,8 @@ msgstr "``dos-eol``"
 
 #: ../../admin/checks.rst:74
 msgid ""
-"Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
-"\\n``)."
+"Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of "
+"``\\n``)."
 msgstr ""
 "UNIX の代わりに DOS の改行コードを使用する（``\\n`` の代わりに ``\\r\\n``）。"
 
@@ -6713,8 +6790,8 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. 次の画像は、プロジェクトとコンポーネントの両方の入力欄に、正規表現 ``^.*"
-"$`` を使用して、:guilabel:`コンポーネント リストの自動割り当て` を設定する方"
+"1. 次の画像は、プロジェクトとコンポーネントの両方の入力欄に、正規表現 ``^."
+"*$`` を使用して、:guilabel:`コンポーネント リストの自動割り当て` を設定する方"
 "法:"
 
 #: ../../admin/componentlists.rst:-1
@@ -8503,8 +8580,8 @@ msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1362
 msgid ""
-"Template to generate private commit e-mail for an user. Defaults to ``"
-"\"{username}@users.noreply.{site_domain}\"``."
+"Template to generate private commit e-mail for an user. Defaults to "
+"``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
 "ユーザーごとのコミット用の匿名メールアドレスを生成するためのテンプレート。デ"
 "フォルトは、``\"{username}@users.noreply.{site_domain}\"``。"
@@ -10350,24 +10427,37 @@ msgstr ""
 "のリファクタリング時に考慮されます。"
 
 #: ../../admin/customize.rst:11
+#, fuzzy
+#| msgid ""
+#| "You can also review the very same checklist from the :ref:`management-"
+#| "interface`."
+msgid "You can also customize Weblate look in :ref:`manage-appearance`."
+msgstr ":ref:`management-interface` からも、ほぼ同じ検査項目を確認できます。"
+
+#: ../../admin/customize.rst:16
+#, fuzzy
+#| msgid ""
+#| "Neither internal interfaces nor templates are considered a stable API. "
+#| "Please review your own customizations for every upgrade, the interfaces "
+#| "or their semantics might change without notice."
 msgid ""
 "Neither internal interfaces nor templates are considered a stable API. "
-"Please review your own customizations for every upgrade, the interfaces or "
-"their semantics might change without notice."
+"Please review your customizations for every upgrade, the interfaces or their "
+"semantics might change without notice."
 msgstr ""
 "内部インターフェイスもテンプレートも、安定した API とはいえません。インター"
 "フェイスまたはそのセマンティクスは予告なく変更されますので、アップグレードご"
 "とに独自のカスタマイズを見直してください。"
 
-#: ../../admin/customize.rst:17
+#: ../../admin/customize.rst:22
 msgid ":ref:`contributing`"
 msgstr ":ref:`contributing`"
 
-#: ../../admin/customize.rst:22
+#: ../../admin/customize.rst:27
 msgid "Creating a Python module"
 msgstr "Python モジュールの作成"
 
-#: ../../admin/customize.rst:24
+#: ../../admin/customize.rst:29
 msgid ""
 "If you are not familiar with Python, you might want to look into `Python For "
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
@@ -10377,7 +10467,7 @@ msgstr ""
 "about/gettingstarted/>`_ を調べて、基本の説明とチュートリアルを参考にしてくだ"
 "さい。"
 
-#: ../../admin/customize.rst:28
+#: ../../admin/customize.rst:33
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
@@ -10389,7 +10479,7 @@ msgstr ""
 "python3.9/site-packages/` など）か、インタプリタ検索パスに追加された Weblate "
 "ディレクトリのどちらかになります。"
 
-#: ../../admin/customize.rst:35
+#: ../../admin/customize.rst:40
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules in :"
 "file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded "
@@ -10401,24 +10491,24 @@ msgstr ""
 "ば :ref:`上書き設定ファイル <docker-settings-override>` から Weblate で読み込"
 "めます。"
 
-#: ../../admin/customize.rst:40
+#: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
 msgstr ""
 "カスタマイズしたものを適切な Python パッケージに変更すると、さらに良くなりま"
 "す。"
 
-#: ../../admin/customize.rst:42
+#: ../../admin/customize.rst:47
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr ""
 "パッケージ用のフォルダを作成する（`weblate_customization` を使用する）。"
 
-#: ../../admin/customize.rst:43
+#: ../../admin/customize.rst:48
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgstr ""
 "その中に、パッケージを記述するための :file:`setup.py` ファイルを作成する。作"
 "成方法:"
 
-#: ../../admin/customize.rst:60
+#: ../../admin/customize.rst:65
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
@@ -10426,7 +10516,7 @@ msgstr ""
 "カスタマイズ コード用の Python モジュール（``weblate_customization``とも呼ば"
 "れる）用のフォルダーを作成する。"
 
-#: ../../admin/customize.rst:62
+#: ../../admin/customize.rst:67
 msgid ""
 "Within it, create a :file:`__init__.py` file to ensure Python can import the "
 "module."
@@ -10434,7 +10524,7 @@ msgstr ""
 "その中に :file:`__init__.py` ファイルを作成し、Python がモジュールをインポー"
 "トできることを確認する。"
 
-#: ../../admin/customize.rst:63
+#: ../../admin/customize.rst:68
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
@@ -10443,7 +10533,7 @@ msgstr ""
 "になりました。詳細については、:ref:`pip:editable-installs` を確認してくださ"
 "い。"
 
-#: ../../admin/customize.rst:64
+#: ../../admin/customize.rst:69
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
@@ -10451,11 +10541,11 @@ msgstr ""
 "インストールが完了すると、モジュールは Weblate の設定から使用できるようになり"
 "ます（``weblate_customization.checks.FooCheck`` など）。"
 
-#: ../../admin/customize.rst:67
+#: ../../admin/customize.rst:72
 msgid "Your package structure should look like this:"
 msgstr "出来上がったパッケージ構造:"
 
-#: ../../admin/customize.rst:78
+#: ../../admin/customize.rst:83
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
@@ -10464,11 +10554,11 @@ msgstr ""
 "example> にあります。ここでは、次に説明するすべてのトピックについて説明しま"
 "す。カスタマイズ例は、以下に説明するトピックをすべて網羅しています。"
 
-#: ../../admin/customize.rst:83
+#: ../../admin/customize.rst:88
 msgid "Changing the logo"
 msgstr "ロゴの変更"
 
-#: ../../admin/customize.rst:85
+#: ../../admin/customize.rst:90
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
@@ -10476,39 +10566,39 @@ msgstr ""
 "上書きしたい静的ファイルを含む単純な Django アプリケーションを作成します（参"
 "照: :ref:`custom-module`）。"
 
-#: ../../admin/customize.rst:88
+#: ../../admin/customize.rst:93
 msgid "Branding appears in the following files:"
 msgstr "表示するロゴのファイル:"
 
-#: ../../admin/customize.rst:90
+#: ../../admin/customize.rst:95
 msgid ":file:`icons/weblate.svg`"
 msgstr ":file:`icons/weblate.svg`"
 
-#: ../../admin/customize.rst:91
+#: ../../admin/customize.rst:96
 msgid "Logo shown in the navigation bar."
 msgstr "ナビゲーション バーに表示するロゴ。"
 
-#: ../../admin/customize.rst:92
+#: ../../admin/customize.rst:97
 msgid ":file:`logo-*.png`"
 msgstr ":file:`logo-*.png`"
 
-#: ../../admin/customize.rst:93
+#: ../../admin/customize.rst:98
 msgid "Web icons depending on screen resolution and web-browser."
 msgstr "画面の解像度と Web ブラウザに応じた Web アイコン。"
 
-#: ../../admin/customize.rst:94
+#: ../../admin/customize.rst:99
 msgid ":file:`favicon.ico`"
 msgstr ":file:`favicon.ico`"
 
-#: ../../admin/customize.rst:95
+#: ../../admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
 msgstr "従来のブラウザーで使用する Web アイコン。"
 
-#: ../../admin/customize.rst:96
+#: ../../admin/customize.rst:101
 msgid ":file:`weblate-*.png`"
 msgstr ":file:`weblate-*.png`"
 
-#: ../../admin/customize.rst:97
+#: ../../admin/customize.rst:102
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
@@ -10516,19 +10606,19 @@ msgstr ""
 "ボットまたは匿名ユーザー用のアバター。一部の Web ブラウザでは、これをショート"
 "カット アイコンとして使用する。"
 
-#: ../../admin/customize.rst:99
+#: ../../admin/customize.rst:104
 msgid ":file:`email-logo.png`"
 msgstr ":file:`email-logo.png`"
 
-#: ../../admin/customize.rst:99
+#: ../../admin/customize.rst:104
 msgid "Used in notifications e-mails."
 msgstr "通知メールに使用する。"
 
-#: ../../admin/customize.rst:101
+#: ../../admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
 msgstr "これを、:setting:`django:INSTALLED_APPS` に追加する方法:"
 
-#: ../../admin/customize.rst:111
+#: ../../admin/customize.rst:116
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
@@ -10536,15 +10626,15 @@ msgstr ""
 ":samp:`weblate collectstatic --noinput` を実行し、クライアントに提供する静的"
 "ファイルをまとめます。"
 
-#: ../../admin/customize.rst:116
+#: ../../admin/customize.rst:121
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 msgstr ":doc:`django:howto/static-files/index`、:ref:`static-files`"
 
-#: ../../admin/customize.rst:123
+#: ../../admin/customize.rst:128
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr "品質検査、アドオン、自動修正のカスタマイズ"
 
-#: ../../admin/customize.rst:125
+#: ../../admin/customize.rst:130
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` in Weblate:"
@@ -10552,7 +10642,7 @@ msgstr ""
 ":ref:`custom-autofix`、:ref:`own-checks`、または :ref:`own-addon` のコードを "
 "Weblate にインストールする方法:"
 
-#: ../../admin/customize.rst:128
+#: ../../admin/customize.rst:133
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
@@ -10560,7 +10650,7 @@ msgstr ""
 "Weblate のカスタマイズを含む、Python モジュール内にファイルを置く（参照: :"
 "ref:`custom-module`）。"
 
-#: ../../admin/customize.rst:130
+#: ../../admin/customize.rst:135
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
@@ -10568,7 +10658,7 @@ msgstr ""
 "Python クラスへの完全修飾パスを専用設定に追加する（:setting:"
 "`WEBLATE_ADDONS`、:setting:`CHECK_LIST` または :setting:`AUTOFIX_LIST`):"
 
-#: ../../admin/customize.rst:146
+#: ../../admin/customize.rst:151
 msgid ""
 ":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
@@ -11334,7 +11424,17 @@ msgstr ""
 msgid "PostgreSQL 12 and higher is supported."
 msgstr "PostgreSQL 12 以降に対応しています。"
 
+#: ../../admin/install.rst:462
+msgid ":ref:`mysql` is supported, but not recommended for new installs."
+msgstr ""
+
 #: ../../admin/install.rst:464
+#, fuzzy
+#| msgid "No other data is submitted."
+msgid "No other database servers are supported."
+msgstr "他のデータは送信されません。"
+
+#: ../../admin/install.rst:468
 msgid ""
 ":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
 "migration`"
@@ -11342,11 +11442,11 @@ msgstr ""
 ":ref:`production-database`、:doc:`django:ref/databases`、:ref:`database-"
 "migration`"
 
-#: ../../admin/install.rst:471
+#: ../../admin/install.rst:475
 msgid "Database connections"
 msgstr "データベース接続"
 
-#: ../../admin/install.rst:473
+#: ../../admin/install.rst:477
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -11359,19 +11459,19 @@ msgstr ""
 "ることがあります。詳細については、:setting:`django:CONN_MAX_AGE` と :ref:"
 "`django:persistent-database-connections` を確認してください。"
 
-#: ../../admin/install.rst:479
+#: ../../admin/install.rst:483
 msgid "Weblate needs at least the following number of connections:"
 msgstr "Weblate に必要な最小接続数:"
 
-#: ../../admin/install.rst:481
+#: ../../admin/install.rst:485
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
 msgstr ":math:`(4 \\times \\mathit{nCPUs}) + 2`（Celery プロセスの場合）"
 
-#: ../../admin/install.rst:482
+#: ../../admin/install.rst:486
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
 msgstr ":math:`\\mathit{nCPUs} + 1`（WSGI ワーカーの場合）"
 
-#: ../../admin/install.rst:484
+#: ../../admin/install.rst:488
 msgid ""
 "This applies to Docker container defaults and example configurations "
 "provided in this documentation, but the numbers will change once you "
@@ -11381,7 +11481,7 @@ msgstr ""
 "に当てはまりますが、WSGI ワーカーの量を変更したり、Celery の並列処理を調整し"
 "たりすると、数値の変更が必要になります。"
 
-#: ../../admin/install.rst:488
+#: ../../admin/install.rst:492
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
@@ -11389,11 +11489,11 @@ msgstr ""
 "データベース接続数の実際の制限は、次の状況を考慮してさらに大きくすることが必"
 "要:"
 
-#: ../../admin/install.rst:491
+#: ../../admin/install.rst:495
 msgid ":ref:`manage` need their connection as well."
 msgstr ":ref:`manage` にも接続が必要です。"
 
-#: ../../admin/install.rst:492
+#: ../../admin/install.rst:496
 msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
@@ -11401,15 +11501,15 @@ msgstr ""
 "プロセスが強制終了された場合（OOM キラーによって強制終了された場合など）、タ"
 "イムアウトするまで既存の接続がブロックされることがあります。"
 
-#: ../../admin/install.rst:495
+#: ../../admin/install.rst:499
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 msgstr ":ref:`celery`、:ref:`uwsgi`、:envvar:`WEBLATE_WORKERS`"
 
-#: ../../admin/install.rst:502
+#: ../../admin/install.rst:506
 msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
-#: ../../admin/install.rst:504
+#: ../../admin/install.rst:508
 msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
@@ -11417,7 +11517,7 @@ msgstr ""
 "通常、Django ベースのサイトには PostgreSQL が最適です。これは、Django データ"
 "ベース層の実装に使用する参照データベースです。"
 
-#: ../../admin/install.rst:509
+#: ../../admin/install.rst:513
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
@@ -11426,15 +11526,15 @@ msgstr ""
 "張機能を使用します。``postgresql-contrib`` または同様の名前のパッケージを探し"
 "てください。"
 
-#: ../../admin/install.rst:514
+#: ../../admin/install.rst:518
 msgid ":ref:`django:postgresql-notes`"
 msgstr ":ref:`django:postgresql-notes`"
 
-#: ../../admin/install.rst:519 ../../admin/upgrade.rst:149
+#: ../../admin/install.rst:523 ../../admin/upgrade.rst:149
 msgid "Creating a database in PostgreSQL"
 msgstr "PostgreSQL でデータベースの作成"
 
-#: ../../admin/install.rst:521 ../../admin/upgrade.rst:151
+#: ../../admin/install.rst:525 ../../admin/upgrade.rst:151
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
@@ -11442,7 +11542,7 @@ msgstr ""
 "通常は、Weblate を専用のデータベースと、専用のユーザーアカウントで実行してく"
 "ださい。設定例:"
 
-#: ../../admin/install.rst:536
+#: ../../admin/install.rst:540
 msgid ""
 "If you don't want to make the Weblate user a superuser in PostgreSQL, you "
 "can omit that. In that case you will have to perform some of the migration "
@@ -11452,15 +11552,15 @@ msgstr ""
 "ます。その場合、Weblate が使用するスキーマの PostgreSQL スーパーユーザーとし"
 "て、移行手順の一部を手動で実行することになります。実行する移行コマンド:"
 
-#: ../../admin/install.rst:548
+#: ../../admin/install.rst:552
 msgid "Configuring Weblate to use PostgreSQL"
 msgstr "Weblate で PostgreSQL を使用するための設定"
 
-#: ../../admin/install.rst:550
+#: ../../admin/install.rst:554
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
 msgstr ":file:`settings.py` に必要な PostgreSQL 用の設定:"
 
-#: ../../admin/install.rst:577
+#: ../../admin/install.rst:581
 msgid ""
 "The database migration performs `ALTER ROLE <https://www.postgresql.org/"
 "docs/12/sql-alterrole.html>`_ on database role used by Weblate. In most "
@@ -11482,16 +11582,16 @@ msgstr ""
 "データベース移行時に、Weblate が変更することが必要なロール名を "
 "``ALTER_ROLE`` に設定してください。"
 
-#: ../../admin/install.rst:589 ../../admin/install.rst:666
-#: ../../admin/install.rst:705
+#: ../../admin/install.rst:593 ../../admin/install.rst:670
+#: ../../admin/install.rst:709
 msgid ":ref:`db-connections`"
 msgstr ":ref:`db-connections`"
 
-#: ../../admin/install.rst:594
+#: ../../admin/install.rst:598
 msgid "MySQL and MariaDB"
 msgstr "MySQL と MariaDB"
 
-#: ../../admin/install.rst:598
+#: ../../admin/install.rst:602
 msgid ""
 "While MySQL and MariaDB support is still maintained in Weblate, our primary "
 "focus is PostgreSQL. It is recommended to use PostgreSQL for new installs, "
@@ -11503,7 +11603,7 @@ msgstr ""
 "既存のインストールを PostgreSQL に移行することも推奨しています。参照: :ref:"
 "`database-migration`。"
 
-#: ../../admin/install.rst:603
+#: ../../admin/install.rst:607
 msgid ""
 "Some Weblate features will perform better with :ref:`postgresql`. This "
 "includes searching and translation memory, which both utilize full-text "
@@ -11513,7 +11613,7 @@ msgstr ""
 "るものがあります。これには、検索と翻訳メモリが含まれます。どちらもデータベー"
 "スの全文機能を利用しており、PostgreSQL を実装する方が優れています。"
 
-#: ../../admin/install.rst:607
+#: ../../admin/install.rst:611
 msgid ""
 "Weblate can be also used with MySQL or MariaDB, please see :ref:`django:"
 "mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with "
@@ -11525,15 +11625,15 @@ msgstr ""
 "認してください。制限があるため、新規インストールには :ref:`postgresql` の使用"
 "を推奨します。"
 
-#: ../../admin/install.rst:612
+#: ../../admin/install.rst:616
 msgid "Weblate requires MySQL at least 8 or MariaDB at least 10.4."
 msgstr "Weblate には、MySQL 8 以上または MariaDB 10.4 以上が必要です。"
 
-#: ../../admin/install.rst:614
+#: ../../admin/install.rst:618
 msgid "Following configuration is recommended for Weblate:"
 msgstr "Weblate で推奨する設定:"
 
-#: ../../admin/install.rst:616
+#: ../../admin/install.rst:620
 msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
@@ -11541,7 +11641,7 @@ msgstr ""
 "``utf8mb4`` 文字セットを使用して、より高い Unicode プレーン（絵文字など）の表"
 "現を可能にする。"
 
-#: ../../admin/install.rst:617
+#: ../../admin/install.rst:621
 msgid ""
 "Configure the server with ``innodb_large_prefix`` to allow longer indices on "
 "text fields."
@@ -11549,15 +11649,15 @@ msgstr ""
 "テキスト フィールドでより長いインデックスを使用できるように、"
 "``innodb_large_prefix`` をサーバーに設定する。"
 
-#: ../../admin/install.rst:618
+#: ../../admin/install.rst:622
 msgid "Set the isolation level to ``READ COMMITTED``."
 msgstr "分離レベルを ``READ COMMITTED`` に設定する。"
 
-#: ../../admin/install.rst:619
+#: ../../admin/install.rst:623
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
 msgstr "SQL モードを ``STRICT_TRANS_TABLES`` に必ず設定すること。"
 
-#: ../../admin/install.rst:621
+#: ../../admin/install.rst:625
 msgid ""
 "MySQL 8.x, MariaDB 10.5.x or newer have reasonable default configuration so "
 "that no server tweaking should be necessary and all what is needed can be "
@@ -11566,7 +11666,7 @@ msgstr ""
 "MySQL 8.x、MariaDB 10.5.x 以降では、適切なデフォルト設定があり、そのためサー"
 "バーの調整は必要なく、必要なものはすべてクライアント側から設定できます。"
 
-#: ../../admin/install.rst:625
+#: ../../admin/install.rst:629
 msgid ""
 "Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB "
 "of RAM. These settings should be sufficient for most installs. MySQL and "
@@ -11581,7 +11681,7 @@ msgstr ""
 "のユーザーが同時接続することを計画していない限り、不要です。詳細については、"
 "さまざまなベンダーのドキュメントを確認してください。"
 
-#: ../../admin/install.rst:632
+#: ../../admin/install.rst:636
 msgid ""
 "It is absolutely critical to reduce issues when installing that the setting "
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
@@ -11591,7 +11691,7 @@ msgstr ""
 "を適切に設定して、そのあと MySQL/MariaDB を再起動したのちに、Weblate をインス"
 "トールすることが非常に重要です。"
 
-#: ../../admin/install.rst:655
+#: ../../admin/install.rst:659
 msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please update your configuration to include the "
@@ -11601,7 +11701,7 @@ msgstr ""
 "メッセージが表示された場合、上記の ``innodb`` の設定を含むように設定ファイル"
 "を上書きし、インストールを再開してください。"
 
-#: ../../admin/install.rst:661
+#: ../../admin/install.rst:665
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
@@ -11609,15 +11709,15 @@ msgstr ""
 "``#2006 - MySQL server has gone away`` というエラーが発生する場合は、:"
 "setting:`django:CONN_MAX_AGE` と設定してみてください。"
 
-#: ../../admin/install.rst:669
+#: ../../admin/install.rst:673
 msgid "Configuring Weblate to use MySQL/MariaDB"
 msgstr "Weblate で MySQL または MariaDB を使用するための設定"
 
-#: ../../admin/install.rst:671
+#: ../../admin/install.rst:675
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
 msgstr ":file:`settings.py` に必要な MySQL と MariaDB 用の設定:"
 
-#: ../../admin/install.rst:695
+#: ../../admin/install.rst:699
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
@@ -11625,15 +11725,15 @@ msgstr ""
 "インストールを開始する前に、MySQL または MariaDB で ``weblate`` ユーザー アカ"
 "ウントを作成してください。アカウント作成コマンド例:"
 
-#: ../../admin/install.rst:708
+#: ../../admin/install.rst:712
 msgid "Other configurations"
 msgstr "その他の設定"
 
-#: ../../admin/install.rst:713
+#: ../../admin/install.rst:717
 msgid "Configuring outgoing e-mail"
 msgstr "メール送信の設定"
 
-#: ../../admin/install.rst:715
+#: ../../admin/install.rst:719
 msgid ""
 "Weblate sends out e-mails on various occasions - for account activation and "
 "on various notifications configured by users. For this it needs access to an "
@@ -11643,7 +11743,7 @@ msgstr ""
 "ユーザーが設定した通知など。そのためには、SMTP サーバーへの接続が必要となりま"
 "す。"
 
-#: ../../admin/install.rst:719
+#: ../../admin/install.rst:723
 msgid ""
 "The mail server setup is configured using these settings: :setting:`django:"
 "EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:"
@@ -11657,7 +11757,7 @@ msgstr ""
 "setting:`django:EMAIL_PORT`。 名前は明確ですが、詳細については Django の資料"
 "を確認してください。"
 
-#: ../../admin/install.rst:728
+#: ../../admin/install.rst:732
 msgid ""
 "In case you get error about not supported authentication (for example ``SMTP "
 "AUTH extension not supported by server``), it is most likely caused by using "
@@ -11669,7 +11769,7 @@ msgstr ""
 "が高いです。サーバーは、そのような方法による認証を拒否します。その場合は、:"
 "setting:`django:EMAIL_USE_TLS` を有効にしてみてください。"
 
-#: ../../admin/install.rst:735
+#: ../../admin/install.rst:739
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
@@ -11677,11 +11777,11 @@ msgstr ""
 ":ref:`debug-mails`、:ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 
-#: ../../admin/install.rst:741
+#: ../../admin/install.rst:745
 msgid "Running behind reverse proxy"
 msgstr "リバース プロキシの背後で実行"
 
-#: ../../admin/install.rst:743
+#: ../../admin/install.rst:747
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
@@ -11690,7 +11790,7 @@ msgstr ""
 "ています。これには、:ref:`rate-limit`、:ref:`spam-protection` または :ref:"
 "`audit-log` が含まれます。"
 
-#: ../../admin/install.rst:746
+#: ../../admin/install.rst:750
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
@@ -11698,7 +11798,7 @@ msgstr ""
 "デフォルト構成では、Weblate は WSGI ハンドラーが設定した ``REMOTE_ADDR`` か"
 "ら IP アドレスを解析します。"
 
-#: ../../admin/install.rst:749
+#: ../../admin/install.rst:753
 msgid ""
 "In case you are running a reverse proxy, this field will most likely contain "
 "its address. You need to configure Weblate to trust additional HTTP headers "
@@ -11716,7 +11816,7 @@ msgstr ""
 "が、:setting:`IP_PROXY_HEADER` および :setting:`IP_PROXY_OFFSET` の設定も調整"
 "が必要です。"
 
-#: ../../admin/install.rst:757
+#: ../../admin/install.rst:761
 msgid ""
 "Another thing to take care of is the :http:header:`Host` header. It should "
 "match to whatever is configured as :setting:`SITE_DOMAIN`. Additional "
@@ -11729,7 +11829,7 @@ msgstr ""
 "となるかもしれません（例えば、Apache では ``ProxyPreserveHost On`` を、nginx"
 "では ``proxy_set_header Host $host;`` が必要です）。"
 
-#: ../../admin/install.rst:764
+#: ../../admin/install.rst:768
 msgid ""
 ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :setting:"
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
@@ -11739,11 +11839,11 @@ msgstr ""
 "`IP_BEHIND_REVERSE_PROXY`、:setting:`IP_PROXY_HEADER`、:setting:"
 "`IP_PROXY_OFFSET`、:setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install.rst:773
+#: ../../admin/install.rst:777
 msgid "HTTP proxy"
 msgstr "HTTP プロキシ"
 
-#: ../../admin/install.rst:775
+#: ../../admin/install.rst:779
 msgid ""
 "Weblate does execute VCS commands and those accept proxy configuration from "
 "environment. The recommended approach is to define proxy settings in :file:"
@@ -11752,22 +11852,22 @@ msgstr ""
 "Weblate は VCS コマンドを実行しますが、これは環境変数のプロキシ設定を取り込ん"
 "でいます。:file:`settings.py` にプロキシを設定してください。設定内容:"
 
-#: ../../admin/install.rst:788
+#: ../../admin/install.rst:792
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr ""
 "`プロキシ環境変数 <https://everything.curl.dev/usingcurl/proxies/env>`_"
 
-#: ../../admin/install.rst:793
+#: ../../admin/install.rst:797
 msgid "Adjusting configuration"
 msgstr "詳細設定"
 
-#: ../../admin/install.rst:797
+#: ../../admin/install.rst:801
 msgid ":ref:`sample-configuration`"
 msgstr ":ref:`sample-configuration`"
 
-#: ../../admin/install.rst:799
+#: ../../admin/install.rst:803
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and "
 "adjust it to match your setup. You will probably want to adjust the "
@@ -11776,11 +11876,11 @@ msgstr ""
 ":file:`weblate/settings_example.py` を :file:`weblate/settings.py` にコピー"
 "し、設定に合わせて変更します。詳細設定すべきオプション:"
 
-#: ../../admin/install.rst:805
+#: ../../admin/install.rst:809
 msgid "``ADMINS``"
 msgstr "``ADMINS``"
 
-#: ../../admin/install.rst:807
+#: ../../admin/install.rst:811
 msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
@@ -11788,34 +11888,34 @@ msgstr ""
 "マージの失敗や Django エラーなど、問題が発生したときに通知を受け取るサイト管"
 "理者一覧。"
 
-#: ../../admin/install.rst:810
+#: ../../admin/install.rst:814
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
 
-#: ../../admin/install.rst:815
+#: ../../admin/install.rst:819
 #, fuzzy
 #| msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
 msgid ""
 ":setting:`django:ADMINS`, :setting:`ADMINS_CONTACT`, :ref:`production-admins`"
 msgstr ":setting:`django:ADMINS`、:ref:`production-admins`"
 
-#: ../../admin/install.rst:821
+#: ../../admin/install.rst:825
 msgid "``ALLOWED_HOSTS``"
 msgstr "``ALLOWED_HOSTS``"
 
-#: ../../admin/install.rst:823
+#: ../../admin/install.rst:827
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr "サイトでサービスを提供する予定のホスト一覧を設定してください。設定例:"
 
-#: ../../admin/install.rst:830
+#: ../../admin/install.rst:834
 msgid "Alternatively you can include wildcard:"
 msgstr "ワイルドカードの使用例:"
 
-#: ../../admin/install.rst:838
+#: ../../admin/install.rst:842
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
@@ -11823,11 +11923,11 @@ msgstr ""
 ":setting:`django:ALLOWED_HOSTS`、:envvar:`WEBLATE_ALLOWED_HOSTS`、:ref:"
 "`production-hosts`"
 
-#: ../../admin/install.rst:844
+#: ../../admin/install.rst:848
 msgid "``SESSION_ENGINE``"
 msgstr "``SESSION_ENGINE``"
 
-#: ../../admin/install.rst:846
+#: ../../admin/install.rst:850
 msgid ""
 "Configure how your sessions will be stored. In case you keep the default "
 "database backend engine, you should schedule: :command:`weblate "
@@ -11838,7 +11938,7 @@ msgstr ""
 "clearsessions` を使用して、古いセッション データをデータベースから削除しま"
 "す。"
 
-#: ../../admin/install.rst:851
+#: ../../admin/install.rst:855
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
@@ -11846,15 +11946,15 @@ msgstr ""
 "Redis をキャッシュとして使用している場合（参照: :ref:`production-cache`）、"
 "セッションにも Redis を使用してください。設定方法:"
 
-#: ../../admin/install.rst:860
+#: ../../admin/install.rst:864
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 msgstr ":ref:`django:configuring-sessions`、:setting:`django:SESSION_ENGINE`"
 
-#: ../../admin/install.rst:865
+#: ../../admin/install.rst:869
 msgid "``DATABASES``"
 msgstr "``DATABASES``"
 
-#: ../../admin/install.rst:867
+#: ../../admin/install.rst:871
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
@@ -11862,7 +11962,7 @@ msgstr ""
 "データベース サーバーへの接続設定。詳細については、Django のドキュメントを確"
 "認してください。"
 
-#: ../../admin/install.rst:872
+#: ../../admin/install.rst:876
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
@@ -11870,11 +11970,11 @@ msgstr ""
 ":ref:`database-setup`、:setting:`django:DATABASES`、:doc:`django:ref/"
 "databases`"
 
-#: ../../admin/install.rst:878
+#: ../../admin/install.rst:882
 msgid "``DEBUG``"
 msgstr "``DEBUG``"
 
-#: ../../admin/install.rst:880
+#: ../../admin/install.rst:884
 msgid ""
 "Disable this for any production server. With debug mode enabled, Django will "
 "show backtraces in case of error to users, when you disable it, errors will "
@@ -11884,7 +11984,7 @@ msgstr ""
 "Django はユーザーにエラーが発生した場合にバックトレースを表示します。無効にす"
 "ると、エラーはメールごとに ``ADMINS`` （上記参照）に送信されます。"
 
-#: ../../admin/install.rst:884
+#: ../../admin/install.rst:888
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
@@ -11892,28 +11992,28 @@ msgstr ""
 "この場合、Django はより多くの情報を内部に格納するので、デバッグ モードは "
 "Weblate の速度を低下させます。"
 
-#: ../../admin/install.rst:889
+#: ../../admin/install.rst:893
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
 msgstr ":setting:`django:DEBUG`、:ref:`production-debug`"
 
-#: ../../admin/install.rst:894
+#: ../../admin/install.rst:898
 msgid "``DEFAULT_FROM_EMAIL``"
 msgstr "``DEFAULT_FROM_EMAIL``"
 
-#: ../../admin/install.rst:896
+#: ../../admin/install.rst:900
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr "メール送信時の送信者のメールアドレス。例: 登録済みのメールアドレス。"
 
-#: ../../admin/install.rst:900
+#: ../../admin/install.rst:904
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
-#: ../../admin/install.rst:904
+#: ../../admin/install.rst:908
 msgid "``SECRET_KEY``"
 msgstr "``SECRET_KEY``"
 
-#: ../../admin/install.rst:906
+#: ../../admin/install.rst:910
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
@@ -11921,15 +12021,15 @@ msgstr ""
 "Django が Cookie の情報に署名するために使用するキー。詳細については、:ref:"
 "`production-secret` を確認してください。"
 
-#: ../../admin/install.rst:911
+#: ../../admin/install.rst:915
 msgid ":setting:`django:SECRET_KEY`"
 msgstr ":setting:`django:SECRET_KEY`"
 
-#: ../../admin/install.rst:915
+#: ../../admin/install.rst:919
 msgid "``SERVER_EMAIL``"
 msgstr "``SERVER_EMAIL``"
 
-#: ../../admin/install.rst:917
+#: ../../admin/install.rst:921
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
@@ -11937,15 +12037,15 @@ msgstr ""
 "管理者にメール送信する場合の送信者のメールアドレス。例: マージを失敗した時の"
 "通知など 。"
 
-#: ../../admin/install.rst:922
+#: ../../admin/install.rst:926
 msgid ":setting:`django:SERVER_EMAIL`"
 msgstr ":setting:`django:SERVER_EMAIL`"
 
-#: ../../admin/install.rst:927
+#: ../../admin/install.rst:931
 msgid "Filling up the database"
 msgstr "データベースの準備"
 
-#: ../../admin/install.rst:929
+#: ../../admin/install.rst:933
 msgid ""
 "After your configuration is ready, you can run :wladmin:`migrate` to create "
 "the database structure. Now you should be able to create translation "
@@ -11954,7 +12054,7 @@ msgstr ""
 "設定の準備ができたら、:wladmin:`migrate` を実行してデータベース構造を作成しま"
 "す。これで、管理画面を使用して翻訳プロジェクトを作成できます。"
 
-#: ../../admin/install.rst:933
+#: ../../admin/install.rst:937
 msgid ""
 "Once you are done, you should also check the :guilabel:`Performance report` "
 "in the admin interface, which will give you hints of potential non optimal "
@@ -11963,15 +12063,15 @@ msgstr ""
 "設定が完了したら、管理画面の :guilabel:`性能レポート` も確認してください。こ"
 "れにより、サイトの不適切な設定に気づくかもしれません。"
 
-#: ../../admin/install.rst:939
+#: ../../admin/install.rst:943
 msgid ":ref:`config`, :ref:`privileges`"
 msgstr ":ref:`config`, :ref:`privileges`"
 
-#: ../../admin/install.rst:945
+#: ../../admin/install.rst:949
 msgid "Production setup"
 msgstr "運用環境の設定"
 
-#: ../../admin/install.rst:947
+#: ../../admin/install.rst:951
 msgid ""
 "For a production setup you should carry out adjustments described in the "
 "following sections. The most critical settings will trigger a warning, which "
@@ -11982,7 +12082,7 @@ msgstr ""
 "の設定時に、スーパーユーザーとしてサインインしている場合、上部バーに感嘆符で"
 "警告が表示されます。警告表示例:"
 
-#: ../../admin/install.rst:953
+#: ../../admin/install.rst:957
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
@@ -11990,25 +12090,29 @@ msgstr ""
 "また、Django により実行された検査項目の確認も推奨します（すべての修正は必要は"
 "ないかもしれない）。検査を確認するコマンド:"
 
-#: ../../admin/install.rst:960
+#: ../../admin/install.rst:964
+#, fuzzy
+#| msgid ""
+#| "You can also review the very same checklist from the :ref:`management-"
+#| "interface`."
 msgid ""
-"You can also review the very same checklist from the :ref:`management-"
-"interface`."
+"You can also review the very same checklist at :ref:`manage-performance` in "
+"the :ref:`management-interface`."
 msgstr ":ref:`management-interface` からも、ほぼ同じ検査項目を確認できます。"
 
-#: ../../admin/install.rst:964
+#: ../../admin/install.rst:968
 msgid ":doc:`django:howto/deployment/checklist`"
 msgstr ":doc:`django:howto/deployment/checklist`"
 
-#: ../../admin/install.rst:969
+#: ../../admin/install.rst:973
 msgid "Disable debug mode"
 msgstr "デバッグ モードの無効化"
 
-#: ../../admin/install.rst:971
+#: ../../admin/install.rst:975
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr "Django のデバッグ モード（ :setting:`DEBUG`）を無効する方法:"
 
-#: ../../admin/install.rst:977
+#: ../../admin/install.rst:981
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
@@ -12017,15 +12121,15 @@ msgstr ""
 "ユーザーにエラーのバック トレースを表示しますが、これは運用環境では望ましくあ"
 "りません。"
 
-#: ../../admin/install.rst:982 ../../admin/install.rst:998
+#: ../../admin/install.rst:986 ../../admin/install.rst:1002
 msgid ":ref:`configuration`"
 msgstr ":ref:`configuration`"
 
-#: ../../admin/install.rst:987
+#: ../../admin/install.rst:991
 msgid "Properly configure admins"
 msgstr "適切な管理者の設定"
 
-#: ../../admin/install.rst:989
+#: ../../admin/install.rst:993
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to defining "
 "who will receive e-mails in case something goes wrong on the server, for "
@@ -12034,11 +12138,11 @@ msgstr ""
 "適切な管理者のメールアドレスを :setting:`ADMINS` に設定します。サーバーで問題"
 "が発生した場合に誰がメールを受信するかを設定します。設定例:"
 
-#: ../../admin/install.rst:1003
+#: ../../admin/install.rst:1007
 msgid "Set correct site domain"
 msgstr "サイトの正確なドメイン設定"
 
-#: ../../admin/install.rst:1005
+#: ../../admin/install.rst:1009
 msgid ""
 "Adjust site name and domain in the admin interface, otherwise links in RSS "
 "or registration e-mails will not work. This is configured using :setting:"
@@ -12048,7 +12152,7 @@ msgstr ""
 "RSS のリンクまたはアカウント登録メールは機能しません。設定は、 :setting:"
 "`SITE_DOMAIN` にサイトのドメイン名を指定して行います。"
 
-#: ../../admin/install.rst:1011
+#: ../../admin/install.rst:1015
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
@@ -12056,7 +12160,7 @@ msgstr ""
 "4.2 以前のリリースでは、代わりに Django sites フレームワークが使用されていま"
 "した。参照: :doc:`django:ref/contrib/sites`。"
 
-#: ../../admin/install.rst:1016
+#: ../../admin/install.rst:1020
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
@@ -12064,11 +12168,11 @@ msgstr ""
 ":ref:`production-hosts`、:ref:`production-ssl`、:setting:`SITE_DOMAIN`、:"
 "envvar:`WEBLATE_SITE_DOMAIN`、:setting:`ENABLE_HTTPS`"
 
-#: ../../admin/install.rst:1025
+#: ../../admin/install.rst:1029
 msgid "Correctly configure HTTPS"
 msgstr "HTTPS の正しい設定"
 
-#: ../../admin/install.rst:1027
+#: ../../admin/install.rst:1031
 msgid ""
 "It is strongly recommended to run Weblate using the encrypted HTTPS "
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
@@ -12078,7 +12182,7 @@ msgstr ""
 "す。有効にしたら、設定画面から :setting:`ENABLE_HTTPS` を設定してください。設"
 "定例:"
 
-#: ../../admin/install.rst:1036
+#: ../../admin/install.rst:1040
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
@@ -12086,17 +12190,17 @@ msgstr ""
 "HSTS も設定してください。詳細については、:ref:`django:security-"
 "recommendation-ssl` を確認してください。"
 
-#: ../../admin/install.rst:1041
+#: ../../admin/install.rst:1045
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 ":setting:`ENABLE_HTTPS`、:ref:`production-hosts`、:ref:`production-site`"
 
-#: ../../admin/install.rst:1047
+#: ../../admin/install.rst:1051
 msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr "SECURE_HSTS_SECONDS の適切な設定"
 
-#: ../../admin/install.rst:1049
+#: ../../admin/install.rst:1053
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
@@ -12106,7 +12210,7 @@ msgstr ""
 "には、:file:`settings.py` 内の :setting:`django:SECURE_HSTS_SECONDS` の値を設"
 "定してください。デフォルトでは以下のように、 0 に設定されています。"
 
-#: ../../admin/install.rst:1057
+#: ../../admin/install.rst:1061
 msgid ""
 "If set to a non-zero integer value, the :class:`django:django.middleware."
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
@@ -12116,7 +12220,7 @@ msgstr ""
 "SecurityMiddleware` は、:ref:`django:http-strict-transport-security` ヘッダー"
 "がまだないすべてのレスポンスに設定します。"
 
-#: ../../admin/install.rst:1062
+#: ../../admin/install.rst:1066
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
@@ -12125,11 +12229,11 @@ msgstr ""
 "あります。はじめに :ref:`django:http-strict-transport-security` のドキュメン"
 "トを読んでください。"
 
-#: ../../admin/install.rst:1069
+#: ../../admin/install.rst:1073
 msgid "Use a powerful database engine"
 msgstr "強力なデータベース エンジンの使用"
 
-#: ../../admin/install.rst:1071
+#: ../../admin/install.rst:1075
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
@@ -12137,7 +12241,7 @@ msgstr ""
 "運用環境では PostgreSQL を使用してください。詳細については、:ref:`database-"
 "setup` を確認してください。"
 
-#: ../../admin/install.rst:1073
+#: ../../admin/install.rst:1077
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
@@ -12146,7 +12250,7 @@ msgstr ""
 "ば、ネットワークのパフォーマンスや信頼性が原因で、Weblate が使用できなくなる"
 "ことがあります。"
 
-#: ../../admin/install.rst:1075
+#: ../../admin/install.rst:1079
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
@@ -12154,7 +12258,7 @@ msgstr ""
 "例えば `PGTune <https://pgtune.leopard.in.ua/>`_ を使用して、データベース "
 "サーバーの性能の検査をしたり、設定を調整してください。"
 
-#: ../../admin/install.rst:1080
+#: ../../admin/install.rst:1084
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
@@ -12162,11 +12266,11 @@ msgstr ""
 ":ref:`database-setup`、:ref:`database-migration`、:ref:`configuration`, :doc:"
 "`django:ref/databases`"
 
-#: ../../admin/install.rst:1088
+#: ../../admin/install.rst:1092
 msgid "Enable caching"
 msgstr "キャッシュの有効化"
 
-#: ../../admin/install.rst:1090
+#: ../../admin/install.rst:1094
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
@@ -12174,7 +12278,7 @@ msgstr ""
 "できれば、設定変数 ``CACHES`` を変更して Django の Redis を使用します。設定の"
 "変更例:"
 
-#: ../../admin/install.rst:1111
+#: ../../admin/install.rst:1115
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
@@ -12182,15 +12286,15 @@ msgstr ""
 "キャッシュの Redis 設定を変更する場合は、Celery 用に調整することが必要です。"
 "参照: :ref:`celery`。"
 
-#: ../../admin/install.rst:1116
+#: ../../admin/install.rst:1120
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 msgstr ":ref:`production-cache-avatar`、:doc:`django:topics/cache`"
 
-#: ../../admin/install.rst:1122
+#: ../../admin/install.rst:1126
 msgid "Avatar caching"
 msgstr "アバターのキャッシュ"
 
-#: ../../admin/install.rst:1124
+#: ../../admin/install.rst:1128
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
@@ -12199,7 +12303,7 @@ msgstr ""
 "め、別々のファイル バックアップ キャッシュにすることが望ましいです。別々の"
 "キャッシュの設定例:"
 
-#: ../../admin/install.rst:1151
+#: ../../admin/install.rst:1155
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
@@ -12207,11 +12311,11 @@ msgstr ""
 ":setting:`ENABLE_AVATARS`、:setting:`AVATAR_URL_PREFIX`、:ref:`avatars`、:"
 "ref:`production-cache`、:doc:`django:topics/cache`"
 
-#: ../../admin/install.rst:1160
+#: ../../admin/install.rst:1164
 msgid "Configure e-mail sending"
 msgstr "メールの送信設定"
 
-#: ../../admin/install.rst:1162
+#: ../../admin/install.rst:1166
 msgid ""
 "Weblate needs to send out e-mails on several occasions, and these e-mails "
 "should have a correct sender address, please configure :setting:"
@@ -12222,7 +12326,7 @@ msgstr ""
 "確に設定してください。環境に合わせて :setting:`SERVER_EMAIL` および :setting:"
 "`DEFAULT_FROM_EMAIL` の設定が必要です。メール送信の設定例:"
 
-#: ../../admin/install.rst:1174
+#: ../../admin/install.rst:1178
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
@@ -12230,7 +12334,7 @@ msgstr ""
 "Weblate からのメール送信を無効にするには、:setting:`django:EMAIL_BACKEND` を "
 "``django.core.mail.backends.dummy.EmailBackend`` に設定します。"
 
-#: ../../admin/install.rst:1177
+#: ../../admin/install.rst:1181
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
@@ -12238,7 +12342,7 @@ msgstr ""
 "これにより、登録やパスワード リセットを含む *すべての* メール配信が無効となり"
 "ます。"
 
-#: ../../admin/install.rst:1182
+#: ../../admin/install.rst:1186
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
@@ -12246,11 +12350,11 @@ msgstr ""
 ":ref:`configuration`、:ref:`out-mail`、:std:setting:`django:EMAIL_BACKEND`、:"
 "std:setting:`django:DEFAULT_FROM_EMAIL`、:std:setting:`django:SERVER_EMAIL`"
 
-#: ../../admin/install.rst:1192
+#: ../../admin/install.rst:1196
 msgid "Allowed hosts setup"
 msgstr "許可するホストの登録"
 
-#: ../../admin/install.rst:1194
+#: ../../admin/install.rst:1198
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
@@ -12259,7 +12363,7 @@ msgstr ""
 "`ALLOWED_HOSTS` への登録が必要です。空のままだと、リクエストはブロックされて"
 "接続できません。"
 
-#: ../../admin/install.rst:1197
+#: ../../admin/install.rst:1201
 msgid ""
 "In case this is not configured to match your HTTP server, you will get "
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
@@ -12269,12 +12373,12 @@ msgstr ""
 "ます。:samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 
-#: ../../admin/install.rst:1203
+#: ../../admin/install.rst:1207
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr "Docker コンテナでは、:envvar:`WEBLATE_ALLOWED_HOSTS` を使用します。"
 
-#: ../../admin/install.rst:1207
+#: ../../admin/install.rst:1211
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
@@ -12282,11 +12386,11 @@ msgstr ""
 ":setting:`ALLOWED_HOSTS`、:envvar:`WEBLATE_ALLOWED_HOSTS`、:ref:`production-"
 "site`"
 
-#: ../../admin/install.rst:1214
+#: ../../admin/install.rst:1218
 msgid "Django secret key"
 msgstr "Django の秘密鍵"
 
-#: ../../admin/install.rst:1216
+#: ../../admin/install.rst:1220
 msgid ""
 "The :setting:`SECRET_KEY` setting is used by Django to sign cookies, and you "
 "should really generate your own value rather than using the one from the "
@@ -12295,7 +12399,7 @@ msgstr ""
 ":setting:`SECRET_KEY` 設定は、Django が cookie に署名するために使用します。サ"
 "ンプルの設定値を使用せず、独自の値を実際に生成してください。"
 
-#: ../../admin/install.rst:1219
+#: ../../admin/install.rst:1223
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
@@ -12303,15 +12407,15 @@ msgstr ""
 "新しい秘密鍵の生成には、Weblate 付属の :file:`weblate/examples/generate-"
 "secret-key` を使用します。"
 
-#: ../../admin/install.rst:1224
+#: ../../admin/install.rst:1228
 msgid ":setting:`SECRET_KEY`"
 msgstr ":setting:`SECRET_KEY`"
 
-#: ../../admin/install.rst:1229
+#: ../../admin/install.rst:1233
 msgid "Running maintenance tasks"
 msgstr "メンテナンス タスクの実行"
 
-#: ../../admin/install.rst:1231
+#: ../../admin/install.rst:1235
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
@@ -12321,11 +12425,11 @@ msgstr ""
 "せることが望ましいです。これは、:ref:`celery` により自動的に実行されます。"
 "celery が実行するタスク:"
 
-#: ../../admin/install.rst:1234
+#: ../../admin/install.rst:1238
 msgid "Configuration health check (hourly)."
 msgstr "設定の健全性診断（毎時）。"
 
-#: ../../admin/install.rst:1235
+#: ../../admin/install.rst:1239
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
@@ -12333,20 +12437,20 @@ msgstr ""
 "保留中の変更のコミット（毎時）。参照: :ref:`lazy-commit` および :wladmin:"
 "`commit_pending`。"
 
-#: ../../admin/install.rst:1236
+#: ../../admin/install.rst:1240
 msgid "Updating component alerts (daily)."
 msgstr "コンポーネントの警告の更新（毎日）。"
 
-#: ../../admin/install.rst:1237
+#: ../../admin/install.rst:1241
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr "リモート ブランチの（毎晩）更新。参照: :setting:`AUTO_UPDATE`。"
 
-#: ../../admin/install.rst:1238
+#: ../../admin/install.rst:1242
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
 "JSON への翻訳メモリのバックアップ（毎日）。参照: :wladmin:`dump_memory`。"
 
-#: ../../admin/install.rst:1239
+#: ../../admin/install.rst:1243
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
@@ -12354,11 +12458,11 @@ msgstr ""
 "全文およびデータベースの保守タスク（毎日および毎週のタスク）。参照: :wladmin:"
 "`cleanuptrans`。"
 
-#: ../../admin/install.rst:1244
+#: ../../admin/install.rst:1248
 msgid "System locales and encoding"
 msgstr "システム言語とエンコーディング"
 
-#: ../../admin/install.rst:1246
+#: ../../admin/install.rst:1250
 msgid ""
 "The system locales should be configured to UTF-8 capable ones. On most Linux "
 "distributions this is the default setting. In case it is not the case on "
@@ -12368,15 +12472,15 @@ msgstr ""
 "リビューションでは、UTF-8 がデフォルトの設定です。使用するシステムが該当しな"
 "い場合は、言語を UTF-8 形式に変更してください。"
 
-#: ../../admin/install.rst:1250
+#: ../../admin/install.rst:1254
 msgid ""
-"For example by editing :file:`/etc/default/locale` and setting there ``LANG="
-"\"C.UTF-8\"``."
+"For example by editing :file:`/etc/default/locale` and setting there "
+"``LANG=\"C.UTF-8\"``."
 msgstr ""
 "例えば、:file:`/etc/default/locale` を編集して、``LANG=\"C.UTF-8\"``を設定し"
 "ます。"
 
-#: ../../admin/install.rst:1253
+#: ../../admin/install.rst:1257
 msgid ""
 "In some cases the individual services have separate configuration for "
 "locales. This varies between distribution and web servers, so check "
@@ -12386,11 +12490,11 @@ msgstr ""
 "ストリビューションと Web サーバーによって異なるため、Web サーバー パッケージ"
 "のドキュメントを確認してください。"
 
-#: ../../admin/install.rst:1257
+#: ../../admin/install.rst:1261
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
 msgstr "Ubuntu の Apache で使用する :file:`/etc/apache2/envvars` の設定例:"
 
-#: ../../admin/install.rst:1264
+#: ../../admin/install.rst:1268
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
@@ -12398,11 +12502,11 @@ msgstr ""
 "CentOS の Apache で使用する :file:`/etc/sysconfig/httpd`（または :file:`/opt/"
 "rh/httpd24/root/etc/sysconfig/httpd`） の設定例:"
 
-#: ../../admin/install.rst:1274
+#: ../../admin/install.rst:1278
 msgid "Using custom certificate authority"
 msgstr "カスタム認証局の使用"
 
-#: ../../admin/install.rst:1276
+#: ../../admin/install.rst:1280
 msgid ""
 "Weblate does verify SSL certificates during HTTP requests. In case you are "
 "using custom certificate authority which is not trusted in default bundles, "
@@ -12412,7 +12516,7 @@ msgstr ""
 "ている信頼性がないカスタム認証局を使用している場合は、その証明書を信頼できる"
 "ものとして追加してください。"
 
-#: ../../admin/install.rst:1280
+#: ../../admin/install.rst:1284
 msgid ""
 "The preferred approach is to do this at system level, please check your "
 "distro documentation for more details (for example on debian this can be "
@@ -12424,14 +12528,14 @@ msgstr ""
 "share/ca-certificates/` に配置して、 :command:`update-ca-certificates` を実行"
 "します）。"
 
-#: ../../admin/install.rst:1285
+#: ../../admin/install.rst:1289
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
 "追加すると、システム ツールは証明書を信頼します。これは Git も含まれます。"
 
-#: ../../admin/install.rst:1288
+#: ../../admin/install.rst:1292
 msgid ""
 "For Python code, you will need to configure requests to use system CA bundle "
 "instead of the one shipped with it. This can be achieved by placing "
@@ -12441,11 +12545,11 @@ msgstr ""
 "バンドルを使用するようにリクエストを設定してください。これは、次のコードを :"
 "file:`settings.py` （Debian 固有のパス）にコピーします。設定するコード:"
 
-#: ../../admin/install.rst:1302
+#: ../../admin/install.rst:1306
 msgid "Compressing client assets"
 msgstr "クライアント アセットの圧縮"
 
-#: ../../admin/install.rst:1304
+#: ../../admin/install.rst:1308
 msgid ""
 "Weblate comes with a bunch of JavaScript and CSS files. For performance "
 "reasons it is good to compress them before sending to a client. In default "
@@ -12460,7 +12564,7 @@ msgstr ""
 "は、オフライン圧縮モードの有効化を推奨します。これは、設定で行うことが必要で"
 "あり、圧縮は、すべての Weblate をアップグレードするたびに必要です。"
 
-#: ../../admin/install.rst:1311
+#: ../../admin/install.rst:1315
 msgid ""
 "The configuration switch is simple by enabling :attr:`compressor:django.conf."
 "settings.COMPRESS_OFFLINE` and configuring :attr:`compressor:django.conf."
@@ -12472,25 +12576,25 @@ msgstr ""
 "COMPRESS_OFFLINE_CONTEXT` を設定するだけです（後者は設定例にすでに含まれてい"
 "る）。オフライン圧縮の設定例:"
 
-#: ../../admin/install.rst:1320
+#: ../../admin/install.rst:1324
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
 "デプロイごとに、現在のバージョンと一致するようにファイルを圧縮することが必要"
 "です。圧縮コマンド:"
 
-#: ../../admin/install.rst:1328
+#: ../../admin/install.rst:1332
 msgid "The official Docker image has this feature already enabled."
 msgstr "公式の Docker イメージでは、すでにこの機能は有効です。"
 
-#: ../../admin/install.rst:1332
+#: ../../admin/install.rst:1336
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
 msgstr ":ref:`compressor:scenarios`、:ref:`static-files`"
 
-#: ../../admin/install.rst:1338
+#: ../../admin/install.rst:1342
 msgid "Running server"
 msgstr "実行サーバー"
 
-#: ../../admin/install.rst:1342
+#: ../../admin/install.rst:1346
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
@@ -12498,21 +12602,21 @@ msgstr ""
 "下記で説明しているサービスの設定に慣れていない場合は、:doc:`install/docker` "
 "を試してください。"
 
-#: ../../admin/install.rst:1344
+#: ../../admin/install.rst:1348
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr "Weblate の実行に必要なサービスと推奨設定:"
 
-#: ../../admin/install.rst:1346
+#: ../../admin/install.rst:1350
 msgid "Database server (see :ref:`database-setup`)"
 msgstr "データベース サーバー（参照: :ref:`database-setup` ）"
 
-#: ../../admin/install.rst:1347
+#: ../../admin/install.rst:1351
 msgid "Cache server (see :ref:`production-cache`)"
 msgstr "キャッシュ サーバー（参照: :ref:`production-cache` ）"
 
-#: ../../admin/install.rst:1348
+#: ../../admin/install.rst:1352
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
@@ -12520,15 +12624,15 @@ msgstr ""
 "静的ファイルと SSL ターミネーション用のフロントエンド Web サーバー（参照: :"
 "ref:`static-files` ）"
 
-#: ../../admin/install.rst:1349
+#: ../../admin/install.rst:1353
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
 msgstr "動的コンテンツ用の WSGI サーバー（参照: :ref:`uwsgi` ）"
 
-#: ../../admin/install.rst:1350
+#: ../../admin/install.rst:1354
 msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgstr "バックグラウンド タスク実行用の Celery（参照: :ref:`celery` ）"
 
-#: ../../admin/install.rst:1354
+#: ../../admin/install.rst:1358
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
@@ -12536,7 +12640,7 @@ msgstr ""
 "サービス間には、依存関係があります。例えば、Celery または uwsgi プロセスの起"
 "動時には、キャッシュとデータベース サーバーが実行されていることが必要です。"
 
-#: ../../admin/install.rst:1357
+#: ../../admin/install.rst:1361
 msgid ""
 "In most cases, you will run all services on single (virtual) server, but in "
 "case your installation is heavy loaded, you can split up the services. The "
@@ -12547,7 +12651,7 @@ msgstr ""
 "トールの負荷が高い場合は、サービスを分割できます。唯一の制限は、Celery サー"
 "バーと Wsgi サーバーは :setting:`DATA_DIR` へのアクセス権が必要なことです。"
 
-#: ../../admin/install.rst:1364
+#: ../../admin/install.rst:1368
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
@@ -12557,15 +12661,15 @@ msgstr ""
 "異なる場合は、:setting:`DATA_DIR` 内のファイルの所有権が混在した状態で保存さ"
 "れ、実行時に問題が発生します。"
 
-#: ../../admin/install.rst:1368
+#: ../../admin/install.rst:1372
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
 msgstr ":ref:`file-permissions` および :ref:`celery` も確認してください。"
 
-#: ../../admin/install.rst:1371
+#: ../../admin/install.rst:1375
 msgid "Running web server"
 msgstr "Web サーバーの実行"
 
-#: ../../admin/install.rst:1373
+#: ../../admin/install.rst:1377
 msgid ""
 "Running Weblate is not different from running any other Django based "
 "program. Django is usually executed as uWSGI or fcgi (see examples for "
@@ -12575,13 +12679,13 @@ msgstr ""
 "Django は uWSGI または fcgi として実行されます（下記の異なる webservers の例"
 "を参照）。"
 
-#: ../../admin/install.rst:1377
+#: ../../admin/install.rst:1381
 msgid "For testing purposes, you can use the built-in web server in Django:"
 msgstr ""
 "テスト目的のために、Django の内蔵 Web サーバーを使用できます。Web サーバー実"
 "行コマンド:"
 
-#: ../../admin/install.rst:1385
+#: ../../admin/install.rst:1389
 msgid ""
 "DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through "
 "security audits or performance tests. See also Django documentation on :"
@@ -12591,7 +12695,7 @@ msgstr ""
 "監査や性能試験を受けていません。 :djadmin:`django:runserver` の Django ドキュ"
 "メントも確認してください。"
 
-#: ../../admin/install.rst:1391
+#: ../../admin/install.rst:1395
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -12603,11 +12707,11 @@ msgstr ""
 "`uwsgi`、:ref:`apache`、:ref:`apache-gunicorn`、および :ref:`static-files` "
 "の WSGI 設定を確認してください。"
 
-#: ../../admin/install.rst:1399
+#: ../../admin/install.rst:1403
 msgid "Serving static files"
 msgstr "静的ファイルの提供"
 
-#: ../../admin/install.rst:1401
+#: ../../admin/install.rst:1405
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -12621,7 +12725,7 @@ msgstr ""
 "されます（デフォルトでは、 :setting:`CACHE_DIR` 内の ``static`` ディレクト"
 "リ）。"
 
-#: ../../admin/install.rst:1406
+#: ../../admin/install.rst:1410
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
@@ -12629,11 +12733,11 @@ msgstr ""
 "静的ファイルは、Web サーバーから直接提供することが望ましいです。静的ファイル"
 "が必要となるパス:"
 
-#: ../../admin/install.rst:1410
+#: ../../admin/install.rst:1414
 msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
-#: ../../admin/install.rst:1410
+#: ../../admin/install.rst:1414
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
@@ -12641,24 +12745,24 @@ msgstr ""
 "Weblate および管理画面の静的ファイルの提供（:setting:`django:STATIC_ROOT` に"
 "設定済）。"
 
-#: ../../admin/install.rst:1412
+#: ../../admin/install.rst:1416
 msgid ":file:`/media/`"
 msgstr ":file:`/media/`"
 
-#: ../../admin/install.rst:1413
+#: ../../admin/install.rst:1417
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr "ユーザーメディアのアップロードに使用する（例: スクリーンショット）。"
 
-#: ../../admin/install.rst:1415
+#: ../../admin/install.rst:1419
 msgid ":file:`/favicon.ico`"
 msgstr ":file:`/favicon.ico`"
 
-#: ../../admin/install.rst:1415
+#: ../../admin/install.rst:1419
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ":file:`/static/favicon.ico` を提供するようにルールを変更してください。"
 
-#: ../../admin/install.rst:1419
+#: ../../admin/install.rst:1423
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
@@ -12668,11 +12772,11 @@ msgstr ""
 "compress`、:doc:`django:howto/deployment/index`、:doc:`django:howto/static-"
 "files/deployment`"
 
-#: ../../admin/install.rst:1429
+#: ../../admin/install.rst:1433
 msgid "Content security policy"
 msgstr "コンテンツ セキュリティ ポリシー"
 
-#: ../../admin/install.rst:1431
+#: ../../admin/install.rst:1435
 msgid ""
 "The default Weblate configuration enables ``weblate.middleware."
 "SecurityMiddleware`` middleware which sets security related HTTP headers "
@@ -12686,7 +12790,7 @@ msgstr ""
 "では、これらは Weblate の設定で動作するように設定されていますが、環境によって"
 "は変更が必要です。"
 
-#: ../../admin/install.rst:1438
+#: ../../admin/install.rst:1442
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
@@ -12694,11 +12798,11 @@ msgstr ""
 ":setting:`CSP_SCRIPT_SRC`、:setting:`CSP_IMG_SRC`、:setting:"
 "`CSP_CONNECT_SRC`、:setting:`CSP_STYLE_SRC`、:setting:`CSP_FONT_SRC`"
 
-#: ../../admin/install.rst:1447
+#: ../../admin/install.rst:1451
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX および uWSGI の設定例"
 
-#: ../../admin/install.rst:1450
+#: ../../admin/install.rst:1454
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -12712,40 +12816,40 @@ msgstr ""
 "検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で "
 "``virtualenv = /home/user/weblate-env`` の使用）。"
 
-#: ../../admin/install.rst:1456
+#: ../../admin/install.rst:1460
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
 "次の設定では、NGINX WEB サーバーの下で Weblate を uWSGI として実行します。"
 
-#: ../../admin/install.rst:1458
+#: ../../admin/install.rst:1462
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
 "NGINX の設定（ :file:`weblate/examples/weblate.nginx.conf` に設定可能）:"
 
-#: ../../admin/install.rst:1463
+#: ../../admin/install.rst:1467
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
 "uWSGI の設定（ :file:`weblate/examples/weblate.uwsgi.ini` に設定可能）。"
 
-#: ../../admin/install.rst:1470
+#: ../../admin/install.rst:1474
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
 msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
-#: ../../admin/install.rst:1475
+#: ../../admin/install.rst:1479
 msgid "Sample configuration for Apache"
 msgstr "Apache の設定例"
 
-#: ../../admin/install.rst:1477 ../../admin/install.rst:1517
+#: ../../admin/install.rst:1481 ../../admin/install.rst:1521
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr ""
 "Weblate で WSGI を使用する場合は、prefork MPM を使用することが望ましいです。"
 
-#: ../../admin/install.rst:1479
+#: ../../admin/install.rst:1483
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
@@ -12753,7 +12857,7 @@ msgstr ""
 "Weblate を WSGI として実行する設定例。``mod_wsgi`` の有効化が必須（:file:"
 "`weblate/examples/apache.conf` にて設定可能）:"
 
-#: ../../admin/install.rst:1487
+#: ../../admin/install.rst:1491
 msgid ""
 "Weblate requires Python 3, so please ensure you are running Python 3 variant "
 "of the modwsgi. Usually it is available as a separate package, for example "
@@ -12763,20 +12867,20 @@ msgstr ""
 "とを確認してください。通常は、``libapache2-mod-wsgi-py3`` のように、別のパッ"
 "ケージとして提供されています。"
 
-#: ../../admin/install.rst:1491
+#: ../../admin/install.rst:1495
 msgid "Use matching Python version to install Weblate."
 msgstr "一致する Python バージョンを使用して Weblate をインストールします。"
 
-#: ../../admin/install.rst:1495
+#: ../../admin/install.rst:1499
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
 ":ref:`production-encoding`、:doc:`django:howto/deployment/wsgi/modwsgi`"
 
-#: ../../admin/install.rst:1501
+#: ../../admin/install.rst:1505
 msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Apache と Gunicorn の設定例"
 
-#: ../../admin/install.rst:1503
+#: ../../admin/install.rst:1507
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
@@ -12784,15 +12888,15 @@ msgstr ""
 "Gunicorn および Apache 2.4 で Weblate を実行する設定例（:file:`weblate/"
 "examples/apache.gunicorn.conf` に設定可能）:"
 
-#: ../../admin/install.rst:1511
+#: ../../admin/install.rst:1515
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
 msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
-#: ../../admin/install.rst:1515
+#: ../../admin/install.rst:1519
 msgid "Running Weblate under path"
 msgstr "パスの下での Weblate の実行"
 
-#: ../../admin/install.rst:1519
+#: ../../admin/install.rst:1523
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
@@ -12802,15 +12906,15 @@ msgstr ""
 "``mod_wsgi`` を使用します（:file:`weblate/examples/apache-path.conf` でも設定"
 "可能）:"
 
-#: ../../admin/install.rst:1525
+#: ../../admin/install.rst:1529
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
 msgstr "さらに、:file:`weblate/settings.py` の変更が必要です。"
 
-#: ../../admin/install.rst:1534
+#: ../../admin/install.rst:1538
 msgid "Background tasks using Celery"
 msgstr "Celery を使用するバックグラウンド タスク"
 
-#: ../../admin/install.rst:1536
+#: ../../admin/install.rst:1540
 msgid ""
 "Weblate uses Celery to execute regular and background tasks. You are "
 "supposed to run a Celery service that will execute these. For example, it is "
@@ -12820,11 +12924,11 @@ msgstr ""
 "す。タスクを実行する Celery サービスを実行してください。 Celery で動作する処"
 "理の例（このリストは完全ではありません）:"
 
-#: ../../admin/install.rst:1540
+#: ../../admin/install.rst:1544
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
 msgstr "外部サービスによる Web フックの受信（参照: :ref:`hooks`）。"
 
-#: ../../admin/install.rst:1541
+#: ../../admin/install.rst:1545
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
@@ -12833,27 +12937,27 @@ msgstr ""
 "ンス タスクの実行（参照: :ref:`backup`、:setting:`BACKGROUND_TASKS`、:ref:"
 "`addons`）。"
 
-#: ../../admin/install.rst:1543
+#: ../../admin/install.rst:1547
 msgid "Running :ref:`auto-translation`."
 msgstr "実行 :ref:`auto-translation`."
 
-#: ../../admin/install.rst:1544
+#: ../../admin/install.rst:1548
 msgid "Sending digest notifications."
 msgstr "ダイジェスト通知の送信。"
 
-#: ../../admin/install.rst:1545
+#: ../../admin/install.rst:1549
 msgid "Offloading expensive operations from the WSGI process."
 msgstr "WSGI プロセスから負荷の高い操作をオフロードさせる。"
 
-#: ../../admin/install.rst:1546
+#: ../../admin/install.rst:1550
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "保留中の変更のコミット（参照: :ref:`lazy-commit`）。"
 
-#: ../../admin/install.rst:1548
+#: ../../admin/install.rst:1552
 msgid "A typical setup using Redis as a backend looks like this:"
 msgstr "Redis をバックエンドとして使用する一般的な設定例:"
 
-#: ../../admin/install.rst:1558
+#: ../../admin/install.rst:1562
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
@@ -12861,7 +12965,7 @@ msgstr ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 
-#: ../../admin/install.rst:1560
+#: ../../admin/install.rst:1564
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
@@ -12871,7 +12975,7 @@ msgstr ""
 "ることが必要です。コマンドラインから直接実行する方法（これはデバッグや開発の"
 "際に便利です）:"
 
-#: ../../admin/install.rst:1571
+#: ../../admin/install.rst:1575
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
@@ -12881,15 +12985,15 @@ msgstr ""
 "異なると、:setting:`DATA_DIR` 内のファイルの所有権は混在した状態で保存され、"
 "実行時に問題が発生します。"
 
-#: ../../admin/install.rst:1575
+#: ../../admin/install.rst:1579
 msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr ":ref:`file-permissions` および :ref:`server` も確認してください。"
 
-#: ../../admin/install.rst:1578
+#: ../../admin/install.rst:1582
 msgid "Executing Celery tasks in the WSGI using eager mode"
 msgstr "eager モードよる WSGI での Celery タスクの実行"
 
-#: ../../admin/install.rst:1582
+#: ../../admin/install.rst:1586
 msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
@@ -12899,7 +13003,7 @@ msgstr ""
 "リガーで起動する操作（例えば、保留中の変更のコミット、ダイジェスト通知、また"
 "はバックアップなど）が中断されます。"
 
-#: ../../admin/install.rst:1586
+#: ../../admin/install.rst:1590
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
@@ -12907,11 +13011,11 @@ msgstr ""
 "開発時には、すべてのタスクを適切に処理する Eager を設定してください。Eager 設"
 "定例:"
 
-#: ../../admin/install.rst:1596
+#: ../../admin/install.rst:1600
 msgid "Running Celery as system service"
 msgstr "システム サービスとして実行する Celery"
 
-#: ../../admin/install.rst:1598
+#: ../../admin/install.rst:1602
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered by :"
 "doc:`celery:userguide/daemonizing`. For the most common Linux setup using "
@@ -12923,7 +13027,7 @@ msgstr ""
 "設定では、次に示す :file:`examples` フォルダに付属にあるサンプル ファイルを使"
 "用できます。"
 
-#: ../../admin/install.rst:1603
+#: ../../admin/install.rst:1607
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
@@ -12931,13 +13035,13 @@ msgstr ""
 ":file:`/etc/systemd/system/celery-weblate.service` に記述する Systemd ユニッ"
 "トの設定方法:"
 
-#: ../../admin/install.rst:1608
+#: ../../admin/install.rst:1612
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ":file:`/etc/default/celery-weblate` に記述する環境設定の記述例:"
 
-#: ../../admin/install.rst:1613
+#: ../../admin/install.rst:1617
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
@@ -12945,11 +13049,11 @@ msgstr ""
 ":file:`/etc/logrotate.d/celery` にある Celery ログを :command:`logrotate` を"
 "使用してローテーションするための追加設定の記述例:"
 
-#: ../../admin/install.rst:1620
+#: ../../admin/install.rst:1624
 msgid "Periodic tasks using Celery beat"
 msgstr "Celery beat を使用した定期的なタスク"
 
-#: ../../admin/install.rst:1622
+#: ../../admin/install.rst:1626
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. You can however "
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
@@ -12959,7 +13063,7 @@ msgstr ""
 "`settings.py` で追加のタスクを設定できます。:ref:`lazy-commit` の例を確認して"
 "ください。"
 
-#: ../../admin/install.rst:1625
+#: ../../admin/install.rst:1629
 msgid ""
 "The tasks are supposed to be executed by Celery beats daemon. In case it is "
 "not working properly, it might not be running or its database was corrupted. "
@@ -12969,11 +13073,11 @@ msgstr ""
 "作していない場合は、実行していないか、データベースが破損していることがありま"
 "す。このような場合は、Celery の起動ログを調べて、根本的な原因を突き止めます。"
 
-#: ../../admin/install.rst:1632
+#: ../../admin/install.rst:1636
 msgid "Monitoring Celery status"
 msgstr "Celery の状態の監視"
 
-#: ../../admin/install.rst:1634
+#: ../../admin/install.rst:1638
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
@@ -12984,7 +13088,7 @@ msgstr ""
 "ますし、コマンドラインを使用して :wladmin:`celery_queues` からも確認できま"
 "す。キューが長くなりすぎると、管理画面にも設定エラーが表示されます。"
 
-#: ../../admin/install.rst:1641
+#: ../../admin/install.rst:1645
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
@@ -12994,7 +13098,7 @@ msgstr ""
 "れません。このような障害の概要を知りたいときは、:ref:`collecting-errors` の設"
 "定をしてください。"
 
-#: ../../admin/install.rst:1647
+#: ../../admin/install.rst:1651
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
@@ -13004,11 +13108,11 @@ msgstr ""
 "configuration`、:doc:`celery:userguide/workers`、:doc:`celery:userguide/"
 "daemonizing`、:doc:`celery:userguide/monitoring`、:wladmin:`celery_queues`"
 
-#: ../../admin/install.rst:1658
+#: ../../admin/install.rst:1662
 msgid "Single-process Celery setup"
 msgstr "シングルプロセス Celery の設定"
 
-#: ../../admin/install.rst:1660
+#: ../../admin/install.rst:1664
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
@@ -13017,15 +13121,15 @@ msgstr ""
 "メモリが非常に限られている場合は、Weblate のプロセス数を減らしてみてくださ"
 "い。すべての Celery タスクをシングルプロセスで実行する設定:"
 
-#: ../../admin/install.rst:1669
+#: ../../admin/install.rst:1673
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr "これにより、Weblate の性能に顕著な影響が出ます。"
 
-#: ../../admin/install.rst:1674
+#: ../../admin/install.rst:1678
 msgid "Monitoring Weblate"
 msgstr "Weblate の監視"
 
-#: ../../admin/install.rst:1676
+#: ../../admin/install.rst:1680
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
@@ -13035,7 +13139,7 @@ msgstr ""
 "URLを提供しています。Docker コンテナには、この URL を使用した健全性診断が付属"
 "しています。"
 
-#: ../../admin/install.rst:1679
+#: ../../admin/install.rst:1683
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
@@ -13043,7 +13147,7 @@ msgstr ""
 "Weblate のメトリックスを監視するには、API のエンドポイント :http:get:`/api/"
 "metrics/` を使用します。"
 
-#: ../../admin/install.rst:1683
+#: ../../admin/install.rst:1687
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
@@ -13051,11 +13155,11 @@ msgstr ""
 ":ref:`faq-monitoring`、:ref:`monitoring-celery`、`Munin 用の Weblate プラグイ"
 "ン <https://github.com/WeblateOrg/munin>`_"
 
-#: ../../admin/install.rst:1690 ../../admin/install/docker.rst:1642
+#: ../../admin/install.rst:1694 ../../admin/install/docker.rst:1642
 msgid "Collecting error reports and monitoring performance"
 msgstr "エラーレポートの収集とパフォーマンスの監視"
 
-#: ../../admin/install.rst:1692
+#: ../../admin/install.rst:1696
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -13069,11 +13173,11 @@ msgstr ""
 "した場合、ログにエラーが報告されるだけで、メールで通知はされません。Weblate "
 "が対応するログ サービス:"
 
-#: ../../admin/install.rst:1699
+#: ../../admin/install.rst:1703
 msgid "Sentry"
 msgstr "Sentry"
 
-#: ../../admin/install.rst:1701
+#: ../../admin/install.rst:1705
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
@@ -13082,7 +13186,7 @@ msgstr ""
 "するには、 :file:`settings.py` に :setting:`SENTRY_DSN` だけを設定すれば十分"
 "です。"
 
-#: ../../admin/install.rst:1708
+#: ../../admin/install.rst:1712
 msgid ""
 "Sentry can be also used to monitor performance of Weblate by collecting "
 "traces and profiles for defined percentage of operations. This can be "
@@ -13094,7 +13198,7 @@ msgstr ""
 "きます。これは、:setting:`SENTRY_TRACES_SAMPLE_RATE` および :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE` を使用して設定できます。"
 
-#: ../../admin/install.rst:1714
+#: ../../admin/install.rst:1718
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
@@ -13103,11 +13207,11 @@ msgstr ""
 "performance/>`_ 、`Sentry プロファイリング <https://docs.sentry.io/product/"
 "profiling/>`_"
 
-#: ../../admin/install.rst:1718
+#: ../../admin/install.rst:1722
 msgid "Rollbar"
 msgstr "Rollbar"
 
-#: ../../admin/install.rst:1720
+#: ../../admin/install.rst:1724
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
@@ -13117,11 +13221,11 @@ msgstr ""
 "`Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_ の指示"
 "に従うだけです。"
 
-#: ../../admin/install.rst:1723
+#: ../../admin/install.rst:1727
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr "つまり、:file:`settings.py` に必要な設定:"
 
-#: ../../admin/install.rst:1742
+#: ../../admin/install.rst:1746
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
@@ -13129,7 +13233,7 @@ msgstr ""
 "他のすべてを自動的に連携して、サーバー側とクライアント側の両方のエラーを収集"
 "します。"
 
-#: ../../admin/install.rst:1747
+#: ../../admin/install.rst:1751
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
@@ -13137,11 +13241,11 @@ msgstr ""
 "エラーログには、正常に処理された例外も含まれていますが、アップロードされた"
 "ファイルの解析失敗などの問題を示唆するものかもしれません。"
 
-#: ../../admin/install.rst:1751
+#: ../../admin/install.rst:1755
 msgid "Migrating Weblate to another server"
 msgstr "Weblate を別のサーバーに移行"
 
-#: ../../admin/install.rst:1753
+#: ../../admin/install.rst:1757
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
@@ -13151,11 +13255,11 @@ msgstr ""
 "タを保存しているので、慎重に移行してください。最良の方法は、移行のために "
 "Weblate を停止することです。"
 
-#: ../../admin/install.rst:1758
+#: ../../admin/install.rst:1762
 msgid "Migrating database"
 msgstr "データベースの移行"
 
-#: ../../admin/install.rst:1760
+#: ../../admin/install.rst:1764
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -13169,15 +13273,15 @@ msgstr ""
 "など）。また、データベースがレプリケーションに対応している場合には、レプリ"
 "ケーションを使用できます。"
 
-#: ../../admin/install.rst:1768
+#: ../../admin/install.rst:1772
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ":ref:`database-migration` に説明があるデータベース間の移行。"
 
-#: ../../admin/install.rst:1771
+#: ../../admin/install.rst:1775
 msgid "Migrating VCS repositories"
 msgstr "VCS リポジトリの移行"
 
-#: ../../admin/install.rst:1773
+#: ../../admin/install.rst:1777
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
@@ -13187,11 +13291,11 @@ msgstr ""
 "単純にコピーすることも、:command:`rsync` コマンドを使用して、より効率的に移行"
 "することもできます。"
 
-#: ../../admin/install.rst:1778
+#: ../../admin/install.rst:1782
 msgid "Other notes"
 msgstr "その他の注意事項"
 
-#: ../../admin/install.rst:1780
+#: ../../admin/install.rst:1784
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -16126,9 +16230,14 @@ msgid "You can stop the test server with Ctrl+C."
 msgstr "Ctrl+C を使用してテストサーバーを停止できます。"
 
 #: ../../admin/install/steps/install-after.rst:11
+#, fuzzy
+#| msgid ""
+#| "Review potential issues with your installation either on ``/manage/"
+#| "performance/`` URL (see :ref:`management-interface`) or using :command:"
+#| "`weblate check --deploy`, see :ref:`production`."
 msgid ""
 "Review potential issues with your installation either on ``/manage/"
-"performance/`` URL (see :ref:`management-interface`) or using :command:"
+"performance/`` URL (see :ref:`manage-performance`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
 "``/manage/performance/`` URL（参照: :ref:`management-interface`）または :"
@@ -18499,8 +18608,8 @@ msgstr ""
 
 #: ../../admin/management.rst:628
 msgid ""
-"This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
-"%C3%A1zvy_jazyk%C5%AF>."
+"This is used to generate <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
 "これは、<https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF> を生成す"
 "るために使用します。"
@@ -18889,9 +18998,9 @@ msgstr "ユーザー インターフェイス"
 #: ../../admin/memory.rst:75
 msgid ""
 "Personal translation memory management is available by clicking the user "
-"avatar in the top-right corner of the UI and selecting \"Translation memory"
-"\" from the dropdown menu. Entries attributed to the user are listed in "
-"scopes – total, for each respective project, component, or language "
+"avatar in the top-right corner of the UI and selecting \"Translation "
+"memory\" from the dropdown menu. Entries attributed to the user are listed "
+"in scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
 "個人の翻訳メモリの管理は、UI の右上隅にあるユーザーアバターをクリックし、ド"
@@ -19344,8 +19453,8 @@ msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
-"2. もしくは、既存の鍵を Weblate にインポートする。gpg の使用時に ``HOME="
-"$DATA_DIR/home`` を設定するのみ。"
+"2. もしくは、既存の鍵を Weblate にインポートする。gpg の使用時に "
+"``HOME=$DATA_DIR/home`` を設定するのみ。"
 
 #: ../../admin/optionals.rst:235
 msgid ""
@@ -20594,7 +20703,9 @@ msgstr "提案に対する投票の有効化。参照: :ref:`voting`。"
 
 #: ../../admin/projects.rst:606 ../../workflows.rst:115 ../../workflows.rst:146
 #: ../../workflows.rst:180
-msgid "Autoaccept suggestions"
+#, fuzzy
+#| msgid "Autoaccept suggestions"
+msgid "Automatically accept suggestions"
 msgstr "提案の自動採用"
 
 #: ../../admin/projects.rst:608
@@ -21875,11 +21986,19 @@ msgid "Translation process"
 msgstr "翻訳プロセス"
 
 #: ../../admin/translating.rst:9
+#, fuzzy
+#| msgid ""
+#| "Everyone can add suggestions by default, to be accepted by signed in "
+#| "users. Suggestion voting can be used to make use of a string when more "
+#| "than one signed-in user agrees, by setting up the :ref:`component` with :"
+#| "guilabel:`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept "
+#| "suggestions` to set a threshold for accepted suggestions (this includes a "
+#| "vote from the user making the suggestion if it is cast)."
 msgid ""
 "Everyone can add suggestions by default, to be accepted by signed in users. "
 "Suggestion voting can be used to make use of a string when more than one "
 "signed-in user agrees, by setting up the :ref:`component` with :guilabel:"
-"`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept "
+"`Suggestion voting` to turn on voting, and :guilabel:`Automatically accept "
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
@@ -36699,12 +36818,12 @@ msgstr "コードベースから始める"
 #: ../../contributing/start.rst:10
 msgid ""
 "Familiarize yourself with the Weblate codebase, by having a go at the bugs "
-"labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
-"%20first%20issue>`_."
+"labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_."
 msgstr ""
-"`good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first"
-"%20issue>`_ というラベルの付いたバグを試して、Weblate コードベースに慣れてく"
-"ださい。"
+"`good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_ というラベルの付いたバグを試して、Weblate コードベー"
+"スに慣れてください。"
 
 #: ../../contributing/start.rst:13
 msgid ""
@@ -40877,8 +40996,8 @@ msgstr ""
 
 #: ../../formats/android.rst:19
 msgid ""
-"In case string contains multiple spaces, it is quoted with double quotes (``"
-"\"``)."
+"In case string contains multiple spaces, it is quoted with double quotes "
+"(``\"``)."
 msgstr ""
 "文字列に複数のスペースが含まれている場合、二重引用符（``\"``）で囲まれます。"
 
@@ -42476,8 +42595,8 @@ msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<note from=\"translator\">``."
 msgstr ""
-"原文の説明は ``<descript>`` タグから、翻訳文字列の説明は ``<note from="
-"\"translator\">`` から保存および読み込まれます。"
+"原文の説明は ``<descript>`` タグから、翻訳文字列の説明は ``<note "
+"from=\"translator\">`` から保存および読み込まれます。"
 
 #: ../../formats/tbx.rst:14
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -42804,8 +42923,8 @@ msgstr "XLIFF の空白と改行"
 #: ../../formats/xliff.rst:73
 msgid ""
 "Generally types or amounts of whitespace is not differentiated between in "
-"XML formats. If you want to keep it, you have to add the ``xml:space="
-"\"preserve\"`` flag to the string."
+"XML formats. If you want to keep it, you have to add the ``xml:"
+"space=\"preserve\"`` flag to the string."
 msgstr ""
 "通常、XML 形式では、複数の空白や種別を認識しません。現状の空白を保存する場合"
 "は、``xml:space=\"preserve\"`` フラグを文字列に追加してください。"
@@ -45113,8 +45232,8 @@ msgstr ""
 #: ../../user/checks.rst:980
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 msgstr ""
-"`Kashida Wikipedia 参照 <https://ja.wikipedia.org/wiki/%E3%82%AB"
-"%E3%82%B7%E3%83%BC%E3%83%80>`_"
+"`Kashida Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E3%82%AB%E3%82%B7%E3%83%BC%E3%83%80>`_"
 
 #: ../../user/checks.rst:985
 msgid "Markdown links"
@@ -45359,8 +45478,8 @@ msgstr ""
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgstr ""
-"`コロン Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%AD"
-"%E3%83%B3_(%E8%A8%98%E5%8F%B7)>`_"
+"`コロン Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E3%82%B3%E3%83%AD%E3%83%B3_(%E8%A8%98%E5%8F%B7)>`_"
 
 #: ../../user/checks.rst:1145
 msgid "Mismatched ellipsis"
@@ -45398,8 +45517,8 @@ msgstr ""
 #: ../../user/checks.rst:1160 ../../user/checks.rst:1620
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgstr ""
-"`省略記号 Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E7%9C"
-"%81%E7%95%A5%E8%A8%98%E5%8F%B7>`_"
+"`省略記号 Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E7%9C%81%E7%95%A5%E8%A8%98%E5%8F%B7>`_"
 
 #: ../../user/checks.rst:1166
 msgid "Mismatched exclamation mark"
@@ -45433,8 +45552,8 @@ msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
-"`感嘆符 Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E6%84%9F"
-"%E5%98%86%E7%AC%A6>`_"
+"`感嘆符 Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E6%84%9F%E5%98%86%E7%AC%A6>`_"
 
 #: ../../user/checks.rst:1186
 msgid "Mismatched full stop"
@@ -45465,8 +45584,8 @@ msgstr ""
 #: ../../user/checks.rst:1200
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
 msgstr ""
-"`終止符 Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E7%B5%82%E6%AD"
-"%A2%E7%AC%A6>`_"
+"`終止符 Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E7%B5%82%E6%AD%A2%E7%AC%A6>`_"
 
 #: ../../user/checks.rst:1205
 msgid "Mismatched question mark"
@@ -45499,8 +45618,8 @@ msgstr ""
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 msgstr ""
-"`疑問符 Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E7%96%91%E5%95%8F"
-"%E7%AC%A6>`_"
+"`疑問符 Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E7%96%91%E5%95%8F%E7%AC%A6>`_"
 
 #: ../../user/checks.rst:1225
 msgid "Mismatched semicolon"
@@ -45527,8 +45646,8 @@ msgstr "原文から翻訳文に、末尾のセミコロンが複製されてい
 #: ../../user/checks.rst:1237
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgstr ""
-"`セミコロン Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%9F"
-"%E3%82%B3%E3%83%AD%E3%83%B3>`_"
+"`セミコロン Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E3%82%BB%E3%83%9F%E3%82%B3%E3%83%AD%E3%83%B3>`_"
 
 #: ../../user/checks.rst:1242
 msgid "Mismatching line breaks"
@@ -46047,8 +46166,8 @@ msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
 msgstr ""
-"単語の途中でのメッセージの改行（ワードラッピング）に、ゼロ幅スペース（<U"
-"+200B>）が使われています。"
+"単語の途中でのメッセージの改行（ワードラッピング）に、ゼロ幅スペース"
+"（<U+200B>）が使われています。"
 
 #: ../../user/checks.rst:1588
 msgid ""
@@ -46064,8 +46183,8 @@ msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
-"`ゼロ幅スペース Wikipedia 参照: <https://ja.wikipedia.org/wiki/%E3%82%BC"
-"%E3%83%AD%E5%B9%85%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9>`_"
+"`ゼロ幅スペース Wikipedia 参照: <https://ja.wikipedia.org/wiki/"
+"%E3%82%BC%E3%83%AD%E5%B9%85%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9>`_"
 
 #: ../../user/checks.rst:1598
 msgid "Source checks"
@@ -47573,8 +47692,8 @@ msgstr "単純な検索"
 msgid ""
 "Any phrase typed into the search box is split into words. Strings containing "
 "all of them are shown. To look for an exact phrase, put \"the searchphrase\" "
-"into quotes (both single (``'``) and double (``\"``) quotes will work): ``"
-"\"this is a quoted string\"`` or ``'another quoted string'``."
+"into quotes (both single (``'``) and double (``\"``) quotes will work): "
+"``\"this is a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
 "検索ボックスに入力した語句を単語に分割します。いずれかの単語を含んだ文字列が"
 "表示されます。完全に一致する語句を検索するには、「検索語句」を引用符（一重引"
@@ -47977,8 +48096,8 @@ msgstr "正規表現"
 
 #: ../../user/search.rst:144
 msgid ""
-"Anywhere text is accepted you can also specify a regular expression as ``r"
-"\"regexp\"``."
+"Anywhere text is accepted you can also specify a regular expression as "
+"``r\"regexp\"``."
 msgstr ""
 "テキストを入力できる場合は、``r\"regexp\"`` として正規表現を指定できます。"
 
@@ -49218,8 +49337,8 @@ msgid ""
 "Recent OpenSSH releases (for example the one used in Weblate Docker "
 "container) disable RSA signatures using the SHA-1 hash algorithm by default. "
 "This change has been made as the SHA-1 hash algorithm is cryptographically "
-"broken, and it is possible to create chosen-prefix hash collisions for <USD"
-"$50K."
+"broken, and it is possible to create chosen-prefix hash collisions for "
+"<USD$50K."
 msgstr ""
 "最近の OpenSSH リリース（たとえば Weblate Docker コンテナで使用されているも"
 "の）では、デフォルトで SHA-1 ハッシュ アルゴリズムを使用した RSA 署名が無効に"
@@ -49408,8 +49527,8 @@ msgstr ""
 #: ../../vcs.rst:229
 msgid ""
 "If your username or password contains special characters, those have to be "
-"URL encoded, for example ``https://user%40example.com:%24password"
-"%23@bitbucket.org/…``."
+"URL encoded, for example ``https://user%40example.com:"
+"%24password%23@bitbucket.org/…``."
 msgstr ""
 "ユーザー名やパスワードに特殊文字を含む場合は、URL をエンコードすることが必要"
 "です ``https://user%40example.com:%24password%23@bitbucket.org/…``。"
@@ -49877,8 +49996,8 @@ msgstr "Subversion 資格情報"
 msgid ""
 "Weblate expects you to have accepted the certificate up-front (and your "
 "credentials if needed). It will look to insert them into the :setting:"
-"`DATA_DIR` directory. Accept the certificate by using `svn` once with the `"
-"$HOME` environment variable set to the :setting:`DATA_DIR`:"
+"`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
+"`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate では、証明書を事前に受け入れることを想定しています（必要であれば資格"
 "情報も）。これは、:setting:`DATA_DIR` ディレクトリに保存されます。'svn' を使"
@@ -50349,18 +50468,27 @@ msgid "Translation workflows"
 msgstr "翻訳ワークフロー"
 
 #: ../../workflows.rst:6
+#, fuzzy
+#| msgid ""
+#| "Using Weblate is a process that brings your users closer to you, by "
+#| "bringing you closer to your translators.  It is up to you to decide how "
+#| "many of its features you want to make use of."
 msgid ""
-"Using Weblate is a process that brings your users closer to you, by bringing "
-"you closer to your translators.  It is up to you to decide how many of its "
-"features you want to make use of."
+"Using Weblate raises quality, reduces manual work, and brings everyone "
+"involved in the localization process closer to each other. It is up to you "
+"to decide how many of Weblate features you want to make use of."
 msgstr ""
 "Weblate を使用すると、翻訳者との距離を近づけ、ユーザーとの距離を縮めます。機"
 "能をどこまで利用するかはあなた次第です。"
 
 #: ../../workflows.rst:10
+#, fuzzy
+#| msgid ""
+#| "The following is not a complete list of ways to configure Weblate. You "
+#| "can base other workflows on the most usual examples listed here."
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
-"base other workflows on the most usual examples listed here."
+"base other workflows on the examples listed here."
 msgstr ""
 "以下の項目は、Weblate の完璧な設定方法ではありません。記載している最も一般的"
 "な例をもとに、他のワークフローを作成できます。"
@@ -50445,10 +50573,15 @@ msgstr ""
 "ください。"
 
 #: ../../workflows.rst:52
+#, fuzzy
+#| msgid ""
+#| "In the following chapters, *any user* means a user who has access to the "
+#| "translation. It can be any authenticated user if the project is public, "
+#| "or a user that has a :guilabel:`Translate` permission for the project."
 msgid ""
 "In the following chapters, *any user* means a user who has access to the "
 "translation. It can be any authenticated user if the project is public, or a "
-"user that has a :guilabel:`Translate` permission for the project."
+"user with :guilabel:`Translate` permission to the project."
 msgstr ""
 "以降の章では、*すべてのユーザー* とは翻訳にアクセスできるユーザーのことです。"
 "プロジェクトを公開している場合は認証済みのユーザー、または :guilabel:`翻訳` "
@@ -50473,11 +50606,17 @@ msgid "Needs editing"
 msgstr "要編集"
 
 #: ../../workflows.rst:67
+#, fuzzy
+#| msgid ""
+#| "Translation needs editing, this is usually the result of a source string "
+#| "change, fuzzy matching or translator action. The translation is stored in "
+#| "the file, depending on the file format it might be marked as needing edit "
+#| "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
 "the file, depending on the file format it might be marked as needing edit "
-"(for example as it gets a ``fuzzy`` flag in the Gettext file)."
+"(for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
 "編集が必要な翻訳です。通常、原文の変更、あいまい一致、または翻訳者の操作が"
 "あった場合に設定されます。翻訳はファイルに保存されますが、ファイル形式によっ"
@@ -50521,10 +50660,15 @@ msgid "The states are represented in the translation files when possible."
 msgstr "可能な限り、翻訳ファイルに状態を表示します。"
 
 #: ../../workflows.rst:86
+#, fuzzy
+#| msgid ""
+#| "If the file format you use does not support storing states, you might "
+#| "want to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
+#| "strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
-"to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
-"as needing editing."
+"to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
+"strings as needing editing."
 msgstr ""
 "使用しているファイル形式が状態の保存をサポートしていない場合は、:ref:addon-"
 "weblate.flags.same_edit アドオンを使用して、未変更の文字列には要編集のフラグ"
@@ -50539,9 +50683,13 @@ msgid "Direct translation"
 msgstr "直接翻訳"
 
 #: ../../workflows.rst:98
+#, fuzzy
+#| msgid ""
+#| "This is the most usual setup for smaller teams, anybody can directly "
+#| "translate. This is also the default setup in Weblate."
 msgid ""
-"This is the most usual setup for smaller teams, anybody can directly "
-"translate. This is also the default setup in Weblate."
+"The most common setup for smaller teams, where anybody can translate "
+"directly. This is also the default setup in Weblate."
 msgstr ""
 "これは小規模チームにとって最も一般的な設定であり、誰でも直接翻訳できます。こ"
 "れは Weblate のデフォルト設定でもあります。"
@@ -50579,7 +50727,9 @@ msgid "on"
 msgstr "ON"
 
 #: ../../workflows.rst:110 ../../workflows.rst:175
-msgid "It is useful for users to be able to suggest when they are not sure."
+#, fuzzy
+#| msgid "It is useful for users to be able to suggest when they are not sure."
+msgid "Useful for users to be able to suggest when they are not sure."
 msgstr "ユーザーが確信が持てない場合に提案できると便利。"
 
 #: ../../workflows.rst:117 ../../workflows.rst:149 ../../workflows.rst:182
@@ -50629,7 +50779,9 @@ msgid ""
 msgstr "事前設定の票数に達すると、提案は翻訳に置き換わる。"
 
 #: ../../workflows.rst:146
-msgid "You can set a higher value to require more peer reviews."
+#, fuzzy
+#| msgid "You can set a higher value to require more peer reviews."
+msgid "You can set higher value to require more peer reviews."
 msgstr "多くの査読者が必要な高い値を設定できます。"
 
 #: ../../workflows.rst:153
@@ -50703,11 +50855,17 @@ msgstr ""
 "開発者と翻訳者との間に、文字列の品質を保証するゲートウェイを追加します。"
 
 #: ../../workflows.rst:211
+#, fuzzy
+#| msgid ""
+#| "By setting :ref:`component-intermediate`, this file will be used as "
+#| "source for the strings, but it will be edited to source language to "
+#| "polish it.  Once the string is ready in the source language, it will be "
+#| "also available for translators to translate into additional languages."
 msgid ""
-"By setting :ref:`component-intermediate`, this file will be used as source "
-"for the strings, but it will be edited to source language to polish it.  "
-"Once the string is ready in the source language, it will be also available "
-"for translators to translate into additional languages."
+"By setting :ref:`component-intermediate`, this file is used for translating "
+"strings to the source language by translators/editors. Once this stage is "
+"done, strings are available for translations to target languages, based on "
+"what is now a polished source language."
 msgstr ""
 ":ref:`component-intermediate` を設定すると、このファイルは文字列の原文として"
 "使用しますが、原文の言語で磨いて編集します。文字列が原文の言語で用意される"
@@ -50723,41 +50881,62 @@ msgid "Source strings reviews"
 msgstr "原文の査読"
 
 #: ../../workflows.rst:264
+#, fuzzy
+#| msgid ""
+#| "With :ref:`project-source_review` enabled, the review process can be "
+#| "applied on the source strings. Once enabled, users can report issues in "
+#| "the source strings.  The actual process depends on whether you use "
+#| "bilingual or monolingual formats."
 msgid ""
 "With :ref:`project-source_review` enabled, the review process can be applied "
-"on the source strings. Once enabled, users can report issues in the source "
-"strings.  The actual process depends on whether you use bilingual or "
-"monolingual formats."
+"for source strings. Once enabled, users can report issues with source "
+"strings. The actual process depends on whether bilingual or monolingual "
+"formats are in use."
 msgstr ""
 ":ref:`project-source_review` を有効にすると、査読の強制を原文に適用します。有"
 "効にすると、ユーザーは原文の問題を報告できます。 実際の処理は、バイリンガル形"
 "式とモノリンガル形式のどちらを使用するかで変わります。"
 
-#: ../../workflows.rst:269
+#: ../../workflows.rst:268
+#, fuzzy
+#| msgid ""
+#| "For monolingual formats, the source string review behaves similarly as "
+#| "with :ref:`reviews` - once issue is reported on the source string, it is "
+#| "marked as :guilabel:`Needs editing`."
 msgid ""
-"For monolingual formats, the source string review behaves similarly as with :"
-"ref:`reviews` - once issue is reported on the source string, it is marked "
-"as :guilabel:`Needs editing`."
+"For monolingual formats, source string review functions similarly to :ref:"
+"`reviews` — once an issue with a source string is reported, it is marked as :"
+"guilabel:`Needs editing`."
 msgstr ""
 "モノリンガル形式の場合、原文の査読は :ref:`reviews` と同じように動作します - "
 "原文で問題が報告されると、:guilabel:`要編集` と設定されます。"
 
-#: ../../workflows.rst:273
+#: ../../workflows.rst:272
+#, fuzzy
+#| msgid ""
+#| "The bilingual formats do not allow direct editing of the source strings "
+#| "(these are typically extracted directly from the source code). In this "
+#| "case :guilabel:`Source needs review` label is attached to strings "
+#| "reported by translators. You should review such strings and either edit "
+#| "them in the source or remove the label."
 msgid ""
-"The bilingual formats do not allow direct editing of the source strings "
-"(these are typically extracted directly from the source code). In this case :"
+"Bilingual formats do not allow direct editing of source strings (these are "
+"typically extracted directly from the source code). In this case, a :"
 "guilabel:`Source needs review` label is attached to strings reported by "
 "translators. You should review such strings and either edit them in the "
-"source or remove the label."
+"source code, or remove the label."
 msgstr ""
 "バイリンガル形式では、原文を直接編集できません（通常はソースコードから直接抽"
 "出します）。この場合、 翻訳者から報告された文字列には :guilabel:`査読が必要な"
 "原文` というラベルが付きます。この文字列を確認して、ソースコード内で編集する"
 "か、ラベルを削除するかの処理が必要です。"
 
-#: ../../workflows.rst:281
+#: ../../workflows.rst:280
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
+
+#~ msgid "Autoaccept suggestions"
+#~ msgstr "提案の自動採用"
 
 #~ msgid ""
 #~ "If you are not administrating the whole Weblate installation and just "
@@ -52378,8 +52557,8 @@ msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 #~ msgstr "MT_MICROSOFT_ENDPOINT_URL"
 
 #~ msgid ""
-#~ "Region endpoint URL domain for access token as defined in the `"
-#~ "\"Authenticating with an access token\" section <https://docs.microsoft."
+#~ "Region endpoint URL domain for access token as defined in the "
+#~ "`\"Authenticating with an access token\" section <https://docs.microsoft."
 #~ "com/en-us/azure/cognitive-services/translator/reference/v3-0-"
 #~ "reference#authenticating-with-an-access-token>`_."
 #~ msgstr ""
