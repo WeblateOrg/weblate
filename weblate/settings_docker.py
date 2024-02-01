@@ -301,8 +301,8 @@ if SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY:
     SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL", required=True
     )
-    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = get_env_str(
-        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE", required=True
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = get_env_list(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE", default=["user:email"]
     )
     AUTHENTICATION_BACKENDS += (
         "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
