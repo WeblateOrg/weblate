@@ -33,14 +33,20 @@ class XlsxFormat(CSVFormat):
         cell.data_type = TYPE_STRING
         return cell
 
+    def get_title(self, fallback: str = "Weblate"):
+        title = self.store.targetlanguage
+        if title is None:
+            return fallback
+        # Remove possible invalid characters
+        title = INVALID_TITLE_REGEX.sub(title, "").strip()
+        if not title:
+            return fallback
+        return title
+
     def save_content(self, handle):
         workbook = Workbook()
         worksheet = workbook.active
-
-        # Remove possible invalid characters
-        worksheet.title = (
-            INVALID_TITLE_REGEX.sub(self.store.targetlanguage, "") or "Weblate"
-        )
+        worksheet.title = self.get_title()
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
