@@ -14,6 +14,7 @@ from zipfile import BadZipFile
 from django.utils.translation import gettext_lazy
 from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE, TYPE_STRING
+from openpyxl.workbook.child import INVALID_TITLE_REGEX
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import NamedBytesIO
@@ -36,7 +37,10 @@ class XlsxFormat(CSVFormat):
         workbook = Workbook()
         worksheet = workbook.active
 
-        worksheet.title = self.store.targetlanguage or "Weblate"
+        # Remove possible invalid characters
+        worksheet.title = (
+            INVALID_TITLE_REGEX.replace(self.store.targetlanguage, "") or "Weblate"
+        )
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
