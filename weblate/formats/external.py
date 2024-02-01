@@ -39,7 +39,7 @@ class XlsxFormat(CSVFormat):
 
         # Remove possible invalid characters
         worksheet.title = (
-            INVALID_TITLE_REGEX.replace(self.store.targetlanguage, "") or "Weblate"
+            INVALID_TITLE_REGEX.sub(self.store.targetlanguage, "") or "Weblate"
         )
 
         # write headers
