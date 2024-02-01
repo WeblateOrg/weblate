@@ -77,6 +77,7 @@ def migrate_groups(model, role_model, update=False):
         instance, created = model.objects.get_or_create(
             name=group,
             internal=True,
+            defining_project=None,
             defaults={
                 "project_selection": selection,
                 "language_selection": SELECTION_ALL,
