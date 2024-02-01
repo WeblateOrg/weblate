@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
@@ -513,6 +513,7 @@ class Unit(models.Model, LoggerMixin):
         # Data for glossary integration
         self.glossary_terms = None
         self.glossary_positions = None
+        self.import_data: dict[str, Any] = None
         # Store original attributes for change tracking
         self.old_unit = None
         if "state" in self.__dict__ and "source" in self.__dict__:
