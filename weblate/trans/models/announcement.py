@@ -117,6 +117,7 @@ class Announcement(models.Model):
         blank=True,
         default=True,
         verbose_name=gettext_lazy("Notify users"),
+        help_text=gettext_lazy("Send notification to subscribed users."),
     )
 
     objects = AnnouncementManager.from_queryset(AnnouncementQuerySet)()
