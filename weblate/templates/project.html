@@ -107,7 +107,6 @@
         <li><a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a></li>
         <li><a href="{% url 'machinery-list' project=object.slug %}">{% trans "Automatic suggestions" %}</a></li>
         <li><a href="{% url 'backups' project=object.slug %}">{% trans "Backups" %}</a></li>
-        <li><a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a></li>
         {% endif %}
 
         {% if user_can_view_billing and object.billings %}
@@ -116,9 +115,15 @@
           {% endfor %}
         {% endif %}
 
-        {% if delete_form or rename_form %}
+        {% if delete_form or rename_form or user_can_edit_project %}
         <li role="separator" class="divider"></li>
+
+        {% if user_can_edit_project %}
+        <li><a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a></li>
+        {% endif %}
+        {% if delete_form or rename_form %}
         <li><a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a></li>
+        {% endif %}
         {% endif %}
         </ul>
     </li>
