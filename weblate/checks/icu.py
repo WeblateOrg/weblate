@@ -139,7 +139,7 @@ def extract_highlights(token, source):
     end = token["end"]
     usable = start < len(source)
 
-    if "hash" in token and token["hash"]:
+    if token.get("hash"):
         usable = False
 
     if "options" in token:
