@@ -89,7 +89,7 @@ class RepoTestMixin:
 
             # Extract new content
             tar = TarFile(tarname)
-            tar.extractall(settings.DATA_DIR)
+            tar.extractall(settings.DATA_DIR)  # noqa: S202
             tar.close()
 
             # Update directory timestamp
