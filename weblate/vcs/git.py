@@ -1226,9 +1226,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         credentials = self.get_credentials_by_hostname(hostname)
 
         super_credentials["organization"] = credentials["organization"]
-        super_credentials["workItemIds"] = (
-            credentials["workItemIds"] if "workItemIds" in credentials else []
-        )
+        super_credentials["workItemIds"] = credentials.get("workItemIds", [])
 
         return super_credentials
 
