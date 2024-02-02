@@ -74,10 +74,8 @@ class Command(BaseCommand):
         self.stdout.write(row.format("Scope", "Permission", "Roles"))
         self.stdout.write(sep.replace("-", "="))
         for scope, rows in table:
-            number = 0
-            for name, role in rows:
+            for number, (name, role) in enumerate(rows):
                 if number:
                     self.stdout.write(blank_sep)
                 self.stdout.write(row.format(scope if number == 0 else "", name, role))
-                number += 1
             self.stdout.write(sep)
