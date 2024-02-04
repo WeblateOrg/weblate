@@ -19,6 +19,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 from lxml.etree import XMLSyntaxError
+from pyparsing import ParseException
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
@@ -534,7 +535,12 @@ class PoUnit(TTKitUnit):
     @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
-        flags = Flags(*self.mainunit.typecomments)
+        try:
+            flags = Flags(*self.mainunit.typecomments)
+        except ParseException as error:
+            raise ValueError(
+                f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
+            ) from error
         flags.remove({"fuzzy"})
         return flags.format()
 
