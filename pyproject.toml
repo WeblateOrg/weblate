@@ -89,6 +89,9 @@ ignore = [
 ]
 
 [tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
 extend-safe-fixes = [
   "D",
   "TCH",
@@ -135,7 +138,7 @@ ignore = [
   "D10",  # TODO: we are missing many docstrings
   "D401",  # TODO: many strings need rephrasing
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
-  "TRY200",  # TODO: Use `raise from` to specify exception cause
+  "B904",  # TODO: Use `raise from` to specify exception cause
   "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
   "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.1
   "PLR0911",  # WONTFIX: Too many return statements
@@ -154,12 +157,11 @@ ignore = [
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
 select = ["ALL"]
-target-version = "py39"
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 16
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "docs/_ext/djangodocs.py" = ["INP001"]
 "docs/conf.py" = ["INP001", "ERA001", "A001"]
 "scripts/*" = ["T201", "T203"]
