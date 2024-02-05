@@ -37,6 +37,7 @@ from weblate.machinery.base import (
     BatchMachineTranslation,
     MachineryRateLimitError,
     MachineTranslationError,
+    SettingsDict,
 )
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
@@ -198,7 +199,7 @@ class BaseMachineTranslationTest(TestCase):
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
     EXPECTED_LEN = 2
-    CONFIGURATION: dict[str, str | int | bool] = {}
+    CONFIGURATION: SettingsDict = {}
 
     def get_machine(self, cache=False):
         machine = self.MACHINE_CLS(self.CONFIGURATION)

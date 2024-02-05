@@ -14,6 +14,7 @@ from weblate.glossary.models import get_glossary_terms
 from .base import (
     MachineTranslation,
     MachineTranslationError,
+    SettingsDict,
     XMLMachineTranslationMixin,
 )
 from .forms import MicrosoftMachineryForm
@@ -48,7 +49,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_identifier(cls):
         return "microsoft-translator"
 
-    def __init__(self, settings: dict[str, str]):
+    def __init__(self, settings: SettingsDict):
         """Check configuration."""
         super().__init__(settings)
         self._access_token = None

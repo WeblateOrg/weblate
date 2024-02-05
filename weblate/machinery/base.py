@@ -13,7 +13,7 @@ from collections import defaultdict
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict, cast
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -54,6 +54,27 @@ class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
+class SettingsDict(TypedDict, total=False):
+    key: str
+    url: str
+    secret: str
+    email: str
+    username: str
+    password: str
+    enable_mt: bool
+    domain: str
+    base_url: str
+    endpoint_url: str
+    region: str
+    credentials: str
+    project: str
+    location: str
+    formality: str
+    model: str
+    persona: str
+    style: str
+
+
 class BatchMachineTranslation:
     """Generic object for machine translation services."""
 
@@ -78,7 +99,7 @@ class BatchMachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: dict[str, str | int | bool]):
+    def __init__(self, settings: SettingsDict):
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
@@ -249,7 +270,12 @@ class BatchMachineTranslation:
         This includes project ID for project scoped entries via
         Project.get_machinery_settings.
         """
-        key = ["mt", self.mtid, scope, str(calculate_dict_hash(self.settings))]
+        key = [
+            "mt",
+            self.mtid,
+            scope,
+            str(calculate_dict_hash(cast(self.settings, dict))),
+        ]
         for part in parts:
             if isinstance(part, int):
                 key.append(str(part))

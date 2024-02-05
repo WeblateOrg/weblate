@@ -27,7 +27,7 @@ class AWSTranslation(MachineTranslation):
     @cached_property
     def client(self):
         return boto3.client(
-            "translate",
+            service_name="translate",
             region_name=self.settings["region"],
             aws_access_key_id=self.settings["key"],
             aws_secret_access_key=self.settings["secret"],
