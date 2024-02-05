@@ -13,11 +13,8 @@ class WLAdminConfig(AppConfig):
     label = "wladmin"
     verbose_name = "Weblate Admin Extensions"
 
-    def ready(self):
-        super().ready()
-        register(check_backups, deploy=True)
 
-
+@register(deploy=True)
 def check_backups(app_configs, **kwargs):
     from weblate.wladmin.models import BackupService
 

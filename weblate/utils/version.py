@@ -2,10 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
+from operator import itemgetter
+from typing import TYPE_CHECKING, NamedTuple
+
+from dateutil.parser import parse
+from django.core.cache import cache
 
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 
 def get_root_dir():
@@ -50,3 +60,42 @@ elif VERSION == VERSION_BASE:
     GIT_LINK = f"https://github.com/WeblateOrg/weblate/releases/tag/weblate-{VERSION}"
 else:
     GIT_LINK = None
+
+# Python Package Index URL
+PYPI = "https://pypi.org/pypi/weblate/json"
+
+# Cache to store fetched PyPI version
+CACHE_KEY = "weblate-version-check"
+
+
+class Release(NamedTuple):
+    version: str
+    timestamp: datetime
+
+
+def download_version_info():
+    from weblate.utils.requests import request
+
+    response = request("get", PYPI)
+    result = []
+    for version, info in response.json()["releases"].items():
+        if not info:
+            continue
+        result.append(Release(version, parse(info[0]["upload_time_iso_8601"])))
+    return sorted(result, key=itemgetter(1), reverse=True)
+
+
+def flush_version_cache():
+    cache.delete(CACHE_KEY)
+
+
+def get_version_info() -> str:
+    result = cache.get(CACHE_KEY)
+    if not result:
+        result = download_version_info()
+        cache.set(CACHE_KEY, result, 86400)
+    return result
+
+
+def get_latest_version() -> str:
+    return get_version_info()[0]

@@ -345,14 +345,10 @@ class SVGBadgeWidget(SVGWidget):
 
     def render(self, response):
         translated_text = gettext("translated")
-        translated_width = render_size(
-            "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, f"   {translated_text}   "
-        )[0].width
+        translated_width = render_size(f"   {translated_text}   ")[0].width
 
         percent_text = self.get_percent_text()
-        percent_width = render_size(
-            "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, f"  {percent_text}  "
-        )[0].width
+        percent_width = render_size(f"  {percent_text}  ")[0].width
 
         if self.percent >= 90:
             color = "#4c1"
@@ -408,12 +404,7 @@ class MultiLanguageWidget(SVGWidget):
 
             language_width = max(
                 language_width,
-                (
-                    render_size(
-                        "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, language_name
-                    )[0].width
-                    + 10
-                ),
+                (render_size(text=language_name)[0].width + 10),
             )
             project_language = ProjectLanguage(self.obj, language)
             translations.append(

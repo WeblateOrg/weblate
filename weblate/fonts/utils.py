@@ -4,25 +4,32 @@
 
 """Font handling wrapper."""
 
+from __future__ import annotations
 
 import os
-from functools import lru_cache
+from functools import cache, lru_cache
 from io import BytesIO
 from tempfile import NamedTemporaryFile
+from typing import NamedTuple
 
 import cairo
 import gi
 from django.conf import settings
-from django.core.cache import cache
+from django.core.cache import cache as django_cache
 from django.utils.html import format_html
 from PIL import ImageFont
 
-from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
 from gi.repository import Pango, PangoCairo  # noqa: E402
+
+
+class Dimensions(NamedTuple):
+    width: int
+    height: int
+
 
 FONTCONFIG_CONFIG = """<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
@@ -89,11 +96,9 @@ FONT_WEIGHTS = {
 }
 
 
+@cache
 def configure_fontconfig():
     """Configures fontconfig to use custom configuration."""
-    if getattr(configure_fontconfig, "is_configured", False):
-        return
-
     fonts_dir = data_dir("fonts")
     config_name = os.path.join(fonts_dir, "fonts.conf")
 
@@ -114,15 +119,23 @@ def configure_fontconfig():
     # Inject into environment
     os.environ["FONTCONFIG_FILE"] = config_name
 
-    configure_fontconfig.is_configured = True
 
-
-def get_font_weight(weight):
+def get_font_weight(weight: str) -> int:
     return FONT_WEIGHTS[weight]
 
 
 @lru_cache(maxsize=512)
-def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_key=None):
+def render_size(
+    text: str,
+    *,
+    font: str = "Kurinto Sans",
+    weight: int = Pango.Weight.NORMAL,
+    size: int = 11,
+    spacing: int = 0,
+    width: int = 1000,
+    lines: int = 1,
+    cache_key: str | None = None,
+) -> tuple[Dimensions, int]:
     """Check whether rendered text fits."""
     configure_fontconfig()
 
@@ -188,17 +201,34 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
     if cache_key:
         with BytesIO() as buff:
             surface.write_to_png(buff)
-            cache.set(cache_key, buff.getvalue())
+            django_cache.set(cache_key, buff.getvalue())
 
     return pixel_size, line_count
 
 
-def check_render_size(font, weight, size, spacing, text, width, lines, cache_key=None):
+def check_render_size(
+    *,
+    font: str,
+    weight: int,
+    size: int,
+    spacing: int,
+    text: str,
+    width: int,
+    lines: int,
+    cache_key: str | None = None,
+) -> bool:
     """Checks whether rendered text fits."""
-    size, actual_lines = render_size(
-        font, weight, size, spacing, text, width, lines, cache_key
+    rendered_size, actual_lines = render_size(
+        font=font,
+        weight=weight,
+        size=size,
+        spacing=spacing,
+        text=text,
+        width=width,
+        lines=lines,
+        cache_key=cache_key,
     )
-    return size.width <= width and actual_lines <= lines
+    return rendered_size.width <= width and actual_lines <= lines
 
 
 def get_font_name(filelike):
@@ -216,12 +246,3 @@ def get_font_name(filelike):
         finally:
             os.unlink(temp.name)
     return filelike.loaded_font.getname()
-
-
-def check_fonts(app_configs=None, **kwargs):
-    """Checks font rendering."""
-    try:
-        render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, "test")
-    except Exception as error:
-        return [weblate_check("weblate.C024", f"Could not use Pango: {error}")]
-    return []

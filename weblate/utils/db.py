@@ -4,6 +4,10 @@
 
 """Database specific code to extend Django."""
 
+from __future__ import annotations
+
+import time
+
 from django.db import connections, models
 from django.db.models.lookups import PatternLookup, Regex
 
@@ -141,7 +145,7 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
         return "ILIKE %s" % rhs
 
 
-def re_escape(pattern):
+def re_escape(pattern: str) -> str:
     """
     Escape for use in database regexp match.
 
@@ -154,3 +158,11 @@ def re_escape(pattern):
         elif char in ESCAPED:
             string[i] = "\\" + char
     return "".join(string)
+
+
+def measure_database_latency() -> float:
+    from weblate.trans.models import Project
+
+    start = time.monotonic()
+    Project.objects.exists()
+    return round(1000 * (time.monotonic() - start))
