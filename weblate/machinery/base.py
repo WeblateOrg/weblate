@@ -105,7 +105,7 @@ class BatchMachineTranslation:
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
-        self.supported_languages_error = None
+        self.supported_languages_error: None | Exception = None
         self.supported_languages_error_age = 0
         self.settings = settings
 
