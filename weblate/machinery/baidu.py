@@ -4,7 +4,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-from .base import MachineryRateLimitError, MachineTranslation, MachineTranslationError
+from .base import (
+    DownloadTranslations,
+    MachineryRateLimitError,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeySecretMachineryForm
 
 BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
@@ -78,7 +83,7 @@ class BaiduTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             self.settings["key"], self.settings["secret"], text

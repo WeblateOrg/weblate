@@ -1068,10 +1068,9 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_formality(self):
         def request_callback(request):
-            headers = {}
             payload = json.loads(request.body)
             self.assertIn("formality", payload)
-            return (200, headers, json.dumps(DEEPL_RESPONSE))
+            return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1093,10 +1092,9 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self):
         def request_callback(request):
-            headers = {}
             payload = json.loads(request.body)
             self.assertIn("glossary_id", payload)
-            return (200, headers, json.dumps(DEEPL_RESPONSE))
+            return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1138,14 +1136,13 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_replacements(self):
         def request_callback(request):
-            headers = {}
             payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
             )
             return (
                 200,
-                headers,
+                {},
                 json.dumps(
                     {
                         "translations": [

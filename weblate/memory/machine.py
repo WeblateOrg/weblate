@@ -4,7 +4,7 @@
 
 from django.urls import reverse
 
-from weblate.machinery.base import InternalMachineTranslation
+from weblate.machinery.base import DownloadTranslations, InternalMachineTranslation
 from weblate.memory.models import Memory
 
 
@@ -23,7 +23,7 @@ class WeblateMemory(InternalMachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         for result in Memory.objects.lookup(
             source,

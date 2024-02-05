@@ -512,7 +512,7 @@ class Unit(models.Model, LoggerMixin):
         self.plural_map = None
         # Data for glossary integration
         self.glossary_terms = None
-        self.glossary_positions = None
+        self.glossary_positions: tuple[tuple[int, int], ...] = ()
         self.import_data: dict[str, Any] = None
         # Store original attributes for change tracking
         self.old_unit = None

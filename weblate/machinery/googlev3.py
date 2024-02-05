@@ -9,7 +9,7 @@ from django.utils.functional import cached_property
 from google.cloud.translate import TranslationServiceClient
 from google.oauth2 import service_account
 
-from .base import XMLMachineTranslationMixin
+from .base import DownloadTranslations, XMLMachineTranslationMixin
 from .forms import GoogleV3MachineryForm
 from .google import GoogleBaseTranslation
 
@@ -59,7 +59,7 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         request = {
             "parent": self.parent,

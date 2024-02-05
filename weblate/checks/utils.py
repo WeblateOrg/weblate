@@ -39,7 +39,9 @@ def highlight_pygments(source: str, unit):
             start += len(text)
 
 
-def highlight_string(source: str, unit, hightlight_syntax: bool = False):
+def highlight_string(
+    source: str, unit, hightlight_syntax: bool = False
+) -> list[tuple[int, int, str]]:
     """Return highlights for a string."""
     if unit is None:
         return []

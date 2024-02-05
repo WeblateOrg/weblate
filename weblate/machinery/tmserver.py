@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from requests.exceptions import HTTPError
 
-from .base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 from .forms import BaseMachineryForm, URLMachineryForm
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
@@ -54,7 +54,7 @@ class TMServerTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         url = self.get_api_url(
             source, language, "unit", text[:500].replace("\r", " ").encode()

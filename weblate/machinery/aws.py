@@ -5,7 +5,7 @@
 import boto3
 from django.utils.functional import cached_property
 
-from .base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 from .forms import AWSMachineryForm
 
 
@@ -126,7 +126,7 @@ class AWSTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )

@@ -4,10 +4,11 @@
 
 from django.conf import settings
 
-from weblate.machinery.base import InternalMachineTranslation
 from weblate.trans.models import Unit
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
+
+from .base import DownloadTranslations, InternalMachineTranslation
 
 
 class WeblateTranslation(InternalMachineTranslation):
@@ -24,7 +25,7 @@ class WeblateTranslation(InternalMachineTranslation):
         unit,
         user,
         threshold: int = 10,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         # Filter based on user access
         base = Unit.objects.filter_access(user) if user else Unit.objects.all()

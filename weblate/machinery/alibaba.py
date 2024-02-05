@@ -9,7 +9,7 @@ from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
 from aliyunsdkcore.client import AcsClient
 from django.utils.functional import cached_property
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import AlibabaMachineryForm
 
 
@@ -261,7 +261,7 @@ class AlibabaTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         # Create an API request and set the request parameters.
         request = TranslateGeneralRequest.TranslateGeneralRequest()
