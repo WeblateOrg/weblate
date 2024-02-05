@@ -11,7 +11,7 @@ from django.test.utils import override_settings
 from packaging.version import Version
 
 import weblate.vcs.gpg
-from weblate.utils.checks import check_data_writable
+from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.gpg import (
     generate_gpg_key,

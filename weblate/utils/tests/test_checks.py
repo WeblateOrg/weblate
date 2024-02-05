@@ -8,7 +8,7 @@ from unittest.mock import patch
 from django.core.cache import cache
 from django.test import SimpleTestCase
 
-from weblate.utils.checks import is_celery_queue_long
+from weblate.utils.celery import is_celery_queue_long
 
 
 class CeleryQueueTest(SimpleTestCase):
@@ -39,7 +39,7 @@ class CeleryQueueTest(SimpleTestCase):
 
     def test_trigger(self):
         with patch(
-            "weblate.utils.checks.get_queue_stats", return_value={"celery": 1000}
+            "weblate.utils.celery.get_queue_stats", return_value={"celery": 1000}
         ):
             self.set_cache({int(time.time() / 3600) - 1: {}})
             self.assertFalse(is_celery_queue_long())
@@ -48,7 +48,7 @@ class CeleryQueueTest(SimpleTestCase):
 
     def test_translate(self):
         with patch(
-            "weblate.utils.checks.get_queue_stats", return_value={"translate": 2000}
+            "weblate.utils.celery.get_queue_stats", return_value={"translate": 2000}
         ):
             self.set_cache({int(time.time() / 3600) - 1: {}})
             self.assertFalse(is_celery_queue_long())

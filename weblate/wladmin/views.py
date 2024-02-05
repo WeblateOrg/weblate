@@ -35,8 +35,9 @@ from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
+from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
-from weblate.utils.checks import measure_cache_latency, measure_database_latency
+from weblate.utils.db import measure_database_latency
 from weblate.utils.errors import report_error
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
