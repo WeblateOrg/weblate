@@ -70,10 +70,10 @@ def create_index(apps, schema_editor):
 def drop_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        for table, field in FIELDS:
+        for table, field, _extra in FIELDS:
             schema_editor.execute(PG_DROP.format(table, field))
     elif vendor == "mysql":
-        for table, field in FIELDS:
+        for table, field, _extra in FIELDS:
             schema_editor.execute(MY_DROP.format(table, field))
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_index")
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_index")
