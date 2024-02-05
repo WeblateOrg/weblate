@@ -9,6 +9,7 @@ import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
+from typing import TYPE_CHECKING
 
 import sentry_sdk
 from appconf import AppConf
@@ -55,6 +56,9 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
+
+if TYPE_CHECKING:
+    from weblate.autu.models import PermissionResult
 
 
 class Permission(models.Model):
@@ -516,10 +520,10 @@ class User(AbstractBaseUser):
         """Compatibility API for third-party modules."""
         return self.full_name
 
-    def has_perms(self, perm_list, obj=None):
+    def has_perms(self, perm_list, obj=None) -> bool:
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
-    def has_perm(self, perm: str, obj=None):
+    def has_perm(self, perm: str, obj=None) -> PermissionResult | bool:
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
