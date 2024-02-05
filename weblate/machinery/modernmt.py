@@ -6,7 +6,7 @@ import json
 
 import weblate.utils.version
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import ModernMTMachineryForm
 
 
@@ -57,7 +57,7 @@ class ModernMTTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(
             "get",

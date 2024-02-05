@@ -2,8 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-
-from .base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 from .forms import MyMemoryMachineryForm
 
 
@@ -58,7 +57,7 @@ class MyMemoryTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from MyMemory."""
         args = {
             "q": text.split(". ")[0][:500],

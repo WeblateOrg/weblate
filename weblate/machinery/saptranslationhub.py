@@ -5,7 +5,7 @@
 
 from requests.auth import _basic_auth_str
 
-from .base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 from .forms import SAPMachineryForm
 
 
@@ -51,7 +51,7 @@ class SAPTranslationHub(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         # should the machine translation service be used?
         # (rather than only the term database)

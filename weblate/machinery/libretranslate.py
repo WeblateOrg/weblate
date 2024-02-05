@@ -8,8 +8,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from weblate.machinery.base import BatchMachineTranslation
-
+from .base import BatchMachineTranslation, DownloadMultipleTranslations
 from .forms import LibreTranslateMachineryForm
 
 if TYPE_CHECKING:
@@ -38,10 +37,10 @@ class LibreTranslateTranslation(BatchMachineTranslation):
         self,
         source,
         language,
-        sources: list[tuple[str, Unit]],
+        sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
-    ) -> dict[str, list[dict[str, str]]]:
+    ) -> DownloadMultipleTranslations:
         """Download list of possible translations from a service."""
         texts = [text for text, _unit in sources]
         response = self.request(

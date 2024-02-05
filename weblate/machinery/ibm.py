@@ -4,8 +4,7 @@
 
 from base64 import b64encode
 
-from weblate.machinery.base import MachineTranslation
-
+from .base import DownloadTranslations, MachineTranslation
 from .forms import KeyURLMachineryForm
 
 
@@ -48,7 +47,7 @@ class IBMTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(
             "post",

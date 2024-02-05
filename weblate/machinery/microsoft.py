@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any
 
 from django.utils import timezone
@@ -12,6 +12,7 @@ from django.utils import timezone
 from weblate.glossary.models import get_glossary_terms
 
 from .base import (
+    DownloadTranslations,
     MachineTranslation,
     MachineTranslationError,
     SettingsDict,
@@ -52,8 +53,8 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def __init__(self, settings: SettingsDict):
         """Check configuration."""
         super().__init__(settings)
-        self._access_token = None
-        self._token_expiry = None
+        self._access_token: None | str = None
+        self._token_expiry: None | datetime = None
 
         # check settings for Microsoft region prefix
         region = "" if not self.settings["region"] else f"{self.settings['region']}."
@@ -69,7 +70,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
     def is_token_expired(self):
         """Check whether token is about to expire."""
-        return self._token_expiry <= timezone.now()
+        return self._token_expiry is None or self._token_expiry <= timezone.now()
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
@@ -124,7 +125,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         args = {
             "api-version": "3.0",

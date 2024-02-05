@@ -95,7 +95,7 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
     uses_ngram = source_language.uses_ngram()
 
     automaton = project.glossary_automaton
-    positions = defaultdict(list)
+    positions = defaultdict(list[tuple[int, int]])
     # Extract terms present in the source
     with sentry_sdk.start_span(op="glossary.match", description=project.slug):
         for _termno, start, end in automaton.find_matches_as_indexes(

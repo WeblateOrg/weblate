@@ -4,7 +4,7 @@
 
 from requests.exceptions import RequestException
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
 
 GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
@@ -63,7 +63,7 @@ class GoogleTranslation(GoogleBaseTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(
             "get",

@@ -16,7 +16,11 @@ from weblate.glossary.models import (
 )
 from weblate.utils.errors import report_error
 
-from .base import BatchMachineTranslation, MachineTranslationError
+from .base import (
+    BatchMachineTranslation,
+    DownloadMultipleTranslations,
+    MachineTranslationError,
+)
 from .forms import OpenAIMachineryForm
 
 if TYPE_CHECKING:
@@ -110,10 +114,10 @@ class OpenAITranslation(BatchMachineTranslation):
         self,
         source,
         language,
-        sources: list[tuple[str, Unit]],
+        sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
-    ) -> dict[str, list[dict[str, str]]]:
+    ) -> DownloadMultipleTranslations:
         texts = [text for text, _unit in sources]
         units = [unit for _text, unit in sources]
         prompt = self.get_prompt(source, language, units)
@@ -130,9 +134,12 @@ class OpenAITranslation(BatchMachineTranslation):
             presence_penalty=0,
         )
 
-        result = {}
+        result: DownloadMultipleTranslations = {}
 
         translations_string = response.choices[0].message.content
+        if translations_string is None:
+            report_error(cause="Blank assistant reply", extra_log=translations_string)
+            raise MachineTranslationError("Blank assistant reply")
 
         translations = translations_string.split(SEPARATOR)
         if len(translations) != len(texts):
