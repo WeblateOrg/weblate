@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from django.core.cache import cache
 from openai import OpenAI
@@ -78,7 +78,7 @@ class OpenAITranslation(BatchMachineTranslation):
 
         raise MachineTranslationError(f"Unsupported model: {self.settings['model']}")
 
-    def format_prompt_part(self, name: str):
+    def format_prompt_part(self, name: Literal["style", "persona"]):
         text = self.settings[name]
         text = text.strip()
         if text and not text.endswith("."):

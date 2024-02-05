@@ -1229,7 +1229,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
         autoform = AutoForm(translation.component, request.user, request.data)
         if not autoform.is_valid():
-            errors = {}
+            errors: dict[str, str] = {}
             for field in autoform:
                 for error in field.errors:
                     if field.name in errors:
@@ -1735,7 +1735,7 @@ class Search(APIView):
         projects = user.allowed_projects
         components = Component.objects.filter(project__in=projects)
         category = Category.objects.filter(project__in=projects)
-        results = []
+        results: list[dict[str, str]] = []
         query = request.GET.get("q")
         if query and "\x00" not in query:
             results.extend(

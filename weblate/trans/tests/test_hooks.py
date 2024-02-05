@@ -1458,7 +1458,7 @@ class HooksViewTest(ViewTestCase):
 
 
 class HookBackendTestCase(SimpleTestCase):
-    hook = None
+    hook: str = ""
 
     def assert_hook(self, payload, expected):
         handler = HOOK_HANDLERS[self.hook]

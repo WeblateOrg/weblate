@@ -304,6 +304,7 @@ def bitbucket_hook_helper(data, request):
     else:
         repo_servers = {"bitbucket.org", urlparse(repo_url).hostname}
         repos = []
+        templates: tuple[str, ...]
         if "scm" not in data["repository"]:
             templates = BITBUCKET_GIT_REPOS + BITBUCKET_HG_REPOS
         elif data["repository"]["scm"] == "hg":

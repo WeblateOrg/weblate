@@ -118,8 +118,7 @@ class ChangeQuerySet(models.QuerySet):
             "translation__plural",
         )
 
-    @staticmethod
-    def preload_list(results, skip: str | None = None):
+    def preload_list(self, results, skip: str | None = None):
         """Companion for prefetch to fill in nested references."""
         for item in results:
             if item.component and skip != "component":
