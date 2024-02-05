@@ -32,16 +32,15 @@ class NeteaseSightTranslation(MachineTranslation):
         nonce = str(random.randint(1000, 99999999))  # noqa: S311
         timestamp = str(int(1000 * time.time()))
 
-        sign = self.settings["secret"] + nonce + timestamp
-        sign = sign.encode()
-        sign = sha1(sign, usedforsecurity=False).hexdigest()
+        payload = self.settings["secret"] + nonce + timestamp
+        signature = sha1(payload.encode(), usedforsecurity=False).hexdigest()
 
         return {
             "Content-Type": "application/json",
             "appkey": self.settings["key"],
             "nonce": nonce,
             "timestamp": timestamp,
-            "signature": sign,
+            "signature": signature,
         }
 
     def download_translations(
