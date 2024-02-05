@@ -158,7 +158,7 @@ class AutoLoadTest(TestCase):
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin):
-    FORMAT: None | type[TranslationFormat] = None
+    FORMAT: type[TranslationFormat] = TranslationFormat
     FILE = TEST_PO
     BASE = TEST_POT
     TEMPLATE = None
@@ -183,7 +183,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
 
     @classmethod
     def setUpClass(cls):
-        if cls.FORMAT is None:
+        if cls.FORMAT is TranslationFormat:
             raise SkipTest("Base test class not intended for execution.")
         super().setUpClass()
 
