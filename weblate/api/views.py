@@ -990,28 +990,31 @@ class ComponentViewSet(
         component_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    def add_link(self, request, instance: Component):
+        if not request.user.has_perm("component.edit", instance):
+            self.permission_denied(request, "Can not edit component")
+        if "project_slug" not in request.data:
+            raise ValidationError("Missing 'project_slug' parameter")
+
+        project_slug = request.data["project_slug"]
+
+        try:
+            project = request.user.allowed_projects.exclude(pk=instance.project_id).get(
+                slug=project_slug
+            )
+        except Project.DoesNotExist:
+            raise ValidationError(f"No project slug {project_slug!r} found!")
+
+        instance.links.add(project)
+        serializer = self.serializer_class(instance, context={"request": request})
+
+        return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+
     @action(detail=True, methods=["get", "post"])
     def links(self, request, **kwargs):
         instance = self.get_object()
         if request.method == "POST":
-            if not request.user.has_perm("component.edit", instance):
-                self.permission_denied(request, "Can not edit component")
-            if "project_slug" not in request.data:
-                raise ValidationError("Missing 'project_slug' parameter")
-
-            project_slug = request.data["project_slug"]
-
-            try:
-                project = request.user.allowed_projects.exclude(
-                    pk=instance.project_id
-                ).get(slug=project_slug)
-            except Project.DoesNotExist:
-                raise ValidationError(f"No project slug {project_slug!r} found!")
-
-            instance.links.add(project)
-            serializer = self.serializer_class(instance, context={"request": request})
-
-            return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+            return self.add_link(request, instance)
 
         queryset = instance.links.order_by("id")
         page = self.paginate_queryset(queryset)
