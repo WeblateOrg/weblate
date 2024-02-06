@@ -13,7 +13,7 @@ const LIGHT_BACKGROUND = '#ffffff';
 const INHERIT = 'inherit';
 const SUBMIT_COLOR = 'rgba(108, 95, 199, 1)';
 const LIGHT_THEME = {
-  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+  fontFamily: "system-ui, 'Helvetica Neue', Arial, sans-serif",
   fontSize: '14px',
 
   background: LIGHT_BACKGROUND,
@@ -1097,8 +1097,13 @@ function Logo({ colorScheme }) {
   const defs = createElementNS('defs');
   const style = createElementNS('style');
 
+  style.textContent = `
+    path {
+      fill: ${colorScheme === 'dark' ? '#fff' : '#362d59'};
+    }`;
+
   if (colorScheme === 'system') {
-    style.textContent = `
+    style.textContent += `
     @media (prefers-color-scheme: dark) {
       path: {
         fill: '#fff';
@@ -1106,11 +1111,6 @@ function Logo({ colorScheme }) {
     }
     `;
   }
-
-  style.textContent = `
-    path {
-      fill: ${colorScheme === 'dark' ? '#fff' : '#362d59'};
-    }`;
 
   defs.append(style);
   svg.append(defs);
@@ -2147,10 +2147,27 @@ var CanvasContext = /* @__PURE__ */ ((CanvasContext2) => {
   return CanvasContext2;
 })(CanvasContext || {});
 
+let errorHandler;
+function registerErrorHandler(handler) {
+    errorHandler = handler;
+}
 const callbackWrapper = (cb) => {
-    {
+    if (!errorHandler) {
         return cb;
     }
+    const rrwebWrapped = ((...rest) => {
+        try {
+            return cb(...rest);
+        }
+        catch (error) {
+            if (errorHandler && errorHandler(error) === true) {
+                return () => {
+                };
+            }
+            throw error;
+        }
+    });
+    return rrwebWrapped;
 };
 
 /*
@@ -2483,10 +2500,13 @@ class CanvasManager {
             }
             this.pendingCanvasMutations.get(target).push(mutation);
         };
-        const { sampling = 'all', win, blockClass, blockSelector, unblockSelector, recordCanvas, dataURLOptions, } = options;
+        const { sampling = 'all', win, blockClass, blockSelector, unblockSelector, recordCanvas, dataURLOptions, errorHandler, } = options;
         this.mutationCb = options.mutationCb;
         this.mirror = options.mirror;
         this.options = options;
+        if (errorHandler) {
+            registerErrorHandler(errorHandler);
+        }
         if (options.enableManualSnapshot) {
             return;
         }
@@ -2863,21 +2883,23 @@ const browserTracingIntegration = ((_options = {}) => {
     if (isPageloadTransaction) {
       const sentryTrace = isPageloadTransaction ? getMetaContent('sentry-trace') : '';
       const baggage = isPageloadTransaction ? getMetaContent('baggage') : undefined;
-      const { traceparentData, dynamicSamplingContext } = utils.tracingContextFromHeaders(sentryTrace, baggage);
+      const { traceId, dsc, parentSpanId, sampled } = utils.propagationContextFromHeaders(sentryTrace, baggage);
       expandedContext = {
+        traceId,
+        parentSpanId,
+        parentSampled: sampled,
         ...context,
-        ...traceparentData,
         metadata: {
           // eslint-disable-next-line deprecation/deprecation
           ...context.metadata,
-          dynamicSamplingContext: traceparentData && !dynamicSamplingContext ? {} : dynamicSamplingContext,
+          dynamicSamplingContext: dsc,
         },
         trimEnd: true,
       };
     } else {
       expandedContext = {
-        ...context,
         trimEnd: true,
+        ...context,
       };
     }
 
@@ -2994,7 +3016,9 @@ const browserTracingIntegration = ((_options = {}) => {
           startTimestamp: utils.browserPerformanceTimeOrigin ? utils.browserPerformanceTimeOrigin / 1000 : undefined,
           op: 'pageload',
           origin: 'auto.pageload.browser',
-          metadata: { source: 'url' },
+          attributes: {
+            [core.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]: 'url',
+          },
         };
         startBrowserTracingPageLoadSpan(client, context);
       }
@@ -3021,7 +3045,9 @@ const browserTracingIntegration = ((_options = {}) => {
               name: types.WINDOW.location.pathname,
               op: 'navigation',
               origin: 'auto.navigation.browser',
-              metadata: { source: 'url' },
+              attributes: {
+                [core.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]: 'url',
+              },
             };
 
             startBrowserTracingNavigationSpan(client, context);
@@ -3195,6 +3221,8 @@ const DEFAULT_BROWSER_TRACING_OPTIONS = {
  *
  * The integration can be configured with a variety of options, and can be extended to use
  * any routing library. This integration uses {@see IdleTransaction} to create transactions.
+ *
+ * @deprecated Use `browserTracingIntegration()` instead.
  */
 class BrowserTracing  {
   // This class currently doesn't have a static `id` field like the other integration classes, because it prevented
@@ -3340,21 +3368,23 @@ class BrowserTracing  {
     if (isPageloadTransaction) {
       const sentryTrace = isPageloadTransaction ? getMetaContent('sentry-trace') : '';
       const baggage = isPageloadTransaction ? getMetaContent('baggage') : undefined;
-      const { traceparentData, dynamicSamplingContext } = utils.tracingContextFromHeaders(sentryTrace, baggage);
+      const { traceId, dsc, parentSpanId, sampled } = utils.propagationContextFromHeaders(sentryTrace, baggage);
       expandedContext = {
+        traceId,
+        parentSpanId,
+        parentSampled: sampled,
         ...context,
-        ...traceparentData,
         metadata: {
           // eslint-disable-next-line deprecation/deprecation
           ...context.metadata,
-          dynamicSamplingContext: traceparentData && !dynamicSamplingContext ? {} : dynamicSamplingContext,
+          dynamicSamplingContext: dsc,
         },
         trimEnd: true,
       };
     } else {
       expandedContext = {
-        ...context,
         trimEnd: true,
+        ...context,
       };
     }
 
@@ -7744,6 +7774,7 @@ exports.setContext = core.setContext;
 exports.setCurrentClient = core.setCurrentClient;
 exports.setExtra = core.setExtra;
 exports.setExtras = core.setExtras;
+exports.setHttpStatus = core.setHttpStatus;
 exports.setMeasurement = core.setMeasurement;
 exports.setTag = core.setTag;
 exports.setTags = core.setTags;
@@ -7807,6 +7838,7 @@ exports.startBrowserTracingPageLoadSpan = tracing.startBrowserTracingPageLoadSpa
 exports.makeBrowserOfflineTransport = offline.makeBrowserOfflineTransport;
 exports.onProfilingStartRouteTransaction = hubextensions.onProfilingStartRouteTransaction;
 exports.BrowserProfilingIntegration = integration.BrowserProfilingIntegration;
+exports.browserProfilingIntegration = integration.browserProfilingIntegration;
 exports.Integrations = INTEGRATIONS;
 
 
@@ -9170,7 +9202,7 @@ const utils = require('./utils.js');
 
 const INTEGRATION_NAME = 'BrowserProfiling';
 
-const browserProfilingIntegration = (() => {
+const _browserProfilingIntegration = (() => {
   return {
     name: INTEGRATION_NAME,
     // TODO v8: Remove this
@@ -9254,6 +9286,8 @@ const browserProfilingIntegration = (() => {
   };
 }) ;
 
+const browserProfilingIntegration = core.defineIntegration(_browserProfilingIntegration);
+
 /**
  * Browser profiling integration. Stores any event that has contexts["profile"]["profile_id"]
  * This exists because we do not want to await async profiler.stop calls as transaction.finish is called
@@ -9262,6 +9296,7 @@ const browserProfilingIntegration = (() => {
  * integration less reliable as we might be dropping profiles when the cache is full.
  *
  * @experimental
+ * @deprecated Use `browserProfilingIntegration()` instead.
  */
 // eslint-disable-next-line deprecation/deprecation
 const BrowserProfilingIntegration = core.convertIntegrationFnToClass(
@@ -9269,7 +9304,10 @@ const BrowserProfilingIntegration = core.convertIntegrationFnToClass(
   browserProfilingIntegration,
 ) ;
 
+// eslint-disable-next-line deprecation/deprecation
+
 exports.BrowserProfilingIntegration = BrowserProfilingIntegration;
+exports.browserProfilingIntegration = browserProfilingIntegration;
 
 
 },{"../debug-build.js":37,"./hubextensions.js":48,"./utils.js":50,"@sentry/core":67,"@sentry/utils":134}],50:[function(require,module,exports){
@@ -10996,8 +11034,11 @@ class BaseClient {
 
     let eventId = hint && hint.event_id;
 
+    const sdkProcessingMetadata = event.sdkProcessingMetadata || {};
+    const capturedSpanScope = sdkProcessingMetadata.capturedSpanScope;
+
     this._process(
-      this._captureEvent(event, hint, scope).then(result => {
+      this._captureEvent(event, hint, capturedSpanScope || scope).then(result => {
         eventId = result;
       }),
     );
@@ -11453,7 +11494,10 @@ class BaseClient {
 
     const dataCategory = eventType === 'replay_event' ? 'replay' : eventType;
 
-    return this._prepareEvent(event, hint, scope)
+    const sdkProcessingMetadata = event.sdkProcessingMetadata || {};
+    const capturedSpanIsolationScope = sdkProcessingMetadata.capturedSpanIsolationScope;
+
+    return this._prepareEvent(event, hint, scope, capturedSpanIsolationScope)
       .then(prepared => {
         if (prepared === null) {
           this.recordDroppedEvent('event_processor', dataCategory, event);
@@ -16427,8 +16471,14 @@ The transaction will not be sampled. Please use the ${configInstrumenter} instru
   // eslint-disable-next-line deprecation/deprecation
   let transaction$1 = new transaction.Transaction(transactionContext, this);
   transaction$1 = sampling.sampleTransaction(transaction$1, options, {
+    name: transactionContext.name,
     parentSampled: transactionContext.parentSampled,
     transactionContext,
+    attributes: {
+      // eslint-disable-next-line deprecation/deprecation
+      ...transactionContext.data,
+      ...transactionContext.attributes,
+    },
     ...customSamplingContext,
   });
   if (transaction$1.isRecording()) {
@@ -16468,8 +16518,14 @@ function startIdleTransaction(
     delayAutoFinishUntilSignal,
   );
   transaction = sampling.sampleTransaction(transaction, options, {
+    name: transactionContext.name,
     parentSampled: transactionContext.parentSampled,
     transactionContext,
+    attributes: {
+      // eslint-disable-next-line deprecation/deprecation
+      ...transactionContext.data,
+      ...transactionContext.attributes,
+    },
     ...customSamplingContext,
   });
   if (transaction.isRecording()) {
@@ -18016,20 +18072,22 @@ function startInactiveSpan(context) {
     return undefined;
   }
 
+  const isolationScope = hub.getIsolationScope();
+  const scope = exports$1.getCurrentScope();
+
+  let span;
+
   if (parentSpan) {
     // eslint-disable-next-line deprecation/deprecation
-    return parentSpan.startChild(ctx);
+    span = parentSpan.startChild(ctx);
   } else {
-    const isolationScope = hub.getIsolationScope();
-    const scope = exports$1.getCurrentScope();
-
     const { traceId, dsc, parentSpanId, sampled } = {
       ...isolationScope.getPropagationContext(),
       ...scope.getPropagationContext(),
     };
 
     // eslint-disable-next-line deprecation/deprecation
-    return hub$1.startTransaction({
+    span = hub$1.startTransaction({
       traceId,
       parentSpanId,
       parentSampled: sampled,
@@ -18041,6 +18099,10 @@ function startInactiveSpan(context) {
       },
     });
   }
+
+  setCapturedScopesOnSpan(span, scope, isolationScope);
+
+  return span;
 }
 
 /**
@@ -18051,14 +18113,7 @@ function getActiveSpan() {
   return exports$1.getCurrentScope().getSpan();
 }
 
-/**
- * Continue a trace from `sentry-trace` and `baggage` values.
- * These values can be obtained from incoming request headers,
- * or in the browser from `<meta name="sentry-trace">` and `<meta name="baggage">` HTML tags.
- *
- * The callback receives a transactionContext that may be used for `startTransaction` or `startSpan`.
- */
-function continueTrace(
+const continueTrace = (
   {
     sentryTrace,
     baggage,
@@ -18066,9 +18121,19 @@ function continueTrace(
 
 ,
   callback,
-) {
+) => {
+  // TODO(v8): Change this function so it doesn't do anything besides setting the propagation context on the current scope:
+  /*
+    return withScope((scope) => {
+      const propagationContext = propagationContextFromHeaders(sentryTrace, baggage);
+      scope.setPropagationContext(propagationContext);
+      return callback();
+    })
+  */
+
   const currentScope = exports$1.getCurrentScope();
 
+  // eslint-disable-next-line deprecation/deprecation
   const { traceparentData, dynamicSamplingContext, propagationContext } = utils.tracingContextFromHeaders(
     sentryTrace,
     baggage,
@@ -18091,8 +18156,10 @@ function continueTrace(
     return transactionContext;
   }
 
-  return callback(transactionContext);
-}
+  return hub.runWithAsyncContext(() => {
+    return callback(transactionContext);
+  });
+};
 
 function createChildSpanOrTransaction(
   hub$1,
@@ -18103,20 +18170,21 @@ function createChildSpanOrTransaction(
     return undefined;
   }
 
+  const isolationScope = hub.getIsolationScope();
+  const scope = exports$1.getCurrentScope();
+
+  let span;
   if (parentSpan) {
     // eslint-disable-next-line deprecation/deprecation
-    return parentSpan.startChild(ctx);
+    span = parentSpan.startChild(ctx);
   } else {
-    const isolationScope = hub.getIsolationScope();
-    const scope = exports$1.getCurrentScope();
-
     const { traceId, dsc, parentSpanId, sampled } = {
       ...isolationScope.getPropagationContext(),
       ...scope.getPropagationContext(),
     };
 
     // eslint-disable-next-line deprecation/deprecation
-    return hub$1.startTransaction({
+    span = hub$1.startTransaction({
       traceId,
       parentSpanId,
       parentSampled: sampled,
@@ -18128,6 +18196,10 @@ function createChildSpanOrTransaction(
       },
     });
   }
+
+  setCapturedScopesOnSpan(span, scope, isolationScope);
+
+  return span;
 }
 
 /**
@@ -18148,8 +18220,29 @@ function normalizeContext(context) {
   return context;
 }
 
+const SCOPE_ON_START_SPAN_FIELD = '_sentryScope';
+const ISOLATION_SCOPE_ON_START_SPAN_FIELD = '_sentryIsolationScope';
+
+function setCapturedScopesOnSpan(span, scope, isolationScope) {
+  if (span) {
+    utils.addNonEnumerableProperty(span, ISOLATION_SCOPE_ON_START_SPAN_FIELD, isolationScope);
+    utils.addNonEnumerableProperty(span, SCOPE_ON_START_SPAN_FIELD, scope);
+  }
+}
+
+/**
+ * Grabs the scope and isolation scope off a span that were active when the span was started.
+ */
+function getCapturedScopesOnSpan(span) {
+  return {
+    scope: (span )[SCOPE_ON_START_SPAN_FIELD],
+    isolationScope: (span )[ISOLATION_SCOPE_ON_START_SPAN_FIELD],
+  };
+}
+
 exports.continueTrace = continueTrace;
 exports.getActiveSpan = getActiveSpan;
+exports.getCapturedScopesOnSpan = getCapturedScopesOnSpan;
 exports.startActiveSpan = startActiveSpan;
 exports.startInactiveSpan = startInactiveSpan;
 exports.startSpan = startSpan;
@@ -18167,6 +18260,7 @@ const semanticAttributes = require('../semanticAttributes.js');
 const spanUtils = require('../utils/spanUtils.js');
 const dynamicSamplingContext = require('./dynamicSamplingContext.js');
 const span = require('./span.js');
+const trace = require('./trace.js');
 
 /** JSDoc */
 class Transaction extends span.Span  {
@@ -18439,6 +18533,8 @@ class Transaction extends span.Span  {
       });
     }
 
+    const { scope: capturedSpanScope, isolationScope: capturedSpanIsolationScope } = trace.getCapturedScopesOnSpan(this);
+
     // eslint-disable-next-line deprecation/deprecation
     const { metadata } = this;
     // eslint-disable-next-line deprecation/deprecation
@@ -18460,6 +18556,8 @@ class Transaction extends span.Span  {
       type: 'transaction',
       sdkProcessingMetadata: {
         ...metadata,
+        capturedSpanScope,
+        capturedSpanIsolationScope,
         dynamicSamplingContext: dynamicSamplingContext.getDynamicSamplingContextFromSpan(this),
       },
       ...(source && {
@@ -18490,7 +18588,7 @@ class Transaction extends span.Span  {
 exports.Transaction = Transaction;
 
 
-},{"../debug-build.js":62,"../hub.js":66,"../semanticAttributes.js":86,"../utils/spanUtils.js":112,"./dynamicSamplingContext.js":90,"./span.js":96,"@sentry/utils":134}],100:[function(require,module,exports){
+},{"../debug-build.js":62,"../hub.js":66,"../semanticAttributes.js":86,"../utils/spanUtils.js":112,"./dynamicSamplingContext.js":90,"./span.js":96,"./trace.js":98,"@sentry/utils":134}],100:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -19821,7 +19919,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":134}],113:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.99.0';
+const SDK_VERSION = '7.100.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -20337,6 +20435,21 @@ function needMaskingText(node, maskTextClass, maskTextSelector, unmaskTextClass,
             : node.parentElement;
         if (el === null)
             return false;
+        if (el.tagName === 'INPUT') {
+            const autocomplete = el.getAttribute('autocomplete');
+            const disallowedAutocompleteValues = [
+                'current-password',
+                'new-password',
+                'cc-number',
+                'cc-exp',
+                'cc-exp-month',
+                'cc-exp-year',
+                'cc-csc',
+            ];
+            if (disallowedAutocompleteValues.includes(autocomplete)) {
+                return true;
+            }
+        }
         let maskDistance = -1;
         let unmaskDistance = -1;
         if (maskAllText) {
@@ -20568,7 +20681,7 @@ function serializeElementNode(n, options) {
     const len = n.attributes.length;
     for (let i = 0; i < len; i++) {
         const attr = n.attributes[i];
-        if (!ignoreAttribute(tagName, attr.name, attr.value)) {
+        if (attr.name && !ignoreAttribute(tagName, attr.name, attr.value)) {
             attributes[attr.name] = transformAttribute(doc, tagName, toLowerCase(attr.name), attr.value, n, maskAttributeFn);
         }
     }
@@ -22767,10 +22880,8 @@ function initSelectionObserver(param) {
 }
 function initCustomElementObserver({ doc, customElementCb, }) {
     const win = doc.defaultView;
-    if (!win || !win.customElements) {
-        return () => {
-        };
-    }
+    if (!win || !win.customElements)
+        return () => { };
     const restoreHandler = patch(win.customElements, 'define', function (original) {
         return function (name, constructor, options) {
             try {
@@ -23511,6 +23622,7 @@ function record(options = {}) {
         unblockSelector,
         sampling: sampling['canvas'],
         dataURLOptions,
+        errorHandler,
     });
     const shadowDomManager = typeof __RRWEB_EXCLUDE_SHADOW_DOM__ === 'boolean' &&
         __RRWEB_EXCLUDE_SHADOW_DOM__
@@ -31197,6 +31309,7 @@ exports.timestampWithMs = time.timestampWithMs;
 exports.TRACEPARENT_REGEXP = tracing.TRACEPARENT_REGEXP;
 exports.extractTraceparentData = tracing.extractTraceparentData;
 exports.generateSentryTraceHeader = tracing.generateSentryTraceHeader;
+exports.propagationContextFromHeaders = tracing.propagationContextFromHeaders;
 exports.tracingContextFromHeaders = tracing.tracingContextFromHeaders;
 exports.getSDKSource = env.getSDKSource;
 exports.isBrowserBundle = env.isBrowserBundle;
@@ -35325,7 +35438,10 @@ function extractTraceparentData(traceparent) {
 
 /**
  * Create tracing context from incoming headers.
+ *
+ * @deprecated Use `propagationContextFromHeaders` instead.
  */
+// TODO(v8): Remove this function
 function tracingContextFromHeaders(
   sentryTrace,
   baggage$1,
@@ -35362,6 +35478,34 @@ function tracingContextFromHeaders(
 }
 
 /**
+ * Create a propagation context from incoming headers.
+ */
+function propagationContextFromHeaders(
+  sentryTrace,
+  baggage$1,
+) {
+  const traceparentData = extractTraceparentData(sentryTrace);
+  const dynamicSamplingContext = baggage.baggageHeaderToDynamicSamplingContext(baggage$1);
+
+  const { traceId, parentSpanId, parentSampled } = traceparentData || {};
+
+  if (!traceparentData) {
+    return {
+      traceId: traceId || misc.uuid4(),
+      spanId: misc.uuid4().substring(16),
+    };
+  } else {
+    return {
+      traceId: traceId || misc.uuid4(),
+      parentSpanId: parentSpanId || misc.uuid4().substring(16),
+      spanId: misc.uuid4().substring(16),
+      sampled: parentSampled,
+      dsc: dynamicSamplingContext || {}, // If we have traceparent data but no DSC it means we are not head of trace and we must freeze it
+    };
+  }
+}
+
+/**
  * Create sentry-trace header from span context values.
  */
 function generateSentryTraceHeader(
@@ -35379,6 +35523,7 @@ function generateSentryTraceHeader(
 exports.TRACEPARENT_REGEXP = TRACEPARENT_REGEXP;
 exports.extractTraceparentData = extractTraceparentData;
 exports.generateSentryTraceHeader = generateSentryTraceHeader;
+exports.propagationContextFromHeaders = propagationContextFromHeaders;
 exports.tracingContextFromHeaders = tracingContextFromHeaders;
 
 
