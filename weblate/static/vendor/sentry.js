@@ -19919,7 +19919,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":134}],113:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.100.0';
+const SDK_VERSION = '7.100.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -25796,16 +25796,17 @@ function addFeedbackBreadcrumb(replay, event) {
       type: EventType.Custom,
       timestamp: event.timestamp * 1000,
       data: {
-        timestamp: event.timestamp,
         tag: 'breadcrumb',
         payload: {
+          timestamp: event.timestamp,
+          type: 'default',
           category: 'sentry.feedback',
           data: {
             feedbackId: event.event_id,
           },
         },
       },
-    });
+    } );
 
     return false;
   });
