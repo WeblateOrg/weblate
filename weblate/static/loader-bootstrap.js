@@ -1342,6 +1342,15 @@ $(function () {
     },
   });
 
+  /* Move current translation into the view */
+  $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", function (e) {
+    document.querySelector("#nearby .current_translation").scrollIntoView({
+      block: "nearest",
+      inline: "nearest",
+      behavior: "smooth",
+    });
+  });
+
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (event) => {
       document
