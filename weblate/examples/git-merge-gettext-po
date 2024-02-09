@@ -14,16 +14,20 @@
 # https://stackoverflow.com/a/29535676/334451
 # https://github.com/mezis/git-whistles/blob/fef61bd7abbc0e69c9ad021aa6dee3889db180f4/libexec/git-merge-po.sh
 #
-# This merge driver is now automatically installed for all Weblate cloned
+# This merge driver is automatically installed for all Weblate cloned Git
 # repositories.
 #
-# For use outside of Weblate install with
+# For use outside of Weblate install with:
+#
 # git config merge.merge-po-files.driver "./bin/merge-po-files %O %A %B %P"
 #
-# Note that you also need file `.gitattributes` with following lines:
+# To make git use the merge driver on some files, you also need to set it
+# in the file `.git/info/attributes`:
 #
-# [attr]POFILE merge=merge-po-files
-# locale/*.po POFILE
+# *.po merge=merge-po-files
+#
+# It is not recommended to use `.gitattributes` file included in the repository,
+# as that would break the usage for everybody who did not install the merge driver.
 #
 ##########################################################################
 # CONFIG:
