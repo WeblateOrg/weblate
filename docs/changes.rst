@@ -33,6 +33,7 @@ Not yet released.
 **Compatibility**
 
 * Last changed timestamp now reflects changes outside Weblate as well. This affects both :ref:`api` and user interface.
+* Releases are signed by Sigstore istead of PGP, see :ref:`verify`.
 
 **Upgrading**
 
