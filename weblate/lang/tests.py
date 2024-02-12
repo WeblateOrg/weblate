@@ -4,7 +4,7 @@
 
 """Test for language manipulations."""
 
-import gettext
+from gettext import c2py
 from io import StringIO
 from itertools import chain
 from unittest import SkipTest
@@ -323,16 +323,16 @@ class VerifyPluralsTest(TestCase):
         for _code, _name, _nplurals, plural_formula in CLDRPLURALS:
             self.assertIn(plural_formula, data.FORMULA_WITH_ZERO)
             with_zero = data.FORMULA_WITH_ZERO[plural_formula]
-            gettext.c2py(with_zero)
+            c2py(with_zero)
 
     def test_formula(self):
         """Validate that all formulas can be parsed by gettext."""
         # Verify we get an error on invalid syntax
         with self.assertRaises((SyntaxError, ValueError)):
-            gettext.c2py("n==0 ? 1 2")
+            c2py("n==0 ? 1 2")
         for code, _name, nplurals, plural_formula in self.all_data():
             # Validate plurals can be parsed
-            plural = gettext.c2py(plural_formula)
+            plural = c2py(plural_formula)
             # Get maximal plural
             calculated = max(plural(x) for x in range(200)) + 1
             # Check it matches ours
