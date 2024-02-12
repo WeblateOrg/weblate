@@ -393,7 +393,9 @@ class Unit(models.Model, LoggerMixin):
     )
     labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
 
-    source_unit = models.ForeignKey(
+    # The type annotation hides that field can be None because
+    # save() updates it to non-None immediatelly.
+    source_unit: Unit = models.ForeignKey(
         "Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )
 
