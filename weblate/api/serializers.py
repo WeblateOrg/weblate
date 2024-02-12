@@ -1013,6 +1013,11 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
         return label
 
 
+class UnitFlatLabelsSerializer(UnitLabelsSerializer):
+    def to_representation(self, value):
+        return value.id
+
+
 class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -1073,7 +1078,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
-    labels = UnitLabelsSerializer(many=True)
+    labels = UnitFlatLabelsSerializer(many=True)
 
     class Meta:
         model = Unit
