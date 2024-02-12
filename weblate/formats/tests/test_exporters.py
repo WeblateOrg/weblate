@@ -5,6 +5,7 @@
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     AndroidResourceExporter,
+    BaseExporter,
     CSVExporter,
     JSONExporter,
     JSONNestedExporter,
@@ -31,7 +32,7 @@ from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
 class PoExporterTest(BaseTestCase):
-    _class = PoExporter
+    _class: type[BaseExporter] = PoExporter
     _has_context = True
     _has_comments = True
 
