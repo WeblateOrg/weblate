@@ -277,9 +277,9 @@ class SecurityMiddleware:
 
         # Rollbar client errors reporting
         if (
-            hasattr(settings, "ROLLBAR")
-            and "client_token" in settings.ROLLBAR
-            and "environment" in settings.ROLLBAR
+            (rollbar_settings := getattr(settings, "ROLLBAR", None)) is not None
+            and "client_token" in rollbar_settings
+            and "environment" in rollbar_settings
             and response.status_code == 500
         ):
             script.add("'unsafe-inline'")
