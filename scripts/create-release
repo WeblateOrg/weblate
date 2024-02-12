@@ -54,10 +54,6 @@ rm -rf ./build/
 fakeroot ./setup.py sdist
 fakeroot ./setup.py bdist_wheel
 
-# Recompress tarballs
-zcat "dist/$tarver.tar.gz" | xz > "dist/$tarver.tar.xz"
-zcat "dist/$tarver.tar.gz" | bzip2 > "dist/$tarver.tar.bz2"
-
 # Upload release
 if [ "$DO_TAG" -eq 1 ] ; then
     # Git tags
@@ -71,8 +67,6 @@ if [ "$DO_TAG" -eq 1 ] ; then
 
     # Sign remaining files
     gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.gz"
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.xz"
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.bz2"
 
     # Download server
     # shellcheck disable=SC2086
@@ -96,6 +90,4 @@ if [ "$DO_TAG" -eq 1 ] ; then
     sleep 10
     hub release edit -m '' --attach="dist/$tarver.tar.gz" "$namever"
     hub release edit -m '' --attach="dist/$tarver.tar.gz.asc" "$namever"
-    hub release edit -m '' --attach="dist/$tarver.tar.xz" "$namever"
-    hub release edit -m '' --attach="dist/$tarver.tar.xz.asc" "$namever"
 fi
