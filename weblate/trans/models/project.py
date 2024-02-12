@@ -8,6 +8,7 @@ import os
 import os.path
 from datetime import datetime
 from operator import itemgetter
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -35,6 +36,9 @@ from weblate.utils.validators import (
     validate_project_web,
     validate_slug,
 )
+
+if TYPE_CHECKING:
+    from weblate.trans.backups import BackupListDict
 
 
 class ProjectLanguageFactory(dict):
@@ -607,7 +611,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                 settings[item]["_project"] = self
         return settings
 
-    def list_backups(self):
+    def list_backups(self) -> list[BackupListDict]:
         backup_dir = data_dir("projectbackups", f"{self.pk}")
         result = []
         if not os.path.exists(backup_dir):
