@@ -242,7 +242,7 @@ if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
     DEFAULT_PULL_MESSAGE = get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE")
 
 # Authentication configuration
-AUTHENTICATION_BACKENDS = ()
+AUTHENTICATION_BACKENDS: tuple[str, ...] = ()
 
 # Custom user model
 AUTH_USER_MODEL = "weblate_auth.User"
@@ -776,7 +776,7 @@ DEFAULT_LOGLEVEL = get_env_str("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/stable/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
+LOGGING: dict = {
     "version": 1,
     "disable_existing_loggers": True,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},

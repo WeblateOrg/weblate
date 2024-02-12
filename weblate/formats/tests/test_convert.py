@@ -38,7 +38,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_TEMPLATE = ""
     CONVERT_TRANSLATION = ""
     CONVERT_EXPECTED = ""
-    CONVERT_EXISTING = []
+    CONVERT_EXISTING: list[MockUnit] = []
 
     def test_convert(self):
         if not self.CONVERT_TEMPLATE:
