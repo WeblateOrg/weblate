@@ -73,7 +73,7 @@ class Release(NamedTuple):
     timestamp: datetime
 
 
-def download_version_info():
+def download_version_info() -> list[Release]:
     from weblate.utils.requests import request
 
     response = request("get", PYPI)
@@ -89,7 +89,7 @@ def flush_version_cache():
     cache.delete(CACHE_KEY)
 
 
-def get_version_info() -> str:
+def get_version_info() -> list[Release]:
     result = cache.get(CACHE_KEY)
     if not result:
         result = download_version_info()
@@ -97,5 +97,5 @@ def get_version_info() -> str:
     return result
 
 
-def get_latest_version() -> str:
+def get_latest_version() -> Release:
     return get_version_info()[0]
