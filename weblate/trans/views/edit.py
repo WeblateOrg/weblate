@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import time
 from math import ceil
+from typing import Any
 
 import sentry_sdk
 from django.conf import settings
@@ -78,7 +81,7 @@ def display_fixups(request, fixups):
 def get_other_units(unit):
     """Returns other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", description=unit.pk):
-        result = {
+        result: dict[str, Any] = {
             "total": 0,
             "skipped": False,
             "same": [],
@@ -979,7 +982,7 @@ def save_zen(request, path):
 
         translationsum = hash_to_checksum(unit.get_target_hash())
 
-    response = {
+    response: dict[str, Any] = {
         "messages": [],
         "state": "success",
         "translationsum": translationsum,
