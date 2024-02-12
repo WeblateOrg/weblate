@@ -21,20 +21,18 @@ from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
 
-class AddonFormMixin:
+class BaseAddonForm(forms.Form):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
+        self._addon = addon
+        self.user = user
+        forms.Form.__init__(self, *args, **kwargs)
+
     def serialize_form(self):
         return self.cleaned_data
 
     def save(self):
         self._addon.configure(self.serialize_form())
         return self._addon.instance
-
-
-class BaseAddonForm(forms.Form, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
-        self._addon = addon
-        self.user = user
-        super().__init__(*args, **kwargs)
 
 
 class GenerateMoForm(BaseAddonForm):
@@ -455,19 +453,19 @@ class DiscoveryForm(BaseAddonForm):
         return self.template_clean("intermediate_template")
 
 
-class AutoAddonForm(AutoForm, AddonFormMixin):
+class AutoAddonForm(BaseAddonForm, AutoForm):
     def __init__(self, user, addon, instance=None, **kwargs):
-        self.user = user
-        self._addon = addon
-        super().__init__(obj=addon.instance.component, **kwargs)
+        BaseAddonForm.__init__(self, user, addon)
+        AutoForm.__init__(self, obj=addon.instance.component, **kwargs)
 
 
-class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
+class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
     def __init__(self, user, addon, instance=None, **kwargs):
-        self.user = user
-        self._addon = addon
+        BaseAddonForm.__init__(self, user, addon)
         component = addon.instance.component
-        super().__init__(obj=component, project=component.project, user=None, **kwargs)
+        BulkEditForm.__init__(
+            self, obj=component, project=component.project, user=None, **kwargs
+        )
 
     def serialize_form(self):
         result = dict(self.cleaned_data)
@@ -500,7 +498,8 @@ class CDNJSForm(BaseAddonForm):
         initial="",
         help_text=gettext_lazy("Name of cookie which stores language preference."),
     )
-    files = forms.CharField(
+    # This shadows files from the Form class
+    files = forms.CharField(  # type: ignore[assignment]
         widget=forms.Textarea(),
         label=gettext_lazy("Extract strings from HTML files"),
         required=False,
@@ -555,7 +554,8 @@ class PseudolocaleAddonForm(BaseAddonForm):
         help_text=gettext_lazy("All strings in this translation will be overwritten"),
         queryset=Translation.objects.none(),
     )
-    prefix = forms.CharField(
+    # This shadows prefix from the Form class
+    prefix = forms.CharField(  # type: ignore[assignment]
         label=gettext_lazy("Fixed string prefix"),
         required=False,
         initial="",
