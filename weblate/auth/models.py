@@ -58,7 +58,7 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
-    from weblate.autu.models import PermissionResult
+    from weblate.auth.models import PermissionResult
 
 
 class Permission(models.Model):
