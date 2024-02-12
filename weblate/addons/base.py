@@ -16,7 +16,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
 from weblate.addons.events import AddonEvent
-from weblate.addons.forms import AddonFormMixin, BaseAddonForm
+from weblate.addons.forms import BaseAddonForm
 from weblate.addons.tasks import postconfigure_addon
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.tasks import perform_update
@@ -34,7 +34,7 @@ class BaseAddon:
     """Base class for Weblate add-ons."""
 
     events: tuple[AddonEvent, ...] = ()
-    settings_form: None | type[AddonFormMixin] = None
+    settings_form: None | type[BaseAddonForm] = None
     name = ""
     compat: dict[str, set[str]] = {}
     multiple = False
