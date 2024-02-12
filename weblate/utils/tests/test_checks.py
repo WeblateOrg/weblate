@@ -12,7 +12,7 @@ from weblate.utils.celery import is_celery_queue_long
 
 
 class CeleryQueueTest(SimpleTestCase):
-    databases = ["default"]
+    databases = {"default"}
 
     @staticmethod
     def set_cache(value):
