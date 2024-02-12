@@ -10,6 +10,7 @@ import sys
 import time
 from datetime import timedelta
 from itertools import chain
+from typing import cast
 
 from celery.exceptions import TimeoutError
 from django.apps import AppConfig
@@ -37,10 +38,7 @@ from .db import (
 )
 from .errors import init_error_collection
 from .site import check_domain, get_site_domain
-from .version import (
-    VERSION_BASE,
-    get_latest_version,
-)
+from .version import VERSION_BASE, get_latest_version
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
@@ -191,7 +189,7 @@ def check_cache(app_configs, **kwargs):
     """Check for sane caching."""
     errors = []
 
-    cache_backend = settings.CACHES["default"]["BACKEND"].split(".")[-1]
+    cache_backend = cast(str, settings.CACHES["default"]["BACKEND"]).split(".")[-1]
     if cache_backend not in GOOD_CACHE:
         errors.append(
             weblate_check(
