@@ -94,14 +94,12 @@ jobs:
         cache-dependency-path: '**/requirements*.txt'
     - name: Install pip dependencies
       run: ./ci/pip-install
-    - name: Build sdist
-      run: coverage run ./setup.py sdist
+    - name: build
+      run: coverage run -m build --sdist
     - name: Install sdist
       run: |
         pip install ./dist/*.tar.gz
         pip uninstall --yes Weblate
-    - name: Build wheel
-      run: coverage run ./setup.py bdist_wheel
     - name: Install wheel
       run: |
         pip install ./dist/*.whl
