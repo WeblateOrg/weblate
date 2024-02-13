@@ -65,7 +65,8 @@ def settings_backup():
         # Backup original settings
         if settings.SETTINGS_MODULE:
             settings_mod = import_module(settings.SETTINGS_MODULE)
-            copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
+            if settings_mod.__file__ is not None:
+                copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
         # Backup environment (to make restoring Docker easier)
         with open(data_dir("backups", "environment.yml"), "w") as handle:
@@ -144,7 +145,7 @@ def database_backup():
 
         try:
             subprocess.run(
-                cmd,
+                cmd,  # type: ignore[arg-type]
                 env=env,
                 capture_output=True,
                 stdin=subprocess.DEVNULL,
