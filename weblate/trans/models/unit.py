@@ -515,7 +515,8 @@ class Unit(models.Model, LoggerMixin):
         # Data for glossary integration
         self.glossary_terms = None
         self.glossary_positions: tuple[tuple[int, int], ...] = ()
-        self.import_data: dict[str, Any] = None
+        # Project backup integration
+        self.import_data: dict[str, Any] = {}
         # Store original attributes for change tracking
         self.old_unit = None
         if "state" in self.__dict__ and "source" in self.__dict__:

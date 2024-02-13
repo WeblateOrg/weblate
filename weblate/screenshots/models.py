@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import fnmatch
 import os
+from typing import Any, BinaryIO
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -82,6 +85,13 @@ class Screenshot(models.Model, UserDisplayMixin):
 
     def get_absolute_url(self):
         return reverse("screenshot", kwargs={"pk": self.pk})
+
+    def __init__(self, *args, **kwargs):
+        """Constructor to initialize some cache properties."""
+        super().__init__(*args, **kwargs)
+        # Project backup integration
+        self.import_data: dict[str, Any] = {}
+        self.import_handle: BinaryIO | None = None
 
     @property
     def filter_name(self):
