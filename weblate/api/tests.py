@@ -1343,6 +1343,11 @@ class ProjectAPITest(APIBaseTest):
             "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
+        self.assertEqual(
+            response.data["linked_component"],
+            "http://example.com"
+            + reverse("api:component-detail", kwargs=self.component_kwargs),
+        )
 
     def test_create_component_empty_push(self):
         repo_url = self.format_local_path(self.git_repo_path)
@@ -1369,6 +1374,11 @@ class ProjectAPITest(APIBaseTest):
             "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
+        self.assertEqual(
+            response.data["linked_component"],
+            "http://example.com"
+            + reverse("api:component-detail", kwargs=self.component_kwargs),
+        )
 
     def test_create_component_no_match(self):
         response = self.do_request(

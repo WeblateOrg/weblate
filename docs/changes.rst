@@ -22,6 +22,7 @@ Not yet released.
 * :ref:`num-words` support for CJK languages.
 * :ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`.
 * Nicer formatting of :ref:`glossary` tooltips.
+* :http:get:`/api/components/(string:project)/(string:component)/` now includes information about linked component.
 
 **Bug fixes**
 
