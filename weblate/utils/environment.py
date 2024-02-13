@@ -26,7 +26,10 @@ def get_env_str(
     else:
         if fallback_name and name not in os.environ:
             name = fallback_name
-        result = os.environ.get(name, default)
+        result = os.environ.get(
+            name,
+            default,  # type: ignore[arg-type]
+        )
     if required and not result:
         raise ValueError(f"{name} has to be configured!")
     return result
@@ -93,8 +96,8 @@ def get_env_credentials(
     """Parses VCS integration credentials."""
     if found_env_credentials := get_env_str(f"WEBLATE_{name}_CREDENTIALS"):
         return ast.literal_eval(found_env_credentials)
-    username = os.environ.get(f"WEBLATE_{name}_USERNAME")
-    token = os.environ.get(f"WEBLATE_{name}_TOKEN")
+    username = os.environ.get(f"WEBLATE_{name}_USERNAME", "")
+    token = os.environ.get(f"WEBLATE_{name}_TOKEN", "")
     host = os.environ.get(f"WEBLATE_{name}_HOST")
     organization = os.environ.get(f"WEBLATE_{name}_ORGANIZATION")
 
