@@ -3744,7 +3744,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @property
     def get_add_label(self):
         if self.is_glossary:
-            return gettext("Add new glossary term")
+            return gettext("Add term to glossary")
         return gettext("Add new translation string")
 
     def suggest_repo_link(self):
