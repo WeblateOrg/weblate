@@ -489,6 +489,12 @@ class ComponentSerializer(RemovableSerializer):
         required=False,
         allow_null=True,
     )
+    linked_component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("linked_component__project__slug", "linked_component__slug"),
+        strip_parts=1,
+        read_only=True,
+    )
 
     task_url = RelatedTaskField(lookup_field="background_task_id")
 
@@ -564,6 +570,7 @@ class ComponentSerializer(RemovableSerializer):
             "glossary_color",
             "disable_autoshare",
             "category",
+            "linked_component",
         )
         extra_kwargs = {
             "url": {
