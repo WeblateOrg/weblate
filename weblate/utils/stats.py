@@ -534,7 +534,11 @@ class TranslationStats(BaseStats):
             unit for unit in units if get_dismissed_checks_count(unit)
         ]
         units_suggestions = [unit for unit in units if get_suggestion_count(unit)]
-        units_nosuggestions = [unit for unit in units if not get_suggestion_count(unit)]
+        units_nosuggestions = [
+            unit
+            for unit in units
+            if not get_suggestion_count(unit) and get_state(unit) < STATE_TRANSLATED
+        ]
         units_approved_suggestions = [
             unit
             for unit in units
