@@ -44,6 +44,8 @@ from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
 from weblate.vcs.models import VCS_REGISTRY
 
+PROJECTBACKUP_PREFIX = "projectbackups"
+
 
 class BackupListDict(TypedDict):
     name: str
@@ -143,7 +145,7 @@ class ProjectBackup:
             handle.write(json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8"))
 
     def generate_filename(self, project):
-        backup_dir = data_dir("projectbackups", f"{project.pk}")
+        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{project.pk}")
         backup_info = os.path.join(backup_dir, "README.txt")
         timestamp = int(self.timestamp.timestamp())
         if not os.path.exists(backup_dir):
@@ -612,7 +614,7 @@ class ProjectBackup:
         return self.project
 
     def store_for_import(self):
-        backup_dir = data_dir("projectbackups", "import")
+        backup_dir = data_dir(PROJECTBACKUP_PREFIX, "import")
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
