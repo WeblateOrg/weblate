@@ -14,6 +14,7 @@ from pathlib import Path
 from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.db import IntegrityError, transaction
 from django.db.models import Count, F
@@ -605,9 +606,11 @@ def daily_update_checks():
 
 @app.task(trail=False)
 def cleanup_project_backups():
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
-    rootdir = data_dir("projectbackups")
+    rootdir = data_dir(PROJECTBACKUP_PREFIX)
     backup_cutoff = timezone.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
     for projectdir in glob(os.path.join(rootdir, "*")):
         if not os.path.isdir(projectdir):
@@ -648,6 +651,25 @@ def create_project_backup(pk):
 
     project = Project.objects.get(pk=pk)
     ProjectBackup().backup_project(project)
+
+
+@app.task(trail=False)
+def remove_project_backup_download(name: str):
+    if staticfiles_storage.exists(name):
+        staticfiles_storage.delete(name)
+
+
+@app.task(trail=False)
+def cleanup_project_backup_download():
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+
+    if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
+        return
+    cutoff = timezone.now() - timedelta(hours=2)
+    for name in staticfiles_storage.listdir(PROJECTBACKUP_PREFIX)[1]:
+        full_name = os.path.join(PROJECTBACKUP_PREFIX, name)
+        if staticfiles_storage.get_created_time(full_name) < cutoff:
+            staticfiles_storage.delete(full_name)
 
 
 @app.task(trail=False)
@@ -698,4 +720,9 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=2, minute=30),
         cleanup_project_backups.s(),
         name="cleanup-project-backups",
+    )
+    sender.add_periodic_task(
+        3600,
+        cleanup_project_backup_download.s(),
+        name="cleanup-project-backup-download",
     )

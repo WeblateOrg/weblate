@@ -612,7 +612,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return settings
 
     def list_backups(self) -> list[BackupListDict]:
-        backup_dir = data_dir("projectbackups", f"{self.pk}")
+        from weblate.trans.backups import PROJECTBACKUP_PREFIX
+
+        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{self.pk}")
         result = []
         if not os.path.exists(backup_dir):
             return result
