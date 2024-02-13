@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from shutil import copyfileobj
-from typing import Callable, TypedDict
+from typing import Any, BinaryIO, Callable, TypedDict
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -59,16 +59,16 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(self, filename: str | None = None):
-        self.data = {}
+    def __init__(self, filename: str | BinaryIO | None = None):
+        self.data: dict[str, Any] = {}
         self.filename = filename
         self.timestamp = timezone.now()
-        self.project = None
+        self.project: Project | None = None
         self.project_schema = load_schema("weblate-backup.schema.json")
         self.component_schema = load_schema("weblate-component.schema.json")
-        self.languages_cache = {}
-        self.labels_map = None
-        self.user_cache = {}
+        self.languages_cache: dict[str, Language] = {}
+        self.labels_map: dict[str, Label] = {}
+        self.user_cache: dict[str, User] = {}
 
     @property
     def supports_restore(self):
@@ -99,7 +99,7 @@ class ProjectBackup:
         if isinstance(value, datetime):
             return value.isoformat()
         if isinstance(value, FieldFile):
-            return os.path.basename(value.name)
+            return os.path.basename(value.name)  # type: ignore[type-var]
         return value
 
     def backup_object(
@@ -357,6 +357,8 @@ class ProjectBackup:
     def validate(self):
         if not self.supports_restore:
             raise ValueError("Restore is not supported on this database.")
+        if self.filename is None:
+            raise TypeError("Can not validate None file.")
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
             self.load_memory(zipfile)
@@ -535,7 +537,7 @@ class ProjectBackup:
                         ]
                     )
                 )
-            screenshot.import_handle.close()
+            screenshot.import_handle.close()  # type: ignore[union-attr]
 
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
@@ -553,6 +555,8 @@ class ProjectBackup:
 
     @transaction.atomic
     def restore(self, project_name: str, project_slug: str, user, billing=None):
+        if not isinstance(self.filename, str):
+            raise TypeError("Need a filename string.")
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
 
@@ -618,6 +622,8 @@ class ProjectBackup:
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
+        if self.filename is None or isinstance(self.filename, str):
+            raise TypeError("Need a file object.")
         # self.filename is a file object from upload here
         self.filename.seek(0)
         while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):

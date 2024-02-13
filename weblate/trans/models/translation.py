@@ -168,6 +168,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self.reason = ""
         self._invalidate_scheduled = False
         self.update_changes = []
+        # Project backup integration
+        self.original_id = -1
 
     @property
     def code(self):
