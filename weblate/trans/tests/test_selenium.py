@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, cast
 from unittest import SkipTest
 
 from django.conf import settings
+from django.contrib.staticfiles.handlers import StaticFilesHandler
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -82,6 +83,7 @@ class SeleniumTests(
         "test-images",
     )
     site_domain = ""
+    static_handler = StaticFilesHandler
 
     @contextmanager
     def wait_for_page_load(self, timeout=30):

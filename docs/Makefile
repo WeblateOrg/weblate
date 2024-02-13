@@ -22,7 +22,6 @@ run-selenium:
 	@rm -rf ../data-test ../test-images
 	@cd .. && \
 		. scripts/test-database.sh && \
-		./manage.py collectstatic --noinput && \
 		./manage.py test --keepdb --failfast weblate.trans.tests.test_selenium.SeleniumTests
 
 SCREENSHOTS = $(wildcard screenshots/*.webp)
