@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2024-02-01 18:59+0000\n"
+"POT-Creation-Date: 2024-02-14 14:18+0000\n"
 "PO-Revision-Date: 2024-02-02 07:34+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/"
@@ -41,7 +41,7 @@ msgid "This username is already taken. Please choose another."
 msgstr "Бұл қолданушы аты бос емес. Басқасын таңдаңыз."
 
 #: weblate/accounts/forms.py:115 weblate/accounts/forms.py:873
-#: weblate/auth/models.py:352 weblate/templates/auth/team.html:89
+#: weblate/auth/models.py:356 weblate/templates/auth/team.html:89
 #: weblate/templates/manage/users.html:46
 #: weblate/templates/trans/project-access.html:37
 msgid "Full name"
@@ -123,7 +123,7 @@ msgstr ""
 "Өтініш, бізге ағылшынша жазыңыз, әйтпесе сауалыңызды өңдей алмауымыз мүмкін."
 
 #: weblate/accounts/forms.py:423 weblate/accounts/templatetags/authnames.py:29
-#: weblate/auth/models.py:358 weblate/auth/models.py:995
+#: weblate/auth/models.py:362 weblate/auth/models.py:999
 #: weblate/templates/accounts/user.html:211
 #: weblate/templates/manage/users.html:47
 #: weblate/templates/trans/project-access.html:39 weblate/utils/fields.py:36
@@ -325,13 +325,13 @@ msgstr ""
 "Osy habarlandyrýlardy tek baqylanǵan jobalaryńyzdaǵy tárjimelenetin "
 "tilderińiz úshin ǵana alasyz."
 
-#: weblate/accounts/forms.py:872 weblate/auth/models.py:339
+#: weblate/accounts/forms.py:872 weblate/auth/models.py:343
 #: weblate/templates/auth/team.html:88 weblate/templates/manage/users.html:45
 #: weblate/templates/trans/project-access.html:36 weblate/utils/forms.py:62
 msgid "Username"
 msgstr "Пайдалануша аты"
 
-#: weblate/accounts/forms.py:874 weblate/auth/models.py:382
+#: weblate/accounts/forms.py:874 weblate/auth/models.py:386
 msgid "Date joined"
 msgstr "Қосылған күні"
 
@@ -718,7 +718,7 @@ msgstr ""
 msgid "Watched translations"
 msgstr "Бақыланатын аудармалар"
 
-#: weblate/accounts/models.py:512 weblate/auth/models.py:141
+#: weblate/accounts/models.py:512 weblate/auth/models.py:145
 #: weblate/templates/dashboard/user.html:21
 msgid "Component lists"
 msgstr "Құрамдас тізімдері"
@@ -832,7 +832,7 @@ msgstr ""
 "Baqylaý taqtasynda kórsetilmegen kezde quramdastar tizimin bólekteý áser "
 "etpeıdi."
 
-#: weblate/accounts/models.py:815 weblate/trans/views/edit.py:359
+#: weblate/accounts/models.py:815 weblate/trans/views/edit.py:362
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -1454,55 +1454,55 @@ msgstr "Tolyq óńdegish"
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
 
-#: weblate/addons/forms.py:42
+#: weblate/addons/forms.py:40
 msgid "Path of generated MO file"
 msgstr "Qurylǵan MO-faıldyń joly"
 
-#: weblate/addons/forms.py:46
+#: weblate/addons/forms.py:44
 msgid "If not specified, the location of the PO file will be used."
 msgstr "Kórsetilmese, PO-faıldyń jaıǵasymy paıdalanylady."
 
-#: weblate/addons/forms.py:50
+#: weblate/addons/forms.py:48
 #, fuzzy
 #| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
 msgstr "Joldy «Óńdeýge» retinde ımporttaý"
 
-#: weblate/addons/forms.py:53
+#: weblate/addons/forms.py:51
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
 
-#: weblate/addons/forms.py:79
+#: weblate/addons/forms.py:77
 msgid "Name of generated file"
 msgstr "Qurylǵan faıldyń aty"
 
-#: weblate/addons/forms.py:83
+#: weblate/addons/forms.py:81
 msgid "Content of generated file"
 msgstr "Qurylǵan faıldyń mazmuny"
 
-#: weblate/addons/forms.py:113 weblate/addons/forms.py:231
+#: weblate/addons/forms.py:111 weblate/addons/forms.py:229
 msgid "Long lines wrapping"
 msgstr "Uzyn joldardy oraltý"
 
-#: weblate/addons/forms.py:118
+#: weblate/addons/forms.py:116
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr "Joldardy 77-shi tańbada jáne jańa joldarda oraltý"
 
-#: weblate/addons/forms.py:123
+#: weblate/addons/forms.py:121
 #, fuzzy
 #| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr "Joldardy tek jańa joldarda oraltý"
 
-#: weblate/addons/forms.py:125 weblate/addons/forms.py:237
+#: weblate/addons/forms.py:123 weblate/addons/forms.py:235
 msgid "No line wrapping"
 msgstr "Joldardy oraltpaý"
 
-#: weblate/addons/forms.py:130
+#: weblate/addons/forms.py:128
 #, fuzzy
 #| msgid ""
 #| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
@@ -1514,146 +1514,146 @@ msgstr ""
 "Ádepkide gettext 77 tańbada jáne jańa joldar janynda joldardy orltady, --no-"
 "wrap parametrimen, bul tek jańa joldar janynda oraltady."
 
-#: weblate/addons/forms.py:138
+#: weblate/addons/forms.py:136
 msgid "Keep previous msgids of translated strings"
 msgstr "Tárjimelengen joldardyń aldyńǵy msgid mánin saqtaý"
 
-#: weblate/addons/forms.py:143
+#: weblate/addons/forms.py:141
 #, fuzzy
 #| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
 msgstr "Tárjimelengen jol sany"
 
-#: weblate/addons/forms.py:148
+#: weblate/addons/forms.py:146
 msgid "Use fuzzy matching"
 msgstr "Aıqyn emes sáıkestikti paıdalaný"
 
-#: weblate/addons/forms.py:154
+#: weblate/addons/forms.py:152
 msgid "Commit squashing"
 msgstr "Komıt qıystyrylýda"
 
-#: weblate/addons/forms.py:157
+#: weblate/addons/forms.py:155
 msgid "All commits into one"
 msgstr "Barlyq komıtter bireýine"
 
-#: weblate/addons/forms.py:158
+#: weblate/addons/forms.py:156
 msgid "Per language"
 msgstr "Til boıynsha"
 
-#: weblate/addons/forms.py:159
+#: weblate/addons/forms.py:157
 msgid "Per file"
 msgstr "Faıl boıynsha"
 
-#: weblate/addons/forms.py:160
+#: weblate/addons/forms.py:158
 msgid "Per author"
 msgstr "Avtor boıynsha"
 
-#: weblate/addons/forms.py:166
+#: weblate/addons/forms.py:164
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
-#: weblate/addons/forms.py:170
+#: weblate/addons/forms.py:168
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
 
-#: weblate/addons/forms.py:176
+#: weblate/addons/forms.py:174
 #, fuzzy
 #| msgid "Commit messages"
 msgid "Commit message"
 msgstr "Komit habarlary"
 
-#: weblate/addons/forms.py:180
+#: weblate/addons/forms.py:178
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
 
-#: weblate/addons/forms.py:197
+#: weblate/addons/forms.py:195
 msgid "Sort JSON keys"
 msgstr "JSON-kiltterin suruptaý"
 
-#: weblate/addons/forms.py:199
+#: weblate/addons/forms.py:197
 msgid "JSON indentation"
 msgstr "JSON sheginisi"
 
-#: weblate/addons/forms.py:202
+#: weblate/addons/forms.py:200
 #, fuzzy
 #| msgid "JSON indentation"
 msgid "JSON indentation style"
 msgstr "JSON sheginisi"
 
-#: weblate/addons/forms.py:204
+#: weblate/addons/forms.py:202
 msgid "Spaces"
 msgstr ""
 
-#: weblate/addons/forms.py:205
+#: weblate/addons/forms.py:203
 msgid "Tabs"
 msgstr ""
 
-#: weblate/addons/forms.py:216
+#: weblate/addons/forms.py:214
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
-#: weblate/addons/forms.py:224
+#: weblate/addons/forms.py:222
 #, fuzzy
 #| msgid "JSON indentation"
 msgid "YAML indentation"
 msgstr "JSON sheginisi"
 
-#: weblate/addons/forms.py:233
+#: weblate/addons/forms.py:231
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
 msgstr "Joldardy 77-shi tańbada jáne jańa joldarda oraltý"
 
-#: weblate/addons/forms.py:234
+#: weblate/addons/forms.py:232
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
 msgstr "Joldardy 77-shi tańbada jáne jańa joldarda oraltý"
 
-#: weblate/addons/forms.py:235
+#: weblate/addons/forms.py:233
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
 msgstr "Joldardy 77-shi tańbada jáne jańa joldarda oraltý"
 
-#: weblate/addons/forms.py:236
+#: weblate/addons/forms.py:234
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
 msgstr "Joldardy 77-shi tańbada jáne jańa joldarda oraltý"
 
-#: weblate/addons/forms.py:243
+#: weblate/addons/forms.py:241
 msgid "Line breaks"
 msgstr ""
 
-#: weblate/addons/forms.py:245
+#: weblate/addons/forms.py:243
 msgid "DOS (\\r\\n)"
 msgstr ""
 
-#: weblate/addons/forms.py:246
+#: weblate/addons/forms.py:244
 msgid "UNIX (\\n)"
 msgstr ""
 
-#: weblate/addons/forms.py:247
+#: weblate/addons/forms.py:245
 msgid "MAC (\\r)"
 msgstr ""
 
-#: weblate/addons/forms.py:256
+#: weblate/addons/forms.py:254
 msgid "Days to keep"
 msgstr "Saqtaıtyn kúnder"
 
-#: weblate/addons/forms.py:262
+#: weblate/addons/forms.py:260
 #, fuzzy
 #| msgid "Votes threshold"
 msgid "Voting threshold"
 msgstr "Daýystardyń shektik máni"
 
-#: weblate/addons/forms.py:266
+#: weblate/addons/forms.py:264
 #, fuzzy
 #| msgid ""
 #| "Votes threshold for removal. This field has no effect with voting "
@@ -1663,36 +1663,36 @@ msgstr ""
 "Alastaý úshin daýystardyń shektik máni. Saılaý óshirilgende bul óris áser "
 "etpeıdi."
 
-#: weblate/addons/forms.py:273
+#: weblate/addons/forms.py:271
 #, fuzzy
 #| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
 msgstr "Tárjimelik faıldaryna sáıkestendirý úshin qalypty órnek"
 
-#: weblate/addons/forms.py:277
+#: weblate/addons/forms.py:275
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:588
 #: weblate/trans/forms.py:1815 weblate/trans/models/component.py:483
 msgid "File format"
 msgstr "Faıl pishimi"
 
-#: weblate/addons/forms.py:283
+#: weblate/addons/forms.py:281
 msgid "Customize the component name"
 msgstr "Quramdas atyn teńsheý"
 
-#: weblate/addons/forms.py:288
+#: weblate/addons/forms.py:286
 msgid "Define the monolingual base filename"
 msgstr "Birtildi negizgi faıl atyn anyqtaý"
 
-#: weblate/addons/forms.py:291
+#: weblate/addons/forms.py:289
 msgid "Leave empty for bilingual translation files."
 msgstr "Ekitildi tárjimelik faıldar úshin bos qaldyryńyz."
 
-#: weblate/addons/forms.py:294
+#: weblate/addons/forms.py:292
 msgid "Define the base file for new translations"
 msgstr "Jańa tárjimeler úshin negizgi faıldy anyqtaý"
 
-#: weblate/addons/forms.py:298 weblate/trans/models/component.py:477
+#: weblate/addons/forms.py:296 weblate/trans/models/component.py:477
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1700,7 +1700,7 @@ msgstr ""
 "Jańa tárjimelerdi jasaý úshin qoldanylatyn faıldyń aty. Gettext úshin .pot "
 "faılyn tańdańyz."
 
-#: weblate/addons/forms.py:303
+#: weblate/addons/forms.py:301
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:461
 #, fuzzy
@@ -1708,18 +1708,18 @@ msgstr ""
 msgid "Intermediate language file"
 msgstr "Jańa til týraly saýal"
 
-#: weblate/addons/forms.py:307 weblate/trans/models/component.py:465
+#: weblate/addons/forms.py:305 weblate/trans/models/component.py:465
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
 
-#: weblate/addons/forms.py:314 weblate/trans/models/component.py:688
+#: weblate/addons/forms.py:312 weblate/trans/models/component.py:688
 msgid "Language filter"
 msgstr "Til súzgisi"
 
-#: weblate/addons/forms.py:319
+#: weblate/addons/forms.py:317
 #, fuzzy
 #| msgid ""
 #| "Regular expression to filter translation against when scanning for "
@@ -1730,85 +1730,85 @@ msgid ""
 msgstr ""
 "Faıl búrkenishi úshin skanerleý kezinde tárjimeni súzgileýde qalypty órnek."
 
-#: weblate/addons/forms.py:325
+#: weblate/addons/forms.py:323
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr ""
 
-#: weblate/addons/forms.py:331
+#: weblate/addons/forms.py:329
 #, fuzzy
 #| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "Qoldanysta joq faıldarǵa arnalǵan quramdastardy alastaý"
 
-#: weblate/addons/forms.py:334
+#: weblate/addons/forms.py:332
 msgid "I confirm the above matches look correct"
 msgstr "Men, joǵaryda kórsetilgen sáıkester durys ekendigin, rastaımyn"
 
-#: weblate/addons/forms.py:391 weblate/trans/models/component.py:2842
+#: weblate/addons/forms.py:389 weblate/trans/models/component.py:2842
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Negizgi faılsyz birtildi tárjimeni paıdalana almaısyz."
 
-#: weblate/addons/forms.py:399 weblate/trans/models/component.py:2776
+#: weblate/addons/forms.py:397 weblate/trans/models/component.py:2776
 msgid "You can not use a base file for bilingual translation."
 msgstr "Negizgi faıldy ekitildi tárjime úshin paıdalana almaısyz."
 
-#: weblate/addons/forms.py:413
+#: weblate/addons/forms.py:411
 #, fuzzy
 #| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
 msgstr "Sáıkes kelgen quramdastardy saraptap rastaý."
 
-#: weblate/addons/forms.py:441
+#: weblate/addons/forms.py:439
 msgid "Please include component markup in the template."
 msgstr "Úlgide quramdas belgileýin qamtyńyz."
 
-#: weblate/addons/forms.py:484
+#: weblate/addons/forms.py:482
 #, fuzzy
 #| msgid "Translation has been removed."
 msgid "Translation threshold"
 msgstr "Tárjime alastaldy."
 
-#: weblate/addons/forms.py:489
+#: weblate/addons/forms.py:487
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Threshold for inclusion of translations."
 msgstr "Jańa tárjimeler úshin negizgi faıl"
 
-#: weblate/addons/forms.py:492
+#: weblate/addons/forms.py:490
 msgid "CSS selector"
 msgstr ""
 
-#: weblate/addons/forms.py:495
+#: weblate/addons/forms.py:493
 msgid "CSS selector to detect localizable elements."
 msgstr ""
 
-#: weblate/addons/forms.py:498
+#: weblate/addons/forms.py:496
 #, fuzzy
 #| msgid "Language name"
 msgid "Language cookie name"
 msgstr "Til aty"
 
-#: weblate/addons/forms.py:501
+#: weblate/addons/forms.py:499
 msgid "Name of cookie which stores language preference."
 msgstr ""
 
-#: weblate/addons/forms.py:505
+#: weblate/addons/forms.py:504
 msgid "Extract strings from HTML files"
 msgstr ""
 
-#: weblate/addons/forms.py:508
+#: weblate/addons/forms.py:507
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
 
-#: weblate/addons/forms.py:536
+#: weblate/addons/forms.py:535
 #, fuzzy, python-format
 #| msgid "Failed to parse JSON file!"
 msgid "Could not parse CSS selector: %s"
 msgstr "JSON faılyn taldaý sátsiz aıaqtaldy!"
 
-#: weblate/addons/forms.py:548 weblate/billing/models.py:284
+#: weblate/addons/forms.py:547 weblate/billing/models.py:284
 #: weblate/templates/snippets/query-builder.html:14
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translation.html:113 weblate/trans/admin.py:73
@@ -1816,13 +1816,13 @@ msgstr "JSON faılyn taldaý sátsiz aıaqtaldy!"
 msgid "Source strings"
 msgstr "Qaınar joldary"
 
-#: weblate/addons/forms.py:553
+#: weblate/addons/forms.py:552
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Target translation"
 msgstr "Weblate tárjimeleri"
 
-#: weblate/addons/forms.py:555
+#: weblate/addons/forms.py:554
 #, fuzzy
 #| msgid "The following translation components will be also removed:"
 msgid "All strings in this translation will be overwritten"
@@ -2109,7 +2109,7 @@ msgstr ""
 "JSON shyǵarý áreketin teńsheý múmkindigin beredi, mysaly, sheginis nemese "
 "suryptaý."
 
-#: weblate/api/views.py:1745 weblate/auth/models.py:798
+#: weblate/api/views.py:1748 weblate/auth/models.py:802
 #: weblate/checks/views.py:221 weblate/checks/views.py:228
 #: weblate/templates/accounts/user.html:264 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -2120,13 +2120,13 @@ msgstr ""
 msgid "Project"
 msgstr "Joba"
 
-#: weblate/api/views.py:1753 weblate/trans/forms.py:1775
+#: weblate/api/views.py:1756 weblate/trans/forms.py:1775
 #: weblate/trans/models/announcement.py:95 weblate/trans/models/category.py:54
 #: weblate/trans/models/component.py:339
 msgid "Category"
 msgstr "Sanat"
 
-#: weblate/api/views.py:1761 weblate/checks/views.py:223
+#: weblate/api/views.py:1764 weblate/checks/views.py:223
 #: weblate/checks/views.py:230
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-project.html:57
@@ -2139,11 +2139,11 @@ msgstr "Sanat"
 msgid "Component"
 msgstr "Quramdas"
 
-#: weblate/api/views.py:1769
+#: weblate/api/views.py:1772
 msgid "User"
 msgstr "Paıdalanýshy"
 
-#: weblate/api/views.py:1777 weblate/fonts/models.py:143
+#: weblate/api/views.py:1780 weblate/fonts/models.py:143
 #: weblate/templates/category.html:104 weblate/templates/component.html:122
 #: weblate/templates/lang/language_form.html:15
 #: weblate/templates/languages.html:12 weblate/templates/project.html:149
@@ -2164,7 +2164,7 @@ msgstr "Derbes aqpar"
 msgid "Authentication"
 msgstr "Túpnusqalyqty rastaý"
 
-#: weblate/auth/admin.py:157 weblate/auth/models.py:81
+#: weblate/auth/admin.py:157 weblate/auth/models.py:85
 msgid "Permissions"
 msgstr "Ruqsattar"
 
@@ -2515,168 +2515,177 @@ msgstr "Aıqyn emes sáıkestikti paıdalaný"
 msgid "Manage component lists"
 msgstr "Toptardy basqarý (ǵalamdyq deńgeıde)"
 
-#: weblate/auth/data.py:170
+#. Translators: Permission name
+#: weblate/auth/data.py:141
+#: weblate/templates/snippets/project/billing-trial.html:7
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage languages"
+msgid "Manage billing"
+msgstr "Tilderdi basqarý"
+
+#: weblate/auth/data.py:172
 msgctxt "Access-control role"
 msgid "Administration"
 msgstr "Ákimshilik"
 
-#: weblate/auth/data.py:174
+#: weblate/auth/data.py:176
 msgctxt "Access-control role"
 msgid "Edit source"
 msgstr "Qaınardy óńdeý"
 
-#: weblate/auth/data.py:177
+#: weblate/auth/data.py:179
 msgctxt "Access-control role"
 msgid "Add suggestion"
 msgstr "Usynysty ústeý"
 
-#: weblate/auth/data.py:179
+#: weblate/auth/data.py:181
 msgctxt "Access-control role"
 msgid "Access repository"
 msgstr "Repozıtorıǵa qatynaý"
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access-control role"
 msgid "Manage glossary"
 msgstr "Glosarıdy basqarý"
 
-#: weblate/auth/data.py:187
+#: weblate/auth/data.py:189
 msgctxt "Access-control role"
 msgid "Power user"
 msgstr "Tájirıbeli paıdalanýshy"
 
-#: weblate/auth/data.py:199
+#: weblate/auth/data.py:201
 msgctxt "Access-control role"
 msgid "Review strings"
 msgstr "Joldardy saraptaý"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access-control role"
 msgid "Translate"
 msgstr "Tárjimeleý"
 
-#: weblate/auth/data.py:204
+#: weblate/auth/data.py:206
 msgctxt "Access-control role"
 msgid "Manage languages"
 msgstr "Tilderdi basqarý"
 
-#: weblate/auth/data.py:208
+#: weblate/auth/data.py:210
 msgctxt "Access-control role"
 msgid "Automatic translation"
 msgstr "Avtomatty tárjime"
 
-#: weblate/auth/data.py:212
+#: weblate/auth/data.py:214
 msgctxt "Access-control role"
 msgid "Manage translation memory"
 msgstr "Tárjimelik jadty basqarý"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 msgctxt "Access-control role"
 msgid "Manage screenshots"
 msgstr "Ekran sýretterin basqarý"
 
-#: weblate/auth/data.py:220
+#: weblate/auth/data.py:222
 msgctxt "Access-control role"
 msgid "Manage repository"
 msgstr "Repozıtorıdy basqarý"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Access-control role"
 msgid "Billing"
 msgstr "Bılıń"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 #, fuzzy
 #| msgid "Additional context"
 msgctxt "Access-control role"
 msgid "Add new projects"
 msgstr "Qosynsha mátinmáni"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Access-control group"
 msgid "Guests"
 msgstr "Qonaqtar"
 
-#: weblate/auth/data.py:234
+#: weblate/auth/data.py:236
 msgctxt "Access-control group"
 msgid "Viewers"
 msgstr "Qaraýshylar"
 
-#: weblate/auth/data.py:236
+#: weblate/auth/data.py:238
 msgctxt "Access-control group"
 msgid "Users"
 msgstr "Paıdalanushylar"
 
-#: weblate/auth/data.py:241
+#: weblate/auth/data.py:243
 msgctxt "Access-control group"
 msgid "Reviewers"
 msgstr "Sarapshylar"
 
-#: weblate/auth/data.py:246
+#: weblate/auth/data.py:248
 msgctxt "Access-control group"
 msgid "Managers"
 msgstr "Basqarýshylar"
 
-#: weblate/auth/data.py:251
+#: weblate/auth/data.py:253
 #, fuzzy
 #| msgid "Project Information"
 msgctxt "Access-control group"
 msgid "Project creators"
 msgstr "Joba aqparaty"
 
-#: weblate/auth/data.py:260
+#: weblate/auth/data.py:262
 msgctxt "Per-project access-control group"
 msgid "Administration"
 msgstr "Ákimshilik"
 
-#: weblate/auth/data.py:262
+#: weblate/auth/data.py:264
 msgctxt "Per-project access-control group"
 msgid "Review"
 msgstr "Saraptaý"
 
-#: weblate/auth/data.py:263
+#: weblate/auth/data.py:265
 msgctxt "Per-project access-control group"
 msgid "Translate"
 msgstr "Tárjimeleý"
 
-#: weblate/auth/data.py:264
+#: weblate/auth/data.py:266
 #, fuzzy
 #| msgid "Source"
 msgctxt "Per-project access-control group"
 msgid "Sources"
 msgstr "Qaınar"
 
-#: weblate/auth/data.py:265
+#: weblate/auth/data.py:267
 msgctxt "Per-project access-control group"
 msgid "Languages"
 msgstr "Tilder"
 
-#: weblate/auth/data.py:266
+#: weblate/auth/data.py:268
 msgctxt "Per-project access-control group"
 msgid "Glossary"
 msgstr "Glosarı"
 
-#: weblate/auth/data.py:268
+#: weblate/auth/data.py:270
 msgctxt "Per-project access-control group"
 msgid "Memory"
 msgstr "Jad"
 
-#: weblate/auth/data.py:271
+#: weblate/auth/data.py:273
 msgctxt "Per-project access-control group"
 msgid "Screenshots"
 msgstr "Ekran sýretteri"
 
-#: weblate/auth/data.py:274
+#: weblate/auth/data.py:276
 msgctxt "Per-project access-control group"
 msgid "Automatic translation"
 msgstr "Avtomatty tárjime"
 
-#: weblate/auth/data.py:276
+#: weblate/auth/data.py:278
 msgctxt "Per-project access-control group"
 msgid "VCS"
 msgstr "Nusqalardy baqylaý júıesi (VCS)"
 
-#: weblate/auth/data.py:277
+#: weblate/auth/data.py:279
 msgctxt "Per-project access-control group"
 msgid "Billing"
 msgstr "Bılıń"
@@ -2693,13 +2702,13 @@ msgstr "Растау хаты осы мекенжайға келеді."
 msgid "Cannot change this on a built-in team."
 msgstr "Demo úshin túpnusqalyq rastamasyn ózgertý múmkin emes!"
 
-#: weblate/auth/models.py:71
+#: weblate/auth/models.py:75
 #, fuzzy, python-format
 #| msgid "User with reviewer permissions"
 msgid "%s (site-wide permission)"
 msgstr "Sarapshy ruqsattary bar paıdalanýshy"
 
-#: weblate/auth/models.py:77 weblate/auth/models.py:101
+#: weblate/auth/models.py:81 weblate/auth/models.py:105
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
 #: weblate/templates/manage/performance.html:72
@@ -2709,49 +2718,49 @@ msgstr "Sarapshy ruqsattary bar paıdalanýshy"
 msgid "Name"
 msgstr "Aty"
 
-#: weblate/auth/models.py:83
+#: weblate/auth/models.py:87
 msgid "Choose permissions granted to this role."
 msgstr "Osy rólge berilgen ruqsattardy tańdańyz."
 
-#: weblate/auth/models.py:104 weblate/templates/accounts/profile.html:232
+#: weblate/auth/models.py:108 weblate/templates/accounts/profile.html:232
 #: weblate/templates/auth/team.html:43 weblate/templates/manage/teams.html:26
 #: weblate/templates/trans/project-access.html:192
 msgid "Roles"
 msgstr "Rólder"
 
-#: weblate/auth/models.py:106
+#: weblate/auth/models.py:110
 msgid "Choose roles granted to this group."
 msgstr "Osy topqa berilgen rólderdi tańdańyz."
 
-#: weblate/auth/models.py:118
+#: weblate/auth/models.py:122
 msgid "Project selection"
 msgstr "Joba bólekteýi"
 
-#: weblate/auth/models.py:120 weblate/auth/models.py:148
+#: weblate/auth/models.py:124 weblate/auth/models.py:152
 msgid "As defined"
 msgstr "Anyqtalǵandaı"
 
-#: weblate/auth/models.py:121 weblate/templates/auth/teams-projects.html:4
+#: weblate/auth/models.py:125 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
 msgstr "Barlyq jobalar"
 
-#: weblate/auth/models.py:122 weblate/templates/auth/teams-projects.html:6
+#: weblate/auth/models.py:126 weblate/templates/auth/teams-projects.html:6
 msgid "All public projects"
 msgstr "Barlyq jarıa jobalar"
 
-#: weblate/auth/models.py:123 weblate/templates/auth/teams-projects.html:8
+#: weblate/auth/models.py:127 weblate/templates/auth/teams-projects.html:8
 msgid "All protected projects"
 msgstr "Barlyq qorǵalǵan jobalar"
 
-#: weblate/auth/models.py:124
+#: weblate/auth/models.py:128
 msgid "From component list"
 msgstr "Quramdas tiziminen"
 
-#: weblate/auth/models.py:129 weblate/billing/admin.py:58
+#: weblate/auth/models.py:133 weblate/billing/admin.py:58
 #: weblate/billing/models.py:276 weblate/templates/accounts/profile.html:233
 #: weblate/templates/auth/team.html:51 weblate/templates/base.html:133
 #: weblate/templates/billing/list.html:9
-#: weblate/templates/billing/status.html:95 weblate/templates/language.html:19
+#: weblate/templates/billing/status.html:98 weblate/templates/language.html:19
 #: weblate/templates/manage/teams.html:28
 #: weblate/templates/manage/users.html:48 weblate/templates/projects.html:5
 #: weblate/templates/snippets/info.html:406
@@ -2760,7 +2769,7 @@ msgstr "Quramdas tiziminen"
 msgid "Projects"
 msgstr "Jobalar"
 
-#: weblate/auth/models.py:133 weblate/templates/accounts/profile.html:235
+#: weblate/auth/models.py:137 weblate/templates/accounts/profile.html:235
 #: weblate/templates/auth/team.html:55
 #: weblate/templates/category-project.html:14
 #: weblate/templates/category.html:28 weblate/templates/component-list.html:15
@@ -2772,22 +2781,22 @@ msgstr "Jobalar"
 msgid "Components"
 msgstr "Quramdastar"
 
-#: weblate/auth/models.py:136
+#: weblate/auth/models.py:140
 #, fuzzy
 #| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
 msgstr "Kezkelgen jobada quramdastardy jasaýǵa ruqsatyńyz joq."
 
-#: weblate/auth/models.py:146
+#: weblate/auth/models.py:150
 msgid "Language selection"
 msgstr "Tildi bólekteý"
 
-#: weblate/auth/models.py:149 weblate/templates/auth/teams-languages.html:4
+#: weblate/auth/models.py:153 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1075 weblate/trans/forms.py:1265
 msgid "All languages"
 msgstr "Barlyq tilder"
 
-#: weblate/auth/models.py:154 weblate/billing/models.py:304
+#: weblate/auth/models.py:158 weblate/billing/models.py:304
 #: weblate/lang/views.py:46 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:39
 #: weblate/templates/accounts/profile.html:234
@@ -2807,23 +2816,23 @@ msgstr "Barlyq tilder"
 msgid "Languages"
 msgstr "Tilder"
 
-#: weblate/auth/models.py:158
+#: weblate/auth/models.py:162
 #, fuzzy
 #| msgid "Internal Server Error"
 msgid "Internal Weblate group"
 msgstr "Serverdin ishki qatesi"
 
-#: weblate/auth/models.py:163
+#: weblate/auth/models.py:167
 #, fuzzy
 #| msgid "Administrators"
 msgid "Team administrators"
 msgstr "Ákimshiler"
 
-#: weblate/auth/models.py:166
+#: weblate/auth/models.py:170
 msgid "The administrator can add or remove users from a team."
 msgstr ""
 
-#: weblate/auth/models.py:343 weblate/utils/forms.py:59
+#: weblate/auth/models.py:347 weblate/utils/forms.py:59
 #: weblate/utils/validators.py:168
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -2832,49 +2841,49 @@ msgstr ""
 "Paıdalanýshy aty tek áripter, sıfrlar nemese kelesi tańbalardan turýy "
 "múmkin: @. + - _"
 
-#: weblate/auth/models.py:348
+#: weblate/auth/models.py:352
 msgid "A user with that username already exists."
 msgstr "Osyndaı atymen paıdalanýshy áldeqashan bar."
 
-#: weblate/auth/models.py:364 weblate/auth/models.py:999
+#: weblate/auth/models.py:368 weblate/auth/models.py:1003
 #, fuzzy
 #| msgid "superuser status"
 msgid "Superuser status"
 msgstr "astam paıdalanýshy mártebesi"
 
-#: weblate/auth/models.py:366 weblate/auth/models.py:1001
+#: weblate/auth/models.py:370 weblate/auth/models.py:1005
 #, fuzzy
 #| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
 msgstr "Sarapshy ruqsattary bar paıdalanýshy"
 
-#: weblate/auth/models.py:369 weblate/billing/models.py:157
+#: weblate/auth/models.py:373 weblate/billing/models.py:157
 #: weblate/templates/check_list.html:29
 msgid "Active"
 msgstr "Belsendi"
 
-#: weblate/auth/models.py:371
+#: weblate/auth/models.py:375
 msgid "Mark user as inactive instead of removing."
 msgstr "Paıdalanýshyny alastaý ornyna belsendi emes dep belgileý."
 
-#: weblate/auth/models.py:379 weblate/templates/trans/project-access.html:283
+#: weblate/auth/models.py:383 weblate/templates/trans/project-access.html:283
 #, fuzzy
 #| msgid "Expired"
 msgid "Expires"
 msgstr "Merzimi aıaqtalǵan"
 
-#: weblate/auth/models.py:386 weblate/templates/accounts/profile.html:29
+#: weblate/auth/models.py:390 weblate/templates/accounts/profile.html:29
 #: weblate/templates/auth/team.html:15 weblate/templates/manage/teams.html:11
 #: weblate/templates/manage/users.html:49
 #: weblate/templates/trans/project-access.html:20
 #: weblate/templates/trans/project-access.html:42
 #: weblate/templates/trans/project-access.html:185
 #: weblate/templates/trans/project-access.html:284 weblate/trans/forms.py:2768
-#: weblate/wladmin/views.py:75
+#: weblate/wladmin/views.py:76
 msgid "Teams"
 msgstr ""
 
-#: weblate/auth/models.py:389 weblate/auth/models.py:989
+#: weblate/auth/models.py:393 weblate/auth/models.py:993
 #, fuzzy
 #| msgid ""
 #| "The user is granted all permissions included in membership of these "
@@ -2884,43 +2893,43 @@ msgid ""
 msgstr ""
 "Paıdalanýshyǵa osy toptardyń músheligine qamtylǵan barlyq ruqsattar beriledi."
 
-#: weblate/auth/models.py:769
+#: weblate/auth/models.py:773
 #, fuzzy
 #| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
 msgstr ""
 "Paıdalanýshy e-poshtasyna sáıkestendirý úshin paıdalanylatyn qalypty órnek."
 
-#: weblate/auth/models.py:773
+#: weblate/auth/models.py:777
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
 
-#: weblate/auth/models.py:778
+#: weblate/auth/models.py:782
 msgid "Group to assign"
 msgstr "Taǵaıyndaý úshin top"
 
-#: weblate/auth/models.py:793 weblate/trans/forms.py:1217
+#: weblate/auth/models.py:797 weblate/trans/forms.py:1217
 #, fuzzy
 #| msgid "User to add"
 msgid "User to block"
 msgstr "Ústelinetin paıdalanýshy"
 
-#: weblate/auth/models.py:800
+#: weblate/auth/models.py:804
 #, fuzzy
 #| msgid "Support Weblate"
 msgid "Block expiry"
 msgstr "Weblate qoldaý"
 
-#: weblate/auth/models.py:980 weblate/trans/forms.py:1198
+#: weblate/auth/models.py:984 weblate/trans/forms.py:1198
 msgid "User to add"
 msgstr "Ústelinetin paıdalanýshy"
 
-#: weblate/auth/models.py:982 weblate/trans/forms.py:1201
+#: weblate/auth/models.py:986 weblate/trans/forms.py:1201
 #: weblate/trans/forms.py:1219
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 
-#: weblate/auth/models.py:987 weblate/templates/accounts/profile.html:231
+#: weblate/auth/models.py:991 weblate/templates/accounts/profile.html:231
 msgid "Team"
 msgstr ""
 
@@ -2957,9 +2966,9 @@ msgstr "Tárjimelerdi saqtaý úshin kirińiz."
 msgid "Insufficient privileges for approving translations."
 msgstr "Tárjimelerdi saqtaý úshin ókilettilikter jetkiliksiz."
 
-#: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:415
-#: weblate/trans/views/edit.py:437 weblate/trans/views/edit.py:457
-#: weblate/trans/views/edit.py:975
+#: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
+#: weblate/trans/views/edit.py:978
 msgid "Insufficient privileges for saving translations."
 msgstr "Tárjimelerdi saqtaý úshin ókilettilikter jetkiliksiz."
 
@@ -3071,7 +3080,7 @@ msgid "Accepted invitation to the %s team."
 msgstr "Ákimshilik"
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
-#: weblate/templates/billing/status.html:106
+#: weblate/templates/billing/status.html:109
 msgid "Owners"
 msgstr "Ieler"
 
@@ -3084,7 +3093,7 @@ msgid ""
 "Please describe the project and your relation to it, preferably in English."
 msgstr "Жоба мен оған деген қатынасыңызды ағылшынша сипаттап беріңіз."
 
-#: weblate/billing/models.py:147 weblate/templates/billing/detail.html:21
+#: weblate/billing/models.py:147 weblate/templates/billing/detail.html:24
 msgid "Billing plan"
 msgstr "Tarıftik jospar"
 
@@ -3111,13 +3120,13 @@ msgid "Billing state"
 msgstr "Bılıń kúıi"
 
 #: weblate/billing/models.py:167 weblate/templates/billing/list.html:13
-#: weblate/templates/billing/status.html:24
+#: weblate/templates/billing/status.html:27
 msgid "Trial expiry date"
 msgstr "Synaq merzimi aıaqtalý kúni"
 
 #: weblate/billing/models.py:173 weblate/templates/billing/list.html:16
 #: weblate/templates/billing/state-snippet.html:13
-#: weblate/templates/billing/status.html:35
+#: weblate/templates/billing/status.html:38
 #: weblate/templates/manage/billing.html:17
 msgid "Scheduled removal"
 msgstr "Josparlanǵan alastaý"
@@ -3148,7 +3157,7 @@ msgstr "Qaınar sózderi"
 msgid "Number of strings"
 msgstr "Jol sany"
 
-#: weblate/billing/models.py:337 weblate/templates/billing/status.html:82
+#: weblate/billing/models.py:337 weblate/templates/billing/status.html:85
 msgid "Last invoice"
 msgstr "Sońǵy ınvoıs"
 
@@ -4625,11 +4634,11 @@ msgstr ""
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:453 weblate/formats/ttkit.py:1454
+#: weblate/formats/exporters.py:453 weblate/formats/ttkit.py:1460
 msgid "JSON nested structure file"
 msgstr "JSON kiristirilgen qurylymdyq faıly"
 
-#: weblate/formats/exporters.py:462 weblate/formats/ttkit.py:1397
+#: weblate/formats/exporters.py:462 weblate/formats/ttkit.py:1403
 msgid "Android String Resource"
 msgstr "Android jol qor kózi"
 
@@ -4649,261 +4658,261 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file (UTF-8)"
 msgstr "Qarapaıym CSV faıly"
 
-#: weblate/formats/ttkit.py:1168
+#: weblate/formats/ttkit.py:1174
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "gettext PO file"
 msgstr "Gettext PO faıly"
 
-#: weblate/formats/ttkit.py:1181
+#: weblate/formats/ttkit.py:1187
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "gettext PO file (monolingual)"
 msgstr "Gettext PO faıl (birtildi)"
 
-#: weblate/formats/ttkit.py:1205
+#: weblate/formats/ttkit.py:1211
 #, fuzzy
 #| msgid "Qt Linguist Translation File"
 msgid "Qt Linguist translation file"
 msgstr "Qt Linguist tárjimelik faıly"
 
-#: weblate/formats/ttkit.py:1219
+#: weblate/formats/ttkit.py:1225
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "XLIFF 1.2 translation file"
 msgstr "XLIFF tárjimelik faıly"
 
-#: weblate/formats/ttkit.py:1249
+#: weblate/formats/ttkit.py:1255
 msgid "XLIFF 1.2 with placeables support"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1262
 #, fuzzy
 #| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF (gettext keńeıtimderi bar)"
 
-#: weblate/formats/ttkit.py:1287
+#: weblate/formats/ttkit.py:1293
 #, fuzzy
 #| msgid "iOS Strings (UTF-8)"
 msgid "iOS strings (UTF-16)"
 msgstr "iOS joldary (UTF-8)"
 
-#: weblate/formats/ttkit.py:1296
+#: weblate/formats/ttkit.py:1302
 #, fuzzy
 #| msgid "iOS Strings (UTF-8)"
 msgid "iOS strings (UTF-8)"
 msgstr "iOS joldary (UTF-8)"
 
-#: weblate/formats/ttkit.py:1303
+#: weblate/formats/ttkit.py:1309
 msgid "Java Properties (UTF-8)"
 msgstr "Java sıpattary (UTF-8)"
 
-#: weblate/formats/ttkit.py:1312
+#: weblate/formats/ttkit.py:1318
 msgid "Java Properties (UTF-16)"
 msgstr "Java sıpattary (UTF-16)"
 
-#: weblate/formats/ttkit.py:1322
+#: weblate/formats/ttkit.py:1328
 #, fuzzy
 #| msgid "Java Properties (ISO-8859-1)"
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Java sipattary (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1334
+#: weblate/formats/ttkit.py:1340
 #, fuzzy
 #| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "Joomla tildik faıly"
 
-#: weblate/formats/ttkit.py:1343
+#: weblate/formats/ttkit.py:1349
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "GWT properties (UTF-8)"
 msgstr "Java sıpattary (UTF-8)"
 
-#: weblate/formats/ttkit.py:1353
+#: weblate/formats/ttkit.py:1359
 #, fuzzy
 #| msgid "Java Properties (ISO-8859-1)"
 msgid "GWT properties (ISO-8859-1)"
 msgstr "Java sipattary (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1359
+#: weblate/formats/ttkit.py:1365
 msgid "PHP strings"
 msgstr "PHP joldary"
 
-#: weblate/formats/ttkit.py:1378
+#: weblate/formats/ttkit.py:1384
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Laravel PHP strings"
 msgstr "PHP joldary"
 
-#: weblate/formats/ttkit.py:1385
+#: weblate/formats/ttkit.py:1391
 #, fuzzy
 #| msgid ".Net resource file"
 msgid ".NET resource file"
 msgstr ".Net qor kózi faıly"
 
-#: weblate/formats/ttkit.py:1417
+#: weblate/formats/ttkit.py:1423
 #, fuzzy
 #| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
 msgstr "Android jol qor kózi"
 
-#: weblate/formats/ttkit.py:1430
+#: weblate/formats/ttkit.py:1436
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not parse the key: %s"
 msgstr "Kilt jasaý oryndalmady: %s"
 
-#: weblate/formats/ttkit.py:1434
+#: weblate/formats/ttkit.py:1440
 msgid "JSON file"
 msgstr "JSON faıly"
 
-#: weblate/formats/ttkit.py:1461
+#: weblate/formats/ttkit.py:1467
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON faıly"
 
-#: weblate/formats/ttkit.py:1471
+#: weblate/formats/ttkit.py:1477
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
 msgstr "i18next JSON faıly"
 
-#: weblate/formats/ttkit.py:1481
+#: weblate/formats/ttkit.py:1487
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "i18next JSON file v4"
 msgstr "i18next JSON faıly"
 
-#: weblate/formats/ttkit.py:1487
+#: weblate/formats/ttkit.py:1493
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n v1 JSON file"
 msgstr "i18next JSON faıly"
 
-#: weblate/formats/ttkit.py:1495
+#: weblate/formats/ttkit.py:1501
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n v2 JSON file"
 msgstr "i18next JSON faıly"
 
-#: weblate/formats/ttkit.py:1503
+#: weblate/formats/ttkit.py:1509
 #, fuzzy
 #| msgid "RC file"
 msgid "ARB file"
 msgstr "RC faıly"
 
-#: weblate/formats/ttkit.py:1512
+#: weblate/formats/ttkit.py:1518
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "gotext JSON file"
 msgstr "Gettext PO faıly"
 
-#: weblate/formats/ttkit.py:1521
+#: weblate/formats/ttkit.py:1527
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "Format.JS JSON file"
 msgstr "Gettext PO faıly"
 
-#: weblate/formats/ttkit.py:1529
+#: weblate/formats/ttkit.py:1535
 msgid "CSV file"
 msgstr "CSV faıly"
 
-#: weblate/formats/ttkit.py:1617
+#: weblate/formats/ttkit.py:1623
 #, fuzzy
 #| msgid "CSV file"
 msgid "CSV file (UTF-8)"
 msgstr "CSV faıly"
 
-#: weblate/formats/ttkit.py:1624
+#: weblate/formats/ttkit.py:1630
 msgid "Simple CSV file"
 msgstr "Qarapaıym CSV faıly"
 
-#: weblate/formats/ttkit.py:1642
+#: weblate/formats/ttkit.py:1648
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Qarapaıym CSV faıly (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1649
+#: weblate/formats/ttkit.py:1655
 #, fuzzy
 #| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
 msgstr "Qarapaıym CSV faıly"
 
-#: weblate/formats/ttkit.py:1656
+#: weblate/formats/ttkit.py:1662
 msgid "YAML file"
 msgstr "YAML faıly"
 
-#: weblate/formats/ttkit.py:1675
+#: weblate/formats/ttkit.py:1681
 msgid "Ruby YAML file"
 msgstr "Ruby YAML faıly"
 
-#: weblate/formats/ttkit.py:1683
+#: weblate/formats/ttkit.py:1689
 msgid "DTD file"
 msgstr "DTD faıly"
 
-#: weblate/formats/ttkit.py:1726
+#: weblate/formats/ttkit.py:1732
 msgid "SubRip subtitle file"
 msgstr "SubRip sýbtıtrler faıly"
 
-#: weblate/formats/ttkit.py:1741
+#: weblate/formats/ttkit.py:1747
 #, fuzzy
 #| msgid "MicroDVD subtitles file"
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD sýbtıtrler faıly"
 
-#: weblate/formats/ttkit.py:1748
+#: weblate/formats/ttkit.py:1754
 #, fuzzy
 #| msgid "Advanced Substation Alpha subtitles file"
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced Substation Alpha sýbtıtrler faıly"
 
-#: weblate/formats/ttkit.py:1755
+#: weblate/formats/ttkit.py:1761
 #, fuzzy
 #| msgid "Substation Alpha subtitles file"
 msgid "SubStation Alpha subtitle file"
 msgstr "Substation Alpha sýbtıtrler faıly"
 
-#: weblate/formats/ttkit.py:1762
+#: weblate/formats/ttkit.py:1768
 #, fuzzy
 #| msgid "YAML file"
 msgid "Flat XML file"
 msgstr "YAML faıly"
 
-#: weblate/formats/ttkit.py:1771
+#: weblate/formats/ttkit.py:1777
 #, fuzzy
 #| msgid "Repository details"
 msgid "ResourceDictionary file"
 msgstr "Repozıtorı egjeıleri"
 
-#: weblate/formats/ttkit.py:1784
+#: weblate/formats/ttkit.py:1790
 #, fuzzy
 #| msgid "YAML file"
 msgid "INI file"
 msgstr "YAML faıly"
 
-#: weblate/formats/ttkit.py:1823
+#: weblate/formats/ttkit.py:1829
 msgid "Inno Setup INI file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1992
+#: weblate/formats/ttkit.py:1998
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
-#: weblate/formats/ttkit.py:2025
+#: weblate/formats/ttkit.py:2031
 #, fuzzy
 #| msgid "Failing file"
 msgid "mi18n lang file"
 msgstr "Aqaý faıl"
 
-#: weblate/formats/ttkit.py:2034
+#: weblate/formats/ttkit.py:2040
 #, fuzzy
 #| msgid "Strings with comments"
 msgid "Stringsdict file"
 msgstr "Ańǵartpalary bar joldar"
 
-#: weblate/formats/ttkit.py:2105
+#: weblate/formats/ttkit.py:2111
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent file"
@@ -5412,13 +5421,13 @@ msgstr "Sharttar"
 msgid "Overview"
 msgstr "Sholý"
 
-#: weblate/machinery/base.py:99
+#: weblate/machinery/base.py:136
 #, fuzzy, python-format
 #| msgid "Failed to find matching language!"
 msgid "Could not fetch supported languages: %s"
 msgstr "Sáıkes tildi tabý sátsiz aıaqtaldy!"
 
-#: weblate/machinery/base.py:104
+#: weblate/machinery/base.py:141
 #, fuzzy, python-format
 #| msgid "Failed to change translation flags!"
 msgid "Could not fetch translation: %s"
@@ -5694,52 +5703,52 @@ msgstr "TMX nemese JSON faılyn júktep sala alasyz."
 msgid "Confirm deleting all translation memory entries"
 msgstr "Barlyq tárjimelik jad jazbalaryn joıýdy rastańyz"
 
-#: weblate/memory/models.py:135
+#: weblate/memory/models.py:151
 msgid "Unsupported file!"
 msgstr "Qoldaý kórsetilmeıtin faıl!"
 
-#: weblate/memory/models.py:138
+#: weblate/memory/models.py:154
 msgid "No valid entries found in the uploaded file!"
 msgstr "Júktep salynǵan faılda jaramdy jazbalar tabylmady!"
 
-#: weblate/memory/models.py:148 weblate/memory/models.py:153
+#: weblate/memory/models.py:164 weblate/memory/models.py:170
 #, fuzzy, python-format
 #| msgid "Failed to parse JSON file!"
 msgid "Could not parse JSON file: %s"
 msgstr "JSON faılyn taldaý sátsiz aıaqtaldy!"
 
-#: weblate/memory/models.py:182
-#, fuzzy
+#: weblate/memory/models.py:201
+#, fuzzy, python-format
 #| msgid "Failed to parse TMX file!"
-msgid "Could not parse TMX file!"
+msgid "Could not parse TMX file: %s"
 msgstr "TMX faılyn taldaý sátsiz aıaqtaldy!"
 
-#: weblate/memory/models.py:190
+#: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
 msgstr ""
 
-#: weblate/memory/models.py:195 weblate/memory/models.py:212
+#: weblate/memory/models.py:215 weblate/memory/models.py:232
 #, fuzzy, python-format
 #| msgid "Failed to find matching language!"
 msgid "Could not find language %s!"
 msgstr "Sáıkes tildi tabý sátsiz aıaqtaldy!"
 
-#: weblate/memory/models.py:286
+#: weblate/memory/models.py:324
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Jobalyq: {}"
 
-#: weblate/memory/models.py:288
+#: weblate/memory/models.py:326
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Derbestik: {}"
 
-#: weblate/memory/models.py:290
+#: weblate/memory/models.py:328
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Bolistik: {}"
 
-#: weblate/memory/models.py:292
+#: weblate/memory/models.py:330
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Faıldyq: {}"
@@ -5828,28 +5837,28 @@ msgstr "Jel"
 msgid "%s translation is currently not available, but can be added."
 msgstr "Bul tárjime aǵymda qulyptalǵan."
 
-#: weblate/screenshots/models.py:51
+#: weblate/screenshots/models.py:54
 #: weblate/templates/screenshots/screenshot_list.html:37
 msgid "Screenshot name"
 msgstr "Ekran sýreti aty"
 
-#: weblate/screenshots/models.py:54
+#: weblate/screenshots/models.py:57
 #, fuzzy
 #| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
 msgstr "Tárjimelenetin repozıtorı tarmaǵy"
 
-#: weblate/screenshots/models.py:55
+#: weblate/screenshots/models.py:58
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
 
-#: weblate/screenshots/models.py:60
+#: weblate/screenshots/models.py:63
 #: weblate/templates/screenshots/screenshot_detail.html:55
 #: weblate/templates/screenshots/screenshot_list.html:38
 msgid "Image"
 msgstr "Keskin"
 
-#: weblate/screenshots/models.py:61
+#: weblate/screenshots/models.py:64
 #, fuzzy
 #| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
@@ -6141,7 +6150,7 @@ msgstr "Statıstıka"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:263
-#: weblate/templates/base.html:268 weblate/templates/billing/detail.html:8
+#: weblate/templates/base.html:268 weblate/templates/billing/detail.html:11
 #: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Sizdiń profaılyńyz"
@@ -6278,6 +6287,12 @@ msgid "Register again if the confirmation link expires."
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:48
+msgid ""
+"E-mail is not an instant technology. Please wait for the confirmation e-mail "
+"at least 30 minutes before you write to us about issues."
+msgstr ""
+
+#: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
 #, fuzzy
 #| msgid "If there is a problem with your registration, please contact us:"
@@ -6852,7 +6867,7 @@ msgstr "Jańa tárjime bastaý"
 #: weblate/templates/trans/project-access.html:19
 #: weblate/templates/trans/project-access.html:30
 #: weblate/templates/trans/suggestion_list.html:6
-#: weblate/templates/weblate_auth/user_list.html:5 weblate/wladmin/views.py:74
+#: weblate/templates/weblate_auth/user_list.html:5 weblate/wladmin/views.py:75
 msgid "Users"
 msgstr "Paıdalanushylar"
 
@@ -6934,11 +6949,11 @@ msgid "User identities"
 msgstr "Aǵymdyq paıdalanushynyń sáıkestik kýálikteri"
 
 #: weblate/templates/accounts/user.html:157
-#: weblate/templates/billing/detail.html:9
+#: weblate/templates/billing/detail.html:12
 #: weblate/templates/billing/overview.html:6
 #: weblate/templates/manage/billing.html:7 weblate/templates/project.html:114
 #: weblate/templates/snippets/info.html:102 weblate/trans/forms.py:2207
-#: weblate/wladmin/views.py:81
+#: weblate/wladmin/views.py:82
 msgid "Billing"
 msgstr "Bılıń"
 
@@ -7281,7 +7296,7 @@ msgid "Component URL slug"
 msgstr "Quramdastyń URL-tilimshesi"
 
 #: weblate/templates/addons/generate_help.html:26
-#: weblate/trans/models/project.py:125
+#: weblate/trans/models/project.py:129
 msgid "Project name"
 msgstr "Joba aty"
 
@@ -7339,7 +7354,7 @@ msgstr ""
 
 #: weblate/templates/auth/team.html:12
 #: weblate/templates/trans/project-access.html:11
-#: weblate/trans/models/project.py:175
+#: weblate/trans/models/project.py:179
 msgid "Access control"
 msgstr "Qatynaýdy basqarý"
 
@@ -7561,7 +7576,7 @@ msgstr "Ákimshilik"
 msgid "Configuration errors"
 msgstr "Konfigýrasıa qateleri"
 
-#: weblate/templates/base.html:241 weblate/templates/billing/status.html:99
+#: weblate/templates/base.html:241 weblate/templates/billing/status.html:102
 #: weblate/templates/trans/project_form.html:23
 msgid "Add new translation project"
 msgstr "Jańa tárjimelik jobany ústeý"
@@ -7601,7 +7616,7 @@ msgstr "Bılıńdi sholý"
 #: weblate/templates/memory/index.html:18 weblate/templates/project.html:86
 #: weblate/templates/translate.html:376
 #: weblate/wladmin/templates/admin/weblate-index.html:43
-#: weblate/wladmin/views.py:69
+#: weblate/wladmin/views.py:70
 msgid "Translation memory"
 msgstr "Tárjimelik jad"
 
@@ -7651,73 +7666,73 @@ msgstr ""
 msgid "Screenshot details"
 msgstr "Ekran sýretiniń egjeıi"
 
-#: weblate/templates/billing/detail.html:23
+#: weblate/templates/billing/detail.html:26
 msgid "Recurring payment"
 msgstr "Qaıtalanatyn tólem"
 
-#: weblate/templates/billing/detail.html:26
+#: weblate/templates/billing/detail.html:29
 msgid "Expired"
 msgstr "Merzimi aıaqtalǵan"
 
-#: weblate/templates/billing/detail.html:28
+#: weblate/templates/billing/detail.html:31
 msgid "Past due date"
 msgstr "Merzimi ótken kúni"
 
-#: weblate/templates/billing/detail.html:30
+#: weblate/templates/billing/detail.html:33
 msgid "Exceeds limits"
 msgstr "Shekteýden asady"
 
-#: weblate/templates/billing/detail.html:38
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:55
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Bılıńdi toqtatý úshin aldymen barlyq jobalardy joıý kerek."
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:47
 #, fuzzy
 #| msgid "Changes in last month"
 msgid "Change plan or payment method"
 msgstr "Sońǵy aıdaǵy ózgerister"
 
-#: weblate/templates/billing/detail.html:48
+#: weblate/templates/billing/detail.html:51
 msgid "Terminate recurring payment"
 msgstr "Qaıtalanatyn tólemdi aıaqtaý"
 
-#: weblate/templates/billing/detail.html:55
+#: weblate/templates/billing/detail.html:58
 msgid "Terminate billing plan"
 msgstr "Tarıftik josparyn aıaqtaý"
 
-#: weblate/templates/billing/detail.html:66
+#: weblate/templates/billing/detail.html:69
 msgid "Invoices"
 msgstr "Invoıstar"
 
-#: weblate/templates/billing/detail.html:70
+#: weblate/templates/billing/detail.html:73
 msgid "Invoice period"
 msgstr "Invoıs kezeńi"
 
-#: weblate/templates/billing/detail.html:71
+#: weblate/templates/billing/detail.html:74
 msgid "Invoice amount"
 msgstr "Invoıs somasy"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:75
 msgid "Download invoice"
 msgstr "Invoısty júktep alý"
 
-#: weblate/templates/billing/detail.html:86
+#: weblate/templates/billing/detail.html:89
 #: weblate/templates/snippets/info.html:235
 msgid "Not available"
 msgstr "Qoljetimdi emes"
 
-#: weblate/templates/billing/detail.html:91
+#: weblate/templates/billing/detail.html:94
 msgid "No invoices found."
 msgstr "Invoıstar tabylmady."
 
-#: weblate/templates/billing/detail.html:104
+#: weblate/templates/billing/detail.html:107
 #, fuzzy
 #| msgid "View hosting plans"
 msgid "Libre hosting"
 msgstr "Hostıń josparlaryn qaraý"
 
-#: weblate/templates/billing/detail.html:106
+#: weblate/templates/billing/detail.html:109
 #: weblate/templates/billing/state-snippet.html:5
 #: weblate/templates/manage/billing.html:14
 #, fuzzy
@@ -7725,27 +7740,27 @@ msgstr "Hostıń josparlaryn qaraý"
 msgid "Pending approval"
 msgstr "Bógelis usynystar"
 
-#: weblate/templates/billing/detail.html:113
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:116
+#: weblate/templates/billing/detail.html:133
 #: weblate/templates/mail/billing_expired.html:55
 #: weblate/templates/project.html:96
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for Libre hosting"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:122
+#: weblate/templates/billing/detail.html:125
 #, fuzzy
 #| msgid "Please read following contributor agreement:"
 msgid "Please check that following conditions are met:"
 msgstr "Kelesi Qatysýshy kelisimin oqyńyz:"
 
-#: weblate/templates/billing/detail.html:127
+#: weblate/templates/billing/detail.html:130
 #, fuzzy
 #| msgid "Approved strings"
 msgid "Approve as libre"
 msgstr "Bekitilgen joldar"
 
-#: weblate/templates/billing/detail.html:134
+#: weblate/templates/billing/detail.html:137
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7768,7 +7783,7 @@ msgid "No users currently assigned!"
 msgstr "Aǵymda eshqandaı taǵaıyndalǵan joba joq!"
 
 #: weblate/templates/billing/list.html:35
-#: weblate/templates/billing/status.html:96
+#: weblate/templates/billing/status.html:99
 msgid "No projects currently assigned!"
 msgstr "Aǵymda eshqandaı taǵaıyndalǵan joba joq!"
 
@@ -7804,48 +7819,48 @@ msgstr "Jańa hostıń josparyn satyp alý"
 msgid "Awaiting payment"
 msgstr "Күтіп тұрған төлем"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:12
 msgid "Current plan"
 msgstr "Aǵymdyq jospar"
 
-#: weblate/templates/billing/status.html:17
+#: weblate/templates/billing/status.html:20
 #, fuzzy
 #| msgid "Change payment plan"
 msgid "Change plan"
 msgstr "Tólem josparyn ózgertý"
 
-#: weblate/templates/billing/status.html:28
-#: weblate/templates/billing/status.html:39
+#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:42
 msgid "Extend trial"
 msgstr ""
 
-#: weblate/templates/billing/status.html:45
+#: weblate/templates/billing/status.html:48
 msgid "Monthly price"
 msgstr "Aılyq baǵasy"
 
-#: weblate/templates/billing/status.html:56
-#: weblate/templates/billing/status.html:71
+#: weblate/templates/billing/status.html:59
+#: weblate/templates/billing/status.html:74
 #: weblate/templates/mail/billing_expired.html:53
 msgid "New payment"
 msgstr "Жаңа төлем"
 
-#: weblate/templates/billing/status.html:62
+#: weblate/templates/billing/status.html:65
 msgid "Yearly price"
 msgstr "Jyldyq baǵasy"
 
-#: weblate/templates/billing/status.html:76
+#: weblate/templates/billing/status.html:79
 msgid "Strings limit"
 msgstr "Joldar shegi"
 
-#: weblate/templates/billing/status.html:79
+#: weblate/templates/billing/status.html:82
 msgid "Languages limit"
 msgstr "Tilder shegi"
 
-#: weblate/templates/billing/status.html:84
+#: weblate/templates/billing/status.html:87
 msgid "Projects limit"
 msgstr "Jobalar shegi"
 
-#: weblate/templates/billing/status.html:122
+#: weblate/templates/billing/status.html:125
 #: weblate/templates/manage/users.html:99
 #, fuzzy
 #| msgid "Check details"
@@ -7927,8 +7942,8 @@ msgstr "Bılıń mártebesin tekserińiz"
 msgid "Browse"
 msgstr "Sharlaý"
 
-#: weblate/templates/browse.html:46 weblate/trans/views/edit.py:263
-#: weblate/trans/views/edit.py:597
+#: weblate/templates/browse.html:46 weblate/trans/views/edit.py:266
+#: weblate/trans/views/edit.py:600
 #, fuzzy
 #| msgid "No words found!"
 msgid "No strings found!"
@@ -7994,7 +8009,7 @@ msgstr "Tárjimelik faıl túpnusqasyn júktep alý (%(format)s)"
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:25 weblate/templates/manage/tools.html:9
 #: weblate/templates/project.html:63 weblate/templates/translate.html:180
-#: weblate/templates/translation.html:63 weblate/wladmin/views.py:77
+#: weblate/templates/translation.html:63 weblate/wladmin/views.py:78
 msgid "Tools"
 msgstr "Quraldar"
 
@@ -8174,7 +8189,7 @@ msgstr "Jańartrýdy úzý"
 msgid "Return to the component after completion"
 msgstr "Quramdasqa oralý"
 
-#: weblate/templates/component.html:34 weblate/wladmin/views.py:72
+#: weblate/templates/component.html:34 weblate/wladmin/views.py:73
 msgid "Alerts"
 msgstr "Eskertýler"
 
@@ -9222,7 +9237,7 @@ msgstr "SSH-kilt qoljetimsiz."
 #: weblate/templates/machinery/edit.html:16
 #: weblate/templates/machinery/list.html:12
 #: weblate/templates/machinery/list.html:15 weblate/templates/project.html:108
-#: weblate/templates/translate.html:257 weblate/wladmin/views.py:78
+#: weblate/templates/translate.html:257 weblate/wladmin/views.py:79
 #, fuzzy
 #| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
@@ -9540,6 +9555,17 @@ msgstr "Daıjest: %(notification_name)s"
 #| msgid "Administration"
 msgid "View invitation"
 msgstr "Ákimshilik"
+
+#: weblate/templates/mail/invite.html:16
+#, fuzzy, python-format
+#| msgid ""
+#| "If the confirmation link expires before you get to use it, register again."
+msgid "The invitation will expire after %(count)s hour."
+msgid_plural "The invitation will expire after %(count)s hours."
+msgstr[0] ""
+"Eger rastaý siltemesi ony paıdalanýdan buryn aıaqtalsa, qaıtadan tirkelińiz."
+msgstr[1] ""
+"Eger rastaý siltemesi ony paıdalanýdan buryn aıaqtalsa, qaıtadan tirkelińiz."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, fuzzy, python-format
@@ -9867,7 +9893,7 @@ msgstr "Quramdasqa oralý"
 msgid "Congratulations, your setup seems to work."
 msgstr "Quttyqtaımyz, sizdiń ornatýyńyz jumys istep turǵan sıaqty."
 
-#: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:76
+#: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:77
 msgid "Appearance"
 msgstr ""
 
@@ -9884,7 +9910,7 @@ msgid "Reset customization"
 msgstr "Ákimshilik"
 
 #: weblate/templates/manage/backups.html:8 weblate/templates/project.html:109
-#: weblate/templates/trans/backups.html:8 weblate/wladmin/views.py:68
+#: weblate/templates/trans/backups.html:8 weblate/wladmin/views.py:69
 msgid "Backups"
 msgstr ""
 
@@ -10029,7 +10055,7 @@ msgstr ""
 
 #: weblate/templates/manage/performance.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:36
-#: weblate/wladmin/views.py:70
+#: weblate/wladmin/views.py:71
 msgid "Performance report"
 msgstr "Ónimdilik esebi"
 
@@ -10183,7 +10209,7 @@ msgstr ""
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
-#: weblate/wladmin/views.py:71
+#: weblate/wladmin/views.py:72
 msgid "SSH keys"
 msgstr "SSH-kiltter"
 
@@ -10941,7 +10967,7 @@ msgstr "Kópshe: %(source_description)s"
 msgid "Plurals"
 msgstr "Kópsheler"
 
-#: weblate/templates/snippets/info.html:85 weblate/trans/models/project.py:139
+#: weblate/templates/snippets/info.html:85 weblate/trans/models/project.py:143
 msgid "Project website"
 msgstr "Joba ýeb-saıty"
 
@@ -11506,13 +11532,6 @@ msgid ""
 "still change before being approved as a libre project."
 msgstr ""
 
-#: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
-msgid "Manage billing"
-msgstr "Tilderdi basqarý"
-
 #: weblate/templates/snippets/project/billing-trial.html:8
 #, fuzzy
 #| msgid "This component is linked to the %(target)s repository."
@@ -11752,7 +11771,7 @@ msgstr "Esepterdi júktep alý"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:328
+#: weblate/trans/models/change.py:327
 msgid "Suggestion added"
 msgstr "Usynys ústeldi"
 
@@ -13117,6 +13136,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Gosarıdyń barlyq ózgeristerin sharlaý"
 
 #: weblate/templates/translate.html:582 weblate/templates/translate.html:592
+#: weblate/trans/models/component.py:3747
 #, fuzzy
 #| msgid "Add word to glossary"
 msgid "Add term to glossary"
@@ -13443,7 +13463,7 @@ msgstr "Keskin URL-y"
 msgid "Open in full editor"
 msgstr "Tolyq óńdegishte ashý"
 
-#: weblate/templates/zen-units.html:102 weblate/trans/views/edit.py:602
+#: weblate/templates/zen-units.html:102 weblate/trans/views/edit.py:605
 msgid "The translation has come to an end."
 msgstr "Tárjime sońyna keldi."
 
@@ -13927,7 +13947,7 @@ msgid "Translation comment, discussions with other translators"
 msgstr "Tárjime ańǵartpasy, basqa tárjimeshilermen talqylaýlar"
 
 #: weblate/trans/forms.py:1051 weblate/trans/models/announcement.py:70
-#: weblate/trans/models/project.py:147
+#: weblate/trans/models/project.py:151
 #, fuzzy
 #| msgid "You can include external links or mention other users by @username."
 msgid "You can use Markdown and mention users by @username."
@@ -14354,6 +14374,19 @@ msgid ""
 "customization here, you override these settings for this language."
 msgstr ""
 
+#: weblate/trans/forms.py:2828
+#, fuzzy
+#| msgid "Start new translation into more languages"
+msgid "Customize translation workflow for this language in this project"
+msgstr "Jańa tárjimeni kóptegen tilderge bastaý"
+
+#: weblate/trans/forms.py:2831
+msgid ""
+"The translation workflow is configured at project, component, and language. "
+"By enabling customization here, you override these settings for this "
+"language in this project."
+msgstr ""
+
 #: weblate/trans/guide.py:72
 #, fuzzy
 #| msgid "Version control settings"
@@ -14610,17 +14643,17 @@ msgid "Category name"
 msgstr "Sanat"
 
 #: weblate/trans/models/category.py:39 weblate/trans/models/component.py:323
-#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:128
+#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:132
 msgid "Display name"
 msgstr "Beıneleý aty"
 
 #: weblate/trans/models/category.py:42 weblate/trans/models/component.py:326
-#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:132
+#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:136
 msgid "URL slug"
 msgstr "URL-tilimshe"
 
 #: weblate/trans/models/category.py:44 weblate/trans/models/component.py:328
-#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:135
+#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:139
 msgid "Name used in URLs and filenames."
 msgstr "URL-darda jáne faıldar atynda paıdalanylatyn ataý."
 
@@ -14637,380 +14670,380 @@ msgid "Parent category has to be different!"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:318
+#: weblate/trans/models/change.py:317
 #, fuzzy
 #| msgid "Resource update"
 msgid "Resource updated"
 msgstr "Qor kózin jańartý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:320
+#: weblate/trans/models/change.py:319
 msgid "Translation completed"
 msgstr "Tárjime aıaqtaldy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:322
+#: weblate/trans/models/change.py:321
 msgid "Translation changed"
 msgstr "Tárjime ózgertildi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:324
+#: weblate/trans/models/change.py:323
 #, fuzzy
 #| msgid "Translations made"
 msgid "Translation added"
 msgstr "Аудармалар жасалды"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:326
+#: weblate/trans/models/change.py:325
 msgid "Comment added"
 msgstr "Ańǵartpa ústelindi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:330 weblate/trans/models/project.py:648
+#: weblate/trans/models/change.py:329 weblate/trans/models/project.py:654
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatically translated"
 msgstr "Avtomatty tárjime"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:332
+#: weblate/trans/models/change.py:331
 msgid "Suggestion accepted"
 msgstr "Usynys qabyldandy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:334
+#: weblate/trans/models/change.py:333
 msgid "Translation reverted"
 msgstr "Tárjime qaıtaryldy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:336
+#: weblate/trans/models/change.py:335
 msgid "Translation uploaded"
 msgstr "Tárjime júktep salyndy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:338
+#: weblate/trans/models/change.py:337
 #, fuzzy
 #| msgid "Source string age"
 msgid "Source string added"
 msgstr "Qaınar jol jasy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:340
+#: weblate/trans/models/change.py:339
 msgid "Component locked"
 msgstr "Quramdas qultptalǵan"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:342
+#: weblate/trans/models/change.py:341
 msgid "Component unlocked"
 msgstr "Qquramdas qulypy ashýlǵan"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:344
+#: weblate/trans/models/change.py:343
 #, fuzzy
 #| msgid "Change word"
 msgid "Changes committed"
 msgstr "Sózdi ózgertý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:346
+#: weblate/trans/models/change.py:345
 #, fuzzy
 #| msgid "Change password"
 msgid "Changes pushed"
 msgstr "Paróldi ózgertý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:348
+#: weblate/trans/models/change.py:347
 #, fuzzy
 #| msgid "Repository browser"
 msgid "Repository reset"
 msgstr "Repozıtorı sholǵyshy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:350
+#: weblate/trans/models/change.py:349
 #, fuzzy
 #| msgid "Repository changes"
 msgid "Repository merged"
 msgstr "Repozıtorı ózgeristeri"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:352
+#: weblate/trans/models/change.py:351
 #, fuzzy
 #| msgid "Repository details"
 msgid "Repository rebased"
 msgstr "Repozıtorı egjeıleri"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:354
+#: weblate/trans/models/change.py:353
 #, fuzzy
 #| msgid "Repository branch"
 msgid "Repository merge failed"
 msgstr "Repozıtorı tarmaǵy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:356
+#: weblate/trans/models/change.py:355
 #, fuzzy
 #| msgid "Repository branch"
 msgid "Repository rebase failed"
 msgstr "Repozıtorı tarmaǵy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:358
+#: weblate/trans/models/change.py:357
 #, fuzzy
 #| msgid "Repository details"
 msgid "Repository push failed"
 msgstr "Repozıtorı egjeıleri"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:360
+#: weblate/trans/models/change.py:359
 #, fuzzy
 #| msgid "Failing file"
 msgid "Parsing failed"
 msgstr "Aqaý faıl"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:362
+#: weblate/trans/models/change.py:361
 #, fuzzy
 #| msgid "Translation has been removed."
 msgid "Translation removed"
 msgstr "Tárjime alastaldy."
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:364
+#: weblate/trans/models/change.py:363
 msgid "Suggestion removed"
 msgstr "Usynys alastaldy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:366
+#: weblate/trans/models/change.py:365
 #, fuzzy
 #| msgid "Translation uploaded"
 msgid "Translation replaced"
 msgstr "Tárjime júktep salyndy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:368
+#: weblate/trans/models/change.py:367
 msgid "Suggestion removed during cleanup"
 msgstr "Tazalaý kezinde usynys alastaldy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:370
+#: weblate/trans/models/change.py:369
 msgid "Source string changed"
 msgstr "Qaınar jol ózgertildi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:372
+#: weblate/trans/models/change.py:371
 #, fuzzy
 #| msgid "Strings status"
 msgid "String added"
 msgstr "Joldar mártebesi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:374
+#: weblate/trans/models/change.py:373
 #, fuzzy
 #| msgid "Bulk status change"
 msgid "Bulk status changed"
 msgstr "Jappaı mártebe ózgertý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:376
+#: weblate/trans/models/change.py:375
 #, fuzzy
 #| msgid "Last change"
 msgid "Visibility changed"
 msgstr "Sońǵy ózgeris"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:378
+#: weblate/trans/models/change.py:377
 #, fuzzy
 #| msgid "User to add"
 msgid "User added"
 msgstr "Ústelinetin paıdalanýshy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:380
+#: weblate/trans/models/change.py:379
 #, fuzzy
 #| msgid "User profile"
 msgid "User removed"
 msgstr "Paıdalanýshy profaıly"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:382
+#: weblate/trans/models/change.py:381
 msgid "Translation approved"
 msgstr "Tárjime bekitildi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:384
+#: weblate/trans/models/change.py:383
 msgid "Marked for edit"
 msgstr "Óńdeý úshin belgilendi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:386
+#: weblate/trans/models/change.py:385
 #, fuzzy
 #| msgid "Component list name"
 msgid "Component removed"
 msgstr "Quramdas tiziminiń aty"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:388
+#: weblate/trans/models/change.py:387
 #, fuzzy
 #| msgid "Project has been removed."
 msgid "Project removed"
 msgstr "Joba alastaldy."
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:390
+#: weblate/trans/models/change.py:389
 #, fuzzy
 #| msgid "Project name"
 msgid "Project renamed"
 msgstr "Joba aty"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:392
+#: weblate/trans/models/change.py:391
 #, fuzzy
 #| msgid "Component name"
 msgid "Component renamed"
 msgstr "Quramdas aty"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:394
+#: weblate/trans/models/change.py:393
 msgid "Moved component"
 msgstr "Quramdas jyljytyldy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:396
+#: weblate/trans/models/change.py:395
 #, fuzzy
 #| msgid "Contributor stats"
 msgid "Contributor joined"
 msgstr "Qatysýshy statistikasy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:398
+#: weblate/trans/models/change.py:397
 #, fuzzy
 #| msgid "Announcement"
 msgid "Announcement posted"
 msgstr "Habarlandyrý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:400
+#: weblate/trans/models/change.py:399
 msgid "Alert triggered"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:402
+#: weblate/trans/models/change.py:401
 #, fuzzy
 #| msgid "Language code"
 msgid "Language added"
 msgstr "Tildik kod"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:404
+#: weblate/trans/models/change.py:403
 #, fuzzy
 #| msgid "Language code style"
 msgid "Language requested"
 msgstr "Tildik kod máneri"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:406
+#: weblate/trans/models/change.py:405
 #, fuzzy
 #| msgid "Project name"
 msgid "Project created"
 msgstr "Joba aty"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:408
+#: weblate/trans/models/change.py:407
 #, fuzzy
 #| msgid "Component locked"
 msgid "Component created"
 msgstr "Quramdas qultptalǵan"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:410
+#: weblate/trans/models/change.py:409
 #, fuzzy
 #| msgid "Current user identities"
 msgid "User invited"
 msgstr "Aǵymdyq paıdalanushynyń sáıkestik kýálikteri"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:412
+#: weblate/trans/models/change.py:411
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Repository notification received"
 msgstr "Repozıtorıǵa qyzmet kórsetý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:413
 #, fuzzy
 #| msgid "Translation uploaded"
 msgid "Translation replaced file by upload"
 msgstr "Tárjime júktep salyndy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:415
 #, fuzzy
 #| msgid "Last change"
 msgid "License changed"
 msgstr "Sońǵy ózgeris"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:418
+#: weblate/trans/models/change.py:417
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
 msgstr "Qatysýshy kelisimi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:420
+#: weblate/trans/models/change.py:419
 #, fuzzy
 #| msgid "Screenshot name"
 msgid "Screenshot added"
 msgstr "Ekran sýreti aty"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:422
+#: weblate/trans/models/change.py:421
 #, fuzzy
 #| msgid "Screenshots uploaded"
 msgid "Screenshot uploaded"
 msgstr "Ekran sýretteri júktep salynǵan"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:424
+#: weblate/trans/models/change.py:423
 #, fuzzy
 #| msgid "Could not update the repository."
 msgid "String updated in the repository"
 msgstr "Repozıtorıdy jańartý múmkin emes."
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:426
+#: weblate/trans/models/change.py:425
 #, fuzzy
 #| msgid "Uninstall"
 msgid "Add-on installed"
 msgstr "Joıý"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:428
+#: weblate/trans/models/change.py:427
 #, fuzzy
 #| msgid "Bad configuration"
 msgid "Add-on configuration changed"
 msgstr "Nashar konfigýrasıa"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:430
+#: weblate/trans/models/change.py:429
 msgid "Add-on uninstalled"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:432
+#: weblate/trans/models/change.py:431
 #, fuzzy
 #| msgid "Suggestion removed"
 msgid "String removed"
 msgstr "Usynys alastaldy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:434
+#: weblate/trans/models/change.py:433
 #, fuzzy
 #| msgid "Component list name"
 msgid "Comment removed"
 msgstr "Quramdas tiziminiń aty"
 
-#: weblate/trans/models/change.py:438
+#: weblate/trans/models/change.py:437
 #, fuzzy
 #| msgid "Translation component has been removed."
 msgctxt "Name of event in the history"
@@ -15018,85 +15051,85 @@ msgid "Comment resolved"
 msgstr "Tárjimelik quramdas alastaldy."
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:441
+#: weblate/trans/models/change.py:440
 #, fuzzy
 #| msgid "Translation"
 msgid "Explanation updated"
 msgstr "Tárjime"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:443
+#: weblate/trans/models/change.py:442
 #, fuzzy
 #| msgid "Category"
 msgid "Category removed"
 msgstr "Sanat"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:445
+#: weblate/trans/models/change.py:444
 #, fuzzy
 #| msgid "Category"
 msgid "Category renamed"
 msgstr "Sanat"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:447
+#: weblate/trans/models/change.py:446
 #, fuzzy
 #| msgid "Category"
 msgid "Category moved"
 msgstr "Sanat"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:449
+#: weblate/trans/models/change.py:448
 #, fuzzy
 #| msgid "Failing file"
 msgid "Saving string failed"
 msgstr "Aqaý faıl"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:451
+#: weblate/trans/models/change.py:450
 #, fuzzy
 #| msgid "Could not update the repository."
 msgid "String added in the repository"
 msgstr "Repozıtorıdy jańartý múmkin emes."
 
-#: weblate/trans/models/change.py:525
+#: weblate/trans/models/change.py:524
 #, fuzzy
 #| msgid "This translation is currently locked for updates."
 msgid "The component was automatically locked because of an alert."
 msgstr "Bul tárjime aǵymda jańartýlar úshin qulyptalǵan."
 
-#: weblate/trans/models/change.py:529
+#: weblate/trans/models/change.py:528
 msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:598
+#: weblate/trans/models/change.py:597
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(time)s kezinde %(user)s arqyly %(translation)s boıynsha %(action)s"
 
-#: weblate/trans/models/change.py:761
+#: weblate/trans/models/change.py:760
 #, fuzzy
 #| msgid "Bulk status change"
 msgid "The \"{}\" file was changed."
 msgstr "Jappaı mártebe ózgertý"
 
-#: weblate/trans/models/change.py:765
+#: weblate/trans/models/change.py:764
 #, fuzzy
 #| msgid "Using a .pot file as base file is unsupported."
 msgid "Parsing of the \"{}\" file was enforced."
 msgstr "Negizgi faıl retinde .pot faılyn paıdalanýǵa qoldaý kórsetilmeıdi."
 
-#: weblate/trans/models/change.py:768
+#: weblate/trans/models/change.py:767
 msgid "File {} was added."
 msgstr ""
 
-#: weblate/trans/models/change.py:772
+#: weblate/trans/models/change.py:771
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "Q/J"
 
-#: weblate/trans/models/change.py:774
+#: weblate/trans/models/change.py:773
 #, fuzzy, python-format
 #| msgid "New component has been added to %(project)s at %(site_title)s."
 msgid ""
@@ -15104,11 +15137,11 @@ msgid ""
 "%(target)s."
 msgstr "%(site_title)s saıtyndaǵy %(project)s boıynsha jańa quramdas ústeldi."
 
-#: weblate/trans/models/change.py:827
+#: weblate/trans/models/change.py:826
 msgid "Original revision: {}"
 msgstr ""
 
-#: weblate/trans/models/change.py:831
+#: weblate/trans/models/change.py:830
 #, fuzzy
 #| msgctxt "Translation memory category"
 #| msgid "Personal: {}"
@@ -15886,12 +15919,6 @@ msgctxt "Translation key"
 msgid "Key"
 msgstr "Kiltter"
 
-#: weblate/trans/models/component.py:3747
-#, fuzzy
-#| msgid "Add glossary entry"
-msgid "Add new glossary term"
-msgstr "Glosarı jazbasyn ústeý"
-
 #: weblate/trans/models/component.py:3748
 msgid "Add new translation string"
 msgstr "Jańa tárjimlenetin joldy ústeý"
@@ -15932,45 +15959,45 @@ msgstr ""
 msgid "Component list to assign"
 msgstr "Taǵaıyndalatyn quramdas tizimi"
 
-#: weblate/trans/models/project.py:118
+#: weblate/trans/models/project.py:122
 msgid "Public"
 msgstr "Jarıa"
 
-#: weblate/trans/models/project.py:119
+#: weblate/trans/models/project.py:123
 msgid "Protected"
 msgstr "Qorǵalǵan"
 
-#: weblate/trans/models/project.py:120
+#: weblate/trans/models/project.py:124
 msgid "Private"
 msgstr "Jekemenshik"
 
-#: weblate/trans/models/project.py:121
+#: weblate/trans/models/project.py:125
 msgid "Custom"
 msgstr "Teńsheýli"
 
-#: weblate/trans/models/project.py:141
+#: weblate/trans/models/project.py:145
 msgid "Main website of translated project."
 msgstr "Tárjimelik jobanyń negizgi ýeb-saıty."
 
-#: weblate/trans/models/project.py:145
+#: weblate/trans/models/project.py:149
 msgid "Translation instructions"
 msgstr "Tárjimelik nusqaýlar"
 
-#: weblate/trans/models/project.py:151
+#: weblate/trans/models/project.py:155
 msgid "Set \"Language-Team\" header"
 msgstr "«Language-Team» ústińgi derektemesin ornatý"
 
-#: weblate/trans/models/project.py:154
+#: weblate/trans/models/project.py:158
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
 "Joba faılyńyzdyń «Language-Team» ústińgi derektemesin Weblate jańartý "
 "múmkindigin beredi."
 
-#: weblate/trans/models/project.py:158
+#: weblate/trans/models/project.py:162
 msgid "Use shared translation memory"
 msgstr "Bólisken tárjimelik jadty paıdalaný"
 
-#: weblate/trans/models/project.py:161
+#: weblate/trans/models/project.py:165
 #, fuzzy
 #| msgid ""
 #| "Uses and contributes to the pool of shared translations between projects."
@@ -15979,13 +16006,13 @@ msgstr ""
 "Jobalar arasynda bólisken tárjimeler jınaqtaýyshyna qoldanady jáne jarna "
 "qosady."
 
-#: weblate/trans/models/project.py:165
+#: weblate/trans/models/project.py:169
 #, fuzzy
 #| msgid "Use shared translation memory"
 msgid "Contribute to shared translation memory"
 msgstr "Bólisken tárjimelik jadty paıdalaný"
 
-#: weblate/trans/models/project.py:168
+#: weblate/trans/models/project.py:172
 #, fuzzy
 #| msgid ""
 #| "Uses and contributes to the pool of shared translations between projects."
@@ -15994,47 +16021,47 @@ msgstr ""
 "Jobalar arasynda bólisken tárjimeler jınaqtaýyshyna qoldanady jáne jarna "
 "qosady."
 
-#: weblate/trans/models/project.py:177
+#: weblate/trans/models/project.py:181
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr "Bul jobaǵa qalaı qoljetkizýdi shekteý egjeıleri qujattamada."
 
-#: weblate/trans/models/project.py:183 weblate/trans/models/workflow.py:21
+#: weblate/trans/models/project.py:187 weblate/trans/models/workflow.py:21
 msgid "Enable reviews"
 msgstr "Saraptaýlardy qosý"
 
-#: weblate/trans/models/project.py:185 weblate/trans/models/workflow.py:23
+#: weblate/trans/models/project.py:189 weblate/trans/models/workflow.py:23
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "Tárjimeni bekitý úshin arnalǵan sarapshylar talap etiledi."
 
-#: weblate/trans/models/project.py:188
+#: weblate/trans/models/project.py:192
 #, fuzzy
 #| msgid "Enable reviews"
 msgid "Enable source reviews"
 msgstr "Saraptaýlardy qosý"
 
-#: weblate/trans/models/project.py:191
+#: weblate/trans/models/project.py:195
 #, fuzzy
 #| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Tárjimeni bekitý úshin arnalǵan sarapshylar talap etiledi."
 
-#: weblate/trans/models/project.py:195
+#: weblate/trans/models/project.py:199
 msgid "Enable hooks"
 msgstr "Óńdeýishterdi qosý"
 
-#: weblate/trans/models/project.py:198
+#: weblate/trans/models/project.py:202
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
 "Bul repozıtorıdy qashyqtaǵy óńdeýishter arqyly jańartýǵa ruqsat bola ma."
 
-#: weblate/trans/models/project.py:202
+#: weblate/trans/models/project.py:206
 #, fuzzy
 #| msgid "Language name"
 msgid "Language aliases"
 msgstr "Til aty"
 
-#: weblate/trans/models/project.py:206
+#: weblate/trans/models/project.py:210
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
@@ -16046,7 +16073,7 @@ msgstr ""
 msgid "Could not accept suggestion!"
 msgstr "Usynysty qabyldaý sátsiz aıaqtaldy!"
 
-#: weblate/trans/models/translation.py:211
+#: weblate/trans/models/translation.py:213
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -16055,57 +16082,57 @@ msgstr ""
 "%s faıl aty repozıtorıda tabylmady! Jańa tárjimeni ústeý úshin, tildik "
 "faılyn repozıtorıǵa ústeńiz."
 
-#: weblate/trans/models/translation.py:220
+#: weblate/trans/models/translation.py:222
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "%(file)s faılyn taldaý sátsiz aıaqtaldy: %(error)s"
 
-#: weblate/trans/models/translation.py:1038
-#: weblate/trans/models/translation.py:1109
-#: weblate/trans/models/translation.py:1231
+#: weblate/trans/models/translation.py:1040
+#: weblate/trans/models/translation.py:1111
+#: weblate/trans/models/translation.py:1233
 #, fuzzy, python-format
 #| msgid "Commit pending changes"
 msgid "Could not commit pending changes: %s"
 msgstr "Kútken ózgeristerdi komıt qylý"
 
-#: weblate/trans/models/translation.py:1637
+#: weblate/trans/models/translation.py:1639
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Plurals are not supported by the file format!"
 msgstr "Qoldaý kórsetilmeıtin faıl pishimi."
 
-#: weblate/trans/models/translation.py:1642 weblate/trans/models/unit.py:677
+#: weblate/trans/models/translation.py:1644 weblate/trans/models/unit.py:680
 #, fuzzy, python-format
 #| msgid "Control chars"
 msgid "String contains control character: %s"
 msgstr "Basqarýshy tańbalar"
 
-#: weblate/trans/models/translation.py:1647
+#: weblate/trans/models/translation.py:1649
 msgid "Empty state is supported for blank strings only."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1650
+#: weblate/trans/models/translation.py:1652
 msgid "Blank strings require an empty state."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1654
+#: weblate/trans/models/translation.py:1656
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1662
+#: weblate/trans/models/translation.py:1664
 #, fuzzy
 #| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
 msgstr "Osy kiltpen tárjime áldeqashan bar sıaqty!"
 
-#: weblate/trans/models/translation.py:1669
+#: weblate/trans/models/translation.py:1671
 #, fuzzy
 #| msgid "Duplicated string for translation."
 msgid "Failed adding string, no translation found."
 msgstr "Tárjime úshin qaıtalanǵan jol."
 
-#: weblate/trans/models/unit.py:1011
+#: weblate/trans/models/unit.py:1014
 #, fuzzy, python-format
 #| msgid ""
 #| "Contribution to this translation requires you to agree with a contributor "
@@ -16117,47 +16144,47 @@ msgstr ""
 "Osy tárjimege jarna qosý sizden qatysýshy kelisimimen kelisýińizdi talap "
 "etedi."
 
-#: weblate/trans/models/unit.py:1681
+#: weblate/trans/models/unit.py:1684
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unmark as read-only"
 msgstr "Jańa tárjimeler úshin negizgi faıl"
 
-#: weblate/trans/models/unit.py:1684
+#: weblate/trans/models/unit.py:1687
 #, fuzzy
 #| msgid "Mark as spam"
 msgid "Mark as read-only"
 msgstr "Spam retinde belgileý"
 
-#: weblate/trans/models/unit.py:1688
+#: weblate/trans/models/unit.py:1691
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unmark as untranslatable"
 msgstr "Jańa tárjimeler úshin negizgi faıl"
 
-#: weblate/trans/models/unit.py:1692
+#: weblate/trans/models/unit.py:1695
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as untranslatable"
 msgstr "Basqa tárjime retinde ústeý"
 
-#: weblate/trans/models/unit.py:1699
+#: weblate/trans/models/unit.py:1702
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unmark as forbidden translation"
 msgstr "Jańa tárjimeler úshin negizgi faıl"
 
-#: weblate/trans/models/unit.py:1707
+#: weblate/trans/models/unit.py:1710
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "Basqa tárjime retinde ústeý"
 
-#: weblate/trans/models/unit.py:1715
+#: weblate/trans/models/unit.py:1718
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1723
+#: weblate/trans/models/unit.py:1726
 msgid "Mark as terminology"
 msgstr ""
 
@@ -16224,17 +16251,17 @@ msgstr "Uzyn syzyq"
 msgid "User configured character: {}"
 msgstr "Paıdalanushy rettegen tańba: {}"
 
-#: weblate/trans/tasks.py:470
+#: weblate/trans/tasks.py:471
 #, fuzzy, python-format
 #| msgid "Automatic translation"
 msgid "Automatic translation failed: %s"
 msgstr "Avtomatty tárjime"
 
-#: weblate/trans/tasks.py:477
+#: weblate/trans/tasks.py:478
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Avtomatty tárjime aıaqtaldy, eshbir jol jańartylmady."
 
-#: weblate/trans/tasks.py:482
+#: weblate/trans/tasks.py:483
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -16723,119 +16750,119 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Profılińizge tolyq atyńyzdy jáne e-poshtańyzdy ornatyńyz."
 
-#: weblate/trans/views/edit.py:73
+#: weblate/trans/views/edit.py:76
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Tárjime úshin kelesi túzetýler qoldanyldy: %s"
 
-#: weblate/trans/views/edit.py:285
+#: weblate/trans/views/edit.py:288
 msgid "Your suggestion is empty!"
 msgstr "Usynysyńyz bos boldy!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:294
 msgid "You don't have privileges to add suggestions!"
 msgstr "Usynystardy ústeý úshin ókilettilikterińiz jetkiliksiz!"
 
-#: weblate/trans/views/edit.py:299
+#: weblate/trans/views/edit.py:302
 msgid "Your suggestion has been identified as spam!"
 msgstr "Usynysyńyz spam retinde anyqtaldy!"
 
-#: weblate/trans/views/edit.py:310
+#: weblate/trans/views/edit.py:313
 msgid "Your suggestion already exists!"
 msgstr "Usynysyńyz áldeqashan bar!"
 
-#: weblate/trans/views/edit.py:369
+#: weblate/trans/views/edit.py:372
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:391
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Tárjime saqtaldy, biraq keıbir jańa aqaý tekserýler bar: {0}"
 
-#: weblate/trans/views/edit.py:430
+#: weblate/trans/views/edit.py:433
 msgid "Invalid merge request!"
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/trans/views/edit.py:450
+#: weblate/trans/views/edit.py:453
 msgid "Invalid revert request!"
 msgstr "Qaıtarý saýaly jaramsyz!"
 
-#: weblate/trans/views/edit.py:462
+#: weblate/trans/views/edit.py:465
 msgid "Can not revert to empty translation!"
 msgstr "Bos tárjimege qaıtarý múmkin emes!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:486
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Usynystardy qabyldaý úshin ókilettilikterińiz jetkiliksiz!"
 
-#: weblate/trans/views/edit.py:489
+#: weblate/trans/views/edit.py:492
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Usynystardy joıý úshin ókilettilikterińiz jetkiliksiz!"
 
-#: weblate/trans/views/edit.py:494
+#: weblate/trans/views/edit.py:497
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Usynystardy saılaý úshin ókilettilikterińiz jetkiliksiz!"
 
-#: weblate/trans/views/edit.py:526
+#: weblate/trans/views/edit.py:529
 msgid "Invalid suggestion!"
 msgstr "Usynys jaramsyz!"
 
-#: weblate/trans/views/edit.py:612
+#: weblate/trans/views/edit.py:615
 msgid "Invalid search string!"
 msgstr "Izdestirý joly jaramsyz!"
 
-#: weblate/trans/views/edit.py:740 weblate/trans/views/search.py:50
+#: weblate/trans/views/edit.py:743 weblate/trans/views/search.py:50
 #: weblate/trans/views/search.py:203
 #, fuzzy
 #| msgid "Failed to process form!"
 msgid "Could not process form!"
 msgstr "Pishindi óńdep shyǵarý sátsiz aıaqtaldy!"
 
-#: weblate/trans/views/edit.py:762
+#: weblate/trans/views/edit.py:765
 #, fuzzy
 #| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
 msgstr "Avtomatty tárjime qaınary"
 
-#: weblate/trans/views/edit.py:799
+#: weblate/trans/views/edit.py:802
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Source needs review"
 msgstr "Qaınar joldardy saraptaý"
 
-#: weblate/trans/views/edit.py:802
+#: weblate/trans/views/edit.py:805
 msgid "Posted new comment"
 msgstr "Jańa ańǵartpa jarıalandy"
 
-#: weblate/trans/views/edit.py:804
+#: weblate/trans/views/edit.py:807
 #, fuzzy
 #| msgid "Failed to add comment!"
 msgid "Could not add comment!"
 msgstr "Ańǵartpa ústeýi sátsiz aıaqtaldy!"
 
-#: weblate/trans/views/edit.py:824
+#: weblate/trans/views/edit.py:827
 #, fuzzy
 #| msgid "Translation component has been removed."
 msgid "Comment has been deleted."
 msgstr "Tárjimelik quramdas alastaldy."
 
-#: weblate/trans/views/edit.py:842
+#: weblate/trans/views/edit.py:845
 #, fuzzy
 #| msgid "Translation component has been removed."
 msgid "Comment has been resolved."
 msgstr "Tárjimelik quramdas alastaldy."
 
-#: weblate/trans/views/edit.py:1020
+#: weblate/trans/views/edit.py:1023
 msgid "New string has been added."
 msgstr "Jańa jol ústelgen."
 
-#: weblate/trans/views/edit.py:1040
+#: weblate/trans/views/edit.py:1043
 #, fuzzy, python-format
 #| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not remove the string: %s"
@@ -16975,66 +17002,66 @@ msgid_plural "Bulk edit completed, %d strings were updated."
 msgstr[0] "Jappaı mártebe ózgertý aıaqtaldy, %d jol jańartyldy."
 msgstr[1] "Jappaı mártebe ózgertý aıaqtaldy, sany %d jol jańartyldy."
 
-#: weblate/trans/views/settings.py:67 weblate/trans/views/settings.py:94
-#: weblate/trans/views/settings.py:117
+#: weblate/trans/views/settings.py:75 weblate/trans/views/settings.py:104
+#: weblate/trans/views/settings.py:127
 msgid "Settings saved"
 msgstr "Parametrler saqtaldy"
 
-#: weblate/trans/views/settings.py:70 weblate/trans/views/settings.py:97
-#: weblate/trans/views/settings.py:120
+#: weblate/trans/views/settings.py:78 weblate/trans/views/settings.py:107
+#: weblate/trans/views/settings.py:130
 #, fuzzy
 #| msgid "Invalid settings, please check the form for errors!"
 msgid "Invalid settings. Please check the form for errors."
 msgstr "Jaramsyz parametrler, qate úshin pishindi tekserińiz!"
 
-#: weblate/trans/views/settings.py:132
+#: weblate/trans/views/settings.py:142
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
 
-#: weblate/trans/views/settings.py:184
+#: weblate/trans/views/settings.py:194
 #, fuzzy
 #| msgid "Translation has been removed."
 msgid "The translation has been removed."
 msgstr "Tárjime alastaldy."
 
-#: weblate/trans/views/settings.py:189
+#: weblate/trans/views/settings.py:199
 #, fuzzy
 #| msgid "Translation component was scheduled for removal."
 msgid "The translation component was scheduled for removal."
 msgstr "Tárjimelik quramdas alastaýǵa josparlanǵan."
 
-#: weblate/trans/views/settings.py:194
+#: weblate/trans/views/settings.py:204
 #, fuzzy
 #| msgid "Project was scheduled for removal."
 msgid "The category was scheduled for removal."
 msgstr "Joba alastaýǵa josparlanǵan."
 
-#: weblate/trans/views/settings.py:198
+#: weblate/trans/views/settings.py:208
 #, fuzzy
 #| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
 msgstr "Joba alastaýǵa josparlanǵan."
 
-#: weblate/trans/views/settings.py:204
+#: weblate/trans/views/settings.py:214
 #, fuzzy
 #| msgid "Language overrides"
 msgid "A language in the project was removed."
 msgstr "Tildik qaıta anyqtaýlar"
 
-#: weblate/trans/views/settings.py:210
+#: weblate/trans/views/settings.py:220
 #, fuzzy
 #| msgid "Language overrides"
 msgid "A language in the category was removed."
 msgstr "Tildik qaıta anyqtaýlar"
 
-#: weblate/trans/views/settings.py:225
+#: weblate/trans/views/settings.py:235
 #, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
 
-#: weblate/trans/views/settings.py:354
+#: weblate/trans/views/settings.py:364
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
 
@@ -17083,12 +17110,12 @@ msgstr "Mártebe ýıjetteri"
 msgid "translated"
 msgstr "tárjimelengen"
 
-#: weblate/trans/widgets.py:389
+#: weblate/trans/widgets.py:385
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr ""
 
-#: weblate/trans/widgets.py:464
+#: weblate/trans/widgets.py:455
 #, fuzzy
 #| msgid "Browse all language changes"
 msgctxt "Status widget name"
@@ -17475,66 +17502,66 @@ msgstr "Biriktirý saýaly jaramsyz!"
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1343
+#: weblate/vcs/git.py:1341
 msgid "GitHub pull request"
 msgstr ""
 
-#: weblate/vcs/git.py:1348
+#: weblate/vcs/git.py:1346
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1457
+#: weblate/vcs/git.py:1455
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Gitea pull request"
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1461
+#: weblate/vcs/git.py:1459
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "This will push changes and create a Gitea pull request."
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1529
+#: weblate/vcs/git.py:1527
 #, fuzzy
 #| msgid "Source code repository"
 msgid "No remote repository"
 msgstr "Qaınar kodynyń repozıtorıy"
 
-#: weblate/vcs/git.py:1634
+#: weblate/vcs/git.py:1632
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "GitLab merge request"
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1639
+#: weblate/vcs/git.py:1637
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "This will push changes and create a GitLab merge request."
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1778
+#: weblate/vcs/git.py:1776
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Pagure merge request"
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1783
+#: weblate/vcs/git.py:1781
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "This will push changes and create a Pagure merge request."
 msgstr "Biriktirý saýaly jaramsyz!"
 
 #. Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
-#: weblate/vcs/git.py:1872
+#: weblate/vcs/git.py:1870
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Bitbucket Server pull request"
 msgstr "Biriktirý saýaly jaramsyz!"
 
-#: weblate/vcs/git.py:1878
+#: weblate/vcs/git.py:1876
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "This will push changes and create a Bitbucket Server pull request."
@@ -17763,71 +17790,76 @@ msgstr "Nysandy munda ózgertpeńiz, ornyna Weblate ınterfeısin paıdalanyńyz
 msgid "Reports"
 msgstr "Esepter"
 
-#: weblate/wladmin/views.py:67
+#: weblate/wladmin/views.py:68
 #, fuzzy
 #| msgid "Weblate statistics"
 msgid "Weblate status"
 msgstr "Weblate statıstıkasy"
 
-#: weblate/wladmin/views.py:73
+#: weblate/wladmin/views.py:74
 #, fuzzy
 #| msgid "Repository"
 msgid "Repositories"
 msgstr "Repozıtorı"
 
-#: weblate/wladmin/views.py:125
+#: weblate/wladmin/views.py:126
 #, fuzzy
 #| msgid "Register email"
 msgid "Test e-mail sent."
 msgstr "E-poshtany tirkeý"
 
-#: weblate/wladmin/views.py:129
+#: weblate/wladmin/views.py:130
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not send test e-mail: %s"
 msgstr "Kilt jasaý oryndalmady: %s"
 
-#: weblate/wladmin/views.py:165
+#: weblate/wladmin/views.py:166
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
 
-#: weblate/wladmin/views.py:197 weblate/wladmin/views.py:214
+#: weblate/wladmin/views.py:198 weblate/wladmin/views.py:215
 #, fuzzy
 #| msgid "Too many search queries, please try again later."
 msgid "Could not activate your installation. Please try again later."
 msgstr "Tym kóp izdeý saýaldary, keıinirek qaıtalap kórińiz."
 
-#: weblate/wladmin/views.py:206
+#: weblate/wladmin/views.py:207
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
 msgstr ""
 
-#: weblate/wladmin/views.py:221
+#: weblate/wladmin/views.py:222
 #, fuzzy, python-format
 #| msgid "Failed to change translation flags!"
 msgid "Could not activate your installation: %s"
 msgstr "Tárjimelik jalaýyn aýystyrý sátsiz aıaqtaldy!"
 
-#: weblate/wladmin/views.py:225
+#: weblate/wladmin/views.py:226
 #, fuzzy
 #| msgid "Translation completed"
 msgid "Activation completed."
 msgstr "Tárjime aıaqtaldy"
 
-#: weblate/wladmin/views.py:265
+#: weblate/wladmin/views.py:266
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "Backup process triggered"
 msgstr "Tirkelgińiz joıylǵan."
 
-#: weblate/wladmin/views.py:287
+#: weblate/wladmin/views.py:288
 #, fuzzy
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigýrasıa qatesin joıý sátsiz aıaqtaldy!"
+
+#, fuzzy
+#~| msgid "Add glossary entry"
+#~ msgid "Add new glossary term"
+#~ msgstr "Glosarı jazbasyn ústeý"
 
 #, fuzzy, python-format
 #~| msgid "Hosting translations"
