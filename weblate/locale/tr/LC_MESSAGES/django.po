@@ -8,13 +8,14 @@
 # Yusuf <koyuncuo@itu.edu.tr>, 2023.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2023, 2024.
 # Burak Yavuz <hitowerdigit@hotmail.com>, 2023.
+# Oğuz Ersen <oguz@ersen.moe>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-02-15 13:17+0000\n"
+"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -2567,10 +2568,8 @@ msgid "Sign in to save the translation."
 msgstr "Çevirileri kaydetmek için oturum açın."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "İzinler çevirileri kaydetmek için yetersiz."
+msgstr "İzinler çevirileri onaylamak için yetersiz."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -4982,10 +4981,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "JSON dosyası işlenemedi: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "TMX dosyası işlenemedi!"
+msgstr "TMX dosyası işlenemedi: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5500,6 +5498,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"E-posta anlık bir teknoloji değildir. Lütfen sorunlar hakkında bize yazmadan "
+"önce en az 30 dakika onay e-postasını bekleyin."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -8394,13 +8394,11 @@ msgid "View invitation"
 msgstr "Daveti görüntüle"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Onay bağlantısının süresi %(count)s saat sonra dolacak."
-msgstr[1] "Onay bağlantısının süresi %(count)s saat sonra dolacak."
+msgstr[0] "Davetin süresi %(count)s saat sonra dolacak."
+msgstr[1] "Davetin süresi %(count)s saat sonra dolacak."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -12579,25 +12577,18 @@ msgstr ""
 "olacaksınız."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Bu dilin çeviri iş akışını özelleştir"
+msgstr "Bu dilin bu projedeki çeviri iş akışını özelleştir"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Çeviri iş akışı proje ve bileşen için yapılandırılmış. Buradan "
-"özelleştirmeyi kullanıma alırsanız, bu dilin yapılandırmasını değiştirmiş "
-"olacaksınız."
+"Çeviri iş akışı proje, bileşen ve dil için yapılandırılmış. Buradan "
+"özelleştirmeyi kullanıma alırsanız, bu dilin bu projedeki yapılandırmasını "
+"değiştirmiş olacaksınız."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12816,10 +12807,8 @@ msgid "Notify users"
 msgstr "Kullanıcılar bilgilendirilsin"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Kullanıcıya davet e-postası gönder"
+msgstr "Abone olan kullanıcılara bildirim gönder."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13462,8 +13451,6 @@ msgstr ""
 "Kullanıcılar yalnızca önerilere oy verebilir ve doğrudan çeviri yapamaz."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "Öneriler kendiliğinden kabul edilsin"
 
@@ -14522,10 +14509,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Dosya maskesinde dil yer belirteci olarak * bulunmuyor!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
