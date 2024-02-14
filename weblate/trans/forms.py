@@ -2809,22 +2809,40 @@ class WorkflowSettingForm(forms.ModelForm):
         instance=None,
         prefix=None,
         initial=None,
+        project: Project | None = None,
         **kwargs,
     ):
         if instance is not None:
             initial = {"enable": True}
+            if project is not None:
+                initial["translation_review"] = project.translation_review
+
+        self.project = project
         self.instance = instance
         super().__init__(
             data, files, instance=instance, initial=initial, prefix="workflow", **kwargs
         )
+        if self.project:
+            enable_field = self.fields["enable"]
+            enable_field.label = gettext(
+                "Customize translation workflow for this language in this project"
+            )
+            enable_field.help_text = gettext(
+                "The translation workflow is configured at project, component, and language. "
+                "By enabling customization here, you override these settings for this language in this project."
+            )
+
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("enable"),
-            Field("translation_review"),
-            Field("enable_suggestions"),
-            Field("suggestion_voting"),
-            Field("suggestion_autoaccept"),
+            Div(
+                Field("translation_review"),
+                Field("enable_suggestions"),
+                Field("suggestion_voting"),
+                Field("suggestion_autoaccept"),
+                css_id="workflow-enable-target",
+            ),
         )
 
     def save(self, commit=True):

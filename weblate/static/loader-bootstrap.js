@@ -1342,6 +1342,22 @@ $(function () {
     },
   });
 
+  /* Workflow customization form */
+  document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
+    enableInput.addEventListener("click", () => {
+      if (!enableInput.checked) {
+        document.getElementById("workflow-enable-target").style.visibility =
+          "hidden";
+        document.getElementById("workflow-enable-target").style.opacity = 0;
+      } else {
+        document.getElementById("workflow-enable-target").style.visibility =
+          "visible";
+        document.getElementById("workflow-enable-target").style.opacity = 1;
+      }
+    });
+    enableInput.dispatchEvent(new Event("click"));
+  });
+
   /* Move current translation into the view */
   $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", function (e) {
     document.querySelector("#nearby .current_translation").scrollIntoView({

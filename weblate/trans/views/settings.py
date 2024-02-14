@@ -94,7 +94,9 @@ def change_project_language(request, obj):
         instance = None
 
     if request.method == "POST":
-        settings_form = WorkflowSettingForm(request.POST, instance=instance)
+        settings_form = WorkflowSettingForm(
+            request.POST, instance=instance, project=obj.project
+        )
         if settings_form.is_valid():
             settings_form.instance.project = obj.project
             settings_form.instance.language = obj.language
@@ -105,7 +107,7 @@ def change_project_language(request, obj):
             request, gettext("Invalid settings. Please check the form for errors.")
         )
     else:
-        settings_form = WorkflowSettingForm(instance=instance)
+        settings_form = WorkflowSettingForm(instance=instance, project=obj.project)
 
     return render(
         request,
