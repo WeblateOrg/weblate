@@ -23,10 +23,7 @@ AT_EXCEPTIONS = {"ca@valencia"}
 
 def is_default_variant(code):
     language = code.partition("_")[0]
-    if (
-        language not in NO_CODE_LANGUAGES
-        and language in ALIASES
-    ):
+    if language not in NO_CODE_LANGUAGES and language in ALIASES:
         return code == ALIASES[language]
     return False
 
