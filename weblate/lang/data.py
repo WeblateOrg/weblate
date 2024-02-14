@@ -4,6 +4,7 @@
 
 from django.utils.translation import pgettext_lazy
 from weblate_language_data import languages
+from weblate_language_data.aliases import ALIASES
 from weblate_language_data.ambiguous import AMBIGUOUS
 
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
@@ -20,11 +21,21 @@ UNDERSCORE_EXCEPTIONS = {
 AT_EXCEPTIONS = {"ca@valencia"}
 
 
+def is_default_variant(code):
+    language = code.partition("_")[0]
+    if (
+        language not in NO_CODE_LANGUAGES
+        and language in ALIASES
+    ):
+        return code == ALIASES[language]
+    return False
+
+
 def is_basic(code):
     if code in AMBIGUOUS:
         return False
     if "_" in code:
-        return code in UNDERSCORE_EXCEPTIONS
+        return code in UNDERSCORE_EXCEPTIONS or is_default_variant(code)
     return "@" not in code or code in AT_EXCEPTIONS
 
 
