@@ -55,7 +55,7 @@ def download_invoice(request, pk):
 
 
 def handle_post(request, billing):
-    if "extend" in request.POST and request.user.is_superuser:
+    if "extend" in request.POST and request.user.has_perm("billing.manage"):
         if billing.is_trial:
             billing.state = Billing.STATE_TRIAL
             billing.expiry = timezone.now() + timedelta(days=14)
@@ -72,7 +72,7 @@ def handle_post(request, billing):
         billing.state = Billing.STATE_TERMINATED
         billing.save()
     elif billing.valid_libre:
-        if "approve" in request.POST and request.user.is_superuser:
+        if "approve" in request.POST and request.user.has_perm("billing.manage"):
             billing.state = Billing.STATE_ACTIVE
             billing.plan = Plan.objects.get(slug="libre")
             billing.removal = None
@@ -108,7 +108,7 @@ def overview(request):
     billings = Billing.objects.for_user(request.user).prefetch_related(
         "plan", "projects", "invoice_set"
     )
-    if not request.user.is_superuser and len(billings) == 1:
+    if not request.user.has_perm("billing.manage") and len(billings) == 1:
         return redirect(billings[0])
     return render(
         request,

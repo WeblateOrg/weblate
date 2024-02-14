@@ -137,6 +137,8 @@ GLOBAL_PERMISSIONS = (
     ("machinery.edit", gettext_noop("Manage machinery")),
     # Translators: Permission name
     ("componentlist.edit", gettext_noop("Manage component lists")),
+    # Translators: Permission name
+    ("billing.manage", gettext_noop("Manage billing")),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}

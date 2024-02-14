@@ -2,6 +2,9 @@
 {% load translations %}
 {% load humanize %}
 {% load icons %}
+{% load permissions %}
+
+{% perm 'billing.manage' object as user_can_manage_billing %}
 
   {% with plan=billing.plan %}
   <table class="table">
@@ -24,7 +27,7 @@
       <th>{% trans "Trial expiry date" %}</th>
       <td>{{ billing.expiry|naturaltime }}</td>
       <td>
-        {% if user.is_superuser %}
+        {% if user_can_manage_billing %}
           <a href="" class="btn btn-primary pull-right flip link-post" data-href="{{ billing.get_absolute_url }}" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
         {% endif %}
       </td>
@@ -35,7 +38,7 @@
       <th>{% trans "Scheduled removal" %}</th>
       <td>{{ billing.removal|naturaltime }}</td>
       <td>
-        {% if user.is_superuser %}
+        {% if user_can_manage_billing %}
           <a href="" class="btn btn-primary pull-right flip link-post" data-href="{{ billing.get_absolute_url }}" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
         {% endif %}
       </td>
@@ -101,7 +104,7 @@
       </td>
     </tr>
   {% endif %}
-  {% if user.is_superuser %}
+  {% if user_can_manage_billing %}
     <tr>
       <th>{% trans "Owners" %}</th>
       <td colspan="2">
@@ -117,7 +120,7 @@
             <span class="middle-dot-divider">
               <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
             </span>
-            {% if user.is_superuser %}
+            {% if user_can_manage_billing %}
             <span class="middle-dot-divider">
               <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% trans "Check user access" %}</a>
             </span>

@@ -111,7 +111,7 @@ class BillingQuerySet(models.QuerySet):
         )
 
     def for_user(self, user):
-        if user.is_superuser:
+        if user.has_perm("billing.manage"):
             return self.all().order_by("state")
         return (
             self.filter(
