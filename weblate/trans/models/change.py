@@ -11,6 +11,7 @@ from django.core.cache import cache
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.db.models.base import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
@@ -20,6 +21,7 @@ from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
 
@@ -169,7 +171,8 @@ class ChangeQuerySet(models.QuerySet):
     def bulk_create(self, *args, **kwargs):
         """Adds processing to bulk creation."""
         changes = super().bulk_create(*args, **kwargs)
-        # Executes post save to ensure messages are sent to fedora messaging
+        # Executes post save to ensure messages are sent as notifications
+        # or to fedora messaging
         for change in changes:
             post_save.send(change.__class__, instance=change, created=True)
         # Store last content change in cache for improved performance
@@ -602,12 +605,10 @@ class Change(models.Model, UserDisplayMixin):
         }
 
     def save(self, *args, **kwargs):
-        from weblate.accounts.tasks import notify_change
-
         self.fixup_refereces()
 
         super().save(*args, **kwargs)
-        transaction.on_commit(lambda: notify_change.delay(self.pk))
+
         if self.is_last_content_change_storable():
             # Update cache for stats so that it does not have to hit
             # the database again
@@ -853,3 +854,11 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_SUGGESTION_DELETE,
             self.ACTION_SUGGESTION_CLEANUP,
         )
+
+
+@receiver(post_save, sender=Change)
+@disable_for_loaddata
+def change_notify(sender, instance, created=False, **kwargs):
+    from weblate.accounts.tasks import notify_change
+
+    transaction.on_commit(lambda: notify_change.delay(instance.pk))
