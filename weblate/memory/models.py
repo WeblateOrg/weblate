@@ -166,7 +166,9 @@ class MemoryManager(models.Manager):
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
             report_error(cause="Could not validate memory")
-            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
+            raise MemoryImportError(
+                gettext("Could not parse JSON file: %s") % error
+            ) from error
         found = 0
         lang_cache = {}
         for entry in data:
@@ -193,9 +195,11 @@ class MemoryManager(models.Manager):
             kwargs = {"from_file": True}
         try:
             storage = tmxfile.parsefile(fileobj)
-        except (SyntaxError, AssertionError):
+        except (SyntaxError, AssertionError) as error:
             report_error(cause="Could not parse")
-            raise MemoryImportError(gettext("Could not parse TMX file!"))
+            raise MemoryImportError(
+                gettext("Could not parse TMX file: %s") % error
+            ) from error
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
