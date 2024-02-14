@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-14 17:08+0000\n"
+"PO-Revision-Date: 2024-02-15 13:17+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -2326,7 +2326,7 @@ msgstr "Memoria"
 #: weblate/auth/data.py:273
 msgctxt "Per-project access-control group"
 msgid "Screenshots"
-msgstr "Schermate"
+msgstr "Screenshot"
 
 #: weblate/auth/data.py:276
 msgctxt "Per-project access-control group"
@@ -2577,7 +2577,7 @@ msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"Per collaborare a questa traduzione è richiesta l'accettazione dell'accordo "
+"Per contribuire a questa traduzione è richiesta l'accettazione dell'accordo "
 "di collaboratore."
 
 #: weblate/auth/permissions.py:167
@@ -2585,10 +2585,8 @@ msgid "Sign in to save the translation."
 msgstr "Accedi per salvare la traduzione."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Privilegi insufficienti per salvare le traduzioni."
+msgstr "Privilegi insufficienti per approvare le traduzioni."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -4647,15 +4645,15 @@ msgstr "Lingua %s rimossa."
 
 #: weblate/legal/forms.py:11
 msgid "I agree with the Terms of Service document"
-msgstr "Sono d'accordo con i Termini del servizio"
+msgstr "Accetto i Termini del servizio"
 
 #: weblate/legal/middleware.py:42
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
-"È disponibile una nuova versione del documento dei Termini del servizio. "
-"Leggilo e conferma che sei d'accordo col nuovo documento."
+"È disponibile una nuova versione dei Termini del servizio. Ti preghiamo di "
+"leggerla e confermare che sei d'accordo col nuovo documento."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -5021,10 +5019,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Impossibile analizzare il file JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Impossibile analizzare il file TMX!"
+msgstr "Non posso analizzare il file TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5547,6 +5544,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Le e-mail non sono istantanee. Prima di scriverci segnalando problemi, si "
+"prega di attendete l'e-mail di conferma per almeno 30 minuti."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -7406,11 +7405,11 @@ msgstr "Accordo di collaborazione"
 
 #: weblate/templates/contributor-agreement.html:15
 msgid "Please review the contributor agreement"
-msgstr "Rivedi l'accordo di collaborazione"
+msgstr "Si prega di leggere l'accordo di collaborazione"
 
 #: weblate/templates/contributor-agreement.html:17
 msgid "Please read following contributor agreement:"
-msgstr "Leggi l'accordo di collaborazione che segue:"
+msgstr "Si prega di leggere il seguente accordo:"
 
 #: weblate/templates/contributor-agreement.html:28
 msgid "You have already agreed to this agreement."
@@ -8464,13 +8463,11 @@ msgid "View invitation"
 msgstr "Visualizza invito"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Il collegamento di conferma non sarà più valido dopo %(count)s ora."
-msgstr[1] "Il collegamento di conferma non sarà più valido dopo %(count)s ore."
+msgstr[0] "L'invito non sarà più valido dopo %(count)s ora."
+msgstr[1] "L'invito non sarà più valido dopo %(count)s ore."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -12702,25 +12699,20 @@ msgstr ""
 "questa lingua."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Personalizza il flusso di lavoro traduzione per questa lingua"
+msgstr ""
+"Personalizza il flusso di lavoro per la traduzione di questa lingua nel "
+"progetto"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Il flusso di lavoro di traduzione è configurato in progetto e componente. "
-"Abilitando qui la personalizzazione, sovrascriverai le impostazioni per "
-"questa lingua."
+"Il flusso di lavoro della traduzione è configurato a livello di progetto, "
+"componente e lingua. Abilitando qui la personalizzazione, ignorerai tali "
+"impostazioni per questa lingua in questo progetto."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12941,10 +12933,8 @@ msgid "Notify users"
 msgstr "Notifica agli utenti"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Invia un invito tramite posta elettronica all’utente"
+msgstr "Invia una notifica agli utenti iscritti."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13591,10 +13581,8 @@ msgstr ""
 "le traduzioni."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
-msgstr "Accettazione automatica suggerimenti"
+msgstr "Accettare automaticamente i suggerimenti"
 
 #: weblate/trans/models/component.py:523 weblate/trans/models/workflow.py:44
 msgid ""
@@ -14252,8 +14240,8 @@ msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"Impossibile propagare la stringa a %(component)s perché non sei d'accordo "
-"con un contratto di collaborazione."
+"Non è stato possibile propagare la stringa a %(component)s perché non hai "
+"accettato un contratto di collaborazione."
 
 #: weblate/trans/models/unit.py:1684
 msgid "Unmark as read-only"
@@ -14667,16 +14655,12 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "La maschera file non contiene * come identificatore lingua!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Il valore 1 per l'accettazione automatica non è consentito poiché "
-"permetterebbe agli utenti di votare i propri suggerimenti."
+"Il valore 1 non è ammesso per l'accettazione automatica, poiché "
+"consentirebbe agli utenti di votare i propri suggerimenti."
 
 #: weblate/trans/validators.py:42
 #, python-format
