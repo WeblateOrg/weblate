@@ -338,7 +338,7 @@ class Formatter:
             re.escape(self.search_match), self.value, flags=re.IGNORECASE
         ):
             self.tags[match.start()].append(start_tag)
-            self.tags[match.end()].append(end_tag)
+            self.tags[match.end()].insert(0, end_tag)
 
     def parse_whitespace(self):
         """Highlight whitespaces."""
