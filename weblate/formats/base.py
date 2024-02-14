@@ -15,7 +15,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from weblate_language_data.countries import DEFAULT_LANGS
 
-from weblate.trans.util import get_string, join_plural
+from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
@@ -427,7 +427,7 @@ class TranslationFormat:
     @staticmethod
     def save_atomic(filename, callback):
         dirname, basename = os.path.split(filename)
-        if not os.path.exists(dirname):
+        if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
         temp = tempfile.NamedTemporaryFile(prefix=basename, dir=dirname, delete=False)
         try:
@@ -738,8 +738,8 @@ class TranslationFormat:
 
         # Iterate over copy of a list as we are changing it when removing units
         for ttkit_unit in list(self.all_store_units):
-            target = self.unit_class(self, ttkit_unit, ttkit_unit).target
-            if not target or (isinstance(target, list) and not any(target)):
+            target = split_plural(self.unit_class(self, ttkit_unit, ttkit_unit).target)
+            if not any(target):
                 changed = True
                 item = self.delete_unit(ttkit_unit)
                 if item is not None:

@@ -31,6 +31,7 @@ Not yet released.
 * Added missing documentation for :setting:`ADMINS_CONTACT`.
 * Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new whitespace.
 * Pending changes committing could be omitted under some circumstances.
+* :ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals.
 
 **Compatibility**
 
