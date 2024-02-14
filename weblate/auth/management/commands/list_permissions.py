@@ -87,9 +87,10 @@ class Command(BaseCommand):
 
         for name, permissions in ROLES:
             self.stdout.write(f"`{name}`")
+            self.stdout.write("    ", ending="")
             self.stdout.write(
-                "    ",
                 ", ".join(
-                    f":guilabel:`{PERMISSION_NAMES[perm]}`" for perm in permissions
-                ),
+                    f":guilabel:`{PERMISSION_NAMES[perm]}`"
+                    for perm in sorted(permissions)
+                )
             )
