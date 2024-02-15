@@ -34,10 +34,7 @@ if [ "$DO_TAG" -eq 1 ] ; then
     git pull -q
     git tag -s "$namever" -m "Test data for version $version"
     cd ~/weblate/weblate
-fi
 
-# Upload release
-if [ "$DO_TAG" -eq 1 ] ; then
     # Git tags
     git push --tags
     cd ~/weblate/test
