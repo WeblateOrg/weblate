@@ -1184,6 +1184,9 @@ class CategorySerializer(RemovableSerializer):
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
         self.fields["project"].queryset = user.managed_projects
+        self.fields["category"].queryset = Category.objects.filter(
+            project__in=user.managed_projects
+        )
 
     def validate(self, attrs):
         # Call model validation here, DRF does not do that

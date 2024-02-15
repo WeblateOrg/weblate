@@ -19,6 +19,7 @@ from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
+    Category,
     Change,
     Component,
     ComponentList,
@@ -4002,17 +4003,19 @@ class AddonAPITest(APIBaseTest):
 
 
 class CategoryAPITest(APIBaseTest):
-    def create_category(self):
+    def create_category(self, code: int = 201, **kwargs):
+        request = {
+            "name": "Category Test",
+            "slug": "category-test",
+            "project": reverse("api:project-detail", kwargs=self.project_kwargs),
+        }
+        request.update(kwargs)
         return self.do_request(
             "api:category-list",
             method="post",
             superuser=True,
-            request={
-                "name": "Category Test",
-                "slug": "category-test",
-                "project": reverse("api:project-detail", kwargs=self.project_kwargs),
-            },
-            code=201,
+            request=request,
+            code=code,
         )
 
     def list_categories(self):
@@ -4026,6 +4029,35 @@ class CategoryAPITest(APIBaseTest):
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
         self.create_category()
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 1)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 1)
+
+    def test_create_nested(self):
+        self.create_category()
+        self.create_category(
+            category=reverse(
+                "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
+            )
+        )
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 2)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 2)
+
+    def test_create_nested_mismatch(self):
+        component = self.create_acl()
+        self.create_category()
+        self.create_category(
+            category=reverse(
+                "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
+            ),
+            project=reverse(
+                "api:project-detail", kwargs={"slug": component.project.slug}
+            ),
+            code=400,
+        )
         response = self.list_categories()
         self.assertEqual(response.data["count"], 1)
         request = self.do_request("api:project-categories", self.project_kwargs)
