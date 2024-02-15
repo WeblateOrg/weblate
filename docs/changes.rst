@@ -9,6 +9,7 @@ Released on February 15th 2024.
 * :doc:`/formats/moko`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
+* Weblate is now available in தமிழ்.
 
 **Improvements**
 
