@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
-"PO-Revision-Date: 2024-02-15 13:17+0000\n"
+"PO-Revision-Date: 2024-02-15 16:36+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -22161,10 +22161,10 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
-"Sperrt die Komponente (und verknüpfte Komponenten, siehe :ref:`internal-"
-"urls`) beim ersten fehlgeschlagenen Push oder Merge in das Upstream-"
-"Repository oder beim Pull daraus. Dies vermeidet das Entstehen weiterer "
-"Konflikte, die manuell gelöst werden müssten."
+"Sperrt die Komponente (und verlinkte Komponenten, siehe :ref:`internal-urls`)"
+" beim ersten fehlgeschlagenen Push oder Merge in das Upstream-Repository "
+"oder beim Pull daraus. Dies vermeidet das Entstehen weiterer Konflikte, die "
+"manuell gelöst werden müssten."
 
 #: ../../admin/projects.rst:848
 msgid ""
@@ -24762,6 +24762,9 @@ msgid ""
 ":ref:`component-repo`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used, use ``linked_component`` to detect this situation"
 msgstr ""
+":ref:`component-repo`, dies ist die tatsächliche Repository-URL, auch wenn "
+":ref:`internal-urls` verwendet werden, ``linked_component`` verwenden, um "
+"diese Situation zu erkennen"
 
 #: ../../api.rst:1200
 msgid ":ref:`component-git_export`"
@@ -24772,18 +24775,24 @@ msgid ""
 ":ref:`component-branch`, this is the actual repository branch even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-branch`, dies ist der tatsächliche Repository-Branch, auch "
+"wenn :ref:`internal-urls` verwendet werden"
 
 #: ../../api.rst:1202
 msgid ""
 ":ref:`component-push`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-push`, dies ist die tatsächliche Repository-URL, auch wenn "
+":ref:`internal-urls` verwendet werden"
 
 #: ../../api.rst:1203
 msgid ""
 ":ref:`component-push_branch`, this is the actual repository brach even when :"
 "ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push_branch`, dies ist der tatsächliche Repository-Branch, "
+"auch wenn :ref:`internal-urls` verwendet werden"
 
 #: ../../api.rst:1204 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
@@ -26704,13 +26713,12 @@ msgid "Nicer formatting of :ref:`glossary` tooltips."
 msgstr "Bessere Formatierung der :ref:`Glossar`-Kurzinfos."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
-msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
+msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/` enthält "
+"jetzt Informationen über die verlinkte Komponente."
 
 #: ../../changes.rst:26
 #, fuzzy
@@ -41858,8 +41866,8 @@ msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
 msgstr ""
-"Weblate mit diesem Repository verknüpfen, es benötigt keinen Zugriff mehr "
-"auf das Repository mit Ihrem Quellcode."
+"Weblate mit diesem Repository verlinken, es benötigt keinen Zugriff mehr auf "
+"das Repository mit Ihrem Quellcode."
 
 #: ../../faq.rst:237
 msgid "You can update the main repository with translations from Weblate by:"
@@ -43784,7 +43792,7 @@ msgid ""
 "linking to corresponding source files."
 msgstr ""
 "In der Datei gespeicherte Kontextinformationen werden durch Anpassen des "
-"Headers oder durch Verknüpfen mit entsprechenden Quelldateien unterstützt."
+"Headers oder durch Verlinken mit entsprechenden Quelldateien unterstützt."
 
 #: ../../formats/gettext.rst:17
 msgid ""
@@ -52040,14 +52048,14 @@ msgid ""
 msgstr ""
 "Teilen Sie eine Repository-Einrichtung zwischen verschiedenen Komponenten, "
 "indem Sie auf seine Platzierung als ``weblate://project/component`` in "
-"anderen (verknüpften) Komponenten verweisen. Auf diese Weise verwenden "
-"verknüpfte Komponenten die VCS-Repository-Konfiguration der "
+"anderen (verlinkten) Komponenten verweisen. Auf diese Weise verwenden "
+"verlinkte Komponenten die VCS-Repository-Konfiguration der "
 "Haupt(referenzierten) Komponente."
 
 #: ../../vcs.rst:203
 msgid "Removing main component also removes linked components."
 msgstr ""
-"Beim Entfernen der Hauptkomponente werden auch die verknüpften Komponenten "
+"Beim Entfernen der Hauptkomponente werden auch die verlinkten Komponenten "
 "entfernt."
 
 #: ../../vcs.rst:205
