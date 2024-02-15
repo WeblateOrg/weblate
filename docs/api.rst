@@ -1200,7 +1200,7 @@ Components
     :>json string git_export: :ref:`component-git_export`
     :>json string branch: :ref:`component-branch`, this is the actual repository branch even when :ref:`internal-urls` are used
     :>json string push: :ref:`component-push`, this is the actual repository URL even when :ref:`internal-urls` are used
-    :>json string push_branch: :ref:`component-push_branch`, this is the actual repository brach even when :ref:`internal-urls` are used
+    :>json string push_branch: :ref:`component-push_branch`, this is the actual repository branch even when :ref:`internal-urls` are used
     :>json string filemask: :ref:`component-filemask`
     :>json string template: :ref:`component-template`
     :>json string edit_template: :ref:`component-edit_template`
