@@ -53,6 +53,12 @@ jobs:
       run: ./ci/run-checkmigrate
     - name: Migrate from 5.0
       run: ./ci/run-migrate 5.0.2
+    - name: Migrate from 5.1
+      run: ./ci/run-migrate 5.1.1
+    - name: Migrate from 5.2
+      run: ./ci/run-migrate 5.2.1
+    - name: Migrate from 5.3
+      run: ./ci/run-migrate 5.3.1
     - name: Coverage
       run: |
         coverage combine
