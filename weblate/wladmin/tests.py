@@ -320,7 +320,7 @@ class AdminTest(ViewTestCase):
     def test_group_management(self):
         # Add form
         response = self.client.get(reverse("admin:weblate_auth_group_add"))
-        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, "Automatic team assignment")
 
         # Create group
         name = "Test group"
@@ -341,7 +341,7 @@ class AdminTest(ViewTestCase):
         group = Group.objects.get(name=name)
         url = reverse("admin:weblate_auth_group_change", kwargs={"object_id": group.pk})
         response = self.client.get(url)
-        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, "Automatic team assignment")
         self.assertContains(response, name)
 
     def test_groups(self):

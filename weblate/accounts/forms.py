@@ -914,7 +914,7 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=gettext_lazy("Add user to a group"),
+        label=gettext_lazy("Add user to a team"),
         queryset=Group.objects.prefetch_related("defining_project").order(),
         required=True,
     )
@@ -926,7 +926,7 @@ class GroupAddForm(forms.Form):
         self.helper.field_template = "bootstrap3/layout/inline_field.html"
         self.helper.layout = Layout(
             "add_group",
-            Submit("add_group_button", gettext("Add group")),
+            Submit("add_group_button", gettext("Add team")),
         )
 
 
