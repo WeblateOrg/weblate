@@ -31,6 +31,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
+from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -467,6 +468,10 @@ class SeleniumTests(
 
     def test_screenshots(self):
         """Screenshot tests."""
+        # Make sure tesseract data is present and not downloaded at request time
+        # what will cause test timeout.
+        ensure_tesseract_language("eng")
+
         text = (
             "Automatic translation via machine translation uses active "
             "machine translation engines to get the best possible "
