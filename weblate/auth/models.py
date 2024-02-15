@@ -107,7 +107,7 @@ class Group(models.Model):
         Role,
         verbose_name=gettext_lazy("Roles"),
         blank=True,
-        help_text=gettext_lazy("Choose roles granted to this group."),
+        help_text=gettext_lazy("Choose roles granted to this team."),
     )
 
     defining_project = models.ForeignKey(
@@ -159,7 +159,7 @@ class Group(models.Model):
     )
 
     internal = models.BooleanField(
-        verbose_name=gettext_lazy("Internal Weblate group"), default=False
+        verbose_name=gettext_lazy("Internal Weblate team"), default=False
     )
 
     admins = models.ManyToManyField(
@@ -774,18 +774,18 @@ class AutoGroup(models.Model):
         max_length=200,
         default="^$",
         help_text=gettext_lazy(
-            "Users with e-mail addresses found to match will be added to this group."
+            "Users with e-mail addresses found to match will be added to this team."
         ),
     )
     group = models.ForeignKey(
         Group,
-        verbose_name=gettext_lazy("Group to assign"),
+        verbose_name=gettext_lazy("Team to assign"),
         on_delete=models.deletion.CASCADE,
     )
 
     class Meta:
-        verbose_name = "Automatic group assignment"
-        verbose_name_plural = "Automatic group assignments"
+        verbose_name = "Automatic team assignment"
+        verbose_name_plural = "Automatic team assignments"
 
     def __str__(self):
         return f"Automatic rule for {self.group}"
