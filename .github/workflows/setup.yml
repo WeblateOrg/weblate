@@ -158,7 +158,7 @@ jobs:
     - uses: actions/download-artifact@v4
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
-      run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delet
+      run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
 
