@@ -3,9 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for data exports."""
-
 import os
-from unittest import SkipTest
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -13,6 +11,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
+from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
 
 from weblate.checks.models import Check
@@ -116,9 +115,16 @@ class BackupsTest(ViewTestCase):
             set(restored.label_set.values_list("name", "color")),
         )
 
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_supported(self):
+        self.assertTrue(connection.features.can_return_rows_from_bulk_insert)
+
+    @skipIfDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_not_supported(self):
+        self.assertFalse(connection.features.can_return_rows_from_bulk_insert)
+
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_4_14(self):
-        if not connection.features.can_return_rows_from_bulk_insert:
-            raise SkipTest("Not supported")
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
         restored = restore.restore(
@@ -157,9 +163,8 @@ class BackupsTest(ViewTestCase):
             set(restored.label_set.values_list("name", "color")),
         )
 
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate(self):
-        if not connection.features.can_return_rows_from_bulk_insert:
-            raise SkipTest("Not supported")
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
             restore.validate()
@@ -211,9 +216,8 @@ class BackupsTest(ViewTestCase):
         with staticfiles_storage.open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_view_restore(self):
-        if not connection.features.can_return_rows_from_bulk_insert:
-            raise SkipTest("Not supported")
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(
