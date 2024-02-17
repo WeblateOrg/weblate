@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-02-18 08:31+0000\n"
+"Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
 "Language: cy\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.4\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2587,10 +2587,8 @@ msgid "Sign in to save the translation."
 msgstr "Mewngofnodwch i gadw cyfieithiadau."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Dim digon o freintiau i gadw cyfieithiadau."
+msgstr "Dim digon o freintiau i gymeradwyo cyfieithiadau."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -5018,10 +5016,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Wedi methu dosrannu ffeil JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Wedi methu dosrannu ffeil TMX!"
+msgstr "Wedi methu dosrannu ffeil TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5545,6 +5542,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Nid yw e-bost yn dechnoleg sydyn. Arhoswch am yr e-bost cadarnhau am o leiaf "
+"30 munud cyn ysgrifennu atom am faterion problemus."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -8540,17 +8539,15 @@ msgid "View invitation"
 msgstr "Gweld gwahoddiad"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Daw'r ddolenni cadarnhau i ben ar ôl %(count)s awr."
-msgstr[1] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
-msgstr[2] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
-msgstr[3] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
-msgstr[4] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
-msgstr[5] "Daw'r ddolen gadarnhau i ben ar ôl %(count)s awr."
+msgstr[0] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
+msgstr[1] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
+msgstr[2] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
+msgstr[3] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
+msgstr[4] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
+msgstr[5] "Daw'r gwahoddiad i ben ar ôl %(count)s awr."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -10152,7 +10149,7 @@ msgstr "Cymeradwy"
 
 #: weblate/templates/snippets/list-objects.html:75
 msgid "Unfinished"
-msgstr "Heb ei orffen"
+msgstr "Heb orffen"
 
 #: weblate/templates/snippets/list-objects.html:85
 msgid "Unfinished words"
@@ -12865,25 +12862,18 @@ msgstr ""
 "yr iaith hon."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Cyfaddasu llif gwaith cyfieithu yr iaith hon"
+msgstr "Cyfaddasu llif gwaith cyfieithu yr iaith honno fewn y project hwn"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Mae'r llif gwaith cyfieithu wedi'i ffurfweddu ar sail project a chydran. "
-"Trwy alluogi cyfaddasu yma, rydych chi'n diystyru'r gosodiadau hyn ar gyfer "
-"yr iaith hon."
+"Mae'r llif gwaith cyfieithu wedi'i ffurfweddu ar sail project, cydran ac "
+"iaith. Trwy alluogi cyfaddasu yma, rydych chi'n diystyru'r gosodiadau hyn ar "
+"gyfer yr iaith hon o fewn y project hwn."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -13100,10 +13090,8 @@ msgid "Notify users"
 msgstr "Hysbysu defnyddwyr"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Anfon gwahoddiad e-bost at y defnyddiwr"
+msgstr "Anfon hysbysiad at ddefnyddiwr sydd wedi tanysgrifo."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13749,8 +13737,6 @@ msgstr ""
 "cyfieithiadau uniongyrchol."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "Derbyn cynigion yn awtomatig"
 
@@ -14887,16 +14873,12 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Nid yw mwgwd ffeil yn cynnwys * fel dalfan iaith!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Ni chaniateir gwerth 1 ar gyfer derbyn yn awtomatig gan y byddai'n caniatáu "
-"i ddefnyddwyr bleidleisio ar eu hawgrymiadau eu hunain."
+"Nid yw'r gwerth o 1 yn cael ei ganiatáu ar gyfer derbyn yn awtomatig gan y "
+"byddai'n caniatáu i ddefnyddwyr bleidleisio ar eu hawgrymiadau eu hunain."
 
 #: weblate/trans/validators.py:42
 #, python-format
