@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from io import BytesIO
+from unittest import TestCase
 from urllib.parse import urlsplit
 from zipfile import ZipFile
 
@@ -35,7 +36,7 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.xml import parse_xml
 
 
-class RegistrationTestMixin:
+class RegistrationTestMixin(TestCase):
     """Helper to share code for registration testing."""
 
     def assert_registration_mailbox(self, match=None):

@@ -24,6 +24,7 @@ class VCSConf(AppConf):
     )
     VCS_CLONE_DEPTH = 1
     VCS_API_DELAY = 10
+    VCS_FILE_PROTOCOL = False
 
     # GitHub username for sending pull requests
     GITHUB_CREDENTIALS = {}

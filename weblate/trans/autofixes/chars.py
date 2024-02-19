@@ -8,7 +8,9 @@ from django.utils.translation import gettext_lazy
 
 from weblate.checks.chars import (
     FRENCH_PUNCTUATION_FIXUP_RE,
-    FRENCH_PUNCTUATION_MISSING_RE,
+    EndEllipsisCheck,
+    PunctuationSpacingCheck,
+    ZeroWidthSpaceCheck,
 )
 from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
@@ -19,6 +21,10 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
 
     fix_id = "end-ellipsis"
     name = gettext_lazy("Trailing ellipsis")
+
+    @staticmethod
+    def get_related_checks():
+        return [EndEllipsisCheck()]
 
     def fix_single_target(self, target, source, unit):
         if source and source[-1] == "…" and target.endswith("..."):
@@ -31,6 +37,10 @@ class RemoveZeroSpace(AutoFix):
 
     fix_id = "zero-width-space"
     name = gettext_lazy("Zero-width space")
+
+    @staticmethod
+    def get_related_checks():
+        return [ZeroWidthSpaceCheck()]
 
     def fix_single_target(self, target, source, unit):
         if unit.translation.language.base_code == "km":
@@ -73,6 +83,10 @@ class PunctuationSpacing(AutoFix):
     fix_id = "punctuation-spacing"
     name = gettext_lazy("Punctuation spacing")
 
+    @staticmethod
+    def get_related_checks():
+        return [PunctuationSpacingCheck()]
+
     def fix_single_target(self, target, source, unit):
         if (
             unit.translation.language.is_base(("fr", "br"))
@@ -81,9 +95,7 @@ class PunctuationSpacing(AutoFix):
         ):
             # Fix existing
             new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE, "\u202F\\2", target)
-            # Add missing
-            new_target = re.sub(
-                FRENCH_PUNCTUATION_MISSING_RE, "\\1\u202F\\2", new_target
-            )
+            # Do not add missing as that is likely to trigger issues with other content
+            # such as URLs or Markdown syntax.
             return new_target, new_target != target
         return target, False

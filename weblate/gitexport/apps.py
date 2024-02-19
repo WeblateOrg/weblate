@@ -14,11 +14,8 @@ class GitExportConfig(AppConfig):
     label = "gitexport"
     verbose_name = "Git Exporter"
 
-    def ready(self):
-        super().ready()
-        register(check_git_backend)
 
-
+@register
 def check_git_backend(app_configs, **kwargs):
     if find_git_http_backend() is None:
         return [

@@ -7,8 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.utils.html import escape
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
 from weblate.checks.fluent.utils import FluentUnitConverter, translation_from_check
@@ -44,8 +43,8 @@ class FluentSourceSyntaxCheck(_FluentSyntaxCheck, SourceCheck):
     """Check that the source uses valid Fluent syntax."""
 
     check_id = "fluent-source-syntax"
-    name = _("Fluent source syntax")
-    description = _("Fluent syntax error in source")
+    name = gettext_lazy("Fluent source syntax")
+    description = gettext_lazy("Fluent syntax error in source")
     default_disabled = True
 
     def check_source_unit(self, source: list[str], unit: TransUnitModel) -> bool:
@@ -61,8 +60,8 @@ class FluentTargetSyntaxCheck(_FluentSyntaxCheck, TargetCheck):
     """Check that the target uses valid Fluent syntax."""
 
     check_id = "fluent-target-syntax"
-    name = _("Fluent translation syntax")
-    description = _("Fluent syntax error in translation")
+    name = gettext_lazy("Fluent translation syntax")
+    description = gettext_lazy("Fluent syntax error in translation")
     default_disabled = True
 
     def check_single(

@@ -7,7 +7,7 @@ import random
 import time
 from hashlib import sha1
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
 
 NETEASE_API_ROOT = "https://jianwai.netease.com/api/text/trans"
@@ -32,16 +32,15 @@ class NeteaseSightTranslation(MachineTranslation):
         nonce = str(random.randint(1000, 99999999))  # noqa: S311
         timestamp = str(int(1000 * time.time()))
 
-        sign = self.settings["secret"] + nonce + timestamp
-        sign = sign.encode()
-        sign = sha1(sign, usedforsecurity=False).hexdigest()
+        payload = self.settings["secret"] + nonce + timestamp
+        signature = sha1(payload.encode(), usedforsecurity=False).hexdigest()
 
         return {
             "Content-Type": "application/json",
             "appkey": self.settings["key"],
             "nonce": nonce,
             "timestamp": timestamp,
-            "signature": sign,
+            "signature": signature,
         }
 
     def download_translations(
@@ -52,7 +51,7 @@ class NeteaseSightTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(
             "post", NETEASE_API_ROOT, json={"lang": source, "content": text}

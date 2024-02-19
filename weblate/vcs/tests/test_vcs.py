@@ -9,6 +9,7 @@ import os.path
 import re
 import shutil
 import tempfile
+from typing import Any
 from unittest import SkipTest
 from unittest.mock import patch
 
@@ -20,7 +21,7 @@ from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.git import (
     AzureDevOpsRepository,
     BitbucketServerRepository,
@@ -114,7 +115,7 @@ class RepositoryTest(TestCase):
 
 
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
-    _class = GitRepository
+    _class: type[Repository] = GitRepository
     _vcs = "git"
     _sets_push = True
     _remote_branches = ["main", "translations"]
@@ -1844,6 +1845,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
     }
 
     def mock_fork_response(self, status: int):
+        body: dict[str, Any] = {}
         if status == 201:
             body = self._bb_fork_stub
         elif status == 409:
@@ -1876,9 +1878,10 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
 
     def mock_repo_forks_response(self, status: int, pages: int = 0):
+        body: dict[str, Any] = {}
         path = "rest/api/1.0/projects/bb_pk/repos/bb_repo/forks"
         if status == 200:
-            origin = copy.deepcopy(self._bb_fork_stub)
+            origin: dict[str, Any] = copy.deepcopy(self._bb_fork_stub)
             origin["slug"] = "bb_repo"
             origin["project"]["key"] = "bb_pk"
             fork = copy.deepcopy(self._bb_fork_stub)
@@ -1914,12 +1917,11 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
 
     def mock_reviewer_reponse(self, status, branch=""):
         path = "rest/default-reviewers/1.0/projects/bb_pk/repos/bb_repo/reviewers"
+        body: dict[str, Any] | list = []
         if status == 200:
             body = {"name": "user name", "id": 123}
         elif status == 400:
             body = self._bb_api_error_stub
-        else:
-            body = []
 
         if not branch:
             branch = "weblate-test-test"
@@ -1933,6 +1935,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
 
     def mock_pr_response(self, status):
+        body: dict[str, Any] = {}
         if status == 201:
             body = {"id": "333"}
         elif status == 409:

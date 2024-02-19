@@ -28,7 +28,7 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
     FIND = "Myocardial infarction (disorder)"
     FIND_CONTEXT = "22298006"
     FIND_MATCH = join_plural(
-        ("Infarctus myocardique", "Infarctus du myocarde", "Infarctus cardiaque")
+        ["Infarctus myocardique", "Infarctus du myocarde", "Infarctus cardiaque"]
     )
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
     EXPECTED_FLAGS = ""

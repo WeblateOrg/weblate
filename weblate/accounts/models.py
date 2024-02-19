@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import F, Q
+from django.db.models.functions import Upper
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -179,6 +180,9 @@ ACCOUNT_ACTIVITY_METHOD = {
     },
     "project": {
         "invited": gettext_lazy("Invited to {project} by {username}."),
+    },
+    "configured": {
+        "password": gettext_lazy("Password configured."),
     },
 }
 
@@ -367,6 +371,12 @@ class VerifiedEmail(models.Model):
     class Meta:
         verbose_name = "Verified e-mail"
         verbose_name_plural = "Verified e-mails"
+        indexes = [
+            models.Index(
+                Upper("email"),
+                name="accounts_verifiedemail_email",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.social.user.username} - {self.email}"

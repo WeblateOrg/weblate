@@ -11,6 +11,10 @@
 <div class="line buttons">
   <a class="button" href="{{ invitation.get_absolute_url }}">{% trans "View invitation" %}</a>
 </div>
+
+<p>
+{% blocktrans count count=validity %}The invitation will expire after {{ count }} hour.{% plural %}The invitation will expire after {{ count }} hours.{% endblocktrans %}
+</p>
 {% else %}
   {% include "mail/shared-registration.html" with url=invitation.get_absolute_url action="invite" %}
 {% endif %}

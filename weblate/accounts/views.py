@@ -607,14 +607,11 @@ class UserPage(UpdateView):
         # Filter all user activity
         all_changes = Change.objects.last_changes(request.user).filter(user=user)
 
-        # Last user activity
-        last_changes = all_changes[:10]
-
         # Filter where project is active
         user_translation_ids = set(
-            all_changes.filter(
-                timestamp__gte=timezone.now() - timedelta(days=90)
-            ).values_list("translation", flat=True)
+            all_changes.content()
+            .filter(timestamp__gte=timezone.now() - timedelta(days=90))
+            .values_list("translation", flat=True)
         )
         user_translations = (
             Translation.objects.prefetch()
@@ -626,7 +623,8 @@ class UserPage(UpdateView):
         )
 
         context["page_profile"] = user.profile
-        context["last_changes"] = last_changes.preload()
+        # Last user activity
+        context["last_changes"] = all_changes.recent()
         context["last_changes_url"] = urlencode({"user": user.username})
         context["page_user_translations"] = translation_prefetch_tasks(
             prefetch_stats(user_translations)
@@ -652,9 +650,11 @@ class UserPage(UpdateView):
 
 
 def user_contributions(request, user: str):
-    user = get_object_or_404(User, username=user)
+    page_user = get_object_or_404(User, username=user)
     user_translation_ids = set(
-        Change.objects.filter(user=user).values_list("translation", flat=True)
+        Change.objects.content()
+        .filter(user=page_user)
+        .values_list("translation", flat=True)
     )
     user_translations = (
         Translation.objects.filter_access(request.user)
@@ -668,8 +668,8 @@ def user_contributions(request, user: str):
         request,
         "accounts/user_contributions.html",
         {
-            "page_user": user,
-            "page_profile": user.profile,
+            "page_user": page_user,
+            "page_profile": page_user.profile,
             "page_user_translations": translation_prefetch_tasks(
                 prefetch_stats(get_paginator(request, user_translations))
             ),
@@ -692,15 +692,15 @@ def user_avatar(request, user: str, size: int):
     if size not in allowed_sizes:
         raise Http404(f"Not supported size: {size}")
 
-    user = get_object_or_404(User, username=user)
+    avatar_user = get_object_or_404(User, username=user)
 
-    if user.email == "noreply@weblate.org":
+    if avatar_user.email == "noreply@weblate.org":
         return redirect(get_fallback_avatar_url(size))
-    if user.email == f"noreply+{user.pk}@weblate.org":
+    if avatar_user.email == f"noreply+{avatar_user.pk}@weblate.org":
         return redirect(os.path.join(settings.STATIC_URL, "state/ghost.svg"))
 
     response = HttpResponse(
-        content_type="image/png", content=get_avatar_image(user, size)
+        content_type="image/png", content=get_avatar_image(avatar_user, size)
     )
 
     patch_response_headers(response, 3600 * 24 * 7)

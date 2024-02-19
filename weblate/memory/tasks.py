@@ -8,7 +8,7 @@ from django.db import transaction
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
-from weblate.memory.utils import is_valid_entry
+from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -43,7 +43,11 @@ def handle_unit_translation_change(unit_id, user_id=None):
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
-    unit = Unit.objects.prefetch().get(pk=unit_id)
+    try:
+        unit = Unit.objects.prefetch().get(pk=unit_id)
+    except Unit.DoesNotExist:
+        # Unit was removed meanwhile
+        return
     update_memory(user, unit)
 
 
@@ -58,12 +62,12 @@ def update_memory(user, unit, component=None, project=None):
         "origin": component.full_slug,
     }
 
-    if not is_valid_entry(**params):
+    if not is_valid_memory_entry(**params):
         return
 
     add_project = True
     add_shared = project.contribute_shared_tm
-    add_user = user is not None
+    add_user = user is not None and not user.is_bot
 
     # Check matching entries in memory
     for matching in Memory.objects.filter(from_file=False, **params):

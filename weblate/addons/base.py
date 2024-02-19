@@ -8,20 +8,14 @@ import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
-from weblate.addons.events import (
-    EVENT_COMPONENT_UPDATE,
-    EVENT_DAILY,
-    EVENT_POST_COMMIT,
-    EVENT_POST_PUSH,
-    EVENT_POST_UPDATE,
-    EVENT_STORE_POST_LOAD,
-)
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.addons.tasks import postconfigure_addon
 from weblate.trans.exceptions import FileParseError
@@ -32,17 +26,20 @@ from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: tuple[int, ...] = ()
-    settings_form = None
+    events: tuple[AddonEvent, ...] = ()
+    settings_form: None | type[BaseAddonForm] = None
     name = ""
-    compat = {}
+    compat: dict[str, set[str]] = {}
     multiple = False
-    verbose = "Base add-on"
-    description = "Base add-on"
+    verbose: StrOrPromise = "Base add-on"
+    description: StrOrPromise = "Base add-on"
     icon = "cog.svg"
     project_scope = False
     repo_scope = False
@@ -56,6 +53,7 @@ class BaseAddon:
     def __init__(self, storage=None):
         self.instance = storage
         self.alerts = []
+        self.extra_files = []
 
     @cached_property
     def doc_anchor(self):
@@ -136,20 +134,20 @@ class BaseAddon:
 
         previous = component.repository.last_revision
 
-        if EVENT_POST_COMMIT in self.events:
+        if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
             self.post_commit(component)
-        if EVENT_POST_UPDATE in self.events:
+        if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
-            self.post_update(component, "", False)
-        if EVENT_COMPONENT_UPDATE in self.events:
+            self.post_update(component, "", False, False)
+        if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
             self.component_update(component)
-        if EVENT_POST_PUSH in self.events:
+        if AddonEvent.EVENT_POST_PUSH in self.events:
             component.log_debug("running post_push add-on: %s", self.name)
             self.post_push(component)
-        if EVENT_DAILY in self.events:
+        if AddonEvent.EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
             self.daily(component)
 
@@ -186,7 +184,7 @@ class BaseAddon:
         """Hook triggered before repository is updated from upstream."""
         # To be implemented in a subclass
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         """
         Hook triggered after repository is updated from upstream.
 
@@ -365,11 +363,7 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events = (EVENT_POST_UPDATE,)
-
-    def __init__(self, storage=None):
-        super().__init__(storage)
-        self.extra_files = []
+    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_POST_UPDATE,)
 
     @staticmethod
     def iterate_translations(component):
@@ -380,7 +374,7 @@ class UpdateBaseAddon(BaseAddon):
     def update_translations(self, component, previous_head):
         raise NotImplementedError
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         # Ignore file parse error, it will be properly tracked as an alert
         with suppress(FileParseError):
             self.update_translations(component, previous_head)
@@ -410,5 +404,5 @@ class TestCrashAddon(UpdateBaseAddon):
 class StoreBaseAddon(BaseAddon):
     """Base class for add-ons tweaking store."""
 
-    events = (EVENT_STORE_POST_LOAD,)
+    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_STORE_POST_LOAD,)
     icon = "wrench.svg"

@@ -6,6 +6,7 @@ from time import sleep
 
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.trans.models import Component, Project
+from weblate.trans.tasks import actual_project_removal
 from weblate.utils.management.base import BaseCommand
 
 
@@ -19,8 +20,21 @@ class Command(BaseCommand):
         parser.add_argument(
             "--additional", type=int, default=0, help="number of additional components"
         )
+        parser.add_argument(
+            "--delete",
+            action="store_true",
+            help="Update existing add-ons configuration",
+        )
 
     def handle(self, *args, **options):
+        if options["delete"]:
+            try:
+                project = Project.objects.get(slug="demo")
+            except Project.DoesNotExist:
+                pass
+            else:
+                # Remove without creating a backup
+                actual_project_removal(project.pk, None)
         # Create project
         project = Project.objects.create(
             name="Demo", slug="demo", web="https://demo.weblate.org/"

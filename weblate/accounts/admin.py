@@ -14,6 +14,9 @@ class AuditLogAdmin(WeblateModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
 
 class ProfileAdmin(WeblateModelAdmin):
     list_display = ["user", "full_name", "language", "suggested", "translated"]
@@ -22,6 +25,9 @@ class ProfileAdmin(WeblateModelAdmin):
     filter_horizontal = ("languages", "secondary_languages", "watched")
 
     def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
         return False
 
 

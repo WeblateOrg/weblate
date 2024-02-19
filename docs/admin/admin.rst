@@ -14,9 +14,54 @@ It includes basic overview of your Weblate:
 * Support status, see :doc:`support`
 * Backups, see :doc:`backup`
 * Shared translation memory, see :doc:`memory`
-* Performance report to review Weblate health and length of Celery queues
+* :ref:`manage-performance` to review Weblate health and length of Celery queues
 * SSH keys management, see :ref:`ssh-repos`
 * Alerts overview for all components, see :ref:`alerts`
+* Users and teams, see :ref:`custom-acl`
+* :ref:`manage-appearance`.
+* Configure :ref:`machine-translation-setup`.
+
+.. _manage-performance:
+
+Performance report
+++++++++++++++++++
+
+This page provides an overview of Weblate configuration and performance status.
+
+:guilabel:`Configuration errors` indicate issues present in your environment.
+It covers missing optional dependencies (see :ref:`python-deps`), configuration
+issues or delayed processing of background tasks  (see :ref:`celery`).
+
+:guilabel:`System checks` lists possible configuration issues. These can be
+silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also
+:doc:`django:howto/deployment/checklist`.
+
+:guilabel:`Celery queues` provides overview of Celery queues. These typically
+should be close to zero. The same can be obtained on the command line using
+:wladmin:`celery_queues`.
+
+:guilabel:`System encoding` should list ``UTF-8`` encoding in all processes.
+This needs to be configured in your system, see :ref:`production-encoding`.
+
+:guilabel:`Connectivity` shows latencies to the database, cache, and Celery.
+This might be useful to diagnose connectivity issues.
+
+
+.. _manage-appearance:
+
+Appearance customization
+++++++++++++++++++++++++
+
+.. versionadded:: 4.4
+
+.. note::
+
+   The colors are currently used in both dark and light theme, so be careful
+   when choosing them.
+
+Colors, fonts, and page appearance can be customized here.
+
+If you are looking for more customization, see :doc:`/admin/customize`.
 
 .. _admin-interface:
 

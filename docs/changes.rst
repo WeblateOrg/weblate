@@ -1,24 +1,84 @@
-Weblate 5.4
+Weblate 5.5
 -----------
 
 Not yet released.
 
 **New features**
 
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?closed=1>`__.
+
+Weblate 5.4.1
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+* Possible crash on Weblate upgrade check when cached from the previous versions.
+* Gracefully handle migration with duplicate built-in teams.
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?closed=1>`__.
+
+Weblate 5.4
+-----------
+
+Released on February 15th 2024.
+
+**New features**
+
 * :ref:`check-perl-brace-format` quality check.
 * :doc:`/formats/moko`.
+* :doc:`/formats/formatjs`.
+* Search input is now syntax highlighted, see :doc:`/user/search`.
+* Weblate is now available in தமிழ்.
 
 **Improvements**
 
 * Better logging in :wladmin:`createadmin`.
 * :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
 * Adding string in a repository triggers :ref:`subscriptions`.
+* :ref:`mt-openai` better handles batch translations and glossaries.
+* :ref:`mt-libretranslate` better handles batch translations.
+* Text variant of notification e-mails now properly indicate changed strings.
+* File downloads now honor :http:header:`If-Modified-Since`.
+* :ref:`num-words` support for CJK languages.
+* :ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`.
+* Nicer formatting of :ref:`glossary` tooltips.
+* :http:get:`/api/components/(string:project)/(string:component)/` now includes information about linked component.
+* Improved :ref:`workflow-customization` configuration forms.
 
 **Bug fixes**
 
 * Plural forms handling in :doc:`/formats/qt`.
+* Added missing documentation for :setting:`ADMINS_CONTACT`.
+* Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new whitespace.
+* Pending changes committing could be omitted under some circumstances.
+* :ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals.
 
 **Compatibility**
+
+* Last changed timestamp now reflects changes outside Weblate as well. This affects both :ref:`api` and the user interface.
+* Releases are signed by Sigstore instead of PGP, see :ref:`verify`.
 
 **Upgrading**
 
@@ -52,7 +112,7 @@ Released on December 14th 2023.
 * :ref:`mt-alibaba` automatic suggestion service.
 * Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
 * :ref:`glossary-mt`.
-* New automatic fixed for :ref:`autofix-punctuation-spacing`.
+* New automatic fixer for :ref:`autofix-punctuation-spacing`.
 * :ref:`mt-google-translate-api-v3` now better honors placeables or line breaks.
 
 **Improvements**
@@ -61,7 +121,7 @@ Released on December 14th 2023.
 * :ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:`glossary-mt`.
 * :ref:`mt-microsoft-translator` supports :ref:`glossary-mt`.
 * Improved region selection in :ref:`mt-google-translate-api-v3`.
-* Addded nested JSON exporter in :ref:`download`.
+* Added nested JSON exporter in :ref:`download`.
 * Improved :ref:`git-exporter` performance on huge repositories.
 
 **Bug fixes**
@@ -70,7 +130,7 @@ Released on December 14th 2023.
 
 **Compatibility**
 
-* Dropped Microsoft Terminology service for automatic suggestions as it is no longer provided by Microsoft.
+* Dropped Microsoft Terminology service for automatic suggestions, as it is no longer provided by Microsoft.
 * ``labels`` in units API now expose full label info, see :http:get:`/api/units/(int:id)/`.
 
 **Upgrading**

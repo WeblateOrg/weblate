@@ -10,10 +10,11 @@ import random
 import re
 import time
 from collections import defaultdict
+from collections.abc import Iterable
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -32,6 +33,7 @@ from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
+    from weblate.machinery.forms import BaseMachineryForm
     from weblate.trans.models import Unit
 
 
@@ -53,6 +55,43 @@ class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
+class SettingsDict(TypedDict, total=False):
+    key: str
+    url: str
+    secret: str
+    email: str
+    username: str
+    password: str
+    enable_mt: bool
+    domain: str
+    base_url: str
+    endpoint_url: str
+    region: str
+    credentials: str
+    project: str
+    location: str
+    formality: str
+    model: str
+    persona: str
+    style: str
+
+
+class TranslationResultDict(TypedDict, total=False):
+    text: str
+    quality: int
+    service: str
+    source: str
+    # TODO: only following are actually optional, byt this can be specified
+    # in Python 3.11+
+    show_quality: bool
+    origin: str
+    origin_url: str
+
+
+DownloadTranslations = Iterable[TranslationResultDict]
+DownloadMultipleTranslations = dict[str, list[TranslationResultDict]]
+
+
 class BatchMachineTranslation:
     """Generic object for machine translation services."""
 
@@ -68,8 +107,7 @@ class BatchMachineTranslation:
     accounting_key = "external"
     force_uncleanup = False
     hightlight_syntax = False
-    settings_form = None
-    validate_payload = ("en", "de", [("test", None)], None, 75)
+    settings_form: None | type[BaseMachineryForm] = None
     request_timeout = 5
     is_available = True
 
@@ -77,14 +115,14 @@ class BatchMachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: dict[str, str]):
+    def __init__(self, settings: SettingsDict):
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
-        self.supported_languages_error = None
-        self.supported_languages_error_age = 0
+        self.supported_languages_error: None | Exception = None
+        self.supported_languages_error_age: float = 0
         self.settings = settings
 
     def delete_cache(self):
@@ -98,7 +136,7 @@ class BatchMachineTranslation:
                 gettext("Could not fetch supported languages: %s") % error
             )
         try:
-            self.download_multiple_translations(*self.validate_payload)
+            self.download_multiple_translations("en", "de", [("test", None)], None, 75)
         except Exception as error:
             raise ValidationError(gettext("Could not fetch translation: %s") % error)
 
@@ -248,7 +286,12 @@ class BatchMachineTranslation:
         This includes project ID for project scoped entries via
         Project.get_machinery_settings.
         """
-        key = ["mt", self.mtid, scope, str(calculate_dict_hash(self.settings))]
+        key = [
+            "mt",
+            self.mtid,
+            scope,
+            str(calculate_dict_hash(self.settings)),
+        ]
         for part in parts:
             if isinstance(part, int):
                 key.append(str(part))
@@ -274,15 +317,15 @@ class BatchMachineTranslation:
         """Generates a single replacement."""
         return f"[X{h_start}X]"
 
-    def get_highlights(self, text, unit):
+    def get_highlights(self, text: str, unit) -> Iterable[tuple[int, int, str, Any]]:
         for h_start, h_end, h_text in highlight_string(
             text, unit, hightlight_syntax=self.hightlight_syntax
         ):
             yield h_start, h_end, h_text, None
 
-    def cleanup_text(self, text, unit):
+    def cleanup_text(self, text: str, unit: Unit) -> tuple[str, dict[str, str]]:
         """Removes placeholder to avoid confusing the machine translation."""
-        replacements = {}
+        replacements: dict[str, str] = {}
         if not self.do_cleanup:
             return text, replacements
 
@@ -305,12 +348,13 @@ class BatchMachineTranslation:
             text = re.sub(self.make_re_placeholder(source), target, text)
         return self.unescape_text(text)
 
-    def uncleanup_results(self, replacements: dict[str, str], results: list[str]):
+    def uncleanup_results(
+        self, replacements: dict[str, str], results: list[TranslationResultDict]
+    ):
         """Reverts replacements done by cleanup_text."""
-        keys = ("text", "source")
         for result in results:
-            for key in keys:
-                result[key] = self.uncleanup_text(replacements, result[key])
+            result["text"] = self.uncleanup_text(replacements, result["text"])
+            result["source"] = self.uncleanup_text(replacements, result["source"])
 
     def get_language_possibilities(self, language):
         code = language.code
@@ -400,10 +444,10 @@ class BatchMachineTranslation:
         self,
         source,
         language,
-        sources: list[tuple[str, Unit]],
+        sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
-    ) -> dict[str, list[dict[str, str]]]:
+    ) -> DownloadMultipleTranslations:
         """
         Download dictionary of a lists of possible translations from a service.
 
@@ -423,8 +467,8 @@ class BatchMachineTranslation:
         sources: list[tuple[str, Unit]],
         user=None,
         threshold: int = 75,
-    ) -> dict[str, list[dict[str, str]]]:
-        output = {}
+    ) -> DownloadMultipleTranslations:
+        output: DownloadMultipleTranslations = {}
         pending = defaultdict(list)
         for text, unit in sources:
             original_source = text
@@ -516,9 +560,7 @@ class BatchMachineTranslation:
 
         for unit in units:
             result = unit.machinery
-            if result is None:
-                result = unit.machinery = {}
-            elif min(result.get("quality", ()), default=0) >= self.max_score:
+            if min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
             translation_lists = [translations[text] for text in unit.plural_map]
             plural_count = len(translation_lists)
@@ -550,7 +592,7 @@ class MachineTranslation(BatchMachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """
         Download list of possible translations from a service.
 
@@ -567,10 +609,10 @@ class MachineTranslation(BatchMachineTranslation):
         self,
         source,
         language,
-        sources: list[tuple[str, Unit]],
+        sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
-    ) -> dict[str, list[dict[str, str]]]:
+    ) -> DownloadMultipleTranslations:
         return {
             text: list(
                 self.download_translations(
@@ -602,12 +644,12 @@ class GlossaryMachineTranslationMixin:
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
-    glossary_count_limit = None
+    glossary_count_limit = 0
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         return True
 
-    def list_glossaries(self) -> dict[str:str]:
+    def list_glossaries(self) -> dict[str, str]:
         """
         Lists glossaries from the service.
 

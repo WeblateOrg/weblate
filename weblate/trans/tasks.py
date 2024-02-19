@@ -14,8 +14,9 @@ from pathlib import Path
 from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Count, F
 from django.http import Http404
 from django.utils import timezone
@@ -34,6 +35,7 @@ from weblate.trans.models import (
     Change,
     Comment,
     Component,
+    ComponentList,
     Project,
     Suggestion,
     Translation,
@@ -82,10 +84,15 @@ def perform_load(
     langs: list[str] | None = None,
     changed_template: bool = False,
     from_link: bool = False,
+    change: int | None = None,
 ):
     component = Component.objects.get(pk=pk)
     component.create_translations(
-        force=force, langs=langs, changed_template=changed_template, from_link=from_link
+        force=force,
+        langs=langs,
+        changed_template=changed_template,
+        from_link=from_link,
+        change=change,
     )
 
 
@@ -111,12 +118,7 @@ def perform_push(pk, *args, **kwargs):
     component.do_push(*args, **kwargs)
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
+@app.task(trail=False)
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         components = Component.objects.all()
@@ -124,18 +126,18 @@ def commit_pending(hours=None, pks=None, logger=None):
         components = Component.objects.filter(translation__pk__in=pks).distinct()
 
     for component in prefetch_stats(components.prefetch()):
-        if hours is None:
-            age = timezone.now() - timedelta(hours=component.commit_pending_age)
-        else:
-            age = timezone.now() - timedelta(hours=hours)
+        age = timezone.now() - timedelta(
+            hours=component.commit_pending_age if hours is None else hours
+        )
 
-        last_change = component.stats.last_changed
-        if not last_change:
-            continue
-        if last_change > age:
+        units = component.pending_units.prefetch_recent_content_changes()
+
+        # No pending units
+        if not units:
             continue
 
-        if not component.needs_commit():
+        # All pending units are recent
+        if all(unit.recent_content_changes[0].timestamp > age for unit in units):
             continue
 
         if logger:
@@ -353,8 +355,7 @@ def component_removal(pk, uid):
     try:
         component = Component.objects.get(pk=pk)
         component.acting_user = user
-        Change.objects.create(
-            project=component.project,
+        component.project.change_set.create(
             action=Change.ACTION_REMOVE_COMPONENT,
             target=component.slug,
             user=user,
@@ -383,8 +384,7 @@ def category_removal(pk, uid):
         category_removal(child.pk, uid)
     for component_id in category.component_set.values_list("id", flat=True):
         component_removal(component_id, uid)
-    Change.objects.create(
-        project=category.project,
+    category.project.change_set.create(
         action=Change.ACTION_REMOVE_CATEGORY,
         target=category.slug,
         user=user,
@@ -393,23 +393,39 @@ def category_removal(pk, uid):
     category.delete()
 
 
+@app.task(
+    trail=False,
+    autoretry_for=(IntegrityError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def actual_project_removal(pk: int, uid: int | None):
+    """
+    Remove project.
+
+    This is separated from project_removal to allow retry on integrity errors.
+    """
+    with transaction.atomic():
+        user = get_anonymous() if uid is None else User.objects.get(pk=uid)
+        try:
+            project = Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return
+        Change.objects.create(
+            action=Change.ACTION_REMOVE_PROJECT,
+            target=project.slug,
+            user=user,
+            author=user,
+        )
+        project.delete()
+        transaction.on_commit(project.stats.update_parents)
+
+
 @app.task(trail=False)
-@transaction.atomic
 def project_removal(pk: int, uid: int | None):
-    user = get_anonymous() if uid is None else User.objects.get(pk=uid)
-    try:
-        project = Project.objects.get(pk=pk)
-    except Project.DoesNotExist:
-        return
+    """Backup project and schedule actual removal."""
     create_project_backup(pk)
-    Change.objects.create(
-        action=Change.ACTION_REMOVE_PROJECT,
-        target=project.slug,
-        user=user,
-        author=user,
-    )
-    project.delete()
-    transaction.on_commit(project.stats.update_parents)
+    actual_project_removal.delay(pk, uid)
 
 
 @app.task(
@@ -512,22 +528,33 @@ def auto_translate_component(
 
 
 @app.task(trail=False)
-def create_component(addons_from=None, in_task=False, **kwargs):
+def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
-    component = Component.objects.create(**kwargs)
-    Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
-    if addons_from:
-        addons = Addon.objects.filter(
-            component__pk=addons_from, project_scope=False, repo_scope=False
-        )
-        for addon in addons:
-            # Avoid installing duplicate addons
-            if component.addon_set.filter(name=addon.name).exists():
-                continue
-            if not addon.addon.can_install(component, None):
-                continue
-            addon.addon.create(component, configuration=addon.configuration)
+    component = Component(**kwargs)
+    # Perform validation to avoid creating duplicate components via background
+    # tasks in discovery
+    component.full_clean()
+    component.save(force_insert=True)
+    component.change_set.create(action=Change.ACTION_CREATE_COMPONENT)
+    if copy_from:
+        # Copy non-automatic component lists
+        for clist in ComponentList.objects.filter(
+            components__id=copy_from, autocomponentlist__isnull=True
+        ):
+            clist.components.add(component)
+        # Copy add-ons
+        if copy_addons:
+            addons = Addon.objects.filter(
+                component__pk=copy_from, project_scope=False, repo_scope=False
+            )
+            for addon in addons:
+                # Avoid installing duplicate addons
+                if component.addon_set.filter(name=addon.name).exists():
+                    continue
+                if not addon.addon.can_install(component, None):
+                    continue
+                addon.addon.create(component, configuration=addon.configuration)
     if in_task:
         return {"component": component.id}
     return component
@@ -543,17 +570,18 @@ def update_checks(pk: int, update_token: str, update_state: bool = False):
         return
 
     component.batch_checks = True
-    for translation in component.translation_set.exclude(
-        pk=component.source_translation.pk
-    ).prefetch():
-        for unit in translation.unit_set.prefetch():
+    # Source translation as last
+    translations = (
+        *component.translation_set.exclude(
+            pk=component.source_translation.pk
+        ).prefetch(),
+        component.source_translation,
+    )
+    for translation in translations:
+        for unit in translation.unit_set.prefetch().prefetch_all_checks():
             if update_state:
                 unit.update_state()
             unit.run_checks()
-    for unit in component.source_translation.unit_set.prefetch():
-        if update_state:
-            unit.update_state()
-        unit.run_checks()
     component.run_batched_checks()
     component.invalidate_cache()
 
@@ -578,9 +606,11 @@ def daily_update_checks():
 
 @app.task(trail=False)
 def cleanup_project_backups():
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
-    rootdir = data_dir("projectbackups")
+    rootdir = data_dir(PROJECTBACKUP_PREFIX)
     backup_cutoff = timezone.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
     for projectdir in glob(os.path.join(rootdir, "*")):
         if not os.path.isdir(projectdir):
@@ -624,13 +654,31 @@ def create_project_backup(pk):
 
 
 @app.task(trail=False)
+def remove_project_backup_download(name: str):
+    if staticfiles_storage.exists(name):
+        staticfiles_storage.delete(name)
+
+
+@app.task(trail=False)
+def cleanup_project_backup_download():
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+
+    if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
+        return
+    cutoff = timezone.now() - timedelta(hours=2)
+    for name in staticfiles_storage.listdir(PROJECTBACKUP_PREFIX)[1]:
+        full_name = os.path.join(PROJECTBACKUP_PREFIX, name)
+        if staticfiles_storage.get_created_time(full_name) < cutoff:
+            staticfiles_storage.delete(full_name)
+
+
+@app.task(trail=False)
 def detect_completed_translation(change_id: int, old_translated: int):
     change = Change.objects.get(pk=change_id)
 
     translated = change.translation.stats.translated
     if old_translated < translated and translated == change.translation.stats.all:
-        Change.objects.create(
-            translation=change.translation,
+        change.translation.change_set.create(
             action=Change.ACTION_COMPLETE,
             user=change.user,
             author=change.author,
@@ -672,4 +720,9 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=2, minute=30),
         cleanup_project_backups.s(),
         name="cleanup-project-backups",
+    )
+    sender.add_periodic_task(
+        3600,
+        cleanup_project_backup_download.s(),
+        name="cleanup-project-backup-download",
     )

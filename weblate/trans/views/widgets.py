@@ -18,7 +18,7 @@ from weblate.trans.util import render
 from weblate.trans.widgets import WIDGETS, SiteOpenGraphWidget
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
-from weblate.utils.views import parse_path, try_set_language
+from weblate.utils.views import parse_path, show_form_errors, try_set_language
 
 
 def widgets_sorter(widget):
@@ -26,7 +26,7 @@ def widgets_sorter(widget):
     return WIDGETS[widget].order
 
 
-def widgets(request, path):
+def widgets(request, path: list[str]):
     engage_obj = project = parse_path(request, path, (Project,))
 
     # Parse possible language selection
@@ -36,6 +36,8 @@ def widgets(request, path):
     if form.is_valid():
         lang = form.cleaned_data["lang"]
         component = form.cleaned_data["component"]
+    else:
+        show_form_errors(request, form)
 
     if component:
         if lang:
@@ -129,7 +131,7 @@ class WidgetRedirectView(RedirectView):
 
 @vary_on_cookie
 @cache_control(max_age=3600)
-def render_widget(request, path: str, widget: str, color: str, extension: str):
+def render_widget(request, path: list[str], widget: str, color: str, extension: str):
     # We intentionally skip ACL here to allow widget sharing
     obj = parse_path(
         request, path, (Component, ProjectLanguage, Project, Translation), skip_acl=True

@@ -4,8 +4,11 @@
 
 """Exporter using translate-toolkit."""
 
+from __future__ import annotations
+
 import re
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -29,6 +32,10 @@ from weblate.formats.ttkit import TTKitFormat
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.site import get_site_url
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
+
 # Map to remove control characters except newlines and tabs
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
 XML_REPLACE_CHARMAP = dict.fromkeys(
@@ -46,7 +53,7 @@ class BaseExporter:
     content_type = "text/plain"
     extension = "txt"
     name = ""
-    verbose = ""
+    verbose: StrOrPromise = ""
     set_id = False
 
     def __init__(
@@ -378,7 +385,12 @@ class CVSBaseExporter(BaseExporter):
     storage_class = csvfile
 
     def get_storage(self):
-        return self.storage_class(fieldnames=self.fieldnames)
+        storage = self.storage_class(fieldnames=self.fieldnames)
+        # Use Excel dialect instead of translate-toolkit "default" to avoid
+        # unnecessary escaping with backslash which later confuses our importer
+        # at it is typically used occasionally.
+        storage.dialect = "excel"
+        return storage
 
 
 class CSVExporter(CVSBaseExporter):

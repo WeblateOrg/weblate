@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
 import subprocess
 from base64 import b64decode
 from email import message_from_string
 from functools import partial
 from selectors import EVENT_READ, DefaultSelector
+from typing import BinaryIO, cast
 
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, StreamingHttpResponse
@@ -117,9 +120,9 @@ class GitHTTPBackendWrapper:
         self.obj = obj
         self.request = request
         self.selector = DefaultSelector()
-        self._headers = None
-        self._stderr = []
-        self._stdout = []
+        self._headers: bytes = b""
+        self._stderr: list[bytes] = []
+        self._stdout: list[bytes] = []
 
         # Find Git HTTP backend
         git_http_backend = find_git_http_backend()
@@ -152,32 +155,41 @@ class GitHTTPBackendWrapper:
         return result
 
     def send_body(self):
-        self.process.stdin.write(self.request.body)
-        self.process.stdin.close()
+        self.process.stdin.write(self.request.body)  # type: ignore[union-attr]
+        self.process.stdin.close()  # type: ignore[union-attr]
 
     def fetch_headers(self):
         """Fetch initial chunk of response to parse headers."""
         while True:
             for key, _mask in self.selector.select(timeout=1):
                 if key.data:
-                    self._stdout.append(self.process.stdout.read(1024))
+                    self._stdout.append(
+                        self.process.stdout.read(1024)  # type: ignore[union-attr]
+                    )
                     headers = b"".join(self._stdout)
                     if b"\r\n\r\n" in headers:
                         self._headers, body = headers.split(b"\r\n\r\n", 1)
                         self._stdout = [body]
                 else:
-                    self._stderr.append(self.process.stderr.read())
+                    self._stderr.append(
+                        self.process.stderr.read()  # type: ignore[union-attr]
+                    )
             if self.process.poll() is not None or self._headers is not None:
                 break
 
     def stream(self):
         yield from self._stdout
-        yield from iter(partial(self.process.stdout.read, 1024), b"")
+        yield from iter(
+            partial(self.process.stdout.read, 1024),  # type: ignore[union-attr]
+            b"",
+        )
 
     def get_response(self):
         # Iniciate select()
-        self.selector.register(self.process.stdout, EVENT_READ, True)
-        self.selector.register(self.process.stderr, EVENT_READ, False)
+        stdout = cast(BinaryIO, self.process.stdout)
+        stderr = cast(BinaryIO, self.process.stderr)
+        self.selector.register(stdout, EVENT_READ, True)
+        self.selector.register(stderr, EVENT_READ, False)
 
         # Send request body
         self.send_body()
@@ -186,8 +198,8 @@ class GitHTTPBackendWrapper:
         # This assumes that git-http-backend will fail here if it will fail
         self.fetch_headers()
 
-        self.selector.unregister(self.process.stdout)
-        self.selector.unregister(self.process.stderr)
+        self.selector.unregister(stdout)
+        self.selector.unregister(stderr)
         self.selector.close()
 
         retcode = self.process.poll()

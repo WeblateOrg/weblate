@@ -7,6 +7,7 @@ from io import StringIO
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test import SimpleTestCase
 from django.urls import reverse
 from jsonschema import validate
 from weblate_schemas import load_schema
@@ -68,7 +69,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                     "original_source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
-                    "delete_url": f"/api/memory/{Memory.objects.first().pk}/",
+                    "delete_url": f"/api/memory/{Memory.objects.all()[0].pk}/",
                 }
             ],
         )
@@ -307,3 +308,49 @@ class MemoryViewTest(FixtureTestCase):
             {"format": "json", "kind": "shared"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
+
+
+class ThresholdTestCase(SimpleTestCase):
+    def test_search(self):
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x", 10), 0.66, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 10), 0.71, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 10), 0.74, delta=0.006
+        )
+
+    def test_auto(self):
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x", 80), 0.97, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 80), 0.98, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 80), 0.98, delta=0.006
+        )
+
+    def test_machine(self):
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x", 75), 0.96, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 75), 0.97, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 75), 0.97, delta=0.006
+        )
+
+    def test_machine_exact(self):
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x", 100), 1.0, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 50, 100), 1.0, delta=0.006
+        )
+        self.assertAlmostEqual(
+            Memory.objects.threshold_to_similarity("x" * 500, 100), 1.0, delta=0.006
+        )

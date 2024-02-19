@@ -25,7 +25,6 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
-from weblate.utils.db import conditional_sum
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -172,6 +171,7 @@ class BaseStats:
 
         Used in stats endpoints.
         """
+        self.ensure_loaded()
         percents = [
             "translated_percent",
             "approved_percent",
@@ -534,7 +534,11 @@ class TranslationStats(BaseStats):
             unit for unit in units if get_dismissed_checks_count(unit)
         ]
         units_suggestions = [unit for unit in units if get_suggestion_count(unit)]
-        units_nosuggestions = [unit for unit in units if not get_suggestion_count(unit)]
+        units_nosuggestions = [
+            unit
+            for unit in units
+            if not get_suggestion_count(unit) and get_state(unit) < STATE_TRANSLATED
+        ]
         units_approved_suggestions = [
             unit
             for unit in units
@@ -688,7 +692,7 @@ class TranslationStats(BaseStats):
             except Change.DoesNotExist:
                 pass
         try:
-            last_change = self._object.change_set.content().order()[0]
+            last_change = self._object.change_set.order()[0]
         except IndexError:
             Change.store_last_change(self._object, None)
             return None
@@ -711,8 +715,8 @@ class TranslationStats(BaseStats):
             recently = self.last_changed - timedelta(hours=6)
             changes = self._object.change_set.content().aggregate(
                 total=Count("id"),
-                recent=conditional_sum(timestamp__gt=recently),
-                monthly=conditional_sum(timestamp__gt=monthly),
+                recent=Count("id", filter=Q(timestamp__gt=recently)),
+                monthly=Count("id", filter=Q(timestamp__gt=monthly)),
             )
             self.store("recent_changes", changes["recent"])
             self.store("monthly_changes", changes["monthly"])

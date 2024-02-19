@@ -7,6 +7,6 @@
 {% if user.is_authenticated %}
   <a href="{% url 'contributor-agreement' path=object.get_url_path %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-primary pull-right flip">{% trans "View contributor agreement" %}</a>
 {% endif %}
-{% trans "Contribution to this translation requires you to agree with a contributor agreement." %}
+{% trans "Contributing to this translation requires agreeing to its contributor agreement." %}
 <div class="clearfix"></div>
 {% endblock %}

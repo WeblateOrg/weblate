@@ -16,9 +16,9 @@ When no field is defined, the lookup happens on source, target, and context stri
 Simple search
 -------------
 
-Any phrase typed into the search box is split into words. Strings containing any
+Any phrase typed into the search box is split into words. Strings containing all
 of them are shown. To look for an exact phrase, put "the searchphrase" into
-quotes (both single (') and double (") quotes will work): ``"this is a quoted
+quotes (both single (``'``) and double (``"``) quotes will work): ``"this is a quoted
 string"`` or ``'another quoted string'``.
 
 Fields

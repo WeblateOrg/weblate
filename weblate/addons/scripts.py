@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 
 from weblate.addons.base import BaseAddon
@@ -13,8 +15,8 @@ class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
     icon = "script.svg"
-    script = None
-    add_file = None
+    script: None | str = None
+    add_file: None | str = None
     alert = "AddonScriptError"
 
     def run_script(self, component=None, translation=None, env=None):
@@ -49,7 +51,7 @@ class BaseScriptAddon(BaseAddon):
     def post_push(self, component):
         self.run_script(component)
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
     def post_commit(self, component):

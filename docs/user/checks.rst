@@ -54,7 +54,7 @@ Punctuation spacing
 
 Ensures French and Breton use correct punctuation spacing.
 
-This fixup can be disable via ``ignore-punctuation-spacing`` flag (which also
+This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which also
 disables :ref:`check-punctuation-spacing`).
 
 .. _autofix-html:

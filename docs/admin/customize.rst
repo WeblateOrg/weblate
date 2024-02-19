@@ -6,10 +6,15 @@ Contribute your changes upstream so that everybody can benefit. This reduces
 your maintenance costs; code in Weblate is taken care of when changing internal
 interfaces or refactoring the code.
 
+.. hint::
+
+   You can also customize Weblate look in :ref:`manage-appearance`.
+
 .. warning::
 
+
    Neither internal interfaces nor templates are considered a stable API.
-   Please review your own customizations for every upgrade, the interfaces or their
+   Please review your customizations for every upgrade, the interfaces or their
    semantics might change without notice.
 
 .. seealso::

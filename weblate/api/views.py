@@ -195,7 +195,7 @@ class MultipleFieldMixin:
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: tuple[str, ...] = ()
-    raw_formats = EXPORTERS
+    raw_formats: tuple[str, ...] = tuple(EXPORTERS)
 
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
@@ -214,8 +214,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             basename = component.slug if component else "weblate"
             filename = f"{basename}.zip"
         else:
-            with open(filename, "rb") as handle:
-                response = HttpResponse(handle.read(), content_type=content_type)
+            try:
+                with open(filename, "rb") as handle:
+                    response = HttpResponse(handle.read(), content_type=content_type)
+            except FileNotFoundError as error:
+                raise Http404("File not found") from error
             filename = os.path.basename(filename)
         response["Content-Disposition"] = f'attachment; filename="{filename}"'  # noqa: B028
         return response
@@ -827,7 +830,7 @@ class ComponentViewSet(
 ):
     """Translation components API."""
 
-    raw_urls: tuple[str, ...] = "component-file"
+    raw_urls: tuple[str, ...] = ("component-file",)
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
 
     queryset = Component.objects.none()
@@ -987,28 +990,31 @@ class ComponentViewSet(
         component_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    def add_link(self, request, instance: Component):
+        if not request.user.has_perm("component.edit", instance):
+            self.permission_denied(request, "Can not edit component")
+        if "project_slug" not in request.data:
+            raise ValidationError("Missing 'project_slug' parameter")
+
+        project_slug = request.data["project_slug"]
+
+        try:
+            project = request.user.allowed_projects.exclude(pk=instance.project_id).get(
+                slug=project_slug
+            )
+        except Project.DoesNotExist:
+            raise ValidationError(f"No project slug {project_slug!r} found!")
+
+        instance.links.add(project)
+        serializer = self.serializer_class(instance, context={"request": request})
+
+        return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+
     @action(detail=True, methods=["get", "post"])
     def links(self, request, **kwargs):
         instance = self.get_object()
         if request.method == "POST":
-            if not request.user.has_perm("component.edit", instance):
-                self.permission_denied(request, "Can not edit component")
-            if "project_slug" not in request.data:
-                raise ValidationError("Missing 'project_slug' parameter")
-
-            project_slug = request.data["project_slug"]
-
-            try:
-                project = request.user.allowed_projects.exclude(
-                    pk=instance.project_id
-                ).get(slug=project_slug)
-            except Project.DoesNotExist:
-                raise ValidationError(f"No project slug {project_slug!r} found!")
-
-            instance.links.add(project)
-            serializer = self.serializer_class(instance, context={"request": request})
-
-            return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+            return self.add_link(request, instance)
 
         queryset = instance.links.order_by("id")
         page = self.paginate_queryset(queryset)
@@ -1226,7 +1232,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
         autoform = AutoForm(translation.component, request.user, request.data)
         if not autoform.is_valid():
-            errors = {}
+            errors: dict[str, str] = {}
             for field in autoform:
                 for error in field.errors:
                     if field.name in errors:
@@ -1732,7 +1738,7 @@ class Search(APIView):
         projects = user.allowed_projects
         components = Component.objects.filter(project__in=projects)
         category = Category.objects.filter(project__in=projects)
-        results = []
+        results: list[dict[str, str]] = []
         query = request.GET.get("q")
         if query and "\x00" not in query:
             results.extend(
@@ -1780,7 +1786,9 @@ class Search(APIView):
 
 
 class TasksViewSet(ViewSet):
-    def get_task(self, request, pk, permission: str | None = None) -> AsyncResult:
+    def get_task(
+        self, request, pk, permission: str | None = None
+    ) -> tuple[AsyncResult, Component | None]:
         task = AsyncResult(str(pk))
         result = task.result
         if task.state == "PENDING" or isinstance(result, Exception):

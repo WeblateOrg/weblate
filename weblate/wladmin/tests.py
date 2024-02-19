@@ -21,7 +21,7 @@ from weblate.auth.models import Group
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.checks import check_data_writable
+from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
@@ -320,7 +320,7 @@ class AdminTest(ViewTestCase):
     def test_group_management(self):
         # Add form
         response = self.client.get(reverse("admin:weblate_auth_group_add"))
-        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, "Automatic team assignment")
 
         # Create group
         name = "Test group"
@@ -341,7 +341,7 @@ class AdminTest(ViewTestCase):
         group = Group.objects.get(name=name)
         url = reverse("admin:weblate_auth_group_change", kwargs={"object_id": group.pk})
         response = self.client.get(url)
-        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, "Automatic team assignment")
         self.assertContains(response, name)
 
     def test_groups(self):

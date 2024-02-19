@@ -8,8 +8,7 @@ import html
 import re
 from typing import TYPE_CHECKING
 
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
 from weblate.checks.fluent.utils import (
@@ -940,8 +939,8 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     """
 
     check_id = "fluent-source-inner-html"
-    name = _("Fluent source inner HTML")
-    description = _("Fluent source should be valid inner HTML")
+    name = gettext_lazy("Fluent source inner HTML")
+    description = gettext_lazy("Fluent source should be valid inner HTML")
     default_disabled = True
 
     def check_source_unit(self, source: str, unit: TransUnitModel) -> bool:
@@ -1216,8 +1215,8 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
     # <a> element *including* the same "data-l10n-name" attribute and value.
 
     check_id = "fluent-target-inner-html"
-    name = _("Fluent translation inner HTML")
-    description = _("Fluent target should be valid inner HTML that matches")
+    name = gettext_lazy("Fluent translation inner HTML")
+    description = gettext_lazy("Fluent target should be valid inner HTML that matches")
     default_disabled = True
 
     @classmethod

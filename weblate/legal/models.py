@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import date
+from typing import cast
 
 from appconf import AppConf
 from django.conf import settings
@@ -43,15 +46,22 @@ class Agreement(models.Model):
     def __str__(self):
         return f"{self.user.username}:{self.tos}"
 
+    @staticmethod
+    def current_tos_date() -> date:
+        return cast(
+            date,
+            settings.LEGAL_TOS_DATE,  # type: ignore[misc]
+        )
+
     def is_current(self):
-        return self.tos == settings.LEGAL_TOS_DATE
+        return self.tos == self.current_tos_date()
 
     def make_current(self, request):
         if not self.is_current():
             AuditLog.objects.create(
-                self.user, request, "tos", date=settings.LEGAL_TOS_DATE.isoformat()
+                self.user, request, "tos", date=self.current_tos_date().isoformat()
             )
-            self.tos = settings.LEGAL_TOS_DATE
+            self.tos = self.current_tos_date()
             self.address = get_ip_address(request)
             self.user_agent = get_user_agent(request)
             self.save()

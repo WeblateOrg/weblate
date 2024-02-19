@@ -38,18 +38,12 @@ Perform the release:
 
 Post release manual steps:
 
-6. Update Docker image.
-7. Close GitHub milestone.
-8. Once the Docker image is tested, add a tag and push it.
-9. Update Helm chart to new version.
-10. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
-11. Increase version in the website download links.
-12. Increase version in the repository by :command:`./scripts/set-version`.
-13. Check that readthedocs.org did build all translations of the documentation using :command:`./scripts/rtd-projects`.
+6. Close GitHub milestone.
+7. Once the Docker image is tested, add a tag and push it.
+8. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
+9. Increase version in the repository by :command:`./scripts/set-version`.
+10. Check that readthedocs.org did build all translations of the documentation using :command:`./scripts/rtd-projects`.
 
 To create tags using the :command:`./scripts/create-release` script you will need following:
 
-* GnuPG with private key used to sign the release
 * Push access to Weblate git repositories (it pushes tags)
-* Configured :command:`hub` tool and access to create releases on the Weblate repo
-* SSH access to Weblate download server (the Website downloads are copied there)

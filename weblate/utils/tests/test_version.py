@@ -6,7 +6,7 @@ import responses
 from django.test import SimpleTestCase
 
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.checks import (
+from weblate.utils.version import (
     PYPI,
     download_version_info,
     flush_version_cache,

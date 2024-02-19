@@ -4,10 +4,12 @@
 
 """Tests for quality checks."""
 
+from __future__ import annotations
 
 from django.test import SimpleTestCase
 
 from weblate.checks.format import (
+    BaseFormatCheck,
     CFormatCheck,
     CSharpFormatCheck,
     ESTemplateLiteralsCheck,
@@ -37,7 +39,7 @@ from weblate.trans.util import join_plural
 
 
 class PythonFormatCheckTest(CheckTestCase):
-    check = PythonFormatCheck()
+    check: BaseFormatCheck = PythonFormatCheck()
 
     def setUp(self):
         super().setUp()
@@ -329,7 +331,7 @@ class SchemeFormatCheckTest(CheckTestCase):
 
 
 class CFormatCheckTest(CheckTestCase):
-    check = CFormatCheck()
+    check: BaseFormatCheck = CFormatCheck()
     flag = "c-format"
 
     def setUp(self):

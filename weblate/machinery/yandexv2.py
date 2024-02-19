@@ -5,7 +5,7 @@
 import json
 from urllib.parse import unquote_plus
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
 
 
@@ -44,7 +44,7 @@ class YandexV2Translation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         key = self.settings["key"]
         response = self.request(

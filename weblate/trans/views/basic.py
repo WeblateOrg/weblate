@@ -229,9 +229,9 @@ def show_project_language(request, obj):
 
     last_changes = Change.objects.last_changes(
         user, project=project_object, language=language_object
-    )[:10].preload()
+    ).recent()
 
-    translations = list(obj.translation_set)
+    translations = translation_prefetch_tasks(prefetch_stats(obj.translation_set))
 
     # Add ghost translations
     if user.is_authenticated:
@@ -290,8 +290,8 @@ def show_category_language(request, obj):
 
     last_changes = (
         Change.objects.last_changes(user, language=language_object)
-        .for_category(category_object)[:10]
-        .preload()
+        .for_category(category_object)
+        .recent()
     )
 
     translations = list(obj.translation_set)
@@ -347,9 +347,9 @@ def show_category_language(request, obj):
 def show_project(request, obj):
     user = request.user
 
-    all_changes = obj.change_set.prefetch().order()
-    last_changes = all_changes[:10].preload()
-    last_announcements = all_changes.filter_announcements()[:10].preload()
+    all_changes = obj.change_set.prefetch()
+    last_changes = all_changes.recent()
+    last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(
         user, lambda qs: qs.filter(category=None)
@@ -432,9 +432,9 @@ def show_project(request, obj):
 def show_category(request, obj):
     user = request.user
 
-    all_changes = Change.objects.for_category(obj).prefetch().order()
-    last_changes = all_changes[:10].preload()
-    last_announcements = all_changes.filter_announcements()[:10].preload()
+    all_changes = Change.objects.for_category(obj).prefetch()
+    last_changes = all_changes.recent()
+    last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user)
     all_components = get_paginator(request, prefetch_stats(all_components))
@@ -508,7 +508,7 @@ def show_category(request, obj):
 def show_component(request, obj):
     user = request.user
 
-    last_changes = obj.change_set.prefetch().order()[:10].preload("component")
+    last_changes = obj.change_set.prefetch().recent(skip_preload="component")
 
     translations = prefetch_stats(list(obj.translation_set.prefetch()))
 
@@ -568,7 +568,7 @@ def show_component(request, obj):
 def show_translation(request, obj):
     component = obj.component
     project = component.project
-    last_changes = obj.change_set.prefetch().order()[:10].preload("translation")
+    last_changes = obj.change_set.prefetch().recent(skip_preload="translation")
     user = request.user
 
     # Get form
@@ -697,11 +697,11 @@ def new_language(request, path):
                             kwargs["translation"] = translation
                             if len(langs) == 1:
                                 result = translation
-                            Change.objects.create(
+                            obj.change_set.create(
                                 action=Change.ACTION_ADDED_LANGUAGE, **kwargs
                             )
                     elif obj.new_lang == "contact":
-                        Change.objects.create(
+                        obj.change_set.create(
                             action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
                         )
                         messages.success(

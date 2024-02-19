@@ -41,6 +41,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
     from datetime import datetime
 
+    from django_stubs_ext import StrOrPromise
+
 
 class GitRepository(Repository):
     """Repository implementation for Git."""
@@ -52,9 +54,9 @@ class GitRepository(Repository):
     _cmd_push = ["push"]
     _cmd_status = ["--no-optional-locks", "status"]
 
-    name = "Git"
+    name: StrOrPromise = "Git"
     push_label = gettext_lazy("This will push changes to the upstream Git repository.")
-    req_version = "2.12"
+    req_version: str | None = "2.12"
     default_branch = "master"
     ref_to_remote = "..{0}"
     ref_from_remote = "{0}.."
@@ -428,6 +430,11 @@ class GitRepository(Repository):
         updates = [
             ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
             ("user", "name", settings.DEFAULT_COMMITER_NAME),
+            (
+                'protocol "file"',
+                "allow",
+                "always" if settings.VCS_FILE_PROTOCOL else "never",
+            ),
         ]
         if merge_driver is not None:
             updates.append(
@@ -1219,9 +1226,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         credentials = self.get_credentials_by_hostname(hostname)
 
         super_credentials["organization"] = credentials["organization"]
-        super_credentials["workItemIds"] = (
-            credentials["workItemIds"] if "workItemIds" in credentials else []
-        )
+        super_credentials["workItemIds"] = credentials.get("workItemIds", [])
 
         return super_credentials
 

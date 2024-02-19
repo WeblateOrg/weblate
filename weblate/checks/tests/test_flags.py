@@ -175,3 +175,9 @@ class FlagTest(SimpleTestCase):
         name = "x" * (VARIANT_KEY_LENGTH + 1)
         with self.assertRaises(ValidationError):
             Flags(f"variant:{name}").validate()
+
+    def test_windows_path(self):
+        flags = Flags(r"Scripts\Tscripts\pages\dist\grplus.js:1046")
+        self.assertEqual(
+            flags.format(), r'"Scripts\Tscripts\pages\dist\grplus.js":1046'
+        )

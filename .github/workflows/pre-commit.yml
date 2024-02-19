@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           ~/.cache/pip
@@ -39,7 +39,10 @@ jobs:
         if [ -f requirements-lint.txt ] ; then
           pip install -r requirements-lint.txt
         else
-          pip install -e .[lint]
+          pip install $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
         fi
     - name: pre-commit
       run: pre-commit run --all
+    - name: diff
+      run: git diff
+      if: always()

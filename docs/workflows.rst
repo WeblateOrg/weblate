@@ -3,12 +3,12 @@
 Translation workflows
 =====================
 
-Using Weblate is a process that brings your users closer to you, by bringing
-you closer to your translators.  It is up to you to decide how many of its
-features you want to make use of.
+Using Weblate raises quality, reduces manual work, and brings everyone
+involved in the localization process closer to each other.
+It is up to you to decide how many of Weblate features you want to make use of.
 
 The following is not a complete list of ways to configure Weblate.
-You can base other workflows on the most usual examples listed here.
+You can base other workflows on the examples listed here.
 
 .. _workflow-customization:
 
@@ -45,13 +45,13 @@ Translation access
 ------------------
 
 The :ref:`access control <access-control>` is not discussed in detail as a whole in
-the workflows, as most of its options can be applied to any workflow. Please
-consult the respective documentation on how to manage access to
+the workflows, as most of its options can be applied to any workflow.
+Please consult the respective documentation on how to manage access to
 translations.
 
 In the following chapters, *any user* means a user who has access to the
 translation. It can be any authenticated user if the project is public, or a user
-that has a :guilabel:`Translate` permission for the project.
+with :guilabel:`Translate` permission to the project.
 
 .. _states:
 
@@ -66,7 +66,7 @@ Untranslated
 Needs editing
     Translation needs editing, this is usually the result of a source string change, fuzzy matching or translator action.
     The translation is stored in the file, depending on the file format it might
-    be marked as needing edit (for example as it gets a ``fuzzy`` flag in the Gettext file).
+    be marked as needing edit (for example as it gets a ``fuzzy`` flag in the gettext file).
 Waiting for review
     Translation is made, but not reviewed. It is stored in the file as a valid
     translation.
@@ -84,7 +84,7 @@ The states are represented in the translation files when possible.
 .. hint::
 
    If the file format you use does not support storing states, you might want
-   to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
+   to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
    as needing editing.
 
 .. seealso::
@@ -95,31 +95,31 @@ The states are represented in the translation files when possible.
 
 Direct translation
 ------------------
-This is the most usual setup for smaller teams, anybody can directly translate.
+The most common setup for smaller teams, where anybody can translate directly.
 This is also the default setup in Weblate.
 
 * *Any user* can edit translations.
 * Suggestions are optional ways to suggest changes, when translators are not
   sure about the change.
 
-+------------------------+-------------+------------------------------------+
-| Setting                |   Value     |   Note                             |
-+========================+=============+====================================+
-| Enable reviews         | off         | Configured at project level.       |
-+------------------------+-------------+------------------------------------+
-| Enable suggestions     | on          | It is useful for users to be able  |
-|                        |             | to suggest when they are not sure. |
-+------------------------+-------------+------------------------------------+
-| Suggestion voting      | off         |                                    |
-+------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 0           |                                    |
-+------------------------+-------------+------------------------------------+
-| Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
-| Reviewers group        | N/A         | Not used.                          |
-+------------------------+-------------+------------------------------------+
++----------------------------------+-------------+------------------------------------+
+| Setting                          |   Value     |   Note                             |
++==================================+=============+====================================+
+| Enable reviews                   | off         | Configured at project level.       |
++----------------------------------+-------------+------------------------------------+
+| Enable suggestions               | on          | Useful for users to be able        |
+|                                  |             | to suggest when they are not sure. |
++----------------------------------+-------------+------------------------------------+
+| Suggestion voting                | off         |                                    |
++----------------------------------+-------------+------------------------------------+
+| Automatically accept suggestions | 0           |                                    |
++----------------------------------+-------------+------------------------------------+
+| Translators group                | `Users`     | Or `Translate` with                |
+|                                  |             | :ref:`per-project access control   |
+|                                  |             | <manage-acl>`.                     |
++----------------------------------+-------------+------------------------------------+
+| Reviewers group                  | N/A         | Not used.                          |
++----------------------------------+-------------+------------------------------------+
 
 
 .. _peer-review:
@@ -134,24 +134,24 @@ from additional member(s) before it is accepted as a translation.
 * *Any user* can vote for suggestions.
 * Suggestions become translations when given a predetermined number of votes.
 
-+------------------------+-------------+------------------------------------+
-| Setting                |   Value     |   Note                             |
-+========================+=============+====================================+
-| Enable reviews         | off         | Configured at project level.       |
-+------------------------+-------------+------------------------------------+
-| Enable suggestions     | on          |                                    |
-+------------------------+-------------+------------------------------------+
-| Suggestion voting      | off         |                                    |
-+------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 1           | You can set a higher value to      |
-|                        |             | require more peer reviews.         |
-+------------------------+-------------+------------------------------------+
-| Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
-| Reviewers group        | N/A         | Not used, all translators review.  |
-+------------------------+-------------+------------------------------------+
++---------------------------------+-------------+------------------------------------+
+| Setting                         |   Value     |   Note                             |
++=================================+=============+====================================+
+| Enable reviews                  | off         | Configured at project level.       |
++---------------------------------+-------------+------------------------------------+
+| Enable suggestions              | on          |                                    |
++---------------------------------+-------------+------------------------------------+
+| Suggestion voting               | off         |                                    |
++---------------------------------+-------------+------------------------------------+
+| Automatically accept suggestions| 1           | You can set higher value to        |
+|                                 |             | require more peer reviews.         |
++---------------------------------+-------------+------------------------------------+
+| Translators group               | `Users`     | Or `Translate` with                |
+|                                 |             | :ref:`per-project access control   |
+|                                 |             | <manage-acl>`.                     |
++---------------------------------+-------------+------------------------------------+
+| Reviewers group                 | N/A         | Not used, all translators review.  |
++---------------------------------+-------------+------------------------------------+
 
 .. _reviews:
 
@@ -167,26 +167,26 @@ consistent and that the quality is good.
 * *Reviewer* can edit all translations (including approved ones).
 * Suggestions can also be used to suggest changes for approved strings.
 
-+------------------------+-------------+------------------------------------+
-| Setting                |   Value     |   Note                             |
-+========================+=============+====================================+
-| Enable reviews         | on          | Configured at project level.       |
-+------------------------+-------------+------------------------------------+
-| Enable suggestions     | off         | It is useful for users to be able  |
-|                        |             | to suggest when they are not sure. |
-+------------------------+-------------+------------------------------------+
-| Suggestion voting      | off         |                                    |
-+------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 0           |                                    |
-+------------------------+-------------+------------------------------------+
-| Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
-| Reviewers group        | `Reviewers` | Or `Review` with                   |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
++---------------------------------+-------------+------------------------------------+
+| Setting                         |   Value     |   Note                             |
++=================================+=============+====================================+
+| Enable reviews                  | on          | Configured at project level.       |
++---------------------------------+-------------+------------------------------------+
+| Enable suggestions              | off         | Useful for users to be able        |
+|                                 |             | to suggest when they are not sure. |
++---------------------------------+-------------+------------------------------------+
+| Suggestion voting               | off         |                                    |
++---------------------------------+-------------+------------------------------------+
+| Automatically accept suggestions| 0           |                                    |
++---------------------------------+-------------+------------------------------------+
+| Translators group               | `Users`     | Or `Translate` with                |
+|                                 |             | :ref:`per-project access control   |
+|                                 |             | <manage-acl>`.                     |
++---------------------------------+-------------+------------------------------------+
+| Reviewers group                 | `Reviewers` | Or `Review` with                   |
+|                                 |             | :ref:`per-project access control   |
+|                                 |             | <manage-acl>`.                     |
++---------------------------------+-------------+------------------------------------+
 
 Turning on reviews
 ------------------
@@ -208,10 +208,10 @@ often not native speakers in the source language and do not provide desired
 quality of the source strings. The intermediate translation can help you address this - there is an additional quality gateway for the strings between
 developers and translators.
 
-By setting :ref:`component-intermediate`, this file will be used as source for
-the strings, but it will be edited to source language to polish it.  Once the
-string is ready in the source language, it will be also available for
-translators to translate into additional languages.
+By setting :ref:`component-intermediate`, this file is used for translating strings
+to the source language by translators/editors. Once this stage is done,
+strings are available for translations to target languages,
+based on what is now a polished source language.
 
 .. graphviz::
 
@@ -261,20 +261,19 @@ translators to translate into additional languages.
 Source strings reviews
 ----------------------
 
-With :ref:`project-source_review` enabled, the review process can be applied on
-the source strings. Once enabled, users can report issues in the source
-strings.  The actual process depends on whether you use bilingual or
-monolingual formats.
+With :ref:`project-source_review` enabled, the review process can be applied for
+source strings. Once enabled, users can report issues with source strings.
+The actual process depends on whether bilingual or monolingual formats are in use.
 
-For monolingual formats, the source string review behaves similarly as with
-:ref:`reviews` - once issue is reported on the source string, it is marked as
+For monolingual formats, source string review functions similarly to
+:ref:`reviews` — once an issue with a source string is reported, it is marked as
 :guilabel:`Needs editing`.
 
-The bilingual formats do not allow direct editing of the source strings (these
-are typically extracted directly from the source code). In this case
+Bilingual formats do not allow direct editing of source strings (these
+are typically extracted directly from the source code). In this case, a
 :guilabel:`Source needs review` label is attached to strings reported by
 translators. You should review such strings and either edit them in the source
-or remove the label.
+code, or remove the label.
 
 .. seealso::
 

@@ -12,7 +12,7 @@ from copy import copy
 from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -108,6 +108,9 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
+
+if TYPE_CHECKING:
+    from weblate.addons.models import Addon
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -514,7 +517,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     )
     # This should match definition in WorkflowSetting
     suggestion_autoaccept = models.PositiveSmallIntegerField(
-        verbose_name=gettext_lazy("Autoaccept suggestions"),
+        verbose_name=gettext_lazy("Automatically accept suggestions"),
         default=0,
         help_text=gettext_lazy(
             "Automatically accept suggestions with this number of votes,"
@@ -907,11 +910,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             current_value = getvalue(self, attribute)
 
             if old_value != current_value:
-                Change.objects.create(
+                self.change_set.create(
                     action=action,
                     old=old_value,
                     target=current_value,
-                    component=self,
                     user=self.acting_user,
                 )
 
@@ -1703,9 +1705,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             except RepositoryError as error:
                 error_text = self.error_text(error)
                 report_error(cause="Could not push the repo", project=self.project)
-                Change.objects.create(
+                self.change_set.create(
                     action=Change.ACTION_FAILED_PUSH,
-                    component=self,
                     target=error_text,
                     user=request.user if request else self.acting_user,
                 )
@@ -1784,9 +1785,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if not result:
             return False
 
-        Change.objects.create(
+        self.change_set.create(
             action=Change.ACTION_PUSH,
-            component=self,
             user=request.user if request else self.acting_user,
         )
 
@@ -1818,9 +1818,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
                 return False
 
-            Change.objects.create(
+            self.change_set.create(
                 action=Change.ACTION_RESET,
-                component=self,
                 user=request.user if request else self.acting_user,
                 details={
                     "new_head": self.repository.last_revision,
@@ -1954,9 +1953,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             continue
 
                     components[component.pk] = component
-                with sentry_sdk.start_span(
-                    op="commit_pending", description=translation.full_slug
-                ):
+                with self.start_sentry_span("commit_pending"):
                     translation._commit_pending(reason, user)
                 if component.has_template():
                     translation_pks[component.pk].append(translation.pk)
@@ -1972,7 +1969,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         # Fire postponed post commit signals
         for component in components.values():
-            vcs_post_commit.send(sender=self.__class__, component=component)
+            component.send_post_commit_signal()
             component.store_local_revision()
             component.update_import_alerts(delete=False)
 
@@ -2009,7 +2006,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self,
             )
 
-        with sentry_sdk.start_span(op="commit_files", description=self.full_slug):
+        with self.start_sentry_span("commit_files"):
             if message is None:
                 # Handle context
                 context = {"component": component or self, "author": author}
@@ -2025,7 +2022,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             # Send post commit signal
             if signals:
-                vcs_post_commit.send(sender=self.__class__, component=self)
+                self.send_post_commit_signal()
 
             self.store_local_revision()
 
@@ -2034,6 +2031,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.push_if_needed()
 
             return True
+
+    def send_post_commit_signal(self):
+        vcs_post_commit.send(sender=self.__class__, component=self)
 
     def get_parse_error_message(self, error) -> str:
         error_message = getattr(error, "strerror", "")
@@ -2052,8 +2052,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             filename = self.template if translation is None else translation.filename
         self.trigger_alert("ParseError", error=error_message, filename=filename)
         if self.id:
-            Change.objects.create(
-                component=self,
+            self.change_set.create(
                 translation=translation,
                 action=Change.ACTION_PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
@@ -2119,8 +2118,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
                 # Log error
                 if self.id:
-                    Change.objects.create(
-                        component=self,
+                    self.change_set.create(
                         action=action_failed,
                         target=error,
                         user=user,
@@ -2143,8 +2141,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.store_local_revision()
 
                 # Record change
-                Change.objects.create(
-                    component=self,
+                self.change_set.create(
                     action=action,
                     user=user,
                     details={"new_head": new_head, "previous_head": previous_head},
@@ -2302,9 +2299,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock and sentry_sdk.start_span(
-                op="create_translations", description=self.full_slug
-            ):
+            with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
@@ -2323,6 +2318,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     "langs": langs,
                     "changed_template": changed_template,
                     "from_link": from_link,
+                    "change": change,
                 },
                 countdown=60,
             )
@@ -2523,9 +2519,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             from weblate.checks.tasks import batch_update_checks
 
             batched_checks = list(self.batched_checks)
-            transaction.on_commit(
-                lambda: batch_update_checks.delay(self.id, batched_checks)
-            )
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                batch_update_checks(self.id, batched_checks, component=self)
+            else:
+                transaction.on_commit(
+                    lambda: batch_update_checks.delay(self.id, batched_checks)
+                )
         self.batch_checks = False
         self.batched_checks = set()
 
@@ -2710,7 +2709,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         dir_path = self.full_path
         for match in matches:
             try:
-                store = self.file_format_cls.parse(
+                store = self.file_format_cls(
                     os.path.join(dir_path, match), self.template_store
                 )
                 store.check_valid()
@@ -3295,11 +3294,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
 
     @property
-    def count_pending_units(self):
-        """Check for uncommitted changes."""
+    def pending_units(self):
         from weblate.trans.models import Unit
 
-        return Unit.objects.filter(translation__component=self, pending=True).count()
+        return Unit.objects.filter(translation__component=self, pending=True)
+
+    @property
+    def count_pending_units(self):
+        """Check for uncommitted changes."""
+        return self.pending_units.count()
 
     @property
     def count_repo_missing(self):
@@ -3378,7 +3381,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        store = self.file_format_cls.parse(
+        store = self.file_format_cls(
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
@@ -3405,10 +3408,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
-        with sentry_sdk.start_span(
-            op="load_template_store", description=self.get_template_filename()
-        ):
-            store = self.file_format_cls.parse(
+        with self.start_sentry_span("load_template_store"):
+            store = self.file_format_cls(
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
@@ -3511,7 +3512,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
-            messages.error(request, self.new_lang_error_message)
+            messages.error(request, self.new_lang_error_message, fail_silently=True)
             return None
 
         file_format = self.file_format_cls
@@ -3526,12 +3527,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if new_lang is not None:
             if new_lang == self.source_language:
                 messages.error(
-                    request, gettext("The given language is used as a source language.")
+                    request,
+                    gettext("The given language is used as a source language."),
+                    fail_silently=True,
                 )
                 return None
 
             if self.translation_set.filter(language=new_lang).exists():
-                messages.error(request, gettext("The given language already exists."))
+                messages.error(
+                    request,
+                    gettext("The given language already exists."),
+                    fail_silently=True,
+                )
                 return None
 
         # Check if language code is valid
@@ -3539,6 +3546,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             messages.error(
                 request,
                 gettext("The given language is filtered by the language filter."),
+                fail_silently=True,
             )
             return None
 
@@ -3562,7 +3570,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Ignore request if file exists (possibly race condition as
             # the processing of new language can take some time and user
             # can submit again)
-            messages.error(request, gettext("Translation file already exists!"))
+            messages.error(
+                request, gettext("Translation file already exists!"), fail_silently=True
+            )
         else:
             with self.repository.lock:
                 if create_translations:
@@ -3593,7 +3603,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Trigger parsing of the newly added file
         if create_translations and not self.create_translations(request=request):
             messages.warning(
-                request, gettext("The translation will be updated in the background.")
+                request,
+                gettext("The translation will be updated in the background."),
+                fail_silently=True,
             )
 
         # Delete no matches alert as we have just added the file
@@ -3611,8 +3623,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.locked = lock
         # We avoid save here because it has unwanted side effects
         Component.objects.filter(pk=self.pk).update(locked=lock)
-        Change.objects.create(
-            component=self,
+        self.change_set.create(
             user=user,
             action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
             details={"auto": auto},
@@ -3638,16 +3649,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return self.license.replace("-or-later", "").replace("-only", "")
 
     def post_create(self, user):
-        Change.objects.create(
+        self.change_set.create(
             action=Change.ACTION_CREATE_COMPONENT,
-            component=self,
             user=user,
             author=user,
         )
 
     @property
     def context_label(self):
-        if self.file_format in ("po", "po-mono"):
+        if self.file_format in ("po", "po-mono", "tbx"):
             # Translators: Translation context for Gettext
             return gettext("Context")
         # Translators: Translation key for monolingual translations
@@ -3664,12 +3674,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         from weblate.addons.models import Addon
 
         result = defaultdict(list)
+        result["__lookup__"] = {}
         for addon in Addon.objects.filter_component(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
             result["__all__"].append(addon)
             result["__names__"].append(addon.name)
+            result["__lookup__"][addon.name] = addon
         return result
+
+    def get_addon(self, name: str) -> Addon | None:
+        return self.addons_cache["__lookup__"].get(name)
 
     def schedule_sync_terminology(self):
         """Trigger terminology sync in the background."""
@@ -3729,7 +3744,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @property
     def get_add_label(self):
         if self.is_glossary:
-            return gettext("Add new glossary term")
+            return gettext("Add term to glossary")
         return gettext("Add new translation string")
 
     def suggest_repo_link(self):
@@ -3770,6 +3785,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.is_repo_link:
             return [self.linked_component]
         return [self]
+
+    def start_sentry_span(self, op: str):
+        return sentry_sdk.start_span(op=op, description=self.full_slug)
 
 
 @receiver(m2m_changed, sender=Component.links.through)

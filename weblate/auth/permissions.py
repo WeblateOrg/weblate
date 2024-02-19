@@ -120,7 +120,7 @@ def check_ignore_check(user, permission, check):
     return check_permission(user, permission, check.unit.translation)
 
 
-def check_can_edit(user, permission, obj, is_vote=False):
+def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
     translation = component = None
 
     if isinstance(obj, Translation):
@@ -162,6 +162,13 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
     # Perform usual permission check
     if not check_permission(user, permission, obj):
+        if not user.is_authenticated:
+            # Signing in might help, but user still might need additional privileges
+            return Denied(gettext("Sign in to save the translation."))
+        if permission == "unit.review":
+            return Denied(
+                gettext("Insufficient privileges for approving translations.")
+            )
         return Denied(gettext("Insufficient privileges for saving translations."))
 
     # Special check for source strings (templates)
@@ -490,9 +497,9 @@ def check_memory_perms(user, permission, memory):
     if isinstance(memory, Memory):
         if memory.user_id == user.id:
             return True
-        if memory.project is None:
-            return check_global_permission(user, "memory.manage")
         project = memory.project
     else:
         project = memory
+    if project is None:
+        return check_global_permission(user, "memory.manage")
     return check_permission(user, permission, project)

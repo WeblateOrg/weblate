@@ -7,7 +7,7 @@ from __future__ import annotations
 from siphashc import siphash
 
 
-def raw_hash(*parts: str | bytes) -> int:
+def raw_hash(*parts: str) -> int:
     """Calculates checksum identifying translation."""
     if not parts:
         data = ""

@@ -72,14 +72,14 @@ class MaxSizeCheck(TargetCheckParametrized):
         return any(
             (
                 not check_render_size(
-                    font,
-                    weight,
-                    size,
-                    spacing,
-                    replace(target),
-                    width,
-                    lines,
-                    self.get_cache_key(unit, i),
+                    text=replace(target),
+                    font=font,
+                    weight=weight,
+                    size=size,
+                    spacing=spacing,
+                    width=width,
+                    lines=lines,
+                    cache_key=self.get_cache_key(unit, i),
                 )
                 for i, target in enumerate(targets)
             )

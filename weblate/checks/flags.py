@@ -20,6 +20,7 @@ from weblate.checks.parser import (
     single_value_flag,
 )
 from weblate.fonts.utils import get_font_weight
+from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 PLAIN_FLAGS = {
@@ -46,6 +47,7 @@ PLAIN_FLAGS["strict-format"] = gettext_lazy("Strict format string checks")
 PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
 PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
+PLAIN_FLAGS["case-insensitive"] = gettext_lazy("Use case insensitive placeholders")
 
 TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = single_value_flag(str)
@@ -72,7 +74,9 @@ TYPED_FLAGS_ARGS["variant"] = single_value_flag(
 TYPED_FLAGS["fluent-type"] = gettext_lazy("Fluent type")
 TYPED_FLAGS_ARGS["fluent-type"] = single_value_flag(str)
 
-IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
+IGNORE_CHECK_FLAGS = {check.ignore_string for check in CHECKS.values()} | set(
+    AUTOFIXES.get_ignore_strings()
+)
 
 FLAG_ALIASES = {"markdown-text": "md-text"}
 

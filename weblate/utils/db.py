@@ -4,9 +4,12 @@
 
 """Database specific code to extend Django."""
 
+from __future__ import annotations
+
+import time
+
 from django.db import connections, models
-from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import Contains, Exact, PatternLookup, Regex
+from django.db.models.lookups import PatternLookup, Regex
 
 from .inv_regex import invert_re
 
@@ -17,11 +20,6 @@ PG_DROP = "DROP INDEX {0}_{1}_fulltext"
 
 MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
 MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
-
-
-def conditional_sum(value=1, **cond):
-    """Wrapper to generate SUM on boolean/enum values."""
-    return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
 
 
 def using_postgresql():
@@ -75,71 +73,50 @@ def count_alnum(string):
     return sum(map(str.isalnum, string))
 
 
-class PostgreSQLFallbackLookup(PatternLookup):
-    def __init__(self, lhs, rhs):
-        self.orig_lhs = lhs
-        self.orig_rhs = rhs
-        super().__init__(lhs, rhs)
+class PostgreSQLFallbackLookupMixin:
+    """
+    Mixin to block PostgreSQL from using trigram index.
 
-    def needs_fallback(self):
-        return isinstance(self.orig_rhs, str) and count_alnum(self.orig_rhs) <= 3
+    It is ineffective for very short strings as these produce a lot of matches
+    which need to be rechecked and full table scan is more effecive in that
+    case.
 
-
-class FallbackStringMixin:
-    """Avoid using index for lhs by concatenating to a string."""
+    It is performed by concatenating empty string which will prevent index usage.
+    """
 
     def process_lhs(self, compiler, connection, lhs=None):
-        lhs_sql, params = super().process_lhs(compiler, connection, lhs)
-        return f"{lhs_sql} || ''", params
+        if self._needs_fallback:
+            lhs_sql, params = super().process_lhs(compiler, connection, lhs)
+            return f"{lhs_sql} || ''", params
+        return super().process_lhs(compiler, connection, lhs)
 
 
-class PostgreSQLRegexFallbackLookup(FallbackStringMixin, Regex):
-    pass
-
-
-class PostgreContainsFallbackLookup(FallbackStringMixin, Contains):
-    pass
-
-
-class PostgreExactFallbackLookup(FallbackStringMixin, Exact):
-    pass
-
-
-class PostgreSQLRegexLookup(Regex):
+class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
     def __init__(self, lhs, rhs):
-        self.orig_lhs = lhs
-        self.orig_rhs = rhs
+        self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
         super().__init__(lhs, rhs)
 
-    def needs_fallback(self):
-        if not isinstance(self.orig_rhs, str):
-            return False
-        return (
-            min((count_alnum(match) for match in invert_re(self.orig_rhs)), default=0)
-            < 3
-        )
 
-    def as_sql(self, compiler, connection):
-        if self.needs_fallback():
-            return PostgreSQLRegexFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
-                compiler, connection
-            )
-        return super().as_sql(compiler, connection)
+class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
+    def __init__(self, lhs, rhs):
+        self._needs_fallback = isinstance(rhs, str) and (
+            min((count_alnum(match) for match in invert_re(rhs)), default=0) < 3
+        )
+        super().__init__(lhs, rhs)
 
 
 class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     lookup_name = "search"
-    param_pattern = "%s"
 
-    def as_sql(self, compiler, connection):
-        if self.needs_fallback():
-            return PostgreContainsFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
-                compiler, connection
-            )
-        lhs, lhs_params = self.process_lhs(compiler, connection)
-        rhs, rhs_params = self.process_rhs(compiler, connection)
-        params = lhs_params + rhs_params
-        return f"{lhs} %% {rhs} = true", params
+    def process_rhs(self, qn, connection):
+        if not self._needs_fallback:
+            self.param_pattern = "%s"
+        return super().process_rhs(qn, connection)
+
+    def get_rhs_op(self, connection, rhs):
+        if self._needs_fallback:
+            return connection.operators["contains"] % rhs
+        return "%%%% %s = true" % rhs
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -162,18 +139,13 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
 
     lookup_name = "substring"
 
-    def as_sql(self, compiler, connection):
-        if self.needs_fallback():
-            return PostgreContainsFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
-                compiler, connection
-            )
-        lhs, lhs_params = self.process_lhs(compiler, connection)
-        rhs, rhs_params = self.process_rhs(compiler, connection)
-        params = lhs_params + rhs_params
-        return f"{lhs} ILIKE {rhs}", params
+    def get_rhs_op(self, connection, rhs):
+        if self._needs_fallback:
+            return connection.operators["contains"] % rhs
+        return "ILIKE %s" % rhs
 
 
-def re_escape(pattern):
+def re_escape(pattern: str) -> str:
     """
     Escape for use in database regexp match.
 
@@ -186,3 +158,11 @@ def re_escape(pattern):
         elif char in ESCAPED:
             string[i] = "\\" + char
     return "".join(string)
+
+
+def measure_database_latency() -> float:
+    from weblate.trans.models import Project
+
+    start = time.monotonic()
+    Project.objects.exists()
+    return round(1000 * (time.monotonic() - start))

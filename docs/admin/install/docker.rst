@@ -3,7 +3,7 @@ Installing using Docker
 
 With dockerized Weblate deployment you can get your personal Weblate instance
 up and running in seconds. All of Weblate's dependencies are already included.
-PostgreSQL is set up as the default database.
+PostgreSQL is set up as the default database and Redis as a caching backend.
 
 .. include:: steps/hw.rst
 
@@ -550,6 +550,10 @@ Generic settings
 
         :std:setting:`django:DEFAULT_FROM_EMAIL`,
         :ref:`production-email`
+
+.. envvar:: WEBLATE_ADMINS_CONTACT
+
+   Configures :setting:`ADMINS_CONTACT`.
 
 .. envvar:: WEBLATE_CONTACT_FORM
 

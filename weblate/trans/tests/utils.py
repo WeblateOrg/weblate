@@ -13,7 +13,7 @@ from tempfile import mkdtemp
 from unittest import SkipTest
 
 import social_core.backends.utils
-from celery.contrib.testing.tasks import ping
+from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -89,7 +89,7 @@ class RepoTestMixin:
 
             # Extract new content
             tar = TarFile(tarname)
-            tar.extractall(settings.DATA_DIR)
+            tar.extractall(settings.DATA_DIR)  # noqa: S202
             tar.close()
 
             # Update directory timestamp
@@ -431,15 +431,21 @@ class RepoTestMixin:
 
 
 class TempDirMixin:
-    tempdir = None
+    _tempdir: str | None = None
+
+    @property
+    def tempdir(self) -> str:
+        if self._tempdir is None:
+            raise ValueError("tempdir not initialized")
+        return self._tempdir
 
     def create_temp(self):
-        self.tempdir = mkdtemp(suffix="weblate")
+        self._tempdir = mkdtemp(suffix="weblate")
 
     def remove_temp(self):
-        if self.tempdir:
-            remove_tree(self.tempdir)
-            self.tempdir = None
+        if self._tempdir:
+            remove_tree(self._tempdir)
+            self._tempdir = None
 
 
 def create_test_billing(user, invoice=True):

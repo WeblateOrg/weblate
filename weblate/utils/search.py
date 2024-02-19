@@ -86,7 +86,7 @@ def build_parser(term_expression: object):
     field = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
 
     # Match token
-    word = Regex(r"""[^ \(\)]([^ '"]*[^ '"\)])?""")
+    word = Regex(r"""[^ \r\n\(\)]([^ \r\n'"]*[^ \r\n'"\)])?""")
     date = Word("0123456789:.-T")
 
     # Date range
@@ -546,6 +546,8 @@ class SuperuserUserTermExpr(UserTermExpr):
             return Q(is_active=True)
         if text == "bot":
             return Q(is_bot=True)
+        if text == "superuser":
+            return Q(is_superuser=True)
 
         return super().is_field(text, context)
 

@@ -9,14 +9,14 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import RemoveForm, RemoveSuggestionForm
 from weblate.trans.models import Comment, Suggestion
 
 
 class RemovalAddon(BaseAddon):
     project_scope = True
-    events = (EVENT_DAILY,)
+    events = (AddonEvent.EVENT_DAILY,)
     settings_form = RemoveForm
     icon = "delete.svg"
 

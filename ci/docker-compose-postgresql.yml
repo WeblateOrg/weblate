@@ -6,7 +6,7 @@ version: '3'
 
 services:
   database:
-    image: postgres:16.1
+    image: postgres:16.2
     ports:
     - 60000:5432
     # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
@@ -15,7 +15,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
   cache:
-    image: redis:7.2.3-alpine
+    image: redis:7.2.4-alpine
     restart: always
     ports:
     - 60001:6379

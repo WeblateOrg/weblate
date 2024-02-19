@@ -8,6 +8,7 @@ import os
 import os.path
 from datetime import datetime
 from operator import itemgetter
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -36,6 +37,9 @@ from weblate.utils.validators import (
     validate_slug,
 )
 
+if TYPE_CHECKING:
+    from weblate.trans.backups import BackupListDict
+
 
 class ProjectLanguageFactory(dict):
     def __init__(self, project: Project):
@@ -54,6 +58,28 @@ class ProjectQuerySet(models.QuerySet):
 
     def search(self, query: str):
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
+
+    def prefetch_languages(self):
+        # Bitmap for languages
+        language_map = set(
+            self.values_list("id", "component__translation__language_id").distinct()
+        )
+        # All used languages
+        languages = (
+            Language.objects.filter(translation__component__project__in=self)
+            .order()
+            .distinct()
+        )
+
+        # Prefetch languages attribute
+        for project in self:
+            project.languages = [
+                language
+                for language in languages
+                if (project.id, language.id) in language_map
+            ]
+
+        return self
 
 
 def prefetch_project_flags(projects):
@@ -262,11 +288,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
             if old_value != current_value:
-                Change.objects.create(
+                self.change_set.create(
                     action=action,
                     old=old_value,
                     target=current_value,
-                    project=self,
                     user=self.acting_user,
                 )
 
@@ -443,8 +468,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             self.save()
         if not user.is_superuser:
             self.add_user(user, "Administration")
-        Change.objects.create(
-            action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user
+        self.change_set.create(
+            action=Change.ACTION_CREATE_PROJECT, user=user, author=user
         )
 
     @cached_property
@@ -586,8 +611,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                 settings[item]["_project"] = self
         return settings
 
-    def list_backups(self):
-        backup_dir = data_dir("projectbackups", f"{self.pk}")
+    def list_backups(self) -> list[BackupListDict]:
+        from weblate.trans.backups import PROJECTBACKUP_PREFIX
+
+        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{self.pk}")
         result = []
         if not os.path.exists(backup_dir):
             return result

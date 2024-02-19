@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
+import unicodedata
 
 from django.utils.translation import gettext_lazy
 
@@ -11,6 +12,7 @@ from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
+FRENCH_PUNCTUATION_SPACING = {"Zs", "Ps", "Pe"}
 FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00A0\u2009])([{}])".format(
     "".join(FRENCH_PUNCTUATION)
 )
@@ -435,12 +437,18 @@ class PunctuationSpacingCheck(TargetCheck):
         total = len(target)
         for i, char in enumerate(target):
             if char in FRENCH_PUNCTUATION:
-                if i + 1 < total and not target[i + 1].isspace():
-                    continue
-                if i == 0 or (
-                    target[i - 1] not in whitespace
-                    and target[i - 1] not in FRENCH_PUNCTUATION
+                if i == 0:
+                    # Trigger if punctionation at beginning of the string
+                    return True
+                if (
+                    i + 1 < total
+                    and unicodedata.category(target[i + 1])
+                    not in FRENCH_PUNCTUATION_SPACING
                 ):
+                    # Ignore when not followed by space or open/close bracket
+                    continue
+                prev_char = target[i - 1]
+                if prev_char not in whitespace and prev_char not in FRENCH_PUNCTUATION:
                     return True
         return False
 

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# mypy: disable-error-code="var-annotated"
+
 import os
 import platform
 from logging.handlers import SysLogHandler
@@ -121,6 +123,7 @@ LANGUAGES = (
     ("sr", "Српски"),
     ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("ta", "தமிழ்"),
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),

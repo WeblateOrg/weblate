@@ -397,3 +397,23 @@ class PunctuationSpacingCheckTest(CheckTestCase):
     def test_fr_ca(self):
         self.do_test(True, ("string", "string!", ""), "fr")
         self.do_test(False, ("string", "string!", ""), "fr_CA")
+
+    def test_markdown(self):
+        self.do_test(
+            True,
+            (
+                "🎉 [Fedora Linux 39 released!](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "🎉 [Fedora Linux 39 est sortie!](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "md-text",
+            ),
+            "fr",
+        )
+        self.do_test(
+            False,
+            (
+                "🎉 [Fedora Linux 39 released!](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "🎉 [Fedora Linux 39 est sortie !](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "md-text",
+            ),
+            "fr",
+        )

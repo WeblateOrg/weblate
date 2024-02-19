@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<p>
+  {% with url=object.get_absolute_url|add:"#organize" %}
+    {% if type == "project" %}
+      {% blocktranslate  %}<a href="{{ url }}">Organize the project</a> to change its URL slug or remove it.{% endblocktranslate %}
+    {% elif type == "component" %}
+      {% blocktranslate with url=object.get_absolute_url|add:"#organize" %}<a href="{{ url }}">Organize the component</a> to change its URL slug, move or remove it.{% endblocktranslate %}
+    {% else %}
+      {% include "Missing type!" %}
+    {% endif %}
+  {% endwith %}
+</p>

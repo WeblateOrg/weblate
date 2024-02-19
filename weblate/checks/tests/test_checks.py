@@ -4,13 +4,19 @@
 
 """Helper for quality checks tests."""
 
+from __future__ import annotations
+
 import random
+from typing import TYPE_CHECKING
 
 from django.test import SimpleTestCase
 from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
+
+if TYPE_CHECKING:
+    from weblate.checks.base import Check
 
 
 class MockLanguage(Language):
@@ -118,7 +124,7 @@ class MockUnit:
             self.targets = target
         self.note = note
         self.check_cache = {}
-        self.machinery = None
+        self.machinery = {}
         self.is_source = is_source
         self.context = context
         self.glossary_terms = None
@@ -141,24 +147,24 @@ class MockUnit:
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
 
-    check = None
+    check: None | Check = None
     default_lang = "cs"
 
     def setUp(self):
-        self.test_empty = ("", "", "")
-        self.test_good_matching = ("string", "string", "")
-        self.test_good_none = ("string", "string", "")
-        self.test_good_ignore = ()
-        self.test_good_flag = ()
-        self.test_failure_1 = ()
-        self.test_failure_2 = ()
-        self.test_failure_3 = ()
-        self.test_ignore_check = (
+        self.test_empty: tuple[str, str, str] = ("", "", "")
+        self.test_good_matching: tuple[str, str, str] = ("string", "string", "")
+        self.test_good_none: tuple[str, str, str] = ("string", "string", "")
+        self.test_good_ignore: None | tuple[str, str, str] = None
+        self.test_good_flag: None | tuple[str, str, str] = None
+        self.test_failure_1: None | tuple[str, str, str] = None
+        self.test_failure_2: None | tuple[str, str, str] = None
+        self.test_failure_3: None | tuple[str, str, str] = None
+        self.test_ignore_check: tuple[str, str, str] = (
             "x",
             "x",
             self.check.ignore_string if self.check else "",
         )
-        self.test_highlight = ()
+        self.test_highlight: None | tuple[str, str, list[tuple[int, int, str]]] = None
 
     def do_test(self, expected, data, lang=None):
         """Perform single check if we have data to test."""
@@ -209,7 +215,7 @@ class CheckTestCase(SimpleTestCase):
         self.do_test(True, self.test_failure_3)
 
     def test_check_good_flag(self):
-        if self.check is None or not self.test_good_flag:
+        if self.check is None or self.test_good_flag is None:
             return
         self.assertFalse(
             self.check.check_target(
@@ -257,7 +263,7 @@ class CheckTestCase(SimpleTestCase):
         )
 
     def test_check_good_ignore_singular(self):
-        if self.check is None or not self.test_good_ignore:
+        if self.check is None or self.test_good_ignore is None:
             return
         self.assertFalse(
             self.check.check_target(
@@ -289,7 +295,7 @@ class CheckTestCase(SimpleTestCase):
         )
 
     def test_check_failure_1_singular(self):
-        if not self.test_failure_1 or self.check is None:
+        if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
             self.check.check_target(
@@ -305,7 +311,7 @@ class CheckTestCase(SimpleTestCase):
         )
 
     def test_check_failure_1_plural(self):
-        if not self.test_failure_1 or self.check is None:
+        if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
             self.check.check_target(
@@ -321,7 +327,7 @@ class CheckTestCase(SimpleTestCase):
         )
 
     def test_check_failure_2_singular(self):
-        if not self.test_failure_2 or self.check is None:
+        if self.test_failure_2 is None or self.check is None:
             return
         self.assertTrue(
             self.check.check_target(
@@ -337,7 +343,7 @@ class CheckTestCase(SimpleTestCase):
         )
 
     def test_check_failure_3_singular(self):
-        if not self.test_failure_3 or self.check is None:
+        if self.test_failure_3 is None or self.check is None:
             return
         self.assertTrue(
             self.check.check_target(
@@ -369,7 +375,7 @@ class CheckTestCase(SimpleTestCase):
         )
 
     def test_check_highlight(self):
-        if self.check is None or not self.test_highlight:
+        if self.check is None or self.test_highlight is None:
             return
         unit = MockUnit(
             None,

@@ -48,17 +48,22 @@ jobs:
         cache: pip
         cache-dependency-path: '**/requirements*.txt'
     - name: Install pip dependencies
-      run: |
-        ./ci/pip-install migrations
+      run: ./ci/pip-install migrations
     - name: Check missing migrations
       run: ./ci/run-checkmigrate
     - name: Migrate from 5.0
       run: ./ci/run-migrate 5.0.2
+    - name: Migrate from 5.1
+      run: ./ci/run-migrate 5.1.1
+    - name: Migrate from 5.2
+      run: ./ci/run-migrate 5.2.1
+    - name: Migrate from 5.3
+      run: ./ci/run-migrate 5.3.1
     - name: Coverage
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v3
+    - uses: codecov/codecov-action@v4
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations

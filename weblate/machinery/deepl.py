@@ -11,6 +11,7 @@ from django.core.cache import cache
 
 from .base import (
     BatchMachineTranslation,
+    DownloadMultipleTranslations,
     GlossaryMachineTranslationMixin,
     XMLMachineTranslationMixin,
 )
@@ -78,10 +79,10 @@ class DeepLTranslation(
         self,
         source,
         language,
-        sources: list[tuple[str, Unit]],
+        sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
-    ) -> dict[str, list[dict[str, str]]]:
+    ) -> DownloadMultipleTranslations:
         """Download list of possible translations from a service."""
         texts = [text for text, _unit in sources]
         unit = sources[0][1]
@@ -111,7 +112,7 @@ class DeepLTranslation(
         )
         payload = response.json()
 
-        result = {}
+        result: DownloadMultipleTranslations = {}
         for index, text in enumerate(texts):
             result[text] = [
                 {
@@ -143,7 +144,7 @@ class DeepLTranslation(
         target_language = target_language.split("-")[0]
         return (source_language, target_language) in languages
 
-    def list_glossaries(self) -> dict[str:str]:
+    def list_glossaries(self) -> dict[str, str]:
         response = self.request("get", self.get_api_url("glossaries"))
         return {
             glossary["name"]: glossary["glossary_id"]

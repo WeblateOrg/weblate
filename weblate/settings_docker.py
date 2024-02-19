@@ -136,6 +136,7 @@ LANGUAGES = (
     ("sr", "Српски"),
     ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("ta", "தமிழ்"),
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
@@ -242,7 +243,7 @@ if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
     DEFAULT_PULL_MESSAGE = get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE")
 
 # Authentication configuration
-AUTHENTICATION_BACKENDS = ()
+AUTHENTICATION_BACKENDS: tuple[str, ...] = ()
 
 # Custom user model
 AUTH_USER_MODEL = "weblate_auth.User"
@@ -301,8 +302,8 @@ if SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY:
     SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL", required=True
     )
-    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = get_env_str(
-        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE", required=True
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = get_env_list(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE", default=["user:email"]
     )
     AUTHENTICATION_BACKENDS += (
         "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
@@ -656,6 +657,11 @@ REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
 REGISTRATION_REBIND = get_env_bool("WEBLATE_REGISTRATION_REBIND", False)
 REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
 
+# VCS configuration
+VCS_CLONE_DEPTH = get_env_int("WEBLATE_VCS_CLONE_DEPTH", 1)
+VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
+VCS_FILE_PROTOCOL = get_env_bool("WEBLATE_VCS_FILE_PROTOCOL", False)
+
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 
@@ -771,7 +777,7 @@ DEFAULT_LOGLEVEL = get_env_str("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/stable/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
+LOGGING: dict = {
     "version": 1,
     "disable_existing_loggers": True,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},

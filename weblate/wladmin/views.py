@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import sys
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.conf import settings
@@ -32,8 +35,9 @@ from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
+from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
-from weblate.utils.checks import measure_cache_latency, measure_database_latency
+from weblate.utils.db import measure_database_latency
 from weblate.utils.errors import report_error
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
@@ -57,7 +61,10 @@ from weblate.wladmin.forms import (
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
 
-MENU = (
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
+MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),
     ("backups", "manage-backups", gettext_lazy("Backups")),
     ("memory", "manage-memory", gettext_lazy("Translation memory")),

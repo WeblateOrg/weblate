@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
@@ -11,6 +14,9 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 ALERTS = {}
 ALERTS_IMPORT = set()
@@ -48,9 +54,8 @@ class Alert(models.Model):
         if is_new:
             from weblate.trans.models import Change
 
-            Change.objects.create(
+            self.component.change_set.create(
                 action=Change.ACTION_ALERT,
-                component=self.component,
                 alert=self,
                 details={"alert": self.name},
             )
@@ -64,7 +69,7 @@ class Alert(models.Model):
 
 
 class BaseAlert:
-    verbose = ""
+    verbose: StrOrPromise = ""
     on_import = False
     link_wide = False
     project_wide = False
@@ -229,6 +234,10 @@ class PushFailure(ErrorAlert):
         "protected branch hook declined",
         "GH006:",
     )
+    gerrit_messages = (
+        "is not registered in your account, and you lack 'forge",
+        "prohibited by Gerrit",
+    )
     doc_page = "admin/continuous"
     doc_anchor = "push-changes"
 
@@ -266,6 +275,7 @@ class PushFailure(ErrorAlert):
             "permission": any(
                 message in self.error for message in self.permission_messages
             ),
+            "gerrit": any(message in self.error for message in self.gerrit_messages),
             "temporary": any(
                 message in self.error for message in self.temporary_messages
             ),

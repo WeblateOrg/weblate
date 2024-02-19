@@ -79,6 +79,12 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query("note:TEXT", Q(note__substring="TEXT"))
         self.assert_query("location:TEXT", Q(location__substring="TEXT"))
 
+    def test_newline(self):
+        self.assert_query("location:TEXT\r\n", Q(location__substring="TEXT"))
+        self.assert_query("location:TEXT\r", Q(location__substring="TEXT"))
+        self.assert_query("location:TEXT\n", Q(location__substring="TEXT"))
+        self.assert_query("location:'TEXT'\r\n", Q(location__substring="TEXT"))
+
     def test_comment(self):
         self.assert_query(
             "comment:TEXT",
@@ -450,6 +456,8 @@ class UserQueryParserTest(TestCase, SearchMixin):
         with self.assertRaises(ValueError):
             self.assert_query("is:bot", Q(is_bot=True))
         with self.assertRaises(ValueError):
+            self.assert_query("is:superuser", Q(is_superuser=True))
+        with self.assertRaises(ValueError):
             self.assert_query("is:active", Q(is_active=True))
 
     def test_language(self):
@@ -532,6 +540,7 @@ class SuperuserQueryParserTest(UserQueryParserTest):
 
     def test_is(self):
         self.assert_query("is:bot", Q(is_bot=True))
+        self.assert_query("is:superuser", Q(is_superuser=True))
         self.assert_query("is:active", Q(is_active=True))
 
 

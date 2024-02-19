@@ -34,9 +34,10 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
+    BatchMachineTranslation,
     MachineryRateLimitError,
-    MachineTranslation,
     MachineTranslationError,
+    SettingsDict,
 )
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
@@ -189,16 +190,16 @@ MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "dat
 class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
 
-    MACHINE_CLS: type[MachineTranslation] = DummyTranslation
+    MACHINE_CLS: type[BatchMachineTranslation] = DummyTranslation
     ENGLISH = "en"
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
-    NOTSUPPORTED = "de"
+    NOTSUPPORTED: str | None = "de"
     NOTSUPPORTED_VARIANT = "de_CZ"
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
     EXPECTED_LEN = 2
-    CONFIGURATION = {}
+    CONFIGURATION: SettingsDict = {}
 
     def get_machine(self, cache=False):
         machine = self.MACHINE_CLS(self.CONFIGURATION)
@@ -1067,10 +1068,9 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_formality(self):
         def request_callback(request):
-            headers = {}
             payload = json.loads(request.body)
             self.assertIn("formality", payload)
-            return (200, headers, json.dumps(DEEPL_RESPONSE))
+            return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1092,10 +1092,9 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self):
         def request_callback(request):
-            headers = {}
             payload = json.loads(request.body)
             self.assertIn("glossary_id", payload)
-            return (200, headers, json.dumps(DEEPL_RESPONSE))
+            return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1137,14 +1136,13 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_replacements(self):
         def request_callback(request):
-            headers = {}
             payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
             )
             return (
                 200,
-                headers,
+                {},
                 json.dumps(
                     {
                         "translations": [

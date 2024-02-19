@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
 
 YOUDAO_API_ROOT = "https://openapi.youdao.com/api"
@@ -45,7 +45,7 @@ class YoudaoTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             self.settings["key"], self.settings["secret"], text

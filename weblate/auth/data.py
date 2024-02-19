@@ -137,6 +137,8 @@ GLOBAL_PERMISSIONS = (
     ("machinery.edit", gettext_noop("Manage machinery")),
     # Translators: Permission name
     ("componentlist.edit", gettext_noop("Manage component lists")),
+    # Translators: Permission name
+    ("billing.manage", gettext_noop("Manage billing")),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
@@ -216,7 +218,10 @@ ROLES = (
         pgettext_noop("Access-control role", "Manage screenshots"),
         filter_perms("screenshot."),
     ),
-    (pgettext_noop("Access-control role", "Manage repository"), filter_perms("vcs.")),
+    (
+        pgettext_noop("Access-control role", "Manage repository"),
+        filter_perms("vcs.") | {"component.lock"},
+    ),
     (pgettext_noop("Access-control role", "Billing"), filter_perms("billing.")),
     (pgettext_noop("Access-control role", "Add new projects"), {"project.add"}),
 )
@@ -224,28 +229,28 @@ ROLES = (
 # Default set of roles for groups
 GROUPS = (
     (
-        pgettext_noop("Access-control group", "Guests"),
+        pgettext_noop("Access-control team name", "Guests"),
         ("Add suggestion", "Access repository"),
         SELECTION_ALL_PUBLIC,
     ),
-    (pgettext_noop("Access-control group", "Viewers"), (), SELECTION_ALL_PROTECTED),
+    (pgettext_noop("Access-control team name", "Viewers"), (), SELECTION_ALL_PROTECTED),
     (
-        pgettext_noop("Access-control group", "Users"),
+        pgettext_noop("Access-control team name", "Users"),
         ("Power user",),
         SELECTION_ALL_PUBLIC,
     ),
     (
-        pgettext_noop("Access-control group", "Reviewers"),
+        pgettext_noop("Access-control team name", "Reviewers"),
         ("Review strings",),
         SELECTION_ALL,
     ),
     (
-        pgettext_noop("Access-control group", "Managers"),
+        pgettext_noop("Access-control team name", "Managers"),
         ("Administration",),
         SELECTION_ALL,
     ),
     (
-        pgettext_noop("Access-control group", "Project creators"),
+        pgettext_noop("Access-control team name", "Project creators"),
         ("Add new projects",),
         SELECTION_ALL,
     ),
@@ -254,22 +259,26 @@ GROUPS = (
 # Per project group definitions
 ACL_GROUPS = {
     pgettext_noop(
-        "Per-project access-control group", "Administration"
+        "Per-project access-control team name", "Administration"
     ): "Administration",
-    pgettext_noop("Per-project access-control group", "Review"): "Review strings",
-    pgettext_noop("Per-project access-control group", "Translate"): "Translate",
-    pgettext_noop("Per-project access-control group", "Sources"): "Edit source",
-    pgettext_noop("Per-project access-control group", "Languages"): "Manage languages",
-    pgettext_noop("Per-project access-control group", "Glossary"): "Manage glossary",
+    pgettext_noop("Per-project access-control team name", "Review"): "Review strings",
+    pgettext_noop("Per-project access-control team name", "Translate"): "Translate",
+    pgettext_noop("Per-project access-control team name", "Sources"): "Edit source",
     pgettext_noop(
-        "Per-project access-control group", "Memory"
+        "Per-project access-control team name", "Languages"
+    ): "Manage languages",
+    pgettext_noop(
+        "Per-project access-control team name", "Glossary"
+    ): "Manage glossary",
+    pgettext_noop(
+        "Per-project access-control team name", "Memory"
     ): "Manage translation memory",
     pgettext_noop(
-        "Per-project access-control group", "Screenshots"
+        "Per-project access-control team name", "Screenshots"
     ): "Manage screenshots",
     pgettext_noop(
-        "Per-project access-control group", "Automatic translation"
+        "Per-project access-control team name", "Automatic translation"
     ): "Automatic translation",
-    pgettext_noop("Per-project access-control group", "VCS"): "Manage repository",
-    pgettext_noop("Per-project access-control group", "Billing"): "Billing",
+    pgettext_noop("Per-project access-control team name", "VCS"): "Manage repository",
+    pgettext_noop("Per-project access-control team name", "Billing"): "Billing",
 }

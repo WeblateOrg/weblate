@@ -9,6 +9,7 @@ import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
+from typing import TYPE_CHECKING
 
 import sentry_sdk
 from appconf import AppConf
@@ -55,6 +56,9 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
+
+if TYPE_CHECKING:
+    from weblate.auth.models import PermissionResult
 
 
 class Permission(models.Model):
@@ -103,7 +107,7 @@ class Group(models.Model):
         Role,
         verbose_name=gettext_lazy("Roles"),
         blank=True,
-        help_text=gettext_lazy("Choose roles granted to this group."),
+        help_text=gettext_lazy("Choose roles granted to this team."),
     )
 
     defining_project = models.ForeignKey(
@@ -155,7 +159,7 @@ class Group(models.Model):
     )
 
     internal = models.BooleanField(
-        verbose_name=gettext_lazy("Internal Weblate group"), default=False
+        verbose_name=gettext_lazy("Internal Weblate team"), default=False
     )
 
     admins = models.ManyToManyField(
@@ -176,8 +180,8 @@ class Group(models.Model):
 
     def __str__(self):
         if self.defining_project:
-            return pgettext("Per-project access-control group", self.name)
-        return pgettext("Access-control group", self.name)
+            return pgettext("Per-project access-control team name", self.name)
+        return pgettext("Access-control team name", self.name)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -516,10 +520,10 @@ class User(AbstractBaseUser):
         """Compatibility API for third-party modules."""
         return self.full_name
 
-    def has_perms(self, perm_list, obj=None):
+    def has_perms(self, perm_list, obj=None) -> bool:
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
-    def has_perm(self, perm: str, obj=None):
+    def has_perm(self, perm: str, obj=None) -> PermissionResult | bool:
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
@@ -770,18 +774,18 @@ class AutoGroup(models.Model):
         max_length=200,
         default="^$",
         help_text=gettext_lazy(
-            "Users with e-mail addresses found to match will be added to this group."
+            "Users with e-mail addresses found to match will be added to this team."
         ),
     )
     group = models.ForeignKey(
         Group,
-        verbose_name=gettext_lazy("Group to assign"),
+        verbose_name=gettext_lazy("Team to assign"),
         on_delete=models.deletion.CASCADE,
     )
 
     class Meta:
-        verbose_name = "Automatic group assignment"
-        verbose_name_plural = "Automatic group assignments"
+        verbose_name = "Automatic team assignment"
+        verbose_name_plural = "Automatic team assignments"
 
     def __str__(self):
         return f"Automatic rule for {self.group}"

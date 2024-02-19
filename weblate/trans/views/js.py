@@ -89,9 +89,13 @@ def git_status(request, path):
     repo_components = obj.all_repo_components
 
     # Filter events from repository
-    changes = Change.objects.filter(
-        component__in=repo_components, action__in=Change.ACTIONS_REPOSITORY
-    ).order()[:10]
+    changes = (
+        Change.objects.filter(
+            component__in=repo_components, action__in=Change.ACTIONS_REPOSITORY
+        )
+        .prefetch()
+        .recent()
+    )
 
     # Get push label for the first component
     try:
@@ -104,7 +108,7 @@ def git_status(request, path):
         "js/git-status.html",
         {
             "object": obj,
-            "changes": changes.prefetch(),
+            "changes": changes,
             "repositories": repo_components,
             "pending_units": obj.count_pending_units,
             "outgoing_commits": sum(

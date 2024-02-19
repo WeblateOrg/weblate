@@ -22,19 +22,9 @@ if [ "$1" = "--tag" ] ; then
     shift
 fi
 
-# Build the documentation (for release notes)
-make -C docs html
-
-# Start with clean build environment
-./setup.py clean
-find weblate/locale/ docs/locales/ -name '*.mo' -delete
-rm -rf build
-
 # Grab version
-. scripts/test-database.sh
-version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
+version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
 namever="weblate-$version"
-tarver="Weblate-$version"
 
 # What are we going to build?
 if [ "$DO_TAG" -eq 1 ] ; then
@@ -44,58 +34,16 @@ if [ "$DO_TAG" -eq 1 ] ; then
     git pull -q
     git tag -s "$namever" -m "Test data for version $version"
     cd ~/weblate/weblate
-fi
 
-# Compile po files
-./scripts/generate-locales
-
-# Create tarballs
-rm -rf ./build/
-fakeroot ./setup.py sdist
-fakeroot ./setup.py bdist_wheel
-
-# Recompress tarballs
-zcat "dist/$tarver.tar.gz" | xz > "dist/$tarver.tar.xz"
-zcat "dist/$tarver.tar.gz" | bzip2 > "dist/$tarver.tar.bz2"
-
-# Upload release
-if [ "$DO_TAG" -eq 1 ] ; then
     # Git tags
     git push --tags
     cd ~/weblate/test
     git push --tags
     cd ~/weblate/weblate
 
-    # PyPi archive upload
-    twine upload "dist/$tarver.tar.gz" "dist/$tarver*.whl"
-
-    # Sign remaining files
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.gz"
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.xz"
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.bz2"
-
-    # Download server
-    # shellcheck disable=SC2086
-    scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
-
     # Update stable branch
     git checkout stable
     git merge "$namever"
     git push origin stable
     git checkout main
-
-    # Convert release notes to markdown
-    sed "s/latest/$namever/" < scripts/release-notes-filter.lua > scripts/release-notes-filter.version.lua
-    ./scripts/extract-release-notes "$version" > "dist/Weblate-$version.html"
-    pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
-    rm scripts/release-notes-filter.version.lua
-
-    # Upload to GitHub
-    sleep 10
-    hub release create --file="dist/Weblate-$version.md" "$namever"
-    sleep 10
-    hub release edit -m '' --attach="dist/$tarver.tar.gz" "$namever"
-    hub release edit -m '' --attach="dist/$tarver.tar.gz.asc" "$namever"
-    hub release edit -m '' --attach="dist/$tarver.tar.xz" "$namever"
-    hub release edit -m '' --attach="dist/$tarver.tar.xz.asc" "$namever"
 fi

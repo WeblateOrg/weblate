@@ -158,7 +158,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.get(reverse("register"))
         form = response.context["captcha_form"]
         data = REGISTRATION_DATA.copy()
-        data["captcha"] = form.captcha.result
+        data["captcha"] = form.mathcaptcha.result
         response = self.do_register(data)
         self.assertContains(response, REGISTRATION_SUCCESS)
 

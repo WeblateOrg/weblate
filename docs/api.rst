@@ -1195,10 +1195,12 @@ Components
     :>json string name: :ref:`component-name`
     :>json string slug: :ref:`component-slug`
     :>json string vcs: :ref:`component-vcs`
-    :>json string repo: :ref:`component-repo`
+    :>json string linked_component: component whose repository is linked via :ref:`internal-urls`
+    :>json string repo: :ref:`component-repo`, this is the actual repository URL even when :ref:`internal-urls` are used, use ``linked_component`` to detect this situation
     :>json string git_export: :ref:`component-git_export`
-    :>json string branch: :ref:`component-branch`
-    :>json string push_branch: :ref:`component-push_branch`
+    :>json string branch: :ref:`component-branch`, this is the actual repository branch even when :ref:`internal-urls` are used
+    :>json string push: :ref:`component-push`, this is the actual repository URL even when :ref:`internal-urls` are used
+    :>json string push_branch: :ref:`component-push_branch`, this is the actual repository branch even when :ref:`internal-urls` are used
     :>json string filemask: :ref:`component-filemask`
     :>json string template: :ref:`component-template`
     :>json string edit_template: :ref:`component-edit_template`
@@ -1210,7 +1212,6 @@ Components
     :>json string new_lang: :ref:`component-new_lang`
     :>json string language_code_style: :ref:`component-language_code_style`
     :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
-    :>json string push: :ref:`component-push`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
     :>json string enforced_checks: :ref:`component-enforced_checks`
@@ -1934,6 +1935,9 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
+    :resheader Last-Modified: Timestamp of last change to this file.
+    :reqheader If-Modified-Since: Skips response if the file has not been modified since that time.
+
     :query format: File format to use; if not specified no format conversion happens; see :ref:`download` for supported formats
     :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
 
@@ -2438,7 +2442,7 @@ Tasks
 
 .. http:get:: /api/tasks/(str:uuid)/
 
-    Returns information about a task
+    Returns information about a task.
 
     :param uuid: Task UUID
     :type uuid: string

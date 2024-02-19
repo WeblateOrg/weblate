@@ -12,8 +12,24 @@ from weblate.fonts.utils import check_render_size, get_font_weight
 class RenderTest(SimpleTestCase):
     def test_render(self):
         self.assertTrue(
-            check_render_size("sans", get_font_weight("normal"), 12, 0, "ahoj", 100, 1)
+            check_render_size(
+                font="sans",
+                weight=get_font_weight("normal"),
+                size=12,
+                spacing=0,
+                text="ahoj",
+                width=100,
+                lines=1,
+            )
         )
         self.assertFalse(
-            check_render_size("sans", get_font_weight("normal"), 12, 0, "ahoj", 10, 1)
+            check_render_size(
+                font="sans",
+                weight=get_font_weight("normal"),
+                size=12,
+                spacing=0,
+                text="ahoj",
+                width=10,
+                lines=1,
+            )
         )

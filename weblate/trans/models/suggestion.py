@@ -23,15 +23,9 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager):
-    def add(
-        self, unit, target: str | list | tuple, request, vote: bool = False, user=None
-    ):
+    def add(self, unit, target: list[str], request, vote: bool = False, user=None):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
-
-        # Consolidate type
-        if not isinstance(target, (list, tuple)):
-            target = [target]
 
         # Apply fixups
         fixups = []
@@ -173,8 +167,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             report_spam(
                 self.userdetails["address"], self.userdetails["agent"], self.target
             )
-        Change.objects.create(
-            unit=self.unit,
+        self.unit.change_set.create(
             action=change,
             user=user,
             target=self.target,

@@ -31,7 +31,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
-from weblate.utils.state import STATE_CHOICES, STATE_READONLY
+from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import (
     create_component_from_doc,
@@ -43,7 +43,7 @@ from weblate.utils.views import (
 
 def get_reverse_kwargs(
     obj, lookup_field: tuple[str, ...], strip_parts: int = 0
-) -> dict[str, str]:
+) -> dict[str, str] | None:
     kwargs = {}
     was_slug = False
     for lookup in lookup_field:
@@ -489,6 +489,12 @@ class ComponentSerializer(RemovableSerializer):
         required=False,
         allow_null=True,
     )
+    linked_component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("linked_component__project__slug", "linked_component__slug"),
+        strip_parts=1,
+        read_only=True,
+    )
 
     task_url = RelatedTaskField(lookup_field="background_task_id")
 
@@ -564,6 +570,7 @@ class ComponentSerializer(RemovableSerializer):
             "glossary_color",
             "disable_autoshare",
             "category",
+            "linked_component",
         )
         extra_kwargs = {
             "url": {
@@ -869,12 +876,10 @@ class UploadRequestSerializer(ReadOnlySerializer):
             raise serializers.ValidationError(
                 {"conflicts": "You can not overwrite existing translations."}
             )
-        if data["conflicts"] == "replace-approved" and not user.has_perm(
-            "unit.review", obj
+        if data["conflicts"] == "replace-approved" and not (
+            denied := user.has_perm("unit.review", obj)
         ):
-            raise serializers.ValidationError(
-                {"conflicts": "You can not overwrite existing approved translations."}
-            )
+            raise serializers.ValidationError({"conflicts": denied.reason})
 
         if data["method"] == "source" and not obj.is_source:
             raise serializers.ValidationError(
@@ -1015,6 +1020,11 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
         return label
 
 
+class UnitFlatLabelsSerializer(UnitLabelsSerializer):
+    def to_representation(self, value):
+        return value.id
+
+
 class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -1075,7 +1085,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
-    labels = UnitLabelsSerializer(many=True)
+    labels = UnitFlatLabelsSerializer(many=True)
 
     class Meta:
         model = Unit
@@ -1096,7 +1106,9 @@ class UnitWriteSerializer(serializers.ModelSerializer):
 
 class NewUnitSerializer(serializers.Serializer):
     state = serializers.ChoiceField(
-        choices=[choice for choice in STATE_CHOICES if choice[0] != STATE_READONLY],
+        choices=[
+            choice for choice in StringState.choices if choice[0] != STATE_READONLY
+        ],
         required=False,
     )
 
@@ -1172,6 +1184,9 @@ class CategorySerializer(RemovableSerializer):
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
         self.fields["project"].queryset = user.managed_projects
+        self.fields["category"].queryset = Category.objects.filter(
+            project__in=user.managed_projects
+        )
 
     def validate(self, attrs):
         # Call model validation here, DRF does not do that

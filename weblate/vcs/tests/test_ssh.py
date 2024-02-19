@@ -10,7 +10,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.checks import check_data_writable
+from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.ssh import SSHWrapper, get_host_keys, ssh_file
 

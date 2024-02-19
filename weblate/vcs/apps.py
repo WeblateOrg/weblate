@@ -16,9 +16,10 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.ssh import ensure_ssh_key
 
-GIT_ERRORS = []
+GIT_ERRORS: list[str] = []
 
 
+@register(deploy=True)
 def check_gpg(app_configs, **kwargs):
     from weblate.vcs.gpg import get_gpg_public_key
 
@@ -30,6 +31,7 @@ def check_gpg(app_configs, **kwargs):
     ]
 
 
+@register
 def check_vcs(app_configs, **kwargs):
     from weblate.vcs.models import VCS_REGISTRY
 
@@ -42,6 +44,7 @@ def check_vcs(app_configs, **kwargs):
     ]
 
 
+@register(deploy=True)
 def check_git(app_configs, **kwargs):
     template = "Failure in configuring Git: {}"
     return [
@@ -50,6 +53,7 @@ def check_git(app_configs, **kwargs):
     ]
 
 
+@register
 def check_vcs_credentials(app_configs, **kwargs):
     from weblate.vcs.models import VCS_REGISTRY
 
@@ -67,20 +71,14 @@ class VCSConfig(AppConfig):
 
     def ready(self):
         super().ready()
-        register(check_vcs)
-        register(check_git, deploy=True)
-        register(check_gpg, deploy=True)
-        register(check_vcs_credentials)
-
-        home = data_dir("home")
-        if not os.path.exists(home):
-            os.makedirs(home)
-
         post_migrate.connect(self.post_migrate, sender=self)
 
     def post_migrate(self, sender, **kwargs):
         ensure_ssh_key()
         home = data_dir("home")
+
+        if not os.path.exists(home):
+            os.makedirs(home)
 
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers

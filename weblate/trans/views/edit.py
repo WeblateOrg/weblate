@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import time
 from math import ceil
+from typing import Any
 
 import sentry_sdk
 from django.conf import settings
@@ -12,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models import Count, Q, Value
 from django.db.models.functions import MD5, Lower
 from django.http import (
     HttpResponse,
@@ -78,7 +81,7 @@ def display_fixups(request, fixups):
 def get_other_units(unit):
     """Returns other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", description=unit.pk):
-        result = {
+        result: dict[str, Any] = {
             "total": 0,
             "skipped": False,
             "same": [],
@@ -120,13 +123,7 @@ def get_other_units(unit):
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
-            .annotate(
-                matches_current=Case(
-                    When(condition=match, then=1),
-                    default=0,
-                    output_field=IntegerField(),
-                )
-            )
+            .annotate(matches_current=Count("id", filter=match))
             .prefetch()
             .select_related("source_unit")
             .order_by("-matches_current")
@@ -705,7 +702,7 @@ def translate(request, path):  # noqa: C901
             "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit),
             "addterm_form": TermForm(unit, user),
-            "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
+            "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order(),
@@ -985,7 +982,7 @@ def save_zen(request, path):
 
         translationsum = hash_to_checksum(unit.get_target_hash())
 
-    response = {
+    response: dict[str, Any] = {
         "messages": [],
         "state": "success",
         "translationsum": translationsum,
@@ -1077,7 +1074,7 @@ def browse(request, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "component": getattr(obj, "component", None),
+            "component": obj.component if isinstance(obj, Translation) else None,
             "units": units,
             "search_query": search_result["query"],
             "search_url": search_result["url"],

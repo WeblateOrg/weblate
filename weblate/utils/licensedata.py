@@ -262,7 +262,7 @@ LICENSES = (
         "BlueOak-1.0.0",
         "Blue Oak Model License 1.0.0",
         "https://spdx.org/licenses/BlueOak-1.0.0.html",
-        False,
+        True,
     ),
     (
         "Boehm-GC",
@@ -306,6 +306,12 @@ LICENSES = (
         'BSD 3-Clause "New" or "Revised" License',
         "https://spdx.org/licenses/BSD-3-Clause.html",
         True,
+    ),
+    (
+        "BSD-3-Clause-acpica",
+        "BSD 3-Clause acpica variant",
+        "https://spdx.org/licenses/BSD-3-Clause-acpica.html",
+        False,
     ),
     (
         "BSD-3-Clause-Clear",
@@ -404,6 +410,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-Source-beginning-file",
+        "BSD Source Code Attribution - beginning of file variant",
+        "https://spdx.org/licenses/BSD-Source-beginning-file.html",
+        False,
+    ),
+    (
         "BSD-3-Clause-Attribution",
         "BSD with attribution",
         "https://spdx.org/licenses/BSD-3-Clause-Attribution.html",
@@ -447,6 +459,12 @@ LICENSES = (
         False,
     ),
     ("Caldera", "Caldera License", "https://spdx.org/licenses/Caldera.html", False),
+    (
+        "Caldera-no-preamble",
+        "Caldera License (without preamble)",
+        "https://spdx.org/licenses/Caldera-no-preamble.html",
+        False,
+    ),
     (
         "CECILL-1.0",
         "CeCILL Free Software License Agreement v1.0",
@@ -673,6 +691,12 @@ LICENSES = (
         "CC-BY-2.5",
         "Creative Commons Attribution 2.5 Generic",
         "https://spdx.org/licenses/CC-BY-2.5.html",
+        False,
+    ),
+    (
+        "CC-BY-3.0-AU",
+        "Creative Commons Attribution 3.0 Australia",
+        "https://spdx.org/licenses/CC-BY-3.0-AU.html",
         False,
     ),
     (
@@ -1182,6 +1206,12 @@ LICENSES = (
         "https://spdx.org/licenses/FSFAP.html",
         True,
     ),
+    (
+        "FSFAP-no-warranty-disclaimer",
+        "FSF All Permissive License (without Warranty)",
+        "https://spdx.org/licenses/FSFAP-no-warranty-disclaimer.html",
+        False,
+    ),
     ("FSFUL", "FSF Unlimited License", "https://spdx.org/licenses/FSFUL.html", False),
     (
         "FSFULLRWD",
@@ -1475,6 +1505,12 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-Kevlin-Henney",
+        "Historical Permission Notice and Disclaimer - Kevlin Henney variant",
+        "https://spdx.org/licenses/HPND-Kevlin-Henney.html",
+        False,
+    ),
+    (
         "HPND-Markus-Kuhn",
         "Historical Permission Notice and Disclaimer - Markus Kuhn variant",
         "https://spdx.org/licenses/HPND-Markus-Kuhn.html",
@@ -1508,6 +1544,12 @@ LICENSES = (
         "HPND-UC",
         "Historical Permission Notice and Disclaimer - University of California variant",
         "https://spdx.org/licenses/HPND-UC.html",
+        False,
+    ),
+    (
+        "HPND-MIT-disclaimer",
+        "Historical Permission Notice and Disclaimer with MIT disclaimer",
+        "https://spdx.org/licenses/HPND-MIT-disclaimer.html",
         False,
     ),
     (
@@ -1600,6 +1642,12 @@ LICENSES = (
     ),
     ("IPA", "IPA Font License", "https://spdx.org/licenses/IPA.html", True),
     ("ISC", "ISC License", "https://spdx.org/licenses/ISC.html", True),
+    (
+        "ISC-Veillard",
+        "ISC Veillard variant",
+        "https://spdx.org/licenses/ISC-Veillard.html",
+        False,
+    ),
     ("Jam", "Jam License", "https://spdx.org/licenses/Jam.html", True),
     (
         "JPNIC",
@@ -1757,6 +1805,12 @@ LICENSES = (
         "https://spdx.org/licenses/Linux-man-pages-copyleft-var.html",
         False,
     ),
+    (
+        "LPD-document",
+        "LPD Documentation License",
+        "https://spdx.org/licenses/LPD-document.html",
+        False,
+    ),
     ("lsof", "lsof License", "https://spdx.org/licenses/lsof.html", False),
     (
         "LPL-1.02",
@@ -1789,6 +1843,7 @@ LICENSES = (
         False,
     ),
     ("magaz", "magaz License", "https://spdx.org/licenses/magaz.html", False),
+    ("mailprio", "mailprio License", "https://spdx.org/licenses/mailprio.html", False),
     (
         "MakeIndex",
         "MakeIndex License",
@@ -2246,6 +2301,12 @@ LICENSES = (
     ),
     ("OpenSSL", "OpenSSL License", "https://spdx.org/licenses/OpenSSL.html", True),
     (
+        "OpenSSL-standalone",
+        "OpenSSL License - standalone",
+        "https://spdx.org/licenses/OpenSSL-standalone.html",
+        False,
+    ),
+    (
         "OSET-PL-2.1",
         "OSET Public License version 2.1",
         "https://spdx.org/licenses/OSET-PL-2.1.html",
@@ -2541,6 +2602,12 @@ LICENSES = (
         False,
     ),
     (
+        "SSLeay-standalone",
+        "SSLeay License - standalone",
+        "https://spdx.org/licenses/SSLeay-standalone.html",
+        False,
+    ),
+    (
         "SMLNJ",
         "Standard ML of New Jersey License",
         "https://spdx.org/licenses/SMLNJ.html",
@@ -2583,6 +2650,12 @@ LICENSES = (
         "BSD-Systemics",
         "Systemics BSD variant license",
         "https://spdx.org/licenses/BSD-Systemics.html",
+        False,
+    ),
+    (
+        "BSD-Systemics-W3Works",
+        "Systemics W3Works BSD variant license",
+        "https://spdx.org/licenses/BSD-Systemics-W3Works.html",
         False,
     ),
     (
@@ -2657,6 +2730,12 @@ LICENSES = (
         False,
     ),
     (
+        "TGPPL-1.0",
+        "Transitive Grace Period Public Licence 1.0",
+        "https://spdx.org/licenses/TGPPL-1.0.html",
+        False,
+    ),
+    (
         "TOSL",
         "Trusster Open Source License",
         "https://spdx.org/licenses/TOSL.html",
@@ -2675,6 +2754,12 @@ LICENSES = (
         "Unicode-DFS-2016",
         "Unicode License Agreement - Data Files and Software (2016)",
         "https://spdx.org/licenses/Unicode-DFS-2016.html",
+        True,
+    ),
+    (
+        "Unicode-3.0",
+        "Unicode License v3",
+        "https://spdx.org/licenses/Unicode-3.0.html",
         True,
     ),
     (
@@ -2781,6 +2866,12 @@ LICENSES = (
         True,
     ),
     ("xinetd", "xinetd License", "https://spdx.org/licenses/xinetd.html", True),
+    (
+        "xkeyboard-config-Zinoviev",
+        "xkeyboard-config Zinoviev License",
+        "https://spdx.org/licenses/xkeyboard-config-Zinoviev.html",
+        False,
+    ),
     ("xlock", "xlock License", "https://spdx.org/licenses/xlock.html", False),
     ("xpp", "XPP License", "https://spdx.org/licenses/xpp.html", False),
     ("XSkat", "XSkat License", "https://spdx.org/licenses/XSkat.html", False),

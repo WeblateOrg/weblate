@@ -28,6 +28,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
     from datetime import datetime
 
+    from django_stubs_ext import StrOrPromise
+
 LOGGER = logging.getLogger("weblate.vcs")
 
 
@@ -56,13 +58,15 @@ class Repository:
     _cmd_status = ["status"]
     _cmd_list_changed_files: list[str] | None = None
 
-    name = None
-    identifier: str | None = None
+    name: StrOrPromise = ""
+    identifier: str = ""
     req_version: str | None = None
-    default_branch = ""
-    needs_push_url = True
-    supports_push = True
-    push_label = gettext_lazy("This will push changes to the upstream repository.")
+    default_branch: str = ""
+    needs_push_url: bool = True
+    supports_push: bool = True
+    push_label: StrOrPromise = gettext_lazy(
+        "This will push changes to the upstream repository."
+    )
 
     _version = None
 

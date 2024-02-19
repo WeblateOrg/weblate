@@ -19,6 +19,7 @@ from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
+    Category,
     Change,
     Component,
     ComponentList,
@@ -96,12 +97,13 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         superuser: bool = False,
         method="get",
         request=None,
+        headers=None,
         skip=(),
         format: str = "multipart",
     ):
         self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request, format)
+        response = getattr(self.client, method)(url, request, format, headers=headers)
         content = response.content if hasattr(response, "content") else "<stream>"
 
         self.assertEqual(
@@ -129,7 +131,7 @@ class UserAPITest(APIBaseTest):
     def test_get(self):
         response = self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="get",
             superuser=True,
             code=200,
@@ -183,14 +185,14 @@ class UserAPITest(APIBaseTest):
         group = Group.objects.get(name="Viewers")
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             code=403,
             request={"group_id": group.id},
         )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=400,
@@ -198,7 +200,7 @@ class UserAPITest(APIBaseTest):
         )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=200,
@@ -207,7 +209,7 @@ class UserAPITest(APIBaseTest):
 
     def test_remove_group(self):
         group = Group.objects.get(name="Viewers")
-        username = User.objects.filter(is_active=True).first().username
+        username = User.objects.filter(is_active=True)[0].username
         self.do_request(
             "api:user-groups",
             kwargs={"username": username},
@@ -245,7 +247,7 @@ class UserAPITest(APIBaseTest):
     def test_list_notifications(self):
         response = self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="get",
             superuser=True,
             code=200,
@@ -255,13 +257,13 @@ class UserAPITest(APIBaseTest):
     def test_post_notifications(self):
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             code=403,
         )
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=201,
@@ -274,7 +276,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(Subscription.objects.count(), 10)
 
     def test_get_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+        user = User.objects.filter(is_active=True)[0]
         self.do_request(
             "api:user-notifications-details",
             kwargs={"username": user.username, "subscription_id": 1000},
@@ -285,23 +287,21 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user).first().id,
+                "subscription_id": Subscription.objects.filter(user=user)[0].id,
             },
             method="get",
             code=200,
         )
 
     def test_put_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+        user = User.objects.filter(is_active=True)[0]
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
                 "subscription_id": Subscription.objects.filter(
                     user=user, notification="NewAnnouncementNotificaton"
-                )
-                .first()
-                .id,
+                )[0].id,
             },
             method="put",
             superuser=True,
@@ -315,16 +315,14 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
     def test_patch_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+        user = User.objects.filter(is_active=True)[0]
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
                 "subscription_id": Subscription.objects.filter(
                     user=user, notification="NewAnnouncementNotificaton"
-                )
-                .first()
-                .id,
+                )[0].id,
             },
             method="patch",
             superuser=True,
@@ -334,12 +332,12 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
     def test_delete_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+        user = User.objects.filter(is_active=True)[0]
         self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user).first().id,
+                "subscription_id": Subscription.objects.filter(user=user)[0].id,
             },
             method="delete",
             superuser=True,
@@ -348,7 +346,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(Subscription.objects.count(), 8)
 
     def test_statistics(self):
-        user = User.objects.filter(is_active=True).first()
+        user = User.objects.filter(is_active=True)[0]
         request = self.do_request(
             "api:user-statistics",
             kwargs={"username": user.username},
@@ -359,13 +357,13 @@ class UserAPITest(APIBaseTest):
     def test_put(self):
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="put",
             code=403,
         )
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="put",
             superuser=True,
             code=200,
@@ -376,24 +374,24 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertEqual(User.objects.filter(is_active=True).first().full_name, "Name")
+        self.assertEqual(User.objects.filter(is_active=True)[0].full_name, "Name")
 
     def test_patch(self):
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="patch",
             code=403,
         )
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="patch",
             superuser=True,
             code=200,
             request={"full_name": "Other"},
         )
-        self.assertEqual(User.objects.filter(is_active=True).first().full_name, "Other")
+        self.assertEqual(User.objects.filter(is_active=True)[0].full_name, "Other")
 
 
 class GroupAPITest(APIBaseTest):
@@ -1346,6 +1344,11 @@ class ProjectAPITest(APIBaseTest):
             "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
+        self.assertEqual(
+            response.data["linked_component"],
+            "http://example.com"
+            + reverse("api:component-detail", kwargs=self.component_kwargs),
+        )
 
     def test_create_component_empty_push(self):
         repo_url = self.format_local_path(self.git_repo_path)
@@ -1372,6 +1375,11 @@ class ProjectAPITest(APIBaseTest):
             "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
+        self.assertEqual(
+            response.data["linked_component"],
+            "http://example.com"
+            + reverse("api:component-detail", kwargs=self.component_kwargs),
+        )
 
     def test_create_component_no_match(self):
         response = self.do_request(
@@ -2257,7 +2265,7 @@ class MemoryAPITest(APIBaseTest):
     def test_delete(self):
         self.do_request(
             "api:memory-detail",
-            kwargs={"pk": Memory.objects.first().pk},
+            kwargs={"pk": Memory.objects.all()[0].pk},
             method="delete",
             superuser=True,
             code=204,
@@ -2290,6 +2298,21 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
+
+    def test_download_modified(self):
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            headers={"If-Modified-Since": "Wed, 21 Oct 2015 07:28:00 GMT"},
+            code=200,
+        )
+        self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
+        self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            headers={"If-Modified-Since": response["Last-Modified"]},
+            code=304,
+        )
 
     def test_download_args(self):
         response = self.do_request(
@@ -3666,7 +3689,7 @@ class ChangeAPITest(APIBaseTest):
 
     def test_filter_changes_before(self):
         """Filter changes prior to timestamp."""
-        start = Change.objects.order().first().timestamp - timedelta(seconds=60)
+        start = Change.objects.order()[0].timestamp - timedelta(seconds=60)
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_before": start.isoformat()}
         )
@@ -3980,17 +4003,19 @@ class AddonAPITest(APIBaseTest):
 
 
 class CategoryAPITest(APIBaseTest):
-    def create_category(self):
+    def create_category(self, code: int = 201, **kwargs):
+        request = {
+            "name": "Category Test",
+            "slug": "category-test",
+            "project": reverse("api:project-detail", kwargs=self.project_kwargs),
+        }
+        request.update(kwargs)
         return self.do_request(
             "api:category-list",
             method="post",
             superuser=True,
-            request={
-                "name": "Category Test",
-                "slug": "category-test",
-                "project": reverse("api:project-detail", kwargs=self.project_kwargs),
-            },
-            code=201,
+            request=request,
+            code=code,
         )
 
     def list_categories(self):
@@ -4004,6 +4029,35 @@ class CategoryAPITest(APIBaseTest):
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
         self.create_category()
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 1)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 1)
+
+    def test_create_nested(self):
+        self.create_category()
+        self.create_category(
+            category=reverse(
+                "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
+            )
+        )
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 2)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 2)
+
+    def test_create_nested_mismatch(self):
+        component = self.create_acl()
+        self.create_category()
+        self.create_category(
+            category=reverse(
+                "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
+            ),
+            project=reverse(
+                "api:project-detail", kwargs={"slug": component.project.slug}
+            ),
+            code=400,
+        )
         response = self.list_categories()
         self.assertEqual(response.data["count"], 1)
         request = self.do_request("api:project-categories", self.project_kwargs)
@@ -4096,7 +4150,7 @@ class LabelAPITest(APIBaseTest):
     def test_create_label(self):
         self.do_request(
             "api:project-labels",
-            kwargs={"slug": Project.objects.first().slug},
+            kwargs={"slug": Project.objects.all()[0].slug},
             method="post",
             superuser=True,
             request={
@@ -4108,7 +4162,7 @@ class LabelAPITest(APIBaseTest):
 
         self.do_request(
             "api:project-labels",
-            kwargs={"slug": Project.objects.first().slug},
+            kwargs={"slug": Project.objects.all()[0].slug},
             method="post",
             superuser=False,
             request={

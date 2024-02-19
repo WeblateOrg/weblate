@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.machinery.base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 
 
 class DummyTranslation(MachineTranslation):
@@ -22,7 +22,7 @@ class DummyTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Dummy translation supports just single phrase."""
         if source == "en" and text.strip() == "Hello, world!":
             yield {

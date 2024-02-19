@@ -2,18 +2,22 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import math
 import os
 import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
+from typing import TYPE_CHECKING, cast
 from unittest import SkipTest
 
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django.utils.functional import cached_property
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -27,6 +31,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
+from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -40,6 +45,9 @@ from weblate.trans.tests.utils import (
 from weblate.utils.db import TransactionsTestMixin
 from weblate.vcs.ssh import get_key_data
 from weblate.wladmin.models import ConfigurationError, SupportStatus
+
+if TYPE_CHECKING:
+    from selenium.webdriver.remote.webdriver import WebDriver
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -66,9 +74,14 @@ SOURCE_FONT = os.path.join(
 class SeleniumTests(
     TransactionsTestMixin, BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin
 ):
-    driver = None
-    driver_error = ""
-    image_path = None
+    _driver: WebDriver | None = None
+    _driver_error: str = ""
+    image_path = os.path.join(
+        os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        ),
+        "test-images",
+    )
     site_domain = ""
 
     @contextmanager
@@ -80,14 +93,6 @@ class SeleniumTests(
     @classmethod
     def setUpClass(cls):
         # Screenshots storage
-        cls.image_path = os.path.join(
-            os.path.dirname(
-                os.path.dirname(
-                    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                )
-            ),
-            "test-images",
-        )
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
         # Build Chrome driver
@@ -115,9 +120,9 @@ class SeleniumTests(
         os.environ["LANG"] = "en_US.UTF-8"
 
         try:
-            cls.driver = webdriver.Chrome(options=options)
+            cls._driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
-            cls.driver_error = str(error)
+            cls._driver_error = str(error)
             if "CI_SELENIUM" in os.environ:
                 raise
 
@@ -129,16 +134,23 @@ class SeleniumTests(
         else:
             os.environ["LANG"] = backup_lang
 
-        if cls.driver is not None:
-            cls.driver.implicitly_wait(5)
-            cls.actions = webdriver.ActionChains(cls.driver)
+        if cls._driver is not None:
+            cls._driver.implicitly_wait(5)
 
         super().setUpClass()
 
+    @cached_property
+    def actions(self):
+        return webdriver.ActionChains(self.driver)
+
+    @property
+    def driver(self) -> WebDriver:
+        if self._driver is None:
+            warnings.warn(f"Selenium error: {self._driver_error}", stacklevel=1)
+            raise SkipTest(f"Webdriver not available: {self._driver_error}")
+        return self._driver
+
     def setUp(self):
-        if self.driver is None:
-            warnings.warn(f"Selenium error: {self.driver_error}", stacklevel=1)
-            raise SkipTest(f"Webdriver not available: {self.driver_error}")
         super().setUp()
         self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
@@ -152,9 +164,9 @@ class SeleniumTests(
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        if cls.driver is not None:
-            cls.driver.quit()
-            cls.driver = None
+        if cls._driver is not None:
+            cls._driver.quit()
+            cls._driver = None
 
     def scroll_top(self):
         self.driver.execute_script("window.scrollTo(0, 0)")
@@ -456,6 +468,10 @@ class SeleniumTests(
 
     def test_screenshots(self):
         """Screenshot tests."""
+        # Make sure tesseract data is present and not downloaded at request time
+        # what will cause test timeout.
+        ensure_tesseract_language("eng")
+
         text = (
             "Automatic translation via machine translation uses active "
             "machine translation engines to get the best possible "
@@ -464,9 +480,10 @@ class SeleniumTests(
         project = self.create_component()
         language = Language.objects.get(code="cs")
 
-        source = Unit.objects.get(
-            source=text, translation__language=language
-        ).source_unit
+        source = cast(
+            Unit,
+            Unit.objects.get(source=text, translation__language=language).source_unit,
+        )
         source.explanation = "Help text for automatic translation tool"
         source.save()
         self.create_glossary(project, language)

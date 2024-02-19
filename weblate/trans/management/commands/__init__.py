@@ -192,7 +192,7 @@ class WeblateTranslationCommand(BaseCommand):
                 component=component, language__code=options["language"]
             )
         except Translation.DoesNotExist:
-            if "add" in options and options["add"]:
+            if options.get("add"):
                 language = Language.objects.fuzzy_get(options["language"])
                 if component.add_new_language(language, None):
                     return Translation.objects.get(

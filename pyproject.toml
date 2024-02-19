@@ -8,6 +8,55 @@ target-version = ['py39']
 [tool.codespell]
 skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
 
+[tool.django-stubs]
+django_settings_module = "weblate.settings_example"
+strict_settings = false
+
+[tool.mypy]
+check_untyped_defs = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+disallow_untyped_defs = true
+ignore_missing_imports = true
+module = [
+  "simple_sso.*",
+  "social_django.*",
+  "social_core.*",
+  "ruamel.*",
+  "aliyunsdkcore.*",
+  "aliyunsdkalimt.*",
+  "google.oauth2.*",
+  "user_agents.*",
+  "translation_finder.*",
+  "weblate_language_data.*",
+  "django_redis.*",
+  "pygments.*",
+  "redis_lock.*",
+  "borg.*",
+  "rollbar.*",
+  "crispy_forms.*",
+  "akismet.*",
+  "gi.*",
+  "misaka.*",
+  "diff_match_patch.*",
+  "saml2.*",
+  "ldap.*",
+  "django_auth_ldap.*",
+  "pyicumessageformat.*",
+  "django_filters.*",
+  "tesserocr.*",
+  "django_celery_beat.*",
+  "translate.*",
+  "appconf.*",
+  "wllegal.*",
+  "wlhosted.*",
+  "djangosaml2idp.*",
+  "debug_toolbar.*",
+  "weblate_schemas.*",
+  "django.db.backends.postgresql.psycopg_any"
+]
+
 [tool.pylint.main]
 disable = [
   "C",
@@ -40,6 +89,15 @@ ignore = [
 ]
 
 [tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+extend-safe-fixes = [
+  "D",
+  "TCH",
+  "FLY",
+  "SIM"
+]
 # CONFIG - intentional configuration
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
@@ -66,11 +124,21 @@ ignore = [
   "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
   "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
   "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
-  "ANN",  # TODO: we are missing many annotations
+  "ANN001",  # TODO: Missing type annotation for function argument
+  "ANN002",  # TODO: Missing type annotation for `*args`
+  "ANN003",  # TODO: Missing type annotation for `**kwargs`
+  "ANN101",  # TODO: Missing type annotation for `self` in method
+  "ANN102",  # TODO: Missing type annotation for `cls` in classmethod
+  "ANN201",  # TODO: Missing return type annotation for public function
+  "ANN202",  # TODO:  Missing return type annotation for private function
+  "ANN204",  # TODO: Missing return type annotation for special method
+  "ANN205",  # TODO: Missing return type annotation for staticmethod
+  "ANN206",  # TODO: Missing return type annotation for classmethod
+  "ANN401",  # TODO: Dynamically typed expressions (typing.Any)
   "D10",  # TODO: we are missing many docstrings
   "D401",  # TODO: many strings need rephrasing
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
-  "TRY200",  # TODO: Use `raise from` to specify exception cause
+  "B904",  # TODO: Use `raise from` to specify exception cause
   "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
   "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.1
   "PLR0911",  # WONTFIX: Too many return statements
@@ -88,14 +156,12 @@ ignore = [
   "A003",  # TODO: overriding builtins (might need noqa tags)
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
-output-format = "github"
 select = ["ALL"]
-target-version = "py39"
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 16
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "docs/_ext/djangodocs.py" = ["INP001"]
 "docs/conf.py" = ["INP001", "ERA001", "A001"]
 "scripts/*" = ["T201", "T203"]
@@ -105,17 +171,13 @@ max-complexity = 16
 "weblate/*/tests/test_*.py" = ["S106", "S105"]
 "weblate/addons/management/commands/list_addons.py" = ["E501"]
 "weblate/addons/utils.py" = ["N806"]
-"weblate/auth/migrations/0018_fixup_role.py" = ["T201", "N806"]
+"weblate/auth/migrations/0003_fixup_teams.py" = ["T201", "N806"]
 "weblate/examples/*.py" = ["INP001"]
 "weblate/lang/data.py" = ["E501"]
 "weblate/machinery/management/commands/list_machinery.py" = ["E501"]
 "weblate/settings_*.py" = ["F405"]
 "weblate/settings_docker.py" = ["ERA001"]
 "weblate/settings_example.py" = ["ERA001"]
-"weblate/trans/migrations/0103_update_source_unit.py" = ["T201", "N806"]
-"weblate/trans/migrations/0116_migrate_glossaries.py" = ["T201", "N806", "E501"]
-"weblate/trans/migrations/0127_fix_source_glossary.py" = ["T201", "N806"]
-"weblate/trans/migrations/0133_glossary_missing_files.py" = ["T201", "N806"]
 "weblate/trans/tests/test_files.py" = ["E501"]
 "weblate/utils/generate_secret_key.py" = ["T201"]
 "weblate/utils/licensedata.py" = ["E501"]

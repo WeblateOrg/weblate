@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
@@ -23,6 +23,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import handle_unit_translation_change
+from weblate.memory.utils import is_valid_memory_entry
 from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
@@ -46,11 +47,11 @@ from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
-    STATE_CHOICES,
     STATE_EMPTY,
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
+    StringState,
 )
 
 if TYPE_CHECKING:
@@ -109,10 +110,18 @@ class UnitQuerySet(models.QuerySet):
             "translation__component__source_language",
         )
 
+    def prefetch_all_checks(self):
+        return self.prefetch_related(
+            models.Prefetch(
+                "check_set",
+                to_attr="all_checks",
+            ),
+        )
+
     def prefetch_full(self):
         from weblate.trans.models import Component
 
-        return self.prefetch_related(
+        return self.prefetch_all_checks().prefetch_related(
             "source_unit",
             "source_unit__translation",
             models.Prefetch(
@@ -121,7 +130,6 @@ class UnitQuerySet(models.QuerySet):
             ),
             "source_unit__translation__component__source_language",
             "source_unit__translation__component__project",
-            "check_set",
             "labels",
             models.Prefetch(
                 "suggestion_set",
@@ -343,8 +351,10 @@ class Unit(models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
-    state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
-    original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
+    state = models.IntegerField(default=STATE_EMPTY, choices=StringState.choices)
+    original_state = models.IntegerField(
+        default=STATE_EMPTY, choices=StringState.choices
+    )
     details = models.JSONField(default=dict)
 
     position = models.IntegerField()
@@ -383,7 +393,9 @@ class Unit(models.Model, LoggerMixin):
     )
     labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
 
-    source_unit = models.ForeignKey(
+    # The type annotation hides that field can be None because
+    # save() updates it to non-None immediatelly.
+    source_unit: Unit = models.ForeignKey(
         "Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )
 
@@ -403,6 +415,16 @@ class Unit(models.Model, LoggerMixin):
             ),
             models.Index(
                 MD5(Lower("context")), "translation", name="trans_unit_context_md5"
+            ),
+            # Partial index for pending field to optimize lookup in translation
+            # commit pending method. Full table index performs poorly here because
+            # it becomes huge.
+            # MySQL/MariaDB does not supports condition and uses full index instead.
+            models.Index(
+                "translation",
+                "pending",
+                condition=Q(pending=True),
+                name="trans_unit_pending",
             ),
         ]
 
@@ -431,7 +453,9 @@ class Unit(models.Model, LoggerMixin):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
         if not same_content or not self.num_words:
-            self.num_words = count_words(self.source)
+            self.num_words = count_words(
+                self.source, self.translation.component.source_language.base_code
+            )
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
@@ -485,12 +509,14 @@ class Unit(models.Model, LoggerMixin):
         self.trigger_update_variants = True
         self.fixups = []
         # Data for machinery integration
-        self.machinery = None
+        self.machinery = {}
         # PluralMapper integration
         self.plural_map = None
         # Data for glossary integration
         self.glossary_terms = None
-        self.glossary_positions = None
+        self.glossary_positions: tuple[tuple[int, int], ...] = ()
+        # Project backup integration
+        self.import_data: dict[str, Any] = {}
         # Store original attributes for change tracking
         self.old_unit = None
         if "state" in self.__dict__ and "source" in self.__dict__:
@@ -730,6 +756,8 @@ class Unit(models.Model, LoggerMixin):
             report_error(cause="Unit update error", project=component.project)
             translation.component.handle_parse_error(error, translation)
 
+        pending = False
+
         # Ensure we track source string for bilingual, this can not use
         # Unit.is_source as that depends on source_unit attribute, which
         # we set here
@@ -774,7 +802,7 @@ class Unit(models.Model, LoggerMixin):
                     if not previous_source:
                         source_change = previous_source = self.source
                     state = STATE_FUZZY
-                self.pending = True
+                pending = True
             elif (
                 self.state == STATE_FUZZY
                 and state == STATE_FUZZY
@@ -790,7 +818,7 @@ class Unit(models.Model, LoggerMixin):
             and explanation == self.explanation
             and note == self.note
             and pos == self.position
-            and not self.pending
+            and not pending
         )
         same_data = (
             not created
@@ -820,7 +848,7 @@ class Unit(models.Model, LoggerMixin):
         self.context = context
         self.note = note
         self.previous_source = previous_source
-        self.pending = False
+        self.pending = pending
         self.update_priority(save=False)
 
         # Metadata update only, these do not trigger any actions in Weblate and
@@ -874,12 +902,8 @@ class Unit(models.Model, LoggerMixin):
             )
 
         # Update translation memory if needed
-        if (
-            self.state >= STATE_TRANSLATED
-            and (not translation.is_source or component.intermediate)
-            and (created or not same_source or not same_target)
-        ):
-            transaction.on_commit(lambda: handle_unit_translation_change.delay(self.id))
+        if created or not same_source or not same_target:
+            self.update_translation_memory()
 
     def update_state(self):
         """
@@ -1124,6 +1148,7 @@ class Unit(models.Model, LoggerMixin):
             if unit.state == STATE_FUZZY and unit.previous_source == self.target:
                 # Unset fuzzy on reverted
                 unit.original_state = unit.state = STATE_TRANSLATED
+                unit.pending = True
                 unit.previous_source = ""
             elif (
                 unit.original_state == STATE_FUZZY
@@ -1137,12 +1162,12 @@ class Unit(models.Model, LoggerMixin):
                 unit.original_state = STATE_FUZZY
                 if unit.state < STATE_READONLY:
                     unit.state = STATE_FUZZY
+                    unit.pending = True
                 unit.previous_source = previous_source
 
             # Save unit and change
             unit.save()
-            Change.objects.create(
-                unit=unit,
+            unit.change_set.create(
                 action=Change.ACTION_SOURCE_CHANGE,
                 user=user,
                 author=author,
@@ -1163,7 +1188,7 @@ class Unit(models.Model, LoggerMixin):
             and not user.is_bot
             and not self.translation.change_set.filter(user=user).exists()
         ):
-            Change.objects.create(
+            self.change_set.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,
                 user=user,
@@ -1465,15 +1490,8 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state = STATE_FUZZY
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
-        if (
-            user
-            and self.target != self.old_unit["target"]
-            and self.state >= STATE_TRANSLATED
-            and not component.is_glossary
-        ):
-            transaction.on_commit(
-                lambda: handle_unit_translation_change.delay(self.id, user.id)
-            )
+        if user and self.target != self.old_unit["target"]:
+            self.update_translation_memory(user.id)
 
         if change_action == Change.ACTION_AUTO:
             self.labels.add(component.project.automatically_translated_label)
@@ -1749,3 +1767,16 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
+
+    def update_translation_memory(self, user_id: int | None = None):
+        translation = self.translation
+        component = translation.component
+        if (
+            (not translation.is_source or component.intermediate)
+            and self.state >= STATE_TRANSLATED
+            and not component.is_glossary
+            and is_valid_memory_entry(source=self.source, target=self.target)
+        ):
+            transaction.on_commit(
+                lambda: handle_unit_translation_change.delay(self.id, user_id)
+            )

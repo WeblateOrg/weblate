@@ -7,13 +7,13 @@
 
 from django.utils.translation import gettext_lazy
 
-from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.events import AddonEvent
 from weblate.addons.scripts import BaseScriptAddon
 
 
 class ExamplePreAddon(BaseScriptAddon):
     # Event used to trigger the script
-    events = (EVENT_PRE_COMMIT,)
+    events = (AddonEvent.EVENT_PRE_COMMIT,)
     # Name of the addon, has to be unique
     name = "weblate.example.pre"
     # Verbose name and long description

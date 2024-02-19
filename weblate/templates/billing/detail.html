@@ -3,6 +3,9 @@
 {% load icons %}
 {% load crispy_forms_tags %}
 {% load i18n %}
+{% load permissions %}
+
+{% perm 'billing.manage' object as user_can_manage_billing %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -118,12 +121,12 @@
       <div class="panel-footer">
           {% csrf_token %}
           {% if billing.valid_libre %}
-            {% if user.is_superuser or not billing.payment.libre_request %}
+            {% if user_can_manage_billing or not billing.payment.libre_request %}
               <p>{% trans "Please check that following conditions are met:" %}<p>
               <ul>
                 {% include "snippets/libre-basic.html" %}
               </ul>
-              {% if user.is_superuser %}
+              {% if user_can_manage_billing %}
                 <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
               {% else %}
                 {{ hosting_form|crispy }}

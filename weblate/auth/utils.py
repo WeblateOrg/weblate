@@ -77,9 +77,16 @@ def migrate_groups(model, role_model, update=False):
         instance, created = model.objects.get_or_create(
             name=group,
             internal=True,
-            project_selection=selection,
-            language_selection=SELECTION_ALL,
+            defining_project=None,
+            defaults={
+                "project_selection": selection,
+                "language_selection": SELECTION_ALL,
+            },
         )
+        if update and not created:
+            instance.project_selection = selection
+            instance.language_selection = SELECTION_ALL
+            instance.save()
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
 

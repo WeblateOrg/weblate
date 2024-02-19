@@ -260,6 +260,7 @@ IGNORE_WORDS = {
     "freemind",
     "freeplane",
     "frequency",
+    "frontend",
     "full",
     "fulltext",
     "function",

@@ -243,21 +243,61 @@ class Formatter:
         for term in terms:
             flags = term.all_flags
             target = escape(term.target)
-            if "forbidden" in flags:
-                forbidden.append(target)
-            elif "read-only" in flags:
-                nontranslatable.append(target)
+            source = escape(term.source)
+            # Translators: Glossary term formatting used in a tooltip
+            formatted = pgettext("glossary term", "{target} [{source}]").format(
+                source=source, target=target
+            )
+            if "read-only" in flags:
+                nontranslatable.append(source)
+            elif not target:
+                continue
+            elif "forbidden" in flags:
+                forbidden.append(formatted)
             else:
-                translations.append(target)
+                translations.append(formatted)
 
         output = []
         if forbidden:
-            output.append(gettext("Forbidden translation: %s") % ", ".join(forbidden))
+            output.append(
+                "\n".join(
+                    (
+                        ngettext(
+                            "Forbidden translation:",
+                            "Forbidden translations:",
+                            len(forbidden),
+                        ),
+                        *forbidden,
+                    )
+                )
+            )
         if nontranslatable:
-            output.append(gettext("Untranslatable: %s") % ", ".join(nontranslatable))
+            output.append(
+                "\n".join(
+                    (
+                        ngettext(
+                            "Untranslatable term:",
+                            "Untranslatable terms:",
+                            len(nontranslatable),
+                        ),
+                        *nontranslatable,
+                    )
+                )
+            )
         if translations:
-            output.append(gettext("Glossary translation: %s") % ", ".join(translations))
-        return "; ".join(output)
+            output.append(
+                "\n".join(
+                    (
+                        ngettext(
+                            "Glossary term:",
+                            "Glossary terms:",
+                            len(translations),
+                        ),
+                        *translations,
+                    )
+                )
+            )
+        return "\n\n".join(output)
 
     def parse_glossary(self):
         """Highlights glossary entries."""
@@ -298,7 +338,7 @@ class Formatter:
             re.escape(self.search_match), self.value, flags=re.IGNORECASE
         ):
             self.tags[match.start()].append(start_tag)
-            self.tags[match.end()].append(end_tag)
+            self.tags[match.end()].insert(0, end_tag)
 
     def parse_whitespace(self):
         """Highlight whitespaces."""

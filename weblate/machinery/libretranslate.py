@@ -4,12 +4,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-from weblate.machinery.base import MachineTranslation
+from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
+from .base import BatchMachineTranslation, DownloadMultipleTranslations
 from .forms import LibreTranslateMachineryForm
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
-class LibreTranslateTranslation(MachineTranslation):
+
+class LibreTranslateTranslation(BatchMachineTranslation):
     """LibreTranslate machine translation support."""
 
     name = "LibreTranslate"
@@ -27,31 +33,37 @@ class LibreTranslateTranslation(MachineTranslation):
         )
         return [x["code"] for x in response.json()]
 
-    def download_translations(
+    def download_multiple_translations(
         self,
         source,
         language,
-        text: str,
-        unit,
-        user,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
         threshold: int = 75,
-    ):
+    ) -> DownloadMultipleTranslations:
         """Download list of possible translations from a service."""
+        texts = [text for text, _unit in sources]
         response = self.request(
             "post",
             self.get_api_url("translate"),
-            data={
+            json={
                 "api_key": self.settings["key"],
-                "q": text,
+                "q": texts,
                 "source": source,
                 "target": language,
             },
         )
         payload = response.json()
+        translated_texts = payload["translatedText"]
 
-        yield {
-            "text": payload["translatedText"],
-            "quality": self.max_score,
-            "service": self.name,
-            "source": text,
+        return {
+            text: [
+                {
+                    "text": translated_texts[index],
+                    "quality": self.max_score,
+                    "service": self.name,
+                    "source": text,
+                }
+            ]
+            for index, text in enumerate(texts)
         }

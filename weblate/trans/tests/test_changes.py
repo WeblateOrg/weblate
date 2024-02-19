@@ -47,7 +47,7 @@ class ChangesTest(ViewTestCase):
 
     def test_string(self):
         response = self.client.get(
-            reverse("changes", kwargs={"path": Unit.objects.first().get_url_path()})
+            reverse("changes", kwargs={"path": Unit.objects.all()[0].get_url_path()})
         )
         self.assertContains(response, "Source string added")
         self.assertContains(response, "Changes of string in")

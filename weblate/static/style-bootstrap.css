@@ -291,6 +291,8 @@ textarea#id_check_flags {
 .space-nl,
 .space-space {
   min-width: 0.3em;
+  /* inline-block needed for proper ::before placement in Chrome */
+  display: inline-block;
 }
 .space-tab::before {
   content: "→";
@@ -1650,6 +1652,10 @@ a.language:hover {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+.input-group .editor-wrap > textarea,
+.input-group .editor-wrap > .highlighted-output {
+  padding: 6px 12px;
+}
 
 .editor-wrap > textarea.form-control[readonly],
 .editor-wrap > textarea.form-control[disabled],
@@ -1959,4 +1965,9 @@ h5.list-group-item-heading {
 }
 label .text-muted {
   font-weight: normal;
+}
+
+#workflow-enable-target {
+  transition: all 300ms linear;
+  -webkit-transition: all 300ms linear;
 }

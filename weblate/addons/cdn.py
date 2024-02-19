@@ -13,14 +13,18 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.state import STATE_TRANSLATED
 
 
 class CDNJSAddon(BaseAddon):
-    events = (EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE)
+    events = (
+        AddonEvent.EVENT_DAILY,
+        AddonEvent.EVENT_POST_COMMIT,
+        AddonEvent.EVENT_POST_UPDATE,
+    )
     name = "weblate.cdn.cdnjs"
     verbose = gettext_lazy("JavaScript localization CDN")
     description = gettext_lazy(
@@ -141,5 +145,5 @@ class CDNJSAddon(BaseAddon):
             component.id,
         )
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
         self.daily(component)

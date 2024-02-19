@@ -16,7 +16,7 @@ import re
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.events import AddonEvent
 
 SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
@@ -125,7 +125,7 @@ def format_file(filename):
 
 
 class PropertiesSortAddon(BaseAddon):
-    events = (EVENT_PRE_COMMIT,)
+    events = (AddonEvent.EVENT_PRE_COMMIT,)
     name = "weblate.properties.sort"
     verbose = gettext_lazy("Format the Java properties file")
     description = gettext_lazy("Formats and sorts the Java properties file.")
