@@ -247,7 +247,8 @@ class BasicLanguagesTest(TestCase):
             adapted, *base_alias = self.check_presence(language_forms, True)
             if adapted != expected:
                 warnings.warn(
-                    f"Unexpected results for '{base_language}' language group. Adapting test case to current language-data.", stacklevel=1
+                    f"Unexpected results for '{base_language}' language group. Adapting test case to current language-data.",
+                    stacklevel=1,
                 )
                 adaptive.append(base_language)
             if adapted == 0:
@@ -271,7 +272,8 @@ class BasicLanguagesTest(TestCase):
                 self.run_test(lang, heads_up)
         if heads_up:
             warnings.warn(
-                f"Perhaps the test case needs to catch up with language-data for {heads_up}?", stacklevel=1
+                f"Perhaps the test case needs to catch up with language-data for {heads_up}?",
+                stacklevel=1,
             )
 
 
