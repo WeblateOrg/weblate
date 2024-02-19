@@ -1,18 +1,12 @@
 Weblate 5.4.1
 -------------
 
-Not yet released.
-
-**New features**
-
-**Improvements**
+Released on February 19th 2024.
 
 **Bug fixes**
 
 * Possible crash on Weblate upgrade check when cached from the previous versions.
 * Gracefully handle migration with duplicate built-in teams.
-
-**Compatibility**
 
 **Upgrading**
 
