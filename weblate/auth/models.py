@@ -180,8 +180,8 @@ class Group(models.Model):
 
     def __str__(self):
         if self.defining_project:
-            return pgettext("Per-project access-control group", self.name)
-        return pgettext("Access-control group", self.name)
+            return pgettext("Per-project access-control team name", self.name)
+        return pgettext("Access-control team name", self.name)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
