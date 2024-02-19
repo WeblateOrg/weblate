@@ -17,6 +17,28 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?closed=1>`__.
 
+Weblate 5.4.1
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+* Possible crash on Weblate upgrade check when cached from the previous versions.
+* Gracefully handle migration with duplicate built-in teams.
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?closed=1>`__.
+
 Weblate 5.4
 -----------
 
