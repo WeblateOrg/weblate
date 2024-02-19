@@ -1,21 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import subprocess
 import tempfile
@@ -26,11 +13,10 @@ from django.urls import reverse
 
 from weblate.gitexport.models import get_export_url
 from weblate.gitexport.views import authenticate
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
-from weblate.utils.files import remove_tree
 
 
 class GitExportTest(ViewTestCase):
@@ -77,24 +63,27 @@ class GitExportTest(ViewTestCase):
             authenticate(request, self.get_auth_string(self.user.auth_token.key))
         )
 
-    def get_git_url(self, path, component=None):
-        kwargs = {"path": ""}
+    def get_git_url(
+        self, *, path: str = "info/refs", component: Component | None = None
+    ):
         if component is None:
-            component = self.kw_component
-        kwargs.update(component)
-        return reverse("git-export", kwargs=kwargs) + path
+            component = self.component
+        kwargs = {"git_request": path, "path": component.get_url_path()}
+        return reverse("git-export", kwargs=kwargs)
 
     def test_git_root(self):
-        response = self.client.get(self.get_git_url(""))
-        self.assertEqual(302, response.status_code)
+        response = self.client.get(self.get_git_url().replace("info/refs", ""))
+        self.assertEqual(301, response.status_code)
 
     def test_git_info(self):
-        response = self.client.get(self.get_git_url("info"), follow=True)
+        response = self.client.get(
+            self.get_git_url().replace("info/refs", "info/"), follow=True
+        )
         self.assertEqual(404, response.status_code)
 
     def git_receive(self, **kwargs):
         return self.client.get(
-            self.get_git_url("info/refs"),
+            self.get_git_url(),
             QUERY_STRING="?service=git-upload-pack",
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
             **kwargs,
@@ -103,7 +92,7 @@ class GitExportTest(ViewTestCase):
     def test_redirect_link(self):
         linked = self.create_link_existing()
         response = self.client.get(
-            self.get_git_url("info/refs", component=linked.get_reverse_url_kwargs()),
+            self.get_git_url(component=linked),
             QUERY_STRING="?service=git-upload-pack",
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
         )
@@ -114,9 +103,7 @@ class GitExportTest(ViewTestCase):
         )
 
     def test_reject_push(self):
-        response = self.client.get(
-            self.get_git_url("info/refs"), {"service": "git-receive-pack"}
-        )
+        response = self.client.get(self.get_git_url(), {"service": "git-receive-pack"})
         self.assertEqual(403, response.status_code)
 
     def test_wrong_auth(self):
@@ -126,6 +113,10 @@ class GitExportTest(ViewTestCase):
     def test_git_receive(self):
         response = self.git_receive()
         self.assertContains(response, "refs/heads/main")
+
+    def test_git_receive_error(self):
+        response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
+        self.assertEqual(404, response.status_code)
 
     def enable_acl(self):
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -171,10 +162,9 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         self.user = create_test_user()
 
     def test_clone(self):
-        testdir = tempfile.mkdtemp()
-        if self.acl:
-            self.component.project.add_user(self.user, "VCS")
-        try:
+        with tempfile.TemporaryDirectory() as testdir:
+            if self.acl:
+                self.component.project.add_user(self.user, "VCS")
             url = (
                 get_export_url(self.component)
                 .replace("http://example.com", self.live_server_url)
@@ -192,8 +182,6 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
             )
             output = process.communicate()[0]
             retcode = process.poll()
-        finally:
-            remove_tree(testdir)
 
         check = self.assertEqual if self.acl else self.assertNotEqual
         check(retcode, 0, f"Failed: {output}")

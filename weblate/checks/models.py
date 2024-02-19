@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 
@@ -64,6 +49,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.PHPFormatCheck",
         "weblate.checks.format.CFormatCheck",
         "weblate.checks.format.PerlFormatCheck",
+        "weblate.checks.format.PerlBraceFormatCheck",
         "weblate.checks.format.JavaScriptFormatCheck",
         "weblate.checks.format.LuaFormatCheck",
         "weblate.checks.format.ObjectPascalFormatCheck",
@@ -84,6 +70,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.consistency.PluralsCheck",
         "weblate.checks.consistency.SamePluralsCheck",
         "weblate.checks.consistency.ConsistencyCheck",
+        "weblate.checks.consistency.ReusedCheck",
         "weblate.checks.consistency.TranslatedCheck",
         "weblate.checks.chars.EscapedNewlineCountingCheck",
         "weblate.checks.chars.NewLineCountCheck",
@@ -106,6 +93,12 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.source.LongUntranslatedCheck",
         "weblate.checks.format.MultipleUnnamedFormatsCheck",
         "weblate.checks.glossary.GlossaryCheck",
+        "weblate.checks.fluent.syntax.FluentSourceSyntaxCheck",
+        "weblate.checks.fluent.syntax.FluentTargetSyntaxCheck",
+        "weblate.checks.fluent.parts.FluentPartsCheck",
+        "weblate.checks.fluent.references.FluentReferencesCheck",
+        "weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck",
+        "weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck",
     )
 
     class Meta:
@@ -114,19 +107,23 @@ class WeblateChecksConf(AppConf):
 
 class CheckQuerySet(models.QuerySet):
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(unit__translation__component__project_id__in=user.allowed_project_ids)
-            & (
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(
+                unit__translation__component__project__in=user.allowed_projects
+            )
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
                 Q(unit__translation__component__restricted=False)
                 | Q(unit__translation__component_id__in=user.component_permissions)
             )
-        )
+        return result
 
 
 class Check(models.Model):
-    unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
+    unit = models.ForeignKey(
+        "trans.Unit", on_delete=models.deletion.CASCADE, db_index=False
+    )
     name = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
 

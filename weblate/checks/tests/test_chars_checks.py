@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for char based quality checks."""
 
@@ -108,9 +93,39 @@ class EndStopCheckTest(CheckTestCase):
         self.test_failure_1 = ("string.", "string", "")
         self.test_failure_2 = ("string", "string.", "")
 
+    def test_arabic(self):
+        self.assertTrue(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["zero", "one", "two", "few", "many", "other"],
+                MockUnit(code="ar"),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["zero.", "one", "two.", "few.", "many.", "other."],
+                MockUnit(code="ar"),
+            )
+        )
+
     def test_japanese(self):
         self.do_test(False, ("Text:", "Text。", ""), "ja")
         self.do_test(True, ("Text:", "Text", ""), "ja")
+        self.assertTrue(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "English."],
+                ["Japanese…"],
+                MockUnit(code="ja"),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["<unusued singular (hash=…)>", "English."],
+                ["Japanese。"],
+                MockUnit(code="ja"),
+            )
+        )
 
     def test_hindi(self):
         self.do_test(False, ("Text.", "Text।", ""), "hi")
@@ -125,6 +140,13 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(False, ("Text.", "Text.", ""), "sat")
         self.do_test(False, ("Text.", "Text᱾", ""), "sat")
         self.do_test(True, ("Text.", "Text", ""), "sat")
+
+    def test_my(self):
+        self.do_test(False, ("Te xt", "Te xt", ""), "my")
+        self.do_test(True, ("Te xt", "Te xt။", ""), "my")
+        self.do_test(False, ("Text.", "Text။", ""), "my")
+        self.do_test(False, ("Text?", "ပုံဖျက်မလး။", ""), "my")
+        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")
 
 
 class EndColonCheckTest(CheckTestCase):
@@ -173,9 +195,9 @@ class EndQuestionCheckTest(CheckTestCase):
         self.do_test(True, ("Text?", "Texte", ""), "el")
 
     def test_my(self):
-        self.do_test(False, ("Text?", "Texte՞", ""), "my")
-        self.do_test(False, ("Text", "Texte՞", ""), "my")
-        self.do_test(True, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(False, ("Texte", "Texte", ""), "my")
+        self.do_test(False, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")
 
 
 class EndExclamationCheckTest(CheckTestCase):
@@ -216,6 +238,7 @@ class EscapedNewlineCountingCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = ("string\\nstring", "string\\nstring", "")
+        self.test_good_none = (r"C:\\path\name", r"C:\\path\jmeno", "")
         self.test_failure_1 = ("string\\nstring", "string\\n\\nstring", "")
         self.test_failure_2 = ("string\\n\\nstring", "string\\nstring", "")
 
@@ -358,8 +381,8 @@ class PunctuationSpacingCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = (
-            "string? string! string: string;",
-            "string ? string\u202F! string&nbsp;; string\u00A0:",
+            "string? string?! string! string: string;",
+            "string ? string ?! string\u202F! string&nbsp;; string\u00A0:",
             "",
         )
         self.test_good_none = (
@@ -374,3 +397,23 @@ class PunctuationSpacingCheckTest(CheckTestCase):
     def test_fr_ca(self):
         self.do_test(True, ("string", "string!", ""), "fr")
         self.do_test(False, ("string", "string!", ""), "fr_CA")
+
+    def test_markdown(self):
+        self.do_test(
+            True,
+            (
+                "🎉 [Fedora Linux 39 released!](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "🎉 [Fedora Linux 39 est sortie!](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "md-text",
+            ),
+            "fr",
+        )
+        self.do_test(
+            False,
+            (
+                "🎉 [Fedora Linux 39 released!](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "🎉 [Fedora Linux 39 est sortie !](https://fedoramagazine.org/announcing-fedora-linux-39)",
+                "md-text",
+            ),
+            "fr",
+        )

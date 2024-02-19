@@ -1,21 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import re
 import time
@@ -25,7 +12,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
@@ -38,11 +25,17 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.models import Invitation, User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.requests import request
-from weblate.utils.validators import USERNAME_MATCHER, clean_fullname
+from weblate.utils.validators import (
+    CRUD_RE,
+    USERNAME_MATCHER,
+    EmailValidator,
+    clean_fullname,
+)
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
@@ -56,7 +49,7 @@ class EmailAlreadyAssociated(AuthAlreadyAssociated):
     pass
 
 
-def get_github_email(access_token):
+def get_github_emails(access_token):
     """Get real e-mail from GitHub."""
     response = request(
         "get",
@@ -66,14 +59,29 @@ def get_github_email(access_token):
     )
     data = response.json()
     email = None
+    primary = None
+    public = None
+    emails = []
     for entry in data:
+        # Skip noreply e-mail only if we need deliverable e-mails
+        if entry["email"].endswith("@users.noreply.github.com"):
+            # Add E-Mail and set is_deliverable to false
+            emails.append((entry["email"], False))
+            continue
         # Skip not verified ones
         if not entry["verified"]:
             continue
+
+        # Add E-Mail and set is_deliverable to true
+        emails.append((entry["email"], True))
+        if entry.get("visibility") == "public":
+            # There is just one public mail, prefer it
+            public = entry["email"]
+            continue
         email = entry["email"]
         if entry["primary"]:
-            break
-    return email
+            primary = entry["email"]
+    return public or primary or email, emails
 
 
 @partial
@@ -99,12 +107,10 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action, **kwarg
 def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
     """Force entering e-mail for backends which don't provide it."""
     if backend.name == "github":
-        email = get_github_email(kwargs["response"]["access_token"])
+        email, emails = get_github_emails(kwargs["response"]["access_token"])
+        details["verified_emails"] = emails
         if email is not None:
             details["email"] = email
-        details_email = details.get("email") or ""
-        if details_email.endswith("@users.noreply.github.com"):
-            del details["email"]
 
     # Remove any pending e-mail validation codes
     if details.get("email") and backend.name == "email":
@@ -140,17 +146,15 @@ def send_validation(strategy, backend, code, partial_token):
     context = {"url": url, "validity": settings.AUTH_TOKEN_VALID // 3600}
 
     template = "activation"
+    user = None
     if session.get("password_reset"):
         template = "reset"
     elif session.get("account_remove"):
         template = "remove"
-    elif session.get("user_invite"):
-        template = "invite"
-        context.update(session["invitation_context"])
 
     # Create audit log, it might be for anonymous at this point for new registrations
     AuditLog.objects.create(
-        strategy.request.user,
+        user,
         strategy.request,
         "sent-email",
         email=code.email,
@@ -190,7 +194,14 @@ def password_reset(
 
 @partial
 def remove_account(
-    strategy, backend, user, social, details, weblate_action, current_partial, **kwargs
+    strategy,
+    backend,
+    user,
+    social,
+    details,
+    weblate_action: str,
+    current_partial,
+    **kwargs,
 ):
     """Set unusable password on reset."""
     if strategy.request is not None and user is not None and weblate_action == "remove":
@@ -200,17 +211,27 @@ def remove_account(
         session = strategy.request.session
         session.set_expiry(90)
         session["remove_confirm"] = True
-        # Redirect to form to change password
+        # Reset rate limit to allow form submission
+        reset_rate_limit("remove", strategy.request)
+        # Redirect to the confirmation form
         return redirect("remove")
     return None
 
 
-def verify_open(strategy, backend, user, weblate_action, **kwargs):
+def verify_open(
+    strategy,
+    backend,
+    user: User,
+    weblate_action: str,
+    invitation_link: Invitation | None,
+    **kwargs,
+):
     """Check whether it is possible to create new user."""
     # Check whether registration is open
     if (
         not user
-        and weblate_action not in ("reset", "remove", "invite")
+        and weblate_action not in ("reset", "remove")
+        and not invitation_link
         and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
@@ -239,10 +260,7 @@ def cleanup_next(strategy, **kwargs):
 def store_params(strategy, user, **kwargs):
     """Store Weblate specific parameters in the pipeline."""
     # Registering user
-    if user and user.is_authenticated:
-        registering_user = user.pk
-    else:
-        registering_user = None
+    registering_user = user.pk if user and user.is_authenticated else None
 
     # Pipeline action
     session = strategy.request.session
@@ -250,20 +268,29 @@ def store_params(strategy, user, **kwargs):
         action = "reset"
     elif session.get("account_remove"):
         action = "remove"
-    elif session.get("user_invite"):
-        action = "invite"
     else:
         action = "activation"
+
+    invitation = None
+    if invitation_pk := session.get("invitation_link"):
+        try:
+            invitation = Invitation.objects.get(pk=invitation_pk)
+        except Invitation.DoesNotExist:
+            del session["invitation_link"]
+            invitation_pk = None
 
     return {
         "weblate_action": action,
         "registering_user": registering_user,
-        "weblate_expires": int(time.monotonic() + settings.AUTH_TOKEN_VALID),
+        "weblate_expires": int(time.time() + settings.AUTH_TOKEN_VALID),
+        "invitation_link": invitation,
+        "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
 
 
 def verify_username(strategy, backend, details, username, user=None, **kwargs):
-    """Verified whether username is still free.
+    """
+    Verified whether username is still free.
 
     It can happen that user has registered several times or other user has taken the
     username meanwhile.
@@ -276,7 +303,8 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
 
 
 def revoke_mail_code(strategy, details, **kwargs):
-    """Remove old mail validation code for Python Social Auth.
+    """
+    Remove old mail validation code for Python Social Auth.
 
     PSA keeps them around, but we really don't need them again.
     """
@@ -304,7 +332,7 @@ def ensure_valid(
 ):
     """Ensure the activation link is still."""
     # Didn't the link expire?
-    if weblate_expires < time.monotonic():
+    if weblate_expires < time.time():
         raise AuthMissingParameter(backend, "expires")
 
     # We allow password reset for unauthenticated users
@@ -312,33 +340,30 @@ def ensure_valid(
         if strategy.request.user.is_authenticated:
             messages.warning(
                 strategy.request,
-                _("You can not complete password reset while signed in."),
+                gettext("You can not complete password reset while signed in."),
             )
             messages.warning(
-                strategy.request, _("The registration link has been invalidated.")
+                strategy.request, gettext("The registration link has been invalidated.")
             )
             raise AuthMissingParameter(backend, "user")
         return
 
     # Add e-mail/register should stay on same user
-    if user and user.is_authenticated:
-        current_user = user.pk
-    else:
-        current_user = None
+    current_user = user.pk if user and user.is_authenticated else None
 
     if current_user != registering_user:
         if registering_user is None:
             messages.warning(
                 strategy.request,
-                _("You can not complete registration while signed in."),
+                gettext("You can not complete registration while signed in."),
             )
         else:
             messages.warning(
                 strategy.request,
-                _("You can confirm your registration only while signed in."),
+                gettext("You can confirm your registration only while signed in."),
             )
         messages.warning(
-            strategy.request, _("The registration link has been invalidated.")
+            strategy.request, gettext("The registration link has been invalidated.")
         )
 
         raise AuthMissingParameter(backend, "user")
@@ -351,21 +376,48 @@ def ensure_valid(
         if user:
             same = same.exclude(social__user=user)
 
-        if same.exists():
+        if not settings.REGISTRATION_REBIND and same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
             raise EmailAlreadyAssociated(backend, "E-mail exists")
+
+        validator = EmailValidator()
+        # This raises ValidationError
+        validator(details["email"])
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified e-mail."""
     # The email can be empty for some services
-    if details.get("email"):
+    if details.get("verified_emails"):
+        # For some reasons tuples get converted to lists inside python social auth
+        current = {tuple(verified) for verified in details["verified_emails"]}
+        existing = set(social.verifiedemail_set.values_list("email", "is_deliverable"))
+        for remove in existing - current:
+            social.verifiedemail_set.filter(
+                email=remove[0], is_deliverable=remove[1]
+            ).delete()
+        for add in current - existing:
+            social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
+    elif details.get("email"):
         verified, created = VerifiedEmail.objects.get_or_create(
             social=social, defaults={"email": details["email"]}
         )
-        if not created and verified.email != details["email"]:
+        if (
+            not created
+            and verified.email != details["email"]
+            or not verified.is_deliverable
+        ):
             verified.email = details["email"]
+            verified.is_deliverable = True
             verified.save()
+
+
+def handle_invite(strategy, backend, user: User, social, invitation_pk: str, **kwargs):
+    # Accept triggering invitation
+    if invitation_pk:
+        Invitation.objects.get(pk=invitation_pk).accept(strategy.request, user)
+    # Merge possibly pending invitations for this e-mail address
+    Invitation.objects.filter(email=user.email).update(user=user, email="")
 
 
 def notify_connect(
@@ -381,7 +433,7 @@ def notify_connect(
     """Notify about adding new link."""
     # Adjust possibly pending email confirmation audit logs
     AuditLog.objects.filter(
-        user=get_anonymous(),
+        user=None,
         activity="sent-email",
         params={"email": details["email"]},
     ).update(user=user)
@@ -421,6 +473,9 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
             else:
                 full_name = last_name
 
+        if CRUD_RE.match(full_name):
+            full_name = ""
+
         if not full_name and username:
             full_name = username
 
@@ -439,7 +494,8 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
 
 
 def slugify_username(value):
-    """Clean up username.
+    """
+    Clean up username.
 
     This is based on Django slugify with exception of lowercasing
 
@@ -480,7 +536,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     user.save()
     messages.warning(
         strategy.request,
-        _(
+        gettext(
             "Your e-mail no longer belongs to verified account, "
             "it has been changed to {0}."
         ).format(user.email),

@@ -1,21 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import math
 import os
@@ -23,12 +10,14 @@ import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
+from typing import TYPE_CHECKING, cast
 from unittest import SkipTest
 
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django.utils.functional import cached_property
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -40,9 +29,9 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
+from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -51,10 +40,14 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
     get_test_file,
+    social_core_override_settings,
 )
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.vcs.ssh import get_key_data
 from weblate.wladmin.models import ConfigurationError, SupportStatus
+
+if TYPE_CHECKING:
+    from selenium.webdriver.remote.webdriver import WebDriver
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -78,21 +71,18 @@ SOURCE_FONT = os.path.join(
 )
 
 
-class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
-    driver = None
-    driver_error = ""
-    image_path = None
+class SeleniumTests(
+    TransactionsTestMixin, BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin
+):
+    _driver: WebDriver | None = None
+    _driver_error: str = ""
+    image_path = os.path.join(
+        os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        ),
+        "test-images",
+    )
     site_domain = ""
-
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
 
     @contextmanager
     def wait_for_page_load(self, timeout=30):
@@ -103,13 +93,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @classmethod
     def setUpClass(cls):
         # Screenshots storage
-        cls.image_path = os.path.join(settings.BASE_DIR, "test-images")
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
         # Build Chrome driver
         options = Options()
         # Run headless
-        options.headless = True
+        options.add_argument("--headless=new")
         # Seems to help in some corner cases, see
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
@@ -127,30 +116,41 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
-        backup_lang = os.environ["LANG"]
+        backup_lang = os.environ.get("LANG")
         os.environ["LANG"] = "en_US.UTF-8"
 
         try:
-            cls.driver = webdriver.Chrome(options=options)
+            cls._driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
-            cls.driver_error = str(error)
+            cls._driver_error = str(error)
             if "CI_SELENIUM" in os.environ:
                 raise
 
         # Restore custom fontconfig settings
         os.environ["FONTCONFIG_FILE"] = backup_fc
-        os.environ["LANG"] = backup_lang
+        # Restore locales
+        if backup_lang is None:
+            del os.environ["LANG"]
+        else:
+            os.environ["LANG"] = backup_lang
 
-        if cls.driver is not None:
-            cls.driver.implicitly_wait(5)
-            cls.actions = webdriver.ActionChains(cls.driver)
+        if cls._driver is not None:
+            cls._driver.implicitly_wait(5)
 
         super().setUpClass()
 
+    @cached_property
+    def actions(self):
+        return webdriver.ActionChains(self.driver)
+
+    @property
+    def driver(self) -> WebDriver:
+        if self._driver is None:
+            warnings.warn(f"Selenium error: {self._driver_error}", stacklevel=1)
+            raise SkipTest(f"Webdriver not available: {self._driver_error}")
+        return self._driver
+
     def setUp(self):
-        if self.driver is None:
-            warnings.warn(f"Selenium error: {self.driver_error}")
-            raise SkipTest(f"Webdriver not available: {self.driver_error}")
         super().setUp()
         self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
@@ -164,9 +164,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        if cls.driver is not None:
-            cls.driver.quit()
-            cls.driver = None
+        if cls._driver is not None:
+            cls._driver.quit()
+            cls._driver = None
 
     def scroll_top(self):
         self.driver.execute_script("window.scrollTo(0, 0)")
@@ -178,7 +178,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         scroll_height = self.driver.execute_script("return document.body.scrollHeight")
         scroll_width = self.driver.execute_script("return document.body.scrollWidth")
         # Resize the window
-        self.driver.set_window_size(scroll_width, scroll_height + 20)
+        self.driver.set_window_size(max(1200, scroll_width), scroll_height + 180)
         time.sleep(0.2)
         # Get screenshot
         with open(os.path.join(self.image_path, name), "wb") as handle:
@@ -200,7 +200,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def upload_file(self, element, filename):
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
-            raise Exception(f"Test file not found: {filename}")
+            raise ValueError(f"Test file not found: {filename}")
         element.send_keys(filename)
 
     def clear_field(self, element):
@@ -239,10 +239,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def open_manage(self, login=True):
         # Login as superuser
-        if login:
-            user = self.do_login(superuser=True)
-        else:
-            user = None
+        user = self.do_login(superuser=True) if login else None
 
         # Open admin page
         with self.wait_for_page_load():
@@ -324,7 +321,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                warnings.warn(f"Ignoring: {error}")
+                warnings.warn(f"Ignoring: {error}", stacklevel=4)
 
         # Confirm account
         self.driver.get(url)
@@ -441,7 +438,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Statistics")
         self.screenshot("activity.png")
 
-    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
+    @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
         user = self.do_login()
         user.social_auth.create(provider="google-oauth2", uid=user.email)
@@ -453,8 +450,28 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Account")
         self.screenshot("authentication.png")
 
+    def test_screenshot_filemask_repository_filename(self):
+        """Test of mask of files to allow discovery/update of screenshots."""
+        self.create_component()
+        self.do_login(superuser=True)
+        self.click(htmlid="projects-menu")
+        with self.wait_for_page_load():
+            self.click("Browse all projects")
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        with self.wait_for_page_load():
+            self.click("Django")
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Screenshots")
+        self.screenshot("screenshot-filemask-repository-filename.png")
+
     def test_screenshots(self):
         """Screenshot tests."""
+        # Make sure tesseract data is present and not downloaded at request time
+        # what will cause test timeout.
+        ensure_tesseract_language("eng")
+
         text = (
             "Automatic translation via machine translation uses active "
             "machine translation engines to get the best possible "
@@ -463,9 +480,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         project = self.create_component()
         language = Language.objects.get(code="cs")
 
-        source = Unit.objects.get(
-            source=text, translation__language=language
-        ).source_unit
+        source = cast(
+            Unit,
+            Unit.objects.get(source=text, translation__language=language).source_unit,
+        )
         source.explanation = "Help text for automatic translation tool"
         source.save()
         self.create_glossary(project, language)
@@ -515,14 +533,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         # Perform OCR
-        if weblate.screenshots.views.HAS_OCR:
-            self.click(htmlid="screenshots-auto")
-            wait_search()
+        self.click(htmlid="screenshots-auto")
+        wait_search()
 
-            self.screenshot("screenshot-ocr.png")
+        self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element(By.ID, "search-input").send_keys(f"'{text}'")
+        self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")
         self.click(htmlid="screenshots-search")
         wait_search()
         self.click(self.driver.find_element(By.CLASS_NAME, "add-string"))
@@ -953,7 +970,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Click on add component
         with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "project-add-component"))
+            self.click(self.driver.find_element(By.ID, "list-add-button"))
 
         # Add component
         self.driver.find_element(By.ID, "id_name").send_keys("Language names")
@@ -1063,14 +1080,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
-            "Droid Sans Fallback Regular"
+            "Kurinto Sans Regular"
         )
         element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Japanese")
         with self.wait_for_page_load():
             element.submit()
         Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
-            "Droid Sans Fallback Regular"
+            "Kurinto Sans Regular"
         )
         element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Korean")

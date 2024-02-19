@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.core.management.base import CommandError
 from django.db.models import Q
@@ -62,26 +46,34 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create admin account with admin password.
+        """
+        Create admin account with admin password.
 
         This is useful mostly for setup inside appliances, when user wants to be able to
         login remotely and change password then.
         """
         email = options["email"]
+        username = options["username"]
         if not email:
             email = "admin@example.com"
             self.stdout.write(f"Blank e-mail for admin, using {email} instead!")
-        try:
-            user = User.objects.filter(
-                Q(username=options["username"]) | Q(email=email)
-            ).get()
-        except User.DoesNotExist:
+        matching_users = User.objects.filter(Q(username=username) | Q(email=email))
+
+        if len(matching_users) == 0:
             user = None
-        except User.MultipleObjectsReturned:
+        elif len(matching_users) == 1:
+            user = matching_users[0]
+        else:
+            for user in matching_users:
+                self.stderr.write(
+                    f"Found maching user: username={user.username} email={user.email}"
+                )
             raise CommandError("Multiple users matched given parameters!")
 
         if user and not options["update"]:
-            raise CommandError("User exists, specify --update to update existing")
+            raise CommandError(
+                f"User {username} already exists, specify --update to update existing"
+            )
 
         if options["no_password"]:
             password = None
@@ -97,8 +89,8 @@ class Command(BaseCommand):
             if password is not None and not user.check_password(password):
                 user.set_password(password)
         else:
-            self.stdout.write("Creating user {}".format(options["username"]))
-            user = User.objects.create_user(options["username"], email, password)
+            self.stdout.write(f"Creating user {username}")
+            user = User.objects.create_user(username, email, password)
         user.full_name = options["name"]
         user.is_superuser = True
         user.is_active = True

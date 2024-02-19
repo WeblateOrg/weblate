@@ -4,13 +4,12 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "Contributor agreement" %}</a></li>
+{% path_object_breadcrumbs object %}
+<li><a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% trans "Contributor agreement" %}</a></li>
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'contributor-agreement' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
 
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Please review the contributor agreement" %}</h4></div>

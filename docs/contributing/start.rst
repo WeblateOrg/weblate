@@ -10,6 +10,9 @@ Starting with the codebase
 Familiarize yourself with the Weblate codebase, by having a go at the
 bugs labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_.
 
+You are welcome to start working on these issues without asking. Just announce
+that in the issue, so that it's clear that somebody is working on that issue.
+
 Running Weblate locally
 -----------------------
 
@@ -29,13 +32,13 @@ sources.
    .. code-block:: sh
 
       virtualenv .venv
-      .venv/bin/activate
+      . .venv/bin/activate
 
 3. Install Weblate (for this you need some system dependencies, see :doc:`../admin/install/source`):
 
    .. code-block:: sh
 
-      pip install -e .
+      pip install -e '.[all]'
 
 3. Install all dependencies useful for development:
 
@@ -59,7 +62,7 @@ sources.
 
    .. code-block:: sh
 
-      . scripts/test-database
+      . scripts/test-database.sh
       ./manage.py test
 
 .. seealso::
@@ -71,7 +74,7 @@ sources.
 Running Weblate locally in Docker
 ---------------------------------
 
-If you have Docker and docker-compose installed, you can spin up the development
+If you have Docker and docker-compose-plugin installed, you can spin up the development
 environment by simply running:
 
 .. code-block:: sh
@@ -118,6 +121,13 @@ Running the script without arguments will re-create the Docker container and res
    This is not a suitable setup for production, as it includes several hacks which
    are insecure, but they make development easier.
 
+
+Bootstrapping your devel instance
+---------------------------------
+
+You might want to use :wladmin:`import_demo` to create demo translations and
+:wladmin:`createadmin` to make an admin user.
+
 Coding Weblate with PyCharm
 ---------------------------
 
@@ -163,10 +173,3 @@ to debug it. This is done by creating a new `Django Server` configuration:
    the server from being reloaded live if you modify files. This allows the
    existing debugger breakpoints to persist, when they normally would be
    discarded upon reloading the server.
-
-
-Bootstrapping your devel instance
----------------------------------
-
-You might want to use :djadmin:`import_demo` to create demo translations and
-:djadmin:`createadmin` to make an admin user.

@@ -1,27 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from functools import reduce
 
-from django.conf import settings
-
-from .base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 from .forms import URLMachineryForm
 
 LANGUAGE_MAP = {
@@ -88,18 +71,9 @@ class ApertiumAPYTranslation(MachineTranslation):
     """Apertium machine translation support."""
 
     name = "Apertium APy"
-    max_score = 90
+    max_score = 88
     settings_form = URLMachineryForm
-
-    @property
-    def url(self):
-        return self.settings["url"]
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "url": settings.MT_APERTIUM_APY.rstrip("/"),
-        }
+    request_timeout = 20
 
     @property
     def all_langs(self):
@@ -116,7 +90,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        data = self.request_status("get", f"{self.url}/listPairs")
+        data = self.request_status("get", self.get_api_url("listPairs"))
         return [
             (item["sourceLanguage"], item["targetLanguage"])
             for item in data["responseData"]
@@ -133,16 +107,17 @@ class ApertiumAPYTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from Apertium."""
         args = {
             "langpair": f"{source}|{language}",
             "q": text,
             "markUnknown": "no",
         }
-        response = self.request_status("get", f"{self.url}/translate", params=args)
+        response = self.request_status(
+            "get", self.get_api_url("translate"), params=args
+        )
 
         yield {
             "text": response["responseData"]["translatedText"],

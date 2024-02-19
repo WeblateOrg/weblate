@@ -1,31 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 from calendar import monthrange
 from datetime import date, timedelta
-from typing import Dict
 
 from django.core.cache import cache
-from django.utils.functional import cached_property
+from django.utils import timezone
+from django.utils.functional import Promise, cached_property
 from django.utils.translation import pgettext_lazy
 
-from weblate.metrics.models import METRIC_CHANGES, Metric
+from weblate.metrics.models import Metric
 
 MONTH_NAMES = [
     pgettext_lazy("Short name of month", "Jan"),
@@ -51,39 +38,63 @@ class MetricsWrapper:
         self.secondary = secondary
 
     @cached_property
-    def current(self):
-        return Metric.objects.get_current(
-            self.obj, self.scope, self.relation, self.secondary
+    def _data(self) -> tuple[Metric, Metric, Metric]:
+        metrics = Metric.objects.filter_metric(
+            self.scope, self.relation, self.secondary
+        )
+        today = timezone.now().date()
+        dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
+        metrics = metrics.filter(date__in=dates)
+
+        current = past_30 = past_60 = None
+        for metric in metrics:
+            if metric.date in dates[0:2] and current is None:
+                current = metric
+            if metric.date in dates[2:4] and past_30 is None:
+                past_30 = metric
+            if metric.date in dates[4:6] and past_60 is None:
+                past_30 = metric
+
+        return (
+            current if current is not None else Metric(),
+            past_30 if past_30 is not None else Metric(),
+            past_60 if past_60 is not None else Metric(),
         )
 
-    @cached_property
-    def past_30(self):
-        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 30)
-
-    @cached_property
-    def past_60(self):
-        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 60)
+    @property
+    def current(self) -> Metric:
+        return self._data[0]
 
     @property
-    def all_words(self):
+    def past_30(self) -> Metric:
+        return self._data[1]
+
+    @property
+    def past_60(self) -> Metric:
+        return self._data[2]
+
+    @property
+    def all_words(self) -> int:
         return self.current["all_words"]
 
     @property
-    def all(self):
+    def all(self) -> int:
         return self.current["all"]
 
     @property
-    def translated_percent(self):
+    def translated_percent(self) -> float:
         total = self.all
         if not total:
             return 0
         return 100 * self.current["translated"] / total
 
     @property
-    def contributors(self):
+    def contributors(self) -> int:
         return self.current.get("contributors", 0)
 
-    def calculate_trend_percent(self, key, modkey, base: Dict, origin: Dict):
+    def calculate_trend_percent(
+        self, key, modkey, base: Metric, origin: Metric
+    ) -> float:
         total = base.get(key, 0)
         if not total:
             return 0
@@ -102,97 +113,97 @@ class MetricsWrapper:
         past = 100 * past / divisor
         return total - past
 
-    def calculate_trend(self, key, base: Dict, origin: Dict):
+    def calculate_trend(self, key, base: Metric, origin: Metric) -> float:
         total = base.get(key, 0)
         if not total:
             return 0
         return 100 * (total - origin[key]) / total
 
     @property
-    def trend_30_all(self):
+    def trend_30_all(self) -> float:
         return self.calculate_trend("all", self.current, self.past_30)
 
     @property
-    def trend_30_all_words(self):
+    def trend_30_all_words(self) -> float:
         return self.calculate_trend("all_words", self.current, self.past_30)
 
     @property
-    def trend_30_contributors(self):
+    def trend_30_contributors(self) -> float:
         return self.calculate_trend("contributors", self.current, self.past_30)
 
     @property
-    def trend_30_translated_percent(self):
+    def trend_30_translated_percent(self) -> float:
         return self.calculate_trend_percent(
             "translated", "all", self.current, self.past_30
         )
 
     @property
-    def trend_60_all(self):
+    def trend_60_all(self) -> float:
         return self.calculate_trend("all", self.past_30, self.past_60)
 
     @property
-    def trend_60_all_words(self):
+    def trend_60_all_words(self) -> float:
         return self.calculate_trend("all_words", self.past_30, self.past_60)
 
     @property
-    def trend_60_contributors(self):
+    def trend_60_contributors(self) -> float:
         return self.calculate_trend("contributors", self.past_30, self.past_60)
 
     @property
-    def trend_60_translated_percent(self):
+    def trend_60_translated_percent(self) -> float:
         return self.calculate_trend_percent(
             "translated", "all", self.past_30, self.past_60
         )
 
     @property
-    def projects(self):
+    def projects(self) -> int:
         return self.current["projects"]
 
     @property
-    def languages(self):
+    def languages(self) -> int:
         return self.current["languages"]
 
     @property
-    def components(self):
+    def components(self) -> int:
         return self.current["components"]
 
     @property
-    def users(self):
+    def users(self) -> int:
         return self.current["users"]
 
     @property
-    def trend_30_projects(self):
+    def trend_30_projects(self) -> float:
         return self.calculate_trend("projects", self.current, self.past_30)
 
     @property
-    def trend_30_languages(self):
+    def trend_30_languages(self) -> float:
         return self.calculate_trend("languages", self.current, self.past_30)
 
     @property
-    def trend_30_components(self):
+    def trend_30_components(self) -> float:
         return self.calculate_trend("components", self.current, self.past_30)
 
     @property
-    def trend_30_users(self):
+    def trend_30_users(self) -> float:
         return self.calculate_trend("users", self.current, self.past_30)
 
     @property
-    def trend_60_projects(self):
+    def trend_60_projects(self) -> float:
         return self.calculate_trend("projects", self.past_30, self.past_60)
 
     @property
-    def trend_60_languages(self):
+    def trend_60_languages(self) -> float:
         return self.calculate_trend("languages", self.past_30, self.past_60)
 
     @property
-    def trend_60_components(self):
+    def trend_60_components(self) -> float:
         return self.calculate_trend("components", self.past_30, self.past_60)
 
     @property
-    def trend_60_users(self):
+    def trend_60_users(self) -> float:
         return self.calculate_trend("users", self.past_30, self.past_60)
 
-    def get_daily_activity(self, start, days):
+    def get_daily_activity(self, start, days) -> dict[date, int]:
         kwargs = {
             "scope": self.scope,
             "relation": self.relation,
@@ -201,10 +212,9 @@ class MetricsWrapper:
             kwargs["secondary"] = self.secondary
         result = dict(
             Metric.objects.filter(
-                date__in=[start - timedelta(days=i) for i in range(days + 1)],
-                kind=METRIC_CHANGES,
+                date__range=(start - timedelta(days=days), start),
                 **kwargs,
-            ).values_list("date", "value")
+            ).values_list("date", "changes")
         )
         for offset in range(days):
             current = start - timedelta(days=offset)
@@ -217,35 +227,36 @@ class MetricsWrapper:
         return result
 
     @cached_property
-    def daily_activity(self):
-        today = date.today()
+    def daily_activity(self) -> list[int]:
+        today = timezone.now().date()
         result = [0] * 52
         for pos, value in self.get_daily_activity(today, 52).items():
             result[51 - (today - pos).days] = value
         return result
 
     @cached_property
-    def cache_key_prefix(self):
+    def cache_key_prefix(self) -> str:
         return f"metrics:{self.scope}:{self.relation}:{self.secondary}"
 
-    def get_month_cache_key(self, year, month):
+    def get_month_cache_key(self, year, month) -> str:
         return f"{self.cache_key_prefix}:month:{year}:{month}"
 
-    def get_month_activity(self, year, month, cached_results):
+    def get_month_activity(self, year, month, cached_results) -> int:
         cache_key = self.get_month_cache_key(year, month)
         if cache_key in cached_results:
             return cached_results[cache_key]
         numdays = monthrange(year, month)[1]
         daily = self.get_daily_activity(date(year, month, numdays), numdays - 1)
         result = sum(daily.values())
-        cache.set(cache_key, result, None)
+        # Cache for one year
+        cache.set(cache_key, result, 365 * 24 * 3600)
         return result
 
     @cached_property
-    def monthly_activity(self):
+    def monthly_activity(self) -> list[dict[str, int | date | str | Promise]]:
         months = []
         prefetch = []
-        last_month_date = date.today().replace(day=1) - timedelta(days=1)
+        last_month_date = timezone.now().date().replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
         for _dummy in range(12):
@@ -258,36 +269,29 @@ class MetricsWrapper:
                 year -= 1
 
         cached_results = cache.get_many(prefetch)
-        result = []
-        for year, month in reversed(months):
-            result.append(
-                {
-                    "month": month,
-                    "year": year,
-                    "previous_year": year - 1,
-                    "month_name": MONTH_NAMES[month - 1],
-                    "start_date": date(year, month, 1),
-                    "end_date": date(year, month, monthrange(year, month)[1]),
-                    "previous_start_date": date(year - 1, month, 1),
-                    "previous_end_date": date(
-                        year - 1, month, monthrange(year - 1, month)[1]
-                    ),
-                    "current": self.get_month_activity(year, month, cached_results),
-                    "previous": self.get_month_activity(
-                        year - 1, month, cached_results
-                    ),
-                }
-            )
+        result: list[dict[str, int | date | str | Promise]] = [
+            {
+                "month": month,
+                "year": year,
+                "previous_year": year - 1,
+                "month_name": MONTH_NAMES[month - 1],
+                "start_date": date(year, month, 1),
+                "end_date": date(year, month, monthrange(year, month)[1]),
+                "previous_start_date": date(year - 1, month, 1),
+                "previous_end_date": date(
+                    year - 1, month, monthrange(year - 1, month)[1]
+                ),
+                "current": self.get_month_activity(year, month, cached_results),
+                "previous": self.get_month_activity(year - 1, month, cached_results),
+            }
+            for year, month in reversed(months)
+        ]
 
-        maximum = max(
-            max(item["current"] for item in result),
-            max(item["previous"] for item in result),
-            1,
-        )
+        maximum = max(1, *(max(item["current"], item["previous"]) for item in result))  # type: ignore[call-overload]
         for item in result:
-            item["current_height"] = 140 * item["current"] // maximum
-            item["current_offset"] = 140 - item["current_height"]
-            item["previous_height"] = 140 * item["previous"] // maximum
-            item["previous_offset"] = 140 - item["previous_height"]
+            item["current_height"] = 140 * item["current"] // maximum  # type: ignore[operator]
+            item["current_offset"] = 140 - item["current_height"]  # type: ignore[operator]
+            item["previous_height"] = 140 * item["previous"] // maximum  # type: ignore[operator]
+            item["previous_offset"] = 140 - item["previous_height"]  # type: ignore[operator]
 
         return result

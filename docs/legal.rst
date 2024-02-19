@@ -9,6 +9,12 @@ Legal documents
    responsibility to ensure that your use of Weblate complies with all applicable
    laws and regulations.
 
+Licensing compliance
+--------------------
+
+Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant license
+specification.
+
 ITAR and other export controls
 ------------------------------
 

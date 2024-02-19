@@ -8,11 +8,7 @@
 
 {% block content %}
 
-{% include "snippets/list-objects.html" with objects=languages label=_("Language") project=object global_base=global_stats %}
-
 {% perm 'language.add' as user_can_add_language %}
-{% if user_can_add_language %}
-<a href="{% url 'create-language' %}" class="btn btn-primary">{% trans "Add language" %}</a>
-{% endif %}
+{% include "snippets/list-objects.html" with objects=languages label=_("Language") project=object global_base=global_stats add_link="language" %}
 
 {% endblock %}

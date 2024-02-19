@@ -1,27 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.events import AddonEvent
 
 
 class ExampleAddon(BaseAddon):
@@ -29,13 +13,13 @@ class ExampleAddon(BaseAddon):
     # matched against property of component
     compat = {"file_format": {"po", "po-mono"}}
     # List of events add-on should receive
-    events = (EVENT_PRE_COMMIT,)
+    events = (AddonEvent.EVENT_PRE_COMMIT,)
     # Add-on unique identifier
     name = "weblate.example.example"
     # Verbose name shown in the user interface
-    verbose = _("Example add-on")
+    verbose = gettext_lazy("Example add-on")
     # Detailed add-on description
-    description = _("This add-on does nothing it is just an example.")
+    description = gettext_lazy("This add-on does nothing it is just an example.")
 
     # Callback to implement custom behavior
     def pre_commit(self, translation, author):

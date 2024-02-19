@@ -1,22 +1,8 @@
 #!/usr/bin/env python3
+
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 from distutils import log
@@ -43,7 +29,7 @@ with open("README.rst") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
-EXTRAS = {"all": []}
+EXTRAS = {"all": [], "test": []}
 with open("requirements-optional.txt") as requirements:
     section = None
     for line in requirements:
@@ -57,6 +43,14 @@ with open("requirements-optional.txt") as requirements:
             EXTRAS[section] = dep
             if section not in ("MySQL", "zxcvbn"):
                 EXTRAS["all"].append(dep)
+with open("requirements-test.txt") as requirements:
+    section = None
+    for line in requirements:
+        line = line.strip()
+        if line.startswith(("-r", "#")) or not line:
+            continue
+        dep = line.split(";")[0].strip()
+        EXTRAS["test"].append(dep)
 
 
 class WeblateBuildPy(build_py):
@@ -90,13 +84,16 @@ class WeblateBuild(build):
     """Override the default build with new subcommands."""
 
     # The build_mo has to be before build_data
-    sub_commands = [("build_mo", lambda self: True)] + build.sub_commands
+    sub_commands = [
+        ("build_mo", lambda self: True),  # noqa: ARG005
+        *build.sub_commands,
+    ]
 
 
 setup(
     name="Weblate",
-    version="4.13",
-    python_requires=">=3.7",
+    version="5.5",
+    python_requires=">=3.9",
     packages=find_packages(),
     include_package_data=True,
     description=(
@@ -118,7 +115,7 @@ setup(
         "Funding": "https://weblate.org/donate/",
     },
     author="Michal Čihař",
-    author_email="michal@cihar.com",
+    author_email="michal@weblate.org",
     install_requires=REQUIRES,
     zip_safe=False,
     extras_require=EXTRAS,
@@ -132,16 +129,19 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Software Development :: Internationalization",
         "Topic :: Software Development :: Localization",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
+    entry_points={
+        "console_scripts": [
+            "weblate = weblate.runner:main",
+            "weblate-generate-secret-key = weblate.utils.generate_secret_key:main",
+        ]
+    },
     cmdclass={"build_py": WeblateBuildPy, "build_mo": BuildMo, "build": WeblateBuild},
 )

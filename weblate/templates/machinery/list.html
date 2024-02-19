@@ -12,7 +12,7 @@
 <li><a href="{% url 'machinery-list' project=project.slug %}">{% trans "Automatic suggestions" %}</a></li>
 {% else %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'machinery-list' %}">{% trans "Automatic suggestions" %}</a></li>
+<li><a href="{% url 'manage-machinery' %}">{% trans "Automatic suggestions" %}</a></li>
 {% endif %}
 {% endblock %}
 
@@ -30,7 +30,7 @@
   {% include 'machinery/detail.html' %}
   </td>
   <td class="bottom-button">
-    {% if service.is_enabled %}
+    {% if service.is_enabled or not serivce.is_available %}
       <form method="POST" action="{{ service.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="delete" value="1" /><button type="submit" class="btn btn-danger">{% trans "Disable" %}</button></form>
     {% else %}
       <form method="POST" action="{{ service.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="enable" value="1" /><button type="submit" class="btn btn-primary">{% trans "Enable" %}</button></form>

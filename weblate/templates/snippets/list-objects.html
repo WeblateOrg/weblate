@@ -4,18 +4,38 @@
 {% load humanize %}
 {% load icons %}
 
-{% init_unique_row_id %}
-
-{% if objects %}
+{% if objects or list_categories %}
   {% if objects.paginator.num_pages > 1 %}
     <table class="table progress-table autocolspan table-listing">
   {% else %}
     <table class="sort table progress-table autocolspan table-listing">
   {% endif %}
-  {% if not hide_details %}
+  {% if not hide_details and not hide_header %}
     <thead class="sticky-header">
       <tr>
-        <th class="sort-skip"></th>
+        <th class="sort-skip">
+          {% if add_link == "translation" %}
+            {% if user_can_add_translation %}
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url "new-language" path=object.get_url_path %}" title="{% trans "Start new translation" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% elif add_link == "component" %}
+            {% if user_can_edit_project %}
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% elif add_link == "component-category" %}
+            {% if user_can_edit_project %}
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk}}&amp;category={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% elif add_link == "language" %}
+            {% if user_can_add_language %}
+            <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-language' %}" title="{% trans "Add language" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% elif add_link == "project" %}
+            {% if user.is_authenticated %}
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-project' %}" title="{% trans "Add project" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% endif %}
+        </th>
         <th title="{% trans "Sort this column" %}" class="sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "name" %}-{% endif %}name">
@@ -26,6 +46,18 @@
             </a>
           {% endif %}
         </th>
+        {% if project and project.enable_review %}
+          <th title="{% trans "Sort this column" %}" class="number zero-width-540 sort-cell">
+            {% if objects.paginator.num_pages > 1 %}
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "approved" %}-{% endif %}approved">
+            {% endif %}
+            {% trans "Approved" %}
+            <span class="sort-icon {% if objects.paginator.sort_by == "approved" %}sort-down{% elif objects.paginator.sort_by == "-approved" %}sort-up{% endif %}" />
+            {% if objects.paginator.num_pages > 1 %}
+              </a>
+            {% endif %}
+          </th>
+        {% endif %}
         <th title="{% trans "Sort this column" %}" class="number sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "translated" %}-{% endif %}translated">
@@ -112,6 +144,35 @@
 
 
 <tbody>
+{% init_unique_row_id %}
+{% for category in list_categories %}
+  {% get_unique_row_id category as row_id %}
+  <tr id="{{ row_id }}">
+    <td class="actions" rowspan="2">
+      <a href="{{ category.get_absolute_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
+    </td>
+    <th class="object-link">
+      <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+    </th>
+    {% if project and project.enable_review %}
+      {% review_percent category.stats %}
+    {% endif %}
+    {% include "snippets/list-objects-percent.html" with percent=category.stats.translated_percent value=category.stats.translated query="q=state:>=translated" all=category.stats.all %}
+    {% if not hide_details %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo query="q=state:<translated" class="zero-width-640" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.allchecks query="q=has:check" class="zero-width-768" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+    {% endif %}
+  </tr>
+  <tr data-parent="{{ row_id }}">
+    <td colspan="7" class="progress-row autocolspan">{% translation_progress category.stats %}</td>
+  </tr>
+{% endfor %}
+{% init_unique_row_id %}
 {% for object in objects %}
 {% get_translate_url object as translate_url %}
 {% get_browse_url object as browse_url %}
@@ -119,21 +180,26 @@
 <tr id="{{ row_id }}">
 <td class="actions" rowspan="2">
 {% if object.is_ghost %}
-    <form action="{% url 'new-language' project=object.component.project.slug component=object.component.slug %}" method="post">
+  {% perm 'translation.add' object.component as user_can_add_translation %}
+  {% if user_can_add_translation %}
+    <form action="{% url 'new-language' path=object.component.get_url_path %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="lang" value="{{ object.language.code }}" />
         <button type="submit" alt="{% trans "Create translation" %}" title="{% trans "Create translation" %}" class="btn btn-link green">{% icon "plus.svg" %}</button>
     </form>
+  {% else %}
+    <span class="gray" title="{% trans "Cannot add translation right now" %}">{% icon "plus.svg" %}</span>
+  {% endif %}
 {% else %}
     {% if translate_url %}
         <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-link green" title="{% trans "Translate" %}" alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
     {% else %}
-        <a href="{{ browse_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-search-outline.svg" %}</a>
+        <a href="{{ browse_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-outline.svg" %}</a>
     {% endif %}
 {% endif %}
 </td>
 <th class="object-link">
-{% if name_source == "component_name" %}
+{% if name_source == "component_name" or name_source == "translation" %}
   {% include "snippets/component-glossary-badge.html" with object=object.component %}
 {% else %}
   {% include "snippets/component-glossary-badge.html" %}
@@ -175,7 +241,13 @@
     {% endspaceless %}</a>
 {% endif %}
 {% indicate_alerts object %}
+{% if custom_workflows and object.pk in custom_workflows %}
+  <span class="badge">{% translate "Customized workflow" %}</span>
+{% endif %}
 </th>
+{% if project and project.enable_review %}
+  {% review_percent object.stats %}
+{% endif %}
 {% if is_glossary %}
   {% include "snippets/list-objects-number.html" with value=object.stats.translated query="q=state:>=translated" show_zero=True %}
 {% else %}
@@ -199,4 +271,27 @@
 </table>
 {% else %}
 <p><em>{% trans "Nothing to list here." %}</em></p>
+
+<p>
+  {% if add_link == "translation" %}
+    {% if user_can_add_translation %}
+      <a class="btn btn-primary" id="list-add-button" href="{% url "new-language" path=object.get_url_path %}">{% trans "Start new translation" %}</a>
+    {% else %}
+      <a class="btn btn-primary" id="list-add-button" disabled href="#" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</a>
+    {% endif %}
+  {% elif add_link == "component" %}
+    {% if user_can_edit_project %}
+      {% if object.project %}
+        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a>
+      {% else %}
+        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+      {% endif %}
+    {% endif %}
+  {% elif add_link == "language" %}
+    {% if user_can_add_language %}
+    <a class="btn btn-primary" id="list-add-button" href="{% url 'create-language' %}">{% trans "Add language" %}</a>
+    {% endif %}
+  {% endif %}
+</p>
+
 {% endif %}

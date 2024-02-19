@@ -1,0 +1,6 @@
+{% load i18n %}
+{% for role in group.roles.all %}
+  <span class="badge">{{ role }}</span>
+{% empty %}
+  <em>{% trans "Access only" %}</em>
+{% endfor %}

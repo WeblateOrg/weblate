@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for translation models."""
 import os
 
@@ -148,8 +134,8 @@ class ProjectTest(RepoTestCase):
             )
             user = create_test_user()
             translation = component.translation_set.get(language_code="cs")
-            unit = translation.unit_set.first()
-            suggestion = Suggestion.objects.add(unit, "Test", None)
+            unit = translation.unit_set.all()[0]
+            suggestion = Suggestion.objects.add(unit, ["Test"], None)
             Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
 
@@ -195,13 +181,13 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.translated, 4)
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all_words, 15)
+        self.assertEqual(translation.stats.all_words, 19)
         # Verify target translation
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all_words, 15)
+        self.assertEqual(translation.stats.all_words, 19)
 
     def test_validation(self):
         """Translation validation."""
@@ -214,7 +200,7 @@ class TranslationTest(RepoTestCase):
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(translation.stats.all_words, 15)
+        self.assertEqual(translation.stats.all_words, 19)
         translation.unit_set.all().delete()
         translation.invalidate_cache()
         self.assertEqual(translation.stats.all, 0)
@@ -262,6 +248,8 @@ class TranslationTest(RepoTestCase):
 
 class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
+
+    CREATE_GLOSSARIES: bool = True
 
     def test_slug(self):
         """Test ComponentList slug."""

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import forms
 from django.contrib import admin
@@ -23,7 +8,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
@@ -35,7 +20,7 @@ BUILT_IN_ROLES = {role[0] for role in ROLES}
 
 
 def block_group_edit(obj):
-    """Whether to allo user editing of an group."""
+    """Whether to allow user editing of a group."""
     return obj and obj.internal
 
 
@@ -46,7 +31,7 @@ def block_role_edit(obj):
 class AutoGroupChangeForm(forms.ModelForm):
     class Meta:
         model = AutoGroup
-        fields = "__all__"
+        fields = "__all__"  # noqa: DJ007
 
     def has_changed(self):
         """
@@ -96,7 +81,7 @@ class RoleAdmin(WeblateModelAdmin):
 class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = "__all__"  # noqa: DJ007
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
@@ -135,12 +120,15 @@ class WeblateAuthAdmin(WeblateModelAdmin):
         perms_needed.discard("Audit log entry")
         perms_needed.discard("verified_email")
         perms_needed.discard("verified email")
+        perms_needed.discard("verified e-mail")
         perms_needed.discard("Verified email")
+        perms_needed.discard("Verified e-mail")
         return deleted_objects, model_count, perms_needed, protected
 
 
 class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
-    """Custom UserAdmin class.
+    """
+    Custom UserAdmin class.
 
     Used to add listing of group membership and whether a user is active.
     """
@@ -159,17 +147,17 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     add_form = WeblateUserCreationForm
     add_fieldsets = (
         (None, {"fields": ("username",)}),
-        (_("Personal info"), {"fields": ("full_name", "email")}),
-        (_("Authentication"), {"fields": ("password1", "password2")}),
+        (gettext_lazy("Personal info"), {"fields": ("full_name", "email")}),
+        (gettext_lazy("Authentication"), {"fields": ("password1", "password2")}),
     )
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("full_name", "email")}),
+        (gettext_lazy("Personal info"), {"fields": ("full_name", "email")}),
         (
-            _("Permissions"),
+            gettext_lazy("Permissions"),
             {"fields": ("is_active", "is_bot", "is_superuser", "groups")},
         ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (gettext_lazy("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     list_filter = ("is_superuser", "is_active", "is_bot", "groups")
     filter_horizontal = ("groups",)
@@ -178,14 +166,13 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         """Display comma separated list of user groups."""
         return ",".join(obj.groups.values_list("name", flat=True))
 
+    @admin.display(
+        description=format_html('<input type="checkbox" id="action-toggle" />')
+    )
     def action_checkbox(self, obj):
         if obj.is_anonymous:
             return ""
         return super().action_checkbox(obj)
-
-    action_checkbox.short_description = format_html(
-        '<input type="checkbox" id="action-toggle" />'
-    )
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.is_anonymous:
@@ -205,7 +192,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 class GroupChangeForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = "__all__"
+        fields = "__all__"  # noqa: DJ007
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -227,13 +214,15 @@ class GroupChangeForm(forms.ModelForm):
             if fields:
                 raise ValidationError(
                     {
-                        field: _("This is not used when a component list is selected.")
+                        field: gettext(
+                            "This is not used when a component list is selected."
+                        )
                         for field in fields
                     }
                 )
         elif has_component and has_project:
             raise ValidationError(
-                {"projects": _("This is not used when a component is selected.")}
+                {"projects": gettext("This is not used when a component is selected.")}
             )
 
 
@@ -256,14 +245,13 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
 
     new_obj = None
 
+    @admin.display(
+        description=format_html('<input type="checkbox" id="action-toggle" />')
+    )
     def action_checkbox(self, obj):
         if obj.internal:
             return ""
         return super().action_checkbox(obj)
-
-    action_checkbox.short_description = format_html(
-        '<input type="checkbox" id="action-toggle" />'
-    )
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.internal:
@@ -276,7 +264,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         return super().has_change_permission(request, obj)
 
     def save_model(self, request, obj, form, change):
-        """Fix saving of automatic language/project selection, part 1.
+        """
+        Fix saving of automatic language/project selection, part 1.
 
         Stores saved object as an attribute to be used by save_related.
         """
@@ -284,7 +273,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         self.new_obj = obj
 
     def save_related(self, request, form, formsets, change):
-        """Fix saving of automatic language/project selection, part 2.
+        """
+        Fix saving of automatic language/project selection, part 2.
 
         Uses stored attribute to save the model again. Saving triggers the automation
         and adjusts project/language selection according to the chosen value.

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import forms
 
@@ -29,7 +14,7 @@ class ScreenshotEditForm(forms.ModelForm):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "image")
+        fields = ("name", "image", "repository_filename")
 
 
 class LanguageChoiceField(forms.ModelChoiceField):
@@ -42,7 +27,7 @@ class ScreenshotForm(forms.ModelForm):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "image", "translation")
+        fields = ("name", "repository_filename", "image", "translation")
         widgets = {
             "translation": SortedSelect,
         }
@@ -53,10 +38,16 @@ class ScreenshotForm(forms.ModelForm):
     def __init__(self, component, data=None, files=None, instance=None, initial=None):
         self.component = component
         super().__init__(data=data, files=files, instance=instance, initial=initial)
-        self.fields[
-            "translation"
-        ].queryset = component.translation_set.prefetch_related("language")
+
+        translations = component.translation_set.prefetch_related("language")
+        if initial and "translation" in initial:
+            translations = translations.filter(
+                pk__in=(initial["translation"].pk, component.source_translation.pk)
+            )
+        self.fields["translation"].queryset = translations
+        # This is overriden from initial arg of the form
         self.fields["translation"].initial = component.source_translation
+        self.fields["translation"].empty_label = None
 
 
 class SearchForm(forms.Form):

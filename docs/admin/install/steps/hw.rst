@@ -5,7 +5,7 @@ Weblate should run on any contemporary hardware without problems, the following 
 the minimal configuration required to run Weblate on a single host (Weblate, database
 and webserver):
 
-* 2 GB of RAM
+* 3 GB of RAM
 * 2 CPU cores
 * 1 GB of storage space
 
@@ -24,3 +24,7 @@ their size minimal by doing shallow clones.
 
     Actual requirements for your installation of Weblate vary heavily based on the size of
     the translations managed in it.
+
+.. hint::
+
+   For systems with less memory than recommended, :ref:`minimal-celery` is recommended.

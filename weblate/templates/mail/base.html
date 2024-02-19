@@ -67,7 +67,8 @@
                 <td><a href="{{ component.get_absolute_url }}">{{ component.stats.languages|intcomma }}</a></td>
                 <td></td>
             </tr>
-            {% include "mail/snippets/stats.html" with stats=component.stats %}
+            {% url "search" path=component.get_url_path as search_url %}
+            {% include "mail/snippets/stats.html" with stats=component.stats url=search_url %}
         </table>
         <div class="buttons">
             <a class="button" href="{{ component.get_absolute_url  }}">{% trans "View" %}</a>
@@ -87,7 +88,8 @@
                 <td><a href="{{ project.get_absolute_url }}#languages">{{ project.stats.languages|intcomma }}</td>
                 <td></td>
             </tr>
-            {% include "mail/snippets/stats.html" with stats=project.stats %}
+            {% url "search" path=project.get_url_path as search_url %}
+            {% include "mail/snippets/stats.html" with stats=project.stats url=search_url %}
         </table>
         <div class="buttons">
             <a class="button" href="{{ project.get_absolute_url  }}">{% trans "View" %}</a>
@@ -98,12 +100,12 @@
                 <img src="{% if request %}{% static "email-logo-footer.png" %}{% else %}cid:email-logo-footer.png@cid.weblate.org{% endif %}" /><br />
                 <a href="https://weblate.org/">{% trans "Weblate, the libre continuous localization system." %}</a>
             </p>
-            {% if unsubscribe_nonce %}
+            {% if unsubscribe_url %}
             <p>
                 ▸ <a href="{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
             </p>
             <p>
-                ▸ <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
+                ▸ <a href="{{ unsubscribe_url }}">{% trans "Turn off this notification" %}</a>
             </p>
             {% elif unsubscribe_note %}
             <p>

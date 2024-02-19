@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+import re
+
+print(
+    """
+.. Table is generated using scripts/show-extras
+
+.. list-table:: Optional dependencies
+     :header-rows: 1
+
+     * - pip extra
+       - Python Package
+       - Weblate feature
+"""
+)
+
+with open("requirements-optional.txt") as requirements:
+    section = None
+    for line in requirements:
+        line = line.strip()
+        if line.startswith("-r") or not line:
+            continue
+        if line.startswith("#"):
+            section = line[2:]
+        else:
+            dependency = re.split("[;<>=[]", line)[0].strip()
+            print(
+                f"""
+     * - ``{section}``
+       - `{dependency} <https://pypi.org/project/{dependency}>`_
+       -
+"""
+            )

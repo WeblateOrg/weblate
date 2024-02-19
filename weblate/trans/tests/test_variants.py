@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for variants."""
 
@@ -131,14 +116,7 @@ class VariantTest(ViewTestCase):
         source = self.component.translation_set.get(language_code="en")
         base = source.unit_set.get(source="Thank you for using Weblate.")
         response = self.client.post(
-            reverse(
-                "new-unit",
-                kwargs={
-                    "project": self.component.project.slug,
-                    "component": self.component.slug,
-                    "lang": "en",
-                },
-            ),
+            reverse("new-unit", kwargs={"path": source.get_url_path()}),
             {
                 "context": "variantial",
                 "source_0": "Source",
@@ -149,7 +127,10 @@ class VariantTest(ViewTestCase):
         self.assertContains(response, "New string has been added")
 
         unit = translation.unit_set.get(context="variantial")
-        self.assertEqual(unit.source_unit.extra_flags, f'variant:"{base.source}"')
+        self.assertEqual(
+            unit.source_unit.extra_flags,
+            f'variant:"{base.source}"',  # noqa: B028
+        )
         variants = unit.defined_variants.all()
         self.assertEqual(len(variants), 1)
         self.assertEqual(variants[0].unit_set.count(), 4)
@@ -157,14 +138,7 @@ class VariantTest(ViewTestCase):
 
         base = source.unit_set.get(source="Hello, world!\n")
         response = self.client.post(
-            reverse(
-                "new-unit",
-                kwargs={
-                    "project": self.component.project.slug,
-                    "component": self.component.slug,
-                    "lang": "en",
-                },
-            ),
+            reverse("new-unit", kwargs={"path": source.get_url_path()}),
             {"context": "variant2", "source_0": "Source", "variant": base.id},
             follow=True,
         )

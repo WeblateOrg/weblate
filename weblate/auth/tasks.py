@@ -1,25 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from datetime import timedelta
+
+from celery.schedules import crontab
+from django.conf import settings
 from django.utils import timezone
 
-from weblate.auth.models import User
+from weblate.auth.models import Invitation, User
 from weblate.utils.celery import app
 
 
@@ -30,6 +19,16 @@ def disable_expired():
     )
 
 
+@app.task(trail=False)
+def cleanup_invitations():
+    Invitation.objects.filter(
+        timestamp__lte=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
+    ).delete()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, disable_expired.s(), name="disable-expired")
+    sender.add_periodic_task(
+        crontab(hour=6, minute=6), cleanup_invitations.s(), name="cleanup_invitations"
+    )

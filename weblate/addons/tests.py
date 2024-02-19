@@ -1,22 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+import json
 import os
 from datetime import timedelta
 from io import StringIO
@@ -29,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.addons.autotranslate import AutoTranslateAddon
-from weblate.addons.base import TestAddon, TestCrashAddon, TestException
+from weblate.addons.base import TestAddon, TestCrashAddon, TestError
 from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.cleanup import CleanupAddon, RemoveBlankAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
@@ -42,7 +28,12 @@ from weblate.addons.flags import (
     SourceEditAddon,
     TargetEditAddon,
 )
-from weblate.addons.generate import GenerateFileAddon, PrefillAddon, PseudolocaleAddon
+from weblate.addons.generate import (
+    FillReadOnlyAddon,
+    GenerateFileAddon,
+    PrefillAddon,
+    PseudolocaleAddon,
+)
 from weblate.addons.gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
@@ -58,15 +49,32 @@ from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.removal import RemoveComments, RemoveSuggestions
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.addons.tasks import daily_addons
+from weblate.addons.xml import XMLCustomizeAddon
 from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
 
 
-class AddonBaseTest(FixtureTestCase):
+class TestAddonMixin:
+    def setUp(self):
+        super().setUp()
+        ADDONS.data[TestAddon.name] = TestAddon
+        ADDONS.data[ExampleAddon.name] = ExampleAddon
+        ADDONS.data[TestCrashAddon.name] = TestCrashAddon
+        ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
+
+    def tearDown(self):
+        super().tearDown()
+        del ADDONS.data[TestAddon.name]
+        del ADDONS.data[ExampleAddon.name]
+        del ADDONS.data[TestCrashAddon.name]
+        del ADDONS.data[ExamplePreAddon.name]
+
+
+class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self):
         self.assertTrue(TestAddon.can_install(self.component, None))
 
@@ -90,7 +98,7 @@ class AddonBaseTest(FixtureTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
 
-class IntegrationTest(ViewTestCase):
+class IntegrationTest(TestAddonMixin, ViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -126,7 +134,9 @@ class IntegrationTest(ViewTestCase):
         TestAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        self.component.trigger_post_update("x", False)
+        self.component.trigger_post_update(
+            self.component.repository.last_revision, False
+        )
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
@@ -147,11 +157,13 @@ class IntegrationTest(ViewTestCase):
         self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
         ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
 
-        with self.assertRaises(TestException):
-            addon.post_update(self.component, "head", False)
+        with self.assertRaises(TestError):
+            addon.post_update(self.component, "head", False, False)
 
         # The crash should be handled here and addon uninstalled
-        self.component.trigger_post_update("x", False)
+        self.component.trigger_post_update(
+            self.component.repository.last_revision, False
+        )
 
         self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
@@ -242,9 +254,9 @@ class GettextAddonTest(ViewTestCase):
         addon = MsgmergeAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, rev, False)
+        addon.post_update(self.component, rev, False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
@@ -297,7 +309,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
+                self.assertTrue(text.endswith(("!!!", "!!!\n")))
 
     def test_pseudolocale_variable(self):
         self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
@@ -320,8 +332,9 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@_"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
-        self.component.addon_set.all().delete()
+                self.assertTrue(text.endswith(("_!!!", "_!!!\n")))
+        for addon in self.component.addon_set.all():
+            addon.delete()
         translation = self.component.translation_set.get(language_code="de")
         self.assertEqual(translation.check_flags, "")
 
@@ -336,6 +349,31 @@ class GettextAddonTest(ViewTestCase):
                     self.assertIn(text, sources)
         self.assertFalse(Unit.objects.filter(pending=True).exists())
 
+    def test_read_only(self):
+        self.assertTrue(FillReadOnlyAddon.can_install(self.component, None))
+        addon = FillReadOnlyAddon.create(self.component)
+        for translation in self.component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            self.assertEqual(translation.stats.readonly, 0)
+        unit = self.get_unit().source_unit
+        unit.extra_flags = "read-only"
+        unit.save(same_content=True, update_fields=["extra_flags"])
+        for translation in self.component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            translation.invalidate_cache()
+            self.assertEqual(translation.stats.readonly, 1)
+            unit = translation.unit_set.get(state=STATE_READONLY)
+            self.assertEqual(unit.target, "")
+        addon.daily(self.component)
+        for translation in self.component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            self.assertEqual(translation.stats.readonly, 1)
+            unit = translation.unit_set.get(state=STATE_READONLY)
+            self.assertEqual(unit.target, unit.source)
+
 
 class AppStoreAddonTest(ViewTestCase):
     def create_component(self):
@@ -347,9 +385,9 @@ class AppStoreAddonTest(ViewTestCase):
         addon = CleanupAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("cs/changelogs/100000.txt", commit)
 
@@ -364,9 +402,9 @@ class AndroidAddonTest(ViewTestCase):
         addon = CleanupAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
         self.assertIn('\n-    <string name="hello">Ahoj svete</string>', commit)
@@ -382,9 +420,9 @@ class WindowsRCAddonTest(ViewTestCase):
         addon = CleanupAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("winrc/cs-CZ.rc", commit)
         self.assertIn("\n-IDS_MSG5", commit)
@@ -400,9 +438,9 @@ class IntermediateAddonTest(ViewTestCase):
         addon = CleanupAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         commit = self.component.repository.show(self.component.repository.last_revision)
         # It should remove string not present in the English file
         self.assertIn("intermediate/cs.json", commit)
@@ -421,7 +459,7 @@ class ResxAddonTest(ViewTestCase):
         with self.component.repository.lock:
             self.component.repository.execute(["fetch", "--unshallow", "origin"])
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, False
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -435,7 +473,7 @@ class ResxAddonTest(ViewTestCase):
         with self.component.repository.lock:
             self.component.repository.execute(["fetch", "--unshallow", "origin"])
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, False
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -451,7 +489,7 @@ class CSVAddonTest(ViewTestCase):
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(self.component)
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, False
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -462,7 +500,7 @@ class CSVAddonTest(ViewTestCase):
         rev = self.component.repository.last_revision
         addon = RemoveBlankAddon.create(self.component)
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, False
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -479,7 +517,7 @@ class JsonAddonTest(ViewTestCase):
         addon = CleanupAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
@@ -490,7 +528,7 @@ class JsonAddonTest(ViewTestCase):
         addon = RemoveBlankAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
@@ -540,6 +578,33 @@ class JsonAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('\t\t\t\t\t\t\t\t"try"', commit)
+
+
+class XMLAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_xliff("complex")
+
+    def test_customize_self_closing_tags(self):
+        XMLCustomizeAddon.create(self.component, configuration={"closing_tags": False})
+
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("<target/>", commit)
+
+    def test_customize_closing_tags(self):
+        XMLCustomizeAddon.create(self.component, configuration={"closing_tags": True})
+
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("<target></target>", commit)
 
 
 class YAMLAddonTest(ViewTestCase):
@@ -643,14 +708,12 @@ class PropertiesAddonTest(ViewTestCase):
         addon = CleanupAddon.create(self.component)
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
         self.component.do_reset()
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
@@ -787,24 +850,45 @@ class CommandTest(ViewTestCase):
                 stderr=output,
             )
 
+    def test_install_pseudolocale(self):
+        output = StringIO()
+        call_command(
+            "install_addon",
+            "--all",
+            "--addon",
+            "weblate.generate.pseudolocale",
+            "--configuration",
+            json.dumps(
+                {
+                    "target": self.translation.id,
+                    "source": self.component.source_translation.id,
+                }
+            ),
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn("Successfully installed on Test/Test", output.getvalue())
+
 
 class DiscoveryTest(ViewTestCase):
     def test_creation(self):
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
-        addon = DiscoveryAddon.create(
-            self.component,
-            configuration={
-                "file_format": "po",
-                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
-                "name_template": "{{ component|title }}",
-                "language_regex": "^(?!xx).*$",
-                "base_file_template": "",
-                "remove": True,
-            },
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            addon = DiscoveryAddon.create(
+                self.component,
+                configuration={
+                    "file_format": "po",
+                    "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                    "name_template": "{{ component|title }}",
+                    "language_regex": "^(?!xx).*$",
+                    "base_file_template": "",
+                    "remove": True,
+                },
+            )
         self.assertEqual(Component.objects.filter(repo=link).count(), 3)
-        addon.post_update(self.component, "", False)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            addon.post_update(self.component, "", False, False)
         self.assertEqual(Component.objects.filter(repo=link).count(), 3)
 
     def test_form(self):
@@ -861,25 +945,26 @@ class DiscoveryTest(ViewTestCase):
         )
         self.assertContains(response, "Please review and confirm")
         # Confirmation
-        response = self.client.post(
-            reverse("addons", kwargs=self.kw_component),
-            {
-                "name": "weblate.discovery.discovery",
-                "form": "1",
-                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
-                "file_format": "po",
-                "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
-                "base_file_template": "",
-                "remove": True,
-                "confirm": True,
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {
+                    "name": "weblate.discovery.discovery",
+                    "form": "1",
+                    "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
+                    "file_format": "po",
+                    "name_template": "{{ component|title }}.{{ ext }}",
+                    "language_regex": "^(?!xx).*$",
+                    "base_file_template": "",
+                    "remove": True,
+                    "confirm": True,
+                },
+                follow=True,
+            )
         self.assertContains(response, "1 add-on installed")
 
 
-class ScriptsTest(ViewTestCase):
+class ScriptsTest(TestAddonMixin, ViewTestCase):
     def test_example_pre(self):
         self.assertTrue(ExamplePreAddon.can_install(self.component, None))
         translation = self.get_translation()
@@ -894,6 +979,8 @@ class ScriptsTest(ViewTestCase):
 
 
 class LanguageConsistencyTest(ViewTestCase):
+    CREATE_GLOSSARIES: bool = True
+
     def test_language_consistency(self):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -921,7 +1008,7 @@ class LanguageConsistencyTest(ViewTestCase):
         )
 
         # Trigger post update signal, should do nothing
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, False)
         self.assertEqual(Translation.objects.count(), 15)
 
 
@@ -1000,24 +1087,23 @@ class GitSquashAddonTest(ViewTestCase):
         self.assertEqual(self.component.repository.count_outgoing(), 1)
 
 
-class TestRemoval(FixtureTestCase):
-    def setUp(self):
-        super().setUp()
-        self.component = self.create_component()
-
+class TestRemoval(ViewTestCase):
     def install(self):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
-        RemoveSuggestions.create(self.component, configuration={"age": 7})
-        RemoveComments.create(self.component, configuration={"age": 7})
+        return (
+            RemoveSuggestions.create(self.component, configuration={"age": 7}),
+            RemoveComments.create(self.component, configuration={"age": 7}),
+        )
 
     def assert_count(self, comments=0, suggestions=0):
         self.assertEqual(Comment.objects.count(), comments)
         self.assertEqual(Suggestion.objects.count(), suggestions)
 
     def test_noop(self):
-        self.install()
-        daily_addons()
+        suggestions, comments = self.install()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count()
 
     def add_content(self):
@@ -1026,9 +1112,10 @@ class TestRemoval(FixtureTestCase):
         unit.suggestion_set.create(user=None, target="suggestion")
 
     def test_current(self):
-        self.install()
+        suggestions, comments = self.install()
         self.add_content()
-        daily_addons()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count(1, 1)
 
     @staticmethod
@@ -1038,24 +1125,30 @@ class TestRemoval(FixtureTestCase):
         Suggestion.objects.all().update(timestamp=old)
 
     def test_old(self):
-        self.install()
+        suggestions, comments = self.install()
         self.add_content()
         self.age_content()
-        daily_addons()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count()
 
     def test_votes(self):
-        self.install()
+        suggestions, comments = self.install()
         self.add_content()
         self.age_content()
         Vote.objects.create(
             user=self.user, suggestion=Suggestion.objects.all()[0], value=1
         )
-        daily_addons()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count(suggestions=1)
 
+    def test_daily(self):
+        self.install()
+        daily_addons()
 
-class AutoTranslateAddonTest(FixtureTestCase):
+
+class AutoTranslateAddonTest(ViewTestCase):
     def test_auto(self):
         self.assertTrue(AutoTranslateAddon.can_install(self.component, None))
         addon = AutoTranslateAddon.create(
@@ -1072,7 +1165,7 @@ class AutoTranslateAddonTest(FixtureTestCase):
         addon.component_update(self.component)
 
 
-class BulkEditAddonTest(FixtureTestCase):
+class BulkEditAddonTest(ViewTestCase):
     def test_bulk(self):
         label = self.project.label_set.create(name="test", color="navy")
         self.assertTrue(BulkEditAddon.can_install(self.component, None))

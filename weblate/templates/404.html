@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
 
+<h2>{% trans "Page Not Found" %}</h2>
 <p>
 {% trans "The page you are looking for was not found." %}
 {% trans "The project you are looking for does not exist or is not publicly available." %}
@@ -18,4 +20,5 @@
 <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
 <a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
 
+</div>
 {% endblock %}

@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from appconf import AppConf
 
@@ -29,34 +13,36 @@ class VCSConf(AppConf):
         "weblate.vcs.git.GitWithGerritRepository",
         "weblate.vcs.git.SubversionRepository",
         "weblate.vcs.git.GithubRepository",
+        "weblate.vcs.git.AzureDevOpsRepository",
         "weblate.vcs.git.GiteaRepository",
         "weblate.vcs.git.GitLabRepository",
         "weblate.vcs.git.PagureRepository",
         "weblate.vcs.git.LocalRepository",
         "weblate.vcs.git.GitForcePushRepository",
+        "weblate.vcs.git.BitbucketServerRepository",
         "weblate.vcs.mercurial.HgRepository",
     )
     VCS_CLONE_DEPTH = 1
+    VCS_API_DELAY = 10
+    VCS_FILE_PROTOCOL = False
 
     # GitHub username for sending pull requests
-    GITHUB_USERNAME = None
-    GITHUB_TOKEN = None
     GITHUB_CREDENTIALS = {}
 
+    # Azure DevOps username for sending pull requests
+    AZURE_DEVOPS_CREDENTIALS = {}
+
     # GitLab username for sending merge requests
-    GITLAB_USERNAME = None
-    GITLAB_TOKEN = None
     GITLAB_CREDENTIALS = {}
 
     # Pagure username for sending merge requests
-    PAGURE_USERNAME = None
-    PAGURE_TOKEN = None
     PAGURE_CREDENTIALS = {}
 
     # Gitea username for sending pull requests
-    GITEA_USERNAME = None
-    GITEA_TOKEN = None
     GITEA_CREDENTIALS = {}
+
+    # Bitbucket username for sending pull requests
+    BITBUCKETSERVER_CREDENTIALS = {}
 
     SSH_EXTRA_ARGS = ""
 

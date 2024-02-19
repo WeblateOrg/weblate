@@ -1,20 +1,8 @@
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from operator import itemgetter
 
 from pygments.lexers.markup import RstLexer
 from pygments.token import Token
@@ -51,7 +39,9 @@ def highlight_pygments(source: str, unit):
             start += len(text)
 
 
-def highlight_string(source: str, unit, hightlight_syntax: bool = False):
+def highlight_string(
+    source: str, unit, hightlight_syntax: bool = False
+) -> list[tuple[int, int, str]]:
     """Return highlights for a string."""
     if unit is None:
         return []
@@ -68,10 +58,10 @@ def highlight_string(source: str, unit, hightlight_syntax: bool = False):
     highlights = [highlight for highlight in highlights if highlight[2]]
 
     # Sort by order in string
-    highlights.sort(key=lambda x: x[0])
+    highlights.sort(key=itemgetter(0))
 
     # Remove overlapping ones
-    for hl_idx in range(0, len(highlights)):
+    for hl_idx in range(len(highlights)):
         if hl_idx >= len(highlights):
             break
         elref = highlights[hl_idx]

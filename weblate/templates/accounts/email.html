@@ -14,7 +14,7 @@
 <form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">
 
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Register e-mail" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Verify new e-mail address" %}</h4></div>
   <div class="panel-body">
 
 {% csrf_token %}
@@ -22,9 +22,6 @@
 {% if captcha_form %}
 {{ captcha_form|crispy }}
 {% endif %}
-<p>
-{% trans "By registering you agree to use your name and e-mail in the commits and provide your contribution under license defined by each translated project." %}
-</p>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary" />

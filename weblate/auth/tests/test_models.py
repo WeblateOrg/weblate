@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.models import Group as DjangoGroup
 
@@ -34,6 +19,10 @@ class ModelTest(FixtureTestCase):
         self.translation = self.get_translation()
         self.group = Group.objects.create(name="Test", language_selection=SELECTION_ALL)
         self.group.projects.add(self.project)
+
+    def test_num_queries(self):
+        with self.assertNumQueries(8):
+            self.user._fetch_permissions()
 
     def test_project(self):
         # No permissions
@@ -144,3 +133,25 @@ class ModelTest(FixtureTestCase):
         )
         self.assertEqual(user.full_name, "First Last")
         self.assertTrue(user.is_superuser)
+
+    def test_projects(self):
+        public_project = Project.objects.create(
+            slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
+        )
+        protected_project = Project.objects.create(
+            slug="protected", name="Protected", access_control=Project.ACCESS_PROTECTED
+        )
+        self.user.clear_cache()
+        self.assertEqual(
+            set(self.user.allowed_projects.values_list("slug", flat=True)),
+            {public_project.slug, protected_project.slug},
+        )
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.assertEqual(
+            set(self.user.allowed_projects.values_list("slug", flat=True)),
+            {public_project.slug, protected_project.slug, self.project.slug},
+        )

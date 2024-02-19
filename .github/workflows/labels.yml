@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # This file is maintained in https://github.com/WeblateOrg/meta/
 name: Issue labeled
 
@@ -5,12 +9,18 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  contents: read
+
 jobs:
   issueLabeled:
-    runs-on: ubuntu-20.04
+    permissions:
+      issues: write  # for peter-evans/create-or-update-comment to create or update comment
+      pull-requests: write  # for peter-evans/create-or-update-comment to create or update comment
+    runs-on: ubuntu-22.04
     steps:
     - name: Add backlog comment
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v4
       if: ${{ github.event.label.name == 'backlog' }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -23,7 +33,7 @@ jobs:
           In case you need this feature soon, please consider helping
           or push it by [funding the development](https://weblate.org/support/).
     - name: Add undecided comment
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v4
       if: ${{ github.event.label.name == 'undecided' }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -36,21 +46,24 @@ jobs:
 
           Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
     - name: Add question comment
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v4
       if: ${{ github.event.label.name == 'question' }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
         body: >
-          This issue looks more like a support question than an
-          issue. We strive to answer these reasonably fast, but
+          This issue has been marked as a question by a Weblate team member.
+          Why? Because it belongs more to the professional [Weblate Care](https://care.weblate.org/)
+          or community [Discussions](https://github.com/WeblateOrg/weblate/discussions) than here.
+          We strive to answer these reasonably fast here, too, but
           [purchasing the support subscription](https://weblate.org/support/)
-          is not only more responsible and faster for your business but also makes Weblate stronger.
+          is more responsible and faster for your business.
+          And it makes Weblate stronger as well. Thanks!
 
 
           In case your question is already answered, [making a donation](https://weblate.org/donate/) is the right way to say thank you!
     - name: Add translate-toolkit comment
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v4
       if: ${{ github.event.label.name == 'translate-toolkit' }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -59,7 +72,7 @@ jobs:
           The issue you've reported needs to be addressed in the [translate-toolkit](https://github.com/translate/translate/).
           Please file the issue there, and include links to any relevant specifications about the formats (if applicable).
     - name: Add good first issue comment
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v4
       if: ${{ github.event.label.name == 'good first issue' }}
       with:
         token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,25 +1,15 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
-# Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
-from .base import MachineryRateLimit, MachineTranslation, MachineTranslationError
+from .base import (
+    DownloadTranslations,
+    MachineryRateLimitError,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeySecretMachineryForm
 
 BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
@@ -51,13 +41,6 @@ class BaiduTranslation(MachineTranslation):
         "vi": "vie",
     }
     settings_form = KeySecretMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_BAIDU_ID,
-            "secret": settings.MT_BAIDU_SECRET,
-        }
 
     def download_languages(self):
         """List of supported languages."""
@@ -99,9 +82,8 @@ class BaiduTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             self.settings["key"], self.settings["secret"], text
@@ -120,10 +102,12 @@ class BaiduTranslation(MachineTranslation):
 
         if "error_code" in payload:
             try:
-                if int(payload["error_code"]) == 54003:
-                    raise MachineryRateLimit(payload["error_msg"])
+                error_code = int(payload["error_code"])
             except ValueError:
                 pass
+            else:
+                if error_code == 54003:
+                    raise MachineryRateLimitError(payload["error_msg"])
             raise MachineTranslationError(
                 "Error {error_code}: {error_msg}".format(**payload)
             )

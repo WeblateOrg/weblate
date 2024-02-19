@@ -1,55 +1,98 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Helper methods for views."""
 
+from __future__ import annotations
+
 import os
-from time import mktime
-from typing import Optional
+import time
+from contextlib import suppress
+from typing import TYPE_CHECKING
 from zipfile import ZipFile
 
 from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
-from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
+from django.http import (
+    FileResponse,
+    Http404,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseBase,
+    HttpResponseRedirect,
+)
 from django.shortcuts import get_object_or_404
+from django.utils.cache import get_conditional_response
 from django.utils.http import http_date
-from django.utils.translation import activate
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.edit import FormView
 
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
-from weblate.trans.models import Component, Project, Translation
+from weblate.lang.models import Language
+from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.stats import BaseStats, CategoryLanguage, ProjectLanguage
 from weblate.vcs.git import LocalRepository
 
+if TYPE_CHECKING:
+    from django.db.models import Model
+
+    from weblate.trans.mixins import BaseURLMixin
+
+
+class UnsupportedPathObjectError(Http404):
+    pass
+
+
+def key_name(instance):
+    return instance.name if hasattr(instance, "name") else instance.component.name
+
+
+def key_translated(instance):
+    return instance.stats.translated_percent
+
+
+def key_untranslated(instance):
+    return instance.stats.todo
+
+
+def key_untranslated_words(instance):
+    return instance.stats.todo_words
+
+
+def key_untranslated_chars(instance):
+    return instance.stats.todo_chars
+
+
+def key_nottranslated(instance):
+    return instance.stats.nottranslated
+
+
+def key_checks(instance):
+    return instance.stats.allchecks
+
+
+def key_suggestions(instance):
+    return instance.stats.suggestions
+
+
+def key_comments(instance):
+    return instance.stats.comments
+
+
 SORT_KEYS = {
-    "name": lambda x: x.name if hasattr(x, "name") else x.component.name,
-    "translated": lambda x: x.stats.translated_percent,
-    "untranslated": lambda x: x.stats.todo,
-    "untranslated_words": lambda x: x.stats.todo_words,
-    "untranslated_chars": lambda x: x.stats.todo_chars,
-    "nottranslated": lambda x: x.stats.nottranslated,
-    "checks": lambda x: x.stats.allchecks,
-    "suggestions": lambda x: x.stats.suggestions,
-    "comments": lambda x: x.stats.comments,
+    "name": key_name,
+    "translated": key_translated,
+    "untranslated": key_untranslated,
+    "untranslated_words": key_untranslated_words,
+    "untranslated_chars": key_untranslated_chars,
+    "nottranslated": key_nottranslated,
+    "checks": key_checks,
+    "suggestions": key_suggestions,
+    "comments": key_comments,
 }
 
 
@@ -111,22 +154,19 @@ def get_paginator(request, object_list, page_limit=None):
         return paginator.page(paginator.num_pages)
 
 
-class ComponentViewMixin:
+class PathViewMixin:
+    supported_path_types: tuple[type[Model | BaseURLMixin] | None, ...] = ()
 
-    # This should be done in setup once we drop support for older Django
-    def get_component(self):
-        return get_component(
-            self.request, self.kwargs["project"], self.kwargs["component"]
+    def get_path_object(self):
+        if not self.supported_path_types:
+            raise ValueError("Specifying supported path types is required")
+        return parse_path(
+            self.request, self.kwargs.get("path", ""), self.supported_path_types
         )
 
-
-class ProjectViewMixin:
-    project = None
-
-    # This should be done in setup once we drop support for older Django
-    def dispatch(self, request, *args, **kwargs):
-        self.project = get_project(self.request, self.kwargs["project"])
-        return super().dispatch(request, *args, **kwargs)
+    def setup(self, request, **kwargs):
+        super().setup(request, **kwargs)
+        self.path_object = self.get_path_object()
 
 
 SORT_CHOICES = {
@@ -137,10 +177,12 @@ SORT_CHOICES = {
     "source": gettext_lazy("Source string"),
     "target": gettext_lazy("Target string"),
     "timestamp": gettext_lazy("String age"),
+    "last_updated": gettext_lazy("Last updated"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
     "num_failing_checks": gettext_lazy("Number of failing checks"),
     "context": pgettext_lazy("Translation key", "Key"),
+    "location": gettext_lazy("String location"),
 }
 
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
@@ -154,77 +196,182 @@ def get_sort_name(request, obj=None):
         default = "-priority,position"
     sort_query = request.GET.get("sort_by", default)
     sort_params = sort_query.replace("-", "")
-    sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
+    sort_name = SORT_LOOKUP.get(sort_params, gettext("Position and priority"))
     return {
         "query": sort_query,
         "name": sort_name,
     }
 
 
-def get_translation(request, project, component, lang, skip_acl=False):
-    """Return translation matching parameters."""
-    translation = get_object_or_404(
-        Translation.objects.prefetch(),
-        language__code=lang,
-        component__slug=component,
-        component__project__slug=project,
-    )
+def parse_path(  # noqa: C901
+    request,
+    path: list[str] | tuple[str, ...] | None,
+    types: tuple[type[Model | BaseURLMixin] | None, ...],
+    *,
+    skip_acl: bool = False,
+):
+    if None in types and not path:
+        return None
 
-    if not skip_acl:
-        request.user.check_access_component(translation.component)
-    return translation
+    allowed_types = {x for x in types if x is not None}
+    acting_user = request.user if request else None
 
+    def check_type(cls):
+        if cls not in allowed_types:
+            raise UnsupportedPathObjectError(f"Not supported object type: {cls}")
 
-def get_component(request, project, component, skip_acl=False):
-    """Return component matching parameters."""
-    component = get_object_or_404(
-        Component.objects.prefetch(),
-        project__slug=project,
-        slug=component,
-    )
-    if not skip_acl:
-        request.user.check_access_component(component)
-    component.acting_user = request.user
-    return component
+    if path is None:
+        raise UnsupportedPathObjectError("Missing path")
 
+    path = list(path)
 
-def get_project(request, project, skip_acl=False):
-    """Return project matching parameters."""
-    project = get_object_or_404(Project, slug=project)
+    # Language URL
+    if path[:2] == ["-", "-"] and len(path) == 3:
+        check_type(Language)
+        return get_object_or_404(Language, code=path[2])
+
+    # First level is always project
+    project = get_object_or_404(Project, slug=path.pop(0))
     if not skip_acl:
         request.user.check_access(project)
-    project.acting_user = request.user
-    return project
+    project.acting_user = acting_user
+    if not path:
+        check_type(Project)
+        return project
+
+    # Project/language special case
+    if path[0] == "-" and len(path) == 2:
+        check_type(ProjectLanguage)
+        language = get_object_or_404(Language, code=path[1])
+        return ProjectLanguage(project, language)
+
+    if not allowed_types & {Component, Category, Translation, Unit}:
+        raise UnsupportedPathObjectError("No remaining supported object type")
+
+    # Component/category structure
+    current = project
+    category_args = {"category": None}
+    while path:
+        slug = path.pop(0)
+
+        # Category/language special case
+        if slug == "-" and len(path) == 1:
+            language = get_object_or_404(Language, code=path[0])
+            check_type(CategoryLanguage)
+            return CategoryLanguage(current, language)
+
+        # Try component first
+        with suppress(Component.DoesNotExist):
+            current = current.component_set.get(slug=slug, **category_args)
+            if not skip_acl:
+                request.user.check_access_component(current)
+            current.acting_user = acting_user
+            break
+
+        # Try category
+        with suppress(Category.DoesNotExist):
+            current = current.category_set.get(slug=slug, **category_args)
+            current.acting_user = acting_user
+            category_args = {}
+            continue
+
+        # Nothing more to try
+        raise Http404(f"Object {slug} not found in {current}")
+
+    # Nothing left, return current object
+    if not path:
+        if not isinstance(current, tuple(allowed_types)):
+            raise UnsupportedPathObjectError(
+                f"Not supported object type: {current.__class__}"
+            )
+        return current
+
+    if not allowed_types & {Translation, Unit}:
+        raise UnsupportedPathObjectError("No remaining supported object type")
+
+    translation = get_object_or_404(current.translation_set, language__code=path.pop(0))
+    if not path:
+        check_type(Translation)
+        return translation
+
+    if len(path) > 1:
+        raise UnsupportedPathObjectError(f"Invalid path left: {'/'.join(path)}")
+
+    unitid = path.pop(0)
+
+    if not unitid.isdigit():
+        raise Http404(f"Invalid unit id: {unitid}")
+
+    check_type(Unit)
+    return get_object_or_404(translation.unit_set, pk=int(unitid))
 
 
-def get_project_translation(request, project=None, component=None, lang=None):
-    """Return project, component, translation tuple for given parameters."""
-    if lang and component:
-        # Language defined? We can get all
-        translation = get_translation(request, project, component, lang)
-        component = translation.component
-        project = component.project
+def parse_path_units(
+    request,
+    path: list[str] | tuple[str, ...],
+    types: tuple[type[Model | BaseURLMixin] | None, ...],
+):
+    obj = parse_path(request, path, types)
+
+    context = {"components": None, "path_object": obj}
+    if isinstance(obj, Translation):
+        unit_set = obj.unit_set.all()
+        context["translation"] = obj
+        context["component"] = obj.component
+        context["project"] = obj.component.project
+        context["components"] = [obj.component]
+    elif isinstance(obj, Component):
+        unit_set = Unit.objects.filter(translation__component=obj).prefetch()
+        context["component"] = obj
+        context["project"] = obj.project
+        context["components"] = [obj]
+    elif isinstance(obj, Project):
+        unit_set = Unit.objects.filter(translation__component__project=obj).prefetch()
+        context["project"] = obj
+    elif isinstance(obj, ProjectLanguage):
+        unit_set = Unit.objects.filter(
+            translation__component__project=obj.project,
+            translation__language=obj.language,
+        ).prefetch()
+        context["project"] = obj.project
+        context["language"] = obj.language
+    elif isinstance(obj, Category):
+        unit_set = Unit.objects.filter(
+            translation__component_id__in=obj.all_component_ids
+        ).prefetch()
+        context["project"] = obj.project
+    elif isinstance(obj, CategoryLanguage):
+        unit_set = Unit.objects.filter(
+            translation__component_id__in=obj.category.all_component_ids,
+            translation__language=obj.language,
+        ).prefetch()
+        context["project"] = obj.category.project
+        context["language"] = obj.language
+    elif isinstance(obj, Language):
+        unit_set = (
+            Unit.objects.filter_access(request.user)
+            .filter(translation__language=obj)
+            .prefetch()
+        )
+        context["language"] = obj
+    elif obj is None:
+        unit_set = Unit.objects.filter_access(request.user)
     else:
-        translation = None
-        if component:
-            # Component defined?
-            component = get_component(request, project, component)
-            project = component.project
-        elif project:
-            # Only project defined?
-            project = get_project(request, project)
+        raise TypeError("Unsupported result: {obj}")
 
-    # Return tuple
-    return project or None, component or None, translation or None
+    return obj, unit_set, context
 
 
-def guess_filemask_from_doc(data):
+def guess_filemask_from_doc(data, docfile=None):
     if "filemask" in data:
         return
 
+    if docfile is None:
+        docfile = data["docfile"]
+
     ext = ""
-    if "docfile" in data and hasattr(data["docfile"], "name"):
-        ext = os.path.splitext(os.path.basename(data["docfile"].name))[1]
+    if hasattr(docfile, "name"):
+        ext = os.path.splitext(os.path.basename(docfile.name))[1]
 
     if not ext and "file_format" in data and data["file_format"] in FILE_FORMATS:
         ext = FILE_FORMATS[data["file_format"]].extension()
@@ -232,10 +379,10 @@ def guess_filemask_from_doc(data):
     data["filemask"] = "{}/{}{}".format(data.get("slug", "translations"), "*", ext)
 
 
-def create_component_from_doc(data):
+def create_component_from_doc(data, docfile):
     # Calculate filename
-    uploaded = data["docfile"]
-    guess_filemask_from_doc(data)
+    uploaded = docfile or data["docfile"]
+    guess_filemask_from_doc(data, uploaded)
     filemask = data["filemask"]
     filename = filemask.replace(
         "*",
@@ -248,6 +395,7 @@ def create_component_from_doc(data):
         project=data["project"],
         slug=data["slug"],
         name=data["name"],
+        category=data.get("category", None),
         template=filename,
         filemask=filemask,
     )
@@ -256,16 +404,17 @@ def create_component_from_doc(data):
     return fake
 
 
-def create_component_from_zip(data):
+def create_component_from_zip(data, zipfile=None):
     # Create fake component (needed to calculate path)
     fake = Component(
         project=data["project"],
+        category=data.get("category", None),
         slug=data["slug"],
         name=data["name"],
     )
 
     # Create repository
-    LocalRepository.from_zip(fake.full_path, data["zipfile"])
+    LocalRepository.from_zip(fake.full_path, zipfile or data["zipfile"])
     return fake
 
 
@@ -282,7 +431,11 @@ def import_message(request, count, message_none, message_ok):
     if count == 0:
         messages.warning(request, message_none)
     else:
-        messages.success(request, message_ok % count)
+        try:
+            message = message_ok % count
+        except TypeError:
+            message = message_ok
+        messages.success(request, message)
 
 
 def iter_files(filenames):
@@ -296,49 +449,72 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root, filenames, name="translations"):
+def zip_download(
+    root: str,
+    filenames: list[str],
+    name: str = "translations",
+    extra: dict[str, bytes] | None = None,
+):
     response = HttpResponse(content_type="application/zip")
-    with ZipFile(response, "w") as zipfile:
+    with ZipFile(response, "w", strict_timestamps=False) as zipfile:
         for filename in iter_files(filenames):
             try:
-                with open(filename, "rb") as handle:
-                    zipfile.writestr(os.path.relpath(filename, root), handle.read())
+                zipfile.write(filename, arcname=os.path.relpath(filename, root))
             except FileNotFoundError:
                 continue
+        if extra:
+            for filename, content in extra.items():
+                zipfile.writestr(filename, content)
     response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
     return response
+
+
+def handle_last_modified(
+    request: HttpRequest, stats: BaseStats
+) -> tuple[str, HttpResponseBase | None]:
+    last_modified = stats.last_changed
+    if last_modified:
+        last_modified = int(last_modified.timestamp())
+        # Respond with 302/412 response if needed
+        response = get_conditional_response(request, last_modified=last_modified)
+    else:
+        # Use current timestamp if stats do not have any
+        last_modified = int(time.time())
+        response = None
+
+    return http_date(last_modified), response
 
 
 @gzip_page
 def download_translation_file(
     request,
     translation: Translation,
-    fmt: Optional[str] = None,
-    query_string: Optional[str] = None,
+    fmt: str | None = None,
+    query_string: str | None = None,
 ):
+    last_modified_response, response = handle_last_modified(request, translation.stats)
+    if response is not None:
+        return response
+
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]
-        except KeyError:
-            raise Http404("File format not supported")
+        except KeyError as exc:
+            raise Http404(f"Conversion to {fmt} is not supported") from exc
         if not exporter_cls.supports(translation):
-            raise Http404("File format not supported")
+            raise Http404("File format is not compatible with this translation")
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
             units = units.search(query_string)
         exporter.add_units(units)
-        response = exporter.get_response(
-            "{{project}}-{0}-{{language}}.{{extension}}".format(
-                translation.component.slug
-            )
-        )
+        response = exporter.get_response()
     else:
         # Force flushing pending units
         try:
             translation.commit_pending("download", None)
         except Exception:
-            report_error(cause="Download commit")
+            report_error(cause="Download commit", project=translation.component.project)
 
         filenames = translation.filenames
 
@@ -351,7 +527,7 @@ def download_translation_file(
                 raise Http404("File not found")
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"),
+                open(filenames[0], "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
@@ -372,10 +548,7 @@ def download_translation_file(
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"
 
-    if translation.stats.last_changed:
-        response["Last-Modified"] = http_date(
-            mktime(translation.stats.last_changed.timetuple())
-        )
+    response["Last-Modified"] = last_modified_response
 
     return response
 
@@ -385,7 +558,7 @@ def get_form_errors(form):
         yield error
     for field in form:
         for error in field.errors:
-            yield _("Error in parameter %(field)s: %(error)s") % {
+            yield gettext("Error in parameter %(field)s: %(error)s") % {
                 "field": field.name,
                 "error": error,
             }

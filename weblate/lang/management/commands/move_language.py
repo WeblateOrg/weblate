@@ -1,23 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language
 from weblate.utils.management.base import BaseCommand
 
 
@@ -49,15 +34,19 @@ class Command(BaseCommand):
             profile.secondary_languages.remove(source)
             profile.secondary_languages.add(target)
 
+        source.change_set.update(language=target)
+
         source.component_set.update(source_language=target)
         for group in source.group_set.iterator():
             group.languages.remove(source)
             group.languages.add(target)
 
         for plural in source.plural_set.iterator():
+            formulas = target.plural_set.filter(formula=plural.formula)
             try:
-                new_plural = target.plural_set.filter(formula=plural.formula).first()
-                plural.translation_set.update(plural=new_plural)
-            except Plural.DoesNotExist:
+                new_plural = formulas[0]
+            except IndexError:
                 plural.language = target
                 plural.save()
+            else:
+                plural.translation_set.update(plural=new_plural)

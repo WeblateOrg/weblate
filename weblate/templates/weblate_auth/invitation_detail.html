@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load authnames %}
+{% load crispy_forms_tags %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{% url "profile" %}#teams">{% trans "Invitations" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{% trans "Invitation" %}</a></li>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4 class="panel-title">
+        {% blocktranslate with project_name=object.group.defining_project %}Invitation to {{ project_name }}{% endblocktranslate %}
+      </h4></div>
+      <div class="panel-body">
+        {% include "snippets/invite-info.html" with invitation=object%}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Accept invitation" %}" />
+      </div>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

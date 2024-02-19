@@ -1,27 +1,33 @@
 #!/bin/bash
+
+# Copyright Marco Ciampa
+# Copyright Mikko Rantalainen <mikko.rantalainen@iki.fi>
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: MIT
+
 #
 # Three-way merge driver for PO files, runs on multiple CPUs where possible
-#
-# Copyright 2015-2016 Marco Ciampa
-# Copyright 2021 Mikko Rantalainen <mikko.rantalainen@iki.fi>
-# Copyright © 2021–2022 Michal Čihař <michal@weblate.org>
-# License: MIT (https://opensource.org/licenses/MIT)
 #
 # Original source:
 # https://stackoverflow.com/a/68799310
 # https://stackoverflow.com/a/29535676/334451
 # https://github.com/mezis/git-whistles/blob/fef61bd7abbc0e69c9ad021aa6dee3889db180f4/libexec/git-merge-po.sh
 #
-# Install with
+# This merge driver is automatically installed for all Weblate cloned Git
+# repositories.
+#
+# For use outside of Weblate install with:
+#
 # git config merge.merge-po-files.driver "./bin/merge-po-files %O %A %B %P"
 #
-# Note that you also need file `.gitattributes` with following lines:
+# To make git use the merge driver on some files, you also need to set it
+# in the file `.git/info/attributes`:
 #
-# [attr]POFILE merge=merge-po-files
-# locale/*.po POFILE
+# *.po merge=merge-po-files
 #
-# This merge driver is now automatically installed for all Weblate internal
-# repositories.
+# It is not recommended to use `.gitattributes` file included in the repository,
+# as that would break the usage for everybody who did not install the merge driver.
 #
 ##########################################################################
 # CONFIG:
@@ -47,6 +53,19 @@ FILENAME="$4"
 OUTPUT="$LOCAL"
 
 ##########################################################################
+# First try standard git three way merge. In some cases it works fine and
+# smarter merging fails.
+
+TEMP_FILE="$(mktemp /tmp/merge-po.XXXXXX)"
+if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE" ; then
+    cat "$TEMP_FILE" >  "$OTHER"
+    rm "$TEMP_FILE"
+    exit 0
+fi
+rm "$TEMP_FILE"
+
+
+##########################################################################
 # Fallback when gettext tools are not installed:
 
 if ! type msgmerge >/dev/null 2>&1 ; then
@@ -59,7 +78,7 @@ if ! type msgmerge >/dev/null 2>&1 ; then
     REGX='^"POT-Creation-Date:.*'
 
     # Grab date from other branch
-    REPL=`grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/'`
+    REPL=$(grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/')
 
     # Push it into other files
     sed -i -e "s/$REGX/$REPL/" "$LOCAL"
@@ -83,6 +102,7 @@ TEMP="$(mktemp -d /tmp/merge-po.XXXXXX)"
 # abort on any error and report the details if possible
 set -E
 set -e
+# shellcheck disable=SC2317  # shellcheck does not understand trap below
 on_error()
 {
     local parent_lineno="$1"
@@ -165,8 +185,8 @@ function show_conflicts()
     filename="$1"
     shift
     # Count number of lines to remove from the output and output conflict lines without the header
-    CONFLICT_HEADER_LINES=$(cat "$OUTPUT" | msggrep --force-po --msgstr -F -e '#-#-#-#-#' - | extract_header - | wc -l)
-    CONFLICTS=$(cat "$OUTPUT" | msggrep --force-po --color --msgstr -F -e '#-#-#-#-#' - | tail -n "-$CONFLICT_HEADER_LINES")
+    CONFLICT_HEADER_LINES=$(msggrep --force-po --msgstr -F -e '#-#-#-#-#' "$filename" | extract_header - | wc -l)
+    CONFLICTS=$(msggrep --force-po --color --msgstr -F -e '#-#-#-#-#' "$filename" | tail -n "-$CONFLICT_HEADER_LINES")
     if test -n "$CONFLICTS"
     then
         #echo "----------------------------"
@@ -229,6 +249,7 @@ msgcat --force-po -o - "${TEMP}/local" "${TEMP}/other" | apply_po_template -o "$
 
 # Final merge result is merge2 with original header
 status "Fixing the header after merge ..."
+# shellcheck disable=SC2086
 msgcat --force-po $MSGCAT_FINAL_FLAGS -o "${TEMP}/merge3" --use-first "${TEMP}/header" "${TEMP}/merge2"
 
 # Produce output file (overwrites input LOCAL file because git expects that for the results)

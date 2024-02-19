@@ -1,39 +1,28 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """External file format specific behavior."""
+
+from __future__ import annotations
 
 import os
 from io import BytesIO, StringIO
-from typing import Callable, Optional
+from typing import Callable
 from zipfile import BadZipFile
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE, TYPE_STRING
+from openpyxl.workbook.child import INVALID_TITLE_REGEX
 from translate.storage.csvl10n import csv
 
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import CSVFormat
 
 
 class XlsxFormat(CSVFormat):
-    name = _("Excel Open XML")
+    name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
 
@@ -44,11 +33,20 @@ class XlsxFormat(CSVFormat):
         cell.data_type = TYPE_STRING
         return cell
 
+    def get_title(self, fallback: str = "Weblate"):
+        title = self.store.targetlanguage
+        if title is None:
+            return fallback
+        # Remove possible invalid characters
+        title = INVALID_TITLE_REGEX.sub(title, "").strip()
+        if not title:
+            return fallback
+        return title
+
     def save_content(self, handle):
         workbook = Workbook()
         worksheet = workbook.active
-
-        worksheet.title = self.store.targetlanguage or "Weblate"
+        worksheet.title = self.get_title()
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
@@ -100,7 +98,7 @@ class XlsxFormat(CSVFormat):
         content = output.getvalue().encode()
 
         # Load the file as CSV
-        return super().parse_store(BytesIOMode(name, content))
+        return super().parse_store(NamedBytesIO(name, content))
 
     @staticmethod
     def mimetype():
@@ -118,7 +116,7 @@ class XlsxFormat(CSVFormat):
         filename: str,
         language: str,
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,
     ):
         """Handle creation of new translation file."""
         if not base:

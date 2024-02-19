@@ -1,33 +1,25 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
+from weblate.trans.models import Project
 from weblate.utils import messages
-from weblate.utils.views import ProjectViewMixin
+from weblate.utils.views import parse_path
+
+
+class ProjectViewMixin:
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.project = parse_path(request, [self.kwargs["project"]], (Project,))
 
 
 @method_decorator(login_required, name="dispatch")
@@ -53,7 +45,7 @@ class FontListView(ProjectViewMixin, ListView):
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         if request.FILES:
             form = self._font_form = FontForm(request.POST, request.FILES)
         else:
@@ -66,12 +58,17 @@ class FontListView(ProjectViewMixin, ListView):
             instance.user = self.request.user
             try:
                 instance.validate_unique()
+            except ValidationError:
+                messages.error(
+                    request, gettext("Font with the same name already exists.")
+                )
+            else:
                 instance.save()
                 return redirect(instance)
-            except ValidationError:
-                messages.error(request, _("Font with the same name already exists."))
         else:
-            messages.error(request, _("Creation failed, please fix the errors below."))
+            messages.error(
+                request, gettext("Creation failed, please fix the errors below.")
+            )
         return self.get(request, **kwargs)
 
 
@@ -90,10 +87,10 @@ class FontDetailView(ProjectViewMixin, DetailView):
     def post(self, request, **kwargs):
         self.object = self.get_object()
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         self.object.delete()
-        messages.error(request, _("Font deleted."))
+        messages.error(request, gettext("Font deleted."))
         return redirect("fonts", project=self.project.slug)
 
 
@@ -118,7 +115,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
     def post(self, request, **kwargs):
         self.object = self.get_object()
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         if "name" in request.POST:
             form = self._form = FontGroupForm(
@@ -128,12 +125,14 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 instance = form.save(commit=False)
                 try:
                     instance.validate_unique()
-                    instance.save()
-                    return redirect(self.object)
                 except ValidationError:
                     messages.error(
-                        request, _("Font group with the same name already exists.")
+                        request,
+                        gettext("Font group with the same name already exists."),
                     )
+                else:
+                    instance.save()
+                    return redirect(self.object)
             return self.get(request, **kwargs)
         if "language" in request.POST:
             form = self._form = FontOverrideForm(request.POST)
@@ -142,22 +141,26 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 instance.group = self.object
                 try:
                     instance.validate_unique()
-                    instance.save()
-                    return redirect(self.object)
                 except ValidationError:
                     messages.error(
-                        request, _("Font group with the same name already exists.")
+                        request,
+                        gettext("Font group with the same name already exists."),
                     )
+                else:
+                    instance.save()
+                    return redirect(self.object)
+
             return self.get(request, **kwargs)
         if "override" in request.POST:
             try:
                 self.object.fontoverride_set.filter(
                     pk=int(request.POST["override"])
                 ).delete()
-                return redirect(self.object)
             except (ValueError, ObjectDoesNotExist):
-                messages.error(request, _("No override found."))
+                messages.error(request, gettext("No override found."))
+            else:
+                return redirect(self.object)
 
         self.object.delete()
-        messages.error(request, _("Font group deleted."))
+        messages.error(request, gettext("Font group deleted."))
         return redirect("fonts", project=self.project.slug)

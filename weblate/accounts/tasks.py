@@ -1,51 +1,32 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-
+import logging
 import os
-import time
 from datetime import timedelta
 from email.mime.image import MIMEImage
+from smtplib import SMTP
+from types import MethodType
 
+import sentry_sdk
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
+from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.utils.timezone import now
-from html2text import HTML2Text
 from social_django.models import Code, Partial
 
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
+from weblate.utils.html import HTML2Text
+
+LOGGER = logging.getLogger("weblate.smtp")
 
 
 @app.task(trail=False)
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
-    for partial in Partial.objects.iterator():
-        kwargs = partial.data["kwargs"]
-        if (
-            "weblate_expires" not in kwargs
-            or kwargs["weblate_expires"] < time.monotonic()
-        ):
-            # Old entry without expiry set, or expired entry
-            partial.delete()
-
     age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
     Code.objects.filter(verified=False, timestamp__lt=age).delete()
@@ -69,7 +50,11 @@ def notify_change(change_id):
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
     from weblate.trans.models import Change
 
-    change = Change.objects.get(pk=change_id)
+    try:
+        change = Change.objects.get(pk=change_id)
+    except Change.DoesNotExist:
+        # The change was removed meanwhile
+        return
     perm_cache = {}
     if change.action in NOTIFICATIONS_ACTIONS:
         outgoing = []
@@ -126,36 +111,65 @@ def notify_auditlog(log_id, email):
     )
 
 
+SMTP_DATA_PATCH = "_weblate_patched_data"
+
+
+def weblate_logging_smtp_data(self, msg):
+    (code, msg) = getattr(self, SMTP_DATA_PATCH)(msg)
+    if code == 250:
+        LOGGER.debug("SMTP completed (%s): %s", code, msg.decode())
+    else:
+        LOGGER.error("SMTP failed (%s): %s", code, msg.decode())
+    return (code, msg)
+
+
+def monkey_patch_smtp_logging(connection):
+    if isinstance(connection, DjangoSMTPEmailBackend):
+        # Ensure the connection is open
+        connection.open()
+
+        # Monkey patch smtplib.SMTP or smtplib.SMTP_SSL
+        backend = connection.connection
+        if isinstance(backend, SMTP) and not hasattr(backend, SMTP_DATA_PATCH):
+            setattr(backend, SMTP_DATA_PATCH, backend.data)
+            backend.data = MethodType(weblate_logging_smtp_data, backend)
+
+    return connection
+
+
 @app.task(trail=False)
 def send_mails(mails):
     """Send multiple mails in single connection."""
     images = []
-    for name in ("email-logo.png", "email-logo-footer.png"):
-        filename = os.path.join(settings.STATIC_ROOT, name)
-        with open(filename, "rb") as handle:
-            image = MIMEImage(handle.read())
-        image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
-        image.add_header("Content-Disposition", "inline", filename=name)
-        images.append(image)
+    with sentry_sdk.start_span(op="email.images"):
+        for name in ("email-logo.png", "email-logo-footer.png"):
+            filename = os.path.join(settings.STATIC_ROOT, name)
+            with open(filename, "rb") as handle:
+                image = MIMEImage(handle.read())
+            image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
+            image.add_header("Content-Disposition", "inline", filename=name)
+            images.append(image)
 
-    connection = get_connection()
-    try:
-        connection.open()
-    except Exception:
-        report_error(cause="Failed to send notifications")
-        connection.close()
-        return
+    with sentry_sdk.start_span(op="email.connect"):
+        connection = get_connection()
+        try:
+            connection.open()
+        except Exception:
+            LOGGER.exception("Could not initialize e-mail backend")
+            report_error(cause="Could not send notifications")
+            connection.close()
+            return
+        connection = monkey_patch_smtp_logging(connection)
 
-    html2text = HTML2Text(bodywidth=78)
-    html2text.unicode_snob = True
-    html2text.ignore_images = True
-    html2text.pad_tables = True
+    html2text = HTML2Text()
 
     try:
         for mail in mails:
+            with sentry_sdk.start_span(op="email.text"):
+                text = html2text.handle(mail["body"])
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
-                html2text.handle(mail["body"]),
+                text,
                 to=[mail["address"]],
                 headers=mail["headers"],
                 connection=connection,
@@ -164,7 +178,9 @@ def send_mails(mails):
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")
-            email.send()
+            with sentry_sdk.start_span(op="email.send"):
+                LOGGER.debug("sending e-mail to %s", mail["address"])
+                email.send()
     finally:
         connection.close()
 
@@ -177,7 +193,7 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=1, minute=0), notify_daily.s(), name="notify-daily"
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=0, day_of_week="monday"),
+        crontab(hour=2, minute=0, day_of_week="mon"),
         notify_weekly.s(),
         name="notify-weekly",
     )

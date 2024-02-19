@@ -1,30 +1,16 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 import re
 from itertools import chain
 
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.utils.translation import gettext
 
 from weblate.logger import LOGGER
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
@@ -59,6 +45,7 @@ COPY_ATTRIBUTES = (
     "edit_template",
     "manage_units",
     "variant_regex",
+    "category_id",
 )
 
 
@@ -144,9 +131,11 @@ class ComponentDiscovery:
 
                 # Calculate file mask for match
                 replacements = [(matches.start("language"), matches.end("language"))]
-                for group in matches.groupdict().keys():
-                    if group.startswith("_language_"):
-                        replacements.append((matches.start(group), matches.end(group)))
+                replacements.extend(
+                    (matches.start(group), matches.end(group))
+                    for group in matches.groupdict()
+                    if group.startswith("_language_")
+                )
                 maskparts = []
                 maskpath = path
                 for start, end in sorted(replacements, reverse=True):
@@ -197,7 +186,7 @@ class ComponentDiscovery:
         else:
             LOGGER.info(*args)
 
-    def create_component(self, main, match, background=False, **kwargs):
+    def create_component(self, main, match, background=False, preview=False, **kwargs):
         max_length = COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -207,8 +196,8 @@ class ComponentDiscovery:
             return result
 
         # Get name and slug
-        name = get_val("name")
-        slug = get_val("slug")
+        name = get_val("name") or "Component"
+        slug = get_val("slug") or "component"
 
         # Copy attributes from main component
         for key in COPY_ATTRIBUTES:
@@ -219,8 +208,10 @@ class ComponentDiscovery:
         if "repo" not in kwargs:
             kwargs["repo"] = main.get_repo_link_url()
 
-        # Deal with duplicate name or slug
-        components = Component.objects.filter(project=kwargs["project"])
+        # Deal with duplicate name or slug in the same (or none) category
+        components = kwargs["project"].component_set.filter(
+            category=main.category if main is not None else None
+        )
         if components.filter(Q(slug__iexact=slug) | Q(name__iexact=name)).exists():
             base_name = get_val("name", 4)
             base_slug = get_val("slug", 4)
@@ -246,11 +237,33 @@ class ComponentDiscovery:
                 "intermediate": match["intermediate"],
                 "file_format": self.file_format,
                 "language_regex": self.language_re,
-                "addons_from": main.pk if self.copy_addons and main else None,
+                "copy_from": main.pk if main else None,
+                "copy_addons": self.copy_addons,
             }
         )
 
+        # Create non-saved object for validation
+        component_kwargs = kwargs.copy()
+        component_kwargs.pop("copy_from")
+        component_kwargs.pop("copy_addons")
+        # main can be None as well
+        component = Component(**component_kwargs, linked_component=main)
+
+        # Special handling for new_lang
+        try:
+            component.clean_new_lang()
+        except ValidationError as error:
+            component.new_lang = kwargs["new_lang"] = "none"
+            self.log("Disabling adding new languages for %s because of %s", name, error)
+
+        # This might raise an exception
+        component.full_clean()
+
         self.log("Creating component %s", name)
+
+        if preview:
+            return component
+
         # Can't pass objects, pass only IDs
         kwargs["project"] = kwargs["project"].pk
         kwargs["source_language"] = kwargs["source_language"].pk
@@ -270,9 +283,8 @@ class ComponentDiscovery:
                 # Valid new base?
                 if os.path.exists(component.get_new_base_filename()):
                     continue
-            else:
-                if component.get_mask_matches():
-                    continue
+            elif component.get_mask_matches():
+                continue
 
             # Delete as needed files seem to be missing
             deleted.append((None, component))
@@ -281,39 +293,38 @@ class ComponentDiscovery:
 
         return deleted
 
-    def check_valid(self, match):
-        def valid_file(name):
-            if not name:
-                return True
-            fullname = os.path.join(self.component.full_path, name)
-            return os.path.exists(fullname)
-
+    def get_skip_reason(self, match):
         # Skip matches to main component
         if match["mask"] == self.component.filemask:
-            return False
+            return gettext("File mask matches the main component.")
 
-        if not valid_file(match["base_file"]):
-            return False
+        for param in ("base_file", "new_base", "intermediate"):
+            name = match[param]
+            if not name:
+                continue
+            fullname = os.path.join(self.component.full_path, name)
+            if not os.path.exists(fullname):
+                return gettext("{filename} ({parameter}) does not exist.").format(
+                    filename=name,
+                    parameter=param,
+                )
 
-        if not valid_file(match["new_base"]):
-            return False
-
-        if not valid_file(match["intermediate"]):
-            return False
-
-        return True
+        return None
 
     def perform(self, preview=False, remove=False, background=False):
         created = []
         matched = []
         deleted = []
+        skipped = []
         processed = set()
 
         main = self.component
 
         for match in self.matched_components.values():
             # Skip invalid matches
-            if not self.check_valid(match):
+            reason = self.get_skip_reason(match)
+            if reason is not None:
+                skipped.append((match, reason))
                 continue
 
             try:
@@ -323,14 +334,18 @@ class ComponentDiscovery:
                 processed.add(found.id)
             except IndexError:
                 # Create new component
-                component = None
-                if not preview:
-                    component = self.create_component(main, match, background)
-                if component:
-                    processed.add(component.id)
-                created.append((match, component))
+                try:
+                    component = self.create_component(
+                        main, match, background=background, preview=preview
+                    )
+                except ValidationError as error:
+                    skipped.append((match, str(error)))
+                else:
+                    if component is not None and component.id:
+                        processed.add(component.id)
+                    created.append((match, component))
 
         if remove:
             deleted = self.cleanup(main, processed, preview)
 
-        return created, matched, deleted
+        return created, matched, deleted, skipped

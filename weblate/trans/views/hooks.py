@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 import re
@@ -34,10 +18,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component
+from weblate.trans.models import Change, Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import parse_path
 
 BITBUCKET_GIT_REPOS = (
     "ssh://git@{server}/{full_name}.git",
@@ -102,35 +86,26 @@ def register_hook(handler):
 
 
 @csrf_exempt
-def update_component(request, project, component):
+def update(request, path):
     """API hook for updating git repos."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_component(request, project, component, True)
-    if not obj.project.enable_hooks:
+    obj = project = parse_path(request, path, (Component, Project), skip_acl=True)
+    if isinstance(obj, Component):
+        project = obj.project
+    if not project.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update.delay("Component", obj.pk)
-    return hook_response()
-
-
-@csrf_exempt
-def update_project(request, project):
-    """API hook for updating git repos."""
-    if not settings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
-    obj = get_project(request, project, True)
-    if not obj.enable_hooks:
-        return HttpResponseNotAllowed([])
-    perform_update.delay("Project", obj.pk)
+    perform_update.delay(obj.__class__.__name__, obj.pk)
     return hook_response()
 
 
 def parse_hook_payload(request):
-    """Parse hook payload.
+    """
+    Parse hook payload.
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
-    if "application/json" in request.META["CONTENT_TYPE"].lower():
+    if "application/json" in request.headers["content-type"].lower():
         return json.loads(request.body.decode())
     return json.loads(request.POST["payload"])
 
@@ -138,7 +113,8 @@ def parse_hook_payload(request):
 @require_POST
 @csrf_exempt
 def vcs_service_hook(request, service):
-    """Shared code between VCS service hooks.
+    """
+    Shared code between VCS service hooks.
 
     Currently used for bitbucket_hook, github_hook and gitlab_hook, but should be usable
     for other VCS services (Google Code, custom coded sites, etc.) too.
@@ -150,8 +126,8 @@ def vcs_service_hook(request, service):
     # Get service helper
     try:
         hook_helper = HOOK_HANDLERS[service]
-    except KeyError:
-        raise Http404(f"Hook {service} not supported")
+    except KeyError as exc:
+        raise Http404(f"Hook {service} not supported") from exc
 
     # Check if we got payload
     try:
@@ -185,6 +161,7 @@ def vcs_service_hook(request, service):
     spfilter = (
         Q(repo__in=repos)
         | Q(repo__iendswith=full_name)
+        | Q(repo__iendswith=f"{full_name}/")
         | Q(repo__iendswith=f"{full_name}.git")
     )
 
@@ -225,9 +202,7 @@ def vcs_service_hook(request, service):
     for obj in enabled_components:
         updates += 1
         LOGGER.info("%s notification will update %s", service_long_name, obj)
-        Change.objects.create(
-            component=obj, action=Change.ACTION_HOOK, details=service_data
-        )
+        obj.change_set.create(action=Change.ACTION_HOOK, details=service_data)
         perform_update.delay("Component", obj.pk)
 
     match_status = {
@@ -307,7 +282,7 @@ def bitbucket_extract_repo_url(data, repository):
 def bitbucket_hook_helper(data, request):
     """API to handle service hooks from Bitbucket."""
     # Bitbucket ping event
-    if request and request.META.get("HTTP_X_EVENT_KEY") not in (
+    if request and request.headers.get("x-event-key") not in (
         "repo:push",
         "repo:refs_changed",
         "pullrequest:fulfilled",
@@ -329,6 +304,7 @@ def bitbucket_hook_helper(data, request):
     else:
         repo_servers = {"bitbucket.org", urlparse(repo_url).hostname}
         repos = []
+        templates: tuple[str, ...]
         if "scm" not in data["repository"]:
             templates = BITBUCKET_GIT_REPOS + BITBUCKET_HG_REPOS
         elif data["repository"]["scm"] == "hg":
@@ -351,7 +327,7 @@ def bitbucket_hook_helper(data, request):
         "repo_url": repo_url,
         "repos": repos,
         "branch": bitbucket_extract_branch(data),
-        "full_name": f"{full_name}.git",
+        "full_name": full_name,
     }
 
 
@@ -359,7 +335,7 @@ def bitbucket_hook_helper(data, request):
 def github_hook_helper(data, request):
     """API to handle commit hooks from GitHub."""
     # Ignore non push events
-    if request and request.META.get("HTTP_X_GITHUB_EVENT") != "push":
+    if request and request.headers.get("x-github-event") != "push":
         return None
     # Parse owner, branch and repository name
     o_data = data["repository"]["owner"]
@@ -388,7 +364,7 @@ def github_hook_helper(data, request):
         "repo_url": data["repository"]["url"],
         "repos": sorted(set(repos)),
         "branch": branch,
-        "full_name": f"{owner}/{slug}.git",
+        "full_name": f"{owner}/{slug}",
     }
 
 
@@ -403,7 +379,7 @@ def gitea_hook_helper(data, request):
             data["repository"]["html_url"],
         ],
         "branch": re.sub(r"^refs/heads/", "", data["ref"]),
-        "full_name": "{}.git".format(data["repository"]["full_name"]),
+        "full_name": data["repository"]["full_name"],
     }
 
 
@@ -420,7 +396,7 @@ def gitee_hook_helper(data, request):
             data["repository"]["html_url"],
         ],
         "branch": re.sub(r"^refs/heads/", "", data["ref"]),
-        "full_name": "{}.git".format(data["repository"]["path_with_namespace"]),
+        "full_name": data["repository"]["path_with_namespace"],
     }
 
 
@@ -442,13 +418,16 @@ def gitlab_hook_helper(data, request):
         data["repository"]["git_ssh_url"],
         data["repository"]["homepage"],
     ]
+    full_name = ssh_url.split(":", 1)[1]
+    if full_name.endswith(".git"):
+        full_name = full_name[:-4]
 
     return {
         "service_long_name": "GitLab",
         "repo_url": data["repository"]["homepage"],
         "repos": repos,
         "branch": branch,
-        "full_name": ssh_url.split(":", 1)[1],
+        "full_name": full_name,
     }
 
 

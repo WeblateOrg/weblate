@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -26,9 +11,9 @@ from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.util import sort_unicode
-from weblate.utils.views import get_component, get_project, get_translation
+from weblate.utils.views import parse_path
 
 
 def get_unit_translations(request, unit_id):
@@ -45,10 +30,7 @@ def get_unit_translations(request, unit_id):
                 unit.source_unit.unit_set.exclude(pk=unit.pk)
                 .prefetch()
                 .prefetch_full(),
-                lambda unit: "{}-{}".format(
-                    user.profile.get_translation_order(unit.translation),
-                    unit.translation.language,
-                ),
+                user.profile.get_translation_orderer(request),
             ),
             "component": unit.translation.component,
         },
@@ -61,7 +43,7 @@ def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
 
     if not request.user.has_perm("unit.check", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Mark check for ignoring
     obj.set_dismiss("revert" not in request.GET)
@@ -78,7 +60,7 @@ def ignore_check_source(request, check_id):
     if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
         "source.edit", unit.translation.component
     ):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Mark check for ignoring
     ignore = obj.check_obj.ignore_string
@@ -98,53 +80,47 @@ def ignore_check_source(request, check_id):
     )
 
 
-def git_status_shared(request, obj, repositories):
+@login_required
+def git_status(request, path):
+    obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("meta:vcs.status", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
-    changes = obj.change_set.filter(action__in=Change.ACTIONS_REPOSITORY).order()[:10]
+    repo_components = obj.all_repo_components
+
+    # Filter events from repository
+    changes = (
+        Change.objects.filter(
+            component__in=repo_components, action__in=Change.ACTIONS_REPOSITORY
+        )
+        .prefetch()
+        .recent()
+    )
+
+    # Get push label for the first component
+    try:
+        push_label = repo_components[0].repository_class.push_label
+    except IndexError:
+        push_label = ""
 
     return render(
         request,
         "js/git-status.html",
         {
             "object": obj,
-            "changes": changes.prefetch(),
-            "repositories": repositories,
+            "changes": changes,
+            "repositories": repo_components,
             "pending_units": obj.count_pending_units,
-            "outgoing_commits": sum(repo.count_repo_outgoing for repo in repositories),
-            "missing_commits": sum(repo.count_repo_missing for repo in repositories),
+            "outgoing_commits": sum(
+                repo.count_repo_outgoing for repo in repo_components
+            ),
+            "missing_commits": sum(repo.count_repo_missing for repo in repo_components),
+            "supports_push": any(
+                repo.repository_class.supports_push for repo in repo_components
+            ),
+            "push_label": push_label,
         },
     )
-
-
-@login_required
-def git_status_project(request, project):
-    obj = get_project(request, project)
-
-    return git_status_shared(request, obj, obj.all_repo_components)
-
-
-@login_required
-def git_status_component(request, project, component):
-    obj = get_component(request, project, component)
-
-    target = obj
-    if target.is_repo_link:
-        target = target.linked_component
-
-    return git_status_shared(request, obj, [obj])
-
-
-@login_required
-def git_status_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
-
-    target = obj.component
-    if target.is_repo_link:
-        target = target.linked_component
-
-    return git_status_shared(request, obj, [obj.component])
 
 
 @cache_control(max_age=3600)

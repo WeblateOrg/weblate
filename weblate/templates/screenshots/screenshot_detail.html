@@ -6,16 +6,15 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.translation.component.project.get_absolute_url }}">{{ object.translation.component.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" with object=object.translation.component %}
-<li><a href="{% url 'screenshots' project=object.translation.component.project.slug component=object.translation.component.slug %}">{% trans "Screenshots" %}</a></li>
+{% path_object_breadcrumbs object.translation.component %}
+<li><a href="{% url 'screenshots' path=object.translation.component.get_url_path %}">{% trans "Screenshots" %}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block content %}
 
 {% perm 'screenshot.delete' object.translation.component as user_can_delete_screenshot %}
-{% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
+{% perm 'screenshot.edit' object.translation.component as user_can_edit_screenshot %}
 
 
 <div class="panel panel-default" id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
@@ -26,7 +25,7 @@
   </div>
 </div>
 
-{% if user_can_change_screenshot %}
+{% if user_can_edit_screenshot %}
 <form id="screenshot-add-form" action="{% url 'screenshot-js-add' pk=object.pk %}">
 {% csrf_token %}
 <input type="hidden" name="source" id="add-source" />
@@ -37,14 +36,12 @@
   {% include "screenshots/screenshot_sources_search.html" %}
   </div>
   <div class="panel-footer">
-    {% if has_ocr %}
     <div class="pull-right flip">
     <form class="form-inline">
       {% csrf_token %}
       <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-warning" id="screenshots-auto">{% trans "Automatically recognize" %}</button>
     </form>
     </div>
-    {% endif %}
     <form class="form-inline double-submission">
       {% csrf_token %}
       <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
@@ -63,7 +60,7 @@
 </div>
 </div>
 
-{% if user_can_change_screenshot %}
+{% if user_can_edit_screenshot %}
 <form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-default">

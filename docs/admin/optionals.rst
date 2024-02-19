@@ -8,8 +8,6 @@ Several optional modules are available for your setup.
 Git exporter
 ------------
 
-.. versionadded:: 2.10
-
 Provides you read-only access to the underlying Git repository using HTTP(S).
 
 Installation
@@ -62,8 +60,6 @@ requires an API token which can be obtained in your
 Billing
 -------
 
-.. versionadded:: 2.4
-
 This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define
 billing plans, track invoices and usage limits.
 
@@ -109,8 +105,6 @@ for the project in case he has access to more of them.
 Legal
 -----
 
-.. versionadded:: 2.15
-
 This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to provide required
 legal documents. It comes provided with blank documents, and you are expected to fill out the
 following templates in the documents:
@@ -121,6 +115,10 @@ following templates in the documents:
    Privacy policy document
 :file:`legal/documents/summary.html`
    Short overview of the terms of service and privacy policy
+
+On changing the terms of service documents, please adjust
+:setting:`LEGAL_TOS_DATE` so that users are forced to agree with the updated
+documents.
 
 .. note::
 
@@ -217,8 +215,6 @@ Following content is sent to Akismet for checking:
 Signing Git commits with GnuPG
 ------------------------------
 
-.. versionadded:: 3.1
-
 All commits can be signed by the GnuPG key of the Weblate instance.
 
 1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG
@@ -229,10 +225,23 @@ This feature needs GnuPG 2.1 or newer installed.
 You can find the key in the :setting:`DATA_DIR` and the public key is shown on
 the "About" page:
 
-.. image:: /screenshots/about-gpg.png
+.. image:: /screenshots/about-gpg.webp
 
 2. Alternatively you can also import existing keys into Weblate, just set
 ``HOME=$DATA_DIR/home`` when invoking gpg.
+
+.. hint::
+
+   The key material is cached by Weblate for a long period. In case you let
+   Weblate generate a key with :setting:`WEBLATE_GPG_IDENTITY` and then import
+   key with the same identity to use an existing key, purging redis cache is
+   recommended to see the effect of such change.
+
+
+.. note::
+
+   When sharing :setting:`DATA_DIR` between multiple hosts, please follow instructions
+   at https://wiki.gnupg.org/NFS to make GnuPG signing work reliably.
 
 .. seealso::
 
@@ -242,10 +251,6 @@ the "About" page:
 
 Rate limiting
 -------------
-
-.. versionchanged:: 3.2
-
-      The rate limiting now accepts more fine-grained configuration.
 
 .. versionchanged:: 4.6
 
@@ -262,7 +267,7 @@ The following operations are subject to rate limiting:
 +===================================+====================+==================+==================+================+
 | Registration                      | ``REGISTRATION``   |                5 |              300 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Sending message to admins         | ``MESSAGE``        |                5 |              300 |            600 |
+| Sending message to admins         | ``MESSAGE``        |                2 |              300 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Password authentication on sign in| ``LOGIN``          |                5 |              300 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+

@@ -1,46 +1,41 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os.path
-from typing import Tuple
+from typing import TYPE_CHECKING
 
 import cairo
 import gi
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.urls import reverse
-from django.utils.html import escape
-from django.utils.translation import get_language
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
+from django.utils.html import format_html
+from django.utils.translation import (
+    get_language,
+    gettext,
+    gettext_lazy,
+    npgettext,
+    pgettext,
+    pgettext_lazy,
+)
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.utils.views import get_percent_color
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
-# pylint:disable=wrong-import-position,wrong-import-order
-from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
+
+from gi.repository import Pango, PangoCairo  # noqa: E402
 
 COLOR_DATA = {
     "grey": (0, 0, 0),
@@ -63,12 +58,11 @@ class Widget:
     """Generic widget class."""
 
     name = ""
-    verbose = ""
-    colors: Tuple[str, ...] = ()
+    verbose: StrOrPromise = ""
+    colors: tuple[str, ...] = ()
     extension = "png"
     content_type = "image/png"
     order = 100
-    show = True
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
@@ -91,10 +85,7 @@ class ContentWidget(Widget):
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get translation status
-        if lang:
-            stats = obj.stats.get_single_language_stats(lang)
-        else:
-            stats = obj.stats
+        stats = obj.stats.get_single_language_stats(lang) if lang else obj.stats
         self.percent = stats.translated_percent
 
     def get_percent_text(self):
@@ -106,11 +97,10 @@ class ContentWidget(Widget):
 class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
 
-    colors: Tuple[str, ...] = ("grey", "white", "black")
+    colors: tuple[str, ...] = ("grey", "white", "black")
     extension = "png"
     content_type = "image/png"
     order = 100
-    show = True
     head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
@@ -145,11 +135,11 @@ class BitmapWidget(ContentWidget):
         return os.path.join(
             settings.STATIC_ROOT,
             "widget-images",
-            "{widget}-{color}.png".format(**{"color": self.color, "widget": self.name}),
+            f"{self.name}-{self.color}.png",
         )
 
     def get_columns(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_column_width(self, surface, columns):
         return surface.get_width() // len(columns)
@@ -218,26 +208,7 @@ class SVGWidget(ContentWidget):
 
     def render(self, response):
         """Rendering method to be implemented."""
-        raise NotImplementedError()
-
-
-class RedirectWidget(Widget):
-    """Generic redirect widget class."""
-
-    show = False
-
-    def redirect(self):
-        """Redirect to matching SVG badge."""
-        kwargs = {
-            "project": self.obj.slug,
-            "widget": "svg",
-            "color": "badge",
-            "extension": "svg",
-        }
-        if self.lang:
-            kwargs["lang"] = self.lang.code
-            return reverse("widget-image", kwargs=kwargs)
-        return reverse("widget-image", kwargs=kwargs)
+        raise NotImplementedError
 
 
 @register_widget
@@ -250,24 +221,26 @@ class NormalWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                self.head_template.format(number_format(self.total)),
-                self.foot_template.format(
+                format_html(self.head_template, number_format(self.total)),
+                format_html(
+                    self.foot_template,
                     npgettext(
                         "Label on engage page", "String", "Strings", self.total
-                    ).upper()
+                    ).upper(),
                 ),
             ],
             [
-                self.head_template.format(number_format(self.languages)),
-                self.foot_template.format(
+                format_html(self.head_template, number_format(self.languages)),
+                format_html(
+                    self.foot_template,
                     npgettext(
                         "Label on engage page", "Language", "Languages", self.languages
-                    ).upper()
+                    ).upper(),
                 ),
             ],
             [
-                self.head_template.format(self.get_percent_text()),
-                self.foot_template.format(_("Translated").upper()),
+                format_html(self.head_template, self.get_percent_text()),
+                format_html(self.foot_template, gettext("Translated").upper()),
             ],
         ]
 
@@ -284,8 +257,8 @@ class SmallWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                self.head_template.format(self.get_percent_text()),
-                self.foot_template.format(_("Translated").upper()),
+                format_html(self.head_template, self.get_percent_text()),
+                format_html(self.foot_template, gettext("Translated").upper()),
             ]
         ]
 
@@ -293,7 +266,7 @@ class SmallWidget(BitmapWidget):
 @register_widget
 class OpenGraphWidget(NormalWidget):
     name = "open"
-    colors: Tuple[str, ...] = ("graph",)
+    colors: tuple[str, ...] = ("graph",)
     order = 120
     lines = False
     offset = 300
@@ -313,11 +286,16 @@ class OpenGraphWidget(NormalWidget):
         ]
 
     def get_name(self) -> str:
-        return self.obj.name
+        return str(self.obj)
 
     def get_title(self, name: str, suffix: str = "") -> str:
         # Translators: Text on OpenGraph image
-        return _("Project %s") % f"<b>{escape(name)}</b>{suffix}"
+        if isinstance(self.obj, Project):
+            template = gettext("Project {}")
+        else:
+            template = gettext("Component {}")
+
+        return format_html(template, format_html("<b>{}</b>{}", name, suffix))
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
@@ -351,52 +329,26 @@ class SiteOpenGraphWidget(OpenGraphWidget):
         return settings.SITE_TITLE
 
     def get_title(self, name: str, suffix: str = "") -> str:
-        return f"<b>{escape(name)}</b>{suffix}"
+        return format_html("<b>{}</b>{}", name, suffix)
 
     def get_text_params(self):
         return {}
 
 
 @register_widget
-class BadgeWidget(RedirectWidget):
-    """Legacy badge which used to render PNG."""
-
-    name = "status"
-    colors: Tuple[str, ...] = ("badge",)
-
-
-@register_widget
-class ShieldsBadgeWidget(RedirectWidget):
-    """Legacy badge which used to redirect to shields.io."""
-
-    name = "shields"
-    colors: Tuple[str, ...] = ("badge",)
-
-
-@register_widget
 class SVGBadgeWidget(SVGWidget):
     name = "svg"
-    colors: Tuple[str, ...] = ("badge",)
+    colors: tuple[str, ...] = ("badge",)
     order = 80
     template_name = "svg/badge.svg"
     verbose = gettext_lazy("Status badge")
 
     def render(self, response):
-        translated_text = _("translated")
-        translated_width = (
-            render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
-                0
-            ].width
-            + 10
-        )
+        translated_text = gettext("translated")
+        translated_width = render_size(f"   {translated_text}   ")[0].width
 
         percent_text = self.get_percent_text()
-        percent_width = (
-            render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
-                0
-            ].width
-            + 10
-        )
+        percent_width = render_size(f"  {percent_text}  ")[0].width
 
         if self.percent >= 90:
             color = "#4c1"
@@ -428,7 +380,7 @@ class SVGBadgeWidget(SVGWidget):
 class MultiLanguageWidget(SVGWidget):
     name = "multi"
     order = 81
-    colors: Tuple[str, ...] = ("auto", "red", "green", "blue")
+    colors: tuple[str, ...] = ("auto", "red", "green", "blue")
     template_name = "svg/multi-language-badge.svg"
     verbose = pgettext_lazy("Status widget name", "Vertical language bar chart")
 
@@ -452,13 +404,9 @@ class MultiLanguageWidget(SVGWidget):
 
             language_width = max(
                 language_width,
-                (
-                    render_size(
-                        "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, language_name
-                    )[0].width
-                    + 10
-                ),
+                (render_size(text=language_name)[0].width + 10),
             )
+            project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (
                     # Language name
@@ -474,12 +422,7 @@ class MultiLanguageWidget(SVGWidget):
                     # Bar color
                     color,
                     # Row URL
-                    get_site_url(
-                        reverse(
-                            "project-language",
-                            kwargs={"lang": language.code, "project": self.obj.slug},
-                        )
-                    ),
+                    get_site_url(project_language.get_absolute_url()),
                     # Top offset for horizontal
                     10 + int((100 - percent) * 1.5),
                 )

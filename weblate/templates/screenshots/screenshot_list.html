@@ -4,20 +4,20 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 {% load icons %}
+{% load translations %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
+{% path_object_breadcrumbs object %}
+<li><a href="{% url 'screenshots' path=object.get_url_path %}">{% trans "Screenshots" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
 {% perm 'screenshot.delete' object as user_can_delete_screenshot %}
-{% perm 'screenshot.edit' object as user_can_change_screenshot %}
+{% perm 'screenshot.edit' object as user_can_edit_screenshot %}
 
 {% if add_form %}
-<form action="{% url 'screenshots' project=object.project.slug component=object.slug %}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'screenshots' path=object.get_url_path %}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
@@ -56,7 +56,7 @@
 </td>
 {% endwith %}
 <td>
-{% if user_can_change_screenshot %}
+{% if user_can_edit_screenshot %}
 <a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a>
 {% endif %}
 </td>

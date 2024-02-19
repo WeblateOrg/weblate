@@ -10,19 +10,23 @@
     {% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}
   </a>
   <a id="position-input-editable" title="{% trans "Go to position" %}" >
+    {% if not paginator_form %}
     <form method="GET">
+    {% endif %}
       {% for key, value in search_items %}
-        <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
+        <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %} type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
       {% endfor %}
-      <input type="hidden" name="limit" value="{{ page_obj.paginator.per_page }}" aria-label="{{ page_obj.paginator.per_page }}" />
+      <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %} type="hidden" name="limit" value="{{ page_obj.paginator.per_page }}" aria-label="{{ page_obj.paginator.per_page }}" />
       <div class="input-group">
-        <input type="number" min="1" max="{{ page_obj.paginator.num_pages }}" name="page" class="form-control" value="{{ page_obj.number }}" aria-label="{% trans "Jump to" %}">
+        <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %} type="number" min="1" max="{{ page_obj.paginator.num_pages }}" name="page" class="form-control" value="{{ page_obj.number }}" aria-label="{% trans "Jump to" %}" id="position-input-editable-input">
         <span class="input-group-addon">
           {% comment %}Translators: This is partial position indicator shown when editing position{% endcomment %}
           {% blocktrans with page_obj.paginator.num_pages as total %}/ {{ total }}{% endblocktrans %}
         </span>
       </div>
+    {% if not paginator_form %}
     </form>
+    {% endif %}
   </a>
 </li>
 <li {% if not page_obj.has_next %}class="disabled"{% endif %}><a {% if page_obj.has_next %}rel="next" href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"{% endif %} class="green">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>

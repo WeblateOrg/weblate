@@ -3,6 +3,7 @@
 {% load translations %}
 {% load compress %}
 {% load icons %}
+{% load permissions %}
 
 <!DOCTYPE html>
 
@@ -11,7 +12,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="referrer" content="origin" />
   <meta name="author" content="Michal Čihař" />
-  <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
+  <meta name="copyright" content="Copyright &copy; Michal Čihař" />
   {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
   {% if interledger_payment_pointer %}<meta name="monetization" content="{{ interledger_payment_pointer }}" />{% endif %}
 
@@ -26,19 +27,14 @@
   <link rel="prev" href="{{ prev_unit_url }}" />
   {% endif %}
 
-  {% if object.slug and object.project.slug %}
-  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-component' project=object.project.slug component=object.slug %}" />
-  {% elif object.component.slug and object.component.slug != "-" and object.component.project.slug and object.language_code %}
-  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.component.project.slug widget='open' color='graph' extension='png' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" />
-  {% elif object.slug and object.web %}
-  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.slug widget='open' color='graph' extension='png' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-project' project=object.slug %}" />
+  {% if object.get_url_path %}
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' path=object.get_url_path %}" />
+    <meta property="og:image" content="{{ site_url }}{% url 'widget-image' path=object.get_url_path widget='open' color='graph' extension='png' %}" />
   {% else %}
-  <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' %}" />
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' %}" />
+    <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
   {% endif %}
+
   {% for domain in preconnect_list %}
   <link rel="preconnect" href="https://{{ domain }}">
   {% endfor %}
@@ -68,17 +64,16 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap-global-bind.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/clipboard.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/modernizr.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/slugify.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/tribute.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/autoComplete.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-core.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markup.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-rest.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markdown.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-icu-message-format.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'prism-weblatesearch.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
@@ -93,6 +88,7 @@ var _rollbarConfig = {
   <meta name="msapplication-TileColor" content="#144d3f">
   <meta name="msapplication-config" content="/browserconfig.xml">
   <link rel="manifest" href="/site.webmanifest">
+  {{ extra_html_head|safe }}
   {% if matomo_url %}
   <link rel="preconnect" href="{{ matomo_url }}">
   {% endif %}
@@ -126,6 +122,11 @@ var _rollbarConfig = {
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="wl-navbar-main">
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" id="sitewide-search" placeholder="{% translate "Search" %}">
+        </div>
+      </form>
       <ul class="nav navbar-nav">
         <li><a href="{% url 'home' %}">{% trans "Dashboard" %}</a></li>
         <li class="dropdown">
@@ -168,7 +169,8 @@ var _rollbarConfig = {
               {% if languages %}
                 {% for project in watched_projects %}
                   {% for language in languages %}
-                    <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failing checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+                    {% get_projectlanguage project language as projectlanguage %}
+                    <li><a href="{% url 'checks' path=projectlanguage.get_url_path %}">{% blocktrans %}Failing checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
                   {% endfor %}
                   {% if languages|length > 1 %}
                     <li role="separator" class="divider"></li>
@@ -179,13 +181,13 @@ var _rollbarConfig = {
                 {% endif %}
               {% endif %}
               {% for project in watched_projects %}
-                <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failing checks in {{ project }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' path=project.get_url_path %}">{% blocktrans %}Failing checks in {{ project }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
             {% if languages %}
               {% for language in languages %}
-                <li><a href="{% url 'checks' %}?lang={{ language.code }}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' path=language.get_url_path %}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
@@ -197,17 +199,22 @@ var _rollbarConfig = {
       <ul class="nav navbar-nav navbar-right flip">
 
         {# Superuser link to admin #}
-        {% if user.is_superuser %}
+        {% perm "management.use" user as user_can_manage %}
+        {% if user_can_manage %}
         <li>
           <a class="button" id="admin-button" href="{% url 'manage' %}" title="{% trans "Administration" %}">
-            {% icon "wrench.svg" %}
+            <span class="hidden-xs">
+              {% icon "wrench.svg" %}
+            </span>
             <span class="visible-xs-inline">{% trans "Administration" %}</span>
           </a>
         </li>
         {% if configuration_errors.exists %}
         <li>
           <a class="button red" id="errors-button" href="{% url 'manage-performance' %}" title="{% trans "Configuration errors" %}">
-            {% icon "alert.svg" %}
+            <span class="hidden-xs">
+              {% icon "alert.svg" %}
+            </span>
             <span class="visible-xs-inline">{% trans "Configuration errors" %}</span>
           </a>
         </li>
@@ -225,14 +232,24 @@ var _rollbarConfig = {
         {# Adding new translations #}
         {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="hidden-xs">{% icon "plus.svg" %}</span>
+            <span class="visible-xs-inline">{% trans "Add" %}</span>
+            <b class="caret"></b>
+          </a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
-            <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
+            <li><a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% trans "Add new translation component" %}</a></li>
+            {% if component %}
+              {% perm 'translation.add' component as user_can_add_translation %}
+              {% if user_can_add_translation %}
+                <li><a href="{% url "new-language" path=component.get_url_path %}">{% trans "Start new translation" %}</a></li>
+              {% endif %}
+            {% endif %}
             {% if offer_hosting %}
               <li role="separator" class="divider"></li>
               {% if payment_enabled %}
-                <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
+                <li><a href="{% url 'trial' %}">{% trans "Try Weblate for free" %}</a></li>
               {% endif %}
               <li><a href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a></li>
             {% endif %}
@@ -245,7 +262,9 @@ var _rollbarConfig = {
         <li class="dropdown">
           <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
             {% if enable_avatars %}
-            <img class="avatar" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            <span class="hidden-xs">
+              <img class="avatar" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            </span>
             <span class="visible-xs-inline">{% trans "Your profile" %}</span>
             {% else %}
             {{ user.profile.get_user_name }}
@@ -269,11 +288,14 @@ var _rollbarConfig = {
         {# Support menu #}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}">
-            {% icon "dots.svg" %}
-            <span class="visible-xs-inline">{% trans "Help" %}</span>
+            <span class="hidden-xs">{% icon "dots.svg" %}</span>
+            <span class="visible-xs-inline">
+              {% trans "Help" %}
+              <b class="caret"></b>
+            </span>
           </a>
           <ul class="dropdown-menu">
-            {% if not has_support %}
+            {% if not support_status.has_support %}
               <li><a href="https://weblate.org/support/">{% trans "Get support" %}</a></li>
             {% endif %}
             {% if get_help_url %}
@@ -308,6 +330,11 @@ var _rollbarConfig = {
 
 <div class="main-content {% block content_class %}{% endblock %}">
 
+{% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
+  {% trans 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}
+  {% show_message 'warning' msg %}
+{% endif %}
+
 {% if messages %}
 {% for message in messages %}
 {% show_message message.tags message %}
@@ -337,7 +364,7 @@ var _rollbarConfig = {
         <img src="" id="imagepreview" class="img-responsive">
       </div>
       <div class="modal-footer">
-        <a class="btn btn-warning" id="modalEditLink">{% trans "Edit" %}</a>
+        <a class="btn btn-warning" id="modalDetailsLink" data-edit-text="{% trans 'Edit screenshot' %}">{% trans "Screenshot details" %}</a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
       </div>
     </div>

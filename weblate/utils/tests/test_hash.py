@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.test import SimpleTestCase
 
 from weblate.utils.hash import (
     calculate_checksum,
+    calculate_dict_hash,
     calculate_hash,
     checksum_to_hash,
     hash_to_checksum,
@@ -59,3 +45,17 @@ class HashTest(SimpleTestCase):
 
     def test_calculate_checksum(self):
         self.assertEqual(calculate_checksum("Message"), "f5351ff85ab23173")
+
+    def test_calculate_dict_hash(self):
+        self.assertEqual(
+            calculate_dict_hash({"a": 1, "b": 2}),
+            calculate_dict_hash({"b": 2, "a": 1}),
+        )
+        self.assertEqual(
+            calculate_dict_hash({"a": "1", "b": "2"}),
+            calculate_dict_hash({"a": 1, "b": 2}),
+        )
+        self.assertNotEqual(
+            calculate_dict_hash({"a": 2, "b": 2}),
+            calculate_dict_hash({"a": 1, "b": 2}),
+        )

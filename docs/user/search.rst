@@ -3,21 +3,22 @@
 Searching
 =========
 
-.. versionadded:: 3.9
+Searching for strings
++++++++++++++++++++++
 
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
 find the strings you want.
 
 When no field is defined, the lookup happens on source, target, and context strings.
 
-.. image:: /screenshots/search.png
+.. image:: /screenshots/search.webp
 
 Simple search
 -------------
 
-Any phrase typed into the search box is split into words. Strings containing any
+Any phrase typed into the search box is split into words. Strings containing all
 of them are shown. To look for an exact phrase, put "the searchphrase" into
-quotes (both single (') and double (") quotes will work): ``"this is a quoted
+quotes (both single (``'``) and double (``"``) quotes will work): ``"this is a quoted
 string"`` or ``'another quoted string'``.
 
 Fields
@@ -37,16 +38,21 @@ Fields
    Location string case-insensitive search.
 ``priority:NUMBER``
    String priority.
+``id:NUMBER``
+   String unique identifier.
+``position:NUMBER``
+   String position in the translation file.
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
-   State search (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
+   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
    Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``.
 ``is:TEXT``
-   Search for string states (``pending``, ``translated``, ``untranslated``).
+   Search for pending translations (``pending``).
+   Can also search for all string states (``approved``, ``translated``, ``untranslated``, ``needs-editing``, ``read-only``).
 ``language:TEXT``
    String target language.
 ``component:TEXT``
@@ -67,9 +73,9 @@ Fields
    lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for
    examples.
 ``check:TEXT``
-   String has failing check.
+   String has failing check, see :doc:`/user/checks` for check identifiers.
 ``dismissed_check:TEXT``
-   String has dismissed check.
+   String has dismissed check, see :doc:`/user/checks` for check identifiers.
 ``comment:TEXT``
    Search in user comments.
 ``resolved_comment:TEXT``
@@ -106,6 +112,8 @@ You can specify operators, ranges or partial lookups for date or numeric searche
    Changed in year 2019.
 ``changed:[2019-03-01 to 2019-04-01]``
    Changed between two given dates.
+``position:[10 to 100]``
+   Strings with position between 10 and 100 (inclusive).
 
 Exact operators
 ---------------
@@ -143,11 +151,41 @@ Predefined queries
 
 You can select out of predefined queries on the search page, this allows you to quickly access the most frequent searches:
 
-.. image:: /screenshots/query-dropdown.png
+.. image:: /screenshots/query-dropdown.webp
 
 Ordering the results
 --------------------
 
 There are many options to order the strings according to your needs:
 
-.. image:: /screenshots/query-sort.png
+.. image:: /screenshots/query-sort.webp
+
+
+Searching for users
++++++++++++++++++++
+
+.. versionadded:: 4.18
+
+The user browsing has similar search abilities:
+
+``username:TEXT``
+   Search in usernames.
+``full_name:TEXT``
+   Search in full names.
+``language:TEXT``
+   User configured translation language (see :ref:`profile-translated-languages`).
+``joined:DATETIME``
+   String content was changed on date, supports :ref:`search-operators`.
+``translates:TEXT``
+   User has contributed to a given language in the past month.
+``contributes:TEXT``
+   User has contributed to a given project or component in the past month.
+
+Additional lookups are available in the :ref:`management-interface`:
+
+``is:bot``
+   Search for bots (used for project scoped tokens).
+``is:active``
+   Search for active users.
+``email:TEXT``
+   Search by e-mail.

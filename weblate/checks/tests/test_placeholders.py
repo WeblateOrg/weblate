@@ -1,30 +1,16 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for placeholder quality checks."""
-
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.trans.models import Unit
+from weblate.lang.models import Language, Plural
+from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class PlaceholdersTest(CheckTestCase):
@@ -49,55 +35,163 @@ class PlaceholdersTest(CheckTestCase):
         return
 
     def test_description(self):
-        unit = Unit(source="string $URL$", target="string")
+        unit = Unit(
+            source="string $URL$",
+            target="string",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                    file_format="po",
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags("placeholders:$URL$")
         check = Check(unit=unit)
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value="$URL$">$URL$</span>
             """,
         )
 
     def test_regexp(self):
-        unit = Unit(source="string $URL$", target="string $FOO$")
+        unit = Unit(
+            source="string $URL$",
+            target="string $FOO$",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                    file_format="po",
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags(r"""placeholders:r"(\$)([^$]*)(\$)" """)
         check = Check(unit=unit)
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value="$URL$">$URL$</span>
             <br />
-            Following format strings are extra:
+            The following format strings are extra:
             <span class="hlcheck" data-value="$FOO$">$FOO$</span>
             """,
         )
 
     def test_whitespace(self):
-        unit = Unit(source="string {URL} ", target="string {URL}")
+        unit = Unit(
+            source="string {URL} ",
+            target="string {URL}",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                    file_format="po",
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\s?{\w+}\s?" """)
         check = Check(unit=unit)
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value=" {URL} ">
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace"><span class="space-space">
+            </span></span>
             {URL}
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace"><span class="space-space">
+            </span></span>
             </span>
             <br />
-            Following format strings are extra:
+            The following format strings are extra:
             <span class="hlcheck" data-value=" {URL}">
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace"><span class="space-space">
+            </span></span>
             {URL}
             </span>
             """,
+        )
+
+    def test_case_insentivive(self):
+        self.assertTrue(
+            self.check.check_target(
+                ["Hello %WORLD%"],
+                ["Ahoj %world%"],
+                MockUnit(
+                    None,
+                    "placeholders:%WORLD%",
+                    self.default_lang,
+                    "Hello %WORLD%",
+                ),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["Hello %WORLD%"],
+                ["Ahoj %world%"],
+                MockUnit(
+                    None,
+                    "placeholders:%WORLD%,case-insensitive",
+                    self.default_lang,
+                    "Hello %WORLD%",
+                ),
+            )
+        )
+
+
+class PluralPlaceholdersTest(FixtureTestCase):
+    def test_plural(self):
+        check = PlaceholderCheck()
+        lang = "cs"
+        unit = MockUnit(
+            None,
+            'placeholders:r"%[0-9]"',
+            lang,
+            "1 apple",
+        )
+        unit.translation.language = Language.objects.get(code=lang)
+        unit.translation.plural = unit.translation.language.plural
+        self.assertFalse(
+            check.check_target(
+                ["1 apple", "%1 apples"],
+                ["1 jablko", "%1 jablka", "%1 jablek"],
+                unit,
+            )
+        )
+        unit.check_cache = {}
+        self.assertTrue(
+            check.check_target(
+                ["1 apple", "%1 apples"],
+                ["1 jablko", "1 jablka", "%1 jablek"],
+                unit,
+            )
+        )
+        unit.check_cache = {}
+        self.assertTrue(
+            check.check_target(
+                ["%1 apple", "%1 apples"],
+                ["1 jablko", "1 jablka", "%1 jablek"],
+                unit,
+            )
         )
 
 

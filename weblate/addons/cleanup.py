@@ -1,26 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import UpdateBaseAddon
-from weblate.addons.events import EVENT_POST_COMMIT, EVENT_POST_UPDATE, EVENT_PRE_COMMIT
+from weblate.addons.events import AddonEvent
 from weblate.trans.exceptions import FileParseError
 
 
@@ -34,19 +19,22 @@ class BaseCleanupAddon(UpdateBaseAddon):
 
 class CleanupAddon(BaseCleanupAddon):
     name = "weblate.cleanup.generic"
-    verbose = _("Cleanup translation files")
-    description = _(
+    verbose = gettext_lazy("Cleanup translation files")
+    description = gettext_lazy(
         "Update all translation files to match the monolingual base file. "
         "For most file formats, this means removing stale translation keys "
         "no longer present in the base file."
     )
     icon = "eraser.svg"
-    events = (EVENT_PRE_COMMIT, EVENT_POST_UPDATE)
+    events = (AddonEvent.EVENT_PRE_COMMIT, AddonEvent.EVENT_POST_UPDATE)
 
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_unused()
+            if filenames is None:
+                continue
             self.extra_files.extend(filenames)
+            # Do not update hash here as this is just before parsing updated files
 
     def pre_commit(self, translation, author):
         if translation.is_source and not translation.component.intermediate:
@@ -55,20 +43,29 @@ class CleanupAddon(BaseCleanupAddon):
             filenames = translation.store.cleanup_unused()
         except FileParseError:
             return
-        self.extra_files.extend(filenames)
+        if filenames is not None:
+            self.extra_files.extend(filenames)
+            translation.store_hash()
 
 
 class RemoveBlankAddon(BaseCleanupAddon):
     name = "weblate.cleanup.blank"
-    verbose = _("Remove blank strings")
-    description = _("Removes strings without a translation from translation files.")
-    events = (EVENT_POST_COMMIT, EVENT_POST_UPDATE)
+    verbose = gettext_lazy("Remove blank strings")
+    description = gettext_lazy(
+        "Removes strings without a translation from translation files."
+    )
+    events = (AddonEvent.EVENT_POST_COMMIT, AddonEvent.EVENT_POST_UPDATE)
     icon = "eraser.svg"
 
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_blank()
+            if filenames is None:
+                continue
             self.extra_files.extend(filenames)
+            # Do not update hash in post_update, only in post_commit
+            if previous_head == "weblate:post-commit":
+                translation.store_hash()
 
     def post_commit(self, component):
-        self.post_update(component, None, skip_push=True)
+        self.post_update(component, "weblate:post-commit", skip_push=True, child=False)

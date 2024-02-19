@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import gzip
 import os
@@ -34,14 +19,16 @@ from ruamel.yaml import YAML
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
+from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
+from weblate.trans.models import Component, Translation
 from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
 from weblate.utils.errors import add_breadcrumb, report_error
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.vcs.models import VCS_REGISTRY
 
 
@@ -59,14 +46,14 @@ def ping():
 
 @app.task(trail=False)
 def heartbeat():
-    cache.set("celery_loaded", time.monotonic())
-    cache.set("celery_heartbeat", time.monotonic())
+    cache.set("celery_loaded", time.time())
+    cache.set("celery_heartbeat", time.time())
     cache.set(
         "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
     )
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def settings_backup():
     with backup_lock():
         # Expand settings in case it contains non-trivial code
@@ -78,7 +65,8 @@ def settings_backup():
         # Backup original settings
         if settings.SETTINGS_MODULE:
             settings_mod = import_module(settings.SETTINGS_MODULE)
-            copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
+            if settings_mod.__file__ is not None:
+                copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
         # Backup environment (to make restoring Docker easier)
         with open(data_dir("backups", "environment.yml"), "w") as handle:
@@ -86,7 +74,19 @@ def settings_backup():
             yaml.dump(dict(os.environ), handle)
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
+@app.task(trail=False)
+def update_translation_stats_parents(pk: int):
+    translation = Translation.objects.get(pk=pk)
+    translation.stats.update_parents()
+
+
+@app.task(trail=False)
+def update_language_stats_parents(pk: int):
+    component = Component.objects.get(pk=pk)
+    component.stats.update_language_stats_parents()
+
+
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def database_backup():
     if settings.DATABASE_BACKUP == "none":
         return
@@ -96,10 +96,18 @@ def database_backup():
         compress = settings.DATABASE_BACKUP == "compressed"
 
         out_compressed = data_dir("backups", "database.sql.gz")
-        out_plain = data_dir("backups", "database.sql")
+        out_text = data_dir("backups", "database.sql")
 
         if using_postgresql():
-            cmd = ["pg_dump", "--dbname", database["NAME"]]
+            cmd = [
+                "pg_dump",
+                # Superuser only, crashes on Alibaba Cloud Database PolarDB
+                "--no-subscriptions",
+                "--clean",
+                "--if-exists",
+                "--dbname",
+                database["NAME"],
+            ]
 
             if database["HOST"]:
                 cmd.extend(["--host", database["HOST"]])
@@ -112,14 +120,14 @@ def database_backup():
                 cmd.extend(["--compress", "6"])
                 compress = False
             else:
-                cmd.extend(["--file", out_plain])
+                cmd.extend(["--file", out_text])
 
             env["PGPASSWORD"] = database["PASSWORD"]
         else:
             cmd = [
                 "mysqldump",
                 "--result-file",
-                out_plain,
+                out_text,
                 "--single-transaction",
                 "--skip-lock-tables",
             ]
@@ -137,7 +145,7 @@ def database_backup():
 
         try:
             subprocess.run(
-                cmd,
+                cmd,  # type: ignore[arg-type]
                 env=env,
                 capture_output=True,
                 stdin=subprocess.DEVNULL,
@@ -151,19 +159,19 @@ def database_backup():
                 stdout=error.stdout,
                 stderr=error.stderr,
             )
+            LOGGER.error("failed database backup: %s", error.stderr)
             report_error()
             raise
 
         if compress:
-            with open(out_plain, "rb") as f_in:
-                with gzip.open(out_compressed, "wb") as f_out:
-                    shutil.copyfileobj(f_in, f_out)
-            os.unlink(out_plain)
+            with open(out_text, "rb") as f_in, gzip.open(out_compressed, "wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
+            os.unlink(out_text)
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    cache.set("celery_loaded", time.monotonic())
+    cache.set("celery_loaded", time.time())
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )

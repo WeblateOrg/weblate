@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import timedelta
 
@@ -40,10 +24,10 @@ class CleanupTest(ViewTestCase):
         unit = self.get_unit()
 
         # Add two suggestions
-        Suggestion.objects.add(unit, "Zkouška\n", request)
-        Suggestion.objects.add(unit, "zkouška\n", request)
+        Suggestion.objects.add(unit, ["Zkouška\n"], request)
+        Suggestion.objects.add(unit, ["zkouška\n"], request)
         # This should be ignored
-        Suggestion.objects.add(unit, "zkouška\n", request)
+        Suggestion.objects.add(unit, ["zkouška\n"], request)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
@@ -62,8 +46,8 @@ class CleanupTest(ViewTestCase):
         unit = self.get_unit()
 
         # Add two suggestions
-        Suggestion.objects.add(unit, "Zkouška", request)
-        Suggestion.objects.add(unit, "zkouška", request)
+        Suggestion.objects.add(unit, ["Zkouška"], request)
+        Suggestion.objects.add(unit, ["zkouška"], request)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
@@ -80,9 +64,9 @@ class CleanupTest(ViewTestCase):
     def test_cleanup_old_suggestions(self, expected=2):
         request = self.get_request()
         unit = self.get_unit()
-        Suggestion.objects.add(unit, "Zkouška", request)
+        Suggestion.objects.add(unit, ["Zkouška"], request)
         Suggestion.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
-        Suggestion.objects.add(unit, "Zkouška 2", request)
+        Suggestion.objects.add(unit, ["Zkouška 2"], request)
         cleanup_old_suggestions()
         self.assertEqual(Suggestion.objects.count(), expected)
 

@@ -1,0 +1,22 @@
+{% load i18n %}
+
+{% if enable_sharing %}
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Share" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      {% with share_url=object.get_share_url widgets_url=object.get_widgets_url %}
+        <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
+        <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Share on X" %}</a></li>
+        {% with fediverse_url=user.profile.get_fediverse_share %}
+          {% if fediverse_url %}
+            <li><a href="{{ fediverse_url }}{% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Share on Fediverse" %}</a></li>
+          {% endif %}
+        {% endwith %}
+        <li><a href="{{ share_url }}">{% trans "Engage page" %}</a></li>
+        <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
+      {% endwith %}
+    </ul>
+  </li>
+{% endif %}

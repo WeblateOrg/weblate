@@ -1,35 +1,21 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for ACL management."""
 
 from django.conf import settings
 from django.core import mail
+from django.test.utils import override_settings
 from django.urls import reverse
 
-from weblate.auth.models import Group, Role, User, get_anonymous
+from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 
 
-class ACLTest(FixtureTestCase):
+class ACLTest(FixtureTestCase, RegistrationTestMixin):
     def setUp(self):
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -105,9 +91,17 @@ class ACLTest(FixtureTestCase):
         # Add user
         response = self.client.post(
             reverse("add-user", kwargs=self.kw_project),
-            {"user": self.second_user.username},
+            {"user": self.second_user.username, "group": self.admin_group.pk},
         )
         self.assertRedirects(response, self.access_url)
+
+        # Ensure user is now listed
+        response = self.client.get(self.access_url)
+        self.assertContains(response, self.second_user.username)
+
+        # Accept invitation
+        invitation = Invitation.objects.get()
+        invitation.accept(None, self.second_user)
 
         # Ensure user is now listed
         response = self.client.get(self.access_url)
@@ -118,7 +112,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "invalid", "username": "valid", "full_name": "name"},
+            {"email": "invalid", "group": self.admin_group.pk},
             follow=True,
         )
         self.assertContains(response, "Enter a valid e-mail address.")
@@ -128,41 +122,72 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {
-                "email": self.user.email,
-                "username": self.user.username,
-                "full_name": "name",
-            },
+            {"email": self.user.email, "group": self.admin_group.pk},
             follow=True,
         )
-        self.assertContains(response, "A user with this e-mail already exists")
+        self.assertContains(response, "User invitation e-mail was sent.")
+        invitation = Invitation.objects.get()
+        # Ensure invitation was mapped to existing user
+        self.assertEqual(invitation.user, self.user)
 
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_invite_user(self):
         """Test inviting user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "user@example.com", "username": "username", "full_name": "name"},
+            {"email": "user@example.com", "group": self.admin_group.pk},
             follow=True,
         )
-        # Ensure user is now listed
-        self.assertContains(response, "username")
+        # Ensure user invitation is now listed
+        self.assertContains(response, "user@example.com")
+        self.assertNotContains(response, "example-username")
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
         mail.outbox = []
 
+        self.assertEqual(Invitation.objects.count(), 1)
+
+        invitation = Invitation.objects.get()
+
         # Resend invitation
         response = self.client.post(
-            reverse("resend_invitation", kwargs=self.kw_project),
-            {"user": "user@example.com"},
+            invitation.get_absolute_url(),
+            {"action": "resend"},
             follow=True,
         )
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
+        mail.outbox = []
+
+        user_client = self.client_class()
+
+        # Follow the invitation list
+        response = user_client.get(invitation.get_absolute_url(), follow=True)
+        self.assertRedirects(response, reverse("register"))
+        self.assertContains(response, "user@example.com")
+
+        # Perform registration
+        response = user_client.post(
+            reverse("register"),
+            {
+                "email": "user@example.com",
+                "username": "example-username",
+                "fullname": "name",
+            },
+            follow=True,
+        )
+        url = self.assert_registration_mailbox()
+        response = user_client.get(url, follow=True)
+        self.assertRedirects(response, reverse("password"))
+
+        # Verify user was added
+        response = self.client.get(self.access_url)
+        self.assertContains(response, "example-username")
 
     def remove_user(self):
         # Remove user
@@ -261,17 +286,14 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("add-user", kwargs=self.kw_project),
-            {"user": "nonexisting"},
+            {"user": "nonexisting", "group": self.admin_group.pk},
             follow=True,
         )
         self.assertContains(response, "Could not find any such user")
 
     def test_acl_groups(self):
         """Test handling ACL groups."""
-        if "weblate.billing" in settings.INSTALLED_APPS:
-            billing_group = 1
-        else:
-            billing_group = 0
+        billing_group = 1 if "weblate.billing" in settings.INSTALLED_APPS else 0
         self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.translation_review = False
@@ -349,13 +371,13 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         group = self.project.defined_groups.get(name="Memory")
         response = self.client.post(
-            reverse("delete-project-group", kwargs=self.kw_project),
-            {"group": group.pk},
+            group.get_absolute_url(),
+            {"delete": group.pk},
         )
         self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
 
-    def test_create_group(self):
+    def create_test_group(self):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("create-project-group", kwargs=self.kw_project),
@@ -371,22 +393,23 @@ class ACLTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, self.access_url + "#teams")
-        group = Group.objects.get(name="Czech team")
+        return Group.objects.get(name="Czech team")
+
+    def test_create_group(self):
+        group = self.create_test_group()
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 0)
         self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
-        return group
+        self.assertEqual(
+            set(group.roles.values_list("name", flat=True)), {"Power user"}
+        )
 
-    def test_edit_group(self):
-        group = self.test_create_group()
-
-        kwargs = {"pk": group.pk}
-        kwargs.update(self.kw_project)
-
+    def test_create_group_all_lang(self):
+        self.project.add_user(self.user, "Administration")
         response = self.client.post(
-            reverse("edit-project-group", kwargs=kwargs),
+            reverse("create-project-group", kwargs=self.kw_project),
             {
-                "name": "Global team",
+                "name": "All team",
                 "roles": list(
                     Role.objects.filter(name="Power user").values_list("pk", flat=True)
                 ),
@@ -397,6 +420,35 @@ class ACLTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="All team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 1)
+        self.assertNotEqual(
+            list(group.languages.values_list("code", flat=True)), ["cs"]
+        )
+        self.assertEqual(
+            set(group.roles.values_list("name", flat=True)), {"Power user"}
+        )
+
+    def test_edit_group(self):
+        group = self.create_test_group()
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Global team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 1,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+        self.assertRedirects(response, group.get_absolute_url())
         group = Group.objects.get(name="Global team")
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 1)

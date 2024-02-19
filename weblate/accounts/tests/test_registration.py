@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for user handling."""
 
@@ -32,7 +17,7 @@ from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_test_file, social_core_override_settings
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -173,7 +158,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.get(reverse("register"))
         form = response.context["captcha_form"]
         data = REGISTRATION_DATA.copy()
-        data["captcha"] = form.captcha.result
+        data["captcha"] = form.mathcaptcha.result
         response = self.do_register(data)
         self.assertContains(response, REGISTRATION_SUCCESS)
 
@@ -244,7 +229,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Confirm account
         response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse("login"))
-        self.assertContains(response, "the verification token probably expired")
+        self.assertContains(response, "the confirmation link probably expired")
 
     @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
     def test_reset_ratelimit(self):
@@ -568,7 +553,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, "/accounts/profile/#account")
 
     @responses.activate
-    @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
+    @social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False):
         """Test GitHub integration."""
         responses.add(
@@ -591,14 +576,28 @@ class RegistrationTest(BaseRegistrationTest):
             "https://api.github.com/user/emails",
             json=[
                 {
+                    "email": "noreply@users.noreply.github.com",
+                    "verified": True,
+                    "primary": False,
+                    "visibility": "public",
+                },
+                {
                     "email": "noreply2@example.org",
                     "verified": False,
                     "primary": False,
+                    "visibility": "public",
+                },
+                {
+                    "email": "noreply-other@example.org",
+                    "verified": True,
+                    "primary": True,
+                    "visibility": "private",
                 },
                 {
                     "email": "noreply-weblate@example.org",
                     "verified": True,
-                    "primary": True,
+                    "primary": False,
+                    "visibility": "public",
                 },
             ],
         )
@@ -618,7 +617,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.assertContains(response, "is already in use for another account")
             return
         if confirm:
-            self.assertContains(response, "Confirm new association")
+            self.assertContains(response, "Confirm adding user identity")
             response = self.client.post(
                 reverse("confirm"), {"password": confirm}, follow=True
             )
@@ -626,6 +625,18 @@ class RegistrationTest(BaseRegistrationTest):
         user = User.objects.get(username="weblate")
         self.assertEqual(user.full_name, "Test Weblate Name")
         self.assertEqual(user.email, "noreply-weblate@example.org")
+        self.assertEqual(
+            set(
+                VerifiedEmail.objects.filter(social__user=user).values_list(
+                    "email", "is_deliverable"
+                )
+            ),
+            {
+                ("noreply-other@example.org", True),
+                ("noreply-weblate@example.org", True),
+                ("noreply@users.noreply.github.com", False),
+            },
+        )
 
     def test_github_existing(self):
         """Adding GitHub association to existing account."""
@@ -664,7 +675,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
-    @override_settings(
+    @social_core_override_settings(
         AUTHENTICATION_BACKENDS=SAML_BACKENDS,
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT=SAML_CERT,
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY=SAML_KEY,
@@ -708,7 +719,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
             del self.client.cookies["sessionid"]
 
         response = self.client.get(url, follow=True)
-        self.assertContains(response, "the verification token probably expired")
+        self.assertContains(response, "the confirmation link probably expired")
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset(self):
@@ -734,7 +745,7 @@ class NoCookieCleanupRegistrationTest(CookieRegistrationTest):
     social_cleanup = True
 
 
-@override_settings(
+@social_core_override_settings(
     AUTHENTICATION_BACKENDS=[
         "social_core.backends.email.EmailAuth",
         "social_core.backends.username.UsernameAuth",

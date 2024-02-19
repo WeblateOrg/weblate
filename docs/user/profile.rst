@@ -22,8 +22,6 @@ Dashboard
 When you sign in, you will see an overview of projects and components,
 as well as their respective translation progression.
 
-.. versionadded:: 2.5
-
 Components of projects you are watching are shown by default, and
 cross-referenced with your preferred languages.
 
@@ -31,7 +29,7 @@ cross-referenced with your preferred languages.
 
     You can switch to different views using the navigation tabs.
 
-.. image:: /screenshots/dashboard-dropdown.png
+.. image:: /screenshots/dashboard-dropdown.webp
 
 The menu has these options:
 
@@ -82,6 +80,8 @@ Interface language
 
 Choose the language you want to display the UI in.
 
+.. _profile-translated-languages:
+
 Translated languages
 ++++++++++++++++++++
 
@@ -89,7 +89,7 @@ Choose which languages you prefer to translate, and they will be offered on the
 main page of watched projects, so that you have easier access to these all translations
 in each of those languages.
 
-.. image:: /screenshots/your-translations.png
+.. image:: /screenshots/your-translations.webp
 
 .. _secondary-languages:
 
@@ -100,12 +100,17 @@ You can define which secondary languages are shown to you as a guide while trans
 An example can be seen in the following image, where
 the Hebrew language is shown as secondarily:
 
-.. image:: /screenshots/secondary-language.png
+.. image:: /screenshots/secondary-language.webp
 
 .. _profile-preferences:
 
 Preferences
 -----------
+
+Theme
++++++
+
+Choose whether Weblate follows system settings for dark or light theme, or choose one of them manually.
 
 Default dashboard view
 ++++++++++++++++++++++
@@ -170,7 +175,14 @@ default value depends on :setting:`DEFAULT_AUTO_WATCH`.
 
     You will not receive notifications for your own actions.
 
-.. image:: /screenshots/profile-subscriptions.png
+.. hint::
+
+    Sending out notifications is limited, you will not receive more than 1000
+    e-mails per day. Any further notifications for you will be discarded.
+
+.. image:: /screenshots/profile-subscriptions.webp
+
+.. _profile-account:
 
 Account
 -------
@@ -179,13 +191,23 @@ The :guilabel:`Account` tab lets you set up basic account details,
 connect various services you can use to sign in into Weblate, completely
 remove your account, or download your user data (see :ref:`schema-userdata`).
 
+The private commit e-mail will be used instead of your account e-mail in version
+control commits. Use this to avoid leaking your real e-mail there. Be aware
+that using different e-mail can disconnect your contributions on other servers
+(for example your contributions will no longer link to your profile on GitHub).
+The private e-mail can be turned on site-wide using
+:setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+
+
 .. note::
 
    The list of services depends on your Weblate configuration, but can be made to
    include popular sites such as GitLab, GitHub, Google, Facebook, or Bitbucket or other
    OAuth 2.0 providers.
 
-.. image:: /screenshots/authentication.png
+.. image:: /screenshots/authentication.webp
+
+.. _profile:
 
 Profile
 -------

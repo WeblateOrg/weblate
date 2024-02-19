@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import hashlib
 import os.path
@@ -40,7 +24,7 @@ def avatar_for_email(email, size=80):
     if not email:
         email = "noreply@weblate.org"
 
-    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # nosec
+    mail_hash = hashlib.md5(email.lower().encode(), usedforsecurity=False).hexdigest()
 
     return "{}avatar/{}?d={}&s={}".format(
         settings.AVATAR_URL_PREFIX,
@@ -79,7 +63,7 @@ def get_avatar_image(user, size: int):
             image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (OSError, CertificateError):
-            report_error(cause=f"Failed to fetch avatar for {username}")
+            report_error(cause=f"Could not fetch avatar for {username}")
             return get_fallback_avatar(size)
 
     return image

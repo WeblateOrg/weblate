@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import argparse
 import json
@@ -83,7 +67,7 @@ class Command(BaseCommand):
         try:
             data = json.load(options["json-file"])
         except ValueError:
-            raise CommandError("Failed to parse JSON file!")
+            raise CommandError("Could not parse JSON file!")
         finally:
             options["json-file"].close()
 
@@ -111,20 +95,6 @@ class Command(BaseCommand):
 
             try:
                 component = Component.objects.get(slug=item["slug"], project=project)
-                self.stderr.write(f"Component {component} already exists")
-                if options["ignore"]:
-                    continue
-                if options["update"]:
-                    for key in item:
-                        if key not in allfields or key == "slug":
-                            continue
-                        setattr(component, key, item[key])
-                    component.save()
-                    continue
-                raise CommandError(
-                    "Component already exists, use --ignore or --update!"
-                )
-
             except Component.DoesNotExist:
                 params = {key: item[key] for key in allfields if key in item}
                 component = Component(project=project, **params)
@@ -141,4 +111,18 @@ class Command(BaseCommand):
                     "Imported {} with {} translations".format(
                         component, component.translation_set.count()
                     )
+                )
+            else:
+                self.stderr.write(f"Component {component} already exists")
+                if options["ignore"]:
+                    continue
+                if options["update"]:
+                    for key in item:
+                        if key not in allfields or key == "slug":
+                            continue
+                        setattr(component, key, item[key])
+                    component.save()
+                    continue
+                raise CommandError(
+                    "Component already exists, use --ignore or --update!"
                 )

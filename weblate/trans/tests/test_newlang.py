@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for adding new language."""
 
@@ -48,13 +33,14 @@ class NewLangTest(ViewTestCase):
         )
 
         # Test there is no add form
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertContains(response, "Start new translation")
-        self.assertContains(response, "permission to start a new translation")
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertNotContains(response, "Start new translation")
+        self.assertNotContains(response, "/new-lang/")
 
         # Test adding fails
         response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component), {"lang": "af"}
+            reverse("new-language", kwargs=self.kw_component),
+            {"lang": "af"},
         )
         self.assertEqual(response.status_code, 403)
         self.assertFalse(
@@ -65,8 +51,8 @@ class NewLangTest(ViewTestCase):
         self.component.new_lang = "none"
         self.component.save()
 
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertContains(response, "Start new translation")
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertNotContains(response, "Start new translation")
         self.assertNotContains(response, "/new-lang/")
 
     def test_url(self):
@@ -75,7 +61,7 @@ class NewLangTest(ViewTestCase):
         self.project.instructions = "http://example.com/instructions"
         self.project.save()
 
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Start new translation")
         self.assertContains(response, "http://example.com/instructions")
 
@@ -86,12 +72,13 @@ class NewLangTest(ViewTestCase):
         self.component.new_lang = "contact"
         self.component.save()
 
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Start new translation")
         self.assertContains(response, "/new-lang/")
 
         response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component), {"lang": "af"}
+            reverse("new-language", kwargs=self.kw_component),
+            {"lang": "af"},
         )
         self.assertRedirects(response, self.component.get_absolute_url())
 
@@ -109,19 +96,17 @@ class NewLangTest(ViewTestCase):
             self.component.translation_set.filter(language__code="af").exists()
         )
 
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Start new translation")
         self.assertContains(response, "/new-lang/")
 
         lang = {"lang": "af"}
         response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component), lang
+            reverse("new-language", kwargs=self.kw_component),
+            lang,
         )
-        lang.update(self.kw_component)
-        self.assertRedirects(response, reverse("translation", kwargs=lang))
-        self.assertTrue(
-            self.component.translation_set.filter(language__code="af").exists()
-        )
+        translation = self.component.translation_set.get(language__code="af")
+        self.assertRedirects(response, translation.get_absolute_url())
 
         # Verify mail
         self.assertEqual(len(mail.outbox), 1)
@@ -132,7 +117,9 @@ class NewLangTest(ViewTestCase):
         # Not selected language
         self.reset_rate()
         response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component), {"lang": ""}, follow=True
+            reverse("new-language", kwargs=self.kw_component),
+            {"lang": ""},
+            follow=True,
         )
         self.assertContains(response, "Please fix errors in the form")
 
@@ -149,7 +136,8 @@ class NewLangTest(ViewTestCase):
         self.component.project.add_user(self.user, "Administration")
         # None chosen
         response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component), follow=True
+            reverse("new-language", kwargs=self.kw_component),
+            follow=True,
         )
         self.assertContains(response, "Please fix errors in the form")
         # One chosen
@@ -200,7 +188,8 @@ class NewLangTest(ViewTestCase):
             )
             self.reset_rate()
             self.client.post(
-                reverse("new-language", kwargs=self.kw_component), {"lang": code}
+                reverse("new-language", kwargs=self.kw_component),
+                {"lang": code},
             )
             translation = self.component.translation_set.get(language__code=code)
             self.assertEqual(translation.language_code, expected)
@@ -209,6 +198,7 @@ class NewLangTest(ViewTestCase):
         perform("", "pt_BR", self.expected_lang_code)
         perform("posix", "pt_BR", "pt_BR")
         perform("posix_long", "ms", "ms_MY")
+        perform("posix_long_lowercase", "ms", "ms_my")
         perform("bcp", "pt_BR", "pt-BR")
         perform("bcp_long", "ms", "ms-MY")
         perform("android", "pt_BR", "pt-rBR")

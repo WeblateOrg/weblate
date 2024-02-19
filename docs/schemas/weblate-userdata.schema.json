@@ -14,6 +14,7 @@
       "$id": "#root/basic",
       "title": "Basic",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "username",
         "full_name",
@@ -43,6 +44,7 @@
           "$id": "#root/basic/email",
           "title": "E-mail",
           "type": "string",
+          "format": "email",
           "default": "",
           "examples": [
             "noreply@example.com"
@@ -52,6 +54,7 @@
           "$id": "#root/basic/date_joined",
           "title": "Date joined",
           "type": "string",
+          "format": "date-time",
           "default": "",
           "examples": [
             "2019-11-18T18:53:54.862Z"
@@ -63,6 +66,7 @@
       "$id": "#root/profile",
       "title": "Profile",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "language",
         "suggested",
@@ -90,7 +94,7 @@
           "examples": [
             "cs"
           ],
-          "pattern": "^.*$"
+          "pattern": "^[^ ]*$"
         },
         "suggested": {
           "$id": "#root/profile/suggested",
@@ -184,6 +188,16 @@
           ],
           "pattern": "^.*$"
         },
+        "theme": {
+          "$id": "#root/profile/theme",
+          "title": "Theme",
+          "type": "string",
+          "default": "auto",
+          "examples": [
+            "auto"
+          ],
+          "pattern": "^(auto|dark|light)$"
+        },
         "dashboard_view": {
           "$id": "#root/profile/dashboard_view",
           "title": "Default dashboard view",
@@ -271,6 +285,7 @@
           "timestamp",
           "activity"
         ],
+        "additionalProperties": false,
         "properties": {
           "address": {
             "$id": "#root/auditlog/items/address",
@@ -296,11 +311,11 @@
             "$id": "#root/auditlog/items/timestamp",
             "title": "Timestamp",
             "type": "string",
+            "format": "date-time",
             "default": "",
             "examples": [
               "2019-11-18T18:58:30.845Z"
-            ],
-            "pattern": "^.*$"
+            ]
           },
           "activity": {
             "$id": "#root/auditlog/items/activity",

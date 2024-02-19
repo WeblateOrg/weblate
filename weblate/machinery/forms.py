@@ -1,27 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext, pgettext_lazy
+from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 
 class BaseMachineryForm(forms.Form):
@@ -70,6 +55,13 @@ class KeyURLMachineryForm(KeyMachineryForm, URLMachineryForm):
     pass
 
 
+class LibreTranslateMachineryForm(KeyURLMachineryForm):
+    key = forms.CharField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API key"),
+        required=False,
+    )
+
+
 class MyMemoryMachineryForm(BaseMachineryForm):
     email = forms.EmailField(
         label=pgettext_lazy(
@@ -102,6 +94,7 @@ class SAPMachineryForm(URLMachineryForm):
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "SAP password"
         ),
+        widget=forms.PasswordInput,
         required=False,
     )
     enable_mt = forms.BooleanField(
@@ -110,6 +103,16 @@ class SAPMachineryForm(URLMachineryForm):
         ),
         required=False,
         initial=True,
+    )
+    domain = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Translation domain"
+        ),
+        help_text=gettext_lazy(
+            "The ID of a translation domain, for example, BC. If you do not specify "
+            "a domain, the method searches for translations in all available domains."
+        ),
+        required=False,
     )
 
     def clean(self):
@@ -125,12 +128,6 @@ class SAPMachineryForm(URLMachineryForm):
 
 
 class MicrosoftMachineryForm(KeyMachineryForm):
-    endpoint_url = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Application endpoint URL"
-        ),
-        initial="api.cognitive.microsoft.com",
-    )
     base_url = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Application base URL"
@@ -142,11 +139,27 @@ class MicrosoftMachineryForm(KeyMachineryForm):
             ("api-eur.cognitive.microsofttranslator.com", "Europe"),
             ("api-nam.cognitive.microsofttranslator.com", "North America"),
             ("api.translator.azure.cn", "China"),
+            ("api.cognitive.microsofttranslator.us", "Azure US Government cloud"),
+        ),
+    )
+    endpoint_url = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Authentication service URL"
+        ),
+        initial="api.cognitive.microsoft.com",
+        choices=(
+            ("api.cognitive.microsoft.com", "Global"),
+            ("api.cognitive.azure.cn", "China"),
+            ("api.cognitive.microsoft.us", "Azure US Government cloud"),
+        ),
+        help_text=gettext_lazy(
+            "Regional or multi-service can be specified using region field below."
         ),
     )
     region = forms.CharField(
         label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Application region"
+            "Automatic suggestion service configuration",
+            "Authentication service region",
         ),
         required=False,
     )
@@ -159,10 +172,18 @@ class GoogleV3MachineryForm(BaseMachineryForm):
             "Google Translate service account info",
         ),
         widget=forms.Textarea,
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Enter a JSON key for the service account.",
+        ),
     )
     project = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Google Translate project"
+        ),
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Enter the numeric or alphanumeric ID of your Google Cloud project.",
         ),
     )
     location = forms.CharField(
@@ -170,13 +191,24 @@ class GoogleV3MachineryForm(BaseMachineryForm):
             "Automatic suggestion service configuration", "Google Translate location"
         ),
         initial="global",
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you.",
+        ),
+        widget=forms.Select(
+            choices=(
+                ("global ", pgettext_lazy("Google Cloud region", "Global")),
+                ("europe-west1 ", pgettext_lazy("Google Cloud region", "Europe")),
+                ("us-west1", pgettext_lazy("Google Cloud region", "US")),
+            )
+        ),
     )
 
     def clean_credentials(self):
         try:
             json.loads(self.cleaned_data["credentials"])
         except json.JSONDecodeError as error:
-            raise ValidationError(gettext("Failed to parse JSON: %s") % error)
+            raise ValidationError(gettext("Could not parse JSON: %s") % error)
         return self.cleaned_data["credentials"]
 
 
@@ -192,6 +224,18 @@ class AWSMachineryForm(KeySecretMachineryForm):
     )
 
 
+class AlibabaMachineryForm(KeySecretMachineryForm):
+    key = forms.CharField(
+        label=pgettext_lazy("Alibaba Translate configuration", "Access key ID")
+    )
+    secret = forms.CharField(
+        label=pgettext_lazy("Alibaba Translate configuration", "Access key secret")
+    )
+    region = forms.CharField(
+        label=pgettext_lazy("Alibaba Translate configuration", "Region ID")
+    )
+
+
 class ModernMTMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
@@ -203,4 +247,61 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.deepl.com/v2/",
+    )
+    formality = forms.CharField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),
+        help_text=gettext_lazy(
+            "Uses the specified formality if language is not specified as (in)formal"
+        ),
+        widget=forms.Select(
+            choices=(
+                ("default ", "Default"),
+                ("prefer_more", "Formal"),
+                ("prefer_less", "Informal"),
+            )
+        ),
+        initial="default",
+        required=False,
+    )
+
+
+class OpenAIMachineryForm(KeyMachineryForm):
+    # Ordering choices here defines priority for automatic selection
+    MODEL_CHOICES = (
+        ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
+        ("gpt-4-1106-preview", "GPT-4 Turbo"),
+        ("gpt-4", "GPT-4"),
+        ("gpt-3.5-turbo-1106", "Updated GPT 3.5 Turbo"),
+        ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
+    )
+
+    model = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "OpenAI model",
+        ),
+        initial="auto",
+        choices=MODEL_CHOICES,
+    )
+    persona = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translator persona",
+        ),
+        widget=forms.Textarea,
+        help_text=gettext_lazy(
+            "Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.”"
+        ),
+        required=False,
+    )
+    style = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translator style",
+        ),
+        widget=forms.Textarea,
+        help_text=gettext_lazy(
+            "Describe the style of translation. For example: “Use informal language.”"
+        ),
+        required=False,
     )

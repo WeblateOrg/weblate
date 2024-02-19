@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Provide user friendly names for social authentication methods."""
 
 from io import StringIO
@@ -33,7 +19,7 @@ register = template.Library()
 def add_site_url(content):
     """Automatically add site URL to any relative links or images."""
     parser = etree.HTMLParser(collect_ids=False)
-    tree = etree.parse(StringIO(content), parser)
+    tree = etree.parse(StringIO(content), parser)  # noqa: S320
     for link in tree.findall("//a"):
         url = link.get("href")
         if url.startswith("/"):
@@ -42,7 +28,7 @@ def add_site_url(content):
         url = link.get("src")
         if url.startswith("/"):
             link.set("src", get_site_url(url))
-    return mark_safe(
+    return mark_safe(  # noqa: S308
         etree.tostring(
             tree.getroot(), pretty_print=True, method="html", encoding="unicode"
         )

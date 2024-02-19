@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 version: '3'
 
 ##########
@@ -23,11 +27,13 @@ services:
     userns_mode: host
     tmpfs:
     - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
+    - /run:uid=$USER_ID,gid=$GROUP_ID
     volumes:
       # Local data directory
     - $PWD/data:/app/data
       # Override Weblate with local dir
-    - $PWD/../weblate:/usr/local/lib/python3.10/site-packages/weblate
+    - $PWD/../weblate:/usr/local/lib/python${DOCKER_PYTHON}/site-packages/weblate
     restart: always
     depends_on:
     - database
@@ -38,7 +44,7 @@ services:
     env_file:
     - ./environment
   database:
-    image: postgres:14-alpine
+    image: postgres:16-alpine
     env_file:
     - ./environment
     volumes:

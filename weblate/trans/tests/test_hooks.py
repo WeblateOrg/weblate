@@ -1,26 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for notification hooks."""
 
-
 import json
+from unittest.mock import patch
 
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -435,7 +420,7 @@ BITBUCKET_PAYLOAD_SERVER_MERGED = r"""
                 "links":{
                     "clone": [
                         {
-                            "href": "https://examle.com/scm/wlt/locre.git",
+                            "href": "https://example.com/scm/wlt/locre.git",
                             "name": "http"
                         },
                         {
@@ -1162,14 +1147,25 @@ GITEE_PAYLOAD = """
 
 
 class HooksViewTest(ViewTestCase):
+    def setUp(self):
+        super().setUp()
+        # Avoid actual repository updates
+        self.patcher = patch(
+            "weblate.trans.models.component.Component.update_remote_branch"
+        )
+        self.patcher.start()
+        self.addCleanup(self.patcher.stop)
+
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_project(self):
-        response = self.client.get(reverse("hook-project", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("update-hook", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_component(self):
-        response = self.client.get(reverse("hook-component", kwargs=self.kw_component))
+        response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
@@ -1180,7 +1176,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_PAYLOAD},
-            HTTP_X_GITHUB_EVENT="push",
+            headers={"x-github-event": "push"},
         )
         self.assertContains(response, "Update triggered")
 
@@ -1192,7 +1188,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_NEW_PAYLOAD},
-            HTTP_X_GITHUB_EVENT="push",
+            headers={"x-github-event": "push"},
         )
         self.assertContains(response, "Update triggered")
 
@@ -1240,7 +1236,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_PAYLOAD},
-            HTTP_X_GITHUB_EVENT="push",
+            headers={"x-github-event": "push"},
         )
         self.assertContains(response, "Update triggered")
 
@@ -1254,7 +1250,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_PAYLOAD},
-            HTTP_X_GITHUB_EVENT="push",
+            headers={"x-github-event": "push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1265,7 +1261,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_PAYLOAD},
-            HTTP_X_GITHUB_EVENT="push",
+            headers={"x-github-event": "push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1287,7 +1283,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": '{"foo": "bar"}'},
-            HTTP_X_EVENT_KEY="diagnostics:ping",
+            headers={"x-event-key": "diagnostics:ping"},
         )
         self.assertContains(response, "Hook working", status_code=201)
 
@@ -1296,7 +1292,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_GIT},
-            HTTP_X_EVENT_KEY="repo:push",
+            headers={"x-event-key": "repo:push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1307,7 +1303,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_HG},
-            HTTP_X_EVENT_KEY="repo:push",
+            headers={"x-event-key": "repo:push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1318,7 +1314,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_HG_NO_COMMIT},
-            HTTP_X_EVENT_KEY="repo:push",
+            headers={"x-event-key": "repo:push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1329,7 +1325,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_WEBHOOK},
-            HTTP_X_EVENT_KEY="repo:push",
+            headers={"x-event-key": "repo:push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1340,7 +1336,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_HOSTED},
-            HTTP_X_EVENT_KEY="repo:push",
+            headers={"x-event-key": "repo:push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1351,7 +1347,7 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_WEBHOOK_CLOSED},
-            HTTP_X_EVENT_KEY="repo:push",
+            headers={"x-event-key": "repo:push"},
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -1385,9 +1381,11 @@ class HooksViewTest(ViewTestCase):
         self.assert_disabled()
 
     def assert_disabled(self):
-        response = self.client.get(reverse("hook-project", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("update-hook", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertEqual(response.status_code, 405)
-        response = self.client.get(reverse("hook-component", kwargs=self.kw_component))
+        response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
         self.assertEqual(response.status_code, 405)
 
     @override_settings(ENABLE_HOOKS=True)
@@ -1460,7 +1458,7 @@ class HooksViewTest(ViewTestCase):
 
 
 class HookBackendTestCase(SimpleTestCase):
-    hook = None
+    hook: str = ""
 
     def assert_hook(self, payload, expected):
         handler = HOOK_HANDLERS[self.hook]
@@ -1481,7 +1479,7 @@ class GitHubBackendTest(HookBackendTestCase):
             GITHUB_NEW_PAYLOAD.replace("defunkt/github", "defunkt/git.hub"),
             {
                 "branch": "main",
-                "full_name": "defunkt/github.git",
+                "full_name": "defunkt/github",
                 "repo_url": "http://github.com/defunkt/git.hub",
                 "repos": [
                     "git://github.com/defunkt/git.hub.git",
@@ -1505,7 +1503,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_GIT,
             {
                 "branch": "main",
-                "full_name": "marcus/project-x.git",
+                "full_name": "marcus/project-x",
                 "repo_url": "https://bitbucket.org/marcus/project-x/",
                 "repos": [
                     "ssh://git@bitbucket.org/marcus/project-x.git",
@@ -1524,7 +1522,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_HG,
             {
                 "branch": "featureA",
-                "full_name": "marcus/project-x.git",
+                "full_name": "marcus/project-x",
                 "repo_url": "https://bitbucket.org/marcus/project-x/",
                 "repos": [
                     "https://bitbucket.org/marcus/project-x",
@@ -1541,7 +1539,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_HG_NO_COMMIT,
             {
                 "branch": None,
-                "full_name": "marcus/project-x.git",
+                "full_name": "marcus/project-x",
                 "repo_url": "https://bitbucket.org/marcus/project-x/",
                 "repos": [
                     "https://bitbucket.org/marcus/project-x",
@@ -1558,7 +1556,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_WEBHOOK,
             {
                 "branch": "name-of-branch",
-                "full_name": "team_name/repo_name.git",
+                "full_name": "team_name/repo_name",
                 "repo_url": "https://api.bitbucket.org/bitbucket/bitbucket",
                 "repos": [
                     "ssh://git@api.bitbucket.org/team_name/repo_name.git",
@@ -1591,7 +1589,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_HOSTED,
             {
                 "branch": "develop",
-                "full_name": "~DSNOECK/weblate-training.git",
+                "full_name": "~DSNOECK/weblate-training",
                 "repo_url": "https://example.com/weblate-training/browse",
                 "repos": [
                     "ssh://git@bitbucket.org/~DSNOECK/weblate-training.git",
@@ -1648,7 +1646,7 @@ class BitbucketBackendTest(HookBackendTestCase):
                     "ssh://hg@bitbucket.org/team_name/repo_name",
                 ],
                 "branch": "target",
-                "full_name": "team_name/repo_name.git",
+                "full_name": "team_name/repo_name",
             },
         )
 
@@ -1659,11 +1657,11 @@ class BitbucketBackendTest(HookBackendTestCase):
                 "service_long_name": "Bitbucket",
                 "repo_url": "https://example.com/projects/WLT/repos/locre/browse",
                 "repos": [
-                    "https://examle.com/scm/wlt/locre.git",
+                    "https://example.com/scm/wlt/locre.git",
                     "ssh://git@example.com:7999/wlt/locre.git",
                 ],
                 "branch": None,
-                "full_name": "WLT/locre.git",
+                "full_name": "WLT/locre",
             },
         )
 
@@ -1672,7 +1670,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_WEBHOOK_CLOSED,
             {
                 "branch": "name-of-branch",
-                "full_name": "team_name/repo_name.git",
+                "full_name": "team_name/repo_name",
                 "repo_url": "https://api.bitbucket.org/bitbucket/bitbucket",
                 "repos": [
                     "ssh://git@api.bitbucket.org/team_name/repo_name.git",
@@ -1705,7 +1703,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             BITBUCKET_PAYLOAD_SERVER,
             {
                 "branch": "main",
-                "full_name": "SANDPIT/my-repo.git",
+                "full_name": "SANDPIT/my-repo",
                 "repo_url": "https://example.com/projects/SANDPIT/repos/my-repo/browse",
                 "repos": [
                     "https://example.com/scm/sandpit/my-repo.git",

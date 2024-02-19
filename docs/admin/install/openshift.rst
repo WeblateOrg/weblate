@@ -90,7 +90,7 @@ Eliminate
    $ oc delete all -l app=<APPLICATION_NAME>
    $ oc delete configmap -l app= <APPLICATION_NAME>
    $ oc delete secret -l app=<APPLICATION_NAME>
-   # ATTTENTION! The following command is only optional and will permanently delete all of your data.
+   # ATTENTION! The following command is only optional and will permanently delete all of your data.
    $ oc delete pvc -l app=<APPLICATION_NAME>
 
    $ oc delete all -l app=weblate \

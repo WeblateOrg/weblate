@@ -1,32 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db import transaction
 
 from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models.label import TRANSLATION_LABELS
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
 
 
-def bulk_perform(
+def bulk_perform(  # noqa: C901
     user,
     unit_set,
     query,
@@ -38,7 +24,7 @@ def bulk_perform(
     project,
     components=None,
 ):
-    matching = unit_set.search(query, distinct=False, project=project).prefetch()
+    matching = unit_set.search(query, project=project)
     if components is None:
         components = Component.objects.filter(
             id__in=matching.values_list("translation__component_id", flat=True)
@@ -47,11 +33,14 @@ def bulk_perform(
     target_state = int(target_state)
     add_flags = Flags(add_flags)
     remove_flags = Flags(remove_flags)
+    add_labels_pks = {label.pk for label in add_labels}
+    remove_labels_pks = {label.pk for label in remove_labels}
 
     update_source = add_flags or remove_flags or add_labels or remove_labels
 
     updated = 0
     for component in components:
+        prev_updated = updated
         component.batch_checks = True
         with transaction.atomic(), component.lock:
             component.commit_pending("bulk edit", user)
@@ -67,8 +56,11 @@ def bulk_perform(
             else:
                 update_unit_ids = []
                 source_units = []
+                unit_ids = list(component_units.values_list("id", flat=True))
                 # Generate changes for state change
-                for unit in component_units.select_for_update():
+                for unit in (
+                    Unit.objects.filter(id__in=unit_ids).prefetch().select_for_update()
+                ):
                     source_unit_ids.add(unit.source_unit_id)
 
                     if (
@@ -123,21 +115,36 @@ def bulk_perform(
                             source_unit.save(update_fields=["extra_flags"])
                             changed = True
 
-                    if add_labels:
-                        source_unit.is_batch_update = True
-                        source_unit.labels.add(*add_labels)
-                        changed = True
+                    if add_labels or remove_labels:
+                        unit_label_pks = {
+                            label.pk for label in source_unit.labels.all()
+                        }
 
-                    if remove_labels:
-                        source_unit.is_batch_update = True
-                        source_unit.labels.remove(*remove_labels)
-                        changed = True
+                        if add_labels_pks - unit_label_pks:
+                            source_unit.is_batch_update = True
+                            source_unit.labels.add(*add_labels)
+                            changed = True
+
+                        if unit_label_pks & remove_labels_pks:
+                            source_unit.is_batch_update = True
+                            source_unit.labels.remove(*remove_labels)
+                            changed = True
 
                     if changed:
                         updated += 1
 
-        component.invalidate_cache()
-        component.update_source_checks()
-        component.run_batched_checks()
+            # Handle translation labels
+            translation_labels = [
+                label for label in remove_labels if label.name in TRANSLATION_LABELS
+            ]
+            if translation_labels:
+                for unit in component_units.filter(labels__in=translation_labels):
+                    unit.labels.remove(*translation_labels)
+                    updated += 1
+
+        if prev_updated != updated:
+            component.invalidate_cache()
+            component.update_source_checks()
+            component.run_batched_checks()
 
     return updated

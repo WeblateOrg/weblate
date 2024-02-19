@@ -10,44 +10,31 @@
 
 {% block content %}
 
-    {% if public_key %}
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'vcs' 'ssh-repos' right=True %}
-    {% trans "Public SSH key" %}
-  </h4>
-</div>
-<div class="panel-body">
-    {% include "snippets/ssh-key.html" with ssh_key=public_key %}
-</div>
-  <div class="panel-footer">
-    <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key" %}</a>
-    </div>
-</div>
+{% include "snippets/ssh-key.html" with key_download=True %}
 
-
-    {% elif can_generate %}
+{% if can_generate %}
+  {% for ssh_key in missing_ssh_keys %}
     <form method="post">
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'vcs' 'ssh-repos' right=True %}
-    {% trans "Generate SSH key" %}
-  </h4>
-</div>
-<div class="panel-body">
-    <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate one for you." %}</p>
-    {% csrf_token %}
-    <input type="hidden" name="action" value="generate" />
-</div>
-  <div class="panel-footer">
-    <input type="submit" id="generate-ssh-button" class="btn btn-primary" value="{% trans "Generate" %}" />
-    </div>
-    </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+            {% blocktrans with key_type=ssh_key.name %}Generate {{ key_type }} SSH key{% endblocktrans %}
+          </h4>
+        </div>
+        <div class="panel-body">
+            <p>{% blocktrans with key_type=ssh_key.name %}You don't seem to have existing {{ key_type }} SSH key, by pressing button below Weblate will generate one for you.{% endblocktrans %}</p>
+            {% csrf_token %}
+            <input type="hidden" name="action" value="generate">
+            <input type="hidden" name="type" value="{{ ssh_key.type }}">
+        </div>
+        <div class="panel-footer">
+          <input type="submit" id="generate-ssh-button" class="btn btn-primary" value="{% blocktrans with key_type=ssh_key.name %}Generate new {{ key_type}} SSH key{% endblocktrans %}" />
+        </div>
+      </div>
     </form>
-
-    {% endif %}
+  {% endfor %}
+{% endif %}
 
     {% if host_keys %}
 <div class="panel panel-default">

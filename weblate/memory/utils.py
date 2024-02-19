@@ -1,21 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
+
+from weblate.trans.util import split_plural
 
 CATEGORY_FILE = 1
 CATEGORY_SHARED = 2
@@ -36,3 +25,8 @@ def parse_category(category):
     if CATEGORY_PRIVATE_OFFSET <= category < CATEGORY_USER_OFFSET:
         return False, False, category - CATEGORY_PRIVATE_OFFSET, None
     return False, False, None, category - CATEGORY_USER_OFFSET
+
+
+def is_valid_memory_entry(*, source: str, target: str, **kwargs):
+    """Validates whether translation memory entry has content."""
+    return any(split_plural(source)) and any(split_plural(target))

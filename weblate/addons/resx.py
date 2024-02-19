@@ -1,24 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from translate.storage.resx import RESXFile
 
 from weblate.addons.cleanup import BaseCleanupAddon
@@ -26,8 +11,8 @@ from weblate.addons.cleanup import BaseCleanupAddon
 
 class ResxUpdateAddon(BaseCleanupAddon):
     name = "weblate.resx.update"
-    verbose = _("Update RESX files")
-    description = _(
+    verbose = gettext_lazy("Update RESX files")
+    description = gettext_lazy(
         "Update all translation files to match the monolingual upstream base file. "
         "Unused strings are removed, and new ones added as copies of the source "
         "string."
@@ -41,12 +26,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
     @staticmethod
     def build_index(storage):
-        index = {}
-
-        for unit in storage.units:
-            index[unit.getid()] = unit
-
-        return index
+        return {unit.getid(): unit for unit in storage.units}
 
     def build_indexes(self):
         index = self.build_index(self.template_store)
@@ -65,7 +45,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
         return index
 
     def update_resx(self, index, translation, storage, changes):
-        """Filter obsolete units in RESX storage.
+        """
+        Filter obsolete units in RESX storage.
 
         This removes the corresponding XML element and also adds newly added, and
         changed units.

@@ -3,6 +3,7 @@
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load translations %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -16,13 +17,19 @@
 <tr>
 <th>{% trans "Label name" %}</th>
 <th>{% trans "Color" %}</th>
+<th class="number">{% trans "Labeled source strings" %}</th>
 <th></th>
 </tr>
 <tbody>
-{% for label in object.label_set.all %}
+{% for label in labels %}
 <tr>
 <td>{{ label.name }}</td>
 <td><span class="label label-{{label.color }}">{{ label.get_color_display }}</span></td>
+<td class="number">
+  <a href="{% url 'search' path=object.get_url_path %}?q={{ label.filter_name }}">
+    {{ label.string_count|intcomma }}
+  </a>
+</td>
 <td>
     <a href="{% url 'label_edit' project=object.slug pk=label.pk %}" class="btn btn-primary">{% trans "Edit" %}</a>
     <a href="" class="btn btn-danger link-post" data-href="{% url 'label_delete' project=object.slug pk=label.pk %}" >{% trans "Delete" %}</a>

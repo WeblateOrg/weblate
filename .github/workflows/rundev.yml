@@ -1,9 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: Rundev
 
 on:
   push:
     branches-ignore:
-    - dependabot/**
     - deepsource-fix-**
     - renovate/**
     - weblate
@@ -12,14 +15,17 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   rundev:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Test development Docker
     env:
       PYTHONUNBUFFERED: 1
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: ./rundev.sh build
     - run: ./rundev.sh start
     - run: ./rundev.sh wait

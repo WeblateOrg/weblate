@@ -1,76 +1,76 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
 from django.utils.text import format_lazy
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.models import CHECKS
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 
 class FilterRegistry:
     @cached_property
     def full_list(self):
-        result = [
-            ("all", _("All strings"), ""),
-            ("readonly", _("Read-only strings"), "state:read-only"),
-            ("nottranslated", _("Untranslated strings"), "state:empty"),
-            ("todo", _("Unfinished strings"), "state:<translated"),
-            ("translated", _("Translated strings"), "state:>=translated"),
-            ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
-            ("suggestions", _("Strings with suggestions"), "has:suggestion"),
-            ("variants", _("Strings with variants"), "has:variant"),
-            ("labels", _("Strings with labels"), "has:label"),
-            ("context", _("Strings with context"), "has:context"),
+        result: list[tuple[str, StrOrPromise, str]] = [
+            ("all", gettext_lazy("All strings"), ""),
+            ("readonly", gettext_lazy("Read-only strings"), "state:read-only"),
+            ("nottranslated", gettext_lazy("Untranslated strings"), "state:empty"),
+            ("todo", gettext_lazy("Unfinished strings"), "state:<translated"),
+            ("translated", gettext_lazy("Translated strings"), "state:>=translated"),
+            ("fuzzy", gettext_lazy("Strings marked for edit"), "state:needs-editing"),
+            ("suggestions", gettext_lazy("Strings with suggestions"), "has:suggestion"),
+            ("variants", gettext_lazy("Strings with variants"), "has:variant"),
+            ("screenshots", gettext_lazy("Strings with screenshots"), "has:screenshot"),
+            ("labels", gettext_lazy("Strings with labels"), "has:label"),
+            ("context", gettext_lazy("Strings with context"), "has:context"),
             (
                 "nosuggestions",
-                _("Unfinished strings without suggestions"),
+                gettext_lazy("Unfinished strings without suggestions"),
                 "state:<translated AND NOT has:suggestion",
             ),
-            ("comments", _("Strings with comments"), "has:comment"),
-            ("allchecks", _("Strings with any failing checks"), "has:check"),
+            ("comments", gettext_lazy("Strings with comments"), "has:comment"),
+            ("allchecks", gettext_lazy("Strings with any failing checks"), "has:check"),
             (
                 "translated_checks",
-                _("Translated strings with any failing checks"),
+                gettext_lazy("Translated strings with any failing checks"),
                 "has:check AND state:>=translated",
             ),
             (
                 "dismissed_checks",
-                _("Translated strings with dismissed checks"),
+                gettext_lazy("Translated strings with dismissed checks"),
                 "has:dismissed-check",
             ),
-            ("approved", _("Approved strings"), "state:approved"),
+            ("approved", gettext_lazy("Approved strings"), "state:approved"),
             (
                 "approved_suggestions",
-                _("Approved strings with suggestions"),
+                gettext_lazy("Approved strings with suggestions"),
                 "state:approved AND has:suggestion",
             ),
-            ("unapproved", _("Strings waiting for review"), "state:translated"),
-            ("unlabeled", _("Strings without a label"), "NOT has:label"),
-            ("pluralized", _("Pluralized string"), "has:plural"),
+            (
+                "unapproved",
+                gettext_lazy("Strings waiting for review"),
+                "state:translated",
+            ),
+            (
+                "noscreenshot",
+                gettext_lazy("Strings without screenshots"),
+                "NOT has:screenshot",
+            ),
+            ("unlabeled", gettext_lazy("Strings without a label"), "NOT has:label"),
+            ("pluralized", gettext_lazy("Pluralized string"), "has:plural"),
         ]
         result.extend(
             (
                 CHECKS[check].url_id,
-                format_lazy(_("Failing check: {}"), CHECKS[check].name),
+                format_lazy(gettext_lazy("Failing check: {}"), CHECKS[check].name),
                 f"check:{check}",
             )
             for check in CHECKS
@@ -85,7 +85,7 @@ class FilterRegistry:
         try:
             return self.search_name[query.strip()]
         except KeyError:
-            return _("Custom search")
+            return gettext("Custom search")
 
     @cached_property
     def id_name(self):
@@ -96,7 +96,7 @@ class FilterRegistry:
             return self.id_name[name]
         except KeyError:
             if name.startswith("label:"):
-                return _("Labeled: {}").format(gettext(name[6:]))
+                return gettext("Labeled: {}").format(gettext(name[6:]))
             raise
 
     @cached_property
@@ -108,7 +108,7 @@ class FilterRegistry:
             return self.id_query[name]
         except KeyError:
             if name.startswith("label:"):
-                return f'label:"{name[6:]}"'
+                return f'label:"{name[6:]}"'  # noqa: B028
             raise
 
 
@@ -118,26 +118,29 @@ FILTERS = FilterRegistry()
 def get_filter_choice(project=None):
     """Return all filtering choices."""
     result = [
-        ("all", _("All strings")),
-        ("nottranslated", _("Untranslated strings")),
-        ("todo", _("Unfinished strings")),
-        ("translated", _("Translated strings")),
-        ("fuzzy", _("Strings marked for edit")),
-        ("suggestions", _("Strings with suggestions")),
-        ("nosuggestions", _("Unfinished strings without suggestions")),
-        ("comments", _("Strings with comments")),
-        ("allchecks", _("Strings with any failing checks")),
-        ("approved", _("Approved strings")),
-        ("approved_suggestions", _("Approved strings with suggestions")),
-        ("unapproved", _("Strings waiting for review")),
+        ("all", gettext("All strings")),
+        ("nottranslated", gettext("Untranslated strings")),
+        ("todo", gettext("Unfinished strings")),
+        ("translated", gettext("Translated strings")),
+        ("fuzzy", gettext("Strings marked for edit")),
+        ("suggestions", gettext("Strings with suggestions")),
+        ("nosuggestions", gettext("Unfinished strings without suggestions")),
+        ("comments", gettext("Strings with comments")),
+        ("allchecks", gettext("Strings with any failing checks")),
+        ("approved", gettext("Approved strings")),
+        ("approved_suggestions", gettext("Approved strings with suggestions")),
+        ("unapproved", gettext("Strings waiting for review")),
     ]
     result.extend(
-        (CHECKS[check].url_id, format_lazy(_("Failing check: {}"), CHECKS[check].name))
+        (
+            CHECKS[check].url_id,
+            format_lazy(gettext("Failing check: {}"), CHECKS[check].name),
+        )
         for check in CHECKS
     )
     if project is not None:
         result.extend(
-            (f"label:{label}", format_lazy(_("Labeled: {}"), label))
+            (f"label:{label}", format_lazy(gettext("Labeled: {}"), gettext(label)))
             for label in project.label_set.values_list("name", flat=True)
         )
     return result

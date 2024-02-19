@@ -1,0 +1,1265 @@
+Weblate 4.x series
+==================
+
+Weblate 4.18.2
+--------------
+
+Released on June 30th 2023.
+
+* Fixed parsing notes from TBX.
+* Fixed query parsing in navigation bar search.
+* Fixed language filtering in reports.
+* Improved ModernMT languages mapping.
+* Disabled reused checks on languages with a single plural form.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/102?closed=1>`__.
+
+Weblate 4.18.1
+--------------
+
+Released on June 16th 2023.
+
+* Fixed language code format for i18next.
+* Fixed CSS compression with dark theme.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/101?closed=1>`__.
+
+Weblate 4.18
+------------
+
+Released on June 15th 2023.
+
+* Improved API error messages on permission denied.
+* Reduced false positives of the XML checks.
+* Translated check accuracy has been improved.
+* Extended support for Fluent file format.
+* Avoiding signing-out user in some rate-limits.
+* Added support for storing glossary explanation in TBX format.
+* Added support for ordering strings by last update.
+* Extended search capabilities for finding users.
+* Support for automatic update of screenshots from a repository.
+* Improved translation memory performance.
+* Project stats exports to JSON/CSV now include more details; it now matches content available in the API.
+* Added check for reused translation.
+* Highlight suggested change in automatic suggestions.
+* Added dark theme; browser-following and manual setting are available.
+* The Docker container can now be used with read-only root filesystem.
+* Added username autocompletion when adding users to a project.
+* Added site-wide search for projects, components, languages and users.
+* New add-on Fill read-only strings with source.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3.
+* Dropped support for Python 3.7.
+* The :ref:`fluent` format changed identification of some strings, you might
+  need to force reloading of the translation files to see the changes.
+* There are several changes in :file:`settings_example.py`, most notable is change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings accordingly.
+
+Weblate 4.17
+------------
+
+Released on April 17th 2023.
+
+* Allow to filter on language in reports.
+* Dropped deprecated command ``cleanup_celery``.
+* Fixed private project visibility for some teams.
+* Automatic translation now honors target state when translating from other components.
+* Improved performance of public user profiles.
+* Improved Sentry performance integration.
+* Added support for Ed25519 SSH key.
+* Rewritten metrics storage.
+* Added support for searching strings by position.
+* Documentation improvements.
+* Unchanged translation check can honor untranslatable terms from glossary.
+* Added automatic fixup for Devanagari danda.
+* Allow downloading project translation memory per language.
+* Added new alert on unused components.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Migration to rewritten metrics storage might take considerable time on larger
+  Weblate instance (expect around 15 minutes per GB of ``metrics_metric``
+  table). To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
+  the migration in the background. Once it is completed, perform full upgrade
+  as usual.
+* Docker container now requires PostgreSQL 12 or newer, please see
+  :ref:`docker-postgres-upgrade` for upgrade instructions. Weblate itself
+  supports older versions as well, when appropriate Django version is installed.
+
+.. warning::
+
+   Migration on MySQL will try to load all metrics into memory due to
+   limitation of the Python database driver. You might need to prune metrics
+   prior to migration if you want to continue using MySQL. Please consider
+   switching to PostgreSQL, see :ref:`database-migration`.
+
+Weblate 4.16.4
+--------------
+
+Released on March 16th 2023.
+
+* Dependencies updates.
+* Improved background tasks scheduling.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/96?closed=1>`__.
+
+Weblate 4.16.3
+--------------
+
+Released on March 15th 2023.
+
+* Improved session handling with project backups.
+* Dependencies updates.
+* Localization updates.
+* Documentation improvements.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/95?closed=1>`__.
+
+Weblate 4.16.2
+--------------
+
+Released on March 8th 2023.
+
+* Fixed searching in the translation memory.
+* Fixed automatic translation with more services.
+* Improved rendering of overlapping glossary term matches.
+* Fixed plurals parsing for non-English source language in some formats.
+* Added support for go-i18n v2 JSON files.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?closed=1>`__.
+
+Weblate 4.16.1
+--------------
+
+Released on March 1st 2023.
+
+* Fixed testsuite error.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?closed=1>`__.
+
+Weblate 4.16
+------------
+
+Released on March 1st 2023.
+
+* Format string checks now also detects duplicated formats.
+* Improved search performance for some specially formatted strings.
+* Celery beat is now storing the tasks schedule in the database.
+* Added support for IBM Watson Language Translator.
+* Dropped support for VCS integration settings deprecated in 4.14.
+* Added support for Bitbucket Server pull requests.
+* Improved conflicts handling in gettext PO files.
+* Added support for defining strings state when adding via API.
+* Added support for configuring CORS allowed origins.
+* Added plurals support to automatic suggestions.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Celery beat is now storing the tasks schedule in the database,
+  ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
+  changed for that.
+* The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
+* Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
+* Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
+* Introduction of :setting:`CACHE_DIR` changed default value of :setting:`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` accordingly.
+
+Weblate 4.15.2
+--------------
+
+Released on January 25th 2023.
+
+* Enabled gotext JSON and i18next v4 formats in the default configuration.
+* Fixed crash on uploading corrupted files.
+* Show stale directories in Git repository status.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?closed=1>`__.
+
+Weblate 4.15.1
+--------------
+
+Released on January 19th 2023.
+
+* Fixed suggestions from automatic translation.
+* Fixed add-on page crash in some corner cases.
+* Fixed untranslating template for new translations in some cases.
+* Documented licensing using `REUSE 3.0 <https://reuse.software/>`_.
+* Fixed users pagination on team management.
+* Improved performance of project creation and saving.
+* Added support for gotext JSON files.
+* Added support for i18next v4 files.
+* Pagination in the API is now customizable.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?closed=1>`__.
+
+Weblate 4.15
+------------
+
+Released on December 16th 2022.
+
+* Added support for browsing all changes for an individual string.
+* Fixed plurals handling in automatic translation from other components.
+* Added keyboard shortcut Alt+Enter to submit string as a suggestion.
+* Added support for placeables in the Fluent format.
+* Improved performance of translation memory.
+* Autogenerate repoweb browsing links for well known code hosting services.
+* Improved performance of several views.
+* Improved listing of strings with plurals.
+* Added support for adding custom markup to HTML head.
+* Fixed generation of MO files in the add-on to include only translated files.
+* Fixed rendering of regular expression flags.
+* Improved placeholders check behavior with plurals.
+* Added support for translation files naming suitable for Google Play.
+* Added support for labels in API.
+* Added support for choosing different e-mail for commits than for notifications.
+* The Docker image no longer enables debug mode by default.
+* Order glossary terms based on the glossary component priority.
+* Added team administrators who can add or remove members of the team.
+* Added a popup confirmation before deleting users.
+* Added add-on to customize XML output.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires ``btree_gin`` extension in PostgreSQL. The migration process
+  will install it if it has sufficient privileges. See :ref:`dbsetup-postgres` for manual setup.
+* The Docker image no longer enables debug mode by default. In case you want
+  it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
+* The database migration make take hours on larger instances due to recreating some
+  of the indexes.
+* **Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in
+  rest framework settings was changed.
+
+
+Weblate 4.14.2
+--------------
+
+Released on November 5th 2022.
+
+* Added support for removing entries from translation memory.
+* Improved analysis on the duplicate language alert.
+* Improved accuracy of the consecutive duplicated-words check.
+* Improved scaling of sending many notifications.
+* Improved string-state handling for subtitle translation.
+* Deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list.
+* Fixed processing of some uploaded CSV files.
+* Improved whitespace changes handling in diff display.
+* Added link for managing automatic suggestions to the management pages.
+* Track comment removal/resolving in history.
+* Fixed restoring project backups with linked components.
+* Fixed CAPTCHA entering on unsuccessful registration.
+* Improved languages support in DeepL.
+* Improved webhooks compatibility with authenticated repositories.
+* Added support for Python 3.11.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?closed=1>`__.
+
+Weblate 4.14.1
+--------------
+
+Released on September 15th 2022.
+
+* Fixed generating project backups in some situations.
+* Improved error reporting when uploading files.
+* Fetch all user verified e-mails from GitHub during authentication.
+* Avoid matching glossary terms on context or keys.
+* Added notifications for string removals.
+* Improved management of untranslatable terms in glossary.
+* List number of team members on team management page.
+* Add group management interface.
+* Always show review stats when reviews are turned on.
+* Added searching support in units API.
+* Fixed progress bar display for read-only strings in the review workflow.
+* Improved Burmese punctuation check.
+* Fixed garbage collecting of metrics data.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
+
+.. _up-4-14:
+
+Weblate 4.14
+------------
+
+Released on August 22nd 2022.
+
+* Track add-on changes in a history.
+* Fixed parsing translation from Windows RC, HTML and text files.
+* Extended language code style configuration options.
+* Added support for plurals updated in the recent CLDR releases.
+* Reduced memory usage while updating components with a lot of translations.
+* Added support for translation domain in SAP Translation Hub.
+* Allow absolute links in source string locations.
+* Improved operation behind some reverse proxies.
+* Extended API to cover translation memory.
+* Improved document translation workflow.
+* Improved reliability of HTML and text files translation.
+* Added support for project level backups.
+* Improved performance and memory usage of translation memory lookups.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The Java formatting checks now match GNU gettext flags. The flags set in
+  Weblate will be automatically migrated, but third-party scripts will need to
+  use ``java-printf-format`` instead of ``java-format`` and ``java-format``
+  instead of ``java-messageformat``.
+* The `jellyfish` dependency has been replaced by `rapidfuzz`.
+* **Changed in 4.14.2:** Deprecated insecure configuration of VCS service API
+  keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In
+  Docker, please add matching _HOST directive. For example see
+  :envvar:`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`.
+
+Weblate 4.13.1
+--------------
+
+Released on July 1st 2022.
+
+* Fixed tracking suggestions in history.
+* Fixed parsing reverse proxy info from Cloudflare.
+* Make parse errors lock translation of a component.
+* Fixed configuring intermediate file in the discovery add-on.
+* Fixed DeepL translations behavior with placeholders.
+* Fixed untranslating strings via API.
+* Added support for removing a user from a group via API.
+* Fixed audit log for user invitation e-mails.
+* Fixed flag names for Java formatting strings.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?closed=1>`__.
+
+Weblate 4.13
+------------
+
+Released on June 15th 2022.
+
+* Changed behavior of updating language names.
+* Added pagination to projects listing.
+* API for creating new units now returns info about newly created unit.
+* Component discovery now supports configuring an intermediate language.
+* Added fixed encoding variants to CSV formats.
+* Changed handling of context and location for some formats to better fit underlying implementation.
+* Added support for the ResourceDictionary format.
+* Improved progress-bar colors for color-blind people.
+* Fixed variants cleanup when removing strings.
+* Compatibility with Django 4.1.
+* Added support for storing escaped XML elements in XLIFF.
+* Improved formatting of placeholder-check errors.
+* Redirect /.well-known/change-password to /accounts/password/.
+* Machine translation services are now configurable per project.
+* Added separate permission for resolving comments and grant it to the :guilabel:`Review strings` role.
+* Added support for storing alternative translations in the CSV file.
+* The placeholders check can now be case-insensitive as well.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The :ref:`languages` are now automatically updated on upgrade, use :setting:`UPDATE_LANGUAGES` to disable that.
+* Handling of context and location has been changed for :ref:`winrc`,
+  :ref:`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the
+  context is now shown as location.
+* The machine translation services are now configured using the user interface,
+  settings from the configuration file will be imported during the database
+  migration.
+
+Weblate 4.12.2
+--------------
+
+Released on May 11th 2022.
+
+* Fixed rebuilding project translation-memory for some components.
+* Fixed sorting components by untranslated strings.
+* Fixed possible loss of translations while adding a new language.
+* Ensure Weblate SSH key is generated during migrations.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?closed=1>`__.
+
+Weblate 4.12.1
+--------------
+
+Released on April 29th 2022.
+
+* Fixed pull request message title.
+* Improved syntax error handling in Fluent format.
+* Fixed avatar display in notification e-mails.
+* Add support for web monetization.
+* Fixed removal of stale source strings when removing translations.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?closed=1>`__.
+
+Weblate 4.12
+------------
+
+Released on April 20th 2022.
+
+* Added support for Amharic in :ref:`check-end-stop`.
+* Added support for Burmese in :ref:`check-end-question`.
+* Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on.
+* Added ``ignore-all-checks`` flag to ignore all quality checks on a string.
+* Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing checks.
+* Added support for :ref:`vcs-gitea`.
+* Added Linux-style language code to :ref:`component-language_code_style`.
+* Added support for rebuilding project translation memory.
+* Improved API for creating components from a file.
+* Add copy and clone buttons to other translations.
+* Make merge request message configurable at the component level.
+* Improved behavior of maximal-length restriction with XML tags.
+* Fixed loading Fluent files with additional comments.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are no special steps required.
+
+Weblate 4.11.2
+--------------
+
+Released on March 4th 2022.
+
+* Fixed corrupted MO files in the binary release.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?closed=1>`__.
+
+Weblate 4.11.1
+--------------
+
+Released on March 4th 2022.
+
+* Fixed missing sanitizing of arguments to Git and Mercurial - CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details.
+* Fixed loading fuzzy strings from CSV files.
+* Added support for creating teams using the API.
+* Fixed user mention suggestions display.
+* The project tokens access can now be customized.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?closed=1>`__.
+
+Weblate 4.11
+------------
+
+Released on February 25th 2022.
+
+* Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more details.
+* Fixed add-on installation using the API.
+* Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
+* Fixed false positives from :ref:`check-icu-message-format-syntax`.
+* Indicate lock and contributor agreement on other occurrences listing.
+* Fixed updating PO files with obsolete strings or missing plurals.
+* Improved squash add-on compatibility with Gerrit.
+* Automatically initialize user languages based on the :http:header:`Accept-Language` header.
+* Improved error handling on string removal.
+* Weblate now requires Python 3.7 or newer.
+* Fixed some write operations with project token authentication.
+* Fixed string state tracking when the strings changes in the repository.
+* Track string changes from the repository.
+* Sticky header on translations listing to improve navigation.
+* Fixed untranslating strings in :ref:`javaprop`.
+* Fixed Git operation with non-ASCII branch names.
+* New add-on :ref:`addon-weblate.generate.prefill`.
+* Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
+* Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering for newly added strings.
+* Improved punctuation checks for Burmese.
+* Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
+* Added documentation links to alerts.
+* Docker container automatically enables TLS/SSL for outgoing e-mail when needed.
+* Added support for searching for resolved comments.
+* Added support for borgbackup 1.2.
+* Fixed applying of :guilabel:`Automatically translated` label.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires Python 3.7 or newer.
+* The implementation of :ref:`manage-acl` has changed, removing the project
+  prefix from the group names. This affects API users.
+* Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for character set detection.
+* **Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting (removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``).
+
+Weblate 4.10.1
+--------------
+
+Released on December 22nd 2021.
+
+* Documented changes introduced by upgrading to Django 4.0.
+* Fixed displaying of :guilabel:`Automatically translated` label.
+* Fixed API display of branch in components with a shared repository.
+* Improved analysis on the failed push alert.
+* Fixed manually editing page when browsing changes.
+* Improved accuracy of :ref:`check-kashida`.
+* The Weblate Docker container now uses Python 3.10.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/76?closed=1>`__.
+
+Weblate 4.10
+------------
+
+Released on December 16th 2021.
+
+* Added support for formality and placeholders with DeepL.
+* Bulk edit and search-and-replace are now available on project and language level.
+* Added filtering to search and replace.
+* Fixed: "Perform automatic translation" privilege is no longer part of the *Languages* group.
+* "Perform automatic translation" is in the *Administration* and the new *Automatic translation* group.
+* Fixed generating XLSX files with special chars.
+* Added ability to the GitHub authentication backend to check if the user belongs to a specific GitHub organization or team.
+* Improved feedback on invalid parameters passed to API.
+* Added support for project scoped access tokens for API.
+* Fixed string removal in some cases.
+* Fixed translating newly added strings.
+* Label automatically translated strings to ease their filtering.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in per-project groups, the upgrade can take long time on sites with thousands of projects.
+
+* Django 4.0 has made some incompatible changes, see
+  :ref:`django:backwards-incompatible-4.0`. Weblate still supports Django 3.2
+  for now, in case any of these are problematic. Most notable changes which
+  might affect Weblate:
+
+  * Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and higher.
+  * Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed.
+
+* The Docker container now uses Django 4.0, see above for changes.
+
+Weblate 4.9.1
+-------------
+
+Released on November 19th 2021.
+
+* Fixed upload of monolingual files after changing template.
+* Improved handling of whitespace in flags.
+* Add support for filtering in download API.
+* Fixed statistics display when adding new translations.
+* Mitigate issues with GitHub SSH key change.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/73?closed=1>`__.
+
+Weblate 4.9
+-------------
+
+Released on November 10th 2021.
+
+* Provide more details for events in history.
+* Improved rendering of history.
+* Improved performance of the translation pages.
+* Added support for restricting translation file downloads.
+* The ``safe-html`` can now understand Markdown when used with ``md-text``.
+* The ``max-length`` tag now ignores XML markup when used with ``xml-text``.
+* Fixed dimensions of rendered texts in :ref:`check-max-size`.
+* Lowered app store title length to 30 to assist with upcoming Google policy changes.
+* Added support for customizing SSH invocation via :setting:`SSH_EXTRA_ARGS`.
+* Added checks for ICU MessageFormat.
+* Improved error condition handling in machine translation backends.
+* Highlight unusual whitespace characters in the strings.
+* Added option to stay on translated string while editing.
+* Added support for customizing Borg invocation via :setting:`BORG_EXTRA_ARGS`.
+* Fixed generating of MO files for monolingual translations.
+* Added API endpoint to download all component translations as a ZIP file.
+* Added support for Python 3.10.
+* Added support for resending e-mail invitation from the management interface.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/71?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in storing metrics, the upgrade can take long time on larger sites.
+
+Weblate 4.8.1
+-------------
+
+Released on September 10th 2021.
+
+* Fixed user removal in Django admin interface.
+* Document add-on parameters in greater detail.
+* Fixed JavaScript error in glossary.
+* Add limit to number of matches in consistency check.
+* Improve handling of placeholders in machine translations.
+* Fixed creating add-ons using the API.
+* Added :setting:`PRIVACY_URL` setting to add privacy policy link to the footer.
+* Hide member e-mail addresses from project admins.
+* Improved gettext PO merging in case of conflicts.
+* Improved glossary highlighting.
+* Improved ``safe-html`` flag behavior with XML checks.
+* Fixed commit messages for linked components.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
+
+Weblate 4.8
+-----------
+
+Released on August 21th 2021.
+
+* Added support for Apple stringsdict format.
+* The exact search operator is now case-sensitive with PostgreSQL.
+* Fixed saving glossary explanations in some cases.
+* Documentation improvements.
+* Performance improvements.
+* Improved squash add-on compatibility with Gerrit.
+* Fixed adding strings to monolingual glossary components.
+* Improved performance in handling variants.
+* Fixed squash add-on sometimes skipping parsing upstream changes.
+* Preserve file extension for downloads.
+* Added support for the Fluent format.
+* Added support for using tabs to indent JSON formats.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+There are no additional upgrade steps needed in this release.
+
+Weblate 4.7.2
+-------------
+
+Released on July 15th 2021.
+
+* Support more language aliases to be configured on a project.
+* Fixed search string validation in API.
+* Fixed Git exporter URLs after a domain change.
+* Fixed cleanup add-on for Windows RC files.
+* Fixed possible crash in XLIFF updating.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/69?closed=1>`__.
+
+Weblate 4.7.1
+-------------
+
+Released on June 30th 2021.
+
+* Improved popup for adding terms to glossary.
+* Added support for LibreTranslate machine translation service.
+* Added rate limiting on creating new projects.
+* Improved performance of file updates.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/68?closed=1>`__.
+
+Weblate 4.7
+-----------
+
+Released on June 17th 2021.
+
+* Improved configuration health check.
+* Added support for ``object-pascal-format`` used in gettext PO, see :ref:`check-object-pascal-format`.
+* Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better describe the purpose.
+* Added support for :ref:`mi18n-lang`.
+* Improved SAML authentication integration.
+* Fixed :ref:`vcs-gerrit` integration to better handle corner cases.
+* Weblate now requires Django 3.2.
+* Fixed inviting users when e-mail authentication is disabled.
+* Improved language definitions.
+* Added support for blocking users from contributing to a project.
+* Fixed automatic creation of glossary languages.
+* Extended documentation about add-ons.
+* Performance improvements for components with linked repositories.
+* Added support for free DeepL API.
+* The user management no longer needs Django admin interface.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
+* The :ref:`mt-deepl` machine translation now has a generic ``MT_DEEPL_API_URL`` setting to adapt to different subscription models more flexibly.
+  The ``MT_DEEPL_API_VERSION`` setting is no longer used.
+* Django 3.2 is now required.
+
+Weblate 4.6.2
+-------------
+
+Released on May 8th 2021.
+
+* Fixed crash after moving shared component between projects.
+* Fixed adding new strings to empty properties files.
+* Fixed copy icon alignment in RTL languages.
+* Extended string statistics on the Info tab.
+* Fixed handling of translation files ignored in Git.
+* Improved metrics performance.
+* Fixed possible bug in saving glossaries.
+* Fixed consistency check behavior on languages with different plural rules.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?closed=1>`__.
+
+Weblate 4.6.1
+-------------
+
+Released on May 2nd 2021.
+
+* Remove obsolete spam protection code.
+* Improve source plural check accuracy.
+* Update list of user interface languages in Docker.
+* Improved error messages when creating pull requests.
+* Fixed creating pull requests on Pagure.
+* Fixed triggering automatically installed add-ons.
+* Fixed possible caching issues on upgrade.
+* Fixed adding new units to monolingual translations using upload.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/65?closed=1>`__.
+
+Weblate 4.6
+-----------
+
+Released on April 19th 2021.
+
+* The auto_translate management command has now a parameter for specifying translation mode.
+* Added support for :ref:`txt`.
+* Added trends and metrics for all objects.
+* Added support for directly copying text from secondary languages.
+* Added date filtering when browsing changes.
+* Improved activity charts.
+* Sender for contact form e-mails can now be configured.
+* Improved parameters validation in component creation API.
+* The rate limiting no longer applies to superusers.
+* Improved automatic translation add-on performance and reliability.
+* The rate limiting now can be customized in the Docker container.
+* API for creating components now automatically uses :ref:`internal-urls`.
+* Simplified state indication while listing strings.
+* Password hashing now uses Argon2 by default.
+* Simplified progress bars indicating translation status.
+* Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose.
+* Fixed saving string state to XLIFF.
+* Added language-wide search.
+* Initial support for :ref:`docker-scaling` the Docker deployment.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* API for creating components now automatically uses :ref:`internal-urls`, see :http:post:`/api/projects/(string:project)/components/`.
+* There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to prefer Argon2 for passwords hashing.
+
+Weblate 4.5.3
+-------------
+
+Released on April 1st 2021.
+
+* Fixed metrics collection.
+* Fixed possible crash when adding strings.
+* Improved search query examples.
+* Fixed possible loss of newly added strings on replace upload.
+
+Weblate 4.5.2
+-------------
+
+Released on March 26th 2021.
+
+* Configurable schedule for automatic translation.
+* Added Lua format check.
+* Ignore format strings in the :ref:`check-duplicate` check.
+* Allow uploading screenshot from a translate page.
+* Added forced file synchronization to the repository maintenance.
+* Fixed automatic suggestions for languages with a longer code.
+* Improved performance when adding new strings.
+* Several bug fixes in quality checks.
+* Several performance improvements.
+* Added integration with :ref:`discover-weblate`.
+* Fixed checks behavior with read-only strings.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/63?closed=1>`__.
+
+Weblate 4.5.1
+-------------
+
+Released on March 5th 2021.
+
+* Fixed editing of glossary flags in some corner cases.
+* Extend metrics usage to improve performance of several pages.
+* Store correct source language in TMX files.
+* Better handling for uploads of monolingual PO using the API.
+* Improved alerts behavior on glossary components.
+* Improved Markdown link checks.
+* Indicate glossary and source language in breadcrumbs.
+* Paginated component listing of huge projects.
+* Improved performance of translation, component or project removal.
+* Improved bulk edit performance.
+* Fixed preserving "Needs editing" and "Approved" states for ODF files.
+* Improved interface for customizing translation-file downloads
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/62?closed=1>`__.
+
+Weblate 4.5
+-----------
+
+Released on February 19th 2021.
+
+* Added support for ``lua-format`` used in gettext PO.
+* Added support for sharing a component between projects.
+* Fixed multiple unnamed variables check behavior with multiple format flags.
+* Dropped mailing list field on the project in favor of generic instructions for translators.
+* Added pseudolocale generation add-on.
+* Added support for TermBase eXchange files.
+* Added support for manually defining string variants using a flag.
+* Improved performance of consistency checks.
+* Improved performance of translation memory for long strings.
+* Added support for searching in explanations.
+* Strings can now be added and removed in bilingual formats as well.
+* Extend list of supported languages in Amazon Translate machine translation.
+* Automatically enable Java MessageFormat checks for Java Properties.
+* Added a new upload method to add new strings to a translation.
+* Added a simple interface to browse translation.
+* Glossaries are now stored as regular components.
+* Dropped specific API for glossaries as component API is used now.
+* Added simplified interface to toggle some of the flags.
+* Added support for non-translatable or forbidden terms in the glossary.
+* Added support for defining terminology in a glossary.
+* Moved text direction toggle to get more space for the visual keyboard.
+* Added option to automatically watch projects user-contributed to.
+* Added check whether translation matches the glossary.
+* Added support for customizing navigation text color.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/59?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The migration might take considerable time if you had big glossaries.
+* Glossaries are now stored as regular components.
+* The glossary API is removed, use regular translation API to access glossaries.
+* There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
+
+.. versionchanged:: 4.5.1
+
+   * There is a new dependency on the `pyahocorasick` module.
+
+Weblate 4.4.2
+-------------
+
+Released on January 14th 2021.
+
+* Fixed corruption of one distributed MO file.
+
+Weblate 4.4.1
+-------------
+
+Released on January 13th 2021.
+
+* Fixed reverting plural changes.
+* Fixed displaying help for project settings.
+* Improved administration of users.
+* Improved handling of context in monolingual PO files.
+* Fixed cleanup add-on behavior with HTML, ODF, IDML and Windows RC formats.
+* Fixed parsing of location from CSV files.
+* Use content compression for file downloads.
+* Improved user experience on importing from ZIP file.
+* Improved detection of file format for uploads.
+* Avoid duplicate pull requests on Pagure.
+* Improved performance when displaying ghost translations.
+* Reimplemented translation editor to use native browser textarea.
+* Fixed cleanup add-on breaking adding new strings.
+* Added API for add-ons.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/60?closed=1>`__.
+
+Weblate 4.4
+-----------
+
+Released on December 15th 2020.
+
+* Improved validation when creating a component.
+* Weblate now requires Django 3.1.
+* Added support for appearance customization in the management interface.
+* Fixed read-only state handling in bulk edit.
+* Improved CodeMirror integration.
+* Added add-on to remove blank strings from translation files.
+* The CodeMirror editor is now used for translations.
+* Syntax highlighting in translation editor for XML, HTML, Markdown and reStructuredText.
+* Highlight placeables in translation editor.
+* Improved support for non-standard language codes.
+* Added alert when using ambiguous language codes.
+* The user is now presented with a filtered list of languages when adding a new translation.
+* Extended search capabilities for changes in history.
+* Improved billing detail pages and Libre hosting workflow.
+* Extended translation statistics API.
+* Improved "other translations" tab while translating.
+* Added tasks API.
+* Improved performance of file upload.
+* Improved display of user defined special characters.
+* Improved performance of auto-translation.
+* Several minor improvements in the user interface.
+* Improved naming of ZIP downloads.
+* Added option for getting notifications on unwatched projects.
+
+ `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/56?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There is a change in :setting:`django:INSTALLED_APPS`, ``weblate.configuration`` has to be added there.
+* Django 3.1 is now required.
+* In case you are using MySQL or MariaDB, the minimal required versions have increased, see :ref:`mysql`.
+
+.. versionchanged:: 4.4.1
+
+   * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change identification of translation strings in such files breaking links to Weblate extended data such as screenshots or review states. Please ensure you commit pending changes in such files prior upgrading and it is recommended to force loading of affected component using :wladmin:`loadpo`.
+   * Increased minimal required version of translate-toolkit to address several file format issues.
+
+Weblate 4.3.2
+-------------
+
+Released on November 4th 2020.
+
+* Fixed crash on certain component file masks.
+* Improved accuracy of the consecutive duplicated words check.
+* Added support for Pagure pull requests.
+* Improved error messages for failed registrations.
+* Reverted rendering developer comments as Markdown.
+* Simplified setup of Git repositories with different default branch than "master".
+* Newly created internal repositories now use main as the default branch.
+* Reduced false positives rate of unchanged translation while translating reStructuredText.
+* Fixed CodeMirror display issues in some situations.
+* Renamed Template group to "Sources" to clarify its meaning.
+* Fixed GitLab pull requests on repositories with longer paths.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/58?closed=1>`__.
+
+Weblate 4.3.1
+-------------
+
+Released on October 21st 2020.
+
+* Improved auto-translation performance.
+* Fixed session expiry for authenticated users.
+* Add support for hiding version information.
+* Improve hooks compatibility with Bitbucket Server.
+* Improved performance of translation memory updates.
+* Reduced memory usage.
+* Improved performance of Matrix view.
+* Added confirmation before removing a user from a project.
+
+ `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/57?closed=1>`__.
+
+Weblate 4.3
+-----------
+
+Released on October 15th 2020.
+
+* Include user stats in the API.
+* Fixed component ordering on paginated pages.
+* Define source language for a glossary.
+* Rewritten support for GitHub and GitLab pull requests.
+* Fixed stats counts after removing suggestion.
+* Extended public user profile.
+* Fixed configuration of enforced checks.
+* Improve documentation about built-in backups.
+* Moved source language attribute from project to a component.
+* Add Vue I18n formatting check.
+* Generic placeholders check now supports regular expressions.
+* Improved look of Matrix mode.
+* Machinery is now called automatic suggestions.
+* Added support for interacting with multiple GitLab or GitHub instances.
+* Extended API to cover project updates, unit updates and removals and glossaries.
+* Unit API now properly handles plural strings.
+* Component creation can now handle ZIP file or document upload.
+* Consolidated API response status codes.
+* Support Markdown in contributor agreement.
+* Improved source strings tracking.
+* Improved JSON, YAML and CSV formats compatibility.
+* Added support for removing strings.
+* Improved performance of file downloads.
+* Improved repository management view.
+* Automatically enable java-format for Android.
+* Added support for localized screenshots.
+* Added support for Python 3.9.
+* Fixed translating HTML files under certain conditions.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/53?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are some changes in quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* The source language attribute was moved from project to a component what is exposed in the API. You will need to update :ref:`wlc` in case you are using it.
+* The database migration to 4.3 might take long depending on number of strings you are translating (expect around one hour of migration time per 100,000 source strings).
+* There is a change in :setting:`django:INSTALLED_APPS`.
+* There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which complements :setting:`django:SESSION_COOKIE_AGE`.
+* In case you were using :command:`hub` or :command:`lab` to integrate with GitHub or GitLab, you will need to reconfigure this, see :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
+
+.. versionchanged:: 4.3.1
+
+   * The Celery configuration was changed to add ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+
+.. versionchanged:: 4.3.2
+
+   * The ``post_update`` method of add-ons now takes extra ``skip_push`` parameter.
+
+Weblate 4.2.2
+-------------
+
+Released on September 2nd 2020.
+
+* Fixed matching of source strings for JSON formats.
+* Fixed login redirect for some authentication configurations.
+* Fixed LDAP authentication with group sync.
+* Fixed crash in reporting automatic translation progress.
+* Fixed Git commit squashing with trailers enabled.
+* Fixed creating local VCS components using the API.
+
+Weblate 4.2.1
+-------------
+
+Released on August 21st 2020.
+
+* Fixed saving plurals for some locales in Android resources.
+* Fixed crash in the cleanup add-on for some XLIFF files.
+* Allow setting up localization CDN in Docker image.
+
+Weblate 4.2
+-----------
+
+Released on August 18th 2020.
+
+* Improved user pages and added listing of users.
+* Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.
+* Added exports into several monolingual formats.
+* Improved activity charts.
+* Number of displayed nearby strings can be configured.
+* Added support for locking components experiencing repository errors.
+* Simplified main navigation (replaced buttons with icons).
+* Improved language code handling in Google Translate integration.
+* The Git squash add-on can generate ``Co-authored-by:`` trailers.
+* Improved query search parser.
+* Improved user feedback from format strings checks.
+* Improved performance of bulk state changes.
+* Added compatibility redirects after project or component renaming.
+* Added notifications for strings approval, component locking and license change.
+* Added support for ModernMT.
+* Allow to avoid overwriting approved translations on file upload.
+* Dropped support for some compatibility URL redirects.
+* Added check for ECMAScript template literals.
+* Added option to watch a component.
+* Removed leading dot from JSON unit keys.
+* Removed separate Celery queue for translation memory.
+* Allow translating all components a language at once.
+* Allow to configure ``Content-Security-Policy`` HTTP headers.
+* Added support for aliasing languages at project level.
+* New add-on to help with HTML or JavaScript localization, see :ref:`addon-weblate.cdn.cdnjs`.
+* The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN`.
+* Add support for searching by component and project.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or 4.1 first.
+* There are some new and updated requirements.
+* There are several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
+* The keys for JSON based formats no longer include leading dot. The strings are adjusted during the database migration, but external components might need adjustment in case you rely on keys in exports or API.
+* The Celery configuration was changed to no longer use ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+* The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure it before running Weblate.
+* The username and email fields on user database now should be case insensitive unique. It was mistakenly not enforced with PostgreSQL.
+
+Weblate 4.1.1
+-------------
+
+Released on June 19th 2020.
+
+* Fixed changing autofix or add-ons configuration in Docker.
+* Fixed possible crash in "About" page.
+* Improved installation of byte-compiled locale files.
+* Fixed adding words to glossary.
+* Fixed keyboard shortcuts for machinery.
+* Removed debugging output causing discarding log events in some setups.
+* Fixed lock indication on project listing.
+* Fixed listing GPG keys in some setups.
+* Added option for which DeepL API version to use.
+* Added support for acting as SAML Service Provider, see :ref:`saml-auth`.
+
+Weblate 4.1
+-----------
+
+Released on June 15th 2020.
+
+* Added support for creating new translations with included country code.
+* Added support for searching source strings with screenshot.
+* Extended info available in the stats insights.
+* Improved search editing on "Translate" pages.
+* Improve handling of concurrent repository updates.
+* Include source language in project creation form.
+* Include changes count in credits.
+* Fixed UI language selection in some cases.
+* Allow to whitelist registration methods with registrations closed.
+* Improved lookup of related terms in glossary.
+* Improved translation memory matches.
+* Group same machinery results.
+* Add direct link to edit screenshot from translate page.
+* Improved removal confirmation dialog.
+* Include templates in ZIP download.
+* Add support for Markdown and notification configuration in announcements.
+* Extended details in check listings.
+* Added support for new file formats: :ref:`laravel-php`, :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:`go-i18n-json`, :ref:`arb`.
+* Consistently use dismissed as state of dismissed checks.
+* Add support for configuring default add-ons to enable.
+* Fixed editor keyboard shortcut to dismiss checks.
+* Improved machine translation of strings with placeholders.
+* Show ghost translation for user languages to ease starting them.
+* Improved language code parsing.
+* Show translations in user language first in the list.
+* Renamed shapings to more generic name variants.
+* Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-untranslated`, :ref:`check-duplicate`.
+* Reintroduced support for wiping translation memory.
+* Fixed option to ignore source checks.
+* Added support for configuring different branch for pushing changes.
+* API now reports rate limiting status in the HTTP headers.
+* Added support for Google Translate V3 API (Advanced).
+* Added ability to restrict access on component level.
+* Added support for whitespace and other special chars in translation flags, see :ref:`custom-checks`.
+* Always show rendered text check if enabled.
+* API now supports filtering of changes.
+* Added support for sharing glossaries between projects.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
+* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
+* There are some new and updated requirements.
+* There is a change in :setting:`django:INSTALLED_APPS`.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`mt-deepl` machine translation now uses the new ``MT_DEEPL_API_URL`` instead. You might need to adjust ``MT_DEEPL_API_URL`` to match your subscription.
+
+Weblate 4.0.4
+-------------
+
+Released on May 7th 2020.
+
+* Fixed testsuite execution on some Python 3.8 environments.
+* Typo fixes in the documentation.
+* Fixed creating components using the API in some cases.
+* Fixed JavaScript errors breaking mobile navigation.
+* Fixed crash on displaying some checks.
+* Fixed screenshots listing.
+* Fixed monthly digest notifications.
+* Fixed intermediate translation behavior with units non existing in translation.
+
+Weblate 4.0.3
+-------------
+
+Released on May 2nd 2020.
+
+* Fixed possible crash in reports.
+* User mentions in comments are now case insensitive.
+* Fixed PostgreSQL migration for non superusers.
+* Fixed changing the repository URL while creating component.
+* Fixed crash when upstream repository is gone.
+
+Weblate 4.0.2
+-------------
+
+Released on April 27th 2020.
+
+* Improved performance of translation stats.
+* Improved performance of changing labels.
+* Improved bulk edit performance.
+* Improved translation memory performance.
+* Fixed possible crash on component deletion.
+* Fixed displaying of translation changes in some corner cases.
+* Improved warning about too long celery queue.
+* Fixed possible false positives in the consistency check.
+* Fixed deadlock when changing linked component repository.
+* Included edit distance in changes listing and CSV and reports.
+* Avoid false positives of punctuation spacing check for Canadian French.
+* Fixed XLIFF export with placeholders.
+* Fixed false positive with zero width check.
+* Improved reporting of configuration errors.
+* Fixed bilingual source upload.
+* Automatically detect supported languages for DeepL machine translation.
+* Fixed progress bar display in some corner cases.
+* Fixed some checks triggering on non translated strings.
+
+Weblate 4.0.1
+-------------
+
+Released on April 16th 2020.
+
+* Fixed package installation from PyPI.
+
+Weblate 4.0
+-----------
+
+Released on April 16th 2020.
+
+* Weblate now requires Python 3.6 or newer.
+* Added management overview of component alerts.
+* Added component alert for broken repository browser URLs.
+* Improved sign in and registration pages.
+* Project access control and workflow configuration integrated to project settings.
+* Added check and highlighter for i18next interpolation and nesting.
+* Added check and highlighter for percent placeholders.
+* Display suggestions failing checks.
+* Record source string changes in history.
+* Upgraded Microsoft Translator to version 3 API.
+* Reimplemented translation memory backend.
+* Added support for several ``is:`` lookups in :doc:`/user/search`.
+* Allow to make :ref:`check-same` avoid internal blacklist.
+* Improved comments extraction from monolingual po files.
+* Renamed whiteboard messages to announcements.
+* Fixed occasional problems with registration mails.
+* Improved LINGUAS update add-on to handle more syntax variants.
+* Fixed editing monolingual XLIFF source file.
+* Added support for exact matching in :doc:`/user/search`.
+* Extended API to cover screenshots, users, groups, componentlists and extended creating projects.
+* Add support for source upload on bilingual translations.
+* Added support for intermediate language from developers.
+* Added support for source strings review.
+* Extended download options for platform wide translation memory.

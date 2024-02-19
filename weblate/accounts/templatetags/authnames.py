@@ -1,22 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Provide user friendly names for social authentication methods."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django import template
 from django.conf import settings
@@ -24,9 +14,12 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 register = template.Library()
 
-SOCIALS = {
+SOCIALS: dict[str, dict[str, StrOrPromise]] = {
     "auth0": {"name": "Auth0", "image": "auth0.svg"},
     "saml": {"name": "SAML", "image": "saml.svg"},
     "google": {"name": "Google", "image": "google.svg"},
@@ -40,6 +33,7 @@ SOCIALS = {
     "facebook": {"name": "Facebook", "image": "facebook.svg"},
     "github": {"name": "GitHub", "image": "github.svg"},
     "github-enterprise": {"name": "GitHub Enterprise", "image": "github.svg"},
+    "github-org": {"name": "GitHub Organization", "image": "github.svg"},
     "bitbucket": {"name": "Bitbucket", "image": "bitbucket.svg"},
     "bitbucket-oauth2": {"name": "Bitbucket", "image": "bitbucket.svg"},
     "azuread-oauth2": {"name": "Azure", "image": "azure.svg"},
@@ -84,8 +78,11 @@ def get_auth_params(auth: str):
     return params
 
 
+auth_name_default_separator = format_html("<br />")
+
+
 @register.simple_tag
-def auth_name(auth: str, separator: str = "<br />"):
+def auth_name(auth: str, separator: str = auth_name_default_separator):
     """Create HTML markup for social authentication method."""
     params = get_auth_params(auth)
 

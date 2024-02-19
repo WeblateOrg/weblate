@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 var WLT = WLT || {};
 
 WLT.Config = (function () {
@@ -88,7 +92,7 @@ WLT.Editor = (function () {
       } else {
         addAlert(
           gettext("Please select target plural by clicking."),
-          (kind = "info")
+          (kind = "info"),
         );
         editors.addClass("editor-click-select");
         editors.click(function () {
@@ -122,7 +126,7 @@ WLT.Editor = (function () {
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
       var $this = $(this);
-      var text = $this.data("value");
+      var text = this.getAttribute("data-value");
 
       $this
         .closest(".translation-item")
@@ -146,7 +150,7 @@ WLT.Editor = (function () {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       var $this = $(this);
-      insertEditor($this.data("value"), $this);
+      insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
     });
 
@@ -172,7 +176,7 @@ WLT.Editor = (function () {
             title = interpolate(gettext("Ctrl+%s"), [key]);
           }
           $this.attr("title", title);
-          $this.find(hlNumberSelector).html("<kbd>" + key + "</kbd>");
+          $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
           Mousetrap.bindGlobal("mod+" + key, function (e) {
             $this.click();
@@ -190,14 +194,14 @@ WLT.Editor = (function () {
       function (e) {
         $(hlNumberSelector).show();
       },
-      "keydown"
+      "keydown",
     );
     Mousetrap.bindGlobal(
       "mod",
       function (e) {
         $(hlNumberSelector).hide();
       },
-      "keyup"
+      "keyup",
     );
   };
 

@@ -1,45 +1,41 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Database specific code to extend Django."""
 
-import django
-from django.db import connection, models, router
-from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.deletion import Collector
-from django.db.models.lookups import PatternLookup
+from __future__ import annotations
+
+import time
+
+from django.db import connections, models
+from django.db.models.lookups import PatternLookup, Regex
+
+from .inv_regex import invert_re
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
-PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
+PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops {2})"
 PG_DROP = "DROP INDEX {0}_{1}_fulltext"
 
 MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
 MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
 
 
-def conditional_sum(value=1, **cond):
-    """Wrapper to generate SUM on boolean/enum values."""
-    return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
-
-
 def using_postgresql():
-    return connection.vendor == "postgresql"
+    return connections["default"].vendor == "postgresql"
+
+
+class TransactionsTestMixin:
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaround for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if not using_postgresql():
+            return False
+        return super()._databases_support_transactions()
 
 
 def adjust_similarity_threshold(value: float):
@@ -51,27 +47,76 @@ def adjust_similarity_threshold(value: float):
     """
     if not using_postgresql():
         return
+
+    if "memory_db" in connections:
+        connection = connections["memory_db"]
+    else:
+        connection = connections["default"]
+
+    current_similarity = getattr(connection, "weblate_similarity", -1)
+    # Ignore small differences
+    if abs(current_similarity - value) < 0.05:
+        return
+
     with connection.cursor() as cursor:
         # The SELECT has to be executed first as othervise the trgm extension
         # might not yet be loaded and GUC setting not possible.
-        if not hasattr(connection, "weblate_similarity"):
+        if current_similarity == -1:
             cursor.execute("SELECT show_limit()")
-            connection.weblate_similarity = cursor.fetchone()[0]
-        # Change setting only for reasonably big difference
-        if abs(connection.weblate_similarity - value) > 0.01:
-            cursor.execute("SELECT set_limit(%s)", [value])
-            connection.weblate_similarity = value
+
+        # Adjust threshold
+        cursor.execute("SELECT set_limit(%s)", [value])
+        connection.weblate_similarity = value
 
 
-class PostgreSQLSearchLookup(PatternLookup):
+def count_alnum(string):
+    return sum(map(str.isalnum, string))
+
+
+class PostgreSQLFallbackLookupMixin:
+    """
+    Mixin to block PostgreSQL from using trigram index.
+
+    It is ineffective for very short strings as these produce a lot of matches
+    which need to be rechecked and full table scan is more effecive in that
+    case.
+
+    It is performed by concatenating empty string which will prevent index usage.
+    """
+
+    def process_lhs(self, compiler, connection, lhs=None):
+        if self._needs_fallback:
+            lhs_sql, params = super().process_lhs(compiler, connection, lhs)
+            return f"{lhs_sql} || ''", params
+        return super().process_lhs(compiler, connection, lhs)
+
+
+class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
+    def __init__(self, lhs, rhs):
+        self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
+        super().__init__(lhs, rhs)
+
+
+class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
+    def __init__(self, lhs, rhs):
+        self._needs_fallback = isinstance(rhs, str) and (
+            min((count_alnum(match) for match in invert_re(rhs)), default=0) < 3
+        )
+        super().__init__(lhs, rhs)
+
+
+class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     lookup_name = "search"
-    param_pattern = "%s"
 
-    def as_sql(self, qn, connection):
-        lhs, lhs_params = self.process_lhs(qn, connection)
-        rhs, rhs_params = self.process_rhs(qn, connection)
-        params = lhs_params + rhs_params
-        return f"{lhs} %% {rhs} = true", params
+    def process_rhs(self, qn, connection):
+        if not self._needs_fallback:
+            self.param_pattern = "%s"
+        return super().process_rhs(qn, connection)
+
+    def get_rhs_op(self, connection, rhs):
+        if self._needs_fallback:
+            return connection.operators["contains"] % rhs
+        return "%%%% %s = true" % rhs
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -84,11 +129,7 @@ class MySQLSearchLookup(models.Lookup):
         return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
-class MySQLSubstringLookup(MySQLSearchLookup):
-    lookup_name = "substring"
-
-
-class PostgreSQLSubstringLookup(PatternLookup):
+class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
     """
     Case insensitive substring lookup.
 
@@ -98,15 +139,15 @@ class PostgreSQLSubstringLookup(PatternLookup):
 
     lookup_name = "substring"
 
-    def as_sql(self, compiler, connection):
-        lhs, lhs_params = self.process_lhs(compiler, connection)
-        rhs, rhs_params = self.process_rhs(compiler, connection)
-        params = lhs_params + rhs_params
-        return f"{lhs} ILIKE {rhs}", params
+    def get_rhs_op(self, connection, rhs):
+        if self._needs_fallback:
+            return connection.operators["contains"] % rhs
+        return "ILIKE %s" % rhs
 
 
-def re_escape(pattern):
-    """Escape for use in database regexp match.
+def re_escape(pattern: str) -> str:
+    """
+    Escape for use in database regexp match.
 
     This is based on re.escape, but that one escapes too much.
     """
@@ -119,143 +160,9 @@ def re_escape(pattern):
     return "".join(string)
 
 
-class FastCollector(Collector):
-    """
-    Fast delete collector skipping some signals.
+def measure_database_latency() -> float:
+    from weblate.trans.models import Project
 
-    It allows fast deletion for some models.
-
-    This is needed as check removal triggers check run and that can
-    create new checks for just removed units.
-    """
-
-    @staticmethod
-    def do_weblate_fast_delete(model):
-        from weblate.checks.models import Check
-        from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
-
-        if (
-            model is Check
-            or model is Change
-            or model is Suggestion
-            or model is Vote
-            or model is Comment
-        ):
-            return True
-        # MySQL fails to remove self-referencing source units
-        if model is Unit and using_postgresql():
-            return True
-        return False
-
-    def can_fast_delete(self, objs, from_field=None):
-        if hasattr(objs, "model") and self.do_weblate_fast_delete(objs.model):
-            return True
-        return super().can_fast_delete(objs, from_field)
-
-    def delete(self):
-        from weblate.checks.models import Check
-        from weblate.screenshots.models import Screenshot
-        from weblate.trans.models import (
-            Change,
-            Comment,
-            Suggestion,
-            Unit,
-            Variant,
-            Vote,
-        )
-
-        fast_deletes = []
-        for item in self.fast_deletes:
-            if item.model is Suggestion:
-                fast_deletes.append(Vote.objects.filter(suggestion__in=item))
-                fast_deletes.append(Change.objects.filter(suggestion__in=item))
-            elif item.model is Unit:
-                fast_deletes.append(Change.objects.filter(unit__in=item))
-                fast_deletes.append(Check.objects.filter(unit__in=item))
-                fast_deletes.append(Vote.objects.filter(suggestion__unit__in=item))
-                fast_deletes.append(Suggestion.objects.filter(unit__in=item))
-                fast_deletes.append(Comment.objects.filter(unit__in=item))
-                fast_deletes.append(Change.objects.filter(suggestion__unit__in=item))
-                fast_deletes.append(Change.objects.filter(unit__source_unit__in=item))
-                fast_deletes.append(Check.objects.filter(unit__source_unit__in=item))
-                fast_deletes.append(
-                    Vote.objects.filter(suggestion__unit__source_unit__in=item)
-                )
-                fast_deletes.append(
-                    Suggestion.objects.filter(unit__source_unit__in=item)
-                )
-                fast_deletes.append(Comment.objects.filter(unit__source_unit__in=item))
-                fast_deletes.append(
-                    Change.objects.filter(suggestion__unit__source_unit__in=item)
-                )
-                fast_deletes.append(
-                    Variant.defining_units.through.objects.filter(unit__in=item)
-                )
-                fast_deletes.append(
-                    Variant.defining_units.through.objects.filter(
-                        unit__source_unit__in=item
-                    )
-                )
-                fast_deletes.append(
-                    Screenshot.units.through.objects.filter(unit__in=item)
-                )
-                fast_deletes.append(
-                    Screenshot.units.through.objects.filter(unit__source_unit__in=item)
-                )
-                fast_deletes.append(Unit.labels.through.objects.filter(unit__in=item))
-                fast_deletes.append(
-                    Unit.labels.through.objects.filter(unit__source_unit__in=item)
-                )
-                fast_deletes.append(Unit.objects.filter(source_unit__in=item))
-            fast_deletes.append(item)
-        self.fast_deletes = fast_deletes
-        return super().delete()
-
-
-class FastDeleteModelMixin:
-    """Model mixin to use FastCollector."""
-
-    def delete(self, using=None, keep_parents=False):
-        """Copy of Django delete with changed collector."""
-        using = using or router.db_for_write(self.__class__, instance=self)
-        collector = FastCollector(using=using)
-        collector.collect([self], keep_parents=keep_parents)
-        return collector.delete()
-
-
-class FastDeleteQuerySetMixin:
-    """QuerySet mixin to use FastCollector."""
-
-    def delete(self):
-        """
-        Delete the records in the current QuerySet.
-
-        Copied from Django, the only difference is using custom collector.
-        """
-        assert not self.query.is_sliced, "Cannot use 'limit' or 'offset' with delete."
-
-        if self._fields is not None:
-            raise TypeError("Cannot call delete() after .values() or .values_list()")
-
-        del_query = self._chain()
-
-        # The delete is actually 2 queries - one to find related objects,
-        # and one to delete. Make sure that the discovery of related
-        # objects is performed on the same database as the deletion.
-        del_query._for_write = True
-
-        # Disable non-supported fields.
-        del_query.query.select_for_update = False
-        del_query.query.select_related = False
-        if django.VERSION < (4, 0):
-            del_query.query.clear_ordering(force_empty=True)
-        else:
-            del_query.query.clear_ordering(clear_default=True)
-
-        collector = FastCollector(using=del_query.db)
-        collector.collect(del_query)
-        deleted, _rows_count = collector.delete()
-
-        # Clear the result cache, in case this QuerySet gets reused.
-        self._result_cache = None
-        return deleted, _rows_count
+    start = time.monotonic()
+    Project.objects.exists()
+    return round(1000 * (time.monotonic() - start))
