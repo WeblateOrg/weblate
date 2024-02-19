@@ -4,6 +4,8 @@
 
 """Test for language manipulations."""
 
+import warnings
+
 from gettext import c2py
 from io import StringIO
 from itertools import chain
@@ -203,36 +205,35 @@ class BasicLanguagesTest(TestCase):
     def check_presence(languages, reference=False):
         result = 0
         base_alias = None
-        for i, l in enumerate(languages):
-            if l is None:
+        for i, lang in enumerate(languages):
+            if lang is None:
                 continue
             if reference:
                 if i == 0:
-                    check = l in data.NO_CODE_LANGUAGES
+                    check = lang in data.NO_CODE_LANGUAGES
                 else:
                     if i == 1:
                         base_language = languages[0]
                         if base_language in ALIASES:
                             base_alias = ALIASES[base_language]
                     check = (
-                        l == base_alias and not result & BASE_FORM
-                    ) or l in data.UNDERSCORE_EXCEPTIONS
+                        lang == base_alias and not result & BASE_FORM
+                    ) or lang in data.UNDERSCORE_EXCEPTIONS
             else:
-                check = l in data.BASIC_LANGUAGES
+                check = lang in data.BASIC_LANGUAGES
             result += check << i
         if reference:
             if base_alias is None or base_alias == languages[1]:
                 return (result,)
-            else:
-                return result, base_alias, base_alias in data.BASIC_LANGUAGES
+            return result, base_alias, base_alias in data.BASIC_LANGUAGES
         return result
 
     @staticmethod
     def list_languages(bitset, languages):
         langs = []
-        for i, l in enumerate(languages):
+        for i, lang in enumerate(languages):
             if bitset & 1 << i:
-                langs.append(l)
+                langs.append(lang)
         return langs if langs else None
 
     @staticmethod
@@ -246,7 +247,7 @@ class BasicLanguagesTest(TestCase):
             base_language = language_forms[0]
             adapted, *base_alias = self.check_presence(language_forms, True)
             if adapted != expected:
-                print(
+                warnings.warn(
                     f"Unexpected results for '{base_language}' language group. Adapting test case to current language-data."
                 )
                 adaptive.append(base_language)
@@ -266,11 +267,11 @@ class BasicLanguagesTest(TestCase):
 
     def test_basic_languages(self):
         heads_up = []
-        for i, l in enumerate(TEST_LANGUAGE_GROUPS):
-            with self.subTest(f"Testing the '{l[0]}' language group", i=i):
-                self.run_test(l, heads_up)
+        for i, lang in enumerate(TEST_LANGUAGE_GROUPS):
+            with self.subTest(f"Testing the '{lang[0]}' language group", i=i):
+                self.run_test(lang, heads_up)
         if heads_up:
-            print(
+            warnings.warn(
                 f"Perhaps the test case needs to catch up with language-data for {heads_up}?"
             )
 
