@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-$(function () {
+$(() => {
   $("#support-form").ZammadForm({
     messageTitle: gettext("Weblate feedback"),
     messageSubmit: gettext("Get help"),
@@ -19,7 +19,7 @@ $(function () {
         tag: "input",
         type: "text",
         placeholder: "",
-        defaultValue: "Weblate feedback [" + window.location.hostname + "]",
+        defaultValue: `Weblate feedback [${window.location.hostname}]`,
       },
       {
         display: gettext("Your name"),
