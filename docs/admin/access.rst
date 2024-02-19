@@ -138,12 +138,6 @@ VCS
 Billing
     Access billing info and settings (see :ref:`billing`).
 
-.. note::
-
-    Permissions for each group described above is defined for every project.
-    The actual name of those groups (as shown in the Django-admin interface) is
-    ``Project@Group``. They can't be edited from the Weblate-user interface.
-
 .. image:: /screenshots/manage-users.webp
 
 These features are available on the :guilabel:`Access control` page in
