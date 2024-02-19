@@ -38,7 +38,7 @@ def migrate_teams(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("weblate_auth", "0003_alter_autogroup_options_alter_autogroup_group_and_more"),
+        ("weblate_auth", "0002_squashed_weblate_5"),
     ]
 
     operations = [
