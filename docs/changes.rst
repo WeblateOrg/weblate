@@ -10,6 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Possible crash on Weblate upgrade check when cached from the previous versions.
+* Gracefully handle migration with duplicate built-in teams.
 
 **Compatibility**
 
