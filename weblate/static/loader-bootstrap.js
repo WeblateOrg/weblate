@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-var loading = [];
+const loading = [];
 
 // Remove some weird things from location hash
 if (
@@ -19,7 +19,7 @@ function increaseLoading(sel) {
     loading[sel] = 0;
   }
   if (loading[sel] === 0) {
-    $("#loading-" + sel).show();
+    $(`#loading-${sel}`).show();
   }
   loading[sel] += 1;
 }
@@ -27,22 +27,22 @@ function increaseLoading(sel) {
 function decreaseLoading(sel) {
   loading[sel] -= 1;
   if (loading[sel] === 0) {
-    $("#loading-" + sel).hide();
+    $(`#loading-${sel}`).hide();
   }
 }
 
 function addAlert(message, kind = "danger", delay = 3000) {
-  var alerts = $("#popup-alerts");
-  var e = $(
+  const alerts = $("#popup-alerts");
+  const e = $(
     '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
   );
-  e.addClass("alert-" + kind);
+  e.addClass(`alert-${kind}`);
   e.append(new Text(message));
   e.hide();
   alerts.show().append(e);
   e.slideDown(200);
-  e.on("closed.bs.alert", function () {
-    if (alerts.find(".alert").length == 0) {
+  e.on("closed.bs.alert", () => {
+    if (alerts.find(".alert").length === 0) {
       alerts.hide();
     }
   });
@@ -59,15 +59,15 @@ jQuery.fn.extend({
       if (document.selection) {
         // For browsers like Internet Explorer
         this.focus();
-        let sel = document.selection.createRange();
+        const sel = document.selection.createRange();
 
         sel.text = myValue;
         this.focus();
       } else if (this.selectionStart || this.selectionStart === 0) {
         //For browsers like Firefox and Webkit based
-        let startPos = this.selectionStart;
-        let endPos = this.selectionEnd;
-        let scrollTop = this.scrollTop;
+        const startPos = this.selectionStart;
+        const endPos = this.selectionEnd;
+        const scrollTop = this.scrollTop;
 
         this.value =
           this.value.substring(0, startPos) +
@@ -102,8 +102,8 @@ jQuery.fn.extend({
 });
 
 function submitForm(evt, combo, selector) {
-  var $target = $(evt.target);
-  var $form = $target.closest("form");
+  const $target = $(evt.target);
+  let $form = $target.closest("form");
 
   if ($form.length === 0) {
     $form = $(".translation-form");
@@ -136,8 +136,8 @@ function screenshotFailure() {
 }
 
 function screenshotAddString() {
-  var pk = this.getAttribute("data-pk");
-  var form = $("#screenshot-add-form");
+  const pk = this.getAttribute("data-pk");
+  const form = $("#screenshot-add-form");
 
   $("#add-source").val(pk);
   $.ajax({
@@ -145,13 +145,13 @@ function screenshotAddString() {
     url: form.attr("action"),
     data: form.serialize(),
     dataType: "json",
-    success: function () {
-      var list = $("#sources-listing");
-      $.get(list.data("href"), function (data) {
+    success: () => {
+      const list = $("#sources-listing");
+      $.get(list.data("href"), (data) => {
         list.find("table").replaceWith(data);
       });
     },
-    error: function (jqXHR, textStatus, errorThrown) {
+    error: (jqXHR, textStatus, errorThrown) => {
       addAlert(errorThrown);
     },
   });
@@ -181,30 +181,19 @@ function screenshotLoaded(data) {
 }
 
 function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+  return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
 }
 
 function extractText(cell) {
-  var value = cell.getAttribute("data-value");
+  const value = cell.getAttribute("data-value");
   if (value !== null) {
     return value;
   }
   return $.text(cell);
 }
 
-function compareCells(a, b) {
-  if (typeof a === "number" && typeof b === "number") {
-  } else if (a.indexOf("%") !== -1 && b.indexOf("%") !== -1) {
-    a = parseFloat(a.replace(",", "."));
-    b = parseFloat(b.replace(",", "."));
-  } else if (isNumber(a) && isNumber(b)) {
-    a = parseFloat(a.replace(",", "."));
-    b = parseFloat(b.replace(",", "."));
-  } else if (typeof a === "string" && typeof b === "string") {
-    a = a.toLowerCase();
-    b = b.toLowerCase();
-  }
-  if (a == b) {
+function _compareValues(a, b) {
+  if (a === b) {
     return 0;
   }
   if (a > b) {
@@ -213,18 +202,40 @@ function compareCells(a, b) {
   return -1;
 }
 
+function compareCells(a, b) {
+  if (typeof a === "number" && typeof b === "number") {
+    return _compareValues(a, b);
+  }
+  if (a.indexOf("%") !== -1 && b.indexOf("%") !== -1) {
+    return _compareValues(
+      parseFloat(a.replace(",", ".")),
+      parseFloat(b.replace(",", ".")),
+    );
+  }
+  if (isNumber(a) && isNumber(b)) {
+    return _compareValues(
+      parseFloat(a.replace(",", ".")),
+      parseFloat(b.replace(",", ".")),
+    );
+  }
+  if (typeof a === "string" && typeof b === "string") {
+    return _compareValues(a.toLowerCase(), b.toLowerCase());
+  }
+  return _compareValues(a, b);
+}
+
 function loadTableSorting() {
   $("table.sort").each(function () {
-    var table = $(this),
-      tbody = table.find("tbody"),
-      thead = table.find("thead"),
-      thIndex = 0;
+    const table = $(this);
+    const tbody = table.find("tbody");
+    const thead = table.find("thead");
+    let thIndex = 0;
 
     $(this)
       .find("thead th")
       .each(function () {
-        var th = $(this),
-          inverse = 1;
+        const th = $(this);
+        let inverse = 1;
 
         // handle colspan
         if (th.attr("colspan")) {
@@ -237,7 +248,7 @@ function loadTableSorting() {
           !th.hasClass("sort-skip")
         ) {
           // Store index copy
-          let myIndex = thIndex;
+          const myIndex = thIndex;
           // Add icon, title and class
           th.addClass("sort-init");
           if (!th.hasClass("sort-cell")) {
@@ -251,16 +262,16 @@ function loadTableSorting() {
           th.click(function () {
             tbody
               .find("tr")
-              .sort(function (a, b) {
-                var $a = $(a),
-                  $b = $(b);
-                var a_parent = $a.data("parent"),
-                  b_parent = $b.data("parent");
+              .sort((a, b) => {
+                let $a = $(a);
+                let $b = $(b);
+                const a_parent = $a.data("parent");
+                const b_parent = $b.data("parent");
                 if (a_parent) {
-                  $a = tbody.find("#" + a_parent);
+                  $a = tbody.find(`#${a_parent}`);
                 }
                 if (b_parent) {
-                  $b = tbody.find("#" + b_parent);
+                  $b = tbody.find(`#${b_parent}`);
                 }
                 return (
                   inverse *
@@ -304,15 +315,13 @@ function interpolate(fmt, obj, named) {
   if (typeof django !== "undefined") {
     return django.interpolate(fmt, obj, named);
   }
-  return fmt.replace(/%s/g, function () {
-    return String(obj.shift());
-  });
+  return fmt.replace(/%s/g, () => String(obj.shift()));
 }
 
 function load_matrix() {
-  var $loadingNext = $("#loading-next");
-  var $loader = $("#matrix-load");
-  var offset = parseInt($loader.data("offset"));
+  const $loadingNext = $("#loading-next");
+  const $loader = $("#matrix-load");
+  const offset = parseInt($loader.data("offset"));
 
   if ($("#last-section").length > 0 || $loadingNext.css("display") !== "none") {
     return;
@@ -321,7 +330,7 @@ function load_matrix() {
 
   $loader.data("offset", 20 + offset);
 
-  $.get($loader.attr("href") + "&offset=" + offset, function (data) {
+  $.get(`${$loader.attr("href")}&offset=${offset}`, (data) => {
     $loadingNext.hide();
     $(".matrix tbody").append(data);
   });
@@ -329,8 +338,8 @@ function load_matrix() {
 
 function adjustColspan() {
   $("table.autocolspan").each(function () {
-    var $this = $(this);
-    var numOfVisibleCols = $this.find("thead th:visible").length;
+    const $this = $(this);
+    let numOfVisibleCols = $this.find("thead th:visible").length;
     if (numOfVisibleCols === 0) {
       numOfVisibleCols = 3;
     }
@@ -343,10 +352,10 @@ function quoteSearch(value) {
     return value;
   }
   if (value.indexOf('"') === -1) {
-    return '"' + value + '"';
+    return `"${value}"`;
   }
   if (value.indexOf("'") === -1) {
-    return "'" + value + "'";
+    return `'${value}'`;
   }
   /* We should do some escaping here */
   return value;
@@ -356,8 +365,9 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
+  // biome-ignore lint/complexity/noForEach: TODO
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
-    var parent = input.parentElement;
+    const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
       return;
     }
@@ -372,14 +382,14 @@ function initHighlight(root) {
     });
 
     /* Create wrapper element */
-    var wrapper = document.createElement("div");
+    const wrapper = document.createElement("div");
     wrapper.setAttribute("class", "editor-wrap");
 
     /* Inject wrapper */
     parent.replaceChild(wrapper, input);
 
     /* Create highlighter */
-    var highlight = document.createElement("div");
+    const highlight = document.createElement("div");
     highlight.setAttribute("class", "highlighted-output");
     highlight.setAttribute("role", "status");
     wrapper.appendChild(highlight);
@@ -387,7 +397,7 @@ function initHighlight(root) {
     /* Add input to wrapper */
     wrapper.appendChild(input);
 
-    var syncContent = function () {
+    const syncContent = () => {
       highlight.innerHTML = Prism.highlight(
         input.value,
         Prism.languages.weblatesearch,
@@ -405,36 +415,37 @@ function initHighlight(root) {
 
     /* Handle resizing */
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === input) {
           // match the height and width of the output area to the input area
-          highlight.style.height = input.offsetHeight + "px";
-          highlight.style.width = input.offsetWidth + "px";
+          highlight.style.height = `${input.offsetHeight}px`;
+          highlight.style.width = `${input.offsetWidth}px`;
         }
       }
     });
 
     resizeObserver.observe(input);
   });
-  root.querySelectorAll(".highlight-editor").forEach(function (editor) {
-    var parent = editor.parentElement;
-    var hasFocus = editor == document.activeElement;
+  // biome-ignore lint/complexity/noForEach: TODO
+  root.querySelectorAll(".highlight-editor").forEach((editor) => {
+    const parent = editor.parentElement;
+    const hasFocus = editor === document.activeElement;
 
     if (parent.classList.contains("editor-wrap")) {
       return;
     }
 
-    var mode = editor.getAttribute("data-mode");
+    const mode = editor.getAttribute("data-mode");
 
     /* Create wrapper element */
-    var wrapper = document.createElement("div");
+    const wrapper = document.createElement("div");
     wrapper.setAttribute("class", "editor-wrap");
 
     /* Inject wrapper */
     parent.replaceChild(wrapper, editor);
 
     /* Create highlighter */
-    var highlight = document.createElement("div");
+    const highlight = document.createElement("div");
     highlight.setAttribute("class", "highlighted-output");
     if (editor.readOnly) {
       highlight.classList.add("readonly");
@@ -458,11 +469,11 @@ function initHighlight(root) {
     }
 
     /* Content synchronisation and highlighting */
-    var languageMode = Prism.languages[mode];
+    let languageMode = Prism.languages[mode];
     if (editor.classList.contains("translation-editor")) {
-      let placeables = editor.getAttribute("data-placeables");
+      const placeables = editor.getAttribute("data-placeables");
       /* This should match WHITESPACE_REGEX in weblate/trans/templatetags/translations.py */
-      let whitespace_regex = new RegExp(
+      const whitespace_regex = new RegExp(
         [
           "  +|(^) +| +(?=$)| +\n|\n +|\t|",
           "\u00A0|\u00AD|\u1680|\u2000|\u2001|",
@@ -471,7 +482,7 @@ function initHighlight(root) {
           "\u200A|\u202F|\u205F|\u3000",
         ].join(""),
       );
-      let extension = {
+      const extension = {
         hlspace: {
           pattern: whitespace_regex,
           lookbehind: true,
@@ -484,14 +495,14 @@ function initHighlight(root) {
        * We can not use Prism.extend here as we want whitespace highlighting
        * to apply first. The code is borrowed from Prism.util.clone.
        */
-      for (var key in languageMode) {
-        if (languageMode.hasOwnProperty(key)) {
+      for (const key in languageMode) {
+        if (Object.hasOwn(languageMode, key)) {
           extension[key] = Prism.util.clone(languageMode[key]);
         }
       }
       languageMode = extension;
     }
-    var syncContent = function () {
+    const syncContent = () => {
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
       autosize.update(editor);
     };
@@ -507,11 +518,11 @@ function initHighlight(root) {
 
     /* Handle resizing */
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === editor) {
           // match the height and width of the output area to the input area
-          highlight.style.height = editor.offsetHeight + "px";
-          highlight.style.width = editor.offsetWidth + "px";
+          highlight.style.height = `${editor.offsetHeight}px`;
+          highlight.style.width = `${editor.offsetWidth}px`;
         }
       }
     });
@@ -523,8 +534,8 @@ function initHighlight(root) {
 }
 
 $(function () {
-  var $window = $(window),
-    $document = $(document);
+  const $window = $(window);
+  const $document = $(document);
 
   adjustColspan();
   $window.resize(adjustColspan);
@@ -534,26 +545,20 @@ $(function () {
   $document.on(
     "show.bs.tab",
     '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]',
-    function (e) {
-      var $target = $(e.target);
-      var $content = $($target.attr("href"));
+    (e) => {
+      const $target = $(e.target);
+      let $content = $($target.attr("href"));
       if ($target.data("loaded")) {
         return;
       }
       if ($content.find(".panel-body").length > 0) {
         $content = $content.find(".panel-body");
       }
-      $content.load($target.data("href"), function (responseText, status, xhr) {
+      $content.load($target.data("href"), (responseText, status, xhr) => {
         if (status !== "success") {
-          var msg = gettext("Error while loading page:");
+          const msg = gettext("Error while loading page:");
           $content.text(
-            msg +
-              " " +
-              xhr.statusText +
-              " (" +
-              xhr.status +
-              "): " +
-              responseText,
+            `${msg} ${xhr.statusText} (${xhr.status}): ${responseText}`,
           );
         }
         $target.data("loaded", 1);
@@ -563,39 +568,37 @@ $(function () {
   );
 
   if ($("#form-activetab").length > 0) {
-    $document.on("show.bs.tab", '[data-toggle="tab"]', function (e) {
-      var $target = $(e.target);
+    $document.on("show.bs.tab", '[data-toggle="tab"]', (e) => {
+      const $target = $(e.target);
       $("#form-activetab").attr("value", $target.attr("href"));
     });
   }
 
   /* Form automatic submission */
-  $("form.autosubmit select").change(function () {
+  $("form.autosubmit select").change(() => {
     $("form.autosubmit").submit();
   });
 
-  var activeTab;
+  let activeTab;
 
   /* Load correct tab */
   if (location.hash !== "") {
     /* From URL hash */
-    var separator = location.hash.indexOf("__");
-    if (separator != -1) {
+    const separator = location.hash.indexOf("__");
+    if (separator !== -1) {
       activeTab = $(
-        '.nav [data-toggle=tab][href="' +
-          location.hash.substr(0, separator) +
-          '"]',
+        `.nav [data-toggle=tab][href="${location.hash.substr(0, separator)}"]`,
       );
       if (activeTab.length) {
         activeTab.tab("show");
       }
     }
-    activeTab = $('.nav [data-toggle=tab][href="' + location.hash + '"]');
+    activeTab = $(`.nav [data-toggle=tab][href="${location.hash}"]`);
     if (activeTab.length) {
       activeTab.tab("show");
       window.scrollTo(0, 0);
     } else {
-      let anchor = document.getElementById(location.hash.substr(1));
+      const anchor = document.getElementById(location.hash.substr(1));
       if (anchor !== null) {
         anchor.scrollIntoView();
       }
@@ -605,9 +608,7 @@ $(function () {
     Cookies.get("translate-tab")
   ) {
     /* From cookie */
-    activeTab = $(
-      '[data-toggle=tab][href="' + Cookies.get("translate-tab") + '"]',
-    );
+    activeTab = $(`[data-toggle=tab][href="${Cookies.get("translate-tab")}"]`);
     if (activeTab.length) {
       activeTab.tab("show");
     }
@@ -621,9 +622,9 @@ $(function () {
   });
 
   /* Navigate to a tab when the history changes */
-  window.addEventListener("popstate", function (e) {
+  window.addEventListener("popstate", (e) => {
     if (location.hash !== "") {
-      activeTab = $('[data-toggle=tab][href="' + location.hash + '"]');
+      activeTab = $(`[data-toggle=tab][href="${location.hash}"]`);
     } else {
       activeTab = Array();
     }
@@ -635,20 +636,20 @@ $(function () {
   });
 
   /* Activate tab with error */
-  var formErrors = $("div.has-error");
+  const formErrors = $("div.has-error");
   if (formErrors.length > 0) {
-    var tab = formErrors.closest("div.tab-pane");
+    const tab = formErrors.closest("div.tab-pane");
     if (tab.length > 0) {
-      $('[data-toggle=tab][href="#' + tab.attr("id") + '"]').tab("show");
+      $(`[data-toggle=tab][href="#${tab.attr("id")}"]`).tab("show");
     }
   }
 
   /* Announcement discard */
   $(".alert").on("close.bs.alert", function () {
-    var $this = $(this);
-    var $form = $("#link-post");
+    const $this = $(this);
+    const $form = $("#link-post");
 
-    var action = this.getAttribute("data-action");
+    const action = this.getAttribute("data-action");
 
     if (action) {
       $.ajax({
@@ -658,7 +659,7 @@ $(function () {
           csrfmiddlewaretoken: $form.find("input").val(),
           id: this.getAttribute("data-id"),
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: (jqXHR, textStatus, errorThrown) => {
           addAlert(errorThrown);
         },
       });
@@ -668,7 +669,7 @@ $(function () {
   /* Widgets selector */
   $(".select-tab").on("change", function (e) {
     $(this).parent().find(".tab-pane").removeClass("active");
-    $("#" + $(this).val()).addClass("active");
+    $(`#${$(this).val()}`).addClass("active");
   });
 
   /* Code samples (on widgets page) */
@@ -682,7 +683,7 @@ $(function () {
   /* Matrix mode handling */
   if ($(".matrix").length > 0) {
     load_matrix();
-    $window.scroll(function () {
+    $window.scroll(() => {
       if ($window.scrollTop() >= $document.height() - 2 * $window.height()) {
         load_matrix();
       }
@@ -697,17 +698,17 @@ $(function () {
 
   $(".dropdown-menu")
     .find("form")
-    .click(function (e) {
+    .click((e) => {
       e.stopPropagation();
     });
 
   $document.on("click", ".link-post", function () {
-    var $form = $("#link-post");
-    var $this = $(this);
+    const $form = $("#link-post");
+    const $this = $(this);
 
     $form.attr("action", $this.attr("data-href"));
-    $.each($this.data("params"), function (name, value) {
-      var elm = $("<input>")
+    $.each($this.data("params"), (name, value) => {
+      const elm = $("<input>")
         .attr("type", "hidden")
         .attr("name", name)
         .attr("value", value);
@@ -718,11 +719,11 @@ $(function () {
   });
   $(".link-auto").click();
   $document.on("click", ".thumbnail", function () {
-    var $this = $(this);
+    const $this = $(this);
     $("#imagepreview").attr("src", $this.attr("href"));
     $("#screenshotModal").text($this.attr("title"));
 
-    var detailsLink = $("#modalDetailsLink");
+    const detailsLink = $("#modalDetailsLink");
     detailsLink.attr("href", this.getAttribute("data-details-url"));
     if (this.getAttribute("data-can-edit")) {
       detailsLink.text(detailsLink.getAttribute("data-edit-text"));
@@ -733,7 +734,7 @@ $(function () {
   });
   /* Screenshot management */
   $("#screenshots-search,#screenshots-auto").click(function () {
-    var $this = $(this);
+    const $this = $(this);
 
     screenshotStart();
     $.ajax({
@@ -749,7 +750,7 @@ $(function () {
 
   /* Avoid double submission of non AJAX forms */
   $("form:not(.double-submission)").on("submit", function (e) {
-    var $form = $(this);
+    const $form = $(this);
 
     if ($form.data("submitted") === true) {
       // Previously submitted - don't submit again
@@ -760,21 +761,21 @@ $(function () {
     }
   });
   /* Reset submitted flag when leaving the page, so that it is not set when going back in history */
-  $window.on("pagehide", function () {
+  $window.on("pagehide", () => {
     $("form:not(.double-submission)").data("submitted", false);
   });
 
   /* Client side form persistence */
-  var $forms = $("[data-persist]");
+  const $forms = $("[data-persist]");
   if ($forms.length > 0 && window.localStorage) {
     /* Load from local storage */
     $forms.each(function () {
-      var $this = $(this);
-      var storedValue = window.localStorage[$this.data("persist")];
+      const $this = $(this);
+      let storedValue = window.localStorage[$this.data("persist")];
       if (storedValue) {
         storedValue = JSON.parse(storedValue);
-        $.each(storedValue, function (key, value) {
-          var target = $this.find("[name=" + key + "]");
+        $.each(storedValue, (key, value) => {
+          const target = $this.find(`[name=${key}]`);
           if (target.is(":checkbox")) {
             target.prop("checked", value);
           } else {
@@ -785,16 +786,16 @@ $(function () {
     });
     /* Save on submit */
     $forms.submit(function (e) {
-      var data = {};
-      var $this = $(this);
+      const data = {};
+      const $this = $(this);
 
       $this.find(":checkbox").each(function () {
-        var $this = $(this);
+        const $this = $(this);
 
         data[$this.attr("name")] = $this.prop("checked");
       });
       $this.find("select").each(function () {
-        var $this = $(this);
+        const $this = $(this);
 
         data[$this.attr("name")] = $this.val();
       });
@@ -803,9 +804,9 @@ $(function () {
   }
 
   /* Focus first input in modal */
-  $(document).on("shown.bs.modal", function (event) {
-    var button = $(event.relatedTarget); // Button that triggered the modal
-    var target = button.data("focus");
+  $(document).on("shown.bs.modal", (event) => {
+    const button = $(event.relatedTarget); // Button that triggered the modal
+    const target = button.data("focus");
     if (target) {
       /* Modal context focusing */
       $(target).focus();
@@ -820,23 +821,23 @@ $(function () {
       .writeText(this.getAttribute("data-clipboard-text"))
       .then(
         () => {
-          var text =
+          const text =
             this.getAttribute("data-clipboard-message") ||
             gettext("Text copied to clipboard.");
-          addAlert(text, (kind = "info"));
+          addAlert(text, "info");
         },
         () => {
-          addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
+          addAlert(gettext("Please press Ctrl+C to copy."), "danger");
         },
       );
     e.preventDefault();
   });
 
   /* Auto translate source select */
-  var select_auto_source = $('input[name="auto_source"]');
+  const select_auto_source = $('input[name="auto_source"]');
   if (select_auto_source.length > 0) {
-    select_auto_source.on("change", function () {
-      if ($('input[name="auto_source"]:checked').val() == "others") {
+    select_auto_source.on("change", () => {
+      if ($('input[name="auto_source"]:checked').val() === "others") {
         $("#auto_source_others").show();
         $("#auto_source_mt").hide();
       } else {
@@ -858,8 +859,8 @@ $(function () {
   /* Slugify name */
   slugify.extend({ ".": "-" });
   $('input[name="slug"]').each(function () {
-    var $slug = $(this);
-    var $form = $slug.closest("form");
+    const $slug = $(this);
+    const $form = $slug.closest("form");
     $form
       .find('input[name="name"]')
       .on("change keypress keydown keyup paste", function () {
@@ -871,33 +872,33 @@ $(function () {
 
   /* Component update progress */
   $("[data-progress-url]").each(function () {
-    var $progress = $(this);
-    var $pre = $progress.find("pre"),
-      $bar = $progress.find(".progress-bar"),
-      url = $progress.data("progress-url");
-    var $form = $("#link-post");
+    const $progress = $(this);
+    const $pre = $progress.find("pre");
+    const $bar = $progress.find(".progress-bar");
+    const url = $progress.data("progress-url");
+    const $form = $("#link-post");
 
     $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
 
-    var progress_completed = function () {
+    const progress_completed = () => {
       $bar.width("100%");
       if ($("#progress-redirect").prop("checked")) {
         window.location = $("#progress-return").attr("href");
       }
     };
 
-    var progress_interval = setInterval(function () {
+    const progress_interval = setInterval(() => {
       $.ajax({
         url: url,
         type: "get",
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          if (XMLHttpRequest.status == 404) {
+        error: (XMLHttpRequest, textStatus, errorThrown) => {
+          if (XMLHttpRequest.status === 404) {
             clearInterval(progress_interval);
             progress_completed();
           }
         },
-        success: function (data) {
-          $bar.width(data.progress + "%");
+        success: (data) => {
+          $bar.width(`${data.progress}%`);
           $pre.text(data.log);
           $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
           if (data.completed) {
@@ -924,12 +925,12 @@ $(function () {
 
   /* Generic messages progress */
   $("[data-task]").each(function () {
-    var $message = $(this);
-    var $bar = $message.find(".progress-bar");
+    const $message = $(this);
+    const $bar = $message.find(".progress-bar");
 
-    var task_interval = setInterval(function () {
-      $.get($message.data("task"), function (data) {
-        $bar.width(data.progress + "%");
+    const task_interval = setInterval(() => {
+      $.get($message.data("task"), (data) => {
+        $bar.width(`${data.progress}%`);
         if (data.completed) {
           clearInterval(task_interval);
           $message.text(data.result.message);
@@ -945,14 +946,14 @@ $(function () {
 
   // Show the correct toggle button
   if ($(".sort-field").length) {
-    var sort_name = $("#query-sort-dropdown span.search-label").text();
-    var sort_dropdown_value = $(".sort-field li a")
+    const sort_name = $("#query-sort-dropdown span.search-label").text();
+    const sort_dropdown_value = $(".sort-field li a")
       .filter(function () {
-        return $(this).text() == sort_name;
+        return $(this).text() === sort_name;
       })
       .data("sort");
-    var sort_value = $("#id_sort_by").val();
-    var $label = $(this).find("span.search-icon");
+    const sort_value = $("#id_sort_by").val();
+    const $label = $(this).find("span.search-icon");
     if (sort_dropdown_value) {
       if (
         sort_value.replace("-", "") === sort_dropdown_value.replace("-", "") &&
@@ -965,19 +966,19 @@ $(function () {
 
   /* Branch loading */
   $(".branch-loader select[name=component]").change(function () {
-    var $this = $(this);
-    var $form = $this.closest("form");
-    var branches = $form.data("branches");
-    var $select = $form.find("select[name=branch]");
+    const $this = $(this);
+    const $form = $this.closest("form");
+    const branches = $form.data("branches");
+    const $select = $form.find("select[name=branch]");
     $select.empty();
-    $.each(branches[$this.val()], function (key, value) {
+    $.each(branches[$this.val()], (key, value) => {
       $select.append($("<option></option>").attr("value", value).text(value));
     });
   });
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
   $("#position-input").on("click", function () {
-    var $form = $(this).closest("form");
+    const $form = $(this).closest("form");
     $("#position-input").hide();
     $form.find("input[name=offset]").prop("disabled", false);
     $("#position-input-editable").show();
@@ -985,10 +986,10 @@ $(function () {
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
   });
-  var clickedOutsideEditableInput = function (event) {
+  const clickedOutsideEditableInput = (event) => {
     if (
       !$.contains($("#position-input-editable")[0], event.target) &&
-      event.target != $("#position-input")[0]
+      event.target !== $("#position-input")[0]
     ) {
       $("#position-input").show();
       $("#position-input-editable-input").attr("type", "hidden");
@@ -997,8 +998,8 @@ $(function () {
       document.removeEventListener("keyup", pressedEscape);
     }
   };
-  var pressedEscape = function (event) {
-    if (event.key == "Escape" && event.target != $("#position-input")[0]) {
+  const pressedEscape = (event) => {
+    if (event.key === "Escape" && event.target !== $("#position-input")[0]) {
       $("#position-input").show();
       $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
@@ -1009,13 +1010,13 @@ $(function () {
 
   /* Advanced search */
   $(".search-group li a").click(function () {
-    var $this = $(this);
-    var $group = $this.closest(".search-group");
-    var $button = $group.find("button.search-field");
+    const $this = $(this);
+    const $group = $this.closest(".search-group");
+    const $button = $group.find("button.search-field");
 
     $button.attr("data-field", $this.data("field"));
-    var $title = $this.find("span.title");
-    var text = $this.text();
+    const $title = $this.find("span.title");
+    let text = $this.text();
     if ($title.length) {
       text = $title.text();
     }
@@ -1031,7 +1032,7 @@ $(function () {
     if ($group.hasClass("query-field")) {
       $group.find("textarea[name=q]").val($this.data("field"));
       if ($this.closest(".result-page-form").length) {
-        var $form = $this.closest("form");
+        const $form = $this.closest("form");
         $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
       }
@@ -1040,10 +1041,10 @@ $(function () {
     return false;
   });
   $(".query-sort-toggle").click(function () {
-    var $this = $(this);
-    var $input = $this.closest(".search-group").find("input[name=sort_by]");
-    var sort_params = $input.val().split(",");
-    sort_params.forEach(function (param, index) {
+    const $this = $(this);
+    const $input = $this.closest(".search-group").find("input[name=sort_by]");
+    const sort_params = $input.val().split(",");
+    sort_params.forEach((param, index) => {
       if (param.indexOf("-") !== -1) {
         sort_params[index] = param.replace("-", "");
       } else {
@@ -1065,34 +1066,28 @@ $(function () {
       }
     });
   $("#id_q").on("input", function (event) {
-    var $form = $(this).closest("form");
+    const $form = $(this).closest("form");
     $form.find("input[name=offset]").prop("disabled", true);
   });
   $(".search-add").click(function () {
-    var group = $(this).closest(".search-group");
-    var button = group.find("button.search-field");
-    var input = group.find("input");
+    const group = $(this).closest(".search-group");
+    const button = group.find("button.search-field");
+    const input = group.find("input");
 
     if (input.length === 0) {
-      $("#id_q").insertAtCaret(" " + button.attr("data-field") + " ");
+      $("#id_q").insertAtCaret(` ${button.attr("data-field")} `);
     } else if (input.val() !== "") {
-      var prefix = "";
+      let prefix = "";
       if (group.find("#is-exact input[type=checkbox]").is(":checked")) {
         prefix = "=";
       }
       $("#id_q").insertAtCaret(
-        " " +
-          button.attr("data-field") +
-          prefix +
-          quoteSearch(input.val()) +
-          " ",
+        ` ${button.attr("data-field")}${prefix}${quoteSearch(input.val())} `,
       );
     }
   });
   $(".search-insert").click(function () {
-    $("#id_q").insertAtCaret(
-      " " + $(this).closest("tr").find("code").text() + " ",
-    );
+    $("#id_q").insertAtCaret(` ${$(this).closest("tr").find("code").text()} `);
   });
 
   /* Clickable rows */
@@ -1103,10 +1098,10 @@ $(function () {
   /* ZIP import - autofill name and slug */
   $("#id_zipcreate_zipfile,#id_doccreate_docfile,#id_image").change(
     function () {
-      var $form = $(this).closest("form");
-      var target = $form.find("input[name=name]");
+      const $form = $(this).closest("form");
+      const target = $form.find("input[name=name]");
       if (this.files.length > 0 && target.val() === "") {
-        var name = this.files[0].name;
+        const name = this.files[0].name;
         target.val(name.substring(0, name.lastIndexOf(".")));
         target.change();
       }
@@ -1114,18 +1109,16 @@ $(function () {
   );
 
   /* Alert when creating a component */
-  $("#form-create-component-branch,#form-create-component-vcs").submit(
-    function () {
-      addAlert(
-        gettext("Weblate is now scanning the repository, please be patient."),
-        (kind = "info"),
-        (delay = 0),
-      );
-    },
-  );
+  $("#form-create-component-branch,#form-create-component-vcs").submit(() => {
+    addAlert(
+      gettext("Weblate is now scanning the repository, please be patient."),
+      "info",
+      0,
+    );
+  });
 
   /* Username autocompletion */
-  var tribute = new Tribute({
+  const tribute = new Tribute({
     trigger: "@",
     requireLeadingSpace: true,
     menuShowMinLength: 2,
@@ -1133,11 +1126,9 @@ $(function () {
       pre: "​",
       post: "​",
     },
-    noMatchTemplate: function () {
-      return "";
-    },
-    menuItemTemplate: function (item) {
-      let link = document.createElement("a");
+    noMatchTemplate: () => "",
+    menuItemTemplate: (item) => {
+      const link = document.createElement("a");
       link.innerText = item.string;
       return link.outerHTML;
     },
@@ -1146,24 +1137,23 @@ $(function () {
         type: "GET",
         url: `/api/users/?username=${text}`,
         dataType: "json",
-        success: function (data) {
-          var userMentionList = data.results.map(function (user) {
-            return {
-              value: user.username,
-              key: `${user.full_name} (${user.username})`,
-            };
-          });
+        success: (data) => {
+          const userMentionList = data.results.map((user) => ({
+            value: user.username,
+            key: `${user.full_name} (${user.username})`,
+          }));
           callback(userMentionList);
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: (jqXHR, textStatus, errorThrown) => {
           console.error(errorThrown);
         },
       });
     },
   });
   tribute.attach(document.querySelectorAll(".markdown-editor"));
+  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll(".markdown-editor").forEach((editor) => {
-    editor.addEventListener("tribute-active-true", function (e) {
+    editor.addEventListener("tribute-active-true", (e) => {
       $(".tribute-container").addClass("open");
       $(".tribute-container ul").addClass("dropdown-menu");
     });
@@ -1171,9 +1161,9 @@ $(function () {
 
   /* forset fields adding */
   $(".add-multifield").on("click", function () {
-    const updateElementIndex = function (el, prefix, ndx) {
-      const id_regex = new RegExp("(" + prefix + "-(\\d+|__prefix__))");
-      const replacement = prefix + "-" + ndx;
+    const updateElementIndex = (el, prefix, ndx) => {
+      const id_regex = new RegExp(`(${prefix}-(\\d+|__prefix__))`);
+      const replacement = `${prefix}-${ndx}`;
       if ($(el).prop("for")) {
         $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
       }
@@ -1184,12 +1174,12 @@ $(function () {
         el.name = el.name.replace(id_regex, replacement);
       }
     };
-    var $this = $(this);
-    var $form = $this.parents("form");
-    var prefix = $this.data("prefix");
-    var blank = $form.find(".multiFieldEmpty");
-    var row = blank.clone();
-    var totalForms = $("#id_" + prefix + "-TOTAL_FORMS");
+    const $this = $(this);
+    const $form = $this.parents("form");
+    const prefix = $this.data("prefix");
+    const blank = $form.find(".multiFieldEmpty");
+    const row = blank.clone();
+    const totalForms = $(`#id_${prefix}-TOTAL_FORMS`);
     row.removeClass(["multiFieldEmpty", "hidden"]).addClass("multiField");
     row.find("*").each(function () {
       updateElementIndex(this, prefix, totalForms.val());
@@ -1219,13 +1209,15 @@ $(function () {
   });
 
   /* Notifications removal */
+  // biome-ignore lint/complexity/noForEach: TODO
   document
     .querySelectorAll(".nav-pills > li > a > button.close")
     .forEach((button) => {
       button.addEventListener("click", (e) => {
-        let link = button.parentElement;
+        const link = button.parentElement;
+        // biome-ignore lint/complexity/noForEach: TODO
         document
-          .querySelectorAll(link.getAttribute("href") + " select")
+          .querySelectorAll(`${link.getAttribute("href")} select`)
           .forEach((select) => select.remove());
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         link.parentElement.remove();
@@ -1241,10 +1233,11 @@ $(function () {
     });
 
   /* User autocomplete */
+  // biome-ignore lint/complexity/noForEach: TODO
   document
     .querySelectorAll(".user-autocomplete")
     .forEach((autoCompleteInput) => {
-      let autoCompleteJS = new autoComplete({
+      const autoCompleteJS = new autoComplete({
         selector: () => {
           return autoCompleteInput;
         },
@@ -1256,7 +1249,7 @@ $(function () {
           class: "autoComplete_result",
           element: (item, data) => {
             item.textContent = "";
-            let child = document.createElement("a");
+            const child = document.createElement("a");
             child.textContent = data.value.full_name;
             item.appendChild(child);
           },
@@ -1299,7 +1292,7 @@ $(function () {
     });
 
   /* Site-wide search */
-  let siteSearch = new autoComplete({
+  const siteSearch = new autoComplete({
     /*name: "sitewide-search",*/
     selector: "#sitewide-search",
     debounce: 300,
@@ -1310,10 +1303,10 @@ $(function () {
       class: "autoComplete_result",
       element: (item, data) => {
         item.textContent = "";
-        let child = document.createElement("a");
+        const child = document.createElement("a");
         child.setAttribute("href", data.value.url);
         child.textContent = `${data.value.name} `;
-        let category = document.createElement("span");
+        const category = document.createElement("span");
         category.setAttribute("class", "badge");
         category.textContent = data.value.category;
         child.appendChild(category);
@@ -1343,6 +1336,7 @@ $(function () {
   });
 
   /* Workflow customization form */
+  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
     enableInput.addEventListener("click", () => {
       if (!enableInput.checked) {
@@ -1359,7 +1353,7 @@ $(function () {
   });
 
   /* Move current translation into the view */
-  $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", function (e) {
+  $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", (e) => {
     document.querySelector("#nearby .current_translation").scrollIntoView({
       block: "nearest",
       inline: "nearest",
@@ -1367,8 +1361,10 @@ $(function () {
     });
   });
 
+  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (event) => {
+      // biome-ignore lint/complexity/noForEach: TODO
       document
         .querySelectorAll(toggle.getAttribute("data-visibility"))
         .forEach((element) => {

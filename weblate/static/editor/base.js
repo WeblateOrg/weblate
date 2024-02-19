@@ -2,41 +2,36 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+// biome-ignore lint/style/noVar: TODO: doesn't work without that
 var WLT = WLT || {};
 
-WLT.Config = (function () {
-  return {
-    IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
-  };
-})();
+WLT.Config = (() => ({
+  IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
+}))();
 
-WLT.Utils = (function () {
-  return {
-    getNumericKey: function (idx) {
-      return (idx + 1) % 10;
-    },
+WLT.Utils = (() => ({
+  getNumericKey: (idx) => (idx + 1) % 10,
 
-    markFuzzy: function ($el) {
-      /* Standard workflow */
-      $el.find('input[name="fuzzy"]').prop("checked", true);
-      /* Review workflow */
-      $el.find('input[name="review"][value="10"]').prop("checked", true);
-    },
+  markFuzzy: ($el) => {
+    /* Standard workflow */
+    $el.find('input[name="fuzzy"]').prop("checked", true);
+    /* Review workflow */
+    $el.find('input[name="review"][value="10"]').prop("checked", true);
+  },
 
-    markTranslated: function ($el) {
-      /* Standard workflow */
-      $el.find('input[name="fuzzy"]').prop("checked", false);
-      /* Review workflow */
-      $el.find('input[name="review"][value="20"]').prop("checked", true);
-    },
-  };
-})();
+  markTranslated: ($el) => {
+    /* Standard workflow */
+    $el.find('input[name="fuzzy"]').prop("checked", false);
+    /* Review workflow */
+    $el.find('input[name="review"][value="20"]').prop("checked", true);
+  },
+}))();
 
-WLT.Editor = (function () {
-  var lastEditor = null;
+WLT.Editor = (() => {
+  let lastEditor = null;
 
   function EditorBase() {
-    var translationAreaSelector = ".translation-editor";
+    const translationAreaSelector = ".translation-editor";
 
     this.$editor = $(".js-editor");
     /* Only insert actual translation editor, not a popup for adding variant */
@@ -52,13 +47,13 @@ WLT.Editor = (function () {
 
     /* Count characters */
     this.$editor.on("input", translationAreaSelector, (e) => {
-      var textarea = e.target;
-      var editor = textarea.parentElement.parentElement;
-      var counter = editor.querySelector(".length-indicator");
-      var classToggle = editor.classList;
+      const textarea = e.target;
+      const editor = textarea.parentElement.parentElement;
+      const counter = editor.querySelector(".length-indicator");
+      const classToggle = editor.classList;
 
-      var limit = parseInt(counter.getAttribute("data-max"));
-      var length = textarea.value.length;
+      const limit = parseInt(counter.getAttribute("data-max"));
+      const length = textarea.value.length;
 
       counter.textContent = length;
       if (length > limit) {
@@ -75,25 +70,22 @@ WLT.Editor = (function () {
 
     /* Copy source text */
     this.$editor.on("click", "[data-clone-text]", function (e) {
-      var $this = $(this);
-      var $document = $(document);
-      var cloneText = this.getAttribute("data-clone-text");
+      const $this = $(this);
+      const $document = $(document);
+      const cloneText = this.getAttribute("data-clone-text");
 
-      var row = $this.closest(".zen-unit");
+      let row = $this.closest(".zen-unit");
       if (row.length === 0) {
         row = $this.closest(".translator");
       }
       if (row.length === 0) {
         row = $document.find(".translator");
       }
-      var editors = row.find(".translation-editor");
-      if (editors.length == 1) {
+      const editors = row.find(".translation-editor");
+      if (editors.length === 1) {
         editors.replaceValue(cloneText);
       } else {
-        addAlert(
-          gettext("Please select target plural by clicking."),
-          (kind = "info"),
-        );
+        addAlert(gettext("Please select target plural by clicking."), "info");
         editors.addClass("editor-click-select");
         editors.click(function () {
           $(this).replaceValue(cloneText);
@@ -102,7 +94,7 @@ WLT.Editor = (function () {
           $document.off("click");
           return false;
         });
-        $document.on("click", function () {
+        $document.on("click", () => {
           editors.removeClass("editor-click-select");
           editors.off("click");
           $document.off("click");
@@ -115,9 +107,9 @@ WLT.Editor = (function () {
 
     /* Direction toggling */
     this.$editor.on("change", ".direction-toggle", function () {
-      var $this = $(this);
-      var direction = $this.find("input").val();
-      var container = $this.closest(".translation-item");
+      const $this = $(this);
+      const direction = $this.find("input").val();
+      const container = $this.closest(".translation-item");
 
       container.find(".translation-editor").attr("dir", direction);
       container.find(".highlighted-output").attr("dir", direction);
@@ -125,8 +117,8 @@ WLT.Editor = (function () {
 
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
-      var $this = $(this);
-      var text = this.getAttribute("data-value");
+      const $this = $(this);
+      const text = this.getAttribute("data-value");
 
       $this
         .closest(".translation-item")
@@ -141,35 +133,33 @@ WLT.Editor = (function () {
     this.$translationArea[0].focus();
   }
 
-  EditorBase.prototype.init = function () {};
+  EditorBase.prototype.init = () => {};
 
   EditorBase.prototype.initHighlight = function () {
-    var hlSelector = ".hlcheck";
-    var hlNumberSelector = ".highlight-number";
+    const hlSelector = ".hlcheck";
+    const hlNumberSelector = ".highlight-number";
 
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
-      var $this = $(this);
+      const $this = $(this);
       insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
     });
 
     /* and shortcuts */
-    for (var i = 1; i < 10; i++) {
-      Mousetrap.bindGlobal("mod+" + i, function (e) {
-        return false;
-      });
+    for (let i = 1; i < 10; i++) {
+      Mousetrap.bindGlobal(`mod+${i}`, (e) => false);
     }
 
-    var $hlCheck = $(hlSelector);
+    const $hlCheck = $(hlSelector);
     if ($hlCheck.length > 0) {
       $hlCheck.each(function (idx) {
-        var $this = $(this);
+        const $this = $(this);
 
         if (idx < 10) {
-          let key = WLT.Utils.getNumericKey(idx);
+          const key = WLT.Utils.getNumericKey(idx);
 
-          var title;
+          let title;
           if (WLT.Config.IS_MAC) {
             title = interpolate(gettext("Cmd+%s"), [key]);
           } else {
@@ -178,7 +168,7 @@ WLT.Editor = (function () {
           $this.attr("title", title);
           $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
-          Mousetrap.bindGlobal("mod+" + key, function (e) {
+          Mousetrap.bindGlobal(`mod+${key}`, (e) => {
             $this.click();
             return false;
           });
@@ -191,14 +181,14 @@ WLT.Editor = (function () {
 
     Mousetrap.bindGlobal(
       "mod",
-      function (e) {
+      (e) => {
         $(hlNumberSelector).show();
       },
       "keydown",
     );
     Mousetrap.bindGlobal(
       "mod",
-      function (e) {
+      (e) => {
         $(hlNumberSelector).hide();
       },
       "keyup",
@@ -206,7 +196,7 @@ WLT.Editor = (function () {
   };
 
   function insertEditor(text, element) {
-    var root;
+    let root;
 
     /* Find within root element */
     if (typeof element !== "undefined") {
@@ -221,7 +211,7 @@ WLT.Editor = (function () {
       root = $(document);
     }
 
-    var editor = root.find(".translation-editor:focus");
+    let editor = root.find(".translation-editor:focus");
     if (editor.length === 0) {
       editor = root.find(lastEditor);
       if (editor.length === 0) {
