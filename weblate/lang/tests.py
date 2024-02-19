@@ -13,6 +13,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import activate
+from weblate_language_data.aliases import ALIASES
 from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 
@@ -163,6 +164,107 @@ TEST_LANGUAGES = (
         False,
     ),
 )
+
+
+# Constants for BasicLanguagesTest
+
+# bit masks
+BASE_FORM    = 1
+BASE_ALIAS   = 1 << 1
+BASE_VARIANT = 1 << 2
+
+# combinations
+BASE_LANGUAGE_ONLY   = BASE_FORM
+DEFAULT_VARIANT_ONLY = BASE_ALIAS
+TWO_VARIANTS_ONLY    = BASE_ALIAS | BASE_VARIANT
+BASE_PLUS_VARIANT    = BASE_FORM | BASE_VARIANT
+
+TEST_LANGUAGE_GROUPS = (
+    # We've got 'en' language and its variants like 'en_US' and 'en_GB' will not be present in the default list of basic languages
+    ("en", None, "en_US", "en_GB", BASE_LANGUAGE_ONLY),
+
+    # There is no standalone 'zh' language but rather 'zh_Hans' and 'zh_Hant' as UNDERSCORE_EXCEPTIONS
+    ("zh", "zh_Hans", "zh_Hant", TWO_VARIANTS_ONLY),
+
+    # The base language 'be' stands alongside 'be_Latn' as basic languages
+    ("be", None, "be_Latn", BASE_PLUS_VARIANT),
+
+    # Both the base language and a variant in UNDERSCORE_EXCEPTIONS as basic languages
+    ("pt", None, "pt_BR", BASE_PLUS_VARIANT),
+
+    # 'nb' being alias for the 'nb_NO' language instead
+    ("nb", "nb_NO", DEFAULT_VARIANT_ONLY),
+
+    # We no longer have standalone 'yue' and 'nan' languages, so keep their aliases 'yue_Hant' and 'nan_Hant' in basic languages instead
+    ("yue", "yue_Hant", "yue_Hans", DEFAULT_VARIANT_ONLY),
+    ("nan", "nan_Hant", "nan_Latn", DEFAULT_VARIANT_ONLY)
+)
+
+
+class BasicLanguagesTest(TestCase):
+    """Test for the default list of basic languages."""
+    
+    @staticmethod
+    def check_presence(languages, reference=False):
+        result = 0
+        base_alias = None
+        for i, l in enumerate(languages):
+            if l is None:
+                continue
+            if reference:
+                if i == 0:
+                    check = l in data.NO_CODE_LANGUAGES
+                else:
+                    if i == 1:
+                        base_language = languages[0]
+                        if base_language in ALIASES:
+                            base_alias = ALIASES[base_language]
+                    check = (l == base_alias and not result & BASE_FORM) or l in data.UNDERSCORE_EXCEPTIONS
+            else:
+                check = l in data.BASIC_LANGUAGES
+            result += check << i
+        if reference:
+            if base_alias is None or base_alias == languages[1]:
+                return result,
+            else:
+                return result, base_alias, base_alias in data.BASIC_LANGUAGES
+        return result
+
+    @staticmethod
+    def list_languages(bitset, languages):
+        langs = []
+        for i, l in enumerate(languages):
+            if bitset & 1 << i:
+                langs.append(l)
+        return langs if langs else None
+
+    @staticmethod
+    def get_friendly_result(result, expected, languages):
+        return f"Expecting {__class__.list_languages(expected, languages)} but got {__class__.list_languages(result, languages)} in basic languages."
+
+    def run_test(self, language_group, adaptive=None):
+        *language_forms, expected = language_group
+        result = self.check_presence(language_forms)
+        if adaptive is not None and result != expected:
+            base_language = language_forms[0]
+            adapted, *base_alias = self.check_presence(language_forms, True)
+            if adapted != expected:
+                print(f"Unexpected results for '{base_language}' language group. Adapting test case to current language-data.")
+                adaptive.append(base_language)
+            if adapted == 0:
+                self.skipTest(f"Never mind. '{base_language}' is not present in the list of languages and no alias is found.")
+            expected = adapted
+            if not expected & BASE_FORM and base_alias:
+                self.assertTrue(base_alias[1], f"There is no standalone '{base_language}' language and its alias '{base_alias[0]}' is not present in basic languages.")
+        self.assertEqual(result, expected, self.get_friendly_result(result, expected, language_forms))
+ 
+    def test_basic_languages(self):
+        heads_up = []
+        for i, l in enumerate(TEST_LANGUAGE_GROUPS):
+            with self.subTest(f"Testing the '{l[0]}' language group", i=i):
+                self.run_test(l, heads_up)
+        if heads_up:
+            print(f"Perhaps the test case needs to catch up with language-data for {heads_up}?")
 
 
 class TestSequenceMeta(type):
