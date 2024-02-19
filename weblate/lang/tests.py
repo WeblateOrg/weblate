@@ -5,7 +5,6 @@
 """Test for language manipulations."""
 
 import warnings
-
 from gettext import c2py
 from io import StringIO
 from itertools import chain
