@@ -18,7 +18,7 @@ Project access control
     access to your project.
 
 You can limit user’s access to individual projects by selecting a different
-:guilabel:`Access control` setting. Available options are:
+:ref:`project-access_control` setting. Available options are:
 
 :guilabel:`Public`
    Visible to everybody.
