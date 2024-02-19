@@ -90,7 +90,13 @@ def flush_version_cache():
 
 
 def get_version_info() -> list[Release]:
-    result = cache.get(CACHE_KEY)
+    try:
+        result = cache.get(CACHE_KEY)
+    except AttributeError:
+        # TODO: Remove try/except in Weblate 5.7
+        # Can happen on upgrade to 5.4 when unpickling fails because
+        # of the Release class was moved between modules
+        result = None
     if not result:
         result = download_version_info()
         cache.set(CACHE_KEY, result, 86400)

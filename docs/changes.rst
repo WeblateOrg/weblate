@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Possible crash on Weblate upgrade check when cached from the previous versions.
+
 **Compatibility**
 
 **Upgrading**
