@@ -65,17 +65,17 @@ project.
 
 .. image:: /screenshots/project-access.webp
 
-Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
+The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. note::
 
-    `Private` projects still expose counts for all projects in their
-    respective statistics and language summary.
-    This does not reveal project name or other info.
+    Even `Private` project statistics are accounted for
+    in the site-wide statistics and language summary.
+    This does not reveal project names or other info.
 
 .. note::
 
-    Administraotrs can change what default permissions are available to users
+    Administraotrs can change the default permissions available to users
     of `Public`, `Protected`, and `Private` projects by using :ref:`custom settings <custom-acl>`.
 
 .. seealso::
@@ -87,19 +87,13 @@ Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 Managing per-project access control
 -----------------------------------
 
-Users with the :guilabel:`Manage project access` privilege (see
-:ref:`privileges`) can manage users in projects via adding them to the teams.
-The initial collection of teams is provided by Weblate, but additional ones can
-be defined providing more fine-grained access control. You can limit teams to
-languages and assign them designated access roles (see :ref:`privileges`).
-
-The following teams are automatically created for every project:
-
 For `Public`, `Protected` and `Private` projects:
 
 Granting users :guilabel:`Manage project access` (see :ref:`privileges`)
-gives them access to assign other users in Public`, `Protected` and
-`Private` (but not `Custom`) projects to one of the following groups:
+allows them to assign other users in Public`, `Protected` and
+`Private` (but not `Custom`) projects via adding them to teams.
+
+These are the default groups, and more can be added with fine-grained access-control:
 
 Administration
     All available permissions for the project.
@@ -143,13 +137,20 @@ Billing
 These features are available on the :guilabel:`Access control` page in
 the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
+.. hint::
+
+    You can limit teams to languages
+    and assign them designated access roles (see :ref:`privileges`).
+
+
 Team administrators
 +++++++++++++++++++
 
 .. versionadded:: 4.15
 
-Each team can have team administrator, who can add and remove users within the
-team. This is useful in case you want to build self-governed teams.
+Each team can have team administrator,
+who can add and remove users within the team.
+This is useful in case you want to build self-governed teams.
 
 .. _invite-user:
 
