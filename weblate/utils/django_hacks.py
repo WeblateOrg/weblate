@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from sys import exc_info
 from unittest import mock
 
 
@@ -23,8 +22,8 @@ def immediate_on_commit(cls):
     cls.on_commit_mgr = mock.patch(
         "django.db.transaction.on_commit", side_effect=handle_immediate_on_commit
     )
-    cls.on_commit_mgr.__enter__()
+    cls.on_commit_mgr.start()
 
 
 def immediate_on_commit_leave(cls):
-    cls.on_commit_mgr.__exit__(*exc_info())
+    cls.on_commit_mgr.stop()
