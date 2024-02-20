@@ -7763,10 +7763,12 @@ exports.addTracingExtensions = core.addTracingExtensions;
 exports.captureEvent = core.captureEvent;
 exports.captureException = core.captureException;
 exports.captureMessage = core.captureMessage;
+exports.captureSession = core.captureSession;
 exports.close = core.close;
 exports.configureScope = core.configureScope;
 exports.continueTrace = core.continueTrace;
 exports.createTransport = core.createTransport;
+exports.endSession = core.endSession;
 exports.extractTraceparentData = core.extractTraceparentData;
 exports.flush = core.flush;
 exports.functionToStringIntegration = core.functionToStringIntegration;
@@ -7796,6 +7798,7 @@ exports.setTags = core.setTags;
 exports.setUser = core.setUser;
 exports.spanStatusfromHttpCode = core.spanStatusfromHttpCode;
 exports.startInactiveSpan = core.startInactiveSpan;
+exports.startSession = core.startSession;
 exports.startSpan = core.startSpan;
 exports.startSpanManual = core.startSpanManual;
 exports.startTransaction = core.startTransaction;
@@ -15442,50 +15445,48 @@ class Scope  {
       return this;
     }
 
-    if (typeof captureContext === 'function') {
-      const updatedScope = (captureContext )(this);
-      return updatedScope instanceof Scope ? updatedScope : this;
-    }
+    const scopeToMerge = typeof captureContext === 'function' ? captureContext(this) : captureContext;
 
-    if (captureContext instanceof Scope) {
-      this._tags = { ...this._tags, ...captureContext._tags };
-      this._extra = { ...this._extra, ...captureContext._extra };
-      this._contexts = { ...this._contexts, ...captureContext._contexts };
-      if (captureContext._user && Object.keys(captureContext._user).length) {
-        this._user = captureContext._user;
+    if (scopeToMerge instanceof Scope) {
+      const scopeData = scopeToMerge.getScopeData();
+
+      this._tags = { ...this._tags, ...scopeData.tags };
+      this._extra = { ...this._extra, ...scopeData.extra };
+      this._contexts = { ...this._contexts, ...scopeData.contexts };
+      if (scopeData.user && Object.keys(scopeData.user).length) {
+        this._user = scopeData.user;
       }
-      if (captureContext._level) {
-        this._level = captureContext._level;
+      if (scopeData.level) {
+        this._level = scopeData.level;
       }
-      if (captureContext._fingerprint) {
-        this._fingerprint = captureContext._fingerprint;
+      if (scopeData.fingerprint.length) {
+        this._fingerprint = scopeData.fingerprint;
       }
-      if (captureContext._requestSession) {
-        this._requestSession = captureContext._requestSession;
+      if (scopeToMerge.getRequestSession()) {
+        this._requestSession = scopeToMerge.getRequestSession();
       }
-      if (captureContext._propagationContext) {
-        this._propagationContext = captureContext._propagationContext;
+      if (scopeData.propagationContext) {
+        this._propagationContext = scopeData.propagationContext;
       }
-    } else if (utils.isPlainObject(captureContext)) {
-      // eslint-disable-next-line no-param-reassign
-      captureContext = captureContext ;
-      this._tags = { ...this._tags, ...captureContext.tags };
-      this._extra = { ...this._extra, ...captureContext.extra };
-      this._contexts = { ...this._contexts, ...captureContext.contexts };
-      if (captureContext.user) {
-        this._user = captureContext.user;
+    } else if (utils.isPlainObject(scopeToMerge)) {
+      const scopeContext = captureContext ;
+      this._tags = { ...this._tags, ...scopeContext.tags };
+      this._extra = { ...this._extra, ...scopeContext.extra };
+      this._contexts = { ...this._contexts, ...scopeContext.contexts };
+      if (scopeContext.user) {
+        this._user = scopeContext.user;
       }
-      if (captureContext.level) {
-        this._level = captureContext.level;
+      if (scopeContext.level) {
+        this._level = scopeContext.level;
       }
-      if (captureContext.fingerprint) {
-        this._fingerprint = captureContext.fingerprint;
+      if (scopeContext.fingerprint) {
+        this._fingerprint = scopeContext.fingerprint;
       }
-      if (captureContext.requestSession) {
-        this._requestSession = captureContext.requestSession;
+      if (scopeContext.requestSession) {
+        this._requestSession = scopeContext.requestSession;
       }
-      if (captureContext.propagationContext) {
-        this._propagationContext = captureContext.propagationContext;
+      if (scopeContext.propagationContext) {
+        this._propagationContext = scopeContext.propagationContext;
       }
     }
 
@@ -20098,7 +20099,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":135}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.101.1';
+const SDK_VERSION = '7.102.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
