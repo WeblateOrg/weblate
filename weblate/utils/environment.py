@@ -129,7 +129,7 @@ def get_env_ratelimit(name: str, default: str) -> str:
         raise ValueError(f"Could not parse {name}: {error}") from error
     if not num.isdigit():
         raise ValueError(f"Could not parse {name}: rate is not numeric: {num}")
-    if period[0] not in ("s", "m", "h", "d"):
+    if period[0] not in {"s", "m", "h", "d"}:
         raise ValueError(f"Could not parse {name}: unknown period: {period}")
 
     return value

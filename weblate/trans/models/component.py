@@ -3657,7 +3657,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @property
     def context_label(self):
-        if self.file_format in ("po", "po-mono", "tbx"):
+        if self.file_format in {"po", "po-mono", "tbx"}:
             # Translators: Translation context for Gettext
             return gettext("Context")
         # Translators: Translation key for monolingual translations
@@ -3737,7 +3737,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_language_alias(self, code):
         if code in self.project.language_aliases_dict:
             return self.project.language_aliases_dict[code]
-        if code in ("source", "src", "default"):
+        if code in {"source", "src", "default"}:
             return self.source_language.code
         return code
 
@@ -3795,7 +3795,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 def change_component_link(sender, instance, action, pk_set, **kwargs):
     from weblate.trans.models import Project
 
-    if action not in ("post_add", "post_remove", "post_clear"):
+    if action not in {"post_add", "post_remove", "post_clear"}:
         return
     for project in Project.objects.filter(pk__in=pk_set):
         project.invalidate_glossary_cache()

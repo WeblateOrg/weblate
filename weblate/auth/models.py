@@ -187,11 +187,11 @@ class Group(models.Model):
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
             self.languages.clear()
-        if self.project_selection in (
+        if self.project_selection in {
             SELECTION_ALL,
             SELECTION_ALL_PUBLIC,
             SELECTION_ALL_PROTECTED,
-        ):
+        }:
             self.projects.clear()
         elif self.project_selection == SELECTION_COMPONENT_LIST:
             self.projects.set(
@@ -696,11 +696,11 @@ class User(AbstractBaseUser):
                     continue
 
                 # Handle project selection
-                if group.project_selection in (
+                if group.project_selection in {
                     SELECTION_ALL_PUBLIC,
                     SELECTION_ALL_PROTECTED,
                     SELECTION_ALL,
-                ):
+                }:
                     projects[-group.project_selection].append((permissions, languages))
                 else:
                     # Project specific permissions
@@ -943,7 +943,7 @@ def setup_project_groups(
     # Access control changed
     elif not created and (
         instance.access_control == Project.ACCESS_PUBLIC
-        or old_access_control in (Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE)
+        or old_access_control in {Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE}
     ):
         # Avoid changing groups on some access control changes:
         # - Public groups are always present, so skip change on changing to public

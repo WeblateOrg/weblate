@@ -230,7 +230,7 @@ def verify_open(
     # Check whether registration is open
     if (
         not user
-        and weblate_action not in ("reset", "remove")
+        and weblate_action not in {"reset", "remove"}
         and not invitation_link
         and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS

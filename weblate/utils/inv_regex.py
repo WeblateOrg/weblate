@@ -156,7 +156,7 @@ def handle_macro(toks):
         return CharacterRangeEmitter("0123456789")
     if macro_char == "w":
         return CharacterRangeEmitter(srange("[A-Za-z0-9_]"))
-    if macro_char in ("s", "W"):
+    if macro_char in {"s", "W"}:
         return LiteralEmitter(" ")
     raise ParseFatalException("", 0, f"unsupported macro character ({macro_char})")
 
@@ -180,9 +180,18 @@ def handle_alternative(toks):
 def get_parser():
     orig_whitespace = ParserElement.DEFAULT_WHITE_CHARS
     ParserElement.set_default_whitespace_chars("")
-    lbrack, rbrack, lbrace, rbrace, lparen, rparen, colon, qmark, dollar, cflex = map(
-        Literal, "[]{}():?$^"
-    )
+    (
+        lbrack,
+        rbrack,
+        lbrace,
+        rbrace,
+        _lparen,
+        _rparen,
+        _colon,
+        _qmark,
+        dollar,
+        cflex,
+    ) = map(Literal, "[]{}():?$^")
 
     re_macro = Combine("\\" + one_of(list("dwsW")))
     escaped_char = ~re_macro + Combine("\\" + one_of(list(printables)))

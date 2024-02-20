@@ -32,7 +32,7 @@ def edit_context(request, pk):
         flag = request.POST.get("addflag", request.POST.get("removeflag"))
         flags = unit.get_unit_flags()
         if (
-            flag in ("terminology", "forbidden", "read-only")
+            flag in {"terminology", "forbidden", "read-only"}
             and not unit.is_source
             and flag not in flags
         ):

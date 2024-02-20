@@ -20,8 +20,9 @@ class Command(BaseCommand):
                 result.append("")
             result.append("Available choices:")
             for value, description in choices:
-                result.append("")
-                result.append(f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                result.extend(
+                    ("", f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                )
         return result
 
     def handle(self, *args, **options):

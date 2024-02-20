@@ -92,7 +92,7 @@ class LocaleGenerateAddonBase(BaseAddon):
             for source in source_strings:
                 multi = int(var_multiplier * len(source))
                 new_strings.append(
-                    f"{prefix}{var_prefix*multi}{source}{var_suffix*multi}{suffix}"
+                    f"{prefix}{var_prefix * multi}{source}{var_suffix * multi}{suffix}"
                 )
             target_strings = unit.get_target_plurals()
             if new_strings != target_strings or unit.state < STATE_TRANSLATED:

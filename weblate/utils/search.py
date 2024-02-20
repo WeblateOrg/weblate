@@ -8,6 +8,7 @@ import re
 from datetime import datetime, timedelta
 from functools import lru_cache, reduce
 from itertools import chain
+from operator import and_, or_
 
 from dateutil.parser import ParserError, parse
 from django.db import transaction
@@ -148,7 +149,7 @@ class BaseTermExpr:
 
     def fixup(self):
         # Avoid unwanted lt/gt searches on plain text fields
-        if self.field in self.PLAIN_FIELDS and self.operator not in (":", ":="):
+        if self.field in self.PLAIN_FIELDS and self.operator not in {":", ":="}:
             self.match = self.operator[1:] + self.match
             self.operator = ":"
 
@@ -164,9 +165,9 @@ class BaseTermExpr:
 
     def convert_bool(self, text):
         ltext = text.lower()
-        if ltext in ("yes", "true", "on", "1"):
+        if ltext in {"yes", "true", "on", "1"}:
             return True
-        if ltext in ("no", "false", "off", "0"):
+        if ltext in {"no", "false", "off", "0"}:
             return False
         raise ValueError(f"Invalid boolean value: {text}")
 
@@ -263,7 +264,7 @@ class BaseTermExpr:
         if field in self.STRING_FIELD_MAP:
             return f"{self.STRING_FIELD_MAP[field]}__{suffix}"
         if field in self.NONTEXT_FIELDS:
-            if suffix not in ("substring", "iexact"):
+            if suffix not in {"substring", "iexact"}:
                 return f"{self.NONTEXT_FIELDS[field]}__{suffix}"
             return self.NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
@@ -310,9 +311,9 @@ class BaseTermExpr:
         if isinstance(match, tuple):
             start, end = match
             # Ranges
-            if self.operator in (":", ":="):
+            if self.operator in {":", ":="}:
                 query = Q(**{self.field_name(field, "range"): (start, end)})
-            elif self.operator in (":>", ":>="):
+            elif self.operator in {":>", ":>="}:
                 query = Q(**{self.field_name(field, "gte"): start})
             else:
                 query = Q(**{self.field_name(field, "lte"): end})
@@ -369,11 +370,11 @@ class UnitTermExpr(BaseTermExpr):
     }
 
     def is_field(self, text, context: dict):
-        if text in ("read-only", "readonly"):
+        if text in {"read-only", "readonly"}:
             return Q(state=STATE_READONLY)
         if text == "approved":
             return Q(state=STATE_APPROVED)
-        if text in ("fuzzy", "needs-editing"):
+        if text in {"fuzzy", "needs-editing"}:
             return Q(state=STATE_FUZZY)
         if text == "translated":
             return Q(state__gte=STATE_TRANSLATED)
@@ -395,20 +396,20 @@ class UnitTermExpr(BaseTermExpr):
             return ~Q(note="")
         if text == "comment":
             return Q(comment__resolved=False)
-        if text in ("resolved-comment", "resolved_comment"):
+        if text in {"resolved-comment", "resolved_comment"}:
             return Q(comment__resolved=True)
-        if text in ("check", "failing-check", "failing_check"):
+        if text in {"check", "failing-check", "failing_check"}:
             return Q(check__dismissed=False)
-        if text in (
+        if text in {
             "dismissed-check",
             "dismissed_check",
             "ignored-check",
             "ignored_check",
-        ):
+        }:
             return Q(check__dismissed=True)
         if text == "translation":
             return Q(state__gte=STATE_TRANSLATED)
-        if text in ("variant", "shaping"):
+        if text in {"variant", "shaping"}:
             return Q(variant__isnull=False)
         if text == "label":
             return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
@@ -568,7 +569,7 @@ def parser_to_query(obj, context: dict):
     operator = "AND"
     expressions = []
     for item in obj:
-        if isinstance(item, str) and item.upper() in ("OR", "AND", "NOT"):
+        if isinstance(item, str) and item.upper() in {"OR", "AND", "NOT"}:
             operator = item.upper()
             continue
         expressions.append(parser_to_query(item, context))
@@ -579,8 +580,8 @@ def parser_to_query(obj, context: dict):
     if operator == "NOT":
         return ~expressions[0]
     if operator == "AND":
-        return reduce(lambda x, y: x & y, expressions)
-    return reduce(lambda x, y: x | y, expressions)
+        return reduce(and_, expressions)
+    return reduce(or_, expressions)
 
 
 @lru_cache(maxsize=512)

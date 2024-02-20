@@ -429,7 +429,7 @@ class DiscoveryForm(BaseAddonForm):
         if self.cleaned_match_re is None:
             matches = {"component": "test"}
         else:
-            matches = {key: "test" for key in self.cleaned_match_re.groupindex}
+            matches = dict.fromkeys(self.cleaned_match_re.groupindex, "test")
         return validate_render(value, **matches)
 
     def template_clean(self, name):

@@ -177,7 +177,7 @@ class FluentPatterns:
                     if not pos % 2:
                         # Not an escaped character.
                         literal += chars
-                    elif chars in ('\\"', "\\\\"):
+                    elif chars in {'\\"', "\\\\"}:
                         # Unescape the character by removing the "\".
                         literal += chars[1:]
                     else:

@@ -83,7 +83,7 @@ def get_bread_image(path):
     if path == "/":
         return "dashboard.svg"
     first = path.split("/", 2)[1]
-    if first in ("user", "accounts"):
+    if first in {"user", "accounts"}:
         return "account.svg"
     if first == "checks":
         return "alert.svg"
@@ -91,14 +91,14 @@ def get_bread_image(path):
         return "language.svg"
     if first == "manage":
         return "wrench.svg"
-    if first in ("about", "stats", "keys", "legal"):
+    if first in {"about", "stats", "keys", "legal"}:
         return "weblate.svg"
-    if first in (
+    if first in {
         "glossaries",
         "upload-glossaries",
         "delete-glossaries",
         "edit-glossaries",
-    ):
+    }:
         return "glossary.svg"
     return "project.svg"
 

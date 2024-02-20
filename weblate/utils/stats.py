@@ -95,7 +95,7 @@ SOURCE_MAP = {
 
 
 def zero_stats(keys):
-    stats = {item: 0 for item in keys}
+    stats = dict.fromkeys(keys, 0)
     stats["last_changed"] = None
     stats["last_author"] = None
     stats["stats_timestamp"] = 0
@@ -528,7 +528,7 @@ class TranslationStats(BaseStats):
             unit
             for unit in units
             if get_active_checks_count(unit)
-            and get_state(unit) in (STATE_TRANSLATED, STATE_APPROVED)
+            and get_state(unit) in {STATE_TRANSLATED, STATE_APPROVED}
         ]
         units_dismissed_checks = [
             unit for unit in units if get_dismissed_checks_count(unit)

@@ -28,9 +28,9 @@ NON_WORD_RE = re.compile(r"\W")
 CONTROLCHARS = [
     char
     for char in map(chr, range(sys.maxunicode + 1))
-    if unicodedata.category(char) in ("Zl", "Cc")
+    if unicodedata.category(char) in {"Zl", "Cc"}
 ]
-CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
+CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
 def get_glossary_sources(component):

@@ -266,7 +266,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
         # Stop changes processin on source string change or on
         # intentional marking as needing edit
-        return change.action in (Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT)
+        return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:

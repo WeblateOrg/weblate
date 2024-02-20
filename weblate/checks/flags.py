@@ -99,7 +99,7 @@ def _parse_flags_text(flags: str):
             # End of flag
             state = 0
             yield name
-        elif state in (1, 3) and token == ":":
+        elif state in {1, 3} and token == ":":
             # Value separator
             state = 2
         elif state == 2 and token == ",":
@@ -114,7 +114,7 @@ def _parse_flags_text(flags: str):
             if (
                 token == "r"
                 and pos + 1 < len(tokens)
-                and tokens[pos + 1] not in (",", ":")
+                and tokens[pos + 1] not in {",", ":"}
             ):
                 # Regex prefix, value follows
                 state = 4
@@ -156,9 +156,9 @@ def parse_flags_xml(flags):
     maxwidth = flags.get("maxwidth")
     sizeunit = flags.get("size-unit")
     if maxwidth:
-        if sizeunit in (None, "pixel", "point"):
+        if sizeunit in {None, "pixel", "point"}:
             yield "max-size", maxwidth
-        elif sizeunit in ("byte", "char"):
+        elif sizeunit in {"byte", "char"}:
             yield "max-length", maxwidth
     font = flags.get("font")
     if font:
@@ -196,7 +196,7 @@ class Flags:
             if isinstance(flag, tuple):
                 self._values[flag[0]] = flag[1:]
                 self._items[flag[0]] = flag
-            elif flag and flag not in ("fuzzy", "#"):
+            elif flag and flag not in {"fuzzy", "#"}:
                 # Ignore some flags
                 self._items[flag] = flag
 

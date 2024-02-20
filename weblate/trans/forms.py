@@ -451,7 +451,7 @@ class TranslationForm(UnitForm):
         choices=[
             (state, get_state_label(state, label, True))
             for state, label in StringState.choices
-            if state not in (STATE_READONLY, STATE_EMPTY)
+            if state not in {STATE_READONLY, STATE_EMPTY}
         ],
         required=False,
         widget=forms.RadioSelect,
@@ -2078,10 +2078,10 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     )
                 }
             )
-        if self.changed_access and access in (
+        if self.changed_access and access in {
             Project.ACCESS_PUBLIC,
             Project.ACCESS_PROTECTED,
-        ):
+        }:
             unlicensed = self.instance.component_set.filter(license="")
             if unlicensed:
                 raise ValidationError(

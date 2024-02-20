@@ -282,12 +282,12 @@ def bitbucket_extract_repo_url(data, repository):
 def bitbucket_hook_helper(data, request):
     """API to handle service hooks from Bitbucket."""
     # Bitbucket ping event
-    if request and request.headers.get("x-event-key") not in (
+    if request and request.headers.get("x-event-key") not in {
         "repo:push",
         "repo:refs_changed",
         "pullrequest:fulfilled",
         "pr:merged",
-    ):
+    }:
         return None
 
     if "pullRequest" in data:

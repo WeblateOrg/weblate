@@ -782,10 +782,10 @@ class Profile(models.Model):
 
         allowed = {clist.pk for clist in self.allowed_dashboard_component_lists}
 
-        if not allowed and self.dashboard_view in (
+        if not allowed and self.dashboard_view in {
             Profile.DASHBOARD_COMPONENT_LIST,
             Profile.DASHBOARD_COMPONENT_LISTS,
-        ):
+        }:
             self.dashboard_view = Profile.DASHBOARD_WATCHED
             fields.add("dashboard_view")
 

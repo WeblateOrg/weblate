@@ -35,7 +35,7 @@ CONTROLCHARS = {
     "\x1e",
     "\x1f",
 }
-CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
+CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
 class NamedBytesIO(BytesIO):

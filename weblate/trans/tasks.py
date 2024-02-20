@@ -63,7 +63,7 @@ def perform_update(cls, pk, auto=False, obj=None):
                 obj = Project.objects.get(pk=pk)
             else:
                 obj = Component.objects.get(pk=pk)
-        if settings.AUTO_UPDATE in ("full", True) or not auto:
+        if settings.AUTO_UPDATE in {"full", True} or not auto:
             obj.do_update()
         else:
             obj.update_remote_branch()
@@ -216,7 +216,7 @@ def cleanup_suggestions():
 @app.task(trail=False)
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
-    if settings.AUTO_UPDATE not in ("full", "remote", True, False):
+    if settings.AUTO_UPDATE not in {"full", "remote", True, False}:
         return
 
     for component in Component.objects.with_repo().iterator():

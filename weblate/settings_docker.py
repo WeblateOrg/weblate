@@ -1211,7 +1211,7 @@ EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", 25)
 if "WEBLATE_EMAIL_USE_TLS" in os.environ or "WEBLATE_EMAIL_USE_SSL" in os.environ:
     EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
     EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", not EMAIL_USE_SSL)
-elif EMAIL_PORT in (25, 587):
+elif EMAIL_PORT in {25, 587}:
     EMAIL_USE_TLS = True
 elif EMAIL_PORT == 465:
     EMAIL_USE_SSL = True
@@ -1368,7 +1368,7 @@ if LEGAL_INTEGRATION:
     INSTALLED_APPS.append("weblate.legal")
 
     # TOS confirmation enforcement
-    if LEGAL_INTEGRATION in ("tos-confirm", "wllegal"):
+    if LEGAL_INTEGRATION in {"tos-confirm", "wllegal"}:
         # Social auth pipeline to confirm TOS upon registration/subsequent sign in
         SOCIAL_AUTH_PIPELINE.insert(
             SOCIAL_AUTH_PIPELINE.index(

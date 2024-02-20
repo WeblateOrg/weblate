@@ -323,7 +323,7 @@ def check_upload_method_permissions(user, translation, method: str):
         )
     if method == "add":
         return user.has_perm("unit.add", translation)
-    if method in ("translate", "fuzzy"):
+    if method in {"translate", "fuzzy"}:
         return user.has_perm("unit.edit", translation)
     if method == "suggest":
         return user.has_perm("suggestion.add", translation)
@@ -358,4 +358,4 @@ def count_words(string: str, lang_code=""):
 
 
 def is_ngram_code(string: str):
-    return string in ("ja", "zh", "ko")
+    return string in {"ja", "zh", "ko"}

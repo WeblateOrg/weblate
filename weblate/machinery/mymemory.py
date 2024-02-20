@@ -28,7 +28,7 @@ class MyMemoryTranslation(MachineTranslation):
     @staticmethod
     def lang_supported(language):
         """Almost any language without modifiers is supported."""
-        if language in ("ia", "tt", "ug"):
+        if language in {"ia", "tt", "ug"}:
             return False
         return "@" not in language
 

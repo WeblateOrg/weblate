@@ -951,7 +951,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
         return False
 
     def get_description(self, check_model: CheckModel) -> str:
-        unit, source, target = translation_from_check(check_model)
+        unit, source, _target = translation_from_check(check_model)
         try:
             self.get_fluent_inner_html(unit, source)
         except _HTMLParseError as err:

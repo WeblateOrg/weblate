@@ -478,7 +478,7 @@ def handle_revert(unit, request, next_unit_url):
 def check_suggest_permissions(request, mode, unit, suggestion):
     """Check permission for suggestion handling."""
     user = request.user
-    if mode in ("accept", "accept_edit", "accept_approve"):
+    if mode in {"accept", "accept_edit", "accept_approve"}:
         if not user.has_perm("suggestion.accept", unit) or (
             mode == "accept_approve" and not user.has_perm("unit.review", unit)
         ):
@@ -486,13 +486,13 @@ def check_suggest_permissions(request, mode, unit, suggestion):
                 request, gettext("You do not have privilege to accept suggestions!")
             )
             return False
-    elif mode in ("delete", "spam"):
+    elif mode in {"delete", "spam"}:
         if not user.has_perm("suggestion.delete", suggestion):
             messages.error(
                 request, gettext("You do not have privilege to delete suggestions!")
             )
             return False
-    elif mode in ("upvote", "downvote") and not user.has_perm("suggestion.vote", unit):
+    elif mode in {"upvote", "downvote"} and not user.has_perm("suggestion.vote", unit):
         messages.error(
             request, gettext("You do not have privilege to vote for suggestions!")
         )
@@ -783,7 +783,7 @@ def comment(request, pk):
 
     if form.is_valid():
         # Is this source or target comment?
-        if form.cleaned_data["scope"] in ("global", "report"):
+        if form.cleaned_data["scope"] in {"global", "report"}:
             scope = unit.source_unit
         # Create comment object
         Comment.objects.add(scope, request, form.cleaned_data["comment"])
