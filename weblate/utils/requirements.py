@@ -8,7 +8,7 @@ from importlib.metadata import PackageNotFoundError, metadata
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
-from django.db import connection
+from django.db import DatabaseError, connection
 
 import weblate.utils.version
 from weblate.utils.db import using_postgresql
@@ -159,7 +159,7 @@ def get_db_version():
             with connection.cursor() as cursor:
                 cursor.execute("SHOW server_version")
                 version = cursor.fetchone()
-        except RuntimeError:
+        except (RuntimeError, DatabaseError):
             report_error(cause="PostgreSQL version check")
             return None
 
@@ -171,7 +171,7 @@ def get_db_version():
     try:
         with connection.cursor() as cursor:
             version = cursor.connection.get_server_info()
-    except RuntimeError:
+    except (RuntimeError, DatabaseError):
         report_error(cause="MySQL version check")
         return None
     return (
