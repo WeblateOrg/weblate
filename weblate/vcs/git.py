@@ -1016,6 +1016,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         method: str,
         credentials: dict,
         url: str,
+        *,
         data: dict | None = None,
         params: dict | None = None,
         json: dict | None = None,
@@ -1074,7 +1075,15 @@ class GitMergeRequestBase(GitForcePushRepository):
             retry += 1
             if retry > 10:
                 raise RepositoryError(0, "Too many retries")
-            return self.request(method, credentials, url, data, params, json, retry)
+            return self.request(
+                method,
+                credentials,
+                url,
+                data=data,
+                params=params,
+                json=json,
+                retry=retry,
+            )
 
         return response_data, response, self.get_error_message(response_data)
 
@@ -1761,7 +1770,7 @@ class GitLabRepository(GitMergeRequestBase):
             "target_project_id": target_project_id,
         }
         response_data, response, error = self.request(
-            "post", credentials, pr_url, request
+            "post", credentials, pr_url, data=request
         )
 
         if (
