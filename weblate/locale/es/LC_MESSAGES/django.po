@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-02-20 14:49+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2600,10 +2600,8 @@ msgid "Sign in to save the translation."
 msgstr "Inicia sesión para guardar la traducción."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "No tiene suficientes permisos para guardar traducciones."
+msgstr "Privilegios insuficientes para aprobar traducciones."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -4612,10 +4610,8 @@ msgid "Android plural"
 msgstr "Plural Android"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "Plural de stringsdict"
+msgstr "Lingüista Qt plural"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -5039,10 +5035,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "No se pudo procesar el archivo JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "No se pudo analizar el archivo TMX!"
+msgstr "No se ha podido analizar el archivo TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5567,6 +5562,9 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"El correo electrónico no es una tecnología instantánea. Por favor, espere a "
+"recibir el correo electrónico de confirmación al menos 30 minutos antes de "
+"escribirnos sobre cualquier problema."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -6441,10 +6439,8 @@ msgid "The following components matched existing ones"
 msgstr "Los componentes siguientes coinciden con los ya existentes"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "Se crearían los componentes siguientes"
+msgstr "No se han podido crear los siguientes componentes"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -8498,13 +8494,11 @@ msgid "View invitation"
 msgstr "Ver invitación"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "El enlace de confirmación caducará al cabo de %(count)s hora."
-msgstr[1] "El enlace de confirmación caducará al cabo de %(count)s horas."
+msgstr[0] "La invitación expirará después de %(count)s hora."
+msgstr[1] "La invitación expirará después de %(count)s horas."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -10042,10 +10036,8 @@ msgid "No strings to translate"
 msgstr "No hay ninguna cadena pendiente de traducir"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Añadir proyectos nuevos"
+msgstr "Añadir proyecto"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10370,6 +10362,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organizar el proyecto</a> para cambiar su URL o "
+"eliminarla."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10377,6 +10371,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organizar el componente</a> para cambiar su URL, moverla "
+"o eliminarla."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -11228,16 +11224,12 @@ msgstr[0] "El componente %(count)s será eliminado por esto."
 msgstr[1] "Los componentes %(count)s serán eliminados por esto."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
-"El complemento \"Agregar idiomas que faltan\" está instalado en este "
-"componente; es posible que vuelva a agregar el idioma eliminado."
+"El complemento \"Agregar idiomas faltantes\" está instalado en este "
+"componente; es posible que vuelva a agregar un idioma eliminado."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
@@ -12053,16 +12045,13 @@ msgstr ""
 "Este sitio ejecuta Weblate para regionalizar diversos proyectos de software."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
-#| msgid "Browse all changes in component"
 msgid "File mask matches the main component."
-msgstr "Ver todos los cambios en el componente"
+msgstr "La máscara del archivo coincide con el componente principal."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "El archivo no existe."
+msgstr "{filename} ({parameter}) no existe."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12739,25 +12728,20 @@ msgstr ""
 "para este idioma."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Personaliza el flujo de trabajo de las traducciones para este lenguaje"
+msgstr ""
+"Personalizar el flujo de trabajo de la traducción para este idioma en este "
+"proyecto"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"El flujo de trabajo de la traducción se configura en el proyecto y en el "
-"componente. Al habilitar la personalización aquí, se anulan estos ajustes "
-"para este idioma."
+"El flujo de trabajo de la traducción se configura en el proyecto, el "
+"componente y el idioma. Al habilitar la personalización aquí, se anulan "
+"estos ajustes para este idioma en este proyecto."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12806,14 +12790,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Utilice indicadores para señalar cadenas especiales en su traducción."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Añada el indicador «safe-html» para evitar HTML peligroso por parte de los "
-"traductores."
+"Añade la bandera safe-html para evitar HTML peligroso de los traductores "
+"para las cadenas que se renderizan como HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -12978,10 +12960,8 @@ msgid "Notify users"
 msgstr "Notificar a usuarios"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Enviar invitación de correo electrónico al usuario"
+msgstr "Enviar notificación a los usuarios suscritos."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13340,10 +13320,8 @@ msgstr "Error al guardar la cadena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Cadena actualizada en el repositorio"
+msgstr "Cadena añadida al repositorio"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
@@ -13632,8 +13610,6 @@ msgstr ""
 "directamente."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "Aceptar sugerencias automáticamente"
 
@@ -14419,31 +14395,25 @@ msgstr "Configuración posible"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Traducción prohibida"
-msgstr[1] "Traducción prohibida"
+msgstr[0] "Prohibida la traducción:"
+msgstr[1] "Prohibidas las traducciones:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
 msgstr[0] "Término no traducible"
-msgstr[1] "Término no traducible"
+msgstr[1] "Términso no traducibles"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Término en glosario"
-msgstr[1] "Término en glosario"
+msgstr[0] "Término en el glosario"
+msgstr[1] "Términos en los glosarios"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14717,10 +14687,6 @@ msgstr ""
 "idioma!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
