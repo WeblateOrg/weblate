@@ -2,10 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from base64 import b64encode
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from .base import DownloadTranslations, MachineTranslation
 from .forms import KeyURLMachineryForm
+
+if TYPE_CHECKING:
+    from requests.auth import AuthBase
 
 
 class IBMTranslation(MachineTranslation):
@@ -23,13 +28,11 @@ class IBMTranslation(MachineTranslation):
     def get_identifier(cls):
         return "ibm"
 
-    def get_authentication(self):
-        """Hook for backends to allow add authentication headers to request."""
-        b64 = str(b64encode(f"apikey:{self.settings['key']}".encode()), "UTF-8")
-        return {
-            "Authorization": f"Basic {b64}",
-            "Content-Type": "application/json",
-        }
+    def get_headers(self) -> dict[str, str]:
+        return {"Content-Type": "application/json"}
+
+    def get_auth(self) -> None | tuple[str, str] | AuthBase:
+        return ("apikey", self.settings["key"])
 
     def download_languages(self):
         """Download list of supported languages from a service."""

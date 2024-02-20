@@ -72,7 +72,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         """Check whether token is about to expire."""
         return self._token_expiry is None or self._token_expiry <= timezone.now()
 
-    def get_authentication(self):
+    def get_headers(self) -> dict[str, str]:
         """Hook for backends to allow add authentication headers to request."""
         return {"Authorization": f"Bearer {self.access_token}"}
 

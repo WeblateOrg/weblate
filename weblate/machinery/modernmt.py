@@ -29,7 +29,7 @@ class ModernMTTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").split("@")[0]
 
-    def get_authentication(self):
+    def get_headers(self) -> dict[str, str]:
         """Hook for backends to allow add authentication headers to request."""
         return {
             "MMT-ApiKey": self.settings["key"],

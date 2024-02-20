@@ -6,7 +6,6 @@
 
 from __future__ import annotations
 
-import base64
 import logging
 import os
 import os.path
@@ -42,6 +41,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from django_stubs_ext import StrOrPromise
+    from requests.auth import AuthBase
 
 
 class GitRepository(Repository):
@@ -949,11 +949,14 @@ class GitMergeRequestBase(GitForcePushRepository):
     def format_api_host(self, host):
         return host
 
-    def get_headers(self, credentials: dict):
+    def get_headers(self, credentials: dict) -> dict[str, str]:
         return {
             "Accept": "application/json",
             "Authorization": f"token {credentials['token']}",
         }
+
+    def get_auth(self, credentials: dict) -> None | tuple[str, str] | AuthBase:
+        return None
 
     def get_error_message(self, response_data: dict) -> str:
         """
@@ -1047,6 +1050,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         data=data,
                         params=params,
                         json=json,
+                        auth=self.get_auth(credentials),
                     )
                 except (OSError, HTTPError) as error:
                     report_error(cause="request")
@@ -1158,15 +1162,13 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
         return scheme, host, owner, slug
 
-    def get_headers(self, credentials: dict):
-        encoded_token = base64.b64encode(
-            (":" + credentials["token"]).encode("utf8")
-        ).decode("utf8")
-
+    def get_headers(self, credentials: dict) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Accept"] = "application/json; api-version=7.0"
-        headers["Authorization"] = "Basic " + encoded_token
         return headers
+
+    def get_auth(self, credentials: dict) -> None | tuple[str, str] | AuthBase:
+        return ("", credentials["token"])
 
     def create_fork(self, credentials: dict):
         # url without repository name
@@ -1362,7 +1364,7 @@ class GithubRepository(GitMergeRequestBase):
             suffix = "api/v3/"
         return super().format_url(scheme, hostname, owner, slug, suffix=suffix, **extra)
 
-    def get_headers(self, credentials: dict):
+    def get_headers(self, credentials: dict) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
@@ -1655,7 +1657,7 @@ class GitLabRepository(GitMergeRequestBase):
         fork_path = self.get_fork_path(fork_remotes[0])
         return credentials["url"].replace(target_path, fork_path)
 
-    def get_headers(self, credentials: dict):
+    def get_headers(self, credentials: dict) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Authorization"] = f"Bearer {credentials['token']}"
         return headers
@@ -1876,7 +1878,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         "This will push changes and create a Bitbucket Server pull request."
     )
 
-    def get_headers(self, credentials: dict):
+    def get_headers(self, credentials: dict) -> dict[str, str]:
         headers = super().get_headers(credentials)
         headers["Authorization"] = f"Bearer {credentials['token']}"
         return headers

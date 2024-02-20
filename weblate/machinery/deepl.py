@@ -43,7 +43,7 @@ class DeepLTranslation(
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
 
-    def get_authentication(self):
+    def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
 
     def download_languages(self):
