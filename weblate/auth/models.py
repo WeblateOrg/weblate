@@ -9,7 +9,7 @@ import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 import sentry_sdk
 from appconf import AppConf
@@ -58,7 +58,9 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
-    from weblate.auth.models import PermissionResult
+    from weblate.auth.permissions import PermissionResult
+
+    PermissionCacheType = dict[int, list[tuple[set[str] | None, set[Language] | None]]]
 
 
 class Permission(models.Model):
@@ -452,7 +454,9 @@ class User(AbstractBaseUser):
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
         self.cla_cache = {}
-        self._permissions = None
+        self._permissions: dict[
+            Literal["projects", "components"], PermissionCacheType
+        ] = {}
         self.current_subscription = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -461,7 +465,7 @@ class User(AbstractBaseUser):
 
     def clear_cache(self):
         self.cla_cache = {}
-        self._permissions = None
+        self._permissions = {}
         perm_caches = (
             "project_permissions",
             "component_permissions",
@@ -640,8 +644,8 @@ class User(AbstractBaseUser):
 
     def _fetch_permissions(self):
         """Fetch all user permissions into a dictionary."""
-        projects = defaultdict(list)
-        components = defaultdict(list)
+        projects: PermissionCacheType = defaultdict(list)
+        components: PermissionCacheType = defaultdict(list)
         with sentry_sdk.start_span(op="permissions", description=self.username):
             for group in self.groups.prefetch_related(
                 "roles__permissions",
@@ -680,7 +684,7 @@ class User(AbstractBaseUser):
                     for component, project in componentlist_values:
                         components[component].append((permissions, languages))
                         # Grant access to the project
-                        projects[project].append(((), languages))
+                        projects[project].append((set(), languages))
                     continue
 
                 # Component specific permissions
@@ -692,7 +696,7 @@ class User(AbstractBaseUser):
                     for component, project in component_values:
                         components[component].append((permissions, languages))
                         # Grant access to the project
-                        projects[project].append(((), languages))
+                        projects[project].append((set(), languages))
                     continue
 
                 # Handle project selection
@@ -721,14 +725,14 @@ class User(AbstractBaseUser):
     @cached_property
     def project_permissions(self):
         """Dictionary with all project permissions."""
-        if self._permissions is None:
+        if not self._permissions:
             self._fetch_permissions()
         return self._permissions["projects"]
 
     @cached_property
     def component_permissions(self):
         """Dictionary with all project permissions."""
-        if self._permissions is None:
+        if not self._permissions:
             self._fetch_permissions()
         return self._permissions["components"]
 
@@ -866,16 +870,16 @@ def change_componentlist(sender, instance, action, **kwargs):
 
 
 @receiver(m2m_changed, sender=User.groups.through)
-def remove_group_admin(sender, instance, action, pk_set, **kwargs):
+def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs):
     if action != "post_remove":
         return
     pk = pk_set.pop()
     if reverse:
-        group = Group.objects.get(pk=pk)
-        user = instance
-    else:
         group = instance
         user = User.objects.get(pk=pk)
+    else:
+        group = Group.objects.get(pk=pk)
+        user = instance
     group.admins.remove(user)
 
 

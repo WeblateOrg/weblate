@@ -130,9 +130,11 @@ def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
     elif isinstance(obj, Component):
         component = obj
         project = component.project
+    elif isinstance(obj, Category):
+        project = obj.project
     elif isinstance(obj, Project):
         project = obj
-    elif isinstance(obj, (ProjectLanguage, Category)):
+    elif isinstance(obj, ProjectLanguage):
         project = obj.project
     elif isinstance(obj, CategoryLanguage):
         project = obj.category.project
