@@ -176,7 +176,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
                         result.insert(i, glossary_highlight)
                         handled = True
                         break
-                if not handled and not result or result[-1][1] < start:
+                if not handled and (not result or result[-1][1] < start):
                     result.append(glossary_highlight)
 
         yield from result
