@@ -29,7 +29,7 @@ def remove_readonly(func, path, excinfo):
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
     else:
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
-    if func in (os.open, os.lstat, os.rmdir):
+    if func in {os.open, os.lstat, os.rmdir}:
         # Could not remove a directory
         remove_tree(path)
     else:

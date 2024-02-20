@@ -308,10 +308,10 @@ def check_perms(app_configs=None, **kwargs):
             # used in the Docker container as that one is typically bind mouted
             # with different permissions (and Weblate is not expected to write
             # to it).
-            if dirpath == settings.DATA_DIR and name in (
+            if dirpath == settings.DATA_DIR and name in {
                 "lost+found",
                 "settings-override.py",
-            ):
+            }:
                 continue
             path = os.path.join(dirpath, name)
             try:

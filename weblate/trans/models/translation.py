@@ -63,7 +63,7 @@ class TranslationManager(models.Manager):
         self, component, lang, code, path, force=False, request=None, change=None
     ):
         """Parse translation meta info and updates translation object."""
-        translation, created = component.translation_set.get_or_create(
+        translation, _created = component.translation_set.get_or_create(
             language=lang,
             defaults={"filename": path, "language_code": code, "plural": lang.plural},
         )
@@ -1272,7 +1272,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     if not self.plural.same_plural(number, formula):
                         raise PluralFormsMismatchError
 
-            if method in ("translate", "fuzzy", "approve"):
+            if method in {"translate", "fuzzy", "approve"}:
                 # Merge on units level
                 return self.merge_translations(request, store, conflicts, method, fuzzy)
             if method == "add":

@@ -168,7 +168,7 @@ class MultipleFieldMixin:
         lookup = {}
         category_path = ""
         for field in reversed(self.lookup_fields):
-            if field not in ("component__slug", "slug"):
+            if field not in {"component__slug", "slug"}:
                 lookup[field] = self.kwargs[field]
             else:
                 category_prefix = field[:-4]
@@ -1311,7 +1311,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
     def get_serializer(self, instance, *args, **kwargs):
         # Get correct serializer based on action and instance
-        if self.action in ("list", "retrieve"):
+        if self.action in {"list", "retrieve"}:
             serializer_class = UnitSerializer
         else:
             serializer_class = UnitWriteSerializer
@@ -1370,12 +1370,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                     "Please provide both state and target for a partial update"
                 )
 
-            if new_state not in (
+            if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
                 STATE_FUZZY,
                 STATE_EMPTY,
-            ):
+            }:
                 raise ValidationError({"state": "Invalid state"})
 
             if new_state == STATE_EMPTY and any(new_target):

@@ -29,22 +29,22 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
 
 __all__ = [
-    "Project",
+    "Alert",
+    "Announcement",
     "Category",
+    "Change",
+    "Comment",
     "Component",
+    "ComponentList",
+    "ContributorAgreement",
+    "Label",
+    "Project",
+    "Suggestion",
     "Translation",
     "Unit",
-    "Suggestion",
-    "Comment",
-    "Vote",
-    "Change",
-    "Announcement",
-    "ComponentList",
-    "WeblateConf",
-    "ContributorAgreement",
-    "Alert",
     "Variant",
-    "Label",
+    "Vote",
+    "WeblateConf",
     "WorkflowSetting",
 ]
 
@@ -96,7 +96,7 @@ def translation_post_delete(sender, instance, **kwargs):
 def change_labels(sender, instance, action, pk_set, **kwargs):
     """Update unit labels."""
     if (
-        action not in ("post_add", "post_remove", "post_clear")
+        action not in {"post_add", "post_remove", "post_clear"}
         or (action != "post_clear" and not pk_set)
         or not instance.is_source
     ):

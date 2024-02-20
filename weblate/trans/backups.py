@@ -427,10 +427,10 @@ class ProjectBackup:
             except IndexError:
                 if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
                     plural = language.plural
-                elif item["plural"]["source"] in (
+                elif item["plural"]["source"] in {
                     Plural.SOURCE_MANUAL,
                     Plural.SOURCE_GETTEXT,
-                ):
+                }:
                     plural = language.plural_set.create(**item["plural"])
                 else:
                     plural = language.plural_set.filter(

@@ -234,7 +234,7 @@ def get_quote(code, data, name):
 
 def get_display_char(char):
     name = short = char
-    if unicodedata.category(char)[0] in ("C", "Z"):
+    if unicodedata.category(char)[0] in {"C", "Z"}:
         # Various control and space characters
         try:
             name = unicodedata.name(char)

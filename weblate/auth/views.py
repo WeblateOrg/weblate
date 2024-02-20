@@ -172,7 +172,7 @@ class InvitationView(DetailView):
 
         # Handle admin actions first
         action = request.POST.get("action", "")
-        if action in ("resend", "remove"):
+        if action in {"resend", "remove"}:
             project = invitation.group.defining_project
             # Permission check
             if not request.user.has_perm(

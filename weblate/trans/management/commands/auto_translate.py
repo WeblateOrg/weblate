@@ -85,7 +85,7 @@ class Command(WeblateTranslationCommand):
                         f"Machine translation {translator} is not available"
                     )
 
-        if options["mode"] not in ("translate", "fuzzy", "suggest"):
+        if options["mode"] not in {"translate", "fuzzy", "suggest"}:
             raise CommandError("Invalid translation mode specified!")
 
         if options["inconsistent"]:

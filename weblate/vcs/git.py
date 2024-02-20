@@ -437,18 +437,18 @@ class GitRepository(Repository):
             ),
         ]
         if merge_driver is not None:
-            updates.append(
+            updates.extend(
                 (
-                    'merge "weblate-merge-gettext-po"',
-                    "name",
-                    "Weblate merge driver for gettext PO files",
-                )
-            )
-            updates.append(
-                (
-                    'merge "weblate-merge-gettext-po"',
-                    "driver",
-                    f"{merge_driver} %O %A %B %P",
+                    (
+                        'merge "weblate-merge-gettext-po"',
+                        "name",
+                        "Weblate merge driver for gettext PO files",
+                    ),
+                    (
+                        'merge "weblate-merge-gettext-po"',
+                        "driver",
+                        f"{merge_driver} %O %A %B %P",
+                    ),
                 )
             )
 
@@ -525,10 +525,7 @@ class GitRepository(Repository):
         result = [super().status()]
         cleanups = self.execute(["clean", "-f", "-d", "-n"], needs_lock=False)
         if cleanups:
-            result.append("")
-            result.append(gettext("Possible cleanups:"))
-            result.append("")
-            result.append(cleanups)
+            result.extend(("", gettext("Possible cleanups:"), "", cleanups))
 
         return "\n".join(result)
 
@@ -1081,7 +1078,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         self, error: str, pr_url: str, response: requests.Response, data: dict
     ):
         status_code = response.status_code
-        self.log("Creating pull request via {pr_url} failed ({status_code}): {data}")
+        self.log(f"Creating pull request via {pr_url} failed ({status_code}): {data}")
         raise RepositoryError(
             -1, f"Could not create pull request {status_code}: {error}"
         )
@@ -1283,7 +1280,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         url = self.format_url("https", hostname, owner, slug)
 
         # Get repo info
-        response_data, response, error = self.request("get", credentials, url)
+        response_data, _response, error = self.request("get", credentials, url)
 
         if "id" not in response_data:
             raise RepositoryError(0, error)

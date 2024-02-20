@@ -791,7 +791,7 @@ class Unit(models.Model, LoggerMixin):
             and unit.template is not None
             and same_target
         ):
-            if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
+            if not same_source and state in {STATE_TRANSLATED, STATE_APPROVED}:
                 if self.previous_source == source and self.fuzzy:
                     # Source change was reverted
                     source_change = self.source
@@ -1108,11 +1108,11 @@ class Unit(models.Model, LoggerMixin):
         # Generate Change object for this change
         change = self.generate_change(user or author, author, change_action)
 
-        if change.action not in (
+        if change.action not in {
             Change.ACTION_UPLOAD,
             Change.ACTION_AUTO,
             Change.ACTION_BULK_EDIT,
-        ):
+        }:
             old_translated = self.translation.stats.translated
 
             # Update translation stats

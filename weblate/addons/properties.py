@@ -82,7 +82,7 @@ def filter_lines(lines):
         value = value[:-1]
 
         # Empty translation
-        if value in ("", "[auto]", "[translate me]"):
+        if value in {"", "[auto]", "[translate me]"}:
             continue
 
         # Check for duplicate key

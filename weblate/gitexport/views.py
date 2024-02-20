@@ -69,7 +69,7 @@ def git_export(request, path, git_request):
     Performs permission checks and hands over execution to the wrapper.
     """
     # Reject non pull access early
-    if request.GET.get("service", "") not in ("", "git-upload-pack"):
+    if request.GET.get("service", "") not in {"", "git-upload-pack"}:
         raise PermissionDenied("Only pull is supported")
 
     # HTTP authentication

@@ -40,7 +40,7 @@ if TYPE_CHECKING:
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
 XML_REPLACE_CHARMAP = dict.fromkeys(
     chain(
-        (x for x in range(32) if x not in (9, 10, 13)),
+        (x for x in range(32) if x not in {9, 10, 13}),
         [0xFFFE, 0xFFFF],
         range(0xD800, 0xDFFF + 1),
     )
@@ -410,7 +410,7 @@ class CSVExporter(CVSBaseExporter):
 
         Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
         """
-        if text and text[0] in ("=", "+", "-", "@", "|", "%"):
+        if text and text[0] in {"=", "+", "-", "@", "|", "%"}:
             return "'{}'".format(text.replace("|", "\\|"))
         return text
 

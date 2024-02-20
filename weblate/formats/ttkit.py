@@ -959,7 +959,7 @@ class CSVUnit(MonolingualSimpleUnit):
             len(string) > 2
             and string[0] == "'"
             and string[-1] == "'"
-            and string[1] in ("=", "+", "-", "@", "\\", "%")
+            and string[1] in {"=", "+", "-", "@", "\\", "%"}
         ):
             return get_string(string[1:-1].replace("\\|", "|"))
         return get_string(string)

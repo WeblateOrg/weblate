@@ -58,7 +58,7 @@ def export_response(request, filename, objects):
     )
     data = StatisticsSerializer(objects, many=True).data
     output = request.GET.get("format", "json")
-    if output not in ("json", "csv"):
+    if output not in {"json", "csv"}:
         output = "json"
 
     if output == "csv":

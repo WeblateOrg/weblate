@@ -255,7 +255,7 @@ class Billing(models.Model):
 
     @cached_property
     def can_be_paid(self):
-        if self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL):
+        if self.state in {Billing.STATE_ACTIVE, Billing.STATE_TRIAL}:
             return True
         return self.count_projects > 0
 
@@ -409,7 +409,7 @@ class Billing(models.Model):
         return modified
 
     def is_active(self):
-        return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
+        return self.state in {Billing.STATE_ACTIVE, Billing.STATE_TRIAL}
 
     def get_notify_users(self):
         users = self.owners.distinct()

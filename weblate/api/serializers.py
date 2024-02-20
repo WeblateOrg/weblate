@@ -1099,7 +1099,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         # Allow blank target for untranslated strings
-        if isinstance(data, dict) and data.get("state") in (0, "0"):
+        if isinstance(data, dict) and data.get("state") in {0, "0"}:
             self.fields["target"].child.allow_blank = True
         return super().to_internal_value(data)
 

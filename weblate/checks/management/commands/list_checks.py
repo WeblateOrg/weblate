@@ -46,8 +46,7 @@ class Command(BaseCommand):
                 lines.append("*" * len(name))
             else:
                 lines.append("~" * len(name))
-            lines.append("\n")
-            lines.append(f":Summary: {escape(check.description)}")
+            lines.extend(("\n", f":Summary: {escape(check.description)}"))
             if check.target:
                 if check.ignore_untranslated:
                     lines.append(":Scope: translated strings")
@@ -55,22 +54,31 @@ class Command(BaseCommand):
                     lines.append(":Scope: all strings")
             if check.source:
                 lines.append(":Scope: source strings")
-            lines.append(
-                f":Check class: ``{check_class.__module__}.{check_class.__qualname__}``"
+            lines.extend(
+                (
+                    f":Check class: ``{check_class.__module__}.{check_class.__qualname__}``",
+                    f":Check identifier: ``{check.check_id}``",
+                )
             )
-            lines.append(f":Check identifier: ``{check.check_id}``")
             if check.default_disabled:
                 lines.append(f":Flag to enable: ``{check.enable_string}``")
-            lines.append(f":Flag to ignore: ``{check.ignore_string}``")
-            lines.append("\n")
+            lines.extend((f":Flag to ignore: ``{check.ignore_string}``", "\n"))
 
             self.flush_lines(lines)
 
-            ignores.append(f"``{check.ignore_string}``")
-            ignores.append(f"    Skip the :ref:`{check.doc_id}` quality check.")
+            ignores.extend(
+                (
+                    f"``{check.ignore_string}``",
+                    f"    Skip the :ref:`{check.doc_id}` quality check.",
+                )
+            )
             if check.default_disabled:
-                enables.append(f"``{check.enable_string}``")
-                enables.append(f"    Enable the :ref:`{check.doc_id}` quality check.")
+                enables.extend(
+                    (
+                        f"``{check.enable_string}``",
+                        f"    Enable the :ref:`{check.doc_id}` quality check.",
+                    )
+                )
 
         self.stdout.write("\n")
         self.stdout.writelines(enables)

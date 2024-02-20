@@ -114,7 +114,7 @@ def create_anonymous(model, group_model, update=True):
     except IntegrityError as error:
         raise ValueError(
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
-            "most likely because other user is using noreply@weblate.org e-mail.: {error}"
+            f"most likely because other user is using noreply@weblate.org e-mail.: {error}"
         ) from error
     if user.is_active:
         raise ValueError(

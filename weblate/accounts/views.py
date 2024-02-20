@@ -1237,9 +1237,9 @@ def handle_missing_parameter(request, backend, error):
             + " "
             + gettext("Please register using e-mail instead."),
         )
-    if error.parameter in ("email", "user", "expires"):
+    if error.parameter in {"email", "user", "expires"}:
         return auth_redirect_token(request)
-    if error.parameter in ("state", "code"):
+    if error.parameter in {"state", "code"}:
         return auth_redirect_state(request)
     if error.parameter == "disabled":
         return auth_fail(request, gettext("New registrations are turned off."))

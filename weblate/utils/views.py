@@ -357,7 +357,7 @@ def parse_path_units(
     elif obj is None:
         unit_set = Unit.objects.filter_access(request.user)
     else:
-        raise TypeError("Unsupported result: {obj}")
+        raise TypeError(f"Unsupported result: {obj}")
 
     return obj, unit_set, context
 

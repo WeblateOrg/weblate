@@ -65,7 +65,7 @@ def get_plural_type(base_code, plural_formula):
             return mapping[1]
 
     # Arabic special case
-    if base_code in ("ar",):
+    if base_code == "ar":
         return data.PLURAL_ARABIC
 
     # Log error in case of unknown mapping
@@ -100,7 +100,7 @@ def is_same_plural(
         except ValueError:
             return False
 
-    if number not in (-1, our_number):
+    if number not in {-1, our_number}:
         return False
     if formula == our_formula:
         return True

@@ -712,7 +712,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_source(self):
         """Whether to show content as source change."""
-        return self.action in (self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE)
+        return self.action in {self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE}
 
     def show_removed_string(self):
         """Whether to show content as source change."""
@@ -731,14 +731,14 @@ class Change(models.Model, UserDisplayMixin):
 
         details = self.details
 
-        if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
+        if self.action in {self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE}:
             return render_markdown(self.target)
 
-        if self.action in (
+        if self.action in {
             self.ACTION_ADDON_CREATE,
             self.ACTION_ADDON_CHANGE,
             self.ACTION_ADDON_REMOVE,
-        ):
+        }:
             try:
                 return ADDONS[self.target].name
             except KeyError:
@@ -800,10 +800,10 @@ class Change(models.Model, UserDisplayMixin):
             if "group" in details:
                 result = "result ({details['group']})"
             return result
-        if self.action in (
+        if self.action in {
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
-        ):
+        }:
             try:
                 return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
@@ -819,7 +819,7 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**details)
         if self.action == self.ACTION_COMMENT and "comment" in details:
             return render_markdown(details["comment"])
-        if self.action in (self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE):
+        if self.action in {self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE}:
             return format_html(
                 "{}<br/><br/>{}<br/>{}",
                 self.get_action_display(),
@@ -849,11 +849,11 @@ class Change(models.Model, UserDisplayMixin):
         return None
 
     def show_unit_state(self):
-        return "state" in self.details and self.action not in (
+        return "state" in self.details and self.action not in {
             self.ACTION_SUGGESTION,
             self.ACTION_SUGGESTION_DELETE,
             self.ACTION_SUGGESTION_CLEANUP,
-        )
+        }
 
 
 @receiver(post_save, sender=Change)

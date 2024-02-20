@@ -165,7 +165,7 @@ class EndStopCheck(TargetCheck):
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
             return False
-        if unit.translation.language.is_base(("ja",)) and source[-1] in (":", ";"):
+        if unit.translation.language.is_base(("ja",)) and source[-1] in {":", ";"}:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
@@ -206,7 +206,7 @@ class EndColonCheck(TargetCheck):
     def _check_ja(self, source, target):
         # Japanese sentence might need to end with full stop
         # in case it's used before list.
-        if source[-1] in (":", ";"):
+        if source[-1] in {":", ";"}:
             return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
         return False
 

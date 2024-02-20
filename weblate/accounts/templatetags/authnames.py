@@ -67,8 +67,8 @@ def get_auth_params(auth: str):
 
     # Settings override
     settings_params = {
-        "name": f"SOCIAL_AUTH_{auth.upper().replace('-','_')}_TITLE",
-        "image": f"SOCIAL_AUTH_{auth.upper().replace('-','_')}_IMAGE",
+        "name": f"SOCIAL_AUTH_{auth.upper().replace('-', '_')}_TITLE",
+        "image": f"SOCIAL_AUTH_{auth.upper().replace('-', '_')}_IMAGE",
     }
     for target, source in settings_params.items():
         value = getattr(settings, source, None)
