@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-02-21 06:28+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
 "Language: sq\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2588,13 +2588,11 @@ msgstr ""
 
 #: weblate/auth/permissions.py:167
 msgid "Sign in to save the translation."
-msgstr "Që të ruani përkthim, bëni hyrjen."
+msgstr "Që të ruani përkthimin, bëni hyrjen."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Privilegje të pamjaftueshme për ruajtje përkthimesh."
+msgstr "Privilegje të pamjaftueshme për miratim përkthimesh."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -5016,7 +5014,7 @@ msgstr "S’u arrit të përtypej kartelë JSON: %s"
 #, fuzzy, python-format
 #| msgid "Could not parse TMX file!"
 msgid "Could not parse TMX file: %s"
-msgstr "S’u arrit të përtypej kartelë TMX!"
+msgstr "S’u arrit të përtypej kartelë TMX: 5s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5536,6 +5534,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Email-i s’është teknologji e menjëhershme. Ju lutemi, prisni të paktën 30 "
+"minuta për një email ripohimi, para se të na shkruani rreth problemesh."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -8454,13 +8454,11 @@ msgid "View invitation"
 msgstr "Shihni ftesën"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Lidhja e ripohimit do të skadojë pas %(count)s ore."
-msgstr[1] "Lidhja e ripohimit do të skadojë pas %(count)s orësh."
+msgstr[0] "Ftesa do të skadojë pas %(count)s ore."
+msgstr[1] "Ftesa do të skadojë pas %(count)s orësh."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -12663,25 +12661,18 @@ msgstr ""
 "gjuhë."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Përshtatni rrjedhe pune përkthimi për këtë gjuhë"
+msgstr "Përshtatni rrjedhe pune përkthimi për këtë gjuhë në këtë projekt"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Rrjedha e punës së përkthimit formësohet në shkallë projekti dhe përbërësi. "
-"Duke aktivizuar këtu përshtatjen, ju i anashkaloni këto rregullime për këtë "
-"gjuhë."
+"Rrjedha e punës së përkthimit është formësohet në shkallë projekti, "
+"përbërësi dhe gjuhe. Duke aktivizuar këtu përshtatjen, ju i anashkaloni këto "
+"rregullime për këtë gjuhë, në këtë projekt."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12899,10 +12890,8 @@ msgid "Notify users"
 msgstr "Njoftoji përdoruesit"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Dërgoji përdoruesit ftesë me email"
+msgstr "Dërgojuni njoftim përdoruesve të pajtuar."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13546,10 +13535,8 @@ msgstr ""
 "përkthime drejtpërsëdrejti."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
-msgstr "Vetëprano sugjerime"
+msgstr "Prano vetvetiu sugjerime"
 
 #: weblate/trans/models/component.py:523 weblate/trans/models/workflow.py:44
 msgid ""
@@ -14609,16 +14596,12 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "File mask-a s’përmban * si vendmbajtëse gjuhe!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Vlera 1 nuk lejohet për vetëpranim, ngaqë do t’u lejonte përdoruesve të "
-"votonin sugjerimet e veta."
+"Vlera 1 nuk lejohet për pranim të automatizuar, ngaqë do t’u lejonte "
+"përdoruesve të votonin sugjerimet e veta."
 
 #: weblate/trans/validators.py:42
 #, python-format
@@ -15223,7 +15206,7 @@ msgstr "Përkthyer"
 #: weblate/utils/state.py:20
 msgctxt "String state"
 msgid "Approved"
-msgstr "E miratuar"
+msgstr "I miratuar"
 
 #: weblate/utils/state.py:21
 msgctxt "String state"
