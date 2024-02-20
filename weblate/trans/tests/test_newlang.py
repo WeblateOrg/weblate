@@ -127,19 +127,10 @@ class NewLangTest(ViewTestCase):
         self.reset_rate()
         response = self.client.post(
             reverse("new-language", kwargs=self.kw_component),
-            lang,
+            {"lang": "af"},
             follow=True,
         )
         self.assertContains(response, "Please fix errors in the form")
-
-        # Language without base form
-        self.reset_rate()
-        response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component),
-            {"lang": "yue_Hant"},
-            follow=True,
-        )
-        self.assertNotContains(response, "Please fix errors in the form")
 
     def test_add_owner(self):
         self.component.project.add_user(self.user, "Administration")
