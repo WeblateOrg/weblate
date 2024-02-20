@@ -322,7 +322,7 @@ class LanguageQuerySet(models.QuerySet):
             baselang = self.fuzzy_get(code=parts[0], strict=True)
 
         # Check for different country
-        if baselang is None and "_" in code or "-" in code:
+        if baselang is None and ("_" in code or "-" in code):
             parts = code.replace("-", "_").split("_")
             baselang = self.fuzzy_get(code=parts[0], strict=True)
 
