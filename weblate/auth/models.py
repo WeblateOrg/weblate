@@ -817,26 +817,16 @@ def create_groups(update):
     # Create permissions and roles
     migrate_permissions(Permission)
     new_roles = migrate_roles(Role, Permission)
-    migrate_groups(Group, Role, update)
+    builtin_groups = migrate_groups(Group, Role, update)
 
     # Create anonymous user
     create_anonymous(User, Group, update)
 
     # Automatic assignment to the users group
-    group = Group.objects.get(
-        name="Users",
-        internal=True,
-        project_selection=SELECTION_ALL_PUBLIC,
-        language_selection=SELECTION_ALL,
-    )
+    group = builtin_groups["Users"]
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match="^.*$")
-    group = Group.objects.get(
-        name="Viewers",
-        internal=True,
-        project_selection=SELECTION_ALL_PROTECTED,
-        language_selection=SELECTION_ALL,
-    )
+    group = builtin_groups["Viewers"]
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match="^.*$")
 
