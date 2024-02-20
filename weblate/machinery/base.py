@@ -33,6 +33,8 @@ from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
+    from requests.auth import AuthBase
+
     from weblate.machinery.forms import BaseMachineryForm
     from weblate.trans.models import Unit
 
@@ -168,9 +170,12 @@ class BatchMachineTranslation:
         except ValueError:
             cache.set(key, delta, 24 * 3600)
 
-    def get_authentication(self):
+    def get_headers(self) -> dict[str, str]:
         """Hook for backends to allow add authentication headers to request."""
         return {}
+
+    def get_auth(self) -> None | tuple[str, str] | AuthBase:
+        return None
 
     def request(self, method, url, skip_auth=False, **kwargs):
         """Perform JSON request."""
@@ -183,11 +188,16 @@ class BatchMachineTranslation:
             headers.update(kwargs.pop("headers"))
         # Optional authentication
         if not skip_auth:
-            headers.update(self.get_authentication())
+            headers.update(self.get_headers())
 
         # Fire request
         response = request(
-            method, url, headers=headers, timeout=self.request_timeout, **kwargs
+            method,
+            url,
+            headers=headers,
+            timeout=self.request_timeout,
+            auth=self.get_auth(),
+            **kwargs,
         )
 
         # Directly raise error when response is empty
