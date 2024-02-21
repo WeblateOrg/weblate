@@ -432,7 +432,7 @@ class Billing(models.Model):
                     '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>',
                     project.get_absolute_url(),
                     project,
-                    project.web,
+                    project.web or gettext("Project website missing!"),
                 ),
             )
         components = Component.objects.filter(
