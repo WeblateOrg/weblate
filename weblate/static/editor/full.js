@@ -500,12 +500,18 @@
       if (cloneElement !== null) {
         const source = cloneElement.getAttribute("data-clone-text");
         if (source.length < 200) {
-          const term_source = document.getElementById("id_add_term_source");
-          const term_target = document.getElementById("id_add_term_target");
+          const term_source = document
+            .getElementById("div_id_add_term_source")
+            .querySelector("textarea");
+          const term_target = document
+            .getElementById("div_id_add_term_target")
+            .querySelector("textarea");
           term_source.value = source;
           term_target.value = document.querySelector(
             ".translation-editor",
           ).value;
+          term_source.dispatchEvent(new Event("input"));
+          term_target.dispatchEvent(new Event("input"));
         }
       }
       e.target.setAttribute("data-shown", true);

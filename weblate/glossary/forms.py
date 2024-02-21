@@ -4,8 +4,9 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext
 
+from weblate.trans.forms import NewBilingualGlossaryUnitForm
 from weblate.trans.models import Translation, Unit
 
 
@@ -25,33 +26,7 @@ class GlossaryModelChoiceField(forms.ModelChoiceField):
         return obj.component.name
 
 
-class GlossaryAddMixin(forms.Form):
-    terminology = forms.BooleanField(
-        label=gettext_lazy("Terminology"),
-        help_text=gettext_lazy("String will be part of the glossary in all languages"),
-        required=False,
-    )
-    forbidden = forms.BooleanField(
-        label=gettext_lazy("Forbidden translation"),
-        required=False,
-    )
-    read_only = forms.BooleanField(
-        label=gettext_lazy("Untranslatable term"),
-        required=False,
-    )
-
-    def get_glossary_flags(self):
-        result = []
-        if self.cleaned_data.get("terminology"):
-            result.append("terminology")
-        if self.cleaned_data.get("forbidden"):
-            result.append("forbidden")
-        if self.cleaned_data.get("read_only"):
-            result.append("read-only")
-        return ", ".join(result)
-
-
-class TermForm(GlossaryAddMixin, forms.ModelForm):
+class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
     """Form for adding term to a glossary."""
 
     terms = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
@@ -77,7 +52,6 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             component__in=component.project.glossaries,
             component__manage_units=True,
         )
-        self._user = user
         exclude = [
             glossary.pk
             for glossary in glossaries
@@ -93,22 +67,16 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
             initial["translation"] = glossaries[0]
         kwargs["auto_id"] = "id_add_term_%s"
-        super().__init__(data=data, instance=instance, initial=initial, **kwargs)
+        super().__init__(
+            translation=translation,
+            user=user,
+            data=data,
+            instance=instance,
+            initial=initial,
+            **kwargs,
+        )
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = gettext("Glossary")
-        self.fields["context"].label = gettext("Translation key")
-        self.fields["context"].help_text = gettext(
-            "Key used to identify the string in the translation file. "
-            "File-format specific rules might apply."
-        )
-        self.fields["context"].required = True
-        self.fields["source"].label = str(component.source_language)
-        self.fields["source"].required = True
-        self.fields["source"].help_text = gettext(
-            "You can edit this later, as with any other string in "
-            "the source language."
-        )
-        self.fields["target"].label = str(translation.language)
         if translation.is_source:
             self.fields["target"].widget = forms.HiddenInput()
 
@@ -126,7 +94,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
     def as_kwargs(self):
         is_source = self.cleaned_data["translation"].is_source
         return {
-            "context": self.cleaned_data["context"],
+            "context": self.cleaned_data.get("context"),
             "source": self.cleaned_data["source"],
             "target": self.cleaned_data["source"]
             if is_source
