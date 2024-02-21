@@ -142,7 +142,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     web = models.URLField(
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
-        help_text=gettext_lazy("Main website of translated project."),
+        help_text=gettext_lazy("A website where translators can get informed about the project."),
         validators=[validate_project_web],
     )
     instructions = models.TextField(
