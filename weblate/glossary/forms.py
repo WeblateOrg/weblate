@@ -94,12 +94,12 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
     def as_kwargs(self):
         is_source = self.cleaned_data["translation"].is_source
         return {
-            "context": self.cleaned_data.get("context"),
+            "context": self.cleaned_data.get("context", ""),
             "source": self.cleaned_data["source"],
             "target": self.cleaned_data["source"]
             if is_source
             else self.cleaned_data.get("target"),
-            "auto_context": True,
+            "auto_context": bool(self.cleaned_data.get("auto_context", False)),
             "extra_flags": self.get_glossary_flags(),
             "explanation": self.cleaned_data.get("explanation"),
             "skip_existing": bool(self.cleaned_data.get("terminology")),
