@@ -58,8 +58,9 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
 
     class Meta:
         model = Unit
-        fields = ["source", "target", "translation", "explanation"]
+        fields = ["context", "source", "target", "translation", "explanation"]
         widgets = {
+            "context": forms.TextInput,
             "source": forms.TextInput,
             "target": forms.TextInput,
             "explanation": forms.TextInput,
@@ -95,8 +96,18 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = gettext("Glossary")
+        self.fields["context"].label = gettext("Translation key")
+        self.fields["context"].help_text = gettext(
+            "Key used to identify the string in the translation file. "
+            "File-format specific rules might apply."
+        )
+        self.fields["context"].required = True
         self.fields["source"].label = str(component.source_language)
         self.fields["source"].required = True
+        self.fields["source"].help_text = gettext(
+            "You can edit this later, as with any other string in "
+            "the source language."
+        )
         self.fields["target"].label = str(translation.language)
         if translation.is_source:
             self.fields["target"].widget = forms.HiddenInput()
@@ -115,7 +126,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
     def as_kwargs(self):
         is_source = self.cleaned_data["translation"].is_source
         return {
-            "context": "",
+            "context": self.cleaned_data["context"],
             "source": self.cleaned_data["source"],
             "target": self.cleaned_data["source"]
             if is_source
