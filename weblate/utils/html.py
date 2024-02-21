@@ -6,10 +6,16 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 import nh3
 from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
+
+if TYPE_CHECKING:
+    from lxml.etree import ParserTarget
+else:
+    ParserTarget = object
 
 MD_LINK = re.compile(
     r"""
@@ -63,12 +69,12 @@ IGNORE = {"body", "html"}
 SANE_CHARS = re.compile("[\xa0]")
 
 
-class MarkupExtractor:
+class MarkupExtractor(ParserTarget):
     def __init__(self):
         self.found_tags = set()
         self.found_attributes = defaultdict(set)
 
-    def start(self, tag, attrs):
+    def start(self, tag: str, attrs: dict[str, str]):  # type: ignore[override]
         if tag in IGNORE:
             return
         self.found_tags.add(tag)
@@ -135,14 +141,10 @@ class HTML2Text(_HTML2Text):
         self.ignore_images = True
         # Pad the cells to equal column width in tables
         self.pad_tables = True
-        # Hook additional callback for tags
-        # This needs unbound method as it receives self as explicit arg
-        self.tag_callback = self.__class__.handle_weblate_tags
 
-    def handle_weblate_tags(
-        self, tag: str, attrs: dict[str, str | None], start: bool
-    ) -> bool:
+    def handle_tag(self, tag: str, attrs: dict[str, str | None], start: bool) -> None:
+        # Special handling for certain tags
         if tag in WEBLATE_TAGS:
             self.o(WEBLATE_TAGS[tag][not start])
-            return True
-        return False
+            return
+        super().handle_tag(tag, attrs, start)
