@@ -331,6 +331,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         response = self.client.post(
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
             {
+                "context": "context",
                 "source": "source",
                 "target": "překlad",
                 "translation": glossary.pk,
