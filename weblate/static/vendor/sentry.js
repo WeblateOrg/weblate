@@ -2867,8 +2867,10 @@ const browserTracingIntegration = ((_options = {}) => {
     index.startTrackingInteractions();
   }
 
-  let latestRouteName;
-  let latestRouteSource;
+  const latestRoute = {
+    name: undefined,
+    source: undefined,
+  };
 
   /** Create routing idle transaction. */
   function _createRouteTransaction(context) {
@@ -2914,8 +2916,8 @@ const browserTracingIntegration = ((_options = {}) => {
         : // eslint-disable-next-line deprecation/deprecation
           finalContext.metadata;
 
-    latestRouteName = finalContext.name;
-    latestRouteSource = getSource(finalContext);
+    latestRoute.name = finalContext.name;
+    latestRoute.source = getSource(finalContext);
 
     if (finalContext.sampled === false) {
       debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] Will not send ${finalContext.op} transaction because of beforeNavigate.`);
@@ -2936,7 +2938,7 @@ const browserTracingIntegration = ((_options = {}) => {
       isPageloadTransaction, // should wait for finish signal if it's a pageload transaction
     );
 
-    if (isPageloadTransaction) {
+    if (isPageloadTransaction && types.WINDOW.document) {
       types.WINDOW.document.addEventListener('readystatechange', () => {
         if (['interactive', 'complete'].includes(types.WINDOW.document.readyState)) {
           idleTransaction.sendAutoFinishSignal();
@@ -2986,7 +2988,7 @@ const browserTracingIntegration = ((_options = {}) => {
       }
 
       let activeSpan;
-      let startingUrl = types.WINDOW.location.href;
+      let startingUrl = types.WINDOW.location && types.WINDOW.location.href;
 
       if (client.on) {
         client.on('startNavigationSpan', (context) => {
@@ -3014,7 +3016,7 @@ const browserTracingIntegration = ((_options = {}) => {
         });
       }
 
-      if (options.instrumentPageLoad && client.emit) {
+      if (options.instrumentPageLoad && client.emit && types.WINDOW.location) {
         const context = {
           name: types.WINDOW.location.pathname,
           // pageload should always start at timeOrigin (and needs to be in s, not ms)
@@ -3027,7 +3029,7 @@ const browserTracingIntegration = ((_options = {}) => {
         startBrowserTracingPageLoadSpan(client, context);
       }
 
-      if (options.instrumentNavigation && client.emit) {
+      if (options.instrumentNavigation && client.emit && types.WINDOW.location) {
         utils.addHistoryInstrumentationHandler(({ to, from }) => {
           /**
            * This early return is there to account for some cases where a navigation transaction starts right after
@@ -3063,7 +3065,7 @@ const browserTracingIntegration = ((_options = {}) => {
       }
 
       if (_experiments.enableInteractions) {
-        registerInteractionListener(options, latestRouteName, latestRouteSource);
+        registerInteractionListener(options, latestRoute);
       }
 
       request.instrumentOutgoingRequests({
@@ -3125,8 +3127,7 @@ function getMetaContent(metaName) {
 /** Start listener for interaction transactions */
 function registerInteractionListener(
   options,
-  latestRouteName,
-  latestRouteSource,
+  latestRoute,
 ) {
   let inflightInteractionTransaction;
   const registerInteractionTransaction = () => {
@@ -3149,7 +3150,7 @@ function registerInteractionListener(
       inflightInteractionTransaction = undefined;
     }
 
-    if (!latestRouteName) {
+    if (!latestRoute.name) {
       debugBuild.DEBUG_BUILD && utils.logger.warn(`[Tracing] Did not create ${op} transaction because _latestRouteName is missing.`);
       return undefined;
     }
@@ -3157,11 +3158,11 @@ function registerInteractionListener(
     const { location } = types.WINDOW;
 
     const context = {
-      name: latestRouteName,
+      name: latestRoute.name,
       op,
       trimEnd: true,
       data: {
-        [core.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]: latestRouteSource || 'url',
+        [core.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]: latestRoute.source || 'url',
       },
     };
 
@@ -20099,7 +20100,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":135}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.102.0';
+const SDK_VERSION = '7.102.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
