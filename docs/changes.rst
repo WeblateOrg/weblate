@@ -17,6 +17,25 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?closed=1>`__.
 
+Weblate 5.4.2
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/113?closed=1>`__.
+
 Weblate 5.4.1
 -------------
 
