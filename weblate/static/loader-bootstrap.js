@@ -180,8 +180,12 @@ function screenshotLoaded(data) {
   }
 }
 
-function isNumber(n) {
-  return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
+function getNumber(n) {
+  const parsed = parseFloat(n.replace(",", "."));
+  if (!Number.isNaN(parsed) && Number.isFinite(parsed)) {
+    return parsed;
+  }
+  return null;
 }
 
 function extractText(cell) {
@@ -212,11 +216,10 @@ function compareCells(a, b) {
       parseFloat(b.replace(",", ".")),
     );
   }
-  if (isNumber(a) && isNumber(b)) {
-    return _compareValues(
-      parseFloat(a.replace(",", ".")),
-      parseFloat(b.replace(",", ".")),
-    );
+  const parsed_a = getNumber(a);
+  const parsed_b = getNumber(b);
+  if (parsed_a !== null && parsed_b !== null) {
+    return _compareValues(parsed_a, parsed_b);
   }
   if (typeof a === "string" && typeof b === "string") {
     return _compareValues(a.toLowerCase(), b.toLowerCase());
