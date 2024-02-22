@@ -938,6 +938,12 @@ Generic settings
 
    Configures :setting:`ENABLE_SHARING`.
 
+.. envvar:: WEBLATE_SUPPORT_STATUS_CHECK
+
+   .. versionadded:: 5.5
+
+   Configures :setting:`SUPPORT_STATUS_CHECK`.
+
 .. envvar:: WEBLATE_EXTRA_HTML_HEAD
 
    .. versionadded:: 4.15

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load translations %}
+{% load humanize %}
+
+{% block breadcrumbs_container %}
+{% endblock %}
+
+{% block content %}
+
+<div class="engage container">
+
+<h1>{% blocktrans %}Help keep <strong>Weblate</strong> thriving{% endblocktrans %}</h1>
+
+<h2>
+    {% if support_status.has_support %}
+        <strong>{% trans "Hello and thank you for supporting Weblate" %}</strong>
+    {% else %}
+        <strong>{% trans "Hello and thank you for choosing Weblate" %}</strong>
+    {% endif %}
+        &mdash;
+        {% trans "the localization platform committed to open-source principles and respecting your privacy." %}
+</h2>
+
+<div class="row bignumbers">
+<div class="col-md-4">
+<strong>{{ stars|intcomma }}</strong>
+<p>{% blocktrans count count=stars context "Label on engage page" %}GitHub star{% plural %}GitHub stars{% endblocktrans %}</p>
+</div>
+<div class="col-md-4">
+<strong>{{ issues|intcomma }}</strong>
+<p>{% blocktrans count count=issues context "Label on engage page" %}Open issues{% plural %}Open issues{% endblocktrans %}</p>
+</div>
+<div class="col-md-4">
+<strong>{{ commits |intcomma }}</strong>
+<p>{% blocktrans count count=commits context "Label on engage page" %}Recent changes{% plural %}Recent changes{% endblocktrans %}</p>
+</div>
+</div>
+
+
+<p>
+    {% trans "While Weblate remains free for all users, its development requires continuous investment." %}
+    {% trans "We prioritize your privacy by never displaying ads or selling your data." %}
+    {% trans "Your invaluable support through subscriptions and donations ensures that Weblate continues to grow and thrive." %}
+    {% trans "Join us in shaping the future of localization and contribute today!" %}
+</p>
+
+<p class="buttons">
+    {% if not support_status.has_support %}
+        <a href="{{ support_url }}" class="btn btn-primary btn-lg">{% trans "Get a support package" %}</a>
+    {% endif %}
+    <a href="{{ donate_url }}" class="btn btn-primary btn-lg">{% trans "Give to Weblate" %}</a>
+</p>
+
+</div>
+{% endblock %}

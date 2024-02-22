@@ -1813,6 +1813,20 @@ SUGGESTION_CLEANUP_DAYS
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
 
+.. setting:: SUPPORT_STATUS_CHECK
+
+SUPPORT_STATUS_CHECK
+--------------------
+
+.. versionadded:: 5.5
+
+Disables semiannual support status check and redirecting superusers upon login
+to the donation page in case there is no active support subscription.
+
+.. hint::
+
+   Improve your Weblate experience by purchasing a support subscription instead of turning this off.
+
 .. setting:: UNUSED_ALERT_DAYS
 
 UNUSED_ALERT_DAYS
