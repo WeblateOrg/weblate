@@ -1,7 +1,7 @@
 Weblate 5.4.2
 -------------
 
-Not yet released.
+Released on February 22nd 2024.
 
 **Bug fixes**
 
