@@ -3,13 +3,10 @@ Weblate 5.4.2
 
 Not yet released.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
-**Compatibility**
+* Displaying debugging page in case of database connection issues.
+* Gracefully handle migration with duplicate built-in teams.
 
 **Upgrading**
 
