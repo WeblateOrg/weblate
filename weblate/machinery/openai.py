@@ -142,13 +142,19 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations_string = response.choices[0].message.content
         if translations_string is None:
-            report_error(cause="Blank assistant reply", extra_log=translations_string)
+            report_error(
+                cause="Blank assistant reply",
+                extra_log=translations_string,
+                message=True,
+            )
             raise MachineTranslationError("Blank assistant reply")
 
         translations = translations_string.split(SEPARATOR)
         if len(translations) != len(texts):
             report_error(
-                cause="Failed to parse assistant reply", extra_log=translations_string
+                cause="Failed to parse assistant reply",
+                extra_log=translations_string,
+                message=True,
             )
             raise MachineTranslationError("Could not parse assistant reply")
 
