@@ -27,8 +27,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-SEPARATOR = "\n==WEBLATE_PART==\n"
-
 PROMPT = """
 You are a highly skilled translation assistant, adept at translating text
 from language '{source_language}'
@@ -38,9 +36,14 @@ with precision and nuance.
 {style}
 You always reply with translated string only.
 You do not include transliteration.
-You receive an input as strings separated by {separator} and your answer separates strings by {separator}.
+{separator}
 You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
 {glossary}
+"""
+SEPARATOR = "\n==WEBLATE_PART==\n"
+SEPARATOR_PROMPT = f"""
+You receive an input as strings separated by {SEPARATOR} and
+your answer separates strings by {SEPARATOR}.
 """
 GLOSSARY_PROMPT = """
 Use the following glossary during the translation:
@@ -99,13 +102,14 @@ class OpenAITranslation(BatchMachineTranslation):
             )
             if glossary:
                 glossary = GLOSSARY_PROMPT.format(glossary)
+        separator = SEPARATOR_PROMPT if len(units) > 1 else ""
         return PROMPT.format(
             source_language=source_language,
             target_language=target_language,
             persona=self.format_prompt_part("persona"),
             style=self.format_prompt_part("style"),
             glossary=glossary,
-            separator=SEPARATOR,
+            separator=separator,
             placeable_1=self.format_replacement(0, -1, "", None),
             placeable_2=self.format_replacement(123, -1, "", None),
         )
