@@ -347,7 +347,7 @@ def show_category_language(request, obj):
 def show_project(request, obj):
     user = request.user
 
-    all_changes = obj.change_set.prefetch()
+    all_changes = obj.change_set.filter_components(request.user).prefetch()
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
@@ -432,7 +432,9 @@ def show_project(request, obj):
 def show_category(request, obj):
     user = request.user
 
-    all_changes = Change.objects.for_category(obj).prefetch()
+    all_changes = (
+        Change.objects.for_category(obj).filter_components(request.user).prefetch()
+    )
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 

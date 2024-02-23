@@ -326,11 +326,13 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Add user language to ensure the suggestions are shown
         self.user.profile.languages.add(Language.objects.get(code="cs"))
 
+        project_url = self.project.get_absolute_url()
         url = self.component.get_absolute_url()
 
         # It is shown on the dashboard and accessible
         self.assertEqual(self.client.get(url).status_code, 200)
         self.assertContains(self.client.get(reverse("home")), url)
+        self.assertContains(self.client.get(project_url), url)
 
         # Make it restricted
         self.component.restricted = True
@@ -339,12 +341,14 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # It is no longer shown on the dashboard and not accessible
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertNotContains(self.client.get(reverse("home")), url)
+        self.assertNotContains(self.client.get(project_url), url)
 
         # Check superuser can access it
         self.user.is_superuser = True
         self.user.save()
         self.assertEqual(self.client.get(url).status_code, 200)
         self.assertNotContains(self.client.get(reverse("home")), url)
+        self.assertContains(self.client.get(project_url), url)
 
     def test_block_user(self):
         self.project.add_user(self.user, "Administration")
