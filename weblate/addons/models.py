@@ -231,6 +231,13 @@ def handle_addon_event(
                     else:
                         # Callback is used in tasks
                         method(addon)
+                    AddonActivityLog.objects.create(
+                        addon=addon,
+                        component=component,
+                        event=event.label,
+                        # TODO: What to add here?
+                        details={},
+                    )
             except DjangoDatabaseError:
                 raise
             except Exception as error:
@@ -369,3 +376,19 @@ def store_post_load_handler(sender, translation, store, **kwargs):
         (translation, store),
         translation=translation,
     )
+
+
+class AddonActivityLog(models.Model):
+    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
+    event = models.IntegerField(choices=AddonEvent.choices)
+    created = models.DateTimeField(auto_now_add=True)
+    details = models.JSONField(default=dict)
+
+    class Meta:
+        verbose_name = "add-on activity log"
+        verbose_name_plural = "add-on activity logs"
+        ordering = ["-created"]
+
+    def __str__(self):
+        return f"{self.addon}: {self.event} at {self.created}"
