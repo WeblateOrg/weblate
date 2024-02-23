@@ -614,10 +614,14 @@ class User(AbstractBaseUser):
 
     @cached_property
     def needs_component_restrictions_filter(self):
+        if self.is_superuser:
+            return False
         return self.allowed_projects.filter(component__restricted=True).exists()
 
     @cached_property
     def needs_project_filter(self):
+        if self.is_superuser:
+            return False
         return self.allowed_projects.count() != Project.objects.all().count()
 
     @cached_property

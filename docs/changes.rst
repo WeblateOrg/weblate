@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Superuser access to components with :ref:`component-restricted`.
+
 **Compatibility**
 
 **Upgrading**
