@@ -9,6 +9,8 @@ Released on March 26th 2024.
 
 **Bug fixes**
 
+* Superuser access to components with :ref:`component-restricted`.
+
 **Compatibility**
 
 **Upgrading**
