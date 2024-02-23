@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-23 14:55+0000\n"
+"PO-Revision-Date: 2024-02-23 15:00+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -5540,6 +5540,9 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Електронна пошта не є інтерактивною технологією. Будь ласка, зачекайте на "
+"підтвердження електронною поштою принаймні 30 хвилин, перш ніж писати нам "
+"про проблеми з отриманням підтвердження."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -8481,15 +8484,13 @@ msgid "View invitation"
 msgstr "Переглянути запрошення"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Строк дії посилання підтвердження завершується за %(count)s годину."
-msgstr[1] "Строк дії посилання підтвердження завершується за %(count)s години."
-msgstr[2] "Строк дії посилання підтвердження завершується за %(count)s годин."
-msgstr[3] "Строк дії посилання підтвердження завершується за %(count)s годину."
+msgstr[0] "Строк дії запрошення завершується за %(count)s годину."
+msgstr[1] "Строк дії запрошення завершується за %(count)s години."
+msgstr[2] "Строк дії запрошення завершується за %(count)s годин."
+msgstr[3] "Строк дії запрошення завершується за %(count)s годину."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -12730,19 +12731,14 @@ msgid "Customize translation workflow for this language in this project"
 msgstr "Налаштуйте процес перекладу для цієї мови в цьому проекті"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Процедура перекладу налаштовується на рівні проєкту і складника. Якщо ви "
-"увімкнете тут можливість налаштовування, ці параметри буде перевизначено на "
-"рівні цієї мови."
+"Процедура перекладу налаштовується на рівні проєкту, складника і мови. Якщо "
+"ви увімкнете тут можливість налаштовування, ці параметри буде перевизначено "
+"на рівні цієї мови у цьому проєкті."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12957,10 +12953,8 @@ msgid "Notify users"
 msgstr "Сповістити користувачів"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Надсилання запрошення користувачу електронною поштою"
+msgstr "Надіслати сповіщення користувачам із підпискою."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13604,10 +13598,8 @@ msgstr ""
 "безпосередній переклад."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
-msgstr "Автоматичне прийняття пропозиції"
+msgstr "Автоматичне прийняття пропозицій"
 
 #: weblate/trans/models/component.py:523 weblate/trans/models/workflow.py:44
 msgid ""
@@ -14705,10 +14697,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Маска файлу не містить * як заповнювач для мови!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
