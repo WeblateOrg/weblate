@@ -93,7 +93,7 @@ Granting users :guilabel:`Manage project access` (see :ref:`privileges`)
 allows them to assign other users in Public`, `Protected` and
 `Private` (but not `Custom`) projects via adding them to teams.
 
-These are the default groups, and more can be added with fine-grained access-control:
+These are the default teams, and more can be added with fine-grained access-control:
 
 Administration
     All available permissions for the project.
