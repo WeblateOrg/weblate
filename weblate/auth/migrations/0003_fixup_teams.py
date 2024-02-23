@@ -11,8 +11,8 @@ from weblate.auth.data import GROUPS
 
 def migrate_teams(apps, schema_editor):
     Group = apps.get_model("weblate_auth", "Group")
-    offset = 2
     for name, _roles, _project_selection in GROUPS:
+        offset = 2
         instances = list(
             Group.objects.filter(
                 name=name,
