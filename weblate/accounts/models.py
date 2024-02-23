@@ -166,9 +166,9 @@ ACCOUNT_ACTIVITY = {
         "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
-    "blocked": gettext_lazy("Access to project {project} was blocked"),
-    "enabled": gettext_lazy("User was enabled by administrator"),
-    "disabled": gettext_lazy("User was disabled by administrator"),
+    "blocked": gettext_lazy("Access to project {project} was blocked."),
+    "enabled": gettext_lazy("User was enabled by administrator."),
+    "disabled": gettext_lazy("User was disabled by administrator."),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
