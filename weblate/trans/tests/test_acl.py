@@ -340,6 +340,12 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertNotContains(self.client.get(reverse("home")), url)
 
+        # Check superuser can access it
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertEqual(self.client.get(url).status_code, 200)
+        self.assertNotContains(self.client.get(reverse("home")), url)
+
     def test_block_user(self):
         self.project.add_user(self.user, "Administration")
 
