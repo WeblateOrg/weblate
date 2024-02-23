@@ -887,7 +887,7 @@ def post_login_handler(sender, request, user, **kwargs):
     if not user.email:
         messages.error(
             request,
-            gettext("Please provide an email address for submitting translations."),
+            gettext("Please provide an e-mail address for submitting translations."),
         )
 
     # Sanitize profile
