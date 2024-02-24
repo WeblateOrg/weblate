@@ -78,6 +78,7 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = gettext("Glossary")
         if translation.is_source:
+            self.fields["target"].required = False
             self.fields["target"].widget = forms.HiddenInput()
 
     def clean(self):

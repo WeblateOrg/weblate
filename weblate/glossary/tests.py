@@ -332,9 +332,10 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
             {
                 "context": "context",
-                "source": "source",
-                "target": "překlad",
+                "source_0": "source",
+                "target_0": "překlad",
                 "translation": glossary.pk,
+                "auto_context": 1,
                 **kwargs,
             },
         )
@@ -403,10 +404,12 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         response = self.client.post(
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
             {
-                "source": "source 1",
+                "source_0": "source 1",
+                "target_0": "target 1",
                 "translation": self.glossary.pk,
                 "explanation": "explained 1",
                 "terminology": "1",
+                "auto_context": 1,
             },
         )
         content = json.loads(response.content.decode())
@@ -415,10 +418,12 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         response = self.client.post(
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
             {
-                "source": "source 2",
+                "source_0": "source 2",
+                "target_0": "target 2",
                 "translation": self.glossary.pk,
                 "explanation": "explained 2",
                 "terminology": "1",
+                "auto_context": 1,
             },
         )
         content = json.loads(response.content.decode())
