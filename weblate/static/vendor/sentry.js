@@ -18068,11 +18068,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
-const exports$1 = require('../exports.js');
 const hub = require('../hub.js');
+const spanUtils = require('../utils/spanUtils.js');
+require('./errors.js');
+require('./spanstatus.js');
+const dynamicSamplingContext = require('./dynamicSamplingContext.js');
+const exports$1 = require('../exports.js');
 const handleCallbackErrors = require('../utils/handleCallbackErrors.js');
 const hasTracingEnabled = require('../utils/hasTracingEnabled.js');
-const spanUtils = require('../utils/spanUtils.js');
 
 /**
  * Wraps a function with a transaction/span and finishes the span after the function is done.
@@ -18102,8 +18105,13 @@ function trace(
   // eslint-disable-next-line deprecation/deprecation
   const parentSpan = scope.getSpan();
 
-  const ctx = normalizeContext(context);
-  const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
+  const spanContext = normalizeContext(context);
+  const activeSpan = createChildSpanOrTransaction(hub$1, {
+    parentSpan,
+    spanContext,
+    forceTransaction: false,
+    scope,
+  });
 
   // eslint-disable-next-line deprecation/deprecation
   scope.setSpan(activeSpan);
@@ -18135,7 +18143,7 @@ function trace(
  * and the `span` returned from the callback will be undefined.
  */
 function startSpan(context, callback) {
-  const ctx = normalizeContext(context);
+  const spanContext = normalizeContext(context);
 
   return hub.runWithAsyncContext(() => {
     return exports$1.withScope(context.scope, scope => {
@@ -18145,10 +18153,14 @@ function startSpan(context, callback) {
       const parentSpan = scope.getSpan();
 
       const shouldSkipSpan = context.onlyIfParent && !parentSpan;
-      const activeSpan = shouldSkipSpan ? undefined : createChildSpanOrTransaction(hub$1, parentSpan, ctx);
-
-      // eslint-disable-next-line deprecation/deprecation
-      scope.setSpan(activeSpan);
+      const activeSpan = shouldSkipSpan
+        ? undefined
+        : createChildSpanOrTransaction(hub$1, {
+            parentSpan,
+            spanContext,
+            forceTransaction: context.forceTransaction,
+            scope,
+          });
 
       return handleCallbackErrors.handleCallbackErrors(
         () => callback(activeSpan),
@@ -18187,7 +18199,7 @@ function startSpanManual(
   context,
   callback,
 ) {
-  const ctx = normalizeContext(context);
+  const spanContext = normalizeContext(context);
 
   return hub.runWithAsyncContext(() => {
     return exports$1.withScope(context.scope, scope => {
@@ -18197,10 +18209,14 @@ function startSpanManual(
       const parentSpan = scope.getSpan();
 
       const shouldSkipSpan = context.onlyIfParent && !parentSpan;
-      const activeSpan = shouldSkipSpan ? undefined : createChildSpanOrTransaction(hub$1, parentSpan, ctx);
-
-      // eslint-disable-next-line deprecation/deprecation
-      scope.setSpan(activeSpan);
+      const activeSpan = shouldSkipSpan
+        ? undefined
+        : createChildSpanOrTransaction(hub$1, {
+            parentSpan,
+            spanContext,
+            forceTransaction: context.forceTransaction,
+            scope,
+          });
 
       function finishAndSetSpan() {
         activeSpan && activeSpan.end();
@@ -18237,7 +18253,7 @@ function startInactiveSpan(context) {
     return undefined;
   }
 
-  const ctx = normalizeContext(context);
+  const spanContext = normalizeContext(context);
   // eslint-disable-next-line deprecation/deprecation
   const hub$1 = hub.getCurrentHub();
   const parentSpan = context.scope
@@ -18251,37 +18267,19 @@ function startInactiveSpan(context) {
     return undefined;
   }
 
-  const isolationScope = hub.getIsolationScope();
-  const scope = exports$1.getCurrentScope();
+  const scope = context.scope || exports$1.getCurrentScope();
 
-  let span;
+  // Even though we don't actually want to make this span active on the current scope,
+  // we need to make it active on a temporary scope that we use for event processing
+  // as otherwise, it won't pick the correct span for the event when processing it
+  const temporaryScope = (scope ).clone();
 
-  if (parentSpan) {
-    // eslint-disable-next-line deprecation/deprecation
-    span = parentSpan.startChild(ctx);
-  } else {
-    const { traceId, dsc, parentSpanId, sampled } = {
-      ...isolationScope.getPropagationContext(),
-      ...scope.getPropagationContext(),
-    };
-
-    // eslint-disable-next-line deprecation/deprecation
-    span = hub$1.startTransaction({
-      traceId,
-      parentSpanId,
-      parentSampled: sampled,
-      ...ctx,
-      metadata: {
-        dynamicSamplingContext: dsc,
-        // eslint-disable-next-line deprecation/deprecation
-        ...ctx.metadata,
-      },
-    });
-  }
-
-  setCapturedScopesOnSpan(span, scope, isolationScope);
-
-  return span;
+  return createChildSpanOrTransaction(hub$1, {
+    parentSpan,
+    spanContext,
+    forceTransaction: context.forceTransaction,
+    scope: temporaryScope,
+  });
 }
 
 /**
@@ -18342,20 +18340,43 @@ const continueTrace = (
 
 function createChildSpanOrTransaction(
   hub$1,
-  parentSpan,
-  ctx,
+  {
+    parentSpan,
+    spanContext,
+    forceTransaction,
+    scope,
+  }
+
+,
 ) {
   if (!hasTracingEnabled.hasTracingEnabled()) {
     return undefined;
   }
 
   const isolationScope = hub.getIsolationScope();
-  const scope = exports$1.getCurrentScope();
 
   let span;
-  if (parentSpan) {
+  if (parentSpan && !forceTransaction) {
     // eslint-disable-next-line deprecation/deprecation
-    span = parentSpan.startChild(ctx);
+    span = parentSpan.startChild(spanContext);
+  } else if (parentSpan) {
+    // If we forced a transaction but have a parent span, make sure to continue from the parent span, not the scope
+    const dsc = dynamicSamplingContext.getDynamicSamplingContextFromSpan(parentSpan);
+    const { traceId, spanId: parentSpanId } = parentSpan.spanContext();
+    const sampled = spanUtils.spanIsSampled(parentSpan);
+
+    // eslint-disable-next-line deprecation/deprecation
+    span = hub$1.startTransaction({
+      traceId,
+      parentSpanId,
+      parentSampled: sampled,
+      ...spanContext,
+      metadata: {
+        dynamicSamplingContext: dsc,
+        // eslint-disable-next-line deprecation/deprecation
+        ...spanContext.metadata,
+      },
+    });
   } else {
     const { traceId, dsc, parentSpanId, sampled } = {
       ...isolationScope.getPropagationContext(),
@@ -18367,14 +18388,20 @@ function createChildSpanOrTransaction(
       traceId,
       parentSpanId,
       parentSampled: sampled,
-      ...ctx,
+      ...spanContext,
       metadata: {
         dynamicSamplingContext: dsc,
         // eslint-disable-next-line deprecation/deprecation
-        ...ctx.metadata,
+        ...spanContext.metadata,
       },
     });
   }
+
+  // We always set this as active span on the scope
+  // In the case of this being an inactive span, we ensure to pass a detached scope in here in the first place
+  // But by having this here, we can ensure that the lookup through `getCapturedScopesOnSpan` results in the correct scope & span combo
+  // eslint-disable-next-line deprecation/deprecation
+  scope.setSpan(span);
 
   setCapturedScopesOnSpan(span, scope, isolationScope);
 
@@ -18429,7 +18456,7 @@ exports.startSpanManual = startSpanManual;
 exports.trace = trace;
 
 
-},{"../debug-build.js":62,"../exports.js":65,"../hub.js":66,"../utils/handleCallbackErrors.js":107,"../utils/hasTracingEnabled.js":108,"../utils/spanUtils.js":113,"@sentry/utils":135}],100:[function(require,module,exports){
+},{"../debug-build.js":62,"../exports.js":65,"../hub.js":66,"../utils/handleCallbackErrors.js":107,"../utils/hasTracingEnabled.js":108,"../utils/spanUtils.js":113,"./dynamicSamplingContext.js":91,"./errors.js":92,"./spanstatus.js":98,"@sentry/utils":135}],100:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18738,7 +18765,9 @@ class Transaction extends span.Span  {
         ...metadata,
         capturedSpanScope,
         capturedSpanIsolationScope,
-        dynamicSamplingContext: dynamicSamplingContext.getDynamicSamplingContextFromSpan(this),
+        ...utils.dropUndefinedKeys({
+          dynamicSamplingContext: dynamicSamplingContext.getDynamicSamplingContextFromSpan(this),
+        }),
       },
       _metrics_summary: metricSummary.getMetricSummaryJsonForSpan(this),
       ...(source && {
@@ -20100,7 +20129,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":135}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.102.1';
+const SDK_VERSION = '7.103.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
