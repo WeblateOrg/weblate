@@ -1,15 +1,15 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# 109247019824 <stoyan@gmx.com>, 2023.
+# 109247019824 <stoyan@gmx.com>, 2023, 2024.
 # Любомир Василев <lyubomirv@gmx.com>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-02-27 18:57+0000\n"
+"Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -472,10 +472,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Поканен в {project} от {username}."
 
 #: weblate/accounts/models.py:185
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Паролата е променена."
+msgstr "Паролата е настроена."
 
 #: weblate/accounts/models.py:191
 msgid "To restore access to your account, please reset your password."
@@ -2576,16 +2574,12 @@ msgstr ""
 "за принос."
 
 #: weblate/auth/permissions.py:167
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Sign in to save the translation."
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr "Впишете се, за да можете да запазвате преводите си."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Нямате нужните права, за да можете да запазвате преводите си."
+msgstr "Нямате права да одобрявате преводи."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -4190,10 +4184,8 @@ msgid ".NET resource file"
 msgstr "Ресурсен файл на .NET"
 
 #: weblate/formats/ttkit.py:1423
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Ресурсен файл с низове за Андроид"
+msgstr "Файл с ресурси на Kotlin"
 
 #: weblate/formats/ttkit.py:1436
 #, python-format
@@ -4233,10 +4225,8 @@ msgid "gotext JSON file"
 msgstr "Файл gotext JSON"
 
 #: weblate/formats/ttkit.py:1527
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "Файл gotext JSON"
+msgstr "Файл с JSON на Format.JS"
 
 #: weblate/formats/ttkit.py:1535
 msgid "CSV file"
@@ -4562,12 +4552,9 @@ msgid "One/few/many"
 msgstr "Едно/няколко/много"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Едно/две/няколко/други"
+msgstr "Едно/нула/няколко/други"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4599,10 +4586,8 @@ msgid "Android plural"
 msgstr "Множествено число на Android"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "Множествено число на stringsdict"
+msgstr "Множествено число на Qt Езиковед"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -5024,10 +5009,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Неуспешен анализ на файла JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Неуспешен анализ на файла TMX!"
+msgstr "Неуспешен анализ на файла TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -6424,10 +6408,8 @@ msgid "The following components matched existing ones"
 msgstr "Следните компоненти съвпадат със съществуващи"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "Следните компоненти ще бъдат създадени"
+msgstr "Следните компоненти не могат да бъдат създадени"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -7058,7 +7040,7 @@ msgstr "Разглеждане"
 #: weblate/templates/browse.html:46 weblate/trans/views/edit.py:266
 #: weblate/trans/views/edit.py:600
 msgid "No strings found!"
-msgstr "Няма намерени низове!"
+msgstr "Не са намерени низове!"
 
 #: weblate/templates/category-project.html:15
 #: weblate/templates/category.html:30 weblate/templates/component.html:32
@@ -12982,7 +12964,7 @@ msgstr "Добавен е коментар"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:329 weblate/trans/models/project.py:654
 msgid "Automatically translated"
-msgstr "Автоматично превеждане"
+msgstr "Автоматично преведено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:331
