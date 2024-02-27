@@ -62,9 +62,9 @@ text text text text text
 </table>
 """
             ),
-            """1              | 2          \n\
----------------|------------\n\
-very long text | other text \n\
+            """| 1              | 2          |
+|----------------|------------|
+| very long text | other text |
 
 
 """,
