@@ -203,6 +203,15 @@ def handle_addon_event(
 ):
     # Scope is used for logging
     scope = translation or component
+    # Log logging result and error flag for addon activity log
+    log_result = None
+    error_occurred = False
+    # Events to exclude from logging
+    exclude_from_logging = [
+        "EVENT_UNIT_PRE_CREATE",
+        "EVENT_UNIT_POST_SAVE",
+        "EVENT_STORE_POST_LOAD",
+    ]
 
     # Shortcuts for frequently used variables
     if component is None and translation is not None:
@@ -227,21 +236,16 @@ def handle_addon_event(
                     op=f"addon.{event.name}", description=addon.name
                 ):
                     if isinstance(method, str):
-                        getattr(addon.addon, method)(*args)
+                        log_result = getattr(addon.addon, method)(*args)
                     else:
                         # Callback is used in tasks
-                        method(addon)
-                    AddonActivityLog.objects.create(
-                        addon=addon,
-                        component=component,
-                        event=event.label,
-                        # TODO: What to add here?
-                        details={},
-                    )
+                        log_result = method(addon)
             except DjangoDatabaseError:
                 raise
             except Exception as error:
                 # Log failure
+                error_occurred = True
+                log_result = error
                 scope.log_error(
                     "failed %s add-on: %s: %s", event.label, addon.name, error
                 )
@@ -256,8 +260,16 @@ def handle_addon_event(
                         addon.name,
                     )
                     addon.disable()
-            else:
-                scope.log_debug("completed %s add-on: %s", event.label, addon.name)
+            finally:
+                if event.label not in exclude_from_logging:
+                    AddonActivityLog.objects.create(
+                        addon=addon,
+                        component=component,
+                        event=event,
+                        details={"result": log_result, "error": error_occurred},
+                    )
+                else:
+                    scope.log_debug("completed %s add-on: %s", event.label, addon.name)
 
 
 @receiver(vcs_pre_push)
