@@ -171,9 +171,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
     FIND = "Hello, world!\n"
     FIND_CONTEXT = ""
     FIND_MATCH = "Ahoj světe!\n"
-    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[
-        str, ...
-    ] | None = b'\nmsgctxt "key"\nmsgid "Source string"\n'
+    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[str, ...] | None = (
+        b'\nmsgctxt "key"\nmsgid "Source string"\n'
+    )
     NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
     EXPECTED_FLAGS: str | list[str] = "c-format, max-length:100"

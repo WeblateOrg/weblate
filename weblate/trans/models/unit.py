@@ -1362,9 +1362,9 @@ class Unit(models.Model, LoggerMixin):
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
             if self.is_batch_update:
-                self.translation.component.updated_sources[
-                    self.source_unit.id
-                ] = self.source_unit
+                self.translation.component.updated_sources[self.source_unit.id] = (
+                    self.source_unit
+                )
             else:
                 self.source_unit.run_checks()
 

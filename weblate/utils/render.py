@@ -68,9 +68,9 @@ def render_template(template, **kwargs):
     if isinstance(component, Component):
         kwargs["component_name"] = component.name
         kwargs["component_slug"] = component.slug
-        kwargs[
-            "component_remote_branch"
-        ] = component.repository.get_remote_branch_name()
+        kwargs["component_remote_branch"] = (
+            component.repository.get_remote_branch_name()
+        )
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(component.get_absolute_url())
         kwargs["widget_url"] = get_site_url(

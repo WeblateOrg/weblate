@@ -263,8 +263,9 @@ class CreateTest(ViewTestCase):
     def test_create_zip(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_ZIP, "rb") as handle, override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            open(TEST_ZIP, "rb") as handle,
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             response = self.client.post(
                 reverse("create-component-zip"),
@@ -298,8 +299,9 @@ class CreateTest(ViewTestCase):
     def test_create_doc(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_HTML, "rb") as handle, override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            open(TEST_HTML, "rb") as handle,
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             response = self.client.post(
                 reverse("create-component-doc"),
@@ -334,8 +336,9 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
         category = self.project.category_set.create(name="Kategorie", slug="cat")
-        with open(TEST_HTML, "rb") as handle, override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            open(TEST_HTML, "rb") as handle,
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             response = self.client.post(
                 reverse("create-component-doc"),

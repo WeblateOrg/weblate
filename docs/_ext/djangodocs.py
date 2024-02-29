@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Sphinx plugins for Weblate documentation."""
+
 import re
 
 from docutils.nodes import literal

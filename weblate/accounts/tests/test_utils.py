@@ -4,7 +4,6 @@
 
 """Tests for various helper utilities."""
 
-
 from django.test import SimpleTestCase, TestCase
 
 from weblate.accounts.pipeline import slugify_username

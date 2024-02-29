@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for management views."""
+
 import os.path
 
 from django.core import mail

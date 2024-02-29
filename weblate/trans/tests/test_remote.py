@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for changes done in remote repository."""
+
 import os
 from unittest import SkipTest
 

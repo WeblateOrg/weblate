@@ -4,7 +4,6 @@
 
 """Test for categories."""
 
-
 from weblate.lang.models import Language
 from weblate.trans.models import Translation, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase

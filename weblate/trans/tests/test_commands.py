@@ -143,8 +143,9 @@ class ImportProjectTest(RepoTestCase):
         self.assertTrue(project.component_set.filter(name="Test name").exists())
 
     def test_import_re_missing(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_project",
@@ -155,8 +156,9 @@ class ImportProjectTest(RepoTestCase):
             )
 
     def test_import_re_wrong(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_project",
@@ -181,8 +183,9 @@ class ImportProjectTest(RepoTestCase):
 
     def test_import_invalid(self):
         project = self.create_project()
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_project",
@@ -253,8 +256,9 @@ class ImportProjectTest(RepoTestCase):
 
     def test_import_missing_project(self):
         """Test of correct handling of missing project."""
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_project", "test", self.git_repo_path, "main", "**/*.po"
@@ -269,8 +273,9 @@ class ImportProjectTest(RepoTestCase):
     def test_import_wrong_vcs(self):
         """Test of correct handling of wrong vcs."""
         self.create_project()
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_project",
@@ -302,8 +307,9 @@ class ImportProjectTest(RepoTestCase):
         if not HgRepository.is_supported():
             raise SkipTest("Mercurial not available!")
         self.create_project()
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_project",
@@ -537,8 +543,9 @@ class ImportCommandTest(RepoTestCase):
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
 
     def test_import_invalid(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command("import_json", "--project", "test", TEST_COMPONENTS_INVALID)
 
@@ -552,8 +559,9 @@ class ImportCommandTest(RepoTestCase):
                 "test",
                 TEST_COMPONENTS,
             )
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_json",
@@ -613,8 +621,9 @@ class ImportCommandTest(RepoTestCase):
             )
 
     def test_invalid_file(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_json",
@@ -626,8 +635,9 @@ class ImportCommandTest(RepoTestCase):
             )
 
     def test_nonexisting_project(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_json",
@@ -639,8 +649,9 @@ class ImportCommandTest(RepoTestCase):
             )
 
     def test_nonexisting_component(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command(
                 "import_json",
@@ -652,7 +663,8 @@ class ImportCommandTest(RepoTestCase):
             )
 
     def test_missing_component(self):
-        with self.assertRaises(CommandError), override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        with (
+            self.assertRaises(CommandError),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command("import_json", "--project", "test", "/nonexisting/dfile")

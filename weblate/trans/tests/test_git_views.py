@@ -4,7 +4,6 @@
 
 """Test for Git manipulation views."""
 
-
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
