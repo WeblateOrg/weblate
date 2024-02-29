@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-27 18:57+0000\n"
+"PO-Revision-Date: 2024-02-29 15:02+0000\n"
 "Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1158,7 +1158,7 @@ msgstr "Премахва низовете без превод от файлов�
 
 #: weblate/addons/consistency.py:15
 msgid "Add missing languages"
-msgstr "Добавяне на липсващите езици"
+msgstr "Добавяне на липсващи езици"
 
 #: weblate/addons/consistency.py:17
 msgid ""
@@ -3066,10 +3066,8 @@ msgid "Ignore all checks"
 msgstr "Пренебрегване на всички проверки"
 
 #: weblate/checks/flags.py:50
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Знаци „%“ за заместване"
+msgstr "Използване на заместващи знаци без съвпадение на регистъра"
 
 #: weblate/checks/flags.py:52 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -3540,16 +3538,12 @@ msgid "C format string does not match source"
 msgstr "Форматиращият низ на C не съвпада с изходния"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Форматиране на Perl"
+msgstr "Форматиране на Perl със скоби"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Форматиращият низ на Perl не съвпада с изходния"
+msgstr "Форматиращият низ на Perl със скоби не съвпада с изходния"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -3593,11 +3587,11 @@ msgstr "Форматиращият низ на Scheme не съвпада с и�
 
 #: weblate/checks/format.py:568
 msgid "Python brace format"
-msgstr "Форматиране с къдрави скоби на Python"
+msgstr "Форматиране на Python с къдрави скоби"
 
 #: weblate/checks/format.py:569
 msgid "Python brace format string does not match source"
-msgstr "Форматиращият низ с къдрави скоби на Python не съвпада с изходния"
+msgstr "Форматиращият низ на Python с къдрави скоби не съвпада с изходния"
 
 #: weblate/checks/format.py:584
 msgid "C# format"
@@ -8450,13 +8444,11 @@ msgid "View invitation"
 msgstr "Преглед на поканата"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Връзката за потвърждение ще изтече след %(count)s час."
-msgstr[1] "Връзката за потвърждение ще изтече след %(count)s часа."
+msgstr[0] "Поканата ще изтече след %(count)s час."
+msgstr[1] "Поканата ще изтече след %(count)s часа."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -9989,10 +9981,8 @@ msgid "No strings to translate"
 msgstr "Липсват низове за превод"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Добавяне на проекти"
+msgstr "Добавяне на проект"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10166,8 +10156,7 @@ msgstr ""
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
 msgid "Translation workflow can be also customized per language:"
-msgstr ""
-"Работният процес на превода може да бъде персонализиран и според езика:"
+msgstr "Работният процес на превода може да бъде настроен и според езика:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -11161,16 +11150,12 @@ msgstr[0] "Ще бъде премахнат %(count)s компонент."
 msgstr[1] "Ще бъдат премахнати %(count)s компоненти."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
-"В този компонент е инсталирана добавката за добавяне на липсващи езици. Тя "
-"може да добави отново премахнатия език в компонента."
+"В този компонент е инсталирана добавката „Добавяне на липсващи езици“. Тя "
+"може да върне в компонента премахнат език."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
@@ -11977,16 +11962,13 @@ msgstr ""
 "проекти."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
-#| msgid "View translation component"
 msgid "File mask matches the main component."
-msgstr "Компонент за превод"
+msgstr "Маската на файла съответства на основния компонент."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Файлът не съществува."
+msgstr "{filename} ({parameter}) не съществува."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12643,7 +12625,7 @@ msgstr "Срокът на давност не може да бъде в мина
 
 #: weblate/trans/forms.py:2786
 msgid "Customize translation workflow for this language"
-msgstr "Персонализиране на работния процес на превода за този език"
+msgstr "Настройка на работния процес на превода за този език"
 
 #: weblate/trans/forms.py:2788
 msgid ""
@@ -12655,25 +12637,18 @@ msgstr ""
 "език."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Персонализиране на работния процес на превода за този език"
+msgstr "Настройка на работния процес на превода за този език в този проект"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Работният процес на превода се настройва за проекта и компонентите. Ако "
-"включите персонализирането тук, може да направите различни настройки за този "
-"език."
+"Работният процес на превода се настройва за проекта и компонентите и езика. "
+"Ако включите настройка тук, може да направите различни настройки за този "
+"език в дадения проект."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12722,14 +12697,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Използвайте флагове, за да обозначите специалните низове в превода си."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
 "Добавете флага „safe-html“, за да избегнете изпращането на опасен HTML-код "
-"от преводачите."
+"от преводачите за низове, които се показват като HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -12896,10 +12869,8 @@ msgid "Notify users"
 msgstr "Известяване на потребителите"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Изпращане на е-писмо с покана към потребителя"
+msgstr "Изпращане на известие до абонатите."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13258,10 +13229,8 @@ msgstr "Запазването на низа беше неуспешно"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Обновен е низ в хранилището"
+msgstr "Добавен е низ в хранилището"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
@@ -13549,8 +13518,6 @@ msgstr ""
 "директни преводи."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "Автоматично приемане на предложенията"
 
@@ -13605,7 +13572,7 @@ msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
-"Настройте кода на езика, който да се ползва при създаване на имената на "
+"Настройте кода на езика, който да бъде ползван при създаване на имената на "
 "файловете с превод, създавани от Weblate."
 
 #: weblate/trans/models/component.py:582
@@ -14259,7 +14226,7 @@ msgstr "Вмъкване на маркер за пренасяне"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Вмъкване на непрекъсваем интервал"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14331,31 +14298,25 @@ msgstr "Възможна настройка"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Забранен превод"
-msgstr[1] "Забранен превод"
+msgstr[0] "Забранен превод:"
+msgstr[1] "Забранени преводи:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Непреводим термин"
-msgstr[1] "Непреводим термин"
+msgstr[0] "Непреводим термин:"
+msgstr[1] "Непреводими термини:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Термин от речника"
-msgstr[1] "Термин от речника"
+msgstr[0] "Термин от речника:"
+msgstr[1] "Термини от речника:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14629,15 +14590,11 @@ msgstr ""
 "на езика!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Стойността 1 не може да се използва за автоматичното приемане на "
+"Стойност 1 не може да бъде използвана за автоматично приемане на "
 "предложения, тъй като това ще позволи на потребителите да гласуват за "
 "собствените си предложения."
 
