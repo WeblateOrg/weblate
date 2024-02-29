@@ -616,14 +616,14 @@ glosář [glossary]">glossary</span>
     def test_whitespace_special(self):
         self.assertHTMLEqual(
             format_translation(
-                ["Hello\u00A0world"],
+                ["Hello\u00a0world"],
                 self.component.source_language,
             )["items"][0]["content"],
             """
             Hello
             <span class="hlspace">
                 <span class="space-space" title="NO-BREAK SPACE">
-                    \u00A0
+                    \u00a0
                 </span>
             </span>
             world

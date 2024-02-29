@@ -4,7 +4,6 @@
 
 """Simple mathematical captcha."""
 
-
 import ast
 import operator
 import time

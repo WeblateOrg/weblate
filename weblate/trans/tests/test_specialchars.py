@@ -4,7 +4,6 @@
 
 """Tests for special chars."""
 
-
 from unittest import TestCase
 
 from django.test.utils import override_settings

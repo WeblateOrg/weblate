@@ -176,9 +176,9 @@ class AutoFixTest(TestCase):
         cs_unit = MockUnit(source="Foo:", code="cs")
         self.assertEqual(fix.fix_target(["Bar:"], non_unit), (["Bar:"], False))
         self.assertEqual(
-            fix.fix_target(["Bar\u202F:"], fr_unit), (["Bar\u202F:"], False)
+            fix.fix_target(["Bar\u202f:"], fr_unit), (["Bar\u202f:"], False)
         )
-        self.assertEqual(fix.fix_target(["Bar :"], fr_unit), (["Bar\u202F:"], True))
+        self.assertEqual(fix.fix_target(["Bar :"], fr_unit), (["Bar\u202f:"], True))
         self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
         self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))

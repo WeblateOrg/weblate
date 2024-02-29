@@ -4,7 +4,6 @@
 
 """Tests for markup quality checks."""
 
-
 from weblate.checks.markup import (
     BBCodeCheck,
     MarkdownLinkCheck,

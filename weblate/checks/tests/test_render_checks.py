@@ -4,7 +4,6 @@
 
 """Tests for rendering quality checks."""
 
-
 from weblate.checks.render import MaxSizeCheck
 from weblate.fonts.models import FontGroup, FontOverride
 from weblate.fonts.tests.utils import FontTestCase

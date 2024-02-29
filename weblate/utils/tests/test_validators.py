@@ -110,9 +110,10 @@ class RegexTest(SimpleTestCase):
 class WebsiteTest(SimpleTestCase):
     def test_regexp(self):
         validate_project_web("https://weblate.org")
-        with override_settings(
-            PROJECT_WEB_RESTRICT_RE="https://weblate.org"
-        ), self.assertRaises(ValidationError):
+        with (
+            override_settings(PROJECT_WEB_RESTRICT_RE="https://weblate.org"),
+            self.assertRaises(ValidationError),
+        ):
             validate_project_web("https://weblate.org")
 
     def test_host(self):

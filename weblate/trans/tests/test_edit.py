@@ -4,7 +4,6 @@
 
 """Test for translation views."""
 
-
 import time
 from unittest import SkipTest
 

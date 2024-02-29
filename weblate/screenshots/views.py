@@ -153,13 +153,16 @@ def ensure_tesseract_language(lang: str):
     tessdata = data_dir("cache", "tesseract")
 
     # Operate with a lock held to avoid concurrent downloads
-    with WeblateLock(
-        data_dir("home"),
-        "screenshots:tesseract-download",
-        0,
-        "screenshots:tesseract-download",
-        timeout=600,
-    ), sentry_sdk.start_span(op="ocr.models"):
+    with (
+        WeblateLock(
+            data_dir("home"),
+            "screenshots:tesseract-download",
+            0,
+            "screenshots:tesseract-download",
+            timeout=600,
+        ),
+        sentry_sdk.start_span(op="ocr.models"),
+    ):
         if not os.path.isdir(tessdata):
             os.makedirs(tessdata)
 

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Backup automation based on borg."""
+
 from __future__ import annotations
 
 import os

@@ -4,7 +4,6 @@
 
 """Tests for various helper utilities."""
 
-
 from django.test import SimpleTestCase
 
 from weblate.auth.utils import format_address

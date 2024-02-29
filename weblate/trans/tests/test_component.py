@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for translation models."""
+
 import os
 
 from django.core.exceptions import ValidationError

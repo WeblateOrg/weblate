@@ -4,7 +4,6 @@
 
 """Tests for char based quality checks."""
 
-
 from unittest import TestCase
 
 from weblate.checks.chars import (
@@ -370,8 +369,8 @@ class KashidaCheckTest(CheckTestCase):
         self.test_good_matching = ("string", "string", "")
         self.test_good_ignore = ("string", "بـ:", "")
         self.test_failure_1 = ("string", "string\u0640", "")
-        self.test_failure_2 = ("string", "string\uFE79", "")
-        self.test_failure_3 = ("string", "string\uFE7F", "")
+        self.test_failure_2 = ("string", "string\ufe79", "")
+        self.test_failure_3 = ("string", "string\ufe7f", "")
 
 
 class PunctuationSpacingCheckTest(CheckTestCase):
@@ -382,7 +381,7 @@ class PunctuationSpacingCheckTest(CheckTestCase):
         super().setUp()
         self.test_good_matching = (
             "string? string?! string! string: string;",
-            "string ? string ?! string\u202F! string&nbsp;; string\u00A0:",
+            "string ? string ?! string\u202f! string&nbsp;; string\u00a0:",
             "",
         )
         self.test_good_none = (
@@ -391,8 +390,8 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             "",
         )
         self.test_failure_1 = ("string", "string!", "")
-        self.test_failure_2 = ("string", "string\u00A0? string;", "")
-        self.test_failure_3 = ("string", "string\u00A0; string?", "")
+        self.test_failure_2 = ("string", "string\u00a0? string;", "")
+        self.test_failure_3 = ("string", "string\u00a0; string?", "")
 
     def test_fr_ca(self):
         self.do_test(True, ("string", "string!", ""), "fr")

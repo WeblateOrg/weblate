@@ -4,7 +4,6 @@
 
 """Tests for Unicode sorting."""
 
-
 from unittest import SkipTest
 
 from django.test import TestCase
