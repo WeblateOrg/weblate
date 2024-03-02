@@ -823,7 +823,11 @@ class Profile(models.Model):
 
     def get_commit_email(self) -> str:
         email = self.commit_email
-        if not email and not settings.PRIVATE_COMMIT_EMAIL_OPT_IN and not self.user.is_bot:
+        if (
+            not email
+            and not settings.PRIVATE_COMMIT_EMAIL_OPT_IN
+            and not self.user.is_bot
+        ):
             email = self.get_site_commit_email()
         if not email:
             email = self.user.email
