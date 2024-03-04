@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-04 15:40+0000\n"
+"PO-Revision-Date: 2024-03-04 16:52+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -992,8 +992,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"O seu enderezo do correo-e xa non pertence á conta verificada, cambiouse a "
-"{0}."
+"O seu enderezo do correo-e xa non pertence á conta verificada, foi cambiado "
+"a {0}."
 
 #: weblate/accounts/views.py:155 weblate/accounts/views.py:937
 #: weblate/accounts/views.py:1003 weblate/templates/accounts/reset.html:7
@@ -1241,7 +1241,7 @@ msgstr ""
 
 #: weblate/addons/cleanup.py:22
 msgid "Cleanup translation files"
-msgstr "Limpeza dos ficheiros da tradución"
+msgstr "Limpeza dos ficheiros de tradución"
 
 #: weblate/addons/cleanup.py:24
 msgid ""
@@ -1317,7 +1317,7 @@ msgstr "Este complemento executa un script."
 
 #: weblate/addons/flags.py:29
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Marcar novas cadeas de orixe coma «Precisa dunha edición»"
+msgstr "Marcar as novas cadeas de orixe como «Precisa de edición»"
 
 #: weblate/addons/flags.py:31
 msgid ""
@@ -1325,13 +1325,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Cando se importa unha nova cadea de orixe dende o VCS, márcase coma precisa "
-"a edición no Weblate. Deste xeito vostede pode sinxelamente filtrar e editar "
-"cadeas de orixe escritas polos desenvolvedores."
+"Cando se importa unha nova cadea de orixe dende o SCV, márcase como que "
+"precisa de edición no Weblate. Deste xeito vostede pode sinxelamente filtrar "
+"e editar cadeas de orixe escritas polos desenvolvedores."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Marcar novas traducións coma «Precisa dunha edición»"
+msgstr "Marcar as novas traducións como «Precisa de edición»"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -1340,12 +1340,12 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Cando se importa unha nova cadea traducíbel dende o sistema VCS, márcase "
-"coma necesaria a edición no Weblate. Deste xeito podes filtrar e editar de "
-"maneira doada as traducións feitas polos desenvolvedores."
+"como que precisa de edición no Weblate. Deste xeito pode filtrar e editar de "
+"xeito doado as traducións feitas polos desenvolvedores."
 
 #: weblate/addons/flags.py:68
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Marcar traducións sen mudanzas coma «Precisa dunha edición»"
+msgstr "Marcar as traducións sen cambios como «Precisa de edición»"
 
 #: weblate/addons/flags.py:70
 #, fuzzy
@@ -1390,7 +1390,7 @@ msgstr "Nome do ficheiro xerado"
 
 #: weblate/addons/forms.py:44
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Se no se especifica, empregarase a ubicación do ficheiro PO."
+msgstr "Se non se especifica, empregarase a ubicación do ficheiro PO."
 
 #: weblate/addons/forms.py:48
 #, fuzzy
@@ -1495,9 +1495,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"As liñas de final son liñas semellantes ás cabeceiras dos correos "
-"electrónicos RFC 822, ao final da parte de forma libre dunha mensaxe de "
-"«commit», como «Coautor: …»."
+"As liñas de final son liñas semellantes ás cabeceiras dos correos-e RFC 822, "
+"ao final da parte de forma libre dunha mensaxe de «commit», como «Coautor: "
+"…»."
 
 #: weblate/addons/forms.py:174
 msgid "Commit message"
@@ -10386,6 +10386,9 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"Crearase un ficheiro de tradución coma unha copia de <code>%(new_base)s</"
+"code> con todas as cadeas marcadas como «Precisa de edición» e "
+"substituiranse mentres se traducen."
 
 #: weblate/templates/new-language.html:47
 msgid ""
@@ -11045,7 +11048,7 @@ msgstr "Traducido"
 #: weblate/templates/snippets/info.html:348
 msgctxt "Number of strings"
 msgid "Needs editing"
-msgstr "Precisa dunha edición"
+msgstr "Precisa de edición"
 
 #: weblate/templates/snippets/info.html:357
 #, fuzzy
@@ -11887,12 +11890,18 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
+"Quizais queira escoller Git con inserción forzada como sistema de control de "
+"versións na configuración dos compoñentes para sobrescribir o repositorio "
+"remoto após facer o «rebasing commit» en Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:33
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
+"No repositorio de Weblate faltan algúns «commits» do repositorio de orixe. "
+"Quizais non estea recibindo notificacións sobre as actualizacións do "
+"repositorio remoto."
 
 #: weblate/templates/trans/alert/common-repo.html:37
 msgid ""
@@ -12526,7 +12535,7 @@ msgstr "Olla as FAQ para obter información para resolver isto."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
-msgstr ""
+msgstr "Pode usar o marcado de modelos de Django nas mensaxes de «commit»."
 
 #: weblate/templates/trans/other-row.html:12
 msgid "This translation"
@@ -13525,15 +13534,15 @@ msgstr "A mensaxe que quere traducir xa non está dispoñíbel!"
 
 #: weblate/trans/forms.py:433
 msgid "Needs editing"
-msgstr "Precisa dunha edición"
+msgstr "Precisa de edición"
 
 #: weblate/trans/forms.py:435
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"A cadeas adoitan marcarse coma «Precisa dunha edición» despois de "
-"actualizarse a cadea de orixe, ou cando márcanse coma tal de xeito manual."
+"A cadeas adoitan marcarse coma «Precisa de edición» após actualizarse a "
+"cadea de orixe, ou cando se márcan como tal de xeito manual."
 
 #: weblate/trans/forms.py:450
 #, fuzzy
@@ -13626,20 +13635,16 @@ msgid "Add new strings"
 msgstr "Engadir unha nova cadea"
 
 #: weblate/trans/forms.py:629
-#, fuzzy
-#| msgid "Processing of strings needing edit"
 msgid "Processing of \"Needs editing\" strings"
-msgstr "Procesamento das cadeas que precisan dunha edición"
+msgstr "Procesamento das cadeas que «precisan de edición»"
 
 #: weblate/trans/forms.py:631
 msgid "Do not import"
 msgstr ""
 
 #: weblate/trans/forms.py:632
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Import as \"Needs editing\""
-msgstr "Precisa dunha edición"
+msgstr "Importar como «Precisa de edición»"
 
 #: weblate/trans/forms.py:633
 msgid "Import as translated"
@@ -17183,7 +17188,7 @@ msgstr ""
 #: weblate/utils/state.py:18
 msgctxt "String state"
 msgid "Needs editing"
-msgstr "Precisa dunha edición"
+msgstr "Precisa de edición"
 
 #: weblate/utils/state.py:19
 msgctxt "String state"
