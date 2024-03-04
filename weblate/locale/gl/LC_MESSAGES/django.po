@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-04 14:13+0000\n"
+"PO-Revision-Date: 2024-03-04 15:40+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -49,11 +49,11 @@ msgstr "Nome completo"
 
 #: weblate/accounts/forms.py:117
 msgid "Name is also used in version control commits."
-msgstr "O nome tamén se usa nas consolidacións en control de versións."
+msgstr "O nome tamén se usa nos «commits» en control de versións."
 
 #: weblate/accounts/forms.py:181 weblate/accounts/models.py:613
 msgid "Commit e-mail"
-msgstr "Correo-e de quen fixo a consolidación"
+msgstr "Correo-e de quen fixo o «commit»"
 
 #: weblate/accounts/forms.py:182
 msgid "Use account e-mail address"
@@ -64,8 +64,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
-"Usado en consolidacións de control de versións. O enderezo permanecerá no "
-"repositorio para sempre unha vez que Weblate consolide os cambios."
+"Usado nos «commits» en control de versións. O enderezo permanecerá no "
+"repositorio para sempre unha vez que Weblate faga «commit» dos cambios."
 
 #: weblate/accounts/forms.py:216 weblate/accounts/models.py:607
 msgid "Public e-mail"
@@ -89,7 +89,7 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
-"Úsase para notificacións por correo-e e como correo-e nas consolidacións se "
+"Úsase para notificacións por correo-e e como correo-e ao facer «commit» se "
 "non está configurado a seguir."
 
 #: weblate/accounts/forms.py:398
@@ -1309,7 +1309,7 @@ msgstr "Este complemento non fai ren, é só un exemplo."
 
 #: weblate/addons/example_pre.py:20
 msgid "Execute script before commit"
-msgstr "Executar o script antes de consolidar"
+msgstr "Executar o script antes de facer «commit»"
 
 #: weblate/addons/example_pre.py:21
 msgid "This add-on executes a script."
@@ -1461,11 +1461,11 @@ msgstr "Empregar coincidencia difusa"
 
 #: weblate/addons/forms.py:152
 msgid "Commit squashing"
-msgstr "Concentración de consolidacións"
+msgstr "Concentración de «commits»"
 
 #: weblate/addons/forms.py:155
 msgid "All commits into one"
-msgstr "Todas as consolidacións nunha soa"
+msgstr "Todos os «commit» nun só"
 
 #: weblate/addons/forms.py:156
 #, fuzzy
@@ -1487,7 +1487,7 @@ msgstr "Último autor"
 
 #: weblate/addons/forms.py:164
 msgid "Append trailers to squashed commit message"
-msgstr "Engadir liñas finais á mensaxe de consolidación concentrada"
+msgstr "Engadir liñas finais á mensaxe de «commit» concentrados"
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -1497,19 +1497,19 @@ msgid ""
 msgstr ""
 "As liñas de final son liñas semellantes ás cabeceiras dos correos "
 "electrónicos RFC 822, ao final da parte de forma libre dunha mensaxe de "
-"consolidación, como «Coautor: …»."
+"«commit», como «Coautor: …»."
 
 #: weblate/addons/forms.py:174
 msgid "Commit message"
-msgstr "Mensaxe de consolidación"
+msgstr "Mensaxe de «commit»"
 
 #: weblate/addons/forms.py:178
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Esta mensaxe de consolidación empregarase no canto das mensaxes de "
-"consolidación combinadas das consolidacións concentradas."
+"Esta mensaxe de «commit» empregarase no canto das mensaxes de «commit» "
+"combinadas dos «commits» concentrados."
 
 #: weblate/addons/forms.py:195
 msgid "Sort JSON keys"
@@ -1940,11 +1940,11 @@ msgstr ""
 
 #: weblate/addons/git.py:19
 msgid "Squash Git commits"
-msgstr "Concentrar consolidacións de Git"
+msgstr "Concentrar «commits» de Git"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Concentrar as consolidacións de Git antes de enviar os cambios."
+msgstr "Concentrar as consolidacións de Git antes de facer «push» dos cambios."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -2383,7 +2383,7 @@ msgstr "Acceso ó repositorio interno"
 #. Translators: Permission name
 #: weblate/auth/data.py:103
 msgid "Commit changes to the internal repository"
-msgstr "Consolidar cambios no repositorio interno"
+msgstr "Facer «commit» dos cambios no repositorio interno"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
@@ -6033,7 +6033,7 @@ msgstr "Chaves ou claves do Weblate"
 
 #: weblate/templates/about/keys.html:19
 msgid "Commit signing"
-msgstr "Sinatura das consolidacións"
+msgstr "Sinatura dos «commit»"
 
 #: weblate/templates/about/keys.html:25
 #: weblate/templates/snippets/ssh-key.html:15
@@ -6070,12 +6070,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Todas as consolidacións feitas co Weblate asínanse coa chave GPG "
-"%(gpg_key_id)s, para a cal a chave pública correspondente atópase embaixo."
+"Todos os «commits» feitos co Weblate asínanse coa chave GPG %(gpg_key_id)s, "
+"para a cal a chave pública correspondente atópase embaixo."
 
 #: weblate/templates/about/keys.html:31
 msgid "Commit signing is not configured."
-msgstr "A sinatura das consolidacións non está configurada."
+msgstr "A sinatura dos «commit» non está configurada."
 
 #: weblate/templates/about/stats.html:8
 #: weblate/templates/dashboard/user.html:34 weblate/templates/data.html:52
@@ -6665,9 +6665,8 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Ao rexistrarse acepta usar o seu nome e correo-e nas consolidacións e "
-"fornece a súa colaboración baixo a licenza definida por cada proxecto de "
-"localización."
+"Ao rexistrarse acepta usar o seu nome e correo-e nos «commits» e fornece a "
+"súa colaboración baixo a licenza definida por cada proxecto de localización."
 
 #: weblate/templates/accounts/profile.html:401
 msgid "You have agreed to the following as a contributor:"
@@ -7261,17 +7260,17 @@ msgstr "Cadeas de orixe"
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
-"As consolidacións de Weblate dos compoñentes dentro deste repositorio van "
-"ser concentradas."
+"Os «commits» de Weblate dos compoñentes dentro deste repositorio van ser "
+"concentrados."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
 msgstr ""
-"As mensaxes de consolidación orixinais conservaranse, mais pérdese a autoría "
-"a menos que seleccione «Por autor» ou personalice a mensaxe de consolidación "
-"para incluíla."
+"As mensaxes de «commit» orixinais conservaranse, mais pérdese a autoría a "
+"menos que seleccione «Por autor» ou personalice a mensaxe de «commit» para "
+"incluíla."
 
 #: weblate/templates/auth/team.html:12
 #: weblate/templates/trans/project-access.html:11
@@ -8804,7 +8803,7 @@ msgstr "Estado do repositorio"
 
 #: weblate/templates/js/git-status.html:26
 msgid "Commit"
-msgstr "Consolidación"
+msgstr "«Commit»"
 
 #: weblate/templates/js/git-status.html:29
 #, fuzzy, python-format
@@ -8820,7 +8819,7 @@ msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
 msgstr ""
-"Isto consolidará calquera cambio pendente presente en Weblate e non no "
+"Isto fará «commit» de calquera cambio pendente presente en Weblate e non no "
 "repositorio."
 
 #: weblate/templates/js/git-status.html:38
@@ -8831,8 +8830,8 @@ msgstr "Pular"
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s consolidación de saída"
-msgstr[1] "%(count)s consolidacións de saída"
+msgstr[0] "%(count)s «commit» de saída"
+msgstr[1] "%(count)s «commits» de saída"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -8858,8 +8857,8 @@ msgstr "Obte-las mudanzas do repositorio remoto"
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s consolidación perdida"
-msgstr[1] "%(count)s consolidacións perdidas"
+msgstr[0] "%(count)s «commit» perdido"
+msgstr[1] "%(count)s «commits» perdidos"
 
 #: weblate/templates/js/git-status.html:73
 #, fuzzy
@@ -10791,7 +10790,7 @@ msgstr "Póla do repositorio"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
-msgstr "Última consolidación remota"
+msgstr "Último «commit» remoto"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:43
@@ -10803,7 +10802,7 @@ msgstr "Creado por %(author)s o %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
 msgid "Last commit in Weblate"
-msgstr "Última consolidación en Weblate"
+msgstr "Último «commit» en Weblate"
 
 #: weblate/templates/snippets/git-info.html:68
 #, fuzzy
@@ -11312,9 +11311,9 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"Ó rexistrarte, aceptas o emprego do teu nome e enderezo do correo "
-"electrónico nos envíos ó control de versións, e que fornece as túas "
-"contribucións baixo a licenza definida por cada proxecto traducido."
+"Ao rexistrarse, acepta usar o seu nome e correo electrónico nos «commits» do "
+"sistema de control de versións e fornecer a súa colaboración baixo a licenza "
+"definida por cada proxecto traducido."
 
 #: weblate/templates/snippets/login-info.html:31
 msgid ""
@@ -11322,9 +11321,9 @@ msgid ""
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Ao rexistrarse acepta usar o seu nome e correo-e nas consolidacións do "
-"sistema de control de versións e fornece a súa colaboración baixo a licenza "
-"definida por cada proxecto de localización."
+"Ao rexistrarse acepta usar o seu nome e correo-e nos «commits» do sistema de "
+"control de versións e fornece a súa colaboración baixo a licenza definida "
+"por cada proxecto de localización."
 
 #: weblate/templates/snippets/plural-formula.html:4
 #, fuzzy
@@ -12491,8 +12490,8 @@ msgstr ""
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
 msgstr ""
-"Envíe (commit) todas as mudanzas pendentes no Weblate e bloquee o compoñente "
-"de tradución."
+"Faga «commit» de todos os cambios pendentes no Weblate e bloquee o "
+"compoñente de tradución."
 
 #: weblate/templates/trans/merge_instructions.html:17
 msgid "Add Weblate exported repository as a remote."
@@ -13040,10 +13039,9 @@ msgid "string %(position)s"
 msgstr "Nova tradución en %(translation)s"
 
 #: weblate/templates/translate.html:726
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Invar mudanzas recentes do repositorio local"
+msgstr ""
+"Aínda non se fixo «commit» dos cambios pendentes no repositorio de Weblate"
 
 #: weblate/templates/translate.html:726
 #, fuzzy
@@ -13313,7 +13311,7 @@ msgstr "Saír do modo Zen"
 
 #: weblate/trans/admin.py:15
 msgid "Commit pending changes"
-msgstr "Enviar as mudanzas pendentes"
+msgstr "Facer «commit» dos cambios pendentes"
 
 #: weblate/trans/admin.py:24
 msgid "Update VCS repository"
@@ -13964,7 +13962,7 @@ msgstr "Configuración do control de versión"
 
 #: weblate/trans/forms.py:1574
 msgid "Commit messages"
-msgstr "Detalles do envío"
+msgstr "Mensaxes de «commit»"
 
 #: weblate/trans/forms.py:1590
 #, fuzzy
@@ -14613,10 +14611,8 @@ msgstr "Comentarios"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:343
-#, fuzzy
-#| msgid "Change word"
 msgid "Changes committed"
-msgstr "Mudar a palabra"
+msgstr "Feito o «commit» dos cambios"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:345
@@ -15376,7 +15372,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:603
 msgid "Commit message when translating"
-msgstr "Invar unha mensaxe ó traducir"
+msgstr "Mensaxe de «commit» ao traducir"
 
 #: weblate/trans/models/component.py:605 weblate/trans/models/component.py:614
 #: weblate/trans/models/component.py:623 weblate/trans/models/component.py:632
@@ -15390,21 +15386,19 @@ msgstr ""
 
 #: weblate/trans/models/component.py:612
 msgid "Commit message when adding translation"
-msgstr "Invar unha mensaxe ó engadi-la tradución"
+msgstr "Mensaxe de «commit» ao engadir a tradución"
 
 #: weblate/trans/models/component.py:621
 msgid "Commit message when removing translation"
-msgstr "Invar unha mensaxe ó elimina-la tradución"
+msgstr "Mensaxe de «commit» ao retirar a tradución"
 
 #: weblate/trans/models/component.py:630
 msgid "Commit message when merging translation"
-msgstr "Invar unha mensaxe ó fusiona-la tradución"
+msgstr "Mensaxe de «commit» ao fusionar a tradución"
 
 #: weblate/trans/models/component.py:639
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when add-on makes a change"
-msgstr "Invar unha mensaxe ó engadi-la tradución"
+msgstr "Mensaxe de «commit» cando o complemento fai un cambio"
 
 #: weblate/trans/models/component.py:648
 msgid "Merge request message"
@@ -15412,21 +15406,21 @@ msgstr ""
 
 #: weblate/trans/models/component.py:657
 msgid "Push on commit"
-msgstr "Facer 'push' no envío"
+msgstr "Facer «push» co «commit»"
 
 #: weblate/trans/models/component.py:660
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Se o repositorio debe ser invado cara a orixe con cada envío."
+msgstr "Se se debe facer «push» do repositorio cara a orixe con cada «commit»."
 
 #: weblate/trans/models/component.py:664
 msgid "Age of changes to commit"
-msgstr "Idade das mudanzas no envío"
+msgstr "Idade dos cambios no «commit»"
 
 #: weblate/trans/models/component.py:668
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"O tempo, en horas, após o que todos os cambios se teñan consolidado ao SCV."
+"O tempo, en horas, após se teña feito o «commit» de todos os cambios ao SCV."
 
 #: weblate/trans/models/component.py:673
 msgid "Lock on error"
@@ -15986,10 +15980,9 @@ msgstr "Produciuse un fallo ao procesar o ficheiro %(file)s: %(error)s"
 #: weblate/trans/models/translation.py:1040
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1233
-#, fuzzy, python-format
-#| msgid "Commit pending changes"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "Enviar as mudanzas pendentes"
+msgstr "Non foi posíbel facer «commit» dos cambios pendentes: %s"
 
 #: weblate/trans/models/translation.py:1639
 #, fuzzy
@@ -16843,7 +16836,7 @@ msgstr "Comentario da tradución eliminado."
 
 #: weblate/trans/views/git.py:143
 msgid "All pending translations were committed."
-msgstr "Consolidáronse todas as traducións pendentes."
+msgstr "Fíxose «commit» de todas as traducións pendentes."
 
 #: weblate/trans/views/lock.py:28
 #, fuzzy
@@ -17368,10 +17361,8 @@ msgid "This will push changes to Gerrit for a review."
 msgstr ""
 
 #: weblate/vcs/git.py:562
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Invar mudanzas ó repositorio interno"
+msgstr "Isto fara «commit» dos cambios no repositorio de Subversion."
 
 #: weblate/vcs/git.py:727
 msgid "Git with force push"
