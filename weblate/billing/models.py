@@ -22,7 +22,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.models import User
-from weblate.trans.models import Alert, Component, Project
+from weblate.trans.models import Alert, Component, Project, Translation
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.stats import prefetch_stats
 
@@ -579,8 +579,11 @@ def update_project_bill(sender, instance, **kwargs):
 
 @receiver(pre_delete, sender=Project)
 @receiver(pre_delete, sender=Component)
+@receiver(post_delete, sender=Translation)
 @disable_for_loaddata
 def record_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Translation):
+        instance = instance.component
     if isinstance(instance, Component):
         instance = instance.project
     # Track billings to update for delete_project_bill
@@ -589,8 +592,11 @@ def record_project_bill(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Project)
 @receiver(post_delete, sender=Component)
+@receiver(post_delete, sender=Translation)
 @disable_for_loaddata
 def delete_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Translation):
+        instance = instance.component
     if isinstance(instance, Component):
         instance = instance.project
     # This is set in record_project_bill
