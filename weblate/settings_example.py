@@ -822,6 +822,7 @@ if REQUIRE_LOGIN:
 #    rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
 #    rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
 #    rf"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
+#    rf"{URL_PREFIX}/css/custom\.css$",  # Custom CSS support
 #    rf"{URL_PREFIX}/contact/$",  # Optional for contact form
 #    rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
 #    rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars

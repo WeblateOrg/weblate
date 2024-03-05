@@ -1214,19 +1214,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS
 List of exceptions for :setting:`LOGIN_REQUIRED_URLS`.
 If not specified, users are allowed to access the sign-in page.
 
-Some of exceptions you might want to include:
-
-.. code-block:: python
-
-    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r"/accounts/(.*)$",  # Required for sign-in
-        r"/static/(.*)$",  # Required for development mode
-        r"/widget/(.*)$",  # Allowing public access to widgets
-        r"/data/(.*)$",  # Allowing public access to data exports
-        r"/hooks/(.*)$",  # Allowing public access to notification hooks
-        r"/api/(.*)$",  # Allowing access to API
-        r"/js/i18n/$",  # JavaScript localization
-    )
+See the :ref:`sample-configuration` for recommended configuration of this setting.
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID
