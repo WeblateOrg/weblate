@@ -8312,6 +8312,7 @@ exports.startSpan = core.startSpan;
 exports.startSpanManual = core.startSpanManual;
 exports.startTransaction = core.startTransaction;
 exports.trace = core.trace;
+exports.withActiveSpan = core.withActiveSpan;
 exports.withIsolationScope = core.withIsolationScope;
 exports.withScope = core.withScope;
 exports.WINDOW = helpers.WINDOW;
@@ -20695,7 +20696,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":138}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.104.0';
+const SDK_VERSION = '7.105.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
