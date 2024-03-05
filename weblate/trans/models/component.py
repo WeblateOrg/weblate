@@ -1696,7 +1696,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
 
     @perform_on_link
-    def push_repo(self, request, retry=True):
+    def push_repo(self, request, retry: bool = True):
         """Push repository changes upstream."""
         with self.repository.lock:
             self.log_info("pushing to remote repo")
@@ -1746,7 +1746,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return True
 
     @perform_on_link
-    def do_push(self, request, force_commit=True, do_update=True, retry=True):
+    def do_push(
+        self,
+        request,
+        force_commit: bool = True,
+        do_update: bool = True,
+        retry: bool = True,
+    ):
         """Wrapper for pushing changes to remote repo."""
         # Skip push for local only repo
         if self.vcs == "local":
@@ -1781,7 +1787,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
-        result = self.push_repo(request)
+        result = self.push_repo(request, retry=retry)
         if not result:
             return False
 
