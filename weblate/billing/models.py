@@ -417,7 +417,7 @@ class Billing(models.Model):
     def update_alerts(self):
         if self.in_limits:
             Alert.objects.filter(
-                component__project__in=self.projects, name="BillingLimit"
+                component__project__in=self.projects.all(), name="BillingLimit"
             ).delete()
         else:
             for project in self.projects.iterator():
