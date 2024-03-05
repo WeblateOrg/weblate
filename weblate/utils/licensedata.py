@@ -233,6 +233,12 @@ LICENSES = (
     ("Baekmuk", "Baekmuk License", "https://spdx.org/licenses/Baekmuk.html", False),
     ("Bahyph", "Bahyph License", "https://spdx.org/licenses/Bahyph.html", False),
     ("Barr", "Barr License", "https://spdx.org/licenses/Barr.html", False),
+    (
+        "bcrypt-Solar-Designer",
+        "bcrypt Solar Designer License",
+        "https://spdx.org/licenses/bcrypt-Solar-Designer.html",
+        False,
+    ),
     ("Beerware", "Beerware License", "https://spdx.org/licenses/Beerware.html", True),
     (
         "Bitstream-Charter",
@@ -278,6 +284,12 @@ LICENSES = (
     ),
     ("Borceux", "Borceux license", "https://spdx.org/licenses/Borceux.html", False),
     (
+        "Brian-Gladman-2-Clause",
+        "Brian Gladman 2-Clause License",
+        "https://spdx.org/licenses/Brian-Gladman-2-Clause.html",
+        False,
+    ),
+    (
         "Brian-Gladman-3-Clause",
         "Brian Gladman 3-Clause License",
         "https://spdx.org/licenses/Brian-Gladman-3-Clause.html",
@@ -294,6 +306,12 @@ LICENSES = (
         'BSD 2-Clause "Simplified" License',
         "https://spdx.org/licenses/BSD-2-Clause.html",
         True,
+    ),
+    (
+        "BSD-2-Clause-Darwin",
+        "BSD 2-Clause - Ian Darwin variant",
+        "https://spdx.org/licenses/BSD-2-Clause-Darwin.html",
+        False,
     ),
     (
         "BSD-2-Clause-Views",
@@ -546,6 +564,12 @@ LICENSES = (
         True,
     ),
     ("Clips", "Clips License", "https://spdx.org/licenses/Clips.html", False),
+    (
+        "CMU-Mach-nodoc",
+        "CMU    Mach - no notices-in-documentation variant",
+        "https://spdx.org/licenses/CMU-Mach-nodoc.html",
+        False,
+    ),
     ("MIT-CMU", "CMU License", "https://spdx.org/licenses/MIT-CMU.html", False),
     ("CMU-Mach", "CMU Mach License", "https://spdx.org/licenses/CMU-Mach.html", False),
     (
@@ -1449,6 +1473,7 @@ LICENSES = (
         "https://spdx.org/licenses/gSOAP-1.3b.html",
         False,
     ),
+    ("gtkbook", "gtkbook License", "https://spdx.org/licenses/gtkbook.html", False),
     (
         "HaskellReport",
         "Haskell Language Report License",
@@ -1487,6 +1512,12 @@ LICENSES = (
         True,
     ),
     (
+        "HPND-INRIA-IMAG",
+        "Historical Permission Notice and Disclaimer    - INRIA-IMAG variant",
+        "https://spdx.org/licenses/HPND-INRIA-IMAG.html",
+        False,
+    ),
+    (
         "HPND-DEC",
         "Historical Permission Notice and Disclaimer - DEC variant",
         "https://spdx.org/licenses/HPND-DEC.html",
@@ -1502,6 +1533,12 @@ LICENSES = (
         "HPND-doc",
         "Historical Permission Notice and Disclaimer - documentation variant",
         "https://spdx.org/licenses/HPND-doc.html",
+        False,
+    ),
+    (
+        "HPND-Fenneberg-Livingston",
+        "Historical Permission Notice and Disclaimer - Fenneberg-Livingston variant",
+        "https://spdx.org/licenses/HPND-Fenneberg-Livingston.html",
         False,
     ),
     (
@@ -1842,6 +1879,18 @@ LICENSES = (
         "https://spdx.org/licenses/LZMA-SDK-9.22.html",
         False,
     ),
+    (
+        "Mackerras-3-Clause-acknowledgment",
+        "Mackerras 3-Clause - acknowledgment variant",
+        "https://spdx.org/licenses/Mackerras-3-Clause-acknowledgment.html",
+        False,
+    ),
+    (
+        "Mackerras-3-Clause",
+        "Mackerras 3-Clause License",
+        "https://spdx.org/licenses/Mackerras-3-Clause.html",
+        False,
+    ),
     ("magaz", "magaz License", "https://spdx.org/licenses/magaz.html", False),
     ("mailprio", "mailprio License", "https://spdx.org/licenses/mailprio.html", False),
     (
@@ -1870,6 +1919,12 @@ LICENSES = (
     ),
     ("metamail", "metamail License", "https://spdx.org/licenses/metamail.html", False),
     (
+        "UMich-Merit",
+        "Michigan/Merit Networks License",
+        "https://spdx.org/licenses/UMich-Merit.html",
+        False,
+    ),
+    (
         "MS-LPL",
         "Microsoft Limited Public License",
         "https://spdx.org/licenses/MS-LPL.html",
@@ -1893,6 +1948,12 @@ LICENSES = (
         "MIT-Festival",
         "MIT Festival Variant",
         "https://spdx.org/licenses/MIT-Festival.html",
+        False,
+    ),
+    (
+        "MIT-Khronos-old",
+        "MIT Khronos - old variant",
+        "https://spdx.org/licenses/MIT-Khronos-old.html",
         False,
     ),
     ("MIT", "MIT License", "https://spdx.org/licenses/MIT.html", True),
@@ -2307,6 +2368,12 @@ LICENSES = (
         False,
     ),
     (
+        "OpenVision",
+        "OpenVision License",
+        "https://spdx.org/licenses/OpenVision.html",
+        False,
+    ),
+    (
         "OSET-PL-2.1",
         "OSET Public License version 2.1",
         "https://spdx.org/licenses/OSET-PL-2.1.html",
@@ -2552,6 +2619,12 @@ LICENSES = (
     ("SNIA", "SNIA Public License 1.1", "https://spdx.org/licenses/SNIA.html", False),
     ("snprintf", "snprintf License", "https://spdx.org/licenses/snprintf.html", False),
     (
+        "softSurfer",
+        "softSurfer License",
+        "https://spdx.org/licenses/softSurfer.html",
+        False,
+    ),
+    (
         "SHL-0.5",
         "Solderpad Hardware License v0.5",
         "https://spdx.org/licenses/SHL-0.5.html",
@@ -2631,6 +2704,7 @@ LICENSES = (
         "https://spdx.org/licenses/SISSL-1.2.html",
         False,
     ),
+    ("Sun-PPP", "Sun PPP License", "https://spdx.org/licenses/Sun-PPP.html", False),
     (
         "SPL-1.0",
         "Sun Public License v1.0",
