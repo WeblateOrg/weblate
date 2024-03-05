@@ -133,13 +133,17 @@ class BillingQuerySet(models.QuerySet):
             ),
         )
 
+    def active(self):
+        return self.filter(state__in=Billing.ACTIVE_STATES)
+
 
 class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
 
-    EXPIRING_STATES = (STATE_TRIAL,)
+    EXPIRING_STATES = {STATE_TRIAL}
+    ACTIVE_STATES = {STATE_ACTIVE, STATE_TRIAL}
 
     plan = models.ForeignKey(
         Plan,
@@ -255,7 +259,7 @@ class Billing(models.Model):
 
     @cached_property
     def can_be_paid(self):
-        if self.state in {Billing.STATE_ACTIVE, Billing.STATE_TRIAL}:
+        if self.state in Billing.ACTIVE_STATES:
             return True
         return self.count_projects > 0
 
@@ -409,7 +413,7 @@ class Billing(models.Model):
         return modified
 
     def is_active(self):
-        return self.state in {Billing.STATE_ACTIVE, Billing.STATE_TRIAL}
+        return self.state in Billing.ACTIVE_STATES
 
     def get_notify_users(self):
         users = self.owners.distinct()
