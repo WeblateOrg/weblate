@@ -10,6 +10,7 @@ Released on March 26th 2024.
 **Bug fixes**
 
 * Superuser access to components with :ref:`component-restricted`.
+* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
 
 **Compatibility**
 

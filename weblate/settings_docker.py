@@ -1186,10 +1186,11 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
         rf"{URL_PREFIX}/widget/(.*)$",  # Allowing public access to widgets
         rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
-        rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
+        rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notification hooks
         rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
         rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
-        rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
+        rf"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
+        rf"{URL_PREFIX}/css/custom\.css$",  # Custom CSS support
         rf"{URL_PREFIX}/contact/$",  # Optional for contact form
         rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
