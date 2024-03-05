@@ -22,18 +22,6 @@ def billing_check():
 
 
 @app.task(trail=False)
-def billing_alert():
-    for bill in Billing.objects.active():
-        in_limit = bill.in_display_limits()
-        for project in bill.projects.iterator():
-            for component in project.component_set.iterator():
-                if in_limit:
-                    component.delete_alert("BillingLimit")
-                else:
-                    component.add_alert("BillingLimit")
-
-
-@app.task(trail=False)
 def billing_notify():
     billing_check()
 
@@ -139,9 +127,6 @@ def perform_removal():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, billing_check.s(), name="billing-check")
-    sender.add_periodic_task(
-        crontab(hour=0, minute=50), billing_alert.s(), name="billing-alert"
-    )
     sender.add_periodic_task(
         crontab(hour=3, minute=0, day_of_week="mon,thu"),
         billing_notify.s(),

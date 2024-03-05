@@ -22,7 +22,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.models import User
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Alert, Component, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.stats import prefetch_stats
 
@@ -407,10 +407,22 @@ class Billing(models.Model):
             self.paid = paid
             modified = True
 
-        if save and modified:
-            self.save(skip_limits=True)
+        if save:
+            if modified:
+                self.save(skip_limits=True)
+            self.update_alerts()
 
         return modified
+
+    def update_alerts(self):
+        if self.in_limits:
+            Alert.objects.filter(
+                component__project__in=self.projects, name="BillingLimit"
+            ).delete()
+        else:
+            for project in self.projects.iterator():
+                for component in project.component_set.iterator():
+                    component.add_alert("BillingLimit")
 
     def is_active(self):
         return self.state in Billing.ACTIVE_STATES

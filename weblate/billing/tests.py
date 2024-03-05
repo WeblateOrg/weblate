@@ -17,7 +17,6 @@ from django.utils import timezone
 from weblate.auth.models import User
 from weblate.billing.models import Billing, Invoice, Plan
 from weblate.billing.tasks import (
-    billing_alert,
     billing_check,
     billing_notify,
     notify_expired,
@@ -217,7 +216,6 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
-        billing_alert()
         self.assertEqual(len(mail.outbox), 0)
         self.refresh_from_db()
         self.assertIsNone(self.billing.removal)
@@ -232,7 +230,6 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
-        billing_alert()
         self.assertEqual(len(mail.outbox), 1)
         self.refresh_from_db()
         self.assertIsNone(self.billing.removal)
@@ -248,7 +245,6 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
-        billing_alert()
         self.assertEqual(len(mail.outbox), 1)
         self.refresh_from_db()
         self.assertIsNotNone(self.billing.removal)
