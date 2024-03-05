@@ -3250,7 +3250,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         else:
             self.delete_alert("UnusedEnforcedCheck")
 
-        if not self.is_glossary and self.translation_set.count() <= 1:
+        if (
+            not self.is_glossary
+            and self.translation_set.count() <= 1
+            and not self.intermediate
+        ):
             self.add_alert("NoMaskMatches")
         else:
             self.delete_alert("NoMaskMatches")
