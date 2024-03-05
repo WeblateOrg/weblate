@@ -18,5 +18,7 @@ List of Weblate supporters:
 * James Valleroy
 * wallabag.org
 * `Scenari (Kelis) <https://scenari.software/>`_
+* `Biblibre <https://www.biblibre.com/>`_
+* Koha community
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
