@@ -13,11 +13,11 @@ from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy
 from openpyxl import Workbook, load_workbook
-from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE, TYPE_STRING
+from openpyxl.cell.cell import TYPE_STRING
 from openpyxl.workbook.child import INVALID_TITLE_REGEX
 from translate.storage.csvl10n import csv
 
-from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
 from weblate.formats.ttkit import CSVFormat
 
 
@@ -60,7 +60,7 @@ class XlsxFormat(CSVFormat):
                     worksheet,
                     column + 1,
                     row + 2,
-                    ILLEGAL_CHARACTERS_RE.sub("", data[field]),
+                    data[field].translate(CONTROLCHARS_TRANS),
                 )
 
         workbook.save(handle)
