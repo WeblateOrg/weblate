@@ -476,7 +476,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 .. seealso::
 
    `OpenAI models <https://platform.openai.com/docs/models>`_,
-   `OpenAI API keys <https://platform.openai.com/account/api-keys>`_
+   `OpenAI API keys <https://platform.openai.com/api-keys>`_
 
 .. _OpenAI: https://openai.com/
 
