@@ -156,13 +156,17 @@ class BaseExporter:
             self.add_note(output, note, origin="developer")
         # Comments
         for comment in unit.unresolved_comments:
-            self.add_note(output, comment.comment, origin="translator")
+            self.add_note(
+                output, self.string_filter(comment.comment), origin="translator"
+            )
         # Suggestions
         for suggestion in unit.suggestions:
             self.add_note(
                 output,
-                "Suggested in Weblate: {}".format(
-                    ", ".join(split_plural(suggestion.target))
+                self.string_filter(
+                    "Suggested in Weblate: {}".format(
+                        ", ".join(split_plural(suggestion.target))
+                    )
                 ),
                 origin="translator",
             )
