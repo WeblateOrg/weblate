@@ -34,6 +34,8 @@ CONTROLCHARS = {
     "\x1d",
     "\x1e",
     "\x1f",
+    "\ufffe",
+    "\uffff",
 }
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
