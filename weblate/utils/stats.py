@@ -473,7 +473,7 @@ class TranslationStats(BaseStats):
     def has_review(self):
         return self._object.enable_review
 
-    def _calculate_basic(self):
+    def _calculate_basic(self):  # noqa: PLR0914
         values = (
             "state",
             "num_words",
