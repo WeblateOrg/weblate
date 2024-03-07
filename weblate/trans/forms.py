@@ -2063,7 +2063,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
         if (
             "access_control" not in data
             or data["access_control"] is None
-            or data["access_control"] == ""
+            or data["access_control"] == ""  # noqa: PLC1901
         ):
             data["access_control"] = self.instance.access_control
         access = data["access_control"]

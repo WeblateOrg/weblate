@@ -119,6 +119,7 @@ ignore = [
   'Q002',  # CONFIG: formatter
   'Q003',  # CONFIG: formatter
   'W191',  # CONFIG: formatter
+  "E203",  # CONFIG: formatter
   "CPY001",  # WORKAROUND: https://github.com/astral-sh/ruff/issues/10062
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
@@ -157,6 +158,7 @@ ignore = [
   "A003",  # TODO: overriding builtins (might need noqa tags)
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
+preview = true
 select = ["ALL"]
 
 [tool.ruff.lint.mccabe]
