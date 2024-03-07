@@ -239,7 +239,7 @@ def python_format_is_position_based(string):
     return "(" not in string and string != "%"
 
 
-def name_format_is_position_based(string):
+def name_format_is_position_based(string):  # noqa: FURB118
     return not string
 
 
