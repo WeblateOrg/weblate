@@ -511,7 +511,7 @@ class Metric(models.Model):
     SCOPE_CATEGORY = 8
     SCOPE_CATEGORY_LANGUAGE = 9
 
-    id = models.BigAutoField(primary_key=True)  # noqa: A003
+    id = models.BigAutoField(primary_key=True)
     date = models.DateField(default=datetime.date.today)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()

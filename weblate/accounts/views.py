@@ -1248,7 +1248,7 @@ def handle_missing_parameter(request, backend, error):
 
 @csrf_exempt
 @never_cache
-def social_complete(request, backend):  # noqa: C901
+def social_complete(request, backend):
     """
     Wrapper around social_django.views.complete.
 

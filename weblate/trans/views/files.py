@@ -240,7 +240,7 @@ def upload(request, path):
             ),
         )
     except FailedCommitError as error:
-        messages.error(request, str(error))  # noqa: G200
+        messages.error(request, str(error))
         report_error(cause="Upload error", project=obj.component.project)
     except Exception as error:
         messages.error(

@@ -360,7 +360,7 @@ class User(AbstractBaseUser):
         blank=False,
         validators=[validate_fullname],
     )
-    email = EmailField(  # noqa: DJ01
+    email = EmailField(
         gettext_lazy("E-mail"),
         blank=False,
         null=True,

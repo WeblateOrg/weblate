@@ -148,7 +148,6 @@ ignore = [
   "PLC0415",  # TODO: `import` should be at the top-level of a file
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
   "RUF012",  # TODO: Mutable class attributes should be annotated with `typing.ClassVar`
-  "RUF100",  # TODO: unused noqa, compatibility with flake8, can be dropped once we stop using it
   "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
   "PLW2901",  # TODO: overwriting variables inside loop
   "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
@@ -165,25 +164,15 @@ max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
 "docs/_ext/djangodocs.py" = ["INP001"]
-"docs/conf.py" = ["INP001", "ERA001", "A001"]
+"docs/conf.py" = ["INP001", "ERA001"]
 "scripts/*" = ["T201", "T203"]
-"weblate/*/management/commands/*.py" = ["A003"]  # Needed by Django API
-"weblate/*/migrations/*.py" = ["C405", "E501", "N806", "DJ01"]
-"weblate/*/tests.py" = ["S106", "S105"]
-"weblate/*/tests/test_*.py" = ["S106", "S105"]
-"weblate/addons/management/commands/list_addons.py" = ["E501"]
-"weblate/addons/utils.py" = ["N806"]
-"weblate/auth/migrations/0003_fixup_teams.py" = ["T201", "N806"]
+"weblate/*/tests**.py" = ["S106", "S105"]
+"weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["INP001"]
-"weblate/lang/data.py" = ["E501"]
-"weblate/machinery/management/commands/list_machinery.py" = ["E501"]
 "weblate/settings_*.py" = ["F405"]
 "weblate/settings_docker.py" = ["ERA001"]
 "weblate/settings_example.py" = ["ERA001"]
-"weblate/trans/tests/test_files.py" = ["E501"]
 "weblate/utils/generate_secret_key.py" = ["T201"]
-"weblate/utils/licensedata.py" = ["E501"]
-"weblate/utils/locale.py" = ["B012"]
 
 [tool.ruff.lint.pylint]
 # TODO: all these should be lower (or use defaults)

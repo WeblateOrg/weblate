@@ -1276,7 +1276,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as suggestions
-            return self.merge_suggestions(request, store, fuzzy)  # noqa: TRY300
+            return self.merge_suggestions(request, store, fuzzy)
         finally:
             if orig_user:
                 request.user = orig_user

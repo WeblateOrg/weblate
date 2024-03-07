@@ -332,7 +332,7 @@ class BaseTermExpr:
     def is_field(self, text, context: dict):
         raise ValueError(f"Unsupported is lookup: {text}")
 
-    def has_field(self, text, context: dict):  # noqa: C901
+    def has_field(self, text, context: dict):
         raise ValueError(f"Unsupported has lookup: {text}")
 
 

@@ -411,7 +411,7 @@ class GitRepository(Repository):
             self.execute(["checkout", "-b", branch, f"origin/{branch}"])
         else:
             # Ensure it tracks correct upstream
-            self.config_update((f'branch "{branch}"', "remote", "origin"))  # noqa: B028
+            self.config_update((f'branch "{branch}"', "remote", "origin"))
 
         # Checkout
         self.execute(["checkout", branch])
@@ -885,7 +885,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         )
         self.config_update(
             # Push url
-            (f'remote "{remote_name}"', "pushurl", push_url),  # noqa: B028
+            (f'remote "{remote_name}"', "pushurl", push_url),
         )
 
     def fork(self, credentials: dict):

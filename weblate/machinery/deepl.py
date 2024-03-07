@@ -126,7 +126,7 @@ class DeepLTranslation(
 
     def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
         """Generates a single replacement."""
-        return f'<x id="{h_start}"></x>'  # noqa: B028
+        return f'<x id="{h_start}"></x>'
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         cache_key = self.get_cache_key("glossary_languages")

@@ -184,7 +184,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
             .values_list("language_code", flat=True)
             .order_by("language_code")
         )
-        expected = f'ALL_LINGUAS="{codes}"\n'  # noqa: B028
+        expected = f'ALL_LINGUAS="{codes}"\n'
         for path in paths:
             with open(path) as handle:
                 lines = handle.readlines()

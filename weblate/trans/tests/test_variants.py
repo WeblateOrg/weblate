@@ -129,7 +129,7 @@ class VariantTest(ViewTestCase):
         unit = translation.unit_set.get(context="variantial")
         self.assertEqual(
             unit.source_unit.extra_flags,
-            f'variant:"{base.source}"',  # noqa: B028
+            f'variant:"{base.source}"',
         )
         variants = unit.defined_variants.all()
         self.assertEqual(len(variants), 1)

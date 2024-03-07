@@ -103,7 +103,7 @@ class ClassLoader:
         if cond is None:
 
             def cond(x):
-                return True  # noqa: ARG005
+                return True
 
         result = [
             (x, self[x].name)

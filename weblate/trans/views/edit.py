@@ -563,7 +563,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 
 @transaction.atomic
-def translate(request, path):  # noqa: C901
+def translate(request, path):
     """Generic entry point for translating, suggesting and searching."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)

@@ -220,7 +220,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             except FileNotFoundError as error:
                 raise Http404("File not found") from error
             filename = os.path.basename(filename)
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'  # noqa: B028
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
 

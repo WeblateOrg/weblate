@@ -150,7 +150,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
         """Generates a single replacement."""
         if h_kind is None:
-            return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'  # noqa: B028
+            return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'
         # Glossary
         flags = h_kind.all_flags
         if "forbidden" in flags:

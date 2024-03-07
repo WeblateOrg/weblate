@@ -81,7 +81,7 @@ class RoleAdmin(WeblateModelAdmin):
 class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = "__all__"  # noqa: DJ007
+        fields = "__all__"
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
