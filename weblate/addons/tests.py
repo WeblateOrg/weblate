@@ -652,7 +652,7 @@ class ViewTests(ViewTestCase):
             {"name": "invalid"},
             follow=True,
         )
-        self.assertContains(response, "Invalid add-on name specified!")
+        self.assertContains(response, "Invalid add-on name:")
 
     def test_add_config(self):
         response = self.client.post(

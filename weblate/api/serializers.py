@@ -1390,7 +1390,7 @@ class AddonSerializer(serializers.ModelSerializer):
                     {"name": f"Add-on already installed: {name}"}
                 )
 
-        addon = addon_class()
+        addon = addon_class(Addon())
         if not addon.can_install(component, None):
             raise serializers.ValidationError(
                 {"name": f"could not enable add-on {name}, not compatible"}

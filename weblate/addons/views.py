@@ -40,7 +40,7 @@ class AddonList(PathViewMixin, ListView):
         installed = {x.addon.name for x in result["object_list"]}
         result["available"] = sorted(
             (
-                x
+                x(Addon())
                 for x in ADDONS.values()
                 if x.can_install(component, self.request.user)
                 and (x.multiple or x.name not in installed)
@@ -61,7 +61,7 @@ class AddonList(PathViewMixin, ListView):
             or not addon.can_install(component, request.user)
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(gettext("Invalid add-on name specified!"))
+            return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
 
         form = None
         if addon.settings_form is None:
@@ -87,7 +87,7 @@ class AddonList(PathViewMixin, ListView):
             request=self.request,
             template=["addons/addon_detail.html"],
             context={
-                "addon": addon,
+                "addon": addon(Addon()),
                 "form": form,
                 "object": self.kwargs["component_obj"],
             },
