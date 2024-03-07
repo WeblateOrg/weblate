@@ -196,7 +196,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     continue
                 if not stripped.startswith('ALL_LINGUAS="'):
                     continue
-                if stripped != expected:
+                if line != expected:
                     lines[i] = expected
                     added = True
 
