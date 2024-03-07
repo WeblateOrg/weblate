@@ -1353,6 +1353,13 @@ Other authentication settings
     :ref:`disable-email-auth`.
 
 
+.. envvar:: WEBLATE_MIN_PASSWORD_SCORE
+
+   Minimal password score as evaluated by the `zxcvbn
+   <https://github.com/dropbox/zxcvbn>`_ password strength estimator.
+   Defaults to 3, set to 0 to disable strenght checking.
+
+
 PostgreSQL database setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

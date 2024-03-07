@@ -433,6 +433,10 @@ Additionally you can also install
 which gives quite realistic estimates of password difficulty and allows rejecting
 passwords below a certain threshold.
 
+.. seealso::
+
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+
 .. _saml-auth:
 
 SAML authentication

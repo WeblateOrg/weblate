@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
+
 **Bug fixes**
 
 * Superuser access to components with :ref:`component-restricted`.

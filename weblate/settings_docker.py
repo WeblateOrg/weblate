@@ -628,6 +628,18 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "weblate.accounts.password_validation.CharsPasswordValidator"},
     {"NAME": "weblate.accounts.password_validation.PastPasswordsValidator"},
 ]
+# Optional password strength validation by django-zxcvbn-password
+MIN_PASSWORD_SCORE = get_env_int("WEBLATE_MIN_PASSWORD_SCORE", 3)
+if MIN_PASSWORD_SCORE:
+    AUTH_PASSWORD_VALIDATORS.append(
+        {
+            "NAME": "zxcvbn_password.ZXCVBNValidator",
+            "OPTIONS": {
+                "min_score": MIN_PASSWORD_SCORE,
+                "user_attributes": ("username", "email", "full_name"),
+            },
+        }
+    )
 
 # Password hashing (prefer Argon)
 PASSWORD_HASHERS = [
