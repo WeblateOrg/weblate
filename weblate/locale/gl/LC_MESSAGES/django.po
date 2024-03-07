@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-07 11:18+0000\n"
+"PO-Revision-Date: 2024-03-07 11:44+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -89,8 +89,8 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
-"Úsase para notificacións por correo-e e como correo-e ao facer «commit» se "
-"non está configurado a seguir."
+"Úsase para notificacións por correo-e e como correo ao facer «commit» se non "
+"está configurado a embaixo."
 
 #: weblate/accounts/forms.py:398
 msgid "Subject"
@@ -255,16 +255,16 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Só recibirá estas notificacións para os seus idiomas traducidos en proxectos "
-"non monitorizados."
+"Só recibirá estas notificacións para os idiomas que traduce en proxectos non "
+"monitorizados."
 
 #: weblate/accounts/forms.py:819
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Só recibirá estas notificacións para as súas traducións nos seus proxectos "
-"monitorizados."
+"Só recibirá estas notificacións para os idiomas que traduce nos seus "
+"proxectos monitorizados."
 
 #: weblate/accounts/forms.py:824
 msgid ""
@@ -298,7 +298,7 @@ msgstr "Nome de usuario"
 
 #: weblate/accounts/forms.py:874 weblate/auth/models.py:386
 msgid "Date joined"
-msgstr "Data de entrada"
+msgstr "Data de incorporación"
 
 #: weblate/accounts/forms.py:875
 msgid "Translations made"
@@ -395,7 +395,7 @@ msgstr "A conta foi bloqueada por mor dos moitos intentos de acceso fallados."
 
 #: weblate/accounts/models.py:158
 msgid "Account and all private data removed."
-msgstr "Tanto a conta coma todos os datos privados foron retirados."
+msgstr "Tanto a conta como todos os datos privados foron retirados."
 
 #: weblate/accounts/models.py:159
 #, python-brace-format
@@ -810,10 +810,9 @@ msgid "Contributor made their first translation"
 msgstr "Empregar memoria de tradución compartillada"
 
 #: weblate/accounts/notifications.py:524
-#, fuzzy
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Suxestións feitas"
+msgstr "Engadiuse a suxestión"
 
 #: weblate/accounts/notifications.py:533
 #, fuzzy
@@ -1326,10 +1325,8 @@ msgstr ""
 #: weblate/templates/language-project.html:126
 #: weblate/templates/project.html:70 weblate/templates/project.html:198
 #: weblate/templates/translation.html:70 weblate/templates/translation.html:284
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Editor completo"
+msgstr "Edición masiva"
 
 #: weblate/addons/flags.py:90
 msgid "Bulk edit flags, labels, or states of strings."
@@ -1932,9 +1929,8 @@ msgid "Set a timeframe for removal of comments."
 msgstr "Hai %(count)s cadea sen traducir."
 
 #: weblate/addons/removal.py:49
-#, fuzzy
 msgid "Stale suggestion removal"
-msgstr "Suxestións feitas"
+msgstr "Retirada de suxestións obsoletas"
 
 #: weblate/addons/removal.py:50
 #, fuzzy
@@ -11465,9 +11461,8 @@ msgstr "Baixar informes"
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
 #: weblate/trans/models/change.py:327
-#, fuzzy
 msgid "Suggestion added"
-msgstr "Suxestións feitas"
+msgstr "Suxestión engadida"
 
 #: weblate/templates/snippets/suggestions.html:16
 #, fuzzy, python-format
@@ -13948,9 +13943,8 @@ msgid "Labels to add"
 msgstr ""
 
 #: weblate/trans/forms.py:2494
-#, fuzzy
 msgid "Labels to remove"
-msgstr "Suxestións feitas"
+msgstr "Etiquetas a retirar"
 
 #: weblate/trans/forms.py:2539
 #, fuzzy
@@ -14347,10 +14341,8 @@ msgstr "Tradución mudada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:323
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation added"
-msgstr "Traducións feitas"
+msgstr "Tradución engadida"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
@@ -14367,9 +14359,8 @@ msgstr "Tradución automática"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:331
-#, fuzzy
 msgid "Suggestion accepted"
-msgstr "Suxestións feitas"
+msgstr "Suxestión aceptada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:333
@@ -14378,10 +14369,8 @@ msgstr "Tradución revertida"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:335
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation uploaded"
-msgstr "Traducións feitas"
+msgstr "Tradución enviada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:337
@@ -14468,22 +14457,18 @@ msgstr "Contexto da tradución"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:363
-#, fuzzy
 msgid "Suggestion removed"
-msgstr "Suxestións feitas"
+msgstr "Suxestión retirada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:365
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation replaced"
-msgstr "Traducións feitas"
+msgstr "Tradución substituída"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:367
-#, fuzzy
 msgid "Suggestion removed during cleanup"
-msgstr "Suxestións feitas"
+msgstr "Suxestión retirada durante a limpeza"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:369
@@ -14633,10 +14618,8 @@ msgstr "Mantemento do repositorio"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:413
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation replaced file by upload"
-msgstr "Traducións feitas"
+msgstr "Tradución substituída polo ficheiro enviado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
@@ -14689,9 +14672,8 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:431
-#, fuzzy
 msgid "String removed"
-msgstr "Suxestións feitas"
+msgstr "Cadea retirada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:433
@@ -16765,10 +16747,8 @@ msgid "Project {}"
 msgstr "Proxectos"
 
 #: weblate/trans/widgets.py:296
-#, fuzzy
-#| msgid "Component: {}"
 msgid "Component {}"
-msgstr "Compoñente: {}"
+msgstr "Compoñente {}"
 
 #: weblate/trans/widgets.py:344
 #, fuzzy
@@ -16969,10 +16949,9 @@ msgid "Waiting for review"
 msgstr "Agardando a revisión"
 
 #: weblate/utils/validators.py:57
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Compoñente: {}"
+msgstr "Produciuse un fallo na compilación: {0}"
 
 #: weblate/utils/validators.py:61
 #, fuzzy
