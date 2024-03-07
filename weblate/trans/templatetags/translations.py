@@ -396,6 +396,7 @@ class Formatter:
 @register.inclusion_tag("snippets/format-translation.html")
 def format_unit_target(
     unit,
+    *,
     value: str | None = None,
     diff=None,
     search_match: str | None = None,
@@ -421,6 +422,7 @@ def format_unit_target(
 @register.inclusion_tag("snippets/format-translation.html")
 def format_unit_source(
     unit,
+    *,
     value: str | None = None,
     diff=None,
     search_match: str | None = None,
@@ -450,6 +452,7 @@ def format_unit_source(
 def format_source_string(
     value: str,
     unit,
+    *,
     search_match: str | None = None,
     match: str = "search",
     simple: bool = False,
@@ -473,6 +476,7 @@ def format_source_string(
 def format_language_string(
     value: str,
     translation,
+    *,
     diff=None,
 ):
     """Formats simple string as in the language."""
@@ -487,6 +491,7 @@ def format_language_string(
 def format_translation(
     plurals: list[str],
     language=None,
+    *,
     plural=None,
     diff=None,
     search_match: str | None = None,

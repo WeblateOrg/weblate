@@ -53,6 +53,7 @@ class ComponentDiscovery:
     def __init__(
         self,
         component,
+        *,
         match: str,
         name_template: str,
         file_format: str,

@@ -440,6 +440,7 @@ class Unit(models.Model, LoggerMixin):
 
     def save(
         self,
+        *,
         same_content: bool = False,
         run_checks: bool = True,
         propagate_checks: bool | None = None,

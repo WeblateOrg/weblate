@@ -1987,6 +1987,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def commit_files(
         self,
+        *,
         template: str | None = None,
         author: str | None = None,
         timestamp: datetime | None = None,
@@ -2001,15 +2002,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         linked = self.linked_component
         if linked:
             return linked.commit_files(
-                template,
-                author,
-                timestamp,
-                files,
-                signals,
-                skip_push,
-                extra_context,
-                message,
-                self,
+                template=template,
+                author=author,
+                timestamp=timestamp,
+                files=files,
+                signals=signals,
+                skip_push=skip_push,
+                extra_context=extra_context,
+                message=message,
+                component=self,
             )
 
         with self.start_sentry_span("commit_files"):
