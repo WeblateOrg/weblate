@@ -846,7 +846,7 @@ class NotificationForm(forms.Form):
             frequency = self.cleaned_data[field]
             # We do not store removed field, defaults or disabled default subscriptions
             if (
-                frequency == ""  # noqa: PLC1901
+                frequency == ""
                 or frequency == "-1"
                 or (frequency == "0" and not self.show_default)
             ):
