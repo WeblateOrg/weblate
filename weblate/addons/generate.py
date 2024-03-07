@@ -66,6 +66,7 @@ class LocaleGenerateAddonBase(BaseAddon):
         source_translation,
         target_translation,
         query,
+        *,
         prefix: str = "",
         suffix: str = "",
         var_prefix: str = "",

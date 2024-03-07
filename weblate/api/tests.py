@@ -92,6 +92,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self,
         name,
         kwargs=None,
+        *,
         data=None,
         code=200,
         superuser: bool = False,

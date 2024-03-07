@@ -1366,6 +1366,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         context: str,
         source: str | list[str],
         target: str | list[str] | None = None,
+        *,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,

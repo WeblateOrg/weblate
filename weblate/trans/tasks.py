@@ -443,6 +443,7 @@ def auto_translate(
     component: int | None,
     engines: list[str],
     threshold: int,
+    *,
     translation: Translation | None = None,
     component_wide: bool = False,
 ):
