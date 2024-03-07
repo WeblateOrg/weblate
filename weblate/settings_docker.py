@@ -627,14 +627,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
     {"NAME": "weblate.accounts.password_validation.CharsPasswordValidator"},
     {"NAME": "weblate.accounts.password_validation.PastPasswordsValidator"},
-    # Optional password strength validation by django-zxcvbn-password
-    # {
-    #     "NAME": "zxcvbn_password.ZXCVBNValidator",
-    #     "OPTIONS": {
-    #         "min_score": 3,
-    #         "user_attributes": ("username", "email", "full_name")
-    #     }
-    # },
 ]
 
 # Password hashing (prefer Argon)
@@ -814,15 +806,6 @@ LOGGING: dict = {
             "address": "/dev/log",
             "facility": SysLogHandler.LOG_LOCAL2,
         },
-        # Logging to a file
-        # "logfile": {
-        #     "level":"DEBUG",
-        #     "class":"logging.handlers.RotatingFileHandler",
-        #     "filename": "/var/log/weblate/weblate.log",
-        #     "maxBytes": 100000,
-        #     "backupCount": 3,
-        #     "formatter": "logfile",
-        # },
     },
     "loggers": {
         "django.request": {
@@ -1110,7 +1093,6 @@ CACHES = {
         ),
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
-        # "LOCATION": "unix:///var/run/redis/redis.sock?db=1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # If you set password here, adjust CELERY_BROKER_URL as well
@@ -1231,10 +1213,6 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
-# Celery worker configuration for testing
-# CELERY_TASK_ALWAYS_EAGER = True
-# CELERY_BROKER_URL = "memory://"
-# CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
