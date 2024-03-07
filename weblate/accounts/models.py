@@ -129,13 +129,7 @@ class Subscription(models.Model):
         verbose_name_plural = "Notification subscriptions"
 
     def __str__(self):
-        return "{}:{},{} ({},{})".format(
-            self.user.username,
-            self.get_scope_display(),
-            self.get_notification_display(),
-            self.project,
-            self.component,
-        )
+        return f"{self.user.username}:{self.get_scope_display()},{self.get_notification_display()} ({self.project},{self.component})"
 
 
 ACCOUNT_ACTIVITY = {

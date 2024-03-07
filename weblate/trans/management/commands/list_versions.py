@@ -50,9 +50,7 @@ class Command(BaseCommand):
         )
         self.write_item(
             "OS encoding",
-            "filesystem={}, default={}".format(
-                sys.getfilesystemencoding(), sys.getdefaultencoding()
-            ),
+            f"filesystem={sys.getfilesystemencoding()}, default={sys.getdefaultencoding()}",
         )
         self.write_item(
             "Celery",

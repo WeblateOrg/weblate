@@ -341,11 +341,11 @@ class SecurityMiddleware:
             " ".join(font),
         )
         if settings.SENTRY_SECURITY:
-            response["Content-Security-Policy"] += " report-uri {}".format(
-                settings.SENTRY_SECURITY
+            response["Content-Security-Policy"] += (
+                f" report-uri {settings.SENTRY_SECURITY}"
             )
-            response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
-                settings.SENTRY_SECURITY
+            response["Expect-CT"] = (
+                f'max-age=86400, enforce, report-uri="{settings.SENTRY_SECURITY}"'
             )
 
         # Opt-out from Google FLoC

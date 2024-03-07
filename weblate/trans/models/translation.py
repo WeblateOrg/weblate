@@ -228,11 +228,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return "{}?lang={}&component={}".format(
-            self.component.project.get_widgets_url(),
-            self.language.code,
-            self.component.pk,
-        )
+        return f"{self.component.project.get_widgets_url()}?lang={self.language.code}&component={self.component.pk}"
 
     def get_share_url(self):
         """Return absolute URL usable for sharing."""
@@ -791,8 +787,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         # Optionally store language team with link to website
         if self.component.project.set_language_team:
-            headers["language_team"] = "{} <{}>".format(
-                self.language.name, get_site_url(self.get_absolute_url())
+            headers["language_team"] = (
+                f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
             )
 
         # Optionally store email for reporting bugs in source

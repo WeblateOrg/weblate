@@ -255,9 +255,8 @@ class Notification:
 
     def render_template(self, suffix, context, digest=False):
         """Render single mail template with given context."""
-        template_name = "mail/{}{}".format(
-            self.digest_template if digest else self.template_name, suffix
-        )
+        base_name = self.digest_template if digest else self.template_name
+        template_name = f"mail/{base_name}{suffix}"
         return render_to_string(template_name, context).strip()
 
     def get_context(
@@ -323,12 +322,7 @@ class Notification:
         if unit:
             translation = unit.translation
             component = translation.component
-            references = "{}/{}/{}/{}".format(
-                component.project.slug,
-                component.slug,
-                translation.language.code,
-                unit.id,
-            )
+            references = f"{component.project.slug}/{component.slug}/{translation.language.code}/{unit.id}"
         if references is not None:
             references = f"<{references}@{get_site_domain()}>"
             headers["In-Reply-To"] = references

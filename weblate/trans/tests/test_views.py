@@ -249,9 +249,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(
             translated,
             expected_translated,
-            "Did not found expected number of translations ({} != {}).".format(
-                translated, expected_translated
-            ),
+            f"Did not found expected number of translations ({translated} != {expected_translated}).",
         )
 
     def log_as_jane(self):

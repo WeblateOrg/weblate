@@ -108,9 +108,7 @@ class Command(BaseCommand):
                     raise CommandError("Component failed validation!")
                 component.save(force_insert=True)
                 self.stdout.write(
-                    "Imported {} with {} translations".format(
-                        component, component.translation_set.count()
-                    )
+                    f"Imported {component} with {component.translation_set.count()} translations"
                 )
             else:
                 self.stderr.write(f"Component {component} already exists")

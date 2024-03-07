@@ -379,9 +379,7 @@ def check_version(app_configs=None, **kwargs):
             return [
                 weblate_check(
                     "weblate.C031",
-                    "You Weblate version is outdated, please upgrade to {}.".format(
-                        latest.version
-                    ),
+                    f"You Weblate version is outdated, please upgrade to {latest.version}.",
                 )
             ]
         return [
