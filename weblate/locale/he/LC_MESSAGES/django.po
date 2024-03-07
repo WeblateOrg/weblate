@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-05 16:08+0000\n"
+"PO-Revision-Date: 2024-03-07 09:01+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -3085,6 +3085,8 @@ msgstr ""
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"ה־HTML בתוך Fluent לא אמור לכלול את {sequence}. אולי עדיף להשתמש בצירוף "
+"{suggestion} במקום."
 
 #: weblate/checks/fluent/inner_html.py:226
 #, python-brace-format
@@ -3099,7 +3101,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:244
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "שם מאפיין ה־HTML‏ {name} לתגית {tag} אינו תקין."
 
 #: weblate/checks/fluent/inner_html.py:259
 #, python-brace-format
@@ -4795,25 +4797,19 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "זיהוי אוטומטי"
+msgstr "בחירת אוטומטית"
 
 #: weblate/machinery/forms.py:281
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "מצב ריכוז"
+msgstr "דגם OpenAI"
 
 #: weblate/machinery/forms.py:289
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "דוחות תרגום"
+msgstr "דמות מתרגם"
 
 #: weblate/machinery/forms.py:293
 msgid ""
@@ -4822,16 +4818,14 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:300
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "קובץ תרגום"
+msgstr "סגנון מתרגם"
 
 #: weblate/machinery/forms.py:304
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "תיאור סגנון התרגום. למשל: „להשתמש בשפה יומיומית”"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -4865,10 +4859,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "לא ניתן לפענח קובץ JSON‏: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "לא ניתן לפענח קובץ TMX!"
+msgstr "לא ניתן לפענח קובץ TMX:‏ %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5375,6 +5368,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"דוא״ל זאת אינה טכנולוגיה מיידית. נא להמתין להודעת האימות לפחות עוד 30 דקות "
+"לפני דיווח על תקלה אצלנו."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -6223,10 +6218,8 @@ msgid "The following components matched existing ones"
 msgstr "הרכיבים הבאים תואמים לקיימים"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "הרכיבים הבאים ייווצרו"
+msgstr "לא ניתן ליצור את הרכיבים הבאים"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -7821,7 +7814,7 @@ msgstr "ניקוי מפנה את כל הקבצים שאינם במעקב על י
 
 #: weblate/templates/js/git-status.html:126
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr ""
+msgstr "הוא מסיר גם ענפים מיושנים ש־Weblate לא משתמש בהם."
 
 #: weblate/templates/js/git-status.html:127
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -7977,10 +7970,8 @@ msgid "disabled"
 msgstr "מושבת"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "השירות אינו זמין כעת."
+msgstr "השירות לא זמין עוד"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -8237,15 +8228,13 @@ msgid "View invitation"
 msgstr "הצגת הזמנה"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "קישור האימות יפוג לאחר שעה."
-msgstr[1] "קישור האימות יפוג לאחר שעתיים."
-msgstr[2] "קישור האימות יפוג לאחר %(count)s שעות."
-msgstr[3] "קישור האימות יפוג לאחר %(count)s שעות."
+msgstr[0] "הזימון יפוג לאחר שעה."
+msgstr[1] "הזימון יפוג לאחר שעתיים."
+msgstr[2] "הזימון יפוג לאחר %(count)s שעות."
+msgstr[3] "הזימון יפוג לאחר %(count)s שעות."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -9737,10 +9726,8 @@ msgid "No strings to translate"
 msgstr "אין מחרוזת לתרגום"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "הוספת מיזמים חדשים"
+msgstr "הוספת מיזם"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10863,10 +10850,6 @@ msgstr[2] "הפעולה תסיר %(count)s רכיבים."
 msgstr[3] "הפעולה תסיר %(count)s רכיבים."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
@@ -11427,10 +11410,8 @@ msgstr "מילים"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "אחוז תווים"
+msgstr "תווים"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -11666,16 +11647,13 @@ msgid "This site runs Weblate for localizing various software projects."
 msgstr "אתר זה מופעל על גבי Weblate לצורך תרגום של מספר מיזמי תכנה."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
-#| msgid "Browse changes"
 msgid "File mask matches the main component."
-msgstr "עיון בשינויים"
+msgstr "מסכת הקובץ תואמת את הרכיב הראשי."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "קובץ לא קיים."
+msgstr "{filename} ({parameter}) לא קיים."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -11973,7 +11951,7 @@ msgstr "נא לספק שם מופשט תקני לרכיב!"
 
 #: weblate/trans/forms.py:1016
 msgid "Source component needs to have same source language as target one."
-msgstr ""
+msgstr "לרכיב המקור צריכה להיות את אותה שפת המקור כמו רכיב היעד."
 
 #: weblate/trans/forms.py:1026
 msgid "Scope"
@@ -12327,10 +12305,8 @@ msgstr ""
 "האלו לשפה הזאת."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "התאמת רצף התרגום לשפה הזאת"
+msgstr "התאמת רצף התרגום לשפה הזאת במיזם הזה"
 
 #: weblate/trans/forms.py:2831
 #, fuzzy
@@ -12387,12 +12363,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "יש להשתמש בדגלים כדי לציין מחרוזות מיוחדות בתרגום שלך."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
-msgstr "הוספת תגית safe-html כדי למנוע הזרקת HTML מסוכן מהמתרגמים."
+msgstr ""
+"הוספת תגית safe-html כדי למנוע הזרקת HTML מסוכן מהמתרגמים למחרוזות שמעובדות "
+"כ־HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -12556,10 +12532,8 @@ msgid "Notify users"
 msgstr "הודעה למשתמשים"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "שליחת הזמנה למשתמש בדוא״ל"
+msgstr "שליחת התראה למשתמשים המנויים."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -12918,10 +12892,8 @@ msgstr "שמירת המחרוזת נכשלה"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "המחרוזת עודכנה במאגר"
+msgstr "המחרוזת נוספה למאגר"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
@@ -13190,8 +13162,6 @@ msgid "Users can only vote for suggestions and can’t make direct translations.
 msgstr "משתמשים יכולים להצביע להצעות ולא יכולים לתרגם ישירות."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "קבלת הצעות אוטומטית"
 
@@ -13761,10 +13731,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "לא ניתן להגיש שינויים ממתינים: %s"
 
 #: weblate/trans/models/translation.py:1639
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "עריכת תבנית אינה זמינה בתצורת קובץ זו."
+msgstr "אין תמיכה בצורות ריבוי בסוג הקובץ הזה!"
 
 #: weblate/trans/models/translation.py:1644 weblate/trans/models/unit.py:680
 #, python-format
@@ -13845,11 +13813,11 @@ msgstr "הוספת השמטה אופקית"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "הוספת מקף רך"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "הוספת רווח קשיח"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -13923,37 +13891,31 @@ msgstr "הגדרות אפשריות"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "תרגום אסור"
-msgstr[1] "תרגום אסור"
-msgstr[2] "תרגום אסור"
-msgstr[3] "תרגום אסור"
+msgstr[0] "תרגום אסור:"
+msgstr[1] "תרגומים אסורים:"
+msgstr[2] "תרגומים אסורים:"
+msgstr[3] "תרגומים אסורים:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "מונח שלא לתרגום"
-msgstr[1] "מונח שלא לתרגום"
-msgstr[2] "מונח שלא לתרגום"
-msgstr[3] "מונח שלא לתרגום"
+msgstr[0] "מונח שלא לתרגום:"
+msgstr[1] "מונחים שלא לתרגום:"
+msgstr[2] "מונחים שלא לתרגום:"
+msgstr[3] "מונחים שלא לתרגום:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "מונח במונחון"
-msgstr[1] "מונח במונחון"
-msgstr[2] "מונח במונחון"
-msgstr[3] "מונח במונחון"
+msgstr[0] "מונח במונחון:"
+msgstr[1] "מונחים במונחון:"
+msgstr[2] "מונחים במונחון:"
+msgstr[3] "מונחים במונחון:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14255,15 +14217,11 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "מסכת קבצים לא כוללת * בתור ממלא מקום לשפה!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"אסור להשתמש ב־1 כערך להצבעה אוטומטית כי במצב כזה כל משתמש יוכל להצביע להצעות "
+"אסור להשתמש ב־1 כערך לקבלה אוטומטית כי במצב כזה כל משתמש יוכל להצביע להצעות "
 "של עצמו."
 
 #: weblate/trans/validators.py:42
@@ -15185,9 +15143,6 @@ msgid "Premium self-hosted support"
 msgstr "תמיכת פרימיום לאירוח עצמי"
 
 #: weblate/wladmin/models.py:210
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
 msgstr "מחרוזות מתארחות"
 
