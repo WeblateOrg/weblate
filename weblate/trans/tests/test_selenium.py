@@ -627,7 +627,7 @@ class SeleniumTests(
             self.click("Czech")
         self.screenshot("announcement-language.png")
 
-    def test_weblate(self):
+    def test_weblate(self):  # noqa: PLR0915
         user = self.open_admin()
         language_regex = "^(cs|he|hu)$"
 

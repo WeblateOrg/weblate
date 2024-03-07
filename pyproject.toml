@@ -143,10 +143,6 @@ ignore = [
   "B904",  # TODO: Use `raise from` to specify exception cause
   "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
   "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.1
-  "PLR0911",  # WONTFIX: Too many return statements
-  "PLR0912",  # WONTFIX: Too many branches
-  "PLR0913",  # WONTFIX: Too many arguments to function call
-  "PLR0915",  # WONTFIX: Too many statements
   "PLR6301",  # TODO: Method could be a function, class method, or static method
   "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
   "PLC0415",  # TODO: `import` should be at the top-level of a file
@@ -190,8 +186,13 @@ max-complexity = 16  # TODO: should be lower
 "weblate/utils/locale.py" = ["B012"]
 
 [tool.ruff.lint.pylint]
-max-bool-expr = 8  # TODO: should be lower
-max-locals = 23  # TODO: should be lower
-max-nested-blocks = 9  # TODO: should be lower
-max-positional-args = 12  # TODO: should be lower
+# TODO: all these should be lower (or use defaults)
+max-args = 12
+max-bool-expr = 8
+max-branches = 36
+max-locals = 23
+max-nested-blocks = 9
+max-positional-args = 12
 max-public-methods = 180
+max-returns = 21
+max-statements = 100
