@@ -232,6 +232,10 @@ class BaseAddon:
         """Hook for component update."""
         # To be implemented in a subclass
 
+    def get_addon_activity_logs(self, component):
+        """Return activity logs for add-on."""
+        # To be implemented in a subclass
+
     def execute_process(self, component, cmd, env=None):
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
