@@ -209,7 +209,7 @@ class Group(models.Model):
     def long_name(self):
         if self.defining_project:
             return f"{self.defining_project} / {self}"
-        return self.__str__()
+        return str(self)
 
 
 class UserManager(BaseUserManager):
