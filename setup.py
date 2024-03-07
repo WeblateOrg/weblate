@@ -41,7 +41,7 @@ with open("requirements-optional.txt") as requirements:
         else:
             dep = line.split(";")[0].strip()
             EXTRAS[section] = dep
-            if section not in ("MySQL", "zxcvbn"):
+            if section not in {"MySQL", "zxcvbn"}:
                 EXTRAS["all"].append(dep)
 with open("requirements-test.txt") as requirements:
     section = None
