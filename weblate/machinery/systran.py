@@ -16,8 +16,7 @@ class SystranTranslation(MachineTranslation):
     def check_failure(self, response):
         if "error" not in response:
             return
-        else:
-            raise MachineTranslationError(response["error"]["message"])
+        raise MachineTranslationError(response["error"]["message"])
 
     def download_languages(self):
         """Download list of supported languages from a service."""
