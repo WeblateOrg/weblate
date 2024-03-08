@@ -56,6 +56,7 @@ from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
+from weblate.machinery.systran import SystranTranslation
 from weblate.trans.models import Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -150,7 +151,28 @@ SAPTRANSLATIONHUB_JSON = {
         }
     ]
 }
-
+SYSTRAN_LANGUAGE_JSON={
+    "languagePairs":[
+        {
+            "source":"en","target":"cs","profiles":[
+                {
+                    "id":"32e871bd-c82f-4b36-a59f-7cfd109a606e","private":False,"selectors":{
+                        "domain":"Generic","owner":"Systran","size":"L","tech":{
+                            "name":"OpenNMT-ctranslate","type":"NMT"
+                        }
+                    }
+                },
+                {
+                    "id":"4c02852a-54f4-4c26-81c1-271c71fea810","private":False,"selectors":{
+                        "domain":"Cybersecurity","owner":"Systran","size":"L","tech":{
+                            "name":"OpenNMT-ctranslate","type":"NMT"
+                        }
+                    }
+                },
+            ],
+        },
+    ],
+}
 
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
@@ -903,6 +925,37 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
 
+class SystranTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = SystranTranslation
+    EXPECTED_LEN = 1
+    CONFIGURATION = {
+        "key": "key",
+    }
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://api-translate.systran.net/translation/apiVersion",
+            json={"version":"2.11.0"},
+        )
+        
+        responses.add(
+            responses.GET,
+            "https://api-translate.systran.net/translation/supportedLanguages",
+            json=SYSTRAN_LANGUAGE_JSON
+        )
+        
+        responses.add(
+            responses.GET,
+            "https://api-translate.systran.net/translation/text/translate",
+            json={"outputs":[{"output":"ahoj"}]},
+        )
 
 class SAPTranslationHubTest(BaseMachineTranslationTest):
     MACHINE_CLS = SAPTranslationHub

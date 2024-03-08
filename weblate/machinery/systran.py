@@ -28,7 +28,7 @@ class SystranTranslation(MachineTranslation):
         )
         payload = response.json()
         self.check_failure(payload)
-        return [{"source": pair["source"], "target": pair["target"]} for pair in payload["languagePairs"]]
+        return [pair["target"] for pair in payload["languagePairs"]]
 
     def download_translations(
         self,
@@ -59,5 +59,5 @@ class SystranTranslation(MachineTranslation):
                 "text": translation["output"],
                 "quality": self.max_score,
                 "service": self.name,
-                "source": translation["source"],
+                "source": source,
             }
