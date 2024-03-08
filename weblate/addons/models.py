@@ -50,13 +50,15 @@ class AddonQuerySet(models.QuerySet):
         return self.prefetch_related("event_set").filter(
             Q(component=component)
             | Q(project=component.project)
-            | Q(component__linked_component=component) & Q(repo_scope=True)
-            | Q(component=component.linked_component) & Q(repo_scope=True)
+            | Q(component__project=component.project)
         )
 
     def filter_project(self, project):
+        return self.prefetch_related("event_set").filter(project=project)
+
+    def filter_sitewide(self):
         return self.prefetch_related("event_set").filter(
-            Q(project=project) | Q(component__project=project)
+            Q(component__isnull=True, project__isnull=True)
         )
 
     def filter_event(self, component, event):
@@ -80,7 +82,7 @@ class Addon(models.Model):
         verbose_name_plural = "add-ons"
 
     def __str__(self):
-        return f"{self.addon.verbose}: {self.project or self.component}"
+        return f"{self.addon.verbose}: {self.project or self.component or 'site-wide'}"
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -161,6 +163,8 @@ class Addon(models.Model):
                     component__project=self.project,
                     name=self.addon.alert,
                 ).delete()
+            else:
+                Alert.objects.filter(name=self.addon.alert).delete()
 
         result = super().delete(using=using, keep_parents=keep_parents)
         # Trigger post uninstall action

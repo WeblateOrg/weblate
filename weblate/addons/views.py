@@ -31,7 +31,7 @@ class AddonList(PathViewMixin, ListView):
             self.kwargs["project_obj"] = self.path_object
             return Addon.objects.filter_project(self.path_object)
 
-        return Addon.objects.filter_component(None)
+        return Addon.objects.filter_sitewide()
 
     def get_success_url(self):
         return reverse("addons", kwargs={"path": self.path_object.get_url_path()})
@@ -57,7 +57,8 @@ class AddonList(PathViewMixin, ListView):
                 ),
                 key=lambda x: x.name,
             )
-        if isinstance(target, Project):
+        else:
+            # This covers both project-wide and site-wide
             result["available"] = sorted(
                 (
                     x(Addon())

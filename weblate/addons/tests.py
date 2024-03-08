@@ -821,7 +821,7 @@ class CommandTest(ViewTestCase):
         )
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
         # Test when component is None
-        addon_count = Addon.objects.filter_component(component=None)
+        addon_count = Addon.objects.filter_sitewide()
         self.assertEqual(addon_count.count(), 0)
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {"width": 77})

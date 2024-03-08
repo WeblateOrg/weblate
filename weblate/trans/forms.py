@@ -927,8 +927,7 @@ class AutoForm(forms.Form):
             machinery_settings = obj.get_machinery_settings()
         else:
             # Site-wide add-ons
-            # Fetching first few entries is faster
-            self.components = Component.objects.all()[:30]
+            self.components = Component.objects.all()
             machinery_settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
 
         # Fetching first few entries is faster than doing a count query on possibly

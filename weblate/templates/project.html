@@ -108,7 +108,6 @@
         <li><a href="{% url 'machinery-list' project=object.slug %}">{% trans "Automatic suggestions" %}</a></li>
         <li><a href="{% url 'backups' project=object.slug %}">{% trans "Backups" %}</a></li>
         <li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
-        <li><a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a></li>
         {% endif %}
 
         {% if user_can_view_billing and object.billings %}

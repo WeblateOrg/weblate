@@ -94,6 +94,7 @@ class BaseAddon:
     @classmethod
     def create(
         cls,
+        *,
         component: Component | None = None,
         project: Project | None = None,
         run: bool = True,
@@ -109,6 +110,7 @@ class BaseAddon:
     def get_add_form(
         cls,
         user: User | None,
+        *,
         component: Component | None = None,
         project: Project | None = None,
         **kwargs,
