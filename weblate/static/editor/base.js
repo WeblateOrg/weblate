@@ -52,7 +52,7 @@ WLT.Editor = (() => {
       const counter = editor.querySelector(".length-indicator");
       const classToggle = editor.classList;
 
-      const limit = parseInt(counter.getAttribute("data-max"));
+      const limit = Number.parseInt(counter.getAttribute("data-max"));
       const length = textarea.value.length;
 
       counter.textContent = length;
