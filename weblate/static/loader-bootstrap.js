@@ -181,7 +181,7 @@ function screenshotLoaded(data) {
 }
 
 function getNumber(n) {
-  const parsed = parseFloat(n.replace(",", "."));
+  const parsed = Number.parseFloat(n.replace(",", "."));
   if (!Number.isNaN(parsed) && Number.isFinite(parsed)) {
     return parsed;
   }
@@ -212,8 +212,8 @@ function compareCells(a, b) {
   }
   if (a.indexOf("%") !== -1 && b.indexOf("%") !== -1) {
     return _compareValues(
-      parseFloat(a.replace(",", ".")),
-      parseFloat(b.replace(",", ".")),
+      Number.parseFloat(a.replace(",", ".")),
+      Number.parseFloat(b.replace(",", ".")),
     );
   }
   const parsed_a = getNumber(a);
@@ -242,7 +242,7 @@ function loadTableSorting() {
 
         // handle colspan
         if (th.attr("colspan")) {
-          thIndex += parseInt(th.attr("colspan"), 10) - 1;
+          thIndex += Number.parseInt(th.attr("colspan"), 10) - 1;
         }
         // skip empty cells and cells with icon (probably already processed)
         if (
@@ -324,7 +324,7 @@ function interpolate(fmt, obj, named) {
 function load_matrix() {
   const $loadingNext = $("#loading-next");
   const $loader = $("#matrix-load");
-  const offset = parseInt($loader.data("offset"));
+  const offset = Number.parseInt($loader.data("offset"));
 
   if ($("#last-section").length > 0 || $loadingNext.css("display") !== "none") {
     return;
@@ -1189,7 +1189,7 @@ $(function () {
     });
 
     row.insertBefore(blank);
-    totalForms.val(parseInt(totalForms.val(), 10) + 1);
+    totalForms.val(Number.parseInt(totalForms.val(), 10) + 1);
 
     return false;
   });
