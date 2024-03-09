@@ -10763,7 +10763,9 @@ const chromeRegex =
   /^\s*at (?:(.+?\)(?: \[.+\])?|.*?) ?\((?:address at )?)?(?:async )?((?:<anonymous>|[-a-z]+:|.*bundle|\/)?.*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
 const chromeEvalRegex = /\((\S*)(?::(\d+))(?::(\d+))\)/;
 
-const chrome = line => {
+// We cannot call this variable `chrome` because it can conflict with global `chrome` variable in certain environments
+// See: https://github.com/getsentry/sentry-javascript/issues/6880
+const chromeStackParserFn = line => {
   const parts = chromeRegex.exec(line);
 
   if (parts) {
@@ -10790,7 +10792,7 @@ const chrome = line => {
   return;
 };
 
-const chromeStackLineParser = [CHROME_PRIORITY, chrome];
+const chromeStackLineParser = [CHROME_PRIORITY, chromeStackParserFn];
 
 // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
 // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
@@ -15879,7 +15881,6 @@ class Scope  {
 
   /**
    * Sets the transaction name on the scope for future events.
-   * @deprecated Use extra or tags instead.
    */
    setTransactionName(name) {
     this._transactionName = name;
@@ -20696,7 +20697,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":138}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.105.0';
+const SDK_VERSION = '7.106.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -36565,8 +36566,8 @@ function supportsHistory() {
   // borrowed from: https://github.com/angular/angular.js/pull/13945/files
   /* eslint-disable @typescript-eslint/no-unsafe-member-access */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const chrome = (WINDOW ).chrome;
-  const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
+  const chromeVar = (WINDOW ).chrome;
+  const isChromePackagedApp = chromeVar && chromeVar.app && chromeVar.app.runtime;
   /* eslint-enable @typescript-eslint/no-unsafe-member-access */
   const hasHistoryApi = 'history' in WINDOW && !!WINDOW.history.pushState && !!WINDOW.history.replaceState;
 
