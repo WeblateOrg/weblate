@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Johan Jacobsson <johan.jacobsson@telia.com>, 2023.
+# Johan Jacobsson <johan.jacobsson@telia.com>, 2023, 2024.
 # Erik Gävert <erik@gavert.net>, 2023.
 # Kristoffer Grundström <swedishsailfishosuser@tutanota.com>, 2023.
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-03-11 03:10+0000\n"
+"Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -468,10 +468,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Inbjuden till {project} av {username}."
 
 #: weblate/accounts/models.py:185
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Lösenordet har ändrats."
+msgstr "Lösenord konfigurerat."
 
 #: weblate/accounts/models.py:191
 msgid "To restore access to your account, please reset your password."
@@ -2558,16 +2556,12 @@ msgstr ""
 "bidragaravtalet."
 
 #: weblate/auth/permissions.py:167
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Sign in to save the translation."
-msgstr "Logga in för att spara översättningar."
+msgstr "Logga in för att spara översättningen."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Inte tillräcklig behörighet för att spara översättningar."
+msgstr "Otillräckliga privilegier för att godkänna översättningar."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -3052,10 +3046,8 @@ msgid "Ignore all checks"
 msgstr "Ignorera alla kontroller"
 
 #: weblate/checks/flags.py:50
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Procentplatshållare"
+msgstr "Använd icke skiftlägeskänsliga platshållare"
 
 #: weblate/checks/flags.py:52 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -3518,16 +3510,12 @@ msgid "C format string does not match source"
 msgstr "C-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Perl-format"
+msgstr "Perl-parentesformat"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Perl-formatsträngen matchar inte källan"
+msgstr "Perl-parantesformatsträng matchar inte källan"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -4155,10 +4143,8 @@ msgid ".NET resource file"
 msgstr ".NET-resursfil"
 
 #: weblate/formats/ttkit.py:1423
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Android String-resurs"
+msgstr "Mobile Kotlin Resource"
 
 #: weblate/formats/ttkit.py:1436
 #, python-format
@@ -4198,10 +4184,8 @@ msgid "gotext JSON file"
 msgstr "gotext JSON-fil"
 
 #: weblate/formats/ttkit.py:1527
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "gotext JSON-fil"
+msgstr "Format.JS JSON-fil"
 
 #: weblate/formats/ttkit.py:1535
 msgid "CSV file"
@@ -4527,12 +4511,9 @@ msgid "One/few/many"
 msgstr "En/fåtal/många"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "/En/två/fåtal/övriga"
+msgstr "/En/inga/fåtal/övriga"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4564,10 +4545,8 @@ msgid "Android plural"
 msgstr "Android-plural"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "stringsdict plural"
+msgstr "Qt Linguist plural"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -4985,10 +4964,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Kunde inte tolka JSON-fil: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Kunde inte tolka TMX-fil!"
+msgstr "Kunde inte tolka TMX-filen: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5507,6 +5485,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Mejl är inte en omedelbar teknik. Vänta på bekräftelsemejlet i minst 30 "
+"minuter innan du skriver till oss om problem."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -6370,10 +6350,8 @@ msgid "The following components matched existing ones"
 msgstr "Följande komponenter matchade befintliga komponenter"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "Följande komponenter skulle läggas till"
+msgstr "Följande komponenter kunde inte skapas"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -7980,7 +7958,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:126
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr ""
+msgstr "Det tar också bort inaktuella grenar som inte används av Weblate."
 
 #: weblate/templates/js/git-status.html:127
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -8400,13 +8378,11 @@ msgid "View invitation"
 msgstr "Visa inbjudan"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Bekräftelselänken upphör att gälla efter %(count)s timme."
-msgstr[1] "Bekräftelselänken upphör att gälla efter %(count)s timmar."
+msgstr[0] "Inbjudan upphör att gälla efter %(count)s timme."
+msgstr[1] "Inbjudan upphör att gälla efter %(count)s timmar."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -9935,10 +9911,8 @@ msgid "No strings to translate"
 msgstr "Inga strängar att översätta"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Lägga till nya projekt"
+msgstr "Lägg till projekt"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10259,6 +10233,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organisera projektet</a> för att ändra dess URL-slug "
+"eller ta bort det."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10266,6 +10242,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organisera komponenten</a> för att ändra dess URL-slug, "
+"flytta eller ta bort den."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -10549,6 +10527,9 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"Gerrit förbjöd denna push. Du kan behöva ett Gerrit-konto som har "
+"behörigheten forge author för arkivet/grenen eller behöva använda tillägget "
+"squash på denna komponent i Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
@@ -11100,22 +11081,20 @@ msgstr[0] "%(count)s komponent kommer att tas bort genom detta."
 msgstr[1] "%(count)s komponenter kommer att tas bort av detta."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
-"Tillägget 'lägg till saknade språk' är installerat på den här komponenten "
-"vilket gör att borttagna språk kanske läggs till igen."
+"Tillägget 'Lägg till saknade språk' är installerat på den här komponenten "
+"vilket kan göra att ett borttaget språk kanske läggs till igen."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Ordlistekomponenten underhåller automatiskt översättningen för varje språk "
+"som används i projektet, ett borttaget språk kan komma att läggas till igen."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -11145,7 +11124,7 @@ msgstr "Typiskt arbetsflöde för att lösa sammanfogningskonflikter"
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
+msgstr "Öppna en befintlig utcheckning av uppströmsarkivet eller gör en ny."
 
 #: weblate/templates/trans/merge_instructions.html:13
 msgid ""
@@ -11910,16 +11889,13 @@ msgstr ""
 "Webbplatsen använder Weblate för att översätta diverse programvaruprojekt."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
-#| msgid "Browse changes"
 msgid "File mask matches the main component."
-msgstr "Utforska ändringar"
+msgstr "Filmask matchar huvudkomponenten."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Fil existerar inte."
+msgstr "{filename} ({parameter}) finns inte."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12588,25 +12564,18 @@ msgstr ""
 "detta språk."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Anpassa arbetsflödet för översättning för detta språk"
+msgstr "Anpassa översättningsflödet för detta språk i detta projekt"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Arbetsflödet för översättning konfigureras på projekt- och komponentnivå. "
+"Översättningsflödet är konfigurerat på projekt-, komponent- och språknivå. "
 "Genom att aktivera anpassning här åsidosätter du dessa inställningar för "
-"detta språk."
+"detta språk i detta projekt."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12653,13 +12622,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Använd flaggor för att ange särskilda strängar i översättningen."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Lägg till säker-html-flagga för att undvika farlig HTML från översättare."
+"Lägg till flaggan safe-html för att undvika farlig HTML från översättare för "
+"strängar som renderas som HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -12823,10 +12791,8 @@ msgid "Notify users"
 msgstr "Meddela användare"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Skicka mejlinbjudan till användaren"
+msgstr "Skicka avisering till prenumererade användare."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13185,10 +13151,8 @@ msgstr "Strängsparning misslyckades"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Sträng uppdaterad i arkivet"
+msgstr "Sträng tillagd i arkivet"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
@@ -13466,8 +13430,6 @@ msgstr ""
 "Användare kan bara rösta på förslag och kan inte göra direktöversättningar."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "Acceptera förslag automatiskt"
 
@@ -14160,7 +14122,7 @@ msgstr "Infoga mjukt bindestreck"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Infoga ett icke-brytbart mellanslag"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14232,31 +14194,25 @@ msgstr "Möjlig inställning"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Förbjuden översättning"
-msgstr[1] "Förbjuden översättning"
+msgstr[0] "Förbjuden översättning:"
+msgstr[1] "Förbjudna översättningar:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Oöversättbar term"
-msgstr[1] "Oöversättbar term"
+msgstr[0] "Oöversättbar term:"
+msgstr[1] "Oöversättbara termer:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Ordlistepost"
-msgstr[1] "Ordlistepost"
+msgstr[0] "Ordlistepost:"
+msgstr[1] "Ordlisteposter:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14528,16 +14484,12 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Filmasken innehåller inte * som en språkplatshållare!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Värdet 1 är inte tillåtet för automatiskt godkännande eftersom det gör det "
-"möjligt att rösta på sina egna förslag."
+"Ett värde på 1 är inte tillåtet för automatiskt godkännande eftersom det "
+"skulle tillåta användare att rösta på sina egna förslag."
 
 #: weblate/trans/validators.py:42
 #, python-format
