@@ -27,10 +27,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: brew update
-    - name: Install Python
-      run: |
-        brew uninstall python
-        brew install python@3.12
     - name: Install brew dependencies
       run: |
         # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
