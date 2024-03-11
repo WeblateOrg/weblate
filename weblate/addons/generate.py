@@ -154,7 +154,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         var_multiplier = self.instance.configuration.get("var_multiplier")
         # As it is optional, it can be stored as None
         if var_multiplier is None:
-            var_multiplirer = 0.1
+            var_multiplier = 0.1
         self.generate_translation(
             source_translation,
             target_translation,
@@ -162,7 +162,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             suffix=self.instance.configuration.get("suffix", ""),
             var_prefix=self.instance.configuration.get("var_prefix", ""),
             var_suffix=self.instance.configuration.get("var_suffix", ""),
-            var_multiplier=var_multiplirer,
+            var_multiplier=var_multiplier,
             query=query,
         )
 
