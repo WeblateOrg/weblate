@@ -111,7 +111,7 @@ class Formatter:
         self.search_match = search_match
         self.match = match
         # Tags output
-        self.tags = [[] for i in range(len(value) + 1)]
+        self.tags: list[list[str]] = [[] for i in range(len(value) + 1)]
         self.differ = Differ()
         self.whitespace = whitespace
 
@@ -314,7 +314,7 @@ class Formatter:
                 locations[end].extend([])
 
         # Render span tags for each glossary term match
-        last_entries = []
+        last_entries: list[str] = []
         for position, entries in sorted(locations.items()):
             if last_entries and entries != last_entries:
                 self.tags[position].insert(0, "</span>")
@@ -598,7 +598,7 @@ def form_field_doc_link(context, form, field):
     if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
         return {
             "right": False,
-            "doc_url": get_doc_url(*field_doc, user=context["user"]),
+            "doc_url": get_doc_url(*field_doc, user=context["user"]),  # type: ignore[misc]
         }
     return {}
 
@@ -739,15 +739,19 @@ def naturaltime(value, now=None):
     if not isinstance(value, date):
         return value
 
+    # Default to current timestamp
     if now is None:
         now = timezone.now()
+
+    # Strip microseconds
+    if isinstance(value, datetime):
+        value = value.replace(microsecond=0)
+
     if value < now:
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
-    return format_html(
-        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
-    )
+    return format_html('<span title="{}">{}</span>', value.isoformat(), text)
 
 
 def get_stats(obj):
