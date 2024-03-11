@@ -27,6 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: brew update
+    - run: brew deps --tree --installed
     - name: Install brew dependencies
       run: |
         brew unlink python
