@@ -4,7 +4,7 @@
 
 import json
 import re
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 from django.conf import settings
 from django.db.models import Q
@@ -452,6 +452,13 @@ def pagure_hook_helper(data, request):
     }
 
 
+def expand_quoted(name: str):
+    yield name
+    quoted = quote(name)
+    if quoted != name:
+        yield quoted
+
+
 @register_hook
 def azure_hook_helper(data, request):
     if data.get("eventType") != "git.push":
@@ -487,12 +494,14 @@ def azure_hook_helper(data, request):
         repos = [
             repo.format(
                 organization=organization,
-                project=project,
+                project=e_project,
                 projectId=projectid,
-                repository=repository,
+                repository=e_repository,
                 repositoryId=repositoryid,
             )
             for repo in AZURE_REPOS
+            for e_project in expand_quoted(project)
+            for e_repository in expand_quoted(repository)
         ]
     else:
         repos = [http_url]

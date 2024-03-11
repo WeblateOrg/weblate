@@ -15,6 +15,7 @@ Not yet released.
 * Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
 * Avoid crash on pushing changes to diverged repository.
 * Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
+* :ref:`azure-setup` gracefully handles repositories with spaces in URL.
 
 **Compatibility**
 
