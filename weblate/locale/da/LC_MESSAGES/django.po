@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-11 17:25+0000\n"
+"PO-Revision-Date: 2024-03-11 18:06+0000\n"
 "Last-Translator: cat <158170307+cultcats@users.noreply.github.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -398,10 +398,9 @@ msgid "Account and all private data removed."
 msgstr "Konto og alle private data fjernet."
 
 #: weblate/accounts/models.py:159
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Sendte bekræftelsesmail til {email}."
+msgstr "Bekræftelse på fjernelse af konto sendt til {email}."
 
 #: weblate/accounts/models.py:160
 #, python-brace-format
@@ -441,16 +440,12 @@ msgid "Access to project {project} was blocked"
 msgstr "Adgang til projekt {project} blev blokeret"
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "Besked er sendt til administrator."
+msgstr "Bruger blev aktiveret af administrator"
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "Besked er sendt til administrator."
+msgstr "Bruger blev deaktiveret af administrator"
 
 #: weblate/accounts/models.py:176
 msgid "Configured password to sign in."
@@ -469,16 +464,13 @@ msgid "Could not sign in using password."
 msgstr "Kunne ikke logge ind med adgangskode."
 
 #: weblate/accounts/models.py:182
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Inviteret til {site_title} af {username}."
+msgstr "Inviteret til {project} af {username}."
 
 #: weblate/accounts/models.py:185
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Adgangskoden ændret."
+msgstr "Adgangskode konfigureret."
 
 #: weblate/accounts/models.py:191
 msgid "To restore access to your account, please reset your password."
@@ -759,10 +751,8 @@ msgstr ""
 "mailadresse."
 
 #: weblate/accounts/notifications.py:52
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Underretninger"
+msgstr "Ingen underretning"
 
 #: weblate/accounts/notifications.py:53
 msgid "Instant notification"
@@ -788,103 +778,74 @@ msgid "Operation was performed in the repository"
 msgstr "Kunne ikke opdatere softwarekilden."
 
 #: weblate/accounts/notifications.py:472
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Komponent låst op"
+msgstr "Komponent blev låst eller låst op"
 
 #: weblate/accounts/notifications.py:479
-#, fuzzy
-#| msgid "Last change"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Sidste ændring"
+msgstr "Licens blev ændret"
 
 #: weblate/accounts/notifications.py:486
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "Fortolkningsfejl"
+msgstr "Der opstod en parsefejl"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Ny streng til oversættelse i %(translation)s"
+msgstr "Ny streng er tilgængelig til oversættelse"
 
 #: weblate/accounts/notifications.py:515
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Brug delt oversættelseshukommelse"
+msgstr "Bidragyder lavede sin første oversættelse"
 
 #: weblate/accounts/notifications.py:524
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Forslag tilføjet"
+msgstr "Forslag blev tilføjet"
 
 #: weblate/accounts/notifications.py:533
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Kommentar tilføjet"
+msgstr "Kommentar blev tilføjet"
 
 #: weblate/accounts/notifications.py:555
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "nævnt i kommentar"
+msgstr "Du blev nævnt i en kommentar"
 
 #: weblate/accounts/notifications.py:587
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Dit oversættelsesprojekt er blevet fjernet"
+msgstr "Din oversættelse modtog en kommentar"
 
 #: weblate/accounts/notifications.py:612
-#, fuzzy
-#| msgid "Source string changed"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Kildestreng ændret"
+msgstr "Streng blev ændret af bruger"
 
 #: weblate/accounts/notifications.py:620
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "Streng har kontekst"
+msgstr "Streng blev godkendt"
 
 #: weblate/accounts/notifications.py:628
-#, fuzzy
-#| msgid "Source string changed"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Kildestreng ændret"
+msgstr "Streng blev ændret"
 
 #: weblate/accounts/notifications.py:637
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "Nyt sprog føjet til %(component)s"
+msgstr "Nyt sprog blev tilføjet eller anmodet om"
 
 #: weblate/accounts/notifications.py:654
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "ny oversættelseskomponent"
+msgstr "Ny oversættelseskomponent blev oprettet"
 
 #: weblate/accounts/notifications.py:662
 #, fuzzy
@@ -1088,16 +1049,12 @@ msgstr ""
 "adgangsoplysninger."
 
 #: weblate/accounts/views.py:1220
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
 "Prøv at registrere dig igen for at bekræfte din identitet. "
-"Bekræftelsestokenet er sandsynligvis udløbet."
+"Bekræftelseslinket er sandsynligvis udløbet."
 
 #: weblate/accounts/views.py:1228
 msgid "Could not authenticate due to invalid session state."
@@ -1564,26 +1521,20 @@ msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Klon tilføjelser fra hoved-komponenten til de nyoprettede"
 
 #: weblate/addons/forms.py:329
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
-msgstr "Fjern komponenter for ikke eksisterende filer"
+msgstr "Fjern komponenter for ikke-eksisterende filer"
 
 #: weblate/addons/forms.py:332
 msgid "I confirm the above matches look correct"
 msgstr "Jeg bekræfter at matchene ovenfor ser ud til at være korrekte"
 
 #: weblate/addons/forms.py:389 weblate/trans/models/component.py:2842
-#, fuzzy
-#| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
-msgstr "Du kan ikke bruge enkeltsprogede oversættelse uden grundfil!"
+msgstr "Du kan ikke bruge en enkeltsprogede oversættelse uden en grundfil."
 
 #: weblate/addons/forms.py:397 weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid "You can not use base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
-msgstr "Du kan ikke bruge grundfil med tosproget oversættelse!"
+msgstr "Du kan ikke bruge en grundfil til tosproget oversættelse."
 
 #: weblate/addons/forms.py:411
 msgid "Please review and confirm the matched components."
@@ -1996,10 +1947,8 @@ msgstr "Slette kommentar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
-#, fuzzy
-#| msgid "Removed component"
 msgid "Resolve comment"
-msgstr "Fjernet komponent"
+msgstr "Løs kommentar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
@@ -2157,10 +2106,8 @@ msgstr "Slette eksisterende oversættelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:91
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Hent oversættelse"
+msgstr "Hent oversættelsesfil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:93
@@ -2234,10 +2181,8 @@ msgstr "Administrer sprogdefinitioner"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Håndter brugere"
+msgstr "Administrér teams"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/users.html:18
@@ -2261,10 +2206,8 @@ msgstr "Håndter oversættelseshukommelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
-#, fuzzy
-#| msgid "Machame"
 msgid "Manage machinery"
-msgstr "machame"
+msgstr "Administrér maskiner"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
@@ -2274,11 +2217,8 @@ msgstr "Administrer lister over komponenter"
 #. Translators: Permission name
 #: weblate/auth/data.py:141
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Håndtere sprog"
+msgstr "Administrér fakturering"
 
 #: weblate/auth/data.py:172
 msgctxt "Access-control role"
@@ -8845,10 +8785,8 @@ msgstr "SSH-nøgle ikke tilgængelig."
 #: weblate/templates/machinery/list.html:12
 #: weblate/templates/machinery/list.html:15 weblate/templates/project.html:108
 #: weblate/templates/translate.html:257 weblate/wladmin/views.py:79
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Accepter forslag automatisk"
+msgstr "Automatiske forslag"
 
 #: weblate/templates/machinery/list.html:23
 #, fuzzy
@@ -13390,10 +13328,8 @@ msgid "Could not find the reverted change."
 msgstr "Kunne ikke finde tilbageført ændring."
 
 #: weblate/trans/forms.py:866
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Automatisk oversættelse"
+msgstr "Automatisk oversættelsestilstand"
 
 #: weblate/trans/forms.py:873
 #, fuzzy
