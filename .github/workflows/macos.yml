@@ -26,9 +26,8 @@ jobs:
       HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
     steps:
     - uses: actions/checkout@v4
-    - run: brew list --versions
     - run: brew update
-    - run: brew upgrade
+    - run: brew list --versions
     - run: brew deps --tree --installed
     - run: brew uninstall python@3.11
     - run: brew reinstall python@3.12
