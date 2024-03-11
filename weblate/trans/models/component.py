@@ -47,7 +47,7 @@ from weblate.trans.defines import (
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin, ComponentCategoryMixin, PathMixin
-from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
+from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.variant import Variant
@@ -95,7 +95,6 @@ from weblate.utils.render import (
     validate_render_component,
     validate_repoweb,
 )
-from weblate.utils.requests import get_uri_error
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
@@ -226,8 +225,6 @@ def prefetch_glossary_terms(components):
 
 class ComponentQuerySet(models.QuerySet):
     def prefetch(self, alerts: bool = True, defer: bool = True):
-        from weblate.trans.models import Alert
-
         result = self
         if defer:
             result = result.defer_huge()
@@ -3148,19 +3145,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         else:
             self.delete_alert("DuplicateFilemask")
 
-    def update_alerts(self):  # noqa: C901
+    def update_alerts(self):
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)
-        if (
-            self.project.access_control == self.project.ACCESS_PUBLIC
-            and settings.LICENSE_REQUIRED
-            and not self.license
-            and not settings.LOGIN_REQUIRED_URLS
-            and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
-        ):
-            self.add_alert("MissingLicense")
-        else:
-            self.delete_alert("MissingLicense")
+
+        update_alerts(self)
 
         # Pick random translation with translated strings except source one
         translation = (
@@ -3187,99 +3176,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.add_alert("MonolingualTranslation")
         else:
             self.delete_alert("MonolingualTranslation")
-        if not self.can_push():
-            self.delete_alert("PushFailure")
-
-        if self.vcs not in VCS_REGISTRY or self.file_format not in FILE_FORMATS:
-            self.add_alert(
-                "UnsupportedConfiguration",
-                vcs=self.vcs not in VCS_REGISTRY,
-                file_format=self.file_format not in FILE_FORMATS,
-            )
-        else:
-            self.delete_alert("UnsupportedConfiguration")
-
-        location_error = None
-        location_link = None
-        if self.repoweb:
-            unit = allunits.exclude(location="").first()
-            if unit:
-                for _location, filename, line in unit.get_locations():
-                    location_link = self.get_repoweb_link(filename, line)
-                    if location_link is None:
-                        continue
-                    # We only test first link
-                    location_error = get_uri_error(location_link)
-                    break
-        if location_error:
-            self.add_alert("BrokenBrowserURL", link=location_link, error=location_error)
-        else:
-            self.delete_alert("BrokenBrowserURL")
-
-        if self.project.web:
-            location_error = get_uri_error(self.project.web)
-            if location_error is not None:
-                self.add_alert("BrokenProjectURL", error=location_error)
-            else:
-                self.delete_alert("BrokenProjectURL")
-        else:
-            self.delete_alert("BrokenProjectURL")
-
-        from weblate.screenshots.models import Screenshot
-
-        if (
-            Screenshot.objects.filter(translation__component=self)
-            .annotate(Count("units"))
-            .filter(units__count=0)
-            .exists()
-        ):
-            self.add_alert("UnusedScreenshot")
-        else:
-            self.delete_alert("UnusedScreenshot")
-
-        if self.get_ambiguous_translations().exists():
-            self.add_alert("AmbiguousLanguage")
-        else:
-            self.delete_alert("AmbiguousLanguage")
-
-        if (
-            settings.OFFER_HOSTING
-            and self.project.billings
-            and self.project.billing.plan.price == 0
-            and not self.project.billing.valid_libre
-        ):
-            self.add_alert("NoLibreConditions")
-        else:
-            self.delete_alert("NoLibreConditions")
-
-        if list(self.get_unused_enforcements()):
-            self.add_alert("UnusedEnforcedCheck")
-        else:
-            self.delete_alert("UnusedEnforcedCheck")
-
-        if (
-            not self.is_glossary
-            and self.translation_set.count() <= 1
-            and not self.intermediate
-        ):
-            self.add_alert("NoMaskMatches")
-        else:
-            self.delete_alert("NoMaskMatches")
-
-        missing_files = [
-            name
-            for name in (self.template, self.intermediate, self.new_base)
-            if name and not os.path.exists(os.path.join(self.full_path, name))
-        ]
-        if missing_files:
-            self.add_alert("InexistantFiles", files=missing_files)
-        else:
-            self.delete_alert("InexistantFiles")
-
-        if self.is_old_unused():
-            self.add_alert("UnusedComponent")
-        else:
-            self.delete_alert("UnusedComponent")
 
         self.update_link_alerts()
 

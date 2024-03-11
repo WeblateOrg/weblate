@@ -4,19 +4,28 @@
 
 from __future__ import annotations
 
+import os
 from collections import defaultdict
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Count
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
 
+from weblate.formats.models import FILE_FORMATS
+from weblate.utils.requests import get_uri_error
+from weblate.utils.state import STATE_TRANSLATED
+from weblate.vcs.models import VCS_REGISTRY
+
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
+
+    from weblate.trans.models import Component
 
 ALERTS = {}
 ALERTS_IMPORT = set()
@@ -28,6 +37,19 @@ def register(cls):
     if cls.on_import:
         ALERTS_IMPORT.add(name)
     return cls
+
+
+def update_alerts(component: Component):
+    for alert in ALERTS.values():
+        result = alert.check_component(component)
+        if result is None:
+            continue
+        if isinstance(result, dict):
+            component.add_alert(alert.__name__, **result)
+        elif result:
+            component.add_alert(alert.__name__)
+        else:
+            component.delete_alert(alert.__name__)
 
 
 class Alert(models.Model):
@@ -100,6 +122,10 @@ class BaseAlert:
             f"trans/alert/{self.__class__.__name__.lower()}.html",
             self.get_context(user),
         )
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:  # noqa: ARG004
+        return None
 
 
 class ErrorAlert(BaseAlert):
@@ -281,6 +307,13 @@ class PushFailure(ErrorAlert):
             ),
         }
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        if not component.can_push():
+            return False
+        # We do not trigger it here, just remove stale alert
+        return None
+
 
 @register
 class UpdateFailure(PushFailure):
@@ -326,6 +359,16 @@ class MissingLicense(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-license"
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return (
+            component.project.access_control == component.project.ACCESS_PUBLIC
+            and settings.LICENSE_REQUIRED
+            and not component.license
+            and not settings.LOGIN_REQUIRED_URLS
+            and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
+        )
+
 
 @register
 class AddonScriptError(MultiAlert):
@@ -357,6 +400,32 @@ class MonolingualTranslation(BaseAlert):
     doc_page = "formats"
     doc_anchor = "bimono"
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        # Pick random translation with translated strings except source one
+        translation = (
+            component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
+            .exclude(language_id=component.source_language_id)
+            .first()
+        )
+
+        if translation:
+            allunits = translation.unit_set
+        else:
+            allunits = component.source_translation.unit_set
+
+        source_space = allunits.filter(source__contains=" ")
+        target_space = allunits.filter(
+            state__gte=STATE_TRANSLATED, target__contains=" "
+        )
+        return (
+            not component.is_glossary
+            and not component.template
+            and allunits.count() > 3
+            and not source_space.exists()
+            and target_space.exists()
+        )
+
 
 @register
 class UnsupportedConfiguration(BaseAlert):
@@ -369,6 +438,13 @@ class UnsupportedConfiguration(BaseAlert):
         super().__init__(instance)
         self.vcs = vcs
         self.file_format = file_format
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return (
+            component.vcs not in VCS_REGISTRY
+            or component.file_format not in FILE_FORMATS
+        )
 
 
 @register
@@ -384,6 +460,36 @@ class BrokenBrowserURL(BaseAlert):
         self.link = link
         self.error = error
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        location_error = None
+        location_link = None
+        if component.repoweb:
+            # Pick random translation with translated strings except source one
+            translation = (
+                component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
+                .exclude(language_id=component.source_language_id)
+                .first()
+            )
+
+            if translation:
+                allunits = translation.unit_set
+            else:
+                allunits = component.source_translation.unit_set
+
+            unit = allunits.exclude(location="").first()
+            if unit:
+                for _location, filename, line in unit.get_locations():
+                    location_link = component.get_repoweb_link(filename, line)
+                    if location_link is None:
+                        continue
+                    # We only test first link
+                    location_error = get_uri_error(location_link)
+                    break
+        if location_error:
+            return {"link": location_link, "error": location_error}
+        return False
+
 
 @register
 class BrokenProjectURL(BaseAlert):
@@ -398,6 +504,14 @@ class BrokenProjectURL(BaseAlert):
         super().__init__(instance)
         self.error = error
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        if component.project.web:
+            location_error = get_uri_error(component.project.web)
+            if location_error is not None:
+                return {"error": location_error}
+        return False
+
 
 @register
 class UnusedScreenshot(BaseAlert):
@@ -405,6 +519,17 @@ class UnusedScreenshot(BaseAlert):
     verbose = gettext_lazy("Unused screenshot")
     doc_page = "admin/translating"
     doc_anchor = "screenshots"
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        from weblate.screenshots.models import Screenshot
+
+        return (
+            Screenshot.objects.filter(translation__component=component)
+            .annotate(Count("units"))
+            .filter(units__count=0)
+            .exists()
+        )
 
 
 @register
@@ -423,11 +548,24 @@ class AmbiguousLanguage(BaseAlert):
         result["ambiguous"] = {code: AMBIGUOUS[code] for code in ambgiuous}
         return result
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return component.get_ambiguous_translations().exists()
+
 
 @register
 class NoLibreConditions(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Does not meet Libre hosting conditions.")
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return (
+            settings.OFFER_HOSTING
+            and component.project.billings
+            and component.project.billing.plan.price == 0
+            and not component.project.billing.valid_libre
+        )
 
 
 @register
@@ -435,6 +573,10 @@ class UnusedEnforcedCheck(BaseAlert):
     verbose = gettext_lazy("Unused enforced checks.")
     doc_page = "admin/checks"
     doc_anchor = "enforcing-checks"
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return any(component.get_unused_enforcements())
 
 
 @register
@@ -448,6 +590,14 @@ class NoMaskMatches(BaseAlert):
             "can_add": self.instance.component.can_add_new_language(None, fast=True),
         }
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return (
+            not component.is_glossary
+            and component.translation_set.count() <= 1
+            and not component.intermediate
+        )
+
 
 @register
 class InexistantFiles(BaseAlert):
@@ -459,6 +609,17 @@ class InexistantFiles(BaseAlert):
         super().__init__(instance)
         self.files = files
 
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        missing_files = [
+            name
+            for name in (component.template, component.intermediate, component.new_base)
+            if name and not os.path.exists(os.path.join(component.full_path, name))
+        ]
+        if missing_files:
+            return {"files": missing_files}
+        return False
+
 
 @register
 class UnusedComponent(BaseAlert):
@@ -467,3 +628,7 @@ class UnusedComponent(BaseAlert):
 
     def get_analysis(self):
         return {"days": settings.UNUSED_ALERT_DAYS}
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return component.is_old_unused()
