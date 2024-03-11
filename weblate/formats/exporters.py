@@ -34,6 +34,7 @@ from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
+    from translate.storage.base import TranslationStore
 
 
 # Map to remove control characters except newlines and tabs
@@ -55,6 +56,7 @@ class BaseExporter:
     name = ""
     verbose: StrOrPromise = ""
     set_id = False
+    storage_class: TranslationStore
 
     def __init__(
         self,
@@ -244,7 +246,7 @@ class PoExporter(BaseExporter):
         return store
 
 
-class XMLFilterMixin:
+class XMLFilterMixin(BaseExporter):
     def string_filter(self, text):
         return super().string_filter(text).translate(XML_REPLACE_CHARMAP)
 
