@@ -29,8 +29,8 @@ jobs:
     - run: brew update
     - run: brew list --versions
     - run: brew deps --tree --installed
-    - run: brew uninstall python@3.11
-    - run: brew reinstall python@3.12
+    - run: brew uninstall --ignore-dependencies python@3.11
+    - run: brew link --overwrite python@3.12
     - name: Install brew dependencies
       run: |
         # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
