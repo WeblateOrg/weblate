@@ -673,6 +673,25 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "1 add-on installed")
 
+    def test_add_pseudolocale(self):
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": "weblate.generate.pseudolocale"},
+            follow=True,
+        )
+        self.assertContains(response, "Configure add-on")
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.generate.pseudolocale",
+                "form": "1",
+                "source": self.component.source_translation.pk,
+                "target": self.component.translation_set.get(language__code="cs").pk,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "1 add-on installed")
+
     def test_edit_config(self):
         self.test_add_config()
         addon = self.component.addon_set.all()[0]
