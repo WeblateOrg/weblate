@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from itertools import chain
+from typing import cast
 
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -22,7 +23,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from weblate.configuration.models import Setting
-from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.base import MachineTranslationError, SettingsDict
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Project, Translation, Unit
 from weblate.trans.templatetags.translations import format_language_string
@@ -34,8 +35,11 @@ from weblate.wladmin.views import MENU as MANAGE_MENU
 
 class MachineryMixin:
     @cached_property
-    def global_settings_dict(self):
-        return Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+    def global_settings_dict(self) -> dict[str, SettingsDict]:
+        return cast(
+            dict[str, SettingsDict],
+            Setting.objects.get_settings_dict(Setting.CATEGORY_MT),
+        )
 
 
 class MachineryProjectMixin(MachineryMixin):
@@ -43,13 +47,13 @@ class MachineryProjectMixin(MachineryMixin):
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
     @cached_property
-    def settings_dict(self):
+    def settings_dict(self) -> dict[str, SettingsDict]:
         return self.project.machinery_settings
 
 
 class MachineryGlobalMixin(MachineryMixin):
     @cached_property
-    def settings_dict(self):
+    def settings_dict(self) -> dict[str, SettingsDict]:
         return self.global_settings_dict
 
 
@@ -68,7 +72,7 @@ class MachineryConfiguration:
     def __init__(
         self,
         machinery,
-        configuration: dict[str, str] | None,
+        configuration: SettingsDict | None,
         sitewide: bool = False,
         project=None,
         is_configured: bool = True,
@@ -131,6 +135,10 @@ class ListMachineryView(TemplateView):
             ),
             key=lambda obj: obj.name,
         )
+
+    @cached_property
+    def settings_dict(self) -> dict[str, SettingsDict]:
+        raise NotImplementedError
 
     def post_setup(self, request, kwargs):
         return
@@ -213,7 +221,7 @@ class EditMachineryView(FormView):
         return result
 
     @cached_property
-    def settings_dict(self):
+    def settings_dict(self) -> dict[str, SettingsDict]:
         raise NotImplementedError
 
     def post_setup(self, request, kwargs):
@@ -276,7 +284,7 @@ class EditMachineryView(FormView):
 
 
 class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
-    def save_settings(self, data):
+    def save_settings(self, data: SettingsDict):
         setting, created = Setting.objects.get_or_create(
             category=Setting.CATEGORY_MT,
             name=self.machinery_id,
@@ -303,7 +311,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
 
 class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
-    def save_settings(self, data):
+    def save_settings(self, data: SettingsDict):
         self.project.machinery_settings[self.machinery_id] = data
         self.project.save(update_fields=["machinery_settings"])
 
@@ -414,16 +422,16 @@ def handle_machinery(request, service, unit, search=None):
 
 
 @require_POST
-def translate(request, unit_id, service):
+def translate(request, unit_id: int, service: str):
     """AJAX handler for translating."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit = get_object_or_404(Unit, pk=unit_id)
     return handle_machinery(request, service, unit)
 
 
 @require_POST
-def memory(request, unit_id):
+def memory(request, unit_id: int):
     """AJAX handler for translation memory."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit = get_object_or_404(Unit, pk=unit_id)
     query = request.POST.get("q")
     if not query:
         return HttpResponseBadRequest("Missing search string")
