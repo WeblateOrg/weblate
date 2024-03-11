@@ -616,3 +616,10 @@ class PseudolocaleAddonForm(BaseAddonForm):
             raise forms.ValidationError(
                 gettext("The source and target have to be different languages.")
             )
+
+    def serialize_form(self):
+        result = dict(self.cleaned_data)
+        # Need to convert to JSON serializable objects
+        result["source"] = result["source"].pk
+        result["target"] = result["target"].pk
+        return result
