@@ -934,6 +934,98 @@ AZURE_PAYLOAD_OLD = """
   "createdDate": "2019-08-06T12:12:53.3798179Z"
 }
 """
+AZURE_PAYLOAD_SPACES = r"""
+{
+    "subscriptionId": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+    "notificationId": 2,
+    "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+    "eventType": "git.push",
+    "publisherId": "tfs",
+    "message": {
+        "text": "Dev User pushed updates to My-Fe-App:dev\r\n(https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev)",
+        "html": "Dev User pushed updates to <a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/\">My-Fe-App</a>:<a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev\">dev</a>",
+        "markdown": "Dev User pushed updates to [My-Fe-App](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/):[dev](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev)"
+    },
+    "detailedMessage": {
+        "text": "Dev User pushed a commit to My-Fe-App:dev\r\n - Add translation from dev ed967ae1 (https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/commit/ed967ae1dd2e97e3bdadf78281c5489c47f971e6)",
+        "html": "Dev User pushed a commit to <a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/\">My-Fe-App</a>:<a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev\">dev</a>\r\n<ul>\r\n<li>Add translation from dev <a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/commit/ed967ae1dd2e97e3bdadf78281c5489c47f971e6\">ed967ae1</a></li>\r\n</ul>",
+        "markdown": "Dev User pushed a commit to [My-Fe-App](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/):[dev](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev)\r\n* Add translation from dev [ed967ae1](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/commit/ed967ae1dd2e97e3bdadf78281c5489c47f971e6)"
+    },
+    "resource": {
+        "refUpdates": [
+            {
+                "name": "refs/heads/dev",
+                "oldObjectId": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+                "newObjectId": "8efced88-c100-41a3-96ca-ee29eb1f877a"
+            }
+        ],
+        "repository": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "name": "My-Fe-App",
+            "url": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "project": {
+                "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+                "name": "NextGen B2B Shop",
+                "url": "https://dev.azure.com/MyOrg/_apis/projects/8efced88-c100-41a3-96ca-ee29eb1f877a",
+                "state": "wellFormed",
+                "visibility": "unchanged",
+                "lastUpdateTime": "0001-01-01T00:00:00"
+            },
+            "defaultBranch": "refs/heads/main",
+            "remoteUrl": "https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App"
+        },
+        "pushedBy": {
+            "displayName": "Dev User",
+            "url": "https://spsprodweu5.vssps.visualstudio.com/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/Identities/8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "_links": {
+                "avatar": {
+                    "href": "https://dev.azure.com/MyOrg/_apis/GraphProfile/MemberAvatars/aad.NzZjOWE5ODgtN2E1OS03NDYwLWIwOGUtZjJhODE3NDVkMjdk"
+                }
+            },
+            "id": "76c9a988-7a59-6460-b08e-f2a81745d27d",
+            "uniqueName": "devuser@email.com",
+            "imageUrl": "https://dev.azure.com/MyOrg/_api/_common/identityImage?id=8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "descriptor": "aad.NzZjOWE5ODgtN2E1OS03NDYwLWIwOGUtZjJhODE3NDVkMjdk"
+        },
+        "pushId": 2952,
+        "date": "2024-03-07T12:27:01.2266022Z",
+        "url": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/pushes/2952",
+        "_links": {
+            "self": {
+                "href": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/pushes/2952"
+            },
+            "repository": {
+                "href": "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a"
+            },
+            "commits": {
+                "href": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/pushes/2952/commits"
+            },
+            "pusher": {
+                "href": "https://spsprodweu5.vssps.visualstudio.com/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/Identities/76c9a988-7a59-6460-b08e-f2a81745d27d"
+            },
+            "refs": {
+                "href": "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/refs/heads/dev"
+            }
+        }
+    },
+    "resourceVersion": "1.0",
+    "resourceContainers": {
+        "collection": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "baseUrl": "https://dev.azure.com/MyOrg/"
+        },
+        "account": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "baseUrl": "https://dev.azure.com/MyOrg/"
+        },
+        "project": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "baseUrl": "https://dev.azure.com/MyOrg/"
+        }
+    },
+    "createdDate": "8efced88-c100-41a3-96ca-ee29eb1f877a"
+}
+"""
 
 GITEA_PAYLOAD = """
 {
@@ -1758,6 +1850,29 @@ class AzureBackendTest(HookBackendTestCase):
                     "git@ssh.dev.azure.com:v3/f/p/ATEST",
                     "https://f.visualstudio.com/p/_git/ATEST",
                     "f@vs-ssh.visualstudio.com:v3/f/p/ATEST",
+                ],
+                "service_long_name": "Azure",
+            },
+        )
+
+    def test_git_spaces(self):
+        self.assert_hook(
+            AZURE_PAYLOAD_SPACES,
+            {
+                "branch": "dev",
+                "full_name": "My-Fe-App",
+                "repo_url": "https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App",
+                "repos": [
+                    "MyOrg@vs-ssh.visualstudio.com:v3/MyOrg/NextGen B2B Shop/My-Fe-App",
+                    "MyOrg@vs-ssh.visualstudio.com:v3/MyOrg/NextGen%20B2B%20Shop/My-Fe-App",
+                    "git@ssh.dev.azure.com:v3/MyOrg/NextGen B2B Shop/My-Fe-App",
+                    "git@ssh.dev.azure.com:v3/MyOrg/NextGen%20B2B%20Shop/My-Fe-App",
+                    "https://MyOrg.visualstudio.com/NextGen B2B Shop/_git/My-Fe-App",
+                    "https://MyOrg.visualstudio.com/NextGen%20B2B%20Shop/_git/My-Fe-App",
+                    "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_git/8efced88-c100-41a3-96ca-ee29eb1f877a",
+                    "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_git/8efced88-c100-41a3-96ca-ee29eb1f877a",
+                    "https://dev.azure.com/MyOrg/NextGen B2B Shop/_git/My-Fe-App",
+                    "https://dev.azure.com/MyOrg/NextGen%20B2B%20Shop/_git/My-Fe-App",
                 ],
                 "service_long_name": "Azure",
             },
