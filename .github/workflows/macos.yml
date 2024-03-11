@@ -46,4 +46,6 @@ jobs:
 
         brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
     - name: Install Weblate
-      run: pip3 install -e .[all,test]
+      run: |
+        python3 -m venv .venv
+        .venv/bin/pip3 install -e .[all,test]
