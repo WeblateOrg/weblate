@@ -24,6 +24,7 @@ jobs:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+      HOMEBREW_NO_INSTALL_UPGRADE: 1
     steps:
     - uses: actions/checkout@v4
     - run: brew update
