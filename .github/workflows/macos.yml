@@ -30,7 +30,7 @@ jobs:
     - run: brew update
     - run: brew upgrade
     - run: brew deps --tree --installed
-    - run: brew unlink python
+    - run: brew uninstall python@3.11
     - run: brew reinstall python@3.12
     - name: Install brew dependencies
       run: |
