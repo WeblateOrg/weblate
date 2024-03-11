@@ -52,7 +52,9 @@ if get_env_bool("WEBLATE_DATABASES", True):
             # Use 'postgresql' or 'mysql'.
             "ENGINE": "django.db.backends.postgresql",
             # Database name.
-            "NAME": get_env_str("POSTGRES_DATABASE", required=True),
+            "NAME": get_env_str(
+                "POSTGRES_DB", get_env_str("POSTGRES_DATABASE"), required=True
+            ),
             # Database user.
             "USER": get_env_str("POSTGRES_USER", required=True),
             # Name of role to alter to set parameters in PostgreSQL,
