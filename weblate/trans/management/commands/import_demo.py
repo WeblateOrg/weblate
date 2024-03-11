@@ -65,7 +65,7 @@ class Command(BaseCommand):
 
         # Install discovery
         DiscoveryAddon.create(
-            component,
+            component=component,
             configuration={
                 "file_format": "po",
                 "match": (
