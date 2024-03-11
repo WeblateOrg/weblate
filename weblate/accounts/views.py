@@ -1431,7 +1431,7 @@ class UserList(ListView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.form = form = self.form_class(request.GET)
-        self.sort_query = None
+        self.sort_query = ""
         if form.is_valid():
             self.sort_query = form.cleaned_data.get("sort_by")
         if not self.sort_query:
