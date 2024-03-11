@@ -35,6 +35,7 @@ jobs:
       run: |
         brew uninstall --ignore-dependencies python@3.11
         brew unlink python@3.12
+        rm -f /usr/local/bin/{2to3,idle3,pydoc3,python3,python3-config}
         brew link --overwrite python@3.12
     - name: Install brew dependencies
       run: |
