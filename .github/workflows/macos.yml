@@ -28,7 +28,9 @@ jobs:
     - uses: actions/checkout@v4
     - run: brew update
     - name: Install Python
-      run: brew link --overwrite python
+      run: |
+        brew uninstall python
+        brew install python@3.12
     - name: Install brew dependencies
       run: |
         # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
@@ -36,6 +38,6 @@ jobs:
         brew install --overwrite --formula /tmp/libxmlsec1.rb
         brew pin libxmlsec1
 
-        brew install --force pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+        brew install --overwrite --force pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
     - name: Install Weblate
       run: pip3 install -e .[all,test]
