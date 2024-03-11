@@ -29,15 +29,19 @@ jobs:
     - run: brew update
     - run: brew list --versions
     - run: brew deps --tree --installed
-    - run: brew uninstall --ignore-dependencies python@3.11
-    - run: brew link --overwrite python@3.12
+    - name: Fix Python
+      # Workaround for https://github.com/actions/setup-python/issues/577
+      run: |
+        brew uninstall --ignore-dependencies python@3.11
+        brew unlink python@3.12
+        brew link --overwrite python@3.12
     - name: Install brew dependencies
       run: |
         # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
         wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
-        brew install --overwrite --formula /tmp/libxmlsec1.rb
+        brew install --formula /tmp/libxmlsec1.rb
         brew pin libxmlsec1
 
-        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+        brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
     - name: Install Weblate
       run: pip3 install -e .[all,test]
