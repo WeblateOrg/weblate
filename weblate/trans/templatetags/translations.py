@@ -743,14 +743,15 @@ def naturaltime(value, now=None):
     if now is None:
         now = timezone.now()
 
-    # Strip microseconds
-    if isinstance(value, datetime):
-        value = value.replace(microsecond=0)
-
     if value < now:
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
+
+    # Strip microseconds
+    if isinstance(value, datetime):
+        value = value.replace(microsecond=0)
+
     return format_html('<span title="{}">{}</span>', value.isoformat(), text)
 
 
