@@ -35,7 +35,7 @@ class TransactionsTestMixin:
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
         if not using_postgresql():
             return False
-        return super()._databases_support_transactions()
+        return super()._databases_support_transactions()  # type: ignore[misc]
 
 
 def adjust_similarity_threshold(value: float):
@@ -66,7 +66,7 @@ def adjust_similarity_threshold(value: float):
 
         # Adjust threshold
         cursor.execute("SELECT set_limit(%s)", [value])
-        connection.weblate_similarity = value
+        connection.weblate_similarity = value  # type: ignore[attr-defined]
 
 
 def count_alnum(string):
@@ -85,10 +85,10 @@ class PostgreSQLFallbackLookupMixin:
     """
 
     def process_lhs(self, compiler, connection, lhs=None):
-        if self._needs_fallback:
-            lhs_sql, params = super().process_lhs(compiler, connection, lhs)
+        if self._needs_fallback:  # type: ignore[attr-defined]
+            lhs_sql, params = super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]
             return f"{lhs_sql} || ''", params
-        return super().process_lhs(compiler, connection, lhs)
+        return super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]
 
 
 class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
