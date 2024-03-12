@@ -757,16 +757,14 @@ class Change(models.Model, UserDisplayMixin):
                 ),
             )
             if reason == "content changed":
-                return format_html(
-                    escape(gettext('The "{}" file was changed.')), filename
-                )
-            if reason == "check forced":
-                return format_html(
-                    escape(gettext('Parsing of the "{}" file was enforced.')), filename
-                )
-            if reason == "new file":
-                return format_html(escape(gettext("File {} was added.")), filename)
-            raise ValueError(f"Unknown reason: {reason}")
+                message = gettext("The “{}” file was changed.")
+            elif reason == "check forced":
+                message = gettext("Parsing of the “{}” file was enforced.")
+            elif reason == "new file":
+                message = gettext("File “{}” was added.")
+            else:
+                raise ValueError(f"Unknown reason: {reason}")
+            return format_html(escape(message), filename)
 
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
