@@ -287,7 +287,7 @@ class BatchMachineTranslation:
             return True
         return False
 
-    def get_cache_key(self, scope: str = "translation", *parts) -> str:
+    def get_cache_key(self, scope: str = "translation", *parts: str | int) -> str:
         """
         Cache key for caching translations.
 
