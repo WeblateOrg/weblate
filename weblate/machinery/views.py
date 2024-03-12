@@ -311,7 +311,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
 
 class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
-    def save_settings(self, data: SettingsDict):
+    def save_settings(self, data: SettingsDict | None):
         self.project.machinery_settings[self.machinery_id] = data
         self.project.save(update_fields=["machinery_settings"])
 

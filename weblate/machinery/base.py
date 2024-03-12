@@ -10,7 +10,7 @@ import random
 import re
 import time
 from collections import defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
@@ -221,7 +221,7 @@ class BatchMachineTranslation:
         """Download list of supported languages from a service."""
         return []
 
-    def map_language_code(self, code):
+    def map_language_code(self, code: str) -> str:
         """Map language code to service specific."""
         if code.endswith("_devel"):
             code = code[:-6]
@@ -287,7 +287,9 @@ class BatchMachineTranslation:
             return True
         return False
 
-    def get_cache_key(self, scope: str = "translation", *parts: str | int) -> str:
+    def get_cache_key(
+        self, scope: str, *, parts: Iterable[str | int] = (), text: None | str = None
+    ) -> str:
         """
         Cache key for caching translations.
 
@@ -300,15 +302,13 @@ class BatchMachineTranslation:
             "mt",
             self.mtid,
             scope,
-            str(calculate_dict_hash(self.settings)),
+            calculate_dict_hash(self.settings),
+            *parts,
         ]
-        for part in parts:
-            if isinstance(part, int):
-                key.append(str(part))
-            else:
-                key.append(str(calculate_hash(part)))
+        if text is not None:
+            key.append(calculate_hash(text))
 
-        return ":".join(key)
+        return ":".join(str(part) for part in key)
 
     def unescape_text(self, text: str):
         """Unescaping of the text with replacements."""
@@ -366,7 +366,7 @@ class BatchMachineTranslation:
             result["text"] = self.uncleanup_text(replacements, result["text"])
             result["source"] = self.uncleanup_text(replacements, result["source"])
 
-    def get_language_possibilities(self, language):
+    def get_language_possibilities(self, language: Language) -> Iterator[str]:
         code = language.code
         yield self.map_language_code(code)
         code = code.replace("-", "_")
@@ -374,7 +374,9 @@ class BatchMachineTranslation:
             code = code.rsplit("_", 1)[0]
             yield self.map_language_code(code)
 
-    def get_languages(self, source_language, target_language):
+    def get_languages(
+        self, source_language: Language, target_language: Language
+    ) -> tuple[str, str]:
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguageError("Same languages")
 
@@ -394,7 +396,9 @@ class BatchMachineTranslation:
     def get_cached(self, source, language, text, threshold, replacements):
         if not self.cache_translations:
             return None, None
-        cache_key = self.get_cache_key(source, language, text, threshold)
+        cache_key = self.get_cache_key(
+            "translation", parts=(source, language, threshold), text=text
+        )
         result = cache.get(cache_key)
         if result and (replacements or self.force_uncleanup):
             self.uncleanup_results(replacements, result)
@@ -638,7 +642,7 @@ class InternalMachineTranslation(MachineTranslation):
     accounting_key = "internal"
     cache_translations = False
 
-    def is_supported(self, source, language):
+    def is_supported(self, source: Language, language: Language):
         """Any language is supported."""
         return True
 
@@ -646,11 +650,11 @@ class InternalMachineTranslation(MachineTranslation):
         """Disable rate limiting."""
         return False
 
-    def get_language_possibilities(self, language):
+    def get_language_possibilities(self, language: Language) -> Iterator[Language]:
         yield get_machinery_language(language)
 
 
-class GlossaryMachineTranslationMixin:
+class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
@@ -691,7 +695,7 @@ class GlossaryMachineTranslationMixin:
         return result
 
     def get_glossary_id(
-        self, source_language: str, target_language: str, unit
+        self, source_language: str, target_language: str, unit: Unit | None
     ) -> int | str | None:
         from weblate.glossary.models import get_glossary_tsv
 
