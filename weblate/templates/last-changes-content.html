@@ -25,10 +25,6 @@
     <td class="history-data full-cell">
         {% if not in_email %}
         <div class="btn-float pull-right flip">
-            <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
-            {% if debug %}
-            <a class="btn btn-link" href="{% url 'show_change' pk=change.pk %}" title="{% trans "View notification" %}">{% icon "bell.svg" %}</a>
-            {% endif %}
             {% if change.can_revert %}
               {% perm 'unit.edit' change.unit as user_can_translate %}
               {% if user_can_translate %}
@@ -41,6 +37,10 @@
                 <a class="btn btn-link red" href="{% url 'manage-access' project=change.project.slug %}?block_user={{ change.user.username }}#block-user" title="{% trans "Block user" %}">{% icon "account-cancel.svg" %}</a>
               {% endif %}
             {% endif %}
+            {% if debug %}
+            <a class="btn btn-link" href="{% url 'show_change' pk=change.pk %}" title="{% trans "View notification" %}">{% icon "bell.svg" %}</a>
+            {% endif %}
+            <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
         </div>
         {% endif %}
         <div class="comment-content">
