@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Sveinn í Felli <sv1@fellsnet.is>, 2023.
+# Sveinn í Felli <sv1@fellsnet.is>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-03-13 21:01+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
 "Language: is\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -80,10 +80,8 @@ msgid "Component list: %s"
 msgstr "Þýðingarhlutalisti: %s"
 
 #: weblate/accounts/forms.py:351
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Fjarlæging notandaaðgangs"
+msgstr "Tölvupóstfang notandaaðgangs"
 
 #: weblate/accounts/forms.py:353
 msgid ""
@@ -127,10 +125,8 @@ msgid "E-mail"
 msgstr "Tölvupóstfang"
 
 #: weblate/accounts/forms.py:424
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Virkjunarpóstur verður sendur hingað."
+msgstr "Tölvupóstur með staðfestingartengli verður sendur hingað."
 
 #: weblate/accounts/forms.py:466
 msgid "New password"
@@ -398,10 +394,9 @@ msgid "Account and all private data removed."
 msgstr "Aðgangur og öll einkagögn fjarlægð."
 
 #: weblate/accounts/models.py:159
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Sendi staðfestingartölvupóst til {email}."
+msgstr "Staðfesting á fjarlægingu aðgangs var send til {email}."
 
 #: weblate/accounts/models.py:160
 #, python-brace-format
@@ -475,10 +470,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Boðið á {site_title} af {username}."
 
 #: weblate/accounts/models.py:185
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Lykilorði breytt."
+msgstr "Lykilorð stillt."
 
 #: weblate/accounts/models.py:191
 msgid "To restore access to your account, please reset your password."
@@ -541,11 +534,9 @@ msgid "Sync with system"
 msgstr ""
 
 #: weblate/accounts/models.py:430
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Yfirlit"
+msgstr "Ljóst"
 
 #: weblate/accounts/models.py:431
 msgctxt "Theme selection"
@@ -758,10 +749,8 @@ msgstr ""
 "tölvupóstfang."
 
 #: weblate/accounts/notifications.py:52
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Tilkynningar"
+msgstr "Engin tilkynning"
 
 #: weblate/accounts/notifications.py:53
 msgid "Instant notification"
@@ -787,15 +776,11 @@ msgid "Operation was performed in the repository"
 msgstr "Strengur uppfærður í hirslunni"
 
 #: weblate/accounts/notifications.py:472
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Aflæsti þýðingarhluta"
+msgstr "Þýðingarhluta var læst eða aflæst"
 
 #: weblate/accounts/notifications.py:479
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
 msgstr "Notkunarleyfi breyttist"
@@ -851,25 +836,19 @@ msgid "Your translation received a comment"
 msgstr "Þýðingaverkefnið þitt var fjarlægt"
 
 #: weblate/accounts/notifications.py:612
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Strengur breytt af"
+msgstr "Streng var breytt af notanda"
 
 #: weblate/accounts/notifications.py:620
-#, fuzzy
-#| msgid "Strings percent"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "Prósent strengja"
+msgstr "Strengur var samþykktur"
 
 #: weblate/accounts/notifications.py:628
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Strengur breytt af"
+msgstr "Streng var breytt"
 
 #: weblate/accounts/notifications.py:637
 #, fuzzy
@@ -2304,11 +2283,9 @@ msgid "Managers"
 msgstr "Stjórnendur"
 
 #: weblate/auth/data.py:253
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control team name"
 msgid "Project creators"
-msgstr "Upplýsingar um verkefni"
+msgstr "Stofnendur verkefnis"
 
 #: weblate/auth/data.py:262
 msgctxt "Per-project access-control team name"
@@ -3550,16 +3527,12 @@ msgid "C format string does not match source"
 msgstr "C-sniðinn strengur samsvarar ekki frumtexta"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Perl-snið"
+msgstr "Perl slaufusvigasnið"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Perl-sniðinn strengur samsvarar ekki frumtexta"
+msgstr "Perl-slaufusvigasniðinn strengur samsvarar ekki frumtexta"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -4027,10 +4000,8 @@ msgid "HTML file"
 msgstr "HTML-skrá"
 
 #: weblate/formats/convert.py:297
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "Markdown-texti"
+msgstr "Markdown-skrá"
 
 #: weblate/formats/convert.py:330
 msgid "OpenDocument file"
@@ -4125,20 +4096,16 @@ msgid "Qt Linguist translation file"
 msgstr "Qt Linguist þýðingaskrá"
 
 #: weblate/formats/ttkit.py:1225
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "XLIFF-þýðingaskrá"
+msgstr "XLIFF 1.2 þýðingaskrá"
 
 #: weblate/formats/ttkit.py:1255
 msgid "XLIFF 1.2 with placeables support"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1262
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "XLIFF 1.1 með gettext-viðaukum"
+msgstr "XLIFF 1.2 með gettext-viðaukum"
 
 #: weblate/formats/ttkit.py:1293
 msgid "iOS strings (UTF-16)"
@@ -4185,10 +4152,8 @@ msgid ".NET resource file"
 msgstr ".NET-tilfangaskrá"
 
 #: weblate/formats/ttkit.py:1423
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Android String Resource"
+msgstr "Mobile Kotlin tilfang"
 
 #: weblate/formats/ttkit.py:1436
 #, fuzzy, python-format
@@ -5420,10 +5385,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Stilla"
+msgstr "Staðfesta"
 
 #: weblate/templates/accounts/contact.html:17
 #, python-format
@@ -6167,10 +6130,8 @@ msgid "Browse all watched projects"
 msgstr "Skoða öll vöktuð verkefni"
 
 #: weblate/templates/accounts/user.html:200
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "Skoða allar breytingar notandans"
+msgstr "Skoða allar breytingar gerðar af þessum notanda"
 
 #: weblate/templates/accounts/user.html:265
 msgid "Group"
@@ -6183,9 +6144,6 @@ msgid "Members"
 msgstr "Meðlimir"
 
 #: weblate/templates/accounts/user.html:276
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "Ekkert"
@@ -6592,8 +6550,6 @@ msgid "Automatic assignment of users is configured for this team"
 msgstr ""
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
 msgstr "Sjálfvirk úthlutun"
 
@@ -7091,10 +7047,8 @@ msgstr "Leita og skipta út"
 #: weblate/templates/category.html:81 weblate/templates/component.html:109
 #: weblate/templates/language-project.html:54
 #: weblate/templates/project.html:125 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "Þýðingar sem á að fjarlægja"
+msgstr "Skipuleggja eða fjarlægja"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:84
@@ -7129,30 +7083,22 @@ msgstr "Ná í þýðingaskrár sem ZIP-skrá"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Ná í þýðingaskrár sem ZIP-skrá"
+msgstr "Ná í þýðingaskrár sem CSV í ZIP-skrá"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:36 weblate/templates/project.html:57
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Ná í þýðingaskrár sem ZIP-skrá"
+msgstr "Ná í þýðingaskrár sem XLIFF 1.1 í ZIP-skrá"
 
 #: weblate/templates/category.html:51 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:37 weblate/templates/project.html:58
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Ná í þýðingaskrár sem ZIP-skrá"
+msgstr "Ná í þýðingaskrár sem XLSX í ZIP-skrá"
 
 #: weblate/templates/category.html:75 weblate/templates/project.html:91
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "Bæta við nýjum notanda"
+msgstr "Bæta við nýjum flokki"
 
 #: weblate/templates/category.html:110 weblate/templates/category.html:116
 #: weblate/templates/project.html:155 weblate/templates/project.html:161
@@ -7160,16 +7106,12 @@ msgid "Browse all project changes"
 msgstr "Skoða allar breytingar í verkefni"
 
 #: weblate/templates/category.html:173 weblate/templates/project.html:239
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "Bæta við notanda"
+msgstr "Bæta við flokki"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename project"
 msgid "Organize category"
-msgstr "Endurnefna verkefni"
+msgstr "Skipuleggja flokk"
 
 #: weblate/templates/category.html:198
 msgid ""
@@ -7185,10 +7127,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:255
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize"
-msgstr "Þýðingar sem á að fjarlægja"
+msgstr "Skipuleggja"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7317,10 +7257,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/component.html:244
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Búa til þýðingarhluta"
+msgstr "Skipuleggja þýðingarhluta"
 
 #: weblate/templates/component.html:248
 msgid "Moving or renaming the component will also change its URLs."
@@ -7623,10 +7561,9 @@ msgid "Translate"
 msgstr "Þýða"
 
 #: weblate/templates/engage.html:68
-#, fuzzy, python-format
-#| msgid "%(language)s glossary for %(project)s"
+#, python-format
 msgid "%(language)s in %(project)s"
-msgstr "%(language)s-orðasafn fyrir %(project)s"
+msgstr "%(language)s í %(project)s"
 
 #: weblate/templates/engage.html:70
 msgid "View project languages"
@@ -7887,10 +7824,8 @@ msgid "Update with merge"
 msgstr ""
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Uppfæra gæðaprófanir"
+msgstr "Uppfæra með rebase"
 
 #: weblate/templates/js/git-status.html:64
 #, fuzzy
@@ -7945,10 +7880,8 @@ msgid "Locking prevents translators from doing changes."
 msgstr ""
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Hættulegt (rautt)"
+msgstr "Hættusvæði"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:503
@@ -9316,10 +9249,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/project.html:261
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Búa til verkefni"
+msgstr "Skipuleggja verkefni"
 
 #: weblate/templates/project.html:265
 msgid "Renaming the project will also change URLs for all its components."
@@ -9888,10 +9819,8 @@ msgid "No strings to translate"
 msgstr "Engir strengir til að þýða"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Bæta við nýjum verkefnum"
+msgstr "Bæta við verkefni"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -9957,10 +9886,8 @@ msgstr "Þýða"
 
 #: weblate/templates/snippets/list-objects.html:245
 #: weblate/templates/snippets/project-workflow-settings.html:11
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customized workflow"
-msgstr "Sérsníða niðurhal"
+msgstr "Sérsniðið verkferli"
 
 #: weblate/templates/snippets/list-objects.html:273
 msgid "Nothing to list here."
@@ -10237,16 +10164,12 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Þýddu %(object)s með %%23Weblate á %(share_url)s!"
 
 #: weblate/templates/snippets/share-menu.html:11
-#, fuzzy
-#| msgid "Share on Facebook"
 msgid "Share on X"
-msgstr "Deila á Facebook"
+msgstr "Deila á X"
 
 #: weblate/templates/snippets/share-menu.html:14
-#, fuzzy
-#| msgid "Share on Facebook"
 msgid "Share on Fediverse"
-msgstr "Deila á Facebook"
+msgstr "Deila með Fediverse-skýjasambandi"
 
 #: weblate/templates/snippets/share-menu.html:17
 msgid "Engage page"
@@ -10316,20 +10239,16 @@ msgid "Accept"
 msgstr "Samþykkja"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Samþykkja og breyta"
+msgstr "Staðfesta og samþykkja"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
 msgstr "Samþykkja og breyta"
 
 #: weblate/templates/snippets/suggestions.html:45
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Eyða tillögu"
+msgstr "Hafna tillögu"
 
 #: weblate/templates/snippets/suggestions.html:58
 msgid "Suggested change:"
@@ -10694,10 +10613,8 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate tókst ekki að ýta breytingum yfir í yfirgagnasafnið."
 
 #: weblate/templates/trans/alert/pushfailure.html:13
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "Frumstilla gagnasafn"
+msgstr "Ýta inn gagnasafnið"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10771,10 +10688,8 @@ msgstr ""
 "var uppfært."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Uppfæra VCS-gagnasafn"
+msgstr "Uppfæra gagnasafnið"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -10956,10 +10871,8 @@ msgstr "Eftirfarandi þýðingarhlutar verða fjarlægðir:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "Eftirfarandi þýðingar verða fjarlægðar:"
+msgstr "Eftirfarandi þýðingaflokkar verða fjarlægðir:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:33
@@ -10984,16 +10897,13 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Ég skil afleiðingarnar, eyða þessari þýðingu"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
 "Það er ekki hægt að afturkalla við þessa aðgerð. Þetta mun eyða endanlega "
-"%(object)s verkefninu ásamt öllu tengdu efni."
+"%(object)s flokknum ásamt öllu tengdu efni."
 
 #: weblate/templates/trans/delete-project.html:10
 #, python-format
@@ -11098,10 +11008,9 @@ msgid "Edit team membership for %(username)s"
 msgstr ""
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "Boð um þátttöku í %(site_title)s"
+msgstr "Boð til %(email)s"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11203,10 +11112,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translate.html:50
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Breyta í Zen-ham"
+msgstr "Opna í Zen-ham"
 
 #: weblate/templates/translate.html:50 weblate/templates/translation.html:204
 #: weblate/templates/zen.html:22
@@ -11488,10 +11395,8 @@ msgid "String age"
 msgstr "Aldur strengs"
 
 #: weblate/templates/translate.html:704 weblate/utils/views.py:180
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Komið fram yfir lokadagsetningu"
+msgstr "Síðast uppfært"
 
 #: weblate/templates/translate.html:710
 msgid "Source string age"
@@ -11560,10 +11465,8 @@ msgstr "Orð"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Control characters"
 msgid "Characters"
-msgstr "Stýristafir"
+msgstr "Stafir"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -11650,28 +11553,21 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitations"
-msgstr "Senda boð aftur"
+msgstr "Boð"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "Senda boð aftur"
+msgstr "Boð um þátttöku"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "Boð um þátttöku í %(site_title)s"
+msgstr "Boð um þátttöku í %(project_name)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "Senda boð aftur"
+msgstr "Samþykkja boðið"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12718,10 +12614,8 @@ msgid "Do not specify both component and project!"
 msgstr ""
 
 #: weblate/trans/models/category.py:37
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "Flokkur"
+msgstr "Heiti flokks"
 
 #: weblate/trans/models/category.py:39 weblate/trans/models/component.py:323
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:132
@@ -12752,8 +12646,6 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:317
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resource updated"
 msgstr "Tilfang uppfært"
 
@@ -12769,10 +12661,8 @@ msgstr "Þýðing breyttist"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:323
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation added"
-msgstr "Gerðar þýðingar"
+msgstr "Þýðingu bætt við"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
@@ -12801,10 +12691,8 @@ msgstr "Þýðing send inn"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:337
-#, fuzzy
-#| msgid "Source string age"
 msgid "Source string added"
-msgstr "Aldur upprunastrengs"
+msgstr "Upprunastreng bætt við"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:339
@@ -12818,17 +12706,13 @@ msgstr "Aflæsti þýðingarhluta"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:343
-#, fuzzy
-#| msgid "Change word"
 msgid "Changes committed"
-msgstr "Breyta orði"
+msgstr "Breytingar sendar inn"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:345
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Breyta lykilorði"
+msgstr "Breytingum ýtt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:347
@@ -12881,10 +12765,8 @@ msgstr "Biluð skrá"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:361
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation removed"
-msgstr "Þýðingar sem á að fjarlægja"
+msgstr "Þýðing fjarlægð"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:363
@@ -12893,10 +12775,8 @@ msgstr "Tillaga fjarlægð"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:365
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation replaced"
-msgstr "Þýðing send inn"
+msgstr "Þýðingu skipt út"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:367
@@ -12910,10 +12790,8 @@ msgstr "Breyttur upprunastrengur"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:371
-#, fuzzy
-#| msgid "String age"
 msgid "String added"
-msgstr "Aldur strengs"
+msgstr "Streng bætt við"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:373
@@ -12924,24 +12802,18 @@ msgstr "Magnbreyting stöðu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:375
-#, fuzzy
-#| msgid "Last change"
 msgid "Visibility changed"
-msgstr "Síðasta breyting"
+msgstr "Sýnileika breytt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "User to add"
 msgid "User added"
-msgstr "Notandi til að bæta við"
+msgstr "Notanda bætt við"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:379
-#, fuzzy
-#| msgid "User profile"
 msgid "User removed"
-msgstr "Notandasnið"
+msgstr "Notandi fjarlægður"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:381
@@ -12955,24 +12827,18 @@ msgstr "Merkt til breytinga"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Component removed"
-msgstr "Þýðingarhluti sem á að fjarlægja"
+msgstr "Þýðingarhluti fjarlægður"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project removed"
-msgstr "Verkefni sem á að fjarlægja"
+msgstr "Verkefni fjarlægt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Project name"
 msgid "Project renamed"
-msgstr "Heiti verkefnis"
+msgstr "Verkefni endurnefnt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:391
@@ -13035,10 +12901,8 @@ msgstr "Læsti þýðingarhluta"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:409
-#, fuzzy
-#| msgid "User identities"
 msgid "User invited"
-msgstr "Auðkenni notanda"
+msgstr "Notanda boðið"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:411
@@ -13096,31 +12960,23 @@ msgstr "Tók út viðbót"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:431
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "Tillaga fjarlægð"
+msgstr "Strengur fjarlægður"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:433
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Þýðingarhluti sem á að fjarlægja"
+msgstr "Athugasemd fjarlægð"
 
 #: weblate/trans/models/change.py:437
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Athugasemd hefur verið leyst."
+msgstr "Athugasemd leyst"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:440
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Útskýring"
+msgstr "Útskýring uppfærð"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:442
@@ -14082,11 +13938,11 @@ msgstr "Setja inn lárétt úrfellingarmerki (ellipsis)"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Setja inn breytilegt bandstrik"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Setja inn óskiptanlegt bil"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14158,7 +14014,7 @@ msgstr "Möguleg uppsetning"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
 #, fuzzy
@@ -15321,7 +15177,7 @@ msgstr "RSA"
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
@@ -15356,10 +15212,9 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Ekki tókst að ná í gagnasafn: %s"
 
 #: weblate/vcs/ssh.py:237
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Það tókst ekki að sækja hýsillykilinn: %s"
+msgstr "Tókst ekki að sækja hýsillykilinn: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
@@ -15433,9 +15288,6 @@ msgid "Premium self-hosted support"
 msgstr "Forgangsstuðningur við sjálfhýsingu"
 
 #: weblate/wladmin/models.py:210
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
 msgstr "Hýstir strengir"
 
