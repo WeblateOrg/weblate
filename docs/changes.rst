@@ -14,6 +14,7 @@ Released on March 26th 2024.
 * Avoid crash on pushing changes to diverged repository.
 * Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
 * :ref:`azure-setup` gracefully handles repositories with spaces in URL.
+* :ref:`mt-deepl` gracefully handles glossaries for language variants.
 
 **Compatibility**
 

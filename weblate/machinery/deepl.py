@@ -171,8 +171,8 @@ class DeepLTranslation(
             self.get_api_url("glossaries"),
             json={
                 "name": name,
-                "source_lang": source_language,
-                "target_lang": target_language,
+                "source_lang": source_language.split("-")[0],
+                "target_lang": target_language.split("-")[0],
                 "entries": tsv,
                 "entries_format": "tsv",
             },
