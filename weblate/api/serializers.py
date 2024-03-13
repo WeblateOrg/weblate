@@ -1395,8 +1395,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
 
     @staticmethod
-    def check_addon(name, target, filter_method):
-        installed = set(filter_method(target).values_list("name", flat=True))
+    def check_addon(name, queryset):
+        installed = set(queryset.values_list("name", flat=True))
         available = {
             x.name for x in ADDONS.values() if x.multiple or x.name not in installed
         }
@@ -1432,13 +1432,13 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         addon = addon_class(Addon())
         if not instance:
             if component:
-                self.check_addon(name, component, Addon.objects.filter_component)
+                self.check_addon(name, Addon.objects.filter_component(component))
                 if not addon.can_install(component, None):
                     raise serializers.ValidationError(
                         {"name": f"could not enable add-on {name}, not compatible"}
                     )
             if project:
-                self.check_addon(name, project, Addon.objects.filter_project)
+                self.check_addon(name, Addon.objects.filter_project(project))
 
         if addon.has_settings() and "configuration" in attrs:
             form = addon.get_add_form(

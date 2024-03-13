@@ -42,11 +42,16 @@ ADDONS = ClassLoader("WEBLATE_ADDONS", False)
 
 
 class AddonQuerySet(models.QuerySet):
+    def filter_for_execution(self, component=None, project=None):
+        queryset = self.filter_sitewide()
+        # Include by component or project
+        if component:
+            queryset |= self.filter_component(component)
+        if project:
+            queryset |= self.filter_project(project)
+        return queryset.distinct()
+
     def filter_component(self, component):
-        if component is None:
-            return self.prefetch_related("event_set").filter(
-                Q(component__isnull=True, project__isnull=True)
-            )
         return self.prefetch_related("event_set").filter(
             Q(component=component)
             | Q(project=component.project)
@@ -230,6 +235,54 @@ class AddonsConf(AppConf):
         prefix = ""
 
 
+def execute_addon_event(
+    addon: Addon,
+    component: Component,
+    scope: Project | Component | str,
+    event: AddonEvent,
+    method: str | Callable,
+    args: tuple | None = None,
+):
+    with transaction.atomic():
+        scope.log_debug("running %s add-on: %s", event.label, addon.name)
+        # Skip unsupported components silently
+        if hasattr(addon.addon, "can_install") and not addon.addon.can_install(
+            component, None
+        ):
+            scope.log_debug(
+                "Skipping incompatible %s add-on: %s for component: %s",
+                event.label,
+                addon.name,
+                component.name,
+            )
+            return
+
+        try:
+            # Execute event in senty span to track performance
+            with sentry_sdk.start_span(
+                op=f"addon.{event.name}", description=addon.name
+            ):
+                if isinstance(method, str):
+                    getattr(addon.addon, method)(*args)
+                else:
+                    # Callback is used in tasks
+                    method(addon)
+        except DjangoDatabaseError:
+            raise
+        except Exception as error:
+            # Log failure
+            scope.log_error("failed %s add-on: %s: %s", event.label, addon.name, error)
+            report_error(cause=f"add-on {addon.name} failed", project=component.project)
+            # Uninstall no longer compatible add-ons
+            if not addon.addon.can_install(scope, None):
+                scope.log_warning(
+                    "uninstalling incompatible %s add-on: %s", event.label, addon.name
+                )
+                addon.disable()
+        else:
+            scope.log_debug("completed %s add-on: %s", event.label, addon.name)
+
+
 def handle_addon_event(
     event: AddonEvent,
     method: str | Callable,
@@ -252,44 +305,22 @@ def handle_addon_event(
     if addon_queryset is None:
         addon_queryset = Addon.objects.filter_event(component, event)
 
-    # Filter matching events
     for addon in addon_queryset:
-        with transaction.atomic():
-            # Extract scope from the add-on model, used for EVENT_DAILY
-            if auto_scope:
-                component = scope = addon.component
+        if auto_scope:
+            component = scope = addon.component
+        elif addon.project:
+            scope = addon.project
+        elif addon.component is None and addon.project is None:
+            scope = "site-wide"  # there is a better way to handle this?
 
-            scope.log_debug("running %s add-on: %s", event.label, addon.name)
-            try:
-                # Execute event in senty span to track performance
-                with sentry_sdk.start_span(
-                    op=f"addon.{event.name}", description=addon.name
-                ):
-                    if isinstance(method, str):
-                        getattr(addon.addon, method)(*args)
-                    else:
-                        # Callback is used in tasks
-                        method(addon)
-            except DjangoDatabaseError:
-                raise
-            except Exception as error:
-                # Log failure
-                scope.log_error(
-                    "failed %s add-on: %s: %s", event.label, addon.name, error
-                )
-                report_error(
-                    cause=f"add-on {addon.name} failed", project=component.project
-                )
-                # Uninstall no longer compatible add-ons
-                if not addon.addon.can_install(component, None):
-                    scope.log_warning(
-                        "uninstalling incompatible %s add-on: %s",
-                        event.label,
-                        addon.name,
-                    )
-                    addon.disable()
-            else:
-                scope.log_debug("completed %s add-on: %s", event.label, addon.name)
+        if isinstance(scope, component):
+            execute_addon_event(addon, component, scope, event, method, args)
+        if isinstance(scope, Project):
+            for _component in component.project.component_set.iterator():
+                execute_addon_event(addon, _component, scope, event, method, args)
+        else:  # site-wide
+            for _component in Component.objects.all().iterator():
+                execute_addon_event(addon, _component, scope, event, method, args)
 
 
 @receiver(vcs_pre_push)

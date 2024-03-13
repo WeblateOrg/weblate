@@ -3559,7 +3559,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         result = defaultdict(list)
         result["__lookup__"] = {}
-        for addon in Addon.objects.filter_component(self):
+        for addon in Addon.objects.filter_for_execution(component=self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
             result["__all__"].append(addon)
