@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
-"PO-Revision-Date: 2024-03-12 20:24+0000\n"
+"PO-Revision-Date: 2024-03-13 21:02+0000\n"
 "Last-Translator: cat <158170307+cultcats@users.noreply.github.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -157,6 +157,10 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"Selv for `Privat` projekter vil nogle oplysninger om dit projekt blive "
+"afsløret: statistik- og sprogoversigt for hele instansen vil indeholde tal "
+"for alle projekter på trods af indstillingen for adgangskontrol. Dit "
+"projektnavn og andre oplysninger kan ikke afsløres gennem dette."
 
 #: ../../admin/access.rst:77
 msgid ""
@@ -185,14 +189,19 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
+"Brugere med rettigheden :guilabel:`Administrér projekt adgang` (se "
+":ref:`privileges`) kan administrere brugere i projekter ved at tilføje dem "
+"til teams. Den oprindelige samling af teams leveres af Weblate, men der kan "
+"defineres flere, som giver mere finkornet adgangskontrol. Du kan begrænse "
+"teams til sprog og tildele dem bestemte adgangsroller (se :ref:`privileges`)."
 
 #: ../../admin/access.rst:96
 msgid "The following teams are automatically created for every project:"
-msgstr ""
+msgstr "De følgende teams oprettes automatisk for hvert projekt:"
 
 #: ../../admin/access.rst:98
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "For `Offentlig`, `Beskyttet` og `Privat` projekter:"
 
 #: ../../admin/access.rst:101
 msgid "Administration"
@@ -200,7 +209,7 @@ msgstr "Administration"
 
 #: ../../admin/access.rst:101
 msgid "Includes all permissions available for the project."
-msgstr ""
+msgstr "Inkluderer alle tilgængelige tilladelser for projektet."
 
 #: ../../admin/access.rst:104
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
@@ -212,7 +221,7 @@ msgstr ""
 
 #: ../../admin/access.rst:106
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Kun til `Beskyttet` og `Privat` projekter:"
 
 #: ../../admin/access.rst:109
 msgid "Translate"
@@ -220,7 +229,7 @@ msgstr "Oversæt"
 
 #: ../../admin/access.rst:109
 msgid "Can translate the project and upload translations made offline."
-msgstr ""
+msgstr "Kan oversætte projektet og uploade oversættelser, der er lavet offline."
 
 #: ../../admin/access.rst:113 ../../devel/community.rst:48
 msgid "Sources"
@@ -296,6 +305,8 @@ msgstr "Fakturering"
 #: ../../admin/access.rst:135
 msgid "Can access billing info and settings (see :ref:`billing`)."
 msgstr ""
+"Kan få adgang til faktureringsoplysninger og -indstillinger (se "
+":ref:`billing`)."
 
 #: ../../admin/access.rst:139
 msgid ""
@@ -303,6 +314,8 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Disse funktioner er tilgængelige på :guilabel:`Adgangskontrol` siden, som "
+"kan tilgås fra projektets menu :guilabel:`Administrér` ↓ :guilabel:`Brugere`."
 
 #: ../../admin/access.rst:143
 msgid "Team administrators"
@@ -313,6 +326,8 @@ msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
 msgstr ""
+"Hvert team kan have en teamadministrator, som kan tilføje og fjerne brugere "
+"i teamet. Det er nyttigt, hvis du vil opbygge selvstyrende teams."
 
 #: ../../admin/access.rst:153
 msgid "New user invitation"
@@ -325,6 +340,10 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"Tilføjelse af eksisterende brugere sender dem en invitation til at bekræfte. "
+"Med :setting:`REGISTRATION_OPEN` kan administratoren også invitere nye "
+"brugere via e-mail. Inviterede brugere skal gennemføre "
+"registreringsprocessen for at få adgang til projektet."
 
 #: ../../admin/access.rst:160
 msgid ""
@@ -5724,20 +5743,16 @@ msgid "``ignore-bbcode``"
 msgstr "``ignore-bbcode``"
 
 #: ../../admin/checks.rst:175
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-bbcode` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-bbcode` kvalitetstjek over."
 
 #: ../../admin/checks.rst:176 ../../user/checks.rst:129
 msgid "``ignore-duplicate``"
 msgstr "``ignore-duplicate``"
 
 #: ../../admin/checks.rst:177
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-duplicate` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-duplicate` kvalitetstjek over."
 
 #: ../../admin/checks.rst:178 ../../user/checks.rst:151
 msgid "``ignore-check-glossary``"
@@ -5754,60 +5769,48 @@ msgid "``ignore-double-space``"
 msgstr "``ignore-double-space``"
 
 #: ../../admin/checks.rst:181
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-double-space` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-double-space` kvalitetstjek over."
 
 #: ../../admin/checks.rst:182 ../../user/checks.rst:429
 msgid "``ignore-angularjs-format``"
 msgstr "``ignore-angularjs-format``"
 
 #: ../../admin/checks.rst:183
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-angularjs-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-angularjs-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:184 ../../user/checks.rst:447
 msgid "``ignore-c-format``"
 msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:185
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-c-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-c-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:186 ../../user/checks.rst:467
 msgid "``ignore-c-sharp-format``"
 msgstr "``ignore-c-sharp-format``"
 
 #: ../../admin/checks.rst:187
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-c-sharp-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-c-sharp-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:188 ../../user/checks.rst:485
 msgid "``ignore-es-format``"
 msgstr "``ignore-es-format``"
 
 #: ../../admin/checks.rst:189
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-es-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-es-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:190 ../../user/checks.rst:505
 msgid "``ignore-i18next-interpolation``"
 msgstr "``ignore-i18next-interpolation``"
 
 #: ../../admin/checks.rst:191
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-i18next-interpolation` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-i18next-interpolation` kvalitetstjek over."
 
 #: ../../admin/checks.rst:192 ../../user/checks.rst:527
 #: ../../user/checks.rst:1745
@@ -5815,550 +5818,440 @@ msgid "``ignore-icu-message-format``"
 msgstr "``ignore-icu-message-format``"
 
 #: ../../admin/checks.rst:193
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-icu-message-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-icu-message-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:194 ../../user/checks.rst:592
 msgid "``ignore-java-printf-format``"
 msgstr "``ignore-java-printf-format``"
 
 #: ../../admin/checks.rst:195
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-java-printf-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:196 ../../user/checks.rst:617
 msgid "``ignore-java-format``"
 msgstr "``ignore-java-format``"
 
 #: ../../admin/checks.rst:197
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-java-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-java-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:198 ../../user/checks.rst:645
 msgid "``ignore-javascript-format``"
 msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:199
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-javascript-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-javascript-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:200 ../../user/checks.rst:663
 msgid "``ignore-lua-format``"
 msgstr "``ignore-lua-format``"
 
 #: ../../admin/checks.rst:201
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-lua-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-lua-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:202 ../../user/checks.rst:681
 msgid "``ignore-object-pascal-format``"
 msgstr "``ignore-object-pascal-format``"
 
 #: ../../admin/checks.rst:203
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-object-pascal-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-object-pascal-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:204 ../../user/checks.rst:703
 msgid "``ignore-percent-placeholders``"
 msgstr "``ignore-percent-placeholders``"
 
 #: ../../admin/checks.rst:205
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-percent-placeholders` kvalitetstjek over."
 
 #: ../../admin/checks.rst:206 ../../user/checks.rst:720
 msgid "``ignore-perl-brace-format``"
 msgstr "``ignore-perl-brace-format``"
 
 #: ../../admin/checks.rst:207
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-perl-brace-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-perl-brace-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:208 ../../user/checks.rst:738
 msgid "``ignore-perl-format``"
 msgstr "``ignore-perl-format``"
 
 #: ../../admin/checks.rst:209
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-perl-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-perl-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:210 ../../user/checks.rst:758
 msgid "``ignore-php-format``"
 msgstr "``ignore-php-format``"
 
 #: ../../admin/checks.rst:211
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-php-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-php-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:212 ../../user/checks.rst:778
 msgid "``ignore-python-brace-format``"
 msgstr "``ignore-python-brace-format``"
 
 #: ../../admin/checks.rst:213
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-python-brace-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-python-brace-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:214 ../../user/checks.rst:798
 msgid "``ignore-python-format``"
 msgstr "``ignore-python-format``"
 
 #: ../../admin/checks.rst:215
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-python-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-python-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:216 ../../user/checks.rst:818
 msgid "``ignore-qt-format``"
 msgstr "``ignore-qt-format``"
 
 #: ../../admin/checks.rst:217
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-qt-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-qt-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:218 ../../user/checks.rst:836
 msgid "``ignore-qt-plural-format``"
 msgstr "``ignore-qt-plural-format``"
 
 #: ../../admin/checks.rst:219
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-qt-plural-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-qt-plural-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:220 ../../user/checks.rst:854
 msgid "``ignore-ruby-format``"
 msgstr "``ignore-ruby-format``"
 
 #: ../../admin/checks.rst:221
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-ruby-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-ruby-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:222 ../../user/checks.rst:875
 msgid "``ignore-scheme-format``"
 msgstr "``ignore-scheme-format``"
 
 #: ../../admin/checks.rst:223
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-scheme-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-scheme-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:224 ../../user/checks.rst:895
 msgid "``ignore-vue-format``"
 msgstr "``ignore-vue-format``"
 
 #: ../../admin/checks.rst:225
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-vue-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-vue-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:226 ../../user/checks.rst:915
 msgid "``ignore-translated``"
 msgstr "``ignore-translated``"
 
 #: ../../admin/checks.rst:227
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-translated` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-translated` kvalitetstjek over."
 
 #: ../../admin/checks.rst:228 ../../user/checks.rst:929
 msgid "``ignore-inconsistent``"
 msgstr "``ignore-inconsistent``"
 
 #: ../../admin/checks.rst:229
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-inconsistent` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-inconsistent` kvalitetstjek over."
 
 #: ../../admin/checks.rst:230 ../../user/checks.rst:972
 msgid "``ignore-kashida``"
 msgstr "``ignore-kashida``"
 
 #: ../../admin/checks.rst:231
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-kashida` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-kashida` kvalitetstjek over."
 
 #: ../../admin/checks.rst:232 ../../user/checks.rst:992
 msgid "``ignore-md-link``"
 msgstr "``ignore-md-link``"
 
 #: ../../admin/checks.rst:233
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-md-link` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-md-link` kvalitetstjek over."
 
 #: ../../admin/checks.rst:234 ../../user/checks.rst:1011
 msgid "``ignore-md-reflink``"
 msgstr "``ignore-md-reflink``"
 
 #: ../../admin/checks.rst:235
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-md-reflink` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-md-reflink` kvalitetstjek over."
 
 #: ../../admin/checks.rst:236 ../../user/checks.rst:1029
 msgid "``ignore-md-syntax``"
 msgstr "``ignore-md-syntax``"
 
 #: ../../admin/checks.rst:237
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-md-syntax` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-md-syntax` kvalitetstjek over."
 
 #: ../../admin/checks.rst:238 ../../user/checks.rst:1047
 msgid "``ignore-max-length``"
 msgstr "``ignore-max-length``"
 
 #: ../../admin/checks.rst:239
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-max-length` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-max-length` kvalitetstjek over."
 
 #: ../../admin/checks.rst:240 ../../user/checks.rst:1076
 msgid "``ignore-max-size``"
 msgstr "``ignore-max-size``"
 
 #: ../../admin/checks.rst:241
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-max-size` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-max-size` kvalitetstjek over."
 
 #: ../../admin/checks.rst:242 ../../user/checks.rst:1118
 msgid "``ignore-escaped-newline``"
 msgstr "``ignore-escaped-newline``"
 
 #: ../../admin/checks.rst:243
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-escaped-newline` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-escaped-newline` kvalitetstjek over."
 
 #: ../../admin/checks.rst:244 ../../user/checks.rst:1132
 msgid "``ignore-end-colon``"
 msgstr "``ignore-end-colon``"
 
 #: ../../admin/checks.rst:245
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-colon` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-colon` kvalitetstjek over."
 
 #: ../../admin/checks.rst:246 ../../user/checks.rst:1151
 msgid "``ignore-end-ellipsis``"
 msgstr "``ignore-end-ellipsis``"
 
 #: ../../admin/checks.rst:247
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-ellipsis` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-ellipsis` kvalitetstjek over."
 
 #: ../../admin/checks.rst:248 ../../user/checks.rst:1172
 msgid "``ignore-end-exclamation``"
 msgstr "``ignore-end-exclamation``"
 
 #: ../../admin/checks.rst:249
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Skip the :ref:`check-end-exclamation` quality check."
-msgstr "Efterstillede udråbstegn"
+msgstr "Spring :ref:`check-end-exclamation` kvalitetstjek over."
 
 #: ../../admin/checks.rst:250 ../../user/checks.rst:1192
 msgid "``ignore-end-stop``"
 msgstr "``ignore-end-stop``"
 
 #: ../../admin/checks.rst:251
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-stop` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-stop` kvalitetstjek over."
 
 #: ../../admin/checks.rst:252 ../../user/checks.rst:1211
 msgid "``ignore-end-question``"
 msgstr "``ignore-end-question``"
 
 #: ../../admin/checks.rst:253
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-question` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-question` kvalitetstjek over."
 
 #: ../../admin/checks.rst:254 ../../user/checks.rst:1231
 msgid "``ignore-end-semicolon``"
 msgstr "``ignore-end-semicolon``"
 
 #: ../../admin/checks.rst:255
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-semicolon` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-semicolon` kvalitetstjek over."
 
 #: ../../admin/checks.rst:256 ../../user/checks.rst:1248
 msgid "``ignore-newline-count``"
 msgstr "``ignore-newline-count``"
 
 #: ../../admin/checks.rst:257
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-newline-count` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-newline-count` kvalitetstjek over."
 
 #: ../../admin/checks.rst:258 ../../user/checks.rst:1263
 msgid "``ignore-plurals``"
 msgstr "``ignore-plurals``"
 
 #: ../../admin/checks.rst:259
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-plurals` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-plurals` kvalitetstjek over."
 
 #: ../../admin/checks.rst:260 ../../user/checks.rst:1281
 msgid "``ignore-placeholders``"
 msgstr "``ignore-placeholders``"
 
 #: ../../admin/checks.rst:261
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-placeholders` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-placeholders` kvalitetstjek over."
 
 #: ../../admin/checks.rst:262 ../../user/checks.rst:1324
 msgid "``ignore-punctuation-spacing``"
 msgstr "``ignore-punctuation-spacing``"
 
 #: ../../admin/checks.rst:263
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Skip the :ref:`check-punctuation-spacing` quality check."
-msgstr "Efterstillede udråbstegn"
+msgstr "Spring :ref:`check-punctuation-spacing` kvalitetstjek over."
 
 #: ../../admin/checks.rst:264 ../../user/checks.rst:1346
 msgid "``ignore-regex``"
 msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:265
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-regex` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-regex` kvalitetstjek over."
 
 #: ../../admin/checks.rst:266 ../../user/checks.rst:1367
 msgid "``ignore-reused``"
 msgstr "``ignore-reused``"
 
 #: ../../admin/checks.rst:267
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-reused` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-reused` kvalitetstjek over."
 
 #: ../../admin/checks.rst:268 ../../user/checks.rst:1381
 msgid "``ignore-same-plurals``"
 msgstr "``ignore-same-plurals``"
 
 #: ../../admin/checks.rst:269
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-same-plurals` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-same-plurals` kvalitetstjek over."
 
 #: ../../admin/checks.rst:270 ../../user/checks.rst:1395
 msgid "``ignore-begin-newline``"
 msgstr "``ignore-begin-newline``"
 
 #: ../../admin/checks.rst:271
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-begin-newline` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-begin-newline` kvalitetstjek over."
 
 #: ../../admin/checks.rst:272 ../../user/checks.rst:1413
 msgid "``ignore-begin-space``"
 msgstr "``ignore-begin-space``"
 
 #: ../../admin/checks.rst:273
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-begin-space` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-begin-space` kvalitetstjek over."
 
 #: ../../admin/checks.rst:274 ../../user/checks.rst:1427
 msgid "``ignore-end-newline``"
 msgstr "``ignore-end-newline``"
 
 #: ../../admin/checks.rst:275
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-newline` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-newline` kvalitetstjek over."
 
 #: ../../admin/checks.rst:276 ../../user/checks.rst:1445
 msgid "``ignore-end-space``"
 msgstr "``ignore-end-space``"
 
 #: ../../admin/checks.rst:277
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-space` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-end-space` kvalitetstjek over."
 
 #: ../../admin/checks.rst:278 ../../user/checks.rst:1461
 msgid "``ignore-same``"
 msgstr "``ignore-same``"
 
 #: ../../admin/checks.rst:279
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-same` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-same` kvalitetstjek over."
 
 #: ../../admin/checks.rst:280 ../../user/checks.rst:1497
 msgid "``ignore-safe-html``"
 msgstr "``ignore-safe-html``"
 
 #: ../../admin/checks.rst:281
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-safe-html` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-safe-html` kvalitetstjek over."
 
 #: ../../admin/checks.rst:282 ../../user/checks.rst:1524
 msgid "``ignore-url``"
 msgstr "``ignore-url``"
 
 #: ../../admin/checks.rst:283
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-url` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-url` kvalitetstjek over."
 
 #: ../../admin/checks.rst:284 ../../user/checks.rst:1539
 msgid "``ignore-xml-tags``"
 msgstr "``ignore-xml-tags``"
 
 #: ../../admin/checks.rst:285
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-xml-tags` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-xml-tags` kvalitetstjek over."
 
 #: ../../admin/checks.rst:286 ../../user/checks.rst:1563
 msgid "``ignore-xml-invalid``"
 msgstr "``ignore-xml-invalid``"
 
 #: ../../admin/checks.rst:287
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-xml-invalid` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-xml-invalid` kvalitetstjek over."
 
 #: ../../admin/checks.rst:288 ../../user/checks.rst:1584
 msgid "``ignore-zero-width-space``"
 msgstr "``ignore-zero-width-space``"
 
 #: ../../admin/checks.rst:289
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-zero-width-space` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-zero-width-space` kvalitetstjek over."
 
 #: ../../admin/checks.rst:290 ../../user/checks.rst:1611
 msgid "``ignore-ellipsis``"
 msgstr "``ignore-ellipsis``"
 
 #: ../../admin/checks.rst:291
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-ellipsis` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-ellipsis` kvalitetstjek over."
 
 #: ../../admin/checks.rst:292
 msgid "``ignore-icu-message-format-syntax``"
 msgstr "``ignore-icu-message-format-syntax``"
 
 #: ../../admin/checks.rst:293
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-icu-message-format-syntax` kvalitetstjek over."
 
 #: ../../admin/checks.rst:294 ../../user/checks.rst:1760
 msgid "``ignore-long-untranslated``"
 msgstr "``ignore-long-untranslated``"
 
 #: ../../admin/checks.rst:295
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-long-untranslated` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-long-untranslated` kvalitetstjek over."
 
 #: ../../admin/checks.rst:296 ../../user/checks.rst:1775
 msgid "``ignore-multiple-failures``"
 msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/checks.rst:297
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-multiple-failures` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-multiple-failures` kvalitetstjek over."
 
 #: ../../admin/checks.rst:298 ../../user/checks.rst:1796
 msgid "``ignore-unnamed-format``"
 msgstr "``ignore-unnamed-format``"
 
 #: ../../admin/checks.rst:299
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-unnamed-format` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-unnamed-format` kvalitetstjek over."
 
 #: ../../admin/checks.rst:301 ../../user/checks.rst:1812
 msgid "``ignore-optional-plural``"
 msgstr "``ignore-optional-plural``"
 
 #: ../../admin/checks.rst:301
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-optional-plural` quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring :ref:`check-optional-plural` kvalitetstjek over."
 
 #: ../../admin/checks.rst:305
 msgid ""
@@ -6629,10 +6522,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:29
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Configure this as a list of e-mail addresses:"
-msgstr "Indtast en gyldig e-postadresse."
+msgstr "Konfigurér dette som en liste over e-mailadresser:"
 
 #: ../../admin/config.rst:37
 msgid ":setting:`CONTACT_FORM`, :setting:`ADMINS`"
@@ -6930,10 +6821,8 @@ msgid ":doc:`checks` recalculation"
 msgstr ""
 
 #: ../../admin/config.rst:216
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "Mulig konfiguration"
+msgstr "Mulige valg:"
 
 #: ../../admin/config.rst:218
 msgid "``monthly`` (this is the default)"
@@ -7038,10 +6927,8 @@ msgid ":file:`avatar`"
 msgstr ":file:`avatar`"
 
 #: ../../admin/config.rst:297
-#, fuzzy
-#| msgid "Change your avatar at gravatar.com"
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr "Udskift din avatar på gravatar.com"
+msgstr "Cachede brugeravatarer, se :ref:`avatars`."
 
 #: ../../admin/config.rst:298
 msgid ":file:`static`"
@@ -7435,10 +7322,8 @@ msgid "DEFAULT_LANGUAGE"
 msgstr ""
 
 #: ../../admin/config.rst:615
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-source_language` for any new components."
-msgstr "Komponent navn"
+msgstr ":ref:`component-source_language` for nye komponenter."
 
 #: ../../admin/config.rst:617
 msgid ""
@@ -7457,10 +7342,8 @@ msgid "DEFAULT_MERGE_STYLE"
 msgstr ""
 
 #: ../../admin/config.rst:629
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-merge_style` for any new components."
-msgstr "Komponent navn"
+msgstr ":ref:`component-merge_style` for nye komponenter."
 
 #: ../../admin/config.rst:631
 msgid "`rebase` - default"
@@ -7769,10 +7652,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:926
-#, fuzzy
-#| msgid "Default component list"
 msgid "On by default."
-msgstr "Standard komponentliste"
+msgstr "Til som standard."
 
 #: ../../admin/config.rst:931
 msgid "HIDE_VERSION"
