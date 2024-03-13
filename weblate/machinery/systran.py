@@ -27,15 +27,12 @@ class SystranTranslation(MachineTranslation):
         )
         payload = response.json()
         self.check_failure(payload)
-        return [ 
-             (item["source"], item["target"]) 
-             for item in payload["languagePairs"] 
-        ]
-    
-    def is_supported(self, source, language): 
-        """Check whether given language combination is supported.""" 
+        return [(item["source"], item["target"]) for item in payload["languagePairs"]]
+
+    def is_supported(self, source, language):
+        """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
-    
+
     def download_translations(
         self,
         source,
