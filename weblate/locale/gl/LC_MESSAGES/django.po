@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-11 12:04+0000\n"
+"PO-Revision-Date: 2024-03-13 21:01+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -737,7 +737,7 @@ msgstr ""
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
-msgstr "Non pode enviar traducións sen asignar un enderezo de correo-e."
+msgstr "Vde. non pode enviar traducións sen asignar un enderezo de correo-e."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -870,8 +870,8 @@ msgstr "Este contrasinal e de apenas un carácter."
 #: weblate/accounts/password_validation.py:32
 msgid "Your password can't consist of a single character or only whitespace."
 msgstr ""
-"O seu contrasinal non pode consistir soamente nun único carácter ou espazos "
-"en branco."
+"O contrasinal non pode consistir soamente nun único carácter ou espazos en "
+"branco."
 
 #: weblate/accounts/password_validation.py:54
 msgid "Can not reuse previously used password."
@@ -880,7 +880,7 @@ msgstr "Non é posíbel reutilizar un contrasinal anterior."
 #: weblate/accounts/password_validation.py:60
 msgid "Your password can't match a password you have used in the past."
 msgstr ""
-"O seu contrasinal non debe coincidir cun contrasinal xa empregado no pasado."
+"O contrasinal non debe coincidir cun contrasinal xa empregado anteriormente."
 
 #: weblate/accounts/pipeline.py:343
 msgid "You can not complete password reset while signed in."
@@ -890,7 +890,7 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:346 weblate/accounts/pipeline.py:366
 msgid "The registration link has been invalidated."
-msgstr "Invalidouse a ligazón para rexistrarse."
+msgstr "A ligazón para rexistrarse foi invalidada."
 
 #: weblate/accounts/pipeline.py:358
 msgid "You can not complete registration while signed in."
@@ -921,7 +921,7 @@ msgstr "Retirar a conta"
 
 #: weblate/accounts/views.py:161 weblate/accounts/views.py:829
 msgid "User registration"
-msgstr "Rexistro do usuario"
+msgstr "Rexistro de usuario"
 
 #: weblate/accounts/views.py:191
 msgid "Could not send message to administrator."
@@ -937,7 +937,7 @@ msgstr "O seu perfil foi actualizado."
 
 #: weblate/accounts/views.py:377
 msgid "User profile"
-msgstr "Perfil do usuario"
+msgstr "Perfil de usuario"
 
 #: weblate/accounts/views.py:397
 msgid "Your account has been removed."
@@ -1198,9 +1198,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Cando se importa unha nova cadea de orixe dende o SCV, márcase como que "
-"precisa de edición no Weblate. Deste xeito vostede pode sinxelamente filtrar "
-"e editar cadeas de orixe escritas polos desenvolvedores."
+"Sempre que se importa unha nova cadea de orixe do SCV, márcase como que "
+"precisa de edición en Weblate. Deste xeito, pode filtrar e editar doadamente "
+"as cadeas de orixe escritas polos desenvolvedores."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
@@ -1572,7 +1572,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:504
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Extraer cadeas de ficheiros HTML"
 
 #: weblate/addons/forms.py:507
 msgid ""
@@ -1581,9 +1581,9 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:535
-#, fuzzy, python-format
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Fallou o procesamento do formulario!"
+msgstr "Non foi posíbel analizar o selector de CSS: %s"
 
 #: weblate/addons/forms.py:547 weblate/billing/models.py:284
 #: weblate/templates/snippets/query-builder.html:14
@@ -2879,10 +2879,8 @@ msgid "The following format strings are missing: {}"
 msgstr "Fixéronse as seguintes correccións á tradución: {}"
 
 #: weblate/checks/base.py:301
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following format strings are extra: {}"
-msgstr "Fixéronse as seguintes correccións á tradución: {}"
+msgstr "Os seguintes formatos de cadea son adicionais: {}"
 
 #: weblate/checks/chars.py:27
 msgid "Starting newline"
@@ -3227,16 +3225,12 @@ msgid "Replacements while rendering"
 msgstr "Substitución da cadea"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String variant"
-msgstr "Cadeas con suxestións"
+msgstr "Variante de cadea"
 
 #: weblate/checks/flags.py:74
-#, fuzzy
-#| msgid "Failing file"
 msgid "Fluent type"
-msgstr "Falla o ficheiro"
+msgstr "Tipo Fluent"
 
 #: weblate/checks/flags.py:265
 #, fuzzy, python-format
@@ -3257,10 +3251,9 @@ msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "Tradución"
 
 #: weblate/checks/flags.py:279
-#, fuzzy, python-format
-#| msgid "Translation"
+#, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Tradución"
+msgstr "Faltan parámetros para a marca de tradución: «%s»"
 
 #: weblate/checks/fluent/inner_html.py:127
 #, python-brace-format
@@ -3268,6 +3261,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"A referencia Fluent en {sequence} pode expandirse a unha etiqueta HTML. "
+"Quizais use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:142
 #, python-brace-format
@@ -3275,6 +3270,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"A referencia Fluent en {sequence} pode expandirse a unha referencia de "
+"caracteres HTML. Quizais use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:170
 #, python-brace-format
@@ -3302,6 +3299,7 @@ msgstr ""
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"O HTML interno Fluent non debe incluir {sequence}. Quizais use {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:226
 #, python-brace-format
@@ -3365,16 +3363,16 @@ msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "HTML interno de orixe Fluent"
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "A orixe Fluent debe ser HTML interno válido"
 
 #: weblate/checks/fluent/inner_html.py:1014
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "No valor Fluent falta unha etiqueta HTML {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1019
 #, python-brace-format
@@ -3382,11 +3380,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"No valor Fluent falta unha etiqueta HTML {tag} para as seguintes variantes: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1033
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "O valor Fluent ten unha etiqueta HTML adicional non agardada {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1038
 #, python-brace-format
@@ -3394,6 +3394,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"O valor Fluent ten unha etiqueta HTML adicional non agardada {tag} para as "
+"seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1115
 #, python-brace-format
@@ -3402,12 +3404,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"As seguintes variantes no valor Fluent orixinal non teñen polo menos unha "
+"variante coincidente na tradución co mesmo conxunto de elementos HTML: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1130
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"O valor Fluent traducido non ten unha variante coincidente no orixinal co "
+"mesmo conxunto de elementos HTML."
 
 #: weblate/checks/fluent/inner_html.py:1137
 #, python-brace-format
@@ -3415,49 +3422,49 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"As seguintes variantes no valor Fluent traducido non teñen unha variante "
+"coincidente na orixinal co mesmo conxunto de elementos HTML: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1218
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Fluent translation inner HTML"
-msgstr "Traducións do Weblate"
+msgstr "HTML interno de tradución Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1219
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "O destino Fluent debe ser HTML interno válido que coincida"
 
 #: weblate/checks/fluent/parts.py:62
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "O valor Fluent está baleiro."
 
 #: weblate/checks/fluent/parts.py:64
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "O valor Fluent debe estar baleiro."
 
 #: weblate/checks/fluent/parts.py:70
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Falta o atributo Fluent: {hint}"
 
 #: weblate/checks/fluent/parts.py:79
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Atributo Fluent non agardado: {hint}"
 
 #: weblate/checks/fluent/parts.py:111
-#, fuzzy
-#| msgid "Failing file"
 msgid "Fluent parts"
-msgstr "Falla o ficheiro"
+msgstr "Partes Fluent"
 
 #: weblate/checks/fluent/parts.py:112
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "As partes Fluent deben coincidir"
 
 #: weblate/checks/fluent/references.py:372
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
 msgstr ""
+"Ao atributo {attribute} de Fluent fáltalle unha referencia {reference} de "
+"Fluent."
 
 #: weblate/checks/fluent/references.py:380
 #, python-brace-format
@@ -3465,11 +3472,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Ao atributo {attribute} de Fluent fáltalle unha referencia {reference} de "
+"Fluent para as seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/references.py:389
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Ao valor de Fluent faltadle una referencia {reference} de Fluent."
 
 #: weblate/checks/fluent/references.py:394
 #, python-brace-format
@@ -3477,6 +3486,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"Ao valor de Fluent faltadle una referencia {reference} de Fluent para as "
+"seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/references.py:410
 #, python-brace-format
@@ -3484,6 +3495,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"O atributo {attribute} de Fluent ten unha referencia {reference} de Fluent "
+"adicional non agardada."
 
 #: weblate/checks/fluent/references.py:418
 #, python-brace-format
@@ -3491,11 +3504,15 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"O atributo {attribute} de Fluent ten unha referencia {reference} de Fluent "
+"adicional non agardada para las siguientes variantes: {variant_list}."
 
 #: weblate/checks/fluent/references.py:428
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
 msgstr ""
+"O valor de Fluent ten unha referencia {reference} adicional non agardada de "
+"Fluent."
 
 #: weblate/checks/fluent/references.py:434
 #, python-brace-format
@@ -3503,6 +3520,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"O valor de Fluent ten unha referencia {reference} adicional non agardada de "
+"Fluent para as seguintes variantes: {variant_list}."
 
 #: weblate/checks/fluent/references.py:523
 #, python-brace-format
@@ -3511,6 +3530,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"As seguintes variantes do atributo {attribute} orixinal de Fluent non teñen "
+"polo menos unha variante coincidente na tradución co mesmo conxunto de "
+"referencias de Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:533
 #, python-brace-format
@@ -3519,6 +3541,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"As seguintes variantes do valor orixinal de Fluent non teñen polo menos unha "
+"variante coincidente na tradución co mesmo conxunto de referencias de Fluent:"
+" {variant_list}."
 
 #: weblate/checks/fluent/references.py:549
 #, python-brace-format
@@ -3526,6 +3551,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"O atributo traducido Fluent {attribute} non ten unha variante coincidente no "
+"orixinal co mesmo conxunto de referencias Fluent."
 
 #: weblate/checks/fluent/references.py:557
 #, python-brace-format
@@ -3534,12 +3561,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"As seguintes variantes do atributo Fluent {attribute} traducido non teñen "
+"unha variante coincidente no orixinal co mesmo conxunto de referencias "
+"Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:568
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"O valor de Fluent traducido non ten unha variante correspondente no orixinal "
+"co mesmo conxunto de referencias de Fluent."
 
 #: weblate/checks/fluent/references.py:575
 #, python-brace-format
@@ -3548,59 +3580,51 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"As seguintes variantes do valor traducido de Fluent non teñen unha variante "
+"coincidente no orixinal co mesmo conxunto de referencias de Fluent: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:669
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Preferencias"
+msgstr "Referencias Fluent"
 
 #: weblate/checks/fluent/references.py:670
 msgid "Fluent references should match"
-msgstr ""
+msgstr "As referencias Fluent deben coincidir"
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Produciuse un erro de sintaxe Fluent: {error}."
 
 #: weblate/checks/fluent/syntax.py:46
-#, fuzzy
-#| msgid "Source string:"
 msgid "Fluent source syntax"
-msgstr "Cadea de orixe:"
+msgstr "Sintaxe de orixe Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Erro de sintaxe Fluent na orixe"
 
 #: weblate/checks/fluent/syntax.py:63
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Fluent translation syntax"
-msgstr "Traducións do Weblate"
+msgstr "Sintaxe de tradución Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Comentario nunha tradución propia"
+msgstr "Produciuse un erro de sintaxe Fluent na tradución"
 
 #: weblate/checks/format.py:403
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "Fixéronse as seguintes correccións á tradución: %s"
+msgstr "As seguintes cadeas de formato están na orde incorrecta: %s"
 
 #: weblate/checks/format.py:485
 msgid "Python format"
 msgstr "Formato Python"
 
 #: weblate/checks/format.py:486
-#, fuzzy
-#| msgid "Format string does not match source"
 msgid "Python format string does not match source"
-msgstr "O formato da cadea non casa coa orixe"
+msgstr "O formato Python da cadea non coincide coa orixe"
 
 #: weblate/checks/format.py:494
 msgid "PHP format"
@@ -4399,9 +4423,9 @@ msgid "Mobile Kotlin Resource"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1436
-#, fuzzy, python-format
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "Fallou o procesamento do formulario!"
+msgstr "Non foi posíbel analizar a chave: %s"
 
 #: weblate/formats/ttkit.py:1440
 msgid "JSON file"
@@ -4540,10 +4564,8 @@ msgid "Stringsdict file"
 msgstr "Cadeas con comentarios"
 
 #: weblate/formats/ttkit.py:2111
-#, fuzzy
-#| msgid "Failing file"
 msgid "Fluent file"
-msgstr "Falla o ficheiro"
+msgstr "Ficheiro Fluent"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -5210,10 +5232,9 @@ msgid "US"
 msgstr ""
 
 #: weblate/machinery/forms.py:211
-#, fuzzy, python-format
-#| msgid "Failed to parse %d matched files!"
+#, python-format
 msgid "Could not parse JSON: %s"
-msgstr "Fallou ao procesar os %d ficheiros atopados!"
+msgstr "Non foi posíbel analizar o JSON: %s"
 
 #: weblate/machinery/forms.py:217
 #, fuzzy
@@ -5331,16 +5352,14 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Non se atoparon cadeas relacionadas no corrector."
 
 #: weblate/memory/models.py:164 weblate/memory/models.py:170
-#, fuzzy, python-format
-#| msgid "Failed to parse %d matched files!"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "Fallou ao procesar os %d ficheiros atopados!"
+msgstr "Non fopi posíbel analizar o ficheiro JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Failed to parse %d matched files!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Fallou ao procesar os %d ficheiros atopados!"
+msgstr "Non foi posíbel analizar o ficheiro TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -9170,7 +9189,7 @@ msgstr "Falla o ficheiro"
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, python-format
 msgid "Parse error in %(component)s"
-msgstr "Erro de análise en %(component)s"
+msgstr "Produciuse un erro de análise en %(component)s"
 
 #: weblate/templates/mail/pending_suggestions.html:10
 #: weblate/trans/filter.py:29 weblate/trans/filter.py:126
@@ -11335,10 +11354,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr ""
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr "Bloquear a tradución para evitar que outros se poñan a traducir."
+msgstr "O complemento Weblate CDN non foi quen de analizar os ficheiros HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -11581,12 +11598,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr "Bloquear a tradución para evitar que outros se poñan a traducir."
+msgstr ""
+"Weblate non foi quen de analizar os ficheiros de tradución mentres "
+"actualizaba as traducións."
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
@@ -11663,6 +11680,8 @@ msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
+"A comprobación pódese activar engadindo o marcador correspondente aos "
+"marcadores de cadea ou de compoñente."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "At least one screenshot has no string assigned to it."
@@ -12451,6 +12470,8 @@ msgstr "Para todos os idiomas"
 #: weblate/templates/translate.html:500
 msgid "Selecting this option will set the corresponding ignore flag."
 msgstr ""
+"Ao seleccionar esta opción estabelecerase o marcador de ignorar "
+"correspondente."
 
 #: weblate/templates/translate.html:529
 #, python-format
@@ -12554,13 +12575,13 @@ msgstr "Comprobacións"
 #: weblate/templates/translate.html:761
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> foi extraído de %(filename)s."
 
 #: weblate/templates/translate.html:766 weblate/templates/translate.html:771
 #: weblate/templates/translate.html:776
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> é herdado de %(object)s."
 
 #: weblate/templates/translate.html:802
 #, fuzzy, python-format
@@ -13600,9 +13621,8 @@ msgid "Translation flags to add"
 msgstr "Tradución"
 
 #: weblate/trans/forms.py:2484
-#, fuzzy
 msgid "Translation flags to remove"
-msgstr "Contexto da tradución"
+msgstr "Marcadores de tradución para eliminar"
 
 #: weblate/trans/forms.py:2488
 msgid "Labels to add"
@@ -13741,16 +13761,16 @@ msgid "Add screenshots to show where strings are being used."
 msgstr ""
 
 #: weblate/trans/guide.py:196
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Cadeas duplicadas para a súa tradución."
+msgstr "Use marcadores para indicar as cadeas especiais na súa tradución."
 
 #: weblate/trans/guide.py:216
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
+"Engade a marca de safe-html (html seguro) para evitar HTML perigoso dos "
+"tradutores para as cadeas que se representan como HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -13806,10 +13826,8 @@ msgstr "Fallou a actualización do repositorio: %s"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:297
-#, fuzzy
-#| msgid "Failed to parse translation template."
 msgid "Could not parse translation files."
-msgstr "Fallou ao procesar o modelo da tradución."
+msgstr "Non foi posíbel analizar os ficheiros de tradución."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:304
@@ -14164,10 +14182,8 @@ msgstr "Axente do usuario"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:379
-#, fuzzy
-#| msgid "User profile"
 msgid "User removed"
-msgstr "Perfil do usuario"
+msgstr "Usuario retirado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:381
@@ -14317,7 +14333,7 @@ msgstr "Fallou a actualización do repositorio: %s"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:425
 msgid "Add-on installed"
-msgstr ""
+msgstr "O engadido foi instalado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
@@ -14327,90 +14343,70 @@ msgstr "Cambiou a configuración do engadido"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:429
 msgid "Add-on uninstalled"
-msgstr ""
+msgstr "O engadido foi desinstalado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:431
 msgid "String removed"
-msgstr "Cadea retirada"
+msgstr "A cadea foi retirada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:433
-#, fuzzy
-#| msgid "Subproject to use"
 msgid "Comment removed"
-msgstr "Subproxectos para usar"
+msgstr "O comentario foi retirado"
 
 #: weblate/trans/models/change.py:437
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Comentario da tradución eliminado."
+msgstr "Comentario resolto"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:440
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation updated"
-msgstr "Tradución"
+msgstr "Explicación actualizada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:442
-#, fuzzy
-#| msgid "Author name"
 msgid "Category removed"
-msgstr "Nome do autor"
+msgstr "A categoría foi retirada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:444
-#, fuzzy
-#| msgid "Author name"
 msgid "Category renamed"
-msgstr "Nome do autor"
+msgstr "Cambiouse o nome da categoría"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:446
-#, fuzzy
-#| msgid "Author name"
 msgid "Category moved"
-msgstr "Nome do autor"
+msgstr "A categoría foi movida"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:448
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Falla o ficheiro"
+msgstr "Produciuse un fallo ao gardar a cadea"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "Failed to update repository: %s"
 msgid "String added in the repository"
-msgstr "Fallou a actualización do repositorio: %s"
+msgstr "Cadea engadida no repositorio"
 
 #: weblate/trans/models/change.py:524
-#, fuzzy
-#| msgid "This translation is currently locked for updates!"
 msgid "The component was automatically locked because of an alert."
-msgstr "Neste intre, esta tradución está bloqueada para actualizacións!"
+msgstr "O compoñente bloqueouse automaticamente por mor dunha alerta."
 
 #: weblate/trans/models/change.py:528
 msgid "Fixing an alert automatically unlocked the component."
-msgstr ""
+msgstr "O arranxo dunha alerta desbloqueou automaticamente o compoñente."
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:597
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
 
 #: weblate/trans/models/change.py:760
-#, fuzzy
-#| msgid "Last name"
 msgid "The \"{}\" file was changed."
-msgstr "Segundo apelido"
+msgstr "O ficheiro «{}» foi modificado."
 
 #: weblate/trans/models/change.py:764
 msgid "Parsing of the \"{}\" file was enforced."
@@ -14418,12 +14414,12 @@ msgstr "Aplicouse a análise do ficheiro «{}»."
 
 #: weblate/trans/models/change.py:767
 msgid "File {} was added."
-msgstr ""
+msgstr "Engadiuse o ficheiro «{}»."
 
 #: weblate/trans/models/change.py:771
 msgctxt "License information not available"
 msgid "N/A"
-msgstr "Sen datos"
+msgstr "N/D"
 
 #: weblate/trans/models/change.py:773
 #, fuzzy, python-format
@@ -14722,6 +14718,8 @@ msgstr "Tradución"
 #: weblate/trans/models/component.py:532 weblate/trans/models/unit.py:374
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+"Marcadores adicionais separados por comas para influír no comportamento de "
+"Weblate."
 
 #: weblate/trans/models/component.py:538
 #, fuzzy
@@ -14774,6 +14772,9 @@ msgid ""
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
+"Activa a extracción e a retirada de cadeas directamente en Weblate. Se as "
+"cadeas son extraídas do orixe do código ou xestionadas externamente, "
+"probabelmente prefira mantelo desactivado."
 
 #: weblate/trans/models/component.py:593
 msgid "Merge style"
@@ -15058,10 +15059,9 @@ msgstr ""
 "forneceu un ficheiro base para facelo."
 
 #: weblate/trans/models/component.py:2761
-#, fuzzy, python-format
-#| msgid "Failed translation"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "Fallou a tradución"
+msgstr "Non foi posíbel analizar o ficheiro base para novas traducións: %s"
 
 #: weblate/trans/models/component.py:2765
 #, fuzzy
@@ -15090,10 +15090,9 @@ msgid "Using a .pot file as base file is unsupported."
 msgstr "Non se admite o uso dun ficheiro .pot como ficheiro base."
 
 #: weblate/trans/models/component.py:2825
-#, fuzzy, python-format
-#| msgid "Failed to parse translation template."
+#, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "Fallou ao procesar o modelo da tradución."
+msgstr "Non foi posíbel analizar o ficheiro base de tradución: %s"
 
 #: weblate/trans/models/component.py:2836
 #, python-brace-format
@@ -15368,10 +15367,9 @@ msgstr ""
 "tradución, engada un ficheiro da lingua no repositorio."
 
 #: weblate/trans/models/translation.py:222
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Produciuse un fallo ao procesar o ficheiro %(file)s: %(error)s"
+msgstr "Non foi posíbel analizar o ficheiro %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1040
 #: weblate/trans/models/translation.py:1111
@@ -15882,9 +15880,9 @@ msgstr ""
 "on their own suggestions."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
+#, python-format
 msgid "Could not parse flags: %s"
-msgstr "Fallou o procesamento do formulario!"
+msgstr "Non foi posíbel analizar os indicadores: %s"
 
 #: weblate/trans/validators.py:51
 #, fuzzy, python-format
@@ -15991,10 +15989,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr ""
 
 #: weblate/trans/views/create.py:389
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Could not parse uploaded ZIP file."
-msgstr "Fallou ao procesar os %d ficheiros atopados!"
+msgstr "Non foi posíbel analizar o arquivo ZIP enviado."
 
 #: weblate/trans/views/dashboard.py:140
 msgid ""
@@ -16492,10 +16488,8 @@ msgid "Missing query string."
 msgstr "Cadea traducida desaparecida!"
 
 #: weblate/utils/forms.py:42 weblate/utils/forms.py:47
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not parse query string: {}"
-msgstr "Fallou o procesamento do formulario!"
+msgstr "Non foi posíbel analizar a cadea de consulta: {}"
 
 #: weblate/utils/forms.py:99
 msgid "Missing username or e-mail."
