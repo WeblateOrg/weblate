@@ -27,8 +27,15 @@ class SystranTranslation(MachineTranslation):
         )
         payload = response.json()
         self.check_failure(payload)
-        return [pair["target"] for pair in payload["languagePairs"]]
-
+        return [ 
+             (item["source"], item["target"]) 
+             for item in payload["languagePairs"] 
+        ]
+    
+    def is_supported(self, source, language): 
+        """Check whether given language combination is supported.""" 
+        return (source, language) in self.supported_languages
+    
     def download_translations(
         self,
         source,
@@ -40,7 +47,7 @@ class SystranTranslation(MachineTranslation):
     ):
         """Download list of possible translations from a service."""
         response = self.request(
-            "post",
+            "get",
             "https://api-translate.systran.net/translation/text/translate",
             params={
                 "key": self.settings["key"],
