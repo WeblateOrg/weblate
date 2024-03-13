@@ -31,16 +31,23 @@ def sync_glossary_languages(pk: int, component: Component | None = None):
 
     # Identify unnecessary empty glossary languages
     empty_glossary_languages = set(component.glossary_languages.all()) - set(
-        component.translations.filter(glossary_entries__isnull=False).values_list("language", flat=True))
+        component.translations.filter(glossary_entries__isnull=False).values_list(
+            "language", flat=True
+        )
+    )
 
     # Remove unnecessary empty glossary languages
     for glossary_language in empty_glossary_languages:
         component.remove_language(glossary_language)
 
     # Identify removed translation languages and their associated glossary languages
-    removed_languages = Language.objects.filter(component=component).exclude(pk__in=language_ids)
+    removed_languages = Language.objects.filter(component=component).exclude(
+        pk__in=language_ids
+    )
     for removed_language in removed_languages:
-        removed_glossary_languages = component.glossary_languages.filter(code=removed_language.code)
+        removed_glossary_languages = component.glossary_languages.filter(
+            code=removed_language.code
+        )
         for glossary_language in removed_glossary_languages:
             component.remove_language(glossary_language)
 
