@@ -46,7 +46,7 @@ DATABASES["default"]["PORT"] = os.environ.get("CI_DB_PORT", "")
 ADMINS = (("Weblate test", "noreply@weblate.org"),)
 
 # The secret key is needed for tests
-SECRET_KEY = "4bc968d5-ee92-42de-8eff-cfa315606f34"  # noqa: S105
+SECRET_KEY = "secret key used for tests only"  # noqa: S105
 
 SITE_DOMAIN = "example.com"
 
