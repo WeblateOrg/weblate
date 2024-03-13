@@ -91,6 +91,20 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-")
 
+    def check_failure(self, response):
+        super().check_failure(response)
+        # Microsoft tends to use utf-8-sig instead of plain utf-8
+        response.encoding = response.apparent_encoding
+        if (
+            response.url.startswith("https://api.cognitive.microsofttranslator.com/")
+            and response.status_code == 200
+        ):
+            payload = response.json()
+
+            # We should get an object, string usually means an error
+            if isinstance(payload, str):
+                raise MachineTranslationError(payload)
+
     def download_languages(self):
         """
         Download list of supported languages from a service.
@@ -110,10 +124,6 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
-
-        # We should get an object, string usually means an error
-        if isinstance(payload, str):
-            raise MachineTranslationError(payload)
 
         return payload["translation"].keys()
 

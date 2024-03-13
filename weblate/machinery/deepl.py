@@ -13,6 +13,7 @@ from .base import (
     BatchMachineTranslation,
     DownloadMultipleTranslations,
     GlossaryMachineTranslationMixin,
+    MachineTranslationError,
     XMLMachineTranslationMixin,
 )
 from .forms import DeepLMachineryForm
@@ -45,6 +46,17 @@ class DeepLTranslation(
 
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
+
+    def check_failure(self, response):
+        if response.status_code != 200:
+            try:
+                payload = response.json()
+            except ValueError:
+                pass
+            else:
+                if "message" in payload:
+                    MachineTranslationError(payload["message"])
+        super().check_failure(response)
 
     def download_languages(self):
         response = self.request(

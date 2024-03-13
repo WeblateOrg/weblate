@@ -43,15 +43,19 @@ class GoogleTranslation(GoogleBaseTranslation):
     def get_identifier(cls):
         return "google-translate"
 
+    def check_failure(self, response):
+        super().check_failure(response)
+        payload = response.json()
+
+        if "error" in payload:
+            raise MachineTranslationError(payload["error"]["message"])
+
     def download_languages(self):
         """List of supported languages."""
         response = self.request(
             "get", GOOGLE_API_ROOT + "languages", params={"key": self.settings["key"]}
         )
         payload = response.json()
-
-        if "error" in payload:
-            raise MachineTranslationError(payload["error"]["message"])
 
         return [d["language"] for d in payload["data"]["languages"]]
 
@@ -77,9 +81,6 @@ class GoogleTranslation(GoogleBaseTranslation):
             },
         )
         payload = response.json()
-
-        if "error" in payload:
-            raise MachineTranslationError(payload["error"]["message"])
 
         translation = payload["data"]["translations"][0]["translatedText"]
 

@@ -1,7 +1,7 @@
 .. _machine-translation-setup:
 
-Configuring automatic suggestions
-=================================
+Automatic suggestions
+=====================
 
 .. versionchanged:: 4.13
 

@@ -177,6 +177,11 @@ class BatchMachineTranslation:
     def get_auth(self) -> None | tuple[str, str] | AuthBase:
         return None
 
+    def check_failure(self, response):
+        # Directly raise error as last resort, subclass can prepend this
+        # with something more clever
+        response.raise_for_status()
+
     def request(self, method, url, skip_auth=False, **kwargs):
         """Perform JSON request."""
         # Create custom headers
@@ -200,22 +205,9 @@ class BatchMachineTranslation:
             **kwargs,
         )
 
-        # Directly raise error when response is empty
-        if response.content:
-            response.raise_for_status()
+        self.check_failure(response)
 
         return response
-
-    def request_status(self, method, url, **kwargs):
-        response = self.request(method, url, **kwargs)
-        payload = response.json()
-
-        # Check response status
-        if payload["responseStatus"] != 200:
-            raise MachineTranslationError(payload["responseDetails"])
-
-        # Return data
-        return payload
 
     def download_languages(self):
         """Download list of supported languages from a service."""
@@ -781,3 +773,14 @@ class XMLMachineTranslationMixin:
 
     def make_re_placeholder(self, text: str):
         return re.escape(text)
+
+
+class ResponseStatusMachineTranslation(MachineTranslation):
+    def check_failure(self, response):
+        payload = response.json()
+
+        # Check response status
+        if payload["responseStatus"] != 200:
+            raise MachineTranslationError(payload["responseDetails"])
+
+        super().check_failure(response)

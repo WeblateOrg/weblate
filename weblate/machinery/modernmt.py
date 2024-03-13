@@ -41,6 +41,13 @@ class ModernMTTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
+    def check_failure(self, response):
+        super().check_failure(response)
+        payload = response.json()
+
+        if "error" in payload:
+            raise MachineTranslationError(payload["error"]["message"])
+
     def download_languages(self):
         """List of supported languages."""
         response = self.request("get", self.get_api_url("languages"))
@@ -65,9 +72,6 @@ class ModernMTTranslation(MachineTranslation):
             params={"q": text, "source": source, "target": language},
         )
         payload = response.json()
-
-        if "error" in payload:
-            raise MachineTranslationError(payload["error"]["message"])
 
         yield {
             "text": payload["data"]["translation"],

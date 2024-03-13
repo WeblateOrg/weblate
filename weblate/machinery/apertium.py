@@ -4,7 +4,10 @@
 
 from functools import reduce
 
-from .base import DownloadTranslations, MachineTranslation
+from .base import (
+    DownloadTranslations,
+    ResponseStatusMachineTranslation,
+)
 from .forms import URLMachineryForm
 
 LANGUAGE_MAP = {
@@ -67,7 +70,7 @@ LANGUAGE_MAP = {
 }
 
 
-class ApertiumAPYTranslation(MachineTranslation):
+class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
     """Apertium machine translation support."""
 
     name = "Apertium APy"
@@ -90,7 +93,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        data = self.request_status("get", self.get_api_url("listPairs"))
+        data = self.request("get", self.get_api_url("listPairs")).json()
         return [
             (item["sourceLanguage"], item["targetLanguage"])
             for item in data["responseData"]
@@ -115,9 +118,9 @@ class ApertiumAPYTranslation(MachineTranslation):
             "q": text,
             "markUnknown": "no",
         }
-        response = self.request_status(
+        response = self.request(
             "get", self.get_api_url("translate"), params=args
-        )
+        ).json()
 
         yield {
             "text": response["responseData"]["translatedText"],

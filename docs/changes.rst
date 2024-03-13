@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
+* Improved error reporting in :ref:`machine-translation-setup`.
 
 **Bug fixes**
 
