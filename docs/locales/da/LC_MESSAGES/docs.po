@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
-"PO-Revision-Date: 2024-03-13 21:02+0000\n"
+"PO-Revision-Date: 2024-03-14 13:36+0000\n"
 "Last-Translator: cat <158170307+cultcats@users.noreply.github.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -35,7 +35,7 @@ msgstr ""
 
 #: ../../admin/access.rst:12
 msgid "Project access control"
-msgstr "Projektet adgangskontrol"
+msgstr "Projekt adgangskontrol"
 
 #: ../../admin/access.rst:16
 msgid ""
@@ -124,9 +124,7 @@ msgstr "Ikke tilgængeligt på Hosted Weblate."
 
 #: ../../admin/access.rst:56
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
-"Du bliver nødt til at opsætte alle tilladelser ved hjælp af :ref:`custom-"
-"acl`."
+msgstr "Du skal opsætte alle tilladelser ved hjælp af :ref:`custom-acl`."
 
 #: ../../admin/access.rst:58
 msgid ""
@@ -169,8 +167,8 @@ msgid ""
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
 "Det faktiske sæt af tilladelser, der som standard er tilgængelige for "
-"brugere i `Offentlig`, `Beskyttet` og `Privat` projekter, kan omdefineres af "
-"Weblate-instansadministratoren ved hjælp af :ref:`custom settings <custom-"
+"brugere i `Offentlig`, `Beskyttet` og `Private` projekter, kan omdefineres "
+"af Weblate-instansadministratoren ved hjælp af :ref:`custom settings <custom-"
 "acl>`."
 
 #: ../../admin/access.rst:83
@@ -190,10 +188,11 @@ msgid ""
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
 "Brugere med rettigheden :guilabel:`Administrér projekt adgang` (se "
-":ref:`privileges`) kan administrere brugere i projekter ved at tilføje dem "
+":ref:`rettigheder`) kan administrere brugere i projekter ved at tilføje dem "
 "til teams. Den oprindelige samling af teams leveres af Weblate, men der kan "
 "defineres flere, som giver mere finkornet adgangskontrol. Du kan begrænse "
-"teams til sprog og tildele dem bestemte adgangsroller (se :ref:`privileges`)."
+"teams til sprog og tildele dem bestemte adgangsroller (se "
+":ref:`rettigheder`)."
 
 #: ../../admin/access.rst:96
 msgid "The following teams are automatically created for every project:"
@@ -217,7 +216,7 @@ msgstr ""
 
 #: ../../admin/access.rst:104
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Kan godkende oversættelser under revision."
 
 #: ../../admin/access.rst:106
 msgid "For `Protected` and `Private` projects only:"
@@ -314,7 +313,7 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
-"Disse funktioner er tilgængelige på :guilabel:`Adgangskontrol` siden, som "
+"Disse funktioner er tilgængelige på :guilabel:`Adgangskontrol`-siden, som "
 "kan tilgås fra projektets menu :guilabel:`Administrér` ↓ :guilabel:`Brugere`."
 
 #: ../../admin/access.rst:143
@@ -351,24 +350,34 @@ msgid ""
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
+"Det er ikke nødvendigt at have rettigheder til hele sitet for at gøre det. "
+"Tilladelse til adgangsstyring i projektets omfang (f.eks. et medlemskab af "
+"`Administration`-teamet) ville være tilstrækkeligt."
 
 #: ../../admin/access.rst:166
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
+"Hvis den inviterede bruger ikke nåede at få sin invitation, skal der "
+"oprettes en ny invitation."
 
 #: ../../admin/access.rst:169
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"De samme slags invitationer er tilgængelige på hele hjemmesiden fra :ref:`"
+"administrationsgrænsefladen (<management-interface>)` på fanen :guilabel: "
+"`Brugere`."
 
 #: ../../admin/access.rst:174
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
 msgstr ""
+"Weblate opretter nu ikke automatisk konti eller tilføjer brugere til teams. "
+"Det sker kun efter bekræftelse fra brugeren."
 
 #: ../../admin/access.rst:180
 msgid "Blocking users"
@@ -380,10 +389,14 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Hvis nogle brugere opfører sig dårligt i dit projekt, har du mulighed for at "
+"blokere dem fra at bidrage. Den blokerede bruger vil stadig kunne se "
+"projektet, hvis vedkommende har tilladelser til det, men ville ikke kunne "
+"bidrage."
 
 #: ../../admin/access.rst:189
 msgid "Per-project permission management"
-msgstr ""
+msgstr "Tilladelsesadministration pr. projekt"
 
 #: ../../admin/access.rst:191
 msgid ""
@@ -391,6 +404,9 @@ msgid ""
 "(see :ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the "
 "Weblate user interface."
 msgstr ""
+"Du kan indstille dine projekter til :guilabel:`Beskyttet` eller "
+":guilabel:`Privat` (se :ref:`acl`), og :ref:`administrér brugere <manage-"
+"acl>` pr. projekt i Weblates brugergrænseflade."
 
 #: ../../admin/access.rst:195
 msgid ""
@@ -601,7 +617,7 @@ msgstr "Brugere, roller, teams og tilladelser"
 
 #: ../../admin/access.rst:309
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Godkendelsesmodellerne består af adskillige objekter:"
 
 #: ../../admin/access.rst:312
 msgid "`Permission`"
@@ -862,7 +878,7 @@ msgstr "Indbyggede roller"
 
 #: ../../admin/access.rst:471
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "Fakturering (se :ref:`fakturering`)"
 
 #: ../../admin/access.rst:471
 msgid "View billing info"
@@ -21183,7 +21199,7 @@ msgstr ""
 
 #: ../../api.rst:1389
 msgid "version control system"
-msgstr "udgavekontrolsystem"
+msgstr "versionskontrolsystem"
 
 #: ../../api.rst:1393
 msgid "Deletes a component."
