@@ -3151,32 +3151,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         update_alerts(self)
 
-        # Pick random translation with translated strings except source one
-        translation = (
-            self.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
-            .exclude(language_id=self.source_language_id)
-            .first()
-        )
-        if translation:
-            allunits = translation.unit_set
-        else:
-            allunits = self.source_translation.unit_set
-
-        source_space = allunits.filter(source__contains=" ")
-        target_space = allunits.filter(
-            state__gte=STATE_TRANSLATED, target__contains=" "
-        )
-        if (
-            not self.is_glossary
-            and not self.template
-            and allunits.count() > 3
-            and not source_space.exists()
-            and target_space.exists()
-        ):
-            self.add_alert("MonolingualTranslation")
-        else:
-            self.delete_alert("MonolingualTranslation")
-
         self.update_link_alerts()
 
     def is_old_unused(self):
