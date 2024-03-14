@@ -39,8 +39,10 @@ def register(cls):
     return cls
 
 
-def update_alerts(component: Component):
-    for alert in ALERTS.values():
+def update_alerts(component: Component, alerts: set[str] | None = None):
+    for name, alert in ALERTS.items():
+        if alerts and name not in alerts:
+            continue
         result = alert.check_component(component)
         if result is None:
             continue
