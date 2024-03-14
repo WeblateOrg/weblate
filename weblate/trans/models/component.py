@@ -3076,6 +3076,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_debug("triggering add-on: %s", addon.name)
                 addon.addon.post_configure_run()
 
+        # Update libre checklist upon save on all components in a project
+        if (
+            settings.OFFER_HOSTING
+            and self.project.billings
+            and self.project.billing.plan.price == 0
+        ):
+            for component in self.project.child_components:
+                update_alerts(component, {"NoLibreConditions"})
+
     def update_variants(self, updated_units=None):
         from weblate.trans.models import Unit
 
