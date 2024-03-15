@@ -3320,6 +3320,7 @@ const core = require('@sentry/core');
 const utils = require('@sentry/utils');
 const debugBuild = require('../common/debug-build.js');
 const backgroundtab = require('./backgroundtab.js');
+const instrument = require('./instrument.js');
 const index = require('./metrics/index.js');
 const request = require('./request.js');
 const router = require('./router.js');
@@ -3336,9 +3337,13 @@ const DEFAULT_BROWSER_TRACING_OPTIONS = {
   startTransactionOnLocationChange: true,
   startTransactionOnPageLoad: true,
   enableLongTask: true,
+  enableInp: false,
   _experiments: {},
   ...request.defaultRequestInstrumentationOptions,
 };
+
+/** We store up to 10 interaction candidates max to cap memory usage. This is the same cap as getINP from web-vitals */
+const MAX_INTERACTIONS = 10;
 
 /**
  * The Browser Tracing integration automatically instruments browser pageload/navigation
@@ -3396,12 +3401,23 @@ class BrowserTracing  {
     }
 
     this._collectWebVitals = index.startTrackingWebVitals();
+    /** Stores a mapping of interactionIds from PerformanceEventTimings to the origin interaction path */
+    this._interactionIdtoRouteNameMapping = {};
+
+    if (this.options.enableInp) {
+      index.startTrackingINP(this._interactionIdtoRouteNameMapping);
+    }
     if (this.options.enableLongTask) {
       index.startTrackingLongTasks();
     }
     if (this.options._experiments.enableInteractions) {
       index.startTrackingInteractions();
     }
+
+    this._latestRoute = {
+      name: undefined,
+      context: undefined,
+    };
   }
 
   /**
@@ -3466,6 +3482,10 @@ class BrowserTracing  {
       this._registerInteractionListener();
     }
 
+    if (this.options.enableInp) {
+      this._registerInpInteractionListener();
+    }
+
     request.instrumentOutgoingRequests({
       traceFetch,
       traceXHR,
@@ -3528,8 +3548,8 @@ class BrowserTracing  {
         : // eslint-disable-next-line deprecation/deprecation
           finalContext.metadata;
 
-    this._latestRouteName = finalContext.name;
-    this._latestRouteSource = getSource(finalContext);
+    this._latestRoute.name = finalContext.name;
+    this._latestRoute.context = finalContext;
 
     // eslint-disable-next-line deprecation/deprecation
     if (finalContext.sampled === false) {
@@ -3599,7 +3619,7 @@ class BrowserTracing  {
         return undefined;
       }
 
-      if (!this._latestRouteName) {
+      if (!this._latestRoute.name) {
         debugBuild.DEBUG_BUILD && utils.logger.warn(`[Tracing] Did not create ${op} transaction because _latestRouteName is missing.`);
         return undefined;
       }
@@ -3608,11 +3628,13 @@ class BrowserTracing  {
       const { location } = types.WINDOW;
 
       const context = {
-        name: this._latestRouteName,
+        name: this._latestRoute.name,
         op,
         trimEnd: true,
         data: {
-          [core.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]: this._latestRouteSource || 'url',
+          [core.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]: this._latestRoute.context
+            ? getSource(this._latestRoute.context)
+            : 'url',
         },
       };
 
@@ -3629,6 +3651,61 @@ class BrowserTracing  {
 
     ['click'].forEach(type => {
       addEventListener(type, registerInteractionTransaction, { once: false, capture: true });
+    });
+  }
+
+  /** Creates a listener on interaction entries, and maps interactionIds to the origin path of the interaction */
+   _registerInpInteractionListener() {
+    instrument.addPerformanceInstrumentationHandler('event', ({ entries }) => {
+      const client = core.getClient();
+      // We need to get the replay, user, and activeTransaction from the current scope
+      // so that we can associate replay id, profile id, and a user display to the span
+      const replay =
+        client !== undefined && client.getIntegrationByName !== undefined
+          ? (client.getIntegrationByName('Replay') )
+          : undefined;
+      const replayId = replay !== undefined ? replay.getReplayId() : undefined;
+      // eslint-disable-next-line deprecation/deprecation
+      const activeTransaction = core.getActiveTransaction();
+      const currentScope = core.getCurrentScope();
+      const user = currentScope !== undefined ? currentScope.getUser() : undefined;
+      for (const entry of entries) {
+        if (isPerformanceEventTiming(entry)) {
+          const duration = entry.duration;
+          const keys = Object.keys(this._interactionIdtoRouteNameMapping);
+          const minInteractionId =
+            keys.length > 0
+              ? keys.reduce((a, b) => {
+                  return this._interactionIdtoRouteNameMapping[a].duration <
+                    this._interactionIdtoRouteNameMapping[b].duration
+                    ? a
+                    : b;
+                })
+              : undefined;
+          if (
+            minInteractionId === undefined ||
+            duration > this._interactionIdtoRouteNameMapping[minInteractionId].duration
+          ) {
+            const interactionId = entry.interactionId;
+            const routeName = this._latestRoute.name;
+            const parentContext = this._latestRoute.context;
+            if (interactionId && routeName && parentContext) {
+              if (minInteractionId && Object.keys(this._interactionIdtoRouteNameMapping).length >= MAX_INTERACTIONS) {
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                delete this._interactionIdtoRouteNameMapping[minInteractionId];
+              }
+              this._interactionIdtoRouteNameMapping[interactionId] = {
+                routeName,
+                duration,
+                parentContext,
+                user,
+                activeTransaction,
+                replayId,
+              };
+            }
+          }
+        }
+      }
     });
   }
 }
@@ -3653,12 +3730,16 @@ function getSource(context) {
   return sourceFromAttributes || sourceFromData || sourceFromMetadata;
 }
 
+function isPerformanceEventTiming(entry) {
+  return 'duration' in entry;
+}
+
 exports.BROWSER_TRACING_INTEGRATION_ID = BROWSER_TRACING_INTEGRATION_ID;
 exports.BrowserTracing = BrowserTracing;
 exports.getMetaContent = getMetaContent;
 
 
-},{"../common/debug-build.js":25,"./backgroundtab.js":3,"./metrics/index.js":7,"./request.js":9,"./router.js":10,"./types.js":11,"@sentry/core":69,"@sentry/utils":138}],6:[function(require,module,exports){
+},{"../common/debug-build.js":25,"./backgroundtab.js":3,"./instrument.js":6,"./metrics/index.js":7,"./request.js":9,"./router.js":10,"./types.js":11,"@sentry/core":69,"@sentry/utils":138}],6:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4059,7 +4140,7 @@ function _trackFID() {
 /** Starts tracking the Interaction to Next Paint on the current page. */
 function _trackINP(interactionIdtoRouteNameMapping) {
   return instrument.addInpInstrumentationHandler(({ metric }) => {
-    const entry = metric.entries.find(e => e.name === 'click');
+    const entry = metric.entries.find(e => e.name === 'click' || e.name === 'pointerdown');
     const client = core.getClient();
     if (!entry || !client) {
       return;
@@ -4107,7 +4188,7 @@ function _trackINP(interactionIdtoRouteNameMapping) {
     }
 
     if (Math.random() < (sampleRate )) {
-      const envelope = span ? core.createSpanEnvelope([span]) : undefined;
+      const envelope = span ? core.createSpanEnvelope([span], client.getDsn()) : undefined;
       const transport = client && client.getTransport();
       if (transport && envelope) {
         transport.send(envelope).then(null, reason => {
@@ -16971,10 +17052,14 @@ const utils = require('@sentry/utils');
 /**
  * Create envelope from Span item.
  */
-function createSpanEnvelope(spans) {
+function createSpanEnvelope(spans, dsn) {
   const headers = {
     sent_at: new Date().toISOString(),
   };
+
+  if (dsn) {
+    headers.dsn = utils.dsnToString(dsn);
+  }
 
   const items = spans.map(createSpanItem);
   return utils.createEnvelope(headers, items);
@@ -20697,7 +20782,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":138}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.106.1';
+const SDK_VERSION = '7.107.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
