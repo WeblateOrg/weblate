@@ -35,7 +35,6 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
-from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
@@ -2441,6 +2440,32 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
         self.fields["target"].widget.profile = user.profile
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
+
+
+class GlossaryAddMixin(forms.Form):
+    terminology = forms.BooleanField(
+        label=gettext_lazy("Terminology"),
+        help_text=gettext_lazy("String will be part of the glossary in all languages"),
+        required=False,
+    )
+    forbidden = forms.BooleanField(
+        label=gettext_lazy("Forbidden translation"),
+        required=False,
+    )
+    read_only = forms.BooleanField(
+        label=gettext_lazy("Untranslatable term"),
+        required=False,
+    )
+
+    def get_glossary_flags(self):
+        result = []
+        if self.cleaned_data.get("terminology"):
+            result.append("terminology")
+        if self.cleaned_data.get("forbidden"):
+            result.append("forbidden")
+        if self.cleaned_data.get("read_only"):
+            result.append("read-only")
+        return ", ".join(result)
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
