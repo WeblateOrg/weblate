@@ -2,15 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # victor dargallo <victordargallo@disroot.org>, 2023.
-# Eduard Ereza Martínez <eduard@ereza.cat>, 2023.
+# Eduard Ereza Martínez <eduard@ereza.cat>, 2023, 2024.
 # Ecron <ecron_89@hotmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-03-17 17:01+0000\n"
+"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -483,10 +483,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Convidat a {project} per {username}."
 
 #: weblate/accounts/models.py:185
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "S’ha canviat la contrasenya."
+msgstr "S’ha configurat la contrasenya."
 
 #: weblate/accounts/models.py:191
 msgid "To restore access to your account, please reset your password."
@@ -2317,7 +2315,7 @@ msgstr "Revisió"
 #: weblate/auth/data.py:265
 msgctxt "Per-project access-control team name"
 msgid "Translate"
-msgstr "Tradueix"
+msgstr "Traducció"
 
 #: weblate/auth/data.py:266
 msgctxt "Per-project access-control team name"
@@ -2597,16 +2595,12 @@ msgstr ""
 "col·laboració."
 
 #: weblate/auth/permissions.py:167
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Sign in to save the translation."
-msgstr "Inicieu la sessió per a desar traduccions."
+msgstr "Inicieu la sessió per a desar la traducció."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "No teniu prou permisos per a desar traduccions."
+msgstr "No teniu prou permisos per a aprovar traduccions."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -3094,10 +3088,9 @@ msgid "Ignore all checks"
 msgstr "Ignora totes les comprovacions"
 
 #: weblate/checks/flags.py:50
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Marcadors de substitució de percentatge"
+msgstr ""
+"Utilitza marcadors de substitució no sensibles a majúscules i minúscules"
 
 #: weblate/checks/flags.py:52 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -3571,16 +3564,12 @@ msgid "C format string does not match source"
 msgstr "La cadena de format C no coincideix amb la d’origen"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Format Perl"
+msgstr "Format de claus del Perl"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "La cadena de format Perl no coincideix amb la d’origen"
+msgstr "La cadena de format de claus del Perl no coincideix amb la d’origen"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -4218,10 +4207,8 @@ msgid ".NET resource file"
 msgstr "Fitxer de recursos de .NET"
 
 #: weblate/formats/ttkit.py:1423
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Recurs de cadenes de l’Android"
+msgstr "Recurs de Kotlin per a mòbils"
 
 #: weblate/formats/ttkit.py:1436
 #, python-format
@@ -4261,10 +4248,8 @@ msgid "gotext JSON file"
 msgstr "Fitxer JSON de gotext"
 
 #: weblate/formats/ttkit.py:1527
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "Fitxer JSON de gotext"
+msgstr "Fitxer JSON de Format.JS"
 
 #: weblate/formats/ttkit.py:1535
 msgid "CSV file"
@@ -4590,12 +4575,9 @@ msgid "One/few/many"
 msgstr "Un/pocs/molts"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Un/dos/pocs/altres"
+msgstr "Un/zero/pocs/altres"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4627,10 +4609,8 @@ msgid "Android plural"
 msgstr "Plural d’Android"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "Plural de stringsdict"
+msgstr "Plural de Qt Linguist"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -5057,10 +5037,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "No s’ha pogut analitzar el fitxer JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "No s’ha pogut analitzar el fitxer TMX!"
+msgstr "No s’ha pogut analitzar el fitxer TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5589,6 +5568,9 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"El correu electrònic no és una tecnologia instantània. Espereu almenys 30 "
+"minuts per a rebre el correu de confirmació abans d’escriure’ns sobre "
+"qualsevol problema."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -6461,10 +6443,8 @@ msgid "The following components matched existing ones"
 msgstr "Els següents components coincideixen amb els existents"
 
 #: weblate/templates/addons/discovery_preview.html:62
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following components could not be created"
-msgstr "Es crearan els següents components"
+msgstr "No s’han pogut crear els següents components"
 
 #: weblate/templates/addons/discovery_preview.html:83
 msgid "No matching components were found!"
@@ -8095,7 +8075,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:126
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr ""
+msgstr "També elimina les branques estancades que no fa servir el Weblate."
 
 #: weblate/templates/js/git-status.html:127
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -8519,13 +8499,11 @@ msgid "View invitation"
 msgstr "Mostra la invitació"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "L’enllaç de confirmació caducarà al cap d’%(count)s hora."
-msgstr[1] "L’enllaç de confirmació caducarà al cap de %(count)s hores."
+msgstr[0] "La invitació caducarà al cap d’%(count)s hora."
+msgstr[1] "La invitació caducarà al cap de %(count)s hores."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -10075,10 +10053,8 @@ msgid "No strings to translate"
 msgstr "No hi ha cap cadena sense traduir"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Afegeix projectes nous"
+msgstr "Afegeix un projecte"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10403,6 +10379,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organitzeu el projecte</a> per a canviar-ne o eliminar-"
+"ne l’URL amigable."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10410,6 +10388,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organitzeu el component</a> per a canviar-ne, moure’n o "
+"eliminar-ne l’URL amigable."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -10694,6 +10674,10 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"El Gerrit ha prohibit aquesta pujada. Pot ser que us calgui un compte de "
+"Gerrit que tingui permisos per a falsificar l’autoria al repositori o a la "
+"branca, o que hàgiu de fer servir el complement «squash» en aquest component "
+"del Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
@@ -11254,22 +11238,21 @@ msgstr[0] "Això farà que se suprimeixi %(count)s component."
 msgstr[1] "Això farà que se suprimeixin %(count)s components."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
 "El complement «Afegeix llengües que hi manquin» està instal·lat en aquest "
-"component; la llengua suprimida s’hi podrà tornar a afegir."
+"component; una llengua suprimida s’hi podrà tornar a afegir."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"El component del glossari manté automàticament la traducció per a cada "
+"llengua utilitzada en el projecte; una llengua suprimida s’hi podrà tornar a "
+"afegir."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -11300,6 +11283,7 @@ msgstr "Flux de treball típic per a solucionar conflictes de fusió"
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
+"Obriu un agafament existent del repositori font o executeu-ne un de nou."
 
 #: weblate/templates/trans/merge_instructions.html:13
 msgid ""
@@ -12072,16 +12056,13 @@ msgstr ""
 "programari."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
-#| msgid "View translation component"
 msgid "File mask matches the main component."
-msgstr "Mostra el component"
+msgstr "El filtre de fitxers coincideix amb el component principal."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "El fitxer no existeix."
+msgstr "{filename} ({parameter}) no existeix."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12753,25 +12734,20 @@ msgstr ""
 "aquesta llengua."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Personalitza el flux de treball de traducció per a aquesta llengua"
+msgstr ""
+"Personalitza el flux de treball de traducció per a aquesta llengua en aquest "
+"projecte"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"El flux de treball de la traducció es configura per projecte i component. Si "
-"activeu la personalització aquí, sobreescriureu la configuració per a "
-"aquesta llengua."
+"El flux de treball de la traducció es configura per projecte, component i "
+"llengua. Si activeu la personalització aquí, sobreescriureu la configuració "
+"per a aquesta llengua en aquest projecte."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12822,14 +12798,12 @@ msgstr ""
 "Utilitzeu marques per a indicar cadenes especials a la vostra traducció."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
 "Afegiu la marca safe-html per a evitar HTML perillós per part dels "
-"traductors."
+"traductors de cadenes que es renderitzen com a HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -12997,10 +12971,8 @@ msgid "Notify users"
 msgstr "Notifica els usuaris"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Envia una invitació per correu electrònic a l’usuari"
+msgstr "Envia una invitació als usuaris subscrits."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13359,10 +13331,8 @@ msgstr "S’ha produït un error en desar una cadena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Cadena actualitzada al repositori"
+msgstr "Cadena afegida al repositori"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
@@ -13652,8 +13622,6 @@ msgstr ""
 "directes."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
 msgstr "Accepta automàticament els suggeriments"
 
@@ -14363,7 +14331,7 @@ msgstr "Insereix un guionet"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Insereix un espai no divisible"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14438,31 +14406,25 @@ msgstr "Configuració possible"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Traducció prohibida"
-msgstr[1] "Traducció prohibida"
+msgstr[0] "Traducció prohibida:"
+msgstr[1] "Traduccions prohibides:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Terme no traduïble"
-msgstr[1] "Terme no traduïble"
+msgstr[0] "Terme no traduïble:"
+msgstr[1] "Termes no traduïbles:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Terme del glossari"
-msgstr[1] "Terme del glossari"
+msgstr[0] "Terme del glossari:"
+msgstr[1] "Termes del glossari:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14734,10 +14696,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "El filtre de fitxers no conté * com a marcador de la llengua!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
