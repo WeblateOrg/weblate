@@ -69,6 +69,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         }
         self.component_kwargs = {"slug": "test", "project__slug": "test"}
         self.project_kwargs = {"slug": "test"}
+        self.category_kwargs = {"id": "1"}
         self.tearDown()
         self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
         group = Group.objects.get(name="Users")
@@ -4129,7 +4130,8 @@ class CategoryAPITest(APIBaseTest):
             self.do_request(translation["url"])
 
     def test_statistics(self):
-        request = self.do_request("api:category-statistics", self.project_kwargs)
+        self.create_category()
+        request = self.do_request("api:category-statistics", self.category_kwargs)
         self.assertEqual(request.data["total"], 0)
 
 
