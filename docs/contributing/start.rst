@@ -74,8 +74,8 @@ sources.
 Running Weblate locally in Docker
 ---------------------------------
 
-If you have Docker and the docker-compose-plugin installed, you need an additional tool 
-called ``jq`` which you can install through your favorite package manager. Then, you can 
+If you have Docker and the docker-compose-plugin installed, you need an additional tool
+called ``jq`` which you can install through your favorite package manager. Then, you can
 spin up the development environment by simply running:
 
 .. code-block:: sh
