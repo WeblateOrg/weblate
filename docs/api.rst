@@ -2504,6 +2504,7 @@ Statistics
 
       :http:get:`/api/languages/(string:language)/statistics/`,
       :http:get:`/api/projects/(string:project)/statistics/`,
+      :http:get:`/api/categories/(int:id)/statistics/`,
       :http:get:`/api/components/(string:project)/(string:component)/statistics/`,
       :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
@@ -2596,6 +2597,17 @@ Categories
 
     :param id: Category ID
     :type id: int
+
+.. http:get:: /api/categories/(int:id)/statistics/
+
+    Returns statistics for a category.
+
+    :param project: Category id
+    :type project: int
+
+    .. seealso::
+
+       Returned attributes are described in :ref:`api-statistics`.
 
 .. _hooks:
 
