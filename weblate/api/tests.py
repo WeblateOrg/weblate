@@ -4128,6 +4128,10 @@ class CategoryAPITest(APIBaseTest):
         for translation in response.data["results"]:
             self.do_request(translation["url"])
 
+    def test_statistics(self):
+        request = self.do_request("api:category-statistics", self.project_kwargs)
+        self.assertEqual(request.data["total"], 0)
+
 
 class LabelAPITest(APIBaseTest):
     def test_get_label(self):
