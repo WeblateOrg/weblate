@@ -1169,7 +1169,8 @@ class CategorySerializer(RemovableSerializer):
         required=False,
     )
     statistics_url = serializers.HyperlinkedIdentityField(
-        view_name="api:category-statistics", lookup_field="pk",
+        view_name="api:category-statistics",
+        lookup_field="pk",
     )
 
     class Meta:
