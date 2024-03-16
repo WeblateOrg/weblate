@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-16 11:03+0000\n"
+"PO-Revision-Date: 2024-03-16 15:24+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -977,11 +977,13 @@ msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Xa dispón do seu período de proba. Cree o seu proxecto de tradución e comece "
+"a usar o Weblate!"
 
 #: weblate/accounts/views.py:558 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Proba de balde"
 
 #: weblate/accounts/views.py:732 weblate/templates/403.html:18
 #: weblate/templates/404.html:18 weblate/templates/accounts/login.html:8
@@ -1021,7 +1023,7 @@ msgstr "Non foi posíbel retirar a identidade do usuario"
 
 #: weblate/accounts/views.py:1156
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
+msgstr "Confirme o seu enderezo de correo-e antes de engadir outra identidade."
 
 #: weblate/accounts/views.py:1203
 msgid "Could not complete registration."
@@ -3083,10 +3085,8 @@ msgid "Reused translation"
 msgstr "Tradución eliminada"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy
-#| msgid "New string to translate"
 msgid "Different strings are translated the same."
-msgstr "Nova cadea a traducir"
+msgstr "As diferentes cadeas tradúcense igual."
 
 #: weblate/checks/consistency.py:190
 #, fuzzy, python-format
@@ -5250,10 +5250,9 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Tradución automática"
+msgstr "Selección automática"
 
 #: weblate/machinery/forms.py:281
 #, fuzzy
@@ -5287,11 +5286,8 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/views.py:385
-#, fuzzy
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "Service is currently not available."
-msgstr "Hai %(count)s cadea sen traducir."
+msgstr "O servizo non está dispoñíbel neste momento."
 
 #: weblate/memory/forms.py:14
 #: weblate/templates/trans/alert/duplicatestring.html:10
@@ -6028,8 +6024,8 @@ msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr ""
-"Envíe unha solicitude ó proxecto que desexa traducir para que engadan unha "
-"lingua que falta."
+"Envíe unha solicitude ao proxecto que quere traducir para engadir un idioma "
+"que falta."
 
 #: weblate/templates/accounts/profile.html:47
 #: weblate/templates/accounts/profile.html:60
@@ -6762,7 +6758,7 @@ msgstr "Ficheiro monolingüe de base"
 #: weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/models/component.py:422
 msgid "File mask"
-msgstr "Mascara do ficheiro"
+msgstr "Máscara do ficheiro"
 
 #: weblate/templates/addons/discovery_preview.html:43
 #, fuzzy
@@ -7279,10 +7275,8 @@ msgid "Plan"
 msgstr ""
 
 #: weblate/templates/billing/list.html:11 weblate/wladmin/models.py:209
-#, fuzzy
-#| msgid "Untranslated"
 msgid "Hosted words"
-msgstr "Sen traducir"
+msgstr "Palabras aloxadas"
 
 #: weblate/templates/billing/list.html:28
 #, fuzzy
@@ -7325,7 +7319,7 @@ msgstr "Mercar un novo plan de aloxamento"
 
 #: weblate/templates/billing/state-snippet.html:11
 msgid "Awaiting payment"
-msgstr "Agardando o pago"
+msgstr "Agardando o pagamento"
 
 #: weblate/templates/billing/status.html:12
 msgid "Current plan"
@@ -7350,7 +7344,7 @@ msgstr "Prezo mensual"
 #: weblate/templates/billing/status.html:74
 #: weblate/templates/mail/billing_expired.html:53
 msgid "New payment"
-msgstr "Novo pago"
+msgstr "Novo pagamento"
 
 #: weblate/templates/billing/status.html:65
 msgid "Yearly price"
@@ -7857,9 +7851,7 @@ msgstr ""
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
-msgstr ""
-"Cómpre iniciar a sesión para traducir, do contrario só poderás facer "
-"suxestións."
+msgstr "Cómpre acceder para traducir, do contrario só poderás facer suxestións."
 
 #: weblate/templates/dashboard/anonymous.html:17
 #, python-format
@@ -8050,11 +8042,7 @@ msgid "%(percent)s%%"
 msgstr "Porcentaxe"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is "
-#| "<strong>%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -8064,20 +8052,14 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"O proxecto de tradución de %(project)s ó galego contén actualmente "
-"<strong>%(total)s cadeas</strong> para traducir e está <strong>rematado nun "
-"%(percent)s%%</strong>."
+"O proxecto de tradución de %(project)s contén <strong>%(count)s cadea</"
+"strong> para traducir e está completado ao <strong>%(percent)s%%</strong>."
 msgstr[1] ""
-"O proxecto de tradución de %(project)s ó galego contén actualmente "
-"<strong>%(total)s cadeas</strong> para traducir e está <strong>rematado nun "
-"%(percent)s%%</strong>."
+"O proxecto de tradución de %(project)s contén <strong>%(count)s cadeas</"
+"strong> para traducir e está completado ao <strong>%(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is "
-#| "<strong>%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -8085,13 +8067,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"O proxecto de tradución de %(project)s ó galego contén actualmente "
-"<strong>%(total)s cadeas</strong> para traducir e está <strong>rematado nun "
-"%(percent)s%%</strong>."
+"O proxecto de tradución de %(project)s contén <strong>%(count)s cadea</"
+"strong> para traducir."
 msgstr[1] ""
-"O proxecto de tradución de %(project)s ó galego contén actualmente "
-"<strong>%(total)s cadeas</strong> para traducir e está <strong>rematado nun "
-"%(percent)s%%</strong>."
+"O proxecto de tradución de %(project)s contén <strong>%(count)s cadeas</"
+"strong> para traducir."
 
 #: weblate/templates/engage.html:46
 #, fuzzy, python-format
@@ -8700,11 +8680,8 @@ msgid "disabled"
 msgstr "activado"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "Service is no longer available"
-msgstr "Hai %(count)s cadea sen traducir."
+msgstr "O servizo xa non está dispoñíbel"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -9114,10 +9091,9 @@ msgid "New language request in %(component)s"
 msgstr "Petición de lingua nova a %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Nova cadea para traducir de %(translation)s"
+msgstr "Nova cadea para traducir en %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:9
 msgid "Suggestion"
@@ -9193,12 +9169,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/reset-nonexisting.html:13
-#, fuzzy, python-format
-#| msgid "You can translate at %(translation_url)s"
+#, python-format
 msgid ""
 "Perhaps, you have registered at <a "
 "href=\"%(registration_hint)s\">%(registration_hint)s</a>?"
-msgstr "Pode traducir en %(translation_url)s"
+msgstr ""
+"É probábel que Vde. se teña rexistrado en <a href=\"%(registration_hint)s\""
+">%(registration_hint)s</a>?"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -9861,7 +9838,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:28
 msgid "Please choose the language you want to translate to."
-msgstr "Escolle a lingua á que queres traducir."
+msgstr "Escolla o idioma ao que quere traducir."
 
 #: weblate/templates/new-language.html:32
 #, python-format
@@ -10063,9 +10040,8 @@ msgid "Assign source strings"
 msgstr "Asignar cadeas de orixe"
 
 #: weblate/templates/screenshots/screenshot_detail.html:42
-#, fuzzy
 msgid "Automatically recognize"
-msgstr "Tradución automática"
+msgstr "Recoñecer automaticamente"
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
 #, fuzzy
@@ -10369,10 +10345,8 @@ msgid "Translation license"
 msgstr "Licenza da tradución"
 
 #: weblate/templates/snippets/info.html:142
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic component list assignment"
-msgstr "Tradución automática"
+msgstr "Asignación automática da lista de compoñentes"
 
 #: weblate/templates/snippets/info.html:175
 msgid "Translation process"
@@ -10487,11 +10461,9 @@ msgstr "Porcentaxe"
 #: weblate/templates/snippets/info.html:292
 #: weblate/templates/snippets/info.html:477
 #: weblate/templates/snippets/info.html:513
-#, fuzzy
-#| msgid "Untranslated"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Sen traducir"
+msgstr "Palabras aloxadas"
 
 #: weblate/templates/snippets/info.html:293
 msgid "Characters percent"
@@ -10672,10 +10644,8 @@ msgstr[0] "Subir cadeas de tradución"
 msgstr[1] "Subir cadeas de tradución"
 
 #: weblate/templates/snippets/list-objects-percent.html:12
-#, fuzzy
-#| msgid "New string to translate"
 msgid "No strings to translate"
-msgstr "Nova cadea a traducir"
+msgstr "Non hai ningunha cadea pendente de tradución"
 
 #: weblate/templates/snippets/list-objects.html:35
 #, fuzzy
@@ -12603,9 +12573,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
-"A tradución a través da tradución de xeito automático emprega motores "
-"activos de tradución automática para obte-las mellores traducións posíbeis e "
-"aplicaas neste proxecto."
+"A tradución mediante tradución automática emprega motores activos de "
+"tradución por máquinas para obter as mellores traducións posíbeis e aplícaas "
+"neste proxecto."
 
 #: weblate/templates/translation.html:304
 msgid ""
@@ -12818,34 +12788,22 @@ msgid "Trailing and leading whitespace"
 msgstr "Espazo no comezo e no remate"
 
 #: weblate/trans/context_processors.py:132
-#, fuzzy
-#| msgid ""
-#| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
-#| "the software projects listed below. You need to be logged in for "
-#| "translating, otherwise you can only make suggestions."
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr ""
-"Este sitio web usa <a href=\"%(weblate_url)s\">Weblate</a> para a tradución "
-"dos proxectos de software que se listan a seguir. Cómpre que acceda para "
-"realizar traducións ou soamente poderá facer suxestión."
+msgstr "Hosted Weblate, o lugar para traducir o seu proxecto de software."
 
 #: weblate/trans/context_processors.py:136
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Este sitio executa o Weblate para traducir varios proxectos do software."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
 msgid "File mask matches the main component."
-msgstr "Cambios recentes"
+msgstr "A máscara do ficheiro coincide co compoñente principal."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "Translation is currently not locked."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "A tradución está bloqueada neste intre."
+msgstr "{filename} ({parameter}) non existe."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12973,10 +12931,8 @@ msgid "Please choose a valid filter type."
 msgstr ""
 
 #: weblate/trans/forms.py:419
-#, fuzzy
-#| msgid "Message you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "A mensaxe que quere traducir xa non está dispoñíbel!"
+msgstr "A cadea que ía traducir xa non está dispoñíbel!"
 
 #: weblate/trans/forms.py:433
 msgid "Needs editing"
@@ -13145,18 +13101,16 @@ msgid "Could not find the reverted change."
 msgstr "Non foi posíbel atopa-la mudanza revertida."
 
 #: weblate/trans/forms.py:866
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Tradución automática"
+msgstr "Modo de tradución automática"
 
 #: weblate/trans/forms.py:873
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
-msgstr "Bloquear a tradución para evitar que outros se poñan a traducir."
+msgstr ""
+"Teña en conta que traducir todas as cadeas desbotará todas as traducións "
+"existentes."
 
 #: weblate/trans/forms.py:878
 #, fuzzy
@@ -13430,10 +13384,8 @@ msgid "ZIP file containing translations"
 msgstr "Nova tradución"
 
 #: weblate/trans/forms.py:1843
-#, fuzzy
-#| msgid "Strings to translate"
 msgid "Document to translate"
-msgstr "Cadeas para traducir"
+msgstr "Documento para traducir"
 
 #: weblate/trans/forms.py:1909
 #, fuzzy
@@ -13743,10 +13695,8 @@ msgstr "Tradución duplicada."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:189
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated file mask."
-msgstr "Tradución duplicada."
+msgstr "Máscara de ficheiro duplicada."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:202
@@ -13974,10 +13924,8 @@ msgstr "Comentarios"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:329 weblate/trans/models/project.py:654
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "Tradución automática"
+msgstr "Traducido automaticamente"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:331
@@ -14566,10 +14514,8 @@ msgstr ""
 "LC_MESSAGES/django.po»."
 
 #: weblate/trans/models/component.py:432
-#, fuzzy
-#| msgid "Translation context"
 msgid "Screenshot file mask"
-msgstr "Contexto da tradución"
+msgstr "Máscara de ficheiro da captura da pantalla"
 
 #: weblate/trans/models/component.py:437
 msgid ""
@@ -14616,7 +14562,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Se actualizar traducións noutro recurso causará traducións automáticas neste"
+"Se as actualizacións de tradución noutros compoñentes causarán tradución "
+"automática neste"
 
 #: weblate/trans/models/component.py:506 weblate/trans/models/workflow.py:27
 #, fuzzy
@@ -15466,10 +15413,9 @@ msgid "User configured character: {}"
 msgstr ""
 
 #: weblate/trans/tasks.py:471
-#, fuzzy, python-format
-#| msgid "Automatic translation"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Tradución automática"
+msgstr "Produciuse un erro na tradución automática: %s"
 
 #: weblate/trans/tasks.py:478
 msgid "Automatic translation completed, no strings were updated."
@@ -15728,10 +15674,8 @@ msgid "This translation is locked."
 msgstr "A tradución está bloqueada neste intre."
 
 #: weblate/trans/templatetags/translations.py:1052
-#, fuzzy
-#| msgid "New translation component"
 msgid "Updating translation component…"
-msgstr "Novo compoñente de tradución"
+msgstr "Actualizando o compoñente de tradución…"
 
 #: weblate/trans/templatetags/translations.py:1062
 msgid "Some of the components within this project have alerts."
@@ -15828,17 +15772,21 @@ msgid "Could not parse flags: %s"
 msgstr "Non foi posíbel analizar os indicadores: %s"
 
 #: weblate/trans/validators.py:51
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The language code for \"%(filename)s\" is empty, please check the file mask."
-msgstr "The language code for %s was empty, please check the filemask."
+msgstr ""
+"O código de idioma para «%(filename)s» está baleiro, comprobe a máscara do "
+"ficheiro."
 
 #: weblate/trans/validators.py:57
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The language code \"%(code)s\" for \"%(filename)s\" is too long, please "
 "check the file mask."
-msgstr "The language code \"%s\" is too long, please check the filemask."
+msgstr ""
+"O código de idioma «%(code)s» para «%(filename)s» é longo de máis, comprobe "
+"a máscara do ficheiro."
 
 #: weblate/trans/views/about.py:19
 msgid "Keys"
@@ -16040,10 +15988,8 @@ msgid "Could not process form!"
 msgstr "Fallou o procesamento do formulario!"
 
 #: weblate/trans/views/edit.py:765
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation in progress"
-msgstr "Tradución automática"
+msgstr "Tradución automática en curso"
 
 #: weblate/trans/views/edit.py:802
 #, fuzzy
