@@ -39,12 +39,13 @@ class CheckModelTestCase(FixtureTestCase):
         url = reverse(
             "render-check", kwargs={"check_id": check.name, "unit_id": unit.id}
         )
-        self.assertEqual(
-            str(check.get_description()),
+        self.assertHTMLEqual(
+            check.get_description(),
             format_html(
-                '<a href="{0}?pos=0" class="thumbnail">'
-                '<img class="img-responsive" src="{0}?pos=0" /></a>',
+                '<a href="{0}?pos={1}" class="thumbnail img-check">'
+                '<img class="img-responsive" src="{0}?pos={1}" /></a>',
                 url,
+                0,
             ),
         )
         self.assert_png(self.client.get(url))
