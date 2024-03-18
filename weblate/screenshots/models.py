@@ -14,7 +14,7 @@ from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_delete
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
@@ -24,8 +24,8 @@ from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
+from weblate.trans.models.alert import update_alerts
 from weblate.trans.signals import vcs_post_update
-from weblate.trans.tasks import component_alerts
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
@@ -104,7 +104,16 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
     if instance.translation.component.alert_set.filter(
         name="UnusedScreenshot"
     ).exists():
-        component_alerts.delay([instance.pk])
+        update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
+
+
+@receiver(post_delete, sender=Screenshot)
+def update_alerts_on_screenshot_delete(sender, instance, **kwargs):
+    # Update the unused screenshot alert if screenshot is deleted
+    if instance.translation.component.alert_set.filter(
+        name="UnusedScreenshot"
+    ).exists():
+        update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
 
 
 def validate_screenshot_image(component, filename) -> bool:
