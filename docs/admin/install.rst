@@ -693,7 +693,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env>`_
+   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
 .. _configuration:
 
