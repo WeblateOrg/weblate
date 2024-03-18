@@ -56,10 +56,10 @@ SOCIAL_TEMPLATE = """
 """
 
 
-def get_auth_params(auth: str):
+def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
     """Returns authentication parameters."""
     # Fallback values
-    params = {"name": auth.title(), "image": "password.svg"}
+    params: dict[str, StrOrPromise] = {"name": auth.title(), "image": "password.svg"}
 
     # Hardcoded names
     if auth in SOCIALS:
