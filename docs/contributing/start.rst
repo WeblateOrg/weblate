@@ -34,31 +34,25 @@ sources.
       virtualenv .venv
       . .venv/bin/activate
 
-3. Install Weblate (for this you need some system dependencies, see :doc:`../admin/install/source`):
+3. Install Weblate (for this you need some system dependencies, see :doc:`../admin/install/source`) and all dependencies useful for development:
 
    .. code-block:: sh
 
-      pip install -e '.[all]'
+      pip install -e '.[all,dev,ci,test,mypy,lint]'
 
-3. Install all dependencies useful for development:
-
-   .. code-block:: sh
-
-      pip install -r requirements-dev.txt
-
-4. Start a development server:
+3. Start a development server:
 
    .. code-block:: sh
 
       weblate runserver
 
-5. Depending on your configuration, you might also want to start Celery workers:
+4. Depending on your configuration, you might also want to start Celery workers:
 
    .. code-block:: sh
 
       ./weblate/examples/celery start
 
-6. To run a test (see :ref:`local-tests` for more details):
+5. To run a test (see :ref:`local-tests` for more details):
 
    .. code-block:: sh
 
