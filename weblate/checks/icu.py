@@ -76,11 +76,11 @@ def parse_icu(
     strict_tags: bool,
     tag_prefix: str | None = None,
     want_tokens=False,
-):
+) -> tuple[list[str] | None, Exception | None, list[str] | None]:
     """Parse an ICU MessageFormat message."""
     ast = None
-    err = None
-    tokens = [] if want_tokens else None
+    err: Exception | None = None
+    tokens: list[str] | None = [] if want_tokens else None
     parser = standard_parser
     if allow_tags:
         parser = strict_tag_parser if strict_tags else tag_parser

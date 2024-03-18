@@ -128,7 +128,7 @@ def render_size(
     text: str,
     *,
     font: str = "Kurinto Sans",
-    weight: int = Pango.Weight.NORMAL,
+    weight: int | None = Pango.Weight.NORMAL,
     size: int = 11,
     spacing: int = 0,
     width: int = 1000,
@@ -235,7 +235,7 @@ def render_size(
 def check_render_size(
     *,
     font: str,
-    weight: int,
+    weight: int | None,
     size: int,
     spacing: int,
     text: str,

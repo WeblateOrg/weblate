@@ -200,7 +200,7 @@ class Check:
         )
 
 
-class BatchCheckMixin:
+class BatchCheckMixin(Check):
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)
         return self.check_id in unit.all_checks_names

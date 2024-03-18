@@ -262,7 +262,7 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Pattern[str] | None = None
+    regexp: Pattern[str]
     plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
     normalize_remove = None
@@ -335,7 +335,7 @@ class BaseFormatCheck(TargetCheck):
             return matches
         return [m for m in matches if m != self.normalize_remove]
 
-    def extract_matches(self, string):
+    def extract_matches(self, string: str) -> list[str]:
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
     def check_format(self, source, target, ignore_missing, unit):
