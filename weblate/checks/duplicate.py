@@ -44,12 +44,12 @@ class DuplicateCheck(TargetCheck):
                 continue
             if word not in ignored and len(word) >= 2 and previous == word:
                 group += 1
-            elif previous is not None:
+            elif group > 1 and previous is not None:
                 groups.append(group)
                 words.append(previous)
                 group = 1
             previous = word
-        if previous is not None:
+        if group > 1 and previous is not None:
             groups.append(group)
             words.append(previous)
         return groups, words
