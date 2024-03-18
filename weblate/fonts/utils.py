@@ -16,7 +16,6 @@ import cairo
 import gi
 from django.conf import settings
 from django.core.cache import cache as django_cache
-from django.utils.html import format_html
 from PIL import ImageFont
 
 from weblate.utils.data import data_dir
@@ -145,7 +144,7 @@ def render_size(
     if surface_height is None:
         surface_height = int(lines * size * 1.5)
     if surface_width is None:
-        surface_width = int(width * 1.2)
+        surface_width = width
     surface = cairo.ImageSurface(cairo.FORMAT_RGB24, surface_width, surface_height)
     context = cairo.Context(surface)
 
@@ -158,15 +157,15 @@ def render_size(
         fontdesc.set_weight(weight)
     layout.set_font_description(fontdesc)
 
-    # This seems to be only way to set letter spacing
-    # See https://stackoverflow.com/q/55533312/225718
-    layout.set_markup(
-        format_html(
-            '<span letter_spacing="{}">{}</span>',
-            spacing,
-            text,
-        )
-    )
+    # Configure spacing
+    if spacing:
+        letter_spacing_attr = Pango.attr_letter_spacing_new(Pango.SCALE * spacing)
+        attr_list = Pango.AttrList()
+        attr_list.insert(letter_spacing_attr)
+        layout.set_attributes(attr_list)
+
+    # Set the actual text
+    layout.set_text(text)
 
     # Set width and line wrapping
     layout.set_width(width * Pango.SCALE)
@@ -188,8 +187,8 @@ def render_size(
                 width=width,
                 lines=lines,
                 cache_key=cache_key,
-                surface_height=pixel_size.height + 1,
-                surface_width=pixel_size.width + 1,
+                surface_height=pixel_size.height,
+                surface_width=pixel_size.width,
             )
 
         # Render background
@@ -220,8 +219,8 @@ def render_size(
             context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
             context.set_line_width(1)
             context.move_to(1, 1)
-            context.line_to(pixel_size.width, 1)
-            context.line_to(pixel_size.width, pixel_size.height - 1)
+            context.line_to(pixel_size.width - 1, 1)
+            context.line_to(pixel_size.width - 1, pixel_size.height - 1)
             context.line_to(1, pixel_size.height - 1)
             context.line_to(1, 1)
             context.stroke()
