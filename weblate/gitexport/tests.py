@@ -179,6 +179,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 stdin=subprocess.PIPE,
+                text=True,
             )
             output = process.communicate()[0]
             retcode = process.poll()
