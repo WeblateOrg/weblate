@@ -24,7 +24,7 @@ cd dev-docker/
 build() {
     mkdir -p data
     # Build single requirements file
-    sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
+    sed -n 's/^  "\([][a-zA-Z._0-9-]\+[<>=].*\)".*/\1/p' ../pyproject.toml > weblate-dev/requirements.txt
     # Build the container
     docker compose build --build-arg USER_ID="$(id -u)" --build-arg GROUP_ID="$(id -g)"
 
