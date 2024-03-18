@@ -181,6 +181,10 @@ class Check(models.Model):
 
 
 def get_display_checks(unit):
+    check_objects = {check.name: check for check in unit.all_checks}
     for check, check_obj in CHECKS.target.items():
         if check_obj.should_display(unit):
-            yield Check(unit=unit, dismissed=False, name=check)
+            try:
+                yield check_objects[check]
+            except KeyError:
+                yield Check(unit=unit, dismissed=False, name=check)
