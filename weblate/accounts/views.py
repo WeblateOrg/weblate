@@ -72,6 +72,7 @@ from weblate.accounts.forms import (
     LoginForm,
     NotificationForm,
     PasswordConfirmForm,
+    ProfileBaseForm,
     ProfileForm,
     RegistrationForm,
     ResetForm,
@@ -150,16 +151,19 @@ class EmailSentView(TemplateView):
 
     template_name = "accounts/email-sent.html"
 
+    do_password_reset: bool
+    do_account_remove: bool
+
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
         context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
-        if self.request.flags["password_reset"]:
+        if self.do_password_reset:
             context["title"] = gettext("Password reset")
             context["is_reset"] = True
-        elif self.request.flags["account_remove"]:
+        elif self.do_account_remove:
             context["title"] = gettext("Remove account")
             context["is_remove"] = True
         else:
@@ -171,10 +175,8 @@ class EmailSentView(TemplateView):
         if not request.session.get("registration-email-sent"):
             return redirect("home")
 
-        request.flags = {
-            "password_reset": request.session["password_reset"],
-            "account_remove": request.session["account_remove"],
-        }
+        self.do_password_reset = request.session["password_reset"]
+        self.do_account_remove = request.session["account_remove"]
 
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
@@ -230,7 +232,7 @@ def redirect_profile(page=""):
 
 def get_notification_forms(request):
     user = request.user
-    subscriptions = defaultdict(dict)
+    subscriptions: dict[tuple[int, int, int], dict[str, int]] = defaultdict(dict)
     initials = {}
 
     # Ensure watched, admin and all scopes are visible
@@ -315,7 +317,7 @@ def user_profile(request):
     profile = user.profile
     profile.fixup_profile(request)
 
-    form_classes = [
+    form_classes: list[type[ProfileBaseForm | UserForm]] = [
         LanguagesForm,
         SubscriptionForm,
         UserSettingsForm,
@@ -1439,7 +1441,7 @@ class UserList(ListView):
         self.form = form = self.form_class(request.GET)
         self.sort_query = ""
         if form.is_valid():
-            self.sort_query = form.cleaned_data.get("sort_by")
+            self.sort_query = form.cleaned_data.get("sort_by", "")
         if not self.sort_query:
             self.sort_query = "-date_joined"
 
