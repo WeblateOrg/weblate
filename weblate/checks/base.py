@@ -158,7 +158,7 @@ class Check:
     def render(self, request, unit):
         raise Http404("Not supported")
 
-    def get_cache_key(self, unit, pos):
+    def get_cache_key(self, unit, pos: int):
         return "check:{}:{}:{}:{}".format(
             self.check_id,
             unit.pk,

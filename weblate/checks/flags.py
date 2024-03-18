@@ -211,11 +211,21 @@ class Flags:
             else:
                 self._items.pop(flag, None)
 
-    def has_value(self, key):
+    def has_value(self, key: str):
         return key in self._values
 
-    def get_value(self, key):
+    def get_value(self, key: str):
         return TYPED_FLAGS_ARGS[key](self._values[key])
+
+    def get_value_fallback(self, key: str, fallback):
+        try:
+            value = self._values[key]
+        except KeyError:
+            return fallback
+        try:
+            return TYPED_FLAGS_ARGS[key](value)
+        except KeyError:
+            return fallback
 
     def items(self):
         return set(self._items.values())

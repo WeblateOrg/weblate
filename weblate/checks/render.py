@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
@@ -12,13 +14,6 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag
 from weblate.fonts.utils import check_render_size
-
-FONT_PARAMS = (
-    ("font-family", "sans"),
-    ("font-weight", None),
-    ("font-size", 10),
-    ("font-spacing", 0),
-)
 
 IMAGE = '<a href="{0}" class="thumbnail img-check"><img class="img-responsive" src="{0}" /></a>'
 
@@ -37,17 +32,16 @@ class MaxSizeCheck(TargetCheckParametrized):
     def param_type(self):
         return multi_value_flag(int, 1, 2)
 
-    def get_params(self, unit):
-        for name, default in FONT_PARAMS:
-            if unit.all_flags.has_value(name):
-                try:
-                    yield unit.all_flags.get_value(name)
-                except KeyError:
-                    yield default
-            else:
-                yield default
+    def get_params(self, unit) -> tuple[str, None | int, int, int]:
+        all_flags = unit.all_flags
+        return (
+            all_flags.get_value_fallback("font-family", "sans"),
+            all_flags.get_value_fallback("font-weight", None),
+            all_flags.get_value_fallback("font-size", 10),
+            all_flags.get_value_fallback("font-spacing", 0),
+        )
 
-    def load_font(self, project, language, name):
+    def load_font(self, project, language, name: str) -> str:
         try:
             group = project.fontgroup_set.get(name=name)
         except ObjectDoesNotExist:
