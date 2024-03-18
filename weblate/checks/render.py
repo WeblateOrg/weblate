@@ -8,8 +8,8 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
 from django.urls import reverse
-from django.utils.html import format_html_join
-from django.utils.translation import gettext_lazy
+from django.utils.html import format_html, format_html_join
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag
@@ -84,7 +84,7 @@ class MaxSizeCheck(TargetCheckParametrized):
             "render-check",
             kwargs={"check_id": self.check_id, "unit_id": check_obj.unit_id},
         )
-        return format_html_join(
+        images = format_html_join(
             "\n",
             IMAGE,
             (
@@ -92,6 +92,15 @@ class MaxSizeCheck(TargetCheckParametrized):
                 for i in range(len(check_obj.unit.get_target_plurals()))
             ),
         )
+        if not check_obj.id:
+            return format_html(
+                "{}{}",
+                gettext(
+                    "It fits into given boundaries. The rendering is shown for your convenience."
+                ),
+                images,
+            )
+        return images
 
     def render(self, request, unit):
         try:
