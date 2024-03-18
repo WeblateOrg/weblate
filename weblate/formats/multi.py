@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.flags import Flags
 from weblate.trans.util import get_string
 
-from .base import TranslationUnit
+from .base import TranslationFormat, TranslationUnit
 from .ttkit import CSVUtf8Format
 
 
@@ -111,7 +111,7 @@ class MultiUnit(TranslationUnit):
             unit.untranslate(language)
 
 
-class MultiFormatMixin:
+class MultiFormatMixin(TranslationFormat):
     has_multiple_strings: bool = True
 
     def merge_multi(self, iterable):

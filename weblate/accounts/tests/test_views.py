@@ -4,6 +4,8 @@
 
 """Test for user handling."""
 
+from __future__ import annotations
+
 from unittest import mock
 
 from django.conf import settings
@@ -437,7 +439,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Extract current form data
-        data = {}
+        data: dict[str, str | list[str]] = {}
         for form in response.context["all_forms"]:
             for field in form:
                 value = field.value()
