@@ -53,10 +53,10 @@ class Repository:
     """Basic repository object."""
 
     _cmd = "false"
-    _cmd_last_revision: list[str] | None = None
-    _cmd_last_remote_revision: list[str] | None = None
+    _cmd_last_revision: list[str]
+    _cmd_last_remote_revision: list[str]
     _cmd_status = ["status"]
-    _cmd_list_changed_files: list[str] | None = None
+    _cmd_list_changed_files: list[str]
 
     name: StrOrPromise = ""
     identifier: str = ""
@@ -67,6 +67,8 @@ class Repository:
     push_label: StrOrPromise = gettext_lazy(
         "This will push changes to the upstream repository."
     )
+    ref_to_remote: str
+    ref_from_remote: str
 
     _version = None
 
@@ -161,7 +163,7 @@ class Repository:
         return real_path[len(repository_path) :].lstrip("/")
 
     @staticmethod
-    def _getenv():
+    def _getenv() -> dict[str, str]:
         """Generate environment for process execution."""
         return get_clean_env(
             {
@@ -189,12 +191,6 @@ class Repository:
         if not fullcmd:
             args = [cls._cmd, *list(args)]
         text_cmd = " ".join(args)
-        kwargs = {}
-        # These are mutually exclusive
-        if stdin is not None:
-            kwargs["input"] = stdin
-        else:
-            kwargs["stdin"] = subprocess.PIPE
         process = subprocess.run(
             args,
             cwd=cwd,
@@ -203,7 +199,9 @@ class Repository:
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
             text=not raw,
             check=False,
-            **kwargs,
+            # These are mutually exclusive
+            input=stdin,
+            stdin=subprocess.PIPE if stdin is None else None,
         )
         cls.add_breadcrumb(
             text_cmd,

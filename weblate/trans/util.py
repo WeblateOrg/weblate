@@ -119,7 +119,9 @@ def translation_percent(translated, total, zero_complete=True):
     return perc
 
 
-def get_clean_env(extra: dict | None = None, extra_path: str | None = None):
+def get_clean_env(
+    extra: dict | None = None, extra_path: str | None = None
+) -> dict[str, str]:
     """Return cleaned up environment for subprocess execution."""
     environ = {
         "LANG": "C.UTF-8",

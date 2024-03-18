@@ -98,7 +98,7 @@ class GitRepository(Repository):
         raise RepositoryError(0, "Could not figure out remote branch")
 
     @staticmethod
-    def git_config_update(filename: str, *updates: tuple[str, str, str]):
+    def git_config_update(filename: str, *updates: tuple[str, str, str | None]):
         # First, open file read-only to check current settings
         modify = False
         with GitConfigParser(file_or_files=filename, read_only=True) as config:
@@ -132,7 +132,7 @@ class GitRepository(Repository):
                 if value is not None:
                     config.set_value(section, key, value)
 
-    def config_update(self, *updates: tuple[str, str, str]):
+    def config_update(self, *updates: tuple[str, str, str | None]):
         filename = os.path.join(self.path, ".git", "config")
         self.git_config_update(filename, *updates)
 
@@ -731,8 +731,8 @@ class GitForcePushRepository(GitRepository):
 
 class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url = False
-    identifier = None
-    API_TEMPLATE = ""
+    identifier: str
+    API_TEMPLATE: str
     REQUIRED_CONFIG = {"username", "token"}
     OPTIONAL_CONFIG = {"scheme"}
 
@@ -756,12 +756,14 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(cmd)
         self.clean_revision_cache()
 
-    def parse_repo_url(self, repo: str | None = None) -> tuple[str, str, str, str]:
+    def parse_repo_url(
+        self, repo: str | None = None
+    ) -> tuple[str | None, str, str, str]:
         if repo is None:
             repo = self.component.repo
         parsed = urllib.parse.urlparse(repo)
         host = parsed.hostname
-        scheme = parsed.scheme
+        scheme: str | None = parsed.scheme
         if not host:
             # Assume SSH URL
             host, path = repo.split(":")
@@ -1140,7 +1142,9 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         except RepositoryError:
             self.create_fork(credentials)
 
-    def parse_repo_url(self, repo: str | None = None) -> tuple[str, str, str, str]:
+    def parse_repo_url(
+        self, repo: str | None = None
+    ) -> tuple[str | None, str, str, str]:
         if repo is None:
             repo = self.component.repo
 
@@ -1249,7 +1253,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         pr_url = "{}/pullrequests".format(credentials["url"])
         title, description = self.get_merge_message()
 
-        work_item_ids = self.get_credentials().get("workItemIds")
+        work_item_ids = self.get_credentials()["workItemIds"]
         work_item_refs = [{"id": str(ref)} for ref in work_item_ids]
 
         request = {
