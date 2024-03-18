@@ -22,7 +22,7 @@ from django.db.models import Prefetch, Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
-from django.http import Http404
+from django.http import Http404, HttpRequest
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -280,7 +280,7 @@ class UserQuerySet(models.QuerySet):
 
 
 @functools_cache
-def get_anonymous():
+def get_anonymous() -> User:
     """Return an anonymous user."""
     return User.objects.select_related("profile").get(
         username=settings.ANONYMOUS_USER_NAME
@@ -1056,3 +1056,7 @@ class WeblateAuthConf(AppConf):
 
 def get_auth_keys():
     return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())
+
+
+class AuthenticatedHttpRequest(HttpRequest):
+    user: User

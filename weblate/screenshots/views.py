@@ -33,6 +33,7 @@ from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.lang.models import Language
 
 
@@ -253,6 +254,7 @@ class ScreenshotList(PathViewMixin, ListView):
 class ScreenshotDetail(DetailView):
     model = Screenshot
     _edit_form = None
+    request: AuthenticatedHttpRequest
 
     def get_object(self, *args, **kwargs):
         obj = super().get_object(*args, **kwargs)

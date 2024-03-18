@@ -72,7 +72,7 @@ from weblate.api.serializers import (
     UserStatisticsSerializer,
     get_reverse_kwargs,
 )
-from weblate.auth.models import Group, Role, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
 from weblate.checks.models import Check
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
@@ -676,6 +676,7 @@ class ProjectViewSet(
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = "slug"
+    request: AuthenticatedHttpRequest
 
     def get_queryset(self):
         return self.request.user.allowed_projects.order_by("id")
@@ -1580,6 +1581,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     queryset = ComponentList.objects.none()
     serializer_class = ComponentListSerializer
     lookup_field = "slug"
+    request: AuthenticatedHttpRequest
 
     def get_queryset(self):
         return (
@@ -1661,6 +1663,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.none()
     serializer_class = CategorySerializer
     lookup_field = "pk"
+    request: AuthenticatedHttpRequest
 
     def get_queryset(self):
         return Category.objects.filter(

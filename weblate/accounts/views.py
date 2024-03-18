@@ -96,7 +96,12 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import Invitation, User, get_auth_keys
+from weblate.auth.models import (
+    AuthenticatedHttpRequest,
+    Invitation,
+    User,
+    get_auth_keys,
+)
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
@@ -567,6 +572,7 @@ class UserPage(UpdateView):
     form_class = UserEditForm
 
     group_form = None
+    request: AuthenticatedHttpRequest
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
