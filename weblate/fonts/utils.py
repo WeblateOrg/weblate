@@ -207,9 +207,9 @@ def render_size(
         context.set_source_rgb(0.1, 0.1, 0.1)
         context.set_line_width(1)
         context.move_to(1, 1)
-        context.line_to(width, 1)
-        context.line_to(width, expected_height)
-        context.line_to(1, expected_height)
+        context.line_to(width - 1, 1)
+        context.line_to(width - 1, expected_height - 1)
+        context.line_to(1, expected_height - 1)
         context.line_to(1, 1)
         context.stroke()
 
