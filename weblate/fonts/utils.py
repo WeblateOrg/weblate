@@ -135,13 +135,20 @@ def render_size(
     width: int = 1000,
     lines: int = 1,
     cache_key: str | None = None,
+    surface_height: int | None = None,
+    surface_width: int | None = None,
 ) -> tuple[Dimensions, int]:
     """Check whether rendered text fits."""
     configure_fontconfig()
 
     # Setup Pango/Cairo
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width * 2, lines * size * 4)
+    if surface_height is None:
+        surface_height = int(lines * size * 1.5)
+    if surface_width is None:
+        surface_width = int(width * 1.2)
+    surface = cairo.ImageSurface(cairo.FORMAT_RGB24, surface_width, surface_height)
     context = cairo.Context(surface)
+
     layout = PangoCairo.create_layout(context)
 
     # Load and configure font
@@ -169,36 +176,56 @@ def render_size(
     line_count = layout.get_line_count()
     pixel_size = layout.get_pixel_size()
 
-    # Show text
-    PangoCairo.show_layout(context, layout)
-
-    # Render box around desired size
-    expected_height = lines * pixel_size.height / line_count
-    context.new_path()
-    context.set_source_rgb(0.8, 0.8, 0.8)
-    context.set_line_width(1)
-    context.move_to(1, 1)
-    context.line_to(width, 1)
-    context.line_to(width, expected_height)
-    context.line_to(1, expected_height)
-    context.line_to(1, 1)
-    context.stroke()
-
-    # Render box about actual size
-    context.new_path()
-    if pixel_size.width > width or line_count > lines:
-        context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
-    else:
-        context.set_source_rgb(0.4, 0.4, 0.4)
-    context.set_line_width(1)
-    context.move_to(1, 1)
-    context.line_to(pixel_size.width, 1)
-    context.line_to(pixel_size.width, pixel_size.height)
-    context.line_to(1, pixel_size.height)
-    context.line_to(1, 1)
-    context.stroke()
-
     if cache_key:
+        # Adjust surface dimensions if we're actually rendering
+        if pixel_size.height > surface_height or pixel_size.width > surface_width:
+            return render_size(
+                text,
+                font=font,
+                weight=weight,
+                size=size,
+                spacing=spacing,
+                width=width,
+                lines=lines,
+                cache_key=cache_key,
+                surface_height=pixel_size.height + 1,
+                surface_width=pixel_size.width + 1,
+            )
+
+        # Render background
+        context.save()
+        # This matches .img-check CSS style
+        context.set_source_rgb(0.8, 0.8, 0.8)
+        context.paint()
+        context.restore()
+
+        # Show text
+        PangoCairo.show_layout(context, layout)
+
+        # Render box around desired size
+        expected_height = lines * pixel_size.height / line_count
+        context.new_path()
+        context.set_source_rgb(0.1, 0.1, 0.1)
+        context.set_line_width(1)
+        context.move_to(1, 1)
+        context.line_to(width, 1)
+        context.line_to(width, expected_height)
+        context.line_to(1, expected_height)
+        context.line_to(1, 1)
+        context.stroke()
+
+        # Render box about actual size if it does not fit
+        if pixel_size.width > width or line_count > lines:
+            context.new_path()
+            context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
+            context.set_line_width(1)
+            context.move_to(1, 1)
+            context.line_to(pixel_size.width, 1)
+            context.line_to(pixel_size.width, pixel_size.height - 1)
+            context.line_to(1, pixel_size.height - 1)
+            context.line_to(1, 1)
+            context.stroke()
+
         with BytesIO() as buff:
             surface.write_to_png(buff)
             django_cache.set(cache_key, buff.getvalue())
