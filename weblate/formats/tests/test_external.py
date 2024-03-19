@@ -35,8 +35,11 @@ class XlsxFormatTest(BaseFormatTest):
         newworkbook = load_workbook(BytesIO(newdata))
         testworkbook = load_workbook(BytesIO(testdata))
         self.assertEqual(len(newworkbook.worksheets), len(testworkbook.worksheets))
+        self.assertIsNotNone(newworkbook.active)
+        self.assertIsNotNone(testworkbook.active)
         self.assertEqual(
-            list(newworkbook.active.values), list(testworkbook.active.values)
+            list(newworkbook.active.values),
+            list(testworkbook.active.values),
         )
 
     def test_japanese(self):
