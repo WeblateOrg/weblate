@@ -1487,6 +1487,7 @@ class ProjectAPITest(APIBaseTest):
                     "slug": "local-project",
                     "file_format": "html",
                     "new_lang": "add",
+                    "edit_template": "0",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
@@ -1508,6 +1509,7 @@ class ProjectAPITest(APIBaseTest):
                     "file_format": "html",
                     "new_lang": "add",
                     "filemask": "doc/*.html",
+                    "edit_template": "0",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
@@ -1577,6 +1579,7 @@ class ProjectAPITest(APIBaseTest):
                     "slug": "local-project",
                     "file_format": "html",
                     "new_lang": "add",
+                    "edit_template": "0",
                 },
             )
 
@@ -1595,6 +1598,7 @@ class ProjectAPITest(APIBaseTest):
                     "source_language": "cs",
                     "file_format": "html",
                     "new_lang": "add",
+                    "edit_template": "0",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
