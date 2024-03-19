@@ -9,7 +9,7 @@ from typing import TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
-from django.db import Model
+from django.db.models import Model
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
