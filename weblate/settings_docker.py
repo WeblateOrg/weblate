@@ -882,6 +882,8 @@ SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+# Allow more fields for case with a lot of subscriptions in profile
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 # Apply session coookie settings to language cookie as ewll
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
