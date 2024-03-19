@@ -13,7 +13,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Model, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.html import format_html
@@ -57,6 +57,7 @@ from weblate.api.serializers import (
     LockSerializer,
     MemorySerializer,
     MonolingualUnitSerializer,
+    NewUnitSerializer,
     NotificationSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
@@ -676,7 +677,7 @@ class ProjectViewSet(
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = "slug"
-    request: AuthenticatedHttpRequest
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return self.request.user.allowed_projects.order_by("id")
@@ -1191,6 +1192,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def units(self, request, **kwargs):
         obj = self.get_object()
 
+        serializer_class: type[NewUnitSerializer]
         if obj.component.template:
             serializer_class = MonolingualUnitSerializer
         else:
@@ -1206,8 +1208,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             serializer.is_valid(raise_exception=True)
 
             unit = obj.add_unit(request, **serializer.as_kwargs())
-            serializer = UnitSerializer(unit, context={"request": request})
-            return Response(serializer.data, status=HTTP_200_OK)
+            outserializer = UnitSerializer(unit, context={"request": request})
+            return Response(outserializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
         try:
@@ -1239,7 +1241,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                     if field.name in errors:
                         errors[field.name] += f", {error}"
                     else:
-                        errors[field.name] = error
+                        errors[field.name] = str(error)
             raise ValidationError(errors)
 
         return Response(
@@ -1581,7 +1583,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     queryset = ComponentList.objects.none()
     serializer_class = ComponentListSerializer
     lookup_field = "slug"
-    request: AuthenticatedHttpRequest
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return (
@@ -1663,7 +1665,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.none()
     serializer_class = CategorySerializer
     lookup_field = "pk"
-    request: AuthenticatedHttpRequest
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return Category.objects.filter(
@@ -1792,6 +1794,8 @@ class TasksViewSet(ViewSet):
     def get_task(
         self, request, pk, permission: str | None = None
     ) -> tuple[AsyncResult, Component | None]:
+        obj: Model
+        component: Component
         task = AsyncResult(str(pk))
         result = task.result
         if task.state == "PENDING" or isinstance(result, Exception):
