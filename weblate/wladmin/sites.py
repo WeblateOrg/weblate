@@ -5,12 +5,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import AdminSite, sites
-from django.contrib.auth.views import LogoutView
-from django.shortcuts import render
-from django.urls import reverse
-from django.utils.decorators import method_decorator
 from django.utils.translation import gettext, gettext_lazy
-from django.views.decorators.cache import never_cache
 from django_celery_beat.admin import (
     ClockedSchedule,
     ClockedScheduleAdmin,
@@ -64,7 +59,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.utils import messages
 from weblate.wladmin.models import ConfigurationError
 
 
@@ -188,16 +182,6 @@ class WeblateAdminSite(AdminSite):
 
             self._register(Consumer, ConsumerAdmin)
 
-    @method_decorator(never_cache)
-    def logout(self, request, extra_context=None):
-        if request.method == "POST":
-            messages.info(request, gettext("Thank you for using Weblate."))
-            request.current_app = self.name
-            return LogoutView.as_view(next_page=reverse("admin:login"))(request)
-        context = self.each_context(request)
-        context["title"] = gettext("Sign out")
-        return render(request, "admin/logout-confirm.html", context)
-
     def each_context(self, request):
         result = super().each_context(request)
         empty = [gettext("Object listing turned off")]
@@ -207,10 +191,6 @@ class WeblateAdminSite(AdminSite):
             ignored=False
         )
         return result
-
-    @property
-    def urls(self):
-        return self.get_urls(), "admin", self.name
 
 
 SITE = sites.site = admin.site = WeblateAdminSite()
