@@ -31,6 +31,11 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
     :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
+    :query page_size: Return the given number of items per request.
+                      The default is 50 and the maximum is 1000.
+                      For the `units` endpoints the default is 100 with
+                      a maximum of 10000. The default value is also
+                      configurable using the `PAGE_SIZE` setting.
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
     :reqheader Authorization: optional token to authenticate as
