@@ -47,15 +47,16 @@ class XlsxFormat(CSVFormat):
         workbook = Workbook()
         worksheet = workbook.active
         worksheet.title = self.get_title()
+        fieldnames = self.store.fieldnames
 
         # write headers
-        for column, field in enumerate(self.store.fieldnames):
+        for column, field in enumerate(fieldnames):
             self.write_cell(worksheet, column + 1, 1, field)
 
         for row, unit in enumerate(self.store.units):
             data = unit.todict()
 
-            for column, field in enumerate(self.store.fieldnames):
+            for column, field in enumerate(fieldnames):
                 self.write_cell(
                     worksheet,
                     column + 1,
