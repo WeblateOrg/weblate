@@ -50,7 +50,7 @@ class BillingAdmin(WeblateModelAdmin):
     )
     list_filter = ("plan", "state", "paid", "in_limits")
     search_fields = ("projects__name", "owners__email")
-    filter_horizontal = ("projects", "owners")
+    autocomplete_fields = ("projects", "owners")
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("projects", "owners")
