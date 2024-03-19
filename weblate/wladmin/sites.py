@@ -20,8 +20,6 @@ from django_celery_beat.admin import (
     PeriodicTaskAdmin,
     SolarSchedule,
 )
-from rest_framework.authtoken.admin import TokenAdmin
-from rest_framework.authtoken.models import Token
 from social_django.admin import AssociationOption, NonceOption, UserSocialAuthOption
 from social_django.models import Association, Nonce, UserSocialAuth
 
@@ -163,6 +161,9 @@ class WeblateAdminSite(AdminSite):
         self.register(Association, AssociationOption)
 
         # Django REST Framework
+        from rest_framework.authtoken.admin import TokenAdmin
+        from rest_framework.authtoken.models import Token
+
         self.register(Token, TokenAdmin)
 
         # Django Celery Beat
