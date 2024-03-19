@@ -66,5 +66,5 @@ class Command(WeblateComponentCommand):
                 self.stderr.write(f"Can not install on {component}")
                 continue
 
-            addon.create(component, configuration=configuration)
+            addon.create(component=component, configuration=configuration)
             self.stdout.write(f"Successfully installed on {component}")

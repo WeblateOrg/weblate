@@ -553,7 +553,9 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
                     continue
                 if not addon.addon.can_install(component, None):
                     continue
-                addon.addon.create(component, configuration=addon.configuration)
+                addon.addon.create(
+                    component=component, configuration=addon.configuration
+                )
     if in_task:
         return {"component": component.id}
     return component

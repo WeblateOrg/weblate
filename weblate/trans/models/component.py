@@ -977,7 +977,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             component.log_info("enabling addon %s", name)
             # Running is disabled now, it is triggered in after_save
-            addon.create(component, run=False, configuration=configuration)
+            addon.create(component=component, run=False, configuration=configuration)
 
     def create_glossary(self) -> None:
         project = self.project
