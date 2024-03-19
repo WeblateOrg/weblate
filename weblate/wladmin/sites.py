@@ -81,104 +81,112 @@ class WeblateAdminSite(AdminSite):
             return settings.URL_PREFIX
         return "/"
 
+    def register(self, model_or_iterable, admin_class=None, **options):
+        # Default register interface ignores all models, we handle them manually
+        return
+
+    def _register(self, model_or_iterable, admin_class=None, **options):
+        super().register(model_or_iterable, admin_class=admin_class, **options)
+
     def discover(self):
         """Manual discovery."""
+        # TODO: Use auto-discovery instead as we're monkey patching site anywany
         # Accounts
-        self.register(User, WeblateUserAdmin)
-        self.register(Role, RoleAdmin)
-        self.register(Group, WeblateGroupAdmin)
-        self.register(AuditLog, AuditLogAdmin)
-        self.register(Profile, ProfileAdmin)
-        self.register(VerifiedEmail, VerifiedEmailAdmin)
+        self._register(User, WeblateUserAdmin)
+        self._register(Role, RoleAdmin)
+        self._register(Group, WeblateGroupAdmin)
+        self._register(AuditLog, AuditLogAdmin)
+        self._register(Profile, ProfileAdmin)
+        self._register(VerifiedEmail, VerifiedEmailAdmin)
 
         # Languages
-        self.register(Language, LanguageAdmin)
+        self._register(Language, LanguageAdmin)
 
         # Memory
-        self.register(Memory, MemoryAdmin)
+        self._register(Memory, MemoryAdmin)
 
         # Screenshots
-        self.register(Screenshot, ScreenshotAdmin)
+        self._register(Screenshot, ScreenshotAdmin)
 
         # Fonts
-        self.register(Font, FontAdmin)
-        self.register(FontGroup, FontGroupAdmin)
+        self._register(Font, FontAdmin)
+        self._register(FontGroup, FontGroupAdmin)
 
         # Translations
-        self.register(Project, ProjectAdmin)
-        self.register(Component, ComponentAdmin)
-        self.register(Announcement, AnnouncementAdmin)
-        self.register(ComponentList, ComponentListAdmin)
-        self.register(ContributorAgreement, ContributorAgreementAdmin)
+        self._register(Project, ProjectAdmin)
+        self._register(Component, ComponentAdmin)
+        self._register(Announcement, AnnouncementAdmin)
+        self._register(ComponentList, ComponentListAdmin)
+        self._register(ContributorAgreement, ContributorAgreementAdmin)
 
         # Settings
-        self.register(Setting, SettingAdmin)
+        self._register(Setting, SettingAdmin)
 
         # Show some controls only in debug mode
         if settings.DEBUG:
-            self.register(Translation, TranslationAdmin)
-            self.register(Unit, UnitAdmin)
-            self.register(Suggestion, SuggestionAdmin)
-            self.register(Comment, CommentAdmin)
-            self.register(Check, CheckAdmin)
-            self.register(Change, ChangeAdmin)
+            self._register(Translation, TranslationAdmin)
+            self._register(Unit, UnitAdmin)
+            self._register(Suggestion, SuggestionAdmin)
+            self._register(Comment, CommentAdmin)
+            self._register(Check, CheckAdmin)
+            self._register(Change, ChangeAdmin)
 
         # Billing
         if "weblate.billing" in settings.INSTALLED_APPS:
             from weblate.billing.admin import BillingAdmin, InvoiceAdmin, PlanAdmin
             from weblate.billing.models import Billing, Invoice, Plan
 
-            self.register(Plan, PlanAdmin)
-            self.register(Billing, BillingAdmin)
-            self.register(Invoice, InvoiceAdmin)
+            self._register(Plan, PlanAdmin)
+            self._register(Billing, BillingAdmin)
+            self._register(Invoice, InvoiceAdmin)
 
         # Hosted
         if "wlhosted.integrations" in settings.INSTALLED_APPS:
             from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
             from wlhosted.payments.models import Customer, Payment
 
-            self.register(Customer, CustomerAdmin)
-            self.register(Payment, PaymentAdmin)
+            self._register(Customer, CustomerAdmin)
+            self._register(Payment, PaymentAdmin)
 
         # Legal
         if "weblate.legal" in settings.INSTALLED_APPS:
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
 
-            self.register(Agreement, AgreementAdmin)
+            self._register(Agreement, AgreementAdmin)
 
         # SAML identity provider
         if "djangosaml2idp" in settings.INSTALLED_APPS:
             from djangosaml2idp.admin import PersistentIdAdmin, ServiceProviderAdmin
             from djangosaml2idp.models import PersistentId, ServiceProvider
 
-            self.register(PersistentId, PersistentIdAdmin)
-            self.register(ServiceProvider, ServiceProviderAdmin)
+            self._register(PersistentId, PersistentIdAdmin)
+            self._register(ServiceProvider, ServiceProviderAdmin)
 
         # Python Social Auth
-        self.register(UserSocialAuth, UserSocialAuthOption)
-        self.register(Nonce, NonceOption)
-        self.register(Association, AssociationOption)
+        self._register(UserSocialAuth, UserSocialAuthOption)
+        self._register(Nonce, NonceOption)
+        self._register(Association, AssociationOption)
 
         # Django REST Framework
         from rest_framework.authtoken.admin import TokenAdmin
         from rest_framework.authtoken.models import Token
 
-        self.register(Token, TokenAdmin)
+        self._register(Token, TokenAdmin)
 
         # Django Celery Beat
-        self.register(IntervalSchedule)
-        self.register(CrontabSchedule)
-        self.register(SolarSchedule)
-        self.register(ClockedSchedule, ClockedScheduleAdmin)
-        self.register(PeriodicTask, PeriodicTaskAdmin)
+        self._register(IntervalSchedule)
+        self._register(CrontabSchedule)
+        self._register(SolarSchedule)
+        self._register(ClockedSchedule, ClockedScheduleAdmin)
+        self._register(PeriodicTask, PeriodicTaskAdmin)
 
         # Simple SSO
         if "simple_sso.sso_server" in settings.INSTALLED_APPS:
             from simple_sso.sso_server.models import Consumer
             from simple_sso.sso_server.server import ConsumerAdmin
 
-            self.register(Consumer, ConsumerAdmin)
+            self._register(Consumer, ConsumerAdmin)
 
     @method_decorator(never_cache)
     def logout(self, request, extra_context=None):
@@ -205,6 +213,5 @@ class WeblateAdminSite(AdminSite):
         return self.get_urls(), "admin", self.name
 
 
-SITE = WeblateAdminSite()
+SITE = sites.site = admin.site = WeblateAdminSite()
 SITE.discover()
-sites.site = admin.site = SITE
