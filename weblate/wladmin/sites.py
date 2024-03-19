@@ -201,7 +201,7 @@ class WeblateAdminSite(AdminSite):
 
     @property
     def urls(self):
-        return self.get_urls()
+        return self.get_urls(), "admin", self.name
 
 
 SITE = WeblateAdminSite()

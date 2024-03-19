@@ -764,12 +764,7 @@ real_patterns = [
         name="css-custom",
     ),
     # Admin interface
-    path(
-        "admin/",
-        include(
-            (weblate.wladmin.sites.SITE.urls, "weblate.wladmin"), namespace="admin"
-        ),
-    ),
+    path("admin/", weblate.wladmin.sites.SITE.urls),
     # Weblate management interface
     path("manage/", weblate.wladmin.views.manage, name="manage"),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
