@@ -20,6 +20,7 @@ Not yet released.
 * :ref:`azure-setup` gracefully handles repositories with spaces in URL.
 * :ref:`mt-deepl` gracefully handles glossaries for language variants.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
+* :doc:`/formats/excel` better handles blank cells.
 
 **Compatibility**
 
