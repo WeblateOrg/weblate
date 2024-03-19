@@ -4,7 +4,7 @@
 
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.admin import AdminSite
+from django.contrib.admin import AdminSite, sites
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render
 from django.urls import reverse
@@ -206,4 +206,4 @@ class WeblateAdminSite(AdminSite):
 
 SITE = WeblateAdminSite()
 SITE.discover()
-admin.site = SITE
+sites.site = admin.site = SITE
