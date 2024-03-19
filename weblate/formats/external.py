@@ -86,8 +86,17 @@ class XlsxFormat(CSVFormat):
 
         writer = csv.writer(output, dialect="unix")
 
+        # value can be None or blank stringfor cells having formatting only,
+        # we need to ignore such columns as that would be treated like "" fields
+        # later in the translate-toolkit
+        fields = [cell.value for cell in next(worksheet.rows) if cell.value]
         for row in worksheet.rows:
-            writer.writerow([cell.value for cell in row])
+            values = [cell.value for cell in row]
+            values = values[: len(fields)]
+            # Skip formatting only cells
+            if not any(values):
+                continue
+            writer.writerow(values)
 
         if isinstance(storefile, str):
             name = os.path.basename(storefile) + ".csv"
