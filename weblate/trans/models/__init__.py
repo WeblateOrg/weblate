@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from functools import partial
 
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
@@ -113,6 +114,19 @@ def change_labels(sender, instance, action, pk_set, **kwargs) -> None:
         return
     if not instance.is_batch_update:
         instance.translation.component.invalidate_cache()
+
+
+@receiver(pre_delete, sender=Label)
+def label_pre_delete(sender, instance, **kwargs) -> None:
+    instance.project.collect_label_cleanup(instance)
+
+
+@receiver(post_delete, sender=Label)
+def label_post_delete(sender, instance, **kwargs) -> None:
+    """Invalidate label stats on its deletion."""
+    transaction.on_commit(
+        partial(instance.project.cleanup_label_stats, name=instance.name)
+    )
 
 
 @receiver(user_pre_delete)

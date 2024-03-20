@@ -29,7 +29,7 @@ from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, PathMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import ProjectLanguage, ProjectStats
+from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
     validate_language_aliases,
     validate_project_name,
@@ -39,6 +39,8 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from weblate.trans.backups import BackupListDict
+    from weblate.trans.models.label import Label
+    from weblate.trans.models.translation import TranslationQuerySet
 
 
 class ProjectLanguageFactory(dict):
@@ -279,6 +281,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         self.stats = ProjectStats(self)
         self.acting_user = None
         self.project_languages = ProjectLanguageFactory(self)
+        self.label_cleanups: None | TranslationQuerySet = None
 
     def generate_changes(self, old) -> None:
         from weblate.trans.models.change import Change
@@ -649,8 +652,24 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return True
 
     @cached_property
-    def automatically_translated_label(self):
+    def automatically_translated_label(self) -> Label:
         return self.label_set.get_or_create(
             name=gettext_noop("Automatically translated"),
             defaults={"color": "yellow"},
         )[0]
+
+    def collect_label_cleanup(self, label: Label) -> None:
+        from weblate.trans.models.translation import Translation
+
+        translations = Translation.objects.filter(
+            Q(unit__labels=label) | Q(unit__source_unit__labels=label)
+        )
+        if self.label_cleanups is None:
+            self.label_cleanups = translations
+        else:
+            self.label_cleanups |= translations
+        prefetch_stats(self.label_cleanups)
+
+    def cleanup_label_stats(self, name: str) -> None:
+        for translation in prefetch_stats(self.label_cleanups):
+            translation.stats.remove_stats(f"label:{name}")

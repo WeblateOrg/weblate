@@ -67,3 +67,20 @@ class LabelTest(ViewTestCase):
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 0)
+
+    def test_delete_assigned(self) -> None:
+        self.test_create()
+        label = self.project.label_set.get()
+        unit = self.get_unit().source_unit
+        self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {"explanation": "", "extra_flags": "", "labels": label.pk},
+        )
+        translation = self.get_translation()
+        self.assertEqual(getattr(translation.stats, "label:Test label"), 1)
+
+        label.delete()
+
+        translation = self.get_translation()
+        with self.assertRaises(AttributeError):
+            getattr(translation.stats, "label:Test label")

@@ -213,6 +213,18 @@ class BaseStats:
     def cache_key(self) -> str:
         return f"stats-{self._object.cache_key}"
 
+    def remove_stats(self, *names: str) -> None:
+        self.ensure_loaded()
+        if not self._data:
+            return
+        changed = False
+        for name in names:
+            if name in self._data:
+                del self._data[name]
+                changed = True
+        if changed:
+            self.save()
+
     def ensure_loaded(self) -> None:
         """Load from cache if not already done."""
         if self._data is None:
