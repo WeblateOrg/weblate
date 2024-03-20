@@ -91,12 +91,18 @@ def language_consistency(addon_id: int, language_ids: list[int]) -> None:
             continue
         component.commit_pending("language consistency", None)
         for language in missing:
-            component.add_new_language(
+            new_lang = component.add_new_language(
                 language,
                 request,
                 send_signal=False,
                 create_translations=False,
             )
+            if new_lang is None:
+                component.log_warning(
+                    "could not add %s language for language consistency", language
+                )
+            else:
+                new_lang.log_info("added for language consistency")
         component.create_translations()
 
 

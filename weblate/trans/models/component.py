@@ -3399,7 +3399,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         request,
         send_signal: bool = True,
         create_translations: bool = True,
-    ):
+    ) -> None | Translation:
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
             messages.error(request, self.new_lang_error_message, fail_silently=True)
