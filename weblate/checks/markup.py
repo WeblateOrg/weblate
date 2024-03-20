@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import Any
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
@@ -22,6 +22,9 @@ from weblate.utils.html import (
     HTMLSanitizer,
 )
 from weblate.utils.xml import parse_xml
+
+if TYPE_CHECKING:
+    from lxml.etree import _Element
 
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
@@ -69,7 +72,7 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def detect_xml_wrapping(self, text: str) -> tuple[Any, bool]:
+    def detect_xml_wrapping(self, text: str) -> tuple[_Element, bool]:
         """Detect whether wrapping is desired."""
         try:
             return self.parse_xml(text, True), True
@@ -83,7 +86,7 @@ class BaseXMLCheck(TargetCheck):
             return False
         return True
 
-    def parse_xml(self, text: str, wrap: bool) -> Any:
+    def parse_xml(self, text: str, wrap: bool) -> _Element:
         """Wrapper for parsing XML."""
         text = strip_entities(text)
         if wrap:

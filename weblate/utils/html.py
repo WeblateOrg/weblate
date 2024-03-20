@@ -71,8 +71,8 @@ SANE_CHARS = re.compile("[\xa0]")
 
 class MarkupExtractor(ParserTarget):
     def __init__(self):
-        self.found_tags = set()
-        self.found_attributes = defaultdict(set)
+        self.found_tags: set[str] = set()
+        self.found_attributes: dict[str, set[str]] = defaultdict(set)
 
     def start(self, tag: str, attrs: dict[str, str]):  # type: ignore[override]
         if tag in IGNORE:
@@ -80,13 +80,16 @@ class MarkupExtractor(ParserTarget):
         self.found_tags.add(tag)
         self.found_attributes[tag].update(attrs.keys())
 
+    def close(self):
+        pass
 
-def extract_html_tags(text):
+
+def extract_html_tags(text) -> tuple[set[str], dict[str, set[str]]]:
     """Extract tags from text in a form suitable for HTML sanitization."""
     extractor = MarkupExtractor()
     parser = HTMLParser(collect_ids=False, target=extractor)
     parser.feed(text)
-    return {"tags": extractor.found_tags, "attributes": extractor.found_attributes}
+    return (extractor.found_tags, extractor.found_attributes)
 
 
 class HTMLSanitizer:
@@ -100,9 +103,9 @@ class HTMLSanitizer:
 
         text = self.remove_special(text, flags)
 
-        source_tags = extract_html_tags(source)
+        tags, attributes = extract_html_tags(source)
 
-        text = nh3.clean(text, link_rel=None, **source_tags)
+        text = nh3.clean(text, link_rel=None, tags=tags, attributes=attributes)
 
         return self.add_back_special(text)
 
