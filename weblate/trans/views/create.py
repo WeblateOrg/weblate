@@ -265,15 +265,15 @@ class CreateComponent(BaseCreateView):
         result = json.loads(process_result.stdout)
         for license_data in result["licenses"]:
             spdx_id = license_data["spdx_id"]
-            for license in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
-                if license in LICENSE_URLS:
-                    self.initial["license"] = license
+            for license_id in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
+                if license_id in LICENSE_URLS:
+                    self.initial["license"] = license_id
                     messages.info(
                         self.request,
                         gettext(
                             "Detected license as %s, please check whether it is correct."
                         )
-                        % license,
+                        % license_id,
                     )
                     return
 

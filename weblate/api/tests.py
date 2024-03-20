@@ -100,7 +100,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         request=None,
         headers=None,
         skip=(),
-        format: str = "multipart",
+        format: str = "multipart",  # noqa: A002
     ):
         self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
@@ -1088,7 +1088,7 @@ class ProjectAPITest(APIBaseTest):
             "Language with this language code was not found.",
         )
 
-    def test_create_with_source_language_string(self, format="json"):
+    def test_create_with_source_language_string(self, format="json"):  # noqa: A002
         payload = {
             "name": "API project",
             "slug": "api-project",
@@ -2694,7 +2694,7 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
-    def test_autotranslate(self, format: str = "multipart"):
+    def test_autotranslate(self, format: str = "multipart"):  # noqa: A002
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,

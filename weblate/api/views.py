@@ -521,7 +521,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
-    def delete_languages(self, request, id, language_code):
+    def delete_languages(self, request, id, language_code):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -555,7 +555,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
-    def delete_projects(self, request, id, project_id):
+    def delete_projects(self, request, id, project_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -590,7 +590,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         methods=["delete"],
         url_path="componentlists/(?P<component_list_id>[0-9]+)",
     )
-    def delete_componentlists(self, request, id, component_list_id):
+    def delete_componentlists(self, request, id, component_list_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
         try:
@@ -624,7 +624,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
-    def delete_components(self, request, id, component_id):
+    def delete_components(self, request, id, component_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -1712,7 +1712,7 @@ class Metrics(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, format=None):
+    def get(self, request, format=None):  # noqa: A002
         stats = GlobalStats()
         return Response(
             {
@@ -1738,7 +1738,7 @@ class Metrics(APIView):
 class Search(APIView):
     """Site-wide search endpoint."""
 
-    def get(self, request, format=None):
+    def get(self, request, format=None):  # noqa: A002
         user = request.user
         projects = user.allowed_projects
         components = Component.objects.filter(project__in=projects)

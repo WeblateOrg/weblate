@@ -249,12 +249,12 @@ class UnitQuerySet(models.QuerySet):
             )
         return self.order_by(*sort_list)
 
-    def order_by_count(self, choice, filter):
+    def order_by_count(self, choice, count_filter):
         model = choice.split("__")[0].replace("-", "")
         annotation_name = choice.replace("-", "")
-        return self.annotate(**{annotation_name: Count(model, filter=filter)}).order_by(
-            choice
-        )
+        return self.annotate(
+            **{annotation_name: Count(model, filter=count_filter)}
+        ).order_by(choice)
 
     @cached_property
     def source_context_lookup(self):
