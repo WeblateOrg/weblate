@@ -1184,7 +1184,10 @@ class CategoryLanguageStats(SingleLanguageStats):
         )
 
     def get_category_objects(self):
-        return self.category.stats.get_category_objects()
+        return [
+            CategoryLanguage(category, self.language)
+            for category in self.category.stats.get_category_objects()
+        ]
 
     def get_child_objects(self):
         return self.language.translation_set.filter(
@@ -1205,7 +1208,7 @@ class CategoryStats(ParentAggregatingStats):
         return self._object.component_set.only("id", "category")
 
     def get_category_objects(self):
-        return prefetch_stats(self._object.category_set.only("id", "category"))
+        return self._object.category_set.only("id", "category")
 
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(CategoryLanguage(self._object, language))
