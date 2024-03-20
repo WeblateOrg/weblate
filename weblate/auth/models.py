@@ -97,7 +97,7 @@ class Role(models.Model):
         return pgettext("Access-control role", self.name)
 
 
-class GroupQuerySet(models.QuerySet):
+class GroupQuerySet(models.QuerySet["Group"]):
     def order(self):
         """Ordering in project scope by priority."""
         return self.order_by("defining_project__name", "name")
@@ -212,7 +212,7 @@ class Group(models.Model):
         return str(self)
 
 
-class UserManager(BaseUserManager):
+class UserManager(BaseUserManager["User"]):
     def _create_user(self, username, email, password, **extra_fields):
         """Create and save a User with the given fields."""
         if not username:
@@ -249,7 +249,7 @@ class UserManager(BaseUserManager):
         )[0]
 
 
-class UserQuerySet(models.QuerySet):
+class UserQuerySet(models.QuerySet["User"]):
     def having_perm(self, perm, project):
         """
         All users having explicit permission on a project.
@@ -1060,3 +1060,5 @@ def get_auth_keys():
 
 class AuthenticatedHttpRequest(HttpRequest):
     user: User
+    # Added by weblate.accounts.AuthenticationMiddleware
+    accepted_language: Language

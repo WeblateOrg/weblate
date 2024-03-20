@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -26,6 +29,9 @@ from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
 
 def get_untranslated(base, limit=None):
     """Filter untranslated."""
@@ -38,7 +44,7 @@ def get_untranslated(base, limit=None):
     return result
 
 
-def get_suggestions(user, user_has_languages, base, filtered=False):
+def get_suggestions(user: User, user_has_languages: bool, base, filtered=False):
     """Return suggested translations for user."""
     if not filtered:
         non_alerts = base.annotate(alert_count=Count("component__alert__pk")).filter(
@@ -60,7 +66,9 @@ def get_suggestions(user, user_has_languages, base, filtered=False):
     return get_untranslated(prefetch_stats(base), 10)
 
 
-def guess_user_language(request, translations):
+def guess_user_language(
+    request: AuthenticatedHttpRequest, translations
+) -> Language | None:
     """
     Guess user language for translations.
 
@@ -91,7 +99,9 @@ def guess_user_language(request, translations):
         return None
 
 
-def get_user_translations(request, user, user_has_languages):
+def get_user_translations(
+    request: AuthenticatedHttpRequest, user: User, user_has_languages: bool
+):
     """
     Get list of translations in user languages.
 
@@ -110,12 +120,13 @@ def get_user_translations(request, user, user_has_languages):
     return result
 
 
-def redirect_single_project(user):
+def redirect_single_project(user: User):
+    target: Component | Project
     if isinstance(settings.SINGLE_PROJECT, str):
         target = project = Project.objects.get(slug=settings.SINGLE_PROJECT)
     elif Component.objects.filter(is_glossary=False).count() == 1:
-        target = Component.objects.filter(is_glossary=False).get()
-        project = target.project
+        target = component = Component.objects.filter(is_glossary=False).get()
+        project = component.project
     elif Project.objects.count() == 1:
         target = project = Project.objects.get()
     else:
@@ -127,7 +138,7 @@ def redirect_single_project(user):
 
 
 @never_cache
-def home(request):
+def home(request: AuthenticatedHttpRequest):
     """Home page handler serving different views based on user."""
     user = request.user
 
@@ -174,7 +185,7 @@ def home(request):
     return dashboard_user(request)
 
 
-def fetch_componentlists(user, user_translations):
+def fetch_componentlists(user: User, user_translations):
     componentlists = list(
         ComponentList.objects.filter(
             show_dashboard=True,
@@ -214,7 +225,7 @@ def fetch_componentlists(user, user_translations):
     return [c for c in componentlists if c.translations]
 
 
-def dashboard_user(request):
+def dashboard_user(request: AuthenticatedHttpRequest):
     """Home page of Weblate for authenticated user."""
     user = request.user
 
@@ -275,7 +286,7 @@ def dashboard_user(request):
     )
 
 
-def dashboard_anonymous(request):
+def dashboard_anonymous(request: AuthenticatedHttpRequest):
     """Home page of Weblate showing list of projects for anonymous user."""
     top_project_ids = cache.get("dashboard-anonymous-projects")
     if top_project_ids is None:
