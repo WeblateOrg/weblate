@@ -58,6 +58,9 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
+    from social_django.models import UserSocialAuth
+
+    from weblate.accounts.models import AuditLogQuerySet, Profile
     from weblate.auth.permissions import PermissionResult
 
     PermissionCacheType = dict[int, list[tuple[set[str] | None, set[Language] | None]]]
@@ -396,6 +399,12 @@ class User(AbstractBaseUser):
             "membership of these teams."
         ),
     )
+    # TODO: should not be neccasary? Maybe https://github.com/typeddjango/django-stubs/issues/1988
+    profile: Profile
+    auditlog_set: AuditLogQuerySet
+    social_auth: UserSocialAuth
+    administered_group_set: GroupQuerySet
+    userblock_set: models.QuerySet[UserBlock]
 
     objects = UserManager.from_queryset(UserQuerySet)()
 
