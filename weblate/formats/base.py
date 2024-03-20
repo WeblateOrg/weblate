@@ -9,19 +9,22 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Callable, TypeAlias
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
+from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
+
+    from weblate.trans.models import Unit
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -109,6 +112,13 @@ class UpdateError(Exception):
         self.output = output
 
 
+class BaseItem:
+    pass
+
+
+InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
+
+
 class TranslationUnit:
     """
     Wrapper for translate-toolkit unit.
@@ -117,8 +127,17 @@ class TranslationUnit:
     """
 
     id_hash_with_source: bool = False
+    template: InnerUnit | None
+    unit: InnerUnit
+    parent: TranslationFormat
+    mainunit: InnerUnit
 
-    def __init__(self, parent, unit, template=None):
+    def __init__(
+        self,
+        parent: TranslationFormat,
+        unit: InnerUnit,
+        template: InnerUnit | None = None,
+    ):
         """Create wrapper object."""
         self.unit = unit
         self.template = template
@@ -242,6 +261,10 @@ class TranslationUnit:
         self.mainunit = self.unit = copy(self.template)
         self._invalidate_target()
 
+    def untranslate(self, language):
+        self.set_target("")
+        self.set_state(STATE_EMPTY)
+
 
 class TranslationFormat:
     """Generic object defining file format loader."""
@@ -279,7 +302,7 @@ class TranslationFormat:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
-        existing_units: list[Any] | None = None,
+        existing_units: list[Unit] | None = None,
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
@@ -357,7 +380,7 @@ class TranslationFormat:
 
     def find_unit_template(
         self, context: str, source: str, id_hash: int | None = None
-    ) -> Any | None:
+    ) -> InnerUnit | None:
         if id_hash is None:
             id_hash = self._calculate_string_hash(context, source)
         try:
@@ -443,52 +466,52 @@ class TranslationFormat:
         raise NotImplementedError
 
     @property
-    def all_store_units(self):
+    def all_store_units(self) -> list[BaseItem]:
         """Wrapper for all store units for possible filtering."""
         return self.store.units
 
     @cached_property
-    def template_units(self):
+    def template_units(self) -> list[TranslationUnit]:
         return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
-    def _get_all_bilingual_units(self):
+    def _get_all_bilingual_units(self) -> list[TranslationUnit]:
         return [self.unit_class(self, unit) for unit in self.all_store_units]
 
-    def _build_monolingual_unit(self, unit):
+    def _build_monolingual_unit(self, unit: TranslationUnit) -> TranslationUnit:
         return self.unit_class(
             self,
             self.find_unit_template(unit.context, unit.source, unit.id_hash),
             unit.template,
         )
 
-    def _get_all_monolingual_units(self):
+    def _get_all_monolingual_units(self) -> list[TranslationUnit]:
         return [
             self._build_monolingual_unit(unit)
             for unit in self.template_store.template_units
         ]
 
     @cached_property
-    def all_units(self):
+    def all_units(self) -> list[TranslationUnit]:
         """List of all units."""
         if not self.has_template:
             return self._get_all_bilingual_units()
         return self._get_all_monolingual_units()
 
     @property
-    def content_units(self):
+    def content_units(self) -> list[TranslationUnit]:
         return [unit for unit in self.all_units if unit.has_content()]
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "text/plain"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "txt"
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """Check whether store seems to be valid."""
         for unit in self.content_units:
             # Just ensure that id_hash can be calculated

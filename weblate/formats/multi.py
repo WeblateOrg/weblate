@@ -115,7 +115,7 @@ class MultiFormatMixin(TranslationFormat):
     has_multiple_strings: bool = True
 
     def merge_multi(self, iterable):
-        result = {}
+        result: dict[int, MultiUnit] = {}
         for unit in iterable:
             id_hash = unit.id_hash
             if id_hash in result:

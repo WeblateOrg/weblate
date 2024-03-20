@@ -14,7 +14,7 @@ from typing import Callable
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import BaseItem, TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
 
 
@@ -28,7 +28,7 @@ class MultiparserError(Exception):
         return f"{self.filename}: {self.original}"
 
 
-class TextItem:
+class TextItem(BaseItem):
     """Actual text unit object."""
 
     def __init__(self, filename, line, text, flags=None):
@@ -131,6 +131,10 @@ class AppStoreParser(MultiParser):
 
 
 class TextUnit(TranslationUnit):
+    template: TextItem | None
+    unit: TextItem
+    mainunit: TextItem
+
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""

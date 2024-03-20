@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -41,12 +41,15 @@ from translate.storage.xml_extract.extract import (
 )
 
 from weblate.checks.flags import Flags
-from weblate.formats.base import TranslationFormat
+from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.trans.util import get_string
 from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 class ConvertPoUnit(PoUnit):
@@ -107,7 +110,7 @@ class ConvertFormat(TranslationFormat):
     can_add_unit = False
     can_delete_unit = False
     can_edit_base: bool = False
-    unit_class = ConvertPoUnit
+    unit_class: type[TranslationUnit] = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
 
@@ -204,10 +207,10 @@ class ConvertFormat(TranslationFormat):
     def convert_to_po(self, parser, template_store, use_location: bool = True):
         store = pofile()
         # Prepare index of existing translations
-        unitindex = defaultdict(list)
-        for unit in self.existing_units:
-            for source in unit.get_source_plurals():
-                unitindex[source].append(unit)
+        unitindex: dict[str, list[Unit]] = defaultdict(list)
+        for existing_unit in self.existing_units:
+            for source in existing_unit.get_source_plurals():
+                unitindex[source].append(existing_unit)
 
         # Convert store
         if template_store:

@@ -24,6 +24,7 @@ from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
+from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from translate.storage.csvl10n import csv, csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
@@ -65,6 +66,10 @@ XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10
 
 
 class TTKitUnit(TranslationUnit):
+    template: TranslateToolkitUnit | None
+    unit: TranslateToolkitUnit
+    mainunit: TranslateToolkitUnit
+
     @cached_property
     def locations(self):
         """Return a comma-separated list of locations."""
@@ -81,7 +86,7 @@ class TTKitUnit(TranslationUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            if self.parent.is_template:
+            if self.parent.is_template and self.template is not None:
                 return get_string(self.template.target)
             return ""
         return get_string(self.unit.target)
@@ -163,14 +168,13 @@ class TTKitUnit(TranslationUnit):
         flags = Flags()
         if hasattr(self.unit, "xmlelement"):
             flags.merge(self.unit.xmlelement)
-        if hasattr(self.template, "xmlelement"):
+        if self.template is not None and hasattr(self.template, "xmlelement"):
             flags.merge(self.template.xmlelement)
         return flags.format()
 
     def untranslate(self, language):
-        target = ""
-        if self.mainunit.hasplural():
-            target = [target] * language.plural.number
+        target: str | list[str]
+        target = [""] * language.plural.number if self.mainunit.hasplural() else ""
         self.set_target(target)
         self.set_state(STATE_EMPTY)
 
