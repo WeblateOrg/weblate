@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
 import re
@@ -66,9 +67,6 @@ class Command(BaseCommand):
             "--license", default="", help="License of imported components"
         )
         parser.add_argument(
-            "--license-url", default="", help="License URL of imported components"
-        )
-        parser.add_argument(
             "--vcs", default=settings.DEFAULT_VCS, help="Version control system to use"
         )
         parser.add_argument(
@@ -114,21 +112,20 @@ class Command(BaseCommand):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.filemask = None
-        self.component_re = None
-        self.file_format = None
-        self.language_regex = None
-        self.license = None
-        self.main_component = None
-        self.name_template = None
-        self.source_language = None
-        self.base_file_template = None
-        self.new_base_template = None
-        self.vcs = None
-        self.push_url = None
+        self.filemask: str
+        self.file_format: str
+        self.language_regex: str
+        self.license: str
+        self.main_component: None | str = None
+        self.name_template: str
+        self.source_language: str
+        self.base_file_template: str
+        self.new_base_template: str
+        self.vcs: str
+        self.push_url: str
+        self.discovery: ComponentDiscovery | None = None
         self.logger = LOGGER
         self.push_on_commit = True
-        self.discovery = None
 
     def checkout_tmp(self, project, repo, branch):
         """Checkout project to temporary location."""
