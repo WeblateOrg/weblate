@@ -12,6 +12,7 @@ Not yet released.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
 * Added :http:get:`/api/categories/(int:id)/statistics/`.
+* :ref:`alerts` are now refreshed when needed, not just daily.
 
 **Bug fixes**
 
