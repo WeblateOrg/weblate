@@ -15,7 +15,7 @@ class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
     icon = "script.svg"
-    script: None | str = None
+    script: str
     add_file: None | str = None
     alert = "AddonScriptError"
 
