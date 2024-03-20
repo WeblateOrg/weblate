@@ -22,6 +22,7 @@ Not yet released.
 * :ref:`mt-deepl` gracefully handles glossaries for language variants.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
 * :doc:`/formats/excel` better handles blank cells.
+* Fixed per-language statistics on nested categories.
 
 **Compatibility**
 
