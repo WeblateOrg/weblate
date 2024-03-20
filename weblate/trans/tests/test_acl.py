@@ -16,7 +16,7 @@ from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixi
 
 
 class ACLTest(FixtureTestCase, RegistrationTestMixin):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
@@ -28,17 +28,17 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.admin_group = self.project.defined_groups.get(name="Administration")
         self.translate_group = self.project.defined_groups.get(name="Translate")
 
-    def add_acl(self):
+    def add_acl(self) -> None:
         """Add user to ACL."""
         self.project.add_user(self.user, "Translate")
 
-    def test_acl_denied(self):
+    def test_acl_denied(self) -> None:
         """No access to the project without ACL."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
         self.assertFalse(get_anonymous().can_access_project(self.project))
 
-    def test_acl_disable(self):
+    def test_acl_disable(self) -> None:
         """Test disabling ACL."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
@@ -50,7 +50,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         response = self.client.get(self.translate_url)
         self.assertContains(response, 'type="submit" name="save"')
 
-    def test_acl_protected(self):
+    def test_acl_protected(self) -> None:
         """Test ACL protected project."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
@@ -64,27 +64,27 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             response, "Insufficient privileges for saving translations."
         )
 
-    def test_acl(self):
+    def test_acl(self) -> None:
         """Regular user should not have access to user management."""
         self.add_acl()
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
 
-    def test_edit_acl(self):
+    def test_edit_acl(self) -> None:
         """Manager should have access to user management."""
         self.add_acl()
         self.make_manager()
         response = self.client.get(self.access_url)
         self.assertContains(response, "Users")
 
-    def test_edit_acl_owner(self):
+    def test_edit_acl_owner(self) -> None:
         """Owner should have access to user management."""
         self.add_acl()
         self.project.add_user(self.user, "Administration")
         response = self.client.get(self.access_url)
         self.assertContains(response, "Users")
 
-    def add_user(self):
+    def add_user(self) -> None:
         self.add_acl()
         self.project.add_user(self.user, "Administration")
 
@@ -107,7 +107,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
 
-    def test_invite_invalid(self):
+    def test_invite_invalid(self) -> None:
         """Test inviting invalid form."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
@@ -117,7 +117,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertContains(response, "Enter a valid e-mail address.")
 
-    def test_invite_existing(self):
+    def test_invite_existing(self) -> None:
         """Test inviting existing user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
@@ -131,7 +131,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(invitation.user, self.user)
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
-    def test_invite_user(self):
+    def test_invite_user(self) -> None:
         """Test inviting user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
@@ -189,7 +189,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         response = self.client.get(self.access_url)
         self.assertContains(response, "example-username")
 
-    def remove_user(self):
+    def remove_user(self) -> None:
         # Remove user
         response = self.client.post(
             reverse("delete-user", kwargs=self.kw_project),
@@ -202,12 +202,12 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertNotContains(response, self.second_user.username)
         self.assertNotContains(response, self.second_user.email)
 
-    def test_add_acl(self):
+    def test_add_acl(self) -> None:
         """Adding and removing users from the ACL project."""
         self.add_user()
         self.remove_user()
 
-    def test_add_owner(self):
+    def test_add_owner(self) -> None:
         """Adding and removing owners from the ACL project."""
         self.add_user()
         self.client.post(
@@ -236,7 +236,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.remove_user()
 
-    def test_delete_owner(self):
+    def test_delete_owner(self) -> None:
         """Adding and deleting owners from the ACL project."""
         self.add_user()
         self.client.post(
@@ -253,7 +253,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             .exists()
         )
 
-    def test_denied_owner_delete(self):
+    def test_denied_owner_delete(self) -> None:
         """Test that deleting the last owner does not work."""
         self.project.add_user(self.user, "Administration")
         self.client.post(
@@ -281,7 +281,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             .exists()
         )
 
-    def test_nonexisting_user(self):
+    def test_nonexisting_user(self) -> None:
         """Test adding non-existing user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
@@ -291,7 +291,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertContains(response, "Could not find any such user")
 
-    def test_acl_groups(self):
+    def test_acl_groups(self) -> None:
         """Test handling ACL groups."""
         billing_group = 1 if "weblate.billing" in settings.INSTALLED_APPS else 0
         self.project.defined_groups.all().delete()
@@ -319,7 +319,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(10 + billing_group, self.project.defined_groups.count())
         self.project.delete()
 
-    def test_restricted_component(self):
+    def test_restricted_component(self) -> None:
         # Make the project public
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.save()
@@ -350,7 +350,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertContains(self.client.get(reverse("home")), url)
         self.assertContains(self.client.get(project_url), url)
 
-    def test_block_user(self):
+    def test_block_user(self) -> None:
         self.project.add_user(self.user, "Administration")
 
         # Block user
@@ -377,7 +377,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 0)
 
-    def test_delete_group(self):
+    def test_delete_group(self) -> None:
         self.project.add_user(self.user, "Administration")
         group = self.project.defined_groups.get(name="Memory")
         response = self.client.post(
@@ -405,7 +405,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, self.access_url + "#teams")
         return Group.objects.get(name="Czech team")
 
-    def test_create_group(self):
+    def test_create_group(self) -> None:
         group = self.create_test_group()
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 0)
@@ -414,7 +414,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
 
-    def test_create_group_all_lang(self):
+    def test_create_group_all_lang(self) -> None:
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("create-project-group", kwargs=self.kw_project),
@@ -440,7 +440,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
 
-    def test_edit_group(self):
+    def test_edit_group(self) -> None:
         group = self.create_test_group()
 
         response = self.client.post(

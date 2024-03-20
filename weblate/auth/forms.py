@@ -28,7 +28,7 @@ class InviteUserForm(forms.ModelForm):
         files=None,
         project=None,
         **kwargs,
-    ):
+    ) -> None:
         self.project = project
         super().__init__(data=data, files=files, **kwargs)
         if project:
@@ -39,7 +39,7 @@ class InviteUserForm(forms.ModelForm):
             if field in self.fields:
                 self.fields[field].required = True
 
-    def save(self, request, commit: bool = True):
+    def save(self, request, commit: bool = True) -> None:
         self.instance.author = author = request.user
         # Migrate to user if e-mail matches
         if self.instance.email:
@@ -111,12 +111,12 @@ class BaseTeamForm(forms.ModelForm):
         "language_selection",
     ]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
-    def clean(self):
+    def clean(self) -> None:
         super().clean()
         if self.instance.internal:
             for field in self.internal_fields:
@@ -149,7 +149,7 @@ class BaseTeamForm(forms.ModelForm):
 
 
 class ProjectTeamForm(BaseTeamForm):
-    def __init__(self, project, *args, **kwargs):
+    def __init__(self, project, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["components"].queryset = project.component_set.order()
         # Exclude site-wide permissions here

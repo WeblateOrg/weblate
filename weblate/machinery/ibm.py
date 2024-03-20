@@ -25,7 +25,7 @@ class IBMTranslation(MachineTranslation):
     settings_form = KeyURLMachineryForm
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "ibm"
 
     def get_headers(self) -> dict[str, str]:

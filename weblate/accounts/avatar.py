@@ -18,7 +18,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.requests import request
 
 
-def avatar_for_email(email, size=80):
+def avatar_for_email(email, size=80) -> str:
     """Generate url for avatar."""
     # Safely handle blank e-mail
     if not email:

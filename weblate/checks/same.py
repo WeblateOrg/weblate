@@ -134,7 +134,7 @@ class SameCheck(TargetCheck):
     name = gettext_lazy("Unchanged translation")
     description = gettext_lazy("Source and translation are identical")
 
-    def should_ignore(self, source, unit):
+    def should_ignore(self, source, unit) -> bool:
         """Check whether given unit should be ignored."""
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
@@ -200,7 +200,7 @@ class SameCheck(TargetCheck):
 
         return True
 
-    def should_skip(self, unit):
+    def should_skip(self, unit) -> bool:
         # Skip read-only units and ignored check
         if unit.readonly or super().should_skip(unit):
             return True

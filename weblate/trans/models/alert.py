@@ -39,7 +39,7 @@ def register(cls):
     return cls
 
 
-def update_alerts(component: Component, alerts: set[str] | None = None):
+def update_alerts(component: Component, alerts: set[str] | None = None) -> None:
     for name, alert in ALERTS.items():
         if alerts and name not in alerts:
             continue
@@ -69,10 +69,10 @@ class Alert(models.Model):
         verbose_name = "component alert"
         verbose_name_plural = "component alerts"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.obj.verbose)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         is_new = not self.id
         super().save(*args, **kwargs)
         if is_new:
@@ -101,7 +101,7 @@ class BaseAlert:
     doc_page = ""
     doc_anchor = ""
 
-    def __init__(self, instance):
+    def __init__(self, instance) -> None:
         self.instance = instance
 
     def get_analysis(self):
@@ -131,7 +131,7 @@ class BaseAlert:
 
 
 class ErrorAlert(BaseAlert):
-    def __init__(self, instance, error):
+    def __init__(self, instance, error) -> None:
         super().__init__(instance)
         self.error = error
 
@@ -139,7 +139,7 @@ class ErrorAlert(BaseAlert):
 class MultiAlert(BaseAlert):
     occurrences_limit = 100
 
-    def __init__(self, instance, occurrences):
+    def __init__(self, instance, occurrences) -> None:
         super().__init__(instance)
         self.occurrences = self.process_occurrences(
             occurrences[: self.occurrences_limit]
@@ -219,7 +219,7 @@ class DuplicateFilemask(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
 
-    def __init__(self, instance, duplicates):
+    def __init__(self, instance, duplicates) -> None:
         super().__init__(instance)
         self.duplicates = duplicates
 
@@ -436,7 +436,7 @@ class UnsupportedConfiguration(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component"
 
-    def __init__(self, instance, vcs, file_format):
+    def __init__(self, instance, vcs, file_format) -> None:
         super().__init__(instance)
         self.vcs = vcs
         self.file_format = file_format
@@ -457,7 +457,7 @@ class BrokenBrowserURL(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-repoweb"
 
-    def __init__(self, instance, link, error):
+    def __init__(self, instance, link, error) -> None:
         super().__init__(instance)
         self.link = link
         self.error = error
@@ -502,7 +502,7 @@ class BrokenProjectURL(BaseAlert):
     doc_anchor = "project-web"
     project_wide = True
 
-    def __init__(self, instance, error=None):
+    def __init__(self, instance, error=None) -> None:
         super().__init__(instance)
         self.error = error
 
@@ -607,7 +607,7 @@ class InexistantFiles(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-template"
 
-    def __init__(self, instance, files):
+    def __init__(self, instance, files) -> None:
         super().__init__(instance)
         self.files = files
 

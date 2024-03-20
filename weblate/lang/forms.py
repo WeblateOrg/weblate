@@ -13,7 +13,7 @@ class LanguageForm(forms.ModelForm):
         model = Language
         fields = ["code", "name", "direction", "population"]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -28,7 +28,7 @@ class PluralForm(forms.ModelForm):
         model = Plural
         fields = ["number", "formula"]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False

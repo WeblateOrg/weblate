@@ -24,11 +24,11 @@ def escape(text):
 class Command(BaseCommand):
     help = "List installed checks"
 
-    def flush_lines(self, lines):
+    def flush_lines(self, lines) -> None:
         self.stdout.writelines(lines)
         lines.clear()
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List installed checks."""
         ignores = []
         enables = []

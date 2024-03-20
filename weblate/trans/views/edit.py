@@ -70,7 +70,7 @@ from weblate.utils.views import (
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
-def display_fixups(request, fixups):
+def display_fixups(request, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
@@ -201,7 +201,7 @@ def get_other_units(unit):
         return result
 
 
-def cleanup_session(session, delete_all: bool = False):
+def cleanup_session(session, delete_all: bool = False) -> None:
     """Delete old search results from session storage."""
     now = int(time.time())
     keys = list(session.keys())
@@ -316,7 +316,7 @@ def perform_suggestion(unit, form, request):
     return result
 
 
-def perform_translation(unit, form, request):
+def perform_translation(unit, form, request) -> bool:
     """Handle translation and stores it to a backend."""
     user = request.user
     profile = user.profile
@@ -475,7 +475,7 @@ def handle_revert(unit, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggest_permissions(request, mode, unit, suggestion):
+def check_suggest_permissions(request, mode, unit, suggestion) -> bool:
     """Check permission for suggestion handling."""
     user = request.user
     if mode in {"accept", "accept_edit", "accept_approve"}:

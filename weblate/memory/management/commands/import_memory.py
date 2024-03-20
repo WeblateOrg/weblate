@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     help = "imports translation memory"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--language-map",
@@ -25,7 +25,7 @@ class Command(BaseCommand):
             "file", type=argparse.FileType("rb"), help="File to import (TMX or JSON)"
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """Perform translation memory import."""
         langmap = None
         if options["language_map"]:

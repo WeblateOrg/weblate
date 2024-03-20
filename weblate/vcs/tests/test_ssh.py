@@ -21,14 +21,14 @@ class SSHTest(TestCase):
     """Test for customized admin interface."""
 
     @tempdir_setting("DATA_DIR")
-    def test_parse(self):
+    def test_parse(self) -> None:
         self.assertEqual(check_data_writable(), [])
         shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, "ssh"))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
 
     @tempdir_setting("DATA_DIR")
-    def test_create_ssh_wrapper(self):
+    def test_create_ssh_wrapper(self) -> None:
         self.assertEqual(check_data_writable(), [])
         wrapper = SSHWrapper()
         filename = wrapper.filename
@@ -46,7 +46,7 @@ class SSHTest(TestCase):
 
     @tempdir_setting("DATA_DIR")
     @override_settings(SSH_EXTRA_ARGS="-oKexAlgorithms=+diffie-hellman-group1-sha1")
-    def test_ssh_args(self):
+    def test_ssh_args(self) -> None:
         wrapper = SSHWrapper()
         filename = wrapper.filename
         wrapper.create()

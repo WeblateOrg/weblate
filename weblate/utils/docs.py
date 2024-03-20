@@ -9,7 +9,7 @@ from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
 import weblate.utils.version
 
 
-def get_doc_url(page: str, anchor: str = "", user=None):
+def get_doc_url(page: str, anchor: str = "", user=None) -> str:
     """Return URL to documentation."""
     version = weblate.utils.version.VERSION
     # Should we use tagged release or latest version

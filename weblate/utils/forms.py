@@ -20,7 +20,7 @@ from weblate.utils.validators import validate_email, validate_username
 
 
 class QueryField(forms.CharField):
-    def __init__(self, parser: str = "unit", **kwargs):
+    def __init__(self, parser: str = "unit", **kwargs) -> None:
         if "label" not in kwargs:
             kwargs["label"] = gettext_lazy("Query")
         if "required" not in kwargs:
@@ -52,7 +52,7 @@ class QueryField(forms.CharField):
 class UsernameField(forms.CharField):
     default_validators = [validate_username]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         params = {
             "max_length": USERNAME_LENGTH,
             "help_text": gettext_lazy(
@@ -77,7 +77,7 @@ class UserField(forms.CharField):
         limit_choices_to=None,
         blank=None,
         **kwargs,
-    ):
+    ) -> None:
         # This swallows some parameters to mimic ModelChoiceField API
         super().__init__(**kwargs)
 
@@ -115,7 +115,7 @@ class EmailField(forms.EmailField):
 
     default_validators = [validate_email]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs.setdefault("max_length", EMAIL_LENGTH)
         super().__init__(*args, **kwargs)
 
@@ -129,7 +129,7 @@ class SortedSelectMixin:
 
 
 class ColorWidget(forms.RadioSelect):
-    def __init__(self, attrs=None, choices=()):
+    def __init__(self, attrs=None, choices=()) -> None:
         attrs = {**(attrs or {}), "class": "color_edit"}
         super().__init__(attrs, choices)
 
@@ -143,7 +143,7 @@ class SortedSelect(SortedSelectMixin, forms.Select):
 
 
 class ContextDiv(Div):
-    def __init__(self, *fields, **kwargs):
+    def __init__(self, *fields, **kwargs) -> None:
         self.context = kwargs.pop("context", {})
         super().__init__(*fields, **kwargs)
 
@@ -153,7 +153,7 @@ class ContextDiv(Div):
 
 
 class SearchField(Field):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs["template"] = "snippets/query-field.html"
         super().__init__(*args, **kwargs)
 
@@ -198,10 +198,10 @@ class CachedQueryIterator(ModelChoiceIterator):
         for obj in self.queryset:
             yield self.choice(obj)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.queryset) + (1 if self.field.empty_label is not None else 0)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return self.field.empty_label is not None or bool(self.queryset)
 
 
@@ -211,7 +211,7 @@ class NonCopyingSetQuerysetMixin:
     def _get_queryset(self):
         return self._queryset
 
-    def _set_queryset(self, queryset):
+    def _set_queryset(self, queryset) -> None:
         self._queryset = queryset
         self.widget.choices = self.choices
 

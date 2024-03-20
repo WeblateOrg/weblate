@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
     help = "exports translation memory in JSON format"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--indent",
@@ -28,7 +28,7 @@ class Command(BaseCommand):
             help="Store backup to the backups directory in the DATA_DIR",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         memory = Memory.objects.all().prefetch_lang()
         self.stdout.ending = None
         json.dump(

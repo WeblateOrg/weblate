@@ -45,7 +45,7 @@ from weblate.vcs.models import VCS_REGISTRY
 
 
 class BaseCreateView(CreateView):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.has_billing = "weblate.billing" in settings.INSTALLED_APPS
 
@@ -127,7 +127,7 @@ class ImportProject(CreateProject):
     form_class = ProjectImportForm
     template_name = "trans/project_import.html"
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
@@ -233,7 +233,7 @@ class CreateComponent(BaseCreateView):
             "component_progress", kwargs={"path": self.object.get_url_path()}
         )
 
-    def warn_outdated(self, form):
+    def warn_outdated(self, form) -> None:
         linked = form.instance.linked_component
         if linked:
             perform_update.delay("Component", linked.pk, auto=True)
@@ -246,7 +246,7 @@ class CreateComponent(BaseCreateView):
                     ),
                 )
 
-    def detect_license(self, form):
+    def detect_license(self, form) -> None:
         """Automatic license detection based on licensee."""
         try:
             process_result = subprocess.run(
@@ -326,7 +326,7 @@ class CreateComponent(BaseCreateView):
         kwargs["stage"] = self.stage
         return kwargs
 
-    def fetch_params(self, request):
+    def fetch_params(self, request) -> None:
         try:
             self.selected_project = int(
                 request.POST.get("project", request.GET.get("project", ""))
@@ -447,7 +447,7 @@ class CreateComponentSelection(CreateComponent):
                 result[component.pk] = branches
         return result
 
-    def fetch_params(self, request):
+    def fetch_params(self, request) -> None:
         super().fetch_params(request)
         self.components = (
             Component.objects.filter_access(request.user)

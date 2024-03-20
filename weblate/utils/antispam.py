@@ -50,7 +50,7 @@ def is_spam(text, request):
     return False
 
 
-def report_spam(text, user_ip, user_agent):
+def report_spam(text, user_ip, user_agent) -> None:
     akismet = get_akismet()
     if akismet is None:
         return

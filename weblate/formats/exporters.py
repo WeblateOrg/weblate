@@ -66,7 +66,7 @@ class BaseExporter:
         url=None,
         translation=None,
         fieldnames=None,
-    ):
+    ) -> None:
         self.translation = translation
         if translation is not None:
             self.plural = translation.plural
@@ -83,7 +83,7 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    def supports(translation):  # noqa: ARG004
+    def supports(translation) -> bool:  # noqa: ARG004
         return True
 
     @cached_property
@@ -108,13 +108,13 @@ class BaseExporter:
     def get_storage(self):
         return self.storage_class()
 
-    def add(self, unit, word):
+    def add(self, unit, word) -> None:
         unit.target = word
 
     def create_unit(self, source):
         return self.storage.UnitClass(source)
 
-    def add_units(self, units):
+    def add_units(self, units) -> None:
         for unit in units:
             self.add_unit(unit)
 
@@ -126,10 +126,10 @@ class BaseExporter:
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
-    def add_note(self, output, note: str, origin: str):
+    def add_note(self, output, note: str, origin: str) -> None:
         output.addnote(note, origin=origin)
 
-    def add_unit(self, unit):
+    def add_unit(self, unit) -> None:
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
@@ -182,7 +182,7 @@ class BaseExporter:
 
         self.storage.addunit(output)
 
-    def store_unit_state(self, output, unit):
+    def store_unit_state(self, output, unit) -> None:
         if unit.fuzzy:
             output.markfuzzy(True)
         if hasattr(output, "markapproved"):
@@ -215,7 +215,7 @@ class BaseExporter:
         """Return storage content."""
         return TTKitFormat.serialize(self.storage)
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         return
 
 
@@ -226,7 +226,7 @@ class PoExporter(BaseExporter):
     verbose = gettext_lazy("gettext PO")
     storage_class = pofile
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         for flag in flags.items():
             output.settypecomment(flags.format_flag(flag))
 
@@ -260,7 +260,7 @@ class XMLExporter(XMLFilterMixin, BaseExporter):
             targetlanguage=self.language.code,
         )
 
-    def add(self, unit, word):
+    def add(self, unit, word) -> None:
         unit.settarget(word, self.language.code)
 
 
@@ -272,7 +272,7 @@ class PoXliffExporter(XMLExporter):
     verbose = gettext_lazy("XLIFF 1.1 with gettext extensions")
     storage_class = PoXliffFile
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         if flags.has_value("max-length"):
             output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
@@ -335,7 +335,7 @@ class MoExporter(PoExporter):
         url=None,
         translation=None,
         fieldnames=None,
-    ):
+    ) -> None:
         super().__init__(
             project=project,
             source_language=source_language,
@@ -356,10 +356,10 @@ class MoExporter(PoExporter):
                 except IndexError:
                     pass
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         return
 
-    def add_unit(self, unit):
+    def add_unit(self, unit) -> None:
         # We do not store untranslated units
         if not unit.translated:
             return
@@ -467,12 +467,12 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
     extension = "xml"
     verbose = gettext_lazy("Android String Resource")
 
-    def add(self, unit, word):
+    def add(self, unit, word) -> None:
         # Need to have storage to handle plurals
         unit._store = self.storage
         super().add(unit, word)
 
-    def add_note(self, output, note: str, origin: str):
+    def add_note(self, output, note: str, origin: str) -> None:
         # Remove -- from the comment or - at the end as that is not
         # allowed inside XML comment
         note = DASHES.sub("-", note)

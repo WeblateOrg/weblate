@@ -12,43 +12,43 @@ from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 class AngularJSInterpolationCheckTest(CheckTestCase):
     check = AngularJSInterpolationCheck()
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{{name}} string {{other}}", "{{name}} {{other}} string", False, None
             )
         )
 
-    def test_format_ignore_position(self):
+    def test_format_ignore_position(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{{name}} string {{other}}", "{{other}} string {{name}}", False, None
             )
         )
 
-    def test_different_whitespace(self):
+    def test_different_whitespace(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{{ name   }} string", "{{name}} string", False, None
             )
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{{name}} string", "string", False, None)
         )
 
-    def test_wrong_value(self):
+    def test_wrong_value(self) -> None:
         self.assertTrue(
             self.check.check_format(
                 "{{name}} string", "{{nameerror}} string", False, None
             )
         )
 
-    def test_extended_formatting(self):
+    def test_extended_formatting(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "Value: {{ something.value | currency }}",
@@ -66,7 +66,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
             )
         )
 
-    def test_check_highlight(self):
+    def test_check_highlight(self) -> None:
         highlights = list(
             self.check.check_highlight(
                 "{{name}} {{ something.value | currency }} string",
@@ -78,7 +78,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
             highlights,
         )
 
-    def test_check_highlight_ignored(self):
+    def test_check_highlight_ignored(self) -> None:
         highlights = list(
             self.check.check_highlight(
                 "{{name}} {{other}} string",

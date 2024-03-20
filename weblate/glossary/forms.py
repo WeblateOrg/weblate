@@ -68,7 +68,9 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             "translation": GlossaryModelChoiceField,
         }
 
-    def __init__(self, unit, user, data=None, instance=None, initial=None, **kwargs):
+    def __init__(
+        self, unit, user, data=None, instance=None, initial=None, **kwargs
+    ) -> None:
         translation = unit.translation
         component = translation.component
         glossaries = Translation.objects.filter(
@@ -101,7 +103,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         if translation.is_source:
             self.fields["target"].widget = forms.HiddenInput()
 
-    def clean(self):
+    def clean(self) -> None:
         translation = self.cleaned_data.get("translation")
         if not translation:
             return

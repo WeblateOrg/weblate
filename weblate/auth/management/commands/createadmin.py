@@ -13,7 +13,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "setups admin user with random password"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--password",
             default=None,
@@ -45,7 +45,7 @@ class Command(BaseCommand):
             help="Change password for this account if exists",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """
         Create admin account with admin password.
 

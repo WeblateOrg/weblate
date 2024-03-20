@@ -14,14 +14,14 @@ class VariantTest(ViewTestCase):
     def create_component(self):
         return self.create_android()
 
-    def add_variants(self, suffix: str = ""):
+    def add_variants(self, suffix: str = "") -> None:
         request = self.get_request()
         translation = self.component.source_translation
         translation.add_unit(request, f"bar{suffix}", "Default string", None)
         translation.add_unit(request, "barMin", "Min string", None)
         translation.add_unit(request, "barShort", "Short string", None)
 
-    def test_edit_component(self, suffix: str = ""):
+    def test_edit_component(self, suffix: str = "") -> None:
         self.add_variants()
         self.assertEqual(Variant.objects.count(), 0)
         self.component.variant_regex = "(Min|Short|Max)$"
@@ -32,7 +32,7 @@ class VariantTest(ViewTestCase):
         self.component.save()
         self.assertEqual(Variant.objects.count(), 0)
 
-    def test_add_units(self, suffix: str = ""):
+    def test_add_units(self, suffix: str = "") -> None:
         self.component.variant_regex = "(Min|Short|Max)$"
         self.component.save()
         self.assertEqual(Variant.objects.count(), 0)
@@ -40,13 +40,13 @@ class VariantTest(ViewTestCase):
         self.assertEqual(Variant.objects.count(), 1)
         self.assertEqual(Variant.objects.get().unit_set.count(), 6)
 
-    def test_edit_component_suffix(self):
+    def test_edit_component_suffix(self) -> None:
         self.test_edit_component("Max")
 
-    def test_add_units_suffix(self):
+    def test_add_units_suffix(self) -> None:
         self.test_add_units("Max")
 
-    def test_variants_inner(self):
+    def test_variants_inner(self) -> None:
         self.component.variant_regex = (
             "//(SCRTEXT_S|SCRTEXT_M|SCRTEXT_L|REPTEXT|DDTEXT)"
         )
@@ -65,7 +65,7 @@ class VariantTest(ViewTestCase):
         self.assertEqual(Variant.objects.count(), 1)
         self.assertEqual(Variant.objects.get().unit_set.count(), 10)
 
-    def test_variants_flag(self, code: str = "en"):
+    def test_variants_flag(self, code: str = "en") -> None:
         self.add_variants()
         self.assertEqual(Variant.objects.count(), 0)
         translation = self.component.translation_set.get(language_code=code)
@@ -93,7 +93,7 @@ class VariantTest(ViewTestCase):
         unit.save()
         self.assertEqual(Variant.objects.count(), 0)
 
-    def test_variants_flag_delete(self, code: str = "en"):
+    def test_variants_flag_delete(self, code: str = "en") -> None:
         self.add_variants()
         self.assertEqual(Variant.objects.count(), 0)
         translation = self.component.translation_set.get(language_code=code)
@@ -107,10 +107,10 @@ class VariantTest(ViewTestCase):
         translation.delete_unit(None, unit)
         self.assertEqual(Variant.objects.count(), 0)
 
-    def test_variants_flag_translation(self):
+    def test_variants_flag_translation(self) -> None:
         self.test_variants_flag("cs")
 
-    def test_add_variant_unit(self):
+    def test_add_variant_unit(self) -> None:
         self.make_manager()
         translation = self.component.translation_set.get(language_code="cs")
         source = self.component.translation_set.get(language_code="en")

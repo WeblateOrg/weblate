@@ -29,7 +29,7 @@ class SSHAddForm(forms.Form):
         label=gettext_lazy("Port"), required=False, min_value=1, max_value=65535
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -52,7 +52,7 @@ class BackupForm(forms.ModelForm):
 
 
 class FontField(forms.CharField):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(
             help_text=gettext_lazy("Please provide font family suitable for CSS."),
             **kwargs,
@@ -60,7 +60,7 @@ class FontField(forms.CharField):
 
 
 class ColorField(forms.CharField):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(widget=forms.TextInput(attrs={"type": "color"}), **kwargs)
 
 
@@ -94,12 +94,12 @@ class AppearanceForm(forms.Form):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
 
 class ChangedCharField(forms.CharField):
-    def has_changed(self, initial, data):
+    def has_changed(self, initial, data) -> bool:
         return True

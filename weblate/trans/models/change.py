@@ -603,7 +603,7 @@ class Change(models.Model, UserDisplayMixin):
         verbose_name = "history event"
         verbose_name_plural = "history events"
 
-    def __str__(self):
+    def __str__(self) -> str:
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
             "action": self.get_action_display(),
@@ -612,7 +612,7 @@ class Change(models.Model, UserDisplayMixin):
             "user": self.get_user_display(False),
         }
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         self.fixup_refereces()
 
         super().save(*args, **kwargs)
@@ -652,7 +652,7 @@ class Change(models.Model, UserDisplayMixin):
             return self.project
         return None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         self.notify_state = {}
         for attr in ("user", "author"):
             user = kwargs.get(attr)
@@ -664,11 +664,11 @@ class Change(models.Model, UserDisplayMixin):
             self.fixup_refereces()
 
     @staticmethod
-    def get_last_change_cache_key(translation_id: int):
+    def get_last_change_cache_key(translation_id: int) -> str:
         return f"last-content-change-{translation_id}"
 
     @classmethod
-    def store_last_change(cls, translation: Translation, change: Change | None):
+    def store_last_change(cls, translation: Translation, change: Change | None) -> None:
         translation.stats.last_change_cache = change
         cache_key = cls.get_last_change_cache_key(translation.id)
         cache.set(cache_key, change.pk if change else 0, 180 * 86400)
@@ -676,10 +676,10 @@ class Change(models.Model, UserDisplayMixin):
     def is_last_content_change_storable(self):
         return self.translation_id
 
-    def update_cache_last_change(self):
+    def update_cache_last_change(self) -> None:
         self.store_last_change(self.translation, self)
 
-    def fixup_refereces(self):
+    def fixup_refereces(self) -> None:
         """Update references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation
@@ -864,7 +864,7 @@ class Change(models.Model, UserDisplayMixin):
 
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
-def change_notify(sender, instance, created=False, **kwargs):
+def change_notify(sender, instance, created=False, **kwargs) -> None:
     from weblate.accounts.tasks import notify_change
 
     transaction.on_commit(lambda: notify_change.delay(instance.pk))

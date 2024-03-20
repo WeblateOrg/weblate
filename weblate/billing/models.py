@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
 from contextlib import suppress
 from datetime import timedelta
@@ -28,15 +30,15 @@ from weblate.utils.stats import prefetch_stats
 
 
 class LibreCheck:
-    def __init__(self, result, message, component=None):
+    def __init__(self, result, message, component=None) -> None:
         self.result = result
         self.message = message
         self.component = component
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return self.result
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.message
 
 
@@ -72,7 +74,7 @@ class Plan(models.Model):
         verbose_name = "Billing plan"
         verbose_name_plural = "Billing plans"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     @property
@@ -89,7 +91,7 @@ class Plan(models.Model):
 
 
 class BillingManager(models.Manager):
-    def check_limits(self):
+    def check_limits(self) -> None:
         for bill in self.iterator():
             bill.check_limits()
 
@@ -194,7 +196,7 @@ class Billing(models.Model):
         verbose_name = "Customer billing"
         verbose_name_plural = "Customer billings"
 
-    def __str__(self):
+    def __str__(self) -> str:
         projects = self.projects_display
         owners = self.owners.order()
         if projects:
@@ -213,7 +215,7 @@ class Billing(models.Model):
         using=None,
         update_fields=None,
         skip_limits=False,
-    ):
+    ) -> None:
         if (
             not skip_limits
             and self.pk
@@ -278,7 +280,7 @@ class Billing(models.Model):
         return len(self.all_projects)
 
     @admin.display(description=gettext_lazy("Projects"))
-    def display_projects(self):
+    def display_projects(self) -> str:
         return f"{self.count_projects} / {self.plan.display_limit_projects}"
 
     @cached_property
@@ -286,7 +288,7 @@ class Billing(models.Model):
         return sum(p.stats.source_strings for p in self.all_projects)
 
     @admin.display(description=gettext_lazy("Source strings"))
-    def display_strings(self):
+    def display_strings(self) -> str:
         return f"{self.count_strings} / {self.plan.display_limit_strings}"
 
     @cached_property
@@ -298,7 +300,7 @@ class Billing(models.Model):
         return sum(p.stats.all_words for p in self.all_projects)
 
     @admin.display(description=gettext_lazy("Source words"))
-    def display_words(self):
+    def display_words(self) -> str:
         return f"{self.count_words}"
 
     @cached_property
@@ -306,10 +308,10 @@ class Billing(models.Model):
         return max((p.stats.languages for p in self.all_projects), default=0)
 
     @admin.display(description=gettext_lazy("Languages"))
-    def display_languages(self):
+    def display_languages(self) -> str:
         return f"{self.count_languages} / {self.plan.display_limit_languages}"
 
-    def flush_cache(self):
+    def flush_cache(self) -> None:
         keys = list(self.__dict__.keys())
         for key in keys:
             if key.startswith("count_"):
@@ -414,7 +416,7 @@ class Billing(models.Model):
 
         return modified
 
-    def update_alerts(self):
+    def update_alerts(self) -> None:
         if self.in_limits:
             Alert.objects.filter(
                 component__project__in=self.projects.all(), name="BillingLimit"
@@ -523,11 +525,11 @@ class Invoice(models.Model):
         verbose_name = "Invoice"
         verbose_name_plural = "Invoices"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.start} - {self.end}: {self.billing if self.billing_id else None}"
 
     @cached_property
-    def filename(self):
+    def filename(self) -> str | None:
         if self.ref:
             return f"{self.ref}.pdf"
         return None
@@ -540,7 +542,7 @@ class Invoice(models.Model):
     def filename_valid(self):
         return os.path.exists(self.full_filename)
 
-    def clean(self):
+    def clean(self) -> None:
         if self.end is None or self.start is None:
             return
 
@@ -570,7 +572,7 @@ class Invoice(models.Model):
 @receiver(post_save, sender=Project)
 @receiver(post_save, sender=Plan)
 @disable_for_loaddata
-def update_project_bill(sender, instance, **kwargs):
+def update_project_bill(sender, instance, **kwargs) -> None:
     if isinstance(instance, Component):
         instance = instance.project
     for billing in instance.billing_set.all():
@@ -581,7 +583,7 @@ def update_project_bill(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Component)
 @receiver(post_delete, sender=Translation)
 @disable_for_loaddata
-def record_project_bill(sender, instance, **kwargs):
+def record_project_bill(sender, instance, **kwargs) -> None:
     if isinstance(instance, Translation):
         instance = instance.component
     if isinstance(instance, Component):
@@ -594,7 +596,7 @@ def record_project_bill(sender, instance, **kwargs):
 @receiver(post_delete, sender=Component)
 @receiver(post_delete, sender=Translation)
 @disable_for_loaddata
-def delete_project_bill(sender, instance, **kwargs):
+def delete_project_bill(sender, instance, **kwargs) -> None:
     if isinstance(instance, Translation):
         instance = instance.component
     if isinstance(instance, Component):
@@ -606,13 +608,13 @@ def delete_project_bill(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Invoice)
 @disable_for_loaddata
-def update_invoice_bill(sender, instance, **kwargs):
+def update_invoice_bill(sender, instance, **kwargs) -> None:
     instance.billing.check_limits()
 
 
 @receiver(m2m_changed, sender=Billing.projects.through)
 @disable_for_loaddata
-def change_billing_projects(sender, instance, action, **kwargs):
+def change_billing_projects(sender, instance, action, **kwargs) -> None:
     if not action.startswith("post_"):
         return
     instance.check_limits()

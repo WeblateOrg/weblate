@@ -36,7 +36,7 @@ class ObjectPathConverter(PathConverter):
         return "/".join(value)
 
 
-def register_weblate_converters():
+def register_weblate_converters() -> None:
     register_converter(WeblateSlugConverter, "name")
     register_converter(GitPathConverter, "git_path")
     register_converter(WordConverter, "word")

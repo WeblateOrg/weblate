@@ -18,7 +18,7 @@ class SuggestionsTest(ViewTestCase):
     def add_suggestion_2(self):
         return self.edit_unit("Hello, world!\n", "Ahoj svete!\n", suggest="yes")
 
-    def test_add(self):
+    def test_add(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Try empty suggestion (should not be added)
         response = self.edit_unit("Hello, world!\n", "", suggest="yes")
@@ -48,7 +48,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
-    def test_add_same(self):
+    def test_add_same(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Add first suggestion
         response = self.add_suggestion_1()
@@ -73,7 +73,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_delete(self, **kwargs):
+    def test_delete(self, **kwargs) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
@@ -93,10 +93,10 @@ class SuggestionsTest(ViewTestCase):
         suggestions = self.get_unit().suggestions.values_list("pk", flat=True)
         self.assertEqual(len(suggestions), 1)
 
-    def test_delete_spam(self):
+    def test_delete_spam(self) -> None:
         self.test_delete(spam="1")
 
-    def test_accept_edit(self):
+    def test_accept_edit(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create suggestion
         self.add_suggestion_1()
@@ -108,7 +108,7 @@ class SuggestionsTest(ViewTestCase):
         response = self.edit_unit("Hello, world!\n", "", accept_edit=suggestion)
         self.assert_redirects_offset(response, translate_url, 1)
 
-    def test_accept(self):
+    def test_accept(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
@@ -138,7 +138,7 @@ class SuggestionsTest(ViewTestCase):
         self.assert_backend(1)
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_accept_anonymous(self):
+    def test_accept_anonymous(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         self.client.logout()
         # Create suggestions
@@ -165,7 +165,7 @@ class SuggestionsTest(ViewTestCase):
         # Unit should be translated
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
-    def test_vote_language(self):
+    def test_vote_language(self) -> None:
         WorkflowSetting.objects.create(
             project=self.project,
             language=self.translation.language,
@@ -176,14 +176,14 @@ class SuggestionsTest(ViewTestCase):
 
         self.assert_vote()
 
-    def test_vote(self):
+    def test_vote(self) -> None:
         self.component.suggestion_voting = True
         self.component.suggestion_autoaccept = 0
         self.component.save()
 
         self.assert_vote()
 
-    def assert_vote(self):
+    def assert_vote(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         self.add_suggestion_1()
 
@@ -201,7 +201,7 @@ class SuggestionsTest(ViewTestCase):
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(suggestion.get_num_votes(), -1)
 
-    def test_vote_autoaccept(self):
+    def test_vote_autoaccept(self) -> None:
         self.add_suggestion_1()
 
         translate_url = reverse("translate", kwargs=self.kw_translation)
@@ -227,7 +227,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assert_backend(1)
 
-    def test_vote_when_same_suggestion(self):
+    def test_vote_when_same_suggestion(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         self.component.suggestion_voting = True
         self.component.suggestion_autoaccept = 0

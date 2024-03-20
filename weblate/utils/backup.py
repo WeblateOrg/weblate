@@ -52,7 +52,7 @@ def make_password(length: int = 50):
     return "".join(generator.choice(chars) for i in range(length))
 
 
-def tag_cache_dirs():
+def tag_cache_dirs() -> None:
     """Create CACHEDIR.TAG in our cache dirs to exclude from backups."""
     dirs = [
         # Fontconfig cache

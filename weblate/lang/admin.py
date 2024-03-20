@@ -21,7 +21,7 @@ class LanguageAdmin(WeblateModelAdmin):
     inlines = [PluralAdmin]
     ordering = ["name"]
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         super().save_related(request, form, formsets, change)
         lang = form.instance
 

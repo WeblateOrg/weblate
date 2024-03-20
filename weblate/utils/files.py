@@ -21,7 +21,7 @@ EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
 
 
-def remove_readonly(func, path, excinfo):
+def remove_readonly(func, path, excinfo) -> None:
     """Clear the readonly bit and reattempt the removal."""
     if isinstance(excinfo[1], FileNotFoundError):
         return
@@ -36,7 +36,7 @@ def remove_readonly(func, path, excinfo):
         func(path)
 
 
-def remove_tree(path: str, ignore_errors: bool = False):
+def remove_tree(path: str, ignore_errors: bool = False) -> None:
     # TODO: switch to onexc with Python >= 3.12
     shutil.rmtree(path, ignore_errors=ignore_errors, onerror=remove_readonly)
 

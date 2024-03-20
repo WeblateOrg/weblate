@@ -16,7 +16,7 @@ def get_request(request):
     return getattr(request, "_request", request)
 
 
-def debug(request, message, extra_tags="", fail_silently=False):
+def debug(request, message, extra_tags="", fail_silently=False) -> None:
     """Add a message with the ``DEBUG`` level."""
     if request is not None:
         add_message(
@@ -28,7 +28,7 @@ def debug(request, message, extra_tags="", fail_silently=False):
         )
 
 
-def info(request, message, extra_tags="", fail_silently=False):
+def info(request, message, extra_tags="", fail_silently=False) -> None:
     """Add a message with the ``INFO`` level."""
     if request is not None:
         add_message(
@@ -40,7 +40,7 @@ def info(request, message, extra_tags="", fail_silently=False):
         )
 
 
-def success(request, message, extra_tags="", fail_silently=False):
+def success(request, message, extra_tags="", fail_silently=False) -> None:
     """Add a message with the ``SUCCESS`` level."""
     if request is not None:
         add_message(
@@ -52,7 +52,7 @@ def success(request, message, extra_tags="", fail_silently=False):
         )
 
 
-def warning(request, message, extra_tags="", fail_silently=False):
+def warning(request, message, extra_tags="", fail_silently=False) -> None:
     """Add a message with the ``WARNING`` level."""
     if request is not None:
         add_message(
@@ -64,7 +64,7 @@ def warning(request, message, extra_tags="", fail_silently=False):
         )
 
 
-def error(request, message, extra_tags="", fail_silently=False):
+def error(request, message, extra_tags="", fail_silently=False) -> None:
     """Add a message with the ``ERROR`` level."""
     if request is not None:
         add_message(

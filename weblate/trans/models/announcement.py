@@ -127,10 +127,10 @@ class Announcement(models.Model):
         verbose_name = "Announcement"
         verbose_name_plural = "Announcements"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.message
 
-    def clean(self):
+    def clean(self) -> None:
         if self.project and self.component and self.component.project != self.project:
             raise ValidationError(gettext("Do not specify both component and project!"))
         if not self.project and self.component:

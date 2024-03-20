@@ -36,7 +36,7 @@ LOGGER = logging.getLogger("weblate.vcs")
 class RepositoryError(Exception):
     """Error while working with a repository."""
 
-    def __init__(self, retcode, message):
+    def __init__(self, retcode, message) -> None:
         super().__init__(message)
         self.retcode = retcode
 
@@ -45,7 +45,7 @@ class RepositoryError(Exception):
             return f"{self.args[0]} ({self.retcode})"
         return self.args[0]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.get_message()
 
 
@@ -83,7 +83,7 @@ class Repository:
         component=None,
         local: bool = False,
         skip_init: bool = False,
-    ):
+    ) -> None:
         self.path = path
         if branch is None:
             self.branch = self.default_branch
@@ -113,11 +113,11 @@ class Repository:
         return cls.default_branch
 
     @classmethod
-    def add_breadcrumb(cls, message, **data):
+    def add_breadcrumb(cls, message, **data) -> None:
         add_breadcrumb(category="vcs", message=message, **data)
 
     @classmethod
-    def add_response_breadcrumb(cls, response):
+    def add_response_breadcrumb(cls, response) -> None:
         cls.add_breadcrumb(
             "http.response",
             status_code=response.status_code,
@@ -129,7 +129,7 @@ class Repository:
     def log(cls, message, level: int = logging.DEBUG):
         return LOGGER.log(level, "%s: %s", cls._cmd, message)
 
-    def ensure_config_updated(self):
+    def ensure_config_updated(self) -> None:
         """Ensure the configuration is periodically checked."""
         if self._config_updated:
             return
@@ -139,15 +139,15 @@ class Repository:
             cache.set(cache_key, True, 86400)
         self._config_updated = True
 
-    def check_config(self):
+    def check_config(self) -> None:
         """Check VCS configuration."""
         raise NotImplementedError
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """Check whether this is a valid repository."""
         raise NotImplementedError
 
-    def init(self):
+    def init(self) -> None:
         """Initialize the repository."""
         raise NotImplementedError
 
@@ -246,14 +246,14 @@ class Repository:
             raise
         return self.last_output
 
-    def log_status(self, error):
+    def log_status(self, error) -> None:
         try:
             self.log(f"failure {error}")
             self.log(self.status())
         except RepositoryError:
             pass
 
-    def clean_revision_cache(self):
+    def clean_revision_cache(self) -> None:
         if "last_revision" in self.__dict__:
             del self.__dict__["last_revision"]
         if "last_remote_revision" in self.__dict__:
@@ -275,7 +275,7 @@ class Repository:
         )
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
+    def _clone(cls, source: str, target: str, branch: str) -> None:
         """Clone repository."""
         raise NotImplementedError
 
@@ -287,7 +287,7 @@ class Repository:
             cls._clone(source, target, branch)
         return repo
 
-    def update_remote(self):
+    def update_remote(self) -> None:
         """Update remote repository."""
         raise NotImplementedError
 
@@ -295,29 +295,29 @@ class Repository:
         """Return status of the repository."""
         return self.execute(self._cmd_status, needs_lock=False)
 
-    def push(self, branch):
+    def push(self, branch) -> None:
         """Push given branch to remote repository."""
         raise NotImplementedError
 
-    def unshallow(self):
+    def unshallow(self) -> None:
         """Unshallow working copy."""
         return
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset working copy to match remote branch."""
         raise NotImplementedError
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
-    ):
+    ) -> None:
         """Merge remote branch or reverts the merge."""
         raise NotImplementedError
 
-    def rebase(self, abort=False):
+    def rebase(self, abort=False) -> None:
         """Rebase working copy on top of remote branch."""
         raise NotImplementedError
 
-    def needs_commit(self, filenames: list[str] | None = None):
+    def needs_commit(self, filenames: list[str] | None = None) -> bool:
         """Check whether repository needs commit."""
         raise NotImplementedError
 
@@ -351,7 +351,7 @@ class Repository:
         """
         return self.count_outgoing() > 0
 
-    def _get_revision_info(self, revision):
+    def _get_revision_info(self, revision) -> dict[str, str]:
         """Return dictionary with detailed revision information."""
         raise NotImplementedError
 
@@ -372,7 +372,7 @@ class Repository:
         return result
 
     @classmethod
-    def is_configured(cls):
+    def is_configured(cls) -> bool:
         return True
 
     @classmethod
@@ -405,7 +405,7 @@ class Repository:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False)
 
-    def set_committer(self, name, mail):
+    def set_committer(self, name, mail) -> None:
         """Configure committer name."""
         raise NotImplementedError
 
@@ -419,12 +419,12 @@ class Repository:
         """Create new revision."""
         raise NotImplementedError
 
-    def remove(self, files: list[str], message: str, author: str | None = None):
+    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
         """Remove files and creates new revision."""
         raise NotImplementedError
 
     @staticmethod
-    def update_hash(objhash, filename, extra=None):
+    def update_hash(objhash, filename, extra=None) -> None:
         if os.path.islink(filename):
             objtype = "symlink"
             data = os.readlink(filename).encode()
@@ -463,19 +463,19 @@ class Repository:
 
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
-    ):
+    ) -> None:
         """Configure remote repository."""
         raise NotImplementedError
 
-    def configure_branch(self, branch):
+    def configure_branch(self, branch) -> None:
         """Configure repository branch."""
         raise NotImplementedError
 
-    def describe(self):
+    def describe(self) -> str:
         """Verbosely describes current revision."""
         raise NotImplementedError
 
-    def get_file(self, path, revision):
+    def get_file(self, path, revision) -> str:
         """Return content of file at given revision."""
         raise NotImplementedError
 
@@ -505,11 +505,11 @@ class Repository:
             return None
         return merge_driver
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         """Remove not tracked files from the repository."""
         raise NotImplementedError
 
-    def log_revisions(self, refspec):
+    def log_revisions(self, refspec) -> list[str]:
         """
         Log revisions for given refspec.
 
@@ -539,7 +539,7 @@ class Repository:
 
         return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
-    def get_remote_branch_name(self):
+    def get_remote_branch_name(self) -> str:
         return f"origin/{self.branch}"
 
     def list_remote_branches(self):

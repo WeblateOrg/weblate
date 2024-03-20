@@ -41,7 +41,7 @@ class ModernMTTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         super().check_failure(response)
         payload = response.json()
 

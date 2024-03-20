@@ -15,7 +15,7 @@ from weblate.utils.lock import WeblateLockTimeoutError
     autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
     retry_backoff=60,
 )
-def sync_glossary_languages(pk: int, component: Component | None = None):
+def sync_glossary_languages(pk: int, component: Component | None = None) -> None:
     """Add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)

@@ -114,11 +114,11 @@ class ConvertFormat(TranslationFormat):
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         raise NotImplementedError
 
-    def save(self):
+    def save(self) -> None:
         """Save underlying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
@@ -126,7 +126,7 @@ class ConvertFormat(TranslationFormat):
         raise NotImplementedError
 
     @staticmethod
-    def needs_target_sync(template_store):  # noqa: ARG004
+    def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return False
 
     def load(self, storefile, template_store):
@@ -151,7 +151,7 @@ class ConvertFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
-    ):
+    ) -> None:
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")
@@ -179,7 +179,7 @@ class ConvertFormat(TranslationFormat):
             return False
         return True
 
-    def add_unit(self, ttkit_unit):
+    def add_unit(self, ttkit_unit) -> None:
         self.store.addunit(ttkit_unit)
 
     @classmethod
@@ -273,7 +273,7 @@ class HTMLFormat(ConvertFormat):
         htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
         return self.convert_to_po(htmlparser, template_store)
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         converter = po2html()
         templatename = self.template_store.storefile
@@ -286,12 +286,12 @@ class HTMLFormat(ConvertFormat):
         handle.write(outputstring.encode("utf-8"))
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "text/html"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "html"
 
@@ -307,7 +307,7 @@ class MarkdownFormat(ConvertFormat):
         mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
         return self.convert_to_po(mdparser, template_store, use_location=False)
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         converter = MarkdownTranslator(
             inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
@@ -319,12 +319,12 @@ class MarkdownFormat(ConvertFormat):
             converter.translate(templatefile, handle)
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "text/markdown"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "md"
 
@@ -364,7 +364,7 @@ class OpenDocumentFormat(ConvertFormat):
             build_store(BytesIO(data), store, parse_state)
         return store
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
@@ -379,17 +379,17 @@ class OpenDocumentFormat(ConvertFormat):
             write_odf(templatefile, handle, dom_trees)
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "application/vnd.oasis.opendocument.text"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "odt"
 
     @staticmethod
-    def needs_target_sync(template_store):  # noqa: ARG004
+    def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return True
 
 
@@ -420,7 +420,7 @@ class IDMLFormat(ConvertFormat):
 
         return store
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
@@ -437,17 +437,17 @@ class IDMLFormat(ConvertFormat):
             write_idml(template_zip, handle, dom_trees)
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "application/octet-stream"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "idml"
 
     @staticmethod
-    def needs_target_sync(template_store):  # noqa: ARG004
+    def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return True
 
 
@@ -462,12 +462,12 @@ class WindowsRCFormat(ConvertFormat):
         return template_store is None
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common media type for format."""
         return "text/plain"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "rc"
 
@@ -482,7 +482,7 @@ class WindowsRCFormat(ConvertFormat):
         store.rcfile = input_store
         return store
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         # Fallback language
         lang = "LANG_ENGLISH"
@@ -525,12 +525,12 @@ class PlainTextFormat(ConvertFormat):
     flavour = "plain"
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common media type for format."""
         return "text/plain"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "txt"
 
@@ -540,7 +540,7 @@ class PlainTextFormat(ConvertFormat):
         input_store.filename = os.path.basename(storefile.name)
         return self.convert_to_po(input_store, template_store)
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         """Store content to file."""
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):

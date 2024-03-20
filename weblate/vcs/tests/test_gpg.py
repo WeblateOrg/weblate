@@ -25,7 +25,7 @@ class GPGTest(TestCase):
     gpg_error = None
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         """Check whether we can use gpg."""
         super().setUpClass()
         try:
@@ -41,18 +41,18 @@ class GPGTest(TestCase):
         except (subprocess.CalledProcessError, OSError):
             cls.gpg_error = "gpg not found"
 
-    def setUp(self):
+    def setUp(self) -> None:
         if self.gpg_error:
             raise SkipTest(self.gpg_error)
 
-    def check_errors(self):
+    def check_errors(self) -> None:
         self.assertEqual(weblate.vcs.gpg.GPG_ERRORS, {})
 
     @tempdir_setting("DATA_DIR")
     @override_settings(
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
-    def test_generate(self):
+    def test_generate(self) -> None:
         self.assertEqual(check_data_writable(), [])
         self.assertIsNone(get_gpg_key(silent=True))
         key = generate_gpg_key()
@@ -64,7 +64,7 @@ class GPGTest(TestCase):
     @override_settings(
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
-    def test_get(self):
+    def test_get(self) -> None:
         self.assertEqual(check_data_writable(), [])
         # This will generate new key
         key = get_gpg_sign_key()
@@ -80,7 +80,7 @@ class GPGTest(TestCase):
     @override_settings(
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
-    def test_public(self):
+    def test_public(self) -> None:
         self.assertEqual(check_data_writable(), [])
         # This will generate new key
         key = get_gpg_public_key()

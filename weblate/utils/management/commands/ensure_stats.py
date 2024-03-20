@@ -14,7 +14,7 @@ from weblate.utils.stats import GlobalStats
 class Command(BaseCommand):
     help = "ensures that stats are present"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         all_strings = GlobalStats().all
         self.stdout.write(f"found {all_strings} strings")
         if not Metric.objects.filter(

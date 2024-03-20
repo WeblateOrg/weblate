@@ -30,7 +30,7 @@ sys.path.append(str(file_dir / "_ext"))
 sys.path.append(str(weblate_dir))
 
 
-def setup(app):
+def setup(app) -> None:
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",

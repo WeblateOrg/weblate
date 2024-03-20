@@ -9,7 +9,7 @@ from weblate.utils.xml import parse_xml
 
 
 class SitemapTest(FixtureTestCase):
-    def test_sitemaps(self):
+    def test_sitemaps(self) -> None:
         # Get root sitemap
         response = self.client.get("/sitemap.xml")
         self.assertContains(response, "<sitemapindex")

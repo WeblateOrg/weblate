@@ -189,7 +189,7 @@ class EmailSentView(TemplateView):
         return super().get(request, *args, **kwargs)
 
 
-def mail_admins_contact(request, subject, message, context, sender, to):
+def mail_admins_contact(request, subject, message, context, sender, to) -> None:
     """Send a message to the admins, as defined by the ADMINS setting."""
     LOGGER.info("contact form from %s", sender)
     if not to and settings.ADMINS:
@@ -1078,7 +1078,7 @@ def unwatch(request, path):
     return redirect_next(request.GET.get("next"), obj)
 
 
-def mute_real(user, **kwargs):
+def mute_real(user, **kwargs) -> None:
     for notification_cls in NOTIFICATIONS:
         if notification_cls.ignore_watched:
             continue
@@ -1133,7 +1133,7 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, *, reset: bool = False, remove: bool = False):
+def store_userid(request, *, reset: bool = False, remove: bool = False) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
@@ -1442,7 +1442,7 @@ class UserList(ListView):
 
         return users.order_by(self.sort_query)
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.form = form = self.form_class(request.GET)
         self.sort_query = ""

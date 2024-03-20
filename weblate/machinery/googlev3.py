@@ -28,7 +28,7 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
     settings_form = GoogleV3MachineryForm
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "google-translate-api-v3"
 
     @cached_property
@@ -46,7 +46,7 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
         )
 
     @cached_property
-    def parent(self):
+    def parent(self) -> str:
         project = self.settings["project"]
         location = self.settings["location"]
         return f"projects/{project}/locations/{location}"
@@ -84,7 +84,7 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
-    ):
+    ) -> str:
         """Generate a single replacement."""
         return f'<span translate="no" id="{h_start}">{self.escape_text(h_text)}</span>'
 

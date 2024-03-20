@@ -28,7 +28,7 @@ class CleanupAddon(BaseCleanupAddon):
     icon = "eraser.svg"
     events = (AddonEvent.EVENT_PRE_COMMIT, AddonEvent.EVENT_POST_UPDATE)
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component, previous_head) -> None:
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_unused()
             if filenames is None:
@@ -36,7 +36,7 @@ class CleanupAddon(BaseCleanupAddon):
             self.extra_files.extend(filenames)
             # Do not update hash here as this is just before parsing updated files
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         if translation.is_source and not translation.component.intermediate:
             return
         try:
@@ -57,7 +57,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
     events = (AddonEvent.EVENT_POST_COMMIT, AddonEvent.EVENT_POST_UPDATE)
     icon = "eraser.svg"
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component, previous_head) -> None:
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_blank()
             if filenames is None:
@@ -67,5 +67,5 @@ class RemoveBlankAddon(BaseCleanupAddon):
             if previous_head == "weblate:post-commit":
                 translation.store_hash()
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         self.post_update(component, "weblate:post-commit", skip_push=True, child=False)

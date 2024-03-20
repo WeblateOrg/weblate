@@ -80,26 +80,26 @@ class Screenshot(models.Model, UserDisplayMixin):
         verbose_name = "Screenshot"
         verbose_name_plural = "Screenshots"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     def get_absolute_url(self):
         return reverse("screenshot", kwargs={"pk": self.pk})
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         # Project backup integration
         self.import_data: dict[str, Any] = {}
         self.import_handle: BinaryIO | None = None
 
     @property
-    def filter_name(self):
+    def filter_name(self) -> str:
         return f"screenshot:{Flags.format_value(self.name)}"
 
 
 @receiver(m2m_changed, sender=Screenshot.units.through)
 @disable_for_loaddata
-def change_screenshot_assignment(sender, instance, action, **kwargs):
+def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
     # Update alerts in case there is change in string assignment
     if instance.translation.component.alert_set.filter(
         name="UnusedScreenshot"
@@ -107,7 +107,7 @@ def change_screenshot_assignment(sender, instance, action, **kwargs):
         component_alerts.delay([instance.pk])
 
 
-def validate_screenshot_image(component, filename):
+def validate_screenshot_image(component, filename) -> bool:
     """Validate a screenshot image."""
     try:
         full_name = os.path.join(component.full_path, filename)
@@ -122,7 +122,7 @@ def validate_screenshot_image(component, filename):
 
 
 @receiver(vcs_post_update)
-def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
+def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) -> None:
     repository = component.repository
     changed_files = repository.get_changed_files(compare_to=previous_head)
 

@@ -17,7 +17,7 @@ from weblate.utils.views import parse_path
 
 
 class ProjectViewMixin:
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [self.kwargs["project"]], (Project,))
 

@@ -10,7 +10,7 @@ import re
 import sys
 from operator import itemgetter
 from types import GeneratorType
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
 import django.shortcuts
@@ -24,6 +24,13 @@ from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from weblate.auth.models import User
+    from weblate.auth.permissions import PermissionResult
+    from weblate.trans.models import Project, Translation
 
 PLURAL_SEPARATOR = "\x1e\x1e"
 LOCALE_SETUP = True
@@ -49,7 +56,7 @@ if locale.strxfrm("a") == "a":
         LOCALE_SETUP = False
 
 
-def is_plural(text):
+def is_plural(text: str) -> bool:
     """Check whether string is plural form."""
     return text.find(PLURAL_SEPARATOR) != -1
 
@@ -58,11 +65,11 @@ def split_plural(text: str) -> list[str]:
     return text.split(PLURAL_SEPARATOR)
 
 
-def join_plural(plurals: list[str]) -> str:
+def join_plural(plurals: Iterable[str]) -> str:
     return PLURAL_SEPARATOR.join(plurals)
 
 
-def get_string(text):
+def get_string(text: str | multistring | list | GeneratorType | None) -> str:
     """Return correctly formatted string from ttkit unit data."""
     # Check for null target (happens with XLIFF)
     if text is None:
@@ -81,7 +88,7 @@ def get_string(text):
     return str(text)
 
 
-def is_repo_link(val):
+def is_repo_link(val: str) -> bool:
     """Check whether repository is just a link for other one."""
     return val.startswith("weblate://")
 
@@ -104,7 +111,9 @@ def get_distinct_translations(units):
     return result
 
 
-def translation_percent(translated, total, zero_complete=True):
+def translation_percent(
+    translated: int, total: int, zero_complete: bool = True
+) -> float:
     """Return translation percentage."""
     if total == 0:
         return 100.0 if zero_complete else 0.0
@@ -168,7 +177,7 @@ def get_clean_env(
     return environ
 
 
-def cleanup_repo_url(url, text=None):
+def cleanup_repo_url(url: str, text: str | None = None) -> str:
     """Remove credentials from repository URL."""
     if text is None:
         text = url
@@ -189,7 +198,7 @@ def redirect_param(location, params, *args, **kwargs):
     return HttpResponseRedirect(resolve_url(location, *args, **kwargs) + params)
 
 
-def cleanup_path(path):
+def cleanup_path(path: str) -> str:
     """Remove leading ./ or / from path."""
     if not path:
         return path
@@ -205,7 +214,7 @@ def cleanup_path(path):
     return os.path.normpath(path)
 
 
-def get_project_description(project):
+def get_project_description(project: Project) -> str:
     """Return verbose description for project translation."""
     # Cache the count as it might be expensive to calculate (it pull
     # all project stats) and there is no need to always have up to date
@@ -245,7 +254,7 @@ def render(
     )
 
 
-def path_separator(path):
+def path_separator(path: str) -> str:
     """
     Consolidate path separtor.
 
@@ -319,7 +328,9 @@ def rich_to_xliff_string(string_elements):
     return get_string(string_xml[3:][:-4])
 
 
-def check_upload_method_permissions(user, translation, method: str):
+def check_upload_method_permissions(
+    user: User, translation: Translation, method: str
+) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
     if method == "source":
         return (
@@ -336,16 +347,18 @@ def check_upload_method_permissions(user, translation, method: str):
     if method == "approve":
         return user.has_perm("unit.review", translation)
     if method == "replace":
-        return translation.filename and user.has_perm("component.edit", translation)
+        return bool(translation.filename) and user.has_perm(
+            "component.edit", translation
+        )
     raise ValueError(f"Invalid method: {method}")
 
 
-def is_unused_string(string: str):
+def is_unused_string(string: str) -> bool:
     """Check whether string should not be used."""
     return string.startswith("<unused singular")
 
 
-def count_words(string: str, lang_code=""):
+def count_words(string: str, lang_code: str = "") -> int:
     """Count number of words in a string."""
     if is_ngram_code(lang_code):
         count = 0
@@ -363,5 +376,5 @@ def count_words(string: str, lang_code=""):
     return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
 
 
-def is_ngram_code(string: str):
+def is_ngram_code(string: str) -> bool:
     return string in {"ja", "zh", "ko"}

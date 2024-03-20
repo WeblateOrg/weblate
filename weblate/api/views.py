@@ -344,7 +344,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.order_by("id")
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
 
@@ -463,7 +463,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             return Group.objects.order_by("id")
         return self.request.user.groups.order_by("id")
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("group.edit"):
             self.permission_denied(request, "Can not manage groups")
 
@@ -652,7 +652,7 @@ class RoleViewSet(viewsets.ModelViewSet):
             .distinct()
         )
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("role.edit"):
             self.permission_denied(request, "Can not manage roles")
 
@@ -794,7 +794,7 @@ class ProjectViewSet(
         self.request = request
         return super().create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         with transaction.atomic():
             super().perform_create(serializer)
             if (
@@ -1069,7 +1069,7 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
             self.permission_denied(self.request, "Access not allowed")
         return Memory.objects.order_by("id")
 
-    def perm_check(self, request, instance):
+    def perm_check(self, request, instance) -> None:
         if not request.user.has_perm("memory.delete", instance):
             self.permission_denied(request, "Can not delete memory entry")
 
@@ -1280,7 +1280,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
             return Language.objects.order_by("id").prefetch()
         return Language.objects.have_translation().order_by("id").prefetch()
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("language.edit"):
             self.permission_denied(request, "Can not manage languages")
 
@@ -1341,7 +1341,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
-    def perform_update(self, serializer):  # noqa: C901
+    def perform_update(self, serializer) -> None:  # noqa: C901
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "extra_flags" in data or "explanation" in data or "labels" in data
@@ -1596,7 +1596,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             .distinct()
         )
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("componentlist.edit"):
             self.permission_denied(request, "Can not manage component lists")
 
@@ -1672,7 +1672,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             project__in=self.request.user.allowed_projects
         ).order_by("id")
 
-    def perm_check(self, request, instance):
+    def perm_check(self, request, instance) -> None:
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not manage categories")
 
@@ -1686,7 +1686,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         category_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         if not self.request.user.has_perm(
             "project.edit", serializer.validated_data["project"]
         ):
@@ -1695,7 +1695,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             )
         serializer.save()
 
-    def perform_update(self, serializer):
+    def perform_update(self, serializer) -> None:
         if not self.request.user.has_perm(
             "project.edit",
             serializer.validated_data.get("project", serializer.instance.project),
@@ -1848,7 +1848,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 
-    def perm_check(self, request, instance: Addon):
+    def perm_check(self, request, instance: Addon) -> None:
         if not request.user.has_perm("component.edit", instance.component):
             self.permission_denied(request, "Can not manage addons")
 

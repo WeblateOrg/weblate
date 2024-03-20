@@ -11,7 +11,7 @@ from weblate.checks.models import Check
 class Command(BaseCommand):
     help = "lists top untranslated failing checks"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         results = (
             Check.objects.filter(name="same")
             .values("unit__source")

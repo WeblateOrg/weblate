@@ -422,7 +422,7 @@ class PunctuationSpacingCheck(TargetCheck):
         "Missing non breakable space before double punctuation sign"
     )
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         if (
             not unit.translation.language.is_base(("fr", "br"))
             or unit.translation.language.code == "fr_CA"

@@ -41,7 +41,7 @@ class ProxyMiddleware:
     proxy setup.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -73,7 +73,7 @@ class RedirectMiddleware:
     or after renaming.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -251,7 +251,7 @@ class RedirectMiddleware:
 class SecurityMiddleware:
     """Middleware that sets Content-Security-Policy."""
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):

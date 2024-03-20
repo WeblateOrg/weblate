@@ -31,7 +31,7 @@ PERMISSION_NAMES.update(PERMISSIONS)
 class Command(BaseCommand):
     help = "List permissions"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List permissions."""
         self.stdout.write("Managing per-project access control\n\n")
 

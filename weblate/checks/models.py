@@ -134,7 +134,7 @@ class Check(models.Model):
         verbose_name = "Quality check"
         verbose_name_plural = "Quality checks"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.get_name())
 
     @cached_property
@@ -173,7 +173,7 @@ class Check(models.Model):
             return self.check_obj.get_doc_url(user=user)
         return ""
 
-    def set_dismiss(self, state=True):
+    def set_dismiss(self, state=True) -> None:
         """Set ignore flag."""
         self.dismissed = state
         self.save(update_fields=["dismissed"])

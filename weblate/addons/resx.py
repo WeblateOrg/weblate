@@ -44,7 +44,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
             return intermediate
         return index
 
-    def update_resx(self, index, translation, storage, changes):
+    def update_resx(self, index, translation, storage, changes) -> None:
         """
         Filter obsolete units in RESX storage.
 
@@ -87,7 +87,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
         return result
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component, previous_head) -> None:
         index, intermediate = self.build_indexes()
 
         if previous_head:

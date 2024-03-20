@@ -86,7 +86,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
     CREATE_GLOSSARIES: bool = True
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.glossary_component = self.project.glossaries[0]
         self.glossary = self.glossary_component.translation_set.get(
@@ -102,7 +102,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
                 params,
             )
 
-    def add_term(self, source, target, context=""):
+    def add_term(self, source, target, context="") -> None:
         id_hash = calculate_hash(source, context)
         source_unit = self.glossary_component.source_translation.unit_set.create(
             source=source,
@@ -123,10 +123,10 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         )
         self.glossary.invalidate_cache()
 
-    def test_import(self):
+    def test_import(self) -> None:
         """Test for importing of TBX into glossary."""
 
-        def change_term():
+        def change_term() -> None:
             term = self.glossary.unit_set.get(target="podpůrná vrstva")
             term.target = "zkouška sirén"
             term.save()
@@ -169,7 +169,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             self.glossary.unit_set.filter(target="podpůrná vrstva").exists()
         )
 
-    def test_import_csv(self):
+    def test_import_csv(self) -> None:
         # Import file
         response = self.import_file(TEST_CSV)
 
@@ -181,7 +181,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 163)
 
-    def test_import_csv_header(self):
+    def test_import_csv_header(self) -> None:
         # Import file
         response = self.import_file(TEST_CSV_HEADER)
 
@@ -191,7 +191,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 163)
 
-    def test_import_po(self):
+    def test_import_po(self) -> None:
         # Import file
         response = self.import_file(TEST_PO)
 
@@ -201,7 +201,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 164)
 
-    def test_get_terms(self):
+    def test_get_terms(self) -> None:
         self.add_term("hello", "ahoj")
         self.add_term("thank", "děkujeme")
 
@@ -244,7 +244,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             },
         )
 
-    def test_substrings(self):
+    def test_substrings(self) -> None:
         self.add_term("reach", "dojet")
         self.add_term("breach", "prolomit")
         unit = self.get_unit()
@@ -253,7 +253,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             unit_sources_and_positions(get_glossary_terms(unit)), {("reach", ((0, 5),))}
         )
 
-    def test_phrases(self):
+    def test_phrases(self) -> None:
         self.add_term("Destructive Breach", "x")
         self.add_term("Flame Breach", "x")
         self.add_term("Frost Breach", "x")
@@ -289,12 +289,12 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         unit.save()
         return unit
 
-    def test_get_long(self):
+    def test_get_long(self) -> None:
         """Test parsing long source string."""
         unit = self.get_long_unit()
         self.assertEqual(unit_sources_and_positions(get_glossary_terms(unit)), set())
 
-    def test_stoplist(self):
+    def test_stoplist(self) -> None:
         unit = self.get_long_unit()
         self.add_term("the blue", "modrý")
         self.add_term("the red", "červený")
@@ -305,7 +305,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             {("the red", ((1285, 1292),))},
         )
 
-    def test_get_dash(self):
+    def test_get_dash(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "Nordrhein-Westfalen"
         self.add_term("Nordrhein-Westfalen", "Northrhine Westfalia")
@@ -314,7 +314,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             {("Nordrhein-Westfalen", ((0, 19),))},
         )
 
-    def test_get_single(self):
+    def test_get_single(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "thank"
         self.add_term("thank", "díky")
@@ -322,7 +322,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             unit_sources_and_positions(get_glossary_terms(unit)), {("thank", ((0, 5),))}
         )
 
-    def do_add_unit(self, language="cs", **kwargs):
+    def do_add_unit(self, language="cs", **kwargs) -> None:
         unit = self.get_unit("Thank you for using Weblate.", language=language)
         glossary = self.glossary_component.translation_set.get(
             language=unit.translation.language
@@ -340,20 +340,20 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         content = json.loads(response.content.decode())
         self.assertEqual(content["responseCode"], 200)
 
-    def test_add(self):
+    def test_add(self) -> None:
         """Test for adding term from translate page."""
         start = Unit.objects.count()
         self.do_add_unit()
         # Should be added to the source and translation only
         self.assertEqual(Unit.objects.count(), start + 2)
 
-    def test_add_terminology(self):
+    def test_add_terminology(self) -> None:
         start = Unit.objects.count()
         self.do_add_unit(terminology=1)
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
 
-    def test_add_terminology_existing(self):
+    def test_add_terminology_existing(self) -> None:
         self.make_manager()
         start = Unit.objects.count()
         # Add unit to other translation
@@ -363,11 +363,11 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
 
-    def test_add_duplicate(self):
+    def test_add_duplicate(self) -> None:
         self.do_add_unit()
         self.do_add_unit()
 
-    def test_terminology(self):
+    def test_terminology(self) -> None:
         start = Unit.objects.count()
 
         # Add single term
@@ -396,7 +396,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
 
-    def test_terminology_explanation_sync(self):
+    def test_terminology_explanation_sync(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")
         # Add terms
         response = self.client.post(
@@ -449,7 +449,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             {""},
         )
 
-    def test_tsv(self):
+    def test_tsv(self) -> None:
         # Import file
         self.import_file(TEST_CSV)
 

@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     help = "extend pending approval billings"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         pending = [
             bill
             for bill in Billing.objects.filter(state=Billing.STATE_TRIAL)

@@ -16,7 +16,7 @@ class GlosbeTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return code.replace("_", "-").split("-")[0].lower()
 
-    def is_supported(self, source, language):
+    def is_supported(self, source, language) -> bool:
         """Any language is supported."""
         return True
 

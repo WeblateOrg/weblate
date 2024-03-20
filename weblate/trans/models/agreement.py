@@ -37,5 +37,5 @@ class ContributorAgreement(models.Model):
         verbose_name = "contributor agreement"
         verbose_name_plural = "contributor agreements"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user.username}:{self.component}"

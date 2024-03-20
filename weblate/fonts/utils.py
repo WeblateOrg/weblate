@@ -96,7 +96,7 @@ FONT_WEIGHTS = {
 
 
 @cache
-def configure_fontconfig():
+def configure_fontconfig() -> None:
     """Configure fontconfig to use custom configuration."""
     fonts_dir = data_dir("fonts")
     config_name = os.path.join(fonts_dir, "fonts.conf")

@@ -33,7 +33,7 @@ class XlsxFormatTest(BaseFormatTest):
     BASE = XLSX_FILE
     EXPECTED_FLAGS = ""
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         newworkbook = load_workbook(BytesIO(newdata))
         testworkbook = load_workbook(BytesIO(testdata))
         self.assertEqual(len(newworkbook.worksheets), len(testworkbook.worksheets))
@@ -44,14 +44,14 @@ class XlsxFormatTest(BaseFormatTest):
             list(testworkbook.active.values),
         )
 
-    def test_japanese(self):
+    def test_japanese(self) -> None:
         storage = self.FORMAT(JAPANESE_FILE)
         self.assertEqual(len(storage.all_units), 1)
         self.assertEqual(storage.all_units[0].target, "秒")
         with tempfile.NamedTemporaryFile(suffix="xlsx") as temp_file:
             storage.save_atomic(temp_file.name, storage.save_content)
 
-    def test_fr(self):
+    def test_fr(self) -> None:
         storage = self.FORMAT(FRENCH_FILE)
         self.assertEqual(len(storage.all_units), 4)
         self.assertEqual(storage.all_units[0].target, "Traitement A")

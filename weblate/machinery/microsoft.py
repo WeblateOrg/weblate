@@ -50,10 +50,10 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     }
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "microsoft-translator"
 
-    def __init__(self, settings: SettingsDict):
+    def __init__(self, settings: SettingsDict) -> None:
         """Check configuration."""
         super().__init__(settings)
         self._access_token: None | str = None
@@ -68,7 +68,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             self.settings["key"],
         )
 
-    def get_url(self, suffix):
+    def get_url(self, suffix) -> str:
         return f"https://{self.settings['base_url']}/{suffix}"
 
     def is_token_expired(self):
@@ -94,7 +94,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-")
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         super().check_failure(response)
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding

@@ -33,7 +33,7 @@ class AutoGroupChangeForm(forms.ModelForm):
         model = AutoGroup
         fields = "__all__"  # noqa: DJ007
 
-    def has_changed(self):
+    def has_changed(self) -> bool:
         """
         Check whether data differs from initial.
 
@@ -84,7 +84,7 @@ class WeblateUserChangeForm(UserChangeForm):
         fields = "__all__"
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["email"].required = True
         self.fields["username"].valid = self.instance.username
@@ -98,7 +98,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
         fields = ("username", "email", "full_name")
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["email"].required = True
 
@@ -179,11 +179,11 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             return False
         return super().has_delete_permission(request, obj)
 
-    def delete_model(self, request, obj):
+    def delete_model(self, request, obj) -> None:
         """Given a model instance delete it from the database."""
         remove_user(obj, request)
 
-    def delete_queryset(self, request, queryset):
+    def delete_queryset(self, request, queryset) -> None:
         """Given a queryset, delete it from the database."""
         for obj in queryset.iterator():
             self.delete_model(request, obj)
@@ -194,13 +194,13 @@ class GroupChangeForm(forms.ModelForm):
         model = Group
         fields = "__all__"  # noqa: DJ007
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if "components" in self.fields:
             components = self.fields["components"]
             components.queryset = components.queryset.select_related("project")
 
-    def clean(self):
+    def clean(self) -> None:
         super().clean()
         has_componentlist = bool(self.cleaned_data["componentlists"])
         has_project = bool(self.cleaned_data["projects"])
@@ -263,7 +263,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
             return False
         return super().has_change_permission(request, obj)
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj, form, change) -> None:
         """
         Fix saving of automatic language/project selection, part 1.
 
@@ -272,7 +272,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         super().save_model(request, obj, form, change)
         self.new_obj = obj
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         """
         Fix saving of automatic language/project selection, part 2.
 

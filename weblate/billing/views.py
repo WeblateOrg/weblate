@@ -54,7 +54,7 @@ def download_invoice(request, pk):
     return response
 
 
-def handle_post(request, billing):
+def handle_post(request, billing) -> None:
     if "extend" in request.POST and request.user.has_perm("billing.manage"):
         if billing.is_trial:
             billing.state = Billing.STATE_TRIAL

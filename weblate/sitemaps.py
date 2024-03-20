@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from itertools import chain
+from typing import NoReturn
 
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
@@ -39,13 +40,13 @@ class WeblateSitemap(Sitemap):
     priority = 0.0
     changefreq = None
 
-    def items(self):
+    def items(self) -> NoReturn:
         raise NotImplementedError
 
     def lastmod(self, item):
         return item.stats.last_changed
 
-    def get_latest_lastmod(self):
+    def get_latest_lastmod(self) -> None:
         # Finding latest lastmod is expensive as it needs fetching
         # stats for all objects
         return None

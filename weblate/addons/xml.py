@@ -31,7 +31,7 @@ class XMLCustomizeAddon(StoreBaseAddon):
         format_class = component.file_format_cls.get_class()
         return format_class is not None and issubclass(format_class, LISAfile)
 
-    def store_post_load(self, translation, store):
+    def store_post_load(self, translation, store) -> None:
         """Event handler once component formatter has been loaded."""
         config = self.instance.configuration
         store.store.XMLSelfClosingTags = not config.get("closing_tags", True)

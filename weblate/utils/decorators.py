@@ -9,7 +9,7 @@ def disable_for_loaddata(signal_handler):
     """Turn off signal handlers when loading fixture data."""
 
     @wraps(signal_handler)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs) -> None:
         if kwargs.get("raw"):
             return
         signal_handler(*args, **kwargs)

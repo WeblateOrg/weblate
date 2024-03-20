@@ -19,12 +19,12 @@ TEST_HTML = get_test_file("cs.html")
 
 class CreateTest(ViewTestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         super().setUpClass()
         # Global setup to configure git committer
         GitRepository.global_setup()
 
-    def assert_create_project(self, result):
+    def assert_create_project(self, result) -> None:
         response = self.client.get(reverse("create-project"))
         match = "not have permission to create project"
         if result:
@@ -49,7 +49,7 @@ class CreateTest(ViewTestCase):
         return response
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
-    def test_create_project_billing(self):
+    def test_create_project_billing(self) -> None:
         # No permissions without billing
         self.assert_create_project(False)
         self.client_create_project(reverse("create-project"))
@@ -68,7 +68,7 @@ class CreateTest(ViewTestCase):
         )
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_project_admin(self):
+    def test_create_project_admin(self) -> None:
         # No permissions without superuser
         self.assert_create_project(False)
         self.client_create_project(reverse("create-project"))
@@ -82,7 +82,7 @@ class CreateTest(ViewTestCase):
         self.client_create_project(True)
         self.client_create_project(True, name="p2", slug="p2")
 
-    def assert_create_component(self, result):
+    def assert_create_component(self, result) -> None:
         response = self.client.get(reverse("create-component-vcs"))
         match = "not have permission to create component"
         if result:
@@ -114,7 +114,7 @@ class CreateTest(ViewTestCase):
         return response
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
-    def test_create_component_billing(self):
+    def test_create_component_billing(self) -> None:
         # No permissions without billing
         self.assert_create_component(False)
         self.client_create_component(False)
@@ -136,7 +136,7 @@ class CreateTest(ViewTestCase):
         self.client_create_component(False, name="c3", slug="c3")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_component_admin(self):
+    def test_create_component_admin(self) -> None:
         # No permissions without superuser
         self.assert_create_component(False)
         self.client_create_component(False)
@@ -151,7 +151,7 @@ class CreateTest(ViewTestCase):
         self.client_create_component(True, name="c2", slug="c2")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_component_wizard(self):
+    def test_create_component_wizard(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -178,7 +178,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "po/*.po")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_component_existing(self):
+    def test_create_component_existing(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -197,7 +197,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, self.component.get_repo_link_url())
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_component_branch_fail(self):
+    def test_create_component_branch_fail(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -217,7 +217,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "The file mask did not match any files")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_component_branch(self):
+    def test_create_component_branch(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -241,7 +241,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Return to the component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_invalid_zip(self):
+    def test_create_invalid_zip(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -260,7 +260,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Could not parse uploaded ZIP file.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_zip(self):
+    def test_create_zip(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         with (
@@ -296,7 +296,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "*.po")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_doc(self):
+    def test_create_doc(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         with (
@@ -332,7 +332,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "*.html")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_doc_category(self):
+    def test_create_doc_category(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         category = self.project.category_set.create(name="Kategorie", slug="cat")
@@ -371,7 +371,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "*.html")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_scratch(self):
+    def test_create_scratch(self) -> None:
         @override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES)
         def create():
             return self.client.post(
@@ -401,7 +401,7 @@ class CreateTest(ViewTestCase):
         )
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_scratch_android(self):
+    def test_create_scratch_android(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -422,7 +422,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Test/Create Component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_scratch_bilingual(self):
+    def test_create_scratch_bilingual(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -443,7 +443,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Test/Create Component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
-    def test_create_scratch_strings(self):
+    def test_create_scratch_strings(self) -> None:
         # Make superuser
         self.user.is_superuser = True
         self.user.save()

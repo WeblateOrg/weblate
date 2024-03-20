@@ -16,7 +16,7 @@ from weblate.utils.stats import prefetch_stats
 
 
 @app.task(trail=False)
-def collect_metrics():
+def collect_metrics() -> None:
     Metric.objects.collect_global()
     for project in prefetch_stats(Project.objects.all()):
         Metric.objects.collect_project(project)
@@ -33,7 +33,7 @@ def collect_metrics():
 
 
 @app.task(trail=False)
-def cleanup_metrics():
+def cleanup_metrics() -> None:
     """Remove stale metrics."""
     today = timezone.now().date()
     # Remove past metrics, but we need data for last 24 months
@@ -48,7 +48,7 @@ def cleanup_metrics():
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=0, minute=1), collect_metrics.s(), name="collect-metrics"
     )

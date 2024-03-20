@@ -21,7 +21,7 @@ SPECIALS = {}
 
 
 class PermissionResult:
-    def __init__(self, reason: str = ""):
+    def __init__(self, reason: str = "") -> None:
         self.reason = reason
 
     def __bool__(self) -> bool:

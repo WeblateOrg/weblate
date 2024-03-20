@@ -11,10 +11,10 @@ class AuditLogAdmin(WeblateModelAdmin):
     date_hierarchy = "timestamp"
     ordering = ("-timestamp",)
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None) -> bool:
         return False
 
-    def has_add_permission(self, request, obj=None):
+    def has_add_permission(self, request, obj=None) -> bool:
         return False
 
 
@@ -24,10 +24,10 @@ class ProfileAdmin(WeblateModelAdmin):
     list_filter = ["language"]
     filter_horizontal = ("languages", "secondary_languages", "watched")
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None) -> bool:
         return False
 
-    def has_add_permission(self, request, obj=None):
+    def has_add_permission(self, request, obj=None) -> bool:
         return False
 
 
@@ -37,5 +37,5 @@ class VerifiedEmailAdmin(WeblateModelAdmin):
     raw_id_fields = ("social",)
     ordering = ("email",)
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None) -> bool:
         return False

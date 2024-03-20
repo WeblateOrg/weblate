@@ -151,7 +151,7 @@ def ensure_ssh_key():
     return result
 
 
-def generate_ssh_key(request, key_type: KeyType = "rsa"):
+def generate_ssh_key(request, key_type: KeyType = "rsa") -> None:
     """Generate SSH key."""
     key_info = KEYS[key_type]
     keyfile = ssh_file(key_info["private"])
@@ -189,7 +189,7 @@ def generate_ssh_key(request, key_type: KeyType = "rsa"):
     messages.success(request, gettext("Created new SSH key."))
 
 
-def add_host_key(request, host, port=""):
+def add_host_key(request, host, port="") -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))
@@ -260,7 +260,7 @@ GITHUB_RSA_KEY = (
 )
 
 
-def cleanup_host_keys(*args, **kwargs):
+def cleanup_host_keys(*args, **kwargs) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not os.path.exists(known_hosts_file):
         return
@@ -341,7 +341,7 @@ class SSHWrapper:
         """Calculate unique wrapper filename."""
         return os.path.join(self.path, "ssh")
 
-    def create(self):
+    def create(self) -> None:
         """Create wrapper for SSH to pass custom known hosts and key."""
         if not os.path.exists(self.path):
             os.makedirs(self.path)

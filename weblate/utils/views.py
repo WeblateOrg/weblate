@@ -102,7 +102,7 @@ def optional_form(form, perm_user, perm, perm_obj, **kwargs):
     return form(**kwargs)
 
 
-def get_percent_color(percent):
+def get_percent_color(percent) -> str:
     if percent >= 85:
         return "#2eccaa"
     if percent >= 50:
@@ -164,7 +164,7 @@ class PathViewMixin:
             self.request, self.kwargs.get("path", ""), self.supported_path_types
         )
 
-    def setup(self, request, **kwargs):
+    def setup(self, request, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.path_object = self.get_path_object()
 
@@ -216,7 +216,7 @@ def parse_path(  # noqa: C901
     allowed_types = {x for x in types if x is not None}
     acting_user = request.user if request else None
 
-    def check_type(cls):
+    def check_type(cls) -> None:
         if cls not in allowed_types:
             raise UnsupportedPathObjectError(f"Not supported object type: {cls}")
 
@@ -362,7 +362,7 @@ def parse_path_units(
     return obj, unit_set, context
 
 
-def guess_filemask_from_doc(data, docfile=None):
+def guess_filemask_from_doc(data, docfile=None) -> None:
     if "filemask" in data:
         return
 
@@ -418,7 +418,7 @@ def create_component_from_zip(data, zipfile=None):
     return fake
 
 
-def try_set_language(lang):
+def try_set_language(lang) -> None:
     """Try to activate language."""
     try:
         activate(lang)
@@ -427,7 +427,7 @@ def try_set_language(lang):
         activate("en")
 
 
-def import_message(request, count, message_none, message_ok):
+def import_message(request, count, message_none, message_ok) -> None:
     if count == 0:
         messages.warning(request, message_none)
     else:
@@ -564,7 +564,7 @@ def get_form_errors(form):
             }
 
 
-def show_form_errors(request, form):
+def show_form_errors(request, form) -> None:
     """Show all form errors as a message."""
     for error in get_form_errors(form):
         messages.error(request, error)

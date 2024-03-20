@@ -62,12 +62,12 @@ class OpenAITranslation(BatchMachineTranslation):
 
     settings_form = OpenAIMachineryForm
 
-    def __init__(self, settings=None):
+    def __init__(self, settings=None) -> None:
         super().__init__(settings)
         self.client = OpenAI(api_key=self.settings["key"], timeout=self.request_timeout)
-        self._models = None
+        self._models: None | set[str] = None
 
-    def is_supported(self, source, language):
+    def is_supported(self, source, language) -> bool:
         return True
 
     def get_model(self) -> str:

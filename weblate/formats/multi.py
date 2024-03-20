@@ -17,11 +17,11 @@ from .ttkit import CSVUtf8Format
 
 
 class MultiUnit(TranslationUnit):
-    def __init__(self, parent, unit, template=None):
+    def __init__(self, parent, unit, template=None) -> None:
         super().__init__(parent, None, None)
         self.units = [unit]
 
-    def merge(self, unit):
+    def merge(self, unit) -> None:
         self.units.append(unit)
         self._invalidate_target()
 
@@ -63,7 +63,7 @@ class MultiUnit(TranslationUnit):
     def is_readonly(self):
         return any(unit.is_readonly() for unit in self.units)
 
-    def set_target(self, target: str | list[str]):
+    def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         self._invalidate_target()
 
@@ -87,7 +87,7 @@ class MultiUnit(TranslationUnit):
         for i, value in enumerate(target):
             self.units[i].set_target(value)
 
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         for unit in self.units:
             unit.set_state(state)
 
@@ -101,12 +101,12 @@ class MultiUnit(TranslationUnit):
     def has_unit(self) -> bool:
         return all(unit.has_unit() for unit in self.units)
 
-    def clone_template(self):
+    def clone_template(self) -> None:
         for unit in self.units:
             if not unit.has_unit():
                 unit.clone_template()
 
-    def untranslate(self, language):
+    def untranslate(self, language) -> None:
         for unit in self.units:
             unit.untranslate(language)
 

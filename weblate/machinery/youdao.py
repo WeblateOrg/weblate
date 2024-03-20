@@ -37,7 +37,7 @@ class YoudaoTranslation(MachineTranslation):
             "id",
         ]
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         super().check_failure(response)
         payload = response.json()
         if int(payload["errorCode"]) != 0:

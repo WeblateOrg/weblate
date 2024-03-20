@@ -38,7 +38,7 @@ class RestrictedEngine(Engine):
         "weblate.utils.templatetags.safe_render",
     ]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs["autoescape"] = False
         kwargs["string_if_invalid"] = InvalidString("%s")
         super().__init__(*args, **kwargs)
@@ -117,7 +117,7 @@ def validate_render(value, **kwargs):
         ) from err
 
 
-def validate_render_component(value, translation: bool = False, **kwargs):
+def validate_render_component(value, translation: bool = False, **kwargs) -> None:
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
     from weblate.utils.stats import DummyTranslationStats
@@ -146,15 +146,15 @@ def validate_render_component(value, translation: bool = False, **kwargs):
     validate_render(value, **kwargs)
 
 
-def validate_render_addon(value):
+def validate_render_addon(value) -> None:
     validate_render_component(value, hook_name="addon", addon_name="addon")
 
 
-def validate_render_commit(value):
+def validate_render_commit(value) -> None:
     validate_render_component(value, translation=True, author="author")
 
 
-def validate_repoweb(val):
+def validate_repoweb(val) -> None:
     """
     Validate whether URL for repository browser is valid.
 
@@ -170,7 +170,7 @@ def validate_repoweb(val):
     validate_render(val, filename="file.po", line=9, branch="main")
 
 
-def validate_editor(val):
+def validate_editor(val) -> None:
     """
     Validate URL for custom editor link.
 

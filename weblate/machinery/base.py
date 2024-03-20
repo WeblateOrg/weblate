@@ -117,7 +117,7 @@ class BatchMachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: SettingsDict):
+    def __init__(self, settings: SettingsDict) -> None:
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
@@ -127,10 +127,10 @@ class BatchMachineTranslation:
         self.supported_languages_error_age: float = 0
         self.settings = settings
 
-    def delete_cache(self):
+    def delete_cache(self) -> None:
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
-    def validate_settings(self):
+    def validate_settings(self) -> None:
         try:
             self.download_languages()
         except Exception as error:
@@ -160,10 +160,10 @@ class BatchMachineTranslation:
         return cls.name.lower().replace(" ", "-")
 
     @classmethod
-    def get_doc_anchor(cls):
+    def get_doc_anchor(cls) -> str:
         return f"mt-{cls.get_identifier()}"
 
-    def account_usage(self, project, delta: int = 1):
+    def account_usage(self, project, delta: int = 1) -> None:
         key = f"machinery-accounting:{self.accounting_key}:{project.id}"
         try:
             cache.incr(key, delta=delta)
@@ -177,7 +177,7 @@ class BatchMachineTranslation:
     def get_auth(self) -> None | tuple[str, str] | AuthBase:
         return None
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         # Directly raise error as last resort, subclass can prepend this
         # with something more clever
         response.raise_for_status()
@@ -221,7 +221,7 @@ class BatchMachineTranslation:
             return self.language_map[code]
         return code
 
-    def report_error(self, message):
+    def report_error(self, message) -> None:
         """Report error situations."""
         report_error(cause="Machinery error")
         LOGGER.error(message, self.name)
@@ -264,7 +264,7 @@ class BatchMachineTranslation:
     def set_rate_limit(self):
         return cache.set(self.rate_limit_cache, True, 1800)
 
-    def is_rate_limit_error(self, exc):
+    def is_rate_limit_error(self, exc) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
         if not isinstance(exc, HTTPError):
@@ -317,7 +317,7 @@ class BatchMachineTranslation:
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
-    ):
+    ) -> str:
         """Generate a single replacement."""
         return f"[X{h_start}X]"
 
@@ -356,7 +356,7 @@ class BatchMachineTranslation:
 
     def uncleanup_results(
         self, replacements: dict[str, str], results: list[TranslationResultDict]
-    ):
+    ) -> None:
         """Reverts replacements done by cleanup_text."""
         for result in results:
             result["text"] = self.uncleanup_text(replacements, result["text"])
@@ -534,7 +534,7 @@ class BatchMachineTranslation:
                     output[original_source] = result
         return output
 
-    def get_error_message(self, exc):
+    def get_error_message(self, exc) -> str:
         return f"{exc.__class__.__name__}: {exc}"
 
     def signed_salt(self, appid, secret, text):
@@ -546,7 +546,7 @@ class BatchMachineTranslation:
 
         return salt, digest
 
-    def batch_translate(self, units, user=None, threshold: int = 75):
+    def batch_translate(self, units, user=None, threshold: int = 75) -> None:
         try:
             translation = units[0].translation
         except IndexError:
@@ -638,11 +638,11 @@ class InternalMachineTranslation(MachineTranslation):
     accounting_key = "internal"
     cache_translations = False
 
-    def is_supported(self, source: Language, language: Language):
+    def is_supported(self, source: Language, language: Language) -> bool:
         """Any language is supported."""
         return True
 
-    def is_rate_limited(self):
+    def is_rate_limited(self) -> bool:
         """Disable rate limiting."""
         return False
 
@@ -667,15 +667,15 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         """
         raise NotImplementedError
 
-    def delete_glossary(self, glossary_id: str):
+    def delete_glossary(self, glossary_id: str) -> None:
         raise NotImplementedError
 
-    def delete_oldest_glossary(self):
+    def delete_oldest_glossary(self) -> None:
         raise NotImplementedError
 
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
-    ):
+    ) -> None:
         raise NotImplementedError
 
     def get_glossaries(self, use_cache: bool = True):
@@ -763,26 +763,26 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 class XMLMachineTranslationMixin:
     hightlight_syntax = True
 
-    def unescape_text(self, text: str):
+    def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""
         return unescape(text)
 
-    def escape_text(self, text: str):
+    def escape_text(self, text: str) -> str:
         """Escaping of the text with replacements."""
         return escape(text)
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
-    ):
+    ) -> str:
         """Generate a single replacement."""
         raise NotImplementedError
 
-    def make_re_placeholder(self, text: str):
+    def make_re_placeholder(self, text: str) -> str:
         return re.escape(text)
 
 
 class ResponseStatusMachineTranslation(MachineTranslation):
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         payload = response.json()
 
         # Check response status

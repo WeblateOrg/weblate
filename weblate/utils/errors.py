@@ -38,7 +38,7 @@ def report_error(
     extra_log: str | None = None,
     project=None,
     message: bool = False,
-):
+) -> None:
     """
     Report errors.
 
@@ -81,7 +81,7 @@ def report_error(
         LOGGER.exception(cause)
 
 
-def add_breadcrumb(category: str, message: str, level: str = "info", **data):
+def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
     # Add breadcrumb only if settings are already loaded,
     # we do not want to force loading settings early
     if not settings.configured or not getattr(settings, "SENTRY_DSN", None):
@@ -91,11 +91,11 @@ def add_breadcrumb(category: str, message: str, level: str = "info", **data):
     )
 
 
-def celery_base_data_hook(request, data):
+def celery_base_data_hook(request, data) -> None:
     data["framework"] = "celery"
 
 
-def init_error_collection(celery=False):
+def init_error_collection(celery=False) -> None:
     if settings.SENTRY_DSN:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,

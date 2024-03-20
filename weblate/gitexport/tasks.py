@@ -9,12 +9,12 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def update_gitexport_urls():
+def update_gitexport_urls() -> None:
     update_all_components()
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=0, minute=40),
         update_gitexport_urls.s(),

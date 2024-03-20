@@ -75,14 +75,14 @@ class WeblateAdminSite(AdminSite):
             return settings.URL_PREFIX
         return "/"
 
-    def register(self, model_or_iterable, admin_class=None, **options):
+    def register(self, model_or_iterable, admin_class=None, **options) -> None:
         # Default register interface ignores all models, we handle them manually
         return
 
-    def _register(self, model_or_iterable, admin_class=None, **options):
+    def _register(self, model_or_iterable, admin_class=None, **options) -> None:
         super().register(model_or_iterable, admin_class=admin_class, **options)
 
-    def discover(self):
+    def discover(self) -> None:
         """Manual discovery."""
         # TODO: Use auto-discovery instead as we're monkey patching site anywany
         # Accounts

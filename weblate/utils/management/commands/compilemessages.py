@@ -12,7 +12,7 @@ class Command(BaseCommand):
     # for some translations
     program_options = []
 
-    def compile_messages(self, locations):
+    def compile_messages(self, locations) -> None:
         # Avoid compiling po files in DATA_DIR
         locations = [location for location in locations if not should_skip(location[0])]
         if not locations:

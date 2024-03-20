@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from typing import NoReturn
+
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 
@@ -13,7 +15,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 class RepoAdminMixin:
     @admin.action(description=gettext_lazy("Commit pending changes"))
-    def force_commit(self, request, queryset):
+    def force_commit(self, request, queryset) -> None:
         """Commit pending changes for selected components."""
         for obj in queryset:
             obj.commit_pending("admin", request)
@@ -22,20 +24,20 @@ class RepoAdminMixin:
         )
 
     @admin.action(description=gettext_lazy("Update VCS repository"))
-    def update_from_git(self, request, queryset):
+    def update_from_git(self, request, queryset) -> None:
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
-    def get_qs_units(self, queryset):
+    def get_qs_units(self, queryset) -> NoReturn:
         raise NotImplementedError
 
-    def get_qs_translations(self, queryset):
+    def get_qs_translations(self, queryset) -> NoReturn:
         raise NotImplementedError
 
     @admin.action(description=gettext_lazy("Update quality checks"))
-    def update_checks(self, request, queryset):
+    def update_checks(self, request, queryset) -> None:
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
         for unit in units:

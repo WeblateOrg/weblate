@@ -32,7 +32,7 @@ app.autodiscover_tasks()
 
 
 @task_failure.connect
-def handle_task_failure(exception=None, **kwargs):
+def handle_task_failure(exception=None, **kwargs) -> None:
     from weblate.utils.errors import report_error
 
     report_error(
@@ -45,7 +45,7 @@ def handle_task_failure(exception=None, **kwargs):
 
 
 @app.on_after_configure.connect
-def configure_error_handling(sender, **kargs):
+def configure_error_handling(sender, **kargs) -> None:
     """Rollbar and Sentry integration."""
     from weblate.utils.errors import init_error_collection
 
@@ -53,7 +53,7 @@ def configure_error_handling(sender, **kargs):
 
 
 @after_setup_logger.connect
-def show_failing_system_check(sender, logger, **kwargs):
+def show_failing_system_check(sender, logger, **kwargs) -> None:
     if settings.DEBUG:
         for check in run_checks(include_deployment_checks=True):
             # Skip silenced checks and Celery one

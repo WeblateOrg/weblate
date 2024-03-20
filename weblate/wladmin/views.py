@@ -103,7 +103,7 @@ def manage(request):
     )
 
 
-def send_test_mail(email):
+def send_test_mail(email) -> None:
     send_mail(
         subject="Test e-mail from Weblate on %s" % timezone.now(),
         message="It works.",

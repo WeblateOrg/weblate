@@ -29,7 +29,7 @@ class CheckWrapper:
         active_check_count: int,
         translated_check_count: int,
         path_object,
-    ):
+    ) -> None:
         self.pk = get_random_identifier()
         self.name = name
         try:
@@ -235,7 +235,7 @@ class CheckList(PathViewMixin, ListView):
             raise TypeError(f"Type not supported: {self.path_object}")
         return context
 
-    def setup(self, request, **kwargs):
+    def setup(self, request, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.check_obj = None
         name = kwargs.get("name")

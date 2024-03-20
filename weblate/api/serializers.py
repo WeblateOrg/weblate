@@ -71,7 +71,9 @@ def get_reverse_kwargs(
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
     lookup_field: tuple[str, ...]  # type: ignore[assignment]
 
-    def __init__(self, lookup_field: tuple[str, ...], strip_parts: int = 0, **kwargs):
+    def __init__(
+        self, lookup_field: tuple[str, ...], strip_parts: int = 0, **kwargs
+    ) -> None:
         self.strip_parts = strip_parts
         super().__init__(**kwargs)
         self.lookup_field = lookup_field
@@ -102,7 +104,7 @@ class AbsoluteURLField(serializers.CharField):
 
 
 class RemovableSerializer(serializers.ModelSerializer[_MT]):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         remove_fields = kwargs.pop("remove_fields", None)
         super().__init__(*args, **kwargs)
 
@@ -358,7 +360,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
         self.fields["defining_project"].queryset = user.managed_projects
@@ -432,7 +434,7 @@ class RepoField(LinkedField):
 
 
 class RelatedTaskField(serializers.HyperlinkedRelatedField):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(
             "api:task-detail",
             read_only=True,
@@ -586,7 +588,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             }
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         project = None
@@ -828,10 +830,10 @@ class TranslationSerializer(RemovableSerializer[Translation]):
 
 
 class ReadOnlySerializer(serializers.Serializer):
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> None:
         return None
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> None:
         return None
 
 
@@ -877,7 +879,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
             return ""
         return value
 
-    def check_perms(self, user, obj):
+    def check_perms(self, user, obj) -> None:
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
             raise serializers.ValidationError(
@@ -1119,7 +1121,7 @@ class NewUnitSerializer(serializers.Serializer):
         required=False,
     )
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data=None) -> dict[str, str | None]:
         raise NotImplementedError
 
     def validate(self, attrs):
@@ -1187,7 +1189,7 @@ class CategorySerializer(RemovableSerializer[Category]):
         )
         extra_kwargs = {"url": {"view_name": "api:category-detail"}}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
         self.fields["project"].queryset = user.managed_projects

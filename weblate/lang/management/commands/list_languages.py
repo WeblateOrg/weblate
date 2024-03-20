@@ -11,13 +11,13 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "List language definitions"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--lower", action="store_true", help="Lowercase translated name"
         )
         parser.add_argument("locale", help="Locale for printing")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """
         Create default set of languages.
 

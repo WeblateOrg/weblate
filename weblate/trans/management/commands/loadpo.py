@@ -9,7 +9,7 @@ from weblate.trans.tasks import perform_load
 class Command(WeblateLangCommand):
     help = "(re)loads translations from disk"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--force",
@@ -24,7 +24,7 @@ class Command(WeblateLangCommand):
             help="Perform load in foreground (by default background task is used)",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         langs = None
         if options["lang"] is not None:
             langs = options["lang"].split(",")

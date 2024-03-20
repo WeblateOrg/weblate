@@ -43,7 +43,7 @@ class MachineryMixin:
 
 
 class MachineryProjectMixin(MachineryMixin):
-    def post_setup(self, request, kwargs):
+    def post_setup(self, request, kwargs) -> None:
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
     @cached_property
@@ -61,7 +61,7 @@ class DeprecatedMachinery:
     is_available = False
     settings_form = None
 
-    def __init__(self, identifier: str):
+    def __init__(self, identifier: str) -> None:
         self.identifier = self.name = identifier
 
     def get_identifier(self) -> str:
@@ -76,7 +76,7 @@ class MachineryConfiguration:
         sitewide: bool = False,
         project=None,
         is_configured: bool = True,
-    ):
+    ) -> None:
         self.machinery = machinery
         self.configuration = configuration
         self.sitewide = sitewide
@@ -117,7 +117,7 @@ class MachineryConfiguration:
 class ListMachineryView(TemplateView):
     template_name = "machinery/list.html"
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = None
         self.post_setup(request, kwargs)
@@ -140,7 +140,7 @@ class ListMachineryView(TemplateView):
     def settings_dict(self) -> dict[str, SettingsDict]:
         raise NotImplementedError
 
-    def post_setup(self, request, kwargs):
+    def post_setup(self, request, kwargs) -> None:
         return
 
     def get_configured_services(self):
@@ -202,7 +202,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 class EditMachineryView(FormView):
     template_name = "machinery/edit.html"
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.machinery_id = kwargs["machinery"]
         try:
@@ -224,7 +224,7 @@ class EditMachineryView(FormView):
     def settings_dict(self) -> dict[str, SettingsDict]:
         raise NotImplementedError
 
-    def post_setup(self, request, kwargs):
+    def post_setup(self, request, kwargs) -> None:
         return
 
     def get_initial(self):
@@ -237,20 +237,20 @@ class EditMachineryView(FormView):
         result["machinery_doc_anchor"] = self.machinery.get_doc_anchor()
         return result
 
-    def install_service(self):
+    def install_service(self) -> None:
         self.save_settings({})
 
     def form_valid(self, form):
         self.save_settings(form.cleaned_data)
         return super().form_valid(form)
 
-    def save_settings(self, data):
+    def save_settings(self, data) -> None:
         raise NotImplementedError
 
-    def delete_service(self):
+    def delete_service(self) -> None:
         raise NotImplementedError
 
-    def enable_service(self):
+    def enable_service(self) -> None:
         return
 
     def get_success_url(self):
@@ -284,7 +284,7 @@ class EditMachineryView(FormView):
 
 
 class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
-    def save_settings(self, data: SettingsDict):
+    def save_settings(self, data: SettingsDict) -> None:
         setting, created = Setting.objects.get_or_create(
             category=Setting.CATEGORY_MT,
             name=self.machinery_id,
@@ -294,7 +294,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
             setting.value = data
             setting.save()
 
-    def delete_service(self):
+    def delete_service(self) -> None:
         Setting.objects.filter(
             category=Setting.CATEGORY_MT,
             name=self.machinery_id,
@@ -311,21 +311,21 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
 
 class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
-    def save_settings(self, data: SettingsDict | None):
+    def save_settings(self, data: SettingsDict | None) -> None:
         self.project.machinery_settings[self.machinery_id] = data
         self.project.save(update_fields=["machinery_settings"])
 
-    def delete_service(self):
+    def delete_service(self) -> None:
         if self.machinery_id in self.project.machinery_settings:
             self.enable_service()
         else:
             self.save_settings(None)
 
-    def enable_service(self):
+    def enable_service(self) -> None:
         del self.project.machinery_settings[self.machinery_id]
         self.project.save(update_fields=["machinery_settings"])
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
@@ -352,7 +352,7 @@ def format_results_helper(
     plural_form: int,
     translation: Translation,
     source_translation: Translation,
-):
+) -> None:
     item["plural_form"] = plural_form
     item["diff"] = format_string_helper(item["text"], translation, targets[plural_form])
     item["source_diff"] = format_string_helper(

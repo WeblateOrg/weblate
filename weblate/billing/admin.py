@@ -24,7 +24,7 @@ class PlanAdmin(WeblateModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
-def format_user(obj):
+def format_user(obj) -> str:
     return f"{obj.username}: {obj.full_name} <{obj.email}>"
 
 
@@ -70,7 +70,7 @@ class BillingAdmin(WeblateModelAdmin):
         form.base_fields["owners"].label_from_instance = format_user
         return form
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         super().save_related(request, form, formsets, change)
         obj = form.instance
         # Add owners as admin if there is none

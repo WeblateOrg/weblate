@@ -49,7 +49,7 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True):
+def validate_re(value, groups=None, allow_empty=True) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
@@ -76,7 +76,7 @@ def validate_re_nonempty(value):
     return validate_re(value, allow_empty=False)
 
 
-def validate_bitmap(value):
+def validate_bitmap(value) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
@@ -159,7 +159,7 @@ def validate_file_extension(value):
     return value
 
 
-def validate_username(value):
+def validate_username(value) -> None:
     if value.startswith("."):
         raise ValidationError(gettext("The username can not start with a full stop."))
     if not USERNAME_MATCHER.match(value):
@@ -186,7 +186,7 @@ class EmailValidator(EmailValidatorDjango):
 validate_email = EmailValidator()
 
 
-def validate_plural_formula(value):
+def validate_plural_formula(value) -> None:
     try:
         c2py(value if value else "0")
     except ValueError as error:
@@ -195,7 +195,7 @@ def validate_plural_formula(value):
         ) from error
 
 
-def validate_filename(value):
+def validate_filename(value) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
             gettext("The filename can not contain reference to a parent directory.")
@@ -213,7 +213,7 @@ def validate_filename(value):
         )
 
 
-def validate_backup_path(value: str):
+def validate_backup_path(value: str) -> None:
     try:
         loc = Location(value)
     except ValueError as err:
@@ -238,14 +238,14 @@ def validate_backup_path(value: str):
             )
 
 
-def validate_slug(value):
+def validate_slug(value) -> None:
     """Prohibits some special values."""
     # This one is used as wildcard in the URL for widgets and translate pages
     if value == "-":
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_language_aliases(value):
+def validate_language_aliases(value) -> None:
     """Validate language aliases - comma separated semi colon values."""
     if not value:
         return
@@ -254,7 +254,7 @@ def validate_language_aliases(value):
             raise ValidationError(gettext("Syntax error in language aliases."))
 
 
-def validate_project_name(value):
+def validate_project_name(value) -> None:
     """Prohibits some special values."""
     if settings.PROJECT_NAME_RESTRICT_RE is not None and re.match(
         settings.PROJECT_NAME_RESTRICT_RE, value
@@ -262,7 +262,7 @@ def validate_project_name(value):
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_project_web(value):
+def validate_project_web(value) -> None:
     # Regular expression filtering
     if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
         settings.PROJECT_WEB_RESTRICT_RE, value

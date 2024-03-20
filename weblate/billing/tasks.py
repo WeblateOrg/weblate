@@ -17,12 +17,12 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def billing_check():
+def billing_check() -> None:
     Billing.objects.check_limits()
 
 
 @app.task(trail=False)
-def billing_notify():
+def billing_notify() -> None:
     billing_check()
 
     limit = Billing.objects.get_out_of_limits()
@@ -51,7 +51,7 @@ def billing_notify():
 
 
 @app.task(trail=False)
-def notify_expired():
+def notify_expired() -> None:
     # Notify about expired billings
     possible_billings = Billing.objects.filter(
         # Active without payment (checked later)
@@ -90,7 +90,7 @@ def notify_expired():
 
 
 @app.task(trail=False)
-def schedule_removal():
+def schedule_removal() -> None:
     removal = timezone.now() + timedelta(days=settings.BILLING_REMOVAL_PERIOD)
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
         if bill.check_payment_status():
@@ -100,7 +100,7 @@ def schedule_removal():
 
 
 @app.task(trail=False)
-def remove_single_billing(billing_id: int):
+def remove_single_billing(billing_id: int) -> None:
     bill = Billing.objects.get(pk=billing_id)
     for user in bill.get_notify_users():
         send_notification_email(
@@ -119,13 +119,13 @@ def remove_single_billing(billing_id: int):
 
 
 @app.task(trail=False)
-def perform_removal():
+def perform_removal() -> None:
     for bill in Billing.objects.filter(removal__lte=timezone.now()).iterator():
         remove_single_billing.delay(bill.pk)
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, billing_check.s(), name="billing-check")
     sender.add_periodic_task(
         crontab(hour=3, minute=0, day_of_week="mon,thu"),

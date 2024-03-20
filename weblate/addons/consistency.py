@@ -22,13 +22,13 @@ class LangaugeConsistencyAddon(BaseAddon):
     user_name = "languages"
     user_verbose = "Languages add-on"
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         language_consistency.delay(
             self.instance.id,
             [language.id for language in component.project.languages],
         )
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         language_consistency.delay(
             self.instance.id,
             [translation.language_id],

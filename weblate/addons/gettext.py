@@ -30,7 +30,7 @@ class GenerateMoAddon(GettextBaseAddon):
     )
     settings_form = GenerateMoForm
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         exporter = MoExporter(translation=translation)
 
         if self.instance.configuration.get("fuzzy"):
@@ -134,13 +134,13 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         with translation.component.repository.lock:
             path = self.get_linguas_path(translation.component)
             if self.sync_linguas(translation.component, path):
                 translation.addon_commit_files.append(path)
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         with component.repository.lock:
             path = self.get_linguas_path(component)
             if self.sync_linguas(component, path):
@@ -165,7 +165,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 yield path
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user) -> bool:
         if not super().can_install(component, user):
             return False
         for name in cls.get_configure_paths(component):
@@ -206,13 +206,13 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
         return added
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         with translation.component.repository.lock:
             paths = list(self.get_configure_paths(translation.component))
             if self.sync_linguas(translation.component, paths):
                 translation.addon_commit_files.extend(paths)
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         with component.repository.lock:
             paths = list(self.get_configure_paths(component))
             if self.sync_linguas(component, paths):
@@ -249,7 +249,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             args.extend(customize_addon.addon.get_msgmerge_args(component))
         return args
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component, previous_head) -> None:
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
         repository = component.repository
@@ -305,7 +305,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
     def commit_and_push(
         self, component, files: list[str] | None = None, skip_push: bool = False
-    ):
+    ) -> None:
         if super().commit_and_push(component, files=files, skip_push=skip_push):
             component.create_translations()
 
@@ -318,7 +318,7 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
     )
     settings_form = GettextCustomizeForm
 
-    def store_post_load(self, translation, store):
+    def store_post_load(self, translation, store) -> None:
         store.store.wrapper.width = int(self.instance.configuration.get("width", 77))
 
     def get_msgmerge_args(self, component):
@@ -336,7 +336,7 @@ class GettextAuthorComments(GettextBaseAddon):
         "and years of contributions."
     )
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         if "noreply@weblate.org" in author:
             return
         if "<" in author:

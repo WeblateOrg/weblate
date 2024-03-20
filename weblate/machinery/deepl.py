@@ -47,7 +47,7 @@ class DeepLTranslation(
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         if response.status_code != 200:
             try:
                 payload = response.json()
@@ -138,7 +138,7 @@ class DeepLTranslation(
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
-    ):
+    ) -> str:
         """Generate a single replacement."""
         return f'<x id="{h_start}"></x>'
 
@@ -165,7 +165,7 @@ class DeepLTranslation(
             for glossary in response.json()["glossaries"]
         }
 
-    def delete_oldest_glossary(self):
+    def delete_oldest_glossary(self) -> None:
         response = self.request("get", self.get_api_url("glossaries"))
         glossaries = sorted(
             response.json()["glossaries"],
@@ -174,12 +174,12 @@ class DeepLTranslation(
         if glossaries:
             self.delete_glossary(glossaries[0]["glossary_id"])
 
-    def delete_glossary(self, glossary_id: str):
+    def delete_glossary(self, glossary_id: str) -> None:
         self.request("delete", self.get_api_url("glossaries", glossary_id))
 
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
-    ):
+    ) -> None:
         self.request(
             "post",
             self.get_api_url("glossaries"),

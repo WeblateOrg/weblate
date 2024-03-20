@@ -101,7 +101,7 @@ class Formatter:
         search_match,
         match,
         whitespace: bool = True,
-    ):
+    ) -> None:
         # Inputs
         self.idx = idx
         self.cleaned_value = self.value = value
@@ -115,7 +115,7 @@ class Formatter:
         self.differ = Differ()
         self.whitespace = whitespace
 
-    def parse(self):
+    def parse(self) -> None:
         if self.unit:
             self.parse_highlight()
         if self.glossary:
@@ -127,7 +127,7 @@ class Formatter:
         if self.diff:
             self.parse_diff()
 
-    def parse_diff(self):  # noqa: C901
+    def parse_diff(self) -> None:  # noqa: C901
         """Highlights diff, including extra whitespace."""
         diff = self.differ.compare(self.value, self.diff[self.idx])
         offset = 0
@@ -222,7 +222,7 @@ class Formatter:
             elif op == self.differ.DIFF_EQUAL:
                 offset += len(data)
 
-    def parse_highlight(self):
+    def parse_highlight(self) -> None:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
@@ -299,7 +299,7 @@ class Formatter:
             )
         return "\n\n".join(output)
 
-    def parse_glossary(self):
+    def parse_glossary(self) -> None:
         """Highlights glossary entries."""
         # Annotate string with glossary terms
         locations = defaultdict(list)
@@ -325,7 +325,7 @@ class Formatter:
                 )
             last_entries = entries
 
-    def parse_search(self):
+    def parse_search(self) -> None:
         """Highlights search matches."""
         tag = self.match
         if self.match == "search":
@@ -340,7 +340,7 @@ class Formatter:
             self.tags[match.start()].append(start_tag)
             self.tags[match.end()].insert(0, end_tag)
 
-    def parse_whitespace(self):
+    def parse_whitespace(self) -> None:
         """Highlight whitespaces."""
         for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(SPACE_START)
@@ -959,7 +959,7 @@ def active_link(context, slug):
     return ""
 
 
-def _needs_agreement(component, user):
+def _needs_agreement(component, user) -> bool:
     if not component.agreement:
         return False
     return not ContributorAgreement.objects.has_agreed(user, component)
@@ -1011,7 +1011,7 @@ def get_browse_url(context, obj):
 
 
 @register.simple_tag(takes_context=True)
-def init_unique_row_id(context):
+def init_unique_row_id(context) -> str:
     context["row_uuid"] = get_random_identifier()
     return ""
 

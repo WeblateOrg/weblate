@@ -98,7 +98,7 @@ GOOGLEPLAY_CODES = {
 
 
 class UnitNotFoundError(Exception):
-    def __str__(self):
+    def __str__(self) -> str:
         args = list(self.args)
         if "" in args:
             args.remove("")
@@ -106,7 +106,7 @@ class UnitNotFoundError(Exception):
 
 
 class UpdateError(Exception):
-    def __init__(self, cmd, output):
+    def __init__(self, cmd, output) -> None:
         super().__init__(output)
         self.cmd = cmd
         self.output = output
@@ -137,7 +137,7 @@ class TranslationUnit:
         parent: TranslationFormat,
         unit: InnerUnit,
         template: InnerUnit | None = None,
-    ):
+    ) -> None:
         """Create wrapper object."""
         self.unit = unit
         self.template = template
@@ -147,33 +147,33 @@ class TranslationUnit:
         else:
             self.mainunit = unit
 
-    def _invalidate_target(self):
+    def _invalidate_target(self) -> None:
         """Invalidate target cache."""
         if "target" in self.__dict__:
             del self.__dict__["target"]
 
     @cached_property
-    def locations(self):
+    def locations(self) -> str:
         """Return comma separated list of locations."""
         return ""
 
     @cached_property
-    def flags(self):
+    def flags(self) -> str:
         """Return flags or typecomments from units."""
         return ""
 
     @cached_property
-    def notes(self):
+    def notes(self) -> str:
         """Return notes from units."""
         return ""
 
     @cached_property
-    def source(self):
+    def source(self) -> str:
         """Return source string from a ttkit unit."""
         raise NotImplementedError
 
     @cached_property
-    def target(self):
+    def target(self) -> str:
         """Return target string from a ttkit unit."""
         raise NotImplementedError
 
@@ -188,7 +188,7 @@ class TranslationUnit:
         return ""
 
     @cached_property
-    def context(self):
+    def context(self) -> str:
         """
         Return context of message.
 
@@ -197,7 +197,7 @@ class TranslationUnit:
         raise NotImplementedError
 
     @cached_property
-    def previous_source(self):
+    def previous_source(self) -> str:
         """Return previous message source if there was any."""
         return ""
 
@@ -232,36 +232,36 @@ class TranslationUnit:
         """Check whether unit needs edit."""
         return fallback
 
-    def has_content(self):
+    def has_content(self) -> bool:
         """Check whether unit has content."""
         return True
 
-    def is_readonly(self):
+    def is_readonly(self) -> bool:
         """Check whether unit is read only."""
         return False
 
-    def set_target(self, target: str | list[str]):
+    def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         raise NotImplementedError
 
-    def set_explanation(self, explanation: str):
+    def set_explanation(self, explanation: str) -> None:
         return
 
-    def set_source_explanation(self, explanation: str):
+    def set_source_explanation(self, explanation: str) -> None:
         return
 
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError
 
     def has_unit(self) -> bool:
         return self.unit is not None
 
-    def clone_template(self):
+    def clone_template(self) -> None:
         self.mainunit = self.unit = copy(self.template)
         self._invalidate_target()
 
-    def untranslate(self, language):
+    def untranslate(self, language) -> None:
         self.set_target("")
         self.set_state(STATE_EMPTY)
 
@@ -303,7 +303,7 @@ class TranslationFormat:
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
-    ):
+    ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
             storefile.mode = "r"
@@ -327,12 +327,12 @@ class TranslationFormat:
             is_template=is_template,
         )
 
-    def _invalidate_units(self):
+    def _invalidate_units(self) -> None:
         for key in ("all_units", "template_units", "_unit_index", "_template_index"):
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def check_valid(self):
+    def check_valid(self) -> None:
         """Check store validity."""
         if not self.is_valid():
             raise ValueError(
@@ -439,16 +439,16 @@ class TranslationFormat:
     def ensure_index(self):
         return self._unit_index
 
-    def add_unit(self, ttkit_unit):
+    def add_unit(self, ttkit_unit) -> None:
         """Add new unit to underlying store."""
         raise NotImplementedError
 
-    def update_header(self, **kwargs):
+    def update_header(self, **kwargs) -> None:
         """Update store header if available."""
         return
 
     @staticmethod
-    def save_atomic(filename, callback):
+    def save_atomic(filename, callback) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -461,7 +461,7 @@ class TranslationFormat:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
 
-    def save(self):
+    def save(self) -> None:
         """Save underlying store to disk."""
         raise NotImplementedError
 
@@ -613,7 +613,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-    ):
+    ) -> None:
         """Add new language file."""
         # Create directory for a translation
         dirname = os.path.dirname(filename)
@@ -623,8 +623,8 @@ class TranslationFormat:
         cls.create_new_file(filename, language, base, callback)
 
     @classmethod
-    def get_new_file_content(cls):
-        return None
+    def get_new_file_content(cls) -> bytes:
+        return b""
 
     @classmethod
     def create_new_file(
@@ -633,7 +633,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-    ):
+    ) -> None:
         """Handle creation of new translation file."""
         raise NotImplementedError
 
@@ -665,7 +665,7 @@ class TranslationFormat:
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-    ):
+    ) -> TranslationUnit:
         raise NotImplementedError
 
     def new_unit(
@@ -715,7 +715,7 @@ class TranslationFormat:
         raise NotImplementedError
 
     @classmethod
-    def add_breadcrumb(cls, message, **data):
+    def add_breadcrumb(cls, message, **data) -> None:
         add_breadcrumb(category="storage", message=message, **data)
 
     def delete_unit(self, ttkit_unit) -> str | None:
@@ -796,7 +796,7 @@ class TranslationFormat:
         return result
 
     @staticmethod
-    def validate_context(context: str):  # noqa: ARG004
+    def validate_context(context: str) -> None:  # noqa: ARG004
         return
 
 
@@ -807,17 +807,19 @@ class EmptyFormat(TranslationFormat):
     def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
-    def save(self):
+    def save(self) -> None:
         return
 
 
 class BilingualUpdateMixin:
     @classmethod
-    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+    def do_bilingual_update(
+        cls, in_file: str, out_file: str, template: str, **kwargs
+    ) -> None:
         raise NotImplementedError
 
     @classmethod
-    def update_bilingual(cls, filename: str, template: str, **kwargs):
+    def update_bilingual(cls, filename: str, template: str, **kwargs) -> None:
         temp = tempfile.NamedTemporaryFile(
             prefix=filename, dir=os.path.dirname(filename), delete=False
         )

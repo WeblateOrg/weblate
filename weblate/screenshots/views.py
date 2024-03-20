@@ -145,7 +145,7 @@ TESSERACT_LANGUAGES = {
 TESSERACT_URL = "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{}"
 
 
-def ensure_tesseract_language(lang: str):
+def ensure_tesseract_language(lang: str) -> None:
     """
     Ensure that tesseract trained data is present for a language.
 
@@ -184,7 +184,7 @@ def ensure_tesseract_language(lang: str):
                 handle.write(response.content)
 
 
-def try_add_source(request, obj):
+def try_add_source(request, obj) -> bool:
     if "source" not in request.POST:
         return False
 

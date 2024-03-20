@@ -32,13 +32,13 @@ class BuildMo(Command):
     description = "update MO files to match PO"
     user_options = []
 
-    def initialize_options(self):
+    def initialize_options(self) -> None:
         self.build_base = None
 
-    def finalize_options(self):
+    def finalize_options(self) -> None:
         self.set_undefined_options("build", ("build_base", "build_base"))
 
-    def run(self):
+    def run(self) -> None:
         for name in chain.from_iterable(glob(mask) for mask in LOCALE_MASKS):
             output = os.path.splitext(name)[0] + ".mo"
             if not newer(name, output):

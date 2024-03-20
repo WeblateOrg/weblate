@@ -18,7 +18,7 @@ class CheckModelTestCase(FixtureTestCase):
     def create_check(self, name):
         return Check.objects.create(unit=self.get_unit(), name=name)
 
-    def test_check(self):
+    def test_check(self) -> None:
         check = self.create_check("same")
         self.assertEqual(
             str(check.get_description()), "Source and translation are identical"
@@ -26,12 +26,12 @@ class CheckModelTestCase(FixtureTestCase):
         self.assertTrue(check.get_doc_url().endswith("user/checks.html#check-same"))
         self.assertEqual(str(check), "Unchanged translation")
 
-    def test_check_nonexisting(self):
+    def test_check_nonexisting(self) -> None:
         check = self.create_check("-invalid-")
         self.assertEqual(check.get_description(), "-invalid-")
         self.assertEqual(check.get_doc_url(), "")
 
-    def test_check_render(self):
+    def test_check_render(self) -> None:
         unit = self.get_unit()
         unit.source_unit.extra_flags = "max-size:1:1"
         unit.source_unit.save()
@@ -54,7 +54,7 @@ class CheckModelTestCase(FixtureTestCase):
 class BatchUpdateTest(ViewTestCase):
     """Test for complex manipulating translation."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.translation = self.get_translation()
 
@@ -72,7 +72,7 @@ class BatchUpdateTest(ViewTestCase):
         self.assertEqual(unit.all_checks_names, {"inconsistent"})
         return other
 
-    def test_autotranslate(self):
+    def test_autotranslate(self) -> None:
         other = self.do_base()
         translation = other.translation_set.get(language_code="cs")
         auto_translate(
@@ -89,7 +89,7 @@ class BatchUpdateTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, set())
 
-    def test_noop(self):
+    def test_noop(self) -> None:
         other = self.do_base()
         # The batch update should not remove it
         batch_update_checks(self.component.id, ["inconsistent"])
@@ -97,7 +97,7 @@ class BatchUpdateTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, {"inconsistent"})
 
-    def test_toggle(self):
+    def test_toggle(self) -> None:
         other = self.do_base()
         one_unit = self.get_unit()
         other_unit = Unit.objects.get(

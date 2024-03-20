@@ -56,7 +56,7 @@ from weblate.vcs.base import RepositoryError
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_update(cls, pk, auto=False, obj=None):
+def perform_update(cls, pk, auto=False, obj=None) -> None:
     try:
         if obj is None:
             if cls == "Project":
@@ -85,7 +85,7 @@ def perform_load(
     changed_template: bool = False,
     from_link: bool = False,
     change: int | None = None,
-):
+) -> None:
     component = Component.objects.get(pk=pk)
     component.create_translations(
         force=force,
@@ -102,7 +102,7 @@ def perform_load(
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_commit(pk, *args):
+def perform_commit(pk, *args) -> None:
     component = Component.objects.get(pk=pk)
     component.commit_pending(*args)
 
@@ -113,13 +113,13 @@ def perform_commit(pk, *args):
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_push(pk, *args, **kwargs):
+def perform_push(pk, *args, **kwargs) -> None:
     component = Component.objects.get(pk=pk)
     component.do_push(*args, **kwargs)
 
 
 @app.task(trail=False)
-def commit_pending(hours=None, pks=None, logger=None):
+def commit_pending(hours=None, pks=None, logger=None) -> None:
     if pks is None:
         components = Component.objects.all()
     else:
@@ -147,7 +147,7 @@ def commit_pending(hours=None, pks=None, logger=None):
 
 
 @app.task(trail=False)
-def cleanup_component(pk):
+def cleanup_component(pk) -> None:
     """
     Perform cleanup of component models.
 
@@ -184,7 +184,7 @@ def cleanup_component(pk):
 
 
 @app.task(trail=False)
-def cleanup_suggestions():
+def cleanup_suggestions() -> None:
     # Process suggestions
     anonymous_user = get_anonymous()
     suggestions = Suggestion.objects.prefetch_related("unit")
@@ -214,7 +214,7 @@ def cleanup_suggestions():
 
 
 @app.task(trail=False)
-def update_remotes():
+def update_remotes() -> None:
     """Update all remote branches (without attempt to merge)."""
     if settings.AUTO_UPDATE not in {"full", "remote", True, False}:
         return
@@ -279,7 +279,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
 
 
 @app.task(trail=False)
-def cleanup_old_suggestions():
+def cleanup_old_suggestions() -> None:
     if not settings.SUGGESTION_CLEANUP_DAYS:
         return
     cutoff = timezone.now() - timedelta(days=settings.SUGGESTION_CLEANUP_DAYS)
@@ -287,7 +287,7 @@ def cleanup_old_suggestions():
 
 
 @app.task(trail=False)
-def cleanup_old_comments():
+def cleanup_old_comments() -> None:
     if not settings.COMMENT_CLEANUP_DAYS:
         return
     cutoff = timezone.now() - timedelta(days=settings.COMMENT_CLEANUP_DAYS)
@@ -295,7 +295,7 @@ def cleanup_old_comments():
 
 
 @app.task(trail=False)
-def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
+def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD) -> None:
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         try:
@@ -315,7 +315,7 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
 
 
 @app.task(trail=False)
-def component_alerts(component_ids=None):
+def component_alerts(component_ids=None) -> None:
     if component_ids:
         components = Component.objects.filter(pk__in=component_ids)
     else:
@@ -350,7 +350,7 @@ def component_after_save(
 
 @app.task(trail=False)
 @transaction.atomic
-def component_removal(pk, uid):
+def component_removal(pk, uid) -> None:
     user = User.objects.get(pk=uid)
     try:
         component = Component.objects.get(pk=pk)
@@ -374,7 +374,7 @@ def component_removal(pk, uid):
 
 @app.task(trail=False)
 @transaction.atomic
-def category_removal(pk, uid):
+def category_removal(pk, uid) -> None:
     user = User.objects.get(pk=uid)
     try:
         category = Category.objects.get(pk=pk)
@@ -399,7 +399,7 @@ def category_removal(pk, uid):
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def actual_project_removal(pk: int, uid: int | None):
+def actual_project_removal(pk: int, uid: int | None) -> None:
     """
     Remove project.
 
@@ -422,7 +422,7 @@ def actual_project_removal(pk: int, uid: int | None):
 
 
 @app.task(trail=False)
-def project_removal(pk: int, uid: int | None):
+def project_removal(pk: int, uid: int | None) -> None:
     """Backup project and schedule actual removal."""
     create_project_backup(pk)
     actual_project_removal.delay(pk, uid)
@@ -562,7 +562,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
 
 
 @app.task(trail=False)
-def update_checks(pk: int, update_token: str, update_state: bool = False):
+def update_checks(pk: int, update_token: str, update_state: bool = False) -> None:
     component = Component.objects.get(pk=pk)
 
     # Skip when further updates are scheduled
@@ -588,7 +588,7 @@ def update_checks(pk: int, update_token: str, update_state: bool = False):
 
 
 @app.task(trail=False)
-def daily_update_checks():
+def daily_update_checks() -> None:
     if settings.BACKGROUND_TASKS == "never":
         return
     today = timezone.now()
@@ -606,7 +606,7 @@ def daily_update_checks():
 
 
 @app.task(trail=False)
-def cleanup_project_backups():
+def cleanup_project_backups() -> None:
     from weblate.trans.backups import PROJECTBACKUP_PREFIX
 
     # This intentionally does not use Project objects to remove stale backups
@@ -647,7 +647,7 @@ def cleanup_project_backups():
 
 
 @app.task(trail=False)
-def create_project_backup(pk):
+def create_project_backup(pk) -> None:
     from weblate.trans.backups import ProjectBackup
 
     project = Project.objects.get(pk=pk)
@@ -655,13 +655,13 @@ def create_project_backup(pk):
 
 
 @app.task(trail=False)
-def remove_project_backup_download(name: str):
+def remove_project_backup_download(name: str) -> None:
     if staticfiles_storage.exists(name):
         staticfiles_storage.delete(name)
 
 
 @app.task(trail=False)
-def cleanup_project_backup_download():
+def cleanup_project_backup_download() -> None:
     from weblate.trans.backups import PROJECTBACKUP_PREFIX
 
     if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
@@ -674,7 +674,7 @@ def cleanup_project_backup_download():
 
 
 @app.task(trail=False)
-def detect_completed_translation(change_id: int, old_translated: int):
+def detect_completed_translation(change_id: int, old_translated: int) -> None:
     change = Change.objects.get(pk=change_id)
 
     translated = change.translation.stats.translated
@@ -687,7 +687,7 @@ def detect_completed_translation(change_id: int, old_translated: int):
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(
         crontab(hour=3, minute=5), update_remotes.s(), name="update-remotes"

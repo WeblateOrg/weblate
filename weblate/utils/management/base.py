@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import logging
 
 from django.core.management.base import BaseCommand as DjangoBaseCommand
@@ -26,5 +28,5 @@ class BaseCommand(DjangoBaseCommand):
             logger.addHandler(console)
         return super().execute(*args, **options)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         raise NotImplementedError

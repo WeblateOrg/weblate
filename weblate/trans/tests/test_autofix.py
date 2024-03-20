@@ -21,19 +21,19 @@ from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 
 
 class AutoFixTest(TestCase):
-    def test_ellipsis(self):
+    def test_ellipsis(self) -> None:
         unit = MockUnit(source="Foo…")
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEqual(fix.fix_target(["Bar..."], unit), (["Bar…"], True))
         self.assertEqual(fix.fix_target(["Bar... "], unit), (["Bar... "], False))
 
-    def test_no_ellipsis(self):
+    def test_no_ellipsis(self) -> None:
         unit = MockUnit(source="Foo...")
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEqual(fix.fix_target(["Bar..."], unit), (["Bar..."], False))
         self.assertEqual(fix.fix_target(["Bar…"], unit), (["Bar…"], False))
 
-    def test_whitespace(self):
+    def test_whitespace(self) -> None:
         unit = MockUnit(source="Foo\n")
         fix = SameBookendingWhitespace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar\n"], True))
@@ -41,20 +41,20 @@ class AutoFixTest(TestCase):
         unit = MockUnit(source=" ")
         self.assertEqual(fix.fix_target(["  "], unit), (["  "], False))
 
-    def test_no_whitespace(self):
+    def test_no_whitespace(self) -> None:
         unit = MockUnit(source="Foo")
         fix = SameBookendingWhitespace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar"], True))
 
-    def test_whitespace_flags(self):
+    def test_whitespace_flags(self) -> None:
         fix = SameBookendingWhitespace()
         unit = MockUnit(source="str", flags="ignore-begin-space")
         self.assertEqual(fix.fix_target(["  str"], unit), (["  str"], False))
         unit = MockUnit(source="str", flags="ignore-end-space")
         self.assertEqual(fix.fix_target(["  str  "], unit), (["str  "], True))
 
-    def test_html(self):
+    def test_html(self) -> None:
         fix = BleachHTML()
         unit = MockUnit(source='<a href="script:foo()">link</a>', flags="safe-html")
         self.assertEqual(
@@ -74,7 +74,7 @@ class AutoFixTest(TestCase):
             (["%(percent)s %%"], False),
         )
 
-    def test_html_markdown(self):
+    def test_html_markdown(self) -> None:
         fix = BleachHTML()
         unit = MockUnit(
             source='<a href="script:foo()">link</a>', flags="safe-html,md-text"
@@ -90,40 +90,40 @@ class AutoFixTest(TestCase):
             (["<https://weblate.org>"], False),
         )
 
-    def test_zerospace(self):
+    def test_zerospace(self) -> None:
         unit = MockUnit(source="Foo\u200b")
         fix = RemoveZeroSpace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\u200b"], unit), (["Bar\u200b"], False))
 
-    def test_no_zerospace(self):
+    def test_no_zerospace(self) -> None:
         unit = MockUnit(source="Foo")
         fix = RemoveZeroSpace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\u200b"], unit), (["Bar"], True))
 
-    def test_controlchars(self):
+    def test_controlchars(self) -> None:
         unit = MockUnit(source="Foo\x1b")
         fix = RemoveControlChars()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar"], True))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
 
-    def test_no_controlchars(self):
+    def test_no_controlchars(self) -> None:
         unit = MockUnit(source="Foo")
         fix = RemoveControlChars()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar"], True))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
 
-    def test_fix_target(self):
+    def test_fix_target(self) -> None:
         unit = MockUnit(source="Foo…")
         fixed, fixups = fix_target(["Bar..."], unit)
         self.assertEqual(fixed, ["Bar…"])
         self.assertEqual(len(fixups), 1)
         self.assertEqual(str(fixups[0]), "Trailing ellipsis")
 
-    def test_apostrophes(self):
+    def test_apostrophes(self) -> None:
         unit = MockUnit(source="Foo")
         fix = DoubleApostrophes()
         # No flags
@@ -157,7 +157,7 @@ class AutoFixTest(TestCase):
         unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))
 
-    def test_devanagaridanda(self):
+    def test_devanagaridanda(self) -> None:
         non_unit = MockUnit(source="Foo", code="bn")
         bn_unit = MockUnit(source="Foo.", code="bn")
         cs_unit = MockUnit(source="Foo.", code="cs")
@@ -168,7 +168,7 @@ class AutoFixTest(TestCase):
         self.assertEqual(fix.fix_target(["Bar।"], bn_unit), (["Bar।"], False))
         self.assertEqual(fix.fix_target(["Bar."], cs_unit), (["Bar."], False))
 
-    def test_punctuation_spacing(self):
+    def test_punctuation_spacing(self) -> None:
         fix = PunctuationSpacing()
         non_unit = MockUnit(source="Foo", code="bn")
         fr_unit = MockUnit(source="Foo:", code="fr")

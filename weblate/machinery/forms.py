@@ -10,14 +10,14 @@ from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 
 class BaseMachineryForm(forms.Form):
-    def __init__(self, machinery, *args, **kwargs):
+    def __init__(self, machinery, *args, **kwargs) -> None:
         self.machinery = machinery
         super().__init__(*args, **kwargs)
 
     def serialize_form(self):
         return self.cleaned_data
 
-    def clean(self):
+    def clean(self) -> None:
         settings = self.serialize_form()
         for field, data in self.fields.items():
             if not data.required:
@@ -115,7 +115,7 @@ class SAPMachineryForm(URLMachineryForm):
         required=False,
     )
 
-    def clean(self):
+    def clean(self) -> None:
         has_sandbox = bool(self.cleaned_data.get("key"))
         has_production = self.cleaned_data.get("username") and self.cleaned_data.get(
             "password"

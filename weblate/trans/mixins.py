@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from typing import NoReturn
 
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -17,7 +18,7 @@ from weblate.utils.data import data_dir
 
 
 class BaseURLMixin:
-    def get_url_path(self):
+    def get_url_path(self) -> NoReturn:
         raise NotImplementedError
 
     @cached_property
@@ -35,7 +36,7 @@ class URLMixin(BaseURLMixin):
 class LoggerMixin(BaseURLMixin):
     """Mixin for models with logging."""
 
-    def log_hook(self, level, msg, *args):
+    def log_hook(self, level, msg, *args) -> None:
         return
 
     def log_debug(self, msg, *args):
@@ -66,11 +67,11 @@ class PathMixin(LoggerMixin, URLMixin):
     def full_path(self):
         return self._get_path()
 
-    def invalidate_path_cache(self):
+    def invalidate_path_cache(self) -> None:
         if "full_path" in self.__dict__:
             del self.__dict__["full_path"]
 
-    def check_rename(self, old, validate=False):
+    def check_rename(self, old, validate=False) -> None:
         """Detect slug changes and possibly renames underlying directory."""
         # No moving for links
         if getattr(self, "is_repo_link", False) or getattr(old, "is_repo_link", False):
@@ -93,7 +94,7 @@ class PathMixin(LoggerMixin, URLMixin):
                 self.log_info('renaming "%s" to "%s"', old_path, new_path)
                 os.rename(old_path, new_path)
 
-    def create_path(self):
+    def create_path(self) -> None:
         """Create filesystem directory for storing data."""
         path = self.full_path
         if not os.path.exists(path):
@@ -110,12 +111,12 @@ class UserDisplayMixin:
 
 class CacheKeyMixin:
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> str:
         return f"{self.__class__.__name__}-{self.id}"
 
 
 class ComponentCategoryMixin:
-    def _clean_unique_together(self, field: str, msg: str, lookup: str):
+    def _clean_unique_together(self, field: str, msg: str, lookup: str) -> None:
         if self.category:
             matching_components = self.category.component_set.filter(**{field: lookup})
             matching_categories = self.category.category_set.filter(**{field: lookup})
@@ -136,7 +137,7 @@ class ComponentCategoryMixin:
         if matching_categories.exists() or matching_components.exists():
             raise ValidationError({field: msg})
 
-    def clean_unique_together(self):
+    def clean_unique_together(self) -> None:
         self._clean_unique_together(
             "slug",
             gettext(

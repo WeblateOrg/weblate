@@ -38,7 +38,7 @@ class TransactionsTestMixin:
         return super()._databases_support_transactions()  # type: ignore[misc]
 
 
-def adjust_similarity_threshold(value: float):
+def adjust_similarity_threshold(value: float) -> None:
     """
     Adjust pg_trgm.similarity_threshold for the % operator.
 
@@ -92,13 +92,13 @@ class PostgreSQLFallbackLookupMixin:
 
 
 class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
-    def __init__(self, lhs, rhs):
+    def __init__(self, lhs, rhs) -> None:
         self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
         super().__init__(lhs, rhs)
 
 
 class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
-    def __init__(self, lhs, rhs):
+    def __init__(self, lhs, rhs) -> None:
         self._needs_fallback = isinstance(rhs, str) and (
             min((count_alnum(match) for match in invert_re(rhs)), default=0) < 3
         )

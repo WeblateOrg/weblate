@@ -19,7 +19,7 @@ class YAMLCustomizeAddon(StoreBaseAddon):
     settings_form = YAMLCustomizeForm
     compat = {"file_format": {"yaml", "ruby-yaml"}}
 
-    def store_post_load(self, translation, store):
+    def store_post_load(self, translation, store) -> None:
         config = self.instance.configuration
 
         args = store.store.dump_args

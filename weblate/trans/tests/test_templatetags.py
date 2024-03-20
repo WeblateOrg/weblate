@@ -59,7 +59,7 @@ TEST_DATA = (
 class NaturalTimeTest(SimpleTestCase):
     """Testing of natural time conversion."""
 
-    def test_natural(self):
+    def test_natural(self) -> None:
         now = timezone.now()
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
@@ -77,7 +77,7 @@ class NaturalTimeTest(SimpleTestCase):
 
 
 class LocationLinksTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.unit = Unit(
             translation=Translation(
                 component=Component(
@@ -94,18 +94,18 @@ class LocationLinksTest(TestCase):
         self.unit.source_unit = self.unit
         self.user = User.objects.create(username="location-test")
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         self.assertEqual(get_location_links(self.user, self.unit), "")
 
-    def test_numeric(self):
+    def test_numeric(self) -> None:
         self.unit.location = "123"
         self.assertEqual(get_location_links(self.user, self.unit), "string ID 123")
 
-    def test_filename(self):
+    def test_filename(self) -> None:
         self.unit.location = "f&oo.bar:123"
         self.assertEqual(get_location_links(self.user, self.unit), "f&amp;oo.bar:123")
 
-    def test_filenames(self):
+    def test_filenames(self) -> None:
         self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertEqual(
             get_location_links(self.user, self.unit),
@@ -116,7 +116,7 @@ class LocationLinksTest(TestCase):
             'foo.bar:123\n<span class="divisor">•</span>\nbar.foo:321',
         )
 
-    def test_repowebs(self):
+    def test_repowebs(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
@@ -138,7 +138,7 @@ class LocationLinksTest(TestCase):
             """,
         )
 
-    def test_repoweb(self):
+    def test_repoweb(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
@@ -154,7 +154,7 @@ class LocationLinksTest(TestCase):
             """,
         )
 
-    def test_user_url(self):
+    def test_user_url(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
@@ -171,7 +171,7 @@ class LocationLinksTest(TestCase):
             """,
         )
 
-    def test_filename_quote(self):
+    def test_filename_quote(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
@@ -187,7 +187,7 @@ class LocationLinksTest(TestCase):
             """,
         )
 
-    def test_absolute_url(self):
+    def test_absolute_url(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
@@ -225,7 +225,7 @@ class LocationLinksTest(TestCase):
 
 
 class TranslationFormatTestCase(FixtureTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.translation = self.get_translation()
 
@@ -234,7 +234,7 @@ class TranslationFormatTestCase(FixtureTestCase):
         unit.glossary_positions = positions
         return unit
 
-    def test_basic(self):
+    def test_basic(self) -> None:
         self.assertEqual(
             format_translation(
                 ["Hello world"],
@@ -243,7 +243,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             "Hello world",
         )
 
-    def test_diff(self):
+    def test_diff(self) -> None:
         self.assertEqual(
             format_translation(
                 ["Hello world"],
@@ -269,7 +269,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    def test_diff_github_9821(self):
+    def test_diff_github_9821(self) -> None:
         unit = Unit(translation=self.translation)
         unit.all_flags = {"python-brace-format"}
         self.assertHTMLEqual(
@@ -287,7 +287,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    def test_diff_whitespace(self):
+    def test_diff_whitespace(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Helloworld"],
@@ -319,7 +319,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    def test_diff_whitespace_changed(self):
+    def test_diff_whitespace_changed(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello  world"],
@@ -341,7 +341,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    def test_diff_newline(self):
+    def test_diff_newline(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello world"],
@@ -363,7 +363,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    def test_diff_changed_whitespace(self):
+    def test_diff_changed_whitespace(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["     ${APP_NAME} is great"],
@@ -388,7 +388,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    def test_glossary(self):
+    def test_glossary(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello world"],
@@ -403,7 +403,7 @@ ahoj [hello]">Hello</span>
             """,
         )
 
-    def test_glossary_overlap(self):
+    def test_glossary_overlap(self) -> None:
         self.maxDiff = None
         self.assertHTMLEqual(
             format_translation(
@@ -427,7 +427,7 @@ ahoj svete [hello world]">
             """,
         )
 
-    def test_glossary_brackets(self):
+    def test_glossary_brackets(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["[Hello] world"],
@@ -442,7 +442,7 @@ ahoj [[hello]]">[Hello]</span>
             """,
         )
 
-    def test_glossary_space(self):
+    def test_glossary_space(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["text  Hello world"],
@@ -464,7 +464,7 @@ ahoj [hello]">Hello</span>
             """,
         )
 
-    def test_glossary_escape(self):
+    def test_glossary_escape(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello world"],
@@ -479,7 +479,7 @@ ahoj [hello]">Hello</span>
             """,
         )
 
-    def test_glossary_multi(self):
+    def test_glossary_multi(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello glossary"],
@@ -499,7 +499,7 @@ glosář [glossary]">glossary</span>
             """,
         )
 
-    def test_glossary_format(self):
+    def test_glossary_format(self) -> None:
         unit = Unit(translation=self.translation)
         unit.all_flags = {"php-format"}
         self.assertHTMLEqual(
@@ -520,7 +520,7 @@ glosář [glossary]">glossary</span>
             """,
         )
 
-    def test_highlight(self):
+    def test_highlight(self) -> None:
         unit = self.translation.unit_set.get(id_hash=2097404709965985808)
         self.assertHTMLEqual(
             format_translation(
@@ -540,7 +540,7 @@ glosář [glossary]">glossary</span>
             """,
         )
 
-    def test_search(self):
+    def test_search(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello world"],
@@ -550,7 +550,7 @@ glosář [glossary]">glossary</span>
             """Hello <span class="hlmatch">world</span>""",
         )
 
-    def test_whitespace(self):
+    def test_whitespace(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 [" Hello world"],
@@ -613,7 +613,7 @@ glosář [glossary]">glossary</span>
             """,
         )
 
-    def test_whitespace_special(self):
+    def test_whitespace_special(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello\u00a0world"],
@@ -630,7 +630,7 @@ glosář [glossary]">glossary</span>
             """,
         )
 
-    def test_whitespace_newline(self):
+    def test_whitespace_newline(self) -> None:
         self.assertHTMLEqual(
             format_translation(
                 ["Hello\n world"],
@@ -662,21 +662,21 @@ class DiffTestCase(SimpleTestCase):
             diff=diff,
         )["items"][0]["content"]
 
-    def test_same(self):
+    def test_same(self) -> None:
         self.assertEqual(self.html_diff("first text", "first text"), "first text")
 
-    def test_add(self):
+    def test_add(self) -> None:
         self.assertEqual(
             self.html_diff("first text", "first new text"), "first <ins>new </ins>text"
         )
 
-    def test_unicode(self):
+    def test_unicode(self) -> None:
         self.assertEqual(
             self.html_diff("zkouška text", "zkouška nový text"),
             "zkouška <ins>nový </ins>text",
         )
 
-    def test_remove(self):
+    def test_remove(self) -> None:
         self.assertHTMLEqual(
             self.html_diff("first old text", "first text"),
             """
@@ -689,13 +689,13 @@ class DiffTestCase(SimpleTestCase):
             text""",
         )
 
-    def test_replace(self):
+    def test_replace(self) -> None:
         self.assertEqual(
             self.html_diff("first old text", "first new text"),
             "first <del>old</del><ins>new</ins> text",
         )
 
-    def test_format_diff(self):
+    def test_format_diff(self) -> None:
         unit = MockUnit(source="Hello word!")
         self.assertEqual(
             format_translation(
@@ -706,7 +706,7 @@ class DiffTestCase(SimpleTestCase):
             "Hello wor<del>l</del>d!",
         )
 
-    def test_format_diff_whitespace(self):
+    def test_format_diff_whitespace(self) -> None:
         unit = MockUnit(source="Hello world!")
         self.assertHTMLEqual(
             format_translation(
@@ -718,7 +718,7 @@ class DiffTestCase(SimpleTestCase):
             " </span></span></del>",
         )
 
-    def test_format_diff_add_space(self):
+    def test_format_diff_add_space(self) -> None:
         unit = MockUnit(source="Hello.  World.")
         self.assertHTMLEqual(
             format_translation(
@@ -740,7 +740,7 @@ class DiffTestCase(SimpleTestCase):
             """,
         )
 
-    def test_format_entities(self):
+    def test_format_entities(self) -> None:
         unit = MockUnit(source="'word'")
         self.assertEqual(
             format_translation(
@@ -751,7 +751,7 @@ class DiffTestCase(SimpleTestCase):
             "<del>&quot;</del><ins>&#x27;</ins>word<del>&quot;</del><ins>&#x27;</ins>",
         )
 
-    def test_fmtsearchmatch(self):
+    def test_fmtsearchmatch(self) -> None:
         self.assertEqual(
             format_translation(
                 ["Hello world!"], MockLanguage("en"), search_match="hello"

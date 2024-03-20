@@ -128,7 +128,7 @@ class Subscription(models.Model):
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user.username}:{self.get_scope_display()},{self.get_notification_display()} ({self.project},{self.component})"
 
 
@@ -213,7 +213,7 @@ NOTIFY_ACTIVITY = {
 
 
 class AuditLogManager(models.Manager):
-    def is_new_login(self, user, address, user_agent):
+    def is_new_login(self, user, address, user_agent) -> bool:
         """
         Check whether this login is coming from a new device.
 
@@ -287,10 +287,10 @@ class AuditLog(models.Model):
         verbose_name = "Audit log entry"
         verbose_name_plural = "Audit log entries"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.activity} for {self.user.username} from {self.address}"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
         if self.should_notify():
             email = self.user.email
@@ -333,7 +333,7 @@ class AuditLog(models.Model):
             and not self.params.get("skip_notify")
         )
 
-    def check_rate_limit(self, request):
+    def check_rate_limit(self, request) -> bool:
         """Check whether the activity should be rate limited."""
         if self.activity == "failed-auth" and self.user.has_usable_password():
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
@@ -372,7 +372,7 @@ class VerifiedEmail(models.Model):
             ),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.social.user.username} - {self.email}"
 
     @property
@@ -613,7 +613,7 @@ class Profile(models.Model):
         verbose_name = "User profile"
         verbose_name_plural = "User profiles"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.username
 
     def get_absolute_url(self):
@@ -636,7 +636,7 @@ class Profile(models.Model):
             return None
         return parsed._replace(path="/share", query="text=", fragment="").geturl()
 
-    def increase_count(self, item: str, increase: int = 1):
+    def increase_count(self, item: str, increase: int = 1) -> None:
         """Update user actions counter."""
         # Update our copy
         setattr(self, item, getattr(self, item) + increase)
@@ -653,7 +653,7 @@ class Profile(models.Model):
         """Return user's full name."""
         return self.user.full_name
 
-    def clean(self):
+    def clean(self) -> None:
         """Check if component list is chosen when required."""
         # There is matching logic in ProfileBaseForm.add_error to ignore this
         # validation on partial forms
@@ -768,7 +768,7 @@ class Profile(models.Model):
 
         return get_translation_order
 
-    def fixup_profile(self, request):
+    def fixup_profile(self, request) -> None:
         fields = set()
         if not self.language:
             self.language = get_language()
@@ -836,7 +836,7 @@ class Profile(models.Model):
         )
 
 
-def set_lang_cookie(response, profile):
+def set_lang_cookie(response, profile) -> None:
     """Set session language based on user preferences."""
     if profile.language:
         response.set_cookie(
@@ -852,7 +852,7 @@ def set_lang_cookie(response, profile):
 
 
 @receiver(user_logged_in)
-def post_login_handler(sender, request, user, **kwargs):
+def post_login_handler(sender, request, user, **kwargs) -> None:
     """
     Signal handler for post login.
 
@@ -894,7 +894,7 @@ def post_login_handler(sender, request, user, **kwargs):
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
-def create_profile_callback(sender, instance, created=False, **kwargs):
+def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
     """Automatically create token and profile for user."""
     if created:
         # Create API token

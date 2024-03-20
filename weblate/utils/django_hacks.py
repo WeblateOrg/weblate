@@ -5,7 +5,7 @@
 from unittest import mock
 
 
-def immediate_on_commit(cls):
+def immediate_on_commit(cls) -> None:
     """
     Execute transaction.on_commit immediately.
 
@@ -13,7 +13,7 @@ def immediate_on_commit(cls):
     was implemented Django Ticket https://code.djangoproject.com/ticket/30457
     """
 
-    def handle_immediate_on_commit(func, using=None):
+    def handle_immediate_on_commit(func, using=None) -> None:
         func()
 
     # Context manager executing transaction.on_commit() hooks immediately
@@ -25,5 +25,5 @@ def immediate_on_commit(cls):
     cls.on_commit_mgr.start()
 
 
-def immediate_on_commit_leave(cls):
+def immediate_on_commit_leave(cls) -> None:
     cls.on_commit_mgr.stop()

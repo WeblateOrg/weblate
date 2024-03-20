@@ -10,7 +10,7 @@ RESTRICTED_COMMANDS = {"squashmigrations", "makemigrations"}
 
 
 class WeblateManagementUtility(ManagementUtility):
-    def __init__(self, argv=None, developer_mode: bool = False):
+    def __init__(self, argv=None, developer_mode: bool = False) -> None:
         super().__init__(argv)
         self.developer_mode = developer_mode
 

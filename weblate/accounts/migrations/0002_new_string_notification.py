@@ -7,7 +7,7 @@
 from django.db import migrations
 
 
-def migrate_subscription(apps, schema_editor):
+def migrate_subscription(apps, schema_editor) -> None:
     Subscription = apps.get_model("accounts", "Subscription")
     # Change instant to daily, because this now has string granularity
     Subscription.objects.filter(

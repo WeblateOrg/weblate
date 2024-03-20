@@ -14,7 +14,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "installs site-wide automatic suggestion service"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument("--service", required=True, help="Service name")
         parser.add_argument(
@@ -26,7 +26,7 @@ class Command(BaseCommand):
             help="Update existing service configuration",
         )
 
-    def validate_form(self, form):
+    def validate_form(self, form) -> None:
         if not form.is_valid():
             for error in form.non_field_errors():
                 self.stderr.write(error)
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                     self.stderr.write(f"Error in {field.name}: {error}")
             raise CommandError("Invalid add-on configuration!")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         try:
             service = MACHINERY[options["service"]]
         except KeyError:

@@ -14,7 +14,7 @@ class YandexTranslation(MachineTranslation):
     max_score = 90
     settings_form = KeyMachineryForm
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         super().check_failure(response)
         payload = response.json()
         if "message" in payload:

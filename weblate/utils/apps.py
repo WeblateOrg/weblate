@@ -397,7 +397,7 @@ class UtilsConfig(AppConfig):
     label = "utils"
     verbose_name = "Utils"
 
-    def ready(self):
+    def ready(self) -> None:
         super().ready()
         init_error_collection()
 

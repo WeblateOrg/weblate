@@ -102,7 +102,7 @@ class Notification:
     required_attr: str | None = None
     skip_when_notify: list[Any] = []
 
-    def __init__(self, outgoing, perm_cache=None):
+    def __init__(self, outgoing, perm_cache=None) -> None:
         self.outgoing = outgoing
         self.subscription_cache = {}
         self.child_notify = None
@@ -235,7 +235,7 @@ class Notification:
             last_user.current_subscription = subscription
             yield last_user
 
-    def send(self, address, subject, body, headers):
+    def send(self, address, subject, body, headers) -> None:
         encoded_email = siphash("Weblate notifier", address)
         if rate_limit(f"notify:rate:{encoded_email}", 1000, 86400):
             LOGGER.info(
@@ -333,7 +333,7 @@ class Notification:
 
     def send_immediate(
         self, language, email, change, extracontext=None, subscription=None
-    ):
+    ) -> None:
         with override("en" if language is None else language):
             context = self.get_context(change, subscription, extracontext)
             subject = self.render_template("_subject.txt", context)
@@ -370,7 +370,7 @@ class Notification:
             for child_notify in self.child_notify
         )
 
-    def notify_immediate(self, change):
+    def notify_immediate(self, change) -> None:
         for user in self.get_users(FREQ_INSTANT, change):
             if change.project is None or user.can_access_project(change.project):
                 self.send_immediate(
@@ -383,7 +383,7 @@ class Notification:
                 if user.current_subscription.onetime:
                     user.current_subscription.delete()
 
-    def send_digest(self, language, email, changes, subscription=None):
+    def send_digest(self, language, email, changes, subscription=None) -> None:
         with override("en" if language is None else language):
             context = self.get_context(subscription=subscription, changes=changes)
             subject = self.render_template("_subject.txt", context, digest=True)
@@ -401,7 +401,7 @@ class Notification:
                 self.get_headers(context),
             )
 
-    def notify_digest(self, frequency, changes):
+    def notify_digest(self, frequency, changes) -> None:
         notifications = defaultdict(list)
         users = {}
         for change in changes:
@@ -432,13 +432,13 @@ class Notification:
             timestamp__gte=timezone.now() - relativedelta(**kwargs),
         )
 
-    def notify_daily(self):
+    def notify_daily(self) -> None:
         self.notify_digest(FREQ_DAILY, self.filter_changes(days=1))
 
-    def notify_weekly(self):
+    def notify_weekly(self) -> None:
         self.notify_digest(FREQ_WEEKLY, self.filter_changes(weeks=1))
 
-    def notify_monthly(self):
+    def notify_monthly(self) -> None:
         self.notify_digest(FREQ_MONTHLY, self.filter_changes(months=1))
 
 
@@ -534,7 +534,7 @@ class NewCommentNotificaton(Notification):
             return translation.language
         return None
 
-    def notify_immediate(self, change):
+    def notify_immediate(self, change) -> None:
         super().notify_immediate(change)
 
         # Notify upstream
@@ -658,7 +658,7 @@ class NewAnnouncementNotificaton(Notification):
     required_attr = "announcement"
     any_watched: bool = True
 
-    def should_skip(self, user, change):
+    def should_skip(self, user, change) -> bool:
         return not change.announcement.notify
 
     def get_language_filter(self, change, translation):
@@ -722,16 +722,16 @@ class SummaryNotification(Notification):
     def get_freq_choices():
         return [x for x in FREQ_CHOICES if x[0] != FREQ_INSTANT]
 
-    def notify_daily(self):
+    def notify_daily(self) -> None:
         self.notify_summary(FREQ_DAILY)
 
-    def notify_weekly(self):
+    def notify_weekly(self) -> None:
         self.notify_summary(FREQ_WEEKLY)
 
-    def notify_monthly(self):
+    def notify_monthly(self) -> None:
         self.notify_summary(FREQ_MONTHLY)
 
-    def notify_summary(self, frequency):
+    def notify_summary(self, frequency) -> None:
         users = {}
         notifications = defaultdict(list)
         for translation in prefetch_stats(Translation.objects.prefetch()):
@@ -758,7 +758,7 @@ class SummaryNotification(Notification):
             )
 
     @staticmethod
-    def get_count(translation):
+    def get_count(translation) -> int:
         raise NotImplementedError
 
     def get_context(
@@ -775,7 +775,7 @@ class PendingSuggestionsNotification(SummaryNotification):
     digest_template = "pending_suggestions"
 
     @staticmethod
-    def get_count(translation):
+    def get_count(translation) -> int:
         return translation.stats.suggestions
 
 
@@ -785,7 +785,7 @@ class ToDoStringsNotification(SummaryNotification):
     digest_template = "todo_strings"
 
     @staticmethod
-    def get_count(translation):
+    def get_count(translation) -> int:
         return translation.stats.todo
 
 
@@ -828,7 +828,7 @@ def get_notification_emails(
 
 def send_notification_email(
     language, recipients, notification, context=None, info=None
-):
+) -> None:
     """Render and sends notification email."""
     send_mails.delay(
         get_notification_emails(language, recipients, notification, context, info)

@@ -53,13 +53,13 @@ class ComponentList(models.Model, CacheKeyMixin):
         verbose_name = "Component list"
         verbose_name_plural = "Component lists"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     def get_absolute_url(self):
         return reverse("component-list", kwargs={"name": self.slug})
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = ComponentListStats(self)
 
@@ -94,10 +94,10 @@ class AutoComponentList(models.Model):
         verbose_name = "Automatic component list assignment"
         verbose_name_plural = "Automatic component list assignments"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.componentlist.name
 
-    def check_match(self, component):
+    def check_match(self, component) -> None:
         if not re.match(self.project_match, component.project.slug):
             return
         if not re.match(self.component_match, component.slug):

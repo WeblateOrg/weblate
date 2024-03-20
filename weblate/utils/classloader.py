@@ -34,7 +34,9 @@ def load_class(name, setting):
 class ClassLoader:
     """Dict like object to lazy load list of classes."""
 
-    def __init__(self, name: str, construct: bool = True, collect_errors: bool = False):
+    def __init__(
+        self, name: str, construct: bool = True, collect_errors: bool = False
+    ) -> None:
         self.name = name
         self.construct = construct
         self.collect_errors = collect_errors
@@ -72,7 +74,7 @@ class ClassLoader:
     def __getitem__(self, key):
         return self.data.__getitem__(key)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, value) -> None:
         self.data.__setitem__(key, value)
 
     def get(self, key):
@@ -90,10 +92,10 @@ class ClassLoader:
     def __iter__(self):
         return self.data.__iter__()
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.data.__len__()
 
-    def __contains__(self, item):
+    def __contains__(self, item) -> bool:
         return self.data.__contains__(item)
 
     def exists(self):
@@ -102,7 +104,7 @@ class ClassLoader:
     def get_choices(self, empty=False, exclude=(), cond=None):
         if cond is None:
 
-            def cond(x):
+            def cond(x) -> bool:
                 return True
 
         result = [

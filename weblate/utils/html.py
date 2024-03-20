@@ -70,17 +70,17 @@ SANE_CHARS = re.compile("[\xa0]")
 
 
 class MarkupExtractor(ParserTarget):
-    def __init__(self):
+    def __init__(self) -> None:
         self.found_tags: set[str] = set()
         self.found_attributes: dict[str, set[str]] = defaultdict(set)
 
-    def start(self, tag: str, attrs: dict[str, str]):  # type: ignore[override]
+    def start(self, tag: str, attrs: dict[str, str]) -> None:  # type: ignore[override]
         if tag in IGNORE:
             return
         self.found_tags.add(tag)
         self.found_attributes[tag].update(attrs.keys())
 
-    def close(self):
+    def close(self) -> None:
         pass
 
 
@@ -93,7 +93,7 @@ def extract_html_tags(text) -> tuple[set[str], dict[str, set[str]]]:
 
 
 class HTMLSanitizer:
-    def __init__(self):
+    def __init__(self) -> None:
         self.current = 0
         self.replacements = {}
 
@@ -136,7 +136,7 @@ WEBLATE_TAGS = {
 
 
 class HTML2Text(_HTML2Text):
-    def __init__(self, bodywidth: int = 78):
+    def __init__(self, bodywidth: int = 78) -> None:
         super().__init__(bodywidth=bodywidth)
         # Use Unicode characters instead of their ascii pseudo-replacements
         self.unicode_snob = True

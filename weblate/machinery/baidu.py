@@ -75,7 +75,7 @@ class BaiduTranslation(MachineTranslation):
             "vie",
         ]
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         payload = response.json()
 
         if "error_code" in payload:

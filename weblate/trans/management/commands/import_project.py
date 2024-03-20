@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
     help = "imports projects with more components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--name-template",
@@ -112,7 +112,7 @@ class Command(BaseCommand):
         parser.add_argument("branch", help="VCS repository branch")
         parser.add_argument("filemask", help="File mask")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.filemask = None
         self.component_re = None
@@ -149,7 +149,7 @@ class Command(BaseCommand):
 
         return workdir
 
-    def parse_options(self, repo, options):
+    def parse_options(self, repo, options) -> None:
         """Parse parameters."""
         self.filemask = options["filemask"]
         self.vcs = options["vcs"]
@@ -208,7 +208,7 @@ class Command(BaseCommand):
                     '"component" and/or "language"'
                 )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """Automatic import of project."""
         # Read params
         repo = options["repo"]

@@ -215,7 +215,7 @@ def translation_prefetch_tasks(translations):
     return translations
 
 
-def prefetch_glossary_terms(components):
+def prefetch_glossary_terms(components) -> None:
     if not components:
         return
     lookup = {component.glossary_sources_key: component for component in components}
@@ -759,10 +759,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             models.Index(fields=["project", "allow_translation_propagation"]),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.category or self.project}/{self.name}"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         """
         Save wrapper.
 
@@ -865,7 +865,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         for project in self.links.all():
             project.invalidate_source_language_cache()
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
@@ -886,7 +886,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self._template_check_done = False
         self.new_lang_error_message = None
 
-    def generate_changes(self, old):
+    def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
             result = getattr(base, attribute)
             if result is None:
@@ -913,7 +913,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     user=self.acting_user,
                 )
 
-    def install_autoaddon(self):
+    def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
         from weblate.addons.models import ADDONS, Addon
 
@@ -963,7 +963,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Running is disabled now, it is triggered in after_save
             addon.create(component, run=False, configuration=configuration)
 
-    def create_glossary(self):
+    def create_glossary(self) -> None:
         project = self.project
 
         # Does glossary already exist?
@@ -1004,13 +1004,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         )
 
     @cached_property
-    def update_key(self):
+    def update_key(self) -> str:
         return f"component-update-{self.pk}"
 
-    def delete_background_task(self):
+    def delete_background_task(self) -> None:
         cache.delete(self.update_key)
 
-    def store_background_task(self, task=None):
+    def store_background_task(self, task=None) -> None:
         if task is None:
             if not current_task:
                 return
@@ -1028,7 +1028,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return None
         return AsyncResult(task_id)
 
-    def progress_step(self, progress=None):
+    def progress_step(self, progress=None) -> None:
         # No task (for example eager mode)
         if not current_task or not current_task.request.id:
             return
@@ -1046,7 +1046,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             state="PROGRESS", meta={"progress": progress, "component": self.pk}
         )
 
-    def store_log(self, slug, msg, *args):
+    def store_log(self, slug, msg, *args) -> None:
         if self.translations_count == -1 and self.linked_component:
             self.linked_component.store_log(slug, msg, *args)
             return
@@ -1054,7 +1054,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if current_task:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
-    def log_hook(self, level, msg, *args):
+    def log_hook(self, level, msg, *args) -> None:
         self.store_log(self.full_slug, msg, *args)
 
     def get_progress(self):
@@ -1118,7 +1118,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             result.language = self.source_language
             return result
 
-    def preload_sources(self, sources=None):
+    def preload_sources(self, sources=None) -> None:
         """Preload source objects to improve performance on load."""
         if sources is not None:
             self._sources = sources
@@ -1134,7 +1134,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.preload_sources()
         return list(self._sources.values())
 
-    def unload_sources(self):
+    def unload_sources(self) -> None:
         self._sources = {}
         self._sources_prefetched = False
 
@@ -1189,7 +1189,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         result = []
         raw = []
 
-        def append(text: str | None):
+        def append(text: str | None) -> None:
             if raw:
                 result.append(re.escape("".join(raw)))
                 raw.clear()
@@ -1211,7 +1211,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
-    def get_widgets_url(self):
+    def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
         return f"{self.project.get_widgets_url()}?component={self.pk}"
 
@@ -1362,7 +1362,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             slug = slug[:-4]
         return slug
 
-    def get_bitbucket_git_repoweb_template(self):
+    def get_bitbucket_git_repoweb_template(self) -> str | None:
         owner, slug, matches = None, None, None
         domain = "bitbucket.org"
         if re.match(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo):
@@ -1379,7 +1379,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         return None
 
-    def get_github_repoweb_template(self):
+    def get_github_repoweb_template(self) -> str | None:
         owner, slug, matches = None, None, None
         domain = "github.com"
         if re.match(GITHUB_REPOS_REGEXP[0], self.repo):
@@ -1394,7 +1394,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         return None
 
-    def get_pagure_repoweb_template(self):
+    def get_pagure_repoweb_template(self) -> str | None:
         owner, slug = None, None
         domain = "pagure.io"
         if re.match(PAGURE_REPOS_REGEXP[0], self.repo):
@@ -1407,7 +1407,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         return None
 
-    def get_azure_repoweb_template(self):
+    def get_azure_repoweb_template(self) -> str | None:
         organization, project, repository, matches = None, None, None, None
         domain = "dev.azure.com"
         if re.match(AZURE_REPOS_REGEXP[0], self.repo):
@@ -1436,14 +1436,14 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return message
         return cleanup_repo_url(self.repo, message)
 
-    def add_ssh_host_key(self):
+    def add_ssh_host_key(self) -> None:
         """
         Add SSH key for current repo as trusted.
 
         This is essentially a TOFU approach.
         """
 
-        def add(repo):
+        def add(repo) -> None:
             self.log_info("checking for key to add for %s", repo)
             parsed = urlparse(repo)
             if not parsed.hostname:
@@ -1461,7 +1461,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.push:
             add(self.push)
 
-    def handle_update_error(self, error_text, retry):
+    def handle_update_error(self, error_text, retry) -> None:
         if "Host key verification failed" in error_text:
             if retry:
                 # Add ssh key and retry
@@ -1539,7 +1539,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
         return True
 
-    def configure_repo(self, validate=False, pull=True):
+    def configure_repo(self, validate=False, pull=True) -> None:
         """Ensure repository is correctly set up."""
         if self.is_repo_link:
             return
@@ -1574,7 +1574,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if pull:
                 self.update_remote_branch(validate)
 
-    def configure_branch(self):
+    def configure_branch(self) -> None:
         """Ensure local tracking branch exists and is checked out."""
         if self.is_repo_link:
             return
@@ -1589,7 +1589,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 return True
         return any(self.filemask_re.match(path) for path in changed)
 
-    def needs_commit_upstream(self):
+    def needs_commit_upstream(self) -> bool:
         """Detect whether commit is needed for upstream changes."""
         changed = self.repository.get_changed_files()
         if self.uses_changed_files(changed):
@@ -1660,7 +1660,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return result
 
     @perform_on_link
-    def push_if_needed(self, do_update=True):
+    def push_if_needed(self, do_update=True) -> None:
         """
         Push changes to upstream if needed.
 
@@ -1748,7 +1748,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         force_commit: bool = True,
         do_update: bool = True,
         retry: bool = True,
-    ):
+    ) -> bool:
         """Push changes to remote repo."""
         # Skip push for local only repo
         if self.vcs == "local":
@@ -1799,7 +1799,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return True
 
     @perform_on_link
-    def do_reset(self, request=None):
+    def do_reset(self, request=None) -> bool:
         """Reset repo to match remote."""
         with self.repository.lock:
             previous_head = self.repository.last_revision
@@ -1842,7 +1842,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return True
 
     @perform_on_link
-    def do_cleanup(self, request=None):
+    def do_cleanup(self, request=None) -> bool:
         """Clean up the repository."""
         with self.repository.lock:
             try:
@@ -1901,7 +1901,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ]
 
     @perform_on_link
-    def commit_pending(self, reason: str, user, skip_push: bool = False):  # noqa: C901
+    def commit_pending(self, reason: str, user, skip_push: bool = False) -> bool:  # noqa: C901
         """Check whether there is any translation to be committed."""
 
         def reuse_self(translation):
@@ -2035,7 +2035,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             return True
 
-    def send_post_commit_signal(self):
+    def send_post_commit_signal(self) -> None:
         vcs_post_commit.send(sender=self.__class__, component=self)
 
     def get_parse_error_message(self, error) -> str:
@@ -2048,7 +2048,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def handle_parse_error(
         self, error, translation=None, filename=None, reraise: bool = True
-    ):
+    ) -> None:
         """Process parse errors."""
         error_message = self.get_parse_error_message(error)
         if filename is None:
@@ -2064,7 +2064,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if reraise:
             raise FileParseError(error_message)
 
-    def store_local_revision(self):
+    def store_local_revision(self) -> None:
         """Store current revision in the database."""
         self.local_revision = self.repository.last_revision
         # Avoid using using save as that does complex things and we
@@ -2076,7 +2076,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @perform_on_link
     def update_branch(
         self, request=None, method: str | None = None, skip_push: bool = False
-    ):
+    ) -> bool:
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
@@ -2166,7 +2166,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return True
 
     @perform_on_link
-    def trigger_post_update(self, previous_head: str, skip_push: bool):
+    def trigger_post_update(self, previous_head: str, skip_push: bool) -> None:
         vcs_post_update.send(
             sender=self.__class__,
             component=self,
@@ -2209,7 +2209,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return [self.template, *sorted(matches)]
         return sorted(matches)
 
-    def update_source_checks(self):
+    def update_source_checks(self) -> None:
         self.log_info("running source checks for %d strings", len(self.updated_sources))
         for unit in self.updated_sources.values():
             unit.is_batch_update = True
@@ -2234,13 +2234,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             alert for alert in self.all_active_alerts if alert.name in LOCKING_ALERTS
         ]
 
-    def trigger_alert(self, name: str, **kwargs):
+    def trigger_alert(self, name: str, **kwargs) -> None:
         if name in self.alerts_trigger:
             self.alerts_trigger[name].append(kwargs)
         else:
             self.alerts_trigger[name] = [kwargs]
 
-    def delete_alert(self, alert: str):
+    def delete_alert(self, alert: str) -> None:
         if alert in self.all_alerts:
             self.all_alerts[alert].delete()
             del self.all_alerts[alert]
@@ -2259,7 +2259,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             for component in self.linked_childs:
                 component.delete_alert(alert)
 
-    def add_alert(self, alert: str, noupdate: bool = False, **details):
+    def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
         if alert in self.all_alerts:
             obj = self.all_alerts[alert]
             created = False
@@ -2282,7 +2282,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             for component in self.linked_childs:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
-    def update_import_alerts(self, delete: bool = True):
+    def update_import_alerts(self, delete: bool = True) -> None:
         self.log_info("checking triggered alerts")
         for alert in ALERTS_IMPORT:
             if alert in self.alerts_trigger:
@@ -2327,7 +2327,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
             return False
 
-    def check_template_valid(self):
+    def check_template_valid(self) -> None:
         if self._template_check_done:
             return
         if self.has_template():
@@ -2512,11 +2512,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.log_info("updating completed")
         return was_change
 
-    def start_batched_checks(self):
+    def start_batched_checks(self) -> None:
         self.batch_checks = True
         self.batched_checks = set()
 
-    def run_batched_checks(self):
+    def run_batched_checks(self) -> None:
         # Batch checks
         if self.batched_checks:
             from weblate.checks.tasks import batch_update_checks
@@ -2531,13 +2531,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.batch_checks = False
         self.batched_checks = set()
 
-    def _invalidate_triger(self):
+    def _invalidate_triger(self) -> None:
         self._invalidate_scheduled = False
         self.log_info("updating stats caches")
         self.stats.update_language_stats()
         self.invalidate_glossary_cache()
 
-    def invalidate_cache(self):
+    def invalidate_cache(self) -> None:
         if self._invalidate_scheduled:
             return
 
@@ -2545,7 +2545,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         transaction.on_commit(self._invalidate_triger)
 
     @cached_property
-    def glossary_sources_key(self):
+    def glossary_sources_key(self) -> str:
         return f"component-glossary-{self.pk}"
 
     @cached_property
@@ -2556,7 +2556,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             cache.set(self.glossary_sources_key, result, 24 * 3600)
         return result
 
-    def invalidate_glossary_cache(self):
+    def invalidate_glossary_cache(self) -> None:
         if not self.is_glossary:
             return
         cache.delete(self.glossary_sources_key)
@@ -2587,7 +2587,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return code.split(".")[0]
         return code
 
-    def sync_git_repo(self, validate: bool = False, skip_push: bool = False):
+    def sync_git_repo(self, validate: bool = False, skip_push: bool = False) -> None:
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
             return
@@ -2607,12 +2607,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.update_remote_branch()
                 self.repository.reset()
 
-    def set_default_branch(self):
+    def set_default_branch(self) -> None:
         """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
             self.branch = VCS_REGISTRY[self.vcs].get_remote_branch(self.repo)
 
-    def clean_category(self):
+    def clean_category(self) -> None:
         if self.category:
             if self.category.project != self.project:
                 raise ValidationError(
@@ -2623,7 +2623,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     gettext("Categorized component can not be shared.")
                 )
 
-    def clean_repo_link(self):
+    def clean_repo_link(self) -> None:
         """Validate repository link."""
         if self.is_repo_link:
             try:
@@ -2670,7 +2670,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)
 
-    def clean_lang_codes(self, matches):
+    def clean_lang_codes(self, matches) -> None:
         """Validate that there are no double language codes."""
         if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
@@ -2706,7 +2706,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
             raise ValidationError({"filemask": message})
 
-    def clean_files(self, matches):
+    def clean_files(self, matches) -> None:
         """Validate that translation files can be parsed."""
         errors = []
         dir_path = self.full_path
@@ -2738,7 +2738,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             filename, template, errors, fast=fast
         )
 
-    def clean_new_lang(self):
+    def clean_new_lang(self) -> None:
         """Validate new language choices."""
         # Validate if new base is configured or language adding is set
         if (not self.new_base and self.new_lang != "add") or not self.file_format:
@@ -2768,7 +2768,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             {"new_base": gettext("Unrecognized base file for new translations.")}
         )
 
-    def clean_template(self):
+    def clean_template(self) -> None:
         """Validate template value."""
         # Test for unexpected template usage
         if (
@@ -2846,7 +2846,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
             raise ValidationError({"template": msg})
 
-    def clean_repo(self):
+    def clean_repo(self) -> None:
         self.clean_repo_link()
 
         # Baild out on failed repo validation
@@ -2882,7 +2882,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg})
 
-    def clean(self):
+    def clean(self) -> None:
         """
         Validate component parameter.
 
@@ -2986,7 +2986,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return None
         return os.path.join(self.full_path, self.new_base)
 
-    def create_template_if_missing(self):
+    def create_template_if_missing(self) -> None:
         """Create blank template in case intermediate language is enabled."""
         fullname = self.get_template_filename()
         if (
@@ -3024,7 +3024,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_variant: bool,
         skip_push: bool,
         create: bool,
-    ):
+    ) -> None:
         self.store_background_task()
         self.translations_progress = 0
         self.translations_count = 0
@@ -3085,7 +3085,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             for component in self.project.child_components:
                 update_alerts(component, {"NoLibreConditions"})
 
-    def update_variants(self, updated_units=None):
+    def update_variants(self, updated_units=None) -> None:
         from weblate.trans.models import Unit
 
         component_units = Unit.objects.filter(translation__component=self, variant=None)
@@ -3142,7 +3142,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             variant_regex="", unit_count=0
         ).delete()
 
-    def update_link_alerts(self, noupdate: bool = False):
+    def update_link_alerts(self, noupdate: bool = False) -> None:
         base = self.linked_component if self.is_repo_link else self
         masks = [base.filemask]
         masks.extend(base.linked_childs.values_list("filemask", flat=True))
@@ -3154,7 +3154,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         else:
             self.delete_alert("DuplicateFilemask")
 
-    def update_alerts(self):
+    def update_alerts(self) -> None:
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)
 
@@ -3255,17 +3255,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         monolingual = self.file_format_cls.monolingual
         return (monolingual or monolingual is None) and self.template
 
-    def drop_template_store_cache(self):
+    def drop_template_store_cache(self) -> None:
         if "template_store" in self.__dict__:
             del self.__dict__["template_store"]
         if "intermediate_store" in self.__dict__:
             del self.__dict__["intermediate_store"]
 
-    def drop_repository_cache(self):
+    def drop_repository_cache(self) -> None:
         if "repository" in self.__dict__:
             del self.__dict__["repository"]
 
-    def drop_addons_cache(self):
+    def drop_addons_cache(self) -> None:
         if "addons_cache" in self.__dict__:
             del self.__dict__["addons_cache"]
 
@@ -3503,7 +3503,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         return translation
 
-    def do_lock(self, user, lock: bool = True, auto: bool = False):
+    def do_lock(self, user, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""
         from weblate.trans.tasks import perform_commit
 
@@ -3538,7 +3538,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """Simplified license short name to be used in badge."""
         return self.license.replace("-or-later", "").replace("-only", "")
 
-    def post_create(self, user):
+    def post_create(self, user) -> None:
         self.change_set.create(
             action=Change.ACTION_CREATE_COMPONENT,
             user=user,
@@ -3576,7 +3576,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_addon(self, name: str) -> Addon | None:
         return self.addons_cache["__lookup__"].get(name)
 
-    def schedule_sync_terminology(self):
+    def schedule_sync_terminology(self) -> None:
         """Trigger terminology sync in the background."""
         from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
 
@@ -3590,7 +3590,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         else:
             transaction.on_commit(self._schedule_sync_terminology)
 
-    def _schedule_sync_terminology(self):
+    def _schedule_sync_terminology(self) -> None:
         from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
 
         if self.is_glossary:
@@ -3656,10 +3656,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return self.project.enable_review
 
     @property
-    def update_checks_key(self):
+    def update_checks_key(self) -> str:
         return f"component-update-checks-{self.pk}"
 
-    def schedule_update_checks(self, update_state: bool = False):
+    def schedule_update_checks(self, update_state: bool = False) -> None:
         from weblate.trans.tasks import update_checks
 
         update_token = get_random_identifier()
@@ -3682,7 +3682,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
 @receiver(m2m_changed, sender=Component.links.through)
 @disable_for_loaddata
-def change_component_link(sender, instance, action, pk_set, **kwargs):
+def change_component_link(sender, instance, action, pk_set, **kwargs) -> None:
     from weblate.trans.models import Project
 
     if action not in {"post_add", "post_remove", "post_clear"}:

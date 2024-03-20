@@ -11,7 +11,7 @@ from weblate.accounts.tasks import cleanup_auditlog, cleanup_social_auth
 
 
 class PipelineTest(SimpleTestCase):
-    def test_slugify(self):
+    def test_slugify(self) -> None:
         self.assertEqual(slugify_username("zkouska"), "zkouska")
         self.assertEqual(slugify_username("Zkouska"), "Zkouska")
         self.assertEqual(slugify_username("zkouška"), "zkouska")
@@ -21,8 +21,8 @@ class PipelineTest(SimpleTestCase):
 
 
 class TasksTest(TestCase):
-    def test_cleanup_social_auth(self):
+    def test_cleanup_social_auth(self) -> None:
         cleanup_social_auth()
 
-    def test_cleanup_auditlog(self):
+    def test_cleanup_auditlog(self) -> None:
         cleanup_auditlog()

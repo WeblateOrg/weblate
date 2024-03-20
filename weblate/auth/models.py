@@ -71,7 +71,7 @@ class Permission(models.Model):
         verbose_name = "Permission"
         verbose_name_plural = "Permissions"
 
-    def __str__(self):
+    def __str__(self) -> str:
         name = gettext(self.name)
         if self.codename in GLOBAL_PERM_NAMES:
             return gettext("%s (site-wide permission)") % name
@@ -93,7 +93,7 @@ class Role(models.Model):
         verbose_name = "Role"
         verbose_name_plural = "Roles"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return pgettext("Access-control role", self.name)
 
 
@@ -180,12 +180,12 @@ class Group(models.Model):
         verbose_name = "Group"
         verbose_name_plural = "Groups"
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.defining_project:
             return pgettext("Per-project access-control team name", self.name)
         return pgettext("Access-control team name", self.name)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
             self.languages.clear()
@@ -319,7 +319,7 @@ def wrap_group_list(func):
 class GroupManyToManyField(models.ManyToManyField):
     """Customized field to accept Django Groups objects as well."""
 
-    def contribute_to_class(self, cls, name, **kwargs):
+    def contribute_to_class(self, cls, name, **kwargs) -> None:
         super().contribute_to_class(cls, name, **kwargs)
 
         # Get related descriptor
@@ -412,10 +412,10 @@ class User(AbstractBaseUser):
             UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.full_name
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         from weblate.accounts.models import AuditLog
 
         original = None
@@ -451,7 +451,7 @@ class User(AbstractBaseUser):
     def get_absolute_url(self):
         return reverse("user_page", kwargs={"user": self.username})
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         self.extra_data = {}
         self.cla_cache = {}
         self._permissions: dict[
@@ -463,7 +463,7 @@ class User(AbstractBaseUser):
                 self.extra_data[name] = kwargs.pop(name)
         super().__init__(*args, **kwargs)
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         self.cla_cache = {}
         self._permissions = {}
         perm_caches = (
@@ -489,7 +489,7 @@ class User(AbstractBaseUser):
         return self.username == settings.ANONYMOUS_USER_NAME
 
     @cached_property
-    def is_authenticated(self):
+    def is_authenticated(self) -> bool:  # type: ignore[override]
         return not self.is_anonymous
 
     def get_full_name(self):
@@ -498,7 +498,7 @@ class User(AbstractBaseUser):
     def get_short_name(self):
         return self.full_name
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name, value) -> None:
         """Mimic first/last name for third-party auth and ignore is_staff flag."""
         if name in self.DUMMY_FIELDS:
             self.extra_data[name] = value
@@ -515,7 +515,7 @@ class User(AbstractBaseUser):
         return self.is_superuser
 
     @property
-    def first_name(self):
+    def first_name(self) -> str:
         """Compatibility API for third-party modules."""
         return ""
 
@@ -574,7 +574,7 @@ class User(AbstractBaseUser):
         result.extend(self.project_permissions[-SELECTION_ALL])
         return result
 
-    def check_access(self, project):
+    def check_access(self, project) -> None:
         """Raise an error if user is not allowed to access this project."""
         if not self.can_access_project(project):
             raise Http404("Access denied")
@@ -587,7 +587,7 @@ class User(AbstractBaseUser):
             return False
         return not component.restricted or component.pk in self.component_permissions
 
-    def check_access_component(self, component):
+    def check_access_component(self, component) -> None:
         """Raise an error if user is not allowed to access this component."""
         if not self.can_access_component(component):
             raise Http404("Access denied")
@@ -646,7 +646,7 @@ class User(AbstractBaseUser):
     def administered_group_ids(self):
         return set(self.administered_group_set.values_list("id", flat=True))
 
-    def _fetch_permissions(self):
+    def _fetch_permissions(self) -> None:
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: PermissionCacheType = defaultdict(list)
@@ -795,7 +795,7 @@ class AutoGroup(models.Model):
         verbose_name = "Automatic team assignment"
         verbose_name_plural = "Automatic team assignments"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Automatic rule for {self.group}"
 
 
@@ -816,11 +816,11 @@ class UserBlock(models.Model):
         verbose_name_plural = "Blocked users"
         unique_together = [("user", "project")]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user} blocked for {self.project}"
 
 
-def create_groups(update):
+def create_groups(update) -> None:
     """Create standard groups and gives them permissions."""
     # Create permissions and roles
     migrate_permissions(Permission)
@@ -844,12 +844,12 @@ def create_groups(update):
             setup_project_groups(Project, project, new_roles=new_roles)
 
 
-def sync_create_groups(sender, **kwargs):
+def sync_create_groups(sender, **kwargs) -> None:
     """Create default groups."""
     create_groups(False)
 
 
-def auto_assign_group(user):
+def auto_assign_group(user) -> None:
     """Automatic group assignment based on user e-mail address."""
     if user.username == settings.ANONYMOUS_USER_NAME:
         return
@@ -861,7 +861,7 @@ def auto_assign_group(user):
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
 @disable_for_loaddata
-def change_componentlist(sender, instance, action, **kwargs):
+def change_componentlist(sender, instance, action, **kwargs) -> None:
     if not action.startswith("post_"):
         return
     groups = Group.objects.filter(
@@ -874,7 +874,7 @@ def change_componentlist(sender, instance, action, **kwargs):
 
 
 @receiver(m2m_changed, sender=User.groups.through)
-def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs):
+def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs) -> None:
     if action != "post_remove":
         return
     pk = pk_set.pop()
@@ -889,7 +889,7 @@ def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs):
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
-def auto_group_upon_save(sender, instance, created=False, **kwargs):
+def auto_group_upon_save(sender, instance, created=False, **kwargs) -> None:
     """Apply automatic group assignment rules."""
     if created:
         auto_assign_group(instance)
@@ -903,7 +903,7 @@ def setup_project_groups(
     created: bool = False,
     new_roles: set[str] | None = None,
     **kwargs,
-):
+) -> None:
     """Set up group objects upon saving project."""
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
@@ -1003,13 +1003,13 @@ class Invitation(models.Model):
         help_text=gettext_lazy("User has all possible permissions."),
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"
 
     def get_absolute_url(self):
         return reverse("invitation", kwargs={"pk": self.uuid})
 
-    def send_email(self):
+    def send_email(self) -> None:
         from weblate.accounts.notifications import send_notification_email
 
         send_notification_email(
@@ -1020,7 +1020,7 @@ class Invitation(models.Model):
             context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
         )
 
-    def accept(self, request, user: User):
+    def accept(self, request, user: User) -> None:
         from weblate.accounts.models import AuditLog
 
         if self.user and self.user != user:

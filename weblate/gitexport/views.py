@@ -35,7 +35,7 @@ def response_authenticate():
     return response
 
 
-def authenticate(request, auth):
+def authenticate(request, auth) -> bool:
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)
@@ -115,7 +115,7 @@ def git_export(request, path, git_request):
 
 
 class GitHTTPBackendWrapper:
-    def __init__(self, obj, request, git_request: str):
+    def __init__(self, obj, request, git_request: str) -> None:
         self.path = os.path.join(obj.full_path, git_request)
         self.obj = obj
         self.request = request
@@ -154,11 +154,11 @@ class GitHTTPBackendWrapper:
             del result["GIT_HTTP_EXPORT_ALL"]
         return result
 
-    def send_body(self):
+    def send_body(self) -> None:
         self.process.stdin.write(self.request.body)  # type: ignore[union-attr]
         self.process.stdin.close()  # type: ignore[union-attr]
 
-    def fetch_headers(self):
+    def fetch_headers(self) -> None:
         """Fetch initial chunk of response to parse headers."""
         while True:
             for key, _mask in self.selector.select(timeout=1):

@@ -64,10 +64,10 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     objects = CategoryQuerySet.as_manager()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.category or self.project}/{self.name}"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         old = None
         if self.id:
             old = Category.objects.get(pk=self.id)
@@ -88,11 +88,11 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if old.project != self.project:
                 self.move_to_project(self.project)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = CategoryStats(self)
 
-    def move_to_project(self, project):
+    def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""
         for category in self.category_set.all():
             category.project = project
@@ -126,7 +126,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def can_add_category(self):
         return self._get_parents_depth() + 1 < CATEGORY_DEPTH
 
-    def clean(self):
+    def clean(self) -> None:
         # Validate maximal nesting depth
         depth = self._get_category_depth()
 
@@ -181,7 +181,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def all_component_ids(self):
         return set(self.all_components.values_list("pk", flat=True))
 
-    def generate_changes(self, old):
+    def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
             result = getattr(base, attribute)
             if result is None:

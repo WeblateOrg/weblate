@@ -148,7 +148,7 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
-    def check_access(self):
+    def check_access(self) -> None:
         invitation = self.object
         user = self.request.user
         if invitation.user:
@@ -202,7 +202,7 @@ class InvitationView(DetailView):
         return redirect("home")
 
 
-def accept_invitation(request, invitation: Invitation, user: User | None):
+def accept_invitation(request, invitation: Invitation, user: User | None) -> None:
     if user is None:
         user = invitation.user
     if user is None:

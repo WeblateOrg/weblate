@@ -28,7 +28,7 @@ TEST_COMPONENTS_INVALID = get_test_file("components-invalid.json")
 
 
 class RunnerTest(SimpleTestCase):
-    def test_help(self):
+    def test_help(self) -> None:
         restore = sys.stdout
         try:
             sys.stdout = StringIO()
@@ -39,7 +39,7 @@ class RunnerTest(SimpleTestCase):
 
 
 class ImportProjectTest(RepoTestCase):
-    def do_import(self, path=None, **kwargs):
+    def do_import(self, path=None, **kwargs) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
                 "import_project",
@@ -50,12 +50,12 @@ class ImportProjectTest(RepoTestCase):
                 **kwargs,
             )
 
-    def test_import(self):
+    def test_import(self) -> None:
         project = self.create_project()
         self.do_import()
         self.assertEqual(project.component_set.count(), 4)
 
-    def test_import_deep(self):
+    def test_import_deep(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -67,19 +67,19 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 1)
 
-    def test_import_ignore(self):
+    def test_import_ignore(self) -> None:
         project = self.create_project()
         self.do_import()
         self.do_import()
         self.assertEqual(project.component_set.count(), 4)
 
-    def test_import_duplicate(self):
+    def test_import_duplicate(self) -> None:
         project = self.create_project()
         self.do_import()
         self.do_import(path="weblate://test/po")
         self.assertEqual(project.component_set.count(), 4)
 
-    def test_import_main_1(self, name="po-mono"):
+    def test_import_main_1(self, name="po-mono") -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -94,14 +94,14 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(non_linked.count(), 1)
         self.assertEqual({c.slug for c in non_linked}, {name})
 
-    def test_import_main_2(self):
+    def test_import_main_2(self) -> None:
         self.test_import_main_1("second-po")
 
-    def test_import_main_invalid(self):
+    def test_import_main_invalid(self) -> None:
         with self.assertRaises(CommandError):
             self.test_import_main_1("x-po")
 
-    def test_import_filter(self):
+    def test_import_filter(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -116,7 +116,7 @@ class ImportProjectTest(RepoTestCase):
         for component in project.component_set.filter(is_glossary=False).iterator():
             self.assertEqual(component.translation_set.count(), 2)
 
-    def test_import_re(self):
+    def test_import_re(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -128,7 +128,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 1)
 
-    def test_import_name(self):
+    def test_import_name(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -142,7 +142,7 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.component_set.count(), 1)
         self.assertTrue(project.component_set.filter(name="Test name").exists())
 
-    def test_import_re_missing(self):
+    def test_import_re_missing(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
@@ -155,7 +155,7 @@ class ImportProjectTest(RepoTestCase):
                 r"(?P<name>[^/-]*)/.*\.po",
             )
 
-    def test_import_re_wrong(self):
+    def test_import_re_wrong(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
@@ -168,7 +168,7 @@ class ImportProjectTest(RepoTestCase):
                 r"(?P<name>[^/-]*",
             )
 
-    def test_import_po(self):
+    def test_import_po(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -181,7 +181,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 4)
 
-    def test_import_invalid(self):
+    def test_import_invalid(self) -> None:
         project = self.create_project()
         with (
             self.assertRaises(CommandError),
@@ -197,7 +197,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 0)
 
-    def test_import_aresource(self):
+    def test_import_aresource(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -211,7 +211,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 2)
 
-    def test_import_aresource_format(self):
+    def test_import_aresource_format(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -225,7 +225,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 2)
 
-    def test_re_import(self):
+    def test_re_import(self) -> None:
         project = self.create_project()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -239,7 +239,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 4)
 
-    def test_import_against_existing(self):
+    def test_import_against_existing(self) -> None:
         """Test importing with a weblate:// URL."""
         android = self.create_android()
         project = android.project
@@ -254,7 +254,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 5)
 
-    def test_import_missing_project(self):
+    def test_import_missing_project(self) -> None:
         """Test of correct handling of missing project."""
         with (
             self.assertRaises(CommandError),
@@ -264,13 +264,13 @@ class ImportProjectTest(RepoTestCase):
                 "import_project", "test", self.git_repo_path, "main", "**/*.po"
             )
 
-    def test_import_missing_wildcard(self):
+    def test_import_missing_wildcard(self) -> None:
         """Test of correct handling of missing wildcard."""
         self.create_project()
         with self.assertRaises(CommandError):
             call_command("import_project", "test", self.git_repo_path, "main", "*/*.po")
 
-    def test_import_wrong_vcs(self):
+    def test_import_wrong_vcs(self) -> None:
         """Test of correct handling of wrong vcs."""
         self.create_project()
         with (
@@ -286,7 +286,7 @@ class ImportProjectTest(RepoTestCase):
                 vcs="nonexisting",
             )
 
-    def test_import_mercurial(self):
+    def test_import_mercurial(self) -> None:
         """Test importing Mercurial project."""
         if not HgRepository.is_supported():
             raise SkipTest("Mercurial not available!")
@@ -302,7 +302,7 @@ class ImportProjectTest(RepoTestCase):
             )
         self.assertEqual(project.component_set.count(), 4)
 
-    def test_import_mercurial_mixed(self):
+    def test_import_mercurial_mixed(self) -> None:
         """Test importing Mercurial project with mixed component/lang."""
         if not HgRepository.is_supported():
             raise SkipTest("Mercurial not available!")
@@ -322,12 +322,12 @@ class ImportProjectTest(RepoTestCase):
 
 
 class BasicCommandTest(FixtureTestCase):
-    def test_versions(self):
+    def test_versions(self) -> None:
         output = StringIO()
         call_command("list_versions", stdout=output)
         self.assertIn("Weblate", output.getvalue())
 
-    def test_check(self):
+    def test_check(self) -> None:
         with self.assertRaises(SystemCheckError):
             call_command("check", "--deploy")
 
@@ -338,7 +338,7 @@ class WeblateComponentCommandTestCase(ViewTestCase):
     command_name = "checkgit"
     expected_string = "On branch main"
 
-    def do_test(self, *args, **kwargs):
+    def do_test(self, *args, **kwargs) -> None:
         output = StringIO()
         call_command(self.command_name, *args, stdout=output, **kwargs)
         if self.expected_string:
@@ -346,20 +346,20 @@ class WeblateComponentCommandTestCase(ViewTestCase):
         else:
             self.assertEqual("", output.getvalue())
 
-    def test_all(self):
+    def test_all(self) -> None:
         self.do_test(all=True)
 
-    def test_project(self):
+    def test_project(self) -> None:
         self.do_test("test")
 
-    def test_component(self):
+    def test_component(self) -> None:
         self.do_test("test/test")
 
-    def test_nonexisting_project(self):
+    def test_nonexisting_project(self) -> None:
         with self.assertRaises(CommandError):
             self.do_test("notest")
 
-    def test_nonexisting_component(self):
+    def test_nonexisting_component(self) -> None:
         with self.assertRaises(CommandError):
             self.do_test("test/notest")
 
@@ -368,12 +368,12 @@ class CommitPendingTest(WeblateComponentCommandTestCase):
     command_name = "commit_pending"
     expected_string = ""
 
-    def test_age(self):
+    def test_age(self) -> None:
         self.do_test("test", "--age", "1")
 
 
 class CommitPendingChangesTest(CommitPendingTest):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
@@ -414,7 +414,7 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
 
 
 class ImportDemoTestCase(TestCase):
-    def test_import(self):
+    def test_import(self) -> None:
         try:
             requests.get("https://github.com/", timeout=1)
         except requests.exceptions.ConnectionError as error:
@@ -426,7 +426,7 @@ class ImportDemoTestCase(TestCase):
 
 
 class CleanupTestCase(TestCase):
-    def test_cleanup(self):
+    def test_cleanup(self) -> None:
         output = StringIO()
         call_command("cleanuptrans", stdout=output)
         self.assertEqual(output.getvalue(), "")
@@ -435,11 +435,11 @@ class CleanupTestCase(TestCase):
 class ListTranslatorsTest(RepoTestCase):
     """Test translators list."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.create_component()
 
-    def test_output(self):
+    def test_output(self) -> None:
         component = Component.objects.all()[0]
         output = StringIO()
         call_command(
@@ -453,11 +453,11 @@ class ListTranslatorsTest(RepoTestCase):
 class LockingCommandTest(RepoTestCase):
     """Test locking and unlocking."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.create_component()
 
-    def test_locking(self):
+    def test_locking(self) -> None:
         component = Component.objects.all()[0]
         self.assertFalse(Component.objects.filter(locked=True).exists())
         call_command("lock_translation", f"{component.project.slug}/{component.slug}")
@@ -472,11 +472,11 @@ class LockingCommandTest(RepoTestCase):
 class BenchmarkCommandTest(RepoTestCase):
     """Benchmarking test."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.create_component()
 
-    def test_benchmark(self):
+    def test_benchmark(self) -> None:
         output = StringIO()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -488,11 +488,11 @@ class BenchmarkCommandTest(RepoTestCase):
 class SuggestionCommandTest(RepoTestCase):
     """Test suggestion adding."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component = self.create_component()
 
-    def test_add_suggestions(self):
+    def test_add_suggestions(self) -> None:
         user = create_test_user()
         call_command(
             "add_suggestions", "test", "test", "cs", TEST_PO, author=user.email
@@ -502,19 +502,19 @@ class SuggestionCommandTest(RepoTestCase):
         profile = Profile.objects.get(user__email=user.email)
         self.assertEqual(profile.suggested, 1)
 
-    def test_default_user(self):
+    def test_default_user(self) -> None:
         call_command("add_suggestions", "test", "test", "cs", TEST_PO)
         profile = Profile.objects.get(user__email="noreply@weblate.org")
         self.assertEqual(profile.suggested, 1)
 
-    def test_missing_user(self):
+    def test_missing_user(self) -> None:
         call_command(
             "add_suggestions", "test", "test", "cs", TEST_PO, author="foo@example.org"
         )
         profile = Profile.objects.get(user__email="foo@example.org")
         self.assertEqual(profile.suggested, 1)
 
-    def test_missing_project(self):
+    def test_missing_project(self) -> None:
         with self.assertRaises(CommandError):
             call_command("add_suggestions", "test", "xxx", "cs", TEST_PO)
 
@@ -522,11 +522,11 @@ class SuggestionCommandTest(RepoTestCase):
 class ImportCommandTest(RepoTestCase):
     """Import test."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component = self.create_component()
 
-    def test_import(self):
+    def test_import(self) -> None:
         output = StringIO()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -542,14 +542,14 @@ class ImportCommandTest(RepoTestCase):
         self.assertEqual(Translation.objects.count(), 10)
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
 
-    def test_import_invalid(self):
+    def test_import_invalid(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command("import_json", "--project", "test", TEST_COMPONENTS_INVALID)
 
-    def test_import_twice(self):
+    def test_import_twice(self) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
                 "import_json",
@@ -572,7 +572,7 @@ class ImportCommandTest(RepoTestCase):
                 TEST_COMPONENTS,
             )
 
-    def test_import_ignore(self):
+    def test_import_ignore(self) -> None:
         output = StringIO()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
@@ -599,7 +599,7 @@ class ImportCommandTest(RepoTestCase):
             )
         self.assertIn("Component Test/Gettext PO already exists", output.getvalue())
 
-    def test_import_update(self):
+    def test_import_update(self) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
                 "import_json",
@@ -620,7 +620,7 @@ class ImportCommandTest(RepoTestCase):
                 TEST_COMPONENTS,
             )
 
-    def test_invalid_file(self):
+    def test_invalid_file(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
@@ -634,7 +634,7 @@ class ImportCommandTest(RepoTestCase):
                 TEST_PO,
             )
 
-    def test_nonexisting_project(self):
+    def test_nonexisting_project(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
@@ -648,7 +648,7 @@ class ImportCommandTest(RepoTestCase):
                 "/nonexisting/dfile",
             )
 
-    def test_nonexisting_component(self):
+    def test_nonexisting_component(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
@@ -662,7 +662,7 @@ class ImportCommandTest(RepoTestCase):
                 "/nonexisting/dfile",
             )
 
-    def test_missing_component(self):
+    def test_missing_component(self) -> None:
         with (
             self.assertRaises(CommandError),
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),

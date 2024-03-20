@@ -14,26 +14,26 @@ from weblate.trans.views.widgets import WIDGETS
 class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
 
-    def test_view_widgets(self):
+    def test_view_widgets(self) -> None:
         response = self.client.get(
             reverse("widgets", kwargs={"path": self.project.get_url_path()})
         )
         self.assertContains(response, "Test")
 
-    def test_view_widgets_lang(self):
+    def test_view_widgets_lang(self) -> None:
         response = self.client.get(
             reverse("widgets", kwargs={"path": self.project.get_url_path()}),
             {"lang": "cs"},
         )
         self.assertContains(response, "Test")
 
-    def test_view_engage(self):
+    def test_view_engage(self) -> None:
         response = self.client.get(
             reverse("engage", kwargs={"path": self.project.get_url_path()})
         )
         self.assertContains(response, "Test")
 
-    def test_view_engage_lang(self):
+    def test_view_engage_lang(self) -> None:
         response = self.client.get(
             reverse(
                 "engage", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
@@ -41,7 +41,7 @@ class WidgetsTest(FixtureTestCase):
         )
         self.assertContains(response, "Test")
 
-    def test_site_og(self):
+    def test_site_og(self) -> None:
         response = self.client.get(reverse("og-image"))
         self.assert_png(response)
 
@@ -49,7 +49,7 @@ class WidgetsTest(FixtureTestCase):
 class WidgetsMeta(type):
     def __new__(mcs, name, bases, attrs):  # noqa: N804
         def gen_test(widget, color):
-            def test(self):
+            def test(self) -> None:
                 self.perform_test(widget, color)
 
             return test
@@ -62,13 +62,13 @@ class WidgetsMeta(type):
 
 
 class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
-    def assert_widget(self, widget, response):
+    def assert_widget(self, widget, response) -> None:
         if "svg" in WIDGETS[widget].content_type:
             self.assert_svg(response)
         else:
             self.assert_png(response)
 
-    def perform_test(self, widget, color):
+    def perform_test(self, widget, color) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -85,7 +85,7 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
 
 
 class WidgetsPercentRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color):
+    def perform_test(self, widget, color) -> None:
         for translated in (0, 3, 4):
             # Fake translated stats
             for translation in Translation.objects.iterator():
@@ -108,7 +108,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
 
 
 class WidgetsComponentRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color):
+    def perform_test(self, widget, color) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -125,7 +125,7 @@ class WidgetsComponentRenderTest(WidgetsRenderTest):
 
 
 class WidgetsLanguageRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color):
+    def perform_test(self, widget, color) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -142,7 +142,7 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
 
 
 class WidgetsRedirectRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color):
+    def perform_test(self, widget, color) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -160,7 +160,7 @@ class WidgetsRedirectRenderTest(WidgetsRenderTest):
 
 
 class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color):
+    def perform_test(self, widget, color) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",

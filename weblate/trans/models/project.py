@@ -42,7 +42,7 @@ if TYPE_CHECKING:
 
 
 class ProjectLanguageFactory(dict):
-    def __init__(self, project: Project):
+    def __init__(self, project: Project) -> None:
         self._project = project
 
     def __missing__(self, key: Language):
@@ -226,10 +226,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         verbose_name = "Project"
         verbose_name_plural = "Projects"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         from weblate.trans.tasks import component_alerts
 
         update_tm = self.contribute_shared_tm
@@ -273,14 +273,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         if update_tm:
             transaction.on_commit(lambda: import_memory.delay(self.id))
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
         self.acting_user = None
         self.project_languages = ProjectLanguageFactory(self)
 
-    def generate_changes(self, old):
+    def generate_changes(self, old) -> None:
         from weblate.trans.models.change import Change
 
         tracked = (("slug", Change.ACTION_RENAME_PROJECT),)
@@ -301,7 +301,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user, group: str | None = None):
+    def add_user(self, user, group: str | None = None) -> None:
         """Add user based on username or email address."""
         implicit_group = False
         if group is None:
@@ -322,7 +322,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         user.groups.add(*group_objs)
         user.profile.watched.add(self)
 
-    def remove_user(self, user):
+    def remove_user(self, user) -> None:
         """Add user based on username or email address."""
         groups = self.defined_groups.all()
         user.groups.remove(*groups)
@@ -456,7 +456,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def is_libre_trial(self):
         return any(billing.is_libre_trial for billing in self.billings)
 
-    def post_create(self, user, billing=None):
+    def post_create(self, user, billing=None) -> None:
         from weblate.trans.models import Change
 
         if billing:
@@ -515,13 +515,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return self.get_child_components_filter(lambda qs: qs)
 
     @property
-    def source_language_cache_key(self):
+    def source_language_cache_key(self) -> str:
         return f"project-source-language-ids-{self.pk}"
 
-    def get_glossary_tsv_cache_key(self, source_language, language):
+    def get_glossary_tsv_cache_key(self, source_language, language) -> str:
         return f"project-glossary-tsv-{self.pk}-{source_language.code}-{language.code}"
 
-    def invalidate_source_language_cache(self):
+    def invalidate_source_language_cache(self) -> None:
         cache.delete(self.source_language_cache_key)
 
     @cached_property
@@ -579,7 +579,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             self.get_child_components_filter(lambda qs: qs.filter(is_glossary=True))
         )
 
-    def invalidate_glossary_cache(self):
+    def invalidate_glossary_cache(self) -> None:
         if "glossary_automaton" in self.__dict__:
             del self.__dict__["glossary_automaton"]
         tsv_cache_keys = [
@@ -640,12 +640,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def enable_review(self):
         return self.translation_review or self.source_review
 
-    def do_lock(self, user, lock: bool = True, auto: bool = False):
+    def do_lock(self, user, lock: bool = True, auto: bool = False) -> None:
         for component in self.component_set.iterator():
             component.do_lock(user, lock=lock, auto=auto)
 
     @property
-    def can_add_category(self):
+    def can_add_category(self) -> bool:
         return True
 
     @cached_property

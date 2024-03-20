@@ -43,7 +43,7 @@ class XlsxFormat(CSVFormat):
             return fallback
         return title
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         workbook = Workbook()
         worksheet = workbook.active
         worksheet.title = self.get_title()
@@ -111,12 +111,12 @@ class XlsxFormat(CSVFormat):
         return super().parse_store(NamedBytesIO(name, content))
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "xlsx"
 
@@ -127,7 +127,7 @@ class XlsxFormat(CSVFormat):
         language: str,
         base: str,
         callback: Callable | None = None,
-    ):
+    ) -> None:
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")

@@ -33,5 +33,5 @@ class Setting(models.Model):
         verbose_name = "Setting"
         verbose_name_plural = "Settings"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.get_category_display()}:{self.name}:{self.value}"

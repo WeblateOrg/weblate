@@ -40,10 +40,10 @@ class GoogleTranslation(GoogleBaseTranslation):
     settings_form = KeyMachineryForm
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "google-translate"
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         super().check_failure(response)
         payload = response.json()
 

@@ -93,7 +93,7 @@ class BaseXMLCheck(TargetCheck):
             text = f"<weblate>{text}</weblate>"
         return parse_xml(text.encode() if "encoding" in text else text)
 
-    def should_skip(self, unit):
+    def should_skip(self, unit) -> bool:
         if super().should_skip(unit):
             return True
 
@@ -116,7 +116,7 @@ class BaseXMLCheck(TargetCheck):
         # Actually verify XML parsing
         return not all(self.can_parse_xml(source) for source in sources)
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
@@ -128,7 +128,7 @@ class XMLValidityCheck(BaseXMLCheck):
     name = gettext_lazy("XML syntax")
     description = gettext_lazy("The translation is not valid XML")
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         # Check if source is XML
         try:
             wrap = self.detect_xml_wrapping(source)[1]
@@ -202,7 +202,7 @@ class XMLTagsCheck(BaseXMLCheck):
 class MarkdownBaseCheck(TargetCheck):
     default_disabled = True
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.enable_string = "md-text"
 
@@ -296,7 +296,7 @@ class URLCheck(TargetCheck):
     def validator(self):
         return URLValidator()
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         if not source:
             return False
         try:

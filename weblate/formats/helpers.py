@@ -43,7 +43,7 @@ CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 class NamedBytesIO(BytesIO):
     """StringIO with mode attribute to make ttkit happy."""
 
-    def __init__(self, filename, data):
+    def __init__(self, filename, data) -> None:
         super().__init__(data)
         self.mode = "r"  # type: ignore[misc]
         self.name = filename

@@ -9,7 +9,7 @@ from django.db import migrations, models
 ACTION_NEW_STRING = 44
 
 
-def migrate_changes(apps, schema_editor):
+def migrate_changes(apps, schema_editor) -> None:
     Change = apps.get_model("trans", "Change")
     Change.objects.filter(action=ACTION_NEW_STRING).delete()
 

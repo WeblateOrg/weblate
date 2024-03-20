@@ -24,7 +24,7 @@ class MathCaptcha:
     operators_display = {}
     interval = (1, 10)
 
-    def __init__(self, question=None, timestamp=None):
+    def __init__(self, question=None, timestamp=None) -> None:
         if question is None:
             self.question = self.generate_question()
         else:

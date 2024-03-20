@@ -425,7 +425,7 @@ class LanguageQuerySet(models.QuerySet):
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
 
-    def flush_object_cache(self):
+    def flush_object_cache(self) -> None:
         if "default_language" in self.__dict__:
             del self.__dict__["default_language"]
 
@@ -434,7 +434,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         """Return English language object."""
         return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
 
-    def setup(self, update, logger=lambda x: x):
+    def setup(self, update, logger=lambda x: x) -> None:
         """
         Create basic set of languages.
 
@@ -533,7 +533,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         self._fixup_plural_types(logger)
 
-    def _fixup_plural_types(self, logger):
+    def _fixup_plural_types(self, logger) -> None:
         """Fix plural types as they were changed in Weblate codebase."""
         if not Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
             for plural in Plural.objects.filter(
@@ -551,7 +551,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     )
 
 
-def setup_lang(sender, **kwargs):
+def setup_lang(sender, **kwargs) -> None:
     """Create basic set of languages on database migration."""
     if settings.UPDATE_LANGUAGES:
         with transaction.atomic():
@@ -591,7 +591,7 @@ class Language(models.Model, CacheKeyMixin):
         # Use own manager to utilize caching of English
         base_manager_name = "objects"
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.show_language_code:
             return f"{gettext(self.name)} ({self.code})"
         return gettext(self.name)
@@ -608,7 +608,7 @@ class Language(models.Model, CacheKeyMixin):
     def get_url_path(self):
         return ("-", "-", self.code)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         from weblate.utils.stats import LanguageStats
 
         super().__init__(*args, **kwargs)
@@ -621,7 +621,7 @@ class Language(models.Model, CacheKeyMixin):
             return f"{self.name} ({self.code})"
         return self.name
 
-    def guess_direction(self):
+    def guess_direction(self) -> str:
         if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
             return "rtl"
         return "ltr"
@@ -812,10 +812,10 @@ class Plural(models.Model):
         verbose_name = "Plural form"
         verbose_name_plural = "Plural forms"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.get_type_display()
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         self.type = get_plural_type(self.language.base_code, self.formula)
         super().save(*args, **kwargs)
 
@@ -825,7 +825,7 @@ class Plural(models.Model):
         )
 
     @cached_property
-    def plural_form(self):
+    def plural_form(self) -> str:
         return f"nplurals={self.number:d}; plural={self.formula};"
 
     @cached_property
@@ -924,7 +924,7 @@ class PluralMapper:
             obj = cls.instances[key] = super().__new__(cls)
         return obj
 
-    def __init__(self, source_plural, target_plural):
+    def __init__(self, source_plural, target_plural) -> None:
         self.source_plural = source_plural
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
@@ -986,7 +986,7 @@ class PluralMapper:
                 strings_to_translate.append(s)
         return strings_to_translate
 
-    def map_units(self, units):
+    def map_units(self, units) -> None:
         for unit in units:
             unit.plural_map = self.map(unit)
 

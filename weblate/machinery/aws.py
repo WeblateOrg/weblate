@@ -21,7 +21,7 @@ class AWSTranslation(MachineTranslation):
     settings_form = AWSMachineryForm
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "aws"
 
     @cached_property
