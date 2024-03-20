@@ -2,8 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
-from typing import Any
+from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
 from google.cloud.translate import TranslationServiceClient
@@ -12,6 +14,9 @@ from google.oauth2 import service_account
 from .base import DownloadTranslations, XMLMachineTranslationMixin
 from .forms import GoogleV3MachineryForm
 from .google import GoogleBaseTranslation
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
@@ -77,7 +82,9 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
             "source": text,
         }
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ):
         """Generates a single replacement."""
         return f'<span translate="no" id="{h_start}">{self.escape_text(h_text)}</span>'
 

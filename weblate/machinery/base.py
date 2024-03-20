@@ -14,7 +14,7 @@ from collections.abc import Iterable, Iterator
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, TypedDict
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -315,11 +315,15 @@ class BatchMachineTranslation:
         # Allow additional space before ]
         return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ):
         """Generates a single replacement."""
         return f"[X{h_start}X]"
 
-    def get_highlights(self, text: str, unit) -> Iterable[tuple[int, int, str, Any]]:
+    def get_highlights(
+        self, text: str, unit
+    ) -> Iterable[tuple[int, int, str, None | Unit]]:
         for h_start, h_end, h_text in highlight_string(
             text, unit, hightlight_syntax=self.hightlight_syntax
         ):
@@ -767,7 +771,9 @@ class XMLMachineTranslationMixin:
         """Escaping of the text with replacements."""
         return escape(text)
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ):
         """Generates a single replacement."""
         raise NotImplementedError
 

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
-from typing import Any
+from typing import TYPE_CHECKING
 
 from django.utils import timezone
 
@@ -19,6 +19,9 @@ from .base import (
     XMLMachineTranslationMixin,
 )
 from .forms import MicrosoftMachineryForm
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"  # noqa: S105
 TOKEN_EXPIRY = timedelta(minutes=9)
@@ -157,7 +160,9 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             "source": text,
         }
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ):
         """Generates a single replacement."""
         if h_kind is None:
             return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'
