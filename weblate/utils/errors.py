@@ -40,7 +40,7 @@ def report_error(
     message: bool = False,
 ):
     """
-    Wrapper for error reporting.
+    Report errors.
 
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.

@@ -87,7 +87,6 @@ class Screenshot(models.Model, UserDisplayMixin):
         return reverse("screenshot", kwargs={"pk": self.pk})
 
     def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
         # Project backup integration
         self.import_data: dict[str, Any] = {}
@@ -109,7 +108,7 @@ def change_screenshot_assignment(sender, instance, action, **kwargs):
 
 
 def validate_screenshot_image(component, filename):
-    """Returns True if image is validated."""
+    """Validate a screenshot image."""
     try:
         full_name = os.path.join(component.full_path, filename)
         with open(full_name, "rb") as f:

@@ -40,7 +40,7 @@ class TransactionsTestMixin:
 
 def adjust_similarity_threshold(value: float):
     """
-    Adjusts pg_trgm.similarity_threshold for the % operator.
+    Adjust pg_trgm.similarity_threshold for the % operator.
 
     Ideally we would use directly similarity() in the search, but that doesn't seem
     to use index, while using % does.

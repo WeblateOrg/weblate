@@ -127,7 +127,7 @@ class Check:
         raise NotImplementedError
 
     def check_chars(self, source, target, pos, chars):
-        """Generic checker for chars presence."""
+        """Check whether characters are present."""
         try:
             src = source[pos]
             tgt = target[pos]

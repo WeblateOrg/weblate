@@ -106,7 +106,7 @@ def list_projects(request):
 
 
 def add_ghost_translations(component, user, translations, generator, **kwargs):
-    """Adds ghost translations for user languages to the list."""
+    """Add ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
         existing = {translation.language.code for translation in translations}
         for language in user.profile.all_languages:
@@ -746,7 +746,7 @@ def new_language(request, path):
 
 @never_cache
 def healthz(request):
-    """Simple health check endpoint."""
+    """Make simple health check endpoint."""
     return HttpResponse("ok")
 
 

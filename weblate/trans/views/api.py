@@ -26,7 +26,7 @@ def export_stats(request, path):
 
 
 def export_response(request, filename, objects):
-    """Generic handler for stats exports."""
+    """Generate stats response."""
     fields = (
         "name",
         "code",

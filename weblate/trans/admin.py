@@ -109,7 +109,7 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__in=queryset)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Wrapper to sort languages by localized names."""
+        """Sort languages by localized names."""
         result = super().formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "source_language":
             result.choices = sort_choices(result.choices)

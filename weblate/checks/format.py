@@ -339,7 +339,7 @@ class BaseFormatCheck(TargetCheck):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
     def check_format(self, source, target, ignore_missing, unit):
-        """Generic checker for format strings."""
+        """Check for format strings."""
         if not target or not source:
             return False
 
@@ -622,7 +622,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         return super().should_skip(unit)
 
     def check_format(self, source, target, ignore_missing, unit):
-        """Generic checker for format strings."""
+        """Check for format strings."""
         if not target or not source:
             return False
 

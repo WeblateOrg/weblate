@@ -7,7 +7,7 @@ from unittest import mock
 
 def immediate_on_commit(cls):
     """
-    Wrapper to make transaction.on_commit execute immediately.
+    Execute transaction.on_commit immediately.
 
     This is alternative approach to TestCase.captureOnCommitCallbacks() which
     was implemented Django Ticket https://code.djangoproject.com/ticket/30457

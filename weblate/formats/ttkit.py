@@ -953,7 +953,7 @@ class CSVUnit(MonolingualSimpleUnit):
     @staticmethod
     def unescape_csv(string):
         r"""
-        Removes Excel-specific escaping from CSV.
+        Remove Excel-specific escaping from CSV.
 
         See weblate.formats.exporters.CSVExporter.string_filter
 
@@ -1119,7 +1119,11 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
     @classmethod
     def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
-        """Wrapper around msgmerge."""
+        """
+        Perform update of a bilingual file.
+
+        Wrapper around msgmerge.
+        """
         cmd = [
             "msgmerge",
             *kwargs.pop("args", ["--previous"]),

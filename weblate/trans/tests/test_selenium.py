@@ -172,7 +172,7 @@ class SeleniumTests(
         self.driver.execute_script("window.scrollTo(0, 0)")
 
     def screenshot(self, name: str):
-        """Captures named full page screenshot."""
+        """Capture named full page screenshot."""
         self.scroll_top()
         # Get window and document dimensions
         scroll_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -185,7 +185,7 @@ class SeleniumTests(
             handle.write(self.driver.get_screenshot_as_png())
 
     def click(self, element="", htmlid=None):
-        """Wrapper to scroll into element for click."""
+        """Click on element and scroll it into view."""
         if htmlid:
             element = self.driver.find_element(By.ID, htmlid)
         if isinstance(element, str):

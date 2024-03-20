@@ -87,7 +87,7 @@ class BaseXMLCheck(TargetCheck):
         return True
 
     def parse_xml(self, text: str, wrap: bool) -> _Element:
-        """Wrapper for parsing XML."""
+        """Parse XML."""
         text = strip_entities(text)
         if wrap:
             text = f"<weblate>{text}</weblate>"

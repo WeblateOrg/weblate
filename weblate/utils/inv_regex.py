@@ -236,7 +236,7 @@ RE_PARSER = get_parser()
 
 def invert_re(regex):
     """
-    Returns list of examples of minimal strings that match the expression.
+    Return a list of examples of minimal strings that match the expression.
 
     This is a single purpose generator to optimize database queries in Weblate.
     """

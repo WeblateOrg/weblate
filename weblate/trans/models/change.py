@@ -169,7 +169,11 @@ class ChangeQuerySet(models.QuerySet):
             return self.preload_list(result, skip_preload)
 
     def bulk_create(self, *args, **kwargs):
-        """Adds processing to bulk creation."""
+        """
+        Bulk creation of changes.
+
+        Add processing to bulk creation.
+        """
         changes = super().bulk_create(*args, **kwargs)
         # Executes post save to ensure messages are sent as notifications
         # or to fedora messaging
@@ -199,7 +203,11 @@ class ChangeQuerySet(models.QuerySet):
 
 class ChangeManager(models.Manager):
     def create(self, *, user=None, **kwargs):
-        """Wrapper to avoid using anonymous user as change owner."""
+        """
+        Create a change object.
+
+        Wrapper to avoid using anonymous user as change owner.
+        """
         if user is not None and not user.is_authenticated:
             user = None
         return super().create(user=user, **kwargs)
@@ -672,7 +680,7 @@ class Change(models.Model, UserDisplayMixin):
         self.store_last_change(self.translation, self)
 
     def fixup_refereces(self):
-        """Updates references based to least specific one."""
+        """Update references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:

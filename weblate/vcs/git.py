@@ -251,7 +251,7 @@ class GitRepository(Repository):
 
     def show(self, revision):
         """
-        Helper method to get the content of the revision.
+        Get the content of the revision.
 
         Used in tests.
         """
@@ -516,7 +516,7 @@ class GitRepository(Repository):
         self.execute(["fetch", "--unshallow"])
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
-        """Parses output with changed files."""
+        """Parse output with changed files."""
         # Strip action prefix we do not use
         for line in lines:
             yield from line.split("\t")[1:]
@@ -1101,6 +1101,8 @@ class GitMergeRequestBase(GitForcePushRepository):
     @classmethod
     def raise_for_response(cls, response: requests.Response):
         """
+        Validate response status code.
+
         Raises :class:`HTTPError`, if one occurred.
 
         Some providers (Azure DevOps for instance) respond with codes in the 2XX range
@@ -1283,7 +1285,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def __get_forked_id(self, credentials: dict, remote: str) -> str:
         """
-        Returns ID of the forked Azure DevOps repository.
+        Return ID of the forked Azure DevOps repository.
 
         To send a PR to Azure DevOps via API with a fork, one needs to send
         request a request with the ID of the forked repository (unlike others,
@@ -1655,7 +1657,7 @@ class GitLabRepository(GitMergeRequestBase):
 
     def get_forked_url(self, credentials: dict) -> str:
         """
-        Returns GitLab API URL for the forked repository.
+        Return GitLab API URL for the forked repository.
 
         To send a MR to GitLab via API, one needs to send request to the
         API URL of the forked repository along with the target project ID

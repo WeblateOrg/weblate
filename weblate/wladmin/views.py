@@ -364,7 +364,7 @@ def ssh(request):
 
 @management_access
 def alerts(request):
-    """Shows component alerts."""
+    """Show component alerts."""
     context = {
         "alerts": Alert.objects.order_by(
             "name", "component__project__name", "component__name"

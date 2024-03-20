@@ -24,7 +24,7 @@ def get_akismet():
 
 
 def is_spam(text, request):
-    """Generic spam checker interface."""
+    """Check whether text is considered spam."""
     if not text:
         return False
     akismet = get_akismet()

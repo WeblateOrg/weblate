@@ -152,7 +152,7 @@ def validate_fullname(val):
 
 
 def validate_file_extension(value):
-    """Simple extension based validation for uploads."""
+    """Validate file upload based on extension."""
     ext = os.path.splitext(value.name)[1]
     if ext.lower() in FORBIDDEN_EXTENSIONS:
         raise ValidationError(gettext("Unsupported file format."))
@@ -246,7 +246,7 @@ def validate_slug(value):
 
 
 def validate_language_aliases(value):
-    """Validates language aliases - comma separated semi colon values."""
+    """Validate language aliases - comma separated semi colon values."""
     if not value:
         return
     for part in value.split(","):

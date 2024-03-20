@@ -530,7 +530,7 @@ class CaptchaForm(forms.Form):
         self.set_label()
 
     def clean_captcha(self):
-        """Validation for CAPTCHA."""
+        """Validate CAPTCHA."""
         if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
             rotate_token(self.request)

@@ -85,7 +85,7 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
     ):
-        """Generates a single replacement."""
+        """Generate a single replacement."""
         return f'<span translate="no" id="{h_start}">{self.escape_text(h_text)}</span>'
 
     def cleanup_text(self, text, unit):

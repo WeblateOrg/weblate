@@ -460,7 +460,7 @@ def format_source_string(
     wrap: bool = False,
     whitespace: bool = True,
 ):
-    """Formats simple string as in the unit source language."""
+    """Format simple string as in the unit source language."""
     return format_translation(
         plurals=[value],
         language=unit.translation.component.source_language,
@@ -479,7 +479,7 @@ def format_language_string(
     *,
     diff=None,
 ):
-    """Formats simple string as in the language."""
+    """Format simple string as in the language."""
     return format_translation(
         plurals=split_plural(value),
         language=translation.language,
@@ -555,7 +555,7 @@ def format_translation(
 
 @register.simple_tag
 def search_name(query):
-    """Returns name for a query string."""
+    """Return name for a query string."""
     return FILTERS.get_search_name(query)
 
 
@@ -617,7 +617,7 @@ def show_message(tags, message):
 
 
 def naturaltime_past(value, now):
-    """Handling of past dates for naturaltime."""
+    """Convert past dates to natural time."""
     delta = now - value
 
     if delta.days >= 365:
@@ -671,7 +671,7 @@ def naturaltime_past(value, now):
 
 
 def naturaltime_future(value, now):
-    """Handling of future dates for naturaltime."""
+    """Convert future dates to natural time."""
     delta = value - now
 
     if delta.days >= 365:

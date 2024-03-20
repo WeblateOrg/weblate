@@ -103,7 +103,7 @@ def get_host_keys():
 def get_key_data_raw(
     key_type: KeyType = "rsa", kind: Literal["public", "private"] = "public"
 ) -> tuple[str, str | None]:
-    """Returns raw public key data."""
+    """Return raw public key data."""
     # Read key data if it exists
     filename = KEYS[key_type][kind]
     key_file = ssh_file(filename)
@@ -139,7 +139,7 @@ def get_all_key_data() -> dict[str, dict[str, StrOrPromise | None]]:
 
 
 def ensure_ssh_key():
-    """Ensures SSH key is existing."""
+    """Ensure SSH key is existing."""
     result = None
     for key_type in KEYS:
         ssh_key = get_key_data(key_type)
@@ -338,7 +338,7 @@ class SSHWrapper:
 
     @property
     def filename(self):
-        """Calculates unique wrapper filename."""
+        """Calculate unique wrapper filename."""
         return os.path.join(self.path, "ssh")
 
     def create(self):

@@ -26,7 +26,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         reset_rate_limit("search", address="127.0.0.1")
 
     def do_search(self, params, expected, url=None, *, anchor="#search"):
-        """Helper method for performing search test."""
+        """Perform search test."""
         if url is None:
             url = self.translate_url
         response = self.client.get(url, params)

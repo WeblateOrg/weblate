@@ -77,5 +77,5 @@ def check_doc_link(docid: str, strict: bool = False) -> str | None:
 
 
 def weblate_check(check_id, message, cls=Critical) -> CheckMessage:
-    """Returns Django check instance."""
+    """Return Django check instance."""
     return cls(message, hint=check_doc_link(id), id=check_id)

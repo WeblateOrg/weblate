@@ -76,7 +76,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         return self._token_expiry is None or self._token_expiry <= timezone.now()
 
     def get_headers(self) -> dict[str, str]:
-        """Hook for backends to allow add authentication headers to request."""
+        """Add authentication headers to request."""
         return {"Authorization": f"Bearer {self.access_token}"}
 
     @property
@@ -163,7 +163,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
     ):
-        """Generates a single replacement."""
+        """Generate a single replacement."""
         if h_kind is None:
             return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'
         # Glossary

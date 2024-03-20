@@ -97,7 +97,7 @@ FONT_WEIGHTS = {
 
 @cache
 def configure_fontconfig():
-    """Configures fontconfig to use custom configuration."""
+    """Configure fontconfig to use custom configuration."""
     fonts_dir = data_dir("fonts")
     config_name = os.path.join(fonts_dir, "fonts.conf")
 
@@ -243,7 +243,7 @@ def check_render_size(
     lines: int,
     cache_key: str | None = None,
 ) -> bool:
-    """Checks whether rendered text fits."""
+    """Check whether rendered text fits."""
     rendered_size, actual_lines = render_size(
         font=font,
         weight=weight,
@@ -258,7 +258,7 @@ def check_render_size(
 
 
 def get_font_name(filelike):
-    """Returns tuple of font family and style, for example ('Ubuntu', 'Regular')."""
+    """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     if not hasattr(filelike, "loaded_font"):
         # The tempfile creation is workaround for Pillow crashing on invalid font
         # see https://github.com/python-pillow/Pillow/issues/3853

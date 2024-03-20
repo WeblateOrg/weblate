@@ -15,7 +15,7 @@ MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
 
 
 def get_mention_users(text):
-    """Returns IDs of users mentioned in the text."""
+    """Return IDs of users mentioned in the text."""
     matches = MENTION_RE.findall(text)
     if not matches:
         return User.objects.none()

@@ -197,7 +197,7 @@ def get_cache_version():
 
 
 def get_db_cache_version():
-    """Returns the list of all the Database and Cache version."""
+    """Return the list of all the Database and Cache version."""
     result = []
     cache_version = get_cache_version()
     if cache_version:

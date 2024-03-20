@@ -48,7 +48,7 @@ class ImportBaseTest(ViewTestCase):
         self.user.save()
 
     def do_import(self, test_file=None, follow=False, **kwargs):
-        """Helper to perform file import."""
+        """Perform file import."""
         if test_file is None:
             test_file = self.test_file
 
@@ -441,7 +441,11 @@ class ExportTest(ViewTestCase):
         self.edit_unit(self.source, self.target)
 
     def assert_response_contains(self, response, *matches):
-        """Replacement of assertContains to work on streamed responses."""
+        """
+        Assert that response contains matches.
+
+        Replacement of assertContains to work on streamed responses.
+        """
         self.assertEqual(
             response.status_code,
             200,

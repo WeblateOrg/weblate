@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 def is_django_permission(permission: str):
     """
-    Checks whether permission looks like a Django one.
+    Check whether permission looks like a Django one.
 
     Django permissions are <app>.<action>_<model>, while
     Weblate ones are <scope>.<action> where action lacks underscores

@@ -154,7 +154,7 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
 
 def render_glossary_units_tsv(units) -> str:
     r"""
-    Builds a tab separated glossary.
+    Build a tab separated glossary.
 
     Based on the DeepL specification:
 

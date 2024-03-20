@@ -199,7 +199,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_formats: tuple[str, ...] = tuple(EXPORTERS)
 
     def perform_content_negotiation(self, request, force=False):
-        """Custom content negotiation."""
+        """Perform custom content negotiation."""
         if request.resolver_match.url_name in self.raw_urls:
             fmt = self.format_kwarg
             if fmt is None or fmt in self.raw_formats:
@@ -209,7 +209,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
         return super().perform_content_negotiation(request, force)
 
     def download_file(self, filename, content_type, component=None):
-        """Wrapper for file download."""
+        """Download file."""
         if os.path.isdir(filename):
             response = zip_download(filename, [filename])
             basename = component.slug if component else "weblate"

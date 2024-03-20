@@ -13,7 +13,7 @@ from .utils import render_size
 
 @register
 def check_fonts(app_configs=None, **kwargs):
-    """Checks font rendering."""
+    """Check font rendering."""
     try:
         render_size(text="test")
     except Exception as error:

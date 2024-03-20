@@ -161,7 +161,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return f"{self.component} — {self.language}"
 
     def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
@@ -558,7 +557,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     @transaction.atomic
     def _commit_pending(self, reason: str, user):
         """
-        Translation commit implementation.
+        Commit pending translation.
 
         Assumptions:
 
@@ -653,7 +652,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         template: str | None = None,
         store_hash: bool = True,
     ):
-        """Wrapper for committing translation to git."""
+        """Commit translation to git."""
         repository = self.component.repository
         if template is None:
             template = self.component.commit_message

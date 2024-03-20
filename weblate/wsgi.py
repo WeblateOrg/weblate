@@ -24,7 +24,7 @@ from django.core.wsgi import get_wsgi_application
 
 def preload_url_patterns():
     """
-    Ensures Django URL resolver is loaded.
+    Ensure Django URL resolver is loaded.
 
     This avoids expensive load with a first request and makes memory sharing work
     better between uwsgi workers.

@@ -78,7 +78,7 @@ def tag_cache_dirs():
 
 
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
-    """Wrapper to execute borgbackup."""
+    """Execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
         try:

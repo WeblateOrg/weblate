@@ -138,7 +138,7 @@ class _VariantReferences:
         self.counted_references = _CountedReferences(references)
 
     def name(self) -> str:
-        """The name for this variant."""
+        """Generate the name for this variant."""
         return variant_name(self.path)
 
 

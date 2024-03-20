@@ -150,7 +150,7 @@ class BatchMachineTranslation:
         return base
 
     def get_api_url(self, *parts):
-        """Generates service URL gracefully handle trailing slashes."""
+        """Generate service URL gracefully handle trailing slashes."""
         return "/".join(
             chain([self.api_base_url], (quote(part, b"") for part in parts))
         )
@@ -171,7 +171,7 @@ class BatchMachineTranslation:
             cache.set(key, delta, 24 * 3600)
 
     def get_headers(self) -> dict[str, str]:
-        """Hook for backends to allow add authentication headers to request."""
+        """Add authentication headers to request."""
         return {}
 
     def get_auth(self) -> None | tuple[str, str] | AuthBase:
@@ -222,7 +222,7 @@ class BatchMachineTranslation:
         return code
 
     def report_error(self, message):
-        """Wrapper for handling error situations."""
+        """Report error situations."""
         report_error(cause="Machinery error")
         LOGGER.error(message, self.name)
 
@@ -318,7 +318,7 @@ class BatchMachineTranslation:
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
     ):
-        """Generates a single replacement."""
+        """Generate a single replacement."""
         return f"[X{h_start}X]"
 
     def get_highlights(
@@ -330,7 +330,7 @@ class BatchMachineTranslation:
             yield h_start, h_end, h_text, None
 
     def cleanup_text(self, text: str, unit: Unit) -> tuple[str, dict[str, str]]:
-        """Removes placeholder to avoid confusing the machine translation."""
+        """Remove placeholder to avoid confusing the machine translation."""
         replacements: dict[str, str] = {}
         if not self.do_cleanup:
             return text, replacements
@@ -538,7 +538,7 @@ class BatchMachineTranslation:
         return f"{exc.__class__.__name__}: {exc}"
 
     def signed_salt(self, appid, secret, text):
-        """Generates salt and sign as used by Chinese services."""
+        """Generate salt and sign as used by Chinese services."""
         salt = str(random.randint(0, 10000000000))  # noqa: S311
 
         payload = appid + text + salt + secret
@@ -661,7 +661,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
     def list_glossaries(self) -> dict[str, str]:
         """
-        Lists glossaries from the service.
+        List glossaries from the service.
 
         Returns dictionary with names and id.
         """
@@ -774,7 +774,7 @@ class XMLMachineTranslationMixin:
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
     ):
-        """Generates a single replacement."""
+        """Generate a single replacement."""
         raise NotImplementedError
 
     def make_re_placeholder(self, text: str):

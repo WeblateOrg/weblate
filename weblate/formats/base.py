@@ -412,7 +412,7 @@ class TranslationFormat:
         return {unit.id_hash: unit for unit in self.content_units}
 
     def _calculate_string_hash(self, context: str, source: str) -> int:
-        """Calculates id hash for a string."""
+        """Calculate id hash for a string."""
         return self.unit_class.calculate_id_hash(
             self.has_template or self.is_template, get_string(source), context
         )
@@ -600,7 +600,7 @@ class TranslationFormat:
     @classmethod
     def get_language_filename(cls, mask: str, code: str) -> str:
         """
-        Returns full filename of a language file.
+        Return  full filename of a language file.
 
         Calculated for given path, filemask and language code.
         """
@@ -722,7 +722,7 @@ class TranslationFormat:
         raise NotImplementedError
 
     def cleanup_unused(self) -> list[str] | None:
-        """Removes unused strings, returning list of additional changed files."""
+        """Remove unused strings, returning list of additional changed files."""
         if not self.template_store:
             return None
         existing = {template.context for template in self.template_store.template_units}
@@ -751,7 +751,7 @@ class TranslationFormat:
 
     def cleanup_blank(self) -> list[str] | None:
         """
-        Removes strings without translations.
+        Remove strings without translations.
 
         Returning list of additional changed files.
         """

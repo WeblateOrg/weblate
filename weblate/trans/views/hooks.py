@@ -72,7 +72,7 @@ def hook_response(
     status: int = 200,
     **kwargs,
 ):
-    """Generic okay hook response."""
+    """Create a hook response."""
     data = {"status": message, "message": response}
     data.update(kwargs)
     return JsonResponse(data=data, status=status)
@@ -87,7 +87,7 @@ def register_hook(handler):
 
 @csrf_exempt
 def update(request, path):
-    """API hook for updating git repos."""
+    """Update git repository API hook."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = project = parse_path(request, path, (Component, Project), skip_acl=True)
@@ -280,7 +280,7 @@ def bitbucket_extract_repo_url(data, repository):
 
 @register_hook
 def bitbucket_hook_helper(data, request):
-    """API to handle service hooks from Bitbucket."""
+    """Parse service hook from Bitbucket."""
     # Bitbucket ping event
     if request and request.headers.get("x-event-key") not in {
         "repo:push",
@@ -333,7 +333,7 @@ def bitbucket_hook_helper(data, request):
 
 @register_hook
 def github_hook_helper(data, request):
-    """API to handle commit hooks from GitHub."""
+    """Parse hooks from GitHub."""
     # Ignore non push events
     if request and request.headers.get("x-github-event") != "push":
         return None
@@ -402,7 +402,7 @@ def gitee_hook_helper(data, request):
 
 @register_hook
 def gitlab_hook_helper(data, request):
-    """API to handle commit hooks from GitLab."""
+    """Parse hook from GitLab."""
     # Ignore non known events
     if "ref" not in data:
         return None
@@ -433,7 +433,7 @@ def gitlab_hook_helper(data, request):
 
 @register_hook
 def pagure_hook_helper(data, request):
-    """API to handle commit hooks from Pagure."""
+    """Parse hook from Pagure."""
     # Ignore non known events
     if "msg" not in data or data.get("topic") != "git.receive":
         return None

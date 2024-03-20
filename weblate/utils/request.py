@@ -6,7 +6,7 @@ import user_agents
 
 
 def get_request_meta(request, name: str):
-    """Returns request meta if request is set and meta available."""
+    """Return request meta if request is set and meta available."""
     if not request:
         return ""
     return request.META.get(name, "")

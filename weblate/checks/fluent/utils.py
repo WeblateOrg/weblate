@@ -98,7 +98,7 @@ class FluentPatterns:
 
     @classmethod
     def placeable(cls, expression: str) -> str:
-        """Wraps a fluent expression in placeable."""
+        """Wrap a fluent expression in placeable."""
         return r"\{" + cls.BLANK + expression + cls.BLANK + r"\}"
 
     @classmethod
@@ -227,7 +227,7 @@ class FluentPatterns:
 
 
 class FluentUnitConverter:
-    """Converts a translation unit into a FluentUnit."""
+    """Convert a translation unit into a FluentUnit."""
 
     def __init__(self, unit: TransUnitModel, source: str) -> None:
         self.unit = unit

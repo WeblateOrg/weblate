@@ -100,7 +100,7 @@ def download_component_list(request, name):
 
 
 def download(request, path):
-    """Handling of translation uploads."""
+    """Download translation."""
     obj = parse_path(
         request,
         path,
@@ -175,7 +175,7 @@ def download(request, path):
 
 @require_POST
 def upload(request, path):
-    """Handling of translation uploads."""
+    """Handle translation upload."""
     obj = parse_path(request, path, (Translation,))
 
     if not request.user.has_perm("upload.perform", obj):

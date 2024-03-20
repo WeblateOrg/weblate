@@ -368,7 +368,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         return self.count_pending_units > 0
 
     def on_repo_components(self, use_all: bool, func: str, *args, **kwargs):
-        """Wrapper for operations on repository."""
+        """Perform operation on all repository components."""
         generator = (
             getattr(component, func)(*args, **kwargs)
             for component in self.all_repo_components
@@ -492,7 +492,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     def get_child_components_access(self, user, filter_callback=None):
         """
-        Lists child components.
+        List child components.
 
         This is slower than child_components, but allows additional
         filtering on the result.

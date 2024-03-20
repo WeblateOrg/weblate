@@ -116,7 +116,7 @@ def get_task_progress(task):
 
 def is_celery_queue_long():
     """
-    Checks whether celery queue is too long.
+    Check whether celery queue is too long.
 
     It does trigger if it is too long for at least one hour. This way peaks are
     filtered out, and no warning need be issued for big operations (for example

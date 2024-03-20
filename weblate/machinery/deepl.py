@@ -139,7 +139,7 @@ class DeepLTranslation(
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
     ):
-        """Generates a single replacement."""
+        """Generate a single replacement."""
         return f'<x id="{h_start}"></x>'
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:

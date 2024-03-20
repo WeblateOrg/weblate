@@ -1868,7 +1868,7 @@ class Differ:
         return diffs
 
     def cleanup_unicode(self, diffs: list[tuple[str, str]]):
-        """Merges Unicode."""
+        """Merge Unicode characters."""
         pointer = 0
         while pointer < len(diffs):
             if (

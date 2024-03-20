@@ -30,7 +30,7 @@ class ModernMTTranslation(MachineTranslation):
         return super().map_language_code(code).replace("_", "-").split("@")[0]
 
     def get_headers(self) -> dict[str, str]:
-        """Hook for backends to allow add authentication headers to request."""
+        """Add authentication headers to request."""
         return {
             "MMT-ApiKey": self.settings["key"],
             "MMT-Platform": "Weblate",

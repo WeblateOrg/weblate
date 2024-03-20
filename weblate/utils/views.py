@@ -189,7 +189,7 @@ SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items(
 
 
 def get_sort_name(request, obj=None):
-    """Gets sort name."""
+    """Get sort name."""
     if hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
     else:

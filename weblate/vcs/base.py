@@ -130,7 +130,7 @@ class Repository:
         return LOGGER.log(level, "%s: %s", cls._cmd, message)
 
     def ensure_config_updated(self):
-        """Ensures the configuration is periodically checked."""
+        """Ensure the configuration is periodically checked."""
         if self._config_updated:
             return
         cache_key = f"sp-config-check-{self.component.pk}"
@@ -390,7 +390,7 @@ class Repository:
 
     @classmethod
     def get_version(cls):
-        """Cached getting of version."""
+        """Get cached backend version."""
         if cls._version is None:
             try:
                 cls._version = cls._get_version()
@@ -481,7 +481,11 @@ class Repository:
 
     @staticmethod
     def get_examples_paths():
-        """Generator of possible paths for examples."""
+        """
+        List possible paths for shipped examples.
+
+        Used to locate merge drivers which are shipped there.
+        """
         yield os.path.join(os.path.dirname(os.path.dirname(__file__)), "examples")
 
     @classmethod
@@ -525,7 +529,7 @@ class Repository:
         return list(self.parse_changed_files(lines))
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
-        """Parses output with changed files."""
+        """Parse output with changed files."""
         raise NotImplementedError
 
     def get_changed_files(self, compare_to: str | None = None):

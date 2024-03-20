@@ -357,7 +357,11 @@ class LanguageQuerySet(models.QuerySet):
         return sort_objects(self)
 
     def get_by_code(self, code, cache, langmap=None):
-        """Cached and aliases aware getter."""
+        """
+        Get language by code.
+
+        Cached and aliases aware getter.
+        """
         if code in cache:
             return cache[code]
         if langmap and code in langmap:
@@ -382,7 +386,7 @@ class LanguageQuerySet(models.QuerySet):
         )
 
     def get(self, *args, **kwargs):
-        """Customized get caching getting of English language."""
+        """Get language with caching of default language."""
         if not args and not kwargs.pop("skip_cache", False):
             default = Language.objects.default_language
             if kwargs in (
@@ -530,7 +534,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         self._fixup_plural_types(logger)
 
     def _fixup_plural_types(self, logger):
-        """Fixes plural types as they were changed in Weblate codebase."""
+        """Fix plural types as they were changed in Weblate codebase."""
         if not Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
             for plural in Plural.objects.filter(
                 type=data.PLURAL_ONE_FEW_OTHER
@@ -548,7 +552,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
 
 def setup_lang(sender, **kwargs):
-    """Hook for creating basic set of languages on database migration."""
+    """Create basic set of languages on database migration."""
     if settings.UPDATE_LANGUAGES:
         with transaction.atomic():
             Language.objects.setup(True)
@@ -605,7 +609,6 @@ class Language(models.Model, CacheKeyMixin):
         return ("-", "-", self.code)
 
     def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
         from weblate.utils.stats import LanguageStats
 
         super().__init__(*args, **kwargs)

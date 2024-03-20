@@ -47,7 +47,7 @@ class Comparer:
     """
 
     def similarity(self, first, second):
-        """Returns string similarity in range 0 - 100%."""
+        """Return string similarity in range 0 - 100%."""
         return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
 
 

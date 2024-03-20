@@ -28,7 +28,11 @@ def sort_key(line):
 
 
 def unicode_format(match):
-    """Callback for re.sub for formatting unicode chars."""
+    """
+    Format unicode characters.
+
+    Callback for re.sub.
+    """
     return f"\\u{match.group(0)[2:].upper()}"
 
 
@@ -42,7 +46,7 @@ def fix_newlines(lines):
 
 
 def format_unicode(lines):
-    """Standard formatting for unicode chars."""
+    """Format unicode characters."""
     for i, line in enumerate(lines):
         if UNICODE.findall(line) is None:
             continue

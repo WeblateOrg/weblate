@@ -48,14 +48,14 @@ def register_perm(*perms):
 
 
 def check_global_permission(user, permission):
-    """Generic permission check for base classes."""
+    """Check whether user has a global permission."""
     if user.is_superuser:
         return True
     return user.groups.filter(roles__permissions__codename=permission).exists()
 
 
 def check_permission(user, permission, obj):
-    """Generic permission check for base classes."""
+    """Check whether user has a object-specific permission."""
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):

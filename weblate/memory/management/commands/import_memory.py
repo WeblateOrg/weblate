@@ -26,7 +26,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Translation memory import."""
+        """Perform translation memory import."""
         langmap = None
         if options["language_map"]:
             langmap = dict(z.split(":", 1) for z in options["language_map"].split(","))

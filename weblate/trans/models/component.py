@@ -181,7 +181,7 @@ AZURE_REPOS_REGEXP = [
 
 
 def perform_on_link(func):
-    """Decorator to handle repository link."""
+    """Perfom operation on repository link."""
 
     def on_link_wrapper(self, *args, **kwargs):
         linked = self.linked_component
@@ -866,7 +866,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             project.invalidate_source_language_cache()
 
     def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
@@ -1140,7 +1139,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self._sources_prefetched = False
 
     def get_source(self, id_hash, create=None):
-        """Cached access to source info."""
+        """Get source info with caching."""
         from weblate.trans.models import Unit
 
         # Preload sources when creating units
@@ -1330,7 +1329,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         )
 
     def get_git_repoweb_template(self):
-        """Method to return the template link for a specific vcs."""
+        """Return the template link for a specific vcs."""
         repo = self.repo
         if repo == "local:":
             return None
@@ -1431,7 +1430,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return None
 
     def error_text(self, error):
-        """Returns text message for a RepositoryError."""
+        """Return text message for a RepositoryError."""
         message = error.get_message()
         if not settings.HIDE_REPO_CREDENTIALS:
             return message
@@ -1602,7 +1601,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @perform_on_link
     def do_update(self, request=None, method=None):
-        """Wrapper for doing repository update."""
+        """Perform repository update."""
         self.translations_progress = 0
         self.translations_count = 0
         # Hold lock all time here to avoid somebody writing between commit
@@ -1663,7 +1662,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @perform_on_link
     def push_if_needed(self, do_update=True):
         """
-        Wrapper to push if needed.
+        Push changes to upstream if needed.
 
         Checks for:
 
@@ -1750,7 +1749,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         do_update: bool = True,
         retry: bool = True,
     ):
-        """Wrapper for pushing changes to remote repo."""
+        """Push changes to remote repo."""
         # Skip push for local only repo
         if self.vcs == "local":
             return True
@@ -1801,7 +1800,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @perform_on_link
     def do_reset(self, request=None):
-        """Wrapper for resetting repo to same sources as remote."""
+        """Reset repo to match remote."""
         with self.repository.lock:
             previous_head = self.repository.last_revision
             # First check we're up to date
@@ -1844,7 +1843,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @perform_on_link
     def do_cleanup(self, request=None):
-        """Wrapper for cleaning up repo."""
+        """Clean up the repository."""
         with self.repository.lock:
             try:
                 self.log_info("cleaning up the repo")
@@ -1995,7 +1994,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         message: str | None = None,
         component: models.Model | None = None,
     ):
-        """Commits files to the repository."""
+        """Commit files to the repository."""
         linked = self.linked_component
         if linked:
             return linked.commit_files(
@@ -2050,7 +2049,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def handle_parse_error(
         self, error, translation=None, filename=None, reraise: bool = True
     ):
-        """Handler for parse errors."""
+        """Process parse errors."""
         error_message = self.get_parse_error_message(error)
         if filename is None:
             filename = self.template if translation is None else translation.filename
@@ -2885,9 +2884,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def clean(self):
         """
-        Validator fetches repository.
+        Validate component parameter.
 
-        It tries to find translation files and checks that they are valid.
+        - validation fetches repository
+        - it tries to find translation files and checks that they are valid
         """
         if self.new_lang == "url" and not self.project.instructions:
             msg = gettext(
@@ -3337,7 +3337,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def can_add_new_language(self, user, fast: bool = False):
         """
-        Wrapper to check if a new language can be added.
+        Check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.

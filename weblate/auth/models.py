@@ -297,7 +297,7 @@ def convert_groups(objs):
 
 
 def wrap_group(func):
-    """Wrapper to replace Django Group instances by Weblate Group instances."""
+    """Replace Django Group instances by Weblate Group instances."""
 
     def group_wrapper(self, *objs, **kwargs):
         objs = convert_groups(objs)
@@ -307,7 +307,7 @@ def wrap_group(func):
 
 
 def wrap_group_list(func):
-    """Wrapper to replace Django Group instances by Weblate Group instances."""
+    """Replace Django Group instances by Weblate Group instances."""
 
     def group_list_wrapper(self, objs, **kwargs):
         objs = convert_groups(objs)
@@ -727,15 +727,15 @@ class User(AbstractBaseUser):
         self._permissions = {"projects": projects, "components": components}
 
     @cached_property
-    def project_permissions(self):
-        """Dictionary with all project permissions."""
+    def project_permissions(self) -> PermissionCacheType:
+        """List all project permissions."""
         if not self._permissions:
             self._fetch_permissions()
         return self._permissions["projects"]
 
     @cached_property
-    def component_permissions(self):
-        """Dictionary with all project permissions."""
+    def component_permissions(self) -> PermissionCacheType:
+        """List all project permissions."""
         if not self._permissions:
             self._fetch_permissions()
         return self._permissions["components"]
@@ -821,7 +821,7 @@ class UserBlock(models.Model):
 
 
 def create_groups(update):
-    """Creates standard groups and gives them permissions."""
+    """Create standard groups and gives them permissions."""
     # Create permissions and roles
     migrate_permissions(Permission)
     new_roles = migrate_roles(Role, Permission)

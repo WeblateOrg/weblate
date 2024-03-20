@@ -34,7 +34,7 @@ def get_cache_key(scope: str, request=None, address=None, user=None):
 
 
 def reset_rate_limit(scope, request=None, address=None, user=None):
-    """Resets rate limit."""
+    """Reset rate limit."""
     cache.delete(get_cache_key(scope, request, address, user))
 
 
@@ -59,7 +59,7 @@ def revert_rate_limit(scope, request):
 
 
 def rate_limit(key: str, attempts: int, window: int) -> bool:
-    """Generic rate limit helper."""
+    """Verify rate limiting limits."""
     # Initialize the bucket (atomically on redis)
     if not is_redis_cache():
         if cache.get(key) is None:

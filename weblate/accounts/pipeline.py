@@ -290,7 +290,7 @@ def store_params(strategy, user, **kwargs):
 
 def verify_username(strategy, backend, details, username, user=None, **kwargs):
     """
-    Verified whether username is still free.
+    Verify whether username is still free.
 
     It can happen that user has registered several times or other user has taken the
     username meanwhile.

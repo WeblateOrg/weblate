@@ -797,7 +797,7 @@ class SearchForm(forms.Form):
 
     def reset_offset(self):
         """
-        Resets form offset.
+        Reset form offset.
 
         This is needed to avoid issues when using the form as the default for
         any new search.

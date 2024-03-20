@@ -11,7 +11,7 @@ from weblate.auth.models import User
 
 
 def try_get_user(username, list_all=False):
-    """Wrapper to get User object for authentication."""
+    """Get User object for authentication."""
     method = User.objects.filter if list_all else User.objects.get
     if "@" in username:
         return method(email=username)

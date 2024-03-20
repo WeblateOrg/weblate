@@ -135,7 +135,7 @@ class ViewTestCase(RepoTestCase):
         self.project.add_user(self.user, "Administration")
 
     def get_request(self, user=None):
-        """Wrapper to get fake request object."""
+        """Get fake request object."""
         request = self.factory.get("/")
         request.user = user if user else self.user
         request.session = "session"

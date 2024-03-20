@@ -79,7 +79,7 @@ def display_fixups(request, fixups):
 
 
 def get_other_units(unit):
-    """Returns other units to show while translating."""
+    """Return other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", description=unit.pk):
         result: dict[str, Any] = {
             "total": 0,
@@ -564,7 +564,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 @transaction.atomic
 def translate(request, path):
-    """Generic entry point for translating, suggesting and searching."""
+    """Translate, suggest and search view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
@@ -885,7 +885,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
 
 
 def zen(request, path):
-    """Generic entry point for translating, suggesting and searching."""
+    """Zen mode view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )

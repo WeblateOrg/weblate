@@ -215,7 +215,7 @@ NOTIFY_ACTIVITY = {
 class AuditLogManager(models.Manager):
     def is_new_login(self, user, address, user_agent):
         """
-        Checks whether this login is coming from a new device.
+        Check whether this login is coming from a new device.
 
         Currently based purely on the IP address.
         """
@@ -637,7 +637,7 @@ class Profile(models.Model):
         return parsed._replace(path="/share", query="text=", fragment="").geturl()
 
     def increase_count(self, item: str, increase: int = 1):
-        """Updates user actions counter."""
+        """Update user actions counter."""
         # Update our copy
         setattr(self, item, getattr(self, item) + increase)
         # Update database
@@ -742,7 +742,7 @@ class Profile(models.Model):
         return set(self.secondary_languages.values_list("pk", flat=True))
 
     def get_translation_orderer(self, request):
-        """Returns function suitable for ordering languages based on user preferences."""
+        """Create a function suitable for ordering languages based on user preferences."""
 
         def get_translation_order(translation) -> str:
             from weblate.trans.models import Unit

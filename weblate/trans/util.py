@@ -229,7 +229,7 @@ def render(
     status: int | None = None,
     using=None,
 ):
-    """Wrapper around Django render to extend context."""
+    """Render template with Weblate extended context."""
     if context is None:
         context = {}
     if "project" in context and context["project"] is not None:
@@ -246,7 +246,11 @@ def render(
 
 
 def path_separator(path):
-    """Always use / as path separator for consistency."""
+    """
+    Consolidate path separtor.
+
+    Always use / as path separator for consistency.
+    """
     if os.path.sep != "/":
         return path.replace(os.path.sep, "/")
     return path

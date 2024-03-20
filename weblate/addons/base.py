@@ -178,22 +178,22 @@ class BaseAddon:
         )
 
     def pre_push(self, component: Component):
-        """Hook triggered before repository is pushed upstream."""
+        """Event handler before repository is pushed upstream."""
         # To be implemented in a subclass
 
     def post_push(self, component: Component):
-        """Hook triggered after repository is pushed upstream."""
+        """Event handler after repository is pushed upstream."""
         # To be implemented in a subclass
 
     def pre_update(self, component: Component):
-        """Hook triggered before repository is updated from upstream."""
+        """Event handler before repository is updated from upstream."""
         # To be implemented in a subclass
 
     def post_update(
         self, component: Component, previous_head: str, skip_push: bool, child: bool
     ):
         """
-        Hook triggered after repository is updated from upstream.
+        Event handler after repository is updated from upstream.
 
         :param str previous_head: HEAD of the repository prior to update, can
                                   be blank on initial clone.
@@ -205,24 +205,24 @@ class BaseAddon:
         # To be implemented in a subclass
 
     def pre_commit(self, translation: Translation, author: User):
-        """Hook triggered before changes are committed to the repository."""
+        """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
     def post_commit(self, component: Component):
-        """Hook triggered after changes are committed to the repository."""
+        """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
     def post_add(self, translation: Translation):
-        """Hook triggered after new translation is added."""
+        """Event handler after new translation is added."""
         # To be implemented in a subclass
 
     def unit_pre_create(self, unit: Unit):
-        """Hook triggered before new unit is created."""
+        """Event handler before new unit is created."""
         # To be implemented in a subclass
 
     def store_post_load(self, translation: Unit, store: TranslationFormat):
         """
-        Hook triggered after a file is parsed.
+        Event handler after a file is parsed.
 
         It receives an instance of a file format class as a argument.
 
@@ -232,11 +232,11 @@ class BaseAddon:
         # To be implemented in a subclass
 
     def daily(self, component: Component):
-        """Hook triggered daily."""
+        """Event handler daily."""
         # To be implemented in a subclass
 
     def component_update(self, component: Component):
-        """Hook for component update."""
+        """Event handler for component update."""
         # To be implemented in a subclass
 
     def execute_process(

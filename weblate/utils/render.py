@@ -45,7 +45,7 @@ class RestrictedEngine(Engine):
 
 
 def render_template(template, **kwargs):
-    """Helper class to render string template with context."""
+    """Render string template with Weblate context."""
     from weblate.trans.models import Component, Project, Translation
 
     translation = kwargs.get("translation")
@@ -108,7 +108,7 @@ def render_template(template, **kwargs):
 
 
 def validate_render(value, **kwargs):
-    """Validates rendered template."""
+    """Validate rendered template."""
     try:
         return render_template(value, **kwargs)
     except Exception as err:

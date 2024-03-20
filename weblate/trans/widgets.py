@@ -207,7 +207,6 @@ class SVGWidget(ContentWidget):
     template_name = ""
 
     def render(self, response):
-        """Rendering method to be implemented."""
         raise NotImplementedError
 
 

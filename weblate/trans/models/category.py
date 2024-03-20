@@ -89,7 +89,6 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.move_to_project(self.project)
 
     def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
         self.stats = CategoryStats(self)
 
@@ -154,7 +153,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.check_rename(old, validate=True)
 
     def get_child_components_access(self, user):
-        """Lists child components."""
+        """List child components."""
         return self.component_set.filter_access(user).prefetch().order()
 
     @cached_property

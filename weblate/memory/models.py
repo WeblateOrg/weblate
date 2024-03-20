@@ -35,7 +35,11 @@ class MemoryImportError(Exception):
 
 
 def get_node_data(unit, node):
-    """Generic implementation of LISAUnit.gettarget."""
+    """
+    Return XML unit text.
+
+    Generic implementation of LISAUnit.gettarget.
+    """
     # The language should be present as xml:lang, but in some
     # cases it's there only as lang
     return (
