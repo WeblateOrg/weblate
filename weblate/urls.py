@@ -6,6 +6,7 @@ import django.contrib.sitemaps.views
 import django.views.i18n
 import django.views.static
 from django.conf import settings
+from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -44,7 +45,6 @@ import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
-import weblate.wladmin.sites
 import weblate.wladmin.views
 from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
@@ -764,7 +764,7 @@ real_patterns = [
         name="css-custom",
     ),
     # Admin interface
-    path("admin/", weblate.wladmin.sites.SITE.urls),
+    path("admin/", admin.site.urls),
     # Weblate management interface
     path("manage/", weblate.wladmin.views.manage, name="manage"),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),

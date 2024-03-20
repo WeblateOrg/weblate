@@ -4,11 +4,24 @@
 
 from typing import NoReturn
 
+from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.models import User
-from weblate.trans.models import AutoComponentList, Translation, Unit
+from weblate.trans.models import (
+    Announcement,
+    AutoComponentList,
+    Change,
+    Comment,
+    Component,
+    ComponentList,
+    ContributorAgreement,
+    Project,
+    Suggestion,
+    Translation,
+    Unit,
+)
 from weblate.trans.util import sort_choices
 from weblate.wladmin.models import WeblateModelAdmin
 
@@ -49,6 +62,7 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
+@admin.register(Project)
 class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = (
         "name",
@@ -96,6 +110,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__project__in=queryset)
 
 
+@admin.register(Component)
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = ["name", "slug", "project", "repo", "branch", "vcs", "file_format"]
     prepopulated_fields = {"slug": ("name",)}
@@ -147,6 +162,7 @@ class ChangeAdmin(WeblateModelAdmin):
     raw_id_fields = ("unit",)
 
 
+@admin.register(Announcement)
 class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ["message", "project", "component", "language"]
     search_fields = ["message"]
@@ -158,6 +174,7 @@ class AutoComponentListAdmin(admin.TabularInline):
     extra = 0
 
 
+@admin.register(ComponentList)
 class ComponentListAdmin(WeblateModelAdmin):
     list_display = ["name", "show_dashboard"]
     list_filter = ["show_dashboard"]
@@ -167,7 +184,17 @@ class ComponentListAdmin(WeblateModelAdmin):
     ordering = ["name"]
 
 
+@admin.register(ContributorAgreement)
 class ContributorAgreementAdmin(WeblateModelAdmin):
     list_display = ["user", "component", "timestamp"]
     date_hierarchy = "timestamp"
     ordering = ("user__username", "component__project__name", "component__name")
+
+
+# Show some controls only in debug mode
+if settings.DEBUG:
+    admin.site.register(Translation, TranslationAdmin)
+    admin.site.register(Unit, UnitAdmin)
+    admin.site.register(Suggestion, SuggestionAdmin)
+    admin.site.register(Comment, CommentAdmin)
+    admin.site.register(Change, ChangeAdmin)

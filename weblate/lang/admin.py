@@ -14,6 +14,7 @@ class PluralAdmin(admin.TabularInline):
     ordering = ["source"]
 
 
+@admin.register(Language)
 class LanguageAdmin(WeblateModelAdmin):
     list_display = ["name", "code", "direction"]
     search_fields = ["name", "code"]
