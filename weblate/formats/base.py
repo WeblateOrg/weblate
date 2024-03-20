@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import TYPE_CHECKING, Callable, TypeAlias
+from typing import TYPE_CHECKING, Callable
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -116,7 +116,7 @@ class BaseItem:
     pass
 
 
-InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
+InnerUnit = TranslateToolkitUnit | BaseItem
 
 
 class TranslationUnit:
