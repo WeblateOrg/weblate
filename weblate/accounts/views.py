@@ -761,8 +761,6 @@ class WeblateLoginView(LoginView):
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
 
-    next_page = "home"
-
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
