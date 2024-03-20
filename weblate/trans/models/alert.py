@@ -6,12 +6,14 @@ from __future__ import annotations
 
 import os
 from collections import defaultdict
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
 from django.db.models import Count
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
@@ -633,4 +635,19 @@ class UnusedComponent(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | None | dict:
-        return component.is_old_unused()
+        if settings.UNUSED_ALERT_DAYS == 0:
+            return False
+        if component.is_glossary:
+            # Auto created glossaries can live without being used
+            return False
+        if component.stats.all == component.stats.translated:
+            # Allow fully translated ones
+            return False
+        last_changed = component.stats.last_changed
+        cutoff = timezone.now() - timedelta(days=settings.UNUSED_ALERT_DAYS)
+        if last_changed is not None:
+            # If last content change is present, use it to decide
+            return last_changed < cutoff
+        oldest_change = component.change_set.order_by("timestamp").first()
+        # Weird, each component should have change
+        return oldest_change is None or oldest_change.timestamp < cutoff

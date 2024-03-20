@@ -9,7 +9,6 @@ import re
 import time
 from collections import Counter, defaultdict
 from copy import copy
-from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
 from typing import TYPE_CHECKING, Any
@@ -27,7 +26,6 @@ from django.db import IntegrityError, models, transaction
 from django.db.models import Count, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
@@ -109,6 +107,8 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from weblate.addons.models import Addon
 
 NEW_LANG_CHOICES = (
@@ -3161,24 +3161,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         update_alerts(self)
 
         self.update_link_alerts()
-
-    def is_old_unused(self):
-        if settings.UNUSED_ALERT_DAYS == 0:
-            return False
-        if self.is_glossary:
-            # Auto created glossaries can live without being used
-            return False
-        if self.stats.all == self.stats.translated:
-            # Allow fully translated ones
-            return False
-        last_changed = self.stats.last_changed
-        cutoff = timezone.now() - timedelta(days=settings.UNUSED_ALERT_DAYS)
-        if last_changed is not None:
-            # If last content change is present, use it to decide
-            return last_changed < cutoff
-        oldest_change = self.change_set.order_by("timestamp").first()
-        # Weird, each component should have change
-        return oldest_change is None or oldest_change.timestamp < cutoff
 
     def get_ambiguous_translations(self):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
