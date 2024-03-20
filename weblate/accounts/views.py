@@ -785,7 +785,7 @@ def register(request):
     captcha = None
 
     # Fetch invitation
-    invitation = None
+    invitation: None | Invitation = None
     initial = {}
     if invitation_pk := request.session.get("invitation_link"):
         try:
@@ -794,6 +794,8 @@ def register(request):
             del request.session["invitation_link"]
         else:
             initial["email"] = invitation.email
+            initial["username"] = invitation.username
+            initial["fullname"] = invitation.full_name
 
     # Allow registration at all?
     registration_open = settings.REGISTRATION_OPEN or bool(invitation)

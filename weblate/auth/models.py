@@ -993,6 +993,24 @@ class Invitation(models.Model):
             "Please type in an existing Weblate account name or e-mail address."
         ),
     )
+    username = UsernameField(
+        gettext_lazy("Username"),
+        max_length=USERNAME_LENGTH,
+        blank=True,
+        help_text=gettext_lazy(
+            "Suggest username for the user. It can be changed later."
+        ),
+        validators=[validate_username],
+    )
+    full_name = models.CharField(
+        gettext_lazy("Full name"),
+        max_length=FULLNAME_LENGTH,
+        blank=True,
+        help_text=gettext_lazy(
+            "Suggest full name for the user. It can be changed later."
+        ),
+        validators=[validate_fullname],
+    )
     group = models.ForeignKey(
         Group,
         verbose_name=gettext_lazy("Team"),

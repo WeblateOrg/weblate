@@ -85,13 +85,13 @@ class InviteUserForm(forms.ModelForm):
 class InviteEmailForm(InviteUserForm, UniqueEmailMixin):
     class Meta:
         model = Invitation
-        fields = ["email", "group"]
+        fields = ["email", "username", "full_name", "group"]
 
 
 class AdminInviteUserForm(InviteUserForm):
     class Meta:
         model = Invitation
-        fields = ["email", "group", "is_superuser"]
+        fields = ["email", "username", "full_name", "group", "is_superuser"]
 
 
 class UserEditForm(forms.ModelForm):
