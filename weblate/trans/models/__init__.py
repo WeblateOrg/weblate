@@ -58,7 +58,12 @@ def delete_object_dir(instance):
 
 @receiver(post_delete, sender=Project)
 def project_post_delete(sender, instance, **kwargs):
-    """Handler to delete (sub)project directory on project deletion."""
+    """
+    Project deletion hook.
+
+    - delete project directory
+    - update stats
+    """
     # Update stats
     transaction.on_commit(instance.stats.update_parents)
     instance.stats.delete()
@@ -75,7 +80,12 @@ def component_pre_delete(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Component)
 def component_post_delete(sender, instance, **kwargs):
-    """Handler to delete (sub)project directory on project deletion."""
+    """
+    Component deletion hook.
+
+    - delete component directory
+    - update stats, this is accompanied by component_pre_delete
+    """
     # Update stats
     transaction.on_commit(instance.stats.update_parents)
     instance.stats.delete()
@@ -87,7 +97,7 @@ def component_post_delete(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Translation)
 def translation_post_delete(sender, instance, **kwargs):
-    """Handler to delete stats on translation deletion."""
+    """Delete translation stats on translation deletion."""
     transaction.on_commit(instance.stats.delete)
 
 
