@@ -4132,6 +4132,14 @@ class CategoryAPITest(APIBaseTest):
         for translation in response.data["results"]:
             self.do_request(translation["url"])
 
+    def test_statistics(self):
+        # Create a category to get the statistics from
+        response = self.create_category()
+        category_kwargs = {"pk": response.data["id"]}
+        # Use the default category kwargs to get the statistics
+        request = self.do_request("api:category-statistics", category_kwargs)
+        self.assertEqual(request.data["total"], 0)
+
 
 class LabelAPITest(APIBaseTest):
     def test_get_label(self) -> None:

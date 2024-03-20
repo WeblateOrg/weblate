@@ -1706,6 +1706,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
         serializer.instance.acting_user = self.request.user
         serializer.save()
 
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = StatisticsSerializer(obj, context={"request": request})
+
+        return Response(serializer.data)
+
 
 class Metrics(APIView):
     """Metrics view for monitoring."""

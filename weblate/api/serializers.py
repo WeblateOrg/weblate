@@ -1177,15 +1177,21 @@ class CategorySerializer(RemovableSerializer[Category]):
         queryset=Category.objects.none(),
         required=False,
     )
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:category-statistics",
+        lookup_field="pk",
+    )
 
     class Meta:
         model = Category
         fields = (
+            "id",
             "name",
             "slug",
             "project",
             "category",
             "url",
+            "statistics_url",
         )
         extra_kwargs = {"url": {"view_name": "api:category-detail"}}
 
