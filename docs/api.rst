@@ -2606,7 +2606,7 @@ Categories
 .. http:get:: /api/categories/(int:id)/statistics/
 
     .. versionadded:: 5.5
-  
+
     Returns statistics for a category.
 
     :param project: Category id

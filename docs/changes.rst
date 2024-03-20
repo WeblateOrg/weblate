@@ -11,6 +11,7 @@ Not yet released.
 * Improved error reporting in :ref:`machine-translation-setup`.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
+* Added :http:get:`/api/categories/(int:id)/statistics/`.
 
 **Bug fixes**
 
