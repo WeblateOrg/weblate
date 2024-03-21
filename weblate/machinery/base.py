@@ -275,9 +275,7 @@ class BatchMachineTranslation:
         # HTTP 401 Unauthorized
         # HTTP 403 Forbidden
         # HTTP 503 Service Unavailable
-        if exc.response.status_code in {456, 429, 401, 403, 503}:
-            return True
-        return False
+        return exc.response.status_code in {456, 429, 401, 403, 503}
 
     def get_cache_key(
         self, scope: str, *, parts: Iterable[str | int] = (), text: None | str = None

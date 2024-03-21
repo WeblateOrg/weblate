@@ -68,10 +68,7 @@ class Check:
             return True
 
         # Is this disabled by default
-        if self.default_disabled and self.enable_string not in all_flags:
-            return True
-
-        return False
+        return bool(self.default_disabled and self.enable_string not in all_flags)
 
     def should_display(self, unit):
         """Display the check always, not only when failing."""

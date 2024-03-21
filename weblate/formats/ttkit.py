@@ -359,10 +359,7 @@ class TTKitFormat(TranslationFormat):
         """
         if not super().is_valid():
             return False
-        if self.store is None:
-            return False
-
-        return True
+        return self.store is not None
 
     def construct_unit(self, source: str):
         if self.use_settarget and self.source_language:

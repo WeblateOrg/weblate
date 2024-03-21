@@ -144,9 +144,7 @@ class FluentPartsCheck(TargetCheck):
         target: str,
         unit: TransUnitModel,
     ) -> bool:
-        if self._compare_parts(unit, source, target):
-            return True
-        return False
+        return bool(self._compare_parts(unit, source, target))
 
     def check_highlight(
         self,
