@@ -12,7 +12,7 @@ import inspect
 import os
 import re
 import subprocess
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -58,6 +58,9 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_TRANSLATED,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
@@ -408,7 +411,7 @@ class TTKitFormat(TranslationFormat):
             target = source
             source = self.create_unit_key(key, source)
         # Bilingual translation
-        elif isinstance(unit, (tbxunit, xliffunit)) and key:
+        elif isinstance(unit, tbxunit | xliffunit) and key:
             unit.setid(key)
         elif self.set_context_bilingual and key:
             unit.setcontext(key)
@@ -601,7 +604,7 @@ class PoMonoUnit(PoUnit):
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         # Add blank msgid_plural to store plural
-        if isinstance(target, (list, multistring)) and not self.unit.hasplural():
+        if isinstance(target, list | multistring) and not self.unit.hasplural():
             self.unit.msgid_plural = ['""']
 
         super().set_target(target)
@@ -1212,7 +1215,7 @@ class PoMonoFormat(BasePoFormat):
     def create_unit_key(
         self, key: str, source: str | list[str] | multistring
     ) -> str | multistring:
-        if isinstance(source, (list, multistring)):
+        if isinstance(source, list | multistring):
             return multistring([key, f"{key}_plural"])
         return key
 

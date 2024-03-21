@@ -192,15 +192,13 @@ class MetricManager(models.Manager):
             changes = Change.objects.all()
         elif isinstance(
             obj,
-            (
-                Translation,
-                Component,
-                Project,
-                User,
-                Language,
-                ProjectLanguage,
-                CategoryLanguage,
-            ),
+            Translation
+            | Component
+            | Project
+            | User
+            | Language
+            | ProjectLanguage
+            | CategoryLanguage,
         ):
             changes = obj.change_set.all()
         elif isinstance(obj, ComponentList):

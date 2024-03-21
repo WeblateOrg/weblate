@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -49,6 +49,8 @@ from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from weblate.trans.models import Unit
 
 

@@ -47,7 +47,7 @@ class ClassLoader:
         if result is None:
             # Special case to disable all checks/...
             result = []
-        elif not isinstance(result, (list, tuple)):
+        elif not isinstance(result, list | tuple):
             raise ImproperlyConfigured(f"Setting {self.name} must be list or tuple!")
         return result
 

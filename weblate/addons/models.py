@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING
 
 import sentry_sdk
 from appconf import AppConf
@@ -33,6 +33,9 @@ from weblate.trans.signals import (
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", False)

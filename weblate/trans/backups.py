@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from shutil import copyfileobj
-from typing import Any, BinaryIO, Callable, TypedDict
+from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -43,6 +43,9 @@ from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 PROJECTBACKUP_PREFIX = "projectbackups"
 

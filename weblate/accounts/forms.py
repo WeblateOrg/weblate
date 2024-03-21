@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Union, cast
+from typing import cast
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
@@ -631,7 +631,7 @@ class LoginForm(forms.Form):
                     % lockout_period
                 )
             self.user_cache = cast(
-                Union[User, None],
+                User | None,
                 authenticate(self.request, username=username, password=password),
             )
             if self.user_cache is None:
