@@ -219,11 +219,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                 project = obj.category.project
             elif isinstance(
                 obj,
-                (
-                    Component,
-                    ProjectLanguage,
-                    Category,
-                ),
+                Component | ProjectLanguage | Category,
             ):
                 project = obj.project
             else:

@@ -35,6 +35,7 @@ Not yet released.
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable is changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust your settings accordingly.
+* Weblate now requires Python 3.10 and Django 5.0.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?closed=1>`__.
 

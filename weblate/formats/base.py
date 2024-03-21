@@ -9,10 +9,11 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
+from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.trans.util import get_string, join_plural, split_plural
@@ -21,8 +22,9 @@ from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django_stubs_ext import StrOrPromise
-    from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
     from weblate.trans.models import Unit
 
@@ -116,9 +118,7 @@ class BaseItem:
     pass
 
 
-if TYPE_CHECKING:
-    # TODO: Move outside with Python 3.10+
-    InnerUnit = TranslateToolkitUnit | BaseItem
+InnerUnit = TranslateToolkitUnit | BaseItem
 
 
 class TranslationUnit:

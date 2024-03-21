@@ -1087,7 +1087,7 @@ def indicate_alerts(context, obj):
 
     global_base = context.get("global_base")
 
-    if isinstance(obj, (Translation, GhostTranslation)):
+    if isinstance(obj, Translation | GhostTranslation):
         translation = obj
         component = obj.component
         project = component.project

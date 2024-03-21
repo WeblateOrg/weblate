@@ -9,13 +9,16 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
-from typing import Callable, NoReturn
+from typing import TYPE_CHECKING, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
 from weblate.formats.base import BaseItem, TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class MultiparserError(Exception):

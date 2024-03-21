@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 from io import BytesIO, StringIO
-from typing import Callable
+from typing import TYPE_CHECKING
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy
@@ -19,6 +19,9 @@ from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
 from weblate.formats.ttkit import CSVFormat
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class XlsxFormat(CSVFormat):

@@ -9,7 +9,7 @@ from collections import defaultdict
 from gettext import c2py
 from itertools import chain
 from operator import itemgetter
-from typing import Callable
+from typing import TYPE_CHECKING
 from weakref import WeakValueDictionary
 
 from appconf import AppConf
@@ -35,6 +35,9 @@ from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import is_ngram_code, sort_objects, sort_unicode
 from weblate.utils.validators import validate_plural_formula
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
@@ -1000,10 +1003,10 @@ class PluralMapper:
                 "length of `targets` does't match the number of target plurals"
             )
         if self.same_plurals:
-            return zip(sources, targets)
+            return zip(sources, targets, strict=False)
         return [
             (sources[-1 if i is None else i], targets[j])
-            for (i, _), j in zip(self._target_map, range(len(targets)))
+            for (i, _), j in zip(self._target_map, range(len(targets)), strict=False)
         ]
 
 
