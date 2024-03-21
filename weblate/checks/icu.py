@@ -268,9 +268,7 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
         _ast, src_err, _tokens = parse_icu(
             source[0], allow_tags, strict_tags, tag_prefix
         )
-        if src_err:
-            return True
-        return False
+        return bool(src_err)
 
 
 class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):

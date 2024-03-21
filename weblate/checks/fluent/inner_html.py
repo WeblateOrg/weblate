@@ -1260,9 +1260,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
             difference = self._compare_inner_html(unit, source, target)
         except _HTMLParseError:
             return True
-        if difference:
-            return True
-        return False
+        return bool(difference)
 
     def get_description(self, check_model: CheckModel) -> str:
         unit, source, target = translation_from_check(check_model)
