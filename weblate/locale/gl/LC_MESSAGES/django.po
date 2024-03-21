@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-03-21 09:01+0000\n"
+"PO-Revision-Date: 2024-03-21 09:53+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -2235,7 +2235,7 @@ msgstr "Acceder ao repositorio"
 #: weblate/auth/data.py:185
 msgctxt "Access-control role"
 msgid "Manage glossary"
-msgstr "Xestionar glosario"
+msgstr "Xestionar o glosario"
 
 #: weblate/auth/data.py:189
 msgctxt "Access-control role"
@@ -2270,7 +2270,7 @@ msgstr "Xestionar a memoria da tradución"
 #: weblate/auth/data.py:218
 msgctxt "Access-control role"
 msgid "Manage screenshots"
-msgstr "Xestionar capturas da pantalla"
+msgstr "Xestionar as capturas da pantalla"
 
 #: weblate/auth/data.py:222
 msgctxt "Access-control role"
@@ -2280,7 +2280,7 @@ msgstr "Xestionar o repositorio"
 #: weblate/auth/data.py:225
 msgctxt "Access-control role"
 msgid "Billing"
-msgstr "Pagamentos"
+msgstr "Facturación"
 
 #: weblate/auth/data.py:226
 msgctxt "Access-control role"
@@ -2310,7 +2310,7 @@ msgstr "Revisores"
 #: weblate/auth/data.py:248
 msgctxt "Access-control team name"
 msgid "Managers"
-msgstr "Administradores"
+msgstr "Xestores"
 
 #: weblate/auth/data.py:253
 msgctxt "Access-control team name"
@@ -2365,12 +2365,12 @@ msgstr "Tradución automática"
 #: weblate/auth/data.py:278
 msgctxt "Per-project access-control team name"
 msgid "VCS"
-msgstr "Sistema do Control de Versións (VCS)"
+msgstr "Sistema de Control de Versións (SCV)"
 
 #: weblate/auth/data.py:279
 msgctxt "Per-project access-control team name"
 msgid "Billing"
-msgstr "Pagamentos"
+msgstr "Facturación"
 
 #: weblate/auth/forms.py:82 weblate/auth/views.py:186
 msgid "User invitation e-mail was sent."
@@ -2397,37 +2397,37 @@ msgstr "Nome"
 
 #: weblate/auth/models.py:87
 msgid "Choose permissions granted to this role."
-msgstr "Escolle os permisos concedidos para este papel."
+msgstr "Escoller os permisos concedidos a este rol."
 
 #: weblate/auth/models.py:108 weblate/templates/accounts/profile.html:232
 #: weblate/templates/auth/team.html:43 weblate/templates/manage/teams.html:26
 #: weblate/templates/trans/project-access.html:192
 msgid "Roles"
-msgstr "Papeis"
+msgstr "Roles"
 
 #: weblate/auth/models.py:110
 msgid "Choose roles granted to this group."
-msgstr "Elixi-los papeis que se conceden a este grupo."
+msgstr "Escoller os roles concedidos a este grupo."
 
 #: weblate/auth/models.py:122
 msgid "Project selection"
-msgstr "Escolla do proxecto"
+msgstr "Selección de proxecto"
 
 #: weblate/auth/models.py:124 weblate/auth/models.py:152
 msgid "As defined"
-msgstr "Como definido"
+msgstr "Segundo se define"
 
 #: weblate/auth/models.py:125 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
-msgstr "Tódolos proxectos"
+msgstr "Todos os proxectos"
 
 #: weblate/auth/models.py:126 weblate/templates/auth/teams-projects.html:6
 msgid "All public projects"
-msgstr "Tódolos proxectos públicos"
+msgstr "Todos os proxectos públicos"
 
 #: weblate/auth/models.py:127 weblate/templates/auth/teams-projects.html:8
 msgid "All protected projects"
-msgstr "Tódolos proxectos protexidos"
+msgstr "Todos os proxectos protexidos"
 
 #: weblate/auth/models.py:128
 msgid "From component list"
@@ -2466,7 +2466,7 @@ msgstr ""
 
 #: weblate/auth/models.py:150
 msgid "Language selection"
-msgstr "Escolla de lingua"
+msgstr "Selección de idioma"
 
 #: weblate/auth/models.py:153 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1075 weblate/trans/forms.py:1265
@@ -3756,7 +3756,7 @@ msgstr ""
 
 #: weblate/checks/glossary.py:16
 msgid "Does not follow glossary"
-msgstr "No se axusta ao glosario"
+msgstr "Non se axusta ao glosario"
 
 #: weblate/checks/glossary.py:18
 msgid "The translation does not follow terms defined in a glossary."
@@ -6739,10 +6739,8 @@ msgid "Component name"
 msgstr "Comentarios"
 
 #: weblate/templates/addons/generate_help.html:24
-#, fuzzy
-#| msgid "Comments"
 msgid "Component URL slug"
-msgstr "Comentarios"
+msgstr "URL semántico («slug») do compoñente"
 
 #: weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:129
@@ -6750,10 +6748,8 @@ msgid "Project name"
 msgstr "Nome do proxecto"
 
 #: weblate/templates/addons/generate_help.html:28
-#, fuzzy
-#| msgid "Projects"
 msgid "Project URL slug"
-msgstr "Proxectos"
+msgstr "URL semántico («slug») do proxecto"
 
 #: weblate/templates/addons/pseudolocale.html:4
 msgid "Generated strings"
@@ -8889,11 +8885,8 @@ msgid "Invitation to %(site_title)s"
 msgstr "O teu rexistro en %(site_title)s"
 
 #: weblate/templates/mail/new_alert.html:14
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Viewers"
 msgid "View all alerts"
-msgstr "Lectores"
+msgstr "Ver todas as alertas"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
 #, fuzzy, python-format
@@ -9440,10 +9433,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/manage/snippets/activation-form.html:17
-#, fuzzy
-#| msgid "Active"
 msgid "Activate"
-msgstr "Activo"
+msgstr "Activar"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:5
 msgid "Backup repository"
@@ -9541,10 +9532,8 @@ msgstr[1] ""
 
 #: weblate/templates/manage/teams.html:102
 #: weblate/templates/trans/project-access.html:258
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new team"
-msgstr "Xestionar glosario"
+msgstr "Crear un novo equipo"
 
 #: weblate/templates/manage/tools.html:35
 #: weblate/templates/manage/tools.html:42
@@ -9891,9 +9880,9 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Garda tódolos tradutores que contribúen para esta compoñente nun determinado "
-"período de tempo. Útil para o engadido na documentación ou na propria "
-"aplicación, para agradecer ós tradutores e xerar opinións cara eles."
+"Lista todos os tradutores que contribuiron a este proxecto nun período de "
+"tempo dado. Útil para incluír na documentación ou na propia aplicación, para "
+"agradecer aos tradutores e xerarlles comentarios."
 
 #: weblate/templates/projects.html:19
 msgid "Ask for project hosting"
@@ -9987,22 +9976,16 @@ msgid "No matching strings found."
 msgstr "Non foron atopadas cadeas que coincidan."
 
 #: weblate/templates/snippets/about.html:3
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features a simple and clean user interface, propagation "
-#| "of translations across components, quality checks and automatic linking "
-#| "to source files."
 msgid ""
 "Weblate is a web-based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"O Weblate é unha ferramenta de tradución baseada na web cunha forte "
-"integración co control das versións. Posúe unha interface limpa e sinxela, "
-"propagación das traducións entre compoñentes, comprobacións da calidade e "
-"ligado de xeito automático a ficheiros de código fonte."
+"Weblate é unha ferramenta de tradución baseada na web cunha estreita "
+"integración de control de versións. Presenta unha interface de usuario "
+"sinxela e limpa, propagación de traducións entre compoñentes, controis de "
+"calidade e ligazón automática a ficheiros de orixe."
 
 #: weblate/templates/snippets/about.html:5
 #, python-format
@@ -10140,10 +10123,9 @@ msgstr "Repositorio do código fonte"
 
 #: weblate/templates/snippets/git-info.html:19
 #: weblate/trans/templatetags/translations.py:1034
-#, fuzzy, python-format
-#| msgid "Repository for this component is linked to %(target)s"
+#, python-format
 msgid "This component is linked to the %(target)s repository."
-msgstr "O repositorio para este compoñente está ligado a %(target)s"
+msgstr "Este compoñente está ligado ao repositorio %(target)s."
 
 #: weblate/templates/snippets/git-info.html:21
 #: weblate/templates/snippets/git-info.html:71
@@ -10746,10 +10728,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "Repository for this component is linked to %(target)s"
 msgid "This project is in the trial period."
-msgstr "O repositorio para este compoñente está ligado a %(target)s"
+msgstr "Este proxecto está en período de proba."
 
 #: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
@@ -10875,6 +10855,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organizar o proxecto</a> para cambiar o seu URL "
+"semántico («slug») ou eliminalo."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10882,6 +10864,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Organizar o compoñente</a> para cambiar o seu URL "
+"semántico («slug»), movelo ou eliminalo."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -11561,10 +11545,8 @@ msgid "From version control"
 msgstr "Control da versión"
 
 #: weblate/templates/trans/component_create.html:28
-#, fuzzy
-#| msgid "From component list"
 msgid "From existing component"
-msgstr "Da listaxe dos compoñentes"
+msgstr "Dun compoñente existente"
 
 #: weblate/templates/trans/component_create.html:31
 msgid "Additional branch"
@@ -12024,10 +12006,8 @@ msgid "Forbidden glossary term"
 msgstr "Importar o corrector"
 
 #: weblate/templates/translate.html:76
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary term"
-msgstr "Glosario"
+msgstr "Termo do glosario"
 
 #: weblate/templates/translate.html:105 weblate/templates/zen-units.html:67
 msgid "Source change"
@@ -12279,10 +12259,8 @@ msgstr "Examinar o glosario %(name)s"
 
 #: weblate/templates/translate.html:582 weblate/templates/translate.html:592
 #: weblate/trans/models/component.py:3747
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add term to glossary"
-msgstr "Engadir palabra ó glosario"
+msgstr "Engadir termo ao glosario"
 
 #: weblate/templates/translate.html:611
 #, fuzzy
@@ -12541,8 +12519,8 @@ msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
-"Ademais de promover un proxecto de tradución completo, tamén pode elixir "
-"unha lingua ou compoñente específico para promoveres:"
+"Ademais de promover un proxecto de tradución completo, tamén pode escoller "
+"promover un idioma ou compoñente específico:"
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
@@ -12997,6 +12975,8 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
+"Introduza o URL semántico («slug») dun compoñente para usar como orixe, "
+"deixeo en branco para usar todos os compoñentes do proxecto actual."
 
 #: weblate/trans/forms.py:933
 #, fuzzy
@@ -13017,10 +12997,8 @@ msgid "Component not found!"
 msgstr "Informacións do proxecto"
 
 #: weblate/trans/forms.py:1012
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Erro de análise en %(component)s"
+msgstr "Forneza un URL semántico («slug») de compoñente válido!"
 
 #: weblate/trans/forms.py:1016
 msgid "Source component needs to have same source language as target one."
@@ -13053,7 +13031,7 @@ msgstr "Pode empregar Markdown e mencionar os usuarios polo @username."
 
 #: weblate/trans/forms.py:1082
 msgid "All components"
-msgstr "Tódolos compoñentes"
+msgstr "Todos os compoñentes"
 
 #: weblate/trans/forms.py:1130
 msgid "Please choose"
@@ -13380,9 +13358,8 @@ msgid "I accept the contributor agreement"
 msgstr "Acepto a conformidade de colaborador"
 
 #: weblate/trans/forms.py:2568
-#, fuzzy
 msgid "The slug does not match the one marked for deletion!"
-msgstr "O formato da cadea non casa coa orixe"
+msgstr "O URL semántico («slug») non coincide co marcado para eliminar!"
 
 #: weblate/trans/forms.py:2574 weblate/trans/forms.py:2593
 #: weblate/trans/forms.py:2604 weblate/trans/forms.py:2620
@@ -13391,40 +13368,31 @@ msgid "Removal confirmation"
 msgstr "Confirmación de retirada"
 
 #: weblate/trans/forms.py:2576
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "Fallou a tradución"
+msgstr "Escriba o URL semántico («slug») completo da tradución para confirmalo."
 
 #: weblate/trans/forms.py:2595
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Fallou a tradución"
+msgstr ""
+"Escriba o URL semántico («slug») completo do compoñente para confirmalo."
 
 #: weblate/trans/forms.py:2605
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please type in the slug of the project to confirm."
-msgstr "Fallou a tradución"
+msgstr "Escriba op URL semántico («slug») do proxecto para confirmalo."
 
 #: weblate/trans/forms.py:2621
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please type in the slug of the category to confirm."
-msgstr "Fallou a tradución"
+msgstr "Escriba o URL semántico («slug») da categoría para confirmalo."
 
 #: weblate/trans/forms.py:2631
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Fallou a tradución"
+msgstr ""
+"Escriba o URL semántico («slug») do proxecto e o idioma para confirmalo."
 
 #: weblate/trans/forms.py:2642
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "Fallou a tradución"
+msgstr ""
+"Escriba o URL semántico («slug») da categoría e do idioma para confirmalo."
 
 #: weblate/trans/forms.py:2669
 msgid "Author username"
@@ -13522,7 +13490,8 @@ msgstr ""
 msgid ""
 "Component or category with the same URL slug already exists at this level."
 msgstr ""
-"Neste nivel xa existe un compoñente ou categoría co mesmo «slug» de URL."
+"Neste nivel xa existe un compoñente ou categoría co mesmo «slug» de URL "
+"semántico."
 
 #: weblate/trans/mixins.py:150
 msgid "Component or category with the same name already exists at this level."
@@ -13721,7 +13690,7 @@ msgstr "Nome que amosar"
 #: weblate/trans/models/category.py:42 weblate/trans/models/component.py:326
 #: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:136
 msgid "URL slug"
-msgstr ""
+msgstr "URL semántico («slug»)"
 
 #: weblate/trans/models/category.py:44 weblate/trans/models/component.py:328
 #: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:139
@@ -14128,7 +14097,7 @@ msgstr "Cadea engadida no repositorio"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
-msgstr "O compoñente bloqueouse automaticamente por mor dunha alerta."
+msgstr "O compoñente foi bloqueado automaticamente por mor dunha alerta."
 
 #: weblate/trans/models/change.py:528
 msgid "Fixing an alert automatically unlocked the component."
@@ -14287,7 +14256,7 @@ msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"O URL do repositorio emprega weblate://project/component para compartillalo "
+"O URL do repositorio. Empregue weblate://proxecto/compoñente para compartilo "
 "con outro compoñente."
 
 #: weblate/trans/models/component.py:372
@@ -14406,8 +14375,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Se as actualizacións de tradución noutros compoñentes causarán tradución "
-"automática neste"
+"Indica se as actualizacións de tradución noutros compoñentes provocarán a "
+"tradución automática neste"
 
 #: weblate/trans/models/component.py:506 weblate/trans/models/workflow.py:27
 #, fuzzy
@@ -14647,16 +14616,12 @@ msgid "Choose additional projects where this component will be listed."
 msgstr ""
 
 #: weblate/trans/models/component.py:737
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "Xestionar glosario"
+msgstr "Usar coma un glosario"
 
 #: weblate/trans/models/component.py:742
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary color"
-msgstr "Glosario"
+msgstr "Cor do glosario"
 
 #: weblate/trans/models/component.py:1477
 msgid ""
@@ -14724,10 +14689,8 @@ msgid "Category does not belong to this project."
 msgstr "Proxectos de pagamentos"
 
 #: weblate/trans/models/component.py:2620
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "A listaxe dos compoñentes non pode elixirse cando non se emprega."
+msgstr "Non é posíbel compartir o compoñente categorizado."
 
 #: weblate/trans/models/component.py:2632
 #, fuzzy
@@ -14961,7 +14924,7 @@ msgstr "Expresión regular do proxecto"
 #: weblate/trans/models/componentlist.py:76
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Expresión regular empregada para coincidir co nome curto («slug») do "
+"Expresión regular empregada para coincidir co URL semántico («slug») do "
 "proxecto."
 
 #: weblate/trans/models/componentlist.py:80
@@ -14971,8 +14934,8 @@ msgstr "Expresión regular do compoñente"
 #: weblate/trans/models/componentlist.py:84
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Expresión regular empregada para coincidir co nome curto («slug») do "
-"compoñente."
+"Expresión regular que se usa para a coincidencia co URL semántico («slug») "
+"do compoñente."
 
 #: weblate/trans/models/componentlist.py:89
 #, fuzzy
@@ -15305,8 +15268,8 @@ msgstr[1] "Termos non traducíbeis:"
 #: weblate/trans/templatetags/translations.py:292
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Termo do glosario:"
-msgstr[1] "Termos do glosario:"
+msgstr[0] "Termo no glosario:"
+msgstr[1] "Termos no glosario:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -16597,10 +16560,8 @@ msgid "Page font"
 msgstr "Non se atopou a páxina"
 
 #: weblate/wladmin/forms.py:69
-#, fuzzy
-#| msgid "Default component list"
 msgid "Header font"
-msgstr "Listaxe dos compoñentes predeterminados"
+msgstr "Tipo de letra da cabeceira"
 
 #: weblate/wladmin/forms.py:80
 #, fuzzy
@@ -16761,10 +16722,8 @@ msgstr ""
 "recoñecer na detección."
 
 #: weblate/wladmin/views.py:198 weblate/wladmin/views.py:215
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not activate your installation. Please try again later."
-msgstr "Fallou a autenticación por mor dun estado da sesión non válido."
+msgstr "Non foi posíbel activar a súa instalación. Ténteo de novo máis tarde."
 
 #: weblate/wladmin/views.py:207
 msgid ""
