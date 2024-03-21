@@ -7,7 +7,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
-from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
@@ -168,9 +167,6 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         """Display comma separated list of user groups."""
         return ",".join(obj.groups.values_list("name", flat=True))
 
-    @admin.display(
-        description=format_html('<input type="checkbox" id="action-toggle" />')
-    )
     def action_checkbox(self, obj):
         if obj.is_anonymous:
             return ""
@@ -248,9 +244,6 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
 
     new_obj = None
 
-    @admin.display(
-        description=format_html('<input type="checkbox" id="action-toggle" />')
-    )
     def action_checkbox(self, obj):
         if obj.internal:
             return ""
