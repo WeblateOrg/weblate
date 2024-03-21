@@ -1293,7 +1293,7 @@ class GhostStats(BaseStats):
         return "stats-zero"
 
     def save(self, update_parents: bool = True) -> None:
-        return
+        pass
 
     def load(self):
         return {}
