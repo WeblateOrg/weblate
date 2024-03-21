@@ -656,6 +656,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
         elif self.instance:
             result["project"] = self.instance.project
 
+        # Workaround for https://github.com/encode/django-rest-framework/issues/7489
+        if "category" not in result:
+            result["category"] = None
+
         return result
 
     def validate(self, attrs):
@@ -1213,6 +1217,20 @@ class CategorySerializer(RemovableSerializer[Category]):
             instance = Category(**attrs)
         instance.clean()
         return attrs
+
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+
+        # Add missing project context
+        if "project" in self._context:
+            result["project"] = self._context["project"]
+        elif self.instance:
+            result["project"] = self.instance.project
+
+        # Workaround for https://github.com/encode/django-rest-framework/issues/7489
+        if "category" not in result:
+            result["category"] = None
+        return result
 
 
 class ScreenshotSerializer(RemovableSerializer[Screenshot]):
