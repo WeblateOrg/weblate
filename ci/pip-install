@@ -21,7 +21,7 @@ if [ "${1:-latest}" = migrations ] ; then
 else
     if [ "${1:-latest}" = minimal ] ; then
         # Adjust deps to force minimal version
-        sed -i 's/>=/==/' pyproject.toml
+        sed -i '/^ *"/ s/>=/==/' pyproject.toml
     fi
 
     if [ "${1:-latest}" = mypy ] ; then
