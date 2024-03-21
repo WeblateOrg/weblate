@@ -967,18 +967,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         project = self.project
 
         # Does glossary already exist?
-        if (
-            self.is_glossary
-            or project.glossaries
-            or "Glossary" in (component.name for component in project.child_components)
-            or "glossary" in (component.slug for component in project.child_components)
-            or len(project.child_components) > 2
-        ):
+        if self.is_glossary or project.glossaries or len(project.child_components) > 2:
+            return
+
+        component_names = (component.name for component in project.child_components)
+        component_slugs = (component.slug for component in project.child_components)
+        if "Glossary" in component_names or "glossary" in component_slugs:
             return
 
         # Create glossary component
         component = project.scratch_create_component(
-            project.name if project.name != self.name else "Glossary",
+            project.name if project.name not in component_names else "Glossary",
             "glossary",
             self.source_language,
             "tbx",
