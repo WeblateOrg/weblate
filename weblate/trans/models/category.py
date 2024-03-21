@@ -67,6 +67,23 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     objects = CategoryQuerySet.as_manager()
 
+    class Meta:
+        app_label = "trans"
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+        constraints = [
+            models.UniqueConstraint(
+                name="category_slug_unique",
+                fields=["project", "category", "slug"],
+                nulls_distinct=False,
+            ),
+            models.UniqueConstraint(
+                name="category_name_unique",
+                fields=["project", "category", "name"],
+                nulls_distinct=False,
+            ),
+        ]
+
     def __str__(self) -> str:
         return f"{self.category or self.project}/{self.name}"
 

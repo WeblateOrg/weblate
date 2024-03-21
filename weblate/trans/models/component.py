@@ -758,6 +758,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         indexes = [
             models.Index(fields=["project", "allow_translation_propagation"]),
         ]
+        constraints = [
+            models.UniqueConstraint(
+                name="component_slug_unique",
+                fields=["project", "category", "slug"],
+                nulls_distinct=False,
+            ),
+            models.UniqueConstraint(
+                name="component_name_unique",
+                fields=["project", "category", "name"],
+                nulls_distinct=False,
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"{self.category or self.project}/{self.name}"
