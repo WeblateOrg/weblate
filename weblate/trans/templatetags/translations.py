@@ -904,7 +904,7 @@ def get_location_links(user: User | None, unit):
 
     # Go through all locations separated by comma
     return format_html_join(
-        format_html('\n<span class="divisor">•</span>\n'),
+        mark_safe('\n<span class="divisor">•</span>\n'),  # noqa: S308
         "{}",
         (
             (
@@ -955,7 +955,7 @@ def active_tab(context, slug):
 @register.simple_tag(takes_context=True)
 def active_link(context, slug):
     if slug == context["active_tab_slug"]:
-        return format_html('class="active"')
+        return mark_safe('class="active"')  # noqa: S308
     return ""
 
 

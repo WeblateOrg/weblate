@@ -8,6 +8,7 @@ import re
 from typing import TYPE_CHECKING
 
 from django.utils.html import escape, format_html, format_html_join
+from django.utils.safestring import mark_safe
 from translate.storage.fluent import (
     FluentPart,
     FluentReference,
@@ -50,7 +51,7 @@ def format_html_code(
 def format_html_error_list(errors: Iterable[str]) -> SafeString:
     """Return a HTML SafeString with each given error on a new line."""
     return format_html_join(
-        format_html("<br />"),
+        mark_safe("<br />"),  # noqa: S308
         "{}",
         ((err,) for err in errors),
     )
