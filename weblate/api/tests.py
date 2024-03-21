@@ -3756,6 +3756,11 @@ class SearchAPITest(APIBaseTest):
                     "url": "/projects/test/test/",
                 },
                 {
+                    "category": "Component",
+                    "name": "Test/Test",
+                    "url": "/projects/test/glossary/",
+                },
+                {
                     "category": "User",
                     "name": "apitest",
                     "url": "/user/apitest/",
