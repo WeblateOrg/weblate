@@ -129,7 +129,7 @@ class TranslationQuerySet(models.QuerySet):
 
 class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     component = models.ForeignKey(
-        "Component", on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Component", on_delete=models.deletion.CASCADE, db_index=False
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)

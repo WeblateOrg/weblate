@@ -70,14 +70,14 @@ class Announcement(models.Model):
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
     project = models.ForeignKey(
-        "Project",
+        "trans.Project",
         verbose_name=gettext_lazy("Project"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     component = models.ForeignKey(
-        "Component",
+        "trans.Component",
         verbose_name=gettext_lazy("Component"),
         null=True,
         blank=True,

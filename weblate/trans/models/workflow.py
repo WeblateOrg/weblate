@@ -13,7 +13,9 @@ from weblate.trans.validators import validate_autoaccept
 
 
 class WorkflowSetting(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE, null=True)
+    project = models.ForeignKey(
+        "trans.Project", on_delete=models.deletion.CASCADE, null=True
+    )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
 
     # This should match definitions in Project

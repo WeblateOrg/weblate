@@ -326,13 +326,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         validators=[validate_slug],
     )
     project = models.ForeignKey(
-        "Project",
+        "trans.Project",
         verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
         db_index=False,
     )
     category = models.ForeignKey(
-        "Category",
+        "trans.Category",
         verbose_name=gettext_lazy("Category"),
         on_delete=models.deletion.CASCADE,
         null=True,
@@ -359,7 +359,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ),
     )
     linked_component = models.ForeignKey(
-        "Component",
+        "trans.Component",
         verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
         null=True,
@@ -720,7 +720,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     )
 
     links = models.ManyToManyField(
-        "Project",
+        "trans.Project",
         verbose_name=gettext_lazy("Share in projects"),
         blank=True,
         related_name="shared_components",

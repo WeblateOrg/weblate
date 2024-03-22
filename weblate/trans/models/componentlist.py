@@ -45,7 +45,7 @@ class ComponentList(models.Model, CacheKeyMixin):
         ),
     )
 
-    components = models.ManyToManyField("Component", blank=True)
+    components = models.ManyToManyField("trans.Component", blank=True)
 
     objects = ComponentListQuerySet.as_manager()
 

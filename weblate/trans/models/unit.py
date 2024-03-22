@@ -341,7 +341,7 @@ class LabelsField(models.ManyToManyField):
 
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey(
-        "Translation", on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Translation", on_delete=models.deletion.CASCADE, db_index=False
     )
     id_hash = models.BigIntegerField()
     location = models.TextField(default="", blank=True)
@@ -385,7 +385,7 @@ class Unit(models.Model, LoggerMixin):
         ),
     )
     variant = models.ForeignKey(
-        "Variant",
+        "trans.Variant",
         on_delete=models.deletion.SET_NULL,
         blank=True,
         null=True,
@@ -396,7 +396,7 @@ class Unit(models.Model, LoggerMixin):
     # The type annotation hides that field can be None because
     # save() updates it to non-None immediatelly.
     source_unit: Unit = models.ForeignKey(
-        "Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
+        "trans.Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )
 
     objects = UnitQuerySet.as_manager()

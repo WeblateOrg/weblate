@@ -541,35 +541,40 @@ class Change(models.Model, UserDisplayMixin):
     }
 
     unit = models.ForeignKey(
-        "Unit", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Unit", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     language = models.ForeignKey(
         "lang.Language", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     project = models.ForeignKey(
-        "Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     component = models.ForeignKey(
-        "Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Translation",
+        null=True,
+        on_delete=models.deletion.CASCADE,
+        db_index=False,
     )
     comment = models.ForeignKey(
-        "Comment", null=True, on_delete=models.deletion.SET_NULL
+        "trans.Comment", null=True, on_delete=models.deletion.SET_NULL
     )
     suggestion = models.ForeignKey(
-        "Suggestion", null=True, on_delete=models.deletion.SET_NULL
+        "trans.Suggestion", null=True, on_delete=models.deletion.SET_NULL
     )
     announcement = models.ForeignKey(
-        "Announcement", null=True, on_delete=models.deletion.SET_NULL
+        "trans.Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
     screenshot = models.ForeignKey(
         "screenshots.Screenshot",
         null=True,
         on_delete=models.deletion.SET_NULL,
     )
-    alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
+    alert = models.ForeignKey(
+        "trans.Alert", null=True, on_delete=models.deletion.SET_NULL
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )

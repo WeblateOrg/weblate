@@ -48,12 +48,12 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         validators=[validate_slug],
     )
     project = models.ForeignKey(
-        "Project",
+        "trans.Project",
         verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
     )
     category = models.ForeignKey(
-        "Category",
+        "trans.Category",
         verbose_name=gettext_lazy("Category"),
         on_delete=models.deletion.CASCADE,
         null=True,

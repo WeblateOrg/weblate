@@ -58,7 +58,7 @@ def update_alerts(component: Component, alerts: set[str] | None = None) -> None:
 
 class Alert(models.Model):
     component = models.ForeignKey(
-        "Component", on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Component", on_delete=models.deletion.CASCADE, db_index=False
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
