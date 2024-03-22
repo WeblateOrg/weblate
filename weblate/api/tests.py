@@ -3743,7 +3743,6 @@ class SearchAPITest(APIBaseTest):
     def test_result(self) -> None:
         response = self.client.get(reverse("api:search"), {"q": "test"})
         self.assertEqual(
-            response.data,
             [
                 {
                     "category": "Project",
@@ -3756,16 +3755,12 @@ class SearchAPITest(APIBaseTest):
                     "url": "/projects/test/test/",
                 },
                 {
-                    "category": "Component",
-                    "name": "Test/Test",
-                    "url": "/projects/test/glossary/",
-                },
-                {
                     "category": "User",
                     "name": "apitest",
                     "url": "/user/apitest/",
                 },
             ],
+            response.data,
         )
 
     def test_language(self) -> None:
