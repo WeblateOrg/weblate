@@ -817,10 +817,14 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.drop_repository_cache()
             create = False
         elif self.is_glossary:
+            # Creating new glossary
+
             # Turn on unit management for glossary and disable adding languages
             # as they are added automatically
             self.manage_units = True
             self.new_lang = "none"
+            # Make sure it is listed in project glossaries now
+            self.project.glossaries.append(self)
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -976,7 +980,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return
 
         # Create glossary component
-        component = project.scratch_create_component(
+        project.scratch_create_component(
             project.name if project.name not in component_names else "Glossary",
             "glossary",
             self.source_language,
@@ -986,9 +990,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             allow_translation_propagation=False,
             license=self.license,
         )
-
-        # Make sure it is listed in project glossaries now
-        project.glossaries.append(component)
 
     @cached_property
     def lock(self):
