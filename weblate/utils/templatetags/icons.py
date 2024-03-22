@@ -49,7 +49,7 @@ def icon(name):
 def loading_icon(name=None, hidden=True):
     return format_html(
         SPIN,
-        mark_safe('id="loading-{}"', name) if name else "",  # noqa: S308
+        format_html('id="loading-{}"', name) if name else "",
         mark_safe('style="display: none"') if hidden else "",  # noqa: S308
         icon("loading.svg"),
     )
