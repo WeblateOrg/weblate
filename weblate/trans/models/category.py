@@ -31,6 +31,9 @@ class CategoryQuerySet(models.QuerySet):
             "category__category__category__project",
         )
 
+    def order(self):
+        return self.order_by("name")
+
 
 class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     name = models.CharField(

@@ -1760,7 +1760,7 @@ class Search(APIView):
                     "name": project.name,
                     "category": gettext("Project"),
                 }
-                for project in projects.search(query)[:5]
+                for project in projects.search(query).order()[:5]
             )
             results.extend(
                 {
@@ -1768,7 +1768,7 @@ class Search(APIView):
                     "name": str(category),
                     "category": gettext("Category"),
                 }
-                for category in category.search(query)[:5]
+                for category in category.search(query).order()[:5]
             )
             results.extend(
                 {
@@ -1776,7 +1776,7 @@ class Search(APIView):
                     "name": str(component),
                     "category": gettext("Component"),
                 }
-                for component in components.search(query)[:5]
+                for component in components.search(query).order()[:5]
             )
             results.extend(
                 {
@@ -1784,7 +1784,7 @@ class Search(APIView):
                     "name": user.username,
                     "category": gettext("User"),
                 }
-                for user in User.objects.search(query, parser="plain")[:5]
+                for user in User.objects.search(query, parser="plain").order()[:5]
             )
             results.extend(
                 {
@@ -1792,7 +1792,7 @@ class Search(APIView):
                     "name": language.name,
                     "category": gettext("Language"),
                 }
-                for language in Language.objects.search(query)[:5]
+                for language in Language.objects.search(query).order()[:5]
             )
 
         return Response(results)
