@@ -165,7 +165,7 @@ class Group(models.Model):
     )
 
     admins = models.ManyToManyField(
-        "User",
+        "weblate_auth.User",
         verbose_name=gettext_lazy("Team administrators"),
         blank=True,
         help_text=gettext_lazy(
