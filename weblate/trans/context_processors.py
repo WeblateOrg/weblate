@@ -41,6 +41,7 @@ CONTEXT_SETTINGS = [
     "PRIVATE_COMMIT_EMAIL_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
+    "IP_ADDRESSES",
 ]
 
 CONTEXT_APPS = ["billing", "legal", "gitexport"]

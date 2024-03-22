@@ -183,5 +183,7 @@ Current translation status:
 
     EXTRA_HTML_HEAD = ""
 
+    IP_ADDRESSES = []
+
     class Meta:
         prefix = ""
