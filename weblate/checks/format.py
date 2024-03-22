@@ -9,7 +9,8 @@ from collections import Counter, defaultdict
 from re import Pattern
 
 from django.utils.functional import SimpleLazyObject
-from django.utils.html import format_html, format_html_join
+from django.utils.html import format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
@@ -429,7 +430,9 @@ class BaseFormatCheck(TargetCheck):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
-                format_html("<br />"), "{}", ((error,) for error in errors)
+                mark_safe("<br />"),  # noqa: S308
+                "{}",
+                ((error,) for error in errors),
             )
         return super().get_description(check_obj)
 

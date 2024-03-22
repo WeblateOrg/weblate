@@ -205,7 +205,7 @@ class PluralTextarea(forms.Textarea):
                     gettext("Toggle text direction"),
                     rtl_name,
                     "rtl",
-                    format_html('checked="checked"'),
+                    mark_safe('checked="checked"'),  # noqa: S308
                     "RTL",
                 ),
                 (
@@ -213,7 +213,7 @@ class PluralTextarea(forms.Textarea):
                     gettext("Toggle text direction"),
                     rtl_name,
                     "ltr",
-                    format_html(""),
+                    "",
                     "LTR",
                 ),
             ],
@@ -221,7 +221,12 @@ class PluralTextarea(forms.Textarea):
         groups = format_html_join(
             "\n",
             GROUP_TEMPLATE,
-            [(format_html('data-toggle="buttons"'), rtl_switch)],  # Only one group.
+            [
+                (
+                    mark_safe('data-toggle="buttons"'),  # noqa: S308
+                    rtl_switch,
+                )
+            ],  # Only one group.
         )
         return format_html(TOOLBAR_TEMPLATE, groups)
 

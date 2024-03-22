@@ -6,6 +6,7 @@ import re
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
@@ -112,7 +113,9 @@ class PlaceholderCheck(TargetCheckParametrized):
             errors.append(self.get_extra_text(result["extra"]))
 
         return format_html_join(
-            format_html("<br />"), "{}", ((error,) for error in errors)
+            mark_safe("<br />"),  # noqa: S308
+            "{}",
+            ((error,) for error in errors),
         )
 
 
