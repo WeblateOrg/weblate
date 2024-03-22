@@ -31,7 +31,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Translation
 
 
-class ChangeQuerySet(models.QuerySet):
+class ChangeQuerySet(models.QuerySet["Change"]):
     def content(self, prefetch=False):
         """Return queryset with content changes."""
         base = self
@@ -201,7 +201,7 @@ class ChangeQuerySet(models.QuerySet):
         return self.filter(project__in=user.allowed_projects)
 
 
-class ChangeManager(models.Manager):
+class ChangeManager(models.Manager["Change"]):
     def create(self, *, user=None, **kwargs):
         """
         Create a change object.

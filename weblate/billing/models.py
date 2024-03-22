@@ -90,7 +90,7 @@ class Plan(models.Model):
         return self.price == 0 and self.yearly_price == 0
 
 
-class BillingManager(models.Manager):
+class BillingManager(models.Manager["Billing"]):
     def check_limits(self) -> None:
         for bill in self.iterator():
             bill.check_limits()

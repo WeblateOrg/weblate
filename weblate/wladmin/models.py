@@ -48,7 +48,7 @@ class WeblateModelAdmin(ModelAdmin):
     delete_selected_confirmation_template = "wladmin/delete_selected_confirmation.html"
 
 
-class ConfigurationErrorManager(models.Manager):
+class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
     def configuration_health_check(self, checks=None) -> None:
         # Run deployment checks if needed
         if checks is None:

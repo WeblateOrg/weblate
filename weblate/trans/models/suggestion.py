@@ -22,7 +22,7 @@ from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
 
 
-class SuggestionManager(models.Manager):
+class SuggestionManager(models.Manager["Suggestion"]):
     def add(self, unit, target: list[str], request, vote: bool = False, user=None):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous

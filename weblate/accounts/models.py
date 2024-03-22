@@ -241,7 +241,7 @@ class AuditLogManager(models.Manager):
         )
 
 
-class AuditLogQuerySet(models.QuerySet):
+class AuditLogQuerySet(models.QuerySet["AuditLog"]):
     def get_after(self, user, after, activity):
         """
         Get user activities of given type after another activity.

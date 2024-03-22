@@ -13,7 +13,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.lang.models import Language
 
 
-class AnnouncementManager(models.Manager):
+class AnnouncementManager(models.Manager["Announcement"]):
     def context_filter(self, project=None, component=None, language=None):
         """Filter announcements by context."""
         base = self.filter(

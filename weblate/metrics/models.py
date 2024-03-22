@@ -89,7 +89,7 @@ METRIC_ORDER = [
 ]
 
 
-class MetricQuerySet(models.QuerySet):
+class MetricQuerySet(models.QuerySet["Metric"]):
     def filter_metric(
         self, scope: int, relation: int, secondary: int = 0
     ) -> MetricQuerySet:
@@ -123,7 +123,7 @@ class MetricQuerySet(models.QuerySet):
         return metric
 
 
-class MetricManager(models.Manager):
+class MetricManager(models.Manager["Metric"]):
     def create_metrics(
         self,
         data: dict,
