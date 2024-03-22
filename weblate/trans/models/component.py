@@ -970,8 +970,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.is_glossary or project.glossaries or len(project.child_components) > 2:
             return
 
-        component_names = (component.name for component in project.child_components)
-        component_slugs = (component.slug for component in project.child_components)
+        component_names = {component.name for component in project.child_components}
+        component_slugs = {component.slug for component in project.child_components}
         if "Glossary" in component_names or "glossary" in component_slugs:
             return
 
