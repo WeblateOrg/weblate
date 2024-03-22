@@ -217,6 +217,14 @@ plugins = [
 ]
 
 [[tool.mypy.overrides]]
+# TODO: remove this once core can be validated with mypy
+ignore_errors = true
+module = [
+  "weblate.*.tests",
+  "weblate.*.tests.*"
+]
+
+[[tool.mypy.overrides]]
 disallow_untyped_defs = true
 ignore_missing_imports = true
 module = [
