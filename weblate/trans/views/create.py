@@ -292,13 +292,13 @@ class CreateComponent(BaseCreateView):
             self.request.method = "GET"
             self.warn_outdated(form)
             self.detect_license(form)
-            return self.get(self, self.request)
+            return self.get(self.request)
         # Move to discover
         self.stage = "discover"
         self.request.method = "GET"
         self.initial = form.cleaned_data
         self.warn_outdated(form)
-        return self.get(self, self.request)
+        return self.get(self.request)
 
     def get_form(self, form_class=None, empty=False):
         self.empty_form = empty
@@ -397,7 +397,7 @@ class CreateFromZip(CreateComponent):
         self.initial["branch"] = "main"
         self.initial.pop("zipfile")
         self.request.method = "GET"
-        return self.get(self, self.request)
+        return self.get(self.request)
 
 
 class CreateFromDoc(CreateComponent):
@@ -421,7 +421,7 @@ class CreateFromDoc(CreateComponent):
         self.initial["filemask"] = fake.filemask
 
         self.request.method = "GET"
-        return self.get(self, self.request)
+        return self.get(self.request)
 
 
 class CreateComponentSelection(CreateComponent):
