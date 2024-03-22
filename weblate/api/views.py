@@ -152,48 +152,6 @@ def get_view_description(view, html=False):
     return description
 
 
-class MultipleFieldMixin:
-    """
-    Multiple field filtering mixin.
-
-    Apply this mixin to any view or viewset to get multiple field filtering based on a
-    `lookup_fields` attribute, instead of the default single field filtering.
-    """
-
-    def get_object(self):
-        # Get the base queryset
-        queryset = self.get_queryset()
-        # Apply any filter backends
-        queryset = self.filter_queryset(queryset)
-        # Generate lookup
-        lookup = {}
-        category_path = ""
-        for field in reversed(self.lookup_fields):
-            if field not in {"component__slug", "slug"}:
-                lookup[field] = self.kwargs[field]
-            else:
-                category_prefix = field[:-4]
-                was_category = False
-                was_slug = False
-                # Fetch component part for possible category
-                for category in reversed(unquote(self.kwargs[field]).split("/")):
-                    if not was_slug:
-                        # Component filter
-                        lookup[field] = category
-                        was_slug = True
-                    else:
-                        # Strip "slug" from category field
-                        category_path = f"category__{category_path}"
-                        lookup[f"{category_prefix}{category_path}slug"] = category
-                        was_category = True
-                if not was_category:
-                    # No category
-                    lookup[f"{category_prefix}category"] = None
-
-        # Lookup the object
-        return get_object_or_404(queryset, **lookup)
-
-
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: tuple[str, ...] = ()
     raw_formats: tuple[str, ...] = tuple(EXPORTERS)
@@ -318,6 +276,48 @@ class WeblateViewSet(DownloadViewSet):
                 data["merge_failure"] = None
 
         return Response(data)
+
+
+class MultipleFieldViewSet(WeblateViewSet):
+    """
+    Multiple field filtering mixin.
+
+    Apply this mixin to any view or viewset to get multiple field filtering based on a
+    `lookup_fields` attribute, instead of the default single field filtering.
+    """
+
+    def get_object(self):
+        # Get the base queryset
+        queryset = self.get_queryset()
+        # Apply any filter backends
+        queryset = self.filter_queryset(queryset)
+        # Generate lookup
+        lookup = {}
+        category_path = ""
+        for field in reversed(self.lookup_fields):
+            if field not in {"component__slug", "slug"}:
+                lookup[field] = self.kwargs[field]
+            else:
+                category_prefix = field[:-4]
+                was_category = False
+                was_slug = False
+                # Fetch component part for possible category
+                for category in reversed(unquote(self.kwargs[field]).split("/")):
+                    if not was_slug:
+                        # Component filter
+                        lookup[field] = category
+                        was_slug = True
+                    else:
+                        # Strip "slug" from category field
+                        category_path = f"category__{category_path}"
+                        lookup[f"{category_prefix}{category_path}slug"] = category
+                        was_category = True
+                if not was_category:
+                    # No category
+                    lookup[f"{category_prefix}category"] = None
+
+        # Lookup the object
+        return get_object_or_404(queryset, **lookup)
 
 
 class UserFilter(filters.FilterSet):
@@ -827,9 +827,7 @@ class ProjectViewSet(
         return Response(status=HTTP_204_NO_CONTENT)
 
 
-class ComponentViewSet(
-    MultipleFieldMixin, WeblateViewSet, UpdateModelMixin, DestroyModelMixin
-):
+class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin):
     """Translation components API."""
 
     raw_urls: tuple[str, ...] = ("component-file",)
@@ -1079,7 +1077,7 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
         return super().destroy(request, *args, **kwargs)
 
 
-class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
+class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
     """Translation components API."""
 
     queryset = Translation.objects.none()
