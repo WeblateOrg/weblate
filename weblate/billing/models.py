@@ -256,27 +256,25 @@ class Billing(models.Model):
         return self.state == Billing.STATE_TERMINATED
 
     @property
-    def is_libre_trial(self):
+    def is_libre_trial(self) -> bool:
         return self.is_trial and self.plan.price == 0
 
     @cached_property
-    def can_be_paid(self):
+    def can_be_paid(self) -> bool:
         if self.state in Billing.ACTIVE_STATES:
             return True
         return self.count_projects > 0
 
     @admin.display(description=gettext_lazy("Changes in last month"))
-    @cached_property
-    def monthly_changes(self):
+    def monthly_changes(self) -> int:
         return sum(project.stats.monthly_changes for project in self.all_projects)
 
     @admin.display(description=gettext_lazy("Number of changes"))
-    @cached_property
-    def total_changes(self):
+    def total_changes(self) -> int:
         return sum(project.stats.total_changes for project in self.all_projects)
 
     @cached_property
-    def count_projects(self):
+    def count_projects(self) -> int:
         return len(self.all_projects)
 
     @admin.display(description=gettext_lazy("Projects"))
@@ -284,7 +282,7 @@ class Billing(models.Model):
         return f"{self.count_projects} / {self.plan.display_limit_projects}"
 
     @cached_property
-    def count_strings(self):
+    def count_strings(self) -> int:
         return sum(p.stats.source_strings for p in self.all_projects)
 
     @admin.display(description=gettext_lazy("Source strings"))
@@ -535,8 +533,8 @@ class Invoice(models.Model):
         return None
 
     @cached_property
-    def full_filename(self):
-        return os.path.join(settings.INVOICE_PATH, self.filename)
+    def full_filename(self) -> str:
+        return os.path.join(settings.INVOICE_PATH, self.filename or "")
 
     @cached_property
     def filename_valid(self):
