@@ -1003,10 +1003,10 @@ class PluralMapper:
                 "length of `targets` does't match the number of target plurals"
             )
         if self.same_plurals:
-            return zip(sources, targets, strict=False)
+            return zip(sources, targets, strict=True)
         return [
             (sources[-1 if i is None else i], targets[j])
-            for (i, _), j in zip(self._target_map, range(len(targets)), strict=False)
+            for (i, _), j in zip(self._target_map, range(len(targets)), strict=True)
         ]
 
 
