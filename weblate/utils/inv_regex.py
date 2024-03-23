@@ -28,10 +28,9 @@ from pyparsing import (
 
 class CharacterRangeEmitter:
     def __init__(self, chars) -> None:
-        # remove duplicate chars in character range, but preserve original order
-        self.charset = "".join(
-            dict(zip(chars, [None] * len(chars), strict=False)).keys()
-        )
+        # remove duplicate chars in character range, but preserve original order,
+        # this is based on dict being ordered
+        self.charset = "".join(dict.fromkeys(chars).keys())
 
     def __str__(self) -> str:
         return "[" + self.charset + "]"
