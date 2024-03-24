@@ -673,5 +673,5 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         prefetch_stats(self.label_cleanups)
 
     def cleanup_label_stats(self, name: str) -> None:
-        for translation in prefetch_stats(self.label_cleanups):
+        for translation in self.label_cleanups:
             translation.stats.remove_stats(f"label:{name}")
