@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import time
-from datetime import timedelta
+from datetime import datetime, timedelta
 from itertools import chain
 from operator import itemgetter
 from types import GeneratorType
@@ -38,6 +38,9 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+
+StatItem = int | float | str | datetime | None
+StatDict = dict[str, StatItem]
 
 BASICS = {
     "all",
@@ -99,7 +102,7 @@ SOURCE_MAP = {
 
 
 def zero_stats(keys):
-    stats = dict.fromkeys(keys, 0)
+    stats: StatDict = dict.fromkeys(keys, 0)
     stats["last_changed"] = None
     stats["last_author"] = None
     stats["stats_timestamp"] = 0
@@ -136,22 +139,23 @@ class BaseStats:
 
     def __init__(self, obj) -> None:
         self._object = obj
-        self._data = None
-        self._pending_save = False
+        self._data: StatDict = {}
+        self._loaded: bool = False
+        self._pending_save: bool = False
         self.last_change_cache = None
-        self._collected_update_objects = None
+        self._collected_update_objects: None | list[BaseStats] = None
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}:{self.cache_key}>"
 
     @property
-    def pk(self):
+    def pk(self) -> int:
         return self._object.pk
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return self._object.get_absolute_url()
 
-    def get_translate_url(self):
+    def get_translate_url(self) -> str:
         return self._object.get_translate_url()
 
     @property
@@ -163,13 +167,14 @@ class BaseStats:
         return self
 
     @property
-    def is_loaded(self):
-        return self._data is not None
+    def is_loaded(self) -> bool:
+        return self._loaded
 
-    def set_data(self, data) -> None:
+    def set_data(self, data: StatDict) -> None:
+        self._loaded = True
         self._data = data
 
-    def get_data(self):
+    def get_data(self) -> StatDict:
         """
         Return a copy of data including percents.
 
@@ -190,7 +195,9 @@ class BaseStats:
             "allchecks_words_percent",
             "translated_checks_words_percent",
         ]
-        data = {percent: self.calculate_percent(percent) for percent in percents}
+        data: StatDict = {
+            percent: self.calculate_percent(percent) for percent in percents
+        }
         data.update(self._data)
         return data
 
@@ -227,10 +234,11 @@ class BaseStats:
 
     def ensure_loaded(self) -> None:
         """Load from cache if not already done."""
-        if self._data is None:
+        if not self._loaded:
             self._data = self.load()
+            self._loaded = True
 
-    def aggregate_get(self, name: str):
+    def aggregate_get(self, name: str) -> StatItem:
         """
         Fast getter for aggregation.
 
@@ -285,7 +293,7 @@ class BaseStats:
             self.calculate_basic()
             self.save()
 
-    def load(self):
+    def load(self) -> StatDict:
         return cache.get(self.cache_key, {})
 
     def delete(self):
@@ -302,8 +310,11 @@ class BaseStats:
         # Use list to force materializing the generator
         self._collected_update_objects = list(self.get_update_objects())
 
-    def _iterate_update_objects(self, *, extra_objects: list[BaseStats] | None = None):
+    def _iterate_update_objects(
+        self, *, extra_objects: Iterable[BaseStats] | None = None
+    ):
         """Get list of stats to update."""
+        stat_objects: Iterable[BaseStats]
         if self._collected_update_objects is not None:
             stat_objects = self._collected_update_objects
             self._collected_update_objects = None
@@ -313,13 +324,15 @@ class BaseStats:
             stat_objects = chain(stat_objects, extra_objects)
 
         # Prefetch stats data from cache
-        stat_objects = prefetch_stats(stat_objects)
+        fetched_stat_objects: list[BaseStats] = prefetch_stats(stat_objects)
 
         # Discard references to no longer needed objects
-        while stat_objects:
-            yield stat_objects.pop(0)
+        while fetched_stat_objects:
+            yield fetched_stat_objects.pop(0)
 
-    def update_parents(self, *, extra_objects: list[BaseStats] | None = None) -> None:
+    def update_parents(
+        self, *, extra_objects: Iterable[BaseStats] | None = None
+    ) -> None:
         """Update parent statistics."""
         for stat in self._iterate_update_objects(extra_objects=extra_objects):
             if self.stats_timestamp and self.stats_timestamp <= stat.stats_timestamp:
@@ -332,7 +345,7 @@ class BaseStats:
         """Clear local cache."""
         self._data = {}
 
-    def store(self, key, value) -> None:
+    def store(self, key: str, value: StatItem) -> None:
         if value is None and not key.startswith("last_"):
             self._data[key] = 0
         else:
@@ -421,17 +434,17 @@ class DummyTranslationStats(BaseStats):
         self.language = obj
 
     @property
-    def pk(self) -> str:
-        return f"l-{self.language.pk}"
+    def pk(self) -> int:
+        return 100000 + self.language.pk
 
     @cached_property
-    def cache_key(self) -> None:
-        return None
+    def cache_key(self) -> str:
+        return ""
 
     def save(self, update_parents: bool = True) -> None:
         return
 
-    def load(self):
+    def load(self) -> StatDict:
         return {}
 
     def _calculate_basic(self) -> None:
@@ -852,12 +865,12 @@ class AggregatingStats(BaseStats):
                 stats[item] = max(values, default=time.time())
             elif item == "last_changed":
                 # We need to access values twice here
-                values = list(values)
+                values_list = list(values)
                 stats[item] = max_last_changed = max(
-                    (value for value in values if value is not None), default=None
+                    (value for value in values_list if value is not None), default=None
                 )
                 if max_last_changed is not None:
-                    offset = values.index(max_last_changed)
+                    offset = values_list.index(max_last_changed)
                     stats["last_author"] = all_stats[offset].last_author
             elif item == "last_author":
                 # The last_author is calculated together with last_changed
@@ -913,7 +926,7 @@ class ComponentStats(AggregatingStats):
                 stats["source_strings"] = obj.all
                 break
 
-    def get_update_objects(self):
+    def get_update_objects(self) -> Iterable[BaseStats]:
         # Component lists
         for clist in self._object.componentlist_set.all():
             yield clist.stats
@@ -931,7 +944,7 @@ class ComponentStats(AggregatingStats):
 
     def update_language_stats_parents(self) -> None:
         # Fetch language stats to update
-        extras = (
+        extras: Iterable[Iterable[BaseStats]] = (
             translation.stats.get_update_objects(full=False)
             for translation in prefetch_stats(
                 self.get_child_objects().select_related("language")
@@ -1295,11 +1308,11 @@ class GhostStats(BaseStats):
     def save(self, update_parents: bool = True) -> None:
         pass
 
-    def load(self):
+    def load(self) -> StatDict:
         return {}
 
-    def get_absolute_url(self) -> None:
-        return None
+    def get_absolute_url(self) -> str:
+        return ""
 
 
 class GhostProjectLanguageStats(GhostStats):
