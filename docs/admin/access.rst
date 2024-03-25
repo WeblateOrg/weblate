@@ -214,7 +214,6 @@ Site-wide access-control
 
 .. include:: /snippets/not-hosted.rst
 
-
 The permission system is based on roles defining a set of permissions,
 and teams linking these to users and translations, read :ref:`auth-model`
 for more details.
