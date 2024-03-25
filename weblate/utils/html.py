@@ -95,7 +95,7 @@ def extract_html_tags(text) -> tuple[set[str], dict[str, set[str]]]:
 class HTMLSanitizer:
     def __init__(self) -> None:
         self.current = 0
-        self.replacements = {}
+        self.replacements: dict[str, str] = {}
 
     def clean(self, text: str, source: str, flags) -> str:
         self.current = 0

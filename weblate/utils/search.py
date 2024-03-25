@@ -74,7 +74,7 @@ OPERATOR_MAP = {
 }
 
 
-def build_parser(term_expression: object):
+def build_parser(term_expression: type[BaseTermExpr]):
     """Build parsing grammar."""
     # Booleans
     op_and = CaselessKeyword("AND")

@@ -40,7 +40,7 @@ class ClassLoader:
         self.name = name
         self.construct = construct
         self.collect_errors = collect_errors
-        self.errors = {}
+        self.errors: dict[str, Exception] = {}
 
     def get_settings(self):
         result = getattr(settings, self.name)

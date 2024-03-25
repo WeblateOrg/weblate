@@ -15,7 +15,7 @@ class tempdir_setting(override_settings):  # noqa: N801
     def __init__(self, setting) -> None:
         kwargs = {setting: None}
         super().__init__(**kwargs)
-        self._tempdir = None
+        self._tempdir: str | None = None
         self._setting = setting
 
     def enable(self) -> None:

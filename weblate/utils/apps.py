@@ -21,7 +21,7 @@ from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
-from django.db.models.lookups import Regex
+from django.db.models.lookups import Lookup, Regex
 from django.utils import timezone
 from packaging.version import Version
 
@@ -401,6 +401,7 @@ class UtilsConfig(AppConfig):
         super().ready()
         init_error_collection()
 
+        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]]
         if using_postgresql():
             lookups = [
                 (PostgreSQLSearchLookup,),
@@ -414,8 +415,8 @@ class UtilsConfig(AppConfig):
                 (Regex, "trgm_regex"),
             ]
 
-        lookups.append((MD5,))
-        lookups.append((Lower,))
+        lookups.append((cast(type[Lookup], MD5),))
+        lookups.append((cast(type[Lookup], Lower),))
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

@@ -152,10 +152,10 @@ def is_celery_queue_long():
 
     # Check if any queue got bigger
     base = queues_data[test_hour]
-    thresholds = defaultdict(lambda: 50)
+    thresholds: dict[str, int] = defaultdict(lambda: 50)
     # Set the limit to avoid trigger on auto-translating all components
     # nightly.
-    thresholds["translate"] = max(1000, Translation.objects.count() / 30)
+    thresholds["translate"] = max(1000, Translation.objects.count() // 30)
     return any(
         stat > thresholds[key] and base.get(key, 0) > thresholds[key]
         for key, stat in stats.items()

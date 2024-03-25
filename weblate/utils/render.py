@@ -123,7 +123,7 @@ def validate_render_component(value, translation: bool = False, **kwargs) -> Non
     from weblate.utils.stats import DummyTranslationStats
 
     project = Project(name="project", slug="project", id=-1)
-    project.stats = DummyTranslationStats(project)
+    project.stats = DummyTranslationStats(project)  # type: ignore[assignment]
     component = Component(
         project=project,
         name="component",
@@ -132,7 +132,7 @@ def validate_render_component(value, translation: bool = False, **kwargs) -> Non
         vcs="git",
         id=-1,
     )
-    component.stats = DummyTranslationStats(component)
+    component.stats = DummyTranslationStats(component)  # type: ignore[assignment]
     if translation:
         kwargs["translation"] = Translation(
             id=-1,

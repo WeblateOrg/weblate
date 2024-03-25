@@ -36,6 +36,6 @@ class WeblateManagementUtility(ManagementUtility):
                 txt.replace("python manage.py migrate", "weblate migrate")
             )
 
-        command.style.NOTICE = patched_notice
+        command.style.NOTICE = patched_notice  # type: ignore[method-assign]
 
         return command

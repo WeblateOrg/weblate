@@ -65,7 +65,7 @@ def rate_limit(key: str, attempts: int, window: int) -> bool:
         if cache.get(key) is None:
             cache.set(key, attempts, window)
     else:
-        cache.set(key, attempts, window, nx=True)
+        cache.set(key, attempts, window, nx=True)  # types: ignore[call-arg]
 
     try:
         # Count current event
