@@ -412,7 +412,6 @@ the following rules:
 
 ..
 
-
   Members of that team will have these permissions (assuming the default role settings):
 
     - General (browsing) access to the whole project ``foo`` including both
