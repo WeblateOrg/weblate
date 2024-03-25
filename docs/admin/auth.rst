@@ -532,7 +532,7 @@ can install it via usual means:
 .. code-block:: sh
 
     # Using PyPI
-    pip install django-auth-ldap>=1.3.0
+    pip install 'django-auth-ldap>=1.3.0'
 
     # Using apt-get
     apt-get install python-django-auth-ldap
