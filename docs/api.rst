@@ -878,6 +878,18 @@ Projects
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
+.. http:get:: /api/projects/(string:project)/file/
+
+    .. versionadded:: 5.5
+
+    Downloads all available translations associated with the project as an archive file using the requested format and language.
+
+    :param project: Project URL slug
+    :type project: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
+    :query string language_code: The language code to download; If not specified, all languages are included.
+
 .. http:get:: /api/projects/(string:project)/repository/
 
     Returns information about VCS repository status. This endpoint contains

@@ -829,8 +829,8 @@ class ProjectViewSet(
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=["get"], url_path="file(/(?P<language_code>[^/.]+))?")
-    def file(self, request, language_code=None, **kwargs):
+    @action(detail=True, methods=["get"])
+    def file(self, request, **kwargs):
         instance = self.get_object()
 
         if not request.user.has_perm("translation.download", instance):
@@ -838,10 +838,11 @@ class ProjectViewSet(
 
         components = instance.component_set.filter_access(request.user)
         requested_format = request.query_params.get("format", "zip")
+        requested_language = request.query_params.get("language_code", None)
 
-        if language_code:
+        if requested_language:
             translations = Translation.objects.filter(
-                language__code=language_code, component__in=components
+                language__code=requested_language, component__in=components
             )
         else:
             translations = Translation.objects.filter(component__in=components)

@@ -1864,7 +1864,7 @@ class ProjectAPITest(APIBaseTest):
             method="get",
             code=200,
             superuser=True,
-            request={"format": "zip", "language_code": "en"},
+            request={"format": "zip", "language_code": "cs"},
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
