@@ -23,7 +23,7 @@ ENABLE_HTTPS = False
 
 DEBUG = True
 
-ADMINS = (
+ADMINS: tuple[tuple[str, str], ...] = (
     # ("Your Name", "your_email@example.com"),
 )
 
@@ -216,7 +216,7 @@ GITLAB_CREDENTIALS = {}
 BITBUCKETSERVER_CREDENTIALS = {}
 
 # Authentication configuration
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS: tuple[str, ...] = (
     "social_core.backends.email.EmailAuth",
     # "social_core.backends.google.GoogleOAuth2",
     # "social_core.backends.github.GithubOAuth2",
@@ -436,7 +436,7 @@ if platform.system() != "Windows":
         # Since Python 3.7 connect failures are silently discarded, so
         # the exception is almost never raised here. Instead we look whether the socket
         # to syslog is open after init.
-        HAVE_SYSLOG = handler.socket.fileno() != -1
+        HAVE_SYSLOG = handler.socket.fileno() != -1  # type: ignore[attr-defined]
         handler.close()
     except OSError:
         HAVE_SYSLOG = False
@@ -449,7 +449,7 @@ DEFAULT_LOGLEVEL = "DEBUG" if DEBUG else "INFO"
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/stable/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
+LOGGING: dict = {
     "version": 1,
     "disable_existing_loggers": True,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
@@ -846,7 +846,7 @@ SILENCED_SYSTEM_CHECKS = [
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = False
 CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_RESULT_BACKEND: str | None = CELERY_BROKER_URL
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
