@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Data files helpers."""
+
 import os
 
 from django.conf import settings

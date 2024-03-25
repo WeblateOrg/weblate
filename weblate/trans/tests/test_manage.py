@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for management views."""
+
 import os.path
 
 from django.core import mail
@@ -16,7 +17,7 @@ from weblate.utils.files import remove_tree
 
 
 class RemovalTest(ViewTestCase):
-    def test_translation(self):
+    def test_translation(self) -> None:
         self.make_manager()
         url = reverse("remove", kwargs=self.kw_translation)
         response = self.client.post(url, {"confirm": ""}, follow=True)
@@ -26,7 +27,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {"confirm": "test/test/cs"}, follow=True)
         self.assertContains(response, "The translation has been removed.")
 
-    def test_component(self):
+    def test_component(self) -> None:
         self.make_manager()
         url = reverse("remove", kwargs=self.kw_component)
         response = self.client.post(url, {"confirm": ""}, follow=True)
@@ -38,7 +39,7 @@ class RemovalTest(ViewTestCase):
             response, "The translation component was scheduled for removal."
         )
 
-    def test_project(self):
+    def test_project(self) -> None:
         self.make_manager()
         url = reverse("remove", kwargs={"path": self.project.get_url_path()})
         response = self.client.post(url, {"confirm": ""}, follow=True)
@@ -48,7 +49,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {"confirm": "test"}, follow=True)
         self.assertContains(response, "The project was scheduled for removal.")
 
-    def test_project_language(self):
+    def test_project_language(self) -> None:
         self.make_manager()
         self.assertEqual(Translation.objects.count(), 4)
         url = reverse("remove", kwargs={"path": [self.project.slug, "-", "cs"]})
@@ -62,7 +63,7 @@ class RemovalTest(ViewTestCase):
 
 
 class RenameTest(ViewTestCase):
-    def test_denied(self):
+    def test_denied(self) -> None:
         self.assertNotContains(
             self.client.get(self.project.get_absolute_url()), "#organize"
         )
@@ -92,7 +93,7 @@ class RenameTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 403)
 
-    def test_move_component(self):
+    def test_move_component(self) -> None:
         self.make_manager()
         other = Project.objects.create(name="Other project", slug="other")
         # Other project should be visible as target for moving
@@ -113,7 +114,7 @@ class RenameTest(ViewTestCase):
         self.assertEqual(component.project.slug, "other")
         self.assertIsNotNone(component.repository.last_remote_revision)
 
-    def test_rename_invalid(self):
+    def test_rename_invalid(self) -> None:
         url = self.component.get_absolute_url()
         Component.objects.filter(pk=self.component.id).update(filemask="invalid/*.po")
         self.make_manager()
@@ -126,7 +127,7 @@ class RenameTest(ViewTestCase):
         self.assertRedirects(response, f"{url}#organize")
         self.assertContains(response, "due to outstanding issue in its settings")
 
-    def test_rename_component(self):
+    def test_rename_component(self) -> None:
         self.make_manager()
         original_url = self.component.get_absolute_url()
         self.assertContains(self.client.get(original_url), "#organize")
@@ -145,7 +146,7 @@ class RenameTest(ViewTestCase):
         response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
 
-    def test_rename_project(self):
+    def test_rename_project(self) -> None:
         # Remove stale dir from previous tests
         target = os.path.join(data_dir("vcs"), "xxxx")
         if os.path.exists(target):
@@ -170,7 +171,7 @@ class RenameTest(ViewTestCase):
         response = self.client.get(self.project.get_absolute_url())
         self.assertRedirects(response, project.get_absolute_url(), status_code=301)
 
-    def test_rename_project_conflict(self):
+    def test_rename_project_conflict(self) -> None:
         # Test rename conflict
         self.make_manager()
         Project.objects.create(name="Other project", slug="other")
@@ -181,7 +182,7 @@ class RenameTest(ViewTestCase):
         )
         self.assertContains(response, "Project with this URL slug already exists.")
 
-    def test_rename_component_conflict(self):
+    def test_rename_component_conflict(self) -> None:
         # Test rename conflict
         self.make_manager()
         self.create_link_existing()
@@ -200,7 +201,7 @@ class AnnouncementTest(ViewTestCase):
     data = {"message": "Announcement testing", "category": "warning"}
     outbox = 0
 
-    def perform_test(self, url):
+    def perform_test(self, url) -> None:
         response = self.client.post(url, self.data, follow=True)
         self.assertEqual(response.status_code, 403)
         self.make_manager()
@@ -213,25 +214,25 @@ class AnnouncementTest(ViewTestCase):
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)
 
-    def test_translation(self):
+    def test_translation(self) -> None:
         url = reverse("announcement", kwargs=self.kw_translation)
         self.perform_test(url)
 
-    def test_component(self):
+    def test_component(self) -> None:
         url = reverse("announcement", kwargs=self.kw_component)
         self.perform_test(url)
 
-    def test_project(self):
+    def test_project(self) -> None:
         url = reverse("announcement", kwargs={"path": self.project.get_url_path()})
         self.perform_test(url)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.test_project()
         message = Announcement.objects.all()[0]
         self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
         self.assertEqual(Announcement.objects.count(), 0)
 
-    def test_delete_deny(self):
+    def test_delete_deny(self) -> None:
         message = Announcement.objects.create(message="test")
         self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
         self.assertEqual(Announcement.objects.count(), 1)

@@ -11,19 +11,19 @@ from weblate.vcs.ssh import ensure_ssh_key
 
 
 class BasicViewTest(FixtureTestCase):
-    def test_about(self):
+    def test_about(self) -> None:
         response = self.client.get(reverse("about"))
         self.assertContains(response, "translate-toolkit")
 
-    def test_keys(self):
+    def test_keys(self) -> None:
         ensure_ssh_key()
         response = self.client.get(reverse("keys"))
         self.assertContains(response, "SSH")
 
-    def test_stats(self):
+    def test_stats(self) -> None:
         response = self.client.get(reverse("stats"))
         self.assertContains(response, "Weblate statistics")
 
-    def test_healthz(self):
+    def test_healthz(self) -> None:
         response = self.client.get(reverse("healthz"))
         self.assertContains(response, "ok")

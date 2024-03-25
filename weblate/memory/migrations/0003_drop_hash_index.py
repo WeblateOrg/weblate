@@ -7,7 +7,7 @@
 from django.db import migrations
 
 
-def drop_index(apps, schema_editor):
+def drop_index(apps, schema_editor) -> None:
     """Drop indexes created manually in Weblate 5.3 and older."""
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":

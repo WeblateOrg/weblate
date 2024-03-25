@@ -12,7 +12,7 @@ class GlossaryCheckTest(ViewTestCase):
     check = GlossaryCheck()
     CREATE_GLOSSARIES = True
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.unit = self.get_unit()
         self.unit.extra_flags = "check-glossary"
@@ -24,10 +24,10 @@ class GlossaryCheckTest(ViewTestCase):
             language=self.unit.translation.language
         )
 
-    def add_glossary(self, target, context=""):
+    def add_glossary(self, target, context="") -> None:
         self.glossary.add_unit(None, context, "hello", target)
 
-    def test_missing(self):
+    def test_missing(self) -> None:
         self.assertFalse(
             self.check.check_target(
                 self.unit.get_source_plurals(),
@@ -36,7 +36,7 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
-    def test_good(self):
+    def test_good(self) -> None:
         self.add_glossary("ahoj")
         self.assertFalse(
             self.check.check_target(
@@ -46,7 +46,7 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
-    def test_case_insensitive(self):
+    def test_case_insensitive(self) -> None:
         self.add_glossary("Ahoj")
         self.assertFalse(
             self.check.check_target(
@@ -56,7 +56,7 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
-    def test_forbidden(self):
+    def test_forbidden(self) -> None:
         self.add_glossary("ahoj")
         self.glossary.unit_set.all().update(extra_flags="forbidden")
         self.assertTrue(
@@ -67,7 +67,7 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
-    def test_bad(self):
+    def test_bad(self) -> None:
         self.add_glossary("nazdar")
         self.assertTrue(
             self.check.check_target(
@@ -77,7 +77,7 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
-    def test_multi(self):
+    def test_multi(self) -> None:
         self.add_glossary("nazdar")
         self.add_glossary("ahoj", "2")
         self.assertFalse(
@@ -88,7 +88,7 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
-    def test_description(self):
+    def test_description(self) -> None:
         self.test_bad()
         check = Check(unit=self.unit)
         self.assertEqual(

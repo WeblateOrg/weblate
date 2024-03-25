@@ -35,7 +35,11 @@ class MemoryImportError(Exception):
 
 
 def get_node_data(unit, node):
-    """Generic implementation of LISAUnit.gettarget."""
+    """
+    Return XML unit text.
+
+    Generic implementation of LISAUnit.gettarget.
+    """
     # The language should be present as xml:lang, but in some
     # cases it's there only as lang
     return (
@@ -253,7 +257,7 @@ class MemoryManager(models.Manager):
                 found += 1
         return found
 
-    def update_entry(self, **kwargs):
+    def update_entry(self, **kwargs) -> None:
         if not is_valid_memory_entry(**kwargs):  # pylint: disable=missing-kwoa
             return
         if not self.filter(**kwargs).exists():
@@ -316,7 +320,7 @@ class Memory(models.Model):
             ),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Memory: {self.source_language}:{self.target_language}"
 
     def get_origin_display(self):

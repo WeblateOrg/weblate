@@ -5,14 +5,14 @@
 {% load i18n %}
 {% load permissions %}
 
-{% perm 'billing.manage' object as user_can_manage_billing %}
-
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
 <li><a href="{% url 'billing' %}">{% trans "Billing" %}</a></li>
 {% endblock %}
 
 {% block content %}
+
+{% perm 'billing.manage' object as user_can_manage_billing %}
 
 <div class="row">
 

@@ -9,7 +9,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class AgreementTest(FixtureTestCase):
-    def test_basic(self):
+    def test_basic(self) -> None:
         self.assertFalse(
             ContributorAgreement.objects.has_agreed(self.user, self.component)
         )
@@ -18,7 +18,7 @@ class AgreementTest(FixtureTestCase):
             ContributorAgreement.objects.has_agreed(self.user, self.component)
         )
 
-    def test_perms(self):
+    def test_perms(self) -> None:
         self.assertTrue(self.user.has_perm("unit.edit", self.component))
         self.component.agreement = "CLA"
         self.user.clear_cache()

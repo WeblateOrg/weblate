@@ -116,7 +116,7 @@ class WidgetRedirectView(RedirectView):
                 path.append("-")
             path.append(lang)
         # Redirect no longer supported badge styles to svg
-        if widget in ("status", "shields"):
+        if widget in {"status", "shields"}:
             widget = "svg"
         return reverse(
             "widget-image",

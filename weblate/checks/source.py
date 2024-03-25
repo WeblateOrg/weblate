@@ -7,7 +7,8 @@ from collections import defaultdict
 from datetime import timedelta
 
 from django.utils import timezone
-from django.utils.html import format_html, format_html_join
+from django.utils.html import format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck
@@ -88,7 +89,11 @@ class MultipleFailingCheck(SourceCheck):
             for check_list in checks.values()
         )
 
-        return format_html_join(format_html("<br>"), "{}", output)
+        return format_html_join(
+            mark_safe("<br>"),  # noqa: S308
+            "{}",
+            output,
+        )
 
 
 class LongUntranslatedCheck(SourceCheck):

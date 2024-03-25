@@ -8,7 +8,7 @@ from weblate.trans.management.commands import WeblateLangCommand
 class Command(WeblateLangCommand):
     help = "updates checks for units"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         translations = {}
         for unit in self.iterate_units(*args, **options):
             unit.run_checks()

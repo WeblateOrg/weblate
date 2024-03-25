@@ -8,17 +8,20 @@ from __future__ import annotations
 
 import os
 from io import BytesIO, StringIO
-from typing import Callable
+from typing import TYPE_CHECKING
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy
 from openpyxl import Workbook, load_workbook
-from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE, TYPE_STRING
+from openpyxl.cell.cell import TYPE_STRING
 from openpyxl.workbook.child import INVALID_TITLE_REGEX
 from translate.storage.csvl10n import csv
 
-from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
 from weblate.formats.ttkit import CSVFormat
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class XlsxFormat(CSVFormat):
@@ -43,24 +46,25 @@ class XlsxFormat(CSVFormat):
             return fallback
         return title
 
-    def save_content(self, handle):
+    def save_content(self, handle) -> None:
         workbook = Workbook()
         worksheet = workbook.active
         worksheet.title = self.get_title()
+        fieldnames = self.store.fieldnames
 
         # write headers
-        for column, field in enumerate(self.store.fieldnames):
+        for column, field in enumerate(fieldnames):
             self.write_cell(worksheet, column + 1, 1, field)
 
         for row, unit in enumerate(self.store.units):
             data = unit.todict()
 
-            for column, field in enumerate(self.store.fieldnames):
+            for column, field in enumerate(fieldnames):
                 self.write_cell(
                     worksheet,
                     column + 1,
                     row + 2,
-                    ILLEGAL_CHARACTERS_RE.sub("", data[field]),
+                    data[field].translate(CONTROLCHARS_TRANS),
                 )
 
         workbook.save(handle)
@@ -86,8 +90,17 @@ class XlsxFormat(CSVFormat):
 
         writer = csv.writer(output, dialect="unix")
 
+        # value can be None or blank stringfor cells having formatting only,
+        # we need to ignore such columns as that would be treated like "" fields
+        # later in the translate-toolkit
+        fields = [cell.value for cell in next(worksheet.rows) if cell.value]
         for row in worksheet.rows:
-            writer.writerow([cell.value for cell in row])
+            values = [cell.value for cell in row]
+            values = values[: len(fields)]
+            # Skip formatting only cells
+            if not any(values):
+                continue
+            writer.writerow(values)
 
         if isinstance(storefile, str):
             name = os.path.basename(storefile) + ".csv"
@@ -101,12 +114,12 @@ class XlsxFormat(CSVFormat):
         return super().parse_store(NamedBytesIO(name, content))
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "xlsx"
 
@@ -117,7 +130,7 @@ class XlsxFormat(CSVFormat):
         language: str,
         base: str,
         callback: Callable | None = None,
-    ):
+    ) -> None:
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")

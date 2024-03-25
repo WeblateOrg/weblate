@@ -12,7 +12,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 class ChartsTest(FixtureTestCase):
     """Testing of charts."""
 
-    def test_activity_monthly(self):
+    def test_activity_monthly(self) -> None:
         """Test of monthly activity charts."""
         response = self.client.get(reverse("monthly_activity_json"))
         self.assertEqual(len(response.json()), 52)

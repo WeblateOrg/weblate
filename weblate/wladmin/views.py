@@ -103,7 +103,7 @@ def manage(request):
     )
 
 
-def send_test_mail(email):
+def send_test_mail(email) -> None:
     send_mail(
         subject="Test e-mail from Weblate on %s" % timezone.now(),
         message="It works.",
@@ -250,7 +250,7 @@ def backups(request):
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:  # noqa: R505
+        elif "remove" in request.POST:
             service = BackupService.objects.get(pk=request.POST["service"])
             service.delete()
             return redirect("manage-backups")
@@ -364,7 +364,7 @@ def ssh(request):
 
 @management_access
 def alerts(request):
-    """Shows component alerts."""
+    """Show component alerts."""
     context = {
         "alerts": Alert.objects.order_by(
             "name", "component__project__name", "component__name"

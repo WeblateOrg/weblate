@@ -9,36 +9,39 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
-from typing import Callable
+from typing import TYPE_CHECKING, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import BaseItem, TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class MultiparserError(Exception):
-    def __init__(self, filename, original):
+    def __init__(self, filename, original) -> None:
         super().__init__()
         self.filename = filename
         self.original = original
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.filename}: {self.original}"
 
 
-class TextItem:
+class TextItem(BaseItem):
     """Actual text unit object."""
 
-    def __init__(self, filename, line, text, flags=None):
+    def __init__(self, filename, line, text, flags=None) -> None:
         self.filename = filename
         self.line = line
         self.text = text
         self.flags = flags
 
     @cached_property
-    def location(self):
+    def location(self) -> str:
         return f"{self.filename}:{self.line}"
 
     def getid(self):
@@ -48,7 +51,7 @@ class TextItem:
 class TextParser:
     """Simple text parser returning all content as single unit."""
 
-    def __init__(self, storefile, filename=None, flags=None):
+    def __init__(self, storefile, filename=None, flags=None) -> None:
         with open(storefile) as handle:
             content = handle.read()
         if filename:
@@ -59,7 +62,7 @@ class TextParser:
 
 
 class TextSerializer:
-    def __init__(self, filename, units):
+    def __init__(self, filename, units) -> None:
         self.units = [unit for unit in units if unit.filename == filename]
 
     def __call__(self, handle):
@@ -71,7 +74,7 @@ class TextSerializer:
 class MultiParser:
     filenames: tuple[tuple[str, str], ...] = ()
 
-    def __init__(self, storefile):
+    def __init__(self, storefile) -> None:
         if not isinstance(storefile, str):
             raise TypeError("Needs string as a storefile!")
 
@@ -131,6 +134,10 @@ class AppStoreParser(MultiParser):
 
 
 class TextUnit(TranslationUnit):
+    template: TextItem | None
+    unit: TextItem
+    mainunit: TextItem
+
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
@@ -162,12 +169,12 @@ class TextUnit(TranslationUnit):
             return self.mainunit.flags
         return ""
 
-    def set_target(self, target: str | list[str]):
+    def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         self._invalidate_target()
         self.unit.text = target
 
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         return
 
@@ -191,7 +198,7 @@ class AppStoreFormat(TranslationFormat):
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-    ):
+    ) -> NoReturn:
         raise ValueError("Create not supported")
 
     @classmethod
@@ -201,15 +208,15 @@ class AppStoreFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,  # noqa: ARG003
         callback: Callable | None = None,  # noqa: ARG003
-    ):
+    ) -> None:
         """Handle creation of new translation file."""
         os.makedirs(filename)
 
-    def add_unit(self, ttkit_unit):
+    def add_unit(self, ttkit_unit) -> None:
         """Add new unit to underlying store."""
         self.store.units.append(ttkit_unit)
 
-    def save(self):
+    def save(self) -> None:
         """Save underlying store to disk."""
         for unit in self.store.units:
             filename = self.store.get_filename(unit.filename)

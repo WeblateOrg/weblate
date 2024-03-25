@@ -4,10 +4,11 @@
 
 from django.contrib import admin
 
-from weblate.fonts.models import FontOverride
+from weblate.fonts.models import Font, FontGroup, FontOverride
 from weblate.wladmin.models import WeblateModelAdmin
 
 
+@admin.register(Font)
 class FontAdmin(WeblateModelAdmin):
     list_display = ["family", "style", "project", "user"]
     search_fields = ["family", "style"]
@@ -20,6 +21,7 @@ class InlineFontOverrideAdmin(admin.TabularInline):
     extra = 0
 
 
+@admin.register(FontGroup)
 class FontGroupAdmin(WeblateModelAdmin):
     list_display = ["name", "font", "project"]
     search_fields = ["name", "font__family"]

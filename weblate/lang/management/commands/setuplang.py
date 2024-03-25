@@ -9,7 +9,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "Populates language definitions"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--no-update",
             action="store_false",
@@ -18,7 +18,7 @@ class Command(BaseCommand):
             help="Prevents updates to existing language definitions",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """Create default set of languages."""
         kwargs = {}
         if options["verbosity"] >= 1:

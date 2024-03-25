@@ -14,7 +14,7 @@ from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_delete
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
@@ -24,8 +24,8 @@ from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
+from weblate.trans.models.alert import update_alerts
 from weblate.trans.signals import vcs_post_update
-from weblate.trans.tasks import component_alerts
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
@@ -80,36 +80,44 @@ class Screenshot(models.Model, UserDisplayMixin):
         verbose_name = "Screenshot"
         verbose_name_plural = "Screenshots"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     def get_absolute_url(self):
         return reverse("screenshot", kwargs={"pk": self.pk})
 
-    def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         # Project backup integration
         self.import_data: dict[str, Any] = {}
         self.import_handle: BinaryIO | None = None
 
     @property
-    def filter_name(self):
+    def filter_name(self) -> str:
         return f"screenshot:{Flags.format_value(self.name)}"
 
 
 @receiver(m2m_changed, sender=Screenshot.units.through)
 @disable_for_loaddata
-def change_screenshot_assignment(sender, instance, action, **kwargs):
+def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
     # Update alerts in case there is change in string assignment
     if instance.translation.component.alert_set.filter(
         name="UnusedScreenshot"
     ).exists():
-        component_alerts.delay([instance.pk])
+        update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
 
 
-def validate_screenshot_image(component, filename):
-    """Returns True if image is validated."""
+@receiver(post_delete, sender=Screenshot)
+def update_alerts_on_screenshot_delete(sender, instance, **kwargs):
+    # Update the unused screenshot alert if screenshot is deleted
+    if instance.translation.component.alert_set.filter(
+        name="UnusedScreenshot"
+    ).exists():
+        update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
+
+
+def validate_screenshot_image(component, filename) -> bool:
+    """Validate a screenshot image."""
     try:
         full_name = os.path.join(component.full_path, filename)
         with open(full_name, "rb") as f:
@@ -123,7 +131,7 @@ def validate_screenshot_image(component, filename):
 
 
 @receiver(vcs_post_update)
-def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
+def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) -> None:
     repository = component.repository
     changed_files = repository.get_changed_files(compare_to=previous_head)
 

@@ -20,7 +20,7 @@ Project access-control
     access to your project.
 
 Limit user access to individual projects by selecting a different
-:guilabel:`Access control` setting. The available options are:
+:ref:`project-access_control` setting. The available options are:
 
 :guilabel:`Public`
    Visible to everybody.
@@ -154,8 +154,8 @@ This is useful in case you want to build self-governed teams.
 
 .. _invite-user:
 
-New user invitation
-+++++++++++++++++++
+Inviting new users
+++++++++++++++++++
 
 Adding existing users will send them invitation to confirm. With
 :setting:`REGISTRATION_OPEN` the administrator can also invite new users using

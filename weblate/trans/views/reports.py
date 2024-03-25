@@ -23,12 +23,20 @@ HTML_HEADING = "<table>\n<tr>{0}</tr>"
 
 
 def format_plaintext(format_string, *args, **kwargs):
-    """Same as `format_html` in syntax, but performs no escaping."""
+    """
+    Format a plain string.
+
+    Same as `format_html` in syntax, but performs no escaping.
+    """
     return format_string.format(*args, **kwargs)
 
 
 def format_plaintext_join(sep, format_string, args_generator):
-    """Same as `format_html_join` in syntax, but performs no escaping."""
+    """
+    Format a plain string with a list.
+
+    Same as `format_html_join` in syntax, but performs no escaping.
+    """
     return sep.join(format_plaintext(format_string, *args) for args in args_generator)
 
 
@@ -132,9 +140,8 @@ def get_credits(request, path=None):
     return HttpResponse(body, content_type=f"{mime}; charset=utf-8")
 
 
-COUNT_DEFAULTS = {
-    field: 0
-    for field in (
+COUNT_DEFAULTS = dict.fromkeys(
+    (
         "t_chars",
         "t_words",
         "chars",
@@ -159,8 +166,9 @@ COUNT_DEFAULTS = {
         "words_edit",
         "edits_edit",
         "count_edit",
-    )
-}
+    ),
+    0,
+)
 
 
 def generate_counts(user, start_date, end_date, language_code: str, **kwargs):

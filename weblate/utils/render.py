@@ -38,14 +38,14 @@ class RestrictedEngine(Engine):
         "weblate.utils.templatetags.safe_render",
     ]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs["autoescape"] = False
         kwargs["string_if_invalid"] = InvalidString("%s")
         super().__init__(*args, **kwargs)
 
 
 def render_template(template, **kwargs):
-    """Helper class to render string template with context."""
+    """Render string template with Weblate context."""
     from weblate.trans.models import Component, Project, Translation
 
     translation = kwargs.get("translation")
@@ -68,9 +68,9 @@ def render_template(template, **kwargs):
     if isinstance(component, Component):
         kwargs["component_name"] = component.name
         kwargs["component_slug"] = component.slug
-        kwargs[
-            "component_remote_branch"
-        ] = component.repository.get_remote_branch_name()
+        kwargs["component_remote_branch"] = (
+            component.repository.get_remote_branch_name()
+        )
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(component.get_absolute_url())
         kwargs["widget_url"] = get_site_url(
@@ -108,7 +108,7 @@ def render_template(template, **kwargs):
 
 
 def validate_render(value, **kwargs):
-    """Validates rendered template."""
+    """Validate rendered template."""
     try:
         return render_template(value, **kwargs)
     except Exception as err:
@@ -117,13 +117,13 @@ def validate_render(value, **kwargs):
         ) from err
 
 
-def validate_render_component(value, translation: bool = False, **kwargs):
+def validate_render_component(value, translation: bool = False, **kwargs) -> None:
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
     from weblate.utils.stats import DummyTranslationStats
 
     project = Project(name="project", slug="project", id=-1)
-    project.stats = DummyTranslationStats(project)
+    project.stats = DummyTranslationStats(project)  # type: ignore[assignment]
     component = Component(
         project=project,
         name="component",
@@ -132,7 +132,7 @@ def validate_render_component(value, translation: bool = False, **kwargs):
         vcs="git",
         id=-1,
     )
-    component.stats = DummyTranslationStats(component)
+    component.stats = DummyTranslationStats(component)  # type: ignore[assignment]
     if translation:
         kwargs["translation"] = Translation(
             id=-1,
@@ -146,15 +146,15 @@ def validate_render_component(value, translation: bool = False, **kwargs):
     validate_render(value, **kwargs)
 
 
-def validate_render_addon(value):
+def validate_render_addon(value) -> None:
     validate_render_component(value, hook_name="addon", addon_name="addon")
 
 
-def validate_render_commit(value):
+def validate_render_commit(value) -> None:
     validate_render_component(value, translation=True, author="author")
 
 
-def validate_repoweb(val):
+def validate_repoweb(val) -> None:
     """
     Validate whether URL for repository browser is valid.
 
@@ -170,7 +170,7 @@ def validate_repoweb(val):
     validate_render(val, filename="file.po", line=9, branch="main")
 
 
-def validate_editor(val):
+def validate_editor(val) -> None:
     """
     Validate URL for custom editor link.
 

@@ -29,8 +29,8 @@ class ModernMTTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").split("@")[0]
 
-    def get_authentication(self):
-        """Hook for backends to allow add authentication headers to request."""
+    def get_headers(self) -> dict[str, str]:
+        """Add authentication headers to request."""
         return {
             "MMT-ApiKey": self.settings["key"],
             "MMT-Platform": "Weblate",
@@ -40,6 +40,13 @@ class ModernMTTranslation(MachineTranslation):
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
+
+    def check_failure(self, response) -> None:
+        super().check_failure(response)
+        payload = response.json()
+
+        if "error" in payload:
+            raise MachineTranslationError(payload["error"]["message"])
 
     def download_languages(self):
         """List of supported languages."""
@@ -65,9 +72,6 @@ class ModernMTTranslation(MachineTranslation):
             params={"q": text, "source": source, "target": language},
         )
         payload = response.json()
-
-        if "error" in payload:
-            raise MachineTranslationError(payload["error"]["message"])
 
         yield {
             "text": payload["data"]["translation"],

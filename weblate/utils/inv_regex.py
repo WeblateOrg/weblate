@@ -27,14 +27,15 @@ from pyparsing import (
 
 
 class CharacterRangeEmitter:
-    def __init__(self, chars):
-        # remove duplicate chars in character range, but preserve original order
-        self.charset = "".join(dict(zip(chars, [None] * len(chars))).keys())
+    def __init__(self, chars) -> None:
+        # remove duplicate chars in character range, but preserve original order,
+        # this is based on dict being ordered
+        self.charset = "".join(dict.fromkeys(chars).keys())
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "[" + self.charset + "]"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "[" + self.charset + "]"
 
     def make_generator(self):
@@ -45,7 +46,7 @@ class CharacterRangeEmitter:
 
 
 class OptionalEmitter:
-    def __init__(self, expr):
+    def __init__(self, expr) -> None:
         self.expr = expr
 
     def make_generator(self):
@@ -64,7 +65,7 @@ class DotEmitter:
 
 
 class GroupEmitter:
-    def __init__(self, exprs):
+    def __init__(self, exprs) -> None:
         self.exprs = ParseResults(exprs)
 
     def make_generator(self):
@@ -84,7 +85,7 @@ class GroupEmitter:
 
 
 class AlternativeEmitter:
-    def __init__(self, exprs):
+    def __init__(self, exprs) -> None:
         self.exprs = exprs
 
     def make_generator(self):
@@ -96,13 +97,13 @@ class AlternativeEmitter:
 
 
 class LiteralEmitter:
-    def __init__(self, lit):
+    def __init__(self, lit) -> None:
         self.lit = lit
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "Lit:" + self.lit
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Lit:" + self.lit
 
     def make_generator(self):
@@ -156,7 +157,7 @@ def handle_macro(toks):
         return CharacterRangeEmitter("0123456789")
     if macro_char == "w":
         return CharacterRangeEmitter(srange("[A-Za-z0-9_]"))
-    if macro_char in ("s", "W"):
+    if macro_char in {"s", "W"}:
         return LiteralEmitter(" ")
     raise ParseFatalException("", 0, f"unsupported macro character ({macro_char})")
 
@@ -180,9 +181,18 @@ def handle_alternative(toks):
 def get_parser():
     orig_whitespace = ParserElement.DEFAULT_WHITE_CHARS
     ParserElement.set_default_whitespace_chars("")
-    lbrack, rbrack, lbrace, rbrace, lparen, rparen, colon, qmark, dollar, cflex = map(
-        Literal, "[]{}():?$^"
-    )
+    (
+        lbrack,
+        rbrack,
+        lbrace,
+        rbrace,
+        _lparen,
+        _rparen,
+        _colon,
+        _qmark,
+        dollar,
+        cflex,
+    ) = map(Literal, "[]{}():?$^")
 
     re_macro = Combine("\\" + one_of(list("dwsW")))
     escaped_char = ~re_macro + Combine("\\" + one_of(list(printables)))
@@ -227,7 +237,7 @@ RE_PARSER = get_parser()
 
 def invert_re(regex):
     """
-    Returns list of examples of minimal strings that match the expression.
+    Return a list of examples of minimal strings that match the expression.
 
     This is a single purpose generator to optimize database queries in Weblate.
     """

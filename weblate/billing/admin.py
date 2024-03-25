@@ -8,7 +8,10 @@ from django.utils.translation import gettext_lazy
 
 from weblate.wladmin.models import WeblateModelAdmin
 
+from .models import Billing, Invoice, Plan
 
+
+@admin.register(Plan)
 class PlanAdmin(WeblateModelAdmin):
     list_display = (
         "name",
@@ -24,10 +27,11 @@ class PlanAdmin(WeblateModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
-def format_user(obj):
+def format_user(obj) -> str:
     return f"{obj.username}: {obj.full_name} <{obj.email}>"
 
 
+@admin.register(Billing)
 class BillingAdmin(WeblateModelAdmin):
     list_display = (
         "list_projects",
@@ -50,7 +54,7 @@ class BillingAdmin(WeblateModelAdmin):
     )
     list_filter = ("plan", "state", "paid", "in_limits")
     search_fields = ("projects__name", "owners__email")
-    filter_horizontal = ("projects", "owners")
+    autocomplete_fields = ("projects", "owners")
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("projects", "owners")
@@ -70,7 +74,7 @@ class BillingAdmin(WeblateModelAdmin):
         form.base_fields["owners"].label_from_instance = format_user
         return form
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         super().save_related(request, form, formsets, change)
         obj = form.instance
         # Add owners as admin if there is none
@@ -80,6 +84,7 @@ class BillingAdmin(WeblateModelAdmin):
                 group.user_set.add(*obj.owners.all())
 
 
+@admin.register(Invoice)
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")
     list_filter = (

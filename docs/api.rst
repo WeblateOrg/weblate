@@ -31,6 +31,11 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
     :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
+    :query page_size: Return the given number of items per request.
+                      The default is 50 and the maximum is 1000.
+                      For the `units` endpoints the default is 100 with
+                      a maximum of 10000. The default value is also
+                      configurable using the `PAGE_SIZE` setting.
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
     :reqheader Authorization: optional token to authenticate as
@@ -2504,6 +2509,7 @@ Statistics
 
       :http:get:`/api/languages/(string:language)/statistics/`,
       :http:get:`/api/projects/(string:project)/statistics/`,
+      :http:get:`/api/categories/(int:id)/statistics/`,
       :http:get:`/api/components/(string:project)/(string:component)/statistics/`,
       :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
@@ -2596,6 +2602,19 @@ Categories
 
     :param id: Category ID
     :type id: int
+
+.. http:get:: /api/categories/(int:id)/statistics/
+
+    .. versionadded:: 5.5
+
+    Returns statistics for a category.
+
+    :param project: Category id
+    :type project: int
+
+    .. seealso::
+
+       Returned attributes are described in :ref:`api-statistics`.
 
 .. _hooks:
 

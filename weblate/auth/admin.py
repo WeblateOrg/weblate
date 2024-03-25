@@ -7,13 +7,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
-from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import ROLES
-from weblate.auth.models import AutoGroup, Group, User
+from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.wladmin.models import WeblateModelAdmin
 
 BUILT_IN_ROLES = {role[0] for role in ROLES}
@@ -33,9 +32,9 @@ class AutoGroupChangeForm(forms.ModelForm):
         model = AutoGroup
         fields = "__all__"  # noqa: DJ007
 
-    def has_changed(self):
+    def has_changed(self) -> bool:
         """
-        Should returns True if data differs from initial.
+        Check whether data differs from initial.
 
         By always returning true even unchanged inlines will get validated and saved.
         """
@@ -63,6 +62,7 @@ class InlineAutoGroupAdmin(admin.TabularInline):
         return super().has_delete_permission(request, obj)
 
 
+@admin.register(Role)
 class RoleAdmin(WeblateModelAdmin):
     list_display = ("name",)
     filter_horizontal = ("permissions",)
@@ -81,10 +81,10 @@ class RoleAdmin(WeblateModelAdmin):
 class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = "__all__"  # noqa: DJ007
+        fields = "__all__"
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["email"].required = True
         self.fields["username"].valid = self.instance.username
@@ -98,7 +98,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
         fields = ("username", "email", "full_name")
         field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["email"].required = True
 
@@ -126,6 +126,7 @@ class WeblateAuthAdmin(WeblateModelAdmin):
         return deleted_objects, model_count, perms_needed, protected
 
 
+@admin.register(User)
 class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     """
     Custom UserAdmin class.
@@ -166,9 +167,6 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         """Display comma separated list of user groups."""
         return ",".join(obj.groups.values_list("name", flat=True))
 
-    @admin.display(
-        description=format_html('<input type="checkbox" id="action-toggle" />')
-    )
     def action_checkbox(self, obj):
         if obj.is_anonymous:
             return ""
@@ -179,11 +177,11 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             return False
         return super().has_delete_permission(request, obj)
 
-    def delete_model(self, request, obj):
+    def delete_model(self, request, obj) -> None:
         """Given a model instance delete it from the database."""
         remove_user(obj, request)
 
-    def delete_queryset(self, request, queryset):
+    def delete_queryset(self, request, queryset) -> None:
         """Given a queryset, delete it from the database."""
         for obj in queryset.iterator():
             self.delete_model(request, obj)
@@ -194,13 +192,13 @@ class GroupChangeForm(forms.ModelForm):
         model = Group
         fields = "__all__"  # noqa: DJ007
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if "components" in self.fields:
             components = self.fields["components"]
             components.queryset = components.queryset.select_related("project")
 
-    def clean(self):
+    def clean(self) -> None:
         super().clean()
         has_componentlist = bool(self.cleaned_data["componentlists"])
         has_project = bool(self.cleaned_data["projects"])
@@ -226,6 +224,7 @@ class GroupChangeForm(forms.ModelForm):
             )
 
 
+@admin.register(Group)
 class WeblateGroupAdmin(WeblateAuthAdmin):
     save_as = True
     model = Group
@@ -245,9 +244,6 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
 
     new_obj = None
 
-    @admin.display(
-        description=format_html('<input type="checkbox" id="action-toggle" />')
-    )
     def action_checkbox(self, obj):
         if obj.internal:
             return ""
@@ -263,7 +259,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
             return False
         return super().has_change_permission(request, obj)
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj, form, change) -> None:
         """
         Fix saving of automatic language/project selection, part 1.
 
@@ -272,7 +268,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         super().save_model(request, obj, form, change)
         self.new_obj = obj
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         """
         Fix saving of automatic language/project selection, part 2.
 

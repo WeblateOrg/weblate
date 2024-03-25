@@ -3,16 +3,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Ihor Hordiichuk <igor_ck@outlook.com>, 2023, 2024.
-# Yuri Chornoivan <yurchor@ukr.net>, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2023, 2024.
 # Олександр Кревський <sasha135280@gmail.com>, 2023.
 # Tymofii Lytvynenko <till.svit@gmail.com>, 2023, 2024.
+# Alexander Ivanov <saiv46.dev@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-02 07:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-02-29 15:02+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2590,10 +2591,8 @@ msgid "Sign in to save the translation."
 msgstr "Увійдіть для збереження перекладів."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Недостатньо прав для збереження перекладів."
+msgstr "Недостатньо прав для затвердження перекладів."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -4641,7 +4640,7 @@ msgstr "Я погоджуюся з Умовами надання послуг"
 
 #: weblate/legal/middleware.py:42
 msgid ""
-"We have new version of the Terms of Service document, please read it and "
+"We have a new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
 "У нас нова версія Умов надання послуг. Будь ласка, прочитайте їх та "
@@ -5010,10 +5009,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Не вдалося проаналізувати файл JSON: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Не вдалося розібрати файл TMX!"
+msgstr "Не вдалося обробити файл TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5542,6 +5540,9 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Електронна пошта не є інтерактивною технологією. Будь ласка, зачекайте на "
+"підтвердження електронною поштою принаймні 30 хвилин, перш ніж писати нам "
+"про проблеми з отриманням підтвердження."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -8483,15 +8484,13 @@ msgid "View invitation"
 msgstr "Переглянути запрошення"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] "Строк дії посилання підтвердження завершується за %(count)s годину."
-msgstr[1] "Строк дії посилання підтвердження завершується за %(count)s години."
-msgstr[2] "Строк дії посилання підтвердження завершується за %(count)s годин."
-msgstr[3] "Строк дії посилання підтвердження завершується за %(count)s годину."
+msgstr[0] "Строк дії запрошення завершується за %(count)s годину."
+msgstr[1] "Строк дії запрошення завершується за %(count)s години."
+msgstr[2] "Строк дії запрошення завершується за %(count)s годин."
+msgstr[3] "Строк дії запрошення завершується за %(count)s годину."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -11227,8 +11226,8 @@ msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
-"Для цього складника встановлено додаток додавання мов, яких не вистачає. "
-"Вилучену мову може бути повторно додано цим додатком."
+"\"Додати відсутні мови\" встановлено для цього компонента, вилучену мову "
+"може бути повторно додано цим додатком."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
@@ -12728,29 +12727,22 @@ msgstr ""
 "рівні цієї мови."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Створити нетипову процедуру перекладу для цієї мови"
+msgstr "Налаштуйте процес перекладу для цієї мови в цьому проєкті"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Процедура перекладу налаштовується на рівні проєкту і складника. Якщо ви "
-"увімкнете тут можливість налаштовування, ці параметри буде перевизначено на "
-"рівні цієї мови."
+"Процедура перекладу налаштовується на рівні проєкту, складника і мови. Якщо "
+"ви увімкнете тут можливість налаштовування, ці параметри буде перевизначено "
+"на рівні цієї мови у цьому проєкті."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
-msgstr "Налаштування інтеграції із керуванням версіями"
+msgstr "Інтеграція з системою керування версіями"
 
 #: weblate/trans/guide.py:81
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -12961,10 +12953,8 @@ msgid "Notify users"
 msgstr "Сповістити користувачів"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Надсилання запрошення користувачу електронною поштою"
+msgstr "Надіслати сповіщення користувачам із підпискою."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13608,10 +13598,8 @@ msgstr ""
 "безпосередній переклад."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
-msgstr "Автоматичне прийняття пропозиції"
+msgstr "Автоматичне прийняття пропозицій"
 
 #: weblate/trans/models/component.py:523 weblate/trans/models/workflow.py:44
 msgid ""
@@ -14709,10 +14697,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Маска файлу не містить * як заповнювач для мови!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."

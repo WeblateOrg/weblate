@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from itertools import chain
+from typing import cast
 
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -22,7 +23,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from weblate.configuration.models import Setting
-from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.base import MachineTranslationError, SettingsDict
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Project, Translation, Unit
 from weblate.trans.templatetags.translations import format_language_string
@@ -34,22 +35,25 @@ from weblate.wladmin.views import MENU as MANAGE_MENU
 
 class MachineryMixin:
     @cached_property
-    def global_settings_dict(self):
-        return Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+    def global_settings_dict(self) -> dict[str, SettingsDict]:
+        return cast(
+            dict[str, SettingsDict],
+            Setting.objects.get_settings_dict(Setting.CATEGORY_MT),
+        )
 
 
 class MachineryProjectMixin(MachineryMixin):
-    def post_setup(self, request, kwargs):
+    def post_setup(self, request, kwargs) -> None:
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
     @cached_property
-    def settings_dict(self):
+    def settings_dict(self) -> dict[str, SettingsDict]:
         return self.project.machinery_settings
 
 
 class MachineryGlobalMixin(MachineryMixin):
     @cached_property
-    def settings_dict(self):
+    def settings_dict(self) -> dict[str, SettingsDict]:
         return self.global_settings_dict
 
 
@@ -57,7 +61,7 @@ class DeprecatedMachinery:
     is_available = False
     settings_form = None
 
-    def __init__(self, identifier: str):
+    def __init__(self, identifier: str) -> None:
         self.identifier = self.name = identifier
 
     def get_identifier(self) -> str:
@@ -68,11 +72,11 @@ class MachineryConfiguration:
     def __init__(
         self,
         machinery,
-        configuration: dict[str, str] | None,
+        configuration: SettingsDict | None,
         sitewide: bool = False,
         project=None,
         is_configured: bool = True,
-    ):
+    ) -> None:
         self.machinery = machinery
         self.configuration = configuration
         self.sitewide = sitewide
@@ -113,7 +117,7 @@ class MachineryConfiguration:
 class ListMachineryView(TemplateView):
     template_name = "machinery/list.html"
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = None
         self.post_setup(request, kwargs)
@@ -132,7 +136,11 @@ class ListMachineryView(TemplateView):
             key=lambda obj: obj.name,
         )
 
-    def post_setup(self, request, kwargs):
+    @cached_property
+    def settings_dict(self) -> dict[str, SettingsDict]:
+        raise NotImplementedError
+
+    def post_setup(self, request, kwargs) -> None:
         return
 
     def get_configured_services(self):
@@ -194,7 +202,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 class EditMachineryView(FormView):
     template_name = "machinery/edit.html"
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.machinery_id = kwargs["machinery"]
         try:
@@ -213,10 +221,10 @@ class EditMachineryView(FormView):
         return result
 
     @cached_property
-    def settings_dict(self):
+    def settings_dict(self) -> dict[str, SettingsDict]:
         raise NotImplementedError
 
-    def post_setup(self, request, kwargs):
+    def post_setup(self, request, kwargs) -> None:
         return
 
     def get_initial(self):
@@ -229,20 +237,20 @@ class EditMachineryView(FormView):
         result["machinery_doc_anchor"] = self.machinery.get_doc_anchor()
         return result
 
-    def install_service(self):
+    def install_service(self) -> None:
         self.save_settings({})
 
     def form_valid(self, form):
         self.save_settings(form.cleaned_data)
         return super().form_valid(form)
 
-    def save_settings(self, data):
+    def save_settings(self, data) -> None:
         raise NotImplementedError
 
-    def delete_service(self):
+    def delete_service(self) -> None:
         raise NotImplementedError
 
-    def enable_service(self):
+    def enable_service(self) -> None:
         return
 
     def get_success_url(self):
@@ -276,7 +284,7 @@ class EditMachineryView(FormView):
 
 
 class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
-    def save_settings(self, data):
+    def save_settings(self, data: SettingsDict) -> None:
         setting, created = Setting.objects.get_or_create(
             category=Setting.CATEGORY_MT,
             name=self.machinery_id,
@@ -286,7 +294,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
             setting.value = data
             setting.save()
 
-    def delete_service(self):
+    def delete_service(self) -> None:
         Setting.objects.filter(
             category=Setting.CATEGORY_MT,
             name=self.machinery_id,
@@ -303,21 +311,21 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
 
 class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
-    def save_settings(self, data):
+    def save_settings(self, data: SettingsDict | None) -> None:
         self.project.machinery_settings[self.machinery_id] = data
         self.project.save(update_fields=["machinery_settings"])
 
-    def delete_service(self):
+    def delete_service(self) -> None:
         if self.machinery_id in self.project.machinery_settings:
             self.enable_service()
         else:
             self.save_settings(None)
 
-    def enable_service(self):
+    def enable_service(self) -> None:
         del self.project.machinery_settings[self.machinery_id]
         self.project.save(update_fields=["machinery_settings"])
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
@@ -335,7 +343,7 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 def format_string_helper(
     source: str, translation: Translation, diff: None | str = None
 ):
-    return format_language_string(source, translation, diff)["items"][0]["content"]
+    return format_language_string(source, translation, diff=diff)["items"][0]["content"]
 
 
 def format_results_helper(
@@ -344,7 +352,7 @@ def format_results_helper(
     plural_form: int,
     translation: Translation,
     source_translation: Translation,
-):
+) -> None:
     item["plural_form"] = plural_form
     item["diff"] = format_string_helper(item["text"], translation, targets[plural_form])
     item["source_diff"] = format_string_helper(
@@ -414,16 +422,16 @@ def handle_machinery(request, service, unit, search=None):
 
 
 @require_POST
-def translate(request, unit_id, service):
+def translate(request, unit_id: int, service: str):
     """AJAX handler for translating."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit = get_object_or_404(Unit, pk=unit_id)
     return handle_machinery(request, service, unit)
 
 
 @require_POST
-def memory(request, unit_id):
+def memory(request, unit_id: int):
     """AJAX handler for translation memory."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit = get_object_or_404(Unit, pk=unit_id)
     query = request.POST.get("q")
     if not query:
         return HttpResponseBadRequest("Missing search string")

@@ -41,12 +41,13 @@ CONTEXT_SETTINGS = [
     "PRIVATE_COMMIT_EMAIL_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
+    "IP_ADDRESSES",
 ]
 
 CONTEXT_APPS = ["billing", "legal", "gitexport"]
 
 
-def add_error_logging_context(context):
+def add_error_logging_context(context) -> None:
     if (
         hasattr(settings, "ROLLBAR")
         and "client_token" in settings.ROLLBAR
@@ -59,12 +60,12 @@ def add_error_logging_context(context):
         context["rollbar_environment"] = None
 
 
-def add_settings_context(context):
+def add_settings_context(context) -> None:
     for name in CONTEXT_SETTINGS:
         context[name.lower()] = getattr(settings, name, None)
 
 
-def add_optional_context(context):
+def add_optional_context(context) -> None:
     for name in CONTEXT_APPS:
         appname = f"weblate.{name}"
         context[f"has_{name}"] = appname in settings.INSTALLED_APPS
@@ -79,11 +80,11 @@ def get_preconnect_list():
     return result
 
 
-def get_bread_image(path):
+def get_bread_image(path) -> str:
     if path == "/":
         return "dashboard.svg"
     first = path.split("/", 2)[1]
-    if first in ("user", "accounts"):
+    if first in {"user", "accounts"}:
         return "account.svg"
     if first == "checks":
         return "alert.svg"
@@ -91,14 +92,14 @@ def get_bread_image(path):
         return "language.svg"
     if first == "manage":
         return "wrench.svg"
-    if first in ("about", "stats", "keys", "legal"):
+    if first in {"about", "stats", "keys", "legal"}:
         return "weblate.svg"
-    if first in (
+    if first in {
         "glossaries",
         "upload-glossaries",
         "delete-glossaries",
         "edit-glossaries",
-    ):
+    }:
         return "glossary.svg"
     return "project.svg"
 

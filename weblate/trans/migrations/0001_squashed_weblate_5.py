@@ -36,7 +36,7 @@ FIELDS = (
 )
 
 
-def create_index(apps, schema_editor):
+def create_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         cur = schema_editor.connection.cursor()
@@ -67,7 +67,7 @@ def create_index(apps, schema_editor):
         raise ImproperlyConfigured(f"Unsupported database: {vendor}")
 
 
-def drop_index(apps, schema_editor):
+def drop_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         for table, field, _extra in FIELDS:

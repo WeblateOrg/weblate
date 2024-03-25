@@ -158,14 +158,8 @@ Python dependencies
 +++++++++++++++++++
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
-3.9 or newer. You can install dependencies using pip or from your
+3.10 or newer. You can install dependencies using pip or from your
 distribution packages, full list is available in :file:`requirements.txt`.
-
-.. warning::
-
-   While there is nothing in Weblate itself blocking usage of Python 3.12, there are few outstanding issues:
-
-   * Python 3.12 performs slower than previous versions in some situations, see https://github.com/python/cpython/issues/109049.
 
 Most notable dependencies:
 
@@ -361,7 +355,7 @@ Database setup for Weblate
 
 It is recommended to run Weblate with a PostgreSQL database server.
 
-PostgreSQL 12 and higher is supported.
+PostgreSQL 12 and higher is supported. PostgreSQL 15 or newer is recommended.
 
 :ref:`mysql` is supported, but not recommended for new installs.
 
@@ -693,7 +687,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env>`_
+   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
 .. _configuration:
 

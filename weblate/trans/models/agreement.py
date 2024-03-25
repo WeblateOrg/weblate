@@ -27,7 +27,7 @@ class ContributorAgreement(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE, db_index=False
     )
-    component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey("trans.Component", on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now=True)
 
     objects = ContributorAgreementManager()
@@ -37,5 +37,5 @@ class ContributorAgreement(models.Model):
         verbose_name = "contributor agreement"
         verbose_name_plural = "contributor agreements"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user.username}:{self.component}"

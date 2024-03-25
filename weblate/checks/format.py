@@ -9,7 +9,8 @@ from collections import Counter, defaultdict
 from re import Pattern
 
 from django.utils.functional import SimpleLazyObject
-from django.utils.html import format_html, format_html_join
+from django.utils.html import format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
@@ -239,7 +240,7 @@ def python_format_is_position_based(string):
     return "(" not in string and string != "%"
 
 
-def name_format_is_position_based(string):
+def name_format_is_position_based(string) -> bool:  # noqa: FURB118
     return not string
 
 
@@ -262,7 +263,7 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Pattern[str] | None = None
+    regexp: Pattern[str]
     plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
     normalize_remove = None
@@ -335,11 +336,11 @@ class BaseFormatCheck(TargetCheck):
             return matches
         return [m for m in matches if m != self.normalize_remove]
 
-    def extract_matches(self, string):
+    def extract_matches(self, string: str) -> list[str]:
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
     def check_format(self, source, target, ignore_missing, unit):
-        """Generic checker for format strings."""
+        """Check for format strings."""
         if not target or not source:
             return False
 
@@ -379,10 +380,10 @@ class BaseFormatCheck(TargetCheck):
             return {"missing": missing, "extra": extra}
         return False
 
-    def is_position_based(self, string):
+    def is_position_based(self, string) -> bool:
         return False
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -429,7 +430,9 @@ class BaseFormatCheck(TargetCheck):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
-                format_html("<br />"), "{}", ((error,) for error in errors)
+                mark_safe("<br />"),  # noqa: S308
+                "{}",
+                ((error,) for error in errors),
             )
         return super().get_description(check_obj)
 
@@ -461,14 +464,14 @@ class BasePrintfCheck(BaseFormatCheck):
 
     normalize_remove = "%"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.regexp, self._is_position_based = FLAG_RULES[self.enable_string]
 
     def is_position_based(self, string):
         return self._is_position_based(string)
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return f"%{string}"
 
     def cleanup_string(self, text):
@@ -557,7 +560,7 @@ class SchemeFormatCheck(BasePrintfCheck):
     description = gettext_lazy("Scheme format string does not match source")
     normalize_remove = "~"
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return f"~{string}"
 
 
@@ -573,7 +576,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     def is_position_based(self, string):
         return name_format_is_position_based(string)
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return "{%s}" % string
 
 
@@ -588,7 +591,7 @@ class CSharpFormatCheck(BaseFormatCheck):
     def is_position_based(self, string):
         return name_format_is_position_based(string)
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return "{%s}" % string
 
 
@@ -608,7 +611,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     description = gettext_lazy("Java MessageFormat string does not match source")
     regexp = JAVA_MESSAGE_MATCH
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return "{%s}" % string
 
     def should_skip(self, unit):
@@ -622,7 +625,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         return super().should_skip(unit)
 
     def check_format(self, source, target, ignore_missing, unit):
-        """Generic checker for format strings."""
+        """Check for format strings."""
         if not target or not source:
             return False
 
@@ -670,7 +673,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return f"${{{string}}}"
 
 
@@ -699,7 +702,7 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         "making it impossible for translators to reorder them"
     )
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, source, unit) -> bool:
         """Check source string."""
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:

@@ -4,14 +4,13 @@
 
 """Test for categories."""
 
-
 from weblate.lang.models import Language
 from weblate.trans.models import Translation, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
 
 
 class WorkflowSettinTestCase(ViewTestCase):
-    def assert_workflow(self, **kwargs):
+    def assert_workflow(self, **kwargs) -> None:
         self.assertFalse(self.translation.enable_review)
         self.assertTrue(self.translation.enable_suggestions)
 
@@ -34,13 +33,13 @@ class WorkflowSettinTestCase(ViewTestCase):
         self.assertFalse(translation.enable_review)
         self.assertFalse(translation.enable_suggestions)
 
-    def test_project(self):
+    def test_project(self) -> None:
         self.assert_workflow(project=self.project, language=self.translation.language)
 
-    def test_language(self):
+    def test_language(self) -> None:
         self.assert_workflow(language=self.translation.language)
 
-    def test_both(self):
+    def test_both(self) -> None:
         WorkflowSetting.objects.create(
             translation_review=False,
             enable_suggestions=True,
@@ -48,7 +47,7 @@ class WorkflowSettinTestCase(ViewTestCase):
         )
         self.assert_workflow(project=self.project, language=self.translation.language)
 
-    def test_other(self):
+    def test_other(self) -> None:
         WorkflowSetting.objects.create(
             translation_review=False,
             enable_suggestions=True,

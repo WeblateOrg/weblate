@@ -35,14 +35,14 @@ class Guideline:
     anchor = ""
     hint = False
 
-    def __init__(self, component):
+    def __init__(self, component) -> None:
         self.component = component
         self.passed = self.is_passing()
 
-    def is_passing(self):
+    def is_passing(self) -> bool:
         raise NotImplementedError
 
-    def is_relevant(self):
+    def is_relevant(self) -> bool:
         return True
 
     def get_url(self):
@@ -51,18 +51,18 @@ class Guideline:
             url = f"{url}#{self.anchor}"
         return url
 
-    def get_doc_url(self, user=None):
+    def get_doc_url(self, user=None) -> str:
         return ""
 
 
 class Group(Guideline):
     group = True
 
-    def is_passing(self):
+    def is_passing(self) -> bool:
         # Not used
         return False
 
-    def get_url(self):
+    def get_url(self) -> str:
         # Not used
         return ""
 
@@ -86,7 +86,7 @@ class HookGuideline(Guideline):
     def is_passing(self):
         return self.component.change_set.filter(action=Change.ACTION_HOOK).exists()
 
-    def is_relevant(self):
+    def is_relevant(self) -> bool:
         return not self.component.is_repo_link
 
     def get_url(self):
@@ -151,7 +151,7 @@ class LicenseGuideline(Guideline):
     def is_passing(self):
         return self.component.libre_license
 
-    def get_doc_url(self, user=None):
+    def get_doc_url(self, user=None) -> str:
         return "https://choosealicense.com/"
 
 
@@ -161,7 +161,7 @@ class AlertGuideline(Guideline):
     url = "show"
     anchor = "alerts"
 
-    def is_passing(self):
+    def is_passing(self) -> bool:
         return not self.component.all_active_alerts
 
     def get_doc_url(self, user=None):

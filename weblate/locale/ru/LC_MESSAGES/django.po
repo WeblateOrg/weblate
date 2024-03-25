@@ -6,20 +6,21 @@
 # xXx <xxx_xxx_xxxxxxxxx@mail.ru>, 2023.
 # Deleted User <noreply+67923@weblate.org>, 2023.
 # yangyangdaji <1504305527@qq.com>, 2023.
-# Andrei Stepanov <adem4ik@gmail.com>, 2023.
+# Andrei Stepanov <adem4ik@gmail.com>, 2023, 2024.
 # Noise Maker <vh0d@disroot.org>, 2023.
 # dsa-t <dudesuchamazing@gmail.com>, 2023, 2024.
 # gfbdrgng <bngvh1b.g-gh1@mail.ru>, 2023.
 # gfbdrgng <hnaofegnp@hldrive.com>, 2023.
 # Ronner <fordemailadress@gmail.com>, 2024.
 # Александр Рарт <rartaleksandr@gmail.com>, 2024.
+# Alexander Ivanov <saiv46.dev@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-18 21:15+0000\n"
-"Last-Translator: dsa-t <dudesuchamazing@gmail.com>\n"
+"PO-Revision-Date: 2024-03-17 17:01+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2595,10 +2596,8 @@ msgid "Sign in to save the translation."
 msgstr "Войдите в систему, чтобы сохранить перевод."
 
 #: weblate/auth/permissions.py:170
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for approving translations."
-msgstr "Недостаточно привилегий для сохранения переводов."
+msgstr "Недостаточно прав для одобрения переводов."
 
 #: weblate/auth/permissions.py:172 weblate/trans/views/edit.py:418
 #: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:460
@@ -3561,16 +3560,12 @@ msgid "C format string does not match source"
 msgstr "Строка в формате C не соответствует источнику"
 
 #: weblate/checks/format.py:510
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "Perl-формат"
+msgstr "Формат скобок Perl"
 
 #: weblate/checks/format.py:511
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "Строка в формате Perl’а не соответствует источнику"
+msgstr "Формат скобок Perl не соответствует источнику"
 
 #: weblate/checks/format.py:523
 msgid "Perl format"
@@ -4246,10 +4241,8 @@ msgid "gotext JSON file"
 msgstr "Файл JSON gotext"
 
 #: weblate/formats/ttkit.py:1527
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "Файл JSON gotext"
+msgstr "JSON-файл Format.JS"
 
 #: weblate/formats/ttkit.py:1535
 msgid "CSV file"
@@ -4575,12 +4568,9 @@ msgid "One/few/many"
 msgstr "Один/2-4/много"
 
 #: weblate/lang/models.py:762
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Один/два/2-4/5+"
+msgstr "Один/ноль/несколько/другие"
 
 #: weblate/lang/models.py:766
 msgctxt "Plural type"
@@ -4612,10 +4602,8 @@ msgid "Android plural"
 msgstr "Мн. число в Android"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "Мн. число stringsdict"
+msgstr "Мн. число Qt Linguist"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -4666,7 +4654,7 @@ msgstr "Я соглашаюсь с документом Условия обсл�
 
 #: weblate/legal/middleware.py:42
 msgid ""
-"We have new version of the Terms of Service document, please read it and "
+"We have a new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
 "Мы обновили документ Условия обслуживания, прочитайте их и подтвердите, что "
@@ -5035,10 +5023,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Не удалось разобрать JSON-файл: %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Не удалось разобрать файл TMX!"
+msgstr "Не удалось разобрать файл TMX: %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -5570,6 +5557,9 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Электронная почта — это не мгновенная технология. Пожалуйста, дождитесь "
+"подтверждения по эл. почте хотя бы 30 минут, прежде чем вы напишите нам о "
+"проблемах."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -6160,7 +6150,7 @@ msgstr[2] "%(count)s комментариев"
 
 #: weblate/templates/accounts/user.html:149
 msgid "Contributed to"
-msgstr "Внеси свой вклад в"
+msgstr "Внесённый вклад"
 
 #: weblate/templates/accounts/user.html:152
 msgid "Activity"
@@ -8489,17 +8479,12 @@ msgid "View invitation"
 msgstr "Посмотреть приглашение"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] ""
-"Ссылка для подтверждения будет действительна в течение %(count)s часа."
-msgstr[1] ""
-"Ссылка для подтверждения будет действительна в течение %(count)s часов."
-msgstr[2] ""
-"Ссылка для подтверждения будет действительна в течение %(count)s часов."
+msgstr[0] "Приглашение действительно в течение %(count)s часа."
+msgstr[1] "Приглашение действительно в течение %(count)s часов."
+msgstr[2] "Приглашение действительно в течение %(count)s часов."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -10039,10 +10024,8 @@ msgid "No strings to translate"
 msgstr "Нет строк для перевода"
 
 #: weblate/templates/snippets/list-objects.html:35
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add project"
-msgstr "Добавление новых проектов"
+msgstr "Добавить проект"
 
 #: weblate/templates/snippets/list-objects.html:39
 #: weblate/templates/snippets/list-objects.html:50
@@ -10366,6 +10349,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
 msgstr ""
+"<a href=\"%(url)s\">Организуйте проект</a>, чтобы поменять его URL или "
+"убрать его."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -10373,6 +10358,8 @@ msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
+"<a href=\"%(url)s\">Организуйте компонент</a>, чтобы поменять его URL, "
+"переместить или убрать его."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -10657,6 +10644,9 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"Gerrit запретил эту отправку. Вам может потребоваться учётная запись gerrit "
+"с разрешениями автора форджа для репозитория/ветки или дополнение squash для "
+"этого компонента в Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
@@ -11218,22 +11208,20 @@ msgstr[1] "%(count)s компонентов при этом будут удал�
 msgstr[2] "%(count)s компонентов при этом будут удалены."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
-"Для этого компонента установлена надстройка \"Добавление отсутствующих "
-"языков\". Удалённый язык может быть снова добавлен этой надстройкой."
+"«Добавление отсутствующих языков» установлен для этого компонента, удалённый "
+"язык может быть снова добавлен этой надстройкой."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Компонент словаря автоматически поддерживает перевод для каждого "
+"используемого языка в проекте, удалённый язык может быть добавлен снова."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -11264,6 +11252,7 @@ msgstr "Обычная последовательность действий д�
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
+"Открыть существующее извлечение вышестоящего репозитория или выполнить новую."
 
 #: weblate/templates/trans/merge_instructions.html:13
 msgid ""
@@ -11636,7 +11625,7 @@ msgstr "Прокомментируйте эту строку для коллег
 
 #: weblate/templates/translate.html:453
 msgid "Things to check"
-msgstr "Элементы для проверки"
+msgstr "Объекты для проверки"
 
 #: weblate/templates/translate.html:463
 #, python-format
@@ -12044,16 +12033,13 @@ msgstr ""
 "программного обеспечения."
 
 #: weblate/trans/discovery.py:299
-#, fuzzy
-#| msgid "Browse changes"
 msgid "File mask matches the main component."
-msgstr "Показать изменения"
+msgstr "Маска файла соответствует основному компоненту."
 
 #: weblate/trans/discovery.py:307
-#, fuzzy, python-brace-format
-#| msgid "File does not exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Файл не существует."
+msgstr "{filename} ({parameter}) не существует."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
@@ -12385,8 +12371,8 @@ msgstr "Комментарии к переводу, обсуждение с др
 #: weblate/trans/models/project.py:151
 msgid "You can use Markdown and mention users by @username."
 msgstr ""
-"Вы можете использовать разметку Markdown и упоминать других пользователей с "
-"помощью @username."
+"Вы можете использовать разметку Markdown и упоминать других участников с "
+"помощью @имя_пользователя."
 
 #: weblate/trans/forms.py:1082
 msgid "All components"
@@ -12721,24 +12707,18 @@ msgstr ""
 "Включив здесь настройку, вы переопределяете эти параметры для данного языка."
 
 #: weblate/trans/forms.py:2828
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Customize translation workflow for this language in this project"
-msgstr "Настройка процесса перевода для данного языка"
+msgstr "Настройка процесса перевода для данного языка в этом проекте"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Рабочий процесс перевода настраивается на уровне проекта и компонентов. "
-"Включив здесь настройку, вы переопределяете эти параметры для данного языка."
+"Процесс перевода настраивается на уровне проекта, компонентов, и языков. "
+"Включив здесь настройку, вы переопределяете эти параметры для этого языка в "
+"данном проекте."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12786,14 +12766,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Использовать флаги для обозначения специальных строк в вашем переводе."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Добавьте безопасный флаг html, чтобы избежать вредоносного HTML-кода от "
-"переводчиков."
+"Добавьте флаг safe-html, чтобы избежать вредоносного HTML-кода от "
+"переводчиков для строк, которые отображаются как HTML."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -12959,10 +12937,8 @@ msgid "Notify users"
 msgstr "Уведомить пользователя"
 
 #: weblate/trans/models/announcement.py:120
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
-msgstr "Отправить пользователю приглашение по эл. почте"
+msgstr "Отправить уведомление подписчикам."
 
 #: weblate/trans/models/announcement.py:135
 msgid "Do not specify both component and project!"
@@ -13027,7 +13003,7 @@ msgstr "Добавлен комментарий"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:329 weblate/trans/models/project.py:654
 msgid "Automatically translated"
-msgstr "Автоматически переведено"
+msgstr "Переведено автоматически"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:331
@@ -13321,10 +13297,8 @@ msgstr "Не удалось сохранить строку"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Строка обновлена в репозитории"
+msgstr "Строка добавлена в репозиторий"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."
@@ -13612,10 +13586,8 @@ msgstr ""
 "напрямую."
 
 #: weblate/trans/models/component.py:520 weblate/trans/models/workflow.py:41
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatically accept suggestions"
-msgstr "Автоматическое принятие предложений"
+msgstr "Автоматически принимать предложения"
 
 #: weblate/trans/models/component.py:523 weblate/trans/models/workflow.py:44
 msgid ""
@@ -14320,7 +14292,7 @@ msgstr "Вставьте мягкий дефис"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Вставить неразрывный пробел"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14393,34 +14365,28 @@ msgstr "Возможная настройка"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Нежелательный перевод"
-msgstr[1] "Нежелательный перевод"
-msgstr[2] "Нежелательный перевод"
+msgstr[0] "Запрещённый перевод:"
+msgstr[1] "Запрещённые переводы:"
+msgstr[2] "Запрещённые переводы:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Непереводимый термин"
-msgstr[1] "Непереводимый термин"
-msgstr[2] "Непереводимый термин"
+msgstr[0] "Непереводимый термин:"
+msgstr[1] "Непереводимые термины:"
+msgstr[2] "Непереводимые термины:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Термин словаря"
-msgstr[1] "Термин словаря"
-msgstr[2] "Термин словаря"
+msgstr[0] "Термин словаря:"
+msgstr[1] "Термины словаря:"
+msgstr[2] "Термины словаря:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14707,15 +14673,11 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Маска файла не содержит * в качестве заглушки для языка!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Значение 1 не разрешено для автоматического принятия, так как это позволит "
+"Значение 1 не допустимо для автоматического принятия, так как это позволит "
 "пользователям голосовать за свои собственные предложения."
 
 #: weblate/trans/validators.py:42

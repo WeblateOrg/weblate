@@ -22,7 +22,7 @@ DEFAULT_NOTIFICATIONS = [
 ]
 
 
-def create_default_notifications(user):
+def create_default_notifications(user) -> None:
     for scope, frequency, notification in DEFAULT_NOTIFICATIONS:
         user.subscription_set.get_or_create(
             scope=scope, notification=notification, defaults={"frequency": frequency}

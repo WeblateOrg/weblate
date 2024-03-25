@@ -9,15 +9,15 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class MetricTestCase(FixtureTestCase):
-    def test_collect(self):
+    def test_collect(self) -> None:
         collect_metrics()
         self.assertNotEqual(Metric.objects.count(), 0)
 
-    def test_collect_global(self):
+    def test_collect_global(self) -> None:
         Metric.objects.collect_global()
         self.assertNotEqual(Metric.objects.count(), 0)
 
-    def test_cleanup(self):
+    def test_cleanup(self) -> None:
         collect_metrics()
         count = Metric.objects.count()
         cleanup_metrics()

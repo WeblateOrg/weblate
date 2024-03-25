@@ -13,10 +13,10 @@ from weblate.checks.parser import single_value_flag
 
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
 FRENCH_PUNCTUATION_SPACING = {"Zs", "Ps", "Pe"}
-FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00A0\u2009])([{}])".format(
+FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00a0\u2009])([{}])".format(
     "".join(FRENCH_PUNCTUATION)
 )
-FRENCH_PUNCTUATION_MISSING_RE = "([^\u202F])([{}])".format("".join(FRENCH_PUNCTUATION))
+FRENCH_PUNCTUATION_MISSING_RE = "([^\u202f])([{}])".format("".join(FRENCH_PUNCTUATION))
 MY_QUESTION_MARK = "\u1038\u104b"
 
 
@@ -165,7 +165,7 @@ class EndStopCheck(TargetCheck):
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
             return False
-        if unit.translation.language.is_base(("ja",)) and source[-1] in (":", ";"):
+        if unit.translation.language.is_base(("ja",)) and source[-1] in {":", ";"}:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
@@ -180,7 +180,7 @@ class EndStopCheck(TargetCheck):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual. \u0964 is correct, but \u09F7
             # is also sometimes used instead in some popular editors.
-            return self.check_chars(source, target, -1, (".", "\u0964", "\u09F7", "|"))
+            return self.check_chars(source, target, -1, (".", "\u0964", "\u09f7", "|"))
         if unit.translation.language.is_base(("sat",)):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))
@@ -206,7 +206,7 @@ class EndColonCheck(TargetCheck):
     def _check_ja(self, source, target):
         # Japanese sentence might need to end with full stop
         # in case it's used before list.
-        if source[-1] in (":", ";"):
+        if source[-1] in {":", ";"}:
             return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
         return False
 
@@ -404,7 +404,7 @@ class KashidaCheck(TargetCheck):
         # Allow kashida after certain letters
         "(?<![\u0628\u0643\u0644])"
         # List of kashida letters to check
-        "[\u0640\uFCF2\uFCF3\uFCF4\uFE71\uFE77\uFE79\uFE7B\uFE7D\uFE7F]"
+        "[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]"
     )
     kashida_re = re.compile(kashida_regex)
 
@@ -422,7 +422,7 @@ class PunctuationSpacingCheck(TargetCheck):
         "Missing non breakable space before double punctuation sign"
     )
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         if (
             not unit.translation.language.is_base(("fr", "br"))
             or unit.translation.language.code == "fr_CA"
@@ -432,7 +432,7 @@ class PunctuationSpacingCheck(TargetCheck):
         # Remove XML/HTML entities to simplify parsing
         target = strip_entities(target)
 
-        whitespace = {" ", "\u00A0", "\u202F", "\u2009"}
+        whitespace = {" ", "\u00a0", "\u202f", "\u2009"}
 
         total = len(target)
         for i, char in enumerate(target):
@@ -457,13 +457,13 @@ class PunctuationSpacingCheck(TargetCheck):
             # First fix possibly wrong whitespace
             (
                 FRENCH_PUNCTUATION_FIXUP_RE,
-                "\u202F$2",
+                "\u202f$2",
                 "gu",
             ),
             # Then add missing ones
             (
                 FRENCH_PUNCTUATION_MISSING_RE,
-                "$1\u202F$2",
+                "$1\u202f$2",
                 "gu",
             ),
         ]

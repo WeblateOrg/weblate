@@ -16,7 +16,6 @@ import cairo
 import gi
 from django.conf import settings
 from django.core.cache import cache as django_cache
-from django.utils.html import format_html
 from PIL import ImageFont
 
 from weblate.utils.data import data_dir
@@ -97,8 +96,8 @@ FONT_WEIGHTS = {
 
 
 @cache
-def configure_fontconfig():
-    """Configures fontconfig to use custom configuration."""
+def configure_fontconfig() -> None:
+    """Configure fontconfig to use custom configuration."""
     fonts_dir = data_dir("fonts")
     config_name = os.path.join(fonts_dir, "fonts.conf")
 
@@ -129,19 +128,26 @@ def render_size(
     text: str,
     *,
     font: str = "Kurinto Sans",
-    weight: int = Pango.Weight.NORMAL,
+    weight: int | None = Pango.Weight.NORMAL,
     size: int = 11,
     spacing: int = 0,
     width: int = 1000,
     lines: int = 1,
     cache_key: str | None = None,
+    surface_height: int | None = None,
+    surface_width: int | None = None,
 ) -> tuple[Dimensions, int]:
     """Check whether rendered text fits."""
     configure_fontconfig()
 
     # Setup Pango/Cairo
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width * 2, lines * size * 4)
+    if surface_height is None:
+        surface_height = int(lines * size * 1.5)
+    if surface_width is None:
+        surface_width = width
+    surface = cairo.ImageSurface(cairo.FORMAT_RGB24, surface_width, surface_height)
     context = cairo.Context(surface)
+
     layout = PangoCairo.create_layout(context)
 
     # Load and configure font
@@ -151,15 +157,15 @@ def render_size(
         fontdesc.set_weight(weight)
     layout.set_font_description(fontdesc)
 
-    # This seems to be only way to set letter spacing
-    # See https://stackoverflow.com/q/55533312/225718
-    layout.set_markup(
-        format_html(
-            '<span letter_spacing="{}">{}</span>',
-            spacing,
-            text,
-        )
-    )
+    # Configure spacing
+    if spacing:
+        letter_spacing_attr = Pango.attr_letter_spacing_new(Pango.SCALE * spacing)
+        attr_list = Pango.AttrList()
+        attr_list.insert(letter_spacing_attr)
+        layout.set_attributes(attr_list)
+
+    # Set the actual text
+    layout.set_text(text)
 
     # Set width and line wrapping
     layout.set_width(width * Pango.SCALE)
@@ -169,36 +175,56 @@ def render_size(
     line_count = layout.get_line_count()
     pixel_size = layout.get_pixel_size()
 
-    # Show text
-    PangoCairo.show_layout(context, layout)
-
-    # Render box around desired size
-    expected_height = lines * pixel_size.height / line_count
-    context.new_path()
-    context.set_source_rgb(0.8, 0.8, 0.8)
-    context.set_line_width(1)
-    context.move_to(1, 1)
-    context.line_to(width, 1)
-    context.line_to(width, expected_height)
-    context.line_to(1, expected_height)
-    context.line_to(1, 1)
-    context.stroke()
-
-    # Render box about actual size
-    context.new_path()
-    if pixel_size.width > width or line_count > lines:
-        context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
-    else:
-        context.set_source_rgb(0.4, 0.4, 0.4)
-    context.set_line_width(1)
-    context.move_to(1, 1)
-    context.line_to(pixel_size.width, 1)
-    context.line_to(pixel_size.width, pixel_size.height)
-    context.line_to(1, pixel_size.height)
-    context.line_to(1, 1)
-    context.stroke()
-
     if cache_key:
+        # Adjust surface dimensions if we're actually rendering
+        if pixel_size.height > surface_height or pixel_size.width > surface_width:
+            return render_size(
+                text,
+                font=font,
+                weight=weight,
+                size=size,
+                spacing=spacing,
+                width=width,
+                lines=lines,
+                cache_key=cache_key,
+                surface_height=pixel_size.height,
+                surface_width=pixel_size.width,
+            )
+
+        # Render background
+        context.save()
+        # This matches .img-check CSS style
+        context.set_source_rgb(0.8, 0.8, 0.8)
+        context.paint()
+        context.restore()
+
+        # Show text
+        PangoCairo.show_layout(context, layout)
+
+        # Render box around desired size
+        expected_height = lines * pixel_size.height / line_count
+        context.new_path()
+        context.set_source_rgb(0.1, 0.1, 0.1)
+        context.set_line_width(1)
+        context.move_to(1, 1)
+        context.line_to(width - 1, 1)
+        context.line_to(width - 1, expected_height - 1)
+        context.line_to(1, expected_height - 1)
+        context.line_to(1, 1)
+        context.stroke()
+
+        # Render box about actual size if it does not fit
+        if pixel_size.width > width or line_count > lines:
+            context.new_path()
+            context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
+            context.set_line_width(1)
+            context.move_to(1, 1)
+            context.line_to(pixel_size.width - 1, 1)
+            context.line_to(pixel_size.width - 1, pixel_size.height - 1)
+            context.line_to(1, pixel_size.height - 1)
+            context.line_to(1, 1)
+            context.stroke()
+
         with BytesIO() as buff:
             surface.write_to_png(buff)
             django_cache.set(cache_key, buff.getvalue())
@@ -209,7 +235,7 @@ def render_size(
 def check_render_size(
     *,
     font: str,
-    weight: int,
+    weight: int | None,
     size: int,
     spacing: int,
     text: str,
@@ -217,7 +243,7 @@ def check_render_size(
     lines: int,
     cache_key: str | None = None,
 ) -> bool:
-    """Checks whether rendered text fits."""
+    """Check whether rendered text fits."""
     rendered_size, actual_lines = render_size(
         font=font,
         weight=weight,
@@ -232,7 +258,7 @@ def check_render_size(
 
 
 def get_font_name(filelike):
-    """Returns tuple of font family and style, for example ('Ubuntu', 'Regular')."""
+    """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     if not hasattr(filelike, "loaded_font"):
         # The tempfile creation is workaround for Pillow crashing on invalid font
         # see https://github.com/python-pillow/Pillow/issues/3853

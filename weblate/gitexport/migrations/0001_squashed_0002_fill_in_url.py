@@ -9,7 +9,7 @@ from django.db import migrations
 from weblate.gitexport.models import SUPPORTED_VCS, get_export_url
 
 
-def set_export_url(apps, schema_editor):
+def set_export_url(apps, schema_editor) -> None:
     Component = apps.get_model("trans", "Component")
     matching = Component.objects.filter(vcs__in=SUPPORTED_VCS).exclude(
         repo__startswith="weblate:/"

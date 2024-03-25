@@ -76,7 +76,7 @@ NEWLINES = re.compile(r"\r\n|\r|\n")
 
 class UnitQuerySet(models.QuerySet):
     def filter_type(self, rqtype):
-        """Basic filtering based on unit state or failed checks."""
+        """Filter based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
         if rqtype.startswith("check:"):
@@ -168,7 +168,7 @@ class UnitQuerySet(models.QuerySet):
         return result.distinct()
 
     def same(self, unit, exclude=True):
-        """Unit with same source within same project."""
+        """Get units with same source within same project."""
         translation = unit.translation
         component = translation.component
         result = self.filter(
@@ -249,12 +249,12 @@ class UnitQuerySet(models.QuerySet):
             )
         return self.order_by(*sort_list)
 
-    def order_by_count(self, choice, filter):
+    def order_by_count(self, choice, count_filter):
         model = choice.split("__")[0].replace("-", "")
         annotation_name = choice.replace("-", "")
-        return self.annotate(**{annotation_name: Count(model, filter=filter)}).order_by(
-            choice
-        )
+        return self.annotate(
+            **{annotation_name: Count(model, filter=count_filter)}
+        ).order_by(choice)
 
     @cached_property
     def source_context_lookup(self):
@@ -326,7 +326,7 @@ class UnitQuerySet(models.QuerySet):
 
 
 class LabelsField(models.ManyToManyField):
-    def save_form_data(self, instance, data):
+    def save_form_data(self, instance, data) -> None:
         from weblate.trans.models.label import TRANSLATION_LABELS
 
         super().save_form_data(instance, data)
@@ -341,7 +341,7 @@ class LabelsField(models.ManyToManyField):
 
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey(
-        "Translation", on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Translation", on_delete=models.deletion.CASCADE, db_index=False
     )
     id_hash = models.BigIntegerField()
     location = models.TextField(default="", blank=True)
@@ -385,7 +385,7 @@ class Unit(models.Model, LoggerMixin):
         ),
     )
     variant = models.ForeignKey(
-        "Variant",
+        "trans.Variant",
         on_delete=models.deletion.SET_NULL,
         blank=True,
         null=True,
@@ -396,7 +396,7 @@ class Unit(models.Model, LoggerMixin):
     # The type annotation hides that field can be None because
     # save() updates it to non-None immediatelly.
     source_unit: Unit = models.ForeignKey(
-        "Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
+        "trans.Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )
 
     objects = UnitQuerySet.as_manager()
@@ -428,7 +428,7 @@ class Unit(models.Model, LoggerMixin):
             ),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         source = self.get_source_plurals()[0]
         if self.translation.is_template:
             name = self.context
@@ -440,6 +440,7 @@ class Unit(models.Model, LoggerMixin):
 
     def save(
         self,
+        *,
         same_content: bool = False,
         run_checks: bool = True,
         propagate_checks: bool | None = None,
@@ -449,8 +450,12 @@ class Unit(models.Model, LoggerMixin):
         sync_terminology: bool = True,
         using=None,
         update_fields: list[str] | None = None,
-    ):
-        """Wrapper around save to run checks or update fulltext."""
+    ) -> None:
+        """
+        Save the unit.
+
+        Wrapper around save to run checks or update fulltext.
+        """
         # Store number of words
         if not same_content or not self.num_words:
             self.num_words = count_words(
@@ -494,14 +499,13 @@ class Unit(models.Model, LoggerMixin):
         if sync_terminology:
             self.sync_terminology()
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
     def get_url_path(self):
         return (*self.translation.get_url_path(), str(self.pk))
 
-    def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.is_batch_update = False
         self.source_updated = False
@@ -523,13 +527,13 @@ class Unit(models.Model, LoggerMixin):
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
-    def invalidate_checks_cache(self):
+    def invalidate_checks_cache(self) -> None:
         self.check_cache = {}
         for key in ["same_source_units", "same_target_units"]:
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def store_old_unit(self, unit):
+    def store_old_unit(self, unit) -> None:
         self.old_unit = {
             "state": unit.state,
             "source": unit.source,
@@ -569,7 +573,7 @@ class Unit(models.Model, LoggerMixin):
     def has_suggestion(self):
         return bool(self.suggestions)
 
-    def source_unit_save(self):
+    def source_unit_save(self) -> None:
         # Run checks, update state and priority if flags changed
         # or running bulk edit
         if (
@@ -587,7 +591,7 @@ class Unit(models.Model, LoggerMixin):
             if not self.is_batch_update:
                 self.translation.component.invalidate_cache()
 
-    def sync_terminology(self):
+    def sync_terminology(self) -> None:
         try:
             unit_flags = Flags(self.flags)
         except ParseException:
@@ -597,7 +601,7 @@ class Unit(models.Model, LoggerMixin):
         if "terminology" in new_flags:
             self.translation.component.schedule_sync_terminology()
 
-    def update_variants(self):
+    def update_variants(self) -> None:
         variants = self.defined_variants.all()
         component = self.translation.component
         flags = self.all_flags
@@ -673,7 +677,7 @@ class Unit(models.Model, LoggerMixin):
         return STATE_TRANSLATED
 
     @staticmethod
-    def check_valid(texts):
+    def check_valid(texts) -> None:
         for text in texts:
             if any(char in text for char in CONTROLCHARS):
                 raise ValueError(
@@ -682,7 +686,7 @@ class Unit(models.Model, LoggerMixin):
 
     def update_source_unit(
         self, component, source, context, pos, note, location, flags, explanation
-    ):
+    ) -> None:
         source_unit = component.get_source(
             self.id_hash,
             create={
@@ -721,7 +725,7 @@ class Unit(models.Model, LoggerMixin):
             )
         self.source_unit = source_unit
 
-    def update_from_unit(self, unit, pos, created):  # noqa: C901
+    def update_from_unit(self, unit, pos, created) -> None:  # noqa: C901
         """Update Unit from ttkit unit."""
         translation = self.translation
         component = translation.component
@@ -791,7 +795,7 @@ class Unit(models.Model, LoggerMixin):
             and unit.template is not None
             and same_target
         ):
-            if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
+            if not same_source and state in {STATE_TRANSLATED, STATE_APPROVED}:
                 if self.previous_source == source and self.fuzzy:
                     # Source change was reverted
                     source_change = self.source
@@ -905,9 +909,9 @@ class Unit(models.Model, LoggerMixin):
         if created or not same_source or not same_target:
             self.update_translation_memory()
 
-    def update_state(self):
+    def update_state(self) -> None:
         """
-        Updates state based on flags.
+        Update state based on flags.
 
         Mark read-only strings:
 
@@ -924,7 +928,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
 
-    def update_priority(self, save=True):
+    def update_priority(self, save=True) -> None:
         if self.all_flags.has_value("priority"):
             priority = self.all_flags.get_value("priority")
         else:
@@ -952,7 +956,7 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def source_string(self):
         """
-        Returns a single source string.
+        Return a single source string.
 
         In most cases it's singular with exception of unused singulars
         generated by some frameworks.
@@ -1029,7 +1033,7 @@ class Unit(models.Model, LoggerMixin):
             result = True
         return result
 
-    def commit_if_pending(self, author):
+    def commit_if_pending(self, author) -> None:
         """Commit possible previous changes on this unit."""
         if self.pending:
             change_author = self.get_last_content_change()[0]
@@ -1047,9 +1051,9 @@ class Unit(models.Model, LoggerMixin):
         author=None,
         run_checks: bool = True,
         request=None,
-    ):
+    ) -> bool:
         """
-        Stores unit to backend.
+        Store unit to backend.
 
         Optional user parameters defines authorship of a change.
 
@@ -1108,11 +1112,11 @@ class Unit(models.Model, LoggerMixin):
         # Generate Change object for this change
         change = self.generate_change(user or author, author, change_action)
 
-        if change.action not in (
+        if change.action not in {
             Change.ACTION_UPLOAD,
             Change.ACTION_AUTO,
             Change.ACTION_BULK_EDIT,
-        ):
+        }:
             old_translated = self.translation.stats.translated
 
             # Update translation stats
@@ -1132,7 +1136,7 @@ class Unit(models.Model, LoggerMixin):
 
         return True
 
-    def update_source_units(self, previous_source, user, author):
+    def update_source_units(self, previous_source, user, author) -> None:
         """
         Update source for units within same component.
 
@@ -1240,7 +1244,7 @@ class Unit(models.Model, LoggerMixin):
         list(result)
         return result
 
-    def clear_checks_cache(self):
+    def clear_checks_cache(self) -> None:
         if "all_checks" in self.__dict__:
             del self.__dict__["all_checks"]
 
@@ -1277,7 +1281,7 @@ class Unit(models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: bool | None = None):  # noqa: C901
+    def run_checks(self, propagate: bool | None = None) -> None:  # noqa: C901
         """Update checks for this unit."""
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -1362,9 +1366,9 @@ class Unit(models.Model, LoggerMixin):
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
             if self.is_batch_update:
-                self.translation.component.updated_sources[
-                    self.source_unit.id
-                ] = self.source_unit
+                self.translation.component.updated_sources[self.source_unit.id] = (
+                    self.source_unit
+                )
             else:
                 self.source_unit.run_checks()
 
@@ -1530,8 +1534,8 @@ class Unit(models.Model, LoggerMixin):
         return Flags(self.extra_flags)
 
     @cached_property
-    def edit_mode(self):
-        """Returns syntax highlighting mode for Prismjs."""
+    def edit_mode(self) -> str:
+        """Return syntax highlighting mode for Prismjs."""
         flags = self.all_flags
         if "icu-message-format" in flags:
             return "icu-message-format"
@@ -1595,7 +1599,7 @@ class Unit(models.Model, LoggerMixin):
         return Unit.objects.same_target(self)
 
     def get_max_length(self):
-        """Returns maximal translation length."""
+        """Return maximal translation length."""
         # Fallback to reasonably big value
         fallback = 10000
 
@@ -1632,7 +1636,7 @@ class Unit(models.Model, LoggerMixin):
 
     def get_last_content_change(self, silent=False):
         """
-        Wrapper to get last content change metadata.
+        Get last content change metadata.
 
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
@@ -1646,7 +1650,7 @@ class Unit(models.Model, LoggerMixin):
         return change.author or get_anonymous(), change.timestamp
 
     def get_locations(self) -> Generator[tuple[str, str, str], None, None]:
-        """Returns list of location filenames."""
+        """Return list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()
             if not location:
@@ -1728,7 +1732,7 @@ class Unit(models.Model, LoggerMixin):
                 )
         return result
 
-    def invalidate_related_cache(self):
+    def invalidate_related_cache(self) -> None:
         # Invalidate stats counts
         self.translation.invalidate_cache()
         # Invalidate unit cached properties
@@ -1736,7 +1740,7 @@ class Unit(models.Model, LoggerMixin):
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def update_explanation(self, explanation: str, user, save: bool = True):
+    def update_explanation(self, explanation: str, user, save: bool = True) -> None:
         """Update glossary explanation."""
         self.explanation = explanation
         file_format_support = (
@@ -1768,7 +1772,7 @@ class Unit(models.Model, LoggerMixin):
     def glossary_sort_key(self):
         return (self.translation.component.priority, self.source.lower())
 
-    def update_translation_memory(self, user_id: int | None = None):
+    def update_translation_memory(self, user_id: int | None = None) -> None:
         translation = self.translation
         component = translation.component
         if (

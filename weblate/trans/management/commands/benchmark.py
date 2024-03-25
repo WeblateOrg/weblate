@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     help = "performs import benchmark"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         prefix = os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -43,7 +43,7 @@ class Command(BaseCommand):
         parser.add_argument("repo", help="Test VCS repository URL")
         parser.add_argument("mask", help="File mask")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         project = Project.objects.get(slug=options["project"])
         # Delete any possible previous tests
         Component.objects.filter(project=project, slug="benchmark").delete()

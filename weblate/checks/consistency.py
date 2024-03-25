@@ -36,7 +36,7 @@ class PluralsCheck(TargetCheck):
         # Check for empty translation
         return "" in targets
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -56,7 +56,7 @@ class SamePluralsCheck(TargetCheck):
             return False
         return len(set(targets)) == 1
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -97,7 +97,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
                 return True
         return False
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -190,7 +190,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             "Other source string: %s", "Other source strings: %s", len(other_sources)
         ) % ", ".join(gettext("“%s”") % source for source in other_sources)
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -266,7 +266,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
         # Stop changes processin on source string change or on
         # intentional marking as needing edit
-        return change.action in (Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT)
+        return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
@@ -291,7 +291,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
         return False
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 

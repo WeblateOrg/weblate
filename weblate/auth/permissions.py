@@ -21,7 +21,7 @@ SPECIALS = {}
 
 
 class PermissionResult:
-    def __init__(self, reason: str = ""):
+    def __init__(self, reason: str = "") -> None:
         self.reason = reason
 
     def __bool__(self) -> bool:
@@ -48,14 +48,14 @@ def register_perm(*perms):
 
 
 def check_global_permission(user, permission):
-    """Generic permission check for base classes."""
+    """Check whether user has a global permission."""
     if user.is_superuser:
         return True
     return user.groups.filter(roles__permissions__codename=permission).exists()
 
 
 def check_permission(user, permission, obj):
-    """Generic permission check for base classes."""
+    """Check whether user has a object-specific permission."""
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):
@@ -130,9 +130,11 @@ def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
     elif isinstance(obj, Component):
         component = obj
         project = component.project
+    elif isinstance(obj, Category):
+        project = obj.project
     elif isinstance(obj, Project):
         project = obj
-    elif isinstance(obj, (ProjectLanguage, Category)):
+    elif isinstance(obj, ProjectLanguage):
         project = obj.project
     elif isinstance(obj, CategoryLanguage):
         project = obj.category.project
@@ -217,11 +219,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                 project = obj.category.project
             elif isinstance(
                 obj,
-                (
-                    Component,
-                    ProjectLanguage,
-                    Category,
-                ),
+                Component | ProjectLanguage | Category,
             ):
                 project = obj.project
             else:
@@ -452,7 +450,7 @@ def check_team_edit_users(user, permission, obj):
 @register_perm("billing.view")
 def check_billing_view(user, permission, obj):
     if hasattr(obj, "all_projects"):
-        if user.is_superuser or obj.owners.filter(pk=user.pk).exists():
+        if user.has_perm("billing.manage") or obj.owners.filter(pk=user.pk).exists():
             return True
         # This is a billing object
         return any(check_permission(user, permission, prj) for prj in obj.all_projects)

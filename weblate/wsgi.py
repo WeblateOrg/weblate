@@ -16,6 +16,7 @@ that later delegates to the Django one. For example, you could introduce WSGI
 middleware here, or combine a Django application with an application of another
 framework.
 """
+
 import os
 
 from django.core.wsgi import get_wsgi_application
@@ -23,7 +24,7 @@ from django.core.wsgi import get_wsgi_application
 
 def preload_url_patterns():
     """
-    Ensures Django URL resolver is loaded.
+    Ensure Django URL resolver is loaded.
 
     This avoids expensive load with a first request and makes memory sharing work
     better between uwsgi workers.

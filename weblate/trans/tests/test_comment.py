@@ -11,11 +11,11 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class CommentViewTest(FixtureTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
 
-    def test_add_target_comment(self):
+    def test_add_target_comment(self) -> None:
         unit = self.get_unit()
 
         # Add comment
@@ -36,7 +36,7 @@ class CommentViewTest(FixtureTestCase):
         self.assertTrue(unit.has_comment)
         self.assertEqual(translation.stats.comments, 1)
 
-    def test_add_source_comment(self):
+    def test_add_source_comment(self) -> None:
         unit = self.get_unit()
 
         # Add comment
@@ -57,7 +57,7 @@ class CommentViewTest(FixtureTestCase):
         self.assertFalse(unit.has_comment)
         self.assertEqual(translation.stats.comments, 0)
 
-    def test_add_source_report(self):
+    def test_add_source_report(self) -> None:
         unit = self.get_unit()
 
         # Add comment
@@ -94,7 +94,7 @@ class CommentViewTest(FixtureTestCase):
         self.assertFalse(unit.has_comment)
         self.assertEqual(translation.stats.comments, 0)
 
-    def test_delete_comment(self, **kwargs):
+    def test_delete_comment(self, **kwargs) -> None:
         unit = self.get_unit()
         self.make_manager()
 
@@ -110,10 +110,10 @@ class CommentViewTest(FixtureTestCase):
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
-    def test_spam_comment(self):
+    def test_spam_comment(self) -> None:
         self.test_delete_comment(spam=1)
 
-    def test_resolve_comment(self):
+    def test_resolve_comment(self) -> None:
         unit = self.get_unit()
         self.make_manager()
 

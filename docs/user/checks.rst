@@ -1014,7 +1014,7 @@ Markdown link references do not match source.
 
 .. seealso::
 
-   `Markdown links <https://daringfireball.net/projects/markdown/syntax#link>`_
+   `Markdown links <https://spec.commonmark.org/0.31.2/#links>`_
 
 .. _check-md-syntax:
 
@@ -1032,7 +1032,7 @@ Markdown syntax does not match source
 
 .. seealso::
 
-   `Markdown span elements <https://daringfireball.net/projects/markdown/syntax#span>`_
+   `Markdown inlines <https://spec.commonmark.org/0.31.2/#inlines>`_
 
 .. _check-max-length:
 

@@ -41,7 +41,7 @@ class ProxyMiddleware:
     proxy setup.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -73,7 +73,7 @@ class RedirectMiddleware:
     or after renaming.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -251,7 +251,7 @@ class RedirectMiddleware:
 class SecurityMiddleware:
     """Middleware that sets Content-Security-Policy."""
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -341,11 +341,11 @@ class SecurityMiddleware:
             " ".join(font),
         )
         if settings.SENTRY_SECURITY:
-            response["Content-Security-Policy"] += " report-uri {}".format(
-                settings.SENTRY_SECURITY
+            response["Content-Security-Policy"] += (
+                f" report-uri {settings.SENTRY_SECURITY}"
             )
-            response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
-                settings.SENTRY_SECURITY
+            response["Expect-CT"] = (
+                f'max-age=86400, enforce, report-uri="{settings.SENTRY_SECURITY}"'
             )
 
         # Opt-out from Google FLoC

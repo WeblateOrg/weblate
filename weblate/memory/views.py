@@ -130,7 +130,7 @@ class UploadView(MemoryFormView):
                 gettext("File processed, the entries will appear shortly."),
             )
         except MemoryImportError as error:
-            messages.error(self.request, str(error))  # noqa: G200
+            messages.error(self.request, str(error))
         return super().form_valid(form)
 
 

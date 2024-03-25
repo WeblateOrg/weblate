@@ -48,7 +48,7 @@ SPLIT_RE = re.compile(
     re.IGNORECASE,
 )
 
-EMOJI_RE = re.compile("[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]")
+EMOJI_RE = re.compile("[\U00002600-\U000027bf]|[\U0001f000-\U0001fffd]")
 
 # Docbook tags to ignore
 DB_TAGS = ("screen", "indexterm", "programlisting")
@@ -134,7 +134,7 @@ class SameCheck(TargetCheck):
     name = gettext_lazy("Unchanged translation")
     description = gettext_lazy("Source and translation are identical")
 
-    def should_ignore(self, source, unit):
+    def should_ignore(self, source, unit) -> bool:
         """Check whether given unit should be ignored."""
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
@@ -200,7 +200,7 @@ class SameCheck(TargetCheck):
 
         return True
 
-    def should_skip(self, unit):
+    def should_skip(self, unit) -> bool:
         # Skip read-only units and ignored check
         if unit.readonly or super().should_skip(unit):
             return True
@@ -210,12 +210,13 @@ class SameCheck(TargetCheck):
         # Ignore the check for source language,
         # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
-        if unit.translation.language.is_base(source_language) or (
-            source_language == "en" and unit.translation.language.is_base(("en", "ia"))
-        ):
-            return True
-
-        return False
+        return bool(
+            unit.translation.language.is_base(source_language)
+            or (
+                source_language == "en"
+                and unit.translation.language.is_base(("en", "ia"))
+            )
+        )
 
     def check_single(self, source, target, unit):
         # One letter things are usually labels or decimal/thousand separators

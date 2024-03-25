@@ -10,7 +10,9 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def batch_update_checks(component_id, checks, component: Component | None = None):
+def batch_update_checks(
+    component_id, checks, component: Component | None = None
+) -> None:
     if component is None:
         component = Component.objects.get(pk=component_id)
     with component.lock:

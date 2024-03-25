@@ -9,6 +9,7 @@ import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
+from typing import TYPE_CHECKING, Literal, TypedDict
 
 from django.conf import settings
 from django.core.management.utils import find_command
@@ -20,11 +21,24 @@ from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.hash import calculate_checksum
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 # SSH key files
 KNOWN_HOSTS = "known_hosts"
 CONFIG = "config"
 
-KEYS = {
+
+class KeyInfo(TypedDict):
+    private: str
+    public: str
+    name: StrOrPromise
+    keygen: list[str]
+
+
+KeyType = Literal["rsa", "ed25519"]
+
+KEYS: dict[KeyType, KeyInfo] = {
     "rsa": {
         "private": "id_rsa",
         "public": "id_rsa.pub",
@@ -87,9 +101,9 @@ def get_host_keys():
 
 
 def get_key_data_raw(
-    key_type: str = "rsa", kind: str = "public"
+    key_type: KeyType = "rsa", kind: Literal["public", "private"] = "public"
 ) -> tuple[str, str | None]:
-    """Returns raw public key data."""
+    """Return raw public key data."""
     # Read key data if it exists
     filename = KEYS[key_type][kind]
     key_file = ssh_file(filename)
@@ -99,7 +113,7 @@ def get_key_data_raw(
     return filename, None
 
 
-def get_key_data(key_type: str = "rsa") -> dict[str, str]:
+def get_key_data(key_type: KeyType = "rsa") -> dict[str, StrOrPromise | None]:
     """Parse host key and returns it."""
     filename, key_data = get_key_data_raw(key_type)
     if key_data is not None:
@@ -119,13 +133,13 @@ def get_key_data(key_type: str = "rsa") -> dict[str, str]:
     }
 
 
-def get_all_key_data() -> dict[str, dict[str, str]]:
+def get_all_key_data() -> dict[str, dict[str, StrOrPromise | None]]:
     """Return all supported SSH keys."""
     return {key_type: get_key_data(key_type) for key_type in KEYS}
 
 
 def ensure_ssh_key():
-    """Ensures SSH key is existing."""
+    """Ensure SSH key is existing."""
     result = None
     for key_type in KEYS:
         ssh_key = get_key_data(key_type)
@@ -137,7 +151,7 @@ def ensure_ssh_key():
     return result
 
 
-def generate_ssh_key(request, key_type: str = "rsa"):
+def generate_ssh_key(request, key_type: KeyType = "rsa") -> None:
     """Generate SSH key."""
     key_info = KEYS[key_type]
     keyfile = ssh_file(key_info["private"])
@@ -175,7 +189,7 @@ def generate_ssh_key(request, key_type: str = "rsa"):
     messages.success(request, gettext("Created new SSH key."))
 
 
-def add_host_key(request, host, port=""):
+def add_host_key(request, host, port="") -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))
@@ -246,7 +260,7 @@ GITHUB_RSA_KEY = (
 )
 
 
-def cleanup_host_keys(*args, **kwargs):
+def cleanup_host_keys(*args, **kwargs) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not os.path.exists(known_hosts_file):
         return
@@ -324,10 +338,10 @@ class SSHWrapper:
 
     @property
     def filename(self):
-        """Calculates unique wrapper filename."""
+        """Calculate unique wrapper filename."""
         return os.path.join(self.path, "ssh")
 
-    def create(self):
+    def create(self) -> None:
         """Create wrapper for SSH to pass custom known hosts and key."""
         if not os.path.exists(self.path):
             os.makedirs(self.path)

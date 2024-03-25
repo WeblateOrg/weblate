@@ -15,7 +15,7 @@ from weblate.utils.db import TransactionsTestMixin
 
 
 class AutoTranslationTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # Need extra power
         self.user.is_superuser = True
@@ -37,17 +37,17 @@ class AutoTranslationTest(ViewTestCase):
                 allow_translation_propagation=False,
             )
 
-    def test_none(self):
+    def test_none(self) -> None:
         """Test for automatic translation with no content."""
         response = self.client.post(
             reverse("auto_translation", kwargs=self.kw_translation)
         )
         self.assertRedirects(response, self.translation_url)
 
-    def make_different(self):
+    def make_different(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
-    def perform_auto(self, expected=1, expected_count=None, **kwargs):
+    def perform_auto(self, expected=1, expected_count=None, **kwargs) -> None:
         self.make_different()
         path_params = {"path": [*self.component2.get_url_path(), "cs"]}
         url = reverse("auto_translation", kwargs=path_params)
@@ -78,27 +78,27 @@ class AutoTranslationTest(ViewTestCase):
         else:
             self.assertEqual(translation.stats.translated, expected_count)
 
-    def test_different(self):
+    def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto()
 
-    def test_suggest(self):
+    def test_suggest(self) -> None:
         """Test for automatic suggestion."""
         self.perform_auto(mode="suggest")
         self.perform_auto(0, 1, mode="suggest")
 
-    def test_approved(self):
+    def test_approved(self) -> None:
         """Test for automatic suggestion."""
         self.perform_auto(mode="approved")
         self.perform_auto(0, 1, mode="approved")
 
-    def test_inconsistent(self):
+    def test_inconsistent(self) -> None:
         self.perform_auto(0, filter_type="check:inconsistent")
 
-    def test_overwrite(self):
+    def test_overwrite(self) -> None:
         self.perform_auto(overwrite="1")
 
-    def test_labeling(self):
+    def test_labeling(self) -> None:
         self.perform_auto(overwrite="1")
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(
@@ -122,17 +122,17 @@ class AutoTranslationTest(ViewTestCase):
             0,
         )
 
-    def test_command(self):
+    def test_command(self) -> None:
         call_command("auto_translate", "test", "test", "cs")
 
-    def test_command_add_error(self):
+    def test_command_add_error(self) -> None:
         with self.assertRaises(CommandError):
             call_command("auto_translate", "test", "test", "ia", add=True)
 
-    def test_command_mt(self):
+    def test_command_mt(self) -> None:
         call_command("auto_translate", "--mt", "weblate", "test", "test", "cs")
 
-    def test_command_mt_error(self):
+    def test_command_mt_error(self) -> None:
         with self.assertRaises(CommandError):
             call_command("auto_translate", "--mt", "invalid", "test", "test", "ia")
         with self.assertRaises(CommandError):
@@ -140,7 +140,7 @@ class AutoTranslationTest(ViewTestCase):
                 "auto_translate", "--threshold", "invalid", "test", "test", "ia"
             )
 
-    def test_command_add(self):
+    def test_command_add(self) -> None:
         self.component.file_format = "po"
         self.component.new_lang = "add"
         self.component.new_base = "po/cs.po"
@@ -151,11 +151,11 @@ class AutoTranslationTest(ViewTestCase):
             self.component.translation_set.filter(language__code="ia").exists()
         )
 
-    def test_command_different(self):
+    def test_command_different(self) -> None:
         self.make_different()
         call_command("auto_translate", "test", "test-2", "cs", source="test/test")
 
-    def test_command_errors(self):
+    def test_command_errors(self) -> None:
         with self.assertRaises(CommandError):
             call_command("auto_translate", "test", "test", "cs", user="invalid")
         with self.assertRaises(CommandError):
@@ -167,7 +167,7 @@ class AutoTranslationTest(ViewTestCase):
 
 
 class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # Need extra power
         self.user.is_superuser = True
@@ -189,16 +189,16 @@ class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
         self.update_fulltext_index()
         self.configure_mt()
 
-    def test_none(self):
+    def test_none(self) -> None:
         """Test for automatic translation with no content."""
         url = reverse("auto_translation", kwargs=self.kw_translation)
         response = self.client.post(url)
         self.assertRedirects(response, self.translation_url)
 
-    def make_different(self):
+    def make_different(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
-    def perform_auto(self, expected=1, **kwargs):
+    def perform_auto(self, expected=1, **kwargs) -> None:
         self.make_different()
         path_params = {"path": [*self.component3.get_url_path(), "cs"]}
         url = reverse("auto_translation", kwargs=path_params)
@@ -223,20 +223,20 @@ class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, expected)
 
-    def test_different(self):
+    def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto(engines=["weblate"], threshold=80)
 
-    def test_multi(self):
+    def test_multi(self) -> None:
         """Test for automatic translation with more providers."""
         self.perform_auto(
             engines=["weblate", "weblate-translation-memory"], threshold=80
         )
 
-    def test_inconsistent(self):
+    def test_inconsistent(self) -> None:
         self.perform_auto(
             0, filter_type="check:inconsistent", engines=["weblate"], threshold=80
         )
 
-    def test_overwrite(self):
+    def test_overwrite(self) -> None:
         self.perform_auto(overwrite="1", engines=["weblate"], threshold=80)

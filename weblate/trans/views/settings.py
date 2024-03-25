@@ -347,7 +347,7 @@ def component_progress(request, path):
 
 
 class BackupsMixin:
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.obj = parse_path(request, [kwargs["project"]], (Project,))
         if not request.user.has_perm("project.edit", self.obj):

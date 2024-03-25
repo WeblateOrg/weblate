@@ -51,7 +51,7 @@ class VCSConf(AppConf):
 
 
 class VcsClassLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("VCS_BACKENDS", False)
         self.errors = {}
 

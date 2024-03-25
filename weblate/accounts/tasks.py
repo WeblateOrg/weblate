@@ -25,7 +25,7 @@ LOGGER = logging.getLogger("weblate.smtp")
 
 
 @app.task(trail=False)
-def cleanup_social_auth():
+def cleanup_social_auth() -> None:
     """Cleanup expired partial social authentications."""
     age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
@@ -36,7 +36,7 @@ def cleanup_social_auth():
 
 
 @app.task(trail=False)
-def cleanup_auditlog():
+def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
     from weblate.accounts.models import AuditLog
 
@@ -46,7 +46,7 @@ def cleanup_auditlog():
 
 
 @app.task(trail=False)
-def notify_change(change_id):
+def notify_change(change_id) -> None:
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
     from weblate.trans.models import Change
 
@@ -65,7 +65,7 @@ def notify_change(change_id):
             send_mails.delay(outgoing)
 
 
-def notify_digest(method):
+def notify_digest(method) -> None:
     from weblate.accounts.notifications import NOTIFICATIONS
 
     outgoing = []
@@ -77,22 +77,22 @@ def notify_digest(method):
 
 
 @app.task(trail=False)
-def notify_daily():
+def notify_daily() -> None:
     notify_digest("notify_daily")
 
 
 @app.task(trail=False)
-def notify_weekly():
+def notify_weekly() -> None:
     notify_digest("notify_weekly")
 
 
 @app.task(trail=False)
-def notify_monthly():
+def notify_monthly() -> None:
     notify_digest("notify_monthly")
 
 
 @app.task(trail=False)
-def notify_auditlog(log_id, email):
+def notify_auditlog(log_id, email) -> None:
     from weblate.accounts.models import AuditLog
     from weblate.accounts.notifications import send_notification_email
 
@@ -138,7 +138,7 @@ def monkey_patch_smtp_logging(connection):
 
 
 @app.task(trail=False)
-def send_mails(mails):
+def send_mails(mails) -> None:
     """Send multiple mails in single connection."""
     images = []
     with sentry_sdk.start_span(op="email.images"):
@@ -186,7 +186,7 @@ def send_mails(mails):
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
     sender.add_periodic_task(

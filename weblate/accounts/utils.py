@@ -15,7 +15,7 @@ from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
 
 
-def remove_user(user, request, **params):
+def remove_user(user, request, **params) -> None:
     """Remove user account."""
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
@@ -101,14 +101,14 @@ def get_all_user_mails(user, entries=None, filter_deliverable=True):
     return emails
 
 
-def invalidate_reset_codes(user=None, entries=None, emails=None):
+def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
     """Invalidate email activation codes for an user."""
     if emails is None:
         emails = get_all_user_mails(user, entries)
     Code.objects.filter(email__in=emails).delete()
 
 
-def cycle_session_keys(request, user):
+def cycle_session_keys(request, user) -> None:
     """
     Cycle session keys.
 
@@ -122,7 +122,7 @@ def cycle_session_keys(request, user):
     update_session_auth_hash(request, user)
 
 
-def adjust_session_expiry(request):
+def adjust_session_expiry(request) -> None:
     """
     Adjust session expiry based on scope.
 

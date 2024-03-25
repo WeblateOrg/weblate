@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from weblate.machinery.models import MACHINERY
 from weblate.utils.management.base import BaseCommand
 
@@ -20,11 +22,12 @@ class Command(BaseCommand):
                 result.append("")
             result.append("Available choices:")
             for value, description in choices:
-                result.append("")
-                result.append(f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                result.extend(
+                    ("", f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                )
         return result
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List installed add-ons."""
         for _unused, obj in sorted(MACHINERY.items()):
             self.stdout.write(f".. _mt-{obj.get_identifier()}:")

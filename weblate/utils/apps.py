@@ -21,7 +21,7 @@ from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
-from django.db.models.lookups import Regex
+from django.db.models.lookups import Lookup, Regex
 from django.utils import timezone
 from packaging.version import Version
 
@@ -308,10 +308,10 @@ def check_perms(app_configs=None, **kwargs):
             # used in the Docker container as that one is typically bind mouted
             # with different permissions (and Weblate is not expected to write
             # to it).
-            if dirpath == settings.DATA_DIR and name in (
+            if dirpath == settings.DATA_DIR and name in {
                 "lost+found",
                 "settings-override.py",
-            ):
+            }:
                 continue
             path = os.path.join(dirpath, name)
             try:
@@ -379,9 +379,7 @@ def check_version(app_configs=None, **kwargs):
             return [
                 weblate_check(
                     "weblate.C031",
-                    "You Weblate version is outdated, please upgrade to {}.".format(
-                        latest.version
-                    ),
+                    f"You Weblate version is outdated, please upgrade to {latest.version}.",
                 )
             ]
         return [
@@ -399,10 +397,11 @@ class UtilsConfig(AppConfig):
     label = "utils"
     verbose_name = "Utils"
 
-    def ready(self):
+    def ready(self) -> None:
         super().ready()
         init_error_collection()
 
+        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]]
         if using_postgresql():
             lookups = [
                 (PostgreSQLSearchLookup,),
@@ -416,8 +415,8 @@ class UtilsConfig(AppConfig):
                 (Regex, "trgm_regex"),
             ]
 
-        lookups.append((MD5,))
-        lookups.append((Lower,))
+        lookups.append((cast(type[Lookup], MD5),))
+        lookups.append((cast(type[Lookup], Lower),))
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

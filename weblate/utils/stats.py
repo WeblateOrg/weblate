@@ -9,13 +9,14 @@ from datetime import timedelta
 from itertools import chain
 from operator import itemgetter
 from types import GeneratorType
+from typing import TYPE_CHECKING
 
 import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Model, Q
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
@@ -34,6 +35,9 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 BASICS = {
     "all",
@@ -95,7 +99,7 @@ SOURCE_MAP = {
 
 
 def zero_stats(keys):
-    stats = {item: 0 for item in keys}
+    stats = dict.fromkeys(keys, 0)
     stats["last_changed"] = None
     stats["last_author"] = None
     stats["stats_timestamp"] = 0
@@ -112,7 +116,7 @@ def prefetch_stats(queryset):
     # is returned.
     # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
-    result = objects if isinstance(queryset, (chain, GeneratorType)) else queryset
+    result = objects if isinstance(queryset, chain | GeneratorType) else queryset
 
     # Bail out in case the query is empty
     if not objects:
@@ -130,14 +134,14 @@ class BaseStats:
     basic_keys = BASIC_KEYS
     is_ghost = False
 
-    def __init__(self, obj):
+    def __init__(self, obj) -> None:
         self._object = obj
         self._data = None
         self._pending_save = False
         self.last_change_cache = None
         self._collected_update_objects = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<{self.__class__.__name__}:{self.cache_key}>"
 
     @property
@@ -162,7 +166,7 @@ class BaseStats:
     def is_loaded(self):
         return self._data is not None
 
-    def set_data(self, data):
+    def set_data(self, data) -> None:
         self._data = data
 
     def get_data(self):
@@ -191,7 +195,7 @@ class BaseStats:
         return data
 
     @staticmethod
-    def prefetch_many(stats):
+    def prefetch_many(stats) -> None:
         lookup = {i.cache_key: i for i in stats if not i.is_loaded}
         if not lookup:
             return
@@ -202,14 +206,26 @@ class BaseStats:
             lookup[item].set_data({})
 
     @cached_property
-    def has_review(self):
+    def has_review(self) -> bool:
         return True
 
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> str:
         return f"stats-{self._object.cache_key}"
 
-    def ensure_loaded(self):
+    def remove_stats(self, *names: str) -> None:
+        self.ensure_loaded()
+        if not self._data:
+            return
+        changed = False
+        for name in names:
+            if name in self._data:
+                del self._data[name]
+                changed = True
+        if changed:
+            self.save()
+
+    def ensure_loaded(self) -> None:
         """Load from cache if not already done."""
         if self._data is None:
             self._data = self.load()
@@ -264,7 +280,7 @@ class BaseStats:
 
         return self._data[name]
 
-    def calculate_by_name(self, name: str):
+    def calculate_by_name(self, name: str) -> None:
         if name in self.basic_keys:
             self.calculate_basic()
             self.save()
@@ -275,14 +291,14 @@ class BaseStats:
     def delete(self):
         return cache.delete(self.cache_key)
 
-    def save(self, update_parents: bool = True):
+    def save(self, update_parents: bool = True) -> None:
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
     def get_update_objects(self):
         yield GlobalStats()
 
-    def collect_update_objects(self):
+    def collect_update_objects(self) -> None:
         # Use list to force materializing the generator
         self._collected_update_objects = list(self.get_update_objects())
 
@@ -303,7 +319,7 @@ class BaseStats:
         while stat_objects:
             yield stat_objects.pop(0)
 
-    def update_parents(self, *, extra_objects: list[BaseStats] | None = None):
+    def update_parents(self, *, extra_objects: list[BaseStats] | None = None) -> None:
         """Update parent statistics."""
         for stat in self._iterate_update_objects(extra_objects=extra_objects):
             if self.stats_timestamp and self.stats_timestamp <= stat.stats_timestamp:
@@ -312,17 +328,17 @@ class BaseStats:
                 self._object.log_debug("updating stats %s", stat)
                 stat.update_stats()
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear local cache."""
         self._data = {}
 
-    def store(self, key, value):
+    def store(self, key, value) -> None:
         if value is None and not key.startswith("last_"):
             self._data[key] = 0
         else:
             self._data[key] = value
 
-    def update_stats(self, update_parents: bool = True):
+    def update_stats(self, update_parents: bool = True) -> None:
         self.clear()
         if settings.STATS_LAZY:
             self.save(update_parents=update_parents)
@@ -330,14 +346,14 @@ class BaseStats:
             self.calculate_basic()
             self.save(update_parents=update_parents)
 
-    def calculate_basic(self):
+    def calculate_basic(self) -> None:
         with sentry_sdk.start_span(
             op="stats", description=f"CALCULATE {self.cache_key}"
         ):
             self.ensure_loaded()
             self._calculate_basic()
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         raise NotImplementedError
 
     def calculate_percent(self, item: str) -> float:
@@ -400,25 +416,25 @@ class DummyTranslationStats(BaseStats):
     Used when given language does not exist in a component.
     """
 
-    def __init__(self, obj):
+    def __init__(self, obj) -> None:
         super().__init__(obj)
         self.language = obj
 
     @property
-    def pk(self):
+    def pk(self) -> str:
         return f"l-{self.language.pk}"
 
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> None:
         return None
 
-    def save(self, update_parents: bool = True):
+    def save(self, update_parents: bool = True) -> None:
         return
 
     def load(self):
         return {}
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         self._data = zero_stats(self.basic_keys)
 
 
@@ -429,7 +445,7 @@ class TranslationStats(BaseStats):
     def is_source(self):
         return self._object.is_source
 
-    def save(self, update_parents: bool = True):
+    def save(self, update_parents: bool = True) -> None:
         from weblate.utils.tasks import update_translation_stats_parents
 
         super().save()
@@ -473,7 +489,7 @@ class TranslationStats(BaseStats):
     def has_review(self):
         return self._object.enable_review
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:  # noqa: PLR0914
         values = (
             "state",
             "num_words",
@@ -528,7 +544,7 @@ class TranslationStats(BaseStats):
             unit
             for unit in units
             if get_active_checks_count(unit)
-            and get_state(unit) in (STATE_TRANSLATED, STATE_APPROVED)
+            and get_state(unit) in {STATE_TRANSLATED, STATE_APPROVED}
         ]
         units_dismissed_checks = [
             unit for unit in units if get_dismissed_checks_count(unit)
@@ -699,7 +715,7 @@ class TranslationStats(BaseStats):
         last_change.update_cache_last_change()
         return last_change
 
-    def fetch_last_change(self):
+    def fetch_last_change(self) -> None:
         last_change = self.get_last_change_obj()
 
         if last_change is None:
@@ -709,7 +725,7 @@ class TranslationStats(BaseStats):
             self.store("last_changed", last_change.timestamp)
             self.store("last_author", last_change.author_id)
 
-    def count_changes(self):
+    def count_changes(self) -> None:
         if self.last_changed:
             monthly = timezone.now() - timedelta(days=30)
             recently = self.last_changed - timedelta(hours=6)
@@ -726,14 +742,14 @@ class TranslationStats(BaseStats):
             self.store("monthly_changes", 0)
             self.store("total_changes", 0)
 
-    def calculate_by_name(self, name: str):
+    def calculate_by_name(self, name: str) -> None:
         super().calculate_by_name(name)
         if name.startswith("check:"):
             self.calculate_checks()
         elif name.startswith("label:"):
             self.calculate_labels()
 
-    def calculate_checks(self):
+    def calculate_checks(self) -> None:
         """Prefetch check stats."""
         self.ensure_loaded()
         allchecks = {check.url_id for check in CHECKS.values()}
@@ -759,7 +775,7 @@ class TranslationStats(BaseStats):
             self.store(f"{check}_chars", 0)
         self.save()
 
-    def calculate_labels(self):
+    def calculate_labels(self) -> None:
         """Prefetch check stats."""
         from weblate.trans.models.label import TRANSLATION_LABELS
 
@@ -800,16 +816,16 @@ class AggregatingStats(BaseStats):
     basic_keys = SOURCE_KEYS
     sum_source_keys = True
 
-    def get_child_objects(self):
+    def get_child_objects(self) -> Iterable[Model]:
         raise NotImplementedError
 
     def get_category_objects(self):
         return []
 
-    def calculate_source(self, stats: dict, all_stats: list):
+    def calculate_source(self, stats: dict, all_stats: list) -> None:
         return
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
         all_stats = [
             obj.stats
@@ -857,7 +873,7 @@ class AggregatingStats(BaseStats):
 
 
 class SingleLanguageStats(AggregatingStats):
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         super()._calculate_basic()
         self.store("languages", 1)
 
@@ -888,7 +904,7 @@ class ComponentStats(AggregatingStats):
     def has_review(self):
         return self._object.enable_review
 
-    def calculate_source(self, stats: dict, all_stats: list):
+    def calculate_source(self, stats: dict, all_stats: list) -> None:
         """Fetch source info from source translation."""
         for obj in all_stats:
             if obj.is_source:
@@ -913,7 +929,7 @@ class ComponentStats(AggregatingStats):
             # Global
             yield from self._object.project.stats.get_update_objects()
 
-    def update_language_stats_parents(self):
+    def update_language_stats_parents(self) -> None:
         # Fetch language stats to update
         extras = (
             translation.stats.get_update_objects(full=False)
@@ -925,7 +941,7 @@ class ComponentStats(AggregatingStats):
         # Update all parents
         self.update_parents(extra_objects=chain.from_iterable(extras))
 
-    def update_language_stats(self):
+    def update_language_stats(self) -> None:
         from weblate.utils.tasks import update_language_stats_parents
 
         # Update languages
@@ -960,7 +976,7 @@ class ComponentStats(AggregatingStats):
 class ProjectLanguageComponent:
     is_glossary = False
 
-    def __init__(self, parent):
+    def __init__(self, parent) -> None:
         self.slug = "-"
         self.parent = parent
 
@@ -983,12 +999,12 @@ class ProjectLanguage(BaseURLMixin):
     remove_permission = "translation.delete"
     settings_permission = "project.edit"
 
-    def __init__(self, project, language: Language):
+    def __init__(self, project, language: Language) -> None:
         self.project = project
         self.language = language
         self.component = ProjectLanguageComponent(self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.project} - {self.language}"
 
     @property
@@ -1008,16 +1024,16 @@ class ProjectLanguage(BaseURLMixin):
             )
         )
 
-    def get_widgets_url(self):
+    def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
         return f"{self.project.get_widgets_url()}?lang={self.language.code}"
 
     @cached_property
-    def pk(self):
+    def pk(self) -> str:
         return f"{self.project.pk}-{self.language.pk}"
 
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> str:
         return f"{self.project.cache_key}-{self.language.pk}"
 
     def get_url_path(self):
@@ -1074,7 +1090,7 @@ class ProjectLanguage(BaseURLMixin):
 
 
 class ProjectLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: ProjectLanguage):
+    def __init__(self, obj: ProjectLanguage) -> None:
         self.language = obj.language
         self.project = obj.project
         super().__init__(obj)
@@ -1095,12 +1111,12 @@ class CategoryLanguage(BaseURLMixin):
 
     remove_permission = "translation.delete"
 
-    def __init__(self, category, language: Language):
+    def __init__(self, category, language: Language) -> None:
         self.category = category
         self.language = language
         self.component = ProjectLanguageComponent(self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.category} - {self.language}"
 
     @property
@@ -1112,11 +1128,11 @@ class CategoryLanguage(BaseURLMixin):
         return CategoryLanguageStats(self)
 
     @cached_property
-    def pk(self):
+    def pk(self) -> str:
         return f"{self.category.pk}-{self.language.pk}"
 
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> str:
         return f"{self.category.cache_key}-{self.language.pk}"
 
     def get_url_path(self):
@@ -1154,7 +1170,7 @@ class CategoryLanguage(BaseURLMixin):
 
 
 class CategoryLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: CategoryLanguage):
+    def __init__(self, obj: CategoryLanguage) -> None:
         self.language = obj.language
         self.category = obj.category
         super().__init__(obj)
@@ -1168,7 +1184,10 @@ class CategoryLanguageStats(SingleLanguageStats):
         )
 
     def get_category_objects(self):
-        return self.category.stats.get_category_objects()
+        return [
+            CategoryLanguage(category, self.language)
+            for category in self.category.stats.get_category_objects()
+        ]
 
     def get_child_objects(self):
         return self.language.translation_set.filter(
@@ -1189,7 +1208,7 @@ class CategoryStats(ParentAggregatingStats):
         return self._object.component_set.only("id", "category")
 
     def get_category_objects(self):
-        return prefetch_stats(self._object.category_set.only("id", "category"))
+        return self._object.category_set.only("id", "category")
 
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(CategoryLanguage(self._object, language))
@@ -1218,7 +1237,7 @@ class ProjectStats(ParentAggregatingStats):
             for language in self._object.languages
         )
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         super()._calculate_basic()
         self.store("languages", self._object.languages.count())
 
@@ -1229,7 +1248,7 @@ class ComponentListStats(ParentAggregatingStats):
 
 
 class GlobalStats(ParentAggregatingStats):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(None)
 
     def get_child_objects(self):
@@ -1237,12 +1256,12 @@ class GlobalStats(ParentAggregatingStats):
 
         return Project.objects.only("id", "access_control")
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         super()._calculate_basic()
         self.store("languages", Language.objects.have_translation().count())
 
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> str:
         return "stats-global"
 
 
@@ -1250,7 +1269,7 @@ class GhostStats(BaseStats):
     basic_keys = SOURCE_KEYS
     is_ghost = True
 
-    def __init__(self, base=None):
+    def __init__(self, base=None) -> None:
         super().__init__(None)
         self.base = base
 
@@ -1258,7 +1277,7 @@ class GhostStats(BaseStats):
     def pk(self):
         return get_random_identifier()
 
-    def _calculate_basic(self):
+    def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
         if self.base is not None:
             for key in "all", "all_words", "all_chars":
@@ -1270,21 +1289,21 @@ class GhostStats(BaseStats):
             self.store(key, value)
 
     @cached_property
-    def cache_key(self):
+    def cache_key(self) -> str:
         return "stats-zero"
 
-    def save(self, update_parents: bool = True):
-        return
+    def save(self, update_parents: bool = True) -> None:
+        pass
 
     def load(self):
         return {}
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> None:
         return None
 
 
 class GhostProjectLanguageStats(GhostStats):
-    def __init__(self, component, language, is_shared=None):
+    def __init__(self, component, language, is_shared=None) -> None:
         super().__init__(component.stats)
         self.language = language
         self.component = component

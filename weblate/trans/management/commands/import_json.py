@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
     help = "imports projects based on JSON data"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--project", default=None, required=True, help="Project where to operate"
@@ -46,7 +46,7 @@ class Command(BaseCommand):
             help="JSON file containing component definition",
         )
 
-    def handle(self, *args, **options):  # noqa: C901
+    def handle(self, *args, **options) -> None:  # noqa: C901
         """Automatic import of components."""
         # Get project
         try:
@@ -108,9 +108,7 @@ class Command(BaseCommand):
                     raise CommandError("Component failed validation!")
                 component.save(force_insert=True)
                 self.stdout.write(
-                    "Imported {} with {} translations".format(
-                        component, component.translation_set.count()
-                    )
+                    f"Imported {component} with {component.translation_set.count()} translations"
                 )
             else:
                 self.stderr.write(f"Component {component} already exists")

@@ -7,7 +7,7 @@
 from django.db import migrations
 
 
-def alter_role(apps, schema_editor):
+def alter_role(apps, schema_editor) -> None:
     if schema_editor.connection.vendor != "postgresql":
         return
 

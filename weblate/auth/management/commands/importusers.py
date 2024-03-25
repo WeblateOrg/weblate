@@ -12,7 +12,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "imports users from JSON dump of database"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--check",
             action="store_true",
@@ -24,7 +24,7 @@ class Command(BaseCommand):
             help="JSON file containing user dump to import",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         data = json.load(options["json-file"])
         options["json-file"].close()
 

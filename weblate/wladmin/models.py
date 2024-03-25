@@ -48,8 +48,8 @@ class WeblateModelAdmin(ModelAdmin):
     delete_selected_confirmation_template = "wladmin/delete_selected_confirmation.html"
 
 
-class ConfigurationErrorManager(models.Manager):
-    def configuration_health_check(self, checks=None):
+class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
+    def configuration_health_check(self, checks=None) -> None:
         # Run deployment checks if needed
         if checks is None:
             checks = run_checks(include_deployment_checks=True)
@@ -110,7 +110,7 @@ class ConfigurationError(models.Model):
         verbose_name = "Configuration error"
         verbose_name_plural = "Configuration errors"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -145,13 +145,13 @@ class SupportStatus(models.Model):
         verbose_name = "Support status"
         verbose_name_plural = "Support statuses"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}:{self.expiry}"
 
     def get_verbose(self):
         return SUPPORT_NAMES.get(self.name, self.name)
 
-    def refresh(self):
+    def refresh(self) -> None:
         stats = GlobalStats()
         data = {
             "secret": self.secret,
@@ -249,13 +249,13 @@ class BackupService(models.Model):
         verbose_name = "Support service"
         verbose_name_plural = "Support services"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.repository
 
     def last_logs(self):
         return self.backuplog_set.order_by("-timestamp")[:10]
 
-    def ensure_init(self):
+    def ensure_init(self) -> None:
         if not self.paperkey:
             try:
                 log = initialize(self.repository, self.passphrase)
@@ -265,21 +265,21 @@ class BackupService(models.Model):
             except BackupError as error:
                 self.backuplog_set.create(event="error", log=str(error))
 
-    def backup(self):
+    def backup(self) -> None:
         try:
             log = backup(self.repository, self.passphrase)
             self.backuplog_set.create(event="backup", log=log)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
-    def prune(self):
+    def prune(self) -> None:
         try:
             log = prune(self.repository, self.passphrase)
             self.backuplog_set.create(event="prune", log=log)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         if not supports_cleanup():
             return
         initial = self.backuplog_set.filter(event="cleanup").exists()
@@ -310,5 +310,5 @@ class BackupLog(models.Model):
         verbose_name = "Backup log"
         verbose_name_plural = "Backup logs"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.service}:{self.event}"

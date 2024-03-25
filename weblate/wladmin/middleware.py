@@ -23,11 +23,11 @@ class ManageMiddleware:
     between Celery and UWSGI environments.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     @staticmethod
-    def trigger_check():
+    def trigger_check() -> None:
         if not settings.BACKGROUND_ADMIN_CHECKS:
             return
         # Update last execution timestamp

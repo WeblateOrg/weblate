@@ -55,17 +55,17 @@ class HgRepository(Repository):
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
 
-    def init(self):
+    def init(self) -> None:
         """Initialize the repository."""
         self._popen(["init", self.path])
 
-    def check_config(self):
+    def check_config(self) -> None:
         """Check VCS configuration."""
         # We directly set config as it takes same time as reading it
         self.set_config("ui.ssh", SSH_WRAPPER.filename)
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
+    def _clone(cls, source: str, target: str, branch: str) -> None:
         """Clone repository."""
         cls._popen(["clone", f"--branch={branch}", "--", source, target])
 
@@ -80,7 +80,7 @@ class HgRepository(Repository):
             result = config.get(section, option)
         return result
 
-    def set_config(self, path, value):
+    def set_config(self, path, value) -> None:
         """Set entry in local configuration."""
         if not self.lock.is_locked:
             raise RuntimeError("Repository operation without lock held!")
@@ -96,11 +96,11 @@ class HgRepository(Repository):
         with open(filename, "w") as handle:
             config.write(handle)
 
-    def set_committer(self, name, mail):
+    def set_committer(self, name, mail) -> None:
         """Configure committer name."""
         self.set_config("ui.username", format_address(name, mail))
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset working copy to match remote branch."""
         self.set_config("extensions.strip", "")
         self.execute(["update", "--clean", "remote(.)"])
@@ -108,7 +108,7 @@ class HgRepository(Repository):
             self.execute(["strip", "roots(outgoing())"])
         self.clean_revision_cache()
 
-    def configure_merge(self):
+    def configure_merge(self) -> None:
         """Select the correct merge tool."""
         self.set_config("ui.merge", "internal:merge")
         merge_driver = self.get_merge_driver("po")
@@ -122,7 +122,7 @@ class HgRepository(Repository):
             )
             self.set_config("merge-patterns.**.po", "weblate-merge-gettext-po")
 
-    def rebase(self, abort=False):
+    def rebase(self, abort=False) -> None:
         """Rebase working copy on top of remote branch."""
         self.set_config("extensions.rebase", "")
         if abort:
@@ -137,7 +137,7 @@ class HgRepository(Repository):
                 except RepositoryError as error:
                     # Mercurial 3.8 changed error code and output
                     if (
-                        error.retcode in (1, 255)
+                        error.retcode in {1, 255}
                         and "nothing to rebase" in error.args[0]
                     ):
                         self.execute(["update", "--clean", "remote(.)"])
@@ -148,7 +148,7 @@ class HgRepository(Repository):
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
-    ):
+    ) -> None:
         """Merge remote branch or reverts the merge."""
         if abort:
             self.execute(["update", "--clean", "."])
@@ -288,14 +288,14 @@ class HgRepository(Repository):
 
         return True
 
-    def remove(self, files: list[str], message: str, author: str | None = None):
+    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
         """Remove files and creates new revision."""
         self.execute(["remove", "--force", "--", *files])
         self.commit(message, author)
 
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
-    ):
+    ) -> None:
         """Configure remote repository."""
         old_pull = self.get_config("paths.default")
         old_push = self.get_config("paths.default-push")
@@ -318,7 +318,7 @@ class HgRepository(Repository):
     def on_branch(self, branch):
         return branch == self.execute(["branch"], merge_err=False).strip()
 
-    def configure_branch(self, branch):
+    def configure_branch(self, branch) -> None:
         """Configure repository branch."""
         if not self.on_branch(branch):
             self.execute(["update", "--", branch])
@@ -338,7 +338,7 @@ class HgRepository(Repository):
             merge_err=False,
         ).strip()
 
-    def push(self, branch):
+    def push(self, branch) -> None:
         """Push given branch to remote repository."""
         try:
             self.execute(["push", f"--branch={self.branch}"])
@@ -354,18 +354,18 @@ class HgRepository(Repository):
             ["cat", "--rev", revision, path], needs_lock=False, merge_err=False
         )
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         """Remove not tracked files from the repository."""
         self.set_config("extensions.purge", "")
         self.execute(["purge"])
 
-    def update_remote(self):
+    def update_remote(self) -> None:
         """Update remote repository."""
         self.execute(["pull", f"--branch={self.branch}"])
         self.clean_revision_cache()
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
-        """Parses output with changed files."""
+        """Parse output with changed files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 

@@ -9,19 +9,24 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, TypeAlias
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
+from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django_stubs_ext import StrOrPromise
+
+    from weblate.trans.models import Unit
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -95,7 +100,7 @@ GOOGLEPLAY_CODES = {
 
 
 class UnitNotFoundError(Exception):
-    def __str__(self):
+    def __str__(self) -> str:
         args = list(self.args)
         if "" in args:
             args.remove("")
@@ -103,10 +108,17 @@ class UnitNotFoundError(Exception):
 
 
 class UpdateError(Exception):
-    def __init__(self, cmd, output):
+    def __init__(self, cmd, output) -> None:
         super().__init__(output)
         self.cmd = cmd
         self.output = output
+
+
+class BaseItem:
+    pass
+
+
+InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
 
 
 class TranslationUnit:
@@ -117,8 +129,17 @@ class TranslationUnit:
     """
 
     id_hash_with_source: bool = False
+    template: InnerUnit | None
+    unit: InnerUnit
+    parent: TranslationFormat
+    mainunit: InnerUnit
 
-    def __init__(self, parent, unit, template=None):
+    def __init__(
+        self,
+        parent: TranslationFormat,
+        unit: InnerUnit,
+        template: InnerUnit | None = None,
+    ) -> None:
         """Create wrapper object."""
         self.unit = unit
         self.template = template
@@ -128,33 +149,33 @@ class TranslationUnit:
         else:
             self.mainunit = unit
 
-    def _invalidate_target(self):
+    def _invalidate_target(self) -> None:
         """Invalidate target cache."""
         if "target" in self.__dict__:
             del self.__dict__["target"]
 
     @cached_property
-    def locations(self):
+    def locations(self) -> str:
         """Return comma separated list of locations."""
         return ""
 
     @cached_property
-    def flags(self):
+    def flags(self) -> str:
         """Return flags or typecomments from units."""
         return ""
 
     @cached_property
-    def notes(self):
+    def notes(self) -> str:
         """Return notes from units."""
         return ""
 
     @cached_property
-    def source(self):
+    def source(self) -> str:
         """Return source string from a ttkit unit."""
         raise NotImplementedError
 
     @cached_property
-    def target(self):
+    def target(self) -> str:
         """Return target string from a ttkit unit."""
         raise NotImplementedError
 
@@ -169,7 +190,7 @@ class TranslationUnit:
         return ""
 
     @cached_property
-    def context(self):
+    def context(self) -> str:
         """
         Return context of message.
 
@@ -178,7 +199,7 @@ class TranslationUnit:
         raise NotImplementedError
 
     @cached_property
-    def previous_source(self):
+    def previous_source(self) -> str:
         """Return previous message source if there was any."""
         return ""
 
@@ -213,34 +234,38 @@ class TranslationUnit:
         """Check whether unit needs edit."""
         return fallback
 
-    def has_content(self):
+    def has_content(self) -> bool:
         """Check whether unit has content."""
         return True
 
-    def is_readonly(self):
+    def is_readonly(self) -> bool:
         """Check whether unit is read only."""
         return False
 
-    def set_target(self, target: str | list[str]):
+    def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         raise NotImplementedError
 
-    def set_explanation(self, explanation: str):
+    def set_explanation(self, explanation: str) -> None:
         return
 
-    def set_source_explanation(self, explanation: str):
+    def set_source_explanation(self, explanation: str) -> None:
         return
 
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError
 
     def has_unit(self) -> bool:
         return self.unit is not None
 
-    def clone_template(self):
+    def clone_template(self) -> None:
         self.mainunit = self.unit = copy(self.template)
         self._invalidate_target()
+
+    def untranslate(self, language) -> None:
+        self.set_target("")
+        self.set_state(STATE_EMPTY)
 
 
 class TranslationFormat:
@@ -279,8 +304,8 @@ class TranslationFormat:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
-        existing_units: list[Any] | None = None,
-    ):
+        existing_units: list[Unit] | None = None,
+    ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
             storefile.mode = "r"
@@ -304,12 +329,12 @@ class TranslationFormat:
             is_template=is_template,
         )
 
-    def _invalidate_units(self):
+    def _invalidate_units(self) -> None:
         for key in ("all_units", "template_units", "_unit_index", "_template_index"):
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def check_valid(self):
+    def check_valid(self) -> None:
         """Check store validity."""
         if not self.is_valid():
             raise ValueError(
@@ -357,7 +382,7 @@ class TranslationFormat:
 
     def find_unit_template(
         self, context: str, source: str, id_hash: int | None = None
-    ) -> Any | None:
+    ) -> InnerUnit | None:
         if id_hash is None:
             id_hash = self._calculate_string_hash(context, source)
         try:
@@ -389,7 +414,7 @@ class TranslationFormat:
         return {unit.id_hash: unit for unit in self.content_units}
 
     def _calculate_string_hash(self, context: str, source: str) -> int:
-        """Calculates id hash for a string."""
+        """Calculate id hash for a string."""
         return self.unit_class.calculate_id_hash(
             self.has_template or self.is_template, get_string(source), context
         )
@@ -416,16 +441,16 @@ class TranslationFormat:
     def ensure_index(self):
         return self._unit_index
 
-    def add_unit(self, ttkit_unit):
+    def add_unit(self, ttkit_unit) -> None:
         """Add new unit to underlying store."""
         raise NotImplementedError
 
-    def update_header(self, **kwargs):
+    def update_header(self, **kwargs) -> None:
         """Update store header if available."""
         return
 
     @staticmethod
-    def save_atomic(filename, callback):
+    def save_atomic(filename, callback) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -438,57 +463,57 @@ class TranslationFormat:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
 
-    def save(self):
+    def save(self) -> None:
         """Save underlying store to disk."""
         raise NotImplementedError
 
     @property
-    def all_store_units(self):
+    def all_store_units(self) -> list[BaseItem]:
         """Wrapper for all store units for possible filtering."""
         return self.store.units
 
     @cached_property
-    def template_units(self):
+    def template_units(self) -> list[TranslationUnit]:
         return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
-    def _get_all_bilingual_units(self):
+    def _get_all_bilingual_units(self) -> list[TranslationUnit]:
         return [self.unit_class(self, unit) for unit in self.all_store_units]
 
-    def _build_monolingual_unit(self, unit):
+    def _build_monolingual_unit(self, unit: TranslationUnit) -> TranslationUnit:
         return self.unit_class(
             self,
             self.find_unit_template(unit.context, unit.source, unit.id_hash),
             unit.template,
         )
 
-    def _get_all_monolingual_units(self):
+    def _get_all_monolingual_units(self) -> list[TranslationUnit]:
         return [
             self._build_monolingual_unit(unit)
             for unit in self.template_store.template_units
         ]
 
     @cached_property
-    def all_units(self):
+    def all_units(self) -> list[TranslationUnit]:
         """List of all units."""
         if not self.has_template:
             return self._get_all_bilingual_units()
         return self._get_all_monolingual_units()
 
     @property
-    def content_units(self):
+    def content_units(self) -> list[TranslationUnit]:
         return [unit for unit in self.all_units if unit.has_content()]
 
     @staticmethod
-    def mimetype():
+    def mimetype() -> str:
         """Return most common mime type for format."""
         return "text/plain"
 
     @staticmethod
-    def extension():
+    def extension() -> str:
         """Return most common file extension for format."""
         return "txt"
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """Check whether store seems to be valid."""
         for unit in self.content_units:
             # Just ensure that id_hash can be calculated
@@ -577,7 +602,7 @@ class TranslationFormat:
     @classmethod
     def get_language_filename(cls, mask: str, code: str) -> str:
         """
-        Returns full filename of a language file.
+        Return  full filename of a language file.
 
         Calculated for given path, filemask and language code.
         """
@@ -590,7 +615,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-    ):
+    ) -> None:
         """Add new language file."""
         # Create directory for a translation
         dirname = os.path.dirname(filename)
@@ -600,8 +625,8 @@ class TranslationFormat:
         cls.create_new_file(filename, language, base, callback)
 
     @classmethod
-    def get_new_file_content(cls):
-        return None
+    def get_new_file_content(cls) -> bytes:
+        return b""
 
     @classmethod
     def create_new_file(
@@ -610,7 +635,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-    ):
+    ) -> None:
         """Handle creation of new translation file."""
         raise NotImplementedError
 
@@ -642,7 +667,7 @@ class TranslationFormat:
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-    ):
+    ) -> TranslationUnit:
         raise NotImplementedError
 
     def new_unit(
@@ -692,14 +717,14 @@ class TranslationFormat:
         raise NotImplementedError
 
     @classmethod
-    def add_breadcrumb(cls, message, **data):
+    def add_breadcrumb(cls, message, **data) -> None:
         add_breadcrumb(category="storage", message=message, **data)
 
     def delete_unit(self, ttkit_unit) -> str | None:
         raise NotImplementedError
 
     def cleanup_unused(self) -> list[str] | None:
-        """Removes unused strings, returning list of additional changed files."""
+        """Remove unused strings, returning list of additional changed files."""
         if not self.template_store:
             return None
         existing = {template.context for template in self.template_store.template_units}
@@ -728,7 +753,7 @@ class TranslationFormat:
 
     def cleanup_blank(self) -> list[str] | None:
         """
-        Removes strings without translations.
+        Remove strings without translations.
 
         Returning list of additional changed files.
         """
@@ -773,7 +798,7 @@ class TranslationFormat:
         return result
 
     @staticmethod
-    def validate_context(context: str):  # noqa: ARG004
+    def validate_context(context: str) -> None:  # noqa: ARG004
         return
 
 
@@ -784,17 +809,19 @@ class EmptyFormat(TranslationFormat):
     def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
-    def save(self):
+    def save(self) -> None:
         return
 
 
 class BilingualUpdateMixin:
     @classmethod
-    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+    def do_bilingual_update(
+        cls, in_file: str, out_file: str, template: str, **kwargs
+    ) -> None:
         raise NotImplementedError
 
     @classmethod
-    def update_bilingual(cls, filename: str, template: str, **kwargs):
+    def update_bilingual(cls, filename: str, template: str, **kwargs) -> None:
         temp = tempfile.NamedTemporaryFile(
             prefix=filename, dir=os.path.dirname(filename), delete=False
         )

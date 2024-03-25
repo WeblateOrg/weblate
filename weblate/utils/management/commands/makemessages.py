@@ -9,7 +9,11 @@ from weblate.utils.files import should_skip
 
 class Command(BaseCommand):
     def find_files(self, root):
-        return [obj for obj in super().find_files(root) if not should_skip(obj.path)]
+        return [
+            obj
+            for obj in super().find_files(root)
+            if not should_skip(obj.path)  # type: ignore[attr-defined]
+        ]
 
     def build_potfiles(self):
         if self.domain == "django":

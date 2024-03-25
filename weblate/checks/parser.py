@@ -22,7 +22,7 @@ def single_value_flag(func, validation=None):
 
 
 def length_validation(length: int):
-    def validate_length(val):
+    def validate_length(val) -> None:
         if len(val) > length:
             raise ValueError("String too long")
 
@@ -43,7 +43,7 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
 
 
 class RawQuotedString(QuotedString):
-    def __init__(self, quote_char, esc_char="\\"):
+    def __init__(self, quote_char, esc_char="\\") -> None:
         super().__init__(quote_char, esc_char=esc_char, convert_whitespace_escapes=True)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
         self.unquote_scan_re = re.compile(

@@ -34,15 +34,7 @@ check
 . ".venv-$TAG/bin/activate"
 # Workaround for SystemError: ffi_prep_closure(): bad user_data
 pip install --no-binary :all: cffi
-# Use older psycopg2 for compatibility with older Django releases
-pip install psycopg2-binary==2.7.7
-# Use specific Selenium versions to avoid issues with pip resolver
-pip install selenium==4.0.0a6.post2
-# The 5.0.0 release removed some compatibility shims used by Celery
-pip install importlib-metadata==4.12.0
-pip install -r requirements.txt
-# shellcheck disable=SC2046
-pip install $(grep -E '^(psycopg|mysqlclient)' requirements-optional.txt)
+pip install -e ".[all,mysql]"
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check

@@ -13,7 +13,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.lang.models import Language
 
 
-class AnnouncementManager(models.Manager):
+class AnnouncementManager(models.Manager["Announcement"]):
     def context_filter(self, project=None, component=None, language=None):
         """Filter announcements by context."""
         base = self.filter(
@@ -70,14 +70,14 @@ class Announcement(models.Model):
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
     project = models.ForeignKey(
-        "Project",
+        "trans.Project",
         verbose_name=gettext_lazy("Project"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     component = models.ForeignKey(
-        "Component",
+        "trans.Component",
         verbose_name=gettext_lazy("Component"),
         null=True,
         blank=True,
@@ -127,10 +127,10 @@ class Announcement(models.Model):
         verbose_name = "Announcement"
         verbose_name_plural = "Announcements"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.message
 
-    def clean(self):
+    def clean(self) -> None:
         if self.project and self.component and self.component.project != self.project:
             raise ValidationError(gettext("Do not specify both component and project!"))
         if not self.project and self.component:

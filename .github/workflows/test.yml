@@ -24,7 +24,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-        - '3.9'
         - '3.10'
         - '3.11'
         - '3.12'
@@ -40,7 +39,7 @@ jobs:
           requirements: latest
           database: mariadb
           # Reduced testing for minimal deps
-        - python-version: 3.9
+        - python-version: '3.10'
           requirements: minimal
           database: postgresql
           # Reduced testing for edge deps
@@ -70,7 +69,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
-        cache-dependency-path: '**/requirements*.txt'
+        cache-dependency-path: pyproject.toml
     - name: Used versions
       run: ./ci/print-versions
     - name: Install pip dependencies

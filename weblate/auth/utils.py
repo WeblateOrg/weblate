@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from email.headerregistry import Address
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -18,10 +19,13 @@ from weblate.auth.data import (
     SELECTION_ALL,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import Group, Role
+
 
 def is_django_permission(permission: str):
     """
-    Checks whether permission looks like a Django one.
+    Check whether permission looks like a Django one.
 
     Django permissions are <app>.<action>_<model>, while
     Weblate ones are <scope>.<action> where action lacks underscores
@@ -47,7 +51,7 @@ def migrate_permissions_list(model, permissions):
     return ids
 
 
-def migrate_permissions(model):
+def migrate_permissions(model) -> None:
     """Create permissions as defined in the data."""
     ids = set()
     # Per object permissions
@@ -71,8 +75,11 @@ def migrate_roles(model, perm_model) -> set[str]:
     return result
 
 
-def migrate_groups(model, role_model, update=False):
+def migrate_groups(
+    model: type[Group], role_model: type[Role], update: bool = False
+) -> dict[str, Group]:
     """Create groups as defined in the data."""
+    result: dict[str, Group] = {}
     for group, roles, selection in GROUPS:
         instance, created = model.objects.get_or_create(
             name=group,
@@ -83,15 +90,17 @@ def migrate_groups(model, role_model, update=False):
                 "language_selection": SELECTION_ALL,
             },
         )
+        result[group] = instance
         if update and not created:
             instance.project_selection = selection
             instance.language_selection = SELECTION_ALL
             instance.save()
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
+    return result
 
 
-def create_anonymous(model, group_model, update=True):
+def create_anonymous(model, group_model, update=True) -> None:
     try:
         user, created = model.objects.get_or_create(
             username=settings.ANONYMOUS_USER_NAME,
@@ -105,7 +114,7 @@ def create_anonymous(model, group_model, update=True):
     except IntegrityError as error:
         raise ValueError(
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
-            "most likely because other user is using noreply@weblate.org e-mail.: {error}"
+            f"most likely because other user is using noreply@weblate.org e-mail.: {error}"
         ) from error
     if user.is_active:
         raise ValueError(

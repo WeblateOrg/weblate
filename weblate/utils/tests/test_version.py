@@ -16,23 +16,23 @@ from weblate.utils.version import (
 
 
 class VersionTest(SimpleTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         flush_version_cache()
 
     @staticmethod
-    def mock_pypi():
+    def mock_pypi() -> None:
         with open(get_test_file("pypi.json")) as handle:
             responses.add(responses.GET, PYPI, body=handle.read())
 
     @responses.activate
-    def test_download(self):
+    def test_download(self) -> None:
         self.mock_pypi()
         data = download_version_info()
         self.assertEqual(len(data), 47)
 
     @responses.activate
-    def test_get(self):
+    def test_get(self) -> None:
         self.mock_pypi()
         data = get_version_info()
         self.assertEqual(len(data), 47)
@@ -41,7 +41,7 @@ class VersionTest(SimpleTestCase):
         self.assertEqual(len(data), 47)
 
     @responses.activate
-    def test_latest(self):
+    def test_latest(self) -> None:
         self.mock_pypi()
         latest = get_latest_version()
         self.assertEqual(latest.version, "3.10.3")

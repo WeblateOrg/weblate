@@ -64,7 +64,7 @@ class Widget:
     content_type = "image/png"
     order = 100
 
-    def __init__(self, obj, color=None, lang=None):
+    def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
         # Get object and related params
         self.obj = obj
@@ -81,7 +81,7 @@ class Widget:
 class ContentWidget(Widget):
     """Generic content widget class."""
 
-    def __init__(self, obj, color=None, lang=None):
+    def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get translation status
@@ -109,7 +109,7 @@ class BitmapWidget(ContentWidget):
     column_offset = 0
     lines = True
 
-    def __init__(self, obj, color=None, lang=None):
+    def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get object and related params
@@ -138,7 +138,7 @@ class BitmapWidget(ContentWidget):
             f"{self.name}-{self.color}.png",
         )
 
-    def get_columns(self):
+    def get_columns(self) -> list[list[str]]:
         raise NotImplementedError
 
     def get_column_width(self, surface, columns):
@@ -150,10 +150,10 @@ class BitmapWidget(ContentWidget):
             Pango.FontDescription(f"{WIDGET_FONT} {self.font_size}"),
         ]
 
-    def render_additional(self, ctx):
+    def render_additional(self, ctx) -> None:
         return
 
-    def render(self, response):
+    def render(self, response) -> None:
         """Render widget."""
         configure_fontconfig()
         surface = cairo.ImageSurface.create_from_png(self.get_filename())
@@ -206,8 +206,7 @@ class SVGWidget(ContentWidget):
     content_type = "image/svg+xml; charset=utf-8"
     template_name = ""
 
-    def render(self, response):
-        """Rendering method to be implemented."""
+    def render(self, response) -> None:
         raise NotImplementedError
 
 
@@ -276,7 +275,7 @@ class OpenGraphWidget(NormalWidget):
     foot_template = '<span letter_spacing="2000">{}</span>'
     verbose = pgettext_lazy("Status widget name", "Panel")
 
-    def get_column_width(self, surface, columns):
+    def get_column_width(self, surface, columns) -> int:
         return 230
 
     def get_column_fonts(self):
@@ -297,7 +296,7 @@ class OpenGraphWidget(NormalWidget):
 
         return format_html(template, format_html("<b>{}</b>{}", name, suffix))
 
-    def render_additional(self, ctx):
+    def render_additional(self, ctx) -> None:
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
         layout.set_font_description(Pango.FontDescription(f"{WIDGET_FONT} {52}"))
@@ -322,7 +321,7 @@ class OpenGraphWidget(NormalWidget):
 
 
 class SiteOpenGraphWidget(OpenGraphWidget):
-    def __init__(self, obj=None, color=None, lang=None):
+    def __init__(self, obj=None, color=None, lang=None) -> None:
         super().__init__(GlobalStats())
 
     def get_name(self) -> str:
@@ -343,7 +342,7 @@ class SVGBadgeWidget(SVGWidget):
     template_name = "svg/badge.svg"
     verbose = gettext_lazy("Status badge")
 
-    def render(self, response):
+    def render(self, response) -> None:
         translated_text = gettext("translated")
         translated_width = render_size(f"   {translated_text}   ")[0].width
 
@@ -386,7 +385,7 @@ class MultiLanguageWidget(SVGWidget):
 
     COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
 
-    def render(self, response):
+    def render(self, response) -> None:
         translations = []
         offset = 20
         color = self.COLOR_MAP[self.color]

@@ -51,11 +51,11 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
         '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',
     ]
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.maxDiff = None
         self.assertEqual(testdata.decode().splitlines(), newdata.decode().splitlines())
 
-    def test_edit(self):
+    def test_edit(self) -> None:
         newdata = super()._test_save(self.EDIT_TARGET)
         self.maxDiff = None
         self.assertEqual(
@@ -63,7 +63,7 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
             self.EXPECTED_EDIT,
         )
 
-    def test_edit_add(self):
+    def test_edit_add(self) -> None:
         newdata = self._test_save(
             [
                 "Infarctus myocardique",

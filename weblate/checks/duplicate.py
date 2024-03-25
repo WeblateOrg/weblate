@@ -31,23 +31,25 @@ class DuplicateCheck(TargetCheck):
     name = gettext_lazy("Consecutive duplicated words")
     description = gettext_lazy("Text contains the same word twice in a row:")
 
-    def extract_groups(self, text: str, language_code: str):
+    def extract_groups(
+        self, text: str, language_code: str
+    ) -> tuple[list[int], list[str]]:
         previous = None
         group = 1
-        groups = []
-        words = []
+        groups: list[int] = []
+        words: list[str] = []
         ignored = IGNORES.get(language_code, set())
         for word in NON_WORD.split(text):
             if not word:
                 continue
             if word not in ignored and len(word) >= 2 and previous == word:
                 group += 1
-            elif group > 1:
+            elif group > 1 and previous is not None:
                 groups.append(group)
                 words.append(previous)
                 group = 1
             previous = word
-        if group > 1:
+        if group > 1 and previous is not None:
             groups.append(group)
             words.append(previous)
         return groups, words

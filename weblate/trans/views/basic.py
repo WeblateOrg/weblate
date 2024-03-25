@@ -105,8 +105,8 @@ def list_projects(request):
     )
 
 
-def add_ghost_translations(component, user, translations, generator, **kwargs):
-    """Adds ghost translations for user languages to the list."""
+def add_ghost_translations(component, user, translations, generator, **kwargs) -> None:
+    """Add ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
         existing = {translation.language.code for translation in translations}
         for language in user.profile.all_languages:
@@ -347,7 +347,7 @@ def show_category_language(request, obj):
 def show_project(request, obj):
     user = request.user
 
-    all_changes = obj.change_set.prefetch()
+    all_changes = obj.change_set.filter_components(request.user).prefetch()
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
@@ -432,7 +432,9 @@ def show_project(request, obj):
 def show_category(request, obj):
     user = request.user
 
-    all_changes = Change.objects.for_category(obj).prefetch()
+    all_changes = (
+        Change.objects.for_category(obj).filter_components(request.user).prefetch()
+    )
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
@@ -585,6 +587,7 @@ def show_translation(request, obj):
             list(
                 Translation.objects.prefetch()
                 .filter(component__project=project, language=obj.language)
+                .exclude(component__is_glossary=True)
                 .exclude(pk=obj.pk)[:10]
             )
         )
@@ -744,7 +747,7 @@ def new_language(request, path):
 
 @never_cache
 def healthz(request):
-    """Simple health check endpoint."""
+    """Make simple health check endpoint."""
     return HttpResponse("ok")
 
 

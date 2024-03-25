@@ -20,7 +20,7 @@ def create_session(*args):
 
 
 class WeblateStrategy(DjangoStrategy):
-    def __init__(self, storage, request=None, tpl=None):
+    def __init__(self, storage, request=None, tpl=None) -> None:
         """Restore session data based on passed ID."""
         super().__init__(storage, request, tpl)
         if request and "verification_code" in request.GET and "id" in request.GET:
@@ -54,13 +54,13 @@ class WeblateStrategy(DjangoStrategy):
             self.request.__dict__["_current_scheme_host"] = get_site_url()
         return super().build_absolute_uri(path)
 
-    def clean_partial_pipeline(self, token):
+    def clean_partial_pipeline(self, token) -> None:
         # The cleanup somehow breaks our partial pipelines, simply skip
         # it for now
         # See https://github.com/python-social-auth/social-core/issues/287
         return
 
-    def really_clean_partial_pipeline(self, token):
+    def really_clean_partial_pipeline(self, token) -> None:
         super().clean_partial_pipeline(token)
 
     def request_is_secure(self):

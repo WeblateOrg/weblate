@@ -27,8 +27,8 @@ class NeteaseSightTranslation(MachineTranslation):
         """List of supported languages."""
         return ["zh", "en"]
 
-    def get_authentication(self):
-        """Hook for backends to allow add authentication headers to request."""
+    def get_headers(self):
+        """Add authentication headers to request."""
         nonce = str(random.randint(1000, 99999999))  # noqa: S311
         timestamp = str(int(1000 * time.time()))
 

@@ -8,7 +8,7 @@ from siphashc import siphash
 
 
 def raw_hash(*parts: str) -> int:
-    """Calculates checksum identifying translation."""
+    """Calculate checksum identifying translation."""
     if not parts:
         data = ""
     elif len(parts) == 1:
@@ -20,7 +20,7 @@ def raw_hash(*parts: str) -> int:
 
 def calculate_dict_hash(data: dict) -> int:
     """
-    Calculates checksum of a dict.
+    Calculate checksum of a dict.
 
     * Ordering independent.
     * Coerces all values to string.
@@ -31,21 +31,21 @@ def calculate_dict_hash(data: dict) -> int:
 
 
 def calculate_hash(*parts: str) -> int:
-    """Calculates checksum identifying translation."""
+    """Calculate checksum identifying translation."""
     # Need to convert it from unsigned 64-bit int to signed 64-bit int
     return raw_hash(*parts) - 2**63
 
 
 def calculate_checksum(*parts: str):
-    """Calculates siphashc checksum for given strings."""
+    """Calculate siphashc checksum for given strings."""
     return format(raw_hash(*parts), "016x")
 
 
 def checksum_to_hash(checksum: str):
-    """Converts hex to id_hash (signed 64-bit int)."""
+    """Convert hex to id_hash (signed 64-bit int)."""
     return int(checksum, 16) - 2**63
 
 
 def hash_to_checksum(id_hash: int):
-    """Converts id_hash (signed 64-bit int) to unsigned hex."""
+    """Convert id_hash (signed 64-bit int) to unsigned hex."""
     return format(id_hash + 2**63, "016x")

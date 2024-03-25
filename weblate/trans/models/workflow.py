@@ -13,7 +13,9 @@ from weblate.trans.validators import validate_autoaccept
 
 
 class WorkflowSetting(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE, null=True)
+    project = models.ForeignKey(
+        "trans.Project", on_delete=models.deletion.CASCADE, null=True
+    )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
 
     # This should match definitions in Project
@@ -47,10 +49,10 @@ class WorkflowSetting(models.Model):
         validators=[validate_autoaccept],
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<WorkflowSetting {self.project}:{self.language}>"
 
-    def clean(self):
+    def clean(self) -> None:
         if self.suggestion_autoaccept and not self.suggestion_voting:
             msg = gettext(
                 "Accepting suggestions automatically only works with "

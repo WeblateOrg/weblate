@@ -5,7 +5,6 @@
 """Tests for data exports."""
 
 import os
-from unittest import SkipTest
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -13,6 +12,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
+from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
 
 from weblate.checks.models import Check
@@ -31,7 +31,7 @@ TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
 
-    def test_create_backup(self):
+    def test_create_backup(self) -> None:
         # Additional content to test on backups
         label = self.project.label_set.create(name="Label", color="navy")
         unit = self.component.source_translation.unit_set.all()[0]
@@ -116,9 +116,16 @@ class BackupsTest(ViewTestCase):
             set(restored.label_set.values_list("name", "color")),
         )
 
-    def test_restore_4_14(self):
-        if not connection.features.can_return_rows_from_bulk_insert:
-            raise SkipTest("Not supported")
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_supported(self) -> None:
+        self.assertTrue(connection.features.can_return_rows_from_bulk_insert)
+
+    @skipIfDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_not_supported(self) -> None:
+        self.assertFalse(connection.features.can_return_rows_from_bulk_insert)
+
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
         restored = restore.restore(
@@ -157,14 +164,13 @@ class BackupsTest(ViewTestCase):
             set(restored.label_set.values_list("name", "color")),
         )
 
-    def test_restore_duplicate(self):
-        if not connection.features.can_return_rows_from_bulk_insert:
-            raise SkipTest("Not supported")
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
             restore.validate()
 
-    def test_cleanup(self):
+    def test_cleanup(self) -> None:
         cleanup_project_backups()
         self.assertLessEqual(len(self.project.list_backups()), 3)
         ProjectBackup().backup_project(self.project)
@@ -182,7 +188,7 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(len(self.project.list_backups()), 3)
         cleanup_project_backup_download()
 
-    def test_views(self):
+    def test_views(self) -> None:
         start = len(self.project.list_backups())
         url = reverse("backups", kwargs=self.kw_project)
         response = self.client.post(url)
@@ -211,9 +217,8 @@ class BackupsTest(ViewTestCase):
         with staticfiles_storage.open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
-    def test_view_restore(self):
-        if not connection.features.can_return_rows_from_bulk_insert:
-            raise SkipTest("Not supported")
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_view_restore(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(

@@ -14,7 +14,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "imports userdata from JSON dump of database"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "json-file",
             type=argparse.FileType("r"),
@@ -22,7 +22,7 @@ class Command(BaseCommand):
         )
 
     @staticmethod
-    def import_watched(profile, userprofile):
+    def import_watched(profile, userprofile) -> None:
         """Import user subscriptions."""
         # Add subscriptions
         for subscription in userprofile["watched"]:
@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 continue
 
     @staticmethod
-    def update_languages(profile, userprofile):
+    def update_languages(profile, userprofile) -> None:
         """Update user language preferences."""
         profile.language = userprofile["language"]
         for lang in userprofile["secondary_languages"]:
@@ -40,7 +40,7 @@ class Command(BaseCommand):
         for lang in userprofile["languages"]:
             profile.languages.add(Language.objects.auto_get_or_create(lang))
 
-    def handle_compat(self, data):
+    def handle_compat(self, data) -> None:
         """Compatibility with pre 3.6 dumps."""
         if "basic" in data:
             return
@@ -55,7 +55,7 @@ class Command(BaseCommand):
             "watched": data["subscriptions"],
         }
 
-    def handle(self, **options):
+    def handle(self, **options) -> None:
         """
         Create default set of groups.
 

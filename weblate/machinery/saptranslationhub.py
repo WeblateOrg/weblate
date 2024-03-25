@@ -3,10 +3,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from requests.auth import _basic_auth_str
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from .base import DownloadTranslations, MachineTranslation
 from .forms import SAPMachineryForm
+
+if TYPE_CHECKING:
+    from requests.auth import AuthBase
 
 
 class SAPTranslationHub(MachineTranslation):
@@ -21,19 +26,20 @@ class SAPTranslationHub(MachineTranslation):
             return base
         return f"{base}/v1"
 
-    def get_authentication(self):
-        """Hook for backends to allow add authentication headers to request."""
+    def get_headers(self):
+        """Add authentication headers to request."""
         # to access the sandbox
         result = {}
         if self.settings["key"]:
             result["APIKey"] = self.settings["key"]
 
+        return result
+
+    def get_auth(self) -> None | tuple[str, str] | AuthBase:
         # to access the productive API
         if self.settings["username"] and self.settings["password"]:
-            result["Authorization"] = _basic_auth_str(
-                self.settings["username"], self.settings["password"]
-            )
-        return result
+            return (self.settings["username"], self.settings["password"])
+        return None
 
     def download_languages(self):
         """Get all available languages from SAP Translation Hub."""

@@ -304,7 +304,7 @@ of upgrading.
 
    .. hint::
 
-      Please check that the database name matches :envvar:`POSTGRES_DATABASE`.
+      Please check that the database name matches :envvar:`POSTGRES_DB`.
 
 8. (Optional) Update password for the Weblate user. This might be needed when migrating to PostgreSQL 14 or 15 as way of storing passwords has been changed:
 
@@ -314,7 +314,7 @@ of upgrading.
 
    .. hint::
 
-      Please check that the database name matches :envvar:`POSTGRES_DATABASE`.
+      Please check that the database name matches :envvar:`POSTGRES_DB`.
 
 9. Start all remaining containers:
 
@@ -1353,6 +1353,13 @@ Other authentication settings
     :ref:`disable-email-auth`.
 
 
+.. envvar:: WEBLATE_MIN_PASSWORD_SCORE
+
+   Minimal password score as evaluated by the `zxcvbn
+   <https://github.com/dropbox/zxcvbn>`_ password strength estimator.
+   Defaults to 3, set to 0 to disable strenght checking.
+
+
 PostgreSQL database setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1373,7 +1380,7 @@ both Weblate and PostgreSQL containers.
 
     PostgreSQL username.
 
-.. envvar:: POSTGRES_DATABASE
+.. envvar:: POSTGRES_DB
 
     PostgreSQL database name.
 

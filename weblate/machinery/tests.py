@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 from copy import copy
 from io import StringIO
+from typing import NoReturn
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 
@@ -209,18 +210,18 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_validate_settings(self):
+    def test_validate_settings(self) -> None:
         self.mock_response()
         machine = self.get_machine()
         machine.validate_settings()
 
-    def test_english_map(self):
+    def test_english_map(self) -> None:
         machine = self.get_machine()
         self.assertEqual(machine.map_language_code("en_devel"), self.ENGLISH)
 
     @responses.activate
     @respx.mock
-    def test_support(self):
+    def test_support(self) -> None:
         self.mock_response()
         machine_translation = self.get_machine()
         self.assertTrue(machine_translation.is_supported(self.ENGLISH, self.SUPPORTED))
@@ -257,24 +258,24 @@ class BaseMachineTranslationTest(TestCase):
                         )
         return translation
 
-    def mock_empty(self):
+    def mock_empty(self) -> None:
         pass
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         pass
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         raise SkipTest("Not tested")
 
     @responses.activate
     @respx.mock
-    def test_translate_empty(self):
+    def test_translate_empty(self) -> None:
         self.mock_empty()
         self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
     @responses.activate
     @respx.mock
-    def test_translate(self, **kwargs):
+    def test_translate(self, **kwargs) -> None:
         self.mock_response()
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, **kwargs
@@ -282,7 +283,7 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_batch(self, machine=None):
+    def test_batch(self, machine=None) -> None:
         self.mock_response()
         if machine is None:
             machine = self.get_machine()
@@ -293,14 +294,14 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_error(self):
+    def test_error(self) -> None:
         self.mock_error()
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
 class MachineTranslationTest(BaseMachineTranslationTest):
-    def test_translate_fallback(self):
+    def test_translate_fallback(self) -> None:
         machine_translation = self.get_machine()
         self.assertEqual(
             len(
@@ -311,7 +312,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             self.EXPECTED_LEN,
         )
 
-    def test_translate_fallback_missing(self):
+    def test_translate_fallback_missing(self) -> None:
         machine_translation = self.get_machine()
         self.assertEqual(
             machine_translation.translate(
@@ -320,7 +321,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             [],
         )
 
-    def test_placeholders(self):
+    def test_placeholders(self) -> None:
         machine_translation = self.get_machine()
         unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
         self.assertEqual(
@@ -342,7 +343,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
-    def test_key(self):
+    def test_key(self) -> None:
         machine_translation = self.get_machine()
         self.assertEqual(
             machine_translation.get_cache_key("test"),
@@ -355,17 +356,17 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
     EXPECTED_LEN = 1
     NOTSUPPORTED = None
 
-    def mock_empty(self):
+    def mock_empty(self) -> None:
         response = copy(GLOSBE_JSON)
         response["tuc"] = []
         responses.add(responses.GET, "https://glosbe.com/gapi/translate", json=response)
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET, "https://glosbe.com/gapi/translate", json=GLOSBE_JSON
         )
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET,
             "https://glosbe.com/gapi/translate",
@@ -373,7 +374,7 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
             status=429,
         )
 
-    def test_ratelimit(self):
+    def test_ratelimit(self) -> None:
         """Test rate limit response handling."""
         # This raises an exception
         self.test_error()
@@ -384,7 +385,7 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_ratelimit_set(self):
+    def test_ratelimit_set(self) -> None:
         """Test manual setting of rate limit."""
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -404,13 +405,13 @@ class MyMemoryTranslationTest(BaseMachineTranslationTest):
         "key": "key",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET, "https://mymemory.translated.net/api/get", json=MYMEMORY_JSON
         )
@@ -425,13 +426,13 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         "url": "http://apertium.example.com",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "http://apertium.example.com/listPairs",
@@ -451,7 +452,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_translations_cache(self):
+    def test_translations_cache(self) -> None:
         self.mock_response()
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -478,13 +479,13 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
         "region": "",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.POST,
             "https://api.cognitive.microsoft.com/sts/v1.0/issueToken"
@@ -519,7 +520,7 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
         "region": "westeurope",
     }
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.POST,
             "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken"
@@ -553,14 +554,14 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
         "key": "KEY",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
         responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             GOOGLE_API_ROOT + "languages",
@@ -581,7 +582,7 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_ratelimit_set(self):
+    def test_ratelimit_set(self) -> None:
         """Test manual setting of rate limit."""
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -600,13 +601,13 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         "credentials": GOOGLEV3_KEY,
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         # Mock get supported languages
         patcher = patch.object(
             TranslationServiceClient,
@@ -639,7 +640,7 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         patcher.start()
         self.addCleanup(patcher.stop)
 
-    def test_mapping(self):
+    def test_mapping(self) -> None:
         machine = self.get_machine()
         self.assertEqual(
             list(
@@ -656,7 +657,7 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
             ["zh-Hant-HK", "zh-TW", "zh"],
         )
 
-    def test_replacements(self):
+    def test_replacements(self) -> None:
         machine_translation = self.get_machine()
         unit = MockUnit(code="cs", source="Hello,\n%s!", flags="c-format")
         replaced = 'Hello,<br translate="no"><span translate="no" id="7">%s</span>!'
@@ -678,11 +679,11 @@ class AmagamaTranslationTest(BaseMachineTranslationTest):
     EXPECTED_LEN = 1
     SOURCE_TRANSLATED = "Hello"
 
-    def mock_empty(self):
+    def mock_empty(self) -> None:
         responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
         responses.add(responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=[])
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             AMAGAMA_LIVE + "/languages/",
@@ -695,7 +696,7 @@ class AmagamaTranslationTest(BaseMachineTranslationTest):
             responses.GET, AMAGAMA_LIVE + "/en/de/unit/test", json=AMAGAMA_JSON
         )
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
         responses.add(
             responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", body="", status=500
@@ -709,10 +710,10 @@ class YandexTranslationTest(BaseMachineTranslationTest):
         "key": "KEY",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET,
             "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
@@ -724,7 +725,7 @@ class YandexTranslationTest(BaseMachineTranslationTest):
             json={"code": 400, "message": "Invalid request"},
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
@@ -737,7 +738,7 @@ class YandexTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_error_message(self):
+    def test_error_message(self) -> None:
         message = "Invalid test request"
         responses.add(
             responses.GET,
@@ -760,10 +761,10 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
         "key": "KEY",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/languages",
@@ -775,7 +776,7 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
             json={"code": 400, "message": "Invalid request"},
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/languages",
@@ -793,7 +794,7 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_error_message(self):
+    def test_error_message(self) -> None:
         message = "Invalid test request"
         responses.add(
             responses.POST,
@@ -825,15 +826,15 @@ class YoudaoTranslationTest(BaseMachineTranslationTest):
         "secret": "secret",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET, "https://openapi.youdao.com/api", json={"errorCode": 1}
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://openapi.youdao.com/api",
@@ -847,13 +848,13 @@ class NeteaseSightTranslationTest(BaseMachineTranslationTest):
     SUPPORTED = "zh"
     CONFIGURATION = {"key": "id", "secret": "secret"}
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(responses.POST, NETEASE_API_ROOT, json={"success": "false"})
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.POST,
             NETEASE_API_ROOT,
@@ -873,15 +874,15 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
         "secret": "secret",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             BAIDU_API,
@@ -889,7 +890,7 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_ratelimit(self):
+    def test_ratelimit(self) -> None:
         responses.add(
             responses.GET, BAIDU_API, json={"error_code": "54003", "error_msg": "Error"}
         )
@@ -897,7 +898,7 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
 
     @responses.activate
-    def test_bug(self):
+    def test_bug(self) -> None:
         responses.add(
             responses.GET, BAIDU_API, json={"error_code": "bug", "error_msg": "Error"}
         )
@@ -916,10 +917,10 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
         "url": "http://sth.example.com/",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET, "http://sth.example.com/v1/languages", body="", status=500
         )
@@ -927,7 +928,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
             responses.POST, "http://sth.example.com/v1/translate", body="", status=500
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "http://sth.example.com/v1/languages",
@@ -966,10 +967,10 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         "url": "https://api.modernmt.com/",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET, "https://api.modernmt.com/languages", body="", status=500
         )
@@ -977,7 +978,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             responses.GET, "https://api.modernmt.com/translate", body="", status=500
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://api.modernmt.com/languages",
@@ -1021,10 +1022,10 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         "url": "https://api.deepl.com/v2/",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.GET,
             "https://api.deepl.com/v2/languages",
@@ -1039,7 +1040,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @staticmethod
-    def mock_languages():
+    def mock_languages() -> None:
         responses.add(
             responses.GET,
             "https://api.deepl.com/v2/languages",
@@ -1057,7 +1058,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @classmethod
-    def mock_response(cls):
+    def mock_response(cls) -> None:
         cls.mock_languages()
         responses.add(
             responses.POST,
@@ -1066,7 +1067,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_formality(self):
+    def test_formality(self) -> None:
         def request_callback(request):
             payload = json.loads(request.body)
             self.assertIn("formality", payload)
@@ -1090,7 +1091,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
-    def test_glossary(self):
+    def test_glossary(self) -> None:
         def request_callback(request):
             payload = json.loads(request.body)
             self.assertIn("glossary_id", payload)
@@ -1134,7 +1135,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
 
     @responses.activate
-    def test_replacements(self):
+    def test_replacements(self) -> None:
         def request_callback(request):
             payload = json.loads(request.body)
             self.assertEqual(
@@ -1174,7 +1175,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "Hallo, %s! <<foo>>")
 
     @responses.activate
-    def test_cache(self):
+    def test_cache(self) -> None:
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
         self.mock_response()
@@ -1203,10 +1204,10 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         "key": "",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> None:
         responses.add(
             responses.POST,
             "https://libretranslate.com/translate",
@@ -1214,7 +1215,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
             status=403,
         )
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://libretranslate.com/languages",
@@ -1227,7 +1228,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_cache(self):
+    def test_cache(self) -> None:
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
         self.mock_response()
@@ -1255,16 +1256,16 @@ class AWSTranslationTest(BaseMachineTranslationTest):
         "secret": "secret",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         pass
 
-    def test_validate_settings(self):
+    def test_validate_settings(self) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
@@ -1278,7 +1279,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             )
             machine.validate_settings()
 
-    def test_translate(self, **kwargs):
+    def test_translate(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
@@ -1297,7 +1298,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 machine=machine,
             )
 
-    def test_translate_language_map(self, **kwargs):
+    def test_translate_language_map(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
@@ -1328,7 +1329,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 ],
             )
 
-    def test_batch(self, machine=None):
+    def test_batch(self, machine=None) -> None:
         if machine is None:
             machine = self.get_machine()
         with Stubber(machine.client) as stubber:
@@ -1354,13 +1355,13 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
         "region": "cn-hangzhou",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         patcher = patch.object(
             AcsClient,
             "do_action_with_exception",
@@ -1389,13 +1390,13 @@ class IBMTranslationTest(BaseMachineTranslationTest):
         "key": "",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://api.region.language-translator.watson.cloud.ibm.com/"
@@ -1427,13 +1428,13 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "style": "",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         respx.get("https://api.openai.com/v1/models").mock(
             httpx.Response(
                 200,
@@ -1482,12 +1483,12 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
 
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
-    def test_empty(self):
+    def test_empty(self) -> None:
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
         self.assertEqual(results, [[]])
 
-    def test_exists(self):
+    def test_exists(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         # Create fake fulltext entry
         other = unit.translation.unit_set.exclude(pk=unit.pk)[0]
@@ -1516,7 +1517,7 @@ class ViewsTest(FixtureTestCase):
         )
         return service
 
-    def test_translate(self):
+    def test_translate(self) -> None:
         self.ensure_dummy_mt()
         unit = self.get_unit()
         response = self.client.post(
@@ -1558,7 +1559,7 @@ class ViewsTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_memory(self):
+    def test_memory(self) -> None:
         unit = self.get_unit()
         url = reverse("js-memory", kwargs={"unit_id": unit.id})
         # Missing param
@@ -1570,7 +1571,7 @@ class ViewsTest(FixtureTestCase):
         data = response.json()
         self.assertEqual(data["service"], "Weblate Translation Memory")
 
-    def test_configure_global(self):
+    def test_configure_global(self) -> None:
         service = self.ensure_dummy_mt()
         list_url = reverse("manage-machinery")
         edit_url = reverse(
@@ -1598,7 +1599,7 @@ class ViewsTest(FixtureTestCase):
             ).exists()
         )
 
-    def test_configure_project(self):
+    def test_configure_project(self) -> None:
         service = self.ensure_dummy_mt()
         list_url = reverse("machinery-list", kwargs={"project": self.project.slug})
         edit_url = reverse(
@@ -1633,7 +1634,7 @@ class ViewsTest(FixtureTestCase):
         project = Project.objects.get(pk=self.component.project_id)
         self.assertNotIn("dummy", project.machinery_settings)
 
-    def test_configure_invalid(self):
+    def test_configure_invalid(self) -> None:
         self.user.is_superuser = True
         self.user.save()
 
@@ -1662,12 +1663,12 @@ class ViewsTest(FixtureTestCase):
 class CommandTest(FixtureTestCase):
     """Test for management commands."""
 
-    def test_list_addons(self):
+    def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_machinery", stdout=output)
         self.assertIn("DeepL", output.getvalue())
 
-    def test_install_no_form(self):
+    def test_install_no_form(self) -> None:
         output = StringIO()
         call_command(
             "install_machinery",
@@ -1678,7 +1679,7 @@ class CommandTest(FixtureTestCase):
         )
         self.assertIn("Service installed: Weblate", output.getvalue())
 
-    def test_install_missing_form(self):
+    def test_install_missing_form(self) -> None:
         output = StringIO()
         with self.assertRaises(CommandError):
             call_command(
@@ -1689,7 +1690,7 @@ class CommandTest(FixtureTestCase):
                 stderr=output,
             )
 
-    def test_install_wrong_form(self):
+    def test_install_wrong_form(self) -> None:
         output = StringIO()
         with self.assertRaises(CommandError):
             call_command(
@@ -1703,7 +1704,7 @@ class CommandTest(FixtureTestCase):
             )
 
     @responses.activate
-    def test_install_valid_form(self):
+    def test_install_valid_form(self) -> None:
         output = StringIO()
         DeepLTranslationTest.mock_response()
         call_command(

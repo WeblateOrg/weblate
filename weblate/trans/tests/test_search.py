@@ -18,7 +18,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
 
 class SearchViewTest(TransactionsTestMixin, ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
         self.translate_url = self.translation.get_translate_url()
@@ -26,7 +26,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         reset_rate_limit("search", address="127.0.0.1")
 
     def do_search(self, params, expected, url=None, *, anchor="#search"):
-        """Helper method for performing search test."""
+        """Perform search test."""
         if url is None:
             url = self.translate_url
         response = self.client.get(url, params)
@@ -41,7 +41,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
             self.assertContains(response, expected)
         return response
 
-    def do_search_url(self, url):
+    def do_search_url(self, url) -> None:
         """Test search on given URL."""
         response = self.client.get(url, {"q": "hello"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
@@ -49,7 +49,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.assertContains(response, "2010-01-10")
 
     @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
-    def test_all_search(self):
+    def test_all_search(self) -> None:
         """Searching in all projects."""
         response = self.client.get(reverse("search"), {"q": "hello"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
@@ -71,7 +71,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.assertContains(response, "No matching strings found.")
         self.do_search_url(reverse("search"))
 
-    def test_pagination(self):
+    def test_pagination(self) -> None:
         response = self.client.get(reverse("search"), {"q": "hello", "page": 1})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "hello", "page": 10})
@@ -79,35 +79,35 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         response = self.client.get(reverse("search"), {"q": "hello", "page": "x"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
 
-    def test_language_search(self):
+    def test_language_search(self) -> None:
         """Searching in all projects."""
         response = self.client.get(reverse("search"), {"q": "hello", "lang": "cs"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
 
-    def test_project_search(self):
+    def test_project_search(self) -> None:
         """Searching within project."""
         self.do_search_url(
             reverse("search", kwargs={"path": self.project.get_url_path()})
         )
 
-    def test_component_search(self):
+    def test_component_search(self) -> None:
         """Searching within component."""
         self.do_search_url(reverse("search", kwargs=self.kw_component))
 
-    def test_project_language_search(self):
+    def test_project_language_search(self) -> None:
         """Searching within project."""
         self.do_search_url(
             reverse("search", kwargs={"path": [self.project.slug, "-", "cs"]})
         )
 
-    def test_translation_search(self):
+    def test_translation_search(self) -> None:
         """Searching within translation."""
         # Default
         self.do_search({"q": "source:hello"}, "source:hello")
         # Short exact
         self.do_search({"q": "x", "search": "exact"}, None)
 
-    def test_review(self):
+    def test_review(self) -> None:
         # Review
         self.do_search({"q": "changed:>=2010-01-10"}, None)
         self.do_search({"q": "changed:>=2010-01-10 AND NOT changed_by:testuser"}, None)
@@ -120,7 +120,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         search_url = re.findall(r'data-params="([^"]*)"', response.content.decode())[0]
         return QueryDict(search_url, mutable=True)
 
-    def test_search_links(self):
+    def test_search_links(self) -> None:
         response = self.do_search({"q": "source:Weblate"}, "source:Weblate")
         # Extract search URL
         params = self.extract_params(response)
@@ -144,19 +144,19 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, "Thank you for using Weblate.")
 
-    def test_search_checksum(self):
+    def test_search_checksum(self) -> None:
         unit = self.translation.unit_set.get(
             source="Try Weblate at <https://demo.weblate.org/>!\n"
         )
         self.do_search({"checksum": unit.checksum}, "3 / 4")
 
-    def test_search_offset(self):
+    def test_search_offset(self) -> None:
         """Test offset navigation."""
         self.do_search({"offset": 1}, "1 / 4")
         self.do_search({"offset": 4}, "4 / 4")
         self.do_search({"offset": 5}, None, anchor="")
 
-    def test_search_type(self):
+    def test_search_type(self) -> None:
         self.do_search({"q": "state:<translated"}, "Unfinished strings")
         self.do_search({"q": "state:needs-editing"}, None)
         self.do_search({"q": "has:suggestion"}, None)
@@ -164,26 +164,26 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.do_search({"q": "check:plurals"}, None)
         self.do_search({"q": ""}, "1 / 4")
 
-    def test_search_plural(self):
+    def test_search_plural(self) -> None:
         response = self.do_search({"q": "banana"}, "banana")
         self.assertContains(response, "One")
         self.assertContains(response, "Few")
         self.assertContains(response, "Other")
         self.assertNotContains(response, "Plural form ")
 
-    def test_checksum(self):
+    def test_checksum(self) -> None:
         self.do_search({"checksum": "invalid"}, None, anchor="")
 
 
 class ReplaceTest(ViewTestCase):
     """Test for search and replace functionality."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.unit = self.get_unit()
 
-    def do_replace_test(self, url, confirm=True, query=None):
+    def do_replace_test(self, url, confirm=True, query=None) -> None:
         query = query or ""
         response = self.client.post(
             url, {"q": query, "search": "Nazdar", "replacement": "Ahoj"}, follow=True
@@ -212,7 +212,7 @@ class ReplaceTest(ViewTestCase):
             )
             self.assertEqual(unit.target, "Nazdar svete!\n")
 
-    def test_no_match(self):
+    def test_no_match(self) -> None:
         response = self.client.post(
             reverse("replace", kwargs=self.kw_translation),
             {"search": "Ahoj", "replacement": "Cau"},
@@ -224,13 +224,13 @@ class ReplaceTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
-    def test_replace_translated(self):
+    def test_replace_translated(self) -> None:
         self.do_replace_test(
             reverse("replace", kwargs=self.kw_translation),
             "is:translated",
         )
 
-    def test_replace_nontranslated(self):
+    def test_replace_nontranslated(self) -> None:
         response = self.client.post(
             reverse("replace", kwargs=self.kw_translation),
             {"q": "NOT is:translated", "search": "Nazdar", "replacement": "Ahoj"},
@@ -240,18 +240,18 @@ class ReplaceTest(ViewTestCase):
             response, "Please review and confirm the search and replace results."
         )
 
-    def test_replace(self):
+    def test_replace(self) -> None:
         self.do_replace_test(reverse("replace", kwargs=self.kw_translation))
 
-    def test_replace_project(self):
+    def test_replace_project(self) -> None:
         self.do_replace_test(
             reverse("replace", kwargs={"path": self.project.get_url_path()})
         )
 
-    def test_replace_component(self):
+    def test_replace_component(self) -> None:
         self.do_replace_test(reverse("replace", kwargs=self.kw_component))
 
-    def test_replace_project_language(self):
+    def test_replace_project_language(self) -> None:
         self.do_replace_test(
             reverse(
                 "replace",
@@ -265,20 +265,20 @@ class ReplaceTest(ViewTestCase):
 class BulkEditTest(ViewTestCase):
     """Test for build edit functionality."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", fuzzy=True)
         self.unit = self.get_unit()
         self.make_manager()
 
-    def do_bulk_edit_test(self, url):
+    def do_bulk_edit_test(self, url) -> None:
         response = self.client.post(
             url, {"q": "state:needs-editing", "state": STATE_TRANSLATED}, follow=True
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
 
-    def test_no_match(self):
+    def test_no_match(self) -> None:
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
             {"q": "state:approved", "state": STATE_FUZZY},
@@ -288,18 +288,18 @@ class BulkEditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_FUZZY)
 
-    def test_bulk_edit(self):
+    def test_bulk_edit(self) -> None:
         self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_translation))
 
-    def test_bulk_edit_project(self):
+    def test_bulk_edit_project(self) -> None:
         self.do_bulk_edit_test(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()})
         )
 
-    def test_bulk_edit_component(self):
+    def test_bulk_edit_component(self) -> None:
         self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_component))
 
-    def test_bulk_edit_project_language(self):
+    def test_bulk_edit_project_language(self) -> None:
         self.do_bulk_edit_test(
             reverse(
                 "bulk-edit",
@@ -309,7 +309,7 @@ class BulkEditTest(ViewTestCase):
             )
         )
 
-    def test_bulk_flags(self):
+    def test_bulk_flags(self) -> None:
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
             {"q": "state:needs-editing", "state": -1, "add_flags": "python-format"},
@@ -327,7 +327,7 @@ class BulkEditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertNotIn("python-format", unit.all_flags)
 
-    def test_bulk_read_only(self):
+    def test_bulk_read_only(self) -> None:
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
             {"q": "language:en", "state": -1, "add_flags": "read-only"},
@@ -345,7 +345,7 @@ class BulkEditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertNotIn("read-only", unit.all_flags)
 
-    def test_bulk_labels(self):
+    def test_bulk_labels(self) -> None:
         label = self.project.label_set.create(name="Test label", color="black")
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
@@ -390,7 +390,7 @@ class BulkEditTest(ViewTestCase):
             0,
         )
 
-    def test_bulk_translation_label(self):
+    def test_bulk_translation_label(self) -> None:
         label = self.project.label_set.create(
             name="Automatically translated", color="black"
         )
@@ -417,7 +417,7 @@ class BulkEditTest(ViewTestCase):
             0,
         )
 
-    def test_source_state(self):
+    def test_source_state(self) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             mono = Component.objects.create(
                 name="Test2",

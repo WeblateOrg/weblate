@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-02-18 10:10+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-03-22 10:01+0000\n"
+"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -4553,7 +4553,7 @@ msgstr "サービス利用規約の内容に合意する"
 
 #: weblate/legal/middleware.py:42
 msgid ""
-"We have new version of the Terms of Service document, please read it and "
+"We have a new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
 "サービス利用規約の新しいバージョンを公開しています。内容をお読みのうえ、合意"
@@ -10894,7 +10894,7 @@ msgstr ""
 #: weblate/templates/trans/delete-category-language.html:6
 #: weblate/templates/trans/delete-project-language.html:6
 msgid "The following translations will be removed:"
-msgstr "以下の翻訳を削除します："
+msgstr "以下の翻訳を削除します:"
 
 #: weblate/templates/trans/delete-category-language.html:14
 #: weblate/templates/trans/delete-project-language.html:14
@@ -10923,7 +10923,7 @@ msgstr ""
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:12
 msgid "The following translation components will be removed:"
-msgstr "以下の翻訳コンポーネントは削除します:"
+msgstr "以下の翻訳コンポーネントを削除します:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
@@ -12344,19 +12344,19 @@ msgstr "変更しない"
 
 #: weblate/trans/forms.py:2481
 msgid "Translation flags to add"
-msgstr "翻訳フラグの追加"
+msgstr "追加する翻訳フラグ"
 
 #: weblate/trans/forms.py:2484
 msgid "Translation flags to remove"
-msgstr "翻訳フラグの削除"
+msgstr "削除する翻訳フラグ"
 
 #: weblate/trans/forms.py:2488
 msgid "Labels to add"
-msgstr "ラベルの追加"
+msgstr "追加するラベル"
 
 #: weblate/trans/forms.py:2494
 msgid "Labels to remove"
-msgstr "ラベルの削除"
+msgstr "削除するラベル"
 
 #: weblate/trans/forms.py:2539
 msgid "I accept the contributor agreement"
@@ -12827,7 +12827,7 @@ msgstr "状態の一括変更"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:375
 msgid "Visibility changed"
-msgstr "可視化の変更"
+msgstr "アクセス制御の変更"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
@@ -12952,7 +12952,7 @@ msgstr "リポジトリでの文字列の更新"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:425
 msgid "Add-on installed"
-msgstr "アドオンがインストールされました"
+msgstr "アドオンのインストール"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
@@ -12962,7 +12962,7 @@ msgstr "アドオンの設定変更"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:429
 msgid "Add-on uninstalled"
-msgstr "アドオンがアンインストールされました"
+msgstr "アドオンのアンインストール"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:431
@@ -13015,7 +13015,7 @@ msgstr "警告が発生したため、コンポーネントが自動的にロッ
 
 #: weblate/trans/models/change.py:528
 msgid "Fixing an alert automatically unlocked the component."
-msgstr "アラートを修正すると、コンポーネントは自動的にロック解除されます。"
+msgstr "警告を修正すると、コンポーネントは自動的にロック解除されます。"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:597
@@ -13051,7 +13051,7 @@ msgstr ""
 
 #: weblate/trans/models/change.py:826
 msgid "Original revision: {}"
-msgstr "オリジナル リビジョン: {}"
+msgstr "元のリビジョン: {}"
 
 #: weblate/trans/models/change.py:830
 msgid "New revision: {}"
@@ -13427,7 +13427,7 @@ msgstr "原文の言語"
 
 #: weblate/trans/models/component.py:683
 msgid "Language used for source strings in all components"
-msgstr "すべてのコンポーネント内の原文に対して使用されている言語"
+msgstr "すべてのコンポーネントの原文に使用される言語"
 
 #: weblate/trans/models/component.py:692
 msgid ""
@@ -13438,11 +13438,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:697
 msgid "Variants regular expression"
-msgstr "別表記を特定する正規表現"
+msgstr "別表記を決定する正規表現"
 
 #: weblate/trans/models/component.py:703
 msgid "Regular expression used to determine variants of a string."
-msgstr "文字列の別表記を特定するための正規表現。"
+msgstr "文字列の別表記を決定するための正規表現。"
 
 #: weblate/trans/models/component.py:712
 msgid "Components with higher priority are offered first to translators."
@@ -13679,7 +13679,7 @@ msgstr "正規表現が正しくないため、ファイル一致を検証でき
 
 #: weblate/trans/models/component.py:2964 weblate/trans/models/workflow.py:56
 msgid "Accepting suggestions automatically only works with voting turned on."
-msgstr "提案の自動採用は、投票機能が有効の場合のみ自動採用されます。"
+msgstr "提案の自動採用は、投票機能が有効の場合のみ動作します。"
 
 #: weblate/trans/models/component.py:3459
 msgid "Could not add new translation file."
@@ -13912,9 +13912,8 @@ msgstr "文字列の追加に失敗しました。翻訳が見つかりません
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
-msgstr ""
-"貢献者同意条項への合意がないため、文字列を %(component)s へ受け渡しできません"
-"でした。"
+msgstr "貢献者同意条項への合意がないため、文字列を %(component)s "
+"へ反映できませんでした。"
 
 #: weblate/trans/models/unit.py:1684
 msgid "Unmark as read-only"
@@ -13975,7 +13974,7 @@ msgstr "文字 {0} の挿入"
 
 #: weblate/trans/specialchars.py:272
 msgid "Main opening quote"
-msgstr "かぎ括弧初め"
+msgstr "始めかぎ括弧"
 
 #: weblate/trans/specialchars.py:273
 msgid "Main closing quote"
@@ -13983,7 +13982,7 @@ msgstr "かぎ括弧閉じる"
 
 #: weblate/trans/specialchars.py:274
 msgid "Alternative opening quote"
-msgstr "二重かぎ括弧初め"
+msgstr "始め二重かぎ括弧"
 
 #: weblate/trans/specialchars.py:275
 msgid "Alternative closing quote"
@@ -15318,7 +15317,7 @@ msgstr "レポート"
 
 #: weblate/wladmin/views.py:68
 msgid "Weblate status"
-msgstr "Weblate 状況"
+msgstr "Weblate の状態"
 
 #: weblate/wladmin/views.py:74
 msgid "Repositories"

@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING
 
 import sentry_sdk
 from appconf import AppConf
@@ -33,6 +33,9 @@ from weblate.trans.signals import (
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", False)
@@ -65,7 +68,7 @@ class Addon(models.Model):
         verbose_name = "add-on"
         verbose_name_plural = "add-ons"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.addon.verbose}: {self.component}"
 
     def save(
@@ -100,7 +103,7 @@ class Addon(models.Model):
     def get_absolute_url(self):
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
-    def store_change(self, action):
+    def store_change(self, action) -> None:
         self.component.change_set.create(
             action=action,
             user=self.component.acting_user,
@@ -108,7 +111,7 @@ class Addon(models.Model):
             details=self.configuration,
         )
 
-    def configure_events(self, events):
+    def configure_events(self, events) -> None:
         for event in events:
             Event.objects.get_or_create(addon=self, event=event)
         self.event_set.exclude(event__in=events).delete()
@@ -132,7 +135,7 @@ class Addon(models.Model):
         self.addon.post_uninstall()
         return result
 
-    def disable(self):
+    def disable(self) -> None:
         self.component.log_warning(
             "disabling no longer compatible add-on: %s", self.name
         )
@@ -148,7 +151,7 @@ class Event(models.Model):
         verbose_name = "add-on event"
         verbose_name_plural = "add-on events"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()}"
 
 
@@ -200,7 +203,7 @@ def handle_addon_event(
     translation: Translation | None = None,
     addon_queryset: AddonQuerySet | None = None,
     auto_scope: bool = False,
-):
+) -> None:
     # Scope is used for logging
     scope = translation or component
 
@@ -254,7 +257,7 @@ def handle_addon_event(
 
 
 @receiver(vcs_pre_push)
-def pre_push(sender, component, **kwargs):
+def pre_push(sender, component, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_PRE_PUSH,
         "pre_push",
@@ -264,7 +267,7 @@ def pre_push(sender, component, **kwargs):
 
 
 @receiver(vcs_post_push)
-def post_push(sender, component, **kwargs):
+def post_push(sender, component, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_PUSH,
         "post_push",
@@ -281,7 +284,7 @@ def post_update(
     child: bool = False,
     skip_push: bool = False,
     **kwargs,
-):
+) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
@@ -291,7 +294,7 @@ def post_update(
 
 
 @receiver(component_post_update)
-def component_update(sender, component, **kwargs):
+def component_update(sender, component, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_COMPONENT_UPDATE,
         "component_update",
@@ -301,7 +304,7 @@ def component_update(sender, component, **kwargs):
 
 
 @receiver(vcs_pre_update)
-def pre_update(sender, component, **kwargs):
+def pre_update(sender, component, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_PRE_UPDATE,
         "pre_update",
@@ -311,7 +314,7 @@ def pre_update(sender, component, **kwargs):
 
 
 @receiver(vcs_pre_commit)
-def pre_commit(sender, translation, author, **kwargs):
+def pre_commit(sender, translation, author, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_PRE_COMMIT,
         "pre_commit",
@@ -321,7 +324,7 @@ def pre_commit(sender, translation, author, **kwargs):
 
 
 @receiver(vcs_post_commit)
-def post_commit(sender, component, **kwargs):
+def post_commit(sender, component, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_COMMIT,
         "post_commit",
@@ -331,7 +334,7 @@ def post_commit(sender, component, **kwargs):
 
 
 @receiver(translation_post_add)
-def post_add(sender, translation, **kwargs):
+def post_add(sender, translation, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_ADD,
         "post_add",
@@ -341,7 +344,7 @@ def post_add(sender, translation, **kwargs):
 
 
 @receiver(unit_pre_create)
-def unit_pre_create_handler(sender, unit, **kwargs):
+def unit_pre_create_handler(sender, unit, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_UNIT_PRE_CREATE,
         "unit_pre_create",
@@ -352,7 +355,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
-def unit_post_save_handler(sender, instance, created, **kwargs):
+def unit_post_save_handler(sender, instance, created, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_UNIT_POST_SAVE,
         "unit_post_save",
@@ -362,7 +365,7 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
 
 
 @receiver(store_post_load)
-def store_post_load_handler(sender, translation, store, **kwargs):
+def store_post_load_handler(sender, translation, store, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_STORE_POST_LOAD,
         "store_post_load",

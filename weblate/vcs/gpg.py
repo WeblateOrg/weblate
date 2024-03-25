@@ -16,7 +16,7 @@ from weblate.utils.errors import report_error
 GPG_ERRORS = {}
 
 
-def gpg_error(name: str, error: Exception, silent: bool = False):
+def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
     report_error(cause=name)
 
     if not silent:

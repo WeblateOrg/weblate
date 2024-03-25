@@ -34,14 +34,16 @@ CONTROLCHARS = {
     "\x1d",
     "\x1e",
     "\x1f",
+    "\ufffe",
+    "\uffff",
 }
-CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
+CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
 class NamedBytesIO(BytesIO):
     """StringIO with mode attribute to make ttkit happy."""
 
-    def __init__(self, filename, data):
+    def __init__(self, filename, data) -> None:
         super().__init__(data)
         self.mode = "r"  # type: ignore[misc]
         self.name = filename

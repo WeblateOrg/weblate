@@ -28,9 +28,9 @@ NON_WORD_RE = re.compile(r"\W")
 CONTROLCHARS = [
     char
     for char in map(chr, range(sys.maxunicode + 1))
-    if unicodedata.category(char) in ("Zl", "Cc")
+    if unicodedata.category(char) in {"Zl", "Cc"}
 ]
-CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
+CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
 def get_glossary_sources(component):
@@ -124,14 +124,14 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
         # Add variants manually. This could be done by adding filtering on
         # variant__unit__source in the above query, but this slows down the query
         # considerably and variants are rarely used.
-        existing = {unit.pk for unit in units}
+        existing = {match.pk for match in units}
         variants = set()
         extra = []
-        for unit in units:
-            if not unit.variant or unit.variant.pk in variants:
+        for match in units:
+            if not match.variant or match.variant.pk in variants:
                 continue
-            variants.add(unit.variant.pk)
-            for child in unit.variant.unit_set.filter(
+            variants.add(match.variant.pk)
+            for child in match.variant.unit_set.filter(
                 translation__language=language
             ).select_related("source_unit"):
                 if child.pk not in existing:
@@ -143,8 +143,8 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
         # Order results, this is Python reimplementation of:
         units.sort(key=lambda x: x.glossary_sort_key)
 
-        for unit in units:
-            unit.glossary_positions = tuple(positions[unit.source.lower()])
+        for match in units:
+            match.glossary_positions = tuple(positions[match.source.lower()])
 
     # Store in a unit cache
     unit.glossary_terms = units
@@ -154,7 +154,7 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
 
 def render_glossary_units_tsv(units) -> str:
     r"""
-    Builds a tab separated glossary.
+    Build a tab separated glossary.
 
     Based on the DeepL specification:
 

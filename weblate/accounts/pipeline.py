@@ -131,7 +131,7 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
     return None
 
 
-def send_validation(strategy, backend, code, partial_token):
+def send_validation(strategy, backend, code, partial_token) -> None:
     """Send verification e-mail."""
     # We need to have existing session
     session = strategy.request.session
@@ -225,12 +225,12 @@ def verify_open(
     weblate_action: str,
     invitation_link: Invitation | None,
     **kwargs,
-):
+) -> None:
     """Check whether it is possible to create new user."""
     # Check whether registration is open
     if (
         not user
-        and weblate_action not in ("reset", "remove")
+        and weblate_action not in {"reset", "remove"}
         and not invitation_link
         and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
@@ -288,9 +288,9 @@ def store_params(strategy, user, **kwargs):
     }
 
 
-def verify_username(strategy, backend, details, username, user=None, **kwargs):
+def verify_username(strategy, backend, details, username, user=None, **kwargs) -> None:
     """
-    Verified whether username is still free.
+    Verify whether username is still free.
 
     It can happen that user has registered several times or other user has taken the
     username meanwhile.
@@ -302,7 +302,7 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
     return
 
 
-def revoke_mail_code(strategy, details, **kwargs):
+def revoke_mail_code(strategy, details, **kwargs) -> None:
     """
     Remove old mail validation code for Python Social Auth.
 
@@ -329,7 +329,7 @@ def ensure_valid(
     new_association,
     details,
     **kwargs,
-):
+) -> None:
     """Ensure the activation link is still."""
     # Didn't the link expire?
     if weblate_expires < time.time():
@@ -385,7 +385,7 @@ def ensure_valid(
         validator(details["email"])
 
 
-def store_email(strategy, backend, user, social, details, **kwargs):
+def store_email(strategy, backend, user, social, details, **kwargs) -> None:
     """Store verified e-mail."""
     # The email can be empty for some services
     if details.get("verified_emails"):
@@ -403,16 +403,16 @@ def store_email(strategy, backend, user, social, details, **kwargs):
             social=social, defaults={"email": details["email"]}
         )
         if (
-            not created
-            and verified.email != details["email"]
-            or not verified.is_deliverable
-        ):
+            not created and verified.email != details["email"]
+        ) or not verified.is_deliverable:
             verified.email = details["email"]
             verified.is_deliverable = True
             verified.save()
 
 
-def handle_invite(strategy, backend, user: User, social, invitation_pk: str, **kwargs):
+def handle_invite(
+    strategy, backend, user: User, social, invitation_pk: str, **kwargs
+) -> None:
     # Accept triggering invitation
     if invitation_pk:
         Invitation.objects.get(pk=invitation_pk).accept(strategy.request, user)
@@ -429,7 +429,7 @@ def notify_connect(
     new_association=False,
     is_new=False,
     **kwargs,
-):
+) -> None:
     """Notify about adding new link."""
     # Adjust possibly pending email confirmation audit logs
     AuditLog.objects.filter(
@@ -456,7 +456,7 @@ def notify_connect(
         strategy.really_clean_partial_pipeline(session[PARTIAL_TOKEN_SESSION_NAME])
 
 
-def user_full_name(strategy, details, username, user=None, **kwargs):
+def user_full_name(strategy, details, username, user=None, **kwargs) -> None:
     """Update user full name using data from provider."""
     if user and not user.full_name:
         full_name = details.get("fullname") or ""
@@ -515,12 +515,12 @@ def slugify_username(value):
     return CLEANUP_MATCHER.sub("-", value)
 
 
-def cycle_session(strategy, user, *args, **kwargs):
+def cycle_session(strategy, user, *args, **kwargs) -> None:
     # Change key for current session and invalidate others
     cycle_session_keys(strategy.request, user)
 
 
-def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
+def adjust_primary_mail(strategy, entries, user, *args, **kwargs) -> None:
     """Fix primary mail on disconnect."""
     # Remove pending verification codes
     invalidate_reset_codes(user=user, entries=entries)
@@ -543,7 +543,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     )
 
 
-def notify_disconnect(strategy, backend, entries, user, **kwargs):
+def notify_disconnect(strategy, backend, entries, user, **kwargs) -> None:
     """Store verified e-mail."""
     for social in entries:
         AuditLog.objects.create(

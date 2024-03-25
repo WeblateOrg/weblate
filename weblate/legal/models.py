@@ -43,7 +43,7 @@ class Agreement(models.Model):
         verbose_name = "TOS agreement"
         verbose_name_plural = "TOS agreements"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user.username}:{self.tos}"
 
     @staticmethod
@@ -56,7 +56,7 @@ class Agreement(models.Model):
     def is_current(self):
         return self.tos == self.current_tos_date()
 
-    def make_current(self, request):
+    def make_current(self, request) -> None:
         if not self.is_current():
             AuditLog.objects.create(
                 self.user, request, "tos", date=self.current_tos_date().isoformat()

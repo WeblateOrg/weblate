@@ -15,6 +15,7 @@ EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
 def bulk_perform(  # noqa: C901
     user,
     unit_set,
+    *,
     query,
     target_state,
     add_flags,

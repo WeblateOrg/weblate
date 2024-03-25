@@ -4,7 +4,7 @@
 
 
 class ThrottlingMiddleware:
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):

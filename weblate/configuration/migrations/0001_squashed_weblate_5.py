@@ -9,7 +9,7 @@ from django.db import migrations, models
 CATEGORY_MT = 2
 
 
-def migrate_machinery(apps, schema_editor):
+def migrate_machinery(apps, schema_editor) -> None:
     Setting = apps.get_model("configuration", "Setting")
 
     for name in ("weblate", "weblate-translation-memory"):

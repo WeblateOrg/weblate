@@ -7,31 +7,64 @@ Not yet released.
 
 **Improvements**
 
+* Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
+* Improved error reporting in :ref:`machine-translation-setup`.
+* :ref:`check-max-size` better displays rendered text.
+* Admins can now specify username and full name when :ref:`invite-user`.
+* Added :http:get:`/api/categories/(int:id)/statistics/`.
+* :ref:`alerts` are now refreshed when needed, not just daily.
+
 **Bug fixes**
 
+* Superuser access to components with :ref:`component-restricted`.
+* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
+* Avoid crash on pushing changes to diverged repository.
+* Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
+* :ref:`azure-setup` gracefully handles repositories with spaces in URL.
+* :ref:`mt-deepl` gracefully handles glossaries for language variants.
+* :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
+* :doc:`/formats/excel` better handles blank cells.
+* Fixed per-language statistics on nested categories.
+
 **Compatibility**
+
+* Several API calls might be affected by stricter validation of boolean fields by Django REST Framework. For example :http:post:`/api/projects/(string:project)/components/`.
+* Uniqueness of name and slug of a component is now enforced at the database level on PostgreSQL 15+.
 
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* There are several changes in :file:`settings_example.py`, most notable is changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust your settings accordingly.
+* Weblate now requires Python 3.10 and Django 5.0.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?closed=1>`__.
+
+Weblate 5.4.2
+-------------
+
+Released on February 22nd 2024.
+
+**Bug fixes**
+
+* Displaying debugging page in case of database connection issues.
+* Gracefully handle migration with duplicate built-in teams.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/113?closed=1>`__.
 
 Weblate 5.4.1
 -------------
 
-Not yet released.
-
-**New features**
-
-**Improvements**
+Released on February 19th 2024.
 
 **Bug fixes**
 
 * Possible crash on Weblate upgrade check when cached from the previous versions.
 * Gracefully handle migration with duplicate built-in teams.
-
-**Compatibility**
 
 **Upgrading**
 

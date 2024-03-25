@@ -99,7 +99,7 @@ def _parse_flags_text(flags: str):
             # End of flag
             state = 0
             yield name
-        elif state in (1, 3) and token == ":":
+        elif state in {1, 3} and token == ":":
             # Value separator
             state = 2
         elif state == 2 and token == ",":
@@ -114,7 +114,7 @@ def _parse_flags_text(flags: str):
             if (
                 token == "r"
                 and pos + 1 < len(tokens)
-                and tokens[pos + 1] not in (",", ":")
+                and tokens[pos + 1] not in {",", ":"}
             ):
                 # Regex prefix, value follows
                 state = 4
@@ -156,9 +156,9 @@ def parse_flags_xml(flags):
     maxwidth = flags.get("maxwidth")
     sizeunit = flags.get("size-unit")
     if maxwidth:
-        if sizeunit in (None, "pixel", "point"):
+        if sizeunit in {None, "pixel", "point"}:
             yield "max-size", maxwidth
-        elif sizeunit in ("byte", "char"):
+        elif sizeunit in {"byte", "char"}:
             yield "max-length", maxwidth
     font = flags.get("font")
     if font:
@@ -174,7 +174,7 @@ def parse_flags_xml(flags):
 
 
 class Flags:
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         self._items = {}
         self._values = {}
         for flags in args:
@@ -191,16 +191,16 @@ class Flags:
             return flags.items()
         return flags
 
-    def merge(self, flags):
+    def merge(self, flags) -> None:
         for flag in self.get_items(flags):
             if isinstance(flag, tuple):
                 self._values[flag[0]] = flag[1:]
                 self._items[flag[0]] = flag
-            elif flag and flag not in ("fuzzy", "#"):
+            elif flag and flag not in {"fuzzy", "#"}:
                 # Ignore some flags
                 self._items[flag] = flag
 
-    def remove(self, flags):
+    def remove(self, flags) -> None:
         for flag in self.get_items(flags):
             if isinstance(flag, tuple):
                 key = flag[0]
@@ -211,11 +211,21 @@ class Flags:
             else:
                 self._items.pop(flag, None)
 
-    def has_value(self, key):
+    def has_value(self, key: str):
         return key in self._values
 
-    def get_value(self, key):
+    def get_value(self, key: str):
         return TYPED_FLAGS_ARGS[key](self._values[key])
+
+    def get_value_fallback(self, key: str, fallback):
+        try:
+            value = self._values[key]
+        except KeyError:
+            return fallback
+        try:
+            return TYPED_FLAGS_ARGS[key](value)
+        except KeyError:
+            return fallback
 
     def items(self):
         return set(self._items.values())
@@ -223,10 +233,10 @@ class Flags:
     def __iter__(self):
         return self._items.__iter__()
 
-    def __contains__(self, key):
+    def __contains__(self, key) -> bool:
         return key in self._items
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return bool(self._items)
 
     @staticmethod
@@ -255,7 +265,7 @@ class Flags:
     def format(self):
         return ", ".join(sorted(self._format_values()))
 
-    def validate(self):
+    def validate(self) -> None:
         for name in self._items:
             if isinstance(name, tuple):
                 name = name[0]
@@ -279,6 +289,6 @@ class Flags:
                     gettext('Missing parameters for translation flag: "%s"') % name
                 )
 
-    def set_value(self, name, value):
+    def set_value(self, name, value) -> None:
         self._values[name] = value
         self._items[name] = (name, value)

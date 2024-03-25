@@ -148,7 +148,7 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
-    def check_access(self):
+    def check_access(self) -> None:
         invitation = self.object
         user = self.request.user
         if invitation.user:
@@ -172,7 +172,7 @@ class InvitationView(DetailView):
 
         # Handle admin actions first
         action = request.POST.get("action", "")
-        if action in ("resend", "remove"):
+        if action in {"resend", "remove"}:
             project = invitation.group.defining_project
             # Permission check
             if not request.user.has_perm(
@@ -202,7 +202,7 @@ class InvitationView(DetailView):
         return redirect("home")
 
 
-def accept_invitation(request, invitation: Invitation, user: User | None):
+def accept_invitation(request, invitation: Invitation, user: User | None) -> None:
     if user is None:
         user = invitation.user
     if user is None:

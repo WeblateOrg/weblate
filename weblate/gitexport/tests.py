@@ -20,7 +20,7 @@ from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 
 
 class GitExportTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # We don't want standard Django authentication
         self.client.logout()
@@ -29,33 +29,33 @@ class GitExportTest(ViewTestCase):
         encoded = b64encode(f"{self.user.username}:{code}".encode())
         return "basic " + encoded.decode("ascii")
 
-    def test_authenticate_invalid(self):
+    def test_authenticate_invalid(self) -> None:
         request = HttpRequest()
         self.assertFalse(authenticate(request, "foo"))
 
-    def test_authenticate_missing(self):
+    def test_authenticate_missing(self) -> None:
         request = HttpRequest()
         self.assertFalse(authenticate(request, "basic "))
 
-    def test_authenticate_basic_invalid(self):
+    def test_authenticate_basic_invalid(self) -> None:
         request = HttpRequest()
         self.assertFalse(authenticate(request, "basic fdsafds"))
 
-    def test_authenticate_digest(self):
+    def test_authenticate_digest(self) -> None:
         request = HttpRequest()
         self.assertFalse(authenticate(request, "digest fdsafds"))
 
-    def test_authenticate_wrong(self):
+    def test_authenticate_wrong(self) -> None:
         request = HttpRequest()
         self.assertFalse(authenticate(request, self.get_auth_string("invalid")))
 
-    def test_authenticate_basic(self):
+    def test_authenticate_basic(self) -> None:
         request = HttpRequest()
         self.assertTrue(
             authenticate(request, self.get_auth_string(self.user.auth_token.key))
         )
 
-    def test_authenticate_inactive(self):
+    def test_authenticate_inactive(self) -> None:
         self.user.is_active = False
         self.user.save()
         request = HttpRequest()
@@ -71,11 +71,11 @@ class GitExportTest(ViewTestCase):
         kwargs = {"git_request": path, "path": component.get_url_path()}
         return reverse("git-export", kwargs=kwargs)
 
-    def test_git_root(self):
+    def test_git_root(self) -> None:
         response = self.client.get(self.get_git_url().replace("info/refs", ""))
         self.assertEqual(301, response.status_code)
 
-    def test_git_info(self):
+    def test_git_info(self) -> None:
         response = self.client.get(
             self.get_git_url().replace("info/refs", "info/"), follow=True
         )
@@ -89,7 +89,7 @@ class GitExportTest(ViewTestCase):
             **kwargs,
         )
 
-    def test_redirect_link(self):
+    def test_redirect_link(self) -> None:
         linked = self.create_link_existing()
         response = self.client.get(
             self.get_git_url(component=linked),
@@ -102,32 +102,32 @@ class GitExportTest(ViewTestCase):
             status_code=301,
         )
 
-    def test_reject_push(self):
+    def test_reject_push(self) -> None:
         response = self.client.get(self.get_git_url(), {"service": "git-receive-pack"})
         self.assertEqual(403, response.status_code)
 
-    def test_wrong_auth(self):
+    def test_wrong_auth(self) -> None:
         response = self.git_receive(HTTP_AUTHORIZATION="foo")
         self.assertEqual(401, response.status_code)
 
-    def test_git_receive(self):
+    def test_git_receive(self) -> None:
         response = self.git_receive()
         self.assertContains(response, "refs/heads/main")
 
-    def test_git_receive_error(self):
+    def test_git_receive_error(self) -> None:
         response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
         self.assertEqual(404, response.status_code)
 
-    def enable_acl(self):
+    def enable_acl(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
 
-    def test_git_receive_acl_denied(self):
+    def test_git_receive_acl_denied(self) -> None:
         self.enable_acl()
         response = self.git_receive()
         self.assertEqual(401, response.status_code)
 
-    def test_git_receive_acl_auth(self):
+    def test_git_receive_acl_auth(self) -> None:
         self.enable_acl()
         self.project.add_user(self.user, "VCS")
         response = self.git_receive(
@@ -135,14 +135,14 @@ class GitExportTest(ViewTestCase):
         )
         self.assertContains(response, "refs/heads/main")
 
-    def test_git_receive_acl_auth_denied(self):
+    def test_git_receive_acl_auth_denied(self) -> None:
         self.enable_acl()
         response = self.git_receive(
             HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )
         self.assertEqual(404, response.status_code)
 
-    def test_get_export_url(self):
+    def test_get_export_url(self) -> None:
         self.assertEqual(
             "http://example.com/git/test/test/", get_export_url(self.component)
         )
@@ -153,7 +153,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
 
     acl = True
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.clone_test_repos()
         self.component = self.create_component()
@@ -161,7 +161,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         self.component.project.save()
         self.user = create_test_user()
 
-    def test_clone(self):
+    def test_clone(self) -> None:
         with tempfile.TemporaryDirectory() as testdir:
             if self.acl:
                 self.component.project.add_user(self.user, "VCS")
@@ -179,6 +179,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 stdin=subprocess.PIPE,
+                text=True,
             )
             output = process.communicate()[0]
             retcode = process.poll()

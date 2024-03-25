@@ -31,7 +31,7 @@ class WeblateLock:
         cache_template: str = "lock:{scope}:{key}",
         file_template: str | None = "{slug}-{scope}.lock",
         timeout: int = 1,
-    ):
+    ) -> None:
         self._timeout = timeout
         self._lock_path = lock_path
         self._scope = scope
@@ -60,7 +60,7 @@ class WeblateLock:
             slug=self._slug,
         )
 
-    def _enter_redis(self):
+    def _enter_redis(self) -> None:
         try:
             lock_result = self._lock.acquire(timeout=self._timeout)
         except AlreadyAcquired:
@@ -71,7 +71,7 @@ class WeblateLock:
                 f"Lock on {self._name} could not be acquired in {self._timeout}s"
             )
 
-    def _enter_file(self):
+    def _enter_file(self) -> None:
         # Fall back to file based locking
         try:
             self._lock.acquire()

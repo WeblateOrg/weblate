@@ -1856,7 +1856,7 @@ class Differ:
     DIFF_INSERT = diff_match_patch.DIFF_INSERT
     DIFF_EQUAL = diff_match_patch.DIFF_EQUAL
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.dmp = diff_match_patch()
 
     def compare(self, new: str, old: str) -> list[tuple[str, str]]:
@@ -1867,8 +1867,8 @@ class Differ:
         self.cleanup_unicode(diffs)
         return diffs
 
-    def cleanup_unicode(self, diffs: list[tuple[str, str]]):
-        """Merges Unicode."""
+    def cleanup_unicode(self, diffs: list[tuple[str, str]]) -> None:
+        """Merge Unicode characters."""
         pointer = 0
         while pointer < len(diffs):
             if (

@@ -23,7 +23,7 @@ MENU = (
 class AboutView(TemplateView):
     page = "index"
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context.update(
             {
                 "title": gettext("About Weblate"),
@@ -49,7 +49,7 @@ class AboutView(TemplateView):
 class StatsView(AboutView):
     page = "stats"
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context["title"] = gettext("Weblate statistics")
 
         stats = GlobalStats()
@@ -77,7 +77,7 @@ class StatsView(AboutView):
 class KeysView(AboutView):
     page = "keys"
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context.update(
             {
                 "title": gettext("Weblate keys"),
