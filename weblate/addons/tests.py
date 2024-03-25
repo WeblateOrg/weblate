@@ -83,19 +83,19 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon = ExampleAddon.create(component=self.component)
         addon.pre_commit(None, "")
 
-    def test_create(self):
+    def test_create(self) -> None:
         addon = TestAddon.create(component=self.component)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
 
-    def test_create_project_addon(self):
+    def test_create_project_addon(self) -> None:
         self.component.project.acting_user = self.component.acting_user
         addon = TestAddon.create(project=self.component.project)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.project.addon_set.count(), 1)
         self.assertEqual("Test add-on: Test", str(addon.instance))
 
-    def test_add_form(self):
+    def test_add_form(self) -> None:
         form = TestAddon.get_add_form(None, component=self.component, data={})
         self.assertTrue(form.is_valid())
         form.save()
@@ -104,7 +104,7 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon = self.component.addon_set.all()[0]
         self.assertEqual(addon.name, "weblate.base.test")
 
-    def test_add_form_project_addon(self):
+    def test_add_form_project_addon(self) -> None:
         form = TestAddon.get_add_form(None, project=self.component.project, data={})
         self.assertTrue(form.is_valid())
         form.save()
@@ -118,12 +118,12 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
-    def test_registry(self):
+    def test_registry(self) -> None:
         GenerateMoAddon.create(component=self.component)
         addon = self.component.addon_set.all()[0]
         self.assertIsInstance(addon.addon, GenerateMoAddon)
 
-    def test_commit(self):
+    def test_commit(self) -> None:
         GenerateMoAddon.create(component=self.component)
         TestAddon.create(component=self.component)
         rev = self.component.repository.last_revision
@@ -133,7 +133,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.mo", commit)
 
-    def test_add(self):
+    def test_add(self) -> None:
         UpdateLinguasAddon.create(component=self.component)
         UpdateConfigureAddon.create(component=self.component)
         TestAddon.create(component=self.component)
@@ -157,7 +157,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
 
-    def test_store(self):
+    def test_store(self) -> None:
         GettextCustomizeAddon.create(
             component=self.component, configuration={"width": -1}
         )
@@ -170,7 +170,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             "Last-Translator: Weblate Test <weblate@example.org>\\nLanguage", commit
         )
 
-    def test_crash(self):
+    def test_crash(self) -> None:
         addon = TestCrashAddon.create(component=self.component)
         self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
         ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
@@ -185,7 +185,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 
         self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
-    def test_process_error(self):
+    def test_process_error(self) -> None:
         addon = TestAddon.create(component=self.component)
         addon.execute_process(self.component, ["false"])
         self.assertEqual(len(addon.alerts), 1)
@@ -280,7 +280,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("po/cs.po", commit)
         self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
 
-    def test_msgmerge_nowrap(self):
+    def test_msgmerge_nowrap(self) -> None:
         GettextCustomizeAddon.create(
             component=self.component, configuration={"width": -1}
         )
@@ -606,7 +606,7 @@ class XMLAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_xliff("complex")
 
-    def test_customize_self_closing_tags(self):
+    def test_customize_self_closing_tags(self) -> None:
         XMLCustomizeAddon.create(
             component=self.component, configuration={"closing_tags": False}
         )
@@ -619,7 +619,7 @@ class XMLAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("<target/>", commit)
 
-    def test_customize_closing_tags(self):
+    def test_customize_closing_tags(self) -> None:
         XMLCustomizeAddon.create(
             component=self.component, configuration={"closing_tags": True}
         )
@@ -672,7 +672,7 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "1 add-on installed")
 
-    def test_add_simple_project_addon(self):
+    def test_add_simple_project_addon(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_project_path),
             {"name": "weblate.consistency.languages"},
@@ -680,7 +680,7 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "1 add-on installed")
 
-    def test_add_invalid(self):
+    def test_add_invalid(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {"name": "invalid"},
@@ -735,7 +735,7 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Configure add-on")
         self.assertContains(response, "This field is required")
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         addon = SourceEditAddon.create(component=self.component)
         response = self.client.post(
             addon.instance.get_absolute_url(), {"delete": "1"}, follow=True
@@ -1103,7 +1103,7 @@ class GitSquashAddonTest(ViewTestCase):
     def test_files(self) -> None:
         self.test_squash("file", 2)
 
-    def test_mo(self):
+    def test_mo(self) -> None:
         GenerateMoAddon.create(component=self.component)
         self.test_squash("file", 3)
 

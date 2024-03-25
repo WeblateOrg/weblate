@@ -139,7 +139,7 @@ class BaseAddon:
         self.instance.save()
         self.post_configure()
 
-    def post_configure(self, run: bool = True):
+    def post_configure(self, run: bool = True) -> None:
         target = self.instance.component or self.instance.project
 
         # Configure events to current status
@@ -163,7 +163,7 @@ class BaseAddon:
             for component in project.component_set.iterator():
                 self.post_configure_run_component(component)
 
-    def post_configure_run_component(self, component):
+    def post_configure_run_component(self, component) -> None:
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
 
