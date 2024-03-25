@@ -685,7 +685,6 @@ however, re-create them if you delete or rename them.
 Locking down Weblate
 --------------------
 
-
 If you want to use your Weblate installation in a less public manner, i.e. allow
 new users on an invitational basis only, it can be done by configuring Weblate
 in such a way that only known users have an access to it. In order to do so, you can set
