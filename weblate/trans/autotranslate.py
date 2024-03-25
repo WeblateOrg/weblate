@@ -203,7 +203,7 @@ class AutoTranslate:
         translations = self.fetch_mt(engines, int(threshold))
 
         # Adjust total number to show correct progress
-        offset = self.progress_steps / 2
+        offset = self.progress_steps // 2
         self.progress_steps = offset + len(translations)
 
         with transaction.atomic():
