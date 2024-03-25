@@ -587,6 +587,7 @@ def show_translation(request, obj):
             list(
                 Translation.objects.prefetch()
                 .filter(component__project=project, language=obj.language)
+                .exclude(component__is_glossary=True)
                 .exclude(pk=obj.pk)[:10]
             )
         )
