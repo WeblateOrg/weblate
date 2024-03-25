@@ -23,7 +23,7 @@ from django.utils.translation import gettext
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
-from weblate.formats.base import UnitNotFoundError
+from weblate.formats.base import TranslationFormat, UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
@@ -55,7 +55,10 @@ from weblate.utils.state import (
 from weblate.utils.stats import GhostStats, TranslationStats
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from datetime import datetime
+
+    from weblate.auth.models import User
 
 
 class TranslationManager(models.Manager):
@@ -555,7 +558,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(self, reason: str, user) -> bool:
+    def _commit_pending(self, reason: str, user: User) -> bool:
         """
         Commit pending translation.
 
@@ -680,7 +683,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         return True
 
-    def update_units(self, units, store, author_name, author_id) -> None:
+    def update_units(
+        self,
+        units: Iterable[Unit],
+        store: TranslationFormat,
+        author_name: str,
+        author_id: int,
+    ) -> None:
         """Update backend file and unit."""
         updated = False
         clear_pending = []
