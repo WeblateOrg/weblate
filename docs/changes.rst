@@ -26,6 +26,7 @@ Not yet released.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
 * :doc:`/formats/excel` better handles blank cells.
 * Fixed per-language statistics on nested categories.
+* Fixed categories listing on per-language pages.
 
 **Compatibility**
 

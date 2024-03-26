@@ -1136,6 +1136,10 @@ class CategoryLanguage(BaseURLMixin):
     def code(self):
         return self.language.code
 
+    @property
+    def name(self):
+        return self.category.name
+
     @cached_property
     def stats(self):
         return CategoryLanguageStats(self)

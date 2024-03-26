@@ -256,6 +256,10 @@ def show_project_language(request, obj):
             "path_object": obj,
             "last_changes": last_changes,
             "translations": translations,
+            "categories": prefetch_stats(
+                CategoryLanguage(category, obj.language)
+                for category in obj.project.category_set.filter(category=None).all()
+            ),
             "title": f"{project_object} - {language_object}",
             "search_form": SearchForm(
                 user, language=language_object, initial=SearchForm.get_initial(request)
@@ -317,6 +321,10 @@ def show_category_language(request, obj):
             "path_object": obj,
             "last_changes": last_changes,
             "translations": translations,
+            "categories": prefetch_stats(
+                CategoryLanguage(category, obj.language)
+                for category in obj.category.category_set.all()
+            ),
             "title": f"{category_object} - {language_object}",
             "search_form": SearchForm(
                 user, language=language_object, initial=SearchForm.get_initial(request)
@@ -420,7 +428,7 @@ def show_project(request, obj):
                 project=obj,
             ),
             "components": components,
-            "categories": obj.category_set.filter(category=None),
+            "categories": prefetch_stats(obj.category_set.filter(category=None)),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
@@ -498,7 +506,7 @@ def show_category(request, obj):
                 project=obj.project,
             ),
             "components": components,
-            "categories": obj.category_set.all(),
+            "categories": prefetch_stats(obj.category_set.all()),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
