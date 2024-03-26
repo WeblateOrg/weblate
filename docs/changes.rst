@@ -1,3 +1,22 @@
+Weblate 5.4.3
+-------------
+
+Released on March 26th 2024.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?closed=1>`__.
+
 Weblate 5.4.2
 -------------
 
