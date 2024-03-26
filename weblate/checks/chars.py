@@ -248,6 +248,8 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
+        if source[-2:]  in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
+            return False
         if unit.translation.language.is_base(("jbo",)):
             return False
         if unit.translation.language.is_base(("hy",)):
@@ -274,6 +276,8 @@ class EndExclamationCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
+        if source[-2:]  in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
+            return False
         if (
             unit.translation.language.is_base(("eu",))
             and source[-1] == "!"
@@ -288,6 +292,21 @@ class EndExclamationCheck(TargetCheck):
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
         return self.check_chars(source, target, -1, ("!", "！", "՜", "᥄", "႟", "߹"))
+
+
+class EndInterrobangCheck(TargetCheck):
+    """Check for final interrobang expression."""
+
+    check_id = "end_Interrobang"
+    name = gettext_lazy("Mismatched interrobang")
+    description = gettext_lazy(
+        "Source and translation do not both end with an interrobang expression"
+    )
+
+    def check_single(self, source, target, unit):
+        if not source or not target:
+            return False
+        return self.check_interrobang(source, target)
 
 
 class EndEllipsisCheck(TargetCheck):
