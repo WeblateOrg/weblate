@@ -3,15 +3,16 @@ Integrating with Weblate
 
 .. include:: /snippets/basics.rst
 
-Importing localization project into Weblate
-+++++++++++++++++++++++++++++++++++++++++++
+Importing localization projects into Weblate
+++++++++++++++++++++++++++++++++++++++++++++
 
-Weblate has been developed with VCS integration in mind as it’s core feature, so the easiest way is
-to grant Weblate the access to your repository.
-The import process will guide you through configuring your translations into components.
+The most automated of maintaining integration with a remote
+version-control repository is to grant Weblate access to it.
+The import process guides you through configuring and splitting up your
+translation effort into Weblate components.
 
-Alternatively, you can use Weblate to set up a local repository containing
-all the translations without integration.
+Alternatively, you can use Weblate without any integration, where
+a local repository contains all translations.
 
 .. seealso::
 
@@ -22,19 +23,19 @@ Fetching updated translations from Weblate
 ++++++++++++++++++++++++++++++++++++++++++
 
 Weblate stores updated strings in a database and commits them to a local
-version control repository. You can add Weblate repository (when
-:ref:`git-exporter` is turned on) as additional remote and fetch translations
-update from it.
+version-control repository. You can add a Weblate repository (when
+:ref:`git-exporter` is turned on) as an additional remote repository
+and fetch translation updates from it.
 
-Prior to this, you might want to commit any pending
-changes (see :ref:`lazy-commit`). You can do so in the user interface
-(in the :guilabel:`Repository maintenance`) or from the command-line using :ref:`wlc`.
+Prior to this, you might want to commit any pending local
+changes made in Weblate (see :ref:`lazy-commit`). This can be done from the user interface
+(in the :guilabel:`Repository maintenance`), or from the command-line using :ref:`wlc`.
 
 Pushing changes can be automated if you grant Weblate push access to your repository and
 configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
 
-Alternatively, you can use :doc:`/api` to update translations
-to match their latest version.
+Alternatively, use :doc:`/api` to update translations
+so that they match the latest version from upstream in your remote VCS repository.
 
 .. seealso::
 
@@ -45,15 +46,16 @@ to match their latest version.
 Fetching remote changes into Weblate
 ++++++++++++++++++++++++++++++++++++
 
-To fetch the strings newly updated in your repository into Weblate, just let it pull from the upstream
-repository. This can be achieved in the user interface (in the :guilabel:`Repository
-maintenance`), or from the command-line using :ref:`wlc`.
+To fetch any strings recently updated in your remote VCS repository into Weblate,
+allow Weblate pull from the upstream repository.
+This can be achieved in the user interface (in the :guilabel:`Repository maintenance`),
+or from the command-line using :ref:`wlc`.
 
 This can be automated by setting a webhook in your repository to trigger
-Weblate whenever there is a new commit, see :ref:`update-vcs` for more details.
+Weblate whenever there is a new commit. See :ref:`update-vcs` for more details.
 
-If you’re not using a VCS integration, you can use UI or :doc:`/api` to update
-translations to match your code base.
+If not using VCS integration, you can use the UI or :doc:`/api` to update
+the translations so that they match your codebase.
 
 .. seealso::
 
@@ -86,20 +88,20 @@ introduce new strings into Weblate.
 
 .. _updating-target-files:
 
-Updating target language files
+Updating target-language files
 ++++++++++++++++++++++++++++++
 
 For monolingual files (see :ref:`formats`) Weblate might add new translation
-strings not present in the :ref:`component-template`, and not in actual
-translations. It does not however perform any automatic cleanup of stale
-strings as that might have unexpected outcomes. If you want to do this, please
-install :ref:`addon-weblate.cleanup.generic` add-on which will handle the
+strings not present in the :ref:`component-template`, or other translations.
+It does not however perform any automatic cleanup of stale strings, as that
+might have unexpected results. If you still want to do this, please install
+the :ref:`addon-weblate.cleanup.generic` add-on, which handles
 cleanup according to your requirements.
 
-Weblate also will not try to update bilingual files in any way, so if you need
-:file:`po` files being updated from :file:`pot`, you need to do it yourself
-using :guilabel:`Update source strings` :ref:`upload-method` or using
-:ref:`addon-weblate.gettext.msgmerge` add-on.
+Weblate will also not try to update bilingual files in any way, so if you need
+:file:`po` files to be updated from :file:`pot`, do it yourself by
+using :guilabel:`Update source strings` :ref:`upload-method`, or by using
+the :ref:`addon-weblate.gettext.msgmerge` add-on.
 
 .. seealso::
 
@@ -119,9 +121,9 @@ You can add new strings in Weblate with :ref:`component-manage_units` turned
 on, but it is usually better to introduce new strings together with the code
 changes that introduced them.
 
-Monolingual formats need addition of the new string to
-:ref:`component-template`. This is typically done by the developers during
-developing the code. You might want to introduce review of those strings using
+Monolingual formats need to be configured so that new strings are added to
+:ref:`component-template`. This is typically done by developers as they
+develop the code. You might want to introduce review of those strings using
 :ref:`source-quality-gateway`.
 
 Bilingual formats typically extract strings from the source code using some
@@ -148,18 +150,17 @@ existing translations, see :ref:`updating-target-files`.
 
 .. _manage-vcs:
 
-Managing version control repository
-+++++++++++++++++++++++++++++++++++
+Managing the local VCS repository
++++++++++++++++++++++++++++++++++
 
-Weblate stores all translation the version control repository. It can be either
-connected to upstream one, or it can be only internal. The :guilabel:`Repository
-maintenance` lets you manipulate with the repository.
+Weblate stores all translations a version control repository of its own.
+It can either be connected to a remote one, or it can remain internal only.
+The :guilabel:`Repository maintenance` allows manipulating the repository.
 
 .. hint::
 
-   With :doc:`/admin/continuous` the repository is automatically pushed
-   whenever there are changes and there is usually no need to manually
-   manipulate with it.
+   With :doc:`/admin/continuous` any changes are auto-pushed from the
+   repository, and there is usually no need to manually manipulate it.
 
 .. image:: /screenshots/component-repository.webp
 
