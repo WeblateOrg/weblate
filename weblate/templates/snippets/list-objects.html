@@ -150,6 +150,7 @@
   <tr id="{{ row_id }}">
     <td class="actions" rowspan="2">
       <a href="{{ category.get_absolute_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
+      <a href="{{ category.get_absolute_url }}" class="btn btn-link green" title="{% trans "Duplicate" %}" alt="{% trans "Duplicate" %}">{% icon "copy.svg" %}</a>
     </td>
     <th class="object-link">
       <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>

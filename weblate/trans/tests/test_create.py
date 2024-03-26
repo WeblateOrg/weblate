@@ -182,6 +182,7 @@ class CreateTest(ViewTestCase):
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
+        category = self.project.category_set.create(name="Kategorie", slug="cat")
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
@@ -191,6 +192,7 @@ class CreateTest(ViewTestCase):
                     "name": "Create Component",
                     "slug": "create-component",
                     "component": self.component.pk,
+                    "category": category.pk,
                 },
                 follow=True,
             )

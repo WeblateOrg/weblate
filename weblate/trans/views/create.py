@@ -517,10 +517,20 @@ class CreateComponentSelection(CreateComponent):
             return self.redirect_create(
                 repo=component.get_repo_link_url(),
                 project=component.project.pk,
+                category=component.category.pk,
                 name=form.cleaned_data["name"],
                 slug=form.cleaned_data["slug"],
                 vcs=component.vcs,
                 source_language=component.source_language.pk,
+                license=component.license,
+                agreement=component.agreement,
+                merge_style=component.merge_style,
+                commit_message=component.commit_message,
+                add_message=component.add_message,
+                delete_message=component.delete_message,
+                merge_message=component.merge_message,
+                addon_message=component.addon_message,
+                pull_message=component.pull_message,
             )
         if self.origin == "branch":
             form.instance.save()
