@@ -183,7 +183,8 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             self.component.repository.last_revision, False
         )
 
-        self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
+        # Skipped uninstallation for component installed add-ons
+        self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
     def test_process_error(self) -> None:
         addon = TestAddon.create(component=self.component)
@@ -306,7 +307,7 @@ class GettextAddonTest(ViewTestCase):
     def test_gettext_comment(self) -> None:
         translation = self.get_translation()
         self.assertTrue(GettextAuthorComments.can_install(translation.component, None))
-        addon = GettextAuthorComments.create(translation.component)
+        addon = GettextAuthorComments.create(component=translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>")
         with open(translation.get_filename()) as handle:
             content = handle.read()
@@ -656,6 +657,7 @@ class YAMLAddonTest(ViewTestCase):
 
 
 class ViewTests(ViewTestCase):
+    # To check: Failing on BulkForm
     def setUp(self) -> None:
         super().setUp()
         self.make_manager()
@@ -927,6 +929,7 @@ class CommandTest(ViewTestCase):
 
 
 class DiscoveryTest(ViewTestCase):
+    # To check: Failing on BulkForm
     def test_creation(self) -> None:
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
@@ -1056,6 +1059,7 @@ class LanguageConsistencyTest(ViewTestCase):
         # Add one language
         language = Language.objects.get(code="af")
         self.component.add_new_language(language, None)
+        # To check: Failing on BulkForm
         self.assertEqual(
             Translation.objects.filter(
                 language=language, component__project=self.component.project
@@ -1151,8 +1155,10 @@ class TestRemoval(ViewTestCase):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
         return (
-            RemoveSuggestions.create(self.component, configuration={"age": 7}),
-            RemoveComments.create(self.component, configuration={"age": 7}),
+            RemoveSuggestions.create(
+                component=self.component, configuration={"age": 7}
+            ),
+            RemoveComments.create(component=self.component, configuration={"age": 7}),
         )
 
     def assert_count(self, comments=0, suggestions=0) -> None:
@@ -1225,6 +1231,7 @@ class AutoTranslateAddonTest(ViewTestCase):
 
 
 class BulkEditAddonTest(ViewTestCase):
+    # To check: Failing on BulkForm
     def test_bulk(self) -> None:
         label = self.project.label_set.create(name="test", color="navy")
         self.assertTrue(BulkEditAddon.can_install(self.component, None))

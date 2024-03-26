@@ -42,28 +42,23 @@ ADDONS = ClassLoader("WEBLATE_ADDONS", False)
 
 
 class AddonQuerySet(models.QuerySet):
-    def filter_for_execution(self, component=None, project=None):
-        queryset = self.filter_sitewide()
-        # Include by component or project
-        if component:
-            queryset |= self.filter_component(component)
-        if project:
-            queryset |= self.filter_project(project)
-        return queryset.distinct()
-
-    def filter_component(self, component):
+    def filter_for_execution(self, component):
         return self.prefetch_related("event_set").filter(
             Q(component=component)
-            | Q(project=component.project)
             | Q(component__project=component.project)
+            | (Q(component__linked_component=component) & Q(repo_scope=True))
+            | (Q(component=component.linked_component) & Q(repo_scope=True))
         )
+
+    def filter_component(self, component):
+        return self.prefetch_related("event_set").filter(component=component)
 
     def filter_project(self, project):
         return self.prefetch_related("event_set").filter(project=project)
 
     def filter_sitewide(self):
         return self.prefetch_related("event_set").filter(
-            Q(component__isnull=True, project__isnull=True)
+            component__isnull=True, project__isnull=True
         )
 
     def filter_event(self, component, event):
@@ -86,7 +81,7 @@ class Addon(models.Model):
         verbose_name = "add-on"
         verbose_name_plural = "add-ons"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.addon.verbose}: {self.project or self.component or 'site-wide'}"
 
     def save(
@@ -238,7 +233,7 @@ class AddonsConf(AppConf):
 def execute_addon_event(
     addon: Addon,
     component: Component,
-    scope: Project | Component | str,
+    scope: Translation | Component,
     event: AddonEvent,
     method: str | Callable,
     args: tuple | None = None,
@@ -246,9 +241,7 @@ def execute_addon_event(
     with transaction.atomic():
         scope.log_debug("running %s add-on: %s", event.label, addon.name)
         # Skip unsupported components silently
-        if hasattr(addon.addon, "can_install") and not addon.addon.can_install(
-            component, None
-        ):
+        if addon.component and not addon.addon.can_install(component, None):
             scope.log_debug(
                 "Skipping incompatible %s add-on: %s for component: %s",
                 event.label,
@@ -306,21 +299,18 @@ def handle_addon_event(
         addon_queryset = Addon.objects.filter_event(component, event)
 
     for addon in addon_queryset:
-        if auto_scope:
-            component = scope = addon.component
-        elif addon.project:
-            scope = addon.project
-        elif addon.component is None and addon.project is None:
-            scope = "site-wide"  # there is a better way to handle this?
-
-        if isinstance(scope, component):
+        if not auto_scope:
             execute_addon_event(addon, component, scope, event, method, args)
-        if isinstance(scope, Project):
-            for _component in component.project.component_set.iterator():
-                execute_addon_event(addon, _component, scope, event, method, args)
-        else:  # site-wide
-            for _component in Component.objects.all().iterator():
-                execute_addon_event(addon, _component, scope, event, method, args)
+        else:
+            if addon.component:
+                components = [addon.component]
+            elif addon.project:
+                components = addon.project.component_set.iterator()
+            else:
+                components = Component.objects.iterator()
+
+            for component in components:
+                execute_addon_event(addon, component, component, event, method, args)
 
 
 @receiver(vcs_pre_push)
