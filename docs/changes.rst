@@ -17,14 +17,7 @@ Not yet released.
 
 **Bug fixes**
 
-* Superuser access to components with :ref:`component-restricted`.
-* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
-* Avoid crash on pushing changes to diverged repository.
-* Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
-* :ref:`azure-setup` gracefully handles repositories with spaces in URL.
-* :ref:`mt-deepl` gracefully handles glossaries for language variants.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
-* :doc:`/formats/excel` better handles blank cells.
 * Fixed per-language statistics on nested categories.
 * Fixed categories listing on per-language pages.
 
@@ -41,6 +34,28 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * Weblate now requires Python 3.10 and Django 5.0.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?closed=1>`__.
+
+Weblate 5.4.3
+-------------
+
+Released on March 26th 2024.
+
+**Bug fixes**
+
+* Superuser access to components with :ref:`component-restricted`.
+* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
+* Avoid crash on pushing changes to diverged repository.
+* Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
+* :ref:`azure-setup` gracefully handles repositories with spaces in URL.
+* :ref:`mt-deepl` gracefully handles glossaries for language variants.
+* :doc:`/formats/excel` better handles blank cells.
+* Fixed possible data loss when merging gettext PO file changes in Git.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?closed=1>`__.
 
 Weblate 5.4.2
 -------------
