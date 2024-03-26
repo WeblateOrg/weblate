@@ -776,35 +776,77 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
 
     def test_grant_admin(self):
-        self.authenticate(True)
-        self.group = Group.objects.create(name="Test Group")
+        group = Group.objects.create(name="Test Group")
         response = self.do_request(
             "api:group-grant-admin",
-            kwargs={"id": self.group.id},
+            kwargs={"id": group.id},
             method="post",
             superuser=True,
             request={"user_id": self.user.id},
         )
+        self.assertIn("Administration rights granted.", response.data)
 
-        self.assertEqual(response.status_code, 200)
+        # Invalid user ID
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            request={"user_id": -1},
+            code=400,
+        )
+
+        # Missing user ID
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            code=400,
+        )
+
+    def test_group_admin_edit(self):
+        user = User.objects.create_user(username="testuser", password="12345")
+        group = Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=False,
+            request={"user_id": user.id},
+            code=404,
+        )
+        group.admins.add(self.user)
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=False,
+            request={"user_id": user.id},
+        )
         self.assertIn("Administration rights granted.", response.data)
 
     def test_revoke_admin(self):
-        self.authenticate(True)
-        self.group = Group.objects.create(name="Test Group")
-        self.user = User.objects.create_user(username="testuser", password="12345")
-        self.group.admins.add(self.user)
+        group = Group.objects.create(name="Test Group")
+        user = User.objects.create_user(username="testuser", password="12345")
+        group.admins.add(user)
 
         response = self.do_request(
             "api:group-revoke-admin",
-            kwargs={"id": self.group.id, "user_pk": self.user.id},
+            kwargs={"id": group.id, "user_pk": 6555555},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        response = self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": group.id, "user_pk": user.id},
             method="delete",
             superuser=True,
         )
 
-        self.assertEqual(response.status_code, 200)
         admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
-        self.assertNotIn(self.user.id, admins_ids)
+        self.assertNotIn(user.id, admins_ids)
 
 
 class RoleAPITest(APIBaseTest):

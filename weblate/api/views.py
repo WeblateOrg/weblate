@@ -461,10 +461,16 @@ class GroupViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
             return Group.objects.order_by("id")
-        return self.request.user.groups.order_by("id")
+        return self.request.user.groups.order_by(
+            "id"
+        ) | self.request.user.administered_group_set.order_by("id")
 
-    def perm_check(self, request) -> None:
-        if not request.user.has_perm("group.edit"):
+    def perm_check(
+        self, request: AuthenticatedHttpRequest, group: Group | None = None
+    ) -> None:
+        if (group is None and not self.request.user.has_perm("group.edit")) or (
+            group is not None and not request.user.has_perm("meta:team.edit", group)
+        ):
             self.permission_denied(request, "Can not manage groups")
 
     def update(self, request, *args, **kwargs):
@@ -636,9 +642,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post"], url_path="admins")
-    def grant_admin(self, request, id):
+    def grant_admin(self, request, id):  # noqa: A002
         group = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, group)
         user_id = request.data.get("user_id")
         if not user_id:
             raise ValidationError("User ID is required")
@@ -652,9 +658,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
-    def revoke_admin(self, request, id, user_pk):
+    def revoke_admin(self, request, id, user_pk):  # noqa: A002
         group = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, group)
         try:
             user = group.admins.get(pk=user_pk)  # Using user_pk from the URL path
         except User.DoesNotExist:
