@@ -1,11 +1,11 @@
 Upgrading Weblate
 =================
 
-Docker image upgrades
+Docker-image upgrades
 ---------------------
 
-The official Docker image (see :doc:`install/docker`) has all Weblate upgrade steps
-integrated. There are typically no manual steps needed besides pulling latest version.
+The official Docker image (see :doc:`install/docker`) integrates all steps.
+Typically, no manual interaction is needed beyond pulling the latest version.
 
 .. seealso::
 
@@ -16,26 +16,24 @@ integrated. There are typically no manual steps needed besides pulling latest ve
 Generic upgrade instructions
 ----------------------------
 
-Before upgrading, please check the current :ref:`requirements` as they might have
-changed. Once all requirements are installed or updated, please adjust your
-:file:`settings.py` to match changes in the configuration (consult
-:file:`settings_example.py` for correct values).
+Always look for new changes to :ref:`requirements` before upgrading.
+Once all requirements are installed or upgraded, ensure your
+:file:`settings.py` matches :file:`settings_example.py`.
 
-Always check :ref:`version-specific-instructions` before upgrade. In case you
-are skipping some versions, please follow instructions for all versions you are
-skipping in the upgrade. Sometimes it's better to upgrade to some intermediate
-version to ensure a smooth migration. Upgrading across multiple releases should
-work, but is not as well tested as single version upgrades.
+Always check :ref:`version-specific-instructions` before upgrading.
+Either follow the instructions for each new version, or go with the less
+tested option of upgrading across multiple releases by following all the
+instructions for them at once.
 
 .. note::
 
-    It is recommended to perform a full database backup prior to upgrade so that you
-    can roll back the database in case upgrade fails, see :doc:`backup`.
+    Always back up the full database before upgrading so that you
+    can revert your changes if the upgrade fails, see :doc:`backup`.
 
-#. Stop wsgi and Celery processes. The upgrade can perform incompatible changes in the
-   database, so it is always safer to avoid old processes running while upgrading.
+#. Stop the WSGI and Celery processes to avoid old processes running while upgrading.
+   Otherwise incompatible changes in the database might occur.
 
-#. Upgrade Weblate code.
+#. Upgrade the Weblate source code.
 
    For pip installs it can be achieved by:
 
@@ -55,7 +53,7 @@ work, but is not as well tested as single version upgrades.
 
       pip install -U Weblate
 
-   With Git checkout you need to fetch new source code and update your installation:
+   Git checkout can also fetch the new source code and upgrades your installation:
 
    .. code-block:: sh
 
@@ -68,13 +66,13 @@ work, but is not as well tested as single version upgrades.
         # Install optional dependencies directly when not using virtualenv
         pip install --upgrade -e '.[all]'
 
-#. New Weblate release might have new :ref:`python-deps`, please check if they cover
-   features you want.
+#. New Weblate releases might have new :ref:`python-deps`, please check if they cover
+   the features you want.
 
-#. Upgrade configuration file, refer to :file:`settings_example.py` or
-   :ref:`version-specific-instructions` for needed steps.
+#. Upgrade the configuration file by following :file:`settings_example.py` or
+   :ref:`version-specific-instructions`.
 
-#. Upgrade database structure:
+#. Upgrade the Weblate database-structure:
 
    .. code-block:: sh
 
@@ -92,30 +90,26 @@ work, but is not as well tested as single version upgrades.
 
         weblate compress
 
-#. If you are running version from Git, you should also regenerate locale files
-   every time you are upgrading. You can do this by invoking:
+#. If you are running a Weblate version from Git, you should also regenerate locale
+   files every time you upgrade. You can do this by invoking:
 
    .. code-block:: sh
 
         weblate compilemessages
 
-#. Verify that your setup is sane (see also :ref:`production`):
+#. Verify your setup is sane (see also :ref:`production`):
 
    .. code-block:: sh
 
         weblate check --deploy
 
-#. Restart Celery worker (see :ref:`celery`).
-
+#. Restart the Celery worker (see :ref:`celery`).
 
 .. _version-specific-instructions:
 
-Version specific instructions
+Version-specific instructions
 -----------------------------
 
-.. versionchanged:: 5.0
-
-   Version specific instructions are now included in the release notes, see :doc:`/changes`.
 
 Upgrade from an older major version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,16 +133,14 @@ supported and will break.
 Migrating from other databases to PostgreSQL
 --------------------------------------------
 
-If you are running Weblate on other dabatase than PostgreSQL, you should
-consider migrating to PostgreSQL as Weblate performs best with it. The following
-steps will guide you in migrating your data between the databases. Please
-remember to stop both web and Celery servers prior to the migration, otherwise
-you might end up with inconsistent data.
+If you are not running Weblate with a different databse,
+you should migrate your data to PostgreSQL for better performance by doing the following steps.
+Stop both the web- and Celery servers beforehand, otherwise you might end up with inconsistent data.
 
 Creating a database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is usually a good idea to run Weblate in a separate database, and separate user account:
+It is usually a good idea to run Weblate in a separate database and -user account:
 
 .. code-block:: sh
 
@@ -166,9 +158,10 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 Migrating to PostgreSQL using pgloader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You can use it to migrate Weblate database.
+The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL.
+You can use it to migrate your Weblate database.
 
-1. Adjust your :file:`settings.py` to use PostgreSQL as a database.
+1. Adjust your :file:`settings.py` to use PostgreSQL as your database.
 
 2. Migrate the schema in the PostgreSQL database:
 
@@ -177,7 +170,9 @@ The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You c
        weblate migrate
        weblate sqlflush | weblate dbshell
 
-3. Run the pgloader to transfer the data. The following script can be used to migrate the database, but you might want to learn more about `pgloader`_ to understand what it does and tweak it to match your setup:
+3. Run the pgloader to transfer the data.
+The following script can be used to migrate the database, but there is more to learn about `pgloader`_
+so you can tweak it to match your setup:
 
    .. code-block:: postgresql
 
@@ -198,6 +193,4 @@ The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You c
 Migrating from Pootle
 ---------------------
 
-As Weblate was originally written as replacement from Pootle, it is supported
-to migrate user accounts from Pootle. You can dump the users from Pootle and
-import them using :wladmin:`importusers`.
+Migrate user accounts by dumping the list of users from Pootle and import them using :djadmin:`importusers`.
