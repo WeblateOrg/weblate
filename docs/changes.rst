@@ -13,6 +13,7 @@ Released on March 26th 2024.
 * :ref:`mt-deepl` gracefully handles glossaries for language variants.
 * :doc:`/formats/excel` better handles blank cells.
 * Fixed possible data loss when merging gettext PO file changes in Git.
+* Repository operations on project could have skipped some components.
 
 **Upgrading**
 

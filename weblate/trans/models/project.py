@@ -374,7 +374,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             for component in self.all_repo_components
         )
         if use_all:
-            return all(generator)
+            # Call methods on all components as this performs an operation
+            return all(list(generator))
+        # This is status checking, call only needed methods
         return any(generator)
 
     def commit_pending(self, reason, user):
