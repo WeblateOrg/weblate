@@ -58,7 +58,7 @@ OUTPUT="$LOCAL"
 
 TEMP_FILE="$(mktemp /tmp/merge-po.XXXXXX)"
 if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE" ; then
-    cat "$TEMP_FILE" >  "$OTHER"
+    cat "$TEMP_FILE" >  "$OUTPUT"
     rm "$TEMP_FILE"
     exit 0
 fi
