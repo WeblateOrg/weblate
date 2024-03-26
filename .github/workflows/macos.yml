@@ -24,11 +24,19 @@ jobs:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+      HOMEBREW_NO_INSTALL_UPGRADE: 1
     steps:
     - uses: actions/checkout@v4
     - run: brew update
-    - name: Install Python
-      run: brew link --overwrite python
+    - run: brew list --versions
+    - run: brew deps --tree --installed
+    - name: Fix Python
+      # Workaround for https://github.com/actions/setup-python/issues/577
+      run: |
+        brew uninstall --ignore-dependencies python@3.11
+        brew unlink python@3.12
+        rm -f /usr/local/bin/{2to3,idle3,pydoc3,python3,python3-config}
+        brew link --overwrite python@3.12
     - name: Install brew dependencies
       run: |
         # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
@@ -36,6 +44,8 @@ jobs:
         brew install --formula /tmp/libxmlsec1.rb
         brew pin libxmlsec1
 
-        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+        brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
     - name: Install Weblate
-      run: pip3 install -e .[all,test]
+      run: |
+        python3 -m venv .venv
+        .venv/bin/pip3 install -e .[all,test]
