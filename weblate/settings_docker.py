@@ -980,6 +980,7 @@ CHECK_LIST = [
     "weblate.checks.chars.EndColonCheck",
     "weblate.checks.chars.EndQuestionCheck",
     "weblate.checks.chars.EndExclamationCheck",
+    "weblate.checks.chars.EndInterrobangCheck",
     "weblate.checks.chars.EndEllipsisCheck",
     "weblate.checks.chars.EndSemicolonCheck",
     "weblate.checks.chars.MaxLengthCheck",
