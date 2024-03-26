@@ -3,10 +3,6 @@ Weblate 5.4.3
 
 Released on March 26th 2024.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
 * Superuser access to components with :ref:`component-restricted`.
@@ -16,8 +12,7 @@ Released on March 26th 2024.
 * :ref:`azure-setup` gracefully handles repositories with spaces in URL.
 * :ref:`mt-deepl` gracefully handles glossaries for language variants.
 * :doc:`/formats/excel` better handles blank cells.
-
-**Compatibility**
+* Fixed possible data loss when merging gettext PO file changes in Git.
 
 **Upgrading**
 
