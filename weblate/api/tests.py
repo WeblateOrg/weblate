@@ -1811,6 +1811,63 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
 
+    def test_download_private_project_translations(self) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=404,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations_prohibited(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_converted(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_target_language(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "language_code": "cs"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self) -> None:

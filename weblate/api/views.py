@@ -674,6 +674,9 @@ class ProjectViewSet(
 ):
     """Translation projects API."""
 
+    raw_urls: tuple[str, ...] = "project-file"
+    raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
+
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = "slug"
@@ -825,6 +828,32 @@ class ProjectViewSet(
         instance.acting_user = request.user
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["get"])
+    def file(self, request, **kwargs):
+        instance = self.get_object()
+
+        if not request.user.has_perm("translation.download", instance):
+            raise PermissionDenied
+
+        components = instance.component_set.filter_access(request.user)
+        requested_format = request.query_params.get("format", "zip")
+        requested_language = request.query_params.get("language_code", None)
+
+        if requested_language:
+            translations = Translation.objects.filter(
+                language__code=requested_language, component__in=components
+            )
+        else:
+            translations = Translation.objects.filter(component__in=components)
+
+        return download_multi(
+            request,
+            translations,
+            [instance],
+            requested_format,
+            name=instance.slug,
+        )
 
 
 class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin):
