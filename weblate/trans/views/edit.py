@@ -893,6 +893,32 @@ def zen(request, path):
 
     search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
     sort = get_sort_name(request, obj)
+    if (
+        request.method == "POST"
+        and "merge" not in request.POST
+        and (
+            "accept" in request.POST
+            or "accept_edit" in request.POST
+            or "accept_approve" in request.POST
+            or "delete" in request.POST
+            or "spam" in request.POST
+            or "upvote" in request.POST
+            or "downvote" in request.POST
+        )
+    ):
+        # Handle accepting/deleting suggestions
+        _obj, unit_set, _context = parse_path_units(
+            request, path, (Translation, ProjectLanguage, CategoryLanguage)
+        )
+
+        checksum_form = ChecksumForm(unit_set, request.POST)
+        if not checksum_form.is_valid():
+            show_form_errors(request, checksum_form)
+            return HttpResponseBadRequest("Invalid checksum")
+
+        unit = checksum_form.cleaned_data["unit"]
+        # We are ignoring any redirects and responses here
+        _response = handle_suggestions(request, unit, "", "")
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
