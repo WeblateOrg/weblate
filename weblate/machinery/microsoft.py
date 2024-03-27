@@ -95,9 +95,9 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         return super().map_language_code(code).replace("_", "-")
 
     def check_failure(self, response) -> None:
-        super().check_failure(response)
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
+        super().check_failure(response)
         if (
             response.url.startswith("https://api.cognitive.microsofttranslator.com/")
             and response.status_code == 200
