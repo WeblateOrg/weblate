@@ -226,7 +226,7 @@ class EndInterrobangCheckTest(CheckTestCase):
         self.test_good_matching = ("string!?", "string?!", "")
         self.test_failure_1 = ("string!?", "string?", "")
         self.test_failure_2 = ("string!?", "string!", "")
-        self.test_failure_3 = ("string!", "string!?","")
+        self.test_failure_3 = ("string!", "string!?", "")
 
     def test_translate(self):
         self.do_test(False, ("string!?", "string!?", ""))
