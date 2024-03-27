@@ -360,6 +360,7 @@ autodoc_mock_imports = [
     "weblate.lang.models",
     "weblate.vcs.git",
     "weblate.utils.files",
+    "weblate.utils.validators",
 ]
 
 # Create single gettext PO file for while documentation,
