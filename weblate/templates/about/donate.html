@@ -11,16 +11,16 @@
 
 <div class="engage container">
 
-<h1>{% blocktrans %}Help keep <strong>Weblate</strong> thriving{% endblocktrans %}</h1>
+<h1>{% blocktrans %}Help <strong>Weblate</strong> keep thriving{% endblocktrans %}</h1>
 
 <h2>
     {% if support_status.has_support %}
-        <strong>{% trans "Hello and thank you for supporting Weblate" %}</strong>
+        <strong>{% trans "Welcome and thank you for supporting Weblate" %}</strong>
     {% else %}
-        <strong>{% trans "Hello and thank you for choosing Weblate" %}</strong>
+        <strong>{% trans "Welcome and thank you for choosing Weblate" %}</strong>
     {% endif %}
         &mdash;
-        {% trans "the localization platform committed to open-source principles and respecting your privacy." %}
+        {% trans "the privacy-respecting localization platform committed to open-source values." %}
 </h2>
 
 <div class="row bignumbers">
@@ -41,14 +41,14 @@
 
 <p>
     {% trans "While Weblate remains free for all users, its development requires continuous investment." %}
-    {% trans "We prioritize your privacy by never displaying ads or selling your data." %}
-    {% trans "Your invaluable support through subscriptions and donations ensures that Weblate continues to grow and thrive." %}
+    {% trans "We prioritize your privacy; we never display ads or sell your data." %}
+    {% trans "The invaluable support of the community through subscriptions and donations ensures that Weblate continues to grow and thrive." %}
     {% trans "Join us in shaping the future of localization and contribute today!" %}
 </p>
 
 <p class="buttons">
     {% if not support_status.has_support %}
-        <a href="{{ support_url }}" class="btn btn-primary btn-lg">{% trans "Get a support package" %}</a>
+        <a href="{{ support_url }}" class="btn btn-primary btn-lg">{% trans "Purchase a support package" %}</a>
     {% endif %}
     <a href="{{ donate_url }}" class="btn btn-primary btn-lg">{% trans "Give to Weblate" %}</a>
 </p>
