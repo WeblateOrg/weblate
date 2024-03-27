@@ -248,7 +248,7 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if source[-2:]  in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
+        if source[-2:] in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
             return False
         if unit.translation.language.is_base(("jbo",)):
             return False
@@ -276,7 +276,7 @@ class EndExclamationCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if source[-2:]  in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
+        if source[-2:] in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
             return False
         if (
             unit.translation.language.is_base(("eu",))

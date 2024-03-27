@@ -132,10 +132,10 @@ class Check:
             return False
 
         return (src in chars) != (tgt in chars)
-    
+
     def check_interrobang(self, source, target):
         """Ckeck whether interrobang is present."""
-        strings = ("!?","?!")
+        strings = ("!?", "?!")
         try:
             src = source[-2:]
             tgt = target[-2:]
