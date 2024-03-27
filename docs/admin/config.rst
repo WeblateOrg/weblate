@@ -1825,7 +1825,7 @@ to the donation page in case there is no active support subscription.
 
 .. hint::
 
-   Improve your Weblate experience by purchasing a support subscription instead of turning this off.
+   Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
 .. setting:: UNUSED_ALERT_DAYS
 
