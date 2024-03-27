@@ -5,14 +5,19 @@ Not yet released.
 
 **New features**
 
+* API improvements
+
+  * Added :http:get:`/api/categories/(int:id)/statistics/`.
+  * Added :http:get:`/api/projects/(string:project)/file/`.
+  * Added :http:post:`/api/groups/(int:id)/admins/`.
+  * Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`.
+
 **Improvements**
 
 * Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
 * Improved error reporting in :ref:`machine-translation-setup`.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
-* Added :http:get:`/api/categories/(int:id)/statistics/`.
-* Added :http:get:`/api/projects/(string:project)/file/`.
 * :ref:`alerts` are now refreshed when needed, not just daily.
 
 **Bug fixes**

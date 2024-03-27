@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import datetime
+from datetime import timedelta
 from urllib.parse import urlparse
 
 from appconf import AppConf
@@ -20,6 +21,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.timezone import now
 from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
@@ -31,13 +33,14 @@ from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
-from weblate.trans.models import ComponentList
+from weblate.trans.models import Change, ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.token import get_token
+from weblate.wladmin.models import get_support_status
 
 
 class WeblateAccountsConf(AppConf):
@@ -72,6 +75,9 @@ class WeblateAccountsConf(AppConf):
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
+
+    # Disable login support status check for superusers
+    SUPPORT_STATUS_CHECK = True
 
     # Auto-watch setting for new users
     DEFAULT_AUTO_WATCH = True
@@ -163,6 +169,7 @@ ACCOUNT_ACTIVITY = {
     "blocked": gettext_lazy("Access to project {project} was blocked."),
     "enabled": gettext_lazy("User was enabled by administrator."),
     "disabled": gettext_lazy("User was disabled by administrator."),
+    "donate": gettext_lazy("Semiannual support status review was displayed."),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -864,6 +871,18 @@ def post_login_handler(sender, request, user, **kwargs) -> None:
     # Warning about setting password
     if is_email_auth and not user.has_usable_password():
         request.session["show_set_password"] = True
+
+    # Redirect superuser to donate page twice a year
+    if (
+        settings.SUPPORT_STATUS_CHECK
+        and user.is_superuser
+        and not get_support_status(request)["has_support"]
+        and not user.auditlog_set.filter(
+            timestamp__gt=now() - timedelta(days=180), activity="donate"
+        ).exists()
+        and Change.objects.filter(timestamp__lt=now() - timedelta(days=14)).exists()
+    ):
+        request.session["redirect_to_donate"] = True
 
     # Migrate django-registration based verification to python-social-auth
     # and handle external authentication such as LDAP

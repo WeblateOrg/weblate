@@ -434,9 +434,13 @@ def check_repository_status(user, permission, obj):
 
 @register_perm("meta:team.edit")
 def check_team_edit(user, permission, obj):
-    return check_global_permission(user, "group.edit") or (
-        obj.defining_project
-        and check_permission(user, "project.permissions", obj.defining_project)
+    return (
+        check_global_permission(user, "group.edit")
+        or (
+            obj.defining_project
+            and check_permission(user, "project.permissions", obj.defining_project)
+        )
+        or obj.admins.filter(pk=user.pk).exists()
     )
 
 

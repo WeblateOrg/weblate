@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
+from typing import TYPE_CHECKING
 
 import dateutil.parser
 from appconf import AppConf
@@ -32,6 +35,9 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
 from weblate.vcs.ssh import ensure_ssh_key
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 
 class WeblateConf(AppConf):
@@ -312,3 +318,19 @@ class BackupLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.service}:{self.event}"
+
+
+def get_support_status(request: HttpRequest) -> SupportStatus:
+    if hasattr(request, "_weblate_support_status"):
+        support_status = request._weblate_support_status
+    else:
+        support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
+        if support_status is None:
+            support_status_instance = SupportStatus.objects.get_current()
+            support_status = {
+                "has_support": support_status_instance.name != "community",
+                "in_limits": support_status_instance.in_limits,
+            }
+            cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
+        request._weblate_support_status = support_status
+    return support_status

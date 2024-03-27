@@ -21,7 +21,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
-from requests.exceptions import HTTPError
+from requests.exceptions import HTTPError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
@@ -532,7 +532,9 @@ class BatchMachineTranslation:
                     output[original_source] = result
         return output
 
-    def get_error_message(self, exc) -> str:
+    def get_error_message(self, exc: Exception) -> str:
+        if isinstance(exc, RequestException) and exc.response.text:
+            return f"{exc.__class__.__name__}: {exc}: {exc.response.text}"
         return f"{exc.__class__.__name__}: {exc}"
 
     def signed_salt(self, appid, secret, text):
