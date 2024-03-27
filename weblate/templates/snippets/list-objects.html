@@ -260,7 +260,11 @@
 {% include "snippets/list-objects-number.html" with value=object.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+{% if name_source == "name" %}
+  {% include "snippets/list-objects-number-search-url.html" with value=object.stats.comments object=object query="q=has:comment#comments" class="zero-width-1000" %}
+{% else %}
+  {% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+{% endif %}
 {% endif %}
 </tr>
 <tr data-parent="{{ row_id }}">
