@@ -8,12 +8,12 @@ from typing import TYPE_CHECKING
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
+from requests.exceptions import RequestException
 
 from .base import (
     BatchMachineTranslation,
     DownloadMultipleTranslations,
     GlossaryMachineTranslationMixin,
-    MachineTranslationError,
     XMLMachineTranslationMixin,
 )
 from .forms import DeepLMachineryForm
@@ -47,16 +47,19 @@ class DeepLTranslation(
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
 
-    def check_failure(self, response) -> None:
-        if response.status_code != 200:
+    def get_error_message(self, exc):
+        if isinstance(exc, RequestException) and exc.response is not None:
             try:
-                payload = response.json()
+                data = exc.response.json()
             except ValueError:
                 pass
             else:
-                if "message" in payload:
-                    MachineTranslationError(payload["message"])
-        super().check_failure(response)
+                try:
+                    return data["message"]
+                except KeyError:
+                    pass
+
+        return super().get_error_message(exc)
 
     def download_languages(self):
         response = self.request(
