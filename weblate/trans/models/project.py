@@ -31,6 +31,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
+    WeblateURLValidator,
     validate_language_aliases,
     validate_project_name,
     validate_project_web,
@@ -145,7 +146,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
-        validators=[validate_project_web],
+        validators=[WeblateURLValidator(), validate_project_web],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),

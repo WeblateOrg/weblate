@@ -97,6 +97,7 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
+    WeblateURLValidator,
     validate_filename,
     validate_re_nonempty,
     validate_slug,
@@ -380,7 +381,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "{{filename}} and {{line}} as filename and line placeholders. "
             "You might want to strip leading directory by using {{filename|parentdir}}."
         ),
-        validators=[validate_repoweb],
+        validators=[WeblateURLValidator(), validate_repoweb],
         blank=True,
     )
     git_export = models.CharField(

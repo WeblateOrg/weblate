@@ -17,7 +17,7 @@ from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
-from django.core.validators import validate_ipv46_address
+from django.core.validators import URLValidator, validate_ipv46_address
 from django.utils.translation import gettext, gettext_lazy
 from PIL import Image
 
@@ -289,3 +289,42 @@ def validate_project_web(value) -> None:
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+
+class WeblateURLValidator(URLValidator):
+    """Validator for http and https URLs only."""
+
+    schemes = ["http", "https"]
+
+
+class WeblateServiceURLValidator(WeblateURLValidator):
+    """
+    Validator allowing local URLs like http://domain:5000.
+
+    This is useful for using dockerized services.
+    """
+
+    host_re = (
+        "("
+        + WeblateURLValidator.hostname_re
+        + WeblateURLValidator.domain_re
+        + WeblateURLValidator.tld_re
+        + "|"
+        + WeblateURLValidator.hostname_re
+        + ")"
+    )
+    regex = re.compile(
+        r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+        r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
+        r"(?:"
+        + WeblateURLValidator.ipv4_re
+        + "|"
+        + WeblateURLValidator.ipv6_re
+        + "|"
+        + host_re
+        + ")"
+        r"(?::[0-9]{1,5})?"  # port
+        r"(?:[/?#][^\s]*)?"  # resource path
+        r"\Z",
+        re.IGNORECASE,
+    )
