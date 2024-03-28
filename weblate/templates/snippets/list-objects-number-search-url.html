@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load humanize %}
+
+<td class="number {{ class }}" data-value="{{ value }}">
+    {% if value == 0 and not show_zero %}
+      <span class="sr-only">0</span>
+    {% else %}
+        <a href="{% url 'search' path=object.get_url_path %}?{{ query }}">
+            {{ value|intcomma }}
+        </a>
+    {% endif %}
+</td>
