@@ -41,7 +41,7 @@ class CDNJSAddon(BaseAddon):
         # Generate UUID for the CDN
         if "state" not in kwargs:
             kwargs["state"] = {"uuid": uuid4().hex}
-        return super().create_object(component, **kwargs)
+        return super().create_object(component=component, **kwargs)
 
     @classmethod
     def can_install(cls, component, user):

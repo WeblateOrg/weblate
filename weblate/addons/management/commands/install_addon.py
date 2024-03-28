@@ -50,7 +50,7 @@ class Command(WeblateComponentCommand):
             user = get_anonymous()
         for component in self.get_components(*args, **options):
             if addon.has_settings():
-                form = addon.get_add_form(None, component, data=configuration)
+                form = addon.get_add_form(None, component=component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons:
@@ -66,5 +66,5 @@ class Command(WeblateComponentCommand):
                 self.stderr.write(f"Can not install on {component}")
                 continue
 
-            addon.create(component, configuration=configuration)
+            addon.create(component=component, configuration=configuration)
             self.stdout.write(f"Successfully installed on {component}")

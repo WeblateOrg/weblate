@@ -456,7 +456,9 @@ class DiscoveryForm(BaseAddonForm):
 class AutoAddonForm(BaseAddonForm, AutoForm):
     def __init__(self, user, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
-        AutoForm.__init__(self, obj=addon.instance.component, **kwargs)
+        AutoForm.__init__(
+            self, obj=addon.instance.component or addon.instance.project, **kwargs
+        )
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):

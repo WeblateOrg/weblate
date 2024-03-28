@@ -767,6 +767,9 @@ real_patterns = [
     path("admin/", admin.site.urls),
     # Weblate management interface
     path("manage/", weblate.wladmin.views.manage, name="manage"),
+    path(
+        "manage/addons/", weblate.addons.views.AddonList.as_view(), name="manage-addons"
+    ),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
     path(
         "manage/users/",
