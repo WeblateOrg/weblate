@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
 "PO-Revision-Date: 2024-03-29 18:02+0000\n"
-"Last-Translator: Wiktor Adamczyk <adamcxyk.wiktor@gmail.com>\n"
+"Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -957,6 +957,11 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
+"Edytując zakładkę :guilabel:`Zespół`, możesz określić :guilabel:`"
+"Automatyczne przypisania`, czyli listę wyrażeń regularnych używanych do "
+"automatycznego przypisywania nowo utworzonych użytkowników do zespołu na "
+"podstawie ich adresów e-mail. To przypisanie następuje dopiero po utworzeniu "
+"konta."
 
 #: ../../admin/access.rst:430
 msgid ""
@@ -965,6 +970,11 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Najczęstszym przypadkiem użycia tej funkcji jest przypisanie wszystkich "
+"nowych użytkowników do domyślnego zespołu. To zachowanie jest używane w "
+"przypadku domyślnych zespołów `Użytkownicy` i `Gość` (zobacz :ref:`default-"
+"teams`). Użyj wyrażenia regularnego ``^.*$``, aby dopasować wszystkich "
+"użytkowników."
 
 #: ../../admin/access.rst:434
 msgid ""
@@ -984,6 +994,10 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Automatyczne przypisanie zespołu do „Użytkowników” i „Przeglądających” jest "
+"zawsze odtwarzane podczas aktualizacji Weblate do nowszej wersji. Jeśli "
+"chcesz to wyłączyć, ustaw wyrażenie regularne na ``^$`` (co skutkować będzie "
+"brakiem dopasowania)."
 
 #: ../../admin/access.rst:447
 msgid ""
@@ -1016,6 +1030,10 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"Te role i zespoły są tworzone podczas instalacji. Wbudowane role są zawsze "
+"aktualizowane podczas migracji bazy danych podczas aktualizacji. Właściwie "
+"nie możesz ich zmienić, zdefiniuj nową rolę, jeśli chcesz zdefiniować własny "
+"zestaw uprawnień."
 
 #: ../../admin/access.rst:463
 #, fuzzy
@@ -1825,6 +1843,9 @@ msgid ""
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
+"Nigdy nie usuwaj predefiniowanych zespołów i użytkowników Weblate, ponieważ "
+"może to prowadzić do nieoczekiwanych problemów! Jeśli ich nie potrzebujesz, "
+"możesz zamiast tego usunąć wszystkie ich uprawnienia."
 
 #: ../../admin/access.rst:684
 msgid "Additional access restrictions"
@@ -2134,12 +2155,20 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"Ten dodatek wymaga dodatkowej konfiguracji na serwerze Weblate. "
+":setting:`LOCALIZE_CDN_PATH` konfiguruje miejsce zapisywania wygenerowanych "
+"plików (w systemie plików), a :setting:`LOCALIZE_CDN_URL` określa miejsce, w "
+"którym będą one udostępniane (URL). Udostępnianie plików nie jest "
+"realizowane przez Weblate i musi zostać skonfigurowane zewnętrznie (zwykle "
+"przy użyciu usługi CDN)."
 
 #: ../../admin/addons.rst:112
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"Ten dodatek jest skonfigurowany na :guilabel:`Hosted Weblate` i udostępnia "
+"pliki poprzez ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -2412,6 +2441,9 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
+"Dopasowanie odbywa się za pomocą wyrażeń regularnych, co umożliwia złożoną "
+"konfigurację, ale wymagana jest do tego pewna wiedza. Niektóre przykłady "
+"typowych zastosowań można znaleźć w sekcji pomocy dodatku."
 
 #: ../../admin/addons.rst:219
 #, fuzzy
@@ -2545,7 +2577,7 @@ msgstr ":file:`weblate-*.png`"
 
 #: ../../admin/addons.rst:254
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Lokalny układ Gettext"
 
 #: ../../admin/addons.rst:256
 msgid "Usual structure for storing gettext PO files."
@@ -2617,11 +2649,11 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/addons.rst:276
 msgid ":file:`src/locale/application.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/application.de.po`"
 
 #: ../../admin/addons.rst:277
 msgid ":file:`src/locale/website.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:280
 #, fuzzy
@@ -2644,7 +2676,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
-msgstr ""
+msgstr ":file:`locale/cs/application/cs.po`"
 
 #: ../../admin/addons.rst:288
 #, fuzzy
@@ -2654,7 +2686,7 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/addons.rst:289
 msgid ":file:`locale/de/application/de.po`"
-msgstr ""
+msgstr ":file:`locale/de/application/de.po`"
 
 #: ../../admin/addons.rst:290
 #, fuzzy
@@ -2736,22 +2768,28 @@ msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
 "properties`"
 msgstr ""
+":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
+"properties`"
 
 #: ../../admin/addons.rst:317
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
 "properties`"
 msgstr ""
+":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
+"properties`"
 
 #: ../../admin/addons.rst:318
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_de.properties`"
 msgstr ""
+":file:`parent/module2/src/main/resources/ApplicationResource_de.properties`"
 
 #: ../../admin/addons.rst:319
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`"
 msgstr ""
+":file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`"
 
 #: ../../admin/addons.rst:324
 msgid ""
@@ -2861,6 +2899,9 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
+"Zautomatyzuj etykietowanie, zaczynając od zapytania „NOT has:label” i "
+"dodawaj etykiety, aż wszystkie ciągi będą miały wszystkie wymagane etykiety. "
+"Można również wykonywać inne zautomatyzowane operacje na metadanych Weblate."
 
 #: ../../admin/addons.rst:371 ../../admin/config.rst:1722
 msgid "**Examples:**"
@@ -3058,6 +3099,9 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Wszystkie nieprzetłumaczone ciągi w komponencie zostaną wypełnione ciągiem "
+"źródłowym i oznaczone jako wymagające edycji. Użyj tej opcji, jeśli nie "
+"możesz mieć pustych ciągów w plikach tłumaczeń."
 
 #: ../../admin/addons.rst:524
 msgid "Pseudolocale generation"
@@ -3153,12 +3197,18 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Pseudolokale są przydatne do wyszukiwania ciągów znaków, które nie są "
+"przygotowane do lokalizacji. Odbywa się to poprzez zmianę wszystkich "
+"możliwych do przetłumaczenia ciągów źródłowych, aby ułatwić wykrycie "
+"niezmienionych ciągów podczas uruchamiania aplikacji w języku pseudolokalnym."
 
 #: ../../admin/addons.rst:556
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Możliwe jest również znalezienie ciągów znaków, których zlokalizowane "
+"odpowiedniki mogą nie pasować do układu."
 
 #: ../../admin/addons.rst:559
 msgid ""
@@ -3170,6 +3220,13 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"Użycie części zmiennych umożliwia wyszukiwanie ciągów znaków, które po "
+"lokalizacji mogą nie pasować do interfejsu użytkownika - powoduje to "
+"wydłużenie tekstu w oparciu o długość ciągu źródłowego. Części zmienne "
+"powtarzane są przez długość tekstu pomnożoną przez mnożnik. Na przykład ``"
+"Witaj świecie`` z sufiksem zmiennej ``_`` i mnożnikiem zmiennej 1 staje się "
+"``Witaj świecie___________`` - przyrostek jest powtarzany raz dla każdego "
+"znaku w ciągu źródłowym."
 
 #: ../../admin/addons.rst:566
 msgid "The strings will be generated using following pattern:"
@@ -3187,6 +3244,8 @@ msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Do testowania możesz używać prawdziwych języków, ale w Weblate dostępne są "
+"dedykowane pseudolokale - `en_XA` i `ar_XB`."
 
 #: ../../admin/addons.rst:581
 msgid ""
@@ -3196,12 +3255,19 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"Możesz użyć tego dodatku, aby rozpocząć tłumaczenie na nowe ustawienia "
+"regionalne istniejącego języka lub języka podobnego. Po dodaniu tłumaczenia "
+"do komponentu przejdź do dodatku. *Przykład:* Jeśli masz `fr` i chcesz "
+"rozpocząć tłumaczenie `fr_CA`, po prostu ustaw `fr` jako źródło, `fr_CA` "
+"jako cel i pozostaw przedrostek i sufiks puste."
 
 #: ../../admin/addons.rst:587
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
+"Odinstaluj dodatek po wypełnieniu nowego tłumaczenia, aby uniemożliwić "
+"Weblate zmianę tłumaczeń wykonanych po skopiowaniu."
 
 #: ../../admin/addons.rst:594
 msgid "Contributors in comment"
@@ -3221,7 +3287,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:603
 msgid "The PO file header will look like this:"
-msgstr ""
+msgstr "Nagłówek pliku PO będzie wyglądał następująco:"
 
 #: ../../admin/addons.rst:615
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -3229,7 +3295,7 @@ msgstr "Zaktualizuj zmienną ALL_LINGUAS w pliku \"konfiguracyjnym\""
 
 #: ../../admin/addons.rst:617
 msgid "``weblate.gettext.configure``"
-msgstr ""
+msgstr "``weblate.gettext.configure``"
 
 #: ../../admin/addons.rst:619 ../../admin/addons.rst:664
 msgid "repository post-add, daily"
@@ -3240,6 +3306,9 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Aktualizuje zmienną ALL_LINGUAS w plikach :file:`configure`, :file:`configure"
+".in` lub dowolnych plikach :file:`configure.ac`, gdy dodawane jest nowe "
+"tłumaczenie."
 
 #: ../../admin/addons.rst:627
 msgid "Customize gettext output"
@@ -3247,7 +3316,7 @@ msgstr "Dostosuj wyjście gettext"
 
 #: ../../admin/addons.rst:629
 msgid "``weblate.gettext.customize``"
-msgstr ""
+msgstr "``weblate.gettext.customize``"
 
 #: ../../admin/addons.rst:631 ../../admin/addons.rst:880
 msgid "``width``"
@@ -3378,6 +3447,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"Lokalizację wygenerowanego pliku MO można dostosować, a jego pole używa "
+":ref:`markup`."
 
 #: ../../admin/addons.rst:687
 msgid ""
@@ -3385,6 +3456,9 @@ msgid ""
 "repository, but the MO file generated by this add-on will not.  The MO file "
 "must be removed from the upstream manually."
 msgstr ""
+"Jeśli tłumaczenie zostanie usunięte, jego plik PO zostanie usunięty z "
+"repozytorium, ale plik MO wygenerowany przez ten dodatek nie zostanie "
+"usunięty. Plik MO należy usunąć ręcznie z pliku źródłowego."
 
 #: ../../admin/addons.rst:695
 msgid "Update PO files to match POT (msgmerge)"
@@ -3459,11 +3533,11 @@ msgstr "``language`` -- Według języka"
 
 #: ../../admin/addons.rst:731
 msgid "``file`` -- Per file"
-msgstr ""
+msgstr "``file`` -- Na plik"
 
 #: ../../admin/addons.rst:733
 msgid "``author`` -- Per author"
-msgstr ""
+msgstr "``author`` -- Autor"
 
 #: ../../admin/addons.rst:735
 msgid "``append_trailers``"
@@ -3615,7 +3689,7 @@ msgstr "Formatuje i sortuje plik właściwości Java."
 
 #: ../../admin/addons.rst:793
 msgid "Consolidates newlines to Unix ones."
-msgstr ""
+msgstr "Zamienia nowe linie do formatu Unix."
 
 #: ../../admin/addons.rst:794
 msgid ""
@@ -3800,10 +3874,12 @@ msgstr "``dos`` -- DOS (\\\\r\\\\n)"
 #: ../../admin/addons.rst:896
 msgid "``unix`` -- UNIX (\\\\n)"
 msgstr ""
+"``unix`` -- UNIX (\\\\n"
+")"
 
 #: ../../admin/addons.rst:898
 msgid "``mac`` -- MAC (\\\\r)"
-msgstr ""
+msgstr "``mac`` -- MAC (\\\\r)"
 
 #: ../../admin/addons.rst:902
 msgid ""
@@ -3821,6 +3897,8 @@ msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
 msgstr ""
+"Listę dodatków konfiguruje się poprzez :setting:`WEBLATE_ADDONS`. Aby dodać "
+"kolejny dodatek, po prostu podaj w tym ustawieniu bezwzględną nazwę klasy."
 
 #: ../../admin/addons.rst:915
 msgid "Writing add-on"
@@ -3832,6 +3910,9 @@ msgid ""
 "addons.base.BaseAddon` to define the add-on metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
+"Możesz także napisać własne dodatki, utworzyć podklasę :class:`weblate.addons"
+".base.BaseAddon` w celu zdefiniowania metadanych dodatku, a następnie "
+"zaimplementować wywołanie zwrotne w celu wykonania przetwarzania."
 
 #: ../../admin/addons.rst:923
 msgid ":doc:`../contributing/addons`"
@@ -3847,6 +3928,9 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
 msgstr ""
+"Dodatków można także używać do wykonywania zewnętrznych skryptów. Kiedyś "
+"było to zintegrowane z Weblate, ale teraz musisz napisać kod, aby go wykonać "
+"dodatkiem."
 
 #: ../../admin/addons.rst:937
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -3857,6 +3941,8 @@ msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Skrypt jest wykonywany z bieżącym katalogiem ustawionym na katalog główny "
+"repozytorium VCS dla dowolnego komponentu."
 
 #: ../../admin/addons.rst:942
 msgid "Additionally, the following environment variables are available:"
@@ -3899,6 +3985,8 @@ msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
+"Język aktualnie przetwarzanego tłumaczenia (niedostępny dla komponentów "
+"niskiego poziomu)."
 
 #: ../../admin/addons.rst:984
 msgid ""
