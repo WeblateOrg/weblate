@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Maciej Olko <maciej.olko@gmail.com>, 2023, 2024.
-# Wiktor Adamczyk <adamcxyk.wiktor@gmail.com>, 2023.
+# Wiktor Adamczyk <adamcxyk.wiktor@gmail.com>, 2023, 2024.
 # zbirow 3dx <pawelkepczynski53@gmail.com>, 2023.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024.
 # WaldiS <sto@tutanota.de>, 2023, 2024.
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
 "PO-Revision-Date: 2024-03-28 17:29+0000\n"
-"Last-Translator: WaldiS <sto@tutanota.de>\n"
+"Last-Translator: Wiktor Adamczyk <adamcxyk.wiktor@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -594,24 +594,17 @@ msgid "Custom permissions for languages, components or projects"
 msgstr "Niestandardowe uprawnienia do języków, komponentów lub projektów"
 
 #: ../../admin/access.rst:257
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Możesz tworzyć własne grupy dedykowane do zarządzania uprawnieniami do "
-"różnych obiektów, takich jak języki, komponenty i projekty. Chociaż te grupy "
-"mogą przyznawać tylko dodatkowe uprawnienia, nie można cofnąć żadnego "
-"uprawnienia przyznanego przez grupy obejmujące całą witrynę lub poszczególne "
-"projekty, dodając kolejną grupę niestandardową."
+"Możesz tworzyć własne zespoły dedykowane do zarządzania uprawnieniami do "
+"różnych obiektów, takich jak języki, komponenty i projekty. Chociaż te "
+"zespoły mogą przyznawać tylko dodatkowe uprawnienia, nie można cofnąć "
+"żadnego uprawnienia przyznanego przez zespoły obejmujące całą witrynę lub "
+"poszczególne projekty, dodając kolejny zespół niestandardowy."
 
 #: ../../admin/access.rst:262 ../../admin/access.rst:395
 #: ../../admin/config.rst:247 ../../admin/config.rst:266
@@ -639,19 +632,14 @@ msgstr ""
 "będziesz musiał:"
 
 #: ../../admin/access.rst:268
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
 "Usuń uprawnienie do tłumaczenia języka czeskiego wszystkim użytkownikom. W "
-"domyślnej konfiguracji można to zrobić, zmieniając `Użytkownicy` :ref:"
-"`default group <default-groups>`."
+"domyślnej konfiguracji można to zrobić, zmieniając `Użytkownicy` :ref:`"
+"default team <default-teams>`."
 
 #: ../../admin/access.rst:272
 msgid "Group `Users`"
@@ -778,23 +766,17 @@ msgid "Access for browse to a project"
 msgstr "Dostęp do przeglądania projektu"
 
 #: ../../admin/access.rst:344
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to browse the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a team linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"Użytkownik musi być członkiem grupy powiązanej z projektem lub dowolnym "
+"Użytkownik musi być członkiem zespołu powiązanego z projektem lub dowolnym "
 "komponentem wewnątrz tego projektu. Posiadanie członkostwa jest "
-"wystarczające, do przeglądania projektu nie są potrzebne żadne specjalne "
-"uprawnienia (jest to używane w domyślnej grupie `Viewers`, zobacz :ref:"
-"`default-groups`)."
+"wystarczające, do przeglądania projektu, nie są potrzebne żadne specjalne "
+"uprawnienia (jest to używane w domyślnym zespole `Viewers`, zobacz :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:350
 msgid "Access for browse to a component"
@@ -819,15 +801,11 @@ msgid "Scope of teams"
 msgstr "Zakres zespołów"
 
 #: ../../admin/access.rst:362
-#, fuzzy
-#| msgid ""
-#| "The scope of the permission assigned by the roles in the groups are "
-#| "applied by the following rules:"
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
-"Zakres uprawnień nadawanych przez role w grupach jest określany według "
+"Zakres uprawnień nadawanych przez role w zespołach jest określany według "
 "następujących reguł:"
 
 #: ../../admin/access.rst:365
@@ -838,6 +816,12 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Jeśli zespół określa jakikolwiek :guilabel:`Component list` wszystkie "
+"uprawnienia nadane członkom tego zespołu zostaną przyznane wszystkim "
+"komponentom na listach komponentów dołączonych do zespołu i zostanie nadany "
+"dostęp, bez żadnych dodatkowych uprawnień, dla wszystkich projektów w "
+"których znajdują się te komponenty. :guilabel:`Components` i "
+":guilabel:`projects` są ignorowane."
 
 #: ../../admin/access.rst:371
 msgid ""
@@ -854,16 +838,13 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Jeśli zespół określa jakikolwiek :guilabel:`Components` wszystkie "
+"uprawnienia nadane członkom tego zespołu zostaną przyznane wszystkim "
+"komponentom dołączonych do zespołu i zostanie nadany dostęp, bez żadnych "
+"dodatkowych uprawnień, dla wszystkich projektów w których znajdują się te "
+"komponenty. :guilabel:`Projects` są ignorowane."
 
 #: ../../admin/access.rst:379
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -871,9 +852,9 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"W innym przypadku, jeżeli grupa poda jakikolwiek :guilabel: `Projects`, albo "
-"wymieniając je albo poprzez posiadanie :guilabel: `Projects selection` i "
-"ustawienie wartości jak: :guilabel: `All public projects`, wszystkie te "
+"W innym przypadku, jeżeli zespół poda jakikolwiek :guilabel: `Projects`, "
+"albo wymieniając je albo poprzez posiadanie :guilabel: `Projects selection` "
+"i ustawienie wartości jak: :guilabel: `All public projects`, wszystkie te "
 "uprawniena są aplikowane do wszystkich projektów, co daje the same "
 "uprawnienie każdemu projektowi :ref: `unrestricted components<component-"
 "restricted>`."
