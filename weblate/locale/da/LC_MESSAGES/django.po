@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-04-01 15:01+0000\n"
+"PO-Revision-Date: 2024-04-01 17:32+0000\n"
 "Last-Translator: Cat <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -2721,7 +2721,7 @@ msgstr "Ikke understøttet filformat."
 
 #: weblate/auth/permissions.py:293
 msgid "Cannot remove terminology translation, remove source string instead."
-msgstr ""
+msgstr "Kan ikke fjerne terminologioversættelsen; fjern kildeteksten i stedet."
 
 #: weblate/auth/permissions.py:305 weblate/auth/permissions.py:322
 #, fuzzy
@@ -2731,7 +2731,7 @@ msgstr "Oversættelsen er låst i øjeblikket."
 
 #: weblate/auth/views.py:115
 msgid "Cannot remove built-in team!"
-msgstr ""
+msgstr "Kan ikke fjerne indbygget team!"
 
 #: weblate/auth/views.py:189
 #, fuzzy
@@ -3083,7 +3083,7 @@ msgstr[1] "Redigere kildestrenge"
 #: weblate/checks/consistency.py:191
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:242
 msgid "Has been translated"
@@ -3244,6 +3244,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Fluent-referencen i {sequence} kan udvide sig til et HTML-tag. Overvej at "
+"bruge {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:142
 #, python-brace-format
@@ -3251,6 +3253,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Fluent-referencen i {sequence} kan udvide sig til en HTML-tegnreference. "
+"Overvej at bruge {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:170
 #, python-brace-format
@@ -3258,6 +3262,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} starter med et HTML lukketag, men navnet eller "
+"syntaksen er ikke gyldig. Hvis du ikke ønsker et lukketag, brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:183
 #, python-brace-format
@@ -3265,6 +3271,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} starter med et HTML-tag, men navnet er ikke gyldigt. "
+"Hvis du ikke ønsker at starte et HTML-tag, brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:196
 #, python-brace-format
@@ -3272,6 +3280,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} starter med et HTML-tag, men tagget lukkes aldrig af "
+"{close}. Hvis du ikke ønsker at starte et HTML-tag, brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:210
 #, python-brace-format
@@ -3286,11 +3296,14 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} starter med et HTML-tag, men sekvensen {attribute} er "
+"ikke en gyldig egenskab med en værdi. Hvis du ikke ønsker at starte et HTML-"
+"tag, brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:244
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "HTML-egenskabsnavnet {name} for {tag}-tagget er ikke gyldigt."
 
 #: weblate/checks/fluent/inner_html.py:259
 #, python-brace-format
@@ -3298,21 +3311,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"HTML {name}-egenskabens værdi {value} for {tag}-tagget er ikke en gyldig "
+"citeret værdi."
 
 #: weblate/checks/fluent/inner_html.py:275
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "HTML {name}-egenskaben forekommer to gange for {tag}-tagget."
 
 #: weblate/checks/fluent/inner_html.py:287
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Uoverensstemmende HTML-lukketag: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:297
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML {name} selvafsluttende element bør ikke have et lukketag: {end}."
 
 #: weblate/checks/fluent/inner_html.py:310
 #, python-brace-format
@@ -3320,11 +3335,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"HTML {name}-elementet er ikke et kendt selvafsluttende element, så det bør "
+"ikke have et selvafsluttende tag: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:324
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML {tag}-tagget mangler et matchende lukketag: {end}."
 
 #: weblate/checks/fluent/inner_html.py:340
 #, python-brace-format
@@ -3333,11 +3350,13 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Sekvensen {sequence} vil starte en HTML-tegnreference, men slutter ikke med "
+"{semicolon}. Hvis du ikke ønsker en tegnreference, brug {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:358
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Sekvensen {sequence} er ikke en gyldig HTML-tegnreference."
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source inner HTML"
@@ -3740,7 +3759,7 @@ msgstr "Oversættelsen følger ikke de udtryk, der er defineret i en ordliste."
 
 #: weblate/checks/glossary.py:69
 msgid "Following terms are not translated according to glossary: {}"
-msgstr ""
+msgstr "Følgende begreber er ikke oversat ifølge ordlisten: {}"
 
 #: weblate/checks/icu.py:249
 #, fuzzy
@@ -3766,7 +3785,7 @@ msgstr ""
 #: weblate/checks/icu.py:453
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Syntaksfejl: %s"
 
 #: weblate/checks/icu.py:459
 #, fuzzy, python-format
@@ -5130,17 +5149,17 @@ msgstr ""
 #: weblate/machinery/forms.py:200
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Europa"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "USA"
 
 #: weblate/machinery/forms.py:211
 #, fuzzy, python-format
