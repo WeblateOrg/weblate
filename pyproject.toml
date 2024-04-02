@@ -331,7 +331,6 @@ ignore = [
   'Q003',  # CONFIG: formatter
   'W191',  # CONFIG: formatter
   "E203",  # CONFIG: formatter
-  "CPY001",  # WORKAROUND: https://github.com/astral-sh/ruff/issues/10062
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
@@ -372,6 +371,11 @@ ignore = [
 ]
 preview = true
 select = ["ALL"]
+
+[tool.ruff.lint.flake8-copyright]
+min-file-size = 2
+# Copyright without a year, see https://github.com/astral-sh/ruff/issues/10062
+notice-rgx = "(?i)Copyright\\s+©\\s+"
 
 [tool.ruff.lint.mccabe]
 max-complexity = 16  # TODO: should be lower
