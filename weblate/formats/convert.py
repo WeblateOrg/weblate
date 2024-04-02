@@ -60,8 +60,8 @@ class ConvertPoUnit(PoUnit):
     def is_translated(self):
         """Check whether unit is translated."""
         if self.parent.is_template:
-            return bool(self.target)
-        return self.unit is not None and bool(self.target)
+            return self.has_translation()
+        return self.unit is not None and self.has_translation()
 
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs editing."""
@@ -91,7 +91,7 @@ class ConvertXliffUnit(XliffUnit):
     def is_translated(self):
         """Check whether unit is translated."""
         if self.parent.is_template:
-            return bool(self.target)
+            return self.has_translation()
         return self.unit is not None
 
     @cached_property

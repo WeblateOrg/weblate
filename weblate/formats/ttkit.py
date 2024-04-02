@@ -132,7 +132,7 @@ class TTKitUnit(TranslationUnit):
         # Most of the formats do not support this, but they
         # happily return False
         if isinstance(self.unit, SUPPORTS_FUZZY):
-            return self.unit.isfuzzy()
+            return self.has_translation() and self.unit.isfuzzy()
         return fallback
 
     def has_content(self) -> bool:
@@ -628,14 +628,14 @@ class XliffUnit(TTKitUnit):
     def get_xliff_nodes(self):
         return (self.get_unit_node(unit) for unit in self.get_xliff_units())
 
-    def get_xliff_states(self):
-        result = []
+    def get_xliff_states(self) -> set[str]:
+        result = set()
         for node in self.get_xliff_nodes():
             if node is None:
                 continue
             state = node.get("state", None)
             if state is not None:
-                result.append(state)
+                result.add(state)
         return result
 
     @cached_property
@@ -658,9 +658,9 @@ class XliffUnit(TTKitUnit):
         We replace Translate Toolkit logic here as the isfuzzy is pretty much wrong
         there, see is_fuzzy docs.
         """
-        return bool(self.target)
+        return self.has_translation()
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """
         Check whether unit needs edit.
 
@@ -669,8 +669,8 @@ class XliffUnit(TTKitUnit):
 
         That's why we handle it on our own.
         """
-        return self.target and any(
-            state in XLIFF_FUZZY_STATES for state in self.get_xliff_states()
+        return self.has_translation() and XLIFF_FUZZY_STATES.intersection(
+            self.get_xliff_states()
         )
 
     def set_state(self, state) -> None:
@@ -1735,7 +1735,7 @@ class SubtitleUnit(MonolingualIDUnit):
 
     def is_translated(self):
         """Check whether unit is translated."""
-        return bool(self.target)
+        return self.has_translation()
 
 
 class SubRipFormat(TTKitFormat):
