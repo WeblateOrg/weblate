@@ -674,6 +674,13 @@ however, re-create them if you delete or rename them.
 
     Default roles: `Administration`
 
+`Project creators`
+    .. versionadded:: 5.1
+
+    Users who can create new projects.
+
+    Default roles: `Add new projects`
+
 .. warning::
 
     Never remove the predefined Weblate teams and users as this can lead to
