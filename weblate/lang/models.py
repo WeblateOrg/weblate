@@ -648,6 +648,9 @@ class Language(models.Model, CacheKeyMixin):
     def uses_ngram(self) -> bool:
         return is_ngram_code(self.base_code)
 
+    def uses_whitespace(self) -> bool:
+        return self.base_code not in data.NO_SPACE_LANGUAGES
+
     @cached_property
     def plural(self):
         if self.plural_set.all()._result_cache is not None:
