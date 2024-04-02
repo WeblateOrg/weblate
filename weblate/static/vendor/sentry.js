@@ -74,6 +74,7 @@ const MESSAGE_PLACEHOLDER = "What's the bug? What did you expect?";
 const MESSAGE_LABEL = 'Description';
 const NAME_PLACEHOLDER = 'Your Name';
 const NAME_LABEL = 'Name';
+const IS_REQUIRED_LABEL = '(required)';
 const SUCCESS_MESSAGE_TEXT = 'Thank you for your report!';
 
 const FEEDBACK_WIDGET_SOURCE = 'widget';
@@ -888,6 +889,7 @@ function Form({
   emailPlaceholder,
   messageLabel,
   messagePlaceholder,
+  isRequiredLabel,
   cancelButtonLabel,
   submitButtonLabel,
 
@@ -1011,7 +1013,8 @@ function Form({
               'span',
               { className: 'form__label__text' },
               nameLabel,
-              isNameRequired && createElement('span', { className: 'form__label__text--required' }, ' (required)'),
+              isNameRequired &&
+                createElement('span', { className: 'form__label__text--required' }, ` ${isRequiredLabel}`),
             ),
             nameEl,
           ],
@@ -1030,7 +1033,8 @@ function Form({
               'span',
               { className: 'form__label__text' },
               emailLabel,
-              isEmailRequired && createElement('span', { className: 'form__label__text--required' }, ' (required)'),
+              isEmailRequired &&
+                createElement('span', { className: 'form__label__text--required' }, ` ${isRequiredLabel}`),
             ),
             emailEl,
           ],
@@ -1048,7 +1052,7 @@ function Form({
             'span',
             { className: 'form__label__text' },
             messageLabel,
-            createElement('span', { className: 'form__label__text--required' }, ' (required)'),
+            createElement('span', { className: 'form__label__text--required' }, ` ${isRequiredLabel}`),
           ),
           messageEl,
         ],
@@ -1500,6 +1504,7 @@ function createWidget({
         messagePlaceholder: options.messagePlaceholder,
         nameLabel: options.nameLabel,
         namePlaceholder: options.namePlaceholder,
+        isRequiredLabel: options.isRequiredLabel,
         defaultName: (userKey && user && user[userKey.name]) || '',
         defaultEmail: (userKey && user && user[userKey.email]) || '',
         onClosed: () => {
@@ -1675,6 +1680,7 @@ class Feedback  {
     messageLabel = MESSAGE_LABEL,
     namePlaceholder = NAME_PLACEHOLDER,
     nameLabel = NAME_LABEL,
+    isRequiredLabel = IS_REQUIRED_LABEL,
     successMessageText = SUCCESS_MESSAGE_TEXT,
 
     onFormClose,
@@ -1722,6 +1728,7 @@ class Feedback  {
       messagePlaceholder,
       nameLabel,
       namePlaceholder,
+      isRequiredLabel,
       successMessageText,
 
       onFormClose,
@@ -2630,6 +2637,8 @@ class CanvasManager {
             getCanvas(canvasElement).forEach((canvas) => {
                 const id = this.mirror.getId(canvas);
                 if (snapshotInProgressMap.get(id))
+                    return;
+                if (!canvas.width || !canvas.height)
                     return;
                 snapshotInProgressMap.set(id, true);
                 if (!isManualSnapshot &&
@@ -4679,7 +4688,11 @@ function setResourceEntrySizeData(
  * ttfb information is added via vendored web vitals library.
  */
 function _addTtfbRequestTimeToMeasurements(_measurements) {
-  const navEntry = getNavigationEntry.getNavigationEntry() ;
+  const navEntry = getNavigationEntry.getNavigationEntry();
+  if (!navEntry) {
+    return;
+  }
+
   const { responseStart, requestStart } = navEntry;
 
   if (requestStart <= responseStart) {
@@ -8627,9 +8640,9 @@ exports.LinkedErrors = linkederrors.LinkedErrors;
 exports.linkedErrorsIntegration = linkederrors.linkedErrorsIntegration;
 exports.TryCatch = trycatch.TryCatch;
 exports.browserApiErrorsIntegration = trycatch.browserApiErrorsIntegration;
-exports.Replay = replay.Replay;
-exports.getReplay = replay.getReplay;
-exports.replayIntegration = replay.replayIntegration;
+exports.Replay = replay.InternalReplay;
+exports.getReplay = replay.internalGetReplay;
+exports.replayIntegration = replay.internalReplayIntegration;
 exports.ReplayCanvas = replayCanvas.ReplayCanvas;
 exports.replayCanvasIntegration = replayCanvas.replayCanvasIntegration;
 exports.Feedback = feedback.Feedback;
@@ -20983,7 +20996,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":139}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.108.0';
+const SDK_VERSION = '7.109.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -24612,6 +24625,7 @@ function record(options = {}) {
             incrementalSnapshotCount++;
             const exceedCount = checkoutEveryNth && incrementalSnapshotCount >= checkoutEveryNth;
             const exceedTime = checkoutEveryNms &&
+                lastFullSnapshotEvent &&
                 e.timestamp - lastFullSnapshotEvent.timestamp > checkoutEveryNms;
             if (exceedCount || exceedTime) {
                 takeFullSnapshot(true);
@@ -30136,16 +30150,16 @@ const DEFAULT_NETWORK_HEADERS = ['content-length', 'content-type', 'accept'];
 
 let _initialized = false;
 
-const replayIntegration = ((options) => {
+const replayIntegration$1 = ((options) => {
   // eslint-disable-next-line deprecation/deprecation
-  return new Replay(options);
+  return new Replay$1(options);
 }) ;
 
 /**
  * The main replay integration class, to be passed to `init({  integrations: [] })`.
  * @deprecated Use `replayIntegration()` instead.
  */
-class Replay  {
+class Replay$1  {
   /**
    * @inheritDoc
    */
@@ -30219,7 +30233,7 @@ class Replay  {
     ignoreClass,
   } = {}) {
     // eslint-disable-next-line deprecation/deprecation
-    this.name = Replay.id;
+    this.name = Replay$1.id;
 
     const privacyOptions = getPrivacyOptions({
       mask,
@@ -30481,7 +30495,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
     }
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
   }
-}Replay.__initStatic();
+}Replay$1.__initStatic();
 
 /** Parse Replay-related options from SDK options */
 function loadReplayOptionsFromClient(initialOptions) {
@@ -30531,15 +30545,30 @@ function _getMergedNetworkHeaders(headers) {
  * This is a small utility to get a type-safe instance of the Replay integration.
  */
 // eslint-disable-next-line deprecation/deprecation
-function getReplay() {
+function getReplay$1() {
   const client = core.getClient();
   return (
     client && client.getIntegrationByName && client.getIntegrationByName('Replay')
   );
 }
 
+// eslint-disable-next-line deprecation/deprecation
+
+/** @deprecated Use the export from `@sentry/replay` or from framework-specific SDKs like `@sentry/react` or `@sentry/vue` */
+const getReplay = getReplay$1;
+
+/** @deprecated Use the export from `@sentry/replay` or from framework-specific SDKs like `@sentry/react` or `@sentry/vue` */
+const replayIntegration = replayIntegration$1;
+
+/** @deprecated Use the export from `@sentry/replay` or from framework-specific SDKs like `@sentry/react` or `@sentry/vue` */
+// eslint-disable-next-line deprecation/deprecation
+class Replay extends Replay$1 {}
+
+exports.InternalReplay = Replay$1;
 exports.Replay = Replay;
 exports.getReplay = getReplay;
+exports.internalGetReplay = getReplay$1;
+exports.internalReplayIntegration = replayIntegration$1;
 exports.replayIntegration = replayIntegration;
 
 
