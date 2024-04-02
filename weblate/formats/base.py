@@ -222,9 +222,13 @@ class TranslationUnit:
             self.context,
         )
 
-    def is_translated(self):
+    def has_translation(self) -> bool:
+        """Check whether unit has translation."""
+        return any(split_plural(self.target))
+
+    def is_translated(self) -> bool:
         """Check whether unit is translated."""
-        return bool(self.target)
+        return self.has_translation()
 
     def is_approved(self, fallback=False) -> bool:
         """Check whether unit is approved."""

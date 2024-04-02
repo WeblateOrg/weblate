@@ -28,6 +28,7 @@ Not yet released.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
 * Fixed per-language statistics on nested categories.
 * Fixed categories listing on per-language pages.
+* Fixed :guilabel:`Needs editing` state calculation.
 
 **Compatibility**
 

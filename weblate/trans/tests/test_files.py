@@ -159,15 +159,11 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(
-            translation.stats.suggestions, 2 if self.test_file == TEST_XLIFF else 1
-        )
+        self.assertEqual(translation.stats.suggestions, 1)
 
     def test_import_xliff(self) -> None:
         response = self.do_import(test_file=TEST_XLIFF, follow=True)
-        self.assertContains(
-            response, "updated: 2" if self.has_plurals else "updated: 1"
-        )
+        self.assertContains(response, "updated: 1")
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
