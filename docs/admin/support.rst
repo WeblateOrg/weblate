@@ -24,7 +24,7 @@ Basic instance details about your installation are also reported back to Weblate
 .. _support-data:
 
 Info sent to and shown on Weblate.org
--------------------------------------
+-----------------------------------------------
 
 * URL to your Weblate
 * Its site title
@@ -51,8 +51,8 @@ Integration services
 
 .. _discover-weblate:
 
-Discover
---------
+Discover Weblate
+----------------
 
 .. versionadded:: 4.5.2
 
@@ -62,7 +62,7 @@ Discover
 
 *Discover* is an opt-in service making it easier for users to find
 other Weblate sites and communities. Users can browse registered sites on
-https://weblate.org/discover and find
+https://weblate.org/discover/ and find
 projects to contribute to there.
 
 Getting listed
@@ -83,7 +83,7 @@ All steps for listing a server without a support contract:
 
 1. Register yourself at https://weblate.org/user/
 2. Register your Weblate site at https://weblate.org/subscription/discovery
-3. Confirm you you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
+3. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
 
 .. image:: /screenshots/support-discovery.png
 
@@ -93,4 +93,4 @@ Listing description
 +++++++++++++++++++
 
 Add a text and an image (570 x 260 pixels) about your Weblate site
-from https://weblate.org/user.
+from <https://weblate.org/user/>.
