@@ -16,6 +16,7 @@ NO_SPACE_LANGUAGES = {
     "km",
     "lo",
     "my",
+    "ko",
 }
 
 UNDERSCORE_EXCEPTIONS = {
