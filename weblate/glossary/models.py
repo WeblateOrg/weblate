@@ -92,7 +92,7 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
             parts.append(text)
     source = PLURAL_SEPARATOR.join(parts)
 
-    uses_ngram = source_language.uses_ngram()
+    uses_whitespace = source_language.uses_whitespace()
 
     automaton = project.glossary_automaton
     positions = defaultdict(list[tuple[int, int]])
@@ -101,7 +101,7 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
         for _termno, start, end in automaton.find_matches_as_indexes(
             source, overlapping=True
         ):
-            if uses_ngram or (
+            if not uses_whitespace or (
                 (start == 0 or NON_WORD_RE.match(source[start - 1]))
                 and (end >= len(source) or NON_WORD_RE.match(source[end]))
             ):

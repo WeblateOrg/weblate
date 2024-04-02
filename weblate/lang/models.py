@@ -33,7 +33,7 @@ from weblate.lang import data
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
-from weblate.trans.util import is_ngram_code, sort_objects, sort_unicode
+from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
@@ -644,9 +644,6 @@ class Language(models.Model, CacheKeyMixin):
     @cached_property
     def base_code(self) -> str:
         return self.code.replace("_", "-").split("-")[0]
-
-    def uses_ngram(self) -> bool:
-        return is_ngram_code(self.base_code)
 
     def uses_whitespace(self) -> bool:
         return self.base_code not in data.NO_SPACE_LANGUAGES
