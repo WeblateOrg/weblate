@@ -204,7 +204,7 @@ class TranslationUnit:
         return ""
 
     @classmethod
-    def calculate_id_hash(cls, has_template: bool, source: str, context: str):
+    def calculate_id_hash(cls, has_template: bool, source: str, context: str) -> int:
         """
         Return hash of source string, used for quick lookup.
 
@@ -215,7 +215,7 @@ class TranslationUnit:
         return calculate_hash(context)
 
     @cached_property
-    def id_hash(self):
+    def id_hash(self) -> int:
         return self.calculate_id_hash(
             self.template is not None,
             self.source,
@@ -226,11 +226,11 @@ class TranslationUnit:
         """Check whether unit is translated."""
         return bool(self.target)
 
-    def is_approved(self, fallback=False):
+    def is_approved(self, fallback=False) -> bool:
         """Check whether unit is approved."""
         return fallback
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback=False) -> bool:
         """Check whether unit needs edit."""
         return fallback
 
