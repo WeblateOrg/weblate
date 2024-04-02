@@ -19,6 +19,7 @@ Not yet released.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
 * :ref:`alerts` are now refreshed when needed, not just daily.
+* :doc:`/devel/reporting` uses specific word count for CJK languages.
 
 **Bug fixes**
 
