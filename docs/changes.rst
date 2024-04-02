@@ -22,6 +22,7 @@ Not yet released.
 
 **Bug fixes**
 
+* :ref:`alerts` better handle non-latin source languages.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
 * Fixed per-language statistics on nested categories.
 * Fixed categories listing on per-language pages.

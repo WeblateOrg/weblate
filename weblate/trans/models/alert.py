@@ -27,7 +27,7 @@ from weblate.vcs.models import VCS_REGISTRY
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
-    from weblate.trans.models import Component
+    from weblate.trans.models import Component, Translation
 
 ALERTS = {}
 ALERTS_IMPORT = set()
@@ -406,28 +406,34 @@ class MonolingualTranslation(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | None | dict:
-        # Pick random translation with translated strings except source one
-        translation = (
-            component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
-            .exclude(language_id=component.source_language_id)
-            .first()
-        )
+        if (
+            component.is_glossary
+            or not component.source_language.uses_whitespace()
+            or component.template
+        ):
+            return False
 
-        if translation:
-            allunits = translation.unit_set
-        else:
-            allunits = component.source_translation.unit_set
+        # Pick translation with translated strings except source one
+        translation: None | Translation = None
+        for current in component.translation_set.filter(
+            unit__state__gte=STATE_TRANSLATED
+        ).exclude(language_id=component.source_language_id):
+            if not current.language.uses_whitespace():
+                continue
+            translation = current
+
+        # Bail out if there is no suitable translation
+        if translation is None:
+            return False
+
+        allunits = translation.unit_set
 
         source_space = allunits.filter(source__contains=" ")
         target_space = allunits.filter(
             state__gte=STATE_TRANSLATED, target__contains=" "
         )
         return (
-            not component.is_glossary
-            and not component.template
-            and allunits.count() > 3
-            and not source_space.exists()
-            and target_space.exists()
+            allunits.count() > 3 and not source_space.exists() and target_space.exists()
         )
 
 

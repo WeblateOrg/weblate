@@ -9,6 +9,15 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 
+NO_SPACE_LANGUAGES = {
+    "zh",
+    "ja",
+    "th",
+    "km",
+    "lo",
+    "my",
+}
+
 UNDERSCORE_EXCEPTIONS = {
     "nb_NO",
     "zh_Hant",
