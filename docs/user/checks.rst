@@ -1230,7 +1230,7 @@ Mismatched interrobang mark
 :Check identifier: ``end_Interrobang``
 :Flag to ignore: ``ignore-end-Interrobang``
 
-Checks that interrobang marks are replicated between both source and translation. 
+Checks that interrobang marks are replicated between both source and translation.
 It allows the swap between "!?" and "?!".
 
 .. seealso::
