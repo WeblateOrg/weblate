@@ -23,7 +23,7 @@ Basic instance details about your installation are also reported back to Weblate
 
 .. _support-data:
 
-Info sent to and shown on Weblate.org
+Info sent to and (partially) shown on Weblate.org
 -----------------------------------------------
 
 * URL to your Weblate
