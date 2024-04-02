@@ -1219,6 +1219,24 @@ Coptic).
 
    `Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_
 
+.. _check-end-interrobang:
+
+Mismatched interrobang mark
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Summary: Source and translation do not both end with a interrobang mark
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndInterrobangCheck``
+:Check identifier: ``end_Interrobang``
+:Flag to ignore: ``ignore-end-Interrobang``
+
+Checks that interrobang marks are replicated between both source and translation. 
+It allows the swap between "!?" and "?!".
+
+.. seealso::
+
+   `Interrobang mark on Wikipedia <https://en.wikipedia.org/wiki/Interrobang>`_
+
 .. _check-end-semicolon:
 
 Mismatched semicolon
