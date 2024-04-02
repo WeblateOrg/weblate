@@ -115,6 +115,12 @@ LICENSES = (
         False,
     ),
     (
+        "AMD-newlib",
+        "AMD newlib License",
+        "https://spdx.org/licenses/AMD-newlib.html",
+        False,
+    ),
+    (
         "AMDPLPA",
         "AMD's plpa_map.c License",
         "https://spdx.org/licenses/AMDPLPA.html",
@@ -2136,6 +2142,7 @@ LICENSES = (
     ("NRL", "NRL License", "https://spdx.org/licenses/NRL.html", False),
     ("NTP", "NTP License", "https://spdx.org/licenses/NTP.html", True),
     ("NTP-0", "NTP No Attribution", "https://spdx.org/licenses/NTP-0.html", False),
+    ("OAR", "OAR License", "https://spdx.org/licenses/OAR.html", False),
     (
         "OCLC-2.0",
         "OCLC Research Public License 2.0",
@@ -2790,6 +2797,12 @@ LICENSES = (
         "https://spdx.org/licenses/TPL-1.0.html",
         False,
     ),
+    (
+        "threeparttable",
+        "threeparttable License",
+        "https://spdx.org/licenses/threeparttable.html",
+        False,
+    ),
     ("TPDL", "Time::ParseDate License", "https://spdx.org/licenses/TPDL.html", False),
     (
         "TMate",
@@ -2949,6 +2962,7 @@ LICENSES = (
     ("xlock", "xlock License", "https://spdx.org/licenses/xlock.html", False),
     ("xpp", "XPP License", "https://spdx.org/licenses/xpp.html", False),
     ("XSkat", "XSkat License", "https://spdx.org/licenses/XSkat.html", False),
+    ("xzoom", "xzoom License", "https://spdx.org/licenses/xzoom.html", False),
     (
         "YPL-1.0",
         "Yahoo! Public License v1.0",
