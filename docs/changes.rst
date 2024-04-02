@@ -23,6 +23,7 @@ Not yet released.
 
 **Bug fixes**
 
+* :ref:`check-check-glossary` works better for languages not using whitespace.
 * :ref:`alerts` better handle non-latin source languages.
 * :ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag.
 * Fixed per-language statistics on nested categories.
