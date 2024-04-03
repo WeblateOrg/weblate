@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-04-03 11:40+0000\n"
+"PO-Revision-Date: 2024-04-04 11:22+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -1114,7 +1114,7 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Traduce automaticamente as cadeas mediante tradución automática ou outros "
+"Traduce automaticamente as cadeas mediante tradución con máquinas ou outros "
 "compoñentes."
 
 #: weblate/addons/base.py:330 weblate/trans/views/create.py:244
@@ -1210,9 +1210,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Sempre que se importa unha nova cadea de orixe do SCV, márcase como que "
-"precisa de edición en Weblate. Deste xeito, pode filtrar e editar doadamente "
-"as cadeas de orixe escritas polos desenvolvedores."
+"Sempre que se importa unha nova cadea de orixe do SCV (VCS), márcase como "
+"que precisa de edición en Weblate. Deste xeito, pode filtrar e editar "
+"doadamente as cadeas de orixe escritas polos desenvolvedores."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
@@ -1238,10 +1238,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Sempre que se importa unha nova cadea traducíbel do SCV e coincide cunha "
-"cadea de orixe, márcase como necesario editala en Weblate. Especialmente "
-"útil para formatos de ficheiro que inclúen cadeas de orixe para cadeas sen "
-"traducir."
+"Sempre que se importa unha nova cadea traducíbel do SCV (VCS) e coincide "
+"cunha cadea de orixe, márcase como necesario editala en Weblate. "
+"Especialmente útil para formatos de ficheiro que inclúen cadeas de orixe "
+"para cadeas sen traducir."
 
 #: weblate/addons/flags.py:89 weblate/templates/category-project.html:42
 #: weblate/templates/category-project.html:108
@@ -2170,7 +2170,7 @@ msgstr "Xestionar a memoria de tradución"
 #. Translators: Permission name
 #: weblate/auth/data.py:137
 msgid "Manage machinery"
-msgstr "Xestionar a tradución automática"
+msgstr "Xestionar a tradución con máquinas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
@@ -2336,7 +2336,7 @@ msgstr "Tradución automática"
 #: weblate/auth/data.py:278
 msgctxt "Per-project access-control team name"
 msgid "VCS"
-msgstr "Sistema de Control de Versións (SCV)"
+msgstr "Sistema de Control de Versións (SCV -VCS-)"
 
 #: weblate/auth/data.py:279
 msgctxt "Per-project access-control team name"
@@ -4809,7 +4809,7 @@ msgstr "Contrasinal de SAP"
 #: weblate/machinery/forms.py:102
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Activa a tradución automática"
+msgstr "Activar a tradución con máquinas"
 
 #: weblate/machinery/forms.py:109
 msgctxt "Automatic suggestion service configuration"
@@ -5494,12 +5494,16 @@ msgstr "O rexistro está case finalizado"
 #: weblate/templates/accounts/email-sent.html:26
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
+"Siga as instrucións de recuperación do contrasinal enviadas á súa caixa de "
+"entrada de correo-e."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
+"Retire a súa conta premendo na ligazón de confirmación enviada á súa caixa "
+"de entrada de correo-e."
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid ""
@@ -5512,6 +5516,8 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:35
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Olle no seu cartafol de correo non desexado se non o pode ver na súa caixa "
+"de entrada."
 
 #: weblate/templates/accounts/email-sent.html:39
 #: weblate/templates/mail/shared-registration.html:11
@@ -5523,17 +5529,19 @@ msgstr[1] "A ligazón de confirmación caducará após %(count)s horas."
 
 #: weblate/templates/accounts/email-sent.html:41
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Se caduca, solicite unha nova ligazón de confirmación."
 
 #: weblate/templates/accounts/email-sent.html:43
 msgid "Register again if the confirmation link expires."
-msgstr ""
+msgstr "Rexístrese de novo se a ligazón de confirmación caduca."
 
 #: weblate/templates/accounts/email-sent.html:48
 msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"O correo-e non é unha tecnoloxía instantánea. Agarde polo correo-e de "
+"confirmación polo menos 30 minutos antes de escribirnos sobre problemas."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -5605,6 +5613,8 @@ msgstr "Busca aloxamento comercial?"
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
+"Busca un hospedaxe comercial? Os nosos prezos comezan en %(price)s EUR ao "
+"mes."
 
 #: weblate/templates/accounts/login.html:16
 msgid "This username/password combination was not found. Please try again."
@@ -5626,7 +5636,7 @@ msgstr "Rexistrar unha nova conta"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr ""
+msgstr "Active a autenticación por contrasinal para asegurar a súa conta."
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
@@ -5634,7 +5644,7 @@ msgstr "Vde. aínda poderá autenticarse usando servizos de terceiros."
 
 #: weblate/templates/accounts/password-warning.html:9
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "O contrasinal úsase para verificar cambios importantes na súa conta."
 
 #: weblate/templates/accounts/password-warning.html:14
 msgid "Configure the password"
@@ -5754,6 +5764,7 @@ msgstr "Retirar este axuste e notificación"
 #: weblate/templates/accounts/profile.html:124
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
+"O enderezo de correo-e só pode ser escollido entre os enderezos verificados."
 
 #: weblate/templates/accounts/profile.html:133
 msgid "Current user identities"
@@ -5779,7 +5790,7 @@ msgstr "Definir o contrasinal"
 
 #: weblate/templates/accounts/profile.html:157
 msgid "Disconnect"
-msgstr ""
+msgstr "Desconectar"
 
 #: weblate/templates/accounts/profile.html:169
 msgid "Add new user identity"
@@ -5820,6 +5831,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Todos os campos desta páxina son opcionais e pódense eliminar en calquera "
+"momento e, ao cubrilos, concédenos o consentimento para compartir estes "
+"datos alí onde apareza o seu perfil de usuario."
 
 #: weblate/templates/accounts/profile.html:217
 msgid "Your avatar"
@@ -5892,7 +5906,7 @@ msgstr "Alternar a visibilidade da chave da API"
 #: weblate/templates/accounts/profile.html:341
 #: weblate/templates/trans/project-access.html:328
 msgid "API key copied to clipboard."
-msgstr ""
+msgstr "A chave da API foi copiada no portapapeis."
 
 #: weblate/templates/accounts/profile.html:342
 msgid "Regenerate API key"
@@ -5942,7 +5956,7 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:401
 msgid "You have agreed to the following as a contributor:"
-msgstr ""
+msgstr "Aceptou o seguinte como colaborador:"
 
 #: weblate/templates/accounts/profile.html:416
 msgid "Licenses for individual translations"
@@ -5951,11 +5965,11 @@ msgstr "Licenzas para traducións individuais"
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
 msgid "Redirecting you to the authentication provider."
-msgstr ""
+msgstr "Redirixíndoo ao provedor de autenticación."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
-msgstr ""
+msgstr "Complete o rexistro para aceptar o convite."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -5963,7 +5977,7 @@ msgstr "Rexístrese en Weblate"
 
 #: weblate/templates/accounts/register.html:59
 msgid "Create an account using:"
-msgstr ""
+msgstr "Crear unha conta usando:"
 
 #: weblate/templates/accounts/register.html:73
 msgid "Sorry, new registrations are turned off on this site."
@@ -6972,7 +6986,8 @@ msgstr "Só certos usuarios escollidos poden colaborar."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
 msgid "Only chosen users can access VCS repository."
-msgstr "Só certos usuarios escollidos poden acceder ao repositorio do SCV."
+msgstr ""
+"Só certos usuarios escollidos poden acceder ao repositorio do SCV (VCS)."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -7878,7 +7893,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Actualizar cunha fusión (merge)"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with rebase"
@@ -7886,7 +7901,7 @@ msgstr "Actualizar con «rebase»"
 
 #: weblate/templates/js/git-status.html:64
 msgid "Update with merge without fast-forward"
-msgstr "Actualizar coa fusión sen avance rápido"
+msgstr "Actualizar coa fusión (merge) sen avance rápido"
 
 #: weblate/templates/js/git-status.html:70
 #, python-format
@@ -8455,8 +8470,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
 msgstr ""
-"Engada o ficheiro de idioma ao SCV, Weblate detectarao automaticamente na "
-"próxima actualización."
+"Engada o ficheiro de idioma ao SCV (VCS), Weblate detectarao automaticamente "
+"na próxima actualización."
 
 #: weblate/templates/mail/new_language.html:21
 msgid ""
@@ -10224,7 +10239,7 @@ msgstr "Páxina de participación"
 
 #: weblate/templates/snippets/share-menu.html:18
 msgid "Status widgets"
-msgstr "Trebellos do estado"
+msgstr "Trebellos de estado"
 
 #: weblate/templates/snippets/sort-field.html:10
 #: weblate/templates/snippets/sort-field.html:14
@@ -10696,16 +10711,16 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"O repositorio SCV ten moitos cambios en comparanza coa orixe. Fusione os "
-"cambios manualmente ou configure «push» para automatizar isto."
+"O repositorio do SCV (VCS) ten moitos cambios en comparanza coa orixe. "
+"Fusione os cambios manualmente ou configure «push» para automatizar isto."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"O repositorio SCV non está actualizado coa orixe. Fusione os cambios "
-"manualmente ou configure ganchos para automatizar isto."
+"O repositorio do SCV (VCS) non está actualizado coa orixe. Fusione os "
+"cambios manualmente ou configure ganchos para automatizar isto."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/models/component.py:345
@@ -11038,7 +11053,7 @@ msgstr "Activar o engadido:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
-msgstr "Fluxo de traballo típico para arranxar conflitos de fusión"
+msgstr "Fluxo de traballo típico para arranxar conflitos de fusión (merge)"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
@@ -11060,7 +11075,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:21
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Fusione os cambios de Weblate e solucione calquera conflito."
+msgstr "Fusione (merge) os cambios de Weblate e solucione calquera conflito."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
@@ -11606,8 +11621,8 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
-"A tradución mediante tradución automática emprega motores activos de "
-"tradución por máquinas para obter as mellores traducións posíbeis e aplícaas "
+"A tradución mediante procesos automáticos emprega motores activos de "
+"tradución con máquinas para obter as mellores traducións posíbeis e aplícaas "
 "neste proxecto."
 
 #: weblate/templates/translation.html:304
@@ -11742,7 +11757,7 @@ msgstr "Código Textile"
 
 #: weblate/templates/widgets.html:62
 msgid "Image URL"
-msgstr "Enderezo URL da imaxe"
+msgstr "URL da imaxe"
 
 #: weblate/templates/zen-units.html:20
 msgid "Open in full editor"
@@ -11750,7 +11765,7 @@ msgstr ""
 
 #: weblate/templates/zen-units.html:102 weblate/trans/views/edit.py:605
 msgid "The translation has come to an end."
-msgstr "A tradución rematou."
+msgstr "A tradución chegou ao seu fin."
 
 #: weblate/templates/zen.html:42
 msgid "Edit in single string mode"
@@ -11766,11 +11781,11 @@ msgstr "Facer «commit» dos cambios pendentes"
 
 #: weblate/trans/admin.py:24
 msgid "Update VCS repository"
-msgstr "Actualizar repositorio VCS"
+msgstr "Actualizar o repositorio do SCV (VCS)"
 
 #: weblate/trans/admin.py:37
 msgid "Update quality checks"
-msgstr "Actualizar controis de calidade"
+msgstr "Actualizar as comprobacións de calidade"
 
 #: weblate/trans/admin.py:67
 msgid "Administrators"
@@ -11778,11 +11793,11 @@ msgstr "Administración"
 
 #: weblate/trans/admin.py:86
 msgid "VCS repositories"
-msgstr "Repositorios VCS"
+msgstr "Repositorios do SCV (VCS)"
 
 #: weblate/trans/apps.py:12
 msgid "Weblate translations"
-msgstr "Traducións do Weblate"
+msgstr "Traducións de Weblate"
 
 #: weblate/trans/autofixes/chars.py:23
 msgid "Trailing ellipsis"
@@ -11802,7 +11817,7 @@ msgstr ""
 
 #: weblate/trans/autofixes/whitespace.py:21
 msgid "Trailing and leading whitespace"
-msgstr "Espazo no comezo e no remate"
+msgstr "Espazo no inicio e no final"
 
 #: weblate/trans/context_processors.py:132
 msgid "Hosted Weblate, the place to localize your software project."
@@ -11824,7 +11839,7 @@ msgstr "{filename} ({parameter}) non existe."
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
 #, python-format
 msgid "Recent changes in %s"
-msgstr "Mudanzas recentes en %s"
+msgstr "Cambios recentes en %s"
 
 #: weblate/trans/feeds.py:27 weblate/trans/feeds.py:64
 #, python-format
@@ -11983,7 +11998,7 @@ msgstr "Engadir como suxestión"
 
 #: weblate/trans/forms.py:620
 msgid "Add as translation needing edit"
-msgstr "Engadir coma tradución que precisa dunha edición"
+msgstr "Engadir como tradución que precisa de edición"
 
 #: weblate/trans/forms.py:621
 msgid "Replace existing translation file"
@@ -12079,7 +12094,7 @@ msgstr "Outros compoñentes da tradución"
 
 #: weblate/trans/forms.py:881
 msgid "Machine translation"
-msgstr "Tradución de xeito automático"
+msgstr "Tradución con máquinas"
 
 #: weblate/trans/forms.py:889
 msgid ""
@@ -12089,7 +12104,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:895
 msgid "Machine translation engines"
-msgstr "Motores da tradución de xeito automático"
+msgstr "Motores de tradución con máquinas"
 
 #: weblate/trans/forms.py:898
 msgid "Score threshold"
@@ -12126,7 +12141,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1026
 msgid "Scope"
-msgstr "Eido"
+msgstr "Ámbito"
 
 #: weblate/trans/forms.py:1028
 msgid ""
@@ -12141,7 +12156,7 @@ msgstr "Comentario da cadea de orixe, suxestións de cambios nesta cadea"
 
 #: weblate/trans/forms.py:1044
 msgid "Translation comment, discussions with other translators"
-msgstr "Comentario da tradución, parolas con outros tradutores"
+msgstr "Comentario da tradución, debates con outros tradutores"
 
 #: weblate/trans/forms.py:1051 weblate/trans/models/announcement.py:70
 #: weblate/trans/models/project.py:151
@@ -12154,7 +12169,7 @@ msgstr "Todos os compoñentes"
 
 #: weblate/trans/forms.py:1130
 msgid "Please choose"
-msgstr "Por favor, escolle"
+msgstr "Escolla"
 
 #: weblate/trans/forms.py:1211
 msgid "Allow user to add or remove users from a team."
@@ -12242,7 +12257,7 @@ msgstr "Este campo foi identificado como correo lixo!"
 
 #: weblate/trans/forms.py:1507 weblate/trans/forms.py:2125
 msgid "Basic"
-msgstr "Sinxelo"
+msgstr "Básico"
 
 #: weblate/trans/forms.py:1519
 msgid "License"
@@ -12262,7 +12277,7 @@ msgstr "Axustes da tradución"
 
 #: weblate/trans/forms.py:1553
 msgid "Version control"
-msgstr "Control da versión"
+msgstr "Control de versións"
 
 #: weblate/trans/forms.py:1555
 msgid "Locations"
@@ -12347,7 +12362,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:2291
 msgid "Replacement string"
-msgstr "Substitución da cadea"
+msgstr "Cadea de substitución"
 
 #: weblate/trans/forms.py:2377
 msgid "Translation key"
@@ -12363,13 +12378,13 @@ msgstr ""
 
 #: weblate/trans/forms.py:2385
 msgid "Source language text"
-msgstr "Texto da lingua de orixe"
+msgstr "Texto do idioma de orixe"
 
 #: weblate/trans/forms.py:2387
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
-"Podes editalo posteriormente, coma con calquera outra cadea na lingua de "
+"Pode editalo posteriormente, como con calquera outra cadea no idioma de "
 "orixe."
 
 #. Translators: Translation context for Gettext
@@ -12582,7 +12597,7 @@ msgstr "Máscara de ficheiro duplicada."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:202
 msgid "Could not merge the repository."
-msgstr "Non foi posíbel fusionar o repositorio."
+msgstr "Non foi posíbel fusionar (merge) o repositorio."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:211
@@ -12607,12 +12622,12 @@ msgstr ""
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:310
 msgid "Repository outdated."
-msgstr "Repositorio desatualizado."
+msgstr "Repositorio desactualizado."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:317
 msgid "Repository has changes."
-msgstr "O repositorio ten mudanzas."
+msgstr "O repositorio ten cambios."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:325
@@ -12698,7 +12713,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:109
 msgid "Expiry date"
-msgstr "Data de expiración"
+msgstr "Data de caducidade"
 
 #: weblate/trans/models/announcement.py:111
 msgid ""
@@ -12764,7 +12779,7 @@ msgstr "Tradución completada"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:321
 msgid "Translation changed"
-msgstr "Tradución mudada"
+msgstr "Tradución cambiada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:323
@@ -13205,7 +13220,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:159
 msgid "Merge without fast-forward"
-msgstr "Fusionar sen avance rápido"
+msgstr "Fusionar (merge) sen avance rápido"
 
 #: weblate/trans/models/component.py:348
 msgid ""
@@ -13215,7 +13230,7 @@ msgid ""
 msgstr ""
 "Sistema de control de versións para acceder ao seu repositorio coas "
 "traducións. Tamén pode escoller unha integración adicional con provedores de "
-"terceiros para enviar solicitudes de fusión."
+"terceiros para enviar solicitudes de fusión (merge)."
 
 #: weblate/trans/models/component.py:360
 msgid ""
@@ -13428,15 +13443,15 @@ msgstr ""
 
 #: weblate/trans/models/component.py:593
 msgid "Merge style"
-msgstr "Estilo de fusión"
+msgstr "Estilo de fusión (merge)"
 
 #: weblate/trans/models/component.py:598
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Define se Weblate debe fusionar o repositorio de orixe ou facer un «rebase» "
-"dos cambios nel."
+"Define se Weblate debe fusionar (merge) o repositorio de orixe ou facer un "
+"«rebase» dos cambios nel."
 
 #: weblate/trans/models/component.py:603
 msgid "Commit message when translating"
@@ -13470,7 +13485,7 @@ msgstr "Mensaxe de «commit» cando o complemento fai un cambio"
 
 #: weblate/trans/models/component.py:648
 msgid "Merge request message"
-msgstr "Mensaxe de solicitude de fusión"
+msgstr "Mensaxe de solicitude de fusión (merge)"
 
 #: weblate/trans/models/component.py:657
 msgid "Push on commit"
@@ -13488,7 +13503,8 @@ msgstr "Idade dos cambios no «commit»"
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"O tempo, en horas, após se teña feito o «commit» de todos os cambios ao SCV."
+"O tempo, en horas, após se teña feito o «commit» de todos os cambios ao SCV "
+"(VCS)."
 
 #: weblate/trans/models/component.py:673
 msgid "Lock on error"
@@ -13606,7 +13622,7 @@ msgstr "Non foi posíbel facer «rebase» da póla local na póla remota %s."
 #: weblate/trans/models/component.py:2095
 #, python-format
 msgid "Could not merge remote branch into %s."
-msgstr "Non foi posíbel fusionar a póla remota con %s."
+msgstr "Non foi posíbel fusionar (merge) a póla remota con %s."
 
 #: weblate/trans/models/component.py:2616
 msgid "Category does not belong to this project."
@@ -14589,7 +14605,7 @@ msgstr ""
 
 #: weblate/trans/views/edit.py:433
 msgid "Invalid merge request!"
-msgstr "Solicitude non válida de fusión!"
+msgstr "Solicitude non válida de fusión (merge)!"
 
 #: weblate/trans/views/edit.py:453
 msgid "Invalid revert request!"
@@ -15212,23 +15228,23 @@ msgstr "Sen repositorio remoto"
 
 #: weblate/vcs/git.py:1632
 msgid "GitLab merge request"
-msgstr "Solicitude de fusión en GitLab"
+msgstr "Solicitude de fusión (merge) en GitLab"
 
 #: weblate/vcs/git.py:1637
 msgid "This will push changes and create a GitLab merge request."
 msgstr ""
-"Isto fara «push» sobre os cambios e creará unha solicitude de fusión en "
-"GitLab."
+"Isto fara «push» sobre os cambios e creará unha solicitude de fusión (merge) "
+"en GitLab."
 
 #: weblate/vcs/git.py:1776
 msgid "Pagure merge request"
-msgstr "Solicitude de fusión en Pagure"
+msgstr "Solicitude de fusión (merge) en Pagure"
 
 #: weblate/vcs/git.py:1781
 msgid "This will push changes and create a Pagure merge request."
 msgstr ""
-"Isto fará «push» sobre os cambios e creará unha solicitude de fusión en "
-"Pagure."
+"Isto fará «push» sobre os cambios e creará unha solicitude de fusión (merge) "
+"en Pagure."
 
 #. Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:1870
