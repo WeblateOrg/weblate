@@ -82,7 +82,7 @@ support subscription (:ref:`activate-support`):
 All steps for listing a server without a support contract:
 
 1. Register yourself at https://weblate.org/user/
-2. Register your Weblate site at https://weblate.org/subscription/discovery
+2. Register your Weblate site at https://weblate.org/subscription/discovery/
 3. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
 
 .. image:: /screenshots/support-discovery.png
