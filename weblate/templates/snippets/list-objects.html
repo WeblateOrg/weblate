@@ -159,13 +159,13 @@
     {% endif %}
     {% include "snippets/list-objects-percent.html" with percent=category.stats.translated_percent value=category.stats.translated query="q=state:>=translated" all=category.stats.all %}
     {% if not hide_details %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.todo query="q=state:<translated" class="zero-width-640" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.allchecks query="q=has:check" class="zero-width-768" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo search_url=category.get_url_path query="q=state:<translated" class="zero-width-640" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_words search_url=category.get_url_path query="q=state:<translated" class="zero-width-720" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_chars search_url=category.get_url_path query="q=state:<translated" class="zero-width-1200" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.nottranslated search_url=category.get_url_path query="q=state:empty" class="zero-width-1400" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.allchecks search_url=category.get_url_path query="q=has:check" class="zero-width-768" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.suggestions search_url=category.get_url_path query="q=has:suggestion#suggestions" class="zero-width-900" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.comments search_url=category.get_url_path query="q=has:comment#comments" class="zero-width-1000" %}
     {% endif %}
   </tr>
   <tr data-parent="{{ row_id }}">
@@ -249,18 +249,18 @@
   {% review_percent object.stats %}
 {% endif %}
 {% if is_glossary %}
-  {% include "snippets/list-objects-number.html" with value=object.stats.translated query="q=state:>=translated" show_zero=True %}
+  {% include "snippets/list-objects-number.html" with value=object.stats.translated search_url=object.get_url_path query="q=state:>=translated" show_zero=True %}
 {% else %}
   {% include "snippets/list-objects-percent.html" with percent=object.stats.translated_percent value=object.stats.translated query="q=state:>=translated" all=object.stats.all %}
 {% endif %}
 {% if not hide_details %}
-{% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-640" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo search_url=object.get_url_path query="q=state:<translated" class="zero-width-640" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo_words search_url=object.get_url_path query="q=state:<translated" class="zero-width-720" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo_chars search_url=object.get_url_path query="q=state:<translated" class="zero-width-1200" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.nottranslated search_url=object.get_url_path query="q=state:empty" class="zero-width-1400" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.allchecks search_url=object.get_url_path query="q=has:check" class="zero-width-768" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.suggestions search_url=object.get_url_path query="q=has:suggestion#suggestions" class="zero-width-900" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.comments search_url=object.get_url_path query="q=has:comment#comments" class="zero-width-1000" %}
 {% endif %}
 </tr>
 <tr data-parent="{{ row_id }}">
