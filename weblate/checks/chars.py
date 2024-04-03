@@ -231,6 +231,7 @@ class EndQuestionCheck(TargetCheck):
         "Source and translation do not both end with a question mark"
     )
     question_el = ("?", ";", ";")
+    interrobangs = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
     def _check_hy(self, source, target):
         if source[-1] == "?":
@@ -248,7 +249,10 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if source[-2:] in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
+        if (
+            source[-2:] in {"?!", "!?", "？！", "！？"}
+            or target[-2:] in {"?!", "!?", "？！", "！？"}
+        ) or (source[-1] in {"⁈", "⁉"} or target[-1] in {"⁈", "⁉"}):
             return False
         if unit.translation.language.is_base(("jbo",)):
             return False
@@ -272,11 +276,15 @@ class EndExclamationCheck(TargetCheck):
     description = gettext_lazy(
         "Source and translation do not both end with an exclamation mark"
     )
+    interrobangs = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if source[-2:] in {"?!", "!?"} or target[-2:] in {"?!", "!?"}:
+        if (
+            source[-2:] in {"?!", "!?", "？！", "！？"}
+            or target[-2:] in {"?!", "!?", "？！", "！？"}
+        ) or (source[-1] in {"⁈", "⁉"} or target[-1] in {"⁈", "⁉"}):
             return False
         if (
             unit.translation.language.is_base(("eu",))
@@ -306,7 +314,14 @@ class EndInterrobangCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        return self.check_interrobang(source, target)
+
+        interrobang_sets = [("!?", "?!"), ("？！", "！？")]
+
+        for sets in interrobang_sets:
+            if (source[-2:] in sets) != (target[-2:] in sets):
+                return True
+
+        return bool(self.check_chars(source, target, -1, ("⁈", "⁉")))
 
 
 class EndEllipsisCheck(TargetCheck):

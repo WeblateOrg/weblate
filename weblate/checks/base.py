@@ -133,17 +133,6 @@ class Check:
 
         return (src in chars) != (tgt in chars)
 
-    def check_interrobang(self, source, target):
-        """Ckeck whether interrobang is present."""
-        strings = ("!?", "?!")
-        try:
-            src = source[-2:]
-            tgt = target[-2:]
-        except IndexError:
-            return False
-
-        return (src in strings) != (tgt in strings)
-
     def get_doc_url(self, user=None):
         """Return link to documentation."""
         return get_doc_url("user/checks", self.doc_id, user=user)
