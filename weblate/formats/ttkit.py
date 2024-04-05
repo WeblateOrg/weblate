@@ -12,7 +12,7 @@ import inspect
 import os
 import re
 import subprocess
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, BinaryIO
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -72,6 +72,7 @@ class TTKitUnit(TranslationUnit):
     template: TranslateToolkitUnit | None
     unit: TranslateToolkitUnit
     mainunit: TranslateToolkitUnit
+    parent: TTKitFormat
 
     @cached_property
     def locations(self):
@@ -238,6 +239,8 @@ class TTKitFormat(TranslationFormat):
         Plural.SOURCE_CLDR,
         Plural.SOURCE_DEFAULT,
     )
+    units: list[TranslateToolkitUnit]
+    store: TranslationStore
 
     def __init__(
         self,
@@ -272,7 +275,9 @@ class TTKitFormat(TranslationFormat):
         if self.source_language is not None:
             store.setsourcelanguage(self.source_language)
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+    ) -> TranslationStore:
         """Load file using defined loader."""
         if isinstance(storefile, TranslationStore):
             # Used by XLSX writer
@@ -669,8 +674,8 @@ class XliffUnit(TTKitUnit):
 
         That's why we handle it on our own.
         """
-        return self.has_translation() and XLIFF_FUZZY_STATES.intersection(
-            self.get_xliff_states()
+        return self.has_translation() and bool(
+            XLIFF_FUZZY_STATES.intersection(self.get_xliff_states())
         )
 
     def set_state(self, state) -> None:
@@ -1816,7 +1821,9 @@ class INIFormat(TTKitFormat):
         # INI files do not expose extension
         return "ini"
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+    ) -> TranslationStore:
         store = super().load(storefile, template_store)
         # Adjust store to have translations
         for unit in store.units:

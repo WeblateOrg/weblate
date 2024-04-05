@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
@@ -15,9 +17,21 @@ from weblate.trans.util import get_string
 from .base import TranslationFormat, TranslationUnit
 from .ttkit import CSVUtf8Format
 
+if TYPE_CHECKING:
+    from translate.storage.base import TranslationStore
+    from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+
 
 class MultiUnit(TranslationUnit):
-    def __init__(self, parent, unit, template=None) -> None:
+    units: list[TranslationUnit]
+    parent: MultiFormatMixin
+
+    def __init__(
+        self,
+        parent: MultiFormatMixin,
+        unit: TranslationUnit,
+        template: TranslationUnit | None = None,
+    ) -> None:
         super().__init__(parent, None, None)
         self.units = [unit]
 
@@ -113,6 +127,8 @@ class MultiUnit(TranslationUnit):
 
 class MultiFormatMixin(TranslationFormat):
     has_multiple_strings: bool = True
+    units: list[TranslateToolkitUnit]
+    store: TranslationStore
 
     def merge_multi(self, iterable):
         result: dict[int, MultiUnit] = {}

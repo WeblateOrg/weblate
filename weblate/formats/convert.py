@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, BinaryIO
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -41,7 +41,10 @@ from translate.storage.xml_extract.extract import (
 )
 
 from weblate.checks.flags import Flags
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    TranslationFormat,
+    TranslationUnit,
+)
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.trans.util import get_string
@@ -50,6 +53,9 @@ from weblate.utils.state import STATE_APPROVED
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from translate.storage.base import TranslationStore
+    from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
     from weblate.trans.models import Unit
 
@@ -115,6 +121,8 @@ class ConvertFormat(TranslationFormat):
     unit_class: type[TranslationUnit] = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
+    units: list[TranslateToolkitUnit]
+    store: TranslationStore
 
     def save_content(self, handle) -> None:
         """Store content to file."""
@@ -131,7 +139,9 @@ class ConvertFormat(TranslationFormat):
     def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return False
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+    ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")  # noqa: SIM115

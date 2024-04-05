@@ -9,12 +9,18 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, NoReturn
+from typing import TYPE_CHECKING, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.formats.base import BaseItem, TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    BaseItem,
+    BaseStore,
+    InnerStore,
+    TranslationFormat,
+    TranslationUnit,
+)
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
@@ -71,8 +77,9 @@ class TextSerializer:
             handle.write(b"\n")
 
 
-class MultiParser:
+class MultiParser(BaseStore):
     filenames: tuple[tuple[str, str], ...] = ()
+    units: list[TextItem]
 
     def __init__(self, storefile) -> None:
         if not isinstance(storefile, str):
@@ -189,8 +196,11 @@ class AppStoreFormat(TranslationFormat):
     simple_filename = False
     language_format = "googleplay"
     create_style = "directory"
+    store: AppStoreParser
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: InnerStore | None
+    ) -> AppStoreParser:
         return AppStoreParser(storefile)
 
     def create_unit(
