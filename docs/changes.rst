@@ -34,6 +34,7 @@ Not yet released.
 
 * Several API calls might be affected by stricter validation of boolean fields by Django REST Framework. For example :http:post:`/api/projects/(string:project)/components/`.
 * Uniqueness of name and slug of a component is now enforced at the database level on PostgreSQL 15+.
+* Docker image now ships Python packages in :file:`/app/venv` and installs using :program:`uv`.
 
 **Upgrading**
 
