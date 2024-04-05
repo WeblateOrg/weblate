@@ -249,10 +249,7 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if (
-            source[-2:] in {"?!", "!?", "？！", "！？"}
-            or target[-2:] in {"?!", "!?", "？！", "！？"}
-        ) or (source[-1] in {"⁈", "⁉"} or target[-1] in {"⁈", "⁉"}):
+        if source.endswith(self.interrobangs) or target.endswith(self.interrobangs):
             return False
         if unit.translation.language.is_base(("jbo",)):
             return False
@@ -281,10 +278,7 @@ class EndExclamationCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if (
-            source[-2:] in {"?!", "!?", "？！", "！？"}
-            or target[-2:] in {"?!", "!?", "？！", "！？"}
-        ) or (source[-1] in {"⁈", "⁉"} or target[-1] in {"⁈", "⁉"}):
+        if source.endswith(self.interrobangs) or target.endswith(self.interrobangs):
             return False
         if (
             unit.translation.language.is_base(("eu",))
@@ -318,7 +312,7 @@ class EndInterrobangCheck(TargetCheck):
         interrobang_sets = [("!?", "?!"), ("？！", "！？")]
 
         for sets in interrobang_sets:
-            if (source[-2:] in sets) != (target[-2:] in sets):
+            if (source.endswith(sets)) != (target.endswith(sets)):
                 return True
 
         return bool(self.check_chars(source, target, -1, ("⁈", "⁉")))
