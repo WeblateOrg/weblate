@@ -47,6 +47,6 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev
 
 COPY requirements.txt /tmp/
-RUN /app/ven/bin/uv pip install -r /tmp/requirements.txt
+RUN /app/venv/bin/uv pip install -r /tmp/requirements.txt
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime
