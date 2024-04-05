@@ -2512,10 +2512,10 @@ class BulkEditForm(forms.Form):
     )
 
     def __init__(self, user, obj, *args, **kwargs) -> None:
-        project = kwargs.pop("project")
+        project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)
-        labels = project.label_set.all()
+        labels = Label.objects.all() if project is None else project.label_set.all()
         if labels:
             self.fields["remove_labels"].queryset = labels
             self.fields["add_labels"].queryset = labels
