@@ -533,7 +533,7 @@ class BatchMachineTranslation:
         return output
 
     def get_error_message(self, exc: Exception) -> str:
-        if isinstance(exc, RequestException) and exc.response.text:
+        if isinstance(exc, RequestException) and exc.response and exc.response.text:
             return f"{exc.__class__.__name__}: {exc}: {exc.response.text}"
         return f"{exc.__class__.__name__}: {exc}"
 
