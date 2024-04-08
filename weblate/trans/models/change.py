@@ -626,11 +626,13 @@ class Change(models.Model, UserDisplayMixin):
             # Update cache for stats so that it does not have to hit
             # the database again
             self.translation.stats.last_change_cache = self
+            # Update currently loaded
             if self.translation.stats.is_loaded:
                 self.translation.stats.fetch_last_change()
-            self.translation.invalidate_cache()
-
+            # Update stats at the end of transaction
             transaction.on_commit(self.update_cache_last_change)
+            # Make sure stats is updated at the end of trasaction
+            self.translation.invalidate_cache()
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""
