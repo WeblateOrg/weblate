@@ -180,10 +180,16 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         for change in changes:
             post_save.send(change.__class__, instance=change, created=True)
         # Store last content change in cache for improved performance
+        translations = set()
         for change in reversed(changes):
-            if change.is_last_content_change_storable():
+            # Process latest change on each translation (when invoked in
+            # Translation.add_unit, it spans multiple translations)
+            if (
+                change.translation_id not in translations
+                and change.is_last_content_change_storable()
+            ):
                 transaction.on_commit(change.update_cache_last_change)
-                break
+                translations.add(change.translation_id)
         return changes
 
     def filter_components(self, user):
