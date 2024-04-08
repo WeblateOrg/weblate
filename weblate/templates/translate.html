@@ -216,7 +216,7 @@
     {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
         disabled="disabled"
     {% endif %}
-    >{% trans "Save and stay" %} {{ user_can_edit_flags.reason }}</button>
+    >{% trans "Save and stay" %}</button>
 
     {% if unit.translation.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
