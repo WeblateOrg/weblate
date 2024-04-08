@@ -309,11 +309,10 @@ class EndInterrobangCheck(TargetCheck):
         if not source or not target:
             return False
 
-        interrobang_sets = [("!?", "?!"), ("？！", "！？")]
+        interrobangs = ("!?", "?!", "？！", "！？")
 
-        for sets in interrobang_sets:
-            if (source.endswith(sets)) != (target.endswith(sets)):
-                return True
+        if (source.endswith(interrobangs)) != (target.endswith(interrobangs)):
+            return True
 
         return bool(self.check_chars(source, target, -1, ("⁈", "⁉")))
 

@@ -250,11 +250,12 @@ class EndInterrobangCheckTest(CheckTestCase):
         self.do_test(False, ("string⁉", "string⁉", ""))
         self.do_test(False, ("string！？", "string！？", ""))
         self.do_test(False, ("string！？", "string？！", ""))
+        self.do_test(False, ("string?!", "string？！", ""))
+        self.do_test(False, ("string！？", "string!?", ""))
         self.do_test(True, ("string?", "string?!", ""))
         self.do_test(True, ("string⁉", "string!?", ""))
         self.do_test(True, ("string?!", "string⁈", ""))
-        self.do_test(True, ("string?!", "string？！", ""))
-        self.do_test(True, ("string！？", "string!?", ""))
+        self.do_test(True, ("string？！", "string⁈", ""))
 
 
 class EndEllipsisCheckTest(CheckTestCase):
