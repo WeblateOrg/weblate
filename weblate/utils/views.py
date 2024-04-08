@@ -471,18 +471,15 @@ def zip_download(
 
 def handle_last_modified(
     request: HttpRequest, stats: BaseStats
-) -> tuple[str, HttpResponseBase | None]:
+) -> HttpResponseBase | None:
     last_modified = stats.last_changed
-    if last_modified:
-        last_modified = int(last_modified.timestamp())
-        # Respond with 302/412 response if needed
-        response = get_conditional_response(request, last_modified=last_modified)
-    else:
-        # Use current timestamp if stats do not have any
-        last_modified = int(time.time())
-        response = None
-
-    return http_date(last_modified), response
+    if not last_modified:
+        return None
+    # Respond with 302/412 response if needed
+    return get_conditional_response(
+        request,
+        last_modified=int(last_modified.timestamp()),
+    )
 
 
 @gzip_page
@@ -492,7 +489,7 @@ def download_translation_file(
     fmt: str | None = None,
     query_string: str | None = None,
 ):
-    last_modified_response, response = handle_last_modified(request, translation.stats)
+    response = handle_last_modified(request, translation.stats)
     if response is not None:
         return response
 
@@ -548,7 +545,13 @@ def download_translation_file(
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"
 
-    response["Last-Modified"] = last_modified_response
+    # Last-Modified timestamp
+    if last_changed := translation.stats.last_changed:
+        last_modified = last_changed.timestamp()
+    else:
+        # Use current timestamp if stats do not have any
+        last_modified = time.time()
+    response["Last-Modified"] = http_date(int(last_modified))
 
     return response
 
