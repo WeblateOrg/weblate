@@ -21,6 +21,7 @@ Not yet released.
 * Added :ref:`check-end-interrobang`.
 * :ref:`alerts` are now refreshed when needed, not just daily.
 * :doc:`/devel/reporting` uses specific word count for CJK languages.
+* Team membership changes are now tracked in :ref:`audit-log`.
 
 **Bug fixes**
 

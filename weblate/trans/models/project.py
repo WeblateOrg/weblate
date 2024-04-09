@@ -323,13 +323,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                 group_objs = self.defined_groups.all()
             else:
                 raise
-        user.groups.add(*group_objs)
+        for team in group_objs:
+            user.add_team(None, team)
         user.profile.watched.add(self)
 
     def remove_user(self, user) -> None:
         """Add user based on username or email address."""
-        groups = self.defined_groups.all()
-        user.groups.remove(*groups)
+        for group in self.defined_groups.iterator():
+            user.remove_team(None, group)
 
     def get_url_path(self):
         return (self.slug,)

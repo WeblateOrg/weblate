@@ -171,6 +171,8 @@ ACCOUNT_ACTIVITY = {
     "enabled": gettext_lazy("User was enabled by administrator."),
     "disabled": gettext_lazy("User was disabled by administrator."),
     "donate": gettext_lazy("Semiannual support status review was displayed."),
+    "team-add": gettext_lazy("User was added to the {team} team by {username}."),
+    "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
