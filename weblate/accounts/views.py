@@ -583,12 +583,12 @@ class UserPage(UpdateView):
         if "add_group" in request.POST:
             self.group_form = GroupAddForm(request.POST)
             if self.group_form.is_valid():
-                user.groups.add(self.group_form.cleaned_data["add_group"])
+                user.add_team(request, self.group_form.cleaned_data["add_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():
-                user.groups.remove(form.cleaned_data["remove_group"])
+                user.remove_team(request, form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_user" in request.POST:
             remove_user(user, request, skip_notify=True)

@@ -376,9 +376,9 @@ class UserViewSet(viewsets.ModelViewSet):
             raise ValidationError(str(error))
 
         if request.method == "POST":
-            obj.groups.add(group)
+            obj.add_team(request, group)
         if request.method == "DELETE":
-            obj.groups.remove(group)
+            obj.remove_team(request, group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -654,7 +654,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist:
             raise ValidationError("User not found")
         group.admins.add(user)
-        user.groups.add(group)
+        user.add_team(request, group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")

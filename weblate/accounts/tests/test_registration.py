@@ -142,7 +142,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         # Ensure the audit log matches expectations
         self.assertEqual(
             set(user.auditlog_set.values_list("activity", flat=True)),
-            {"sent-email", "password"},
+            {"sent-email", "password", "team-add"},
         )
 
 

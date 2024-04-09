@@ -81,7 +81,8 @@ class BillingAdmin(WeblateModelAdmin):
         for project in obj.projects.all():
             group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
-                group.user_set.add(*obj.owners.all())
+                for user in obj.owners.all():
+                    user.add_team(request, group)
 
 
 @admin.register(Invoice)

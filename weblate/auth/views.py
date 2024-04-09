@@ -85,7 +85,7 @@ class TeamUpdateView(UpdateView):
                 self.object.admins.add(form.cleaned_data["user"])
             else:
                 self.object.admins.remove(form.cleaned_data["user"])
-            form.cleaned_data["user"].groups.add(self.object)
+            form.cleaned_data["user"].add_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
@@ -93,7 +93,7 @@ class TeamUpdateView(UpdateView):
     def handle_remove_user(self, request):
         form = UserManageForm(request.POST)
         if form.is_valid():
-            form.cleaned_data["user"].groups.remove(self.object)
+            form.cleaned_data["user"].remove_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
@@ -209,7 +209,7 @@ def accept_invitation(request, invitation: Invitation, user: User | None) -> Non
         raise Http404
 
     # Add user to invited group
-    user.groups.add(invitation.group)
+    user.add_team(request, invitation.group)
     # Let him watch the project
     if invitation.group.defining_project:
         user.profile.watched.add(invitation.group.defining_project)
