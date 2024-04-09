@@ -22,7 +22,10 @@ def get_user_agent_raw(request) -> str:
     return get_request_meta(request, "HTTP_USER_AGENT")
 
 
-def get_user_agent(request, max_length: int = 200):
+def get_user_agent(request, max_length: int = 200) -> str:
     """Return formatted user agent for request."""
-    uaobj = user_agents.parse(get_user_agent_raw(request))
+    raw = get_user_agent_raw(request)
+    if not raw:
+        return ""
+    uaobj = user_agents.parse()
     return str(uaobj)[:max_length]
