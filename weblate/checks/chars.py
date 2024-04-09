@@ -18,6 +18,7 @@ FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00a0\u2009])([{}])".format(
 )
 FRENCH_PUNCTUATION_MISSING_RE = "([^\u202f])([{}])".format("".join(FRENCH_PUNCTUATION))
 MY_QUESTION_MARK = "\u1038\u104b"
+INTERROBANGS = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -231,7 +232,6 @@ class EndQuestionCheck(TargetCheck):
         "Source and translation do not both end with a question mark"
     )
     question_el = ("?", ";", ";")
-    interrobangs = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
     def _check_hy(self, source, target):
         if source[-1] == "?":
@@ -249,7 +249,7 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if source.endswith(self.interrobangs) or target.endswith(self.interrobangs):
+        if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
             return False
         if unit.translation.language.is_base(("jbo",)):
             return False
@@ -273,12 +273,11 @@ class EndExclamationCheck(TargetCheck):
     description = gettext_lazy(
         "Source and translation do not both end with an exclamation mark"
     )
-    interrobangs = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if source.endswith(self.interrobangs) or target.endswith(self.interrobangs):
+        if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
             return False
         if (
             unit.translation.language.is_base(("eu",))
@@ -309,12 +308,7 @@ class EndInterrobangCheck(TargetCheck):
         if not source or not target:
             return False
 
-        interrobangs = ("!?", "?!", "？！", "！？")
-
-        if (source.endswith(interrobangs)) != (target.endswith(interrobangs)):
-            return True
-
-        return bool(self.check_chars(source, target, -1, ("⁈", "⁉")))
+        return source.endswith(INTERROBANGS) != target.endswith(INTERROBANGS)
 
 
 class EndEllipsisCheck(TargetCheck):
