@@ -18,6 +18,7 @@ Not yet released.
 * Improved error reporting in :ref:`machine-translation-setup`.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
+* Added :ref:`check-end-interrobang`.
 * :ref:`alerts` are now refreshed when needed, not just daily.
 * :doc:`/devel/reporting` uses specific word count for CJK languages.
 
