@@ -66,7 +66,13 @@ class GitSquashAddon(BaseAddon):
 
         return repository.execute(command)
 
-    def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
+    def get_squash_commit_message(
+        self,
+        repository,
+        log_format: str,
+        remote: str,
+        filenames: list[str] | None = None,
+    ) -> str:
         commit_message = self.instance.configuration.get("commit_message")
 
         if self.instance.configuration.get("append_trailers", True):
