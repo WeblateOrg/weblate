@@ -290,12 +290,19 @@
           "address": {
             "$id": "#root/auditlog/items/address",
             "title": "IP address",
-            "type": "string",
-            "default": "",
-            "examples": [
-              "127.0.0.1"
-            ],
-            "pattern": "^.*$"
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "default": "",
+                "examples": [
+                  "127.0.0.1"
+                ],
+                "pattern": "^.*$"
+              }
+            ]
           },
           "user_agent": {
             "$id": "#root/auditlog/items/user_agent",
