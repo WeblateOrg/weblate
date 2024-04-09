@@ -590,20 +590,23 @@ def show_translation(request, obj):
 
     # Translations to same language from other components in this project
     # Show up to 10 of them, needs to be list to append ghost ones later
-    other_translations = translation_prefetch_tasks(
-        prefetch_stats(
-            list(
-                Translation.objects.prefetch()
-                .filter(component__project=project, language=obj.language)
-                .exclude(component__is_glossary=True)
-                .exclude(pk=obj.pk)[:10]
-            )
-        )
+    other_translations = list(
+        Translation.objects.prefetch()
+        .filter(component__project=project, language=obj.language)
+        .exclude(component__is_glossary=True)
+        .exclude(pk=obj.pk)[:10]
     )
-
-    # Include ghost translations for other components, this
-    # adds quick way to create translations in other components
-    if len(other_translations) < 10:
+    if len(other_translations) == 10:
+        # Discard too long list as the selection is purely random and thus most
+        # likely useless
+        other_translations = []
+    else:
+        # Prefetch stats and tasks for component listing
+        other_translations = translation_prefetch_tasks(
+            prefetch_stats(other_translations)
+        )
+        # Include ghost translations for other components, this
+        # adds quick way to create translations in other components
         existing = {translation.component.slug for translation in other_translations}
         existing.add(component.slug)
         for test_component in project.child_components:
