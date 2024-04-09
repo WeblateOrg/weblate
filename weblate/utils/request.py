@@ -27,5 +27,5 @@ def get_user_agent(request, max_length: int = 200) -> str:
     raw = get_user_agent_raw(request)
     if not raw:
         return ""
-    uaobj = user_agents.parse()
+    uaobj = user_agents.parse(raw)
     return str(uaobj)[:max_length]
