@@ -877,14 +877,14 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
 def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs) -> None:
     if action != "post_remove":
         return
-    pk = pk_set.pop()
-    if reverse:
-        group = instance
-        user = User.objects.get(pk=pk)
-    else:
-        group = Group.objects.get(pk=pk)
-        user = instance
-    group.admins.remove(user)
+    for pk in pk_set:
+        if reverse:
+            group = instance
+            user = User.objects.get(pk=pk)
+        else:
+            group = Group.objects.get(pk=pk)
+            user = instance
+        group.admins.remove(user)
 
 
 @receiver(post_save, sender=User)
