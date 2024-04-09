@@ -13,6 +13,7 @@ from weblate.checks.chars import (
     EndColonCheck,
     EndEllipsisCheck,
     EndExclamationCheck,
+    EndInterrobangCheck,
     EndNewlineCheck,
     EndQuestionCheck,
     EndSemicolonCheck,
@@ -198,6 +199,14 @@ class EndQuestionCheckTest(CheckTestCase):
         self.do_test(False, ("Text?", "ပုံဖျက်မလား။", ""), "my")
         self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")
 
+    def test_interrobang(self) -> None:
+        self.do_test(False, ("string!?", "string?", ""))
+        self.do_test(False, ("string?", "string?!", ""))
+        self.do_test(False, ("string⁈", "string?", ""))
+        self.do_test(False, ("string?", "string⁉", ""))
+        self.do_test(False, ("string？！", "string?", ""))
+        self.do_test(False, ("string?", "string！？", ""))
+
 
 class EndExclamationCheckTest(CheckTestCase):
     check = EndExclamationCheck()
@@ -215,6 +224,38 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def test_eu(self) -> None:
         self.do_test(False, ("Text!", "¡Texte!", ""), "eu")
+
+    def test_interrobang(self) -> None:
+        self.do_test(False, ("string!?", "string!", ""))
+        self.do_test(False, ("string!", "string?!", ""))
+        self.do_test(False, ("string⁈", "string!", ""))
+        self.do_test(False, ("string!", "string⁉", ""))
+        self.do_test(False, ("string？！", "string!", ""))
+        self.do_test(False, ("string!", "string！？", ""))
+
+
+class EndInterrobangCheckTest(CheckTestCase):
+    check = EndInterrobangCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_good_matching = ("string!?", "string?!", "")
+        self.test_failure_1 = ("string!?", "string?", "")
+        self.test_failure_2 = ("string!?", "string!", "")
+        self.test_failure_3 = ("string!", "string!?", "")
+
+    def test_translate(self) -> None:
+        self.do_test(False, ("string!?", "string!?", ""))
+        self.do_test(False, ("string⁉", "string⁈", ""))
+        self.do_test(False, ("string⁉", "string⁉", ""))
+        self.do_test(False, ("string！？", "string！？", ""))
+        self.do_test(False, ("string！？", "string？！", ""))
+        self.do_test(False, ("string?!", "string？！", ""))
+        self.do_test(False, ("string！？", "string!?", ""))
+        self.do_test(True, ("string?", "string?!", ""))
+        self.do_test(True, ("string⁉", "string!?", ""))
+        self.do_test(True, ("string?!", "string⁈", ""))
+        self.do_test(True, ("string？！", "string⁈", ""))
 
 
 class EndEllipsisCheckTest(CheckTestCase):
