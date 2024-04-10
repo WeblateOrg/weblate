@@ -7,6 +7,8 @@ Contributing to Weblate
 There are dozens of ways to improve Weblate. You can choose the one you feel comfortable with, be it
 coding, graphics design, documentation, sponsorship, or an idea:
 
+
+
 * :doc:`issues`
 * :doc:`start`
 * :doc:`modules`
