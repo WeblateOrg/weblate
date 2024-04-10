@@ -961,7 +961,7 @@ class SystranTranslationTest(BaseMachineTranslationTest):
         )
 
         responses.add(
-            responses.GET,
+            responses.POST,
             "https://api-translate.systran.net/translation/text/translate",
             json={"outputs": [{"output": "ahoj"}]},
         )

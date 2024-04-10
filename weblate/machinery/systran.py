@@ -44,7 +44,7 @@ class SystranTranslation(MachineTranslation):
     ):
         """Download list of possible translations from a service."""
         response = self.request(
-            "get",
+            "post",
             "https://api-translate.systran.net/translation/text/translate",
             params={
                 "key": self.settings["key"],
