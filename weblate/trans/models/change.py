@@ -515,6 +515,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
         ACTION_LOCK,
         ACTION_UNLOCK,
+        ACTION_HOOK,
     }
 
     # Actions where target is rendered as translation string
