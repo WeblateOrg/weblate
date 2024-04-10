@@ -358,6 +358,11 @@ class GitRepository(Repository):
         self.execute(["rm", "--force", "--", *files])
         self.commit(message, author)
 
+    def get_remote_configure(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ) -> tuple[tuple[str, str, str | None], ...]:
+        return ()
+
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> None:
@@ -388,6 +393,7 @@ class GitRepository(Repository):
                 "merge",
                 dumps(f"refs/heads/{branch}", ensure_ascii=False),
             ),
+            *self.get_remote_configure(pull_url, push_url, branch, fast),
         )
         self.branch = branch
 
@@ -550,6 +556,13 @@ class GitWithGerritRepository(GitRepository):
                 if "(no new changes)" in str(error):
                     return
                 raise
+
+    def get_remote_configure(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ) -> tuple[tuple[str, str, str | None], ...]:
+        if push_url:
+            return (('remote "gerrit"', "url", push_url),)
+        return (('remote "gerrit"', "url", None),)
 
 
 class SubversionRepository(GitRepository):
