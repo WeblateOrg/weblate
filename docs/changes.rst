@@ -12,6 +12,8 @@ Not yet released.
   * Added :http:post:`/api/groups/(int:id)/admins/`.
   * Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`.
 
+* Added :ref:`mt-systran` automatic translation support.
+
 **Improvements**
 
 * Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.

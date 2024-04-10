@@ -520,6 +520,21 @@ addition to the term database.
     `SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub>`_,
     `Building the Base URL of SAP Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_
 
+.. _mt-systran:
+
+Systran
+-------
+
+:Service ID: ``systran``
+:Configuration: +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+
+Machine translation service provided by Systran.
+
+This service uses an API, and you need to obtain API key at <https://translate.systran.net/en/account>.
+
 .. _mt-tmserver:
 
 tmserver
