@@ -33,6 +33,7 @@ Not yet released.
 * Fixed per-language statistics on nested categories.
 * Fixed categories listing on per-language pages.
 * Fixed :guilabel:`Needs editing` state calculation.
+* Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`.
 
 **Compatibility**
 
