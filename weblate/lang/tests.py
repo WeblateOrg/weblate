@@ -233,7 +233,7 @@ class BasicLanguagesTest(TestCase):
         for i, lang in enumerate(languages):
             if bitset & 1 << i:
                 langs.append(lang)
-        return langs if langs else None
+        return langs or None
 
     @staticmethod
     def get_friendly_result(result, expected, languages) -> str:

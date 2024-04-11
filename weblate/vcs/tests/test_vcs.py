@@ -1259,7 +1259,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         responses.add(
             responses.GET,
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
-            json=get_forks if get_forks else [],
+            json=get_forks or [],
         )
 
     def mock_pr_responses(self, pr_response, pr_status) -> None:
