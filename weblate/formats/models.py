@@ -68,6 +68,7 @@ class FormatsConf(AppConf):
         "weblate.formats.exporters.JSONNestedExporter",
         "weblate.formats.exporters.AndroidResourceExporter",
         "weblate.formats.exporters.StringsExporter",
+        "weblate.formats.exporters.I18NextV4Exporter",
     )
 
     FORMATS = (

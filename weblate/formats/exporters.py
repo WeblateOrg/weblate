@@ -17,7 +17,11 @@ from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
-from translate.storage.jsonl10n import JsonFile, JsonNestedFile
+from translate.storage.jsonl10n import (
+    JsonFile,
+    JsonNestedFile,
+    I18NextV4File,
+)
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
@@ -458,6 +462,12 @@ class JSONNestedExporter(JSONExporter):
     name = "json-nested"
     verbose = gettext_lazy("JSON nested structure file")
     storage_class = JsonNestedFile
+
+
+class I18NextV4Exporter(JSONExporter):
+    name = "i18nextv4"
+    verbose = gettext_lazy("i18next v4 file")
+    storage_class = I18NextV4File
 
 
 class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
