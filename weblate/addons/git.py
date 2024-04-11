@@ -37,7 +37,7 @@ class GitSquashAddon(BaseAddon):
     repo_scope = True
 
     def squash_all(self, component, repository, base=None, author=None) -> None:
-        remote = base if base else repository.get_remote_branch_name()
+        remote = base or repository.get_remote_branch_name()
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
         # Can happen for added and removed translation

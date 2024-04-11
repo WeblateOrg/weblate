@@ -137,7 +137,7 @@ class ViewTestCase(RepoTestCase):
     def get_request(self, user=None):
         """Get fake request object."""
         request = self.factory.get("/")
-        request.user = user if user else self.user
+        request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
         request._messages = messages
