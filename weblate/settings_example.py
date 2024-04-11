@@ -868,6 +868,7 @@ CELERY_TASK_ROUTES = {
 # CORS allowed origins
 CORS_ALLOWED_ORIGINS = []
 CORS_URLS_REGEX = r"^/api/.*$"
+CORS_URLS_REGEX = rf"^{URL_PREFIX}/api/.*$"
 
 # Enable plain database backups
 DATABASE_BACKUP = "plain"
