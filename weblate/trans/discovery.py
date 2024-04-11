@@ -44,6 +44,7 @@ COPY_ATTRIBUTES = (
     "commit_pending_age",
     "edit_template",
     "manage_units",
+    "key_separator",
     "variant_regex",
     "category_id",
 )

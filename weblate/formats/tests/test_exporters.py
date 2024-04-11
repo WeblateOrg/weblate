@@ -7,6 +7,7 @@ from weblate.formats.exporters import (
     AndroidResourceExporter,
     BaseExporter,
     CSVExporter,
+    I18NextV4Exporter,
     JSONExporter,
     JSONNestedExporter,
     MoExporter,
@@ -28,6 +29,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.test_models import BaseTestCase
+from weblate.trans.wrappers import exporter_custom_key_separator_wrapper
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
@@ -298,6 +300,26 @@ class JSONExporterTest(PoExporterTest):
 
 class JSONNestedExporterTest(JSONExporterTest):
     _class = JSONNestedExporter
+
+
+class I18NextExporterTest(JSONExporterTest):
+    _class = I18NextV4Exporter
+
+    def check_plurals(self, result) -> None:
+        self.assertIn(b"_one", result)
+        self.assertIn(b"_other", result)
+
+
+class CustomKeySeparatorI18NextExporterTest(I18NextExporterTest):
+    _class = exporter_custom_key_separator_wrapper(I18NextExporterTest._class, ";")
+
+    def test_default_key_separator_skip(self) -> None:
+        output = self.check_unit(context="bar.foo", target="any")
+        self.assertIn(b'"bar.foo"', output)
+
+    def test_custom_key_separator(self) -> None:
+        output = self.check_unit(context="bar;foo", target="any")
+        self.assertNotIn(b'"bar"\n\t\t"foo"', output)
 
 
 class StringsExporterTest(PoExporterTest):

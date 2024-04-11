@@ -32,6 +32,7 @@ from django.views.generic.edit import FormView
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Project, Translation, Unit
+from weblate.trans.wrappers import exporter_custom_key_separator_wrapper
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.stats import BaseStats, CategoryLanguage, ProjectLanguage
@@ -500,6 +501,10 @@ def download_translation_file(
             raise Http404(f"Conversion to {fmt} is not supported") from exc
         if not exporter_cls.supports(translation):
             raise Http404("File format is not compatible with this translation")
+
+        exporter_cls = exporter_custom_key_separator_wrapper(
+            exporter_cls, translation.component.key_separator
+        )
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:

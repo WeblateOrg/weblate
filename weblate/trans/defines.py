@@ -34,3 +34,6 @@ VARIANT_KEY_LENGTH = 576
 
 # Maximal categories depth
 CATEGORY_DEPTH = 3
+
+# Default key separator for component
+DEFAULT_KEY_SEPARATOR = "."

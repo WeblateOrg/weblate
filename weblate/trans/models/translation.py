@@ -1243,7 +1243,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 template_store = try_load(
                     fileobj.name,
                     filecopy,
-                    component.file_format_cls,
+                    component,
                     None,
                     is_template=True,
                 )
@@ -1256,7 +1256,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store = try_load(
                 fileobj.name,
                 filecopy,
-                component.file_format_cls,
+                component,
                 template_store,
             )
             if isinstance(store, component.file_format_cls):

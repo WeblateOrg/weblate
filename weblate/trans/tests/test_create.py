@@ -103,6 +103,7 @@ class CreateTest(ViewTestCase):
             "new_lang": "add",
             "language_regex": "^[^.]+$",
             "source_language": get_default_lang(),
+            "key_separator": ".",
         }
         params.update(kwargs)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -383,6 +384,7 @@ class CreateTest(ViewTestCase):
                     "project": self.project.pk,
                     "file_format": "po-mono",
                     "source_language": get_default_lang(),
+                    "key_separator": ".",
                 },
                 follow=True,
             )
@@ -416,6 +418,7 @@ class CreateTest(ViewTestCase):
                     "project": self.project.pk,
                     "file_format": "aresource",
                     "source_language": get_default_lang(),
+                    "key_separator": ".",
                 },
                 follow=True,
             )
@@ -437,6 +440,7 @@ class CreateTest(ViewTestCase):
                     "project": self.project.pk,
                     "file_format": "po",
                     "source_language": get_default_lang(),
+                    "key_separator": ".",
                 },
                 follow=True,
             )
@@ -458,6 +462,7 @@ class CreateTest(ViewTestCase):
                     "project": self.project.pk,
                     "file_format": "strings",
                     "source_language": get_default_lang(),
+                    "key_separator": ".",
                 },
                 follow=True,
             )

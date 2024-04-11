@@ -38,6 +38,7 @@ from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
+    DEFAULT_KEY_SEPARATOR,
     FILENAME_LENGTH,
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
@@ -72,6 +73,7 @@ from weblate.trans.validators import (
     validate_filemask,
     validate_language_code,
 )
+from weblate.trans.wrappers import file_format_custom_key_separator_wrapper
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.colors import COLOR_CHOICES
@@ -585,6 +587,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "probably want to keep it disabled."
         ),
     )
+    key_separator = models.CharField(
+        verbose_name=gettext_lazy("Key separator"),
+        max_length=1,
+        default=DEFAULT_KEY_SEPARATOR,
+        help_text=gettext_lazy("Customize key separator for JSON based formats."),
+    )
 
     # VCS config
     merge_style = models.CharField(
@@ -1002,6 +1010,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             has_template=False,
             allow_translation_propagation=False,
             license=self.license,
+            key_separator=self.key_separator,
         )
 
     @cached_property
@@ -3242,7 +3251,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def file_format_cls(self):
         """Return file format object."""
         if self._file_format is None or self._file_format.name != self.file_format:
-            self._file_format = FILE_FORMATS[self.file_format]
+            self._file_format = file_format_custom_key_separator_wrapper(
+                FILE_FORMATS[self.file_format], self.key_separator
+            )
         return self._file_format
 
     def has_template(self):

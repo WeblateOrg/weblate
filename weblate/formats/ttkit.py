@@ -45,6 +45,7 @@ from weblate.formats.base import (
 )
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
+from weblate.trans.defines import DEFAULT_KEY_SEPARATOR
 from weblate.trans.util import (
     get_clean_env,
     get_string,
@@ -927,10 +928,12 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
 
 
 class JSONUnit(MonolingualSimpleUnit):
+    KEY_SEPARATOR = DEFAULT_KEY_SEPARATOR
+
     @cached_property
     def context(self):
         context = super().context
-        if context.startswith("."):
+        if context.startswith(self.KEY_SEPARATOR):
             return context[1:]
         return context
 

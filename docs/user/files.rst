@@ -37,8 +37,11 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * Excel Open XML (``xlsx``)
 * JSON (only available for monolingual translations) (``json``)
 * JSON nested structure file (only available for monolingual translations) (``json-nested``)
+* I18Next V4 file (``i18nextv4``)
 * Android String Resource (only available for monolingual translations) (``aresource``)
 * iOS strings (only available for monolingual translations) (``strings``)
+
+For JSON based format, key separator set in component settings will be used.
 
 .. hint::
 
@@ -83,7 +86,8 @@ Supported file formats
 
 Any file in a supported file format can be uploaded, but it is still
 recommended to use the same file format as the one used for translation, otherwise some
-features might not be translated properly.
+features might not be translated properly. For JSON based file formats, custom key separator
+could be set in component settings or during setting up the component.
 
 .. seealso::
 

@@ -41,7 +41,7 @@ with (what is most often the) English strings.
 
 Example file:
 
-.. literalinclude:: ../../weblate/trans/tests/data/en.i18next.json
+.. literalinclude:: ../../weblate/trans/tests/data/en.i18nextv4.json
     :language: json
 
 Weblate configuration

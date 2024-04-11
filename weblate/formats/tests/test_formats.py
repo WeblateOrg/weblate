@@ -28,6 +28,7 @@ from weblate.formats.ttkit import (
     GoI18JSONFormat,
     GoI18V2JSONFormat,
     GWTFormat,
+    I18NextV4Format,
     INIFormat,
     InnoSetupINIFormat,
     JoomlaFormat,
@@ -56,6 +57,7 @@ from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.trans.wrappers import file_format_custom_key_separator_wrapper
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
@@ -68,6 +70,7 @@ TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
 TEST_GO18N_V2_JSON = get_test_file("cs-go18n-v2.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
+TEST_I18NEXTV4_JSON = get_test_file("en.i18nextv4.json")
 TEST_PHP = get_test_file("cs.php")
 TEST_LARAVEL = get_test_file("laravel.php")
 TEST_JOOMLA = get_test_file("cs.joomla.ini")
@@ -533,6 +536,26 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
         "placeholders:$COUNT$,case-insensitive",
     ]
     MONOLINGUAL = True
+
+
+class I18NextV4JSONFormatTest(JSONFormatTest):
+    FORMAT = I18NextV4Format
+    FILE = TEST_I18NEXTV4_JSON
+    COUNT = 3
+    MASK = "i18nextv4/*.json"
+    EXPECTED_PATH = "i18nextv4/cs-CZ.json"
+    FIND_CONTEXT = "hello.world"
+    FIND_MATCH = "Hello"
+    NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
+    MONOLINGUAL = True
+
+
+class CustomKeySeparatorI18NextV4JSONFormatTest(I18NextV4JSONFormatTest):
+    FORMAT = file_format_custom_key_separator_wrapper(
+        I18NextV4JSONFormatTest.FORMAT, ";"
+    )
+    FIND_CONTEXT = "hello;world"
+    FIND_MATCH = "Hello"
 
 
 class GoI18NV1JSONFormatTest(JSONFormatTest):

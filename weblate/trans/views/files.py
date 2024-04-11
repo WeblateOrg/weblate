@@ -20,6 +20,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.wrappers import exporter_custom_key_separator_wrapper
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -53,7 +54,10 @@ def download_multi(request, translations, commit_objs, fmt=None, name="translati
             raise Http404(f"Conversion to {fmt} is not supported") from exc
 
         for translation in translations:
-            exporter = exporter_cls(translation=translation)
+            translation_exporter_cls = exporter_custom_key_separator_wrapper(
+                exporter_cls, translation.component.key_separator
+            )
+            exporter = translation_exporter_cls(translation=translation)
             filename = exporter.get_filename()
             if not exporter_cls.supports(translation):
                 extra[f"{filename}.skipped"] = (

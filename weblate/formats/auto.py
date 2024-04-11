@@ -15,11 +15,13 @@ from translate.storage import factory
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import TTKitFormat
+from weblate.trans.wrappers import file_format_custom_key_separator_wrapper
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
     from weblate.formats.base import TranslationFormat
+    from weblate.trans.models.component import Component
 
 
 def detect_filename(filename: str) -> type[TranslationFormat] | None:
@@ -81,13 +83,17 @@ def params_iter(
 def try_load(
     filename: str,
     content: bytes,
-    original_format: type[TranslationFormat] | None,
+    component: Component | None,
     template_store: TranslationFormat | None,
     is_template: bool = False,
 ) -> TranslationFormat:
     """Try to load file by guessing type."""
     failure = None
-    for file_format in formats_iter(filename, original_format):
+    for file_format in formats_iter(filename, component.file_format_cls):
+        file_format = file_format_custom_key_separator_wrapper(
+            file_format, component.key_separator
+        )
+
         for kwargs, validate in params_iter(file_format, template_store, is_template):
             handle = NamedBytesIO(filename, content)
             try:

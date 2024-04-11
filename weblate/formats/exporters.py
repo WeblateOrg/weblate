@@ -18,9 +18,9 @@ from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
 from translate.storage.jsonl10n import (
+    I18NextV4File,
     JsonFile,
     JsonNestedFile,
-    I18NextV4File,
 )
 from translate.storage.mo import mofile
 from translate.storage.po import pofile

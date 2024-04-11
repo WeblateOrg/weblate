@@ -25,7 +25,7 @@ from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
-from weblate.trans.defines import PROJECT_NAME_LENGTH
+from weblate.trans.defines import DEFAULT_KEY_SEPARATOR, PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, PathMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
@@ -552,6 +552,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         file_format: str,
         has_template: bool | None = None,
         is_glossary: bool = False,
+        key_separator: str = DEFAULT_KEY_SEPARATOR,
         **kwargs,
     ):
         format_cls = FILE_FORMATS[file_format]
@@ -571,6 +572,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                 "source_language": source_language,
                 "manage_units": True,
                 "is_glossary": is_glossary,
+                "key_separator": key_separator,
             }
         )
         # Create component

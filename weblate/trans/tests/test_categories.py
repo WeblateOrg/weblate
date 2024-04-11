@@ -219,6 +219,7 @@ class CategoriesTest(ViewTestCase):
                 "language_regex": "^[^.]+$",
                 "source_language": get_default_lang(),
                 "category": category.pk,
+                "key_separator": ".",
             },
         )
         self.assertEqual(response.status_code, 302)
