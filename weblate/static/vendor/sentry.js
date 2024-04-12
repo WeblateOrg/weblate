@@ -310,7 +310,8 @@ function createActorStyles(d) {
 
   border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 14px;
+  font-family: inherit;
+  font-size: var(--font-size);
   font-weight: 600;
   padding: 12px 16px;
   text-decoration: none;
@@ -460,16 +461,21 @@ function createDialogStyles(d) {
 }
 
 .form__input {
-  font-family: inherit;
   line-height: inherit;
   background-color: var(--input-background);
   box-sizing: border-box;
   border: var(--input-border);
   border-radius: var(--form-content-border-radius);
   color: var(--input-foreground);
-  font-size: 14px;
+  font-family: inherit;
+  font-size: var(--font-size);
   font-weight: 500;
   padding: 6px 12px;
+}
+
+.form__input::placeholder {
+  color: var(--input-foreground);
+  opacity: 0.65;
 }
 
 .form__input:focus-visible {
@@ -492,7 +498,8 @@ function createDialogStyles(d) {
   border: var(--cancel-border);
   border-radius: var(--form-content-border-radius);
   cursor: pointer;
-  font-size: 14px;
+  font-family: inherit;
+  font-size: var(--font-size);
   font-weight: 600;
   padding: 6px 16px;
 }
@@ -2866,6 +2873,7 @@ const DEFAULT_BROWSER_TRACING_OPTIONS = {
   markBackgroundSpan: true,
   enableLongTask: true,
   enableInp: false,
+  interactionsSampleRate: 1,
   _experiments: {},
   ...request.defaultRequestInstrumentationOptions,
 };
@@ -2908,7 +2916,7 @@ const browserTracingIntegration = ((_options = {}) => {
   /** Stores a mapping of interactionIds from PerformanceEventTimings to the origin interaction path */
   const interactionIdToRouteNameMapping = {};
   if (options.enableInp) {
-    index.startTrackingINP(interactionIdToRouteNameMapping);
+    index.startTrackingINP(interactionIdToRouteNameMapping, options.interactionsSampleRate);
   }
 
   if (options.enableLongTask) {
@@ -3379,6 +3387,7 @@ const DEFAULT_BROWSER_TRACING_OPTIONS = {
   startTransactionOnPageLoad: true,
   enableLongTask: true,
   enableInp: false,
+  interactionsSampleRate: 1,
   _experiments: {},
   ...request.defaultRequestInstrumentationOptions,
 };
@@ -3406,6 +3415,8 @@ class BrowserTracing  {
   /**
    * @inheritDoc
    */
+
+  // eslint-disable-next-line deprecation/deprecation
 
    constructor(_options) {
     this.name = BROWSER_TRACING_INTEGRATION_ID;
@@ -3446,7 +3457,7 @@ class BrowserTracing  {
     this._interactionIdToRouteNameMapping = {};
 
     if (this.options.enableInp) {
-      index.startTrackingINP(this._interactionIdToRouteNameMapping);
+      index.startTrackingINP(this._interactionIdToRouteNameMapping, this.options.interactionsSampleRate);
     }
     if (this.options.enableLongTask) {
       index.startTrackingLongTasks();
@@ -3464,6 +3475,7 @@ class BrowserTracing  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     this._getCurrentHub = getCurrentHub;
     const hub = getCurrentHub();
@@ -4172,10 +4184,13 @@ function startTrackingInteractions() {
 /**
  * Start tracking INP webvital events.
  */
-function startTrackingINP(interactionIdtoRouteNameMapping) {
+function startTrackingINP(
+  interactionIdtoRouteNameMapping,
+  interactionsSampleRate,
+) {
   const performance = getBrowserPerformanceAPI();
   if (performance && utils.browserPerformanceTimeOrigin) {
-    const inpCallback = _trackINP(interactionIdtoRouteNameMapping);
+    const inpCallback = _trackINP(interactionIdtoRouteNameMapping, interactionsSampleRate);
 
     return () => {
       inpCallback();
@@ -4271,7 +4286,10 @@ const INP_ENTRY_MAP = {
 };
 
 /** Starts tracking the Interaction to Next Paint on the current page. */
-function _trackINP(interactionIdToRouteNameMapping) {
+function _trackINP(
+  interactionIdToRouteNameMapping,
+  interactionsSampleRate,
+) {
   return instrument.addInpInstrumentationHandler(({ metric }) => {
     if (metric.value === undefined) {
       return;
@@ -4317,7 +4335,8 @@ function _trackINP(interactionIdToRouteNameMapping) {
     });
 
     /** Check to see if the span should be sampled */
-    const sampleRate = getSampleRate(parentContext, options);
+    const sampleRate = getSampleRate(parentContext, options, interactionsSampleRate);
+
     if (!sampleRate) {
       return;
     }
@@ -4705,7 +4724,11 @@ function _addTtfbRequestTimeToMeasurements(_measurements) {
 }
 
 /** Taken from @sentry/core sampling.ts */
-function getSampleRate(transactionContext, options) {
+function getSampleRate(
+  transactionContext,
+  options,
+  interactionsSampleRate,
+) {
   if (!core.hasTracingEnabled(options)) {
     return false;
   }
@@ -4730,10 +4753,15 @@ function getSampleRate(transactionContext, options) {
     sampleRate = 1;
   }
   if (!core.isValidSampleRate(sampleRate)) {
-    debugBuild.DEBUG_BUILD && utils.logger.warn('[Tracing] Discarding transaction because of invalid sample rate.');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('[Tracing] Discarding interaction span because of invalid sample rate.');
     return false;
   }
-  return sampleRate;
+  if (sampleRate === true) {
+    return interactionsSampleRate;
+  } else if (sampleRate === false) {
+    return 0;
+  }
+  return sampleRate * interactionsSampleRate;
 }
 
 exports._addMeasureSpans = _addMeasureSpans;
@@ -6471,6 +6499,7 @@ class Apollo  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
       debugBuild.DEBUG_BUILD && utils.logger.log('Apollo Integration is skipped because of instrumenter configuration.');
@@ -6556,6 +6585,7 @@ class Apollo  {
   }
 }Apollo.__initStatic();
 
+// eslint-disable-next-line deprecation/deprecation
 function instrumentResolvers(resolvers, getCurrentHub) {
   return resolvers.map(model => {
     Object.keys(model).forEach(resolverGroupName => {
@@ -6579,6 +6609,7 @@ function wrapResolver(
   model,
   resolverGroupName,
   resolverName,
+  // eslint-disable-next-line deprecation/deprecation
   getCurrentHub,
 ) {
   utils.fill(model[resolverGroupName], resolverName, function (orig) {
@@ -6658,6 +6689,7 @@ class Express  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     if (!this._router) {
       debugBuild.DEBUG_BUILD && utils.logger.error('ExpressIntegration is missing an Express instance');
@@ -7143,6 +7175,7 @@ class GraphQL  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
       debugBuild.DEBUG_BUILD && utils.logger.log('GraphQL Integration is skipped because of instrumenter configuration.');
@@ -7366,6 +7399,7 @@ class Mongo  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
       debugBuild.DEBUG_BUILD && utils.logger.log('Mongo Integration is skipped because of instrumenter configuration.');
@@ -7386,6 +7420,7 @@ class Mongo  {
   /**
    * Patches original collection methods
    */
+  // eslint-disable-next-line deprecation/deprecation
    _instrumentOperations(collection, operations, getCurrentHub) {
     operations.forEach((operation) => this._patchOperation(collection, operation, getCurrentHub));
   }
@@ -7393,6 +7428,7 @@ class Mongo  {
   /**
    * Patches original collection to utilize our tracing functionality
    */
+  // eslint-disable-next-line deprecation/deprecation
    _patchOperation(collection, operation, getCurrentHub) {
     if (!(operation in collection.prototype)) return;
 
@@ -7548,6 +7584,7 @@ class Mysql  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
       debugBuild.DEBUG_BUILD && utils.logger.log('Mysql Integration is skipped because of instrumenter configuration.');
@@ -7687,6 +7724,7 @@ class Postgres  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
       debugBuild.DEBUG_BUILD && utils.logger.log('Postgres Integration is skipped because of instrumenter configuration.');
@@ -7889,6 +7927,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @param getCurrentHub A method to fetch the current hub
  * @returns boolean
  */
+// eslint-disable-next-line deprecation/deprecation
 function shouldDisableAutoInstrumentation(getCurrentHub) {
   // eslint-disable-next-line deprecation/deprecation
   const clientOptions = _optionalChain([getCurrentHub, 'call', _ => _(), 'access', _2 => _2.getClient, 'call', _3 => _3(), 'optionalAccess', _4 => _4.getOptions, 'call', _5 => _5()]);
@@ -12767,6 +12806,7 @@ function captureEvent(event, hint) {
  *
  * @deprecated Use getCurrentScope() directly.
  */
+// eslint-disable-next-line deprecation/deprecation
 function configureScope(callback) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().configureScope(callback);
@@ -12780,6 +12820,7 @@ function configureScope(callback) {
  *
  * @param breadcrumb The breadcrumb to record.
  */
+// eslint-disable-next-line deprecation/deprecation
 function addBreadcrumb(breadcrumb, hint) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().addBreadcrumb(breadcrumb, hint);
@@ -12790,7 +12831,7 @@ function addBreadcrumb(breadcrumb, hint) {
  * @param name of the context
  * @param context Any kind of data. This data will be normalized.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, deprecation/deprecation
 function setContext(name, context) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().setContext(name, context);
@@ -12800,6 +12841,7 @@ function setContext(name, context) {
  * Set an object that will be merged sent as extra data with the event.
  * @param extras Extras object to merge into current context.
  */
+// eslint-disable-next-line deprecation/deprecation
 function setExtras(extras) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().setExtras(extras);
@@ -12810,6 +12852,7 @@ function setExtras(extras) {
  * @param key String of extra
  * @param extra Any kind of data. This data will be normalized.
  */
+// eslint-disable-next-line deprecation/deprecation
 function setExtra(key, extra) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().setExtra(key, extra);
@@ -12819,6 +12862,7 @@ function setExtra(key, extra) {
  * Set an object that will be merged sent as tags data with the event.
  * @param tags Tags context object to merge into current context.
  */
+// eslint-disable-next-line deprecation/deprecation
 function setTags(tags) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().setTags(tags);
@@ -12832,6 +12876,7 @@ function setTags(tags) {
  * @param key String key of tag
  * @param value Value of tag
  */
+// eslint-disable-next-line deprecation/deprecation
 function setTag(key, value) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().setTag(key, value);
@@ -12842,6 +12887,7 @@ function setTag(key, value) {
  *
  * @param user User context object to be set in the current context. Pass `null` to unset the user.
  */
+// eslint-disable-next-line deprecation/deprecation
 function setUser(user) {
   // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().setUser(user);
@@ -12948,6 +12994,7 @@ function withActiveSpan(span, callback) {
 function startTransaction(
   context,
   customSamplingContext,
+  // eslint-disable-next-line deprecation/deprecation
 ) {
   // eslint-disable-next-line deprecation/deprecation
   return hub.getCurrentHub().startTransaction({ ...context }, customSamplingContext);
@@ -13236,8 +13283,17 @@ const API_VERSION = parseFloat(version.SDK_VERSION);
 const DEFAULT_BREADCRUMBS = 100;
 
 /**
- * @inheritDoc
+ * @deprecated The `Hub` class will be removed in version 8 of the SDK in favour of `Scope` and `Client` objects.
+ *
+ * If you previously used the `Hub` class directly, replace it with `Scope` and `Client` objects. More information:
+ * - [Multiple Sentry Instances](https://docs.sentry.io/platforms/javascript/best-practices/multiple-sentry-instances/)
+ * - [Browser Extensions](https://docs.sentry.io/platforms/javascript/best-practices/browser-extensions/)
+ *
+ * Some of our APIs are typed with the Hub class instead of the interface (e.g. `getCurrentHub`). Most of them are deprecated
+ * themselves and will also be removed in version 8. More information:
+ * - [Migration Guide](https://github.com/getsentry/sentry-javascript/blob/develop/MIGRATION.md#deprecate-hub)
  */
+// eslint-disable-next-line deprecation/deprecation
 class Hub  {
   /** Is a {@link Layer}[] containing the client and scope */
 
@@ -13660,6 +13716,7 @@ class Hub  {
   /**
    * @inheritDoc
    */
+  // eslint-disable-next-line deprecation/deprecation
    run(callback) {
     // eslint-disable-next-line deprecation/deprecation
     const oldHub = makeMain(this);
@@ -13868,6 +13925,7 @@ function getMainCarrier() {
  *
  * @deprecated Use `setCurrentClient()` instead.
  */
+// eslint-disable-next-line deprecation/deprecation
 function makeMain(hub) {
   const registry = getMainCarrier();
   const oldHub = getHubFromCarrier(registry);
@@ -13884,6 +13942,7 @@ function makeMain(hub) {
  *
  * @deprecated Use the respective replacement method directly instead.
  */
+// eslint-disable-next-line deprecation/deprecation
 function getCurrentHub() {
   // Get main carrier (global for every environment)
   const registry = getMainCarrier();
@@ -13910,6 +13969,7 @@ function getIsolationScope() {
   return getCurrentHub().getIsolationScope();
 }
 
+// eslint-disable-next-line deprecation/deprecation
 function getGlobalHub(registry = getMainCarrier()) {
   // If there's no hub, or its an old API, assign a new one
 
@@ -13931,6 +13991,7 @@ function getGlobalHub(registry = getMainCarrier()) {
  *
  * If the carrier does not contain a hub, a new hub is created with the global hub client and scope.
  */
+// eslint-disable-next-line deprecation/deprecation
 function ensureHubOnCarrier(carrier, parent = getGlobalHub()) {
   // If there's no hub on current domain, or it's an old API, assign a new one
   if (
@@ -13993,6 +14054,7 @@ function hasHubOnCarrier(carrier) {
  * @param carrier object
  * @hidden
  */
+// eslint-disable-next-line deprecation/deprecation
 function getHubFromCarrier(carrier) {
   // eslint-disable-next-line deprecation/deprecation
   return utils.getGlobalSingleton('hub', () => new Hub(), carrier);
@@ -14004,6 +14066,7 @@ function getHubFromCarrier(carrier) {
  * @param hub Hub
  * @returns A boolean indicating success or failure
  */
+// eslint-disable-next-line deprecation/deprecation
 function setHubOnCarrier(carrier, hub) {
   if (!carrier) return false;
   const __SENTRY__ = (carrier.__SENTRY__ = carrier.__SENTRY__ || {});
@@ -15137,6 +15200,9 @@ class MetricsAggregator  {
   // Different metrics have different weights. We use this to limit the number of metrics
   // that we store in memory.
 
+  // Cast to any so that it can use Node.js timeout
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   // SDKs are required to shift the flush interval by random() * rollup_in_seconds.
   // That shift is determined once per startup to create jittering.
 
@@ -15150,7 +15216,14 @@ class MetricsAggregator  {
    constructor(  _client) {this._client = _client;
     this._buckets = new Map();
     this._bucketsTotalWeight = 0;
-    this._interval = setInterval(() => this._flush(), constants.DEFAULT_FLUSH_INTERVAL);
+
+    this._interval = setInterval(() => this._flush(), constants.DEFAULT_FLUSH_INTERVAL) ;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this._interval.unref) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this._interval.unref();
+    }
+
     this._flushShift = Math.floor((Math.random() * constants.DEFAULT_FLUSH_INTERVAL) / 1000);
     this._forceFlush = false;
   }
@@ -15162,13 +15235,14 @@ class MetricsAggregator  {
     metricType,
     unsanitizedName,
     value,
-    unit = 'none',
+    unsanitizedUnit = 'none',
     unsanitizedTags = {},
     maybeFloatTimestamp = utils$1.timestampInSeconds(),
   ) {
     const timestamp = Math.floor(maybeFloatTimestamp);
-    const name = unsanitizedName.replace(constants.NAME_AND_TAG_KEY_NORMALIZATION_REGEX, '_');
+    const name = utils.sanitizeMetricKey(unsanitizedName);
     const tags = utils.sanitizeTags(unsanitizedTags);
+    const unit = utils.sanitizeUnit(unsanitizedUnit );
 
     const bucketKey = utils.getBucketKey(metricType, name, unit, tags);
 
@@ -15314,13 +15388,14 @@ class BrowserMetricsAggregator  {
     metricType,
     unsanitizedName,
     value,
-    unit = 'none',
+    unsanitizedUnit = 'none',
     unsanitizedTags = {},
     maybeFloatTimestamp = utils$1.timestampInSeconds(),
   ) {
     const timestamp = Math.floor(maybeFloatTimestamp);
-    const name = unsanitizedName.replace(constants.NAME_AND_TAG_KEY_NORMALIZATION_REGEX, '_');
+    const name = utils.sanitizeMetricKey(unsanitizedName);
     const tags = utils.sanitizeTags(unsanitizedTags);
+    const unit = utils.sanitizeUnit(unsanitizedUnit );
 
     const bucketKey = utils.getBucketKey(metricType, name, unit, tags);
 
@@ -15360,11 +15435,13 @@ class BrowserMetricsAggregator  {
     if (this._buckets.size === 0) {
       return;
     }
+
     if (this._client.captureAggregateMetrics) {
       // TODO(@anonrig): Use Object.values() when we support ES6+
       const metricBuckets = Array.from(this._buckets).map(([, bucketItem]) => bucketItem);
       this._client.captureAggregateMetrics(metricBuckets);
     }
+
     this._buckets.clear();
   }
 
@@ -15389,26 +15466,6 @@ const SET_METRIC_TYPE = 's' ;
 const DISTRIBUTION_METRIC_TYPE = 'd' ;
 
 /**
- * Normalization regex for metric names and metric tag names.
- *
- * This enforces that names and tag keys only contain alphanumeric characters,
- * underscores, forward slashes, periods, and dashes.
- *
- * See: https://develop.sentry.dev/sdk/metrics/#normalization
- */
-const NAME_AND_TAG_KEY_NORMALIZATION_REGEX = /[^a-zA-Z0-9_/.-]+/g;
-
-/**
- * Normalization regex for metric tag values.
- *
- * This enforces that values only contain words, digits, or the following
- * special characters: _:/@.{}[\]$-
- *
- * See: https://develop.sentry.dev/sdk/metrics/#normalization
- */
-const TAG_VALUE_NORMALIZATION_REGEX = /[^\w\d\s_:/@.{}[\]$-]+/g;
-
-/**
  * This does not match spec in https://develop.sentry.dev/sdk/metrics
  * but was chosen to optimize for the most common case in browser environments.
  */
@@ -15431,9 +15488,7 @@ exports.DEFAULT_FLUSH_INTERVAL = DEFAULT_FLUSH_INTERVAL;
 exports.DISTRIBUTION_METRIC_TYPE = DISTRIBUTION_METRIC_TYPE;
 exports.GAUGE_METRIC_TYPE = GAUGE_METRIC_TYPE;
 exports.MAX_WEIGHT = MAX_WEIGHT;
-exports.NAME_AND_TAG_KEY_NORMALIZATION_REGEX = NAME_AND_TAG_KEY_NORMALIZATION_REGEX;
 exports.SET_METRIC_TYPE = SET_METRIC_TYPE;
-exports.TAG_VALUE_NORMALIZATION_REGEX = TAG_VALUE_NORMALIZATION_REGEX;
 
 
 },{}],82:[function(require,module,exports){
@@ -15849,7 +15904,6 @@ exports.updateMetricSummaryOnActiveSpan = updateMetricSummaryOnActiveSpan;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
-const constants = require('./constants.js');
 
 /**
  * Generate bucket key from metric properties.
@@ -15902,6 +15956,43 @@ function serializeMetricBuckets(metricBucketItems) {
   return out;
 }
 
+/** Sanitizes units */
+function sanitizeUnit(unit) {
+  return unit.replace(/[^\w]+/gi, '_');
+}
+
+/** Sanitizes metric keys */
+function sanitizeMetricKey(key) {
+  return key.replace(/[^\w\-.]+/gi, '_');
+}
+
+function sanitizeTagKey(key) {
+  return key.replace(/[^\w\-./]+/gi, '');
+}
+
+const tagValueReplacements = [
+  ['\n', '\\n'],
+  ['\r', '\\r'],
+  ['\t', '\\t'],
+  ['\\', '\\\\'],
+  ['|', '\\u{7c}'],
+  [',', '\\u{2c}'],
+];
+
+function getCharOrReplacement(input) {
+  for (const [search, replacement] of tagValueReplacements) {
+    if (input === search) {
+      return replacement;
+    }
+  }
+
+  return input;
+}
+
+function sanitizeTagValue(value) {
+  return [...value].reduce((acc, char) => acc + getCharOrReplacement(char), '');
+}
+
 /**
  * Sanitizes tags.
  */
@@ -15909,20 +16000,22 @@ function sanitizeTags(unsanitizedTags) {
   const tags = {};
   for (const key in unsanitizedTags) {
     if (Object.prototype.hasOwnProperty.call(unsanitizedTags, key)) {
-      const sanitizedKey = key.replace(constants.NAME_AND_TAG_KEY_NORMALIZATION_REGEX, '_');
-      tags[sanitizedKey] = String(unsanitizedTags[key]).replace(constants.TAG_VALUE_NORMALIZATION_REGEX, '');
+      const sanitizedKey = sanitizeTagKey(key);
+      tags[sanitizedKey] = sanitizeTagValue(String(unsanitizedTags[key]));
     }
   }
   return tags;
 }
 
 exports.getBucketKey = getBucketKey;
+exports.sanitizeMetricKey = sanitizeMetricKey;
 exports.sanitizeTags = sanitizeTags;
+exports.sanitizeUnit = sanitizeUnit;
 exports.serializeMetricBuckets = serializeMetricBuckets;
 exports.simpleHash = simpleHash;
 
 
-},{"./constants.js":81,"@sentry/utils":139}],88:[function(require,module,exports){
+},{"@sentry/utils":139}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17163,14 +17256,22 @@ const exports$1 = require('./exports.js');
  */
 class SessionFlusher  {
 
+  // Cast to any so that it can use Node.js timeout
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
    constructor(client, attrs) {
     this._client = client;
     this.flushTimeout = 60;
     this._pendingAggregates = {};
     this._isEnabled = true;
 
-    // Call to setInterval, so that flush is called every 60 seconds
+    // Call to setInterval, so that flush is called every 60 seconds.
     this._intervalId = setInterval(() => this.flush(), this.flushTimeout * 1000);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this._intervalId.unref) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this._intervalId.unref();
+    }
     this._sessionAttrs = attrs;
   }
 
@@ -17444,6 +17545,7 @@ const sampling = require('./sampling.js');
 const transaction = require('./transaction.js');
 
 /** Returns all trace headers that are currently on the top scope. */
+// eslint-disable-next-line deprecation/deprecation
 function traceHeaders() {
   // eslint-disable-next-line deprecation/deprecation
   const scope = this.getScope();
@@ -17473,6 +17575,7 @@ function traceHeaders() {
  * @see {@link Hub.startTransaction}
  */
 function _startTransaction(
+  // eslint-disable-next-line deprecation/deprecation
 
   transactionContext,
   customSamplingContext,
@@ -17521,6 +17624,7 @@ The transaction will not be sampled. Please use the ${configInstrumenter} instru
  * Create new idle transaction.
  */
 function startIdleTransaction(
+  // eslint-disable-next-line deprecation/deprecation
   hub,
   transactionContext,
   idleTimeout,
@@ -17675,6 +17779,7 @@ class IdleTransaction extends transaction.Transaction {
    */
    constructor(
     transactionContext,
+    // eslint-disable-next-line deprecation/deprecation
       _idleHub,
     /**
      * The time to wait in ms until the idle transaction will be finished. This timer is started each time
@@ -18269,7 +18374,7 @@ class Span  {
     if (spanContext.endTimestamp) {
       this._endTime = spanContext.endTimestamp;
     }
-    if (spanContext.exclusiveTime) {
+    if (spanContext.exclusiveTime !== undefined) {
       this._exclusiveTime = spanContext.exclusiveTime;
     }
     this._measurements = spanContext.measurements ? { ...spanContext.measurements } : {};
@@ -19197,6 +19302,7 @@ const continueTrace = (
 };
 
 function createChildSpanOrTransaction(
+  // eslint-disable-next-line deprecation/deprecation
   hub$1,
   {
     parentSpan,
@@ -19332,6 +19438,7 @@ class Transaction extends span.Span  {
   /**
    * The reference to the current hub.
    */
+  // eslint-disable-next-line deprecation/deprecation
 
   // DO NOT yet remove this property, it is used in a hack for v7 backwards compatibility.
 
@@ -19344,6 +19451,7 @@ class Transaction extends span.Span  {
    *
    * @deprecated Transactions will be removed in v8. Use spans instead.
    */
+  // eslint-disable-next-line deprecation/deprecation
    constructor(transactionContext, hub$1) {
     super(transactionContext);
     this._contexts = {};
@@ -19546,6 +19654,7 @@ class Transaction extends span.Span  {
    *
    * @internal
    */
+  // eslint-disable-next-line deprecation/deprecation
    setHub(hub) {
     this._hub = hub;
   }
@@ -19676,6 +19785,7 @@ const hub = require('../hub.js');
  *
  * @deprecated You should not rely on the transaction, but just use `startSpan()` APIs instead.
  */
+// eslint-disable-next-line deprecation/deprecation
 function getActiveTransaction(maybeHub) {
   // eslint-disable-next-line deprecation/deprecation
   const hub$1 = maybeHub || hub.getCurrentHub();
@@ -19733,10 +19843,10 @@ function createTransport(
 
     // Drop rate limited items from envelope
     utils.forEachEnvelopeItem(envelope, (item, type) => {
-      const envelopeItemDataCategory = utils.envelopeItemTypeToDataCategory(type);
-      if (utils.isRateLimited(rateLimits, envelopeItemDataCategory)) {
+      const dataCategory = utils.envelopeItemTypeToDataCategory(type);
+      if (utils.isRateLimited(rateLimits, dataCategory)) {
         const event = getEventForEnvelopeItem(item, type);
-        options.recordDroppedEvent('ratelimit_backoff', envelopeItemDataCategory, event);
+        options.recordDroppedEvent('ratelimit_backoff', dataCategory, event);
       } else {
         filteredEnvelopeItems.push(item);
       }
@@ -20383,6 +20493,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  *
  * TODO(v8): Remove Hub fallback type
  */
+// eslint-disable-next-line deprecation/deprecation
 function isSentryRequestUrl(url, hubOrClient) {
   const client =
     hubOrClient && isHub(hubOrClient)
@@ -20411,6 +20522,7 @@ function removeTrailingSlash(str) {
   return str[str.length - 1] === '/' ? str.slice(0, -1) : str;
 }
 
+// eslint-disable-next-line deprecation/deprecation
 function isHub(hubOrClient) {
   // eslint-disable-next-line deprecation/deprecation
   return (hubOrClient ).getClient !== undefined;
@@ -20996,7 +21108,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":139}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.109.0';
+const SDK_VERSION = '7.110.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -32006,7 +32118,7 @@ const ITEM_TYPE_TO_DATA_CATEGORY_MAP = {
   check_in: 'monitor',
   feedback: 'feedback',
   span: 'span',
-  statsd: 'statsd',
+  statsd: 'metric_bucket',
 };
 
 /**
@@ -32016,7 +32128,7 @@ function envelopeItemTypeToDataCategory(type) {
   return ITEM_TYPE_TO_DATA_CATEGORY_MAP[type];
 }
 
-/** Extracts the minimal SDK info from from the metadata or an events */
+/** Extracts the minimal SDK info from the metadata or an events */
 function getSdkMetadataForEnvelopeHeader(metadataOrEvent) {
   if (!metadataOrEvent || !metadataOrEvent.sdk) {
     return;
@@ -32139,6 +32251,7 @@ function getMessageForObject(exception) {
  * @hidden
  */
 function eventFromUnknownInput(
+  // eslint-disable-next-line deprecation/deprecation
   getHubOrClient,
   stackParser,
   exception,
@@ -35188,15 +35301,15 @@ function parseRetryAfterHeader(header, now = Date.now()) {
  *
  * @return the time in ms that the category is disabled until or 0 if there's no active rate limit.
  */
-function disabledUntil(limits, category) {
-  return limits[category] || limits.all || 0;
+function disabledUntil(limits, dataCategory) {
+  return limits[dataCategory] || limits.all || 0;
 }
 
 /**
  * Checks if a category is rate limited
  */
-function isRateLimited(limits, category, now = Date.now()) {
-  return disabledUntil(limits, category) > now;
+function isRateLimited(limits, dataCategory, now = Date.now()) {
+  return disabledUntil(limits, dataCategory) > now;
 }
 
 /**
@@ -35223,23 +35336,32 @@ function updateRateLimits(
      * rate limit headers are of the form
      *     <header>,<header>,..
      * where each <header> is of the form
-     *     <retry_after>: <categories>: <scope>: <reason_code>
+     *     <retry_after>: <categories>: <scope>: <reason_code>: <namespaces>
      * where
      *     <retry_after> is a delay in seconds
      *     <categories> is the event type(s) (error, transaction, etc) being rate limited and is of the form
      *         <category>;<category>;...
      *     <scope> is what's being limited (org, project, or key) - ignored by SDK
      *     <reason_code> is an arbitrary string like "org_quota" - ignored by SDK
+     *     <namespaces> Semicolon-separated list of metric namespace identifiers. Defines which namespace(s) will be affected.
+     *         Only present if rate limit applies to the metric_bucket data category.
      */
     for (const limit of rateLimitHeader.trim().split(',')) {
-      const [retryAfter, categories] = limit.split(':', 2);
+      const [retryAfter, categories, , , namespaces] = limit.split(':', 5);
       const headerDelay = parseInt(retryAfter, 10);
       const delay = (!isNaN(headerDelay) ? headerDelay : 60) * 1000; // 60sec default
       if (!categories) {
         updatedRateLimits.all = now + delay;
       } else {
         for (const category of categories.split(';')) {
-          updatedRateLimits[category] = now + delay;
+          if (category === 'metric_bucket') {
+            // namespaces will be present when category === 'metric_bucket'
+            if (!namespaces || namespaces.split(';').includes('custom')) {
+              updatedRateLimits[category] = now + delay;
+            }
+          } else {
+            updatedRateLimits[category] = now + delay;
+          }
         }
       }
     }
@@ -35280,7 +35402,9 @@ const DEFAULT_USER_INCLUDES = ['id', 'username', 'email'];
 
 /**
  * Sets parameterized route as transaction name e.g.: `GET /users/:id`
- * Also adds more context data on the transaction from the request
+ * Also adds more context data on the transaction from the request.
+ *
+ * @deprecated This utility will be removed in v8.
  */
 function addRequestDataToTransaction(
   transaction,

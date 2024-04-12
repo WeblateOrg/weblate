@@ -1268,7 +1268,7 @@ CELERY_TASK_ROUTES = {
 
 # CORS allowed origins
 CORS_ALLOWED_ORIGINS = get_env_list("WEBLATE_CORS_ALLOWED_ORIGINS")
-CORS_URLS_REGEX = r"^/api/.*$"
+CORS_URLS_REGEX = rf"^{URL_PREFIX}/api/.*$"
 
 # Database backup type
 DATABASE_BACKUP = get_env_str("WEBLATE_DATABASE_BACKUP", "plain")
