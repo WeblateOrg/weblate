@@ -32,6 +32,8 @@ The generated backups are kept on the server as configured by
 :setting:`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT`
 (it defaults to keep at most 3 backups for 30 days).
 
+Use the generated file to import project when :ref:`adding-projects`.
+
 .. note::
 
    Restoring of the backup might fail if the restoring server has different set
