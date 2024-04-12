@@ -9,6 +9,10 @@ from typing import TYPE_CHECKING, Literal
 
 from django.core.cache import cache
 from openai import OpenAI
+from openai.types.chat import (
+    ChatCompletionSystemMessageParam,
+    ChatCompletionUserMessageParam,
+)
 
 from weblate.glossary.models import (
     get_glossary_terms,
@@ -58,12 +62,12 @@ class OpenAITranslation(BatchMachineTranslation):
 
     settings_form = OpenAIMachineryForm
 
-    def __init__(self, settings=None):
+    def __init__(self, settings=None) -> None:
         super().__init__(settings)
         self.client = OpenAI(api_key=self.settings["key"], timeout=self.request_timeout)
-        self._models = None
+        self._models: None | set[str] = None
 
-    def is_supported(self, source, language):
+    def is_supported(self, source, language) -> bool:
         return True
 
     def get_model(self) -> str:
@@ -126,8 +130,8 @@ class OpenAITranslation(BatchMachineTranslation):
         units = [unit for _text, unit in sources]
         prompt = self.get_prompt(source, language, units)
         messages = [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": SEPARATOR.join(texts)},
+            ChatCompletionSystemMessageParam(role="system", content=prompt),
+            ChatCompletionUserMessageParam(role="user", content=SEPARATOR.join(texts)),
         ]
 
         response = self.client.chat.completions.create(

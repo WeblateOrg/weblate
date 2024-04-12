@@ -6,7 +6,10 @@ from django.contrib import admin
 
 from weblate.wladmin.models import WeblateModelAdmin
 
+from .models import Screenshot
 
+
+@admin.register(Screenshot)
 class ScreenshotAdmin(WeblateModelAdmin):
     list_display = ["name", "translation"]
     search_fields = ["name", "image"]

@@ -18,7 +18,7 @@ from weblate.utils.environment import (
 
 
 class EnvTest(SimpleTestCase):
-    def test_list(self):
+    def test_list(self) -> None:
         os.environ["TEST_DATA"] = "foo,bar,baz"
         self.assertEqual(get_env_list("TEST_DATA"), ["foo", "bar", "baz"])
         os.environ["TEST_DATA"] = "foo"
@@ -27,7 +27,7 @@ class EnvTest(SimpleTestCase):
         self.assertEqual(get_env_list("TEST_DATA"), [])
         self.assertEqual(get_env_list("TEST_DATA", ["x"]), ["x"])
 
-    def test_map(self):
+    def test_map(self) -> None:
         os.environ["TEST_DATA"] = "foo:bar,baz:bag"
         self.assertEqual(get_env_map("TEST_DATA"), {"foo": "bar", "baz": "bag"})
         os.environ["TEST_DATA"] = "foo:bar"
@@ -36,7 +36,7 @@ class EnvTest(SimpleTestCase):
         self.assertEqual(get_env_map("TEST_DATA"), {})
         self.assertEqual(get_env_map("TEST_DATA", {"x": "y"}), {"x": "y"})
 
-    def test_bool(self):
+    def test_bool(self) -> None:
         os.environ["TEST_DATA"] = "1"
         self.assertTrue(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "True"
@@ -52,13 +52,13 @@ class EnvTest(SimpleTestCase):
         del os.environ["TEST_DATA"]
         self.assertFalse(get_env_bool("TEST_DATA"))
 
-    def test_int(self):
+    def test_int(self) -> None:
         os.environ["TEST_DATA"] = "1"
         self.assertEqual(get_env_int("TEST_DATA"), 1)
         del os.environ["TEST_DATA"]
         self.assertEqual(get_env_int("TEST_DATA"), 0)
 
-    def test_modify_list(self):
+    def test_modify_list(self) -> None:
         os.environ["WEBLATE_ADD_TEST"] = "foo,bar"
         os.environ["WEBLATE_REMOVE_TEST"] = "baz,bag"
         setting = ["baz", "bag", "aaa"]
@@ -67,7 +67,7 @@ class EnvTest(SimpleTestCase):
         del os.environ["WEBLATE_ADD_TEST"]
         del os.environ["WEBLATE_REMOVE_TEST"]
 
-    def test_get_env_credentials(self):
+    def test_get_env_credentials(self) -> None:
         os.environ["WEBLATE_TEST_USERNAME"] = "user"
         os.environ["WEBLATE_TEST_TOKEN"] = "token"
         os.environ["WEBLATE_TEST_ORGANIZATION"] = "organization"
@@ -101,9 +101,9 @@ class EnvTest(SimpleTestCase):
         with self.assertRaises(ValueError):
             get_env_credentials("TEST")
 
-        os.environ[
-            "WEBLATE_TEST_CREDENTIALS"
-        ] = '{"host": {"username": "user", "token": "token"}}'
+        os.environ["WEBLATE_TEST_CREDENTIALS"] = (
+            '{"host": {"username": "user", "token": "token"}}'
+        )
         self.assertEqual(
             get_env_credentials("TEST"),
             {"host": {"username": "user", "token": "token"}},
@@ -111,7 +111,7 @@ class EnvTest(SimpleTestCase):
 
         del os.environ["WEBLATE_TEST_CREDENTIALS"]
 
-    def test_get_env_ratelimit(self):
+    def test_get_env_ratelimit(self) -> None:
         os.environ["RATELIMIT_ANON"] = "1/hour"
         self.assertEqual(
             get_env_ratelimit("RATELIMIT_ANON", ""),

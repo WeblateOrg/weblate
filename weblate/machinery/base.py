@@ -10,18 +10,18 @@ import random
 import re
 import time
 from collections import defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, TypedDict
 from urllib.parse import quote
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
-from requests.exceptions import HTTPError
+from requests.exceptions import HTTPError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
@@ -117,7 +117,7 @@ class BatchMachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: SettingsDict):
+    def __init__(self, settings: SettingsDict) -> None:
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
@@ -127,10 +127,10 @@ class BatchMachineTranslation:
         self.supported_languages_error_age: float = 0
         self.settings = settings
 
-    def delete_cache(self):
+    def delete_cache(self) -> None:
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
-    def validate_settings(self):
+    def validate_settings(self) -> None:
         try:
             self.download_languages()
         except Exception as error:
@@ -150,7 +150,7 @@ class BatchMachineTranslation:
         return base
 
     def get_api_url(self, *parts):
-        """Generates service URL gracefully handle trailing slashes."""
+        """Generate service URL gracefully handle trailing slashes."""
         return "/".join(
             chain([self.api_base_url], (quote(part, b"") for part in parts))
         )
@@ -160,10 +160,10 @@ class BatchMachineTranslation:
         return cls.name.lower().replace(" ", "-")
 
     @classmethod
-    def get_doc_anchor(cls):
+    def get_doc_anchor(cls) -> str:
         return f"mt-{cls.get_identifier()}"
 
-    def account_usage(self, project, delta: int = 1):
+    def account_usage(self, project, delta: int = 1) -> None:
         key = f"machinery-accounting:{self.accounting_key}:{project.id}"
         try:
             cache.incr(key, delta=delta)
@@ -171,11 +171,16 @@ class BatchMachineTranslation:
             cache.set(key, delta, 24 * 3600)
 
     def get_headers(self) -> dict[str, str]:
-        """Hook for backends to allow add authentication headers to request."""
+        """Add authentication headers to request."""
         return {}
 
     def get_auth(self) -> None | tuple[str, str] | AuthBase:
         return None
+
+    def check_failure(self, response) -> None:
+        # Directly raise error as last resort, subclass can prepend this
+        # with something more clever
+        response.raise_for_status()
 
     def request(self, method, url, skip_auth=False, **kwargs):
         """Perform JSON request."""
@@ -200,28 +205,15 @@ class BatchMachineTranslation:
             **kwargs,
         )
 
-        # Directly raise error when response is empty
-        if response.content:
-            response.raise_for_status()
+        self.check_failure(response)
 
         return response
-
-    def request_status(self, method, url, **kwargs):
-        response = self.request(method, url, **kwargs)
-        payload = response.json()
-
-        # Check response status
-        if payload["responseStatus"] != 200:
-            raise MachineTranslationError(payload["responseDetails"])
-
-        # Return data
-        return payload
 
     def download_languages(self):
         """Download list of supported languages from a service."""
         return []
 
-    def map_language_code(self, code):
+    def map_language_code(self, code: str) -> str:
         """Map language code to service specific."""
         if code.endswith("_devel"):
             code = code[:-6]
@@ -229,8 +221,8 @@ class BatchMachineTranslation:
             return self.language_map[code]
         return code
 
-    def report_error(self, message):
-        """Wrapper for handling error situations."""
+    def report_error(self, message) -> None:
+        """Report error situations."""
         report_error(cause="Machinery error")
         LOGGER.error(message, self.name)
 
@@ -272,7 +264,7 @@ class BatchMachineTranslation:
     def set_rate_limit(self):
         return cache.set(self.rate_limit_cache, True, 1800)
 
-    def is_rate_limit_error(self, exc):
+    def is_rate_limit_error(self, exc) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
         if not isinstance(exc, HTTPError):
@@ -283,11 +275,11 @@ class BatchMachineTranslation:
         # HTTP 401 Unauthorized
         # HTTP 403 Forbidden
         # HTTP 503 Service Unavailable
-        if exc.response.status_code in {456, 429, 401, 403, 503}:
-            return True
-        return False
+        return exc.response.status_code in {456, 429, 401, 403, 503}
 
-    def get_cache_key(self, scope: str = "translation", *parts) -> str:
+    def get_cache_key(
+        self, scope: str, *, parts: Iterable[str | int] = (), text: None | str = None
+    ) -> str:
         """
         Cache key for caching translations.
 
@@ -300,15 +292,13 @@ class BatchMachineTranslation:
             "mt",
             self.mtid,
             scope,
-            str(calculate_dict_hash(self.settings)),
+            calculate_dict_hash(self.settings),
+            *parts,
         ]
-        for part in parts:
-            if isinstance(part, int):
-                key.append(str(part))
-            else:
-                key.append(str(calculate_hash(part)))
+        if text is not None:
+            key.append(calculate_hash(text))
 
-        return ":".join(key)
+        return ":".join(str(part) for part in key)
 
     def unescape_text(self, text: str):
         """Unescaping of the text with replacements."""
@@ -323,18 +313,22 @@ class BatchMachineTranslation:
         # Allow additional space before ]
         return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
-        """Generates a single replacement."""
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ) -> str:
+        """Generate a single replacement."""
         return f"[X{h_start}X]"
 
-    def get_highlights(self, text: str, unit) -> Iterable[tuple[int, int, str, Any]]:
+    def get_highlights(
+        self, text: str, unit
+    ) -> Iterable[tuple[int, int, str, None | Unit]]:
         for h_start, h_end, h_text in highlight_string(
             text, unit, hightlight_syntax=self.hightlight_syntax
         ):
             yield h_start, h_end, h_text, None
 
     def cleanup_text(self, text: str, unit: Unit) -> tuple[str, dict[str, str]]:
-        """Removes placeholder to avoid confusing the machine translation."""
+        """Remove placeholder to avoid confusing the machine translation."""
         replacements: dict[str, str] = {}
         if not self.do_cleanup:
             return text, replacements
@@ -360,13 +354,13 @@ class BatchMachineTranslation:
 
     def uncleanup_results(
         self, replacements: dict[str, str], results: list[TranslationResultDict]
-    ):
+    ) -> None:
         """Reverts replacements done by cleanup_text."""
         for result in results:
             result["text"] = self.uncleanup_text(replacements, result["text"])
             result["source"] = self.uncleanup_text(replacements, result["source"])
 
-    def get_language_possibilities(self, language):
+    def get_language_possibilities(self, language: Language) -> Iterator[str]:
         code = language.code
         yield self.map_language_code(code)
         code = code.replace("-", "_")
@@ -374,7 +368,9 @@ class BatchMachineTranslation:
             code = code.rsplit("_", 1)[0]
             yield self.map_language_code(code)
 
-    def get_languages(self, source_language, target_language):
+    def get_languages(
+        self, source_language: Language, target_language: Language
+    ) -> tuple[str, str]:
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguageError("Same languages")
 
@@ -394,7 +390,9 @@ class BatchMachineTranslation:
     def get_cached(self, source, language, text, threshold, replacements):
         if not self.cache_translations:
             return None, None
-        cache_key = self.get_cache_key(source, language, text, threshold)
+        cache_key = self.get_cache_key(
+            "translation", parts=(source, language, threshold), text=text
+        )
         result = cache.get(cache_key)
         if result and (replacements or self.force_uncleanup):
             self.uncleanup_results(replacements, result)
@@ -534,11 +532,13 @@ class BatchMachineTranslation:
                     output[original_source] = result
         return output
 
-    def get_error_message(self, exc):
+    def get_error_message(self, exc: Exception) -> str:
+        if isinstance(exc, RequestException) and exc.response and exc.response.text:
+            return f"{exc.__class__.__name__}: {exc}: {exc.response.text}"
         return f"{exc.__class__.__name__}: {exc}"
 
     def signed_salt(self, appid, secret, text):
-        """Generates salt and sign as used by Chinese services."""
+        """Generate salt and sign as used by Chinese services."""
         salt = str(random.randint(0, 10000000000))  # noqa: S311
 
         payload = appid + text + salt + secret
@@ -546,7 +546,7 @@ class BatchMachineTranslation:
 
         return salt, digest
 
-    def batch_translate(self, units, user=None, threshold: int = 75):
+    def batch_translate(self, units, user=None, threshold: int = 75) -> None:
         try:
             translation = units[0].translation
         except IndexError:
@@ -638,19 +638,19 @@ class InternalMachineTranslation(MachineTranslation):
     accounting_key = "internal"
     cache_translations = False
 
-    def is_supported(self, source, language):
+    def is_supported(self, source: Language, language: Language) -> bool:
         """Any language is supported."""
         return True
 
-    def is_rate_limited(self):
+    def is_rate_limited(self) -> bool:
         """Disable rate limiting."""
         return False
 
-    def get_language_possibilities(self, language):
+    def get_language_possibilities(self, language: Language) -> Iterator[Language]:
         yield get_machinery_language(language)
 
 
-class GlossaryMachineTranslationMixin:
+class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
@@ -661,21 +661,21 @@ class GlossaryMachineTranslationMixin:
 
     def list_glossaries(self) -> dict[str, str]:
         """
-        Lists glossaries from the service.
+        List glossaries from the service.
 
         Returns dictionary with names and id.
         """
         raise NotImplementedError
 
-    def delete_glossary(self, glossary_id: str):
+    def delete_glossary(self, glossary_id: str) -> None:
         raise NotImplementedError
 
-    def delete_oldest_glossary(self):
+    def delete_oldest_glossary(self) -> None:
         raise NotImplementedError
 
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
-    ):
+    ) -> None:
         raise NotImplementedError
 
     def get_glossaries(self, use_cache: bool = True):
@@ -691,7 +691,7 @@ class GlossaryMachineTranslationMixin:
         return result
 
     def get_glossary_id(
-        self, source_language: str, target_language: str, unit
+        self, source_language: str, target_language: str, unit: Unit | None
     ) -> int | str | None:
         from weblate.glossary.models import get_glossary_tsv
 
@@ -763,17 +763,30 @@ class GlossaryMachineTranslationMixin:
 class XMLMachineTranslationMixin:
     hightlight_syntax = True
 
-    def unescape_text(self, text: str):
+    def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""
         return unescape(text)
 
-    def escape_text(self, text: str):
+    def escape_text(self, text: str) -> str:
         """Escaping of the text with replacements."""
         return escape(text)
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
-        """Generates a single replacement."""
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ) -> str:
+        """Generate a single replacement."""
         raise NotImplementedError
 
-    def make_re_placeholder(self, text: str):
+    def make_re_placeholder(self, text: str) -> str:
         return re.escape(text)
+
+
+class ResponseStatusMachineTranslation(MachineTranslation):
+    def check_failure(self, response) -> None:
+        payload = response.json()
+
+        # Check response status
+        if payload["responseStatus"] != 200:
+            raise MachineTranslationError(payload["responseDetails"])
+
+        super().check_failure(response)

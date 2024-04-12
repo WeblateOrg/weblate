@@ -1,9 +1,206 @@
 [build-system]
-# Minimum requirements for the build system to execute.
-requires = ["setuptools", "wheel", "translate-toolkit"]  # PEP 508 specifications.
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.2", "translate-toolkit"]
+
+[project]
+authors = [{name = "Michal Čihař", email = "michal@weblate.org"}]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Internationalization",
+  "Topic :: Software Development :: Localization",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
+]
+dependencies = [
+  "aeidon>=1.10,<1.15",
+  "ahocorasick-rs>=0.16.0,<0.23.0",
+  "borgbackup>=1.2.5,<1.3",
+  "celery[redis]>=5.3.5,<5.4",
+  "certifi>=2023.7.22",
+  "charset-normalizer>=2.0.12,<4.0",
+  "crispy-bootstrap3==2024.1",
+  "cryptography>=42.0.2",
+  "cssselect>=1.2,<1.3",
+  "Cython>=3.0.0,<3.1",
+  "diff-match-patch==20230430",
+  "django-appconf>=1.0.3,<1.1",
+  "django-celery-beat>=2.6.0,<2.7",
+  "django-compressor>=4.4,<5",
+  "django-cors-headers>=4.3.0,<4.4",
+  "django-crispy-forms>=2.1,<2.2",
+  "django-filter>=23.4,<24.3",
+  "django-redis>=5.4.0,<6.0",
+  "Django[argon2]>=5.0,<5.1",
+  "djangorestframework>=3.15.0,<3.16",
+  "filelock<4,>=3.12.2",
+  "fluent.syntax>=0.18.1,<0.20",
+  "GitPython>=3.1.0,<3.2",
+  "hiredis>=1.0.1,<2.4",
+  "html2text>=2024.2.25,<2024.2.27",
+  "iniparse==0.5",
+  "jsonschema>=4.5,<5",
+  "lxml>=5.0.0,<5.3",
+  "misaka>=2.1.0,<2.2",
+  "mistletoe>=1.1.0,<1.4",
+  "nh3>=0.2.14,<0.3",
+  "openpyxl>=2.6.0,<3.2,!=3.0.2",
+  "packaging>=22,<24.1",
+  "phply>=1.2.6,<1.3",
+  "Pillow>=10.0.1,<10.4",
+  "pycairo>=1.20.0",
+  "Pygments>=2.15.0,<3.0",
+  "PyGObject>=3.40.1",
+  "pyicumessageformat>=1.0.0,<1.1",
+  "pyparsing>=3.1.1,<3.2",
+  "python-dateutil>=2.8.2",
+  "python-redis-lock[django]>=4,<4.1",
+  "rapidfuzz>=2.6.0,<3.9",
+  "redis>=4.6.0,!=5.0.1",
+  "requests>=2.31.0,<2.32",
+  "ruamel.yaml>=0.17.2,<0.19.0",
+  "sentry-sdk>=1.25.0,<2,!=1.32.0",
+  "siphashc>=2.1,<3.0",
+  "social-auth-app-django>=5.4.0,<6.0.0",
+  "social-auth-core>=4.5.0,<5.0.0",
+  "tesserocr>=2.6.1,<2.7.0",
+  "translate-toolkit>=3.12.2,<3.13",
+  "translation-finder>=2.15,<3.0",
+  "user-agents>=2.0,<2.3",
+  "weblate-language-data>=2023.9",
+  "weblate-schemas==2024.1"
+]
+description = "A web-based continuous localization system with tight version control integration"
+keywords = [
+  "i18n",
+  "l10n",
+  "gettext",
+  "git",
+  "mercurial",
+  "translate"
+]
+license = {text = "GPLv3+"}
+name = "Weblate"
+requires-python = ">=3.10"
+version = "5.5"
+
+[project.optional-dependencies]
+alibaba = [
+  "aliyun-python-sdk-alimt>=3.2.0,<4.0.0"
+]
+all = [
+  "aliyun-python-sdk-alimt>=3.2.0,<4.0.0",
+  "boto3>=1.28.62,<1.35.0",
+  "django-auth-ldap>=4.6.0,<5.0.0",
+  "git-review>=2.2.0,<2.5.0",
+  "google-cloud-translate>=3.8.0,<3.16.0",
+  "mercurial>=6.2,<7.0",
+  "openai>=1.3.0,<1.18",
+  "psycopg[binary]>=3.1.8,<4",
+  "python-akismet>=0.4.2,<0.5",
+  "python3-saml>=1.2.1"
+]
+amazon = [
+  "boto3>=1.28.62,<1.35.0"
+]
+antispam = [
+  "python-akismet>=0.4.2,<0.5"
+]
+ci = [
+  "build==1.2.1",
+  "coverage==7.4.4",
+  "pip==24.0",
+  "setuptools==69.2.0",
+  "twine==5.0.0",
+  "virtualenv==20.25.1",
+  "wheel==0.43.0"
+]
+dev = [
+  "django-debug-toolbar==4.3.0",
+  "PyICU==2.12",
+  "reuse==3.0.2",
+  "scour==0.38.2",
+  "tinyunicodeblock==1.3"
+]
+gerrit = [
+  "git-review>=2.2.0,<2.5.0"
+]
+google = [
+  "google-cloud-translate>=3.8.0,<3.16.0"
+]
+ldap = [
+  "django-auth-ldap>=4.6.0,<5.0.0"
+]
+lint = [
+  "pre-commit==3.7.0",
+  "pylint==3.1.0"
+]
+mercurial = [
+  "mercurial>=6.2,<7.0"
+]
+mypy = [
+  "boto3-stubs==1.34.83",
+  "celery-types==0.22.0",
+  "django-stubs-ext==4.2.7",
+  "django-stubs==4.2.7",
+  "djangorestframework-stubs==3.14.5",
+  "types-lxml==2024.3.27",
+  "mypy==1.9.0",
+  "types-jsonschema==4.21.0.20240331",
+  "types-openpyxl==3.1.0.20240408",
+  "types-Pillow==10.2.0.20240406",
+  "types-python-dateutil==2.9.0.20240316",
+  "types-requests==2.31.0.20240406"
+]
+mysql = [
+  "mysqlclient>=2.1.1,<3"
+]
+openai = [
+  "openai>=1.3.0,<1.18"
+]
+postgres = [
+  "psycopg[binary]>=3.1.8,<4"
+]
+saml = [
+  "python3-saml>=1.2.1"
+]
+test = [
+  "responses==0.25.0",
+  "respx==0.21.1",
+  "selenium==4.19.0"
+]
+zxcvbn = ["django-zxcvbn-password==2.1.1"]
+
+[project.readme]
+content-type = "text/x-rst"
+file = "README.rst"
+
+[project.scripts]
+weblate = "weblate.runner:main"
+weblate-generate-secret-key = "weblate.utils.generate_secret_key:main"
+
+[project.urls]
+Documentation = "https://docs.weblate.org/"
+Download = "https://weblate.org/download/"
+Funding = "https://weblate.org/donate/"
+Homepage = "https://weblate.org/"
+"Issue Tracker" = "https://github.com/WeblateOrg/weblate/issues"
+"Release Notes" = "https://docs.weblate.org/en/latest/changes.html"
+"Source Code" = "https://github.com/WeblateOrg/weblate"
+Twitter = "https://twitter.com/WeblateOrg"
 
 [tool.black]
-target-version = ['py39']
+target-version = ['py310']
 
 [tool.codespell]
 skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
@@ -14,7 +211,18 @@ strict_settings = false
 
 [tool.mypy]
 check_untyped_defs = true
-plugins = ["mypy_django_plugin.main"]
+plugins = [
+  "mypy_django_plugin.main",
+  "mypy_drf_plugin.main"
+]
+
+[[tool.mypy.overrides]]
+# TODO: remove this once core can be validated with mypy
+ignore_errors = true
+module = [
+  "weblate.*.tests",
+  "weblate.*.tests.*"
+]
 
 [[tool.mypy.overrides]]
 disallow_untyped_defs = true
@@ -89,14 +297,17 @@ ignore = [
 ]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 extend-safe-fixes = [
   "D",
   "TCH",
   "FLY",
-  "SIM"
+  "SIM",
+  "ANN",
+  "FA102",
+  "UP"
 ]
 # CONFIG - intentional configuration
 # TODO - needs decision whether intention, add noqa tags or fix
@@ -109,6 +320,7 @@ ignore = [
   "FIX002",  # CONFIG: we use TODO
   "TD002",  # CONFIG: no detailed TODO documentation is required
   "TD003",  # CONFIG: no detailed TODO documentation is required
+  "S404",  # CONFIG: `subprocess` module is possibly insecure
   "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
   "S607",  # CONFIG: executing system installed tools
   "D206",  # CONFIG: formatter
@@ -118,6 +330,7 @@ ignore = [
   'Q002',  # CONFIG: formatter
   'Q003',  # CONFIG: formatter
   'W191',  # CONFIG: formatter
+  "E203",  # CONFIG: formatter
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
@@ -134,51 +347,65 @@ ignore = [
   "ANN204",  # TODO: Missing return type annotation for special method
   "ANN205",  # TODO: Missing return type annotation for staticmethod
   "ANN206",  # TODO: Missing return type annotation for classmethod
-  "ANN401",  # TODO: Dynamically typed expressions (typing.Any)
-  "D10",  # TODO: we are missing many docstrings
-  "D401",  # TODO: many strings need rephrasing
+  "D100",  # TODO: Missing docstring in public module
+  "D101",  # TODO: Missing docstring in public class
+  "D102",  # TODO: Missing docstring in public method
+  "D103",  # TODO: Missing docstring in public functio
+  "D104",  # TODO: Missing docstring in public package
+  "D105",  # TODO: Missing docstring in magic method
+  "D106",  # TODO: Missing docstring in public nested class
+  "D107",  # TODO: Missing docstring in `__init__`
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
-  "B904",  # TODO: Use `raise from` to specify exception cause
   "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
-  "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.1
-  "PLR0911",  # WONTFIX: Too many return statements
-  "PLR0912",  # WONTFIX: Too many branches
-  "PLR0913",  # WONTFIX: Too many arguments to function call
-  "PLR0915",  # WONTFIX: Too many statements
+  "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.11
+  "PLR6301",  # TODO: Method could be a function, class method, or static method
   "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
+  "PLC0415",  # TODO: `import` should be at the top-level of a file
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
   "RUF012",  # TODO: Mutable class attributes should be annotated with `typing.ClassVar`
-  "RUF100",  # TODO: unused noqa, compatibility with flake8, can be dropped once we stop using it
   "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
   "PLW2901",  # TODO: overwriting variables inside loop
-  "A001",  # TODO: overriding builtins (might need noqa tags)
-  "A002",  # TODO: overriding builtins (might need noqa tags)
-  "A003",  # TODO: overriding builtins (might need noqa tags)
+  "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
+  "FURB101",  # TODO:  `open` and `read` should be replaced by `Path(hostsfile).read_text()`
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
+preview = true
 select = ["ALL"]
 
+[tool.ruff.lint.flake8-copyright]
+min-file-size = 2
+# Copyright without a year, see https://github.com/astral-sh/ruff/issues/10062
+notice-rgx = "(?i)Copyright\\s+©\\s+"
+
 [tool.ruff.lint.mccabe]
-max-complexity = 16
+max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
 "docs/_ext/djangodocs.py" = ["INP001"]
-"docs/conf.py" = ["INP001", "ERA001", "A001"]
+"docs/conf.py" = ["INP001", "ERA001"]
 "scripts/*" = ["T201", "T203"]
-"weblate/*/management/commands/*.py" = ["A003"]  # Needed by Django API
-"weblate/*/migrations/*.py" = ["C405", "E501", "N806", "DJ01"]
-"weblate/*/tests.py" = ["S106", "S105"]
-"weblate/*/tests/test_*.py" = ["S106", "S105"]
-"weblate/addons/management/commands/list_addons.py" = ["E501"]
-"weblate/addons/utils.py" = ["N806"]
-"weblate/auth/migrations/0003_fixup_teams.py" = ["T201", "N806"]
+"weblate/*/tests**.py" = ["S106", "S105"]
+"weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["INP001"]
-"weblate/lang/data.py" = ["E501"]
-"weblate/machinery/management/commands/list_machinery.py" = ["E501"]
 "weblate/settings_*.py" = ["F405"]
-"weblate/settings_docker.py" = ["ERA001"]
 "weblate/settings_example.py" = ["ERA001"]
-"weblate/trans/tests/test_files.py" = ["E501"]
 "weblate/utils/generate_secret_key.py" = ["T201"]
-"weblate/utils/licensedata.py" = ["E501"]
-"weblate/utils/locale.py" = ["B012"]
+
+[tool.ruff.lint.pylint]
+# TODO: all these should be lower (or use defaults)
+max-args = 12
+max-bool-expr = 8
+max-branches = 36
+max-locals = 23
+max-nested-blocks = 9
+max-positional-args = 8
+max-public-methods = 180
+max-returns = 21
+max-statements = 100
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages]
+find = {namespaces = false}

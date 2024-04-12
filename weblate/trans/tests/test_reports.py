@@ -43,19 +43,19 @@ COUNTS_DATA = [
 
 
 class BaseReportsTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user.is_superuser = True
         self.user.full_name = "Weblate <b>Test</b>"
         self.user.save()
         self.maxDiff = None
 
-    def add_change(self):
+    def add_change(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
 
 class ReportsTest(BaseReportsTest):
-    def test_credits_empty(self):
+    def test_credits_empty(self) -> None:
         data = generate_credits(
             None,
             timezone.now() - timedelta(days=1),
@@ -65,7 +65,7 @@ class ReportsTest(BaseReportsTest):
         )
         self.assertEqual(data, [])
 
-    def test_credits_one(self, expected_count=1):
+    def test_credits_one(self, expected_count=1) -> None:
         self.add_change()
         expected = [
             {"Czech": [("weblate@example.org", "Weblate <b>Test</b>", expected_count)]}
@@ -95,11 +95,11 @@ class ReportsTest(BaseReportsTest):
         )
         self.assertEqual(data, [])
 
-    def test_credits_more(self):
+    def test_credits_more(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete2!\n")
         self.test_credits_one(expected_count=2)
 
-    def test_counts_one(self):
+    def test_counts_one(self) -> None:
         self.add_change()
         data = generate_counts(
             None,
@@ -135,7 +135,7 @@ class ReportsComponentTest(BaseReportsTest):
             },
         )
 
-    def test_credits_view_json(self):
+    def test_credits_view_json(self) -> None:
         response = self.get_credits("json")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -143,7 +143,7 @@ class ReportsComponentTest(BaseReportsTest):
             [{"Czech": [["weblate@example.org", "Weblate <b>Test</b>", 1]]}],
         )
 
-    def test_credits_view_rst(self):
+    def test_credits_view_rst(self) -> None:
         response = self.get_credits("rst")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain; charset=utf-8")
@@ -156,7 +156,7 @@ class ReportsComponentTest(BaseReportsTest):
 """.strip(),
         )
 
-    def test_credits_view_html(self):
+    def test_credits_view_html(self) -> None:
         response = self.get_credits("html")
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
@@ -179,44 +179,44 @@ class ReportsComponentTest(BaseReportsTest):
         params.update(kwargs)
         return self.client.post(reverse("counts", kwargs=self.get_kwargs()), params)
 
-    def test_counts_view_json(self):
+    def test_counts_view_json(self) -> None:
         response = self.get_counts("json")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
-    def test_counts_view_30days(self):
+    def test_counts_view_30days(self) -> None:
         response = self.get_counts("json", period="30days")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
-    def test_counts_view_this_month(self):
+    def test_counts_view_this_month(self) -> None:
         response = self.get_counts("json", period="this-month")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
-    def test_counts_view_month(self):
+    def test_counts_view_month(self) -> None:
         response = self.get_counts("json", period="month")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), [])
 
-    def test_counts_view_year(self):
+    def test_counts_view_year(self) -> None:
         response = self.get_counts("json", period="year")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), [])
 
-    def test_counts_view_this_year(self):
+    def test_counts_view_this_year(self) -> None:
         response = self.get_counts("json", period="this-year")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
-    def test_counts_view_rst(self):
+    def test_counts_view_rst(self) -> None:
         response = self.get_counts("rst")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain; charset=utf-8")
         self.assertContains(response, "Weblate <b>Test</b>")
         self.assertContains(response, "weblate@example.org")
 
-    def test_counts_view_html(self):
+    def test_counts_view_html(self) -> None:
         response = self.get_counts("html")
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(

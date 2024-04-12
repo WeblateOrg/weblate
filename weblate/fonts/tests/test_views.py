@@ -14,13 +14,13 @@ class FontViewTest(FontTestCase):
     def fonts_url(self):
         return reverse("fonts", kwargs=self.kw_project)
 
-    def test_noperm(self):
+    def test_noperm(self) -> None:
         font = self.add_font()
         response = self.client.get(self.fonts_url)
         self.assertContains(response, font.family)
         self.assertNotContains(response, "Add font")
 
-    def test_manage(self):
+    def test_manage(self) -> None:
         self.user.is_superuser = True
         self.user.save()
 

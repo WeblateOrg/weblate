@@ -35,7 +35,9 @@ class ScreenshotForm(forms.ModelForm):
             "translation": LanguageChoiceField,
         }
 
-    def __init__(self, component, data=None, files=None, instance=None, initial=None):
+    def __init__(
+        self, component, data=None, files=None, instance=None, initial=None
+    ) -> None:
         self.component = component
         super().__init__(data=data, files=files, instance=instance, initial=initial)
 

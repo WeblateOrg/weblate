@@ -16,7 +16,7 @@ class Command(WeblateTranslationCommand):
 
     help = "performs automatic translation based on other components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--user", default="anonymous", help=("User performing the change")
@@ -57,7 +57,7 @@ class Command(WeblateTranslationCommand):
             help=("Translation mode; translate, fuzzy or suggest"),
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         # Get translation object
         translation = self.get_translation(**options)
 

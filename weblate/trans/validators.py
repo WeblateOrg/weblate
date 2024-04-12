@@ -15,7 +15,7 @@ from weblate.lang.models import Language
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH
 
 
-def validate_filemask(val):
+def validate_filemask(val) -> None:
     """Validate that the filemask contains *."""
     if "*" not in val:
         raise ValidationError(
@@ -23,7 +23,7 @@ def validate_filemask(val):
         )
 
 
-def validate_autoaccept(val):
+def validate_autoaccept(val) -> None:
     """Validate correct value for automatical acceptance."""
     if val == 1:
         raise ValidationError(
@@ -34,7 +34,7 @@ def validate_autoaccept(val):
         )
 
 
-def validate_check_flags(val):
+def validate_check_flags(val) -> None:
     """Validate check-influencing flags."""
     try:
         flags = Flags(val)

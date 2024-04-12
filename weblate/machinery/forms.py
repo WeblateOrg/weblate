@@ -8,16 +8,18 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
+from weblate.utils.validators import WeblateServiceURLValidator
+
 
 class BaseMachineryForm(forms.Form):
-    def __init__(self, machinery, *args, **kwargs):
+    def __init__(self, machinery, *args, **kwargs) -> None:
         self.machinery = machinery
         super().__init__(*args, **kwargs)
 
     def serialize_form(self):
         return self.cleaned_data
 
-    def clean(self):
+    def clean(self) -> None:
         settings = self.serialize_form()
         for field, data in self.fields.items():
             if not data.required:
@@ -36,7 +38,8 @@ class KeyMachineryForm(BaseMachineryForm):
 
 class URLMachineryForm(BaseMachineryForm):
     url = forms.URLField(
-        label=pgettext_lazy("Automatic suggestion service configuration", "API URL")
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        validators=[WeblateServiceURLValidator()],
     )
 
 
@@ -115,7 +118,7 @@ class SAPMachineryForm(URLMachineryForm):
         required=False,
     )
 
-    def clean(self):
+    def clean(self) -> None:
         has_sandbox = bool(self.cleaned_data.get("key"))
         has_production = self.cleaned_data.get("username") and self.cleaned_data.get(
             "password"
@@ -240,6 +243,7 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.modernmt.com/",
+        validators=[WeblateServiceURLValidator()],
     )
 
 
@@ -247,6 +251,7 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.deepl.com/v2/",
+        validators=[WeblateServiceURLValidator()],
     )
     formality = forms.CharField(
         label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),

@@ -60,7 +60,7 @@ class MockFluentTransUnit(MockUnit):
             is_source=is_source,
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         fluent_type = self._fluent_type or ""
         source = self.get_source_plurals()[0]
         if self.is_source:
@@ -71,7 +71,7 @@ class MockFluentTransUnit(MockUnit):
 
 class MockCheckModel:
     # Mock Check object from weblate.checks.models
-    def __init__(self, unit: MockFluentTransUnit):
+    def __init__(self, unit: MockFluentTransUnit) -> None:
         self.unit = unit
 
 
@@ -249,7 +249,7 @@ class FluentSyntaxCheckTestBase:
     ) -> None:
         raise NotImplementedError
 
-    def test_syntax_ok(self):
+    def test_syntax_ok(self) -> None:
         for value in (
             "Test string",
             "Test string!",
@@ -284,7 +284,7 @@ class FluentSyntaxCheckTestBase:
         # Message with no value is ok
         self.assert_syntax_ok(".attr = ok", "Message")
 
-    def test_syntax_errors(self):
+    def test_syntax_errors(self) -> None:
         # The error message comes from translate, we just look for the prefix
         # and a non-empty error.
         error_message = re.compile("^Fluent syntax error: .")
@@ -364,7 +364,7 @@ class FluentSourceSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
     ) -> None:
         self.assert_source_check_fails(self.check, value, fluent_type, description)
 
-    def test_untyped(self):
+    def test_untyped(self) -> None:
         # Units with no fluent-type: flag are assumed to be messages or terms
         # based on the id.
         source = ".attr = ok"
@@ -409,7 +409,7 @@ class FluentTargetSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
             self.check, "ok", value, fluent_type, description
         )
 
-    def test_untyped(self):
+    def test_untyped(self) -> None:
         # Units with no fluent-type: flag are assumed to be messages or terms
         # based on the id.
         source = "ok"
@@ -441,7 +441,7 @@ class FluentTargetSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
 class FluentPartsCheckTest(FluentCheckTestBase):
     check = FluentPartsCheck()
 
-    def test_message_same_parts(self):
+    def test_message_same_parts(self) -> None:
         for source, target in (
             ("source", "target"),
             (".attr = source", ".attr = target"),
@@ -458,7 +458,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
         ):
             self.assert_checks(source, target, "Message")
 
-    def test_message_differing_parts(self):
+    def test_message_differing_parts(self) -> None:
         self.assert_target_check_fails(
             self.check,
             "source\n.attr = ok",
@@ -516,7 +516,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
             "Unexpected Fluent attribute: <code>.alts\xa0=\xa0…</code>",
         )
 
-    def test_syntax_error_in_parts(self):
+    def test_syntax_error_in_parts(self) -> None:
         # If there is a syntax error in the source or target, we do not get a
         # missing parts error.
 
@@ -542,7 +542,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
                 },
             )
 
-    def test_term_parts(self):
+    def test_term_parts(self) -> None:
         # The check will never fail for Terms because missing a value is a
         # syntax check and Term attributes are considered locale-specific.
 
@@ -565,7 +565,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
                 },
             )
 
-    def test_untyped(self):
+    def test_untyped(self) -> None:
         # Units with no fluent-type: flag are assumed to be messages or terms
         # based on the id.
         source = "source\n.title = ok"
@@ -593,7 +593,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
             f"Parts check should pass for {unit} with Term id",
         )
 
-    def test_parts_highlight(self):
+    def test_parts_highlight(self) -> None:
         # Nothing to highlight for the value part.
         self.assert_source_highlights(self.check, "source", "Message", [])
         # Highlight the attribute syntax.
@@ -639,7 +639,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
 class TestFluentReferencesCheck(FluentCheckTestBase):
     check = FluentReferencesCheck()
 
-    def test_same_refs(self):
+    def test_same_refs(self) -> None:
         for matching_sources in (
             ("source", "target"),
             ("source { $var }", "{ $var } target"),
@@ -975,7 +975,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
             "Term",
         )
 
-    def test_different_refs(self):
+    def test_different_refs(self) -> None:
         for fluent_type in ("Message", "Term"):
             self.assert_target_check_fails(
                 self.check,
@@ -1531,7 +1531,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
             "<code>{\xa0$vars\xa0}</code> Fluent reference.",
         )
 
-    def test_with_syntax_error(self):
+    def test_with_syntax_error(self) -> None:
         # If there is a syntax error in the source or target, we do not get a
         # reference error.
 
@@ -1551,7 +1551,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
                 },
             )
 
-    def test_untyped(self):
+    def test_untyped(self) -> None:
         # Units with no fluent-type: flag are assumed to be messages or terms
         # based on the id.
         source = "source\n.title = { -term }"
@@ -1579,7 +1579,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
             f"References check should pass for {unit} with Term id",
         )
 
-    def test_references_highlight(self):
+    def test_references_highlight(self) -> None:
         self.assert_source_highlights(self.check, "source", "Message", [])
         self.assert_source_highlights(
             self.check,
@@ -1696,7 +1696,7 @@ class FluentInnerHTMLCheckTestBase:
     ) -> None:
         raise NotImplementedError
 
-    def test_html_ok(self):
+    def test_html_ok(self) -> None:
         for value in (
             "Test string",
             "Test <span>string</span> more",
@@ -1817,7 +1817,7 @@ class FluentInnerHTMLCheckTestBase:
                 # Attribute need not be valid inner HTML.
                 self.assert_html_ok(f"{value}\n.attr = a<img", fluent_type)
 
-    def test_html_errors(self):
+    def test_html_errors(self) -> None:
         for fluent_type in ("Message", "Term"):
             self.assert_html_error(
                 "a<{ $var }",
@@ -2298,7 +2298,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
         # Ensure the syntax is ok.
         self.assert_target_check_passes(self.syntax_check, "ok", value, fluent_type)
 
-    def test_same_inner_html(self):
+    def test_same_inner_html(self) -> None:
         for matching_sources in (
             ("source1", "source2"),
             ("a<span>ok</span>", "<span>fine</span>b"),
@@ -2383,7 +2383,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 self.assert_checks(source, target, "Term")
                 self.assert_checks(source, target, "Message")
 
-    def test_different_inner_html(self):
+    def test_different_inner_html(self) -> None:
         for fluent_type in ("Message", "Term"):
             self.assert_target_check_fails(
                 self.check,
@@ -2699,7 +2699,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<code>[a][YES], [b][YES], [a][NO]</code>.",
             )
 
-    def test_with_invalid_source(self):
+    def test_with_invalid_source(self) -> None:
         for fluent_type in ("Message", "Term"):
             # If the source could not be parsed, then the target will only need
             # to parse to pass the check.
@@ -2732,7 +2732,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 },
             )
 
-    def test_missing_value(self):
+    def test_missing_value(self) -> None:
         # If we are missing the value in the target or source, we get a parts
         # error, but no comparison error for the HTML.
         self.assert_checks(
@@ -2797,7 +2797,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
             },
         )
 
-    def test_with_syntax_error(self):
+    def test_with_syntax_error(self) -> None:
         # If there is a syntax error in the source or target, we do not get a
         # html error.
         for source, source_ok, target, target_ok in (
@@ -2833,7 +2833,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                     },
                 )
 
-    def test_html_highlight(self):
+    def test_html_highlight(self) -> None:
         for fluent_type in ("Term", "Message"):
             self.assert_source_highlights(self.check, "source", fluent_type, [])
             self.assert_source_highlights(

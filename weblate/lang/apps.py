@@ -12,7 +12,7 @@ class LangConfig(AppConfig):
     label = "lang"
     verbose_name = gettext_lazy("Weblate languages")
 
-    def ready(self):
+    def ready(self) -> None:
         from weblate.lang.models import setup_lang
 
         post_migrate.connect(setup_lang, sender=self)

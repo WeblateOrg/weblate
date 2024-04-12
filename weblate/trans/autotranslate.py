@@ -24,7 +24,7 @@ class AutoTranslate:
         filter_type: str,
         mode: str,
         component_wide: bool = False,
-    ):
+    ) -> None:
         self.user = user
         self.translation = translation
         translation.component.batch_checks = True
@@ -45,7 +45,7 @@ class AutoTranslate:
             units = units.filter(suggestion__isnull=True)
         return units.filter_type(self.filter_type)
 
-    def set_progress(self, current):
+    def set_progress(self, current) -> None:
         if current_task and current_task.request.id and self.progress_steps:
             current_task.update_state(
                 state="PROGRESS",
@@ -55,7 +55,7 @@ class AutoTranslate:
                 },
             )
 
-    def update(self, unit, state: int, target: list[str], user=None):
+    def update(self, unit, state: int, target: list[str], user=None) -> None:
         if isinstance(target, str):
             target = [target]
         if self.mode == "suggest" or any(
@@ -73,7 +73,7 @@ class AutoTranslate:
             )
             self.updated += 1
 
-    def post_process(self):
+    def post_process(self) -> None:
         if self.updated > 0:
             if not self.component_wide:
                 self.translation.component.update_source_checks()
@@ -83,7 +83,7 @@ class AutoTranslate:
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source: int | None):
+    def process_others(self, source: int | None) -> None:
         """Perform automatic translation based on other components."""
         kwargs = {
             "translation__plural": self.translation.plural,
@@ -198,12 +198,12 @@ class AutoTranslate:
             if unit.machinery and any(unit.machinery["quality"])
         }
 
-    def process_mt(self, engines: list[str], threshold: int):
+    def process_mt(self, engines: list[str], threshold: int) -> None:
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, int(threshold))
 
         # Adjust total number to show correct progress
-        offset = self.progress_steps / 2
+        offset = self.progress_steps // 2
         self.progress_steps = offset + len(translations)
 
         with transaction.atomic():

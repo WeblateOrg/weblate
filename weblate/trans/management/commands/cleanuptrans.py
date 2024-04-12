@@ -20,7 +20,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "cleanups orphaned checks and suggestions"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """Perform cleanup of Weblate database."""
         cleanup_screenshot_files()
         with transaction.atomic():

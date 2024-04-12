@@ -24,17 +24,22 @@ class GlossaryCheck(TargetCheck):
         forbidden = set()
         mismatched = set()
         matched = set()
+        boundary = r"\b" if unit.translation.language.uses_whitespace() else ""
         for term in get_glossary_terms(unit):
             term_source = term.source
             flags = term.all_flags
             expected = term_source if "read-only" in flags else term.target
             if "forbidden" in flags:
-                if re.search(rf"\b{re.escape(expected)}\b", target, re.IGNORECASE):
+                if re.search(
+                    rf"{boundary}{re.escape(expected)}{boundary}", target, re.IGNORECASE
+                ):
                     forbidden.add(term_source)
             else:
                 if term_source in matched:
                     continue
-                if re.search(rf"\b{re.escape(expected)}\b", target, re.IGNORECASE):
+                if re.search(
+                    rf"{boundary}{re.escape(expected)}{boundary}", target, re.IGNORECASE
+                ):
                     mismatched.discard(term_source)
                     matched.add(term_source)
                 else:

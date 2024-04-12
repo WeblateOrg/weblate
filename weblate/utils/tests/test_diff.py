@@ -9,10 +9,10 @@ from weblate.utils.diff import Differ
 
 
 class DifferTestCase(SimpleTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.differ = Differ()
 
-    def test_basic(self):
+    def test_basic(self) -> None:
         self.assertEqual(
             self.differ.highlight(
                 "ahoj svete",
@@ -28,7 +28,7 @@ class DifferTestCase(SimpleTestCase):
             "<del>ahoj</del><ins>nazdar</ins> svete",
         )
 
-    def test_chars(self):
+    def test_chars(self) -> None:
         self.assertEqual(
             self.differ.highlight(
                 "BXC",
@@ -44,7 +44,7 @@ class DifferTestCase(SimpleTestCase):
             "<del>BXC</del><ins>AX</ins>",
         )
 
-    def test_hebrew(self):
+    def test_hebrew(self) -> None:
         self.assertEqual(
             self.differ.highlight(
                 "אָבוֹת קַדמוֹנִים כפולים של <אדם>",
@@ -60,7 +60,7 @@ class DifferTestCase(SimpleTestCase):
             "<ins>א</ins><del>אָ</del>ב<ins>ו</ins><del>וֹ</del>ת <ins>ק</ins><del>קַ</del>דמ<ins>ו</ins><del>וֹנִ</del><ins>נ</ins>ים כפולים של &lt;אדם&gt;",
         )
 
-    def test_sentry_4428(self):
+    def test_sentry_4428(self) -> None:
         self.assertEqual(
             self.differ.highlight(
                 "<![CDATA[\nSection: perl\nPriority: optional\nStandards-Version: 4.5.1\n\nPackage: libxml-libxml-perl\nVersion: 2.0207-1\nMaintainer: Raphael Hertzog <hertzog@debian.org>\nDepends: libxml2 (>= 2.9.10)\nArchitecture: all\nDescription: Fake package - module manually installed in site_perl\n This is a fake package to let the packaging system\n believe that this Debian package is installed.\n .\n In fact, the package is not installed since a newer version\n of the module has been manually compiled &amp; installed in the\n site_perl directory.\n]]>",
@@ -86,7 +86,7 @@ Description: Fake package - module manually installed in site_perl
 ]]&gt;</ins>""",
         )
 
-    def test_github_9821(self):
+    def test_github_9821(self) -> None:
         self.assertEqual(
             self.differ.highlight(
                 "由 {username} 邀请至 {project} 项目。",

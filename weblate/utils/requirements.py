@@ -89,8 +89,8 @@ def get_version_module(name, optional=False):
             f"Missing dependency {name}, please install using: pip install {name}"
         ) from exc
     url = package.get("Home-page")
-    if url is None:
-        for project_url in package.get_all("Project-URL"):
+    if url is None and (project_urls := package.get_all("Project-URL")):
+        for project_url in project_urls:
             name, current_url = project_url.split(",", 1)
             if name.lower().strip() == "homepage":
                 url = current_url.strip()
@@ -197,7 +197,7 @@ def get_cache_version():
 
 
 def get_db_cache_version():
-    """Returns the list of all the Database and Cache version."""
+    """Return the list of all the Database and Cache version."""
     result = []
     cache_version = get_cache_version()
     if cache_version:

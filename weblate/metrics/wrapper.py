@@ -31,7 +31,7 @@ MONTH_NAMES = [
 
 
 class MetricsWrapper:
-    def __init__(self, obj, scope: int, relation: int, secondary: int = 0):
+    def __init__(self, obj, scope: int, relation: int, secondary: int = 0) -> None:
         self.obj = obj
         self.scope = scope
         self.relation = relation

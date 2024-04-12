@@ -85,7 +85,7 @@ def download_version_info() -> list[Release]:
     return sorted(result, key=itemgetter(1), reverse=True)
 
 
-def flush_version_cache():
+def flush_version_cache() -> None:
     cache.delete(CACHE_KEY)
 
 

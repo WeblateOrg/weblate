@@ -18,7 +18,7 @@ from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
 
-def get_cache_key(scope: str, request=None, address=None, user=None):
+def get_cache_key(scope: str, request=None, address=None, user=None) -> str:
     """Generate cache key for request."""
     if (request and request.user.is_authenticated) or user:
         if user is None:
@@ -33,8 +33,8 @@ def get_cache_key(scope: str, request=None, address=None, user=None):
     return f"ratelimit-{origin}-{scope}-{key}"
 
 
-def reset_rate_limit(scope, request=None, address=None, user=None):
-    """Resets rate limit."""
+def reset_rate_limit(scope, request=None, address=None, user=None) -> None:
+    """Reset rate limit."""
     cache.delete(get_cache_key(scope, request, address, user))
 
 
@@ -45,7 +45,7 @@ def get_rate_setting(scope: str, suffix: str):
     return getattr(settings, f"RATELIMIT_{suffix}")
 
 
-def revert_rate_limit(scope, request):
+def revert_rate_limit(scope, request) -> None:
     """
     Revert rate limit to previous state.
 
@@ -59,13 +59,13 @@ def revert_rate_limit(scope, request):
 
 
 def rate_limit(key: str, attempts: int, window: int) -> bool:
-    """Generic rate limit helper."""
+    """Verify rate limiting limits."""
     # Initialize the bucket (atomically on redis)
     if not is_redis_cache():
         if cache.get(key) is None:
             cache.set(key, attempts, window)
     else:
-        cache.set(key, attempts, window, nx=True)
+        cache.set(key, attempts, window, nx=True)  # types: ignore[call-arg]
 
     try:
         # Count current event

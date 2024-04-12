@@ -13,21 +13,21 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def disable_expired():
+def disable_expired() -> None:
     User.objects.filter(date_expires__lte=timezone.now(), is_active=True).update(
         is_active=False
     )
 
 
 @app.task(trail=False)
-def cleanup_invitations():
+def cleanup_invitations() -> None:
     Invitation.objects.filter(
         timestamp__lte=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     ).delete()
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, disable_expired.s(), name="disable-expired")
     sender.add_periodic_task(
         crontab(hour=6, minute=6), cleanup_invitations.s(), name="cleanup_invitations"

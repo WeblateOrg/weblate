@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     help = "imports demo project and components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--additional", type=int, default=0, help="number of additional components"
@@ -26,7 +26,7 @@ class Command(BaseCommand):
             help="Update existing add-ons configuration",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         if options["delete"]:
             try:
                 project = Project.objects.get(slug="demo")

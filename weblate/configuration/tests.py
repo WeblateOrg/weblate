@@ -10,15 +10,15 @@ from .views import CustomCSSView
 
 
 class SettingsTestCase(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         CustomCSSView.drop_cache()
 
-    def test_blank(self):
+    def test_blank(self) -> None:
         response = self.client.get(reverse("css-custom"))
         self.assertEqual(response.content.decode().strip(), "")
 
-    def test_cache(self):
+    def test_cache(self) -> None:
         Setting.objects.create(
             category=Setting.CATEGORY_UI, name="hide_footer", value=True
         )

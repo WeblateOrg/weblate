@@ -12,5 +12,5 @@ fi
 
 filename="docker-compose-$1.yml"
 
-docker-compose --file "$filename" logs
-docker-compose --file "$filename" down --remove-orphans
+docker compose --file "$filename" logs
+docker compose --file "$filename" down --remove-orphans

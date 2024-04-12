@@ -16,12 +16,13 @@ class YandexV2Translation(MachineTranslation):
     max_score = 90
     settings_form = KeyMachineryForm
 
-    def check_failure(self, response):
-        if "code" not in response or response["code"] == 200:
-            return
-        if "message" in response:
-            raise MachineTranslationError(response["message"])
-        raise MachineTranslationError("Error: {}".format(response["code"]))
+    def check_failure(self, response) -> None:
+        super().check_failure(response)
+        payload = response.json()
+        if "message" in payload:
+            raise MachineTranslationError(payload["message"])
+        if "code" in payload and payload["code"] != 200:
+            raise MachineTranslationError("Error: {}".format(payload["code"]))
 
     def download_languages(self):
         """Download list of supported languages from a service."""
@@ -32,7 +33,6 @@ class YandexV2Translation(MachineTranslation):
             headers={"Authorization": f"Api-Key {key}"},
         )
         payload = response.json()
-        self.check_failure(payload)
 
         return [x["code"] for x in payload["languages"]]
 
@@ -58,7 +58,6 @@ class YandexV2Translation(MachineTranslation):
             headers={"Authorization": f"Api-Key {key}"},
         )
         payload = json.loads(unquote_plus(response.text))
-        self.check_failure(payload)
 
         for translation in payload["translations"]:
             yield {

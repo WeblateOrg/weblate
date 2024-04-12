@@ -25,7 +25,7 @@ IGNORED_TAGS = {"script", "style"}
 
 
 @app.task(trail=False)
-def cdn_parse_html(files: str, selector: str, component_id: int):
+def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
     component = Component.objects.get(pk=component_id)
     source_translation = component.source_translation
     source_units = set(source_translation.unit_set.values_list("source", flat=True))
@@ -76,7 +76,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def language_consistency(addon_id: int, language_ids: list[int]):
+def language_consistency(addon_id: int, language_ids: list[int]) -> None:
     addon = Addon.objects.get(pk=addon_id)
     project = addon.component.project
     languages = Language.objects.filter(id__in=language_ids)
@@ -91,18 +91,24 @@ def language_consistency(addon_id: int, language_ids: list[int]):
             continue
         component.commit_pending("language consistency", None)
         for language in missing:
-            component.add_new_language(
+            new_lang = component.add_new_language(
                 language,
                 request,
                 send_signal=False,
                 create_translations=False,
             )
+            if new_lang is None:
+                component.log_warning(
+                    "could not add %s language for language consistency", language
+                )
+            else:
+                new_lang.log_info("added for language consistency")
         component.create_translations()
 
 
 @app.task(trail=False)
-def daily_addons():
-    def daily_callback(addon):
+def daily_addons() -> None:
+    def daily_callback(addon) -> None:
         addon.addon.daily(addon.component)
 
     today = timezone.now()
@@ -117,12 +123,12 @@ def daily_addons():
 
 
 @app.task(trail=False)
-def postconfigure_addon(addon_id: int, addon=None):
+def postconfigure_addon(addon_id: int, addon=None) -> None:
     if addon is None:
         addon = Addon.objects.get(pk=addon_id)
     addon.addon.post_configure_run()
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(crontab(minute=45), daily_addons.s(), name="daily-addons")

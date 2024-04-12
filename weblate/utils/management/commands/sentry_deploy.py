@@ -15,7 +15,7 @@ RELEASES_API = "https://sentry.weblate.org/api/0/organizations/weblate/releases/
 class Command(BaseCommand):
     help = "records a release on Sentry"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         if weblate.utils.version.GIT_REVISION:
             # Get release from Git
             version = ref = weblate.utils.version.GIT_REVISION

@@ -8,6 +8,34 @@ Developing add-ons
 .. autoclass:: BaseAddon
     :members:
 
+.. class:: Addon
+
+   ORM object for an add-on.
+
+.. class:: Component
+
+   ORM object for a component.
+
+.. class:: Translation
+
+   ORM object for a translation.
+
+.. class:: Project
+
+   ORM object for a project.
+
+.. class:: Unit
+
+   ORM object for an unit.
+
+.. class:: User
+
+   ORM object for an user.
+
+.. class:: TranslationFormat
+
+   Translation file wrapper.
+
 Here is an example add-on:
 
 .. literalinclude:: ../../weblate/addons/example.py

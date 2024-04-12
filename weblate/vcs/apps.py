@@ -69,11 +69,11 @@ class VCSConfig(AppConfig):
     label = "vcs"
     verbose_name = "VCS"
 
-    def ready(self):
+    def ready(self) -> None:
         super().ready()
         post_migrate.connect(self.post_migrate, sender=self)
 
-    def post_migrate(self, sender, **kwargs):
+    def post_migrate(self, sender, **kwargs) -> None:
         ensure_ssh_key()
         home = data_dir("home")
 

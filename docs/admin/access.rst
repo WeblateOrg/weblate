@@ -149,8 +149,8 @@ team. This is useful in case you want to build self-governed teams.
 
 .. _invite-user:
 
-New user invitation
-+++++++++++++++++++
+Inviting new users
+++++++++++++++++++
 
 Adding existing users will send them invitation to confirm. With
 :setting:`REGISTRATION_OPEN` the administrator can also invite new users using
@@ -673,6 +673,13 @@ however, re-create them if you delete or rename them.
     Group for administrators.
 
     Default roles: `Administration`
+
+`Project creators`
+    .. versionadded:: 5.1
+
+    Users who can create new projects.
+
+    Default roles: `Add new projects`
 
 .. warning::
 

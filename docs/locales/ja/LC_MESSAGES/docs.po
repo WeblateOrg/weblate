@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
-"PO-Revision-Date: 2024-02-25 13:27+0000\n"
+"PO-Revision-Date: 2024-04-08 11:01+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -2650,7 +2650,7 @@ msgstr "``add_flags``"
 
 #: ../../admin/addons.rst:355 ../../admin/addons.rst:386
 msgid "Translation flags to add"
-msgstr "翻訳フラグの追加"
+msgstr "追加する翻訳フラグ"
 
 #: ../../admin/addons.rst:357
 msgid "``remove_flags``"
@@ -2658,7 +2658,7 @@ msgstr "``remove_flags``"
 
 #: ../../admin/addons.rst:357
 msgid "Translation flags to remove"
-msgstr "翻訳フラグの削除"
+msgstr "削除する翻訳フラグ"
 
 #: ../../admin/addons.rst:359
 msgid "``add_labels``"
@@ -2666,7 +2666,7 @@ msgstr "``add_labels``"
 
 #: ../../admin/addons.rst:359 ../../admin/addons.rst:378
 msgid "Labels to add"
-msgstr "ラベルの追加"
+msgstr "追加するラベル"
 
 #: ../../admin/addons.rst:361
 msgid "``remove_labels``"
@@ -2674,7 +2674,7 @@ msgstr "``remove_labels``"
 
 #: ../../admin/addons.rst:361
 msgid "Labels to remove"
-msgstr "ラベルの削除"
+msgstr "削除するラベル"
 
 #: ../../admin/addons.rst:363
 msgid "component update"
@@ -7821,7 +7821,7 @@ msgstr ""
 #: ../../admin/config.rst:456
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
-msgstr "デフォルトは ``/home/weblate/data`` ですが、設定が必要です。"
+msgstr "デフォルトは ``/home/weblate/data`` ですが、設定してください。"
 
 #: ../../admin/config.rst:460
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
@@ -10576,9 +10576,8 @@ msgid ""
 "Once you have multiple translation components, you might want to ensure that "
 "the same strings have same translation. This can be achieved at several "
 "levels."
-msgstr ""
-"複数の翻訳コンポーネントを作成したら、同じ文字列は同じ翻訳になるようにしてく"
-"ださい。これはどの段階でも実現できます。"
+msgstr "複数の翻訳コンポーネントを作成したとき、同じ文字列は同じ翻訳になるようにした"
+"いことでしょう。これはいくつかのレベルで実現できます。"
 
 #: ../../admin/continuous.rst:462
 msgid "Translation propagation"
@@ -10591,17 +10590,17 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
-":ref:`component-allow_translation_propagation` を有効にすると（デフォルトにつ"
-"いては、参照: :ref:`component`）、一致する文字列を持つすべてのコンポーネント"
-"で、すべての新しい翻訳が自動的に実行されます。このような翻訳は、すべてのコン"
-"ポーネントの現在の翻訳ユーザーに適切に署名されます。"
+":ref:`component-allow_translation_propagation` "
+"を有効にすると（デフォルトについては、参照: :ref:`component`）、すべての新し"
+"い翻訳は、一致する文字列を持つすべてのコンポーネントに自動的に反映されます。"
+"このような翻訳は、すべてのコンポーネントで現在の翻訳ユーザーが適切にクレジッ"
+"トされます。"
 
 #: ../../admin/continuous.rst:471
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
-msgstr ""
-"翻訳の反映は、キーがモノリンガルの翻訳形式と一致する必要があるため、翻訳キー"
+msgstr "モノリンガルの翻訳形式では、キーが一致しないと翻訳は反映されません。翻訳キー"
 "の作成時には注意してください。"
 
 #: ../../admin/continuous.rst:475
@@ -13936,9 +13935,9 @@ msgstr "データベースをバックアップから復元:"
 
 #: ../../admin/install/docker.rst:307 ../../admin/install/docker.rst:317
 msgid ""
-"Please check that the database name matches :envvar:`POSTGRES_DATABASE`."
+"Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
-"データベース名が :envvar:`POSTGRES_DATABASE` と一致していることを確認してくだ"
+"データベース名が :envvar:`POSTGRES_DB` と一致していることを確認してくだ"
 "さい。"
 
 #: ../../admin/install/docker.rst:309
@@ -14328,8 +14327,8 @@ msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
-"Weblate でドキュメントの先頭に `meta[name=monatezation] ` フィールドを設定し"
-"ます。複数指定した場合は、ランダムに 1 つが選択されます。"
+"Weblate のドキュメントの先頭に `meta[name=monetization]` "
+"フィールドを設定します。複数指定した場合は、ランダムに 1 つが選択されます。"
 
 #: ../../admin/install/docker.rst:664
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -15765,10 +15764,10 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
-"Weblate に付属する静的ファイルは、:file:`/app/data/python/customize/static` "
-"（参照: :ref:`docker-volume`）に配置することで変更できます。たとえば、:file:"
-"`/app/data/python/customize/static/favicon.ico` を作成すると、favicon が変更"
-"されます。"
+"Weblate に付属する静的ファイルは、 :file:`/app/data/python/customize/static` "
+"（参照: :ref:`docker-volume`）に配置することで変更できます。たとえば、 "
+":file:`/app/data/python/customize/static/favicon.ico` "
+"を作成すると、ファビコンが変更されます。"
 
 #: ../../admin/install/docker.rst:1994
 msgid ""
@@ -15784,9 +15783,9 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
-"この方法は、Weblate テンプレートの変更にも使用できます。例: :ref:`legal`ド"
-"キュメントは、:file:`/app/data/python/customize/templates/legal/documents` に"
-"配置できます。"
+"この方法は、Weblate テンプレートの変更にも使用できます。たとえば、 "
+":ref:`legal` ドキュメントは :file:`/app/data/python/customize/templates/"
+"legal/documents` に配置できます。"
 
 #: ../../admin/install/docker.rst:2001
 msgid ""
@@ -16329,19 +16328,15 @@ msgid "You can stop the test server with Ctrl+C."
 msgstr "Ctrl+C を使用してテストサーバーを停止できます。"
 
 #: ../../admin/install/steps/install-after.rst:11
-#, fuzzy
-#| msgid ""
-#| "Review potential issues with your installation either on ``/manage/"
-#| "performance/`` URL (see :ref:`management-interface`) or using :command:"
-#| "`weblate check --deploy`, see :ref:`production`."
 msgid ""
 "Review potential issues with your installation either on ``/manage/"
 "performance/`` URL (see :ref:`manage-performance`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
-"``/manage/performance/`` URL（参照: :ref:`management-interface`）または :"
-"command:`weblate check --deploy` を使用して、インストールの潜在的な問題を確認"
-"してください。参照: :ref:`production`。"
+"``/manage/performance/`` URL（参照: :ref:`manage-performance`）または "
+":command:`weblate check --deploy` "
+"を使用して、インストールの潜在的な問題を確認してください。参照: "
+":ref:`production`。"
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -17123,7 +17118,7 @@ msgstr ""
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
-"https://api.deepl.com/v2/translate?text=Greetings&target_lang=JA&auth_key=XXX"
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 
 #: ../../admin/machine.rst:170
 msgid ""
@@ -17365,20 +17360,12 @@ msgid "Requires an API key to use outside of the website."
 msgstr "外部から Web サイトに接続するには API キーが必要です。"
 
 #: ../../admin/machine.rst:307
-#, fuzzy
-#| msgid ""
-#| "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
-#| "repository <https://github.com/LibreTranslate/LibreTranslate>`_, "
-#| "`LibreTranslate mirrors <https://github.com/LibreTranslate/"
-#| "LibreTranslate#user-content-mirrors>`_"
 msgid ""
 "`LibreTranslate website <https://libretranslate.com/>`_, `LibreTranslate "
 "repository <https://github.com/LibreTranslate/LibreTranslate>`_"
 msgstr ""
 "`LibreTranslate website <https://libretranslate.com/>`_、`LibreTranslate "
-"repository <https://github.com/LibreTranslate/LibreTranslate>`_、"
-"`LibreTranslate mirrors <https://github.com/LibreTranslate/"
-"LibreTranslate#user-content-mirrors>`_"
+"repository <https://github.com/LibreTranslate/LibreTranslate>`_"
 
 #: ../../admin/machine.rst:313
 msgid "Azure AI Translator"
@@ -17430,7 +17417,7 @@ msgstr "認証サービスの URL"
 
 #: ../../admin/machine.rst:333
 msgid "Regional or multi-service can be specified using region field below."
-msgstr "地域またはマルチサービスは、以下の地域フィールドを使用して指定します。"
+msgstr "以下の地域欄で、地域サービスまたはマルチサービスを指定することができます。"
 
 #: ../../admin/machine.rst:337
 msgid "``api.cognitive.microsoft.com`` -- Global"
@@ -17792,17 +17779,13 @@ msgstr ""
 "localhost:8888/tmserver/`` です。"
 
 #: ../../admin/machine.rst:555
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:commands/tmserver` :ref:`amagama:installation`, :doc:`virtaal:"
-#| "amagama`, `Amagama Translation Memory <https://amagama.translatehouse.org/"
-#| ">`_"
 msgid ""
 ":doc:`tt:commands/tmserver`, :ref:`amagama:installation`, :doc:`virtaal:"
 "amagama`, `Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
-":doc:`tt:commands/tmserver` :ref:`amagama:installation`、:doc:`virtaal:"
-"amagama`、`Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
+":doc:`tt:commands/"
+"tmserver`、:ref:`amagama:installation`、:doc:`virtaal:amagama`、`Amagama "
+"Translation Memory <https://amagama.translatehouse.org/>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:564
 msgid "Weblate"
@@ -18324,10 +18307,8 @@ msgid "This can be useful when developing Weblate."
 msgstr "これは Weblate の開発時に便利です。"
 
 #: ../../admin/management.rst:319
-#, fuzzy
-#| msgid "Remove the project"
 msgid "Removes existing demo project."
-msgstr "プロジェクトの削除"
+msgstr "既存のデモ プロジェクトを削除します。"
 
 #: ../../admin/management.rst:323
 msgid "import_json"
@@ -21377,7 +21358,7 @@ msgstr "``^[^.]+$``"
 
 #: ../../admin/projects.rst:901
 msgid "Variants regular expression"
-msgstr "別表記を特定する正規表現"
+msgstr "別表記を決定する正規表現"
 
 #: ../../admin/projects.rst:903
 msgid ""
@@ -22081,14 +22062,6 @@ msgid "Translation process"
 msgstr "翻訳プロセス"
 
 #: ../../admin/translating.rst:9
-#, fuzzy
-#| msgid ""
-#| "Everyone can add suggestions by default, to be accepted by signed in "
-#| "users. Suggestion voting can be used to make use of a string when more "
-#| "than one signed-in user agrees, by setting up the :ref:`component` with :"
-#| "guilabel:`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept "
-#| "suggestions` to set a threshold for accepted suggestions (this includes a "
-#| "vote from the user making the suggestion if it is cast)."
 msgid ""
 "Everyone can add suggestions by default, to be accepted by signed in users. "
 "Suggestion voting can be used to make use of a string when more than one "
@@ -22099,9 +22072,9 @@ msgid ""
 msgstr ""
 "デフォルトでは、誰もが翻訳文の提案を追加して、サインイン済みのユーザーに採用"
 "してもらうことができます。:ref:`component` の :guilabel:`提案への投票` を有効"
-"化すると、サインイン済みの複数のユーザーが賛成することで、提案が採用されま"
-"す。:guilabel:`提案の自動採用` に、採用に必要な投票数のしきい値を設定します"
-"（これには、提案をしたユーザー自身の投票を含みます） 。"
+"化すると、サインイン済みの複数のユーザーが賛成することで、提案が採用されます"
+"。:guilabel:`提案の自動採用` に、採用に必要な投票数のしきい値を設定します（こ"
+"れには、提案をしたユーザー自身の投票を含みます） 。"
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -24440,11 +24413,11 @@ msgstr ""
 
 #: ../../api.rst:1938
 msgid "Timestamp of last change to this file."
-msgstr ""
+msgstr "このファイルの最終変更のタイムスタンプ。"
 
 #: ../../api.rst:1939
 msgid "Skips response if the file has not been modified since that time."
-msgstr ""
+msgstr "ファイルがその時刻以降に変更されていない場合は、応答をスキップします。"
 
 #: ../../api.rst:1941
 msgid ""
@@ -25727,7 +25700,7 @@ msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../changes.rst:24
 msgid "Nicer formatting of :ref:`glossary` tooltips."
-msgstr ""
+msgstr ":ref:`glossary` ツールチップのより良い表示。"
 
 #: ../../changes.rst:25
 #, fuzzy
@@ -25893,8 +25866,6 @@ msgid ":ref:`glossary-mt`."
 msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid "New automatic fixed for :ref:`autofix-punctuation-spacing`."
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
 msgstr ":ref:`autofix-punctuation-spacing` の新しい自動修正。"
 
@@ -27720,7 +27691,7 @@ msgstr "TMXファイルエクスポーターを追加しました。"
 
 #: ../../changes/v2.rst:42
 msgid "Various performance improvements for loading translation files."
-msgstr "翻訳ファイルの読み込みに関する多くの性能の改良。"
+msgstr "翻訳ファイルの読み込みに関する様々なパフォーマンスの改善。"
 
 #: ../../changes/v2.rst:43
 msgid ""
@@ -35405,9 +35376,9 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
-"フロントエンドのコードでユーザーに表示するテキストが必要な場合は、現地語化が"
-"可能な文字列であることが必要です。ほとんどの場合、テキストを ``gettext`` 関数"
-"内でラップするだけだが、もっと複雑な機能も利用できる方法:"
+"フロントエンドのコードでユーザーに表示するテキストが必要な場合は、ローカライ"
+"ズ可能にする必要があります。ほとんどの場合、テキストを ``gettext`` "
+"関数内でラップするだけですが、もっと複雑な機能も利用できます:"
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -42716,8 +42687,6 @@ msgstr ""
 "doc:`tt:formats/tbx`、:ref:`glossary`"
 
 #: ../../formats/tbx.rst:23
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanations"
 msgstr "解説"
 
@@ -42725,17 +42694,18 @@ msgstr "解説"
 msgid ""
 "Weblate loads and saves explanation from TBX files to be displayed in :ref:"
 "`glossary`."
-msgstr ""
+msgstr "Weblate は :ref:`glossary` で表示するために TBX "
+"ファイルから解説を読み込んで保存します。"
 
 #: ../../formats/tbx.rst:27
 msgid ""
 "Translation explanation is stored as ``<note from=\"translator\"></note>`` "
 "tag."
-msgstr ""
+msgstr "翻訳の解説は ``<note from=\"translator\"></note>`` タグとして保存されます。"
 
 #: ../../formats/tbx.rst:28
 msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
-msgstr ""
+msgstr "原文の解説は ``<descrip></descrip>`` タグとして保存されます。"
 
 #: ../../formats/tbx.rst:44
 msgid "``tbx/*.tbx``"
@@ -47767,9 +47737,8 @@ msgstr "文字列の検索"
 msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
-msgstr ""
-"検索フィールドの左横のラベルにある選択肢から選択した検索式や論理演算、かっこ"
-"を使用した高度な検索式を作成して、文字列を検索できます。"
+msgstr "検索窓の左横のラベルにある選択肢から選択した検索式や論理演算、かっこを使用し"
+"た高度な検索式を作成して、文字列を検索できます。"
 
 #: ../../user/search.rst:12
 msgid ""
@@ -50975,44 +50944,27 @@ msgid "Source strings reviews"
 msgstr "原文の査読"
 
 #: ../../workflows.rst:264
-#, fuzzy
-#| msgid ""
-#| "With :ref:`project-source_review` enabled, the review process can be "
-#| "applied on the source strings. Once enabled, users can report issues in "
-#| "the source strings.  The actual process depends on whether you use "
-#| "bilingual or monolingual formats."
 msgid ""
 "With :ref:`project-source_review` enabled, the review process can be applied "
 "for source strings. Once enabled, users can report issues with source "
 "strings. The actual process depends on whether bilingual or monolingual "
 "formats are in use."
 msgstr ""
-":ref:`project-source_review` を有効にすると、査読の強制を原文に適用します。有"
-"効にすると、ユーザーは原文の問題を報告できます。 実際の処理は、バイリンガル形"
-"式とモノリンガル形式のどちらを使用するかで変わります。"
+":ref:`project-source_review` を有効にすると、原文に対して査読ができます。有効"
+"にすると、ユーザーは原文の問題を報告できます。 実際の処理は、バイリンガル形式"
+"とモノリンガル形式のどちらを使用するかで変わります。"
 
 #: ../../workflows.rst:268
-#, fuzzy
-#| msgid ""
-#| "For monolingual formats, the source string review behaves similarly as "
-#| "with :ref:`reviews` - once issue is reported on the source string, it is "
-#| "marked as :guilabel:`Needs editing`."
 msgid ""
 "For monolingual formats, source string review functions similarly to :ref:"
 "`reviews` — once an issue with a source string is reported, it is marked as :"
 "guilabel:`Needs editing`."
 msgstr ""
-"モノリンガル形式の場合、原文の査読は :ref:`reviews` と同じように動作します - "
-"原文で問題が報告されると、:guilabel:`要編集` と設定されます。"
+"モノリンガル形式の場合、原文の査読は :ref:`reviews` "
+"と同じように動作します。原文で問題が報告されると、:guilabel:`要編集` "
+"と設定されます。"
 
 #: ../../workflows.rst:272
-#, fuzzy
-#| msgid ""
-#| "The bilingual formats do not allow direct editing of the source strings "
-#| "(these are typically extracted directly from the source code). In this "
-#| "case :guilabel:`Source needs review` label is attached to strings "
-#| "reported by translators. You should review such strings and either edit "
-#| "them in the source or remove the label."
 msgid ""
 "Bilingual formats do not allow direct editing of source strings (these are "
 "typically extracted directly from the source code). In this case, a :"
@@ -51021,9 +50973,9 @@ msgid ""
 "source code, or remove the label."
 msgstr ""
 "バイリンガル形式では、原文を直接編集できません（通常はソースコードから直接抽"
-"出します）。この場合、 翻訳者から報告された文字列には :guilabel:`査読が必要な"
-"原文` というラベルが付きます。この文字列を確認して、ソースコード内で編集する"
-"か、ラベルを削除するかの処理が必要です。"
+"出します）。この場合、 翻訳者から報告された文字列には "
+":guilabel:`査読が必要な原文` というラベルが付きます。この文字列を確認して、ソ"
+"ースコード内で編集するか、ラベルを削除するかの処理が必要です。"
 
 #: ../../workflows.rst:280
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"

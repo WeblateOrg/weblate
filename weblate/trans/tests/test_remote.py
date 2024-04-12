@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for changes done in remote repository."""
+
 import os
 from unittest import SkipTest
 
@@ -52,7 +53,7 @@ class MultiRepoTest(ViewTestCase):
     _branch = "main"
     _filemask = "po/*.po"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         if self._vcs not in VCS_REGISTRY:
             raise SkipTest(f"VCS {self._vcs} not available!")
@@ -74,7 +75,7 @@ class MultiRepoTest(ViewTestCase):
             )
         self.request = self.get_request()
 
-    def push_first(self, propagate=True, newtext="Nazdar svete!\n"):
+    def push_first(self, propagate=True, newtext="Nazdar svete!\n") -> None:
         """Change and pushes first component."""
         if not propagate:
             # Disable changes propagating
@@ -86,7 +87,7 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(self.get_translation().stats.translated, 1)
         self.component.do_push(self.request)
 
-    def push_replace(self, content, mode):
+    def push_replace(self, content, mode) -> None:
         """Replace content of a po file and pushes it to remote repository."""
         # Manually edit po file, adding new unit
         translation = self.component.translation_set.get(language_code="cs")
@@ -99,7 +100,7 @@ class MultiRepoTest(ViewTestCase):
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
-    def test_propagate(self):
+    def test_propagate(self) -> None:
         """Test handling of propagating."""
         # Do changes in first repo
         self.push_first()
@@ -132,7 +133,7 @@ class MultiRepoTest(ViewTestCase):
             list(other_unit.check_set.values_list("name", flat=True)), ["duplicate"]
         )
 
-    def test_failed_update(self):
+    def test_failed_update(self) -> None:
         """Test failed remote update."""
         if os.path.exists(self.git_repo_path):
             remove_tree(self.git_repo_path)
@@ -143,7 +144,7 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         self.assertFalse(translation.do_update(self.request))
 
-    def test_update(self):
+    def test_update(self) -> None:
         """Test handling update in case remote has changed."""
         # Do changes in first repo
         self.push_first(False)
@@ -157,13 +158,13 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
 
-    def test_rebase(self):
+    def test_rebase(self) -> None:
         """Testing of rebase."""
         self.component2.merge_style = "rebase"
         self.component2.save()
         self.test_update()
 
-    def test_conflict(self):
+    def test_conflict(self) -> None:
         """Test conflict handling."""
         # Do changes in first repo
         self.push_first(False)
@@ -177,7 +178,7 @@ class MultiRepoTest(ViewTestCase):
 
         self.assertFalse(translation.do_push(self.request))
 
-    def test_more_changes(self):
+    def test_more_changes(self) -> None:
         """Test more string changes in remote repo."""
         translation = self.component2.translation_set.get(language_code="cs")
 
@@ -191,7 +192,7 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.allchecks, 0)
 
-    def test_new_unit(self):
+    def test_new_unit(self) -> None:
         """Test adding new unit with update."""
         self.push_replace(EXTRA_PO, "a")
 
@@ -200,7 +201,7 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 5)
 
-    def test_deleted_unit(self):
+    def test_deleted_unit(self) -> None:
         """Test removing several units from remote repo."""
         self.push_replace(MINIMAL_PO, "w")
 
@@ -209,7 +210,7 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 1)
 
-    def test_deleted_stale_unit(self):
+    def test_deleted_stale_unit(self) -> None:
         """
         Test removing several units from remote repo.
 

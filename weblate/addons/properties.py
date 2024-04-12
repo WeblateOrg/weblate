@@ -10,7 +10,6 @@ https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
 src/main/java/org/freeplane/ant/FormatTranslation.java
 """
 
-
 import re
 
 from django.utils.translation import gettext_lazy
@@ -28,12 +27,16 @@ def sort_key(line):
     return prefix.lower()
 
 
-def unicode_format(match):
-    """Callback for re.sub for formatting unicode chars."""
+def unicode_format(match) -> str:
+    """
+    Format unicode characters.
+
+    Callback for re.sub.
+    """
     return f"\\u{match.group(0)[2:].upper()}"
 
 
-def fix_newlines(lines):
+def fix_newlines(lines) -> None:
     """Convert newlines to unix."""
     for i, line in enumerate(lines):
         if line.endswith("\r\n"):
@@ -42,15 +45,15 @@ def fix_newlines(lines):
             lines[i] = line[:-1] + "\n"
 
 
-def format_unicode(lines):
-    """Standard formatting for unicode chars."""
+def format_unicode(lines) -> None:
+    """Format unicode characters."""
     for i, line in enumerate(lines):
         if UNICODE.findall(line) is None:
             continue
         lines[i] = UNICODE.sub(unicode_format, line)
 
 
-def value_quality(value):
+def value_quality(value) -> int:
     """Calculate value quality."""
     if not value:
         return 0
@@ -108,7 +111,7 @@ def filter_lines(lines):
     return result
 
 
-def format_file(filename):
+def format_file(filename) -> None:
     """Format single properties file."""
     with open(filename) as handle:
         lines = handle.readlines()
@@ -132,5 +135,5 @@ class PropertiesSortAddon(BaseAddon):
     compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
     icon = "sort-alphabetical.svg"
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         format_file(translation.get_filename())

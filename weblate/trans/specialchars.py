@@ -4,7 +4,6 @@
 
 """Helper code to get user special characters specific for given language."""
 
-
 import unicodedata
 
 from django.conf import settings
@@ -15,10 +14,10 @@ CHAR_NAMES = {
     "\t": gettext_lazy("Insert tab character"),
     "\n": gettext_lazy("Insert new line"),
     "…": gettext_lazy("Insert horizontal ellipsis"),
-    "\u00AD": gettext_lazy("Insert a soft hyphen"),
-    "\u00A0": gettext_lazy("Insert a non-breaking space"),
+    "\u00ad": gettext_lazy("Insert a soft hyphen"),
+    "\u00a0": gettext_lazy("Insert a non-breaking space"),
 }
-DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "﹙-﹚"}
+DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00ad": "﹙-﹚"}
 
 
 HYPHEN_LANGS = {
@@ -259,7 +258,7 @@ def format_char(char):
     return gettext("Insert character {0}").format(name), short, char
 
 
-def get_special_chars(language, additional="", source=""):  # noqa: C901
+def get_special_chars(language, additional="", source=""):
     """Return list of special characters."""
     for char in settings.SPECIAL_CHARS:
         yield format_char(char)
@@ -275,7 +274,7 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
     yield get_quote(code, ALT_CLOSE, gettext("Alternative closing quote"))
 
     if code in HYPHEN_LANGS:
-        yield format_char("\u00AD")
+        yield format_char("\u00ad")
         yield gettext("Hyphen"), "‐", "‐"
 
     if code in EN_DASH_LANGS:

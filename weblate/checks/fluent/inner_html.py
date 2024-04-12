@@ -78,7 +78,7 @@ class _HTMLNode:
         return self.parent.matches(other.parent)
 
     def tags(self) -> tuple[str, str]:
-        """The start and end tags for this node."""
+        """Get the start and end tags for this node."""
         start = f"<{self.tag}"
         for attr, val in self.attributes.items():
             if '"' in val:
@@ -479,7 +479,7 @@ class _CountedNodes:
         return True
 
     def count(self, node: _HTMLNode) -> int:
-        """Returns how many nodes match the given node."""
+        """Count how many nodes match the given node."""
         for other_nodes in self.matching_nodes:
             if node.matches(other_nodes[0]):
                 return len(other_nodes)
@@ -514,7 +514,7 @@ class _VariantNodes:
         return self._counted_nodes
 
     def name(self) -> str:
-        """The name for this variant."""
+        """Generate name for this variant."""
         return variant_name(self.path)
 
 
@@ -1156,7 +1156,7 @@ class _VariantNodesDifference:
             )
 
     def description(self) -> SafeString:
-        """A description of the differences between the source and target."""
+        """Generate a description of the differences between the source and target."""
         # We want to be able to compare each target variant against some common
         # set of expected nodes. This allows us to determine which specific
         # nodes are missing or extra.
@@ -1260,9 +1260,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
             difference = self._compare_inner_html(unit, source, target)
         except _HTMLParseError:
             return True
-        if difference:
-            return True
-        return False
+        return bool(difference)
 
     def get_description(self, check_model: CheckModel) -> str:
         unit, source, target = translation_from_check(check_model)

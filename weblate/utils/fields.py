@@ -38,7 +38,7 @@ class EmailField(CaseInsensitiveFieldMixin, models.CharField):
         "unique": gettext_lazy("A user with this e-mail already exists.")
     }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs.setdefault("max_length", EMAIL_LENGTH)
         super().__init__(*args, **kwargs)
 

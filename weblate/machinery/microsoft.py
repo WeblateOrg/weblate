@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
-from typing import Any
+from typing import TYPE_CHECKING
 
 from django.utils import timezone
 
@@ -19,6 +19,9 @@ from .base import (
     XMLMachineTranslationMixin,
 )
 from .forms import MicrosoftMachineryForm
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"  # noqa: S105
 TOKEN_EXPIRY = timedelta(minutes=9)
@@ -47,10 +50,10 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     }
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "microsoft-translator"
 
-    def __init__(self, settings: SettingsDict):
+    def __init__(self, settings: SettingsDict) -> None:
         """Check configuration."""
         super().__init__(settings)
         self._access_token: None | str = None
@@ -65,7 +68,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             self.settings["key"],
         )
 
-    def get_url(self, suffix):
+    def get_url(self, suffix) -> str:
         return f"https://{self.settings['base_url']}/{suffix}"
 
     def is_token_expired(self):
@@ -73,7 +76,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         return self._token_expiry is None or self._token_expiry <= timezone.now()
 
     def get_headers(self) -> dict[str, str]:
-        """Hook for backends to allow add authentication headers to request."""
+        """Add authentication headers to request."""
         return {"Authorization": f"Bearer {self.access_token}"}
 
     @property
@@ -90,6 +93,20 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-")
+
+    def check_failure(self, response) -> None:
+        # Microsoft tends to use utf-8-sig instead of plain utf-8
+        response.encoding = response.apparent_encoding
+        super().check_failure(response)
+        if (
+            response.url.startswith("https://api.cognitive.microsofttranslator.com/")
+            and response.status_code == 200
+        ):
+            payload = response.json()
+
+            # We should get an object, string usually means an error
+            if isinstance(payload, str):
+                raise MachineTranslationError(payload)
 
     def download_languages(self):
         """
@@ -110,10 +127,6 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
-
-        # We should get an object, string usually means an error
-        if isinstance(payload, str):
-            raise MachineTranslationError(payload)
 
         return payload["translation"].keys()
 
@@ -147,10 +160,12 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             "source": text,
         }
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
-        """Generates a single replacement."""
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ):
+        """Generate a single replacement."""
         if h_kind is None:
-            return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'  # noqa: B028
+            return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'
         # Glossary
         flags = h_kind.all_flags
         if "forbidden" in flags:

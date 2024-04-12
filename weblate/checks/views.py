@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.generic import ListView
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, Check
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
@@ -28,7 +29,7 @@ class CheckWrapper:
         active_check_count: int,
         translated_check_count: int,
         path_object,
-    ):
+    ) -> None:
         self.pk = get_random_identifier()
         self.name = name
         try:
@@ -56,6 +57,7 @@ class CheckList(PathViewMixin, ListView):
         ProjectLanguage,
     )
     template_name = "check_list.html"
+    request: AuthenticatedHttpRequest
 
     def annotate(self, queryset, prefix: str):
         id_field = f"{prefix}unit__check"
@@ -233,7 +235,7 @@ class CheckList(PathViewMixin, ListView):
             raise TypeError(f"Type not supported: {self.path_object}")
         return context
 
-    def setup(self, request, **kwargs):
+    def setup(self, request, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.check_obj = None
         name = kwargs.get("name")

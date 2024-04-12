@@ -12,13 +12,13 @@ class Command(BaseCommand):
 
     help = "checks billing limits"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument("--valid", action="store_true", help="list valid ones")
         parser.add_argument(
             "--notify", action="store_true", help="send email notifications"
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         if options["notify"]:
             billing_notify()
             return

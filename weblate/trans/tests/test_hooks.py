@@ -934,6 +934,98 @@ AZURE_PAYLOAD_OLD = """
   "createdDate": "2019-08-06T12:12:53.3798179Z"
 }
 """
+AZURE_PAYLOAD_SPACES = r"""
+{
+    "subscriptionId": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+    "notificationId": 2,
+    "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+    "eventType": "git.push",
+    "publisherId": "tfs",
+    "message": {
+        "text": "Dev User pushed updates to My-Fe-App:dev\r\n(https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev)",
+        "html": "Dev User pushed updates to <a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/\">My-Fe-App</a>:<a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev\">dev</a>",
+        "markdown": "Dev User pushed updates to [My-Fe-App](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/):[dev](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev)"
+    },
+    "detailedMessage": {
+        "text": "Dev User pushed a commit to My-Fe-App:dev\r\n - Add translation from dev ed967ae1 (https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/commit/ed967ae1dd2e97e3bdadf78281c5489c47f971e6)",
+        "html": "Dev User pushed a commit to <a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/\">My-Fe-App</a>:<a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev\">dev</a>\r\n<ul>\r\n<li>Add translation from dev <a href=\"https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/commit/ed967ae1dd2e97e3bdadf78281c5489c47f971e6\">ed967ae1</a></li>\r\n</ul>",
+        "markdown": "Dev User pushed a commit to [My-Fe-App](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/):[dev](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/#version=GBdev)\r\n* Add translation from dev [ed967ae1](https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App/commit/ed967ae1dd2e97e3bdadf78281c5489c47f971e6)"
+    },
+    "resource": {
+        "refUpdates": [
+            {
+                "name": "refs/heads/dev",
+                "oldObjectId": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+                "newObjectId": "8efced88-c100-41a3-96ca-ee29eb1f877a"
+            }
+        ],
+        "repository": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "name": "My-Fe-App",
+            "url": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "project": {
+                "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+                "name": "NextGen B2B Shop",
+                "url": "https://dev.azure.com/MyOrg/_apis/projects/8efced88-c100-41a3-96ca-ee29eb1f877a",
+                "state": "wellFormed",
+                "visibility": "unchanged",
+                "lastUpdateTime": "0001-01-01T00:00:00"
+            },
+            "defaultBranch": "refs/heads/main",
+            "remoteUrl": "https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App"
+        },
+        "pushedBy": {
+            "displayName": "Dev User",
+            "url": "https://spsprodweu5.vssps.visualstudio.com/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/Identities/8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "_links": {
+                "avatar": {
+                    "href": "https://dev.azure.com/MyOrg/_apis/GraphProfile/MemberAvatars/aad.NzZjOWE5ODgtN2E1OS03NDYwLWIwOGUtZjJhODE3NDVkMjdk"
+                }
+            },
+            "id": "76c9a988-7a59-6460-b08e-f2a81745d27d",
+            "uniqueName": "devuser@email.com",
+            "imageUrl": "https://dev.azure.com/MyOrg/_api/_common/identityImage?id=8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "descriptor": "aad.NzZjOWE5ODgtN2E1OS03NDYwLWIwOGUtZjJhODE3NDVkMjdk"
+        },
+        "pushId": 2952,
+        "date": "2024-03-07T12:27:01.2266022Z",
+        "url": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/pushes/2952",
+        "_links": {
+            "self": {
+                "href": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/pushes/2952"
+            },
+            "repository": {
+                "href": "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a"
+            },
+            "commits": {
+                "href": "https://dev.azure.com/MyOrg/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/pushes/2952/commits"
+            },
+            "pusher": {
+                "href": "https://spsprodweu5.vssps.visualstudio.com/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/Identities/76c9a988-7a59-6460-b08e-f2a81745d27d"
+            },
+            "refs": {
+                "href": "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_apis/git/repositories/8efced88-c100-41a3-96ca-ee29eb1f877a/refs/heads/dev"
+            }
+        }
+    },
+    "resourceVersion": "1.0",
+    "resourceContainers": {
+        "collection": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "baseUrl": "https://dev.azure.com/MyOrg/"
+        },
+        "account": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "baseUrl": "https://dev.azure.com/MyOrg/"
+        },
+        "project": {
+            "id": "8efced88-c100-41a3-96ca-ee29eb1f877a",
+            "baseUrl": "https://dev.azure.com/MyOrg/"
+        }
+    },
+    "createdDate": "8efced88-c100-41a3-96ca-ee29eb1f877a"
+}
+"""
 
 GITEA_PAYLOAD = """
 {
@@ -1147,7 +1239,7 @@ GITEE_PAYLOAD = """
 
 
 class HooksViewTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # Avoid actual repository updates
         self.patcher = patch(
@@ -1157,19 +1249,19 @@ class HooksViewTest(ViewTestCase):
         self.addCleanup(self.patcher.stop)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_project(self):
+    def test_hook_project(self) -> None:
         response = self.client.get(
             reverse("update-hook", kwargs={"path": self.project.get_url_path()})
         )
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_component(self):
+    def test_hook_component(self) -> None:
         response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github_exists(self):
+    def test_hook_github_exists(self) -> None:
         # Adjust matching repo
         self.component.repo = "git://github.com/defunkt/github.git"
         self.component.save()
@@ -1181,7 +1273,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github_new(self):
+    def test_hook_github_new(self) -> None:
         # Adjust matching repo
         self.component.repo = "git://github.com/defunkt/github.git"
         self.component.save()
@@ -1193,7 +1285,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_gitea(self):
+    def test_hook_gitea(self) -> None:
         # Adjust matching repo
         self.component.repo = "http://localhost:3000/gitea/webhooks.git"
         self.component.save()
@@ -1203,7 +1295,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_gitee(self):
+    def test_hook_gitee(self) -> None:
         # Adjust matching repo
         self.component.repo = "https://gitee.com/oschina/gitee.git"
         self.component.save()
@@ -1213,7 +1305,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github_ping(self):
+    def test_hook_github_ping(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": '{"zen": "Approachable is better than simple."}'},
@@ -1221,7 +1313,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Hook working", status_code=201)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github_ping_no_slash(self):
+    def test_hook_github_ping_no_slash(self) -> None:
         response = self.client.post(
             "/hooks/github",
             {"payload": '{"zen": "Approachable is better than simple."}'},
@@ -1229,7 +1321,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Hook working", status_code=201)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github_auth(self):
+    def test_hook_github_auth(self) -> None:
         # Adjust matching repo
         self.component.repo = "https://user:pwd@github.com/defunkt/github.git"
         self.component.save()
@@ -1241,7 +1333,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github_disabled(self):
+    def test_hook_github_disabled(self) -> None:
         # Adjust matching repo
         self.component.repo = "git://github.com/defunkt/github.git"
         self.component.save()
@@ -1257,7 +1349,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_github(self):
+    def test_hook_github(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_PAYLOAD},
@@ -1268,7 +1360,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_gitlab(self):
+    def test_hook_gitlab(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),
             GITLAB_PAYLOAD,
@@ -1279,7 +1371,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_ping(self):
+    def test_hook_bitbucket_ping(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": '{"foo": "bar"}'},
@@ -1288,7 +1380,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Hook working", status_code=201)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_git(self):
+    def test_hook_bitbucket_git(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_GIT},
@@ -1299,7 +1391,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_hg(self):
+    def test_hook_bitbucket_hg(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_HG},
@@ -1310,7 +1402,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_hg_no_commit(self):
+    def test_hook_bitbucket_hg_no_commit(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_HG_NO_COMMIT},
@@ -1321,7 +1413,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_webhook(self):
+    def test_hook_bitbucket_webhook(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_WEBHOOK},
@@ -1332,7 +1424,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_hosted(self):
+    def test_hook_bitbucket_hosted(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_HOSTED},
@@ -1343,7 +1435,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_bitbucket_webhook_closed(self):
+    def test_hook_bitbucket_webhook_closed(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": BITBUCKET_PAYLOAD_WEBHOOK_CLOSED},
@@ -1354,7 +1446,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=False)
-    def test_disabled(self):
+    def test_disabled(self) -> None:
         """Test for hooks disabling."""
         self.assert_disabled()
 
@@ -1375,12 +1467,12 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
 
-    def test_project_disabled(self):
+    def test_project_disabled(self) -> None:
         self.project.enable_hooks = False
         self.project.save()
         self.assert_disabled()
 
-    def assert_disabled(self):
+    def assert_disabled(self) -> None:
         response = self.client.get(
             reverse("update-hook", kwargs={"path": self.project.get_url_path()})
         )
@@ -1389,7 +1481,7 @@ class HooksViewTest(ViewTestCase):
         self.assertEqual(response.status_code, 405)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_wrong_payload_github(self):
+    def test_wrong_payload_github(self) -> None:
         """Test for invalid payloads with github."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "github"}))
@@ -1406,7 +1498,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Invalid data in json payload!", status_code=400)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_wrong_payload_gitlab(self):
+    def test_wrong_payload_gitlab(self) -> None:
         """Test for invalid payloads with gitlab."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "gitlab"}))
@@ -1439,7 +1531,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Invalid data in json payload!", status_code=400)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_pagure(self):
+    def test_hook_pagure(self) -> None:
         response = self.client.post(
             reverse("webhook", kwargs={"service": "pagure"}),
             {"payload": PAGURE_PAYLOAD},
@@ -1460,7 +1552,7 @@ class HooksViewTest(ViewTestCase):
 class HookBackendTestCase(SimpleTestCase):
     hook: str = ""
 
-    def assert_hook(self, payload, expected):
+    def assert_hook(self, payload, expected) -> None:
         handler = HOOK_HANDLERS[self.hook]
         result = handler(json.loads(payload), None)
         if result:
@@ -1474,7 +1566,7 @@ class HookBackendTestCase(SimpleTestCase):
 class GitHubBackendTest(HookBackendTestCase):
     hook = "github"
 
-    def test_git(self):
+    def test_git(self) -> None:
         self.assert_hook(
             GITHUB_NEW_PAYLOAD.replace("defunkt/github", "defunkt/git.hub"),
             {
@@ -1498,7 +1590,7 @@ class GitHubBackendTest(HookBackendTestCase):
 class BitbucketBackendTest(HookBackendTestCase):
     hook = "bitbucket"
 
-    def test_git(self):
+    def test_git(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_GIT,
             {
@@ -1517,7 +1609,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_hg(self):
+    def test_hg(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_HG,
             {
@@ -1534,7 +1626,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_hg_no_commit(self):
+    def test_hg_no_commit(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_HG_NO_COMMIT,
             {
@@ -1551,7 +1643,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_webhook(self):
+    def test_webhook(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_WEBHOOK,
             {
@@ -1584,7 +1676,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_hosted(self):
+    def test_hosted(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_HOSTED,
             {
@@ -1617,7 +1709,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_merge(self):
+    def test_merge(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_MERGED,
             {
@@ -1650,7 +1742,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_merge_server(self):
+    def test_merge_server(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_SERVER_MERGED,
             {
@@ -1665,7 +1757,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_webhook_closed(self):
+    def test_webhook_closed(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_WEBHOOK_CLOSED,
             {
@@ -1698,7 +1790,7 @@ class BitbucketBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_server(self):
+    def test_server(self) -> None:
         self.assert_hook(
             BITBUCKET_PAYLOAD_SERVER,
             {
@@ -1717,10 +1809,10 @@ class BitbucketBackendTest(HookBackendTestCase):
 class AzureBackendTest(HookBackendTestCase):
     hook = "azure"
 
-    def test_ping(self):
+    def test_ping(self) -> None:
         self.assert_hook('{"diagnostics": "ping"}', None)
 
-    def test_git_old(self):
+    def test_git_old(self) -> None:
         url = "https://f.visualstudio.com/c/_git/ATEST"
         self.assert_hook(
             AZURE_PAYLOAD_OLD,
@@ -1742,7 +1834,7 @@ class AzureBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_git_new(self):
+    def test_git_new(self) -> None:
         self.assert_hook(
             AZURE_PAYLOAD_NEW,
             {
@@ -1763,7 +1855,30 @@ class AzureBackendTest(HookBackendTestCase):
             },
         )
 
-    def test_git_fallback(self):
+    def test_git_spaces(self) -> None:
+        self.assert_hook(
+            AZURE_PAYLOAD_SPACES,
+            {
+                "branch": "dev",
+                "full_name": "My-Fe-App",
+                "repo_url": "https://dev.azure.com/MyOrg/My%20Special%20Shop/_git/My-Fe-App",
+                "repos": [
+                    "MyOrg@vs-ssh.visualstudio.com:v3/MyOrg/NextGen B2B Shop/My-Fe-App",
+                    "MyOrg@vs-ssh.visualstudio.com:v3/MyOrg/NextGen%20B2B%20Shop/My-Fe-App",
+                    "git@ssh.dev.azure.com:v3/MyOrg/NextGen B2B Shop/My-Fe-App",
+                    "git@ssh.dev.azure.com:v3/MyOrg/NextGen%20B2B%20Shop/My-Fe-App",
+                    "https://MyOrg.visualstudio.com/NextGen B2B Shop/_git/My-Fe-App",
+                    "https://MyOrg.visualstudio.com/NextGen%20B2B%20Shop/_git/My-Fe-App",
+                    "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_git/8efced88-c100-41a3-96ca-ee29eb1f877a",
+                    "https://dev.azure.com/MyOrg/8efced88-c100-41a3-96ca-ee29eb1f877a/_git/8efced88-c100-41a3-96ca-ee29eb1f877a",
+                    "https://dev.azure.com/MyOrg/NextGen B2B Shop/_git/My-Fe-App",
+                    "https://dev.azure.com/MyOrg/NextGen%20B2B%20Shop/_git/My-Fe-App",
+                ],
+                "service_long_name": "Azure",
+            },
+        )
+
+    def test_git_fallback(self) -> None:
         http_url = "https://devops.azure.com/f/p/_git/ATEST"
         self.assert_hook(
             AZURE_PAYLOAD_FALLBACK,

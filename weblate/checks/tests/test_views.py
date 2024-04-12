@@ -4,7 +4,6 @@
 
 """Test for check views."""
 
-
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
@@ -13,7 +12,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 class ChecksViewTest(ViewTestCase):
     """Testing of check views."""
 
-    def test_browse(self):
+    def test_browse(self) -> None:
         response = self.client.get(reverse("checks"))
         self.assertContains(response, "/same/")
 
@@ -30,7 +29,7 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertContains(response, "/same/")
 
-    def test_check(self):
+    def test_check(self) -> None:
         response = self.client.get(reverse("checks", kwargs={"name": "same"}))
         self.assertContains(response, "/same/")
 
@@ -45,7 +44,7 @@ class ChecksViewTest(ViewTestCase):
             {"project": self.project.slug},
         )
 
-    def test_project(self):
+    def test_project(self) -> None:
         response = self.client.get(
             reverse(
                 "checks",
@@ -79,7 +78,7 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_component(self):
+    def test_component(self) -> None:
         response = self.client.get(
             reverse(
                 "checks",

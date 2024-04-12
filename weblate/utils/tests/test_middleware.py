@@ -12,7 +12,7 @@ from weblate.middleware import ProxyMiddleware
 
 
 class ProxyTest(TestCase):
-    def get_response(self, request):
+    def get_response(self, request) -> str:
         self.assertEqual(request.META["REMOTE_ADDR"], "1.2.3.4")
         return "response"
 
@@ -21,7 +21,7 @@ class ProxyTest(TestCase):
         IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
         IP_PROXY_OFFSET=0,
     )
-    def test_direct(self):
+    def test_direct(self) -> None:
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         middleware = ProxyMiddleware(self.get_response)
@@ -32,7 +32,7 @@ class ProxyTest(TestCase):
         IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
         IP_PROXY_OFFSET=0,
     )
-    def test_proxy(self):
+    def test_proxy(self) -> None:
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "7.8.9.0"
         request.META["HTTP_X_FORWARDED_FOR"] = "1.2.3.4"
@@ -44,7 +44,7 @@ class ProxyTest(TestCase):
         IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
         IP_PROXY_OFFSET=1,
     )
-    def test_proxy_second(self):
+    def test_proxy_second(self) -> None:
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "7.8.9.0"
         request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4.5, 1.2.3.4"
@@ -56,7 +56,7 @@ class ProxyTest(TestCase):
         IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
         IP_PROXY_OFFSET=0,
     )
-    def test_proxy_invalid(self):
+    def test_proxy_invalid(self) -> None:
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4"
@@ -68,7 +68,7 @@ class ProxyTest(TestCase):
         IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
         IP_PROXY_OFFSET=-1,
     )
-    def test_proxy_invalid_last(self):
+    def test_proxy_invalid_last(self) -> None:
         with patch("weblate.middleware.report_error") as mock_report_error:
             request = HttpRequest()
             request.META["REMOTE_ADDR"] = "1.2.3.4"

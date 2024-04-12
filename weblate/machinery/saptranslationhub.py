@@ -27,7 +27,7 @@ class SAPTranslationHub(MachineTranslation):
         return f"{base}/v1"
 
     def get_headers(self):
-        """Hook for backends to allow add authentication headers to request."""
+        """Add authentication headers to request."""
         # to access the sandbox
         result = {}
         if self.settings["key"]:

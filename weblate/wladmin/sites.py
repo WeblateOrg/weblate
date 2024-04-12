@@ -4,78 +4,21 @@
 
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.admin import AdminSite
-from django.contrib.auth.views import LogoutView
-from django.shortcuts import render
-from django.urls import reverse
-from django.utils.decorators import method_decorator
+from django.contrib.admin import AdminSite, sites
 from django.utils.translation import gettext, gettext_lazy
-from django.views.decorators.cache import never_cache
-from django_celery_beat.admin import (
-    ClockedSchedule,
-    ClockedScheduleAdmin,
-    CrontabSchedule,
-    IntervalSchedule,
-    PeriodicTask,
-    PeriodicTaskAdmin,
-    SolarSchedule,
-)
-from rest_framework.authtoken.admin import TokenAdmin
-from rest_framework.authtoken.models import Token
-from social_django.admin import AssociationOption, NonceOption, UserSocialAuthOption
-from social_django.models import Association, Nonce, UserSocialAuth
-
-from weblate.accounts.admin import AuditLogAdmin, ProfileAdmin, VerifiedEmailAdmin
-from weblate.accounts.forms import AdminLoginForm
-from weblate.accounts.models import AuditLog, Profile, VerifiedEmail
-from weblate.auth.admin import RoleAdmin, WeblateGroupAdmin, WeblateUserAdmin
-from weblate.auth.models import Group, Role, User
-from weblate.checks.admin import CheckAdmin
-from weblate.checks.models import Check
-from weblate.configuration.admin import SettingAdmin
-from weblate.configuration.models import Setting
-from weblate.fonts.admin import FontAdmin, FontGroupAdmin
-from weblate.fonts.models import Font, FontGroup
-from weblate.lang.admin import LanguageAdmin
-from weblate.lang.models import Language
-from weblate.memory.admin import MemoryAdmin
-from weblate.memory.models import Memory
-from weblate.screenshots.admin import ScreenshotAdmin
-from weblate.screenshots.models import Screenshot
-from weblate.trans.admin import (
-    AnnouncementAdmin,
-    ChangeAdmin,
-    CommentAdmin,
-    ComponentAdmin,
-    ComponentListAdmin,
-    ContributorAgreementAdmin,
-    ProjectAdmin,
-    SuggestionAdmin,
-    TranslationAdmin,
-    UnitAdmin,
-)
-from weblate.trans.models import (
-    Announcement,
-    Change,
-    Comment,
-    Component,
-    ComponentList,
-    ContributorAgreement,
-    Project,
-    Suggestion,
-    Translation,
-    Unit,
-)
-from weblate.utils import messages
-from weblate.wladmin.models import ConfigurationError
 
 
 class WeblateAdminSite(AdminSite):
-    login_form = AdminLoginForm
     site_header = gettext_lazy("Weblate administration")
     site_title = gettext_lazy("Weblate administration")
     index_template = "admin/weblate-index.html"
     enable_nav_sidebar = False
+
+    @property
+    def login_form(self):
+        from weblate.accounts.forms import AdminLoginForm
+
+        return AdminLoginForm
 
     @property
     def site_url(self):
@@ -83,113 +26,9 @@ class WeblateAdminSite(AdminSite):
             return settings.URL_PREFIX
         return "/"
 
-    def discover(self):
-        """Manual discovery."""
-        # Accounts
-        self.register(User, WeblateUserAdmin)
-        self.register(Role, RoleAdmin)
-        self.register(Group, WeblateGroupAdmin)
-        self.register(AuditLog, AuditLogAdmin)
-        self.register(Profile, ProfileAdmin)
-        self.register(VerifiedEmail, VerifiedEmailAdmin)
-
-        # Languages
-        self.register(Language, LanguageAdmin)
-
-        # Memory
-        self.register(Memory, MemoryAdmin)
-
-        # Screenshots
-        self.register(Screenshot, ScreenshotAdmin)
-
-        # Fonts
-        self.register(Font, FontAdmin)
-        self.register(FontGroup, FontGroupAdmin)
-
-        # Translations
-        self.register(Project, ProjectAdmin)
-        self.register(Component, ComponentAdmin)
-        self.register(Announcement, AnnouncementAdmin)
-        self.register(ComponentList, ComponentListAdmin)
-        self.register(ContributorAgreement, ContributorAgreementAdmin)
-
-        # Settings
-        self.register(Setting, SettingAdmin)
-
-        # Show some controls only in debug mode
-        if settings.DEBUG:
-            self.register(Translation, TranslationAdmin)
-            self.register(Unit, UnitAdmin)
-            self.register(Suggestion, SuggestionAdmin)
-            self.register(Comment, CommentAdmin)
-            self.register(Check, CheckAdmin)
-            self.register(Change, ChangeAdmin)
-
-        # Billing
-        if "weblate.billing" in settings.INSTALLED_APPS:
-            from weblate.billing.admin import BillingAdmin, InvoiceAdmin, PlanAdmin
-            from weblate.billing.models import Billing, Invoice, Plan
-
-            self.register(Plan, PlanAdmin)
-            self.register(Billing, BillingAdmin)
-            self.register(Invoice, InvoiceAdmin)
-
-        # Hosted
-        if "wlhosted.integrations" in settings.INSTALLED_APPS:
-            from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
-            from wlhosted.payments.models import Customer, Payment
-
-            self.register(Customer, CustomerAdmin)
-            self.register(Payment, PaymentAdmin)
-
-        # Legal
-        if "weblate.legal" in settings.INSTALLED_APPS:
-            from weblate.legal.admin import AgreementAdmin
-            from weblate.legal.models import Agreement
-
-            self.register(Agreement, AgreementAdmin)
-
-        # SAML identity provider
-        if "djangosaml2idp" in settings.INSTALLED_APPS:
-            from djangosaml2idp.admin import PersistentIdAdmin, ServiceProviderAdmin
-            from djangosaml2idp.models import PersistentId, ServiceProvider
-
-            self.register(PersistentId, PersistentIdAdmin)
-            self.register(ServiceProvider, ServiceProviderAdmin)
-
-        # Python Social Auth
-        self.register(UserSocialAuth, UserSocialAuthOption)
-        self.register(Nonce, NonceOption)
-        self.register(Association, AssociationOption)
-
-        # Django REST Framework
-        self.register(Token, TokenAdmin)
-
-        # Django Celery Beat
-        self.register(IntervalSchedule)
-        self.register(CrontabSchedule)
-        self.register(SolarSchedule)
-        self.register(ClockedSchedule, ClockedScheduleAdmin)
-        self.register(PeriodicTask, PeriodicTaskAdmin)
-
-        # Simple SSO
-        if "simple_sso.sso_server" in settings.INSTALLED_APPS:
-            from simple_sso.sso_server.models import Consumer
-            from simple_sso.sso_server.server import ConsumerAdmin
-
-            self.register(Consumer, ConsumerAdmin)
-
-    @method_decorator(never_cache)
-    def logout(self, request, extra_context=None):
-        if request.method == "POST":
-            messages.info(request, gettext("Thank you for using Weblate."))
-            request.current_app = self.name
-            return LogoutView.as_view(next_page=reverse("admin:login"))(request)
-        context = self.each_context(request)
-        context["title"] = gettext("Sign out")
-        return render(request, "admin/logout-confirm.html", context)
-
     def each_context(self, request):
+        from weblate.wladmin.models import ConfigurationError
+
         result = super().each_context(request)
         empty = [gettext("Object listing turned off")]
         result["empty_selectable_objects_list"] = [empty]
@@ -199,11 +38,9 @@ class WeblateAdminSite(AdminSite):
         )
         return result
 
-    @property
-    def urls(self):
-        return self.get_urls()
-
 
 SITE = WeblateAdminSite()
-SITE.discover()
-admin.site = SITE
+
+
+def patch_admin_site():
+    sites.site = admin.site = SITE

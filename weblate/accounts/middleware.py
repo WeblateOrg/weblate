@@ -37,7 +37,7 @@ def get_user(request):
 class AuthenticationMiddleware:
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware."""
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -100,7 +100,7 @@ class RequireLoginMiddleware:
     define any exceptions (like login and logout URLs).
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
         self.required = self.get_setting_re(settings.LOGIN_REQUIRED_URLS)
         self.exceptions = self.get_setting_re(settings.LOGIN_REQUIRED_URLS_EXCEPTIONS)

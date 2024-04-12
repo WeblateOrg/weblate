@@ -6,7 +6,7 @@
 class WeblateError(Exception):
     """Base class for Weblate errors."""
 
-    def __init__(self, message=None):
+    def __init__(self, message=None) -> None:
         super().__init__(message or self.__doc__)
 
 
@@ -21,7 +21,7 @@ class PluralFormsMismatchError(WeblateError):
 class InvalidTemplateError(WeblateError):
     """Template file can not be parsed."""
 
-    def __init__(self, nested, message=None):
+    def __init__(self, nested, message=None) -> None:
         super().__init__(message or f"Template file can not be parsed: {nested}")
         self.nested = nested
 

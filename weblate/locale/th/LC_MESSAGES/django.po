@@ -1,15 +1,17 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# AefghThreenine <aefgh39622@gmail.com>, 2023.
+# AefghThreenine <aefgh39622@gmail.com>, 2023, 2024.
 # Chaowalit Phochan <siamese.cf@gmail.com>, 2023.
+# "A J." <ajtnco212@gmail.com>, 2024.
+# BANKUU <bankuu@gorutan.net>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2023-10-28 09:04+0000\n"
-"Last-Translator: Chaowalit Phochan <siamese.cf@gmail.com>\n"
+"PO-Revision-Date: 2024-03-13 21:01+0000\n"
+"Last-Translator: BANKUU <bankuu@gorutan.net>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -17,9 +19,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: weblate/accounts/avatar.py:84
+#, fuzzy
 msgctxt "No known user"
 msgid "None"
 msgstr "ไม่มี"
@@ -64,6 +67,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"ถูกใช้ในการควบคุมเวอร์ชัน. ที่อยู่จะอยู่ในพื้นที่เก็บข้อมูลตลอดไปเมื่อ "
+"Weblate ได้ทำการเปลี่ยนแปลง."
 
 #: weblate/accounts/forms.py:216 weblate/accounts/models.py:607
 msgid "Public e-mail"
@@ -79,10 +84,8 @@ msgid "Component list: %s"
 msgstr "รายชื่อคอมโพเนนต์: %s"
 
 #: weblate/accounts/forms.py:351
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "การเอาบัญชีออก"
+msgstr "บัญชีอีเมล"
 
 #: weblate/accounts/forms.py:353
 msgid ""
@@ -397,7 +400,7 @@ msgstr "ได้รับคำเชิญไปยัง {site_title} โด�
 #: weblate/accounts/models.py:162
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "ตอบรับคำเชิญจาก {username} แล้ว"
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -509,7 +512,7 @@ msgstr "ชุดตกแต่ง"
 #: weblate/accounts/models.py:429
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "ปรับตามระบบ"
 
 #: weblate/accounts/models.py:430
 msgctxt "Theme selection"
@@ -4014,7 +4017,7 @@ msgstr "ไฟล์ YAML"
 
 #: weblate/formats/convert.py:452
 msgid "RC file"
-msgstr ""
+msgstr "ไฟล์ RC"
 
 #: weblate/formats/convert.py:519
 #, fuzzy
@@ -4032,7 +4035,7 @@ msgstr ""
 
 #: weblate/formats/exporters.py:220
 msgid "gettext PO"
-msgstr ""
+msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:266
 #, fuzzy
@@ -4042,49 +4045,47 @@ msgstr "การดูแลระบบ"
 
 #: weblate/formats/exporters.py:297
 msgid "XLIFF 1.1"
-msgstr ""
+msgstr "XLIFF 1.1"
 
 #: weblate/formats/exporters.py:305
 msgid "TBX"
-msgstr ""
+msgstr "TBX"
 
 #: weblate/formats/exporters.py:313
 msgid "TMX"
-msgstr ""
+msgstr "TMX"
 
 #: weblate/formats/exporters.py:321
 msgid "gettext MO"
-msgstr ""
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:400
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: weblate/formats/exporters.py:422
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:448 weblate/trans/forms.py:1245
 msgid "JSON"
-msgstr ""
+msgstr "JSON"
 
 #: weblate/formats/exporters.py:453 weblate/formats/ttkit.py:1460
 msgid "JSON nested structure file"
-msgstr ""
+msgstr "ไฟล์โครงสร้างซ้อน JSON"
 
 #: weblate/formats/exporters.py:462 weblate/formats/ttkit.py:1403
 msgid "Android String Resource"
 msgstr "ทรัพยากรสตริง Android"
 
 #: weblate/formats/exporters.py:483
-#, fuzzy
-#| msgid "Search"
 msgid "iOS strings"
-msgstr "ค้นหา"
+msgstr "สตริง iOS"
 
 #: weblate/formats/external.py:25
 msgid "Excel Open XML"
-msgstr ""
+msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:154
 #, fuzzy
@@ -4093,20 +4094,16 @@ msgid "Multivalue CSV file (UTF-8)"
 msgstr "ไฟล์ CSV อย่างง่าย"
 
 #: weblate/formats/ttkit.py:1174
-#, fuzzy
-#| msgid "Generate"
 msgid "gettext PO file"
-msgstr "สร้าง"
+msgstr "ไฟล์ gettext PO"
 
 #: weblate/formats/ttkit.py:1187
 msgid "gettext PO file (monolingual)"
-msgstr ""
+msgstr "ไฟล์ gettext PO (ภาษาเดียว)"
 
 #: weblate/formats/ttkit.py:1211
-#, fuzzy
-#| msgid "Administration"
 msgid "Qt Linguist translation file"
-msgstr "การดูแลระบบ"
+msgstr "ไฟล์งานแปล Qt Linguist"
 
 #: weblate/formats/ttkit.py:1225
 #, fuzzy
@@ -4125,30 +4122,26 @@ msgid "XLIFF 1.2 with gettext extensions"
 msgstr "การดูแลระบบ"
 
 #: weblate/formats/ttkit.py:1293
-#, fuzzy
-#| msgid "Search"
 msgid "iOS strings (UTF-16)"
-msgstr "ค้นหา"
+msgstr "สตริง iOS (UTF-16)"
 
 #: weblate/formats/ttkit.py:1302
 msgid "iOS strings (UTF-8)"
-msgstr ""
+msgstr "สตริง iOS (UTF-8)"
 
 #: weblate/formats/ttkit.py:1309
 msgid "Java Properties (UTF-8)"
-msgstr ""
+msgstr "คุณสมบัติ Java (UTF-8)"
 
 #: weblate/formats/ttkit.py:1318
 msgid "Java Properties (UTF-16)"
-msgstr ""
+msgstr "คุณสมบัติ Java (UTF-16)"
 
 #: weblate/formats/ttkit.py:1328
 msgid "Java Properties (ISO 8859-1)"
-msgstr ""
+msgstr "คุณสมบัติ Java (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1340
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "ไฟล์ภาษา Joomla"
 
@@ -4167,14 +4160,12 @@ msgid "PHP strings"
 msgstr "สตริง PHP"
 
 #: weblate/formats/ttkit.py:1384
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Laravel PHP strings"
-msgstr "สตริง PHP"
+msgstr "สตริง Laravel PHP"
 
 #: weblate/formats/ttkit.py:1391
 msgid ".NET resource file"
-msgstr ""
+msgstr "ไฟล์ทรัพยากร .NET"
 
 #: weblate/formats/ttkit.py:1423
 #, fuzzy
@@ -4194,19 +4185,15 @@ msgstr "ไฟล์ JSON"
 
 #: weblate/formats/ttkit.py:1467
 msgid "WebExtension JSON file"
-msgstr ""
+msgstr "ไฟล์ WebExtension JSON"
 
 #: weblate/formats/ttkit.py:1477
-#, fuzzy
-#| msgid "JSON file"
 msgid "i18next JSON file v3"
-msgstr "ไฟล์ JSON"
+msgstr "ไฟล์ i18next JSON v3"
 
 #: weblate/formats/ttkit.py:1487
-#, fuzzy
-#| msgid "JSON file"
 msgid "i18next JSON file v4"
-msgstr "ไฟล์ JSON"
+msgstr "ไฟล์ i18next JSON v4"
 
 #: weblate/formats/ttkit.py:1493
 #, fuzzy
@@ -4221,10 +4208,8 @@ msgid "go-i18n v2 JSON file"
 msgstr "ไฟล์ JSON"
 
 #: weblate/formats/ttkit.py:1509
-#, fuzzy
-#| msgid "YAML file"
 msgid "ARB file"
-msgstr "ไฟล์ YAML"
+msgstr "ไฟล์ ARB"
 
 #: weblate/formats/ttkit.py:1518
 #, fuzzy
@@ -4243,10 +4228,8 @@ msgid "CSV file"
 msgstr "ไฟล์ CSV"
 
 #: weblate/formats/ttkit.py:1623
-#, fuzzy
-#| msgid "CSV file"
 msgid "CSV file (UTF-8)"
-msgstr "ไฟล์ CSV"
+msgstr "ไฟล์ CSV (UTF-8)"
 
 #: weblate/formats/ttkit.py:1630
 msgid "Simple CSV file"
@@ -4257,10 +4240,8 @@ msgid "Simple CSV file (ISO-8859-1)"
 msgstr "ไฟล์ CSV อย่างง่าย (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1655
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
-msgstr "ไฟล์ CSV อย่างง่าย"
+msgstr "ไฟล์ CSV อย่างง่าย (UTF-8)"
 
 #: weblate/formats/ttkit.py:1662
 msgid "YAML file"
@@ -4272,29 +4253,27 @@ msgstr "ไฟล์ Ruby YAML"
 
 #: weblate/formats/ttkit.py:1689
 msgid "DTD file"
-msgstr ""
+msgstr "ไฟล์ DTD"
 
 #: weblate/formats/ttkit.py:1732
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "ไฟล์บทบรรยาย SubRip"
 
 #: weblate/formats/ttkit.py:1747
 msgid "MicroDVD subtitle file"
-msgstr ""
+msgstr "ไฟล์บทบรรยาย MicroDVD"
 
 #: weblate/formats/ttkit.py:1754
 msgid "Advanced SubStation Alpha subtitle file"
-msgstr ""
+msgstr "ไฟล์บทบรรยาย Advanced SubStation Alpha"
 
 #: weblate/formats/ttkit.py:1761
 msgid "SubStation Alpha subtitle file"
-msgstr ""
+msgstr "ไฟล์บทบรรยาย SubStation Alpha"
 
 #: weblate/formats/ttkit.py:1768
-#, fuzzy
-#| msgid "Generate"
 msgid "Flat XML file"
-msgstr "สร้าง"
+msgstr "ไฟล์ Flat XML"
 
 #: weblate/formats/ttkit.py:1777
 #, fuzzy
@@ -4303,42 +4282,32 @@ msgid "ResourceDictionary file"
 msgstr "ความล้มเหลวเกี่ยวกับคลังเก็บ"
 
 #: weblate/formats/ttkit.py:1790
-#, fuzzy
-#| msgid "YAML file"
 msgid "INI file"
-msgstr "ไฟล์ YAML"
+msgstr "ไฟล์ INI"
 
 #: weblate/formats/ttkit.py:1829
 msgid "Inno Setup INI file"
-msgstr ""
+msgstr "ไฟล์ Inno Setup INI"
 
 #: weblate/formats/ttkit.py:1998
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "ไฟล์ TermBase eXchange"
 
 #: weblate/formats/ttkit.py:2031
-#, fuzzy
-#| msgid "Failing file"
 msgid "mi18n lang file"
-msgstr "ไฟล์ที่ล้มเหลว"
+msgstr "ไฟล์ภาษา mi18n"
 
 #: weblate/formats/ttkit.py:2040
-#, fuzzy
-#| msgid "Versions"
 msgid "Stringsdict file"
-msgstr "รุ่น"
+msgstr "ไฟล์ Stringsdict"
 
 #: weblate/formats/ttkit.py:2111
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "ไฟล์แบบอักษร"
+msgstr "ไฟล์ Fluent"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
-msgstr ""
+msgstr "ไฟล์ข้อมูลกำกับ App Store"
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -4355,10 +4324,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "ภาษา"
 
 #: weblate/glossary/forms.py:39
-#, fuzzy
-#| msgid "Administration"
 msgid "Untranslatable term"
-msgstr "การดูแลระบบ"
+msgstr "ศัพท์ที่แปลไม่ได้"
 
 #: weblate/glossary/forms.py:97 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4554,44 +4521,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "ศูนย์/หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
 
 #: weblate/lang/models.py:730
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "ศูนย์/หนึ่ง/อื่นๆ"
+msgstr "ศูนย์/อื่นๆ"
 
 #: weblate/lang/models.py:734
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "ศูนย์/หนึ่ง/อื่นๆ"
+msgstr "ศูนย์/หนึ่ง/น้อย/อื่นๆ"
 
 #: weblate/lang/models.py:738
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "ศูนย์/หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
+msgstr "ศูนย์/หนึ่ง/สอง/น้อย/อื่นๆ"
 
 #: weblate/lang/models.py:742
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "ศูนย์/หนึ่ง/อื่นๆ"
+msgstr "ศูนย์/หนึ่ง/สอง/อื่นๆ"
 
 #: weblate/lang/models.py:746
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "ศูนย์/หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
+msgstr "ศูนย์/หนึ่ง/น้อย/มาก/อื่นๆ"
 
 #: weblate/lang/models.py:750
 #, fuzzy
@@ -4653,10 +4605,8 @@ msgid "CLDR v38+ plural"
 msgstr ""
 
 #: weblate/lang/models.py:784
-#, fuzzy
-#| msgid "Versions"
 msgid "Android plural"
-msgstr "รุ่น"
+msgstr "รูปแบบพหูพจน์ Android"
 
 #: weblate/lang/models.py:785
 #, fuzzy
@@ -4666,7 +4616,7 @@ msgstr "รุ่น"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
-msgstr ""
+msgstr "สูตรที่ป้อนเอง"
 
 #: weblate/lang/models.py:790 weblate/templates/snippets/info.html:54
 msgid "Number of plurals"
@@ -4674,10 +4624,8 @@ msgstr "จำนวนรูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:796 weblate/templates/snippets/info.html:77
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "รูปแบบพหูพจน์"
+msgstr "สูตรรูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:801 weblate/templates/snippets/info.html:58
 msgid "Plural type"
@@ -5481,6 +5429,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
+"คอมมิตทั้งหมดที่ทำด้วย Weblate จะถูกลงลายเซ็นด้วยคีย์ GPG %(gpg_key_id)s "
+"ซึ่งสามารถพบคีย์สาธารณะที่สอดคล้องกันได้ด้านล่าง"
 
 #: weblate/templates/about/keys.html:31
 msgid "Commit signing is not configured."
@@ -10724,7 +10674,7 @@ msgstr "ลงคะแนนคัดค้าน"
 
 #: weblate/templates/snippets/suggestions.html:34
 msgid "Accept"
-msgstr "ยอมรับ"
+msgstr "ตกลง"
 
 #: weblate/templates/snippets/suggestions.html:36
 #, fuzzy

@@ -11,7 +11,7 @@ from weblate.auth.models import User
 
 
 def try_get_user(username, list_all=False):
-    """Wrapper to get User object for authentication."""
+    """Get User object for authentication."""
     method = User.objects.filter if list_all else User.objects.get
     if "@" in username:
         return method(email=username)
@@ -43,7 +43,7 @@ class WeblateUserBackend(ModelBackend):
 
 
 @receiver(pre_save, sender=User)
-def disable_anon_user_password_save(sender, instance, **kwargs):
+def disable_anon_user_password_save(sender, instance, **kwargs) -> None:
     """Block setting password for anonymous user."""
     if instance.is_anonymous and instance.has_usable_password():
         raise ValueError("Anonymous user can not have usable password!")

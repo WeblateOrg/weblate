@@ -102,7 +102,7 @@ def optional_form(form, perm_user, perm, perm_obj, **kwargs):
     return form(**kwargs)
 
 
-def get_percent_color(percent):
+def get_percent_color(percent) -> str:
     if percent >= 85:
         return "#2eccaa"
     if percent >= 50:
@@ -164,7 +164,7 @@ class PathViewMixin:
             self.request, self.kwargs.get("path", ""), self.supported_path_types
         )
 
-    def setup(self, request, **kwargs):
+    def setup(self, request, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.path_object = self.get_path_object()
 
@@ -189,7 +189,7 @@ SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items(
 
 
 def get_sort_name(request, obj=None):
-    """Gets sort name."""
+    """Get sort name."""
     if hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
     else:
@@ -216,7 +216,7 @@ def parse_path(  # noqa: C901
     allowed_types = {x for x in types if x is not None}
     acting_user = request.user if request else None
 
-    def check_type(cls):
+    def check_type(cls) -> None:
         if cls not in allowed_types:
             raise UnsupportedPathObjectError(f"Not supported object type: {cls}")
 
@@ -362,7 +362,7 @@ def parse_path_units(
     return obj, unit_set, context
 
 
-def guess_filemask_from_doc(data, docfile=None):
+def guess_filemask_from_doc(data, docfile=None) -> None:
     if "filemask" in data:
         return
 
@@ -418,7 +418,7 @@ def create_component_from_zip(data, zipfile=None):
     return fake
 
 
-def try_set_language(lang):
+def try_set_language(lang) -> None:
     """Try to activate language."""
     try:
         activate(lang)
@@ -427,7 +427,7 @@ def try_set_language(lang):
         activate("en")
 
 
-def import_message(request, count, message_none, message_ok):
+def import_message(request, count, message_none, message_ok) -> None:
     if count == 0:
         messages.warning(request, message_none)
     else:
@@ -471,18 +471,15 @@ def zip_download(
 
 def handle_last_modified(
     request: HttpRequest, stats: BaseStats
-) -> tuple[str, HttpResponseBase | None]:
+) -> HttpResponseBase | None:
     last_modified = stats.last_changed
-    if last_modified:
-        last_modified = int(last_modified.timestamp())
-        # Respond with 302/412 response if needed
-        response = get_conditional_response(request, last_modified=last_modified)
-    else:
-        # Use current timestamp if stats do not have any
-        last_modified = int(time.time())
-        response = None
-
-    return http_date(last_modified), response
+    if not last_modified:
+        return None
+    # Respond with 302/412 response if needed
+    return get_conditional_response(
+        request,
+        last_modified=int(last_modified.timestamp()),
+    )
 
 
 @gzip_page
@@ -492,7 +489,7 @@ def download_translation_file(
     fmt: str | None = None,
     query_string: str | None = None,
 ):
-    last_modified_response, response = handle_last_modified(request, translation.stats)
+    response = handle_last_modified(request, translation.stats)
     if response is not None:
         return response
 
@@ -548,7 +545,13 @@ def download_translation_file(
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"
 
-    response["Last-Modified"] = last_modified_response
+    # Last-Modified timestamp
+    if last_changed := translation.stats.last_changed:
+        last_modified = last_changed.timestamp()
+    else:
+        # Use current timestamp if stats do not have any
+        last_modified = time.time()
+    response["Last-Modified"] = http_date(int(last_modified))
 
     return response
 
@@ -564,7 +567,7 @@ def get_form_errors(form):
             }
 
 
-def show_form_errors(request, form):
+def show_form_errors(request, form) -> None:
     """Show all form errors as a message."""
     for error in get_form_errors(form):
         messages.error(request, error)

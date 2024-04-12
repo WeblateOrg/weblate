@@ -5,9 +5,11 @@
 from __future__ import annotations
 
 from copy import copy
+from typing import TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
+from django.db.models import Model
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
@@ -40,6 +42,8 @@ from weblate.utils.views import (
     guess_filemask_from_doc,
 )
 
+_MT = TypeVar("_MT", bound=Model)  # Model Type
+
 
 def get_reverse_kwargs(
     obj, lookup_field: tuple[str, ...], strip_parts: int = 0
@@ -65,11 +69,16 @@ def get_reverse_kwargs(
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
-    def __init__(self, strip_parts=0, **kwargs):
+    lookup_field: tuple[str, ...]  # type: ignore[assignment]
+
+    def __init__(
+        self, lookup_field: tuple[str, ...], strip_parts: int = 0, **kwargs
+    ) -> None:
         self.strip_parts = strip_parts
         super().__init__(**kwargs)
+        self.lookup_field = lookup_field
 
-    def get_url(self, obj, view_name, request, format):
+    def get_url(self, obj, view_name, request, format):  # noqa: A002
         """
         Given an object, return the URL that hyperlinks to the object.
 
@@ -88,14 +97,14 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
 
 class AbsoluteURLField(serializers.CharField):
     def get_attribute(self, instance):
-        value = super().get_attribute(instance)
+        value = cast(str, super().get_attribute(instance))
         if "http:/" not in value and "https:/" not in value:
             return get_site_url(value)
         return value
 
 
-class RemovableSerializer(serializers.ModelSerializer):
-    def __init__(self, *args, **kwargs):
+class RemovableSerializer(serializers.ModelSerializer[_MT]):
+    def __init__(self, *args, **kwargs) -> None:
         remove_fields = kwargs.pop("remove_fields", None)
         super().__init__(*args, **kwargs)
 
@@ -105,7 +114,7 @@ class RemovableSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-class LanguagePluralSerializer(serializers.ModelSerializer):
+class LanguagePluralSerializer(serializers.ModelSerializer[Plural]):
     class Meta:
         model = Plural
         fields = (
@@ -117,7 +126,7 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
         )
 
 
-class LanguageSerializer(serializers.ModelSerializer):
+class LanguageSerializer(serializers.ModelSerializer[Language]):
     name = serializers.CharField(required=False, max_length=LANGUAGE_NAME_LENGTH)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     plural = LanguagePluralSerializer(required=False)
@@ -193,7 +202,7 @@ class LanguageSerializer(serializers.ModelSerializer):
         return super().get_value(dictionary)
 
 
-class FullUserSerializer(serializers.ModelSerializer):
+class FullUserSerializer(serializers.ModelSerializer[User]):
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail",
         lookup_field="id",
@@ -231,7 +240,7 @@ class FullUserSerializer(serializers.ModelSerializer):
         }
 
 
-class BasicUserSerializer(serializers.ModelSerializer):
+class BasicUserSerializer(serializers.ModelSerializer[User]):
     class Meta:
         model = User
         fields = (
@@ -241,7 +250,7 @@ class BasicUserSerializer(serializers.ModelSerializer):
         )
 
 
-class PermissionSerializer(serializers.RelatedField):
+class PermissionSerializer(serializers.RelatedField[Permission, str, str]):
     class Meta:
         model = Permission
 
@@ -260,7 +269,7 @@ class PermissionSerializer(serializers.RelatedField):
         return data
 
 
-class RoleSerializer(serializers.ModelSerializer):
+class RoleSerializer(serializers.ModelSerializer[Role]):
     permissions = PermissionSerializer(many=True)
 
     class Meta:
@@ -296,7 +305,7 @@ class RoleSerializer(serializers.ModelSerializer):
         return instance
 
 
-class GroupSerializer(serializers.ModelSerializer):
+class GroupSerializer(serializers.ModelSerializer[Group]):
     roles = serializers.HyperlinkedIdentityField(
         view_name="api:role-detail",
         lookup_field="id",
@@ -351,13 +360,13 @@ class GroupSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
         self.fields["defining_project"].queryset = user.managed_projects
 
 
-class ProjectSerializer(serializers.ModelSerializer):
+class ProjectSerializer(serializers.ModelSerializer[Project]):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
@@ -425,7 +434,7 @@ class RepoField(LinkedField):
 
 
 class RelatedTaskField(serializers.HyperlinkedRelatedField):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(
             "api:task-detail",
             read_only=True,
@@ -437,13 +446,13 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
     def get_attribute(self, instance):
         return instance
 
-    def get_url(self, obj, view_name, request, format):
+    def get_url(self, obj, view_name, request, format):  # noqa: A002
         if not obj.in_progress():
             return None
         return super().get_url(obj, view_name, request, format)
 
 
-class ComponentSerializer(RemovableSerializer):
+class ComponentSerializer(RemovableSerializer[Component]):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     project = ProjectSerializer(read_only=True)
     repository_url = MultiFieldHyperlinkedIdentityField(
@@ -579,7 +588,7 @@ class ComponentSerializer(RemovableSerializer):
             }
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         project = None
@@ -647,6 +656,10 @@ class ComponentSerializer(RemovableSerializer):
         elif self.instance:
             result["project"] = self.instance.project
 
+        # Workaround for https://github.com/encode/django-rest-framework/issues/7489
+        if "category" not in result:
+            result["category"] = None
+
         return result
 
     def validate(self, attrs):
@@ -700,7 +713,7 @@ class ComponentSerializer(RemovableSerializer):
         return attrs
 
 
-class NotificationSerializer(serializers.ModelSerializer):
+class NotificationSerializer(serializers.ModelSerializer[Subscription]):
     project = ProjectSerializer(read_only=True)
     component = ComponentSerializer(read_only=True)
 
@@ -716,7 +729,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         )
 
 
-class TranslationSerializer(RemovableSerializer):
+class TranslationSerializer(RemovableSerializer[Translation]):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     share_url = AbsoluteURLField(source="get_share_url", read_only=True)
     translate_url = AbsoluteURLField(source="get_translate_url", read_only=True)
@@ -821,14 +834,14 @@ class TranslationSerializer(RemovableSerializer):
 
 
 class ReadOnlySerializer(serializers.Serializer):
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> None:
         return None
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> None:
         return None
 
 
-class LockSerializer(serializers.ModelSerializer):
+class LockSerializer(serializers.ModelSerializer[Component]):
     class Meta:
         model = Component
         fields = ("locked",)
@@ -870,7 +883,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
             return ""
         return value
 
-    def check_perms(self, user, obj):
+    def check_perms(self, user, obj) -> None:
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
             raise serializers.ValidationError(
@@ -970,7 +983,7 @@ class PluralField(serializers.ListField):
         return getattr(instance, f"get_{self.field_name}_plurals")()
 
 
-class MemorySerializer(serializers.ModelSerializer):
+class MemorySerializer(serializers.ModelSerializer[Memory]):
     class Meta:
         model = Memory
         fields = (
@@ -986,7 +999,7 @@ class MemorySerializer(serializers.ModelSerializer):
         )
 
 
-class LabelSerializer(serializers.ModelSerializer):
+class LabelSerializer(serializers.ModelSerializer[Label]):
     class Meta:
         model = Label
         fields = ("id", "name", "color")
@@ -1025,7 +1038,7 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
         return value.id
 
 
-class UnitSerializer(serializers.ModelSerializer):
+class UnitSerializer(serializers.ModelSerializer[Unit]):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
@@ -1081,7 +1094,7 @@ class UnitSerializer(serializers.ModelSerializer):
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
 
-class UnitWriteSerializer(serializers.ModelSerializer):
+class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
     """Serializer for updating source unit."""
 
     target = PluralField()
@@ -1112,7 +1125,7 @@ class NewUnitSerializer(serializers.Serializer):
         required=False,
     )
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data=None) -> dict[str, str | None]:
         raise NotImplementedError
 
     def validate(self, attrs):
@@ -1156,7 +1169,7 @@ class BilingualUnitSerializer(NewUnitSerializer):
         }
 
 
-class CategorySerializer(RemovableSerializer):
+class CategorySerializer(RemovableSerializer[Category]):
     project = serializers.HyperlinkedRelatedField(
         view_name="api:project-detail",
         lookup_field="slug",
@@ -1168,19 +1181,25 @@ class CategorySerializer(RemovableSerializer):
         queryset=Category.objects.none(),
         required=False,
     )
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:category-statistics",
+        lookup_field="pk",
+    )
 
     class Meta:
         model = Category
         fields = (
+            "id",
             "name",
             "slug",
             "project",
             "category",
             "url",
+            "statistics_url",
         )
         extra_kwargs = {"url": {"view_name": "api:category-detail"}}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         user = self.context["request"].user
         self.fields["project"].queryset = user.managed_projects
@@ -1199,8 +1218,22 @@ class CategorySerializer(RemovableSerializer):
         instance.clean()
         return attrs
 
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
 
-class ScreenshotSerializer(RemovableSerializer):
+        # Add missing project context
+        if "project" in self._context:
+            result["project"] = self._context["project"]
+        elif self.instance:
+            result["project"] = self.instance.project
+
+        # Workaround for https://github.com/encode/django-rest-framework/issues/7489
+        if "category" not in result:
+            result["category"] = None
+        return result
+
+
+class ScreenshotSerializer(RemovableSerializer[Screenshot]):
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
         lookup_field=(
@@ -1246,7 +1279,7 @@ class ScreenshotCreateSerializer(ScreenshotSerializer):
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 
-class ScreenshotFileSerializer(serializers.ModelSerializer):
+class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
     image = serializers.ImageField(validators=[validate_bitmap])
 
     class Meta:
@@ -1255,7 +1288,7 @@ class ScreenshotFileSerializer(serializers.ModelSerializer):
         extra_kwargs = {"url": {"view_name": "api:screenshot-file"}}
 
 
-class ChangeSerializer(RemovableSerializer):
+class ChangeSerializer(RemovableSerializer[Change]):
     action_name = serializers.CharField(source="get_action_display", read_only=True)
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
@@ -1299,7 +1332,7 @@ class ChangeSerializer(RemovableSerializer):
         extra_kwargs = {"url": {"view_name": "api:change-detail"}}
 
 
-class AutoComponentListSerializer(serializers.ModelSerializer):
+class AutoComponentListSerializer(serializers.ModelSerializer[AutoComponentList]):
     class Meta:
         model = AutoComponentList
         fields = (
@@ -1308,7 +1341,7 @@ class AutoComponentListSerializer(serializers.ModelSerializer):
         )
 
 
-class ComponentListSerializer(serializers.ModelSerializer):
+class ComponentListSerializer(serializers.ModelSerializer[ComponentList]):
     components = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("project__slug", "slug"),
@@ -1335,7 +1368,7 @@ class ComponentListSerializer(serializers.ModelSerializer):
         }
 
 
-class AddonSerializer(serializers.ModelSerializer):
+class AddonSerializer(serializers.ModelSerializer[Addon]):
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -1390,7 +1423,7 @@ class AddonSerializer(serializers.ModelSerializer):
                     {"name": f"Add-on already installed: {name}"}
                 )
 
-        addon = addon_class()
+        addon = addon_class(Addon())
         if not addon.can_install(component, None):
             raise serializers.ValidationError(
                 {"name": f"could not enable add-on {name}, not compatible"}

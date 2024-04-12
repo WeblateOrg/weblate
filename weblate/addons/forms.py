@@ -22,7 +22,7 @@ from weblate.utils.validators import validate_filename, validate_re
 
 
 class BaseAddonForm(forms.Form):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs) -> None:
         self._addon = addon
         self.user = user
         forms.Form.__init__(self, *args, **kwargs)
@@ -52,7 +52,7 @@ class GenerateMoForm(BaseAddonForm):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -63,7 +63,7 @@ class GenerateMoForm(BaseAddonForm):
             ),
         )
 
-    def test_render(self, value):
+    def test_render(self, value) -> None:
         validate_render_component(value, translation=True)
 
     def clean_path(self):
@@ -82,7 +82,7 @@ class GenerateForm(BaseAddonForm):
         required=True,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -93,7 +93,7 @@ class GenerateForm(BaseAddonForm):
             ),
         )
 
-    def test_render(self, value):
+    def test_render(self, value) -> None:
         validate_render_component(value, translation=True)
 
     def clean_filename(self):
@@ -180,7 +180,7 @@ class GitSquashForm(BaseAddonForm):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -334,7 +334,7 @@ class DiscoveryForm(BaseAddonForm):
         widget=forms.HiddenInput,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -379,7 +379,7 @@ class DiscoveryForm(BaseAddonForm):
             **ComponentDiscovery.extract_kwargs(self.cleaned_data),
         )
 
-    def clean(self):
+    def clean(self) -> None:
         if file_format := self.cleaned_data.get("file_format"):
             is_monolingual = FILE_FORMATS[file_format].monolingual
             if is_monolingual and not self.cleaned_data.get("base_file_template"):
@@ -454,13 +454,13 @@ class DiscoveryForm(BaseAddonForm):
 
 
 class AutoAddonForm(BaseAddonForm, AutoForm):
-    def __init__(self, user, addon, instance=None, **kwargs):
+    def __init__(self, user, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         AutoForm.__init__(self, obj=addon.instance.component, **kwargs)
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
-    def __init__(self, user, addon, instance=None, **kwargs):
+    def __init__(self, user, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         component = addon.instance.component
         BulkEditForm.__init__(
@@ -509,7 +509,7 @@ class CDNJSForm(BaseAddonForm):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -589,7 +589,7 @@ class PseudolocaleAddonForm(BaseAddonForm):
         required=False,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         queryset = self._addon.instance.component.translation_set.all()
         self.fields["source"].queryset = queryset
@@ -609,10 +609,17 @@ class PseudolocaleAddonForm(BaseAddonForm):
             ),
         )
 
-    def clean(self):
+    def clean(self) -> None:
         if "source" not in self.cleaned_data or "target" not in self.cleaned_data:
             return
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
             raise forms.ValidationError(
                 gettext("The source and target have to be different languages.")
             )
+
+    def serialize_form(self):
+        result = dict(self.cleaned_data)
+        # Need to convert to JSON serializable objects
+        result["source"] = result["source"].pk
+        result["target"] = result["target"].pk
+        return result

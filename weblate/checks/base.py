@@ -42,7 +42,7 @@ class Check:
     def get_identifier(self):
         return self.check_id
 
-    def get_propagated_value(self, unit):
+    def get_propagated_value(self, unit) -> None:
         return None
 
     def get_propagated_units(self, unit, target: str | None = None):
@@ -50,7 +50,7 @@ class Check:
 
         return Unit.objects.none()
 
-    def __init__(self):
+    def __init__(self) -> None:
         id_dash = self.check_id.replace("_", "-")
         self.url_id = f"check:{self.check_id}"
         self.doc_id = f"check-{id_dash}"
@@ -60,7 +60,7 @@ class Check:
     def is_ignored(self, all_flags):
         return self.ignore_string in all_flags or "ignore-all-checks" in all_flags
 
-    def should_skip(self, unit):
+    def should_skip(self, unit) -> bool:
         """Check whether we should skip processing this unit."""
         all_flags = unit.all_flags
         # Is this check ignored
@@ -68,10 +68,7 @@ class Check:
             return True
 
         # Is this disabled by default
-        if self.default_disabled and self.enable_string not in all_flags:
-            return True
-
-        return False
+        return bool(self.default_disabled and self.enable_string not in all_flags)
 
     def should_display(self, unit):
         """Display the check always, not only when failing."""
@@ -112,7 +109,7 @@ class Check:
             for source, target in plural_mapper.zip(sources, targets, unit)
         )
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
@@ -122,12 +119,12 @@ class Check:
             return False
         return self.check_source_unit(source, unit)
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, source, unit) -> bool:
         """Check source string."""
         raise NotImplementedError
 
     def check_chars(self, source, target, pos, chars):
-        """Generic checker for chars presence."""
+        """Check whether characters are present."""
         try:
             src = source[pos]
             tgt = target[pos]
@@ -152,13 +149,13 @@ class Check:
     def get_description(self, check_obj):
         return self.description
 
-    def get_fixup(self, unit):
+    def get_fixup(self, unit) -> None:
         return None
 
-    def render(self, request, unit):
+    def render(self, request, unit) -> StrOrPromise:
         raise Http404("Not supported")
 
-    def get_cache_key(self, unit, pos):
+    def get_cache_key(self, unit, pos: int):
         return "check:{}:{}:{}:{}".format(
             self.check_id,
             unit.pk,
@@ -200,19 +197,19 @@ class Check:
         )
 
 
-class BatchCheckMixin:
+class BatchCheckMixin(Check):
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)
         return self.check_id in unit.all_checks_names
 
-    def check_component(self, component):
+    def check_component(self, component) -> bool:
         raise NotImplementedError
 
-    def perform_batch(self, component):
+    def perform_batch(self, component) -> None:
         with sentry_sdk.start_span(op="check.perform_batch", description=self.check_id):
             self._perform_batch(component)
 
-    def _perform_batch(self, component):
+    def _perform_batch(self, component) -> None:
         from weblate.checks.models import Check
         from weblate.trans.models import Component
 
@@ -267,11 +264,11 @@ class TargetCheck(Check):
 
     target = True
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, source, unit) -> bool:
         """We don't check source strings here."""
         return False
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
@@ -307,11 +304,11 @@ class SourceCheck(Check):
 
     source = True
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, source, unit) -> bool:
         """Check source string."""
         raise NotImplementedError
 
@@ -335,10 +332,10 @@ class TargetCheckParametrized(TargetCheck):
             )
         return False
 
-    def check_target_params(self, sources, targets, unit, value):
+    def check_target_params(self, sources, targets, unit, value) -> bool:
         raise NotImplementedError
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """We don't check single phrase here."""
         return False
 

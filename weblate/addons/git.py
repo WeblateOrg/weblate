@@ -36,7 +36,7 @@ class GitSquashAddon(BaseAddon):
     icon = "compress.svg"
     repo_scope = True
 
-    def squash_all(self, component, repository, base=None, author=None):
+    def squash_all(self, component, repository, base=None, author=None) -> None:
         remote = base if base else repository.get_remote_branch_name()
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
@@ -66,7 +66,13 @@ class GitSquashAddon(BaseAddon):
 
         return repository.execute(command)
 
-    def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
+    def get_squash_commit_message(
+        self,
+        repository,
+        log_format: str,
+        remote: str,
+        filenames: list[str] | None = None,
+    ) -> str:
         commit_message = self.instance.configuration.get("commit_message")
 
         if self.instance.configuration.get("append_trailers", True):
@@ -126,7 +132,7 @@ class GitSquashAddon(BaseAddon):
 
         return commit_message
 
-    def squash_language(self, component, repository):
+    def squash_language(self, component, repository) -> None:
         remote = repository.get_remote_branch_name()
         languages = self.get_filenames(component)
 
@@ -147,7 +153,7 @@ class GitSquashAddon(BaseAddon):
                 message=message, files=languages[code], signals=False, skip_push=True
             )
 
-    def squash_file(self, component, repository):
+    def squash_file(self, component, repository) -> None:
         remote = repository.get_remote_branch_name()
         languages = self.get_filenames(component)
 
@@ -167,7 +173,7 @@ class GitSquashAddon(BaseAddon):
                 message=message, files=[filename], signals=False, skip_push=True
             )
 
-    def squash_author(self, component, repository):
+    def squash_author(self, component, repository) -> None:
         remote = repository.get_remote_branch_name()
         # Get list of pending commits with authors
         commits = [
@@ -225,7 +231,7 @@ class GitSquashAddon(BaseAddon):
             repository.execute(["checkout", repository.branch])
             repository.delete_branch(tmp)
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         repository = component.repository
         branch_updated = False
         with repository.lock:

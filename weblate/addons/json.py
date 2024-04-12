@@ -28,7 +28,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
         }
     }
 
-    def store_post_load(self, translation, store):
+    def store_post_load(self, translation, store) -> None:
         config = self.instance.configuration
         style = config.get("style", "spaces")
         indent = int(config.get("indent", 4))

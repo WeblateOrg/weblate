@@ -31,6 +31,11 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
     :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
+    :query page_size: Return the given number of items per request.
+                      The default is 50 and the maximum is 1000.
+                      For the `units` endpoints the default is 100 with
+                      a maximum of 10000. The default value is also
+                      configurable using the `PAGE_SIZE` setting.
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
     :reqheader Authorization: optional token to authenticate as
@@ -607,6 +612,28 @@ Groups
     :param component_list_id: The unique componentlist ID
     :type component_list_id: int
 
+.. http:post:: /api/groups/(int:id)/admins/
+
+    .. versionadded:: 5.5
+
+    Add user to team admins.
+
+    :param id: Group's ID
+    :type id: int
+    :form string user_id: The user's ID
+
+.. http:delete:: /api/groups/(int:id)/admins/(int:user_id)
+
+    .. versionadded:: 5.5
+
+    Delete user from team admins.
+
+    :param id: Group's ID
+    :type id: int
+    :param user_id: The user's ID
+    :type user_id: integer
+
+
 
 Roles
 +++++
@@ -872,6 +899,18 @@ Projects
     :param project: Project URL slug
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
+
+.. http:get:: /api/projects/(string:project)/file/
+
+    .. versionadded:: 5.5
+
+    Downloads all available translations associated with the project as an archive file using the requested format and language.
+
+    :param project: Project URL slug
+    :type project: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
+    :query string language_code: The language code to download; If not specified, all languages are included.
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -2504,6 +2543,7 @@ Statistics
 
       :http:get:`/api/languages/(string:language)/statistics/`,
       :http:get:`/api/projects/(string:project)/statistics/`,
+      :http:get:`/api/categories/(int:id)/statistics/`,
       :http:get:`/api/components/(string:project)/(string:component)/statistics/`,
       :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
@@ -2596,6 +2636,19 @@ Categories
 
     :param id: Category ID
     :type id: int
+
+.. http:get:: /api/categories/(int:id)/statistics/
+
+    .. versionadded:: 5.5
+
+    Returns statistics for a category.
+
+    :param project: Category id
+    :type project: int
+
+    .. seealso::
+
+       Returned attributes are described in :ref:`api-statistics`.
 
 .. _hooks:
 

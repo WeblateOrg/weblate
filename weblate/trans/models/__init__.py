@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from functools import partial
 
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
@@ -49,7 +50,7 @@ __all__ = [
 ]
 
 
-def delete_object_dir(instance):
+def delete_object_dir(instance) -> None:
     """Remove path if it exists."""
     project_path = instance.full_path
     if os.path.exists(project_path):
@@ -57,8 +58,13 @@ def delete_object_dir(instance):
 
 
 @receiver(post_delete, sender=Project)
-def project_post_delete(sender, instance, **kwargs):
-    """Handler to delete (sub)project directory on project deletion."""
+def project_post_delete(sender, instance, **kwargs) -> None:
+    """
+    Project deletion hook.
+
+    - delete project directory
+    - update stats
+    """
     # Update stats
     transaction.on_commit(instance.stats.update_parents)
     instance.stats.delete()
@@ -68,14 +74,19 @@ def project_post_delete(sender, instance, **kwargs):
 
 
 @receiver(pre_delete, sender=Component)
-def component_pre_delete(sender, instance, **kwargs):
+def component_pre_delete(sender, instance, **kwargs) -> None:
     # Collect list of stats to update, this can't be done after removal
     instance.stats.collect_update_objects()
 
 
 @receiver(post_delete, sender=Component)
-def component_post_delete(sender, instance, **kwargs):
-    """Handler to delete (sub)project directory on project deletion."""
+def component_post_delete(sender, instance, **kwargs) -> None:
+    """
+    Component deletion hook.
+
+    - delete component directory
+    - update stats, this is accompanied by component_pre_delete
+    """
     # Update stats
     transaction.on_commit(instance.stats.update_parents)
     instance.stats.delete()
@@ -86,14 +97,14 @@ def component_post_delete(sender, instance, **kwargs):
 
 
 @receiver(post_delete, sender=Translation)
-def translation_post_delete(sender, instance, **kwargs):
-    """Handler to delete stats on translation deletion."""
+def translation_post_delete(sender, instance, **kwargs) -> None:
+    """Delete translation stats on translation deletion."""
     transaction.on_commit(instance.stats.delete)
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
 @disable_for_loaddata
-def change_labels(sender, instance, action, pk_set, **kwargs):
+def change_labels(sender, instance, action, pk_set, **kwargs) -> None:
     """Update unit labels."""
     if (
         action not in {"post_add", "post_remove", "post_clear"}
@@ -105,8 +116,21 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         instance.translation.component.invalidate_cache()
 
 
+@receiver(pre_delete, sender=Label)
+def label_pre_delete(sender, instance, **kwargs) -> None:
+    instance.project.collect_label_cleanup(instance)
+
+
+@receiver(post_delete, sender=Label)
+def label_post_delete(sender, instance, **kwargs) -> None:
+    """Invalidate label stats on its deletion."""
+    transaction.on_commit(
+        partial(instance.project.cleanup_label_stats, name=instance.name)
+    )
+
+
 @receiver(user_pre_delete)
-def user_commit_pending(sender, instance, **kwargs):
+def user_commit_pending(sender, instance, **kwargs) -> None:
     """Commit pending changes for user on account removal."""
     # All user changes
     all_changes = Change.objects.last_changes(instance).filter(user=instance)
@@ -127,7 +151,7 @@ def user_commit_pending(sender, instance, **kwargs):
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
 @disable_for_loaddata
-def change_componentlist(sender, instance, action, **kwargs):
+def change_componentlist(sender, instance, action, **kwargs) -> None:
     if not action.startswith("post_"):
         return
     transaction.on_commit(instance.stats.update_stats)
@@ -135,28 +159,28 @@ def change_componentlist(sender, instance, action, **kwargs):
 
 @receiver(post_save, sender=AutoComponentList)
 @disable_for_loaddata
-def auto_componentlist(sender, instance, **kwargs):
+def auto_componentlist(sender, instance, **kwargs) -> None:
     for component in Component.objects.iterator():
         instance.check_match(component)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
-def auto_project_componentlist(sender, instance, **kwargs):
+def auto_project_componentlist(sender, instance, **kwargs) -> None:
     for component in instance.component_set.iterator():
         auto_component_list(sender, component)
 
 
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
-def auto_component_list(sender, instance, **kwargs):
+def auto_component_list(sender, instance, **kwargs) -> None:
     for auto in AutoComponentList.objects.iterator():
         auto.check_match(instance)
 
 
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
-def post_delete_linked(sender, instance, **kwargs):
+def post_delete_linked(sender, instance, **kwargs) -> None:
     # When removing project, the linked component might be already deleted now
     try:
         if instance.linked_component:
@@ -168,6 +192,6 @@ def post_delete_linked(sender, instance, **kwargs):
 @receiver(post_save, sender=Comment)
 @receiver(post_save, sender=Suggestion)
 @disable_for_loaddata
-def stats_invalidate(sender, instance, **kwargs):
+def stats_invalidate(sender, instance, **kwargs) -> None:
     """Invalidate stats on new comment or suggestion."""
     instance.unit.invalidate_related_cache()

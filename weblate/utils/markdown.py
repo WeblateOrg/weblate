@@ -15,7 +15,7 @@ MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
 
 
 def get_mention_users(text):
-    """Returns IDs of users mentioned in the text."""
+    """Return IDs of users mentioned in the text."""
     matches = MENTION_RE.findall(text)
     if not matches:
         return User.objects.none()
@@ -58,8 +58,8 @@ def render_markdown(text):
         username = part[1:].lower()
         if username in users:
             user = users[username]
-            parts[pos] = '**[{}]({} "{}")**'.format(
-                part, user.get_absolute_url(), user.get_visible_name()
+            parts[pos] = (
+                f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
             )
     text = "".join(parts)
     return mark_safe(MARKDOWN(text))  # noqa: S308

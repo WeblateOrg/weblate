@@ -13,7 +13,7 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def cleanup_font_files():
+def cleanup_font_files() -> None:
     """Remove stale fonts."""
     try:
         files = FONT_STORAGE.listdir(".")[1]
@@ -27,7 +27,7 @@ def cleanup_font_files():
 
 
 @app.task(trail=False)
-def update_fonts_cache():
+def update_fonts_cache() -> None:
     configure_fontconfig()
     subprocess.run(
         ["fc-cache"],
@@ -38,7 +38,7 @@ def update_fonts_cache():
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=0, minute=55), cleanup_font_files.s(), name="font-files-cleanup"
     )

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, PERMISSIONS, ROLES
+from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, GROUPS, PERMISSIONS, ROLES
 from weblate.utils.management.base import BaseCommand
 
 GROUP_NAMES = {
@@ -31,7 +31,7 @@ PERMISSION_NAMES.update(PERMISSIONS)
 class Command(BaseCommand):
     help = "List permissions"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List permissions."""
         self.stdout.write("Managing per-project access control\n\n")
 
@@ -94,3 +94,11 @@ class Command(BaseCommand):
                     for perm in sorted(permissions)
                 )
             )
+
+        for name, roles, _selection in GROUPS:
+            self.stdout.write(f"`{name}`\n\n\n")
+            if not roles:
+                roles_str = "none"
+            else:
+                roles_str = ", ".join(f"`{role}`" for role in roles)
+            self.stdout.write(f"    Default roles: {roles_str}\n\n")

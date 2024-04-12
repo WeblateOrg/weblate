@@ -8,6 +8,7 @@ import re
 from typing import TYPE_CHECKING
 
 from django.utils.html import escape, format_html, format_html_join
+from django.utils.safestring import mark_safe
 from translate.storage.fluent import (
     FluentPart,
     FluentReference,
@@ -50,7 +51,7 @@ def format_html_code(
 def format_html_error_list(errors: Iterable[str]) -> SafeString:
     """Return a HTML SafeString with each given error on a new line."""
     return format_html_join(
-        format_html("<br />"),
+        mark_safe("<br />"),  # noqa: S308
         "{}",
         ((err,) for err in errors),
     )
@@ -98,7 +99,7 @@ class FluentPatterns:
 
     @classmethod
     def placeable(cls, expression: str) -> str:
-        """Wraps a fluent expression in placeable."""
+        """Wrap a fluent expression in placeable."""
         return r"\{" + cls.BLANK + expression + cls.BLANK + r"\}"
 
     @classmethod
@@ -227,7 +228,7 @@ class FluentPatterns:
 
 
 class FluentUnitConverter:
-    """Converts a translation unit into a FluentUnit."""
+    """Convert a translation unit into a FluentUnit."""
 
     def __init__(self, unit: TransUnitModel, source: str) -> None:
         self.unit = unit

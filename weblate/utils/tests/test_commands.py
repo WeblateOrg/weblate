@@ -11,14 +11,14 @@ from weblate.trans.tests.utils import TempDirMixin
 
 
 class CommandTests(SimpleTestCase, TempDirMixin):
-    def test_queues(self):
+    def test_queues(self) -> None:
         output = StringIO()
         call_command("celery_queues", stdout=output)
         self.assertIn("celery:", output.getvalue())
 
 
 class DBCommandTests(TestCase):
-    def test_stats(self):
+    def test_stats(self) -> None:
         output = StringIO()
         call_command("ensure_stats", stdout=output)
         self.assertEqual("found 0 strings\n", output.getvalue())

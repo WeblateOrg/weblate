@@ -4,10 +4,11 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
+from requests.exceptions import RequestException
 
 from .base import (
     BatchMachineTranslation,
@@ -45,6 +46,20 @@ class DeepLTranslation(
 
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
+
+    def get_error_message(self, exc):
+        if isinstance(exc, RequestException) and exc.response is not None:
+            try:
+                data = exc.response.json()
+            except ValueError:
+                pass
+            else:
+                try:
+                    return data["message"]
+                except KeyError:
+                    pass
+
+        return super().get_error_message(exc)
 
     def download_languages(self):
         response = self.request(
@@ -124,9 +139,11 @@ class DeepLTranslation(
             ]
         return result
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
-        """Generates a single replacement."""
-        return f'<x id="{h_start}"></x>'  # noqa: B028
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ) -> str:
+        """Generate a single replacement."""
+        return f'<x id="{h_start}"></x>'
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         cache_key = self.get_cache_key("glossary_languages")
@@ -151,7 +168,7 @@ class DeepLTranslation(
             for glossary in response.json()["glossaries"]
         }
 
-    def delete_oldest_glossary(self):
+    def delete_oldest_glossary(self) -> None:
         response = self.request("get", self.get_api_url("glossaries"))
         glossaries = sorted(
             response.json()["glossaries"],
@@ -160,19 +177,19 @@ class DeepLTranslation(
         if glossaries:
             self.delete_glossary(glossaries[0]["glossary_id"])
 
-    def delete_glossary(self, glossary_id: str):
+    def delete_glossary(self, glossary_id: str) -> None:
         self.request("delete", self.get_api_url("glossaries", glossary_id))
 
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
-    ):
+    ) -> None:
         self.request(
             "post",
             self.get_api_url("glossaries"),
             json={
                 "name": name,
-                "source_lang": source_language,
-                "target_lang": target_language,
+                "source_lang": source_language.split("-")[0],
+                "target_lang": target_language.split("-")[0],
                 "entries": tsv,
                 "entries_format": "tsv",
             },

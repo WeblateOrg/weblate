@@ -32,7 +32,7 @@ app.autodiscover_tasks()
 
 
 @task_failure.connect
-def handle_task_failure(exception=None, **kwargs):
+def handle_task_failure(exception=None, **kwargs) -> None:
     from weblate.utils.errors import report_error
 
     report_error(
@@ -45,7 +45,7 @@ def handle_task_failure(exception=None, **kwargs):
 
 
 @app.on_after_configure.connect
-def configure_error_handling(sender, **kargs):
+def configure_error_handling(sender, **kargs) -> None:
     """Rollbar and Sentry integration."""
     from weblate.utils.errors import init_error_collection
 
@@ -53,7 +53,7 @@ def configure_error_handling(sender, **kargs):
 
 
 @after_setup_logger.connect
-def show_failing_system_check(sender, logger, **kwargs):
+def show_failing_system_check(sender, logger, **kwargs) -> None:
     if settings.DEBUG:
         for check in run_checks(include_deployment_checks=True):
             # Skip silenced checks and Celery one
@@ -64,7 +64,7 @@ def show_failing_system_check(sender, logger, **kwargs):
 
 
 def get_queue_length(queue="celery"):
-    with app.connection_or_acquire() as conn:
+    with app.connection_or_acquire() as conn:  # types: ignore[attr-defined]
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
         ).message_count
@@ -116,7 +116,7 @@ def get_task_progress(task):
 
 def is_celery_queue_long():
     """
-    Checks whether celery queue is too long.
+    Check whether celery queue is too long.
 
     It does trigger if it is too long for at least one hour. This way peaks are
     filtered out, and no warning need be issued for big operations (for example
@@ -152,10 +152,10 @@ def is_celery_queue_long():
 
     # Check if any queue got bigger
     base = queues_data[test_hour]
-    thresholds = defaultdict(lambda: 50)
+    thresholds: dict[str, int] = defaultdict(lambda: 50)
     # Set the limit to avoid trigger on auto-translating all components
     # nightly.
-    thresholds["translate"] = max(1000, Translation.objects.count() / 30)
+    thresholds["translate"] = max(1000, Translation.objects.count() // 30)
     return any(
         stat > thresholds[key] and base.get(key, 0) > thresholds[key]
         for key, stat in stats.items()

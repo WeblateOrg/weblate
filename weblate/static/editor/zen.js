@@ -24,7 +24,7 @@
         }
         $loadingNext.show();
 
-        loader.data("offset", 20 + parseInt(loader.data("offset"), 10));
+        loader.data("offset", 20 + Number.parseInt(loader.data("offset"), 10));
 
         $.get(
           `${loader.attr("href")}&offset=${loader.data("offset")}`,

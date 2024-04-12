@@ -23,13 +23,13 @@ from weblate.utils.state import (
 
 
 class ComparerTest(SimpleTestCase):
-    def test_different(self):
+    def test_different(self) -> None:
         self.assertLessEqual(Comparer().similarity("a", "b"), 50)
 
-    def test_same(self):
+    def test_same(self) -> None:
         self.assertEqual(Comparer().similarity("a", "a"), 100)
 
-    def test_unicode(self):
+    def test_unicode(self) -> None:
         # Test fallback to Python implementation in jellyfish
         # for unicode strings
         self.assertEqual(Comparer().similarity("NICHOLASŸ", "NICHOLAS"), 88)
@@ -39,14 +39,14 @@ class SearchMixin:
     object_class = Unit
     parser = "unit"
 
-    def assert_query(self, string, expected, exists=False, **context):
+    def assert_query(self, string, expected, exists=False, **context) -> None:
         result = parse_query(string, parser=self.parser, **context)
         self.assertEqual(result, expected)
         self.assertEqual(self.object_class.objects.filter(result).exists(), exists)
 
 
 class UnitQueryParserTest(TestCase, SearchMixin):
-    def test_simple(self):
+    def test_simple(self) -> None:
         self.assert_query(
             "hello world",
             (
@@ -61,7 +61,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             ),
         )
 
-    def test_quote(self):
+    def test_quote(self) -> None:
         expected = (
             Q(source__substring="hello world")
             | Q(target__substring="hello world")
@@ -70,22 +70,22 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query('"hello world"', expected)
         self.assert_query("'hello world'", expected)
 
-    def test_context(self):
+    def test_context(self) -> None:
         expected = Q(context__substring="hello world")
         self.assert_query('key:"hello world"', expected)
         self.assert_query("context:'hello world'", expected)
 
-    def test_text(self):
+    def test_text(self) -> None:
         self.assert_query("note:TEXT", Q(note__substring="TEXT"))
         self.assert_query("location:TEXT", Q(location__substring="TEXT"))
 
-    def test_newline(self):
+    def test_newline(self) -> None:
         self.assert_query("location:TEXT\r\n", Q(location__substring="TEXT"))
         self.assert_query("location:TEXT\r", Q(location__substring="TEXT"))
         self.assert_query("location:TEXT\n", Q(location__substring="TEXT"))
         self.assert_query("location:'TEXT'\r\n", Q(location__substring="TEXT"))
 
-    def test_comment(self):
+    def test_comment(self) -> None:
         self.assert_query(
             "comment:TEXT",
             Q(comment__comment__substring="TEXT") & Q(comment__resolved=False),
@@ -98,20 +98,20 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             "comment_author:nijel", Q(comment__user__username__iexact="nijel")
         )
 
-    def test_field(self):
+    def test_field(self) -> None:
         self.assert_query(
             "source:hello target:world",
             Q(source__substring="hello") & Q(target__substring="world"),
         )
         self.assert_query("location:hello.c", Q(location__substring="hello.c"))
 
-    def test_exact(self):
+    def test_exact(self) -> None:
         self.assert_query("source:='hello'", Q(source__exact="hello"))
         self.assert_query('source:="hello world"', Q(source__exact="hello world"))
         self.assert_query("source:='hello world'", Q(source__exact="hello world"))
         self.assert_query("source:=hello", Q(source__exact="hello"))
 
-    def test_regex(self):
+    def test_regex(self) -> None:
         self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
         # Invalid regex
         with self.assertRaises(ValueError):
@@ -123,7 +123,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             )
         self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
 
-    def test_logic(self):
+    def test_logic(self) -> None:
         self.assert_query(
             "source:hello AND NOT target:world",
             Q(source__substring="hello") & ~Q(target__substring="world"),
@@ -133,16 +133,16 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             Q(source__substring="hello") | Q(target__substring="world"),
         )
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         self.assert_query("", Q())
 
-    def test_invalid(self):
+    def test_invalid(self) -> None:
         with self.assertRaises(ValueError):
             self.assert_query(
                 "changed:inval AND target:world", Q(target__substring="world")
             )
 
-    def test_year(self):
+    def test_year(self) -> None:
         self.assert_query(
             "changed:2018",
             Q(
@@ -154,7 +154,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
-    def test_change_action(self):
+    def test_change_action(self) -> None:
         expected = Q(
             change__timestamp__range=(
                 datetime(2018, 1, 1, 0, 0, tzinfo=timezone.utc),
@@ -168,7 +168,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             "change_time:2018 AND change_action:'Marked for edit'", expected
         )
 
-    def test_dates(self):
+    def test_dates(self) -> None:
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
         self.assert_query(
             "changed:>20190301",
@@ -193,7 +193,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         with self.assertRaises(ValueError):
             self.assert_query("changed:>=2010-01-", Q())
 
-    def test_date_range(self):
+    def test_date_range(self) -> None:
         self.assert_query(
             "changed:[2019-03-01 to 2019-04-01]",
             Q(
@@ -205,36 +205,36 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
-    def test_date_added(self):
+    def test_date_added(self) -> None:
         self.assert_query(
             "added:>2019-03-01",
             Q(timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc)),
         )
 
-    def test_bool(self):
+    def test_bool(self) -> None:
         self.assert_query("pending:true", Q(pending=True))
 
-    def test_nonexisting(self):
+    def test_nonexisting(self) -> None:
         with self.assertRaises(ValueError):
             self.assert_query("nonexisting:true", Q())
 
-    def test_state(self):
+    def test_state(self) -> None:
         self.assert_query("state:>=empty", Q(state__gte=STATE_EMPTY))
         self.assert_query("state:>=translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("state:<translated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
 
-    def test_position(self):
+    def test_position(self) -> None:
         self.assert_query("position:>=1", Q(position__gte=1))
         self.assert_query("position:<10", Q(position__lt=10))
         self.assert_query("position:[1 to 10]", Q(position__range=(1, 10)))
 
-    def test_invalid_state(self):
+    def test_invalid_state(self) -> None:
         with self.assertRaises(ValueError):
             self.assert_query("state:invalid", Q())
 
-    def test_parenthesis(self):
+    def test_parenthesis(self) -> None:
         self.assert_query(
             "state:translated AND ( source:hello OR source:bar )",
             Q(state=STATE_TRANSLATED)
@@ -246,25 +246,25 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             & (Q(source__substring="hello") | Q(source__substring="bar")),
         )
 
-    def test_language(self):
+    def test_language(self) -> None:
         self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
         self.assert_query(
             'language:r".*"', Q(translation__language__code__trgm_regex=".*")
         )
 
-    def test_component(self):
+    def test_component(self) -> None:
         self.assert_query(
             "component:hello",
             Q(translation__component__slug__iexact="hello")
             | Q(translation__component__name__icontains="hello"),
         )
 
-    def test_project(self):
+    def test_project(self) -> None:
         self.assert_query(
             "project:hello", Q(translation__component__project__slug__iexact="hello")
         )
 
-    def test_html(self):
+    def test_html(self) -> None:
         self.assert_query(
             "<b>bold</b>",
             Q(source__substring="<b>bold</b>")
@@ -272,7 +272,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             | Q(context__substring="<b>bold</b>"),
         )
 
-    def test_has(self):
+    def test_has(self) -> None:
         self.assert_query("has:plural", Q(source__search=PLURAL_SEPARATOR))
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
         self.assert_query("has:check", Q(check__dismissed=False))
@@ -294,7 +294,7 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query("has:explanation", ~Q(source_unit__explanation=""))
         self.assert_query("has:glossary", Q(source__isnull=True))
 
-    def test_is(self):
+    def test_is(self) -> None:
         self.assert_query("is:pending", Q(pending=True))
         self.assert_query("is:translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
@@ -302,25 +302,25 @@ class UnitQueryParserTest(TestCase, SearchMixin):
         self.assert_query("is:read-only", Q(state=STATE_READONLY))
         self.assert_query("is:fuzzy", Q(state=STATE_FUZZY))
 
-    def test_changed_by(self):
+    def test_changed_by(self) -> None:
         self.assert_query(
             "changed_by:nijel",
             Q(change__author__username__iexact="nijel")
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
-    def test_explanation(self):
+    def test_explanation(self) -> None:
         self.assert_query(
             "explanation:text", Q(source_unit__explanation__substring="text")
         )
 
-    def test_suggestions(self):
+    def test_suggestions(self) -> None:
         self.assert_query("suggestion:text", Q(suggestion__target__substring="text"))
         self.assert_query(
             "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
         )
 
-    def test_checks(self):
+    def test_checks(self) -> None:
         self.assert_query(
             "check:ellipsis",
             Q(check__name__iexact="ellipsis") & Q(check__dismissed=False),
@@ -330,32 +330,32 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
         )
 
-    def test_labels(self):
+    def test_labels(self) -> None:
         self.assert_query(
             "label:'test label'",
             Q(source_unit__labels__name__iexact="test label")
             | Q(labels__name__iexact="test label"),
         )
 
-    def test_screenshot(self):
+    def test_screenshot(self) -> None:
         self.assert_query(
             "screenshot:'test screenshot'",
             Q(source_unit__screenshots__name__iexact="test screenshot")
             | Q(screenshots__name__iexact="test screenshot"),
         )
 
-    def test_priority(self):
+    def test_priority(self) -> None:
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))
 
-    def test_id(self):
+    def test_id(self) -> None:
         self.assert_query("id:100", Q(id=100))
         self.assert_query("id:100,900", Q(id__in={100, 900}))
 
-    def test_text_html(self):
+    def test_text_html(self) -> None:
         self.assert_query("target:<name>", Q(target__substring="<name>"))
 
-    def test_text_long(self):
+    def test_text_long(self) -> None:
         self.assert_query(
             "[one to other]",
             (
@@ -375,20 +375,20 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             ),
         )
 
-    def test_lowercase_or(self):
+    def test_lowercase_or(self) -> None:
         self.assert_query(
             "state:<translated or state:empty",
             Q(state__lt=STATE_TRANSLATED) | Q(state=STATE_EMPTY),
         )
 
-    def test_timestamp_format(self):
+    def test_timestamp_format(self) -> None:
         self.assert_query(
             "changed:>=01/20/2020",
             Q(change__timestamp__gte=datetime(2020, 1, 20, 0, 0, tzinfo=timezone.utc))
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
-    def test_timestamp_interval(self):
+    def test_timestamp_interval(self) -> None:
         self.assert_query(
             "changed:2020-03-27",
             Q(
@@ -400,14 +400,14 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
-    def test_non_quoted_strings(self):
+    def test_non_quoted_strings(self) -> None:
         self.assert_query(
             "%(count)s word",
             parse_query("'%(count)s' 'word'"),
         )
         self.assert_query("{actor}", parse_query("'{actor}'"))
 
-    def test_specialchars(self):
+    def test_specialchars(self) -> None:
         self.assert_query(
             "to %{_topdir}",
             (
@@ -422,10 +422,10 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             ),
         )
 
-    def test_url(self):
+    def test_url(self) -> None:
         self.assert_query("https://weblate.org/", parse_query("'https://weblate.org/'"))
 
-    def test_quotes(self):
+    def test_quotes(self) -> None:
         self.assert_query("'", parse_query('''"'"'''))
         self.assert_query('"', parse_query("""'"'"""))
         self.assert_query("source:'", parse_query('''source:"'"'''))
@@ -436,13 +436,13 @@ class UserQueryParserTest(TestCase, SearchMixin):
     object_class = User
     parser = "user"
 
-    def test_simple(self):
+    def test_simple(self) -> None:
         self.assert_query(
             "hello",
             Q(username__icontains="hello") | Q(full_name__icontains="hello"),
         )
 
-    def test_fields(self):
+    def test_fields(self) -> None:
         self.assert_query(
             "username:hello",
             Q(username__icontains="hello"),
@@ -452,7 +452,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             Q(full_name__icontains="hello"),
         )
 
-    def test_is(self):
+    def test_is(self) -> None:
         with self.assertRaises(ValueError):
             self.assert_query("is:bot", Q(is_bot=True))
         with self.assertRaises(ValueError):
@@ -460,17 +460,17 @@ class UserQueryParserTest(TestCase, SearchMixin):
         with self.assertRaises(ValueError):
             self.assert_query("is:active", Q(is_active=True))
 
-    def test_language(self):
+    def test_language(self) -> None:
         self.assert_query("language:cs", (Q(profile__languages__code__iexact="cs")))
 
-    def test_email(self):
+    def test_email(self) -> None:
         with self.assertRaises(ValueError):
             self.assert_query(
                 "email:hello",
                 Q(social_auth__verifiedemail__email__icontains="hello"),
             )
 
-    def test_joined(self):
+    def test_joined(self) -> None:
         self.assert_query(
             "joined:2018",
             Q(
@@ -481,7 +481,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             ),
         )
 
-    def test_translates(self):
+    def test_translates(self) -> None:
         self.assert_query(
             "translates:cs",
             Q(change__language__code__iexact="cs")
@@ -491,7 +491,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             ),
         )
 
-    def test_contributes(self):
+    def test_contributes(self) -> None:
         self.assert_query(
             "contributes:test",
             Q(change__project__slug__iexact="test")
@@ -523,7 +523,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
 class SuperuserQueryParserTest(UserQueryParserTest):
     parser = "superuser"
 
-    def test_simple(self):
+    def test_simple(self) -> None:
         self.assert_query(
             "hello",
             (
@@ -533,12 +533,12 @@ class SuperuserQueryParserTest(UserQueryParserTest):
             ),
         )
 
-    def test_email(self):
+    def test_email(self) -> None:
         self.assert_query(
             "email:hello", Q(social_auth__verifiedemail__email__icontains="hello")
         )
 
-    def test_is(self):
+    def test_is(self) -> None:
         self.assert_query("is:bot", Q(is_bot=True))
         self.assert_query("is:superuser", Q(is_superuser=True))
         self.assert_query("is:active", Q(is_active=True))
@@ -549,10 +549,10 @@ class SearchTest(ViewTestCase, SearchMixin):
 
     CREATE_GLOSSARIES: bool = True
 
-    def test_glossary_empty(self):
+    def test_glossary_empty(self) -> None:
         self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)
 
-    def test_glossary_match(self):
+    def test_glossary_match(self) -> None:
         glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
         glossary.add_unit(None, "", "hello", "ahoj")
 

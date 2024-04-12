@@ -35,7 +35,7 @@ class QtFormatCheck(BaseFormatCheck):
     description = gettext_lazy("Qt format string does not match source")
     regexp = QT_FORMAT_MATCH
 
-    def is_position_based(self, string):
+    def is_position_based(self, string) -> bool:
         # everything is numbered
         return False
 
@@ -48,5 +48,5 @@ class QtPluralCheck(BaseFormatCheck):
     description = gettext_lazy("Qt plural format string does not match source")
     regexp = QT_PLURAL_MATCH
 
-    def is_position_based(self, string):
+    def is_position_based(self, string) -> bool:
         return True

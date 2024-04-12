@@ -2,19 +2,22 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import re
 import sys
-from gettext import c2py
+from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
 from pathlib import Path
+from typing import cast
 from urllib.parse import urlparse
 
 from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
-from django.core.validators import validate_ipv46_address
+from django.core.validators import URLValidator, validate_ipv46_address
 from django.utils.translation import gettext, gettext_lazy
 from PIL import Image
 
@@ -49,7 +52,7 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True):
+def validate_re(value, groups=None, allow_empty=True) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
@@ -76,7 +79,7 @@ def validate_re_nonempty(value):
     return validate_re(value, allow_empty=False)
 
 
-def validate_bitmap(value):
+def validate_bitmap(value) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
@@ -102,7 +105,7 @@ def validate_bitmap(value):
 
         # Pillow doesn't detect the MIME type of all formats. In those
         # cases, content_type will be None.
-        value.file.content_type = Image.MIME.get(image.format)
+        value.file.content_type = Image.MIME.get(cast(str, image.format))
     except Exception as exc:
         # Pillow doesn't recognize it as an image.
         raise ValidationError(
@@ -152,14 +155,14 @@ def validate_fullname(val):
 
 
 def validate_file_extension(value):
-    """Simple extension based validation for uploads."""
+    """Validate file upload based on extension."""
     ext = os.path.splitext(value.name)[1]
     if ext.lower() in FORBIDDEN_EXTENSIONS:
         raise ValidationError(gettext("Unsupported file format."))
     return value
 
 
-def validate_username(value):
+def validate_username(value) -> None:
     if value.startswith("."):
         raise ValidationError(gettext("The username can not start with a full stop."))
     if not USERNAME_MATCHER.match(value):
@@ -186,7 +189,7 @@ class EmailValidator(EmailValidatorDjango):
 validate_email = EmailValidator()
 
 
-def validate_plural_formula(value):
+def validate_plural_formula(value) -> None:
     try:
         c2py(value if value else "0")
     except ValueError as error:
@@ -195,7 +198,7 @@ def validate_plural_formula(value):
         ) from error
 
 
-def validate_filename(value):
+def validate_filename(value) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
             gettext("The filename can not contain reference to a parent directory.")
@@ -213,7 +216,7 @@ def validate_filename(value):
         )
 
 
-def validate_backup_path(value: str):
+def validate_backup_path(value: str) -> None:
     try:
         loc = Location(value)
     except ValueError as err:
@@ -238,15 +241,15 @@ def validate_backup_path(value: str):
             )
 
 
-def validate_slug(value):
+def validate_slug(value) -> None:
     """Prohibits some special values."""
     # This one is used as wildcard in the URL for widgets and translate pages
     if value == "-":
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_language_aliases(value):
-    """Validates language aliases - comma separated semi colon values."""
+def validate_language_aliases(value) -> None:
+    """Validate language aliases - comma separated semi colon values."""
     if not value:
         return
     for part in value.split(","):
@@ -254,7 +257,7 @@ def validate_language_aliases(value):
             raise ValidationError(gettext("Syntax error in language aliases."))
 
 
-def validate_project_name(value):
+def validate_project_name(value) -> None:
     """Prohibits some special values."""
     if settings.PROJECT_NAME_RESTRICT_RE is not None and re.match(
         settings.PROJECT_NAME_RESTRICT_RE, value
@@ -262,7 +265,7 @@ def validate_project_name(value):
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_project_web(value):
+def validate_project_web(value) -> None:
     # Regular expression filtering
     if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
         settings.PROJECT_WEB_RESTRICT_RE, value
@@ -286,3 +289,42 @@ def validate_project_web(value):
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+
+class WeblateURLValidator(URLValidator):
+    """Validator for http and https URLs only."""
+
+    schemes = ["http", "https"]
+
+
+class WeblateServiceURLValidator(WeblateURLValidator):
+    """
+    Validator allowing local URLs like http://domain:5000.
+
+    This is useful for using dockerized services.
+    """
+
+    host_re = (
+        "("
+        + WeblateURLValidator.hostname_re
+        + WeblateURLValidator.domain_re
+        + WeblateURLValidator.tld_re
+        + "|"
+        + WeblateURLValidator.hostname_re
+        + ")"
+    )
+    regex = re.compile(
+        r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+        r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
+        r"(?:"
+        + WeblateURLValidator.ipv4_re
+        + "|"
+        + WeblateURLValidator.ipv6_re
+        + "|"
+        + host_re
+        + ")"
+        r"(?::[0-9]{1,5})?"  # port
+        r"(?:[/?#][^\s]*)?"  # resource path
+        r"\Z",
+        re.IGNORECASE,
+    )

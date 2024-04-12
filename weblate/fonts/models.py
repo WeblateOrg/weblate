@@ -49,12 +49,12 @@ class Font(models.Model, UserDisplayMixin):
         verbose_name = "Font"
         verbose_name_plural = "Fonts"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.family} {self.style}"
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    ) -> None:
         from weblate.fonts.tasks import update_fonts_cache
 
         self.clean()
@@ -64,11 +64,11 @@ class Font(models.Model, UserDisplayMixin):
     def get_absolute_url(self):
         return reverse("font", kwargs={"pk": self.pk, "project": self.project.slug})
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.field_errors = {}
 
-    def clean_fields(self, exclude=None):
+    def clean_fields(self, exclude=None) -> None:
         self.field_errors = {}
         try:
             super().clean_fields(exclude)
@@ -76,7 +76,7 @@ class Font(models.Model, UserDisplayMixin):
             self.field_errors = error.error_dict
             raise
 
-    def clean(self):
+    def clean(self) -> None:
         # Try to parse file only if it passed validation
         if "font" not in self.field_errors and not self.family:
             self.family, self.style = get_font_name(self.font)
@@ -121,7 +121,7 @@ class FontGroup(models.Model):
         verbose_name = "Font group"
         verbose_name_plural = "Font groups"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     def get_absolute_url(self):
@@ -148,5 +148,5 @@ class FontOverride(models.Model):
         verbose_name = "Font override"
         verbose_name_plural = "Font overrides"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.group}:{self.font}:{self.language}"

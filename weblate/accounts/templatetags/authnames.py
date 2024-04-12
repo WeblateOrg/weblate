@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.utils.html import format_html
+from django.utils.html import format_html, mark_safe
 from django.utils.translation import gettext_lazy
 
 if TYPE_CHECKING:
@@ -56,10 +56,10 @@ SOCIAL_TEMPLATE = """
 """
 
 
-def get_auth_params(auth: str):
-    """Returns authentication parameters."""
+def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
+    """Generate authentication parameters."""
     # Fallback values
-    params = {"name": auth.title(), "image": "password.svg"}
+    params: dict[str, StrOrPromise] = {"name": auth.title(), "image": "password.svg"}
 
     # Hardcoded names
     if auth in SOCIALS:
@@ -78,7 +78,7 @@ def get_auth_params(auth: str):
     return params
 
 
-auth_name_default_separator = format_html("<br />")
+auth_name_default_separator = mark_safe("<br />")  # noqa: S308
 
 
 @register.simple_tag

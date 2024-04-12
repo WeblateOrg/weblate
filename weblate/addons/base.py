@@ -29,6 +29,11 @@ from weblate.utils.validators import validate_filename
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.addons.models import Addon
+    from weblate.auth.models import User
+    from weblate.formats.base import TranslationFormat
+    from weblate.trans.models import Component, Translation, Unit
+
 
 class BaseAddon:
     """Base class for Weblate add-ons."""
@@ -44,16 +49,16 @@ class BaseAddon:
     project_scope = False
     repo_scope = False
     has_summary = False
-    alert: str | None = None
+    alert: str = ""
     trigger_update = False
     stay_on_create = False
     user_name = ""
     user_verbose = ""
 
-    def __init__(self, storage=None):
-        self.instance = storage
-        self.alerts = []
-        self.extra_files = []
+    def __init__(self, storage: Addon) -> None:
+        self.instance: Addon = storage
+        self.alerts: list[dict[str, str]] = []
+        self.extra_files: list[str] = []
 
     @cached_property
     def doc_anchor(self):
@@ -88,7 +93,7 @@ class BaseAddon:
         return result
 
     @classmethod
-    def get_add_form(cls, user, component, **kwargs):
+    def get_add_form(cls, user: User | None, component: Component, **kwargs):
         """Return configuration form for adding new add-on."""
         if cls.settings_form is None:
             return None
@@ -96,7 +101,7 @@ class BaseAddon:
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
 
-    def get_settings_form(self, user, **kwargs):
+    def get_settings_form(self, user: User | None, **kwargs):
         """Return configuration form for this add-on."""
         if self.settings_form is None:
             return None
@@ -107,13 +112,13 @@ class BaseAddon:
     def get_ui_form(self):
         return self.get_settings_form(None)
 
-    def configure(self, configuration):
+    def configure(self, configuration) -> None:
         """Save configuration."""
         self.instance.configuration = configuration
         self.instance.save()
         self.post_configure()
 
-    def post_configure(self, run: bool = True):
+    def post_configure(self, run: bool = True) -> None:
         component = self.instance.component
 
         # Configure events to current status
@@ -126,7 +131,7 @@ class BaseAddon:
             else:
                 postconfigure_addon.delay(self.instance.pk)
 
-    def post_configure_run(self):
+    def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing
         component = self.instance.component
         if self.repo_scope and component.linked_component:
@@ -158,35 +163,37 @@ class BaseAddon:
             )
             component.create_translations()
 
-    def post_uninstall(self):
+    def post_uninstall(self) -> None:
         pass
 
-    def save_state(self):
+    def save_state(self) -> None:
         """Save add-on state information."""
         self.instance.save(update_fields=["state"])
 
     @classmethod
-    def can_install(cls, component, user):  # noqa: ARG003
+    def can_install(cls, component: Component, user: User | None):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
             getattr(component, key) in values for key, values in cls.compat.items()
         )
 
-    def pre_push(self, component):
-        """Hook triggered before repository is pushed upstream."""
+    def pre_push(self, component: Component) -> None:
+        """Event handler before repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def post_push(self, component):
-        """Hook triggered after repository is pushed upstream."""
+    def post_push(self, component: Component) -> None:
+        """Event handler after repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def pre_update(self, component):
-        """Hook triggered before repository is updated from upstream."""
+    def pre_update(self, component: Component) -> None:
+        """Event handler before repository is updated from upstream."""
         # To be implemented in a subclass
 
-    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
+    def post_update(
+        self, component: Component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         """
-        Hook triggered after repository is updated from upstream.
+        Event handler after repository is updated from upstream.
 
         :param str previous_head: HEAD of the repository prior to update, can
                                   be blank on initial clone.
@@ -197,25 +204,25 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def pre_commit(self, translation, author):
-        """Hook triggered before changes are committed to the repository."""
+    def pre_commit(self, translation: Translation, author: User) -> None:
+        """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_commit(self, component):
-        """Hook triggered after changes are committed to the repository."""
+    def post_commit(self, component: Component) -> None:
+        """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_add(self, translation):
-        """Hook triggered after new translation is added."""
+    def post_add(self, translation: Translation) -> None:
+        """Event handler after new translation is added."""
         # To be implemented in a subclass
 
-    def unit_pre_create(self, unit):
-        """Hook triggered before new unit is created."""
+    def unit_pre_create(self, unit: Unit) -> None:
+        """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def store_post_load(self, translation, store):
+    def store_post_load(self, translation: Unit, store: TranslationFormat) -> None:
         """
-        Hook triggered after a file is parsed.
+        Event handler after a file is parsed.
 
         It receives an instance of a file format class as a argument.
 
@@ -224,15 +231,17 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def daily(self, component):
-        """Hook triggered daily."""
+    def daily(self, component: Component) -> None:
+        """Event handler daily."""
         # To be implemented in a subclass
 
-    def component_update(self, component):
-        """Hook for component update."""
+    def component_update(self, component: Component) -> None:
+        """Event handler for component update."""
         # To be implemented in a subclass
 
-    def execute_process(self, component, cmd, env=None):
+    def execute_process(
+        self, component: Component, cmd: list[str], env: None | dict[str, str] = None
+    ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
             output = subprocess.check_output(
@@ -258,7 +267,7 @@ class BaseAddon:
             )
             report_error(cause="Add-on script error", project=component.project)
 
-    def trigger_alerts(self, component):
+    def trigger_alerts(self, component: Component) -> None:
         if self.alerts:
             component.add_alert(self.alert, occurrences=self.alerts)
             self.alerts = []
@@ -266,7 +275,10 @@ class BaseAddon:
             component.delete_alert(self.alert)
 
     def commit_and_push(
-        self, component, files: list[str] | None = None, skip_push: bool = False
+        self,
+        component: Component,
+        files: list[str] | None = None,
+        skip_push: bool = False,
     ) -> bool:
         if files is None:
             files = list(
@@ -288,7 +300,7 @@ class BaseAddon:
             )
         return True
 
-    def render_repo_filename(self, template, translation):
+    def render_repo_filename(self, template: str, translation: Translation):
         component = translation.component
 
         # Render the template
@@ -320,7 +332,7 @@ class BaseAddon:
         return filename
 
     @classmethod
-    def pre_install(cls, component, request):
+    def pre_install(cls, component: Component, request) -> None:
         if cls.trigger_update:
             perform_update.delay("Component", component.pk, auto=True)
             if component.repo_needs_merge():
@@ -366,15 +378,17 @@ class UpdateBaseAddon(BaseAddon):
     events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_POST_UPDATE,)
 
     @staticmethod
-    def iterate_translations(component):
+    def iterate_translations(component: Component):
         for translation in component.translation_set.iterator():
             if not translation.is_source or component.intermediate:
                 yield translation
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component: Component, previous_head: str) -> None:
         raise NotImplementedError
 
-    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
+    def post_update(
+        self, component: Component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with suppress(FileParseError):
             self.update_translations(component, previous_head)
@@ -392,12 +406,12 @@ class TestCrashAddon(UpdateBaseAddon):
     verbose = "Crash test add-on"
     description = "Crash test add-on"
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component: Component, previous_head: str) -> None:
         if previous_head:
             raise TestError("Test error")
 
     @classmethod
-    def can_install(cls, component, user):  # noqa: ARG003
+    def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
         return False
 
 

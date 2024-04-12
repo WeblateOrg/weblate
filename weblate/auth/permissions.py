@@ -21,7 +21,7 @@ SPECIALS = {}
 
 
 class PermissionResult:
-    def __init__(self, reason: str = ""):
+    def __init__(self, reason: str = "") -> None:
         self.reason = reason
 
     def __bool__(self) -> bool:
@@ -48,14 +48,14 @@ def register_perm(*perms):
 
 
 def check_global_permission(user, permission):
-    """Generic permission check for base classes."""
+    """Check whether user has a global permission."""
     if user.is_superuser:
         return True
     return user.groups.filter(roles__permissions__codename=permission).exists()
 
 
 def check_permission(user, permission, obj):
-    """Generic permission check for base classes."""
+    """Check whether user has a object-specific permission."""
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):
@@ -219,11 +219,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                 project = obj.category.project
             elif isinstance(
                 obj,
-                (
-                    Component,
-                    ProjectLanguage,
-                    Category,
-                ),
+                Component | ProjectLanguage | Category,
             ):
                 project = obj.project
             else:
@@ -438,9 +434,13 @@ def check_repository_status(user, permission, obj):
 
 @register_perm("meta:team.edit")
 def check_team_edit(user, permission, obj):
-    return check_global_permission(user, "group.edit") or (
-        obj.defining_project
-        and check_permission(user, "project.permissions", obj.defining_project)
+    return (
+        check_global_permission(user, "group.edit")
+        or (
+            obj.defining_project
+            and check_permission(user, "project.permissions", obj.defining_project)
+        )
+        or obj.admins.filter(pk=user.pk).exists()
     )
 
 

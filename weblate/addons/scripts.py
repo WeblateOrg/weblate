@@ -15,11 +15,11 @@ class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
     icon = "script.svg"
-    script: None | str = None
+    script: str
     add_file: None | str = None
     alert = "AddonScriptError"
 
-    def run_script(self, component=None, translation=None, env=None):
+    def run_script(self, component=None, translation=None, env=None) -> None:
         command = [self.script]
         if translation:
             component = translation.component
@@ -48,16 +48,18 @@ class BaseScriptAddon(BaseAddon):
         self.execute_process(component, command, environment)
         self.trigger_alerts(component)
 
-    def post_push(self, component):
+    def post_push(self, component) -> None:
         self.run_script(component)
 
-    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
+    def post_update(
+        self, component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         self.run_script(component=component)
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         self.run_script(translation=translation)
 
         if self.add_file:
@@ -67,5 +69,5 @@ class BaseScriptAddon(BaseAddon):
             )
             translation.addon_commit_files.append(filename)
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         self.run_script(translation=translation)

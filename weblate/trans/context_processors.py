@@ -6,19 +6,18 @@ import random
 from urllib.parse import urlparse
 
 from django.conf import settings
-from django.core.cache import cache
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
 
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
-from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.site import get_site_domain, get_site_url
-from weblate.wladmin.models import ConfigurationError, SupportStatus
+from weblate.wladmin.models import ConfigurationError, get_support_status
 
 WEBLATE_URL = "https://weblate.org/"
 DONATE_URL = "https://weblate.org/donate/"
+SUPPORT_URL = "https://weblate.org/support/"
 
 CONTEXT_SETTINGS = [
     "SITE_TITLE",
@@ -41,12 +40,13 @@ CONTEXT_SETTINGS = [
     "PRIVATE_COMMIT_EMAIL_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
+    "IP_ADDRESSES",
 ]
 
 CONTEXT_APPS = ["billing", "legal", "gitexport"]
 
 
-def add_error_logging_context(context):
+def add_error_logging_context(context) -> None:
     if (
         hasattr(settings, "ROLLBAR")
         and "client_token" in settings.ROLLBAR
@@ -59,12 +59,12 @@ def add_error_logging_context(context):
         context["rollbar_environment"] = None
 
 
-def add_settings_context(context):
+def add_settings_context(context) -> None:
     for name in CONTEXT_SETTINGS:
         context[name.lower()] = getattr(settings, name, None)
 
 
-def add_optional_context(context):
+def add_optional_context(context) -> None:
     for name in CONTEXT_APPS:
         appname = f"weblate.{name}"
         context[f"has_{name}"] = appname in settings.INSTALLED_APPS
@@ -79,7 +79,7 @@ def get_preconnect_list():
     return result
 
 
-def get_bread_image(path):
+def get_bread_image(path) -> str:
     if path == "/":
         return "dashboard.svg"
     first = path.split("/", 2)[1]
@@ -136,18 +136,7 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    if hasattr(request, "_weblate_support_status"):
-        support_status = request._weblate_support_status
-    else:
-        support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
-        if support_status is None:
-            support_status_instance = SupportStatus.objects.get_current()
-            support_status = {
-                "has_support": support_status_instance.name != "community",
-                "in_limits": support_status_instance.in_limits,
-            }
-            cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
-        request._weblate_support_status = support_status
+    support_status = get_support_status(request)
 
     context = {
         "support_status": support_status,
@@ -165,6 +154,7 @@ def weblate_context(request):
             "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
         ),
         "donate_url": DONATE_URL,
+        "support_url": SUPPORT_URL,
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
         "login_redirect_url": login_redirect_url,

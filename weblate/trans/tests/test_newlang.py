@@ -16,17 +16,17 @@ from .test_views import ViewTestCase
 class NewLangTest(ViewTestCase):
     expected_lang_code = "pt_BR"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.reset_rate()
 
-    def reset_rate(self):
+    def reset_rate(self) -> None:
         reset_rate_limit("language", user=self.user)
 
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
-    def test_no_permission(self):
+    def test_no_permission(self) -> None:
         # Remove permission to add translations
         Role.objects.get(name="Power user").permissions.remove(
             Permission.objects.get(codename="translation.add")
@@ -47,7 +47,7 @@ class NewLangTest(ViewTestCase):
             self.component.translation_set.filter(language__code="af").exists()
         )
 
-    def test_none(self):
+    def test_none(self) -> None:
         self.component.new_lang = "none"
         self.component.save()
 
@@ -55,7 +55,7 @@ class NewLangTest(ViewTestCase):
         self.assertNotContains(response, "Start new translation")
         self.assertNotContains(response, "/new-lang/")
 
-    def test_url(self):
+    def test_url(self) -> None:
         self.component.new_lang = "url"
         self.component.save()
         self.project.instructions = "http://example.com/instructions"
@@ -65,7 +65,7 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, "Start new translation")
         self.assertContains(response, "http://example.com/instructions")
 
-    def test_contact(self):
+    def test_contact(self) -> None:
         # Make admin to receive notifications
         self.project.add_user(self.anotheruser, "Administration")
 
@@ -88,7 +88,7 @@ class NewLangTest(ViewTestCase):
             mail.outbox[0].subject, "[Weblate] New language request in Test/Test"
         )
 
-    def test_add(self):
+    def test_add(self) -> None:
         # Make admin to receive notifications
         self.project.add_user(self.anotheruser, "Administration")
 
@@ -132,7 +132,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(response, "Please fix errors in the form")
 
-    def test_add_owner(self):
+    def test_add_owner(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         # None chosen
         response = self.client.post(
@@ -163,7 +163,7 @@ class NewLangTest(ViewTestCase):
             4,
         )
 
-    def test_add_rejected(self):
+    def test_add_rejected(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         self.component.language_regex = "^cs$"
         self.component.save()
@@ -177,8 +177,8 @@ class NewLangTest(ViewTestCase):
             response, "The given language is filtered by the language filter."
         )
 
-    def test_add_code(self):
-        def perform(style, code, expected):
+    def test_add_code(self) -> None:
+        def perform(style, code, expected) -> None:
             self.component.language_code_style = style
             self.component.save()
 

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Backup automation based on borg."""
+
 from __future__ import annotations
 
 import os
@@ -51,7 +52,7 @@ def make_password(length: int = 50):
     return "".join(generator.choice(chars) for i in range(length))
 
 
-def tag_cache_dirs():
+def tag_cache_dirs() -> None:
     """Create CACHEDIR.TAG in our cache dirs to exclude from backups."""
     dirs = [
         # Fontconfig cache
@@ -77,7 +78,7 @@ def tag_cache_dirs():
 
 
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
-    """Wrapper to execute borgbackup."""
+    """Execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
         try:

@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 )
         return result
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List installed add-ons."""
         fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
         for _unused, obj in sorted(ADDONS.items()):

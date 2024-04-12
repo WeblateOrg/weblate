@@ -11,7 +11,7 @@ from weblate.fonts.utils import get_font_name
 
 
 def validate_font(value):
-    """Simple extension based validation for uploads."""
+    """Validate font upload based on extension."""
     ext = os.path.splitext(value.name)[1]
     if ext.lower() not in {".ttf", ".otf"}:
         raise ValidationError(gettext("Unsupported file format."))

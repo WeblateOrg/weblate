@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from functools import lru_cache, reduce
 from itertools import chain
 from operator import and_, or_
+from typing import NoReturn
 
 from dateutil.parser import ParserError, parse
 from django.db import transaction
@@ -47,18 +48,18 @@ class Comparer:
     """
 
     def similarity(self, first, second):
-        """Returns string similarity in range 0 - 100%."""
+        """Return string similarity in range 0 - 100%."""
         return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
 
 
 # Helper parsing objects
 class RegexExpr:
-    def __init__(self, tokens):
+    def __init__(self, tokens) -> None:
         self.expr = tokens[1]
 
 
 class RangeExpr:
-    def __init__(self, tokens):
+    def __init__(self, tokens) -> None:
         self.start = tokens[1]
         self.end = tokens[3]
 
@@ -73,7 +74,7 @@ OPERATOR_MAP = {
 }
 
 
-def build_parser(term_expression: object):
+def build_parser(term_expression: type[BaseTermExpr]):
     """Build parsing grammar."""
     # Booleans
     op_and = CaselessKeyword("AND")
@@ -135,7 +136,7 @@ class BaseTermExpr:
     EXACT_FIELD_MAP: dict[str, str] = {}
     enable_fulltext = True
 
-    def __init__(self, tokens):
+    def __init__(self, tokens) -> None:
         if len(tokens) == 1:
             self.field = None
             self.operator = ":"
@@ -144,10 +145,10 @@ class BaseTermExpr:
             self.field, self.operator, self.match = tokens
             self.fixup()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<{self.__class__.__name__}: {self.field!r}, {self.operator!r}, {self.match!r}>"
 
-    def fixup(self):
+    def fixup(self) -> None:
         # Avoid unwanted lt/gt searches on plain text fields
         if self.field in self.PLAIN_FIELDS and self.operator not in {":", ":="}:
             self.match = self.operator[1:] + self.match
@@ -163,7 +164,7 @@ class BaseTermExpr:
         except KeyError as exc:
             raise ValueError(gettext("Unsupported state: {}").format(text)) from exc
 
-    def convert_bool(self, text):
+    def convert_bool(self, text) -> bool:
         ltext = text.lower()
         if ltext in {"yes", "true", "on", "1"}:
             return True
@@ -269,7 +270,7 @@ class BaseTermExpr:
             return self.NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
-    def convert_non_field(self):
+    def convert_non_field(self) -> NoReturn:
         raise NotImplementedError
 
     def as_query(self, context: dict):
@@ -329,10 +330,10 @@ class BaseTermExpr:
     def field_extra(self, field, query, match):
         return query
 
-    def is_field(self, text, context: dict):
+    def is_field(self, text, context: dict) -> NoReturn:
         raise ValueError(f"Unsupported is lookup: {text}")
 
-    def has_field(self, text, context: dict):  # noqa: C901
+    def has_field(self, text, context: dict) -> NoReturn:
         raise ValueError(f"Unsupported has lookup: {text}")
 
 

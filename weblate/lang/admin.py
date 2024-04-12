@@ -14,6 +14,7 @@ class PluralAdmin(admin.TabularInline):
     ordering = ["source"]
 
 
+@admin.register(Language)
 class LanguageAdmin(WeblateModelAdmin):
     list_display = ["name", "code", "direction"]
     search_fields = ["name", "code"]
@@ -21,7 +22,7 @@ class LanguageAdmin(WeblateModelAdmin):
     inlines = [PluralAdmin]
     ordering = ["name"]
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         super().save_related(request, form, formsets, change)
         lang = form.instance
 

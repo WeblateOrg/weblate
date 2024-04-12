@@ -433,6 +433,10 @@ Additionally you can also install
 which gives quite realistic estimates of password difficulty and allows rejecting
 passwords below a certain threshold.
 
+.. seealso::
+
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+
 .. _saml-auth:
 
 SAML authentication
@@ -528,7 +532,7 @@ can install it via usual means:
 .. code-block:: sh
 
     # Using PyPI
-    pip install django-auth-ldap>=1.3.0
+    pip install 'django-auth-ldap>=1.3.0'
 
     # Using apt-get
     apt-get install python-django-auth-ldap

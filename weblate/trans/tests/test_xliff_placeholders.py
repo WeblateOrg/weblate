@@ -16,7 +16,7 @@ TEST_MRK = get_test_file("placeholder-mrk.xliff")
 
 
 class XliffPlaceholdersTest(TestCase):
-    def test_bidirectional_xliff_string(self):
+    def test_bidirectional_xliff_string(self) -> None:
         cases = [
             'foo <x id="INTERPOLATION" equiv-text="{{ angular }}"/> bar',
             "",
@@ -32,7 +32,7 @@ class XliffPlaceholdersTest(TestCase):
             final_string = rich_to_xliff_string(rich)
             self.assertEqual(string, final_string)
 
-    def test_xliff_roundtrip(self):
+    def test_xliff_roundtrip(self) -> None:
         with open(TEST_X, "rb") as handle:
             source = handle.read()
 
@@ -44,7 +44,7 @@ class XliffPlaceholdersTest(TestCase):
         store.units[0].rich_source = xliff_string_to_rich(string)
         self.assertXMLEqual(source.decode(), bytes(store).decode())
 
-    def test_xliff_roundtrip_unknown(self):
+    def test_xliff_roundtrip_unknown(self) -> None:
         with open(TEST_MRK, "rb") as handle:
             source = handle.read()
 

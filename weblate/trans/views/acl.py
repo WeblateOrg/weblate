@@ -76,7 +76,7 @@ def set_groups(request, project):
         if group.id in desired_groups:
             if group.id in current_groups:
                 continue
-            user.groups.add(group)
+            user.add_team(request, group)
             obj.change_set.create(
                 action=Change.ACTION_ADD_USER,
                 user=request.user,
@@ -86,7 +86,7 @@ def set_groups(request, project):
             if request.user == user:
                 messages.error(request, gettext("You can not remove yourself!"))
                 continue
-            user.groups.remove(group)
+            user.remove_team(request, group)
             obj.change_set.create(
                 action=Change.ACTION_REMOVE_USER,
                 user=request.user,

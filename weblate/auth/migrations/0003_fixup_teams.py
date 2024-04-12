@@ -9,7 +9,7 @@ from django.db import migrations
 from weblate.auth.data import GROUPS
 
 
-def migrate_teams(apps, schema_editor):
+def migrate_teams(apps, schema_editor) -> None:
     Group = apps.get_model("weblate_auth", "Group")
     for name, _roles, _project_selection in GROUPS:
         offset = 2

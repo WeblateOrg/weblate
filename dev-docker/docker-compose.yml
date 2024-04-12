@@ -33,7 +33,7 @@ services:
       # Local data directory
     - $PWD/data:/app/data
       # Override Weblate with local dir
-    - $PWD/../weblate:/usr/local/lib/python${DOCKER_PYTHON}/site-packages/weblate
+    - $PWD/../weblate:/app/venv/lib/python${DOCKER_PYTHON}/site-packages/weblate
     restart: always
     depends_on:
     - database

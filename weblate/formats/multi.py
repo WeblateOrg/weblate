@@ -6,22 +6,36 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.flags import Flags
 from weblate.trans.util import get_string
 
-from .base import TranslationUnit
+from .base import TranslationFormat, TranslationUnit
 from .ttkit import CSVUtf8Format
+
+if TYPE_CHECKING:
+    from translate.storage.base import TranslationStore
+    from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
 
 class MultiUnit(TranslationUnit):
-    def __init__(self, parent, unit, template=None):
+    units: list[TranslationUnit]
+    parent: MultiFormatMixin
+
+    def __init__(
+        self,
+        parent: MultiFormatMixin,
+        unit: TranslationUnit,
+        template: TranslationUnit | None = None,
+    ) -> None:
         super().__init__(parent, None, None)
         self.units = [unit]
 
-    def merge(self, unit):
+    def merge(self, unit) -> None:
         self.units.append(unit)
         self._invalidate_target()
 
@@ -63,7 +77,7 @@ class MultiUnit(TranslationUnit):
     def is_readonly(self):
         return any(unit.is_readonly() for unit in self.units)
 
-    def set_target(self, target: str | list[str]):
+    def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         self._invalidate_target()
 
@@ -87,7 +101,7 @@ class MultiUnit(TranslationUnit):
         for i, value in enumerate(target):
             self.units[i].set_target(value)
 
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         for unit in self.units:
             unit.set_state(state)
 
@@ -101,21 +115,23 @@ class MultiUnit(TranslationUnit):
     def has_unit(self) -> bool:
         return all(unit.has_unit() for unit in self.units)
 
-    def clone_template(self):
+    def clone_template(self) -> None:
         for unit in self.units:
             if not unit.has_unit():
                 unit.clone_template()
 
-    def untranslate(self, language):
+    def untranslate(self, language) -> None:
         for unit in self.units:
             unit.untranslate(language)
 
 
-class MultiFormatMixin:
+class MultiFormatMixin(TranslationFormat):
     has_multiple_strings: bool = True
+    units: list[TranslateToolkitUnit]
+    store: TranslationStore
 
     def merge_multi(self, iterable):
-        result = {}
+        result: dict[int, MultiUnit] = {}
         for unit in iterable:
             id_hash = unit.id_hash
             if id_hash in result:

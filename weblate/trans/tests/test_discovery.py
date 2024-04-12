@@ -9,7 +9,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 
 
 class ComponentDiscoveryTest(RepoTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component = self.create_component()
         self.discovery = ComponentDiscovery(
@@ -20,7 +20,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             language_regex="^(?!xx).*$",
         )
 
-    def test_matched_files(self):
+    def test_matched_files(self) -> None:
         self.assertEqual(
             sorted(self.discovery.matched_files),
             sorted(
@@ -41,7 +41,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             ),
         )
 
-    def test_matched_components(self):
+    def test_matched_components(self) -> None:
         self.assertEqual(
             self.discovery.matched_components,
             {
@@ -113,7 +113,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             },
         )
 
-    def test_perform(self):
+    def test_perform(self) -> None:
         # Preview should not create anything
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = self.discovery.perform(preview=True)
@@ -180,7 +180,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
 
-    def test_duplicates(self):
+    def test_duplicates(self) -> None:
         # Create all components with desired name po
         discovery = ComponentDiscovery(
             self.component,
@@ -196,7 +196,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
 
-    def test_multi_language(self):
+    def test_multi_language(self) -> None:
         discovery = ComponentDiscovery(
             self.component,
             match=r"localization/(?P<language>[^/]*)/"
@@ -212,7 +212,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
 
-    def test_named_group(self):
+    def test_named_group(self) -> None:
         discovery = ComponentDiscovery(
             self.component,
             match=r"(?P<path>[^/]+)/(?P<language>[^/]*)/"

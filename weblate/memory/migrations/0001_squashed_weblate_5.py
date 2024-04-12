@@ -10,7 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db import migrations, models
 
 
-def create_index(apps, schema_editor):
+def create_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         # Fulltext for translation memory search
@@ -33,7 +33,7 @@ def create_index(apps, schema_editor):
         raise ImproperlyConfigured(f"Unsupported database: {vendor}")
 
 
-def drop_index(apps, schema_editor):
+def drop_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         schema_editor.execute("DROP INDEX memory_source_trgm")

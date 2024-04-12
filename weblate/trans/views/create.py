@@ -45,7 +45,7 @@ from weblate.vcs.models import VCS_REGISTRY
 
 
 class BaseCreateView(CreateView):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.has_billing = "weblate.billing" in settings.INSTALLED_APPS
 
@@ -127,7 +127,7 @@ class ImportProject(CreateProject):
     form_class = ProjectImportForm
     template_name = "trans/project_import.html"
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
@@ -233,7 +233,7 @@ class CreateComponent(BaseCreateView):
             "component_progress", kwargs={"path": self.object.get_url_path()}
         )
 
-    def warn_outdated(self, form):
+    def warn_outdated(self, form) -> None:
         linked = form.instance.linked_component
         if linked:
             perform_update.delay("Component", linked.pk, auto=True)
@@ -246,7 +246,7 @@ class CreateComponent(BaseCreateView):
                     ),
                 )
 
-    def detect_license(self, form):
+    def detect_license(self, form) -> None:
         """Automatic license detection based on licensee."""
         try:
             process_result = subprocess.run(
@@ -265,15 +265,15 @@ class CreateComponent(BaseCreateView):
         result = json.loads(process_result.stdout)
         for license_data in result["licenses"]:
             spdx_id = license_data["spdx_id"]
-            for license in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
-                if license in LICENSE_URLS:
-                    self.initial["license"] = license
+            for license_id in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
+                if license_id in LICENSE_URLS:
+                    self.initial["license"] = license_id
                     messages.info(
                         self.request,
                         gettext(
                             "Detected license as %s, please check whether it is correct."
                         )
-                        % license,
+                        % license_id,
                     )
                     return
 
@@ -292,13 +292,13 @@ class CreateComponent(BaseCreateView):
             self.request.method = "GET"
             self.warn_outdated(form)
             self.detect_license(form)
-            return self.get(self, self.request)
+            return self.get(self.request)
         # Move to discover
         self.stage = "discover"
         self.request.method = "GET"
         self.initial = form.cleaned_data
         self.warn_outdated(form)
-        return self.get(self, self.request)
+        return self.get(self.request)
 
     def get_form(self, form_class=None, empty=False):
         self.empty_form = empty
@@ -326,7 +326,7 @@ class CreateComponent(BaseCreateView):
         kwargs["stage"] = self.stage
         return kwargs
 
-    def fetch_params(self, request):
+    def fetch_params(self, request) -> None:
         try:
             self.selected_project = int(
                 request.POST.get("project", request.GET.get("project", ""))
@@ -397,7 +397,7 @@ class CreateFromZip(CreateComponent):
         self.initial["branch"] = "main"
         self.initial.pop("zipfile")
         self.request.method = "GET"
-        return self.get(self, self.request)
+        return self.get(self.request)
 
 
 class CreateFromDoc(CreateComponent):
@@ -421,7 +421,7 @@ class CreateFromDoc(CreateComponent):
         self.initial["filemask"] = fake.filemask
 
         self.request.method = "GET"
-        return self.get(self, self.request)
+        return self.get(self.request)
 
 
 class CreateComponentSelection(CreateComponent):
@@ -447,7 +447,7 @@ class CreateComponentSelection(CreateComponent):
                 result[component.pk] = branches
         return result
 
-    def fetch_params(self, request):
+    def fetch_params(self, request) -> None:
         super().fetch_params(request)
         self.components = (
             Component.objects.filter_access(request.user)

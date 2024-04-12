@@ -14,7 +14,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def import_memory(project_id: int, component_id: int | None = None):
+def import_memory(project_id: int, component_id: int | None = None) -> None:
     from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)
@@ -38,7 +38,7 @@ def import_memory(project_id: int, component_id: int | None = None):
 
 
 @app.task(trail=False)
-def handle_unit_translation_change(unit_id, user_id=None):
+def handle_unit_translation_change(unit_id, user_id=None) -> None:
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
@@ -51,7 +51,7 @@ def handle_unit_translation_change(unit_id, user_id=None):
     update_memory(user, unit)
 
 
-def update_memory(user, unit, component=None, project=None):
+def update_memory(user, unit, component=None, project=None) -> None:
     component = component or unit.translation.component
     project = project or component.project
     params = {

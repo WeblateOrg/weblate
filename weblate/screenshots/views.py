@@ -33,6 +33,7 @@ from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.lang.models import Language
 
 
@@ -144,7 +145,7 @@ TESSERACT_LANGUAGES = {
 TESSERACT_URL = "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{}"
 
 
-def ensure_tesseract_language(lang: str):
+def ensure_tesseract_language(lang: str) -> None:
     """
     Ensure that tesseract trained data is present for a language.
 
@@ -153,13 +154,16 @@ def ensure_tesseract_language(lang: str):
     tessdata = data_dir("cache", "tesseract")
 
     # Operate with a lock held to avoid concurrent downloads
-    with WeblateLock(
-        data_dir("home"),
-        "screenshots:tesseract-download",
-        0,
-        "screenshots:tesseract-download",
-        timeout=600,
-    ), sentry_sdk.start_span(op="ocr.models"):
+    with (
+        WeblateLock(
+            data_dir("home"),
+            "screenshots:tesseract-download",
+            0,
+            "screenshots:tesseract-download",
+            timeout=600,
+        ),
+        sentry_sdk.start_span(op="ocr.models"),
+    ):
         if not os.path.isdir(tessdata):
             os.makedirs(tessdata)
 
@@ -180,7 +184,7 @@ def ensure_tesseract_language(lang: str):
                 handle.write(response.content)
 
 
-def try_add_source(request, obj):
+def try_add_source(request, obj) -> bool:
     if "source" not in request.POST:
         return False
 
@@ -250,6 +254,7 @@ class ScreenshotList(PathViewMixin, ListView):
 class ScreenshotDetail(DetailView):
     model = Screenshot
     _edit_form = None
+    request: AuthenticatedHttpRequest
 
     def get_object(self, *args, **kwargs):
         obj = super().get_object(*args, **kwargs)

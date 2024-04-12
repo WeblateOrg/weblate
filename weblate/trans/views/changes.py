@@ -89,7 +89,7 @@ class ChangesView(PathViewMixin, ListView):
 
         return context
 
-    def setup(self, *args, **kwargs):
+    def setup(self, *args, **kwargs) -> None:
         super().setup(*args, **kwargs)
         self.changes_form = ChangesForm(data=self.request.GET)
 

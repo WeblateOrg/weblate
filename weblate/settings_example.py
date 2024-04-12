@@ -23,7 +23,7 @@ ENABLE_HTTPS = False
 
 DEBUG = True
 
-ADMINS = (
+ADMINS: tuple[tuple[str, str], ...] = (
     # ("Your Name", "your_email@example.com"),
 )
 
@@ -216,7 +216,7 @@ GITLAB_CREDENTIALS = {}
 BITBUCKETSERVER_CREDENTIALS = {}
 
 # Authentication configuration
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS: tuple[str, ...] = (
     "social_core.backends.email.EmailAuth",
     # "social_core.backends.google.GoogleOAuth2",
     # "social_core.backends.github.GithubOAuth2",
@@ -403,7 +403,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.admin.apps.SimpleAdminConfig",
+    "django.contrib.admin",
     "django.contrib.admindocs",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
@@ -436,7 +436,7 @@ if platform.system() != "Windows":
         # Since Python 3.7 connect failures are silently discarded, so
         # the exception is almost never raised here. Instead we look whether the socket
         # to syslog is open after init.
-        HAVE_SYSLOG = handler.socket.fileno() != -1
+        HAVE_SYSLOG = handler.socket.fileno() != -1  # type: ignore[attr-defined]
         handler.close()
     except OSError:
         HAVE_SYSLOG = False
@@ -449,7 +449,7 @@ DEFAULT_LOGLEVEL = "DEBUG" if DEBUG else "INFO"
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/stable/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
+LOGGING: dict = {
     "version": 1,
     "disable_existing_loggers": True,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
@@ -587,6 +587,10 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
+LOGOUT_REDIRECT_URL = f"{URL_PREFIX}/"
+
+# Opt-in for Django 6.0 default
+FORMS_URLFIELD_ASSUME_HTTPS = True
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = "anonymous"
@@ -629,6 +633,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.chars.EndColonCheck",
 #     "weblate.checks.chars.EndQuestionCheck",
 #     "weblate.checks.chars.EndExclamationCheck",
+#     "weblate.checks.chars.EndInterrobangCheck",
 #     "weblate.checks.chars.EndEllipsisCheck",
 #     "weblate.checks.chars.EndSemicolonCheck",
 #     "weblate.checks.chars.MaxLengthCheck",
@@ -822,6 +827,7 @@ if REQUIRE_LOGIN:
 #    rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
 #    rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
 #    rf"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
+#    rf"{URL_PREFIX}/css/custom\.css$",  # Custom CSS support
 #    rf"{URL_PREFIX}/contact/$",  # Optional for contact form
 #    rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
 #    rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
@@ -841,7 +847,9 @@ SILENCED_SYSTEM_CHECKS = [
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = False
 CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_RESULT_BACKEND: str | None = CELERY_BROKER_URL
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
@@ -860,6 +868,7 @@ CELERY_TASK_ROUTES = {
 # CORS allowed origins
 CORS_ALLOWED_ORIGINS = []
 CORS_URLS_REGEX = r"^/api/.*$"
+CORS_URLS_REGEX = rf"^{URL_PREFIX}/api/.*$"
 
 # Enable plain database backups
 DATABASE_BACKUP = "plain"

@@ -2,18 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Maciej Olko <maciej.olko@gmail.com>, 2023, 2024.
-# Wiktor Adamczyk <adamcxyk.wiktor@gmail.com>, 2023.
+# Wiktor Adamczyk <adamcxyk.wiktor@gmail.com>, 2023, 2024.
 # zbirow 3dx <pawelkepczynski53@gmail.com>, 2023.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024.
-# WaldiS <sto@tutanota.de>, 2023.
+# WaldiS <sto@tutanota.de>, 2023, 2024.
 # Agnieszka C <aga_04@o2.pl>, 2023, 2024.
+# Deleted User <noreply+58184@weblate.org>, 2024.
+# Julia Deoniziak <juliadeo@proton.me>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
-"PO-Revision-Date: 2024-02-20 15:37+0000\n"
-"Last-Translator: Maciej Olko <maciej.olko@gmail.com>\n"
+"PO-Revision-Date: 2024-04-11 01:56+0000\n"
+"Last-Translator: Julia <juliadeo@proton.me>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -118,8 +120,8 @@ msgstr "Widoczne tylko dla wybranych użytkowników."
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
-"**Wybierz tę opcję dla projektów, które nie powinny być w ogóle ujawniane "
-"publicznie.**"
+"**Wybierz tę opcję w przypadku projektów, które w ogóle nie powinny być "
+"upubliczniane.**"
 
 #: ../../admin/access.rst:58 ../../admin/config.rst:494
 msgid ":guilabel:`Custom`"
@@ -416,18 +418,14 @@ msgid "Per-project permission management"
 msgstr "Zarządzanie uprawnieniami dla poszczególnych projektów"
 
 #: ../../admin/access.rst:191
-#, fuzzy
-#| msgid ""
-#| "You can set your projects to `Protected` or `Private`, and :ref:`manage "
-#| "users <manage-acl>` per-project in the Weblate user interface."
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the "
 "Weblate user interface."
 msgstr ""
-"Możesz ustawić swoje projekty na `Chronione` lub `Prywatne` i :ref:"
-"`zarządzać użytkownikami <manage-acl>` dla każdego projektu w interfejsie "
-"użytkownika Weblate."
+"Możesz ustawić swoje projekty na :guilabel:`Chronione` lub "
+":guilabel:`Prywatne` (see :ref:`acl`) i :ref:`zarządzać użytkownikami "
+"<manage-acl>` dla każdego projektu w interfejsie użytkownika Weblate."
 
 #: ../../admin/access.rst:195
 msgid ""
@@ -439,10 +437,10 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Domyślnie uniemożliwia to Weblate przyznanie dostępu zapewnianego przez "
-"`Users` i `Viewers` :ref:`domyślnych zespołów <default-teams>` ze względu na "
+"`Users` i `Viewers` :ref:`default teams <default-teams>` ze względu na "
 "własną konfigurację tych zespołów. Nie przeszkadza to w przyznawaniu "
 "uprawnień do tych projektów w całej witrynie poprzez zmianę domyślnych "
-"zespołów, tworzenie nowego lub tworzenie dodatkowych niestandardowych "
+"zespołów, tworzenie nowej lub tworzenie dodatkowych niestandardowych "
 "ustawień dla poszczególnych komponentów, jak opisano w :ref:`custom-acl` "
 "poniżej."
 
@@ -459,10 +457,8 @@ msgstr ""
 "`Administracja` projektu."
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Simple access control"
 msgid "Site-wide access control"
-msgstr "Prosta kontrola dostępu"
+msgstr "Kontrola dostępu w całej witrynie"
 
 #: ../../snippets/not-hosted.rst:3
 msgid "This feature is unavailable on Hosted Weblate."
@@ -479,14 +475,6 @@ msgstr ""
 "tłumaczeniom; więcej szczegółów, zobacz: :ref:`auth-model`."
 
 #: ../../admin/access.rst:217
-#, fuzzy
-#| msgid ""
-#| "The most powerful features of the Weblate’s access control system for now "
-#| "are available only through the :ref:`Django admin interface <admin-"
-#| "interface>`. You can use it to manage permissions of any project. You "
-#| "don’t necessarily have to switch it to `Custom` :ref:`access control "
-#| "<acl>` to utilize it. However you must have superuser privileges in order "
-#| "to use it."
 msgid ""
 "The most powerful features of the Weblate’s access control system can be "
 "configured in the :ref:`management-interface`. You can use it to manage "
@@ -494,21 +482,13 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"Najpotężniejsze funkcje systemu kontroli dostępu Weblate są na razie "
-"dostępne tylko przez :ref:`Django admin interface <admin-interface>`. Możesz "
-"go używać do zarządzania uprawnieniami dowolnego projektu. Nie musisz "
-"koniecznie przełączać go na `Niestandardowy` :ref:`access control <acl>`, "
-"aby go wykorzystać. Jednak aby z niego korzystać, musisz mieć uprawnienia "
-"superużytkownika."
+"Najpotężniejsze funkcje systemu kontroli dostępu Weblate można skonfigurować "
+"w :ref:`management-interface`. Można go użyć do zarządzania uprawnieniami "
+"dowolnego projektu. Nie musisz koniecznie przełączać go na :guilabel:`Custom`"
+" :ref:`access control <acl>`, aby z niego korzystać. Musisz jednak mieć "
+"uprawnienia superużytkownika, aby z niego korzystać."
 
 #: ../../admin/access.rst:223
-#, fuzzy
-#| msgid ""
-#| "If you are not interested in details of implementation, and just want to "
-#| "create a simple-enough configuration based on the defaults, or don’t have "
-#| "a site-wide access to the whole Weblate installation (like on `Hosted "
-#| "Weblate <https://hosted.weblate.org/>`_), please refer to the :ref:"
-#| "`access-simple` section."
 msgid ""
 "If you are not interested in details of implementation, and just want to "
 "create a simple-enough configuration based on the defaults, or don’t have a "
@@ -519,8 +499,8 @@ msgstr ""
 "Jeśli nie interesują Cię szczegóły implementacji, a po prostu chcesz "
 "stworzyć wystarczająco prostą konfigurację opartą na ustawieniach "
 "domyślnych, lub nie masz dostępu do całej instalacji Weblate (jak na `Hosted "
-"Weblate <https:/ /hosted.weblate.org/>`_), zapoznaj się z sekcją :ref:"
-"`access-simple`."
+"Weblate <https:/ /hosted.weblate.org/>`_), zapoznaj się z sekcją :ref"
+":`manage-acl`."
 
 #: ../../admin/access.rst:229
 msgid "Site-wide permission management"
@@ -532,7 +512,7 @@ msgid ""
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
 "Aby zarządzać uprawnieniami dla całej instancji naraz, dodaj użytkowników do "
-"odpowiednich :ref:`domyślnych zespołów <default-teams>`:"
+"odpowiednich :ref:`default teams <default-teams>`:"
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -576,8 +556,8 @@ msgid ""
 "to all the `Users`."
 msgstr ""
 "Możesz również przyznać dodatkowe, wybrane przez siebie uprawnienia, "
-"domyślnym zespołom. Na przykład możesz chcieć nadać uprawnienia do "
-"zarządzania zrzutami ekranu wszystkim „Użytkownikom”."
+"zespołom domyślnym. Na przykład możesz chcieć nadać uprawnienia do "
+"zarządzania zrzutami ekranu wszystkim `Users`."
 
 #: ../../admin/access.rst:249
 msgid ""
@@ -588,32 +568,25 @@ msgid ""
 msgstr ""
 "Możesz również zdefiniować kilka nowych zespołów niestandardowych. Jeśli "
 "chcesz nadal zarządzać swoimi uprawnieniami w całej witrynie dla tych "
-"zespołów, wybierz odpowiednią wartość dla :guilabel:`Wybór projektu` (np. :"
-"guilabel:`Wszystkie projekty` lub :guilabel:`Wszystkie projekty publiczne`)."
+"zespołów, wybierz odpowiednią wartość dla :guilabel:`Project Selection` (np. "
+":guilabel:`All projects` lub :guilabel:`All public projects`)."
 
 #: ../../admin/access.rst:255
 msgid "Custom permissions for languages, components or projects"
 msgstr "Niestandardowe uprawnienia do języków, komponentów lub projektów"
 
 #: ../../admin/access.rst:257
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Możesz tworzyć własne grupy dedykowane do zarządzania uprawnieniami do "
-"różnych obiektów, takich jak języki, komponenty i projekty. Chociaż te grupy "
-"mogą przyznawać tylko dodatkowe uprawnienia, nie można cofnąć żadnego "
-"uprawnienia przyznanego przez grupy obejmujące całą witrynę lub poszczególne "
-"projekty, dodając kolejną grupę niestandardową."
+"Możesz tworzyć własne zespoły dedykowane do zarządzania uprawnieniami do "
+"różnych obiektów, takich jak języki, komponenty i projekty. Chociaż te "
+"zespoły mogą przyznawać tylko dodatkowe uprawnienia, nie można cofnąć "
+"żadnego uprawnienia przyznanego przez zespoły obejmujące całą witrynę lub "
+"poszczególne projekty, dodając kolejny zespół niestandardowy."
 
 #: ../../admin/access.rst:262 ../../admin/access.rst:395
 #: ../../admin/config.rst:247 ../../admin/config.rst:266
@@ -641,19 +614,14 @@ msgstr ""
 "będziesz musiał:"
 
 #: ../../admin/access.rst:268
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default group <default-groups>`."
 msgid ""
 "Remove the permission to translate `Czech` from all the users. In the "
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
 "Usuń uprawnienie do tłumaczenia języka czeskiego wszystkim użytkownikom. W "
-"domyślnej konfiguracji można to zrobić, zmieniając `Użytkownicy` :ref:"
-"`default group <default-groups>`."
+"domyślnej konfiguracji można to zrobić, zmieniając `Użytkownicy` :ref:`"
+"default team <default-teams>`."
 
 #: ../../admin/access.rst:272
 msgid "Group `Users`"
@@ -672,10 +640,8 @@ msgid "All but `Czech`"
 msgstr "Wszystkie oprócz `czeski`"
 
 #: ../../admin/access.rst:282
-#, fuzzy
-#| msgid "Add a dedicated group for `Czech` translators."
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "Dodaj dedykowaną grupę dla tłumaczy języka czeskiego."
+msgstr "Dodaj dedykowany zespół dla tłumaczy języka czeskiego."
 
 #: ../../admin/access.rst:284
 msgid "Group `Czech translators`"
@@ -702,10 +668,8 @@ msgid "`Czech`"
 msgstr "`czeski`"
 
 #: ../../admin/access.rst:298
-#, fuzzy
-#| msgid "Add users you wish to give the permissions to into this group."
 msgid "Add users you wish to give the permissions to into this team."
-msgstr "Dodaj użytkowników, którym chcesz nadać uprawnienia do tej grupy."
+msgstr "Dodaj użytkowników, którym chcesz nadać uprawnienia do tego zespołu."
 
 #: ../../admin/access.rst:300
 msgid ""
@@ -718,10 +682,8 @@ msgstr ""
 "nadasz uprawnienia superużytkownika."
 
 #: ../../admin/access.rst:307
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "Użytkownicy, role, grupy i uprawnienia"
+msgstr "Użytkownicy, role, zespoły i uprawnienia"
 
 #: ../../admin/access.rst:309
 msgid "The authentication models consist of several objects:"
@@ -757,10 +719,8 @@ msgid "`User`"
 msgstr "`Użytkownik`"
 
 #: ../../admin/access.rst:318
-#, fuzzy
-#| msgid "User can belong to several groups."
 msgid "User can belong to several teams."
-msgstr "Użytkownik może należeć do kilku grup."
+msgstr "Użytkownik może należeć do kilku zespołów."
 
 #: ../../admin/access.rst:321
 msgid "`Group`"
@@ -775,39 +735,29 @@ msgstr ""
 "i listy komponentów)."
 
 #: ../../admin/access.rst:338
-#, fuzzy
-#| msgid ""
-#| "A group can have no roles assigned to it, in that case access to browse "
-#| "the project by anyone is assumed (see below)."
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
-"Grupa może nie mieć przypisanych żadnych ról, w takim przypadku zakłada się, "
-"że każdy ma dostęp do przeglądania projektu (zobacz poniżej)."
+"Zespół może nie mieć przypisanych żadnych ról, w takim przypadku zakłada "
+"się, że każdy ma dostęp do przeglądania projektu (zobacz poniżej)."
 
 #: ../../admin/access.rst:342
 msgid "Access for browse to a project"
 msgstr "Dostęp do przeglądania projektu"
 
 #: ../../admin/access.rst:344
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to browse the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a team linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"Użytkownik musi być członkiem grupy powiązanej z projektem lub dowolnym "
+"Użytkownik musi być członkiem zespołu powiązanego z projektem lub dowolnym "
 "komponentem wewnątrz tego projektu. Posiadanie członkostwa jest "
-"wystarczające, do przeglądania projektu nie są potrzebne żadne specjalne "
-"uprawnienia (jest to używane w domyślnej grupie `Viewers`, zobacz :ref:"
-"`default-groups`)."
+"wystarczające, do przeglądania projektu, nie są potrzebne żadne specjalne "
+"uprawnienia (jest to używane w domyślnym zespole `Viewers`, zobacz :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:350
 msgid "Access for browse to a component"
@@ -828,21 +778,15 @@ msgstr ""
 "komponentu (lub listy komponentów, w której znajduje się komponent)."
 
 #: ../../admin/access.rst:360
-#, fuzzy
-#| msgid "Scope of groups"
 msgid "Scope of teams"
-msgstr "Zakres grup"
+msgstr "Zakres zespołów"
 
 #: ../../admin/access.rst:362
-#, fuzzy
-#| msgid ""
-#| "The scope of the permission assigned by the roles in the groups are "
-#| "applied by the following rules:"
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
-"Zakres uprawnień nadawanych przez role w grupach jest określany według "
+"Zakres uprawnień nadawanych przez role w zespołach jest określany według "
 "następujących reguł:"
 
 #: ../../admin/access.rst:365
@@ -853,12 +797,20 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Jeśli zespół określa jakikolwiek :guilabel:`Component list` wszystkie "
+"uprawnienia nadane członkom tego zespołu zostaną przyznane wszystkim "
+"komponentom na listach komponentów dołączonych do zespołu i zostanie nadany "
+"dostęp, bez żadnych dodatkowych uprawnień, dla wszystkich projektów w "
+"których znajdują się te komponenty. :guilabel:`Components` i "
+":guilabel:`projects` są ignorowane."
 
 #: ../../admin/access.rst:371
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"Korzystanie z ogromnych list komponentów może mieć wpływ na wydajność, "
+"rozważ umożliwienie dostępu za pośrednictwem projektów."
 
 #: ../../admin/access.rst:374
 msgid ""
@@ -867,16 +819,13 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Jeśli zespół określa jakikolwiek :guilabel:`Components` wszystkie "
+"uprawnienia nadane członkom tego zespołu zostaną przyznane wszystkim "
+"komponentom dołączonych do zespołu i zostanie nadany dostęp, bez żadnych "
+"dodatkowych uprawnień, dla wszystkich projektów w których znajdują się te "
+"komponenty. :guilabel:`Projects` są ignorowane."
 
 #: ../../admin/access.rst:379
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -884,9 +833,9 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"W innym przypadku, jeżeli grupa poda jakikolwiek :guilabel: `Projects`, albo "
-"wymieniając je albo poprzez posiadanie :guilabel: `Projects selection` i "
-"ustawienie wartości jak: :guilabel: `All public projects`, wszystkie te "
+"W innym przypadku, jeżeli zespół poda jakikolwiek :guilabel: `Projects`, "
+"albo wymieniając je albo poprzez posiadanie :guilabel: `Projects selection` "
+"i ustawienie wartości jak: :guilabel: `All public projects`, wszystkie te "
 "uprawniena są aplikowane do wszystkich projektów, co daje the same "
 "uprawnienie każdemu projektowi :ref: `unrestricted components<component-"
 "restricted>`."
@@ -899,6 +848,11 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"Ograniczenia nałożone przez zespół :guilabel:`Języki` są stosowane osobno, "
+"po sprawdzeniu, czy użytkownik ma dostęp do wykonywania określonych "
+"czynności. Mianowicie dotyczy to tylko czynności bezpośrednio związanych z "
+"samym procesem tłumaczenia, takich jak sprawdzanie, zapisywanie tłumaczeń, "
+"dodawanie sugestii itp."
 
 #: ../../admin/access.rst:392
 msgid ""
@@ -909,16 +863,12 @@ msgstr ""
 "żeby zautomatyzować włączenie wszystkich języków oraz projektów."
 
 #: ../../admin/access.rst:397
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following group:"
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
 msgstr ""
-"Przyjmijmy, że jest projekt ``foo`` z komponentami: ``foo/bar`` i ``foo/"
-"baz`` oraz następującą grupą:"
+"Przyjmijmy, że jest projekt ``foo`` z komponentami: ``foo/bar`` i ``foo/baz``"
+" oraz następującym zespołem:"
 
 #: ../../admin/access.rst:400
 msgid "Group `Spanish Admin-Reviewers`"
@@ -941,15 +891,11 @@ msgid "`Spanish`"
 msgstr "`hiszpański`"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid ""
-#| "Members of that group will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
-"Członkowie tej grupy będą mieli następujące uprawnienia (przy założeniu "
+"Członkowie tego zespołu będą mieli następujące uprawnienia (przy założeniu "
 "domyślnych ustawień ról):"
 
 #: ../../admin/access.rst:414
@@ -965,17 +911,16 @@ msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr "przejrzyj tekst w ``foo/bar`` Hiszpańskie tłumaczenie."
 
 #: ../../admin/access.rst:417
-#, fuzzy
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
-msgstr "Zarządzaj VCS dla całej ``foo/bar`` repozytornii. na przykład."
+msgstr ""
+"Zarządzanie VCS dla całego repozytorium ``foo/bar``, np. zatwierdzanie "
+"oczekujących zmian wprowadzonych przez tłumaczy dla wszystkich języków."
 
 #: ../../admin/access.rst:423
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "Przypisania automatyczne"
+msgstr "Automatyczne przypisanie zespołu"
 
 #: ../../admin/access.rst:425
 msgid ""
@@ -984,6 +929,11 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
+"Edytując zakładkę :guilabel:`Zespół`, możesz określić :guilabel:`"
+"Automatyczne przypisania`, czyli listę wyrażeń regularnych używanych do "
+"automatycznego przypisywania nowo utworzonych użytkowników do zespołu na "
+"podstawie ich adresów e-mail. To przypisanie następuje dopiero po utworzeniu "
+"konta."
 
 #: ../../admin/access.rst:430
 msgid ""
@@ -992,6 +942,11 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Najczęstszym przypadkiem użycia tej funkcji jest przypisanie wszystkich "
+"nowych użytkowników do domyślnego zespołu. To zachowanie jest używane w "
+"przypadku domyślnych zespołów `Użytkownicy` i `Gość` (zobacz :ref:`default-"
+"teams`). Użyj wyrażenia regularnego ``^.*$``, aby dopasować wszystkich "
+"użytkowników."
 
 #: ../../admin/access.rst:434
 msgid ""
@@ -1011,6 +966,10 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Automatyczne przypisanie zespołu do „Użytkowników” i „Przeglądających” jest "
+"zawsze odtwarzane podczas aktualizacji Weblate do nowszej wersji. Jeśli "
+"chcesz to wyłączyć, ustaw wyrażenie regularne na ``^$`` (co skutkować będzie "
+"brakiem dopasowania)."
 
 #: ../../admin/access.rst:447
 msgid ""
@@ -1023,10 +982,8 @@ msgstr ""
 "tym celu możesz skorzystać z :ref:`REST API <api>`."
 
 #: ../../admin/access.rst:451
-#, fuzzy
-#| msgid "Default groups and roles"
 msgid "Default teams and roles"
-msgstr "Domyślne grupy i role"
+msgstr "Domyślne zespoły i role"
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -1043,12 +1000,14 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"Te role i zespoły są tworzone podczas instalacji. Wbudowane role są zawsze "
+"aktualizowane podczas migracji bazy danych podczas aktualizacji. Właściwie "
+"nie możesz ich zmienić, zdefiniuj nową rolę, jeśli chcesz zdefiniować własny "
+"zestaw uprawnień."
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Site wide privileges"
 msgid "List of privileges"
-msgstr "Uprawnienia dla całej strony"
+msgstr "Lista przywilejów"
 
 #: ../../admin/access.rst:469 ../../admin/optionals.rst:266
 #: ../../user/checks.rst:0
@@ -1060,10 +1019,8 @@ msgid "Permission"
 msgstr "Uprawnienie"
 
 #: ../../admin/access.rst:469
-#, fuzzy
-#| msgid "Built-in add-ons"
 msgid "Built-in roles"
-msgstr "Wbudowane dodatki"
+msgstr "Wbudowane role"
 
 #: ../../admin/access.rst:471
 msgid "Billing (see :ref:`billing`)"
@@ -1074,10 +1031,8 @@ msgid "View billing info"
 msgstr "Wyświetl informacje rozliczeniowe"
 
 #: ../../admin/access.rst:471
-#, fuzzy
-#| msgid "`Administration`, `Billing`"
 msgid ":guilabel:`Administration`, :guilabel:`Billing`"
-msgstr "`Administracja`, `Rozliczenia`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Rozliczenia`"
 
 #: ../../admin/access.rst:473 ../../api.rst:2136
 msgid "Changes"
@@ -1092,10 +1047,8 @@ msgstr "Pobierz zmiany"
 #: ../../admin/access.rst:501 ../../admin/access.rst:503
 #: ../../admin/access.rst:513 ../../admin/access.rst:515
 #: ../../admin/access.rst:545
-#, fuzzy
-#| msgid "`Administration`"
 msgid ":guilabel:`Administration`"
-msgstr "`Administracja`"
+msgstr ":guilabel:`Administracja`"
 
 #: ../../admin/access.rst:475 ../../user/translating.rst:62
 msgid "Comments"
@@ -1109,16 +1062,12 @@ msgstr "Wyślij komentarz"
 #: ../../admin/access.rst:517 ../../admin/access.rst:519
 #: ../../admin/access.rst:527 ../../admin/access.rst:533
 #: ../../admin/access.rst:547 ../../admin/access.rst:549
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Power user`, `Review strings`, "
-#| "`Translate`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
 msgstr ""
-"`Administracja`, `Edytuj źródło`, `Użytkownik zaawansowany`, `Przejrzyj "
-"ciągi`, `Przetłumacz`"
+":guilabel:`Administracja`, :guilabel:`Edytuj źródło`, :guilabel:`Użytkownik "
+"zaawansowany`, :guilabel:`Przejrzyj ciągi`, :guilabel:`Przetłumacz`"
 
 #: ../../admin/access.rst:477
 msgid "Delete comment"
@@ -1130,10 +1079,8 @@ msgstr "Rozwiąż komentarz"
 
 #: ../../admin/access.rst:479 ../../admin/access.rst:521
 #: ../../admin/access.rst:523
-#, fuzzy
-#| msgid "`Administration`, `Review strings`"
 msgid ":guilabel:`Administration`, :guilabel:`Review strings`"
-msgstr "`Administracja`, `Przejrzyj ciągi`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Przejrzyj ciągi`"
 
 #: ../../admin/access.rst:481 ../../admin/addons.rst:56
 msgid "Component"
@@ -1150,10 +1097,8 @@ msgstr "Blokuj komponent, uniemożliwiając tłumaczenia"
 #: ../../admin/access.rst:483 ../../admin/access.rst:553
 #: ../../admin/access.rst:555 ../../admin/access.rst:557
 #: ../../admin/access.rst:561
-#, fuzzy
-#| msgid "`Administration`, `Manage repository`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage repository`"
-msgstr "`Administracja`, `Zarządzaj repozytorium`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Zarządzaj repozytorium`"
 
 #: ../../admin/access.rst:485
 msgid "Add glossary entry"
@@ -1161,12 +1106,12 @@ msgstr "Dodaj wpis słownika"
 
 #: ../../admin/access.rst:485 ../../admin/access.rst:487
 #: ../../admin/access.rst:489 ../../admin/access.rst:491
-#, fuzzy
-#| msgid "`Administration`, `Manage glossary`, `Power user`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
 "user`"
-msgstr "`Administracja`, `Zarządzaj słownikiem`, `Użytkownik zaawansowany`"
+msgstr ""
+":guilabel:`Administracja`, :guilabel:`Zarządzaj słownikiem`, :guilabel:`"
+"Użytkownik zaawansowany`"
 
 #: ../../admin/access.rst:487
 msgid "Edit glossary entry"
@@ -1197,10 +1142,8 @@ msgid "Edit translation memory"
 msgstr "Edytuj pamięć tłumaczeń"
 
 #: ../../admin/access.rst:495 ../../admin/access.rst:497
-#, fuzzy
-#| msgid "`Administration`, `Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
-msgstr "`Administracja`, `Zarządzaj pamięcią tłumaczeniową`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Zarządzaj pamięcią tłumaczeniową`"
 
 #: ../../admin/access.rst:497
 msgid "Delete translation memory"
@@ -1232,10 +1175,8 @@ msgstr "Dodaj zrzut ekranu"
 
 #: ../../admin/access.rst:505 ../../admin/access.rst:507
 #: ../../admin/access.rst:509
-#, fuzzy
-#| msgid "`Administration`, `Manage screenshots`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr "`Administracja`, `Zarządzaj zrzutami ekranu`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Zarządzaj zrzutami ekranu`"
 
 #: ../../admin/access.rst:507
 msgid "Edit screenshot"
@@ -1254,10 +1195,8 @@ msgid "Edit additional string info"
 msgstr "Edytuj dodatkowe informacje o ciągu"
 
 #: ../../admin/access.rst:511
-#, fuzzy
-#| msgid "`Administration`, `Edit source`"
 msgid ":guilabel:`Administration`, :guilabel:`Edit source`"
-msgstr "`Administracja`, `Edytuj źródło`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Edytuj źródło`"
 
 #: ../../admin/access.rst:513
 msgid "Strings"
@@ -1292,11 +1231,11 @@ msgid "Edit source strings"
 msgstr "Edytuj ciągi źródłowe"
 
 #: ../../admin/access.rst:525
-#, fuzzy
-#| msgid "`Administration`, `Edit source`, `Power user`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
-msgstr "`Administracja`, `Edytuj źródło`, `Użytkownik zaawansowany`"
+msgstr ""
+":guilabel:`Administracja`, :guilabel:`Edytuj źródło`, :guilabel:`Użytkownik "
+"zaawansowany`"
 
 #: ../../admin/access.rst:527 ../../user/translating.rst:46
 #: ../../workflows.rst:80
@@ -1312,27 +1251,22 @@ msgid "Add suggestion"
 msgstr "Dodaj sugestię"
 
 #: ../../admin/access.rst:529
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
-#| "strings`, `Translate`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
 "suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`"
 msgstr ""
-"`Administracja`, `Edytuj źródło`, `Dodaj sugestię`, `Użytkownik "
-"zaawansowany`, `Przejrzyj ciągi`, `Przetłumacz`"
+":guilabel:`Administracja`, :guilabel:`Edytuj źródło`, :guilabel:`Dodaj "
+"sugestię`, :guilabel:`Użytkownik zaawansowany`, :guilabel:`Przejrzyj ciągi`, "
+":guilabel:`Przetłumacz`"
 
 #: ../../admin/access.rst:531
 msgid "Delete suggestion"
 msgstr "Usuń sugestię"
 
 #: ../../admin/access.rst:531
-#, fuzzy
-#| msgid "`Administration`, `Power user`"
 msgid ":guilabel:`Administration`, :guilabel:`Power user`"
-msgstr "`Administracja`, `Użytkownik zaawansowany`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Użytkownik zaawansowany`"
 
 #: ../../admin/access.rst:533
 msgid "Vote on suggestion"
@@ -1347,50 +1281,42 @@ msgid "Add language for translation"
 msgstr "Dodaj język do tłumaczenia"
 
 #: ../../admin/access.rst:535
-#, fuzzy
-#| msgid "`Administration`, `Power user`, `Manage languages`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
 "languages`"
-msgstr "`Administracja`, `Użytkownik zaawansowany`, `Zarządzaj językami`"
+msgstr ""
+":guilabel:`Administracja`, :guilabel:`Użytkownik zaawansowany`, :guilabel:`"
+"Zarządzaj językami`"
 
 #: ../../admin/access.rst:537
 msgid "Perform automatic translation"
 msgstr "Wykonaj automatyczne tłumaczenie"
 
 #: ../../admin/access.rst:537
-#, fuzzy
-#| msgid "`Administration`, `Automatic translation`"
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr "`Administracja`, `Tłumaczenie automatyczne`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Tłumaczenie automatyczne`"
 
 #: ../../admin/access.rst:539
 msgid "Delete existing translation"
 msgstr "Usuń istniejące tłumaczenie"
 
 #: ../../admin/access.rst:539 ../../admin/access.rst:543
-#, fuzzy
-#| msgid "`Administration`, `Manage languages`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage languages`"
-msgstr "`Administracja`, `Zarządzaj językami`"
+msgstr ":guilabel:`Administracja`, :guilabel:`Zarządzaj językami`"
 
 #: ../../admin/access.rst:541
 msgid "Download translation file"
 msgstr "Pobierz plik tłumaczenia"
 
 #: ../../admin/access.rst:541
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Access repository`, `Power user`, "
-#| "`Review strings`, `Translate`, `Manage languages`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
 msgstr ""
-"`Administracja`, `Edytuj źródło`, `Uzyskaj dostęp do repozytorium`, "
-"`Użytkownik zaawansowany`, `Przejrzyj ciągi`, `Przetłumacz`, `Zarządzaj "
-"językami`"
+":guilabel:`Administracja`, :guilabel:`Edytuj źródło`, :guilabel:`Uzyskaj "
+"dostęp do repozytorium`, :guilabel:`Użytkownik zaawansowany`, :guilabel:`"
+"Przejrzyj ciągi`, :guilabel:`Przetłumacz`, :guilabel:`Zarządzaj językami`"
 
 #: ../../admin/access.rst:543
 msgid "Add several languages for translation"
@@ -1417,15 +1343,12 @@ msgid "Access the internal repository"
 msgstr "Uzyskaj dostęp do wewnętrznego repozytorium"
 
 #: ../../admin/access.rst:551 ../../admin/access.rst:559
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Access repository`, `Power user`, `Manage repository`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
 msgstr ""
-"`Administracja`, `Uzyskaj dostęp do repozytorium`, `Użytkownik "
-"zaawansowany`, `Zarządzaj repozytorium`"
+":guilabel:`Administracja`, :guilabel:`Uzyskaj dostęp do repozytorium`, "
+":guilabel:`Użytkownik zaawansowany`, :guilabel:`Zarządzaj repozytorium`"
 
 #: ../../admin/access.rst:553
 msgid "Commit changes to the internal repository"
@@ -1510,10 +1433,8 @@ msgstr ""
 "nich wpływa na wszystkie twoje projekty w instalacji Weblate."
 
 #: ../../admin/access.rst:595
-#, fuzzy
-#| msgid "List of privileges and built-in roles"
 msgid "List of built-in roles"
-msgstr "Lista uprawnień i wbudowanych ról"
+msgstr "Lista wbudowanych ról"
 
 #: ../../admin/access.rst:600
 msgid "`Administration`"
@@ -1546,13 +1467,36 @@ msgid ""
 "changes in the internal repository`, :guilabel:`Update the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`Wyświetlanie informacji rozliczeniowych`, :guilabel:`Pobierz "
+"zmiany`, :guilabel:`Wyślij komentarz`, :guilabel:`Usuń komentarz`, "
+":guilabel:`Rozwiń komentarz`, :guilabel:`Edytuj ustawienia komponentów`, "
+":guilabel:`Zablokuj komponent, uniemożliwiając tłumaczenie`, :guilabel:`"
+"Dodaj definicję do słownika`, :guilabel:`Usuń definicję ze słownika`, "
+":guilabel:`Edytuj definicję ze słownika`, :guilabel:`Prześlij definicje do "
+"słownika`, :guilabel:`Użyj automatycznych sugestii`, :guilabel:`Usuń pamięć "
+"tłumaczeń`, :guilabel:`Edytuj pamięć tłumaczeń`, :guilabel:`Edytuj "
+"ustawienia projektu`, :guilabel:`Zarządzaj dostępem do projektu`, :guilabel:`"
+"Pobierz raporty`, :guilabel:`Dodaj zrzut ekranu`, :guilabel:`Usuń zrzut "
+"ekranu`, :guilabel:`Edytuj zrzut ekranu`, :guilabel:`Edytuj dodatkowe "
+"informacje o ciągu`, :guilabel:`Akceptuj sugestię`, :guilabel:`Dodaj "
+"sugestię`, :guilabel:`Usuń sugestię`, :guilabel:`Zagłosuj na sugestię`, "
+":guilabel:`Dodaj język do tłumaczenia`, :guilabel:`Dodaj kilka języków do "
+"tłumaczenia`, :guilabel:`Wykonaj tłumaczenie automatyczne`, :guilabel:`Usuń "
+"istniejące tłumaczenie`, :guilabel:`Pobierz plik tłumaczenia`, :guilabel:`"
+"Dodaj nowy ciąg`, :guilabel:`Odrzuć negatywny wynik kontroli`, :guilabel:`"
+"Usuń ciąg`, :guilabel:`Edytuj ciągi`, :guilabel:`Edytuj ciąg, gdy sugestie "
+"są wymuszane`, :guilabel:`Przejrzyj ciągi`, :guilabel:`Edytuj ciągi źródłowe`"
+", :guilabel:`Zdefiniuj autora przesłanego tłumaczenia`, :guilabel:`Nadpisz "
+"istniejące ciągi przesłaniem pliku`, :guilabel:`Prześlij tłumaczenie`, "
+":guilabel:`Dostęp do wewnętrznego repozytorium`, :guilabel:`Zatwierdzenie "
+"zmian w wewnętrznym repozytorium`, :guilabel:`Wprowadź zmianę z wewnętrznego "
+"repozytorium`, :guilabel:`Zresetuj zmiany w wewnętrznym repozytorium`, "
+":guilabel:`Aktualizacja wewnętrznego repozytorium`, :guilabel:`Wyświetl "
+"lokalizację repozytorium nadrzędnego`"
 
 #: ../../admin/access.rst:602
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "`Edit source`"
-msgstr "Edytuj źródło"
+msgstr "`Edytuj źródło`"
 
 #: ../../admin/access.rst:603
 msgid ""
@@ -1563,47 +1507,49 @@ msgid ""
 "guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with "
 "upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Dodaj komentarz`, :guilabel:`Użyj automatycznych sugestii`, "
+":guilabel:`Edytuj dodatkowe informacje ciągu`, :guilabel:`Zaakceptuj "
+"sugestię`, :guilabel:`Dodaj sugestię`, :guilabel:`Zagłosuj za sugestią`, "
+":guilabel:`Pobierz plik z tłumaczeniem`, :guilabel:`Odrzuć negatywny wynik "
+"kontroli`, :guilabel:`Edytuj ciąg`, :guilabel:`Edytuj ciągi źródła`, "
+":guilabel:`Nadpisz istniejące ciągi poprzez przesłanie pliku`, :guilabel:`"
+"Prześlij tłumaczenia`"
 
 #: ../../admin/access.rst:604
-#, fuzzy
-#| msgid "Add suggestion"
 msgid "`Add suggestion`"
-msgstr "Dodaj sugestię"
+msgstr "`Dodaj sugestię`"
 
 #: ../../admin/access.rst:605
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Add suggestion`"
-msgstr ":guilabel:`Niestandardowy`"
+msgstr ":guilabel:`Dodaj sugestię`"
 
 #: ../../admin/access.rst:606
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Access repository"
 msgid "`Access repository`"
-msgstr "Uzyskaj dostęp do repozytorium"
+msgstr "`Uzyskaj dostęp do repozytorium`"
 
 #: ../../admin/access.rst:607
 msgid ""
 ":guilabel:`Download translation file`, :guilabel:`Access the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`Pobierz plik z tłumaczeniem`, :guilabel:`Zdobądź dostęp do "
+"repozytorium wewnętrznego`, :guilabel:`Wyświetl lokalizację repozytorium "
+"nadrzędnego`"
 
 #: ../../admin/access.rst:608
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "`Manage glossary`"
-msgstr "Dostosuj słownik"
+msgstr "`Zarządzaj słownikiem`"
 
 #: ../../admin/access.rst:609
 msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgstr ""
+":guilabel:`Dodaj definicję do słownika`, :guilabel:`Usuń definicję ze "
+"słownika`, :guilabel:`Edytuj definicję w słowniku`, :guilabel:`Prześlij "
+"definicje do słownika`"
 
 #: ../../admin/access.rst:610
-#, fuzzy
-#| msgid "`Power users`"
 msgid "`Power user`"
 msgstr "`Użytkownik zaawansowany`"
 
@@ -1620,12 +1566,21 @@ msgid ""
 "guilabel:`Access the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
+":guilabel:`Dodaj komentarz`, :guilabel:`Dodaj definicję do słownika`, "
+":guilabel:`Usuń definicję ze słownika`, :guilabel:`Edytuj definicję ze "
+"słownika`, :guilabel:`Prześlij definicje do słownika`, :guilabel:`Użyj "
+"automatycznych sugestii`, :guilabel:`Zaakceptuj sugestię`, :guilabel:`Dodaj "
+"sugestię`, :guilabel:`Usuń sugestię`, :guilabel:`Zagłosuj za sugestią`, "
+":guilabel:`Dodaj język do tłumaczenia`, :guilabel:`Pobierz plik tłumaczenia`"
+", :guilabel:`Odrzuć negatywny wynik kontroli`, :guilabel:`Edytuj ciągi`, "
+":guilabel:`Edytuj ciągi źródłowe`, :guilabel:`Nadpisz istniejące ciągi "
+"przesłaniem pliku`, :guilabel:`Prześlij tłumaczenie`, :guilabel:`Uzyskaj "
+"dostęp do repozytorium wewnętrznego`, :guilabel:`Wyświetl lokalizację "
+"repozytorium nadrzędnego`"
 
 #: ../../admin/access.rst:612
-#, fuzzy
-#| msgid "Review strings"
 msgid "`Review strings`"
-msgstr "Przejrzyj ciągi"
+msgstr "`Przejrzyj ciągi`"
 
 #: ../../admin/access.rst:613
 msgid ""
@@ -1637,12 +1592,17 @@ msgid ""
 "strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:"
 "`Upload translations`"
 msgstr ""
+":guilabel:`Prześlij komentarz`, :guilabel:`Rozwiń komentarz`, :guilabel:`"
+"Użyj automatycznej sugestii`, :guilabel:`Zaakceptuj sugestię`, :guilabel:`"
+"Dodaj sugestię`, :guilabel:`Zagłosuj za sugestią`, :guilabel:`Pobierz plik "
+"tłumaczenia`, :guilabel:`Odrzuć negatywny wynik kontroli`, :guilabel:`Edytuj "
+"ciągi`, :guilabel:`Edytuj ciąg, gdy sugestie są wymuszane`, :guilabel:`"
+"Przejrzyj ciągi`, :guilabel:`Nadpisz istniejące ciągi poprzez przesłanie "
+"pliku`, :guilabel:`Prześlij tłumaczenia`"
 
 #: ../../admin/access.rst:614
-#, fuzzy
-#| msgid "Translate"
 msgid "`Translate`"
-msgstr "Przetłumacz"
+msgstr "`Przetłumacz`"
 
 #: ../../admin/access.rst:615
 msgid ""
@@ -1654,11 +1614,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:616
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "`Manage languages`"
-msgstr "Zarządzaj językami"
+msgstr "`Zarządzaj językami`"
 
 #: ../../admin/access.rst:617
 msgid ""
@@ -1668,35 +1625,27 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:618
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "`Automatic translation`"
-msgstr "Tłumaczenie automatyczne"
+msgstr "`Tłumaczenie automatyczne`"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid ":guilabel:`Perform automatic translation`"
-msgstr "Wykonaj automatyczne tłumaczenie"
+msgstr ":guilabel:`Wykonaj automatyczne tłumaczenie`"
 
 #: ../../admin/access.rst:620
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "`Manage translation memory`"
-msgstr "Zarządzaj pamięcią tłumaczeniową"
+msgstr "`Zarządzaj pamięcią tłumaczeniową`"
 
 #: ../../admin/access.rst:621
-#, fuzzy
-#| msgid "Built-in translation memory, see :ref:`translation-memory`."
 msgid ""
 ":guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`"
-msgstr "Wbudowana pamięć tłumaczeń, zobacz :ref:`translation-memory`."
+msgstr ""
+":guilabel:`Usuń wbudowana pamięć tłumaczeń`, :guilabel:`Edytuj wbudowaną "
+"pamięć tłumaczeń`"
 
 #: ../../admin/access.rst:622
-#, fuzzy
-#| msgid "Manage screenshots"
 msgid "`Manage screenshots`"
-msgstr "Zarządzaj zrzutami ekranu"
+msgstr "`Zarządzaj zrzutami ekranu`"
 
 #: ../../admin/access.rst:623
 msgid ""
@@ -1705,11 +1654,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:624
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Manage repository`"
-msgstr "Zarządzaj repozytorium"
+msgstr "`Zarządzaj repozytorium`"
 
 #: ../../admin/access.rst:625
 msgid ""
@@ -1721,34 +1667,24 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:626
-#, fuzzy
-#| msgid "Billing"
 msgid "`Billing`"
-msgstr "Rozliczenia"
+msgstr "`Rozliczenia`"
 
 #: ../../admin/access.rst:627
-#, fuzzy
-#| msgid "View billing info"
 msgid ":guilabel:`View billing info`"
-msgstr "Wyświetl informacje rozliczeniowe"
+msgstr ":guilabel:`Wyświetl informacje rozliczeniowe`"
 
 #: ../../admin/access.rst:629
-#, fuzzy
-#| msgid "Add new projects"
 msgid "`Add new projects`"
-msgstr "Dodaj nowe projekty"
+msgstr "`Dodaj nowe projekty`"
 
 #: ../../admin/access.rst:629
-#, fuzzy
-#| msgid "Add new projects"
 msgid ":guilabel:`Add new projects`"
-msgstr "Dodaj nowe projekty"
+msgstr ":guilabel:`Dodaj nowe projekty`"
 
 #: ../../admin/access.rst:634
-#, fuzzy
-#| msgid "List of groups"
 msgid "List of teams"
-msgstr "Lista grup"
+msgstr "Lista zespołów"
 
 #: ../../admin/access.rst:636
 msgid ""
@@ -1769,26 +1705,18 @@ msgid "Defines permissions for non-authenticated users."
 msgstr "Definiuje uprawnienia dla nieuwierzytelnionych użytkowników."
 
 #: ../../admin/access.rst:643
-#, fuzzy
-#| msgid ""
-#| "This group only contains anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Ta grupa zawiera tylko anonimowych użytkowników (patrz :setting: "
-"`ANONYMOUS_USER_NAME`)."
+"Ten zespół zawiera tylko anonimowych użytkowników (patrz "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:645
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
-"Możesz usunąć role z tej grupy, aby ograniczyć uprawnienia dla "
+"Możesz usunąć role z tego zespołu, aby ograniczyć uprawnienia dla "
 "nieuwierzytelnionych użytkowników."
 
 #: ../../admin/access.rst:648
@@ -1800,24 +1728,20 @@ msgid "`Viewers`"
 msgstr "`Przeglądajacy`"
 
 #: ../../admin/access.rst:651
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
 msgstr ""
 "Ta rola zapewnia widoczność projektów publicznych dla wszystkich "
-"użytkowników. Domyślnie wszyscy użytkownicy są członkami tej grupy."
+"użytkowników. Domyślnie wszyscy użytkownicy są członkami tego zespołu."
 
 #: ../../admin/access.rst:654 ../../admin/access.rst:662
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Domyślnie :ref:`automatyczne przypisanie zespołu <autoteam>` powoduje, że "
-"wszystkie nowe konta stają się członkami tego zespołu, gdy dołączą."
+"Domyślnie :ref:`automatic team assignment <autoteam>` sprawia, że nowe konta "
+"stają się członkami tego zespołu przy dołączaniu."
 
 #: ../../admin/access.rst:657
 msgid "Default roles: none"
@@ -1829,10 +1753,8 @@ msgid "`Users`"
 msgstr "`Użytkownicy`"
 
 #: ../../admin/access.rst:660
-#, fuzzy
-#| msgid "Default group for all users."
 msgid "Default team for all users."
-msgstr "Domyślna grupa dla wszystkich użytkowników."
+msgstr "Domyślny zespół dla wszystkich użytkowników."
 
 #: ../../admin/access.rst:665
 msgid "Default roles: `Power user`"
@@ -1868,6 +1790,9 @@ msgid ""
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
+"Nigdy nie usuwaj predefiniowanych zespołów i użytkowników Weblate, ponieważ "
+"może to prowadzić do nieoczekiwanych problemów! Jeśli ich nie potrzebujesz, "
+"możesz zamiast tego usunąć wszystkie ich uprawnienia."
 
 #: ../../admin/access.rst:684
 msgid "Additional access restrictions"
@@ -1964,10 +1889,8 @@ msgid "``translate`` -- Add as translation"
 msgstr "``translate`` -- Dodaj jako tłumaczenie"
 
 #: ../../admin/addons.rst:34
-#, fuzzy
-#| msgid "``fuzzy`` -- Add as needing edit"
 msgid "``fuzzy`` -- Add as \"Needing edit\""
-msgstr "``fuzzy`` -- Dodaj jako wymagające edycji"
+msgstr "``fuzzy`` -- Dodaj jako \"Wymagające edycji\""
 
 #: ../../admin/addons.rst:36
 msgid "``filter_type``"
@@ -2051,7 +1974,7 @@ msgstr "Ocena wyniku"
 
 #: ../../admin/addons.rst:0
 msgid "Triggers"
-msgstr ""
+msgstr "Wyzwalacze"
 
 #: ../../admin/addons.rst:62 ../../admin/addons.rst:462
 #: ../../admin/addons.rst:513 ../../admin/addons.rst:546
@@ -2079,6 +2002,8 @@ msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
 msgstr ""
+"Co miesiąc dla każdego komponentu, może to zostać ustawione używając "
+":setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:73
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -2142,7 +2067,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:93
 msgid "daily, repository post-commit, repository post-update"
-msgstr ""
+msgstr "codziennie, po zatwierdzeniu repozytorium, po aktualizacji repozytorium"
 
 #: ../../admin/addons.rst:95
 msgid ""
@@ -2165,6 +2090,9 @@ msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
+"Generuje unikalny URL dla twojego komponentu, który możesz umieścić na "
+"stronach HTML, aby je zlokalizować. Po więcej szczegółów patrz :ref:`weblate-"
+"cdn`."
 
 #: ../../admin/addons.rst:106
 msgid ""
@@ -2174,12 +2102,20 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"Ten dodatek wymaga dodatkowej konfiguracji na serwerze Weblate. "
+":setting:`LOCALIZE_CDN_PATH` konfiguruje miejsce zapisywania wygenerowanych "
+"plików (w systemie plików), a :setting:`LOCALIZE_CDN_URL` określa miejsce, w "
+"którym będą one udostępniane (URL). Udostępnianie plików nie jest "
+"realizowane przez Weblate i musi zostać skonfigurowane zewnętrznie (zwykle "
+"przy użyciu usługi CDN)."
 
 #: ../../admin/addons.rst:112
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"Ten dodatek jest skonfigurowany na :guilabel:`Hosted Weblate` i udostępnia "
+"pliki poprzez ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -2209,7 +2145,7 @@ msgstr "`Ten dodatek nie ma konfiguracji.`"
 
 #: ../../admin/addons.rst:131
 msgid "repository post-commit, repository post-update"
-msgstr ""
+msgstr "repozytorium po zatwierdzeniu, repozytorium po aktualizacji"
 
 #: ../../admin/addons.rst:133
 msgid "Removes strings without a translation from translation files."
@@ -2221,6 +2157,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
+"Użyj tego, aby nie mieć pustych ciągów w plikach tłumaczeń (na przykład, "
+"jeśli twoja biblioteka lokalizacji wyświetla je jako brakujące zamiast "
+"powracać do ciągu źródłowego)."
 
 #: ../../admin/addons.rst:141 ../../admin/addons.rst:158
 #: ../../admin/addons.rst:716 ../../admin/addons.rst:854
@@ -2237,7 +2176,7 @@ msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:150
 msgid "repository pre-commit, repository post-update"
-msgstr ""
+msgstr "repozytorium przed zatwierdzeniem, repozytorium po aktualizacji"
 
 #: ../../admin/addons.rst:152
 msgid ""
@@ -2287,6 +2226,8 @@ msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
+"Automatycznie tłumacz nowo dodane ciągi z :ref:`addon-weblate.autotranslate."
+"autotranslate`."
 
 #: ../../admin/addons.rst:185
 msgid "Component discovery"
@@ -2447,6 +2388,9 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
+"Dopasowanie odbywa się za pomocą wyrażeń regularnych, co umożliwia złożoną "
+"konfigurację, ale wymagana jest do tego pewna wiedza. Niektóre przykłady "
+"typowych zastosowań można znaleźć w sekcji pomocy dodatku."
 
 #: ../../admin/addons.rst:219
 #, fuzzy
@@ -2472,30 +2416,24 @@ msgstr ""
 "treści, na przykład:"
 
 #: ../../admin/addons.rst:225
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
 msgstr "Dopasowanie nazwy pliku komponentu"
 
 #: ../../admin/addons.rst:227
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component|title }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:228
 msgid "Component filename with upper case first letter"
 msgstr "Nazwa pliku rozpoczynająca się od wielkiej litery"
 
 #: ../../admin/addons.rst:230
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:230
 #, fuzzy
@@ -2509,18 +2447,17 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+"Po naciśnięciu :guilabel:`Save` zostanie wyświetlony podgląd pasujących "
+"komponentów, skąd będziesz mógł sprawdzić, czy dana konfiguracja odpowiada "
+"twoim potrzebom:"
 
 #: ../../admin/addons.rst:238
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery examples"
-msgstr "Wykrycie komponentów"
+msgstr "Przykłady wykrycia komponentów"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid "Deletes the language."
 msgid "One folder per language"
-msgstr "Usuwa język."
+msgstr "Jeden folder na język"
 
 #: ../../admin/addons.rst:243
 msgid "One folder per language containing translation files for components."
@@ -2529,10 +2466,8 @@ msgstr "Jeden folder na język zawierający pliki tłumaczeniowe dla komponentó
 #: ../../admin/addons.rst:245 ../../admin/addons.rst:258
 #: ../../admin/addons.rst:271 ../../admin/addons.rst:284
 #: ../../admin/addons.rst:298 ../../admin/addons.rst:311
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "Wyrażenie regularne"
+msgstr "Wyrażenie regularne:"
 
 #: ../../admin/addons.rst:246
 #, fuzzy
@@ -2546,75 +2481,52 @@ msgstr ""
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:291
 #: ../../admin/addons.rst:304 ../../admin/addons.rst:320
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "Dopasowane pliki"
+msgstr "Dopasowane pliki:"
 
 #: ../../admin/addons.rst:248
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`cs/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:249
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`cs/website.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:250
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`de/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`de/application.po`"
 
 #: ../../admin/addons.rst:251
-#, fuzzy
-#| msgid ":file:`weblate-*.png`"
 msgid ":file:`de/website.po`"
-msgstr ":file:`weblate-*.png`"
+msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:254
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Lokalny układ Gettext"
 
 #: ../../admin/addons.rst:256
 msgid "Usual structure for storing gettext PO files."
 msgstr "Zwykła struktura do przechowywania plików gettext PO."
 
 #: ../../admin/addons.rst:259
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:261
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:262
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:263
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:264
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:267
 #, fuzzy
@@ -2627,33 +2539,24 @@ msgid "Using both component and language name within filename."
 msgstr "Używanie nazwy komponentu i języka w nazwie pliku."
 
 #: ../../admin/addons.rst:272
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:274
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`src/locale/application.cs.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`src/locale/application.cs.po`"
 
 #: ../../admin/addons.rst:275
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`src/locale/website.cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`src/locale/website.cs.po`"
 
 #: ../../admin/addons.rst:276
 msgid ":file:`src/locale/application.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/application.de.po`"
 
 #: ../../admin/addons.rst:277
 msgid ":file:`src/locale/website.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:280
 #, fuzzy
@@ -2666,76 +2569,52 @@ msgid "Using language in both path and filename."
 msgstr "Używanie języka w ścieżce i nazwie pliku."
 
 #: ../../admin/addons.rst:285
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
-msgstr ""
+msgstr ":file:`locale/cs/application/cs.po`"
 
 #: ../../admin/addons.rst:288
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`locale/cs/website/cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`locale/cs/website/cs.po`"
 
 #: ../../admin/addons.rst:289
 msgid ":file:`locale/de/application/de.po`"
-msgstr ""
+msgstr ":file:`locale/de/application/de.po`"
 
 #: ../../admin/addons.rst:290
-#, fuzzy
-#| msgid ":file:`/etc/xdg/weblate`"
 msgid ":file:`locale/de/website/de.po`"
-msgstr ":file:`/etc/xdg/weblate`"
+msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:294
-#, fuzzy
-#| msgid "Apple iOS strings"
 msgid "Split Android strings"
-msgstr "Ciągi Apple iOS"
+msgstr "Rozdziel ciągi Android"
 
 #: ../../admin/addons.rst:296
 msgid "Android resource strings, split into several files."
 msgstr "Ciągi zasobów Androida podzielone na kilka plików."
 
 #: ../../admin/addons.rst:299
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:301
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-about.xml`"
 
 #: ../../admin/addons.rst:302
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-help.xml`"
 
 #: ../../admin/addons.rst:303
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-about.xml`"
 
 #: ../../admin/addons.rst:304
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:307
 #, fuzzy
@@ -2752,38 +2631,44 @@ msgid ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 msgstr ""
+"``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
+"ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 
 #: ../../admin/addons.rst:313
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "Nazwa komponentu"
+msgstr "Nazwa komponentu:"
 
 #: ../../admin/addons.rst:314
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr ""
+msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
 #: ../../admin/addons.rst:316
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
 "properties`"
 msgstr ""
+":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
+"properties`"
 
 #: ../../admin/addons.rst:317
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
 "properties`"
 msgstr ""
+":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
+"properties`"
 
 #: ../../admin/addons.rst:318
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_de.properties`"
 msgstr ""
+":file:`parent/module2/src/main/resources/ApplicationResource_de.properties`"
 
 #: ../../admin/addons.rst:319
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`"
 msgstr ""
+":file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`"
 
 #: ../../admin/addons.rst:324
 msgid ""
@@ -2795,10 +2680,17 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"Dodatek odkrywanie komponentów używa :ref:`internal-urls`. Jest to wygodny "
+"sposób na udostępnienie ustawienia VCS pomiędzy wieloma komponentami. "
+"Połączone komponenty używają lokalnego repozytorium głównego komponentu "
+"utworzonego poprzez wypełnienie ``weblate://project/main-component``w polu "
+":ref:`component-repo` (w :guilabel:`Manage`↓ :guilabel:`Settings` ↓ "
+":guilabel:`Version control system`) dla każdego odpowiedniego komponentu. To "
+"zaoszczędza czas konfiguracii i zasoby systemu."
 
 #: ../../admin/addons.rst:333
 msgid ":ref:`markup`, :wladmin:`import_project`"
-msgstr ""
+msgstr ":ref:`markup`, :wladmin:`import_project`"
 
 #: ../../admin/addons.rst:339 ../../user/translating.rst:407
 msgid "Bulk edit"
@@ -2886,6 +2778,9 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
+"Zautomatyzuj etykietowanie, zaczynając od zapytania „NOT has:label” i "
+"dodawaj etykiety, aż wszystkie ciągi będą miały wszystkie wymagane etykiety. "
+"Można również wykonywać inne zautomatyzowane operacje na metadanych Weblate."
 
 #: ../../admin/addons.rst:371 ../../admin/config.rst:1722
 msgid "**Examples:**"
@@ -2893,7 +2788,7 @@ msgstr "**Przykłady:**"
 
 #: ../../admin/addons.rst:373
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Etykietuj nowe ciągi automatycznie"
 
 #: ../../admin/addons.rst:376 ../../admin/addons.rst:384
 msgid "Search query"
@@ -2909,7 +2804,7 @@ msgstr "*ostatnie*"
 
 #: ../../admin/addons.rst:381
 msgid "Marking all :ref:`appstore` changelog strings read-only"
-msgstr ""
+msgstr "Marking all :ref:`appstore` ciągi dziennika zmian tylko do odczytu"
 
 #: ../../admin/addons.rst:385
 msgid "``language:en AND key:changelogs/``"
@@ -2934,7 +2829,7 @@ msgstr "``weblate.flags.same_edit``"
 #: ../../admin/addons.rst:404 ../../admin/addons.rst:426
 #: ../../admin/addons.rst:443
 msgid "unit post-create"
-msgstr ""
+msgstr "jednostka po utworzeniu"
 
 #: ../../admin/addons.rst:406
 msgid ""
@@ -2964,7 +2859,7 @@ msgstr "Oznacz nowe ciągi źródłowe jako „Wymaga edycji”"
 
 #: ../../admin/addons.rst:424
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:428
 msgid ""
@@ -2999,10 +2894,8 @@ msgid "Fill read-only strings with source"
 msgstr "Wypełnij ciągi tylko do odczytu źródłem"
 
 #: ../../admin/addons.rst:460
-#, fuzzy
-#| msgid "``weblate.generate.prefill``"
 msgid "``weblate.generate.fill_read_only``"
-msgstr "``weblate.generate.prefill``"
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:464
 msgid "Fills in translation of read-only strings with source string."
@@ -3083,6 +2976,9 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Wszystkie nieprzetłumaczone ciągi w komponencie zostaną wypełnione ciągiem "
+"źródłowym i oznaczone jako wymagające edycji. Użyj tej opcji, jeśli nie "
+"możesz mieć pustych ciągów w plikach tłumaczeń."
 
 #: ../../admin/addons.rst:524
 msgid "Pseudolocale generation"
@@ -3178,12 +3074,18 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Pseudolokale są przydatne do wyszukiwania ciągów znaków, które nie są "
+"przygotowane do lokalizacji. Odbywa się to poprzez zmianę wszystkich "
+"możliwych do przetłumaczenia ciągów źródłowych, aby ułatwić wykrycie "
+"niezmienionych ciągów podczas uruchamiania aplikacji w języku pseudolokalnym."
 
 #: ../../admin/addons.rst:556
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Możliwe jest również znalezienie ciągów znaków, których zlokalizowane "
+"odpowiedniki mogą nie pasować do układu."
 
 #: ../../admin/addons.rst:559
 msgid ""
@@ -3195,6 +3097,13 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
+"Użycie części zmiennych umożliwia wyszukiwanie ciągów znaków, które po "
+"lokalizacji mogą nie pasować do interfejsu użytkownika - powoduje to "
+"wydłużenie tekstu w oparciu o długość ciągu źródłowego. Części zmienne "
+"powtarzane są przez długość tekstu pomnożoną przez mnożnik. Na przykład ``"
+"Witaj świecie`` z sufiksem zmiennej ``_`` i mnożnikiem zmiennej 1 staje się "
+"``Witaj świecie___________`` - przyrostek jest powtarzany raz dla każdego "
+"znaku w ciągu źródłowym."
 
 #: ../../admin/addons.rst:566
 msgid "The strings will be generated using following pattern:"
@@ -3206,12 +3115,17 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
+":guilabel:`Stały przedrostek ciągu` :guilabel:`Zmienny przedrostek ciągu` "
+":guilabel:`Ciąg źródłowy` :guilabel:`Zmienny przyrostek ciągu` :guilabel:`"
+"Stały przyrostek ciągu`"
 
 #: ../../admin/addons.rst:576
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Do testowania możesz używać prawdziwych języków, ale w Weblate dostępne są "
+"dedykowane pseudolokale - `en_XA` i `ar_XB`."
 
 #: ../../admin/addons.rst:581
 msgid ""
@@ -3221,12 +3135,19 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"Możesz użyć tego dodatku, aby rozpocząć tłumaczenie na nowe ustawienia "
+"regionalne istniejącego języka lub języka podobnego. Po dodaniu tłumaczenia "
+"do komponentu przejdź do dodatku. *Przykład:* Jeśli masz `fr` i chcesz "
+"rozpocząć tłumaczenie `fr_CA`, po prostu ustaw `fr` jako źródło, `fr_CA` "
+"jako cel i pozostaw przedrostek i sufiks puste."
 
 #: ../../admin/addons.rst:587
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
+"Odinstaluj dodatek po wypełnieniu nowego tłumaczenia, aby uniemożliwić "
+"Weblate zmianę tłumaczeń wykonanych po skopiowaniu."
 
 #: ../../admin/addons.rst:594
 msgid "Contributors in comment"
@@ -3246,7 +3167,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:603
 msgid "The PO file header will look like this:"
-msgstr ""
+msgstr "Nagłówek pliku PO będzie wyglądał następująco:"
 
 #: ../../admin/addons.rst:615
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -3254,7 +3175,7 @@ msgstr "Zaktualizuj zmienną ALL_LINGUAS w pliku \"konfiguracyjnym\""
 
 #: ../../admin/addons.rst:617
 msgid "``weblate.gettext.configure``"
-msgstr ""
+msgstr "``weblate.gettext.configure``"
 
 #: ../../admin/addons.rst:619 ../../admin/addons.rst:664
 msgid "repository post-add, daily"
@@ -3265,6 +3186,9 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Aktualizuje zmienną ALL_LINGUAS w plikach :file:`configure`, :file:`configure"
+".in` lub dowolnych plikach :file:`configure.ac`, gdy dodawane jest nowe "
+"tłumaczenie."
 
 #: ../../admin/addons.rst:627
 msgid "Customize gettext output"
@@ -3272,7 +3196,7 @@ msgstr "Dostosuj wyjście gettext"
 
 #: ../../admin/addons.rst:629
 msgid "``weblate.gettext.customize``"
-msgstr ""
+msgstr "``weblate.gettext.customize``"
 
 #: ../../admin/addons.rst:631 ../../admin/addons.rst:880
 msgid "``width``"
@@ -3292,18 +3216,17 @@ msgstr ""
 "linii."
 
 #: ../../admin/addons.rst:635
-#, fuzzy
-#| msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgid ""
 "``77`` -- Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr ""
-"Zawijaj linie przy 77 znakach i przy nowych liniach (domyślnie xgettext)"
+"``77`` --Zawijaj linie przy 77 znakach i przy nowych liniach (domyślnie "
+"xgettext)"
 
 #: ../../admin/addons.rst:637
-#, fuzzy
-#| msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgid "``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Zawijaj linie tylko przy nowych liniach (jak „xgettext --no-wrap”)"
+msgstr ""
+"``65535`` -- Zawijaj linie tylko przy nowych liniach (jak „xgettext --no-"
+"wrap”)"
 
 #: ../../admin/addons.rst:639
 msgid "``-1`` -- No line wrapping"
@@ -3403,6 +3326,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"Lokalizację wygenerowanego pliku MO można dostosować, a jego pole używa "
+":ref:`markup`."
 
 #: ../../admin/addons.rst:687
 msgid ""
@@ -3410,6 +3335,9 @@ msgid ""
 "repository, but the MO file generated by this add-on will not.  The MO file "
 "must be removed from the upstream manually."
 msgstr ""
+"Jeśli tłumaczenie zostanie usunięte, jego plik PO zostanie usunięty z "
+"repozytorium, ale plik MO wygenerowany przez ten dodatek nie zostanie "
+"usunięty. Plik MO należy usunąć ręcznie z pliku źródłowego."
 
 #: ../../admin/addons.rst:695
 msgid "Update PO files to match POT (msgmerge)"
@@ -3417,7 +3345,7 @@ msgstr "Zaktualizuj pliki PO, aby dopasować POT (msgmerge)"
 
 #: ../../admin/addons.rst:697
 msgid "``weblate.gettext.msgmerge``"
-msgstr ""
+msgstr "``weblate.gettext.msgmerge``"
 
 #: ../../admin/addons.rst:699
 msgid "``previous``"
@@ -3484,11 +3412,11 @@ msgstr "``language`` -- Według języka"
 
 #: ../../admin/addons.rst:731
 msgid "``file`` -- Per file"
-msgstr ""
+msgstr "``file`` -- Na plik"
 
 #: ../../admin/addons.rst:733
 msgid "``author`` -- Per author"
-msgstr ""
+msgstr "``author`` -- Autor"
 
 #: ../../admin/addons.rst:735
 msgid "``append_trailers``"
@@ -3613,11 +3541,11 @@ msgstr "Styl wcięć JSON"
 
 #: ../../admin/addons.rst:774
 msgid "``spaces`` -- Spaces"
-msgstr ""
+msgstr "``spaces`` -- Spacje"
 
 #: ../../admin/addons.rst:776
 msgid "``tabs`` -- Tabs"
-msgstr ""
+msgstr "``tabs`` -- Wcięcia"
 
 #: ../../admin/addons.rst:780
 msgid ""
@@ -3640,7 +3568,7 @@ msgstr "Formatuje i sortuje plik właściwości Java."
 
 #: ../../admin/addons.rst:793
 msgid "Consolidates newlines to Unix ones."
-msgstr ""
+msgstr "Zamienia nowe linie do formatu Unix."
 
 #: ../../admin/addons.rst:794
 msgid ""
@@ -3671,7 +3599,7 @@ msgstr "Usuwanie skasowanych komentarzy"
 
 #: ../../admin/addons.rst:804
 msgid "``weblate.removal.comments``"
-msgstr ""
+msgstr "``weblate.removal.comments``"
 
 #: ../../admin/addons.rst:806 ../../admin/addons.rst:823
 msgid "``age``"
@@ -3753,16 +3681,16 @@ msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
+"Użyj :ref:`addon-weblate.cleanup.generic` jeśli chcesz usunąć tylko "
+"nieaktualne klucze tłumaczeń."
 
 #: ../../admin/addons.rst:859
 msgid "Customize XML output"
 msgstr "Dostosuj wyjście XML"
 
 #: ../../admin/addons.rst:863
-#, fuzzy
-#| msgid "``weblate.yaml.customize``"
 msgid "``weblate.xml.customize``"
-msgstr "``weblate.yaml.customize``"
+msgstr "``weblate.xml.customize``"
 
 #: ../../admin/addons.rst:865
 msgid "``closing_tags``"
@@ -3825,10 +3753,12 @@ msgstr "``dos`` -- DOS (\\\\r\\\\n)"
 #: ../../admin/addons.rst:896
 msgid "``unix`` -- UNIX (\\\\n)"
 msgstr ""
+"``unix`` -- UNIX (\\\\n"
+")"
 
 #: ../../admin/addons.rst:898
 msgid "``mac`` -- MAC (\\\\r)"
-msgstr ""
+msgstr "``mac`` -- MAC (\\\\r)"
 
 #: ../../admin/addons.rst:902
 msgid ""
@@ -3846,6 +3776,8 @@ msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
 msgstr ""
+"Listę dodatków konfiguruje się poprzez :setting:`WEBLATE_ADDONS`. Aby dodać "
+"kolejny dodatek, po prostu podaj w tym ustawieniu bezwzględną nazwę klasy."
 
 #: ../../admin/addons.rst:915
 msgid "Writing add-on"
@@ -3857,6 +3789,9 @@ msgid ""
 "addons.base.BaseAddon` to define the add-on metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
+"Możesz także napisać własne dodatki, utworzyć podklasę :class:`weblate.addons"
+".base.BaseAddon` w celu zdefiniowania metadanych dodatku, a następnie "
+"zaimplementować wywołanie zwrotne w celu wykonania przetwarzania."
 
 #: ../../admin/addons.rst:923
 msgid ":doc:`../contributing/addons`"
@@ -3872,6 +3807,9 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
 msgstr ""
+"Dodatków można także używać do wykonywania zewnętrznych skryptów. Kiedyś "
+"było to zintegrowane z Weblate, ale teraz musisz napisać kod, aby go wykonać "
+"dodatkiem."
 
 #: ../../admin/addons.rst:937
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -3882,6 +3820,8 @@ msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Skrypt jest wykonywany z bieżącym katalogiem ustawionym na katalog główny "
+"repozytorium VCS dla dowolnego komponentu."
 
 #: ../../admin/addons.rst:942
 msgid "Additionally, the following environment variables are available:"
@@ -3924,6 +3864,8 @@ msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
+"Język aktualnie przetwarzanego tłumaczenia (niedostępny dla komponentów "
+"niskiego poziomu)."
 
 #: ../../admin/addons.rst:984
 msgid ""
@@ -12824,7 +12766,7 @@ msgstr "Przywróć bazę danych z kopii zapasowej:"
 
 #: ../../admin/install/docker.rst:307 ../../admin/install/docker.rst:317
 msgid ""
-"Please check that the database name matches :envvar:`POSTGRES_DATABASE`."
+"Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:309

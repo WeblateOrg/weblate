@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 def is_django_permission(permission: str):
     """
-    Checks whether permission looks like a Django one.
+    Check whether permission looks like a Django one.
 
     Django permissions are <app>.<action>_<model>, while
     Weblate ones are <scope>.<action> where action lacks underscores
@@ -51,7 +51,7 @@ def migrate_permissions_list(model, permissions):
     return ids
 
 
-def migrate_permissions(model):
+def migrate_permissions(model) -> None:
     """Create permissions as defined in the data."""
     ids = set()
     # Per object permissions
@@ -100,7 +100,7 @@ def migrate_groups(
     return result
 
 
-def create_anonymous(model, group_model, update=True):
+def create_anonymous(model, group_model, update=True) -> None:
     try:
         user, created = model.objects.get_or_create(
             username=settings.ANONYMOUS_USER_NAME,

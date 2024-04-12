@@ -15,7 +15,7 @@
   {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
   <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
   <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
-  <li><a href="{{ donate_url }}">{% trans "Donate to Weblate" %}</a></li>
+  <li><a href="{% url 'donate' %}">{% trans "Donate to Weblate" %}</a></li>
  </ul>
 </footer>
 

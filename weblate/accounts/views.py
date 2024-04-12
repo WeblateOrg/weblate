@@ -72,6 +72,7 @@ from weblate.accounts.forms import (
     LoginForm,
     NotificationForm,
     PasswordConfirmForm,
+    ProfileBaseForm,
     ProfileForm,
     RegistrationForm,
     ResetForm,
@@ -96,7 +97,12 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import Invitation, User, get_auth_keys
+from weblate.auth.models import (
+    AuthenticatedHttpRequest,
+    Invitation,
+    User,
+    get_auth_keys,
+)
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
@@ -145,16 +151,19 @@ class EmailSentView(TemplateView):
 
     template_name = "accounts/email-sent.html"
 
+    do_password_reset: bool
+    do_account_remove: bool
+
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
         context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
-        if self.request.flags["password_reset"]:
+        if self.do_password_reset:
             context["title"] = gettext("Password reset")
             context["is_reset"] = True
-        elif self.request.flags["account_remove"]:
+        elif self.do_account_remove:
             context["title"] = gettext("Remove account")
             context["is_remove"] = True
         else:
@@ -166,10 +175,8 @@ class EmailSentView(TemplateView):
         if not request.session.get("registration-email-sent"):
             return redirect("home")
 
-        request.flags = {
-            "password_reset": request.session["password_reset"],
-            "account_remove": request.session["account_remove"],
-        }
+        self.do_password_reset = request.session["password_reset"]
+        self.do_account_remove = request.session["account_remove"]
 
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
@@ -182,7 +189,7 @@ class EmailSentView(TemplateView):
         return super().get(request, *args, **kwargs)
 
 
-def mail_admins_contact(request, subject, message, context, sender, to):
+def mail_admins_contact(request, subject, message, context, sender, to) -> None:
     """Send a message to the admins, as defined by the ADMINS setting."""
     LOGGER.info("contact form from %s", sender)
     if not to and settings.ADMINS:
@@ -225,7 +232,7 @@ def redirect_profile(page=""):
 
 def get_notification_forms(request):
     user = request.user
-    subscriptions = defaultdict(dict)
+    subscriptions: dict[tuple[int, int, int], dict[str, int]] = defaultdict(dict)
     initials = {}
 
     # Ensure watched, admin and all scopes are visible
@@ -310,7 +317,7 @@ def user_profile(request):
     profile = user.profile
     profile.fixup_profile(request)
 
-    form_classes = [
+    form_classes: list[type[ProfileBaseForm | UserForm]] = [
         LanguagesForm,
         SubscriptionForm,
         UserSettingsForm,
@@ -567,6 +574,7 @@ class UserPage(UpdateView):
     form_class = UserEditForm
 
     group_form = None
+    request: AuthenticatedHttpRequest
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
@@ -575,12 +583,12 @@ class UserPage(UpdateView):
         if "add_group" in request.POST:
             self.group_form = GroupAddForm(request.POST)
             if self.group_form.is_valid():
-                user.groups.add(self.group_form.cleaned_data["add_group"])
+                user.add_team(request, self.group_form.cleaned_data["add_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():
-                user.groups.remove(form.cleaned_data["remove_group"])
+                user.remove_team(request, form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_user" in request.POST:
             remove_user(user, request, skip_notify=True)
@@ -753,8 +761,6 @@ class WeblateLoginView(LoginView):
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
 
-    next_page = "home"
-
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
@@ -777,7 +783,7 @@ def register(request):
     captcha = None
 
     # Fetch invitation
-    invitation = None
+    invitation: None | Invitation = None
     initial = {}
     if invitation_pk := request.session.get("invitation_link"):
         try:
@@ -786,6 +792,8 @@ def register(request):
             del request.session["invitation_link"]
         else:
             initial["email"] = invitation.email
+            initial["username"] = invitation.username
+            initial["fullname"] = invitation.full_name
 
     # Allow registration at all?
     registration_open = settings.REGISTRATION_OPEN or bool(invitation)
@@ -1070,7 +1078,7 @@ def unwatch(request, path):
     return redirect_next(request.GET.get("next"), obj)
 
 
-def mute_real(user, **kwargs):
+def mute_real(user, **kwargs) -> None:
     for notification_cls in NOTIFICATIONS:
         if notification_cls.ignore_watched:
             continue
@@ -1125,7 +1133,7 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, *, reset: bool = False, remove: bool = False):
+def store_userid(request, *, reset: bool = False, remove: bool = False) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
@@ -1136,7 +1144,9 @@ def store_userid(request, *, reset: bool = False, remove: bool = False):
 @login_required
 def social_disconnect(request, backend, association_id=None):
     """
-    Wrapper around social_django.views.disconnect.
+    Disconnect social authentication.
+
+    Wrapper around social_django.views.disconnect:
 
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting last entry
@@ -1164,7 +1174,9 @@ def social_disconnect(request, backend, association_id=None):
 @require_POST
 def social_auth(request, backend):
     """
-    Wrapper around social_django.views.auth.
+    Social authentication endpoint.
+
+    Wrapper around social_django.views.auth:
 
     - Incorporates modified social_djang.utils.psa
     - Requires POST (to avoid CSRF on auth)
@@ -1248,9 +1260,11 @@ def handle_missing_parameter(request, backend, error):
 
 @csrf_exempt
 @never_cache
-def social_complete(request, backend):  # noqa: C901
+def social_complete(request, backend):
     """
-    Wrapper around social_django.views.complete.
+    Social authentication completion endpoint.
+
+    Wrapper around social_django.views.complete:
 
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by JavaScript) to avoid
@@ -1428,12 +1442,12 @@ class UserList(ListView):
 
         return users.order_by(self.sort_query)
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.form = form = self.form_class(request.GET)
-        self.sort_query = None
+        self.sort_query = ""
         if form.is_valid():
-            self.sort_query = form.cleaned_data.get("sort_by")
+            self.sort_query = form.cleaned_data.get("sort_by", "")
         if not self.sort_query:
             self.sort_query = "-date_joined"
 
