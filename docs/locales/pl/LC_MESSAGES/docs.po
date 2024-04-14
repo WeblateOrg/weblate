@@ -9,13 +9,14 @@
 # Agnieszka C <aga_04@o2.pl>, 2023, 2024.
 # Deleted User <noreply+58184@weblate.org>, 2024.
 # Julia Deoniziak <juliadeo@proton.me>, 2024.
+# Deleted User <noreply+83369@weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 15:18+0100\n"
-"PO-Revision-Date: 2024-04-11 01:56+0000\n"
-"Last-Translator: Julia <juliadeo@proton.me>\n"
+"PO-Revision-Date: 2024-04-15 11:47+0000\n"
+"Last-Translator: Deleted User <noreply+83369@weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -1612,6 +1613,14 @@ msgid ""
 "failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing "
 "strings with upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Opublikuj komentarz`, \n"
+":guilabel:`Użyj automatycznych sugestii`, :guilabel:`Zaakceptuj sugestię`, \n"
+":guilabel:`Dodaj sugestię`, \n"
+":guilabel:`Głosuj na sugestię`, :guilabel:`Pobierz plik tłumaczenia`  , "
+":guilabel:`Odrzuć sprawdzenie, które zakończyło się niepowodzeniem`, "
+":guilabel:`Edytuj ciągi znaków`, \n"
+":guilabel:`Zastąp istniejące ciągi za pomocą przesyłania`, :guilabel:`"
+"Prześlij tłumaczenia`"
 
 #: ../../admin/access.rst:616
 msgid "`Manage languages`"
@@ -1623,6 +1632,26 @@ msgid ""
 "for translation`, :guilabel:`Delete existing translation`, :guilabel:"
 "`Download translation file`"
 msgstr ""
+":guilabel:`Opublikuj komentarz`,\n"
+":guilabel:`Użyj automatycznych sugestii`, :guilabel:`Zaakceptuj sugestię`,\n"
+":guilabel:`Dodaj sugestię`,\n"
+":guilabel:`Głosuj na sugestię`, :guilabel:`Pobierz plik tłumaczenia` , "
+":guilabel:`Odrzuć sprawdzenie, które zakończyło się niepowodzeniem`, "
+":guilabel:`Edytuj ciągi znaków`,\n"
+":guilabel:`Zastąp istniejące ciągi za pomocą przesyłania`, :guilabel:`"
+"Prześlij tłumaczenia\n"
+" polski￼↹\n"
+" ￼↵\n"
+" ￼NBS\n"
+" ￼…\n"
+" ￼„\n"
+" ￼”\n"
+" ￼ «\n"
+" ￼»\n"
+" ￼﹙-﹚\n"
+" ￼-\n"
+" ￼–\n"
+" ￼—"
 
 #: ../../admin/access.rst:618
 msgid "`Automatic translation`"
@@ -1652,6 +1681,9 @@ msgid ""
 ":guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit "
 "screenshot`"
 msgstr ""
+":guilabel:`Dodaj zrzut ekranu`,\n"
+":guilabel:`Usuń zrzut ekranu`,\n"
+":guilabel:`Edytuj zrzut ekranu`"
 
 #: ../../admin/access.rst:624
 msgid "`Manage repository`"
@@ -1665,6 +1697,11 @@ msgid ""
 "`Reset changes in the internal repository`, :guilabel:`Update the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`Lock component, preventing translations`, :guilabel:`Access the "
+"internal repository`, :guilabel:`Commit changes to the internal repository`, "
+":guilabel:`Push change from the internal repository`, :guilabel:`Reset "
+"changes in the internal repository`, :guilabel:`Update the internal "
+"repository`, :guilabel:`View upstream repository location`"
 
 #: ../../admin/access.rst:626
 msgid "`Billing`"
@@ -2393,23 +2430,16 @@ msgstr ""
 "typowych zastosowań można znaleźć w sekcji pomocy dodatku."
 
 #: ../../admin/addons.rst:219
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language. All named groups in the regular "
 "expression can be used as variables in the template fields."
 msgstr ""
 "Wyrażenie regularne pasujące do plików tłumaczeń musi zawierać dwie nazwane "
-"grupy, aby dopasować komponent i język, niektóre przykłady:"
+"grupy, aby dopasować komponent i język. Wszystkie nazwane grupy w wyrażeniu "
+"regularnym mogą być używane jako zmienne w polach szablonu."
 
 #: ../../admin/addons.rst:223
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
 "Możesz używać znaczników szablonów Django zarówno w nazwie pliku, jak i "
@@ -2436,10 +2466,8 @@ msgid "``{{ path }}: {{ component }}``"
 msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:230
-#, fuzzy
-#| msgid "Component regular expression"
 msgid "Custom match group from the regular expression"
-msgstr "Wyrażenie regularne komponentu"
+msgstr "Niestandardowa grupa dopasowań z wyrażenia regularnego"
 
 #: ../../admin/addons.rst:232
 msgid ""
@@ -2470,13 +2498,9 @@ msgid "Regular expression:"
 msgstr "Wyrażenie regularne:"
 
 #: ../../admin/addons.rst:246
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+"``docs/locales/(?P<język>[^/.]*)/LC_MESSAGES/(?P<komponent>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:291
@@ -2529,10 +2553,8 @@ msgid ":file:`locale/de/LC_MESSAGES/website.po`"
 msgstr ":file:`locale/de/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:267
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Dopasowanie nazwy pliku komponentu"
+msgstr "Złożone nazwy plików"
 
 #: ../../admin/addons.rst:269
 msgid "Using both component and language name within filename."
@@ -2559,10 +2581,8 @@ msgid ":file:`src/locale/website.de.po`"
 msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:280
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Aliasowane kody języków"
+msgstr "Powtarzający się kod języka"
 
 #: ../../admin/addons.rst:282
 msgid "Using language in both path and filename."
@@ -2617,10 +2637,8 @@ msgid ":file:`res/values-de/strings-help.xml`"
 msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:307
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "Niedopasowanie podziałów wierszy"
+msgstr "Dopasowywanie wielu ścieżek"
 
 #: ../../admin/addons.rst:309
 msgid "Multi-module Maven project with Java properties translations."
@@ -2847,6 +2865,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Możesz także zaostrzyć kontrolę :ref:`check-same`, dodając flagę ``strict-"
+"same`` do flagi :ref:`component-check flags`."
 
 #: ../../admin/addons.rst:417 ../../admin/addons.rst:434
 #: ../../admin/addons.rst:451
@@ -3465,6 +3485,8 @@ msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr ""
+"Zatwierdzenia Git można zmiażdżyć przed wypchnięciem zmian w jednym z "
+"następujących trybów:"
 
 #: ../../admin/addons.rst:746
 msgid "All commits into one"
@@ -3506,6 +3528,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
+"Zwiastuny (wiersze zatwierdzeń, takie jak ``Współautor: …``) można "
+"opcjonalnie usunąć z oryginalnych komunikatów zatwierdzeń i dołączyć na "
+"końcu zgniecionego komunikatu zatwierdzenia. Generuje to również odpowiednie "
+"uznanie „Współautorstwo:” dla każdego tłumacza."
 
 #: ../../admin/addons.rst:764
 msgid "Customize JSON output"
@@ -3574,6 +3600,7 @@ msgstr "Zamienia nowe linie do formatu Unix."
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
 msgstr ""
+"Formatowanie wielkich liter sekwencji ucieczki Unicode (jeśli są obecne)."
 
 #: ../../admin/addons.rst:795
 #, fuzzy
