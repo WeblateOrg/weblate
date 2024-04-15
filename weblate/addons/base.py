@@ -32,7 +32,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.formats.base import TranslationFormat
-    from weblate.trans.models import Component, Translation, Unit
+    from weblate.trans.models import Component, Project, Translation, Unit
 
 
 class BaseAddon:
@@ -77,27 +77,60 @@ class BaseAddon:
         return cls.name
 
     @classmethod
-    def create_object(cls, component, **kwargs):
+    def create_object(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        acting_user: User | None = None,
+        **kwargs,
+    ):
         from weblate.addons.models import Addon
 
-        result = Addon(component=component, name=cls.name, **kwargs)
+        result = Addon(
+            project=project,
+            component=component,
+            name=cls.name,
+            acting_user=acting_user,
+            **kwargs,
+        )
+
         result.addon_class = cls
         return result
 
     @classmethod
-    def create(cls, component, run: bool = True, **kwargs):
-        storage = cls.create_object(component, **kwargs)
+    def create(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        run: bool = True,
+        acting_user: User | None = None,
+        **kwargs,
+    ):
+        storage = cls.create_object(
+            component=component, project=project, acting_user=acting_user, **kwargs
+        )
         storage.save(force_insert=True)
         result = cls(storage)
         result.post_configure(run=run)
         return result
 
     @classmethod
-    def get_add_form(cls, user: User | None, component: Component, **kwargs):
+    def get_add_form(
+        cls,
+        user: User | None,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        **kwargs,
+    ):
         """Return configuration form for adding new add-on."""
         if cls.settings_form is None:
             return None
-        storage = cls.create_object(component)
+        storage = cls.create_object(
+            component=component, project=project, acting_user=user
+        )
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
 
@@ -119,10 +152,17 @@ class BaseAddon:
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        component = self.instance.component
+        target = self.instance.component or self.instance.project
+
+        if target:
+            target.log_debug("configuring events for %s add-on", self.name)
+        else:
+            import logging
+
+            logging.getLogger("weblate.addons")
+            logging.debug("configuring events for %s add-on without target", self.name)
 
         # Configure events to current status
-        component.log_debug("configuring events for %s add-on", self.name)
         self.instance.configure_events(self.events)
 
         if run:
@@ -133,10 +173,17 @@ class BaseAddon:
 
     def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing
-        component = self.instance.component
-        if self.repo_scope and component.linked_component:
-            component = component.linked_component
+        if component := self.instance.component:
+            if self.repo_scope and component.linked_component:
+                component = component.linked_component
+            self.post_configure_run_component(component)
 
+        if project := self.instance.project:
+            for component in project.component_set.iterator():
+                self.post_configure_run_component(component)
+
+    def post_configure_run_component(self, component) -> None:
+        # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
 
         if AddonEvent.EVENT_POST_COMMIT in self.events:

@@ -546,16 +546,16 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
             clist.components.add(component)
         # Copy add-ons
         if copy_addons:
-            addons = Addon.objects.filter(
-                component__pk=copy_from, project_scope=False, repo_scope=False
-            )
+            addons = Addon.objects.filter(component__pk=copy_from, repo_scope=False)
             for addon in addons:
                 # Avoid installing duplicate addons
                 if component.addon_set.filter(name=addon.name).exists():
                     continue
                 if not addon.addon.can_install(component, None):
                     continue
-                addon.addon.create(component, configuration=addon.configuration)
+                addon.addon.create(
+                    component=component, configuration=addon.configuration
+                )
     if in_task:
         return {"component": component.id}
     return component

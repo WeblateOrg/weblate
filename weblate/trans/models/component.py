@@ -965,7 +965,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 continue
 
             if addon.has_settings():
-                form = addon.get_add_form(None, component, data=configuration)
+                form = addon.get_add_form(None, component=component, data=configuration)
                 if not form.is_valid():
                     component.log_warning(
                         "could not enable addon %s, invalid settings", name
@@ -978,7 +978,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             component.log_info("enabling addon %s", name)
             # Running is disabled now, it is triggered in after_save
-            addon.create(component, run=False, configuration=configuration)
+            addon.create(component=component, run=False, configuration=configuration)
 
     def create_glossary(self) -> None:
         project = self.project
@@ -3560,7 +3560,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         result = defaultdict(list)
         result["__lookup__"] = {}
-        for addon in Addon.objects.filter_component(self):
+        for addon in Addon.objects.filter_for_execution(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
             result["__all__"].append(addon)
