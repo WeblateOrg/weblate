@@ -456,7 +456,9 @@ class DiscoveryForm(BaseAddonForm):
 class AutoAddonForm(BaseAddonForm, AutoForm):
     def __init__(self, user, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
-        AutoForm.__init__(self, obj=addon.instance.component, **kwargs)
+        AutoForm.__init__(
+            self, obj=addon.instance.component or addon.instance.project, **kwargs
+        )
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
@@ -464,7 +466,11 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
         BaseAddonForm.__init__(self, user, addon)
         component = addon.instance.component
         BulkEditForm.__init__(
-            self, obj=component, project=component.project, user=None, **kwargs
+            self,
+            obj=component,
+            project=component.project if component else None,
+            user=None,
+            **kwargs,
         )
 
     def serialize_form(self):
@@ -591,9 +597,10 @@ class PseudolocaleAddonForm(BaseAddonForm):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        queryset = self._addon.instance.component.translation_set.all()
-        self.fields["source"].queryset = queryset
-        self.fields["target"].queryset = queryset
+        if self._addon.instance.component:
+            queryset = self._addon.instance.component.translation_set.all()
+            self.fields["source"].queryset = queryset
+            self.fields["target"].queryset = queryset
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),

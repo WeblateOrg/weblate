@@ -34,6 +34,7 @@ from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
+from weblate.configuration.models import Setting
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
@@ -906,15 +907,28 @@ class AutoForm(forms.Form):
     def __init__(self, obj, user=None, *args, **kwargs) -> None:
         """Generate choices for other components in the same project."""
         super().__init__(*args, **kwargs)
-        self.obj = obj
+        self.obj, machinery_settings = obj, {}
 
-        # Add components from other projects with enabled shared TM
-        self.components = obj.project.component_set.filter(
-            source_language=obj.source_language
-        ) | Component.objects.filter(
-            source_language_id=obj.source_language_id,
-            project__contribute_shared_tm=True,
-        ).exclude(project=obj.project)
+        if isinstance(obj, Component):
+            self.components = obj.project.component_set.filter(
+                source_language=obj.source_language
+            ) | Component.objects.filter(
+                source_language_id=obj.source_language_id,
+                project__contribute_shared_tm=True,
+            ).exclude(project=obj.project)
+            machinery_settings = obj.project.get_machinery_settings()
+        elif isinstance(obj, Project):
+            self.components = obj.component_set.filter(
+                source_language_id__in=obj.source_language_ids
+            ) | Component.objects.filter(
+                source_language_id__in=obj.source_language_ids,
+                project__contribute_shared_tm=True,
+            ).exclude(project=obj)
+            machinery_settings = obj.get_machinery_settings()
+        else:
+            # Site-wide add-ons
+            self.components = Component.objects.all()
+            machinery_settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
 
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components
@@ -938,8 +952,6 @@ class AutoForm(forms.Form):
                 ("", gettext("All components in current project")),
                 *choices,
             ]
-
-        machinery_settings = obj.project.get_machinery_settings()
 
         engines = sorted(
             (
