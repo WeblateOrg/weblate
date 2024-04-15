@@ -327,6 +327,7 @@ linkcheck_ignore = [
     # 403
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
+    "https://translate.systran.net/en/account",
 ]
 
 # HTTP docs
