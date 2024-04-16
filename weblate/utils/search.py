@@ -151,7 +151,7 @@ class BaseTermExpr:
     def fixup(self) -> None:
         # Avoid unwanted lt/gt searches on plain text fields
         if self.field in self.PLAIN_FIELDS and self.operator not in {":", ":="}:
-            self.match = self.operator[1:] + self.match
+            self.match = f"{self.operator[1:]}{self.match}"
             self.operator = ":"
 
     def convert_state(self, text):

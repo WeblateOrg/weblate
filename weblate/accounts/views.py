@@ -226,7 +226,7 @@ def mail_admins_contact(request, subject, message, context, sender, to) -> None:
 def redirect_profile(page=""):
     url = reverse("profile")
     if page and ANCHOR_RE.match(page):
-        url = url + page
+        url = f"{url}{page}"
     return HttpResponseRedirect(url)
 
 
