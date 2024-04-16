@@ -17,7 +17,6 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 
 from weblate.addons.events import AddonEvent
-from weblate.auth.models import User
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
     component_post_update,
@@ -37,6 +36,8 @@ from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from weblate.auth.models import User
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", False)
@@ -76,7 +77,6 @@ class Addon(models.Model):
     configuration = models.JSONField(default=dict)
     state = models.JSONField(default=dict)
     repo_scope = models.BooleanField(default=False, db_index=True)
-    acting_user = models.ForeignKey(User, on_delete=models.deletion.CASCADE, null=True)
 
     objects = AddonQuerySet.as_manager()
 
@@ -128,6 +128,10 @@ class Addon(models.Model):
 
     def get_absolute_url(self):
         return reverse("addon-detail", kwargs={"pk": self.pk})
+
+    def __init__(self, *args, acting_user: User = None, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.acting_user = acting_user
 
     def store_change(self, action):
         Change.objects.create(
