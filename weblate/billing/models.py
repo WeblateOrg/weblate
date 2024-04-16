@@ -439,7 +439,7 @@ class Billing(models.Model):
         )
         # Ignore when format string is not present
         with suppress(TypeError):
-            message = message % self.count_projects
+            message %= self.count_projects
         yield LibreCheck(self.count_projects == 1, message)
         for project in self.all_projects:
             yield LibreCheck(

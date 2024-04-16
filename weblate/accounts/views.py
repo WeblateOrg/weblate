@@ -801,7 +801,7 @@ def register(request):
     # Get list of allowed backends
     backends = get_auth_keys()
     if settings.REGISTRATION_ALLOW_BACKENDS and not invitation:
-        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
+        backends &= set(settings.REGISTRATION_ALLOW_BACKENDS)
     elif not registration_open:
         backends = set()
 
