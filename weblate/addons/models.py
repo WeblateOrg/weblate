@@ -46,7 +46,6 @@ class AddonQuerySet(models.QuerySet):
     def filter_for_execution(self, component):
         return self.prefetch_related("event_set").filter(
             Q(component=component)
-            | Q(component__project=component.project)
             | Q(project=component.project)
             | (Q(component__linked_component=component) & Q(repo_scope=True))
             | (Q(component=component.linked_component) & Q(repo_scope=True))
