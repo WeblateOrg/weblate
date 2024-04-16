@@ -1,32 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 
-from django.conf import settings
-
 import weblate.utils.version
-from weblate.machinery.base import (
-    MachineTranslation,
-    MachineTranslationError,
-    MissingConfiguration,
-)
+
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .forms import ModernMTMachineryForm
 
 
 class ModernMTTranslation(MachineTranslation):
@@ -34,17 +15,24 @@ class ModernMTTranslation(MachineTranslation):
 
     name = "ModernMT"
     max_score = 90
+    settings_form = ModernMTMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_MODERNMT_KEY is None:
-            raise MissingConfiguration("ModernMT requires API key")
+    language_map = {
+        "fa": "pes",
+        "pt": "pt-PT",
+        "sr": "sr-Cyrl",
+        "zh_Hant": "zh-TW",
+        "zh_Hans": "zh-CN",
+    }
 
-    def get_authentication(self):
-        """Hook for backends to allow add authentication headers to request."""
+    def map_language_code(self, code):
+        """Convert language to service specific code."""
+        return super().map_language_code(code).replace("_", "-").split("@")[0]
+
+    def get_headers(self) -> dict[str, str]:
+        """Add authentication headers to request."""
         return {
-            "MMT-ApiKey": settings.MT_MODERNMT_KEY,
+            "MMT-ApiKey": self.settings["key"],
             "MMT-Platform": "Weblate",
             "MMT-PlatformVersion": weblate.utils.version.VERSION,
         }
@@ -53,9 +41,16 @@ class ModernMTTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
+    def check_failure(self, response) -> None:
+        super().check_failure(response)
+        payload = response.json()
+
+        if "error" in payload:
+            raise MachineTranslationError(payload["error"]["message"])
+
     def download_languages(self):
         """List of supported languages."""
-        response = self.request("get", settings.MT_MODERNMT_URL + "languages")
+        response = self.request("get", self.get_api_url("languages"))
         payload = response.json()
 
         for source, targets in payload["data"].items():
@@ -68,19 +63,15 @@ class ModernMTTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(
             "get",
-            settings.MT_MODERNMT_URL + "translate",
+            self.get_api_url("translate"),
             params={"q": text, "source": source, "target": language},
         )
         payload = response.json()
-
-        if "error" in payload:
-            raise MachineTranslationError(payload["error"]["message"])
 
         yield {
             "text": payload["data"]["translation"],
@@ -94,8 +85,12 @@ class ModernMTTranslation(MachineTranslation):
             content = exc.read()
             try:
                 data = json.loads(content)
+            except json.JSONDecodeError:
+                data = {}
+
+            try:
                 return data["error"]["message"]
-            except Exception:
+            except KeyError:
                 pass
 
         return super().get_error_message(exc)

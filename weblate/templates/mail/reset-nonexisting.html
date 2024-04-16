@@ -8,6 +8,12 @@
 {% trans "Please check whether this Weblate instance is the one you have used and what e-mail address you did use when registering." %}
 </p>
 
+{% if registration_hint %}
+  <p>
+    {% blocktrans %}Perhaps, you have registered at <a href="{{ registration_hint }}">{{ registration_hint }}</a>?{% endblocktrans %}
+  </p>
+{% endif %}
+
 {% include "mail/shared-activity.html" %}
 
 {% endblock %}

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import argparse
 import json
@@ -29,7 +14,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "imports userdata from JSON dump of database"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "json-file",
             type=argparse.FileType("r"),
@@ -37,7 +22,7 @@ class Command(BaseCommand):
         )
 
     @staticmethod
-    def import_watched(profile, userprofile):
+    def import_watched(profile, userprofile) -> None:
         """Import user subscriptions."""
         # Add subscriptions
         for subscription in userprofile["watched"]:
@@ -47,7 +32,7 @@ class Command(BaseCommand):
                 continue
 
     @staticmethod
-    def update_languages(profile, userprofile):
+    def update_languages(profile, userprofile) -> None:
         """Update user language preferences."""
         profile.language = userprofile["language"]
         for lang in userprofile["secondary_languages"]:
@@ -55,7 +40,7 @@ class Command(BaseCommand):
         for lang in userprofile["languages"]:
             profile.languages.add(Language.objects.auto_get_or_create(lang))
 
-    def handle_compat(self, data):
+    def handle_compat(self, data) -> None:
         """Compatibility with pre 3.6 dumps."""
         if "basic" in data:
             return
@@ -70,8 +55,9 @@ class Command(BaseCommand):
             "watched": data["subscriptions"],
         }
 
-    def handle(self, **options):
-        """Create default set of groups.
+    def handle(self, **options) -> None:
+        """
+        Create default set of groups.
 
         Also ptionally updates them and moves users around to default group.
         """

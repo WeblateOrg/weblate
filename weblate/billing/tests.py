@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
 from datetime import timedelta
@@ -32,8 +17,8 @@ from django.utils import timezone
 from weblate.auth.models import User
 from weblate.billing.models import Billing, Invoice, Plan
 from weblate.billing.tasks import (
-    billing_alert,
     billing_check,
+    billing_notify,
     notify_expired,
     perform_removal,
     schedule_removal,
@@ -46,7 +31,7 @@ TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data"
 
 
 class BillingTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.user = User.objects.create_user(
             username="bill", password="kill", email="noreply@example.net"
         )
@@ -61,7 +46,7 @@ class BillingTest(TestCase):
         )
         self.projectnum = 0
 
-    def refresh_from_db(self):
+    def refresh_from_db(self) -> None:
         self.billing = Billing.objects.get(pk=self.billing.pk)
 
     def add_project(self):
@@ -71,9 +56,10 @@ class BillingTest(TestCase):
             name=name, slug=name, access_control=Project.ACCESS_PROTECTED
         )
         self.billing.projects.add(project)
-        project.add_user(self.user, "@Billing")
+        project.add_user(self.user, "Billing")
+        return project
 
-    def test_view_billing(self):
+    def test_view_billing(self) -> None:
         self.add_project()
         # Not authenticated
         response = self.client.get(reverse("billing"))
@@ -97,16 +83,19 @@ class BillingTest(TestCase):
         response = self.client.get(reverse("billing"))
         self.assertContains(response, "Owners")
 
-    def test_limit_projects(self):
+    def test_limit_projects(self) -> None:
         self.assertTrue(self.billing.in_limits)
         self.add_project()
         self.refresh_from_db()
         self.assertTrue(self.billing.in_limits)
-        self.add_project()
+        project = self.add_project()
         self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
+        project.delete()
+        self.refresh_from_db()
+        self.assertTrue(self.billing.in_limits)
 
-    def test_commands(self):
+    def test_commands(self) -> None:
         out = StringIO()
         call_command("billing_check", stdout=out)
         self.assertEqual(out.getvalue(), "")
@@ -134,7 +123,14 @@ class BillingTest(TestCase):
         call_command("billing_check", "--notify", stdout=out)
         self.assertEqual(len(mail.outbox), 1)
 
-    def test_invoice_validation(self):
+    def test_billing_notify(self) -> None:
+        self.assertEqual(len(mail.outbox), 0)
+        self.add_project()
+        self.add_project()
+        billing_notify()
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_invoice_validation(self) -> None:
         invoice = Invoice(
             billing=self.billing,
             start=self.invoice.start,
@@ -173,7 +169,7 @@ class BillingTest(TestCase):
         self.invoice.clean()
 
     @override_settings(INVOICE_PATH=TEST_DATA)
-    def test_download(self):
+    def test_download(self) -> None:
         self.add_project()
         # Unauthenticated
         response = self.client.get(
@@ -213,14 +209,13 @@ class BillingTest(TestCase):
         self.assertEqual(404, response.status_code)
 
     @override_settings(EMAIL_SUBJECT_PREFIX="")
-    def test_expiry(self):
+    def test_expiry(self) -> None:
         self.add_project()
 
         # Paid
         schedule_removal()
         notify_expired()
         perform_removal()
-        billing_alert()
         self.assertEqual(len(mail.outbox), 0)
         self.refresh_from_db()
         self.assertIsNone(self.billing.removal)
@@ -235,7 +230,6 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
-        billing_alert()
         self.assertEqual(len(mail.outbox), 1)
         self.refresh_from_db()
         self.assertIsNone(self.billing.removal)
@@ -251,7 +245,6 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
-        billing_alert()
         self.assertEqual(len(mail.outbox), 1)
         self.refresh_from_db()
         self.assertIsNotNone(self.billing.removal)
@@ -277,7 +270,7 @@ class BillingTest(TestCase):
         )
 
     @override_settings(EMAIL_SUBJECT_PREFIX="")
-    def test_trial(self):
+    def test_trial(self) -> None:
         self.billing.state = Billing.STATE_TRIAL
         self.billing.save(skip_limits=True)
         self.billing.invoice_set.all().delete()
@@ -370,7 +363,7 @@ class BillingTest(TestCase):
             mail.outbox.pop().subject, "Your translation project was removed"
         )
 
-    def test_free_trial(self):
+    def test_free_trial(self) -> None:
         self.plan.price = 0
         self.plan.yearly_price = 0
         self.plan.save()
@@ -391,7 +384,7 @@ class HostingTest(RepoTestCase):
         OFFER_HOSTING=True,
         ADMINS_HOSTING=["noreply@example.com"],
     )
-    def test_hosting(self):
+    def test_hosting(self) -> None:
         """Test for hosting form with enabled hosting."""
         Plan.objects.create(price=0, slug="libre", name="Libre")
         user = self.get_user()

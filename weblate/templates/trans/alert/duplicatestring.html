@@ -7,15 +7,20 @@
 
 <table class="table table-condensed">
 <thead>
-<tr><th>{% trans "Language" %}</th><th>{% trans "Source" %}</th></tr>
+<tr><th>{% trans "Language" %}</th><th>{% trans "File" %}</th><th>{% trans "Source" %}</th></tr>
 </thead>
 <tbody>
 {% for occurrence in occurrences %}
 <tr>
 <td>{{ occurrence.language }}</td>
 <td>
+  {% if occurrence.unit  %}
+    {{ occurrence.unit.translation.filename }}
+  {% endif %}
+</td>
+<td>
 {% if occurrence.unit  %}
-<a href="{{ occurrence.unit.get_absolute_url }}">{% format_translation occurrence.unit.source occurrence.unit.translation.component.source_language %}</a>
+<a href="{{ occurrence.unit.get_absolute_url }}">{% format_unit_source occurrence.unit %}</a>
 {% else %}
 {{ occurrence.source }}
 {% endif %}

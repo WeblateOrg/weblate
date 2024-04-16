@@ -1,57 +1,53 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Plain text file formats."""
 
+from __future__ import annotations
+
 import os
-from collections import OrderedDict
 from glob import glob
 from itertools import chain
-from typing import Callable, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    BaseItem,
+    BaseStore,
+    InnerStore,
+    TranslationFormat,
+    TranslationUnit,
+)
 from weblate.utils.errors import report_error
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class MultiparserError(Exception):
-    def __init__(self, filename, original):
+    def __init__(self, filename, original) -> None:
         super().__init__()
         self.filename = filename
         self.original = original
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.filename}: {self.original}"
 
 
-class TextItem:
+class TextItem(BaseItem):
     """Actual text unit object."""
 
-    def __init__(self, filename, line, text, flags=None):
+    def __init__(self, filename, line, text, flags=None) -> None:
         self.filename = filename
         self.line = line
         self.text = text
         self.flags = flags
 
     @cached_property
-    def location(self):
+    def location(self) -> str:
         return f"{self.filename}:{self.line}"
 
     def getid(self):
@@ -61,7 +57,7 @@ class TextItem:
 class TextParser:
     """Simple text parser returning all content as single unit."""
 
-    def __init__(self, storefile, filename=None, flags=None):
+    def __init__(self, storefile, filename=None, flags=None) -> None:
         with open(storefile) as handle:
             content = handle.read()
         if filename:
@@ -72,7 +68,7 @@ class TextParser:
 
 
 class TextSerializer:
-    def __init__(self, filename, units):
+    def __init__(self, filename, units) -> None:
         self.units = [unit for unit in units if unit.filename == filename]
 
     def __call__(self, handle):
@@ -81,12 +77,13 @@ class TextSerializer:
             handle.write(b"\n")
 
 
-class MultiParser:
-    filenames: Tuple[Tuple[str, str], ...] = ()
+class MultiParser(BaseStore):
+    filenames: tuple[tuple[str, str], ...] = ()
+    units: list[TextItem]
 
-    def __init__(self, storefile):
+    def __init__(self, storefile) -> None:
         if not isinstance(storefile, str):
-            raise ValueError("Needs string as a storefile!")
+            raise TypeError("Needs string as a storefile!")
 
         self.base = storefile
         self.parsers = self.load_parser()
@@ -98,7 +95,7 @@ class MultiParser:
         return filename
 
     def load_parser(self):
-        result = OrderedDict()
+        result = {}
         for name, flags in self.filenames:
             filename = self.get_filename(name)
             for match in sorted(glob(filename), key=self.file_key):
@@ -144,6 +141,10 @@ class AppStoreParser(MultiParser):
 
 
 class TextUnit(TranslationUnit):
+    template: TextItem | None
+    unit: TextItem
+    mainunit: TextItem
+
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
@@ -175,53 +176,58 @@ class TextUnit(TranslationUnit):
             return self.mainunit.flags
         return ""
 
-    def set_target(self, target):
+    def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         self._invalidate_target()
         self.unit.text = target
 
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         return
 
 
 class AppStoreFormat(TranslationFormat):
-    name = _("App store metadata files")
+    name = gettext_lazy("App store metadata files")
     format_id = "appstore"
     can_add_unit = False
+    can_delete_unit = True
     monolingual = True
     unit_class = TextUnit
     simple_filename = False
-    language_format = "java"
+    language_format = "googleplay"
+    create_style = "directory"
+    store: AppStoreParser
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: InnerStore | None
+    ) -> AppStoreParser:
         return AppStoreParser(storefile)
 
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
-    ):
+        source: str | list[str],
+        target: str | list[str] | None = None,
+    ) -> NoReturn:
         raise ValueError("Create not supported")
 
     @classmethod
     def create_new_file(
         cls,
         filename: str,
-        language: str,
-        base: str,
-        callback: Optional[Callable] = None,
-    ):
+        language: str,  # noqa: ARG003
+        base: str,  # noqa: ARG003
+        callback: Callable | None = None,  # noqa: ARG003
+    ) -> None:
         """Handle creation of new translation file."""
         os.makedirs(filename)
 
-    def add_unit(self, ttkit_unit):
-        """Add new unit to underlaying store."""
+    def add_unit(self, ttkit_unit) -> None:
+        """Add new unit to underlying store."""
         self.store.units.append(ttkit_unit)
 
-    def save(self):
-        """Save underlaying store to disk."""
+    def save(self) -> None:
+        """Save underlying store to disk."""
         for unit in self.store.units:
             filename = self.store.get_filename(unit.filename)
             if not unit.text:
@@ -244,8 +250,8 @@ class AppStoreFormat(TranslationFormat):
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,
-        errors: Optional[List] = None,
+        monolingual: bool,  # noqa: ARG003
+        errors: list | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
@@ -254,12 +260,14 @@ class AppStoreFormat(TranslationFormat):
         try:
             if not fast:
                 AppStoreParser(base)
-            return True
-        except Exception:
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
             report_error(cause="File parse error")
             return False
+        return True
 
-    def delete_unit(self, ttkit_unit) -> Optional[str]:
+    def delete_unit(self, ttkit_unit) -> str | None:
         filename = self.store.get_filename(ttkit_unit.filename)
         os.unlink(filename)
         return filename

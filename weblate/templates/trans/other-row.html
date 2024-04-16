@@ -14,17 +14,30 @@
   {% if item.is_propagated %}
     <span class="badge pull-right flip">{% trans "Propagated" %}</span>
   {% endif %}
+  {% if item.translation.component.locked %}
+    <span class="badge pull-right flip">{% trans "Locked" %}</span>
+  {% endif %}
+  {% needs_agreement item.translation.component as needs_agreement %}
+  {% if needs_agreement %}
+    <span class="badge pull-right flip" title="{% trans "Contributing to this translation requires agreeing to its contributor agreement." %}" >{% trans "Contributor agreement" %}</span>
+  {% endif %}
   <span class="badge pull-right flip">{{ item.get_state_display }}</span>
   <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
 </td>
 <td>
+  {% format_source_string item.context item wrap=True simple=True %}
+</td>
+<td>
+  {% format_unit_source item wrap=True simple=True %}
+</td>
+<td>
   <label for="merge_{{ item.pk }}">
-    {% format_translation item.target item.translation.language item.translation.plural simple=True %}
+    {% format_unit_target item simple=True %}
   </label>
 </td>
 <td>
   {% if item.differently_translated %}
-    {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
+    {% format_unit_target item diff=unit.target simple=True %}
   {% endif %}
 </td>
 </tr>

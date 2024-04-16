@@ -1,74 +1,76 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: Docs
 
 on:
   push:
     branches-ignore:
-      - "dependabot/**"
-      - weblate
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Sphinx
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache pip
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.8
-      - name: Install apt dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y graphviz
-      - name: Install pip dependencies
-        run: pip install -r docs/requirements.txt
-      - name: Sphinx build
-        run: |
-          echo "::add-matcher::.github/matchers/sphinx.json"
-          ./ci/run-docs
-          echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v2.2.4
-        with:
-          name: Documentation
-          path: docs/_build/html
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
+        cache-dependency-path: docs/requirements.txt
+    - name: Install apt dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y graphviz
+    - name: Install pip dependencies
+      run: pip install -r docs/requirements.txt
+    - name: Sphinx build
+      run: |
+        echo "::add-matcher::.github/matchers/sphinx.json"
+        ./ci/run-docs
+        echo "::remove-matcher owner=sphinx::"
+    - uses: actions/upload-artifact@v4.3.1
+      with:
+        name: Documentation
+        path: docs/_build/html
 
   linkcheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Linkcheck
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache pip
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.8
-      - name: Install pip dependencies
-        run: pip install -r docs/requirements.txt
-      - name: Sphinx linkcheck
-        run: |
-          ./ci/run-docs linkcheck
-      - name: Sphinx linkcheck collect
-        if: always()
-        run: |
-          echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
-          echo "::add-matcher::.github/matchers/sphinx-linkcheck-warn.json"
-          sed 's@^@docs/@' docs/_build/linkcheck/output.txt
-          echo "::remove-matcher owner=sphinx::"
-          echo "::remove-matcher owner=sphinx-warn::"
-      - uses: actions/upload-artifact@v2.2.4
-        if: always()
-        with:
-          name: Linkcheck report
-          path: docs/_build/linkcheck/output.txt
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
+        cache-dependency-path: docs/requirements.txt
+    - name: Install pip dependencies
+      run: pip install -r docs/requirements.txt
+    - name: Sphinx linkcheck
+      run: |
+        ./ci/run-docs linkcheck
+    - name: Sphinx linkcheck collect
+      if: always()
+      run: |
+        echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
+        echo "::add-matcher::.github/matchers/sphinx-linkcheck-warn.json"
+        sed 's@^@docs/@' docs/_build/linkcheck/output.txt
+        echo "::remove-matcher owner=sphinx::"
+        echo "::remove-matcher owner=sphinx-warn::"
+    - uses: actions/upload-artifact@v4.3.1
+      if: always()
+      with:
+        name: Linkcheck report
+        path: docs/_build/linkcheck/output.txt

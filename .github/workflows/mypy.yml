@@ -1,0 +1,42 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
+name: mypy
+
+on:
+  push:
+    branches-ignore:
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  mypy:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
+        cache-dependency-path: pyproject.toml
+    - name: Install dependencies
+      run: ./ci/pip-install mypy
+
+    - name: Run mypy
+      uses: liskin/gh-problem-matcher-wrap@v3
+      with:
+        linters: mypy
+        run: mypy --show-column-numbers weblate
+      # Temporary hack until we have this fully working
+      continue-on-error: true

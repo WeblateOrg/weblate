@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 
@@ -29,7 +14,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 class Command(WeblateComponentCommand):
     help = "installs add-on to all listed components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument("--addon", required=True, help="Add-on name")
         parser.add_argument(
@@ -41,7 +26,7 @@ class Command(WeblateComponentCommand):
             help="Update existing add-ons configuration",
         )
 
-    def validate_form(self, form):
+    def validate_form(self, form) -> None:
         if not form.is_valid():
             for error in form.non_field_errors():
                 self.stderr.write(error)
@@ -50,7 +35,7 @@ class Command(WeblateComponentCommand):
                     self.stderr.write(f"Error in {field.name}: {error}")
             raise CommandError("Invalid add-on configuration!")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         try:
             addon = ADDONS[options["addon"]]
         except KeyError:
@@ -65,7 +50,7 @@ class Command(WeblateComponentCommand):
             user = get_anonymous()
         for component in self.get_components(*args, **options):
             if addon.has_settings():
-                form = addon.get_add_form(None, component, data=configuration)
+                form = addon.get_add_form(None, component=component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons:
@@ -81,5 +66,5 @@ class Command(WeblateComponentCommand):
                 self.stderr.write(f"Can not install on {component}")
                 continue
 
-            addon.create(component, configuration=configuration)
+            addon.create(component=component, configuration=configuration)
             self.stdout.write(f"Successfully installed on {component}")

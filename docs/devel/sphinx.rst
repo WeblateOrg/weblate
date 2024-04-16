@@ -23,7 +23,7 @@ Now all you need is translating the documentation content. Sphinx generates PO
 file for each directory or top level file, what can lead to quite a lot of
 files to translate (depending on :confval:`sphinx:gettext_compact` settings).
 You can import the :file:`index.po` into Weblate as an initial component and
-then configure :ref:`addon-weblate.discovery.discovery` addon to automatically
+then configure :ref:`addon-weblate.discovery.discovery` add-on to automatically
 discover all others.
 
 

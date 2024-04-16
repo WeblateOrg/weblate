@@ -1,35 +1,24 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """File format specific behavior."""
 
+import tempfile
 from io import BytesIO
 
 from openpyxl import load_workbook
 
 from weblate.formats.external import XlsxFormat
-from weblate.formats.tests.test_formats import AutoFormatTest
+from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
 
 XLSX_FILE = get_test_file("cs-mono.xlsx")
+JAPANESE_FILE = get_test_file("ja.xlsx")
+FRENCH_FILE = get_test_file("fr.xlsx")
 
 
-class XlsxFormatTest(AutoFormatTest):
+class XlsxFormatTest(BaseFormatTest):
     FORMAT = XlsxFormat
     FILE = XLSX_FILE
     MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -44,10 +33,27 @@ class XlsxFormatTest(AutoFormatTest):
     BASE = XLSX_FILE
     EXPECTED_FLAGS = ""
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         newworkbook = load_workbook(BytesIO(newdata))
         testworkbook = load_workbook(BytesIO(testdata))
         self.assertEqual(len(newworkbook.worksheets), len(testworkbook.worksheets))
+        self.assertIsNotNone(newworkbook.active)
+        self.assertIsNotNone(testworkbook.active)
         self.assertEqual(
-            list(newworkbook.active.values), list(testworkbook.active.values)
+            list(newworkbook.active.values),
+            list(testworkbook.active.values),
         )
+
+    def test_japanese(self) -> None:
+        storage = self.FORMAT(JAPANESE_FILE)
+        self.assertEqual(len(storage.all_units), 1)
+        self.assertEqual(storage.all_units[0].target, "秒")
+        with tempfile.NamedTemporaryFile(suffix="xlsx") as temp_file:
+            storage.save_atomic(temp_file.name, storage.save_content)
+
+    def test_fr(self) -> None:
+        storage = self.FORMAT(FRENCH_FILE)
+        self.assertEqual(len(storage.all_units), 4)
+        self.assertEqual(storage.all_units[0].target, "Traitement A")
+        with tempfile.NamedTemporaryFile(suffix="xlsx") as temp_file:
+            storage.save_atomic(temp_file.name, storage.save_content)

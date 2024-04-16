@@ -11,7 +11,7 @@
 
 <form method="post" action="{% url 'confirm' %}">
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Confirm new association" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Confirm adding user identity" %}</h4></div>
   <div class="panel-body">
   <p>
   {% comment %}Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL{% endcomment %}
@@ -21,7 +21,7 @@
 {% csrf_token %}
 </div>
 <div class="panel-footer">
-<button type="submit" class="btn btn-primary">{% trans "Confirm new association" %}</button>
+<button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
 </div>
 </div>
 </form>

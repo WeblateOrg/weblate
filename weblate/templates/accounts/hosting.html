@@ -11,47 +11,60 @@
 {% block content %}
 
 {% if billings %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Trial subscriptions" %}</h4></div>
-  {% include "billing/list.html" with objects=billings %}
-</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "Trial subscriptions" %}</h4>
+    </div>
+    {% include "billing/list.html" with objects=billings %}
+  </div>
 {% endif %}
 
-<form method="post" action="{% url 'trial' %}">
-  {% csrf_token %}
-  <input type="hidden" name="plan" value="libre" />
-  <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title">{% trans "Translate your libre project" %}</h4></div>
-    <div class="panel-body">
+<div class="row">
 
-      <p>
-        {% trans "Please check in advance whether your project is eligible for gratis project hosting on this site." %}
-      </p>
+  <div class="col-md-6">
+    <form method="post" action="{% url 'trial' %}">
+      {% csrf_token %}
+      <input type="hidden" name="plan" value="libre" />
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% trans "Set up your libre project" %}</h4>
+        </div>
+        <div class="panel-body">
 
-      <ul>
-        {% include "snippets/libre-basic.html" %}
-        <li>{% trans "You will have 14 days to set up your project." %}</li>
-        <li>{% trans "Please request project approval once you finish the setup." %}</li>
-        <li>{% trans "Unapproved projects will be removed." %}</li>
-        <li>{% trans "There is no guarantee of service availability, nor quality for free service plan." %}</li>
-      </ul>
+          <p>
+            {% trans "Please check in advance whether your project is eligible for gratis project hosting on this site." %}
+          </p>
 
-    </div>
-    <div class="panel-footer">
-      <input type="submit" value="{% trans "Get started" %}" class="btn btn-primary" />
-    </div>
+          <ul>
+            {% include "snippets/libre-basic.html" %}
+            <li>{% trans "You will have 14 days to set up your project." %}</li>
+            <li>{% trans "Please request project approval once you finish the setup." %}</li>
+            <li>{% trans "Unapproved projects will be removed." %}</li>
+            <li>{% trans "There is no guarantee of service availability, nor quality for Libre hosting." %}</li>
+          </ul>
+
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Get started" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
   </div>
-</form>
 
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Looking for commercial hosting?" %}</h4></div>
-  <div class="panel-body">
-    <p>
-      {% blocktrans with price=19 %}Looking for commercial hosting? Our prices start at {{ price }} EUR per month.{% endblocktrans %}
-    </p>
-  </div>
-  <div class="panel-footer">
-    <a class="btn btn-primary" href="{% url 'trial' %}">{% trans "Gratis trial" %}</a>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{% trans "Looking for commercial hosting?" %}</h4>
+      </div>
+      <div class="panel-body">
+        <p>
+          {% trans "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
+        </p>
+      </div>
+      <div class="panel-footer">
+        <a class="btn btn-primary" href="{% url 'trial' %}">{% trans "Gratis trial" %}</a>
+      </div>
+    </div>
   </div>
 </div>
 

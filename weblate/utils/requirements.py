@@ -1,31 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-
-import email.parser
 import sys
+from importlib.metadata import PackageNotFoundError, metadata
 
-import pkg_resources
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
-from django.db import connection
+from django.db import DatabaseError, connection
 
 import weblate.utils.version
 from weblate.utils.db import using_postgresql
@@ -39,7 +22,7 @@ REQUIRES = [
     "translate-toolkit",
     "lxml",
     "Pillow",
-    "bleach",
+    "nh3",
     "python-dateutil",
     "social-auth-core",
     "social-auth-app-django",
@@ -51,10 +34,10 @@ REQUIRES = [
     "django-appconf",
     "user-agents",
     "filelock",
-    "setuptools",
-    "jellyfish",
+    "rapidfuzz",
     "openpyxl",
     "celery",
+    "django-celery-beat",
     "kombu",
     "translation-finder",
     "weblate-language-data",
@@ -71,15 +54,15 @@ REQUIRES = [
     "GitPython",
     "borgbackup",
     "pyparsing",
-    "pyahocorasick",
+    "ahocorasick_rs",
     "python-redis-lock",
+    "charset-normalizer",
 ]
 
 OPTIONAL = [
-    "psycopg2",
-    "psycopg2-binary",
+    "psycopg",
+    "psycopg-binary",
     "phply",
-    "chardet",
     "ruamel.yaml",
     "tesserocr",
     "akismet",
@@ -92,24 +75,33 @@ OPTIONAL = [
 
 
 def get_version_module(name, optional=False):
-    """Return module object.
+    """
+    Return module object.
 
     On error raises verbose exception with name and URL.
     """
     try:
-        dist = pkg_resources.get_distribution(name)
-        metadata = email.parser.Parser().parsestr(dist.get_metadata(dist.PKG_INFO))
-        return (
-            name,
-            metadata.get("Home-page"),
-            pkg_resources.get_distribution(name).version,
-        )
-    except pkg_resources.DistributionNotFound:
+        package = metadata(name)
+    except PackageNotFoundError as exc:
         if optional:
             return None
         raise ImproperlyConfigured(
-            "Missing dependency {0}, please install using: pip install {0}".format(name)
-        )
+            f"Missing dependency {name}, please install using: pip install {name}"
+        ) from exc
+    url = package.get("Home-page")
+    if url is None and (project_urls := package.get_all("Project-URL")):
+        for project_url in project_urls:
+            name, current_url = project_url.split(",", 1)
+            if name.lower().strip() == "homepage":
+                url = current_url.strip()
+                break
+    if url is None:
+        url = f"https://pypi.org/project/{name}/"
+    return (
+        package.get("Name"),
+        url,
+        package.get("Version"),
+    )
 
 
 def get_optional_versions():
@@ -155,8 +147,8 @@ def get_versions():
 
     try:
         result.append(("Git", "https://git-scm.com/", GitRepository.get_version()))
-    except OSError:
-        raise ImproperlyConfigured("Failed to run git, please install it.")
+    except OSError as exc:
+        raise ImproperlyConfigured("Could not run git, please install it.") from exc
 
     return result
 
@@ -167,7 +159,7 @@ def get_db_version():
             with connection.cursor() as cursor:
                 cursor.execute("SHOW server_version")
                 version = cursor.fetchone()
-        except RuntimeError:
+        except (RuntimeError, DatabaseError):
             report_error(cause="PostgreSQL version check")
             return None
 
@@ -179,7 +171,7 @@ def get_db_version():
     try:
         with connection.cursor() as cursor:
             version = cursor.connection.get_server_info()
-    except RuntimeError:
+    except (RuntimeError, DatabaseError):
         report_error(cause="MySQL version check")
         return None
     return (
@@ -205,7 +197,7 @@ def get_cache_version():
 
 
 def get_db_cache_version():
-    """Returns the list of all the Database and Cache version."""
+    """Return the list of all the Database and Cache version."""
     result = []
     cache_version = get_cache_version()
     if cache_version:
@@ -218,9 +210,9 @@ def get_db_cache_version():
 
 def get_versions_list():
     """Return list with version information summary."""
-    return (
-        [("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION)]
-        + get_versions()
-        + get_optional_versions()
-        + get_db_cache_version()
-    )
+    return [
+        ("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION),
+        *get_versions(),
+        *get_optional_versions(),
+        *get_db_cache_version(),
+    ]

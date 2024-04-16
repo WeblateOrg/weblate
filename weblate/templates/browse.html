@@ -15,21 +15,18 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ project.get_absolute_url }}">{{ object.component.project }}</a></li>
-{% if object.component.slug != "-" %}
-{% include "snippets/component-breadcrumb.html" with object=object.component %}
-{% endif %}
-{% include "snippets/translation-breadcrumb.html" %}
-<li><a href="{% url 'browse' project=project.slug component=object.component.slug lang=object.language.code %}">{% trans "Browse" %}</a></li>
+{% path_object_breadcrumbs object %}
+
+<li><a href="{% url 'browse' path=object.get_url_path  %}">{% trans "Browse" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
+<img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
 </a>
 {% endblock %}
 
 {% block content %}
 
 {% if object.component.slug == "-" %}
-  {% for component in project.component_set.all %}
+  {% for component in project.component_set.prefetch %}
     {% include "snippets/component/state.html" with object=component %}
   {% endfor %}
 {% else %}

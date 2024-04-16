@@ -1,9 +1,13 @@
-$(function () {
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+$(() => {
   $("#support-form").ZammadForm({
     messageTitle: gettext("Weblate feedback"),
     messageSubmit: gettext("Get help"),
     messageThankYou: gettext(
-      "Thank you for your inquiry (#%s)! We'll contact you as soon as possible."
+      "Thank you for your inquiry (#%s)! We'll contact you as soon as possible.",
     ),
     showTitle: true,
     modal: true,
@@ -15,7 +19,7 @@ $(function () {
         tag: "input",
         type: "text",
         placeholder: "",
-        defaultValue: "Weblate feedback [" + window.location.hostname + "]",
+        defaultValue: `Weblate feedback [${window.location.hostname}]`,
       },
       {
         display: gettext("Your name"),
@@ -38,7 +42,7 @@ $(function () {
         name: "body",
         tag: "textarea",
         placeholder: gettext(
-          "Please contact us in English, otherwise we might be unable to process your request."
+          "Please contact us in English, otherwise we might be unable to process your request.",
         ),
         defaultValue: "",
         rows: 7,

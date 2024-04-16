@@ -1,20 +1,26 @@
 {% load translations %}
+{% load icons %}
+{% load i18n %}
+
 <div
     class="alert alert-{% block tags %}{% get_message_kind tags %} {{ tags }}{% endblock %}"
-{% if can_delete and announcement %}
+  {% if can_delete and announcement %}
     data-action="{% url 'announcement-delete' pk=announcement.pk %}"
-{% endif %}
-{% if task_id %}
+  {% endif %}
+  {% if task_id %}
     data-task="{% url 'api:task-detail' pk=task_id %}"
-{% endif %}
->
-{% if can_delete %}
-<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-{% endif %}
-{% block message %}{{ message }}{% endblock %}
-{% if task_id %}
-<div class="progress">
-  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;"></div>
-</div>
-{% endif %}
+  {% endif %}
+  >
+  {% if can_delete and announcement %}
+    <button type="button" class="btn btn-link btn-red pull-right flip" data-dismiss="alert" title="{% trans "Delete announcement" %}">{% icon "delete.svg" %}</button>
+  {% elif can_delete %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {% endif %}
+  {% block message %}{{ message }}{% endblock %}
+    <div class="clearfix"></div>
+  {% if task_id %}
+    <div class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;"></div>
+    </div>
+  {% endif %}
 </div>

@@ -1,51 +1,55 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
-from google.cloud.translate_v3 import TranslationServiceClient
+from __future__ import annotations
+
+import json
+from typing import TYPE_CHECKING
+
+from django.utils.functional import cached_property
+from google.cloud.translate import TranslationServiceClient
 from google.oauth2 import service_account
 
-from weblate.machinery.base import MissingConfiguration
-from weblate.machinery.google import GoogleBaseTranslation
+from .base import DownloadTranslations, XMLMachineTranslationMixin
+from .forms import GoogleV3MachineryForm
+from .google import GoogleBaseTranslation
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
-class GoogleV3Translation(GoogleBaseTranslation):
+class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
     """Google Translate API v3 machine translation support."""
 
     setup = None
-    name = "Google Translate API v3"
+    name = "Google Cloud Translation Advanced"
     max_score = 90
+    settings_form = GoogleV3MachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        credentials = settings.MT_GOOGLE_CREDENTIALS
-        project = settings.MT_GOOGLE_PROJECT
-        location = settings.MT_GOOGLE_LOCATION
+    @classmethod
+    def get_identifier(cls) -> str:
+        return "google-translate-api-v3"
 
-        if credentials is None or project is None:
-            raise MissingConfiguration("Google Translate requires API key and project")
+    @cached_property
+    def client(self):
+        credentials = service_account.Credentials.from_service_account_info(
+            json.loads(self.settings["credentials"])
+        )
+        api_endpoint = "translate.googleapis.com"
+        if self.settings["location"].startswith("europe-"):
+            api_endpoint = "translate-eu.googleapis.com"
+        elif self.settings["location"].startswith("us-"):
+            api_endpoint = "translate-us.googleapis.com"
+        return TranslationServiceClient(
+            credentials=credentials, client_options={"api_endpoint": api_endpoint}
+        )
 
-        credentials = service_account.Credentials.from_service_account_file(credentials)
-
-        self.client = TranslationServiceClient(credentials=credentials)
-        self.parent = f"projects/{project}/locations/{location}"
+    @cached_property
+    def parent(self) -> str:
+        project = self.settings["project"]
+        location = self.settings["location"]
+        return f"projects/{project}/locations/{location}"
 
     def download_languages(self):
         """List of supported languages."""
@@ -59,15 +63,15 @@ class GoogleV3Translation(GoogleBaseTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         request = {
             "parent": self.parent,
             "contents": [text],
             "target_language_code": language,
             "source_language_code": source,
+            "mime_type": "text/html",
         }
         response = self.client.translate_text(request)
 
@@ -77,3 +81,18 @@ class GoogleV3Translation(GoogleBaseTranslation):
             "service": self.name,
             "source": text,
         }
+
+    def format_replacement(
+        self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
+    ) -> str:
+        """Generate a single replacement."""
+        return f'<span translate="no" id="{h_start}">{self.escape_text(h_text)}</span>'
+
+    def cleanup_text(self, text, unit):
+        text, replacements = super().cleanup_text(text, unit)
+
+        # Sanitize newlines
+        replacement = '<br translate="no">'
+        replacements[replacement] = "\n"
+
+        return text.replace("\n", replacement), replacements

@@ -110,13 +110,57 @@ You need to register an OAuth application on GitHub and then tell Weblate all it
     SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
 
 The GitHub should be configured to have callback URL as
-``https://example.com/accounts/complete/github/``.
+``https://WEBLATE SERVER/accounts/complete/github/``.
+
+There are similar authentication backends for GitHub for Organizations and
+GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and
+``SOCIAL_AUTH_GITHUB_TEAM_*``, and they require additional setting of the scope
+- ``SOCIAL_AUTH_GITHUB_ORG_NAME`` or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their
+callback URLs are ``https://WEBLATE SERVER/accounts/complete/github-org/`` and
+``https://WEBLATE SERVER/accounts/complete/github-teams/``.
 
 .. include:: /snippets/oauth-site.rst
 
 .. seealso::
 
     :doc:`psa:backends/github`
+
+.. _github_ee_auth:
+
+GitHub EE authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You need to register an OAuth App on GitHub EE and then tell Weblate all its secrets:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = "GitHub OAuth App Client ID"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = "GitHub OAuth App Client Secret"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_URL = "https://git.example.com/"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = "https://git.example.com/api/v3/"
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = ["user:email"]
+
+The GitHub OAuth App should be configured to have callback URL as
+``https://WEBLATE SERVER/accounts/complete/github-enterprise/``.
+
+Instead GitHub OAuth App, GitHub App can also be used. With GitHub App
+permissions can be granted on repositories, organisation and/or user level. If
+you decide to use GitHub App, you need to enable `Access: Read-only` permission
+for Users - <Email addresses> and Organisation - <Members>.
+
+.. include:: /snippets/oauth-site.rst
+
+.. seealso::
+
+    :doc:`psa:backends/github_enterprise`
 
 .. _bitbucket_auth:
 
@@ -129,15 +173,15 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        "social_core.backends.bitbucket.BitbucketOAuth",
+        "social_core.backends.bitbucket.BitbucketOAuth2",
         "social_core.backends.email.EmailAuth",
         "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_BITBUCKET_KEY = "Bitbucket Client ID"
-    SOCIAL_AUTH_BITBUCKET_SECRET = "Bitbucket Client Secret"
-    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = "Bitbucket Client ID"
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET = "Bitbucket Client Secret"
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_VERIFIED_EMAILS_ONLY = True
 
 .. include:: /snippets/oauth-site.rst
 
@@ -250,6 +294,12 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
 for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/``
 for tenant-specific authentication.
 
+You will need following:
+
+* *Application (client) ID* can be obtained from application page. *Object ID* is not used in Weblate.
+* *Directory (tenant) ID* is needed for tenant scoped authentication, what is usually desired.
+* *Secret value* is displayed once you generate a secret for an application. *Secret ID* is not used in Weblate.
+
 .. code-block:: python
 
     # Azure AD common
@@ -276,10 +326,11 @@ for tenant-specific authentication.
         "weblate.accounts.auth.WeblateUserBackend",
     )
 
-    # OAuth2 keys
+    # Application (client) ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = ""
+    # Secret value
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ""
-    # Tenant ID
+    # Directory (tenant) ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ""
 
 .. include:: /snippets/oauth-site.rst
@@ -330,6 +381,8 @@ overriding naming for Auth0 would look like:
    SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
    SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
 
+.. _disable-email-auth:
+
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -339,10 +392,13 @@ E-mail and password authentication can be turned off by removing
 ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
 Weblate functionality.
 
+Disabling e-mail authentication will disable all e-mail related functionality –
+user invitation or password reset feature.
+
 .. tip::
 
    You can still use password authentication for the admin interface, for users you
-   manually create there. Just navigate to ``/admin/``.
+   manually create there. Just navigate to ``/admin/login/``.
 
 For example authentication using only the openSUSE Open ID provider can be achieved
 using the following:
@@ -354,6 +410,8 @@ using the following:
         "social_core.backends.suse.OpenSUSEOpenId",
         "weblate.accounts.auth.WeblateUserBackend",
     )
+
+.. _password-authentication:
 
 Password authentication
 -----------------------
@@ -374,6 +432,10 @@ Additionally you can also install
 `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_
 which gives quite realistic estimates of password difficulty and allows rejecting
 passwords below a certain threshold.
+
+.. seealso::
+
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
 .. _saml-auth:
 
@@ -451,7 +513,7 @@ configure your IDP to provide them:
 
 .. hint::
 
-   The example above and the Docker image define an IDP labelled ``weblate``.
+   The example above and the Docker image define an IDP called ``weblate``.
    You might need to configure this string as :guilabel:`Relay` in your IDP.
 
 .. seealso::
@@ -470,7 +532,7 @@ can install it via usual means:
 .. code-block:: sh
 
     # Using PyPI
-    pip install django-auth-ldap>=1.3.0
+    pip install 'django-auth-ldap>=1.3.0'
 
     # Using apt-get
     apt-get install python-django-auth-ldap
@@ -530,7 +592,7 @@ Once you have the package installed, you can hook it into the Django authenticat
     ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
     make permissions and facilitate anonymous users. It will also allow you
     to sign in using a local admin account, if you have created it (e.g. by using
-    :djadmin:`createadmin`).
+    :wladmin:`createadmin`).
 
 Using bind password
 ~~~~~~~~~~~~~~~~~~~

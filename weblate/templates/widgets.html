@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'widgets' project=object.slug %}">{% trans "Widgets" %}</a></li>
+<li><a href="{% url 'widgets' path=object.get_url_path %}">{% trans "Widgets" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -54,10 +54,10 @@
 
 <div>
 <select class="select-tab form-control">
-<option value="{{ widget.name }}-html-code">{% trans "HTML code" %}</option>
-<option value="{{ widget.name }}-bb-code">{% trans "BB code" %}</option>
-<option value="{{ widget.name }}-mdk-code">{% trans "Markdown code" %}</option>
-<option value="{{ widget.name }}-rst-code">{% trans "RST code" %}</option>
+<option value="{{ widget.name }}-html-code">{% trans "HTML" %}</option>
+<option value="{{ widget.name }}-bb-code">{% trans "BBCode" %}</option>
+<option value="{{ widget.name }}-mdk-code">{% trans "Markdown" %}</option>
+<option value="{{ widget.name }}-rst-code">{% trans "reStructuredText" %}</option>
 <option value="{{ widget.name }}-textile-code">{% trans "Textile code" %}</option>
 <option value="{{ widget.name }}-url-code">{% trans "Image URL" %}</option>
 </select>

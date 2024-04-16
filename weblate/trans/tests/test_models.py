@@ -1,22 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for translation models."""
+
 import os
 
 from django.core.management.color import no_style
@@ -44,7 +31,7 @@ from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_TRANSLATED
 
 
-def fixup_languages_seq():
+def fixup_languages_seq() -> None:
     # Reset sequence for Language and Plural objects as
     # we're manipulating with them in FixtureTestCase.setUpTestData
     # and that seems to affect sequence for other tests as well
@@ -61,32 +48,32 @@ def fixup_languages_seq():
 
 class BaseTestCase(TestCase):
     @classmethod
-    def setUpTestData(cls):
+    def setUpTestData(cls) -> None:
         fixup_languages_seq()
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         super().tearDownClass()
         immediate_on_commit_leave(cls)
 
 
 class BaseLiveServerTestCase(LiveServerTestCase):
     @classmethod
-    def setUpTestData(cls):
+    def setUpTestData(cls) -> None:
         fixup_languages_seq()
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         super().tearDownClass()
         immediate_on_commit_leave(cls)
 
@@ -94,19 +81,19 @@ class BaseLiveServerTestCase(LiveServerTestCase):
 class RepoTestCase(BaseTestCase, RepoTestMixin):
     """Generic class for tests working with repositories."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.clone_test_repos()
 
 
 class ProjectTest(RepoTestCase):
     """Project object testing."""
 
-    def test_create(self):
+    def test_create(self) -> None:
         project = self.create_project()
         self.assertTrue(os.path.exists(project.full_path))
         self.assertIn(project.slug, project.full_path)
 
-    def test_rename(self):
+    def test_rename(self) -> None:
         component = self.create_link()
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
         project = component.project
@@ -135,31 +122,31 @@ class ProjectTest(RepoTestCase):
             )
         )
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         project = self.create_project()
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
 
-    def test_delete_votes(self):
+    def test_delete_votes(self) -> None:
         with transaction.atomic():
             component = self.create_po(
                 suggestion_voting=True, suggestion_autoaccept=True
             )
             user = create_test_user()
             translation = component.translation_set.get(language_code="cs")
-            unit = translation.unit_set.first()
-            suggestion = Suggestion.objects.add(unit, "Test", None)
+            unit = translation.unit_set.all()[0]
+            suggestion = Suggestion.objects.add(unit, ["Test"], None)
             Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
 
-    def test_delete_all(self):
+    def test_delete_all(self) -> None:
         project = self.create_project()
         self.assertTrue(os.path.exists(project.full_path))
         Project.objects.all().delete()
         self.assertFalse(os.path.exists(project.full_path))
 
-    def test_acl(self):
+    def test_acl(self) -> None:
         """Test for ACL handling."""
         # Create user to verify ACL
         user = create_test_user()
@@ -175,7 +162,7 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(user.can_access_project(project))
 
         # Add to ACL group
-        user.groups.add(Group.objects.get(name="Test@Translate"))
+        user.groups.add(Group.objects.get(name="Translate", defining_project=project))
 
         # Need to fetch user again to clear permission cache
         user = User.objects.get(username="testuser")
@@ -187,7 +174,7 @@ class ProjectTest(RepoTestCase):
 class TranslationTest(RepoTestCase):
     """Translation testing."""
 
-    def test_basic(self):
+    def test_basic(self) -> None:
         component = self.create_component()
         # Verify source translation
         translation = component.source_translation
@@ -195,32 +182,32 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.translated, 4)
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all_words, 15)
+        self.assertEqual(translation.stats.all_words, 19)
         # Verify target translation
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all_words, 15)
+        self.assertEqual(translation.stats.all_words, 19)
 
-    def test_validation(self):
+    def test_validation(self) -> None:
         """Translation validation."""
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         translation.full_clean()
 
-    def test_update_stats(self):
+    def test_update_stats(self) -> None:
         """Check update stats with no units."""
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(translation.stats.all_words, 15)
+        self.assertEqual(translation.stats.all_words, 19)
         translation.unit_set.all().delete()
         translation.invalidate_cache()
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
 
-    def test_commit_groupping(self):
+    def test_commit_groupping(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
@@ -236,7 +223,7 @@ class TranslationTest(RepoTestCase):
         for unit in translation.unit_set.iterator():
             unit.translate(user, "test4", STATE_TRANSLATED)
         self.assertEqual(start_rev, component.repository.last_revision)
-        # Translation from other author should trigger commmit
+        # Translation from other author should trigger commit
         for i, unit in enumerate(translation.unit_set.iterator()):
             user = User.objects.create(
                 full_name=f"User {unit.pk}",
@@ -263,13 +250,15 @@ class TranslationTest(RepoTestCase):
 class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
 
-    def test_slug(self):
+    CREATE_GLOSSARIES: bool = True
+
+    def test_slug(self) -> None:
         """Test ComponentList slug."""
         clist = ComponentList()
         clist.slug = "slug"
         self.assertEqual(clist.tab_slug(), "list-slug")
 
-    def test_auto(self):
+    def test_auto(self) -> None:
         self.create_component()
         clist = ComponentList.objects.create(name="Name", slug="slug")
         AutoComponentList.objects.create(
@@ -277,7 +266,7 @@ class ComponentListTest(RepoTestCase):
         )
         self.assertEqual(clist.components.count(), 2)
 
-    def test_auto_create(self):
+    def test_auto_create(self) -> None:
         clist = ComponentList.objects.create(name="Name", slug="slug")
         AutoComponentList.objects.create(
             project_match="^.*$", component_match="^.*$", componentlist=clist
@@ -286,7 +275,7 @@ class ComponentListTest(RepoTestCase):
         self.create_component()
         self.assertEqual(clist.components.count(), 2)
 
-    def test_auto_nomatch(self):
+    def test_auto_nomatch(self) -> None:
         self.create_component()
         clist = ComponentList.objects.create(name="Name", slug="slug")
         AutoComponentList.objects.create(
@@ -296,7 +285,7 @@ class ComponentListTest(RepoTestCase):
 
 
 class ModelTestCase(RepoTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component = self.create_component()
 
@@ -304,13 +293,13 @@ class ModelTestCase(RepoTestCase):
 class SourceUnitTest(ModelTestCase):
     """Source Unit objects testing."""
 
-    def test_source_unit(self):
+    def test_source_unit(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertIsNotNone(unit.source_unit)
         unit = Unit.objects.filter(translation__language_code="en")[0]
         self.assertEqual(unit.source_unit, unit)
 
-    def test_priority(self):
+    def test_priority(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertEqual(unit.priority, 100)
         source = unit.source_unit
@@ -319,7 +308,7 @@ class SourceUnitTest(ModelTestCase):
         unit2 = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit2.priority, 200)
 
-    def test_check_flags(self):
+    def test_check_flags(self) -> None:
         """Setting of Source check_flags changes checks for related units."""
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
@@ -333,7 +322,7 @@ class SourceUnitTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
-    def test_newlines(self):
+    def test_newlines(self) -> None:
         user = create_test_user()
         unit = Unit.objects.filter(
             translation__language_code="cs", source="Hello, world!\n"
@@ -348,12 +337,12 @@ class UnitTest(ModelTestCase):
         unit.translate(user, "other\r\nstring", STATE_TRANSLATED)
         self.assertEqual(unit.target, "other\r\nstring\r\n")
 
-    def test_flags(self):
+    def test_flags(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.flags = "no-wrap, ignore-same"
         self.assertEqual(unit.all_flags.items(), {"no-wrap", "ignore-same"})
 
-    def test_order_by_request(self):
+    def test_order_by_request(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         source = unit.source_unit
         source.extra_flags = "priority:200"
@@ -410,32 +399,32 @@ class UnitTest(ModelTestCase):
         ).order_by_request({"sort_by": "position,timestamp"}, None)
         self.assertEqual(multiple_ordered_unit.count(), 4)
 
-    def test_get_max_length_no_pk(self):
+    def test_get_max_length_no_pk(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = False
         self.assertEqual(unit.get_max_length(), 10000)
 
-    def test_get_max_length_empty_source_default_fallback(self):
+    def test_get_max_length_empty_source_default_fallback(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = ""
         self.assertEqual(unit.get_max_length(), 100)
 
-    def test_get_max_length_default_fallback(self):
+    def test_get_max_length_default_fallback(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = "My test source"
         self.assertEqual(unit.get_max_length(), 140)
 
     @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
-    def test_get_max_length_empty_source_disabled_default_fallback(self):
+    def test_get_max_length_empty_source_disabled_default_fallback(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = ""
         self.assertEqual(unit.get_max_length(), 10000)
 
     @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
-    def test_get_max_length_disabled_default_fallback(self):
+    def test_get_max_length_disabled_default_fallback(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = "My test source"
@@ -445,7 +434,7 @@ class UnitTest(ModelTestCase):
 class AnnouncementTest(ModelTestCase):
     """Test(s) for Announcement model."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         Announcement.objects.create(
             language=Language.objects.get(code="cs"), message="test cs"
@@ -463,28 +452,28 @@ class AnnouncementTest(ModelTestCase):
         )
         Announcement.objects.create(message="test global")
 
-    def verify_filter(self, messages, count, message=None):
+    def verify_filter(self, messages, count, message=None) -> None:
         """Verify whether messages have given count and first contains string."""
         self.assertEqual(len(messages), count)
         if message is not None:
             self.assertEqual(messages[0].message, message)
 
-    def test_contextfilter_global(self):
+    def test_contextfilter_global(self) -> None:
         self.verify_filter(Announcement.objects.context_filter(), 1, "test global")
 
-    def test_contextfilter_project(self):
+    def test_contextfilter_project(self) -> None:
         self.verify_filter(
             Announcement.objects.context_filter(project=self.component.project),
             1,
             "test project",
         )
 
-    def test_contextfilter_component(self):
+    def test_contextfilter_component(self) -> None:
         self.verify_filter(
             Announcement.objects.context_filter(component=self.component), 2
         )
 
-    def test_contextfilter_translation(self):
+    def test_contextfilter_translation(self) -> None:
         self.verify_filter(
             Announcement.objects.context_filter(
                 component=self.component, language=Language.objects.get(code="cs")
@@ -492,7 +481,7 @@ class AnnouncementTest(ModelTestCase):
             3,
         )
 
-    def test_contextfilter_language(self):
+    def test_contextfilter_language(self) -> None:
         self.verify_filter(
             Announcement.objects.context_filter(
                 language=Language.objects.get(code="cs")

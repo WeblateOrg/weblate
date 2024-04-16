@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.models import Group as DjangoGroup
 
@@ -27,7 +12,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class ModelTest(FixtureTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
@@ -35,7 +20,11 @@ class ModelTest(FixtureTestCase):
         self.group = Group.objects.create(name="Test", language_selection=SELECTION_ALL)
         self.group.projects.add(self.project)
 
-    def test_project(self):
+    def test_num_queries(self) -> None:
+        with self.assertNumQueries(8):
+            self.user._fetch_permissions()
+
+    def test_project(self) -> None:
         # No permissions
         self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
@@ -52,7 +41,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_component(self):
+    def test_component(self) -> None:
         self.group.projects.remove(self.project)
 
         # Add user to group of power users
@@ -69,7 +58,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_componentlist(self):
+    def test_componentlist(self) -> None:
         # Add user to group of power users
         self.user.groups.add(self.group)
         self.group.roles.add(Role.objects.get(name="Power user"))
@@ -89,7 +78,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_languages(self):
+    def test_languages(self) -> None:
         # Add user to group with german language
         self.user.groups.add(self.group)
         self.group.language_selection = SELECTION_MANUAL
@@ -108,7 +97,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_groups(self):
+    def test_groups(self) -> None:
         # Add test group
         self.user.groups.add(self.group)
         self.assertEqual(self.user.groups.count(), 3)
@@ -137,10 +126,32 @@ class ModelTest(FixtureTestCase):
         self.user.groups.set(DjangoGroup.objects.filter(name="Second"))
         self.assertEqual(self.user.groups.count(), 1)
 
-    def test_user(self):
+    def test_user(self) -> None:
         # Create user with Django User fields
         user = User.objects.create(
             first_name="First", last_name="Last", is_staff=True, is_superuser=True
         )
         self.assertEqual(user.full_name, "First Last")
-        self.assertEqual(user.is_superuser, True)
+        self.assertTrue(user.is_superuser)
+
+    def test_projects(self) -> None:
+        public_project = Project.objects.create(
+            slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
+        )
+        protected_project = Project.objects.create(
+            slug="protected", name="Protected", access_control=Project.ACCESS_PROTECTED
+        )
+        self.user.clear_cache()
+        self.assertEqual(
+            set(self.user.allowed_projects.values_list("slug", flat=True)),
+            {public_project.slug, protected_project.slug},
+        )
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.assertEqual(
+            set(self.user.allowed_projects.values_list("slug", flat=True)),
+            {public_project.slug, protected_project.slug, self.project.slug},
+        )

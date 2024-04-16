@@ -6,51 +6,34 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-{% if project %}
-<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-{% if component %}
-{% include "snippets/component-breadcrumb.html" with object=component %}
-{% if translation %}
-{% include "snippets/translation-breadcrumb.html" with object=translation %}
-{% endif %}
-{% endif %}
-{% elif changes_user %}
-<li><a href="{{ changes_user.profile.get_absolute_url }}">{{ changes_user.profile.get_user_name }}</a></li>
-{% elif language %}
-<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
-<li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
-{% endif %}
-<li><a href="{% url 'changes' %}?{{ query_string }}">{% trans "Changes" %}</a></li>
+  {% if path_object %}
+    {% path_object_breadcrumbs path_object %}
+    <li><a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}">{% trans "Changes" %}</a></li>
+  {% else %}
+    <li><a href="{% url 'changes' %}?{{ query_string }}">{% trans "Changes" %}</a></li>
+  {% endif %}
+
+  <div class="btn-group pull-right flip btn-group-settings" role="group">
+    {% perm 'change.download' path_object as user_can_download_changes %}
+    {% if user_can_download_changes %}
+      {% if path_object %}
+        <a href="{% url 'changes-csv' path=path_object.get_url_path %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}" class="btn btn-link">{% icon "download.svg" %}</a>
+      {% else %}
+        <a href="{% url 'changes-csv' %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}" class="btn btn-link">{% icon "download.svg" %}</a>
+      {% endif %}
+    {% endif %}
+    <a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}" class="btn btn-link">{% icon "rss.svg" %}</a>
+  </div>
 {% endblock %}
 
 {% block content %}
+{% if form.is_valid %}
+  {% include "last-changes-content.html" with last_changes=object_list %}
 
-{% perm 'change.download' project as user_can_download_changes %}
-
-{% if user_can_download_changes or changes_rss %}
-<div class="btn-group pull-right flip btn-group-settings" role="group">
-{% if user_can_download_changes %}
-<a href="{% url 'changes-csv' %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}" class="btn btn-link">{% icon "download.svg" %}</a>
+  {% include "paginator.html" %}
 {% endif %}
-{% if changes_rss %}
-<a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}" class="btn btn-link">{% icon "rss.svg" %}</a>
-{% endif %}
-</div>
-{% endif %}
-
-{% include "paginator.html" %}
-
-{% include "last-changes-content.html" with last_changes=object_list %}
-
-{% include "paginator.html" %}
 
 <form method="get">
-{% if changes_user %}
-<input type="hidden" name="user" value="{{ changes_user.username }}" />
-{% endif %}
-{% if component %}
-<input type="hidden" name="component" value="{{ component.slug }}" />
-{% endif %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
   <div class="panel-body">

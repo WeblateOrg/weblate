@@ -4,9 +4,9 @@
 {% load permissions %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
-<li><a href="{% url 'component_progress' project=object.project.slug component=object.slug %}">{% trans "Progress" %}</a></li>
+{% path_object_breadcrumbs object %}
+
+<li><a href="{% url 'component_progress' path=object.get_url_path %}">{% trans "Progress" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -28,13 +28,13 @@
 <div class="panel-footer">
 <form class="form-inline">
   <div class="form-group">
-<a href="{% url return_url project=object.project.slug component=object.slug %}" class="btn btn-primary" id="progress-return">{% trans "Return to the component" %}</a>
+<a href="{% url return_url path=object.get_url_path %}" class="btn btn-primary" id="progress-return">{% trans "Return to the component" %}</a>
 {% if user_can_edit_component %}
 <a href="#" class="btn btn-danger" id="terminate-task-button">{% trans "Abort the update" %}</a>
 {% endif %}
   </div>
   <div class="form-group">
-    <input type="checkbox" class="form-control" id="progress-redirect" checked="checked">
+    <input type="checkbox" id="progress-redirect" checked="checked">
     <label for="progress-redirect">{% trans "Return to the component after completion" %}</label>
   </div>
 </form>

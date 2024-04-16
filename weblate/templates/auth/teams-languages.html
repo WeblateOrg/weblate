@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if group.language_selection %}
+  <em>{% trans "All languages" %}</em>
+{% else %}
+  {% for language in group.languages.all %}
+    <span class="badge" title="{{ language.code }}">{{ language }}</span>
+  {% endfor %}
+{% endif %}

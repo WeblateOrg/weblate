@@ -10,12 +10,15 @@
         <div class="btn-group search-group" role="group">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="source:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "Source strings" %}</span> <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="source:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="search-label">{% trans "Source strings" %}</span>
+                  <span class="caret"></span>
+                </button>
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="source:">{% trans "Source strings" %}</a></li>
                   <li><a href="#" data-field="target:">{% trans "Target strings" %}</a></li>
                   <li><a href="#" data-field="context:">{% trans "Key/Context strings" %}</a></li>
-                  <li><a href="#" data-field="note:">{% trans "Comment strings" %}</a></li>
+                  <li><a href="#" data-field="note:">{% trans "Source string description" %}</a></li>
                   <li><a href="#" data-field="location:">{% trans "Location strings" %}</a></li>
                   <li><a href="#" data-field="state:">{% trans "String state" %}</a></li>
                   <li><a href="#" data-field="pending:">{% trans "Pending string" %}</a></li>
@@ -24,7 +27,9 @@
                 </ul>
               </div><!-- /btn-group -->
               <input type="text" class="form-control" placeholder="{% trans "Search for…" %}">
-              <span id="is-exact" class="input-group-addon"><input type="checkbox" > <span>{% trans "Exact" context "Exact search toggle" %}</span> </span>
+              <span id="is-exact" class="input-group-addon">
+                <label><input type="checkbox" > {% trans "Exact" context "Exact search toggle" %}</label>
+              </span>
               <span class="input-group-btn">
                 <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
               </span>
@@ -33,11 +38,12 @@
 
         <div class="btn-group search-group" role="group">
               <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String has suggestion" %}</span> <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% search_name "has:suggestion" %}</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="has:suggestion">{% search_name "has:suggestion" %}</a></li>
                   <li><a href="#" data-field="has:comment">{% search_name "has:comment" %}</a></li>
                   <li><a href="#" data-field="has:check">{% search_name "has:check" %}</a></li>
+                  <li><a href="#" data-field="NOT has:screenshot">{% search_name "NOT has:screenshot" %}</a></li>
                   <li><a href="#" data-field="has:plural">{% search_name "has:plural" %}</a></li>
                   <li><a href="#" data-field="has:context">{% search_name "has:context" %}</a></li>
                 </ul>
@@ -54,7 +60,7 @@
                   <li><a href="#" data-field="changed:<=">{% trans "String changed before" %}</a></li>
                 </ul>
               </div><!-- /btn-group -->
-              <input type="date" class="form-control" placeholder="{% trans "Date" %}" data-provide="datepicker">
+              <input type="date" class="form-control" placeholder="{% trans "Date" %}">
               <span class="input-group-btn">
                 <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
               </span>
@@ -102,7 +108,7 @@
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     {% if not language %}
-    {% with languages=user.profile.languages.all %}
+    {% with languages=user.profile.all_languages %}
     <tr>
         <th>{% trans "Translated strings in a certain language" %}</th>
         <td><code>is:translated AND language:{% if languages %}{{ languages.0.code }}{% else %}en{% endif %}</code></td>

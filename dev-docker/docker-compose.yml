@@ -1,4 +1,8 @@
-version: "3"
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version: '3'
 
 ##########
 # WARNING!
@@ -18,37 +22,41 @@ services:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
     ports:
-      - ${WEBLATE_HOST}:8080
+    - ${WEBLATE_HOST}:8080
     user: $USER_ID:$GROUP_ID
     userns_mode: host
+    tmpfs:
+    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
+    - /run:uid=$USER_ID,gid=$GROUP_ID
     volumes:
       # Local data directory
-      - $PWD/data:/app/data
+    - $PWD/data:/app/data
       # Override Weblate with local dir
-      - $PWD/../weblate:/usr/local/lib/python3.9/dist-packages/weblate
+    - $PWD/../weblate:/app/venv/lib/python${DOCKER_PYTHON}/site-packages/weblate
     restart: always
     depends_on:
-      - database
-      - cache
+    - database
+    - cache
     environment:
       DJANGO_SETTINGS_MODULE: weblate.settings_docker
       WEBLATE_SITE_DOMAIN: ${WEBLATE_HOST}
     env_file:
-      - ./environment
+    - ./environment
   database:
-    image: postgres:14-alpine
+    image: postgres:16-alpine
     env_file:
-      - ./environment
+    - ./environment
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./postgres-init:/docker-entrypoint-initdb.d
+    - postgres-data:/var/lib/postgresql/data
+    - ./postgres-init:/docker-entrypoint-initdb.d
     restart: always
   cache:
-    image: redis:6-alpine
+    image: redis:7-alpine
     restart: always
-    command: ["redis-server", "--appendonly", "yes"]
+    command: [redis-server, --save, '60', '1']
     volumes:
-      - redis-data:/data
+    - redis-data:/data
 volumes:
   weblate-data: {}
   postgres-data: {}

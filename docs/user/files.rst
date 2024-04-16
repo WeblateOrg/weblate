@@ -27,28 +27,44 @@ localization formats. The converted files will be enriched with data provided
 in Weblate; such as additional context, comments or flags. Several file formats
 are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 
-* gettext PO
-* XLIFF with gettext extensions
-* XLIFF 1.1
-* TermBase eXchange
-* Translation Memory eXchange
-* gettext MO (only available when translation is using gettext PO)
-* CSV
-* Excel Open XML
-* JSON (only available for monolingual translations)
-* Android String Resource (only available for monolingual translations)
-* iOS strings (only available for monolingual translations)
+* gettext PO (``po``)
+* XLIFF 1.1 with gettext extensions (``xliff``)
+* XLIFF 1.1 (``xliff11``)
+* TermBase eXchange (``tbx``)
+* Translation Memory eXchange (``tmx``)
+* gettext MO (only available when translation is using gettext PO) (``mo``)
+* CSV (``csv``)
+* Excel Open XML (``xlsx``)
+* JSON (only available for monolingual translations) (``json``)
+* JSON nested structure file (only available for monolingual translations) (``json-nested``)
+* Android String Resource (only available for monolingual translations) (``aresource``)
+* iOS strings (only available for monolingual translations) (``strings``)
 
 .. hint::
 
    The content available in the converted files differs based on file format
    features, you can find overview in :ref:`fmt_capabs`.
 
-.. image:: /screenshots/file-download.png
+.. image:: /screenshots/file-download.webp
 
 .. seealso::
 
-   :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+   :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`,
+   :setting:`WEBLATE_EXPORTERS`
+
+.. _download-multi:
+
+Downloading components, categories or projects
+----------------------------------------------
+
+Translation files for a component, category or project can be downloaded at
+once via the :guilabel:`Files` menu. The download is always served as a ZIP
+file, and you can choose original or converted formats similarly as in
+:ref:`download`.
+
+.. seealso::
+
+   :http:get:`/api/components/(string:project)/(string:component)/file/`
 
 .. _upload:
 
@@ -58,7 +74,7 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
-.. image:: /screenshots/file-upload.png
+.. image:: /screenshots/file-upload.webp
 
 .. _upload-file:
 
@@ -71,10 +87,8 @@ features might not be translated properly.
 
 .. seealso::
 
-   :ref:`formats`
-
-The uploaded file is merged to update the translation, overwriting existing
-entries by default (this can be turned off or on in the upload dialog).
+   :ref:`formats`,
+   :doc:`/user/files`
 
 .. _upload-method:
 
@@ -84,17 +98,17 @@ Import methods
 These are the choices presented when uploading translation files:
 
 Add as translation (``translate``)
-    Imported translations are added as translations. This is the most common usecase, and
+    Imported strings are added as translations to existing strings. This is the most common usecase, and
     the default behavior.
 
     Only translations are used from the uploaded file and no additional content.
 Add as suggestion (``suggest``)
-    Imported translations are added as suggestions, do this when you want to have your
+    Imported strings are added as suggestions, do this when you want to have your
     uploaded strings reviewed.
 
     Only translations are used from the uploaded file and no additional content.
 Add as translation needing edit (``fuzzy``)
-    Imported translations are added as translations needing edit. This can be useful
+    Imported strings are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
 
     Only translations are used from the uploaded file and no additional content.
@@ -125,7 +139,14 @@ Add new strings (``add``)
 Conflicts handling
 ++++++++++++++++++
 
-Defines how to deal with uploaded strings which are already translated.
+Defines how to deal with uploaded strings which are already translated:
+
+Change only untranslated strings (``ignore``)
+   Ignore uploaded translations which are already translated.
+Change translated strings (``replace-translated``)
+   Replace existing translations with uploaded ones, but keep approved ones.
+Change translated and approved strings (``replace-approved``)
+   Replace existing translations with uploaded ones, including approved ones.
 
 .. _upload-fuzzy:
 

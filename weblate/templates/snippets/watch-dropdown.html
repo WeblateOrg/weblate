@@ -10,13 +10,13 @@
         <span class="caret"></span>
       </a>
       <ul class="dropdown-menu dropdown-menu-right flip" aria-labelledby="watch_menu">
-        <li><a class="link-post" href="{% url 'unwatch' project=project.slug %}">{% blocktrans %}Unwatch project {{ project }}{% endblocktrans %}</a></li>
+        <li><a href="" class="link-post" data-href="{% url 'unwatch' path=project.get_url_path %}?next={{ request.path }}">{% blocktrans %}Unwatch project {{ project }}{% endblocktrans %}</a></li>
         {% if component %}
         <li><a href="{% url 'profile' %}?notify_component={{ component.pk }}#notifications">{% blocktrans with object=component %}Customize notifications for {{ object }}{% endblocktrans %}</a></li>
-        <li><a href="{% url 'mute' project=component.project.slug component=component.slug %}" class="link-post">{% blocktrans with object=component %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
+        <li><a href="" class="link-post" data-href="{% url 'mute' path=component.get_url_path %}">{% blocktrans with object=component %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
         {% else %}
         <li><a href="{% url 'profile' %}?notify_project={{ project.pk }}#notifications">{% blocktrans with object=project %}Customize notifications for {{ object }}{% endblocktrans %}</a></li>
-        <li><a href="{% url 'mute' project=project.slug %}" class="link-post">{% blocktrans with object=project %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
+        <li><a href="" class="link-post" data-href="{% url 'mute' path=project.get_url_path %}">{% blocktrans with object=project %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
         {% endif %}
       </ul>
     {% else %}
@@ -25,9 +25,9 @@
         <span class="caret"></span>
       </a>
       <ul class="dropdown-menu dropdown-menu-right flip" aria-labelledby="notwatch_menu">
-        <li><a href="{% url 'watch' project=project.slug %}" class="btn btn-link link-post" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktrans %}Watch project {{ project }}{% endblocktrans %}</a></li>
+        <li><a href="" class="btn btn-link link-post" data-href="{% url 'watch' path=project.get_url_path %}?next={{ request.path }}" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktrans %}Watch project {{ project }}{% endblocktrans %}</a></li>
         {% if component %}
-        <li><a href="{% url 'watch' project=project.slug component=component.slug %}" class="btn btn-link link-post" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktrans %}Watch component {{ component }}{% endblocktrans %}</a></li>
+        <li><a href="" class="btn btn-link link-post" data-href="{% url 'watch' path=component.get_url_path %}?next={{ request.path }}" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktrans %}Watch component {{ component }}{% endblocktrans %}</a></li>
         {% endif %}
       </ul>
   {% endif %}

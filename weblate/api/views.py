@@ -1,24 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os.path
-from typing import Optional, Tuple
+from urllib.parse import unquote
 
 from celery.result import AsyncResult
 from django.conf import settings
@@ -26,20 +13,26 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Model, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
+from django.utils.translation import gettext
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError, ValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
@@ -47,19 +40,24 @@ from rest_framework.viewsets import ViewSet
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
     BilingualUnitSerializer,
+    CategorySerializer,
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
     FullUserSerializer,
     GroupSerializer,
+    LabelSerializer,
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
+    MemorySerializer,
     MonolingualUnitSerializer,
+    NewUnitSerializer,
     NotificationSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
@@ -73,14 +71,18 @@ from weblate.api.serializers import (
     UnitWriteSerializer,
     UploadRequestSerializer,
     UserStatisticsSerializer,
+    get_reverse_kwargs,
 )
-from weblate.auth.models import Group, Role, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
 from weblate.checks.models import Check
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
+    Category,
     Change,
     Component,
     ComponentList,
@@ -89,8 +91,12 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.stats import get_project_stats
-from weblate.trans.tasks import auto_translate, component_removal, project_removal
+from weblate.trans.tasks import (
+    auto_translate,
+    category_removal,
+    component_removal,
+    project_removal,
+)
 from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
@@ -113,6 +119,7 @@ REPO_OPERATIONS = {
     "cleanup": ("vcs.reset", "do_cleanup", (), True),
     "commit": ("vcs.commit", "commit_pending", ("api",), False),
     "file-sync": ("vcs.reset", "do_file_sync", (), True),
+    "file-scan": ("vcs.reset", "do_file_scan", (), True),
 }
 
 DOC_TEXT = """
@@ -122,7 +129,8 @@ description of the API.</p>
 
 
 def get_view_description(view, html=False):
-    """Given a view class, return a textual description to represent the view.
+    """
+    Given a view class, return a textual description to represent the view.
 
     This name is used in the browsable API, and in OPTIONS responses. This function is
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
@@ -131,48 +139,27 @@ def get_view_description(view, html=False):
     description = formatting.dedent(description)
 
     if hasattr(getattr(view, "serializer_class", "None"), "Meta"):
-        doc_url = get_doc_url(
-            "api",
-            f"{view.serializer_class.Meta.model.__name__.lower()}s",
-            user=view.request.user,
-        )
+        model_name = view.serializer_class.Meta.model.__name__.lower()
+        doc_name = "categories" if model_name == "category" else f"{model_name}s"
+        doc_url = get_doc_url("api", doc_name, user=view.request.user)
     else:
         doc_url = get_doc_url("api", user=view.request.user)
 
     if html:
-        return formatting.markup_description(description) + mark_safe(
-            DOC_TEXT.format(doc_url)
+        return formatting.markup_description(description) + format_html(
+            DOC_TEXT, doc_url
         )
     return description
 
 
-class MultipleFieldMixin:
-    """Multiple field filtering mixin.
-
-    Apply this mixin to any view or viewset to get multiple field filtering based on a
-    `lookup_fields` attribute, instead of the default single field filtering.
-    """
-
-    def get_object(self):
-        # Get the base queryset
-        queryset = self.get_queryset()
-        # Apply any filter backends
-        queryset = self.filter_queryset(queryset)
-        lookup = {}
-        for field in self.lookup_fields:
-            lookup[field] = self.kwargs[field]
-        # Lookup the object
-        return get_object_or_404(queryset, **lookup)
-
-
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
-    raw_urls: Tuple[str, ...] = ()
-    raw_formats = EXPORTERS
+    raw_urls: tuple[str, ...] = ()
+    raw_formats: tuple[str, ...] = tuple(EXPORTERS)
 
     def perform_content_negotiation(self, request, force=False):
-        """Custom content negotiation."""
+        """Perform custom content negotiation."""
         if request.resolver_match.url_name in self.raw_urls:
-            fmt = self.format_kwarg or request.query_params.get("format")
+            fmt = self.format_kwarg
             if fmt is None or fmt in self.raw_formats:
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
@@ -180,13 +167,17 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
         return super().perform_content_negotiation(request, force)
 
     def download_file(self, filename, content_type, component=None):
-        """Wrapper for file download."""
+        """Download file."""
         if os.path.isdir(filename):
-            response = zip_download(filename, filename)
-            filename = "{}.zip".format(component.slug if component else "weblate")
+            response = zip_download(filename, [filename])
+            basename = component.slug if component else "weblate"
+            filename = f"{basename}.zip"
         else:
-            with open(filename, "rb") as handle:
-                response = HttpResponse(handle.read(), content_type=content_type)
+            try:
+                with open(filename, "rb") as handle:
+                    response = HttpResponse(handle.read(), content_type=content_type)
+            except FileNotFoundError as error:
+                raise Http404("File not found") from error
             filename = os.path.basename(filename)
         response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
@@ -199,14 +190,11 @@ class WeblateViewSet(DownloadViewSet):
         permission, method, args, takes_request = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         obj.acting_user = request.user
 
-        if takes_request:
-            args = args + (request,)
-        else:
-            args = args + (request.user,)
+        args = (*args, request) if takes_request else (*args, request.user)
 
         return getattr(obj, method)(*args)
 
@@ -240,7 +228,7 @@ class WeblateViewSet(DownloadViewSet):
             return Response(data)
 
         if not request.user.has_perm("meta:vcs.status", project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         data = {
             "needs_commit": obj.needs_commit(),
@@ -253,23 +241,25 @@ class WeblateViewSet(DownloadViewSet):
                 "api:project-repository", kwargs={"slug": obj.slug}, request=request
             )
         else:
-
             if isinstance(obj, Translation):
                 component = obj.component
                 data["url"] = reverse(
                     "api:translation-repository",
-                    kwargs={
-                        "component__project__slug": component.project.slug,
-                        "component__slug": component.slug,
-                        "language__code": obj.language.code,
-                    },
+                    kwargs=get_reverse_kwargs(
+                        obj,
+                        (
+                            "component__project__slug",
+                            "component__slug",
+                            "language__code",
+                        ),
+                    ),
                     request=request,
                 )
             else:
                 component = obj
                 data["url"] = reverse(
                     "api:component-repository",
-                    kwargs={"project__slug": obj.project.slug, "slug": obj.slug},
+                    kwargs=get_reverse_kwargs(obj, ("project__slug", "slug")),
                     request=request,
                 )
 
@@ -286,6 +276,48 @@ class WeblateViewSet(DownloadViewSet):
                 data["merge_failure"] = None
 
         return Response(data)
+
+
+class MultipleFieldViewSet(WeblateViewSet):
+    """
+    Multiple field filtering mixin.
+
+    Apply this mixin to any view or viewset to get multiple field filtering based on a
+    `lookup_fields` attribute, instead of the default single field filtering.
+    """
+
+    def get_object(self):
+        # Get the base queryset
+        queryset = self.get_queryset()
+        # Apply any filter backends
+        queryset = self.filter_queryset(queryset)
+        # Generate lookup
+        lookup = {}
+        category_path = ""
+        for field in reversed(self.lookup_fields):
+            if field not in {"component__slug", "slug"}:
+                lookup[field] = self.kwargs[field]
+            else:
+                category_prefix = field[:-4]
+                was_category = False
+                was_slug = False
+                # Fetch component part for possible category
+                for category in reversed(unquote(self.kwargs[field]).split("/")):
+                    if not was_slug:
+                        # Component filter
+                        lookup[field] = category
+                        was_slug = True
+                    else:
+                        # Strip "slug" from category field
+                        category_path = f"category__{category_path}"
+                        lookup[f"{category_prefix}{category_path}slug"] = category
+                        was_category = True
+                if not was_category:
+                    # No category
+                    lookup[f"{category_prefix}category"] = None
+
+        # Lookup the object
+        return get_object_or_404(queryset, **lookup)
 
 
 class UserFilter(filters.FilterSet):
@@ -312,7 +344,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.order_by("id")
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
 
@@ -330,20 +362,23 @@ class UserViewSet(viewsets.ModelViewSet):
         remove_user(instance, request)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post", "delete"])
     def groups(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
         if "group_id" not in request.data:
-            raise ParseError("Missing group_id parameter")
+            raise ValidationError("Missing group_id parameter")
 
         try:
             group = Group.objects.get(pk=int(request.data["group_id"]))
         except (Group.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
-        obj.groups.add(group)
+        if request.method == "POST":
+            obj.add_team(request, group)
+        if request.method == "DELETE":
+            obj.remove_team(request, group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -426,10 +461,16 @@ class GroupViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
             return Group.objects.order_by("id")
-        return self.request.user.groups.order_by("id")
+        return self.request.user.groups.order_by(
+            "id"
+        ) | self.request.user.administered_group_set.order_by("id")
 
-    def perm_check(self, request):
-        if not request.user.has_perm("group.edit"):
+    def perm_check(
+        self, request: AuthenticatedHttpRequest, group: Group | None = None
+    ) -> None:
+        if (group is None and not self.request.user.has_perm("group.edit")) or (
+            group is not None and not request.user.has_perm("meta:team.edit", group)
+        ):
             self.permission_denied(request, "Can not manage groups")
 
     def update(self, request, *args, **kwargs):
@@ -450,12 +491,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "role_id" not in request.data:
-            raise ParseError("Missing role_id parameter")
+            raise ValidationError("Missing role_id parameter")
 
         try:
             role = Role.objects.get(pk=int(request.data["role_id"]))
         except (Role.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -471,12 +512,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "language_code" not in request.data:
-            raise ParseError("Missing language_code parameter")
+            raise ValidationError("Missing language_code parameter")
 
         try:
             language = Language.objects.get(code=request.data["language_code"])
         except (Language.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -486,7 +527,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
-    def delete_languages(self, request, id, language_code):
+    def delete_languages(self, request, id, language_code):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -506,21 +547,21 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "project_id" not in request.data:
-            raise ParseError("Missing project_id parameter")
+            raise ValidationError("Missing project_id parameter")
 
         try:
             project = Project.objects.get(
                 pk=int(request.data["project_id"]),
             )
         except (Project.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
-    def delete_projects(self, request, id, project_id):
+    def delete_projects(self, request, id, project_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -537,14 +578,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "component_list_id" not in request.data:
-            raise ParseError("Missing component_list_id parameter")
+            raise ValidationError("Missing component_list_id parameter")
 
         try:
             component_list = ComponentList.objects.get(
                 pk=int(request.data["component_list_id"]),
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -555,7 +596,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         methods=["delete"],
         url_path="componentlists/(?P<component_list_id>[0-9]+)",
     )
-    def delete_componentlists(self, request, id, component_list_id):
+    def delete_componentlists(self, request, id, component_list_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
         try:
@@ -573,14 +614,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
         if "component_id" not in request.data:
-            raise ParseError("Missing component_id parameter")
+            raise ValidationError("Missing component_id parameter")
 
         try:
             component = Component.objects.filter_access(request.user).get(
                 pk=int(request.data["component_id"])
             )
         except (Component.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -589,7 +630,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
-    def delete_components(self, request, id, component_id):
+    def delete_components(self, request, id, component_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -599,6 +640,35 @@ class GroupViewSet(viewsets.ModelViewSet):
             raise Http404(str(error))
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["post"], url_path="admins")
+    def grant_admin(self, request, id):  # noqa: A002
+        group = self.get_object()
+        self.perm_check(request, group)
+        user_id = request.data.get("user_id")
+        if not user_id:
+            raise ValidationError("User ID is required")
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise ValidationError("User not found")
+        group.admins.add(user)
+        user.add_team(request, group)
+        return Response({"Administration rights granted."}, status=HTTP_200_OK)
+
+    @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
+    def revoke_admin(self, request, id, user_pk):  # noqa: A002
+        group = self.get_object()
+        self.perm_check(request, group)
+        try:
+            user = group.admins.get(pk=user_pk)  # Using user_pk from the URL path
+        except User.DoesNotExist:
+            raise ValidationError("User not found")
+
+        group.admins.remove(user)
+        serializer = GroupSerializer(group, context={"request": request})
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class RoleViewSet(viewsets.ModelViewSet):
@@ -617,7 +687,7 @@ class RoleViewSet(viewsets.ModelViewSet):
             .distinct()
         )
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("role.edit"):
             self.permission_denied(request, "Can not manage roles")
 
@@ -639,12 +709,18 @@ class ProjectViewSet(
 ):
     """Translation projects API."""
 
+    raw_urls: tuple[str, ...] = "project-file"
+    raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
+
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = "slug"
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
-        return self.request.user.allowed_projects.order_by("id")
+        return self.request.user.allowed_projects.prefetch_related(
+            "addon_set"
+        ).order_by("id")
 
     @action(
         detail=True,
@@ -687,6 +763,17 @@ class ProjectViewSet(
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get"])
+    def categories(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.category_set.order_by("id")
+        page = self.paginate_queryset(queryset)
+
+        serializer = CategorySerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
@@ -698,13 +785,17 @@ class ProjectViewSet(
     def languages(self, request, **kwargs):
         obj = self.get_object()
 
-        return Response(get_project_stats(obj))
+        serializer = StatisticsSerializer(
+            obj.stats.get_language_stats(), many=True, context={"request": request}
+        )
+
+        return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(project=obj).order_by("id")
+        queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -712,13 +803,53 @@ class ProjectViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=True, methods=["get", "post"])
+    def labels(self, request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", obj):
+                self.permission_denied(request, "Can not create labels")
+            with transaction.atomic():
+                serializer = LabelSerializer(
+                    data=request.data, context={"request": request, "project": obj}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(project=obj)
+                return Response(
+                    serializer.data,
+                    status=HTTP_201_CREATED,
+                )
+
+        queryset = obj.label_set.all().order_by("id")
+        page = self.paginate_queryset(queryset)
+
+        serializer = LabelSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def addons(self, request, **kwargs):
+        obj = self.get_object()
+        obj.acting_user = request.user
+
+        if not request.user.has_perm("project.edit", obj):
+            self.permission_denied(request, "Can not create addon")
+
+        serializer = AddonSerializer(
+            data=request.data, context={"request": request, "project": obj}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save(project=obj)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+
     def create(self, request, *args, **kwargs):
         if not request.user.has_perm("project.add"):
             self.permission_denied(request, "Can not create projects")
         self.request = request
         return super().create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         with transaction.atomic():
             super().perform_create(serializer)
             if (
@@ -750,11 +881,38 @@ class ProjectViewSet(
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=["get"])
+    def file(self, request, **kwargs):
+        instance = self.get_object()
 
-class ComponentViewSet(
-    MultipleFieldMixin, WeblateViewSet, UpdateModelMixin, DestroyModelMixin
-):
+        if not request.user.has_perm("translation.download", instance):
+            raise PermissionDenied
+
+        components = instance.component_set.filter_access(request.user)
+        requested_format = request.query_params.get("format", "zip")
+        requested_language = request.query_params.get("language_code", None)
+
+        if requested_language:
+            translations = Translation.objects.filter(
+                language__code=requested_language, component__in=components
+            )
+        else:
+            translations = Translation.objects.filter(component__in=components)
+
+        return download_multi(
+            request,
+            translations,
+            [instance],
+            requested_format,
+            name=instance.slug,
+        )
+
+
+class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin):
     """Translation components API."""
+
+    raw_urls: tuple[str, ...] = ("component-file",)
+    raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
 
     queryset = Component.objects.none()
     serializer_class = ComponentSerializer
@@ -762,9 +920,9 @@ class ComponentViewSet(
 
     def get_queryset(self):
         return (
-            Component.objects.prefetch()
+            Component.objects.prefetch(defer=False)
             .filter_access(self.request.user)
-            .prefetch_related("source_language")
+            .prefetch_related("source_language", "addon_set")
             .order_by("id")
         )
 
@@ -776,7 +934,7 @@ class ComponentViewSet(
 
         if request.method == "POST":
             if not request.user.has_perm("component.lock", obj):
-                raise PermissionDenied()
+                raise PermissionDenied
 
             serializer = LockRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -814,23 +972,26 @@ class ComponentViewSet(
                 self.permission_denied(request, "Can not create translation")
 
             if "language_code" not in request.data:
-                raise ParseError("Missing 'language_code' parameter")
+                raise ValidationError("Missing 'language_code' parameter")
 
             language_code = request.data["language_code"]
 
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
-                raise ParseError(
-                    f"No language code '{language_code}' found!", "invalid"
-                )
+                raise ValidationError(f"No language code {language_code!r} found!")
 
             if not obj.can_add_new_language(request.user):
-                self.permission_denied(
-                    request, message="Could not add new translation file."
-                )
+                self.permission_denied(request, message=obj.new_lang_error_message)
 
             translation = obj.add_new_language(language, request)
+            if translation is None:
+                storage = get_messages(request)
+                error = f"Could not add {language_code!r}!"
+                if storage:
+                    error = "\n".join(m.message for m in storage)
+                raise ValidationError(error)
+
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
             )
@@ -849,6 +1010,7 @@ class ComponentViewSet(
     @action(detail=True, methods=["post"])
     def addons(self, request, **kwargs):
         obj = self.get_object()
+        obj.acting_user = request.user
 
         if not request.user.has_perm("component.edit", obj):
             self.permission_denied(request, "Can not create addon")
@@ -875,7 +1037,7 @@ class ComponentViewSet(
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(component=obj).order_by("id")
+        queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -909,28 +1071,31 @@ class ComponentViewSet(
         component_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    def add_link(self, request, instance: Component):
+        if not request.user.has_perm("component.edit", instance):
+            self.permission_denied(request, "Can not edit component")
+        if "project_slug" not in request.data:
+            raise ValidationError("Missing 'project_slug' parameter")
+
+        project_slug = request.data["project_slug"]
+
+        try:
+            project = request.user.allowed_projects.exclude(pk=instance.project_id).get(
+                slug=project_slug
+            )
+        except Project.DoesNotExist:
+            raise ValidationError(f"No project slug {project_slug!r} found!")
+
+        instance.links.add(project)
+        serializer = self.serializer_class(instance, context={"request": request})
+
+        return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+
     @action(detail=True, methods=["get", "post"])
     def links(self, request, **kwargs):
         instance = self.get_object()
         if request.method == "POST":
-            if not request.user.has_perm("component.edit", instance):
-                self.permission_denied(request, "Can not edit component")
-            if "project_slug" not in request.data:
-                raise ParseError("Missing 'project_slug' parameter")
-
-            project_slug = request.data["project_slug"]
-
-            try:
-                project = request.user.allowed_projects.exclude(
-                    pk=instance.project_id
-                ).get(slug=project_slug)
-            except Project.DoesNotExist:
-                raise ParseError(f"No project slug '{project_slug}' found!")
-
-            instance.links.add(project)
-            serializer = self.serializer_class(instance, context={"request": request})
-
-            return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+            return self.add_link(request, instance)
 
         queryset = instance.links.order_by("id")
         page = self.paginate_queryset(queryset)
@@ -952,8 +1117,8 @@ class ComponentViewSet(
         instance.links.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=["get"], url_path="file")
-    def download_archive(self, request, **kwargs):
+    @action(detail=True, methods=["get"])
+    def file(self, request, **kwargs):
         # Implementation is analogous to files#download_component, but we can't reuse
         #  that here because the lookup for the component is different
         instance = self.get_object()
@@ -964,6 +1129,7 @@ class ComponentViewSet(
 
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
+            request,
             instance.translation_set.all(),
             [instance],
             requested_format,
@@ -971,7 +1137,28 @@ class ComponentViewSet(
         )
 
 
-class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
+class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
+    """Memory API."""
+
+    queryset = Memory.objects.none()
+    serializer_class = MemorySerializer
+
+    def get_queryset(self):
+        if not self.request.user.is_superuser:
+            self.permission_denied(self.request, "Access not allowed")
+        return Memory.objects.order_by("id")
+
+    def perm_check(self, request, instance) -> None:
+        if not request.user.has_perm("memory.delete", instance):
+            self.permission_denied(request, "Can not delete memory entry")
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        return super().destroy(request, *args, **kwargs)
+
+
+class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
     """Translation components API."""
 
     queryset = Translation.objects.none()
@@ -1002,12 +1189,23 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         user = request.user
         if request.method == "GET":
             if not user.has_perm("translation.download", obj):
-                raise PermissionDenied()
+                raise PermissionDenied
             fmt = self.format_kwarg or request.query_params.get("format")
-            return download_translation_file(request, obj, fmt)
+            query_string = request.GET.get("q", "")
+            if query_string and not fmt:
+                raise ValidationError({"q": "Query string is ignored without format"})
+            try:
+                parse_query(query_string)
+            except Exception as error:
+                report_error(project=obj.component.project)
+                raise ValidationError({"q": f"Could not parse query string: {error}"})
+            try:
+                return download_translation_file(request, obj, fmt, query_string)
+            except Http404 as error:
+                raise ValidationError({"format": str(error)})
 
         if not user.has_perm("upload.perform", obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1022,7 +1220,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             author_email = data.get("author_email")
 
         try:
-            not_found, skipped, accepted, total = obj.merge_upload(
+            not_found, skipped, accepted, total = obj.handle_upload(
                 request,
                 data["file"],
                 data["conflicts"],
@@ -1031,21 +1229,23 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 data["method"],
                 data["fuzzy"],
             )
-
-            return Response(
-                data={
-                    "not_found": not_found,
-                    "skipped": skipped,
-                    "accepted": accepted,
-                    "total": total,
-                    # Compatibility with older less detailed API
-                    "result": accepted > 0,
-                    "count": total,
-                }
-            )
         except Exception as error:
-            report_error(cause="Upload error", print_tb=True)
-            raise ParseError(str(error), "invalid")
+            report_error(
+                cause="Upload error", print_tb=True, project=obj.component.project
+            )
+            raise ValidationError({"file": str(error)})
+
+        return Response(
+            data={
+                "not_found": not_found,
+                "skipped": skipped,
+                "accepted": accepted,
+                "total": total,
+                # Compatibility with older less detailed API
+                "result": accepted > 0,
+                "count": total,
+            }
+        )
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
@@ -1059,7 +1259,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(translation=obj).order_by("id")
+        queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -1071,31 +1271,33 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def units(self, request, **kwargs):
         obj = self.get_object()
 
+        serializer_class: type[NewUnitSerializer]
         if obj.component.template:
             serializer_class = MonolingualUnitSerializer
         else:
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            if not request.user.has_perm("unit.add", obj):
-                self.permission_denied(request, "Can not add unit")
+            can_add = request.user.has_perm("unit.add", obj)
+            if not can_add:
+                self.permission_denied(request, can_add.reason)
             serializer = serializer_class(
                 data=request.data, context={"translation": obj}
             )
             serializer.is_valid(raise_exception=True)
 
-            obj.add_unit(request, **serializer.as_kwargs())
-            serializer = self.serializer_class(obj, context={"request": request})
-            return Response(serializer.data, status=HTTP_200_OK)
+            unit = obj.add_unit(request, **serializer.as_kwargs())
+            outserializer = UnitSerializer(unit, context={"request": request})
+            return Response(outserializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
         try:
             parse_query(query_string)
         except Exception as error:
             report_error()
-            raise ValidationError(f"Failed to parse query string: {error}")
+            raise ValidationError(f"Could not parse query string: {error}")
 
-        queryset = obj.unit_set.search(query_string).order_by("id").prefetch()
+        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_full()
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -1110,15 +1312,15 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if translation.component.locked:
             self.permission_denied(request, "Component is locked")
 
-        autoform = AutoForm(translation.component, request.data)
+        autoform = AutoForm(translation.component, request.user, request.data)
         if not autoform.is_valid():
-            errors = {}
+            errors: dict[str, str] = {}
             for field in autoform:
                 for error in field.errors:
                     if field.name in errors:
                         errors[field.name] += f", {error}"
                     else:
-                        errors[field.name] = error
+                        errors[field.name] = str(error)
             raise ValidationError(errors)
 
         return Response(
@@ -1154,10 +1356,10 @@ class LanguageViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("language.edit"):
-            return Language.objects.order_by("id")
-        return Language.objects.have_translation().order_by("id")
+            return Language.objects.order_by("id").prefetch()
+        return Language.objects.have_translation().order_by("id").prefetch()
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("language.edit"):
             self.permission_denied(request, "Can not manage languages")
 
@@ -1185,11 +1387,13 @@ class LanguageViewSet(viewsets.ModelViewSet):
 class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
 
+    pagination_class = LargePagination
+
     queryset = Unit.objects.none()
 
     def get_serializer(self, instance, *args, **kwargs):
         # Get correct serializer based on action and instance
-        if self.action in ("list", "retrieve"):
+        if self.action in {"list", "retrieve"}:
             serializer_class = UnitSerializer
         else:
             serializer_class = UnitWriteSerializer
@@ -1197,15 +1401,33 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return serializer_class(instance, *args, **kwargs)
 
     def get_queryset(self):
-        return Unit.objects.filter_access(self.request.user).order_by("id")
+        return (
+            Unit.objects.filter_access(self.request.user)
+            .prefetch()
+            .prefetch_full()
+            .order_by("id")
+        )
 
-    def perform_update(self, serializer):
+    def filter_queryset(self, queryset):
+        result = super().filter_queryset(queryset)
+        query_string = self.request.GET.get("q", "")
+        try:
+            parse_query(query_string)
+        except Exception as error:
+            report_error()
+            raise ValidationError(f"Could not parse query string: {error}")
+        if query_string:
+            result = result.search(query_string)
+        return result
+
+    def perform_update(self, serializer) -> None:  # noqa: C901
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
-        do_source = "extra_flags" in data or "explanation" in data
+        do_source = "extra_flags" in data or "explanation" in data or "labels" in data
         unit = serializer.instance
         translation = unit.translation
-        user = self.request.user
+        request = self.request
+        user = request.user
 
         new_target = data.get("target", [])
         new_state = data.get("state", None)
@@ -1214,37 +1436,48 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if do_source and (
             not unit.is_source or not user.has_perm("source.edit", translation)
         ):
-            raise PermissionDenied()
+            self.permission_denied(
+                request, "Source strings properties can be set only on source strings"
+            )
 
         if do_translate:
+            new_target_copy = new_target[:]
+            if new_target_copy != unit.adjust_plurals(new_target):
+                raise ValidationError({"target": "Number of plurals does not match"})
+
             if unit.readonly:
-                raise PermissionDenied()
+                self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:
-                raise ParseError(
+                raise ValidationError(
                     "Please provide both state and target for a partial update"
                 )
 
-            if new_state not in (
+            if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
                 STATE_FUZZY,
                 STATE_EMPTY,
-            ):
-                raise ParseError("Invalid state")
+            }:
+                raise ValidationError({"state": "Invalid state"})
 
             if new_state == STATE_EMPTY and any(new_target):
-                raise ParseError("Can not use empty state with non empty target")
+                raise ValidationError(
+                    {"state": "Can not use empty state with non empty target"}
+                )
 
             if new_state != STATE_EMPTY and not any(new_target):
-                raise ParseError("Can not use non empty state with empty target")
+                raise ValidationError(
+                    {"state": "Can not use non empty state with empty target"}
+                )
 
-            if not user.has_perm("unit.edit", unit):
-                raise PermissionDenied()
+            can_edit = user.has_perm("unit.edit", unit)
+            if not can_edit:
+                self.permission_denied(request, can_edit.reason)
 
-            if new_state == STATE_APPROVED and not user.has_perm(
-                "unit.review", translation
-            ):
-                raise PermissionDenied()
+            if new_state == STATE_APPROVED:
+                can_review = user.has_perm("unit.review", translation)
+                if not can_review:
+                    raise ValidationError({"state": can_review.reason})
 
         # Update attributes
         if do_source:
@@ -1254,6 +1487,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                     setattr(unit, name, data[name])
                 except KeyError:
                     continue
+            if "labels" in data:
+                unit.labels.set(data["labels"])
             unit.save(update_fields=fields)
 
         # Handle translate
@@ -1262,9 +1497,17 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
-        if not request.user.has_perm("unit.delete", obj):
-            self.permission_denied(request, "Can not remove string")
-        obj.translation.delete_unit(request, obj)
+        can_delete = request.user.has_perm("unit.delete", obj)
+        if not can_delete:
+            self.permission_denied(request, can_delete.reason)
+        try:
+            obj.translation.delete_unit(request, obj)
+        except FileParseError as error:
+            obj.translation.component.update_import_alerts(delete=False)
+            return Response(
+                data={"error": f"Could not remove the string: {error}"},
+                status=HTTP_500_INTERNAL_SERVER_ERROR,
+            )
         return Response(status=HTTP_204_NO_CONTENT)
 
 
@@ -1274,6 +1517,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     queryset = Screenshot.objects.none()
     serializer_class = ScreenshotSerializer
     raw_urls = ("screenshot-file",)
+    raw_formats = ()
 
     def get_queryset(self):
         return Screenshot.objects.filter_access(self.request.user).order_by("id")
@@ -1294,7 +1538,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             return self.download_file(obj.image.path, "application/binary")
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         serializer = ScreenshotFileSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1310,15 +1554,15 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         obj = self.get_object()
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         if "unit_id" not in request.data:
-            raise ParseError("Missing unit_id parameter")
+            raise ValidationError({"unit_id": "This field is required."})
 
         try:
             unit = obj.translation.unit_set.get(pk=int(request.data["unit_id"]))
         except (Unit.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError({"unit_id": str(error)})
 
         obj.units.add(unit)
         serializer = ScreenshotSerializer(obj, context={"request": request})
@@ -1329,7 +1573,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def delete_units(self, request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         try:
             unit = obj.translation.unit_set.get(pk=unit_id)
@@ -1342,7 +1586,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
-                raise ParseError(f"Missing {param} parameter")
+                raise ValidationError({param: "This field is required."})
 
         try:
             translation = Translation.objects.get(
@@ -1351,7 +1595,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 language__code=request.data["language_code"],
             )
         except Translation.DoesNotExist as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError({key: str(error) for key in required_params})
 
         if not request.user.has_perm("screenshot.add", translation):
             self.permission_denied(request, "Can not add screenshot.")
@@ -1405,7 +1649,7 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (ChangesFilterBackend,)
 
     def get_queryset(self):
-        return Change.objects.last_changes(self.request.user).order_by("id")
+        return Change.objects.last_changes(self.request.user)
 
     def paginate_queryset(self, queryset):
         result = super().paginate_queryset(queryset)
@@ -1418,18 +1662,20 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     queryset = ComponentList.objects.none()
     serializer_class = ComponentListSerializer
     lookup_field = "slug"
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return (
             ComponentList.objects.filter(
-                Q(components__project_id__in=self.request.user.allowed_project_ids)
+                Q(components__project__in=self.request.user.allowed_projects)
                 | Q(components__isnull=True)
             )
+            .prefetch_related("components__project", "autocomponentlist_set")
             .order_by("id")
             .distinct()
         )
 
-    def perm_check(self, request):
+    def perm_check(self, request) -> None:
         if not request.user.has_perm("componentlist.edit"):
             self.permission_denied(request, "Can not manage component lists")
 
@@ -1445,25 +1691,35 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post", "get"])
     def components(self, request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        if request.method == "POST":
+            self.perm_check(request)
 
-        if "component_id" not in request.data:
-            raise ParseError("Missing component_id parameter")
+            if "component_id" not in request.data:
+                raise ValidationError({"component_id": "This field is required."})
 
-        try:
-            component = Component.objects.filter_access(self.request.user).get(
-                pk=int(request.data["component_id"]),
-            )
-        except (Component.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            try:
+                component = Component.objects.filter_access(self.request.user).get(
+                    pk=int(request.data["component_id"]),
+                )
+            except (Component.DoesNotExist, ValueError) as error:
+                raise ValidationError({"component_id": str(error)})
 
-        obj.components.add(component)
-        serializer = self.serializer_class(obj, context={"request": request})
+            obj.components.add(component)
+            serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=HTTP_200_OK)
+            return Response(serializer.data, status=HTTP_200_OK)
+
+        queryset = (
+            obj.components.filter_access(self.request.user).prefetch().order_by("id")
+        )
+        page = self.paginate_queryset(queryset)
+
+        serializer = ComponentSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
 
     @action(
         detail=True,
@@ -1482,14 +1738,68 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    """Category API."""
+
+    queryset = Category.objects.none()
+    serializer_class = CategorySerializer
+    lookup_field = "pk"
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+
+    def get_queryset(self):
+        return Category.objects.filter(
+            project__in=self.request.user.allowed_projects
+        ).order_by("id")
+
+    def perm_check(self, request, instance) -> None:
+        if not request.user.has_perm("project.edit", instance):
+            self.permission_denied(request, "Can not manage categories")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request, self.get_object())
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        category_removal.delay(instance.pk, request.user.pk)
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    def perform_create(self, serializer) -> None:
+        if not self.request.user.has_perm(
+            "project.edit", serializer.validated_data["project"]
+        ):
+            self.permission_denied(
+                self.request, "Can not manage categories in this project"
+            )
+        serializer.save()
+
+    def perform_update(self, serializer) -> None:
+        if not self.request.user.has_perm(
+            "project.edit",
+            serializer.validated_data.get("project", serializer.instance.project),
+        ):
+            self.permission_denied(
+                self.request, "Can not manage categories in this project"
+            )
+        serializer.instance.acting_user = self.request.user
+        serializer.save()
+
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = StatisticsSerializer(obj, context={"request": request})
+
+        return Response(serializer.data)
+
+
 class Metrics(APIView):
     """Metrics view for monitoring."""
 
     permission_classes = (IsAuthenticated,)
 
-    # pylint: disable=redefined-builtin
-    def get(self, request, format=None):
-        """Return a list of all users."""
+    def get(self, request, format=None):  # noqa: A002
         stats = GlobalStats()
         return Response(
             {
@@ -1512,8 +1822,67 @@ class Metrics(APIView):
         )
 
 
+class Search(APIView):
+    """Site-wide search endpoint."""
+
+    def get(self, request, format=None):  # noqa: A002
+        user = request.user
+        projects = user.allowed_projects
+        components = Component.objects.filter(project__in=projects)
+        category = Category.objects.filter(project__in=projects)
+        results: list[dict[str, str]] = []
+        query = request.GET.get("q")
+        if query and "\x00" not in query:
+            results.extend(
+                {
+                    "url": project.get_absolute_url(),
+                    "name": project.name,
+                    "category": gettext("Project"),
+                }
+                for project in projects.search(query).order()[:5]
+            )
+            results.extend(
+                {
+                    "url": category.get_absolute_url(),
+                    "name": str(category),
+                    "category": gettext("Category"),
+                }
+                for category in category.search(query).order()[:5]
+            )
+            results.extend(
+                {
+                    "url": component.get_absolute_url(),
+                    "name": str(component),
+                    "category": gettext("Component"),
+                }
+                for component in components.search(query).order()[:5]
+            )
+            results.extend(
+                {
+                    "url": user.get_absolute_url(),
+                    "name": user.username,
+                    "category": gettext("User"),
+                }
+                for user in User.objects.search(query, parser="plain").order()[:5]
+            )
+            results.extend(
+                {
+                    "url": language.get_absolute_url(),
+                    "name": language.name,
+                    "category": gettext("Language"),
+                }
+                for language in Language.objects.search(query).order()[:5]
+            )
+
+        return Response(results)
+
+
 class TasksViewSet(ViewSet):
-    def get_task(self, request, pk, permission: Optional[str] = None) -> AsyncResult:
+    def get_task(
+        self, request, pk, permission: str | None = None
+    ) -> tuple[AsyncResult, Component | None]:
+        obj: Model
+        component: Component
         task = AsyncResult(str(pk))
         result = task.result
         if task.state == "PENDING" or isinstance(result, Exception):
@@ -1534,9 +1903,9 @@ class TasksViewSet(ViewSet):
             # Check access or permission
             if permission:
                 if not request.user.has_perm(permission, obj):
-                    raise PermissionDenied()
+                    raise PermissionDenied
             elif not request.user.can_access_component(component):
-                raise PermissionDenied()
+                raise PermissionDenied
 
         return task, component
 
@@ -1563,20 +1932,33 @@ class TasksViewSet(ViewSet):
 
 
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
-
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 
     def perm_check(self, request, instance: Addon):
-        if not request.user.has_perm("component.edit", instance.component):
+        if instance.component and not request.user.has_perm(
+            "component.edit", instance.component
+        ):
+            self.permission_denied(request, "Can not manage addons")
+        if instance.project and not request.user.has_perm(
+            "project.edit", instance.project
+        ):
             self.permission_denied(request, "Can not manage addons")
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        if instance.component:
+            instance.component.acting_user = request.user
+        if instance.project:
+            instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        if instance.component:
+            instance.component.acting_user = request.user
+        if instance.project:
+            instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)

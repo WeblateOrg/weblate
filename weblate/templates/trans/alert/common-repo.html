@@ -1,0 +1,37 @@
+{% load i18n %}
+
+{% if analysis.not_found %}
+  <p>{% trans "The upstream repository was not found. Please check whether it exists and is accessible to Weblate." %}</p>
+{% endif %}
+
+{% if analysis.permission %}
+  <p>{% trans "The upstream repository could not be accessed. Please check whether it is accessible to Weblate." %}</p>
+{% endif %}
+
+{% if analysis.gerrit %}
+  <p>{% trans "Gerrit prohibited this push. You might need a gerrit-account that has the forge author permissions for the repository/branch or have to use the squash addon on this component in Weblate." %}</p>
+{% endif %}
+
+{% if analysis.temporary %}
+  <p>{% trans "The upstream repository could not be temporarily accessed. Please try it again later." %}</p>
+{% endif %}
+
+{% if analysis.terminal %}
+  <p>{% trans "Your repository URL seems to miss credentials. Either provide them in the URL or use SSH with key based authentication." %}</p>
+{% endif %}
+
+{% if analysis.repo_suggestion %}
+  <p>{% trans "You might want to use following URL instead:" %} <code>{{ analysis.repo_suggestion }}</code></p>
+{% endif %}
+
+{% if analysis.force_push_suggestion %}
+  <p>
+    {% trans "You might want to choose Git with force push as version control system in the component configuration to overwrite the remote repository after rebasing commits in Weblate." %}
+  </p>
+{% elif analysis.behind %}
+  <p>
+    {% trans "The Weblate repository is missing some commits from upstream. Perhaps it is not receiving notifications upon updates of the remote repository." %}
+  </p>
+{% endif %}
+
+<p>{% trans "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}</p>

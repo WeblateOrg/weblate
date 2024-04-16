@@ -1,41 +1,34 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 from django.db import transaction
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
+from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def import_memory(project_id):
+def import_memory(project_id: int, component_id: int | None = None) -> None:
     from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)
 
-    for component in project.component_set.iterator():
+    components = project.component_set.prefetch()
+    if component_id:
+        components = components.filter(id=component_id)
+
+    for component in components:
+        component.log_info("updating translation memory")
         with transaction.atomic():
             units = Unit.objects.filter(
                 translation__component=component, state__gte=STATE_TRANSLATED
-            )
+            ).exclude(target="")
             if not component.intermediate:
                 units = units.exclude(
                     translation__language_id=component.source_language_id
@@ -45,22 +38,20 @@ def import_memory(project_id):
 
 
 @app.task(trail=False)
-def handle_unit_translation_change(unit_id, user_id=None):
+def handle_unit_translation_change(unit_id, user_id=None) -> None:
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
-    unit = Unit.objects.select_related(
-        "translation",
-        "translation__language",
-        "translation__component",
-        "translation__component__source_language",
-        "translation__component__project",
-    ).get(pk=unit_id)
+    try:
+        unit = Unit.objects.prefetch().get(pk=unit_id)
+    except Unit.DoesNotExist:
+        # Unit was removed meanwhile
+        return
     update_memory(user, unit)
 
 
-def update_memory(user, unit, component=None, project=None):
+def update_memory(user, unit, component=None, project=None) -> None:
     component = component or unit.translation.component
     project = project or component.project
     params = {
@@ -71,9 +62,12 @@ def update_memory(user, unit, component=None, project=None):
         "origin": component.full_slug,
     }
 
+    if not is_valid_memory_entry(**params):
+        return
+
     add_project = True
     add_shared = project.contribute_shared_tm
-    add_user = user is not None
+    add_user = user is not None and not user.is_bot
 
     # Check matching entries in memory
     for matching in Memory.objects.filter(from_file=False, **params):

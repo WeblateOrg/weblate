@@ -7,6 +7,9 @@
 
 <ol>
 <li>
+{% trans "Open an existing checkout of the upstream repository or perform a fresh one." %}
+</li>
+<li>
 {% trans "Commit all pending changes in Weblate and lock the translation component." %}<br />
 <code>wlc commit; wlc lock</code>
 </li>
@@ -16,11 +19,17 @@
 </li>
 <li>
 {% trans "Merge Weblate changes and resolve any conflicts." %}<br />
-<code>git merge weblate/main</code>
+<code>git merge weblate/{{ component.branch }}</code>
 </li>
+{% if component.merge_style == "rebase" %}
+  <li>
+  {% trans "Rebase Weblate changes on top of upstream and resolve any conflicts." %}<br />
+  <code>git rebase origin/{{ component.branch }}</code>
+  </li>
+{% endif %}
 <li>
 {% trans "Push changes into upstream repository." %}<br />
-<code>git push origin main</code>
+<code>git push origin {{ component.branch }}</code>
 </li>
 <li>
 {% trans "Weblate should now be able to see updated repository and you can unlock it." %}<br />

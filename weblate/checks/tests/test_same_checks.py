@@ -1,40 +1,26 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for quality checks."""
 
-
 from weblate.checks.same import SameCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class SameCheckTest(CheckTestCase):
     check = SameCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_none = ("%(source)s", "%(source)s", "python-format")
         self.test_good_matching = ("source", "translation", "")
         self.test_good_ignore = ("alarm", "alarm", "")
         self.test_failure_1 = ("retezec", "retezec", "")
 
-    def test_same_source_language(self):
+    def test_same_source_language(self) -> None:
         unit = MockUnit(code="en")
         # Is template
         unit.translation.is_template = True
@@ -48,7 +34,7 @@ class SameCheckTest(CheckTestCase):
         unit.translation.language.code = "ia"
         self.assertTrue(self.check.should_skip(unit))
 
-    def test_same_db_screen(self):
+    def test_same_db_screen(self) -> None:
         self.assertTrue(
             self.check.check_single(
                 "some long text is here", "some long text is here", MockUnit(code="de")
@@ -62,14 +48,14 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
-    def test_same_numbers(self):
+    def test_same_numbers(self) -> None:
         self.do_test(False, ("1:4", "1:4", ""))
         self.do_test(False, ("1, 3, 10", "1, 3, 10", ""))
 
-    def test_same_strict(self):
+    def test_same_strict(self) -> None:
         self.do_test(True, ("Linux kernel", "Linux kernel", "strict-same"))
 
-    def test_same_multi(self):
+    def test_same_multi(self) -> None:
         self.do_test(False, ("Linux kernel", "Linux kernel", ""))
         self.do_test(
             True, ("Linux kernel testing image", "Linux kernel testing image", "")
@@ -87,17 +73,25 @@ class SameCheckTest(CheckTestCase):
 
         self.do_test(False, ("i18next", "i18next", ""))
 
-    def test_same_copyright(self):
+    def test_same_copyright(self) -> None:
         self.do_test(
             False,
-            ("(c) Copyright 2013 Michal Čihař", "(c) Copyright 2013 Michal Čihař", ""),
+            (
+                "(c) Copyright © 2013–2023 Michal Čihař",
+                "(c) Copyright © 2013–2023 Michal Čihař",
+                "",
+            ),
         )
         self.do_test(
             False,
-            ("© Copyright 2013 Michal Čihař", "© Copyright 2013 Michal Čihař", ""),
+            (
+                "© Copyright © 2013–2023 Michal Čihař",
+                "© Copyright © 2013–2023 Michal Čihař",
+                "",
+            ),
         )
 
-    def test_same_format(self):
+    def test_same_format(self) -> None:
         self.do_test(False, ("%d.%m.%Y, %H:%M", "%d.%m.%Y, %H:%M", "php-format"))
 
         self.do_test(True, ("%d bajt", "%d bajt", "php-format"))
@@ -123,7 +117,7 @@ class SameCheckTest(CheckTestCase):
         self.do_test(False, ("%+.2<amount>f C", "%+.2<amount>f C", "ruby-format"))
         self.do_test(False, ("%{amount} C", "%{amount} C", "ruby-format"))
 
-    def test_same_rst(self):
+    def test_same_rst(self) -> None:
         self.do_test(False, (":ref:`index`", ":ref:`index`", "rst-text"))
         self.do_test(
             False,
@@ -137,11 +131,11 @@ class SameCheckTest(CheckTestCase):
         self.do_test(False, ("``mysql``", "``mysql``", "rst-text"))
         self.do_test(True, ("Use ``mysql`` module", "Use ``mysql`` module", "rst-text"))
 
-    def test_same_email(self):
+    def test_same_email(self) -> None:
         self.do_test(False, ("michal@cihar.com", "michal@cihar.com", ""))
         self.do_test(True, ("Write michal@cihar.com", "Write michal@cihar.com", ""))
 
-    def test_same_url(self):
+    def test_same_url(self) -> None:
         self.do_test(False, ("https://weblate.org/", "https://weblate.org/", ""))
         self.do_test(True, ("See https://weblate.org/", "See https://weblate.org/", ""))
         self.do_test(
@@ -161,11 +155,11 @@ class SameCheckTest(CheckTestCase):
             ),
         )
 
-    def test_same_channel(self):
+    def test_same_channel(self) -> None:
         self.do_test(False, ("#weblate", "#weblate", ""))
         self.do_test(True, ("Please use #weblate", "Please use #weblate", ""))
 
-    def test_same_domain(self):
+    def test_same_domain(self) -> None:
         self.do_test(False, ("weblate.org", "weblate.org", ""))
         self.do_test(False, ("demo.weblate.org", "demo.weblate.org", ""))
         self.do_test(
@@ -175,7 +169,7 @@ class SameCheckTest(CheckTestCase):
             True, ("Please see demo.weblate.org", "Please see demo.weblate.org", "")
         )
 
-    def test_same_path(self):
+    def test_same_path(self) -> None:
         self.do_test(
             False,
             (
@@ -186,7 +180,7 @@ class SameCheckTest(CheckTestCase):
         )
         self.do_test(True, ("File/path/directory", "File/path/directory", ""))
 
-    def test_same_template(self):
+    def test_same_template(self) -> None:
         self.do_test(
             False, ("{building}: {description}", "{building}: {description}", "")
         )
@@ -194,11 +188,11 @@ class SameCheckTest(CheckTestCase):
         self.do_test(True, ("{building}: summary", "{building}: summary", ""))
         self.do_test(True, ("@NAME@: long text", "@NAME@: long text", ""))
 
-    def test_same_lists(self):
+    def test_same_lists(self) -> None:
         self.do_test(False, ("a.,b.,c.,d.", "a.,b.,c.,d.", ""))
         self.do_test(False, ("i.,ii.,iii.,iv.", "i.,ii.,iii.,iv.", ""))
 
-    def test_same_alphabet(self):
+    def test_same_alphabet(self) -> None:
         self.do_test(
             False,
             (
@@ -212,20 +206,32 @@ class SameCheckTest(CheckTestCase):
             ),
         )
 
-    def test_same_uppercase(self):
+    def test_same_uppercase(self) -> None:
         self.do_test(False, ("RMS", "RMS", ""))
         self.do_test(False, ("<primary>RMS</primary>", "<primary>RMS</primary>", ""))
         self.do_test(True, ("Who is RMS?", "Who is RMS?", ""))
 
-    def test_same_placeholders(self):
+    def test_same_placeholders(self) -> None:
         self.do_test(True, ("%location%", "%location%", ""))
         self.do_test(False, ("%location%", "%location%.", "placeholders:%location%"))
+        self.do_test(
+            False,
+            ("%SCHOOLING_PERIOD%", "%SCHOOLING_PERIOD%", r'placeholders:r"%\w+%"'),
+        )
+        self.do_test(
+            False,
+            (
+                "%SCHOOLING_PERIOD%",
+                "%SCHOOLING_PERIOD%",
+                r'placeholders:r"%\w+%",strict-same',
+            ),
+        )
 
-    def test_same_project(self):
+    def test_same_project(self) -> None:
         self.do_test(False, ("MockProject", "MockProject", ""))
         self.do_test(False, ("mockcomponent", "mockcomponent", ""))
 
-    def test_same_routine(self):
+    def test_same_routine(self) -> None:
         self.do_test(
             False, ("routine 1, routine 2, ...", "routine 1, routine 2, ...", "")
         )
@@ -233,3 +239,53 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             True, ("routine_foobar, routine2, ...", "routine_foobar, routine2, ...", "")
         )
+
+
+class GlossarySameCheckTest(ViewTestCase):
+    check = SameCheck()
+    CREATE_GLOSSARIES = True
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.unit = self.get_unit()
+        self.unit.translate(self.user, self.unit.source, STATE_TRANSLATED)
+        self.unit.check_cache = {}
+        self.unit.glossary_terms = None
+        del self.unit.__dict__["all_flags"]
+        self.glossary = self.project.glossaries[0].translation_set.get(
+            language=self.unit.translation.language
+        )
+
+    def add_glossary(self, source: str, flags: str) -> None:
+        self.glossary.add_unit(None, context="", source=source, extra_flags=flags)
+
+    def add_glossary_words(self, flags: str = "terminology,read-only") -> None:
+        self.add_glossary("hello", flags)
+        self.add_glossary("world", flags)
+
+    def add_glossary_sentence(self, flags: str = "terminology,read-only") -> None:
+        self.add_glossary("Hello, world", flags)
+
+    def test_disabled(self) -> None:
+        self.add_glossary_words()
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_words(self) -> None:
+        self.add_glossary_words()
+        self.unit.extra_flags = "check-glossary"
+        self.assertTrue(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_translatable_words(self) -> None:
+        self.add_glossary_words("terminology")
+        self.unit.extra_flags = "check-glossary"
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_sentence(self) -> None:
+        self.add_glossary_sentence()
+        self.unit.extra_flags = "check-glossary"
+        self.assertTrue(self.check.should_ignore(self.unit.source, self.unit))
+
+    def test_translatable_sentence(self) -> None:
+        self.add_glossary_sentence("terminology")
+        self.unit.extra_flags = "check-glossary"
+        self.assertFalse(self.check.should_ignore(self.unit.source, self.unit))

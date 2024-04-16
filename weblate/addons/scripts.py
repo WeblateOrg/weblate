@@ -1,22 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
 
 import os
 
@@ -29,19 +15,16 @@ class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
     icon = "script.svg"
-    script = None
-    add_file = None
+    script: str
+    add_file: None | str = None
     alert = "AddonScriptError"
 
-    def run_script(self, component=None, translation=None, env=None):
+    def run_script(self, component=None, translation=None, env=None) -> None:
         command = [self.script]
         if translation:
             component = translation.component
             command.append(translation.get_filename())
-        if component.is_repo_link:
-            target = component.linked_component
-        else:
-            target = component
+        target = component.linked_component if component.is_repo_link else component
         environment = {
             "WL_VCS": target.vcs,
             "WL_REPO": target.repo,
@@ -65,16 +48,18 @@ class BaseScriptAddon(BaseAddon):
         self.execute_process(component, command, environment)
         self.trigger_alerts(component)
 
-    def post_push(self, component):
+    def post_push(self, component) -> None:
         self.run_script(component)
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(
+        self, component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         self.run_script(component=component)
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         self.run_script(translation=translation)
 
         if self.add_file:
@@ -84,5 +69,5 @@ class BaseScriptAddon(BaseAddon):
             )
             translation.addon_commit_files.append(filename)
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         self.run_script(translation=translation)

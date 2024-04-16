@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from time import sleep
 
@@ -45,15 +30,15 @@ class RateLimitTest(SimpleTestCase):
         request.user = AnonymousUser()
         return request
 
-    def setUp(self):
+    def setUp(self) -> None:
         # Ensure no rate limits are there
         reset_rate_limit("test", self.get_request())
 
-    def test_basic(self):
+    def test_basic(self) -> None:
         self.assertTrue(check_rate_limit("test", self.get_request()))
 
     @override_settings(RATELIMIT_ATTEMPTS=5, RATELIMIT_WINDOW=60)
-    def test_limit(self):
+    def test_limit(self) -> None:
         request = self.get_request()
         for _unused in range(5):
             self.assertTrue(check_rate_limit("test", request))
@@ -61,7 +46,7 @@ class RateLimitTest(SimpleTestCase):
         self.assertFalse(check_rate_limit("test", request))
 
     @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=1)
-    def test_window(self):
+    def test_window(self) -> None:
         request = self.get_request()
         self.assertTrue(check_rate_limit("test", request))
         sleep(1)
@@ -70,7 +55,7 @@ class RateLimitTest(SimpleTestCase):
         self.assertTrue(check_rate_limit("test", request))
 
     @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=100)
-    def test_lockout(self):
+    def test_lockout(self) -> None:
         request = self.get_request()
         self.assertTrue(check_rate_limit("test", request))
         sleep(1)
@@ -79,7 +64,7 @@ class RateLimitTest(SimpleTestCase):
         self.assertFalse(check_rate_limit("test", request))
 
     @override_settings(RATELIMIT_ATTEMPTS=2, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=100)
-    def test_interval(self):
+    def test_interval(self) -> None:
         request = self.get_request()
         self.assertTrue(check_rate_limit("test", request))
         sleep(1.5)
@@ -90,7 +75,7 @@ class RateLimitTest(SimpleTestCase):
         self.assertTrue(check_rate_limit("test", request))
 
     @override_settings(RATELIMIT_ATTEMPTS=2, RATELIMIT_WINDOW=2)
-    def test_revert(self):
+    def test_revert(self) -> None:
         request = self.get_request()
         self.assertTrue(check_rate_limit("test", request))
         self.assertTrue(check_rate_limit("test", request))
@@ -99,10 +84,12 @@ class RateLimitTest(SimpleTestCase):
         self.assertFalse(check_rate_limit("test", request))
 
     @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=1, RATELIMIT_LOCKOUT=1)
-    def test_post(self):
+    def test_post(self) -> None:
         request = self.get_request()
 
-        limiter = session_ratelimit_post("test")(lambda request: "RESPONSE")
+        limiter = session_ratelimit_post("test")(
+            lambda request: "RESPONSE"  # noqa: ARG005
+        )
 
         # First attempt should work
         self.assertEqual(limiter(request), "RESPONSE")

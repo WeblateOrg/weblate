@@ -1,24 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for markup quality checks."""
-
 
 from weblate.checks.markup import (
     BBCodeCheck,
@@ -37,7 +21,7 @@ from weblate.trans.models import Unit
 class BBCodeCheckTest(CheckTestCase):
     check = BBCodeCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("[a]string[/a]", "[a]string[/a]", "")
         self.test_failure_1 = ("[a]string[/a]", "[b]string[/b]", "")
@@ -48,7 +32,7 @@ class BBCodeCheckTest(CheckTestCase):
 class XMLValidityCheckTest(CheckTestCase):
     check = XMLValidityCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("<a>string</a>", "<a>string</a>", "xml-text")
         self.test_good_none = ("string", "string", "")
@@ -57,10 +41,10 @@ class XMLValidityCheckTest(CheckTestCase):
         self.test_failure_2 = ("<a>string</a>", "<a>string", "")
         self.test_failure_3 = ("<a>string</a>", "<b>string</a>", "xml-text")
 
-    def test_unicode(self):
+    def test_unicode(self) -> None:
         self.do_test(False, ("<a>zkouška</a>", "<a>zkouška</a>", ""))
 
-    def test_not_well_formed(self):
+    def test_not_well_formed(self) -> None:
         self.do_test(
             True, ("<emphasis>1st</emphasis>", "<emphasis>not</ emphasis>", "")
         )
@@ -68,11 +52,11 @@ class XMLValidityCheckTest(CheckTestCase):
             True, ("<emphasis>2nd</emphasis>", "<emphasis>not< /emphasis>", "")
         )
 
-    def test_safe_html(self):
+    def test_safe_html(self) -> None:
         self.do_test(True, ("<br />", "<br>", ""))
         self.do_test(False, ("<br />", "<br>", "safe-html"))
 
-    def test_root(self):
+    def test_root(self) -> None:
         self.do_test(
             False,
             (
@@ -90,14 +74,27 @@ class XMLValidityCheckTest(CheckTestCase):
             ),
         )
 
-    def test_html(self):
+    def test_html(self) -> None:
         self.do_test(False, ("This is<br>valid HTML", "Toto je<br>platne HTML", ""))
+
+    def test_skip_mixed(self) -> None:
+        self.do_test(
+            False,
+            (
+                ["<emphasis>1st</emphasis>", "<invalid>"],
+                "<emphasis>not</ emphasis>",
+                "",
+            ),
+        )
+
+    def test_nonxml(self) -> None:
+        self.do_test(False, ("Source", "<<target>>", ""))
 
 
 class XMLTagsCheckTest(CheckTestCase):
     check = XMLTagsCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("<a>string</a>", "<a>string</a>", "")
         self.test_failure_1 = ("<a>string</a>", "<b>string</b>", "")
@@ -114,16 +111,16 @@ class XMLTagsCheckTest(CheckTestCase):
             ],
         )
 
-    def test_unicode(self):
+    def test_unicode(self) -> None:
         self.do_test(False, ("<a>zkouška</a>", "<a>zkouška</a>", ""))
 
-    def test_attributes(self):
+    def test_attributes(self) -> None:
         self.do_test(False, ('<a href="#">a</a>', '<a href="other">z</a>', ""))
         self.do_test(
             True, ('<a href="#">a</a>', '<a href="#" onclick="alert()">z</a>', "")
         )
 
-    def test_root(self):
+    def test_root(self) -> None:
         self.do_test(
             False,
             (
@@ -145,7 +142,7 @@ class XMLTagsCheckTest(CheckTestCase):
 class MarkdownRefLinkCheckTest(CheckTestCase):
     check = MarkdownRefLinkCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("[a][a1]", "[b][a1]", "md-text")
         self.test_good_none = ("string", "string", "md-text")
@@ -156,7 +153,7 @@ class MarkdownRefLinkCheckTest(CheckTestCase):
 class MarkdownLinkCheckTest(CheckTestCase):
     check = MarkdownLinkCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = (
             "[Use Weblate](https://weblate.org/)",
@@ -180,7 +177,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             "md-text",
         )
 
-    def test_template(self):
+    def test_template(self) -> None:
         self.do_test(
             False,
             (
@@ -190,7 +187,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             ),
         )
 
-    def test_spacing(self):
+    def test_spacing(self) -> None:
         self.do_test(
             True,
             (
@@ -200,7 +197,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             ),
         )
 
-    def test_fixup(self):
+    def test_fixup(self) -> None:
         unit = Unit(
             source="[My Home Page](http://example.com)",
             target="[Moje stránka] (http://example.com)",
@@ -213,14 +210,14 @@ class MarkdownLinkCheckTest(CheckTestCase):
             target="[Moje stránka]",
         )
 
-        self.assertEqual(self.check.get_fixup(unit), None)
+        self.assertIsNone(self.check.get_fixup(unit))
 
-    def test_mutliple_ordered(self):
+    def test_mutliple_ordered(self) -> None:
         self.do_test(
             False,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von [Webspät](#weblate)",
                 "md-text",
@@ -231,7 +228,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             True,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von [Webspät](#Webspät)",
                 "md-text",
@@ -241,14 +238,14 @@ class MarkdownLinkCheckTest(CheckTestCase):
             True,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the useage of [Weblate](#weblate)",
+                "for illustrating the usage of [Weblate](#weblate)",
                 "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
                 "illustriert die Verwendung von Webspät",
                 "md-text",
             ),
         )
 
-    def test_url(self):
+    def test_url(self) -> None:
         self.do_test(
             False,
             (
@@ -266,7 +263,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             ),
         )
 
-    def test_email(self):
+    def test_email(self) -> None:
         self.do_test(
             False,
             (
@@ -288,7 +285,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
 class MarkdownSyntaxCheckTest(CheckTestCase):
     check = MarkdownSyntaxCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("**string**", "**string**", "md-text")
         self.test_good_none = ("string", "string", "md-text")
@@ -317,7 +314,7 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
 class URLCheckTest(CheckTestCase):
     check = URLCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         url = "https://weblate.org/"
         self.test_good_matching = (url, url, "url")
@@ -331,7 +328,7 @@ class URLCheckTest(CheckTestCase):
 class SafeHTMLCheckTest(CheckTestCase):
     check = SafeHTMLCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         safe = '<a href="https://weblate.org/">link</a>'
         self.test_good_matching = (safe, safe, "safe-html")
@@ -341,7 +338,7 @@ class SafeHTMLCheckTest(CheckTestCase):
         self.test_failure_2 = (safe, '<a href="#" onclick="x()">link</a>', "safe-html")
         self.test_failure_3 = (safe, '<iframe src="xxx"></iframe>', "safe-html")
 
-    def test_markdown(self):
+    def test_markdown(self) -> None:
         self.do_test(
             False,
             (

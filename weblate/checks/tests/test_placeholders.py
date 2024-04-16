@@ -1,36 +1,22 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for placeholder quality checks."""
-
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.trans.models import Unit
+from weblate.lang.models import Language, Plural
+from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class PlaceholdersTest(CheckTestCase):
     check = PlaceholderCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("string $URL$", "string $URL$", "placeholders:$URL$")
         self.test_good_none = ("string", "string", "placeholders:")
@@ -44,34 +30,175 @@ class PlaceholdersTest(CheckTestCase):
         )
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
-    def do_test(self, expected, data, lang=None):
+    def do_test(self, expected, data, lang=None) -> None:
         # Skip using check_single as the Check does not use that
         return
 
-    def test_description(self):
-        unit = Unit(source="string $URL$", target="string")
+    def test_description(self) -> None:
+        unit = Unit(
+            source="string $URL$",
+            target="string",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                    file_format="po",
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags("placeholders:$URL$")
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: $URL$",
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="$URL$">$URL$</span>
+            """,
         )
 
-    def test_regexp(self):
-        unit = Unit(source="string $URL$", target="string $FOO$")
+    def test_regexp(self) -> None:
+        unit = Unit(
+            source="string $URL$",
+            target="string $FOO$",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                    file_format="po",
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
         unit.__dict__["all_flags"] = Flags(r"""placeholders:r"(\$)([^$]*)(\$)" """)
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: $URL$"
-            "<br />Following format strings are extra: $FOO$",
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="$URL$">$URL$</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="$FOO$">$FOO$</span>
+            """,
+        )
+
+    def test_whitespace(self) -> None:
+        unit = Unit(
+            source="string {URL} ",
+            target="string {URL}",
+            translation=Translation(
+                component=Component(
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
+                    slug="c",
+                    name="c",
+                    pk=-1,
+                    file_format="po",
+                ),
+                language=Language(),
+                plural=Plural(),
+            ),
+        )
+        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\s?{\w+}\s?" """)
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value=" {URL} ">
+            <span class="hlspace"><span class="space-space">
+            </span></span>
+            {URL}
+            <span class="hlspace"><span class="space-space">
+            </span></span>
+            </span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value=" {URL}">
+            <span class="hlspace"><span class="space-space">
+            </span></span>
+            {URL}
+            </span>
+            """,
+        )
+
+    def test_case_insentivive(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["Hello %WORLD%"],
+                ["Ahoj %world%"],
+                MockUnit(
+                    None,
+                    "placeholders:%WORLD%",
+                    self.default_lang,
+                    "Hello %WORLD%",
+                ),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["Hello %WORLD%"],
+                ["Ahoj %world%"],
+                MockUnit(
+                    None,
+                    "placeholders:%WORLD%,case-insensitive",
+                    self.default_lang,
+                    "Hello %WORLD%",
+                ),
+            )
+        )
+
+
+class PluralPlaceholdersTest(FixtureTestCase):
+    def test_plural(self) -> None:
+        check = PlaceholderCheck()
+        lang = "cs"
+        unit = MockUnit(
+            None,
+            'placeholders:r"%[0-9]"',
+            lang,
+            "1 apple",
+        )
+        unit.translation.language = Language.objects.get(code=lang)
+        unit.translation.plural = unit.translation.language.plural
+        self.assertFalse(
+            check.check_target(
+                ["1 apple", "%1 apples"],
+                ["1 jablko", "%1 jablka", "%1 jablek"],
+                unit,
+            )
+        )
+        unit.check_cache = {}
+        self.assertTrue(
+            check.check_target(
+                ["1 apple", "%1 apples"],
+                ["1 jablko", "1 jablka", "%1 jablek"],
+                unit,
+            )
+        )
+        unit.check_cache = {}
+        self.assertTrue(
+            check.check_target(
+                ["%1 apple", "%1 apples"],
+                ["1 jablko", "1 jablka", "%1 jablek"],
+                unit,
+            )
         )
 
 
 class RegexTest(CheckTestCase):
     check = RegexCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("string URL", "string URL", "regex:URL")
         self.test_good_none = ("string", "string", "regex:")
@@ -80,20 +207,20 @@ class RegexTest(CheckTestCase):
         self.test_failure_3 = ("string URL", "string URL", "regex:^URL$")
         self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
 
-    def do_test(self, expected, data, lang=None):
+    def do_test(self, expected, data, lang=None) -> None:
         # Skip using check_single as the Check does not use that
         return
 
-    def test_description(self):
+    def test_description(self) -> None:
         unit = Unit(source="string URL", target="string")
         unit.__dict__["all_flags"] = Flags("regex:URL")
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Translation does not match regular expression: <code>URL</code>",
+            "Does not match regular expression <code>URL</code>.",
         )
 
-    def test_check_highlight_groups(self):
+    def test_check_highlight_groups(self) -> None:
         unit = MockUnit(
             None,
             r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"',
@@ -101,7 +228,7 @@ class RegexTest(CheckTestCase):
             "@:(foo.bar.baz) | @:(hello.world) | {foo32}",
         )
         self.assertEqual(
-            self.check.check_highlight(unit.source, unit),
+            list(self.check.check_highlight(unit.source, unit)),
             [
                 (0, 15, "@:(foo.bar.baz)"),
                 (18, 33, "@:(hello.world)"),

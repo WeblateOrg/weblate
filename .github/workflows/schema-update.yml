@@ -1,0 +1,54 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: jsonschema update
+
+on:
+  push:
+    branches:
+    - deepsource-fix-**
+    - renovate/**
+    - main
+    paths:
+    - .github/workflows/schema-update.yml
+    - pyproject.toml
+    - docs/Makefile
+
+jobs:
+  jsonschema-update:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v4.1.2
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install pip dependencies
+      run: |
+        python -m pip install $(sed -n 's/.*"\(pip==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        pip install $(sed -n 's/.*"\(wheel==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        pip install $(sed -n 's/.*"\(weblate-schemas==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        pip install $(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)
+    - run: make -C docs update-schemas
+    - run: pre-commit run --files $(git diff --name-only)
+      continue-on-error: true
+    - name: Update renovate branch
+      if: github.ref != 'refs/heads/main'
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: 'docs: Update JSON schemas'
+    - name: Create Pull Request
+      if: github.ref == 'refs/heads/main'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        branch: create-pull-request/jsonschema-update
+        title: 'docs: Update JSON schemas'
+        commit-message: 'docs: Update JSON schemas'
+        labels: |
+          dependencies
+          automerge

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
 
@@ -39,31 +24,33 @@ def get_akismet():
 
 
 def is_spam(text, request):
-    """Generic spam checker interface."""
+    """Check whether text is considered spam."""
+    if not text:
+        return False
     akismet = get_akismet()
     if akismet is not None:
         from akismet import AkismetServerError, SpamStatus
 
+        user_ip = get_ip_address(request)
+        user_agent = get_user_agent_raw(request)
+
         try:
             result = akismet.check(
-                user_ip=get_ip_address(request),
-                user_agent=get_user_agent_raw(request),
+                user_ip=user_ip,
+                user_agent=user_agent,
                 comment_content=text,
                 comment_type="comment",
             )
-            if result:
-                try:
-                    raise Exception("Akismet reported spam")
-                except Exception:
-                    report_error(cause="Akismet reported spam")
-            return result == SpamStatus.DefiniteSpam
         except (OSError, AkismetServerError):
             report_error()
             return True
+        if result:
+            report_error(cause="Akismet reported spam", level="info", message=True)
+        return result == SpamStatus.DefiniteSpam
     return False
 
 
-def report_spam(text, user_ip, user_agent):
+def report_spam(text, user_ip, user_agent) -> None:
     akismet = get_akismet()
     if akismet is None:
         return

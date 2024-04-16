@@ -1,8 +1,7 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
-<div class="tab-pane" id="delete">
 
-<form method="post" action="{{ object.get_remove_url }}">
+<form method="post" action="{% url "remove" path=object.get_url_path %}">
 <div class="panel panel-danger">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Are you absolutely sure?" %}</h4></div>
 <div class="panel-body">
@@ -13,5 +12,3 @@
 </div>
 </div>
 </form>
-
-</div>

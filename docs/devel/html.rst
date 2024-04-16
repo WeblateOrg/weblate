@@ -4,7 +4,7 @@ Translating HTML and JavaScript using Weblate CDN
 =================================================
 
 Starting with Weblate 4.2 it is possible to export localization to a CDN using
-:ref:`addon-weblate.cdn.cdnjs` addon.
+:ref:`addon-weblate.cdn.cdnjs` add-on.
 
 .. note::
 
@@ -27,7 +27,7 @@ containing HTML files), create an empty JSON file in the repository for the
 source language (see :ref:`component-source_language`), for example
 :file:`locales/en.json`. The content should be ``{}`` to indicate an empty
 object. Once you have that, the repository can be imported into Weblate and you
-can start with an addon configuration.
+can start with an add-on configuration.
 
 .. hint::
 
@@ -41,10 +41,10 @@ point).
 
 .. _cdn-addon-config:
 
-Configuring Weblate CDN addon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configuring Weblate CDN add-on
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The :ref:`addon-weblate.cdn.cdnjs` addon provides few configuration options.
+The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options.
 
 Translation threshold
     Translations translated above this threshold will be included in the CDN.
@@ -92,8 +92,8 @@ selector to process all elements.
 
 .. note::
 
-   Right now, only text of the elements is extracted. This addon doesn't support localization
-   of element attributes or elements with childs.
+   Right now, only text of the elements is extracted. This add-on doesn't support localization
+   of element attributes or elements with children.
 
 .. _cdn-addon-html:
 

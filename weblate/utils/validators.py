@@ -1,36 +1,28 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-import gettext
+from __future__ import annotations
+
 import os
 import re
 import sys
+from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
+from pathlib import Path
+from typing import cast
+from urllib.parse import urlparse
 
+from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.core.validators import URLValidator, validate_ipv46_address
+from django.utils.translation import gettext, gettext_lazy
 from PIL import Image
 
 from weblate.trans.util import cleanup_path
+from weblate.utils.data import data_dir
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -40,7 +32,7 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 # Matches Git condition on "name consists only of disallowed characters"
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 
-ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif"}
+ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 
 # File formats we do not accept on translation/glossary upload
 FORBIDDEN_EXTENSIONS = {
@@ -60,21 +52,23 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True):
+def validate_re(value, groups=None, allow_empty=True) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
-        raise ValidationError(_("Compilation failed: {0}").format(error))
+        raise ValidationError(
+            gettext("Compilation failed: {0}").format(error)
+        ) from error
     if not allow_empty and compiled.match(""):
         raise ValidationError(
-            _("The regular expression can not match an empty string.")
+            gettext("The regular expression can not match an empty string.")
         )
     if not groups:
         return
     for group in groups:
         if group not in compiled.groupindex:
             raise ValidationError(
-                _(
+                gettext(
                     'Regular expression is missing named group "{0}", '
                     "the simplest way to define it is {1}."
                 ).format(group, f"(?P<{group}>.*)")
@@ -85,7 +79,7 @@ def validate_re_nonempty(value):
     return validate_re(value, allow_empty=False)
 
 
-def validate_bitmap(value):
+def validate_bitmap(value) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
@@ -97,11 +91,10 @@ def validate_bitmap(value):
     # might have to read the data into memory.
     if hasattr(value, "temporary_file_path"):
         content = value.temporary_file_path()
+    elif hasattr(value, "read"):
+        content = BytesIO(value.read())
     else:
-        if hasattr(value, "read"):
-            content = BytesIO(value.read())
-        else:
-            content = BytesIO(value["content"])
+        content = BytesIO(value["content"])
 
     try:
         # load() could spot a truncated JPEG, but it loads the entire
@@ -112,25 +105,29 @@ def validate_bitmap(value):
 
         # Pillow doesn't detect the MIME type of all formats. In those
         # cases, content_type will be None.
-        value.file.content_type = Image.MIME.get(image.format)
-    except Exception:
+        value.file.content_type = Image.MIME.get(cast(str, image.format))
+    except Exception as exc:
         # Pillow doesn't recognize it as an image.
-        raise ValidationError(_("Invalid image!"), code="invalid_image").with_traceback(
-            sys.exc_info()[2]
-        )
+        raise ValidationError(
+            gettext("Invalid image!"), code="invalid_image"
+        ).with_traceback(sys.exc_info()[2]) from exc
     if hasattr(value.file, "seek") and callable(value.file.seek):
         value.file.seek(0)
 
     # Check image type
     if value.file.content_type not in ALLOWED_IMAGES:
         image.close()
-        raise ValidationError(_("Unsupported image type: %s") % value.file.content_type)
+        raise ValidationError(
+            gettext("Unsupported image type: %s") % value.file.content_type
+        )
 
     # Check dimensions
     width, height = image.size
     if width > 2000 or height > 2000:
         image.close()
-        raise ValidationError(_("The image is too big, please crop or scale it down."))
+        raise ValidationError(
+            gettext("The image is too big, please crop or scale it down.")
+        )
 
     image.close()
 
@@ -148,29 +145,29 @@ def clean_fullname(val):
 def validate_fullname(val):
     if val != clean_fullname(val):
         raise ValidationError(
-            _("Please avoid using special characters in the full name.")
+            gettext("Please avoid using special characters in the full name.")
         )
     # Validates full name that would be rejected by Git
     if CRUD_RE.match(val):
-        raise ValidationError(_("Name consists only of disallowed characters."))
+        raise ValidationError(gettext("Name consists only of disallowed characters."))
 
     return val
 
 
 def validate_file_extension(value):
-    """Simple extension based validation for uploads."""
+    """Validate file upload based on extension."""
     ext = os.path.splitext(value.name)[1]
     if ext.lower() in FORBIDDEN_EXTENSIONS:
-        raise ValidationError(_("Unsupported file format."))
+        raise ValidationError(gettext("Unsupported file format."))
     return value
 
 
-def validate_username(value):
+def validate_username(value) -> None:
     if value.startswith("."):
-        raise ValidationError(_("The username can not start with a full stop."))
+        raise ValidationError(gettext("The username can not start with a full stop."))
     if not USERNAME_MATCHER.match(value):
         raise ValidationError(
-            _(
+            gettext(
                 "Username may only contain letters, "
                 "numbers or the following characters: @ . + - _"
             )
@@ -184,50 +181,150 @@ class EmailValidator(EmailValidatorDjango):
         super().__call__(value)
         user_part = value.rsplit("@", 1)[0]
         if EMAIL_BLACKLIST.match(user_part):
-            raise ValidationError(_("Enter a valid e-mail address."))
+            raise ValidationError(gettext("Enter a valid e-mail address."))
         if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-            raise ValidationError(_("This e-mail address is disallowed."))
+            raise ValidationError(gettext("This e-mail address is disallowed."))
 
 
 validate_email = EmailValidator()
 
 
-def validate_plural_formula(value):
+def validate_plural_formula(value) -> None:
     try:
-        gettext.c2py(value if value else "0")
+        c2py(value or "0")
     except ValueError as error:
-        raise ValidationError(_("Could not evaluate plural formula: {}").format(error))
+        raise ValidationError(
+            gettext("Could not evaluate plural formula: {}").format(error)
+        ) from error
 
 
-def validate_filename(value):
+def validate_filename(value) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
-            _("The filename can not contain reference to a parent directory.")
+            gettext("The filename can not contain reference to a parent directory.")
         )
     if os.path.isabs(value):
-        raise ValidationError(_("The filename can not be an absolute path."))
+        raise ValidationError(gettext("The filename can not be an absolute path."))
 
     cleaned = cleanup_path(value)
     if value != cleaned:
         raise ValidationError(
-            _(
+            gettext(
                 "The filename should be as simple as possible. "
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
 
 
-def validate_slug(value):
+def validate_backup_path(value: str) -> None:
+    try:
+        loc = Location(value)
+    except ValueError as err:
+        raise ValidationError(str(err)) from err
+
+    if loc.archive:
+        raise ValidationError("No archive can be specified in backup location.")
+
+    if loc.proto == "file":
+        # The path is already normalized here
+        path = Path(loc.path)
+
+        # Restrict relative paths as the cwd might change
+        if not path.is_absolute():
+            raise ValidationError("Backup location has to be an absolute path.")
+
+        # Restrict placing under Weblate backups as that will produce mess
+        data_backups = Path(data_dir("backups"))
+        if data_backups == path or data_backups in path.parents:
+            raise ValidationError(
+                "Backup location should be outside Weblate backups in DATA_DIR."
+            )
+
+
+def validate_slug(value) -> None:
     """Prohibits some special values."""
     # This one is used as wildcard in the URL for widgets and translate pages
     if value == "-":
-        raise ValidationError(_("This name is prohibited"))
+        raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_language_aliases(value):
-    """Validates language aliases - comma separated semi colon values."""
+def validate_language_aliases(value) -> None:
+    """Validate language aliases - comma separated semi colon values."""
     if not value:
         return
     for part in value.split(","):
         if part.count(":") != 1:
-            raise ValidationError(_("Syntax error in language aliases."))
+            raise ValidationError(gettext("Syntax error in language aliases."))
+
+
+def validate_project_name(value) -> None:
+    """Prohibits some special values."""
+    if settings.PROJECT_NAME_RESTRICT_RE is not None and re.match(
+        settings.PROJECT_NAME_RESTRICT_RE, value
+    ):
+        raise ValidationError(gettext("This name is prohibited"))
+
+
+def validate_project_web(value) -> None:
+    # Regular expression filtering
+    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
+        settings.PROJECT_WEB_RESTRICT_RE, value
+    ):
+        raise ValidationError(gettext("This URL is prohibited"))
+    parsed = urlparse(value)
+    hostname = parsed.hostname or ""
+    hostname = hostname.lower()
+
+    # Hostname filtering
+    if any(
+        hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
+    ):
+        raise ValidationError(gettext("This URL is prohibited"))
+
+    # Numeric address filtering
+    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
+        try:
+            validate_ipv46_address(hostname)
+        except ValidationError:
+            pass
+        else:
+            raise ValidationError(gettext("This URL is prohibited"))
+
+
+class WeblateURLValidator(URLValidator):
+    """Validator for http and https URLs only."""
+
+    schemes = ["http", "https"]
+
+
+class WeblateServiceURLValidator(WeblateURLValidator):
+    """
+    Validator allowing local URLs like http://domain:5000.
+
+    This is useful for using dockerized services.
+    """
+
+    host_re = (
+        "("
+        + WeblateURLValidator.hostname_re
+        + WeblateURLValidator.domain_re
+        + WeblateURLValidator.tld_re
+        + "|"
+        + WeblateURLValidator.hostname_re
+        + ")"
+    )
+    regex = re.compile(
+        r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+        r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
+        r"(?:"
+        + WeblateURLValidator.ipv4_re
+        + "|"
+        + WeblateURLValidator.ipv6_re
+        + "|"
+        + host_re
+        + ")"
+        r"(?::[0-9]{1,5})?"  # port
+        r"(?:[/?#][^\s]*)?"  # resource path
+        r"\Z",
+        re.IGNORECASE,
+    )

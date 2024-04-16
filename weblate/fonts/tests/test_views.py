@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from django.urls import reverse
 
 from weblate.fonts.models import Font, FontGroup
@@ -28,13 +14,13 @@ class FontViewTest(FontTestCase):
     def fonts_url(self):
         return reverse("fonts", kwargs=self.kw_project)
 
-    def test_noperm(self):
+    def test_noperm(self) -> None:
         font = self.add_font()
         response = self.client.get(self.fonts_url)
         self.assertContains(response, font.family)
         self.assertNotContains(response, "Add font")
 
-    def test_manage(self):
+    def test_manage(self) -> None:
         self.user.is_superuser = True
         self.user.save()
 
@@ -45,11 +31,9 @@ class FontViewTest(FontTestCase):
         # Upload font
         with open(FONT, "rb") as handle:
             response = self.client.post(self.fonts_url, {"font": handle}, follow=True)
-            self.assertContains(response, "Droid Sans Fallback")
+            self.assertContains(response, "Kurinto Sans")
         font = Font.objects.get()
-        self.assertContains(
-            self.client.get(font.get_absolute_url()), "Droid Sans Fallback"
-        )
+        self.assertContains(self.client.get(font.get_absolute_url()), "Kurinto Sans")
 
         # Create font group
         response = self.client.post(

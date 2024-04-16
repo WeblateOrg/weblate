@@ -1,25 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from textwrap import wrap
 
-from weblate.addons.events import EVENT_NAMES
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
@@ -34,18 +18,19 @@ class Command(BaseCommand):
         if field.help_text:
             result.append(str(field.help_text))
         choices = getattr(field, "choices", None)
-        if choices and name not in ("component", "engines", "file_format"):
+        if choices and name not in {"component", "engines", "file_format"}:
             if result:
                 result.append("")
             result.append("Available choices:")
             for value, description in choices:
-                result.append("")
-                result.append(f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                result.extend(
+                    ("", f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                )
         return result
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List installed add-ons."""
-        fake_addon = Addon(component=Component(project=Project()))
+        fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
         for _unused, obj in sorted(ADDONS.items()):
             self.stdout.write(f".. _addon-{obj.name}:")
             self.stdout.write("\n")
@@ -91,7 +76,7 @@ class Command(BaseCommand):
                     )
             else:
                 self.stdout.write(":Configuration: `This add-on has no configuration.`")
-            events = ", ".join(EVENT_NAMES[event] for event in obj.events)
+            events = ", ".join(event.label for event in obj.events)
             self.stdout.write(f":Triggers: {events}")
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))

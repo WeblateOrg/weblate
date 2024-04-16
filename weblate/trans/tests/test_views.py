@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for translation views."""
 
+from __future__ import annotations
+
 from io import BytesIO
+from unittest import TestCase
 from urllib.parse import urlsplit
-from xml.dom import minidom
 from zipfile import ZipFile
 
 from django.contrib.messages import get_messages
@@ -30,10 +17,13 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils.translation import activate
+from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, setup_project_groups
+from weblate.auth.models import Group, get_anonymous, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
@@ -42,11 +32,11 @@ from weblate.trans.tests.utils import (
     create_test_user,
     wait_for_celery,
 )
-from weblate.utils.db import using_postgresql
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.xml import parse_xml
 
 
-class RegistrationTestMixin:
+class RegistrationTestMixin(TestCase):
     """Helper to share code for registration testing."""
 
     def assert_registration_mailbox(self, match=None):
@@ -72,14 +62,19 @@ class RegistrationTestMixin:
         self.fail("Confirmation URL not found")
         return ""
 
-    def assert_notify_mailbox(self, sent_mail):
+    def assert_notify_mailbox(self, sent_mail) -> None:
         self.assertEqual(
             sent_mail.subject, "[Weblate] Activity on your account at Weblate"
         )
 
 
 class ViewTestCase(RepoTestCase):
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls) -> None:
+        get_anonymous.cache_clear()
+        super().setUpTestData()
+
+    def setUp(self) -> None:
         super().setUp()
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
@@ -93,43 +88,60 @@ class ViewTestCase(RepoTestCase):
         # Create project to have some test base
         self.component = self.create_component()
         self.project = self.component.project
+        self.translation = self.get_translation()
         # Invalidate caches
-        self.project.stats.invalidate()
         cache.clear()
         # Login
         self.client.login(username="testuser", password="testpassword")
         # Prepopulate kwargs
-        self.kw_project = {"project": self.project.slug}
-        self.kw_component = {
-            "project": self.project.slug,
-            "component": self.component.slug,
-        }
-        self.kw_translation = {
-            "project": self.project.slug,
-            "component": self.component.slug,
-            "lang": "cs",
-        }
-        self.kw_lang_project = {"project": self.project.slug, "lang": "cs"}
 
-        # Store URL for testing
-        self.translation_url = self.get_translation().get_absolute_url()
-        self.project_url = self.project.get_absolute_url()
-        self.component_url = self.component.get_absolute_url()
+    @property
+    def kw_project(self):
+        return {"project": self.project.slug}
 
-    def update_fulltext_index(self):
+    @property
+    def kw_project_path(self):
+        return {"path": self.project.get_url_path()}
+
+    @property
+    def kw_component(self):
+        return {"path": self.component.get_url_path()}
+
+    @property
+    def kw_translation(self):
+        return {"path": self.translation.get_url_path()}
+
+    @property
+    def translation_url(self):
+        return self.translation.get_absolute_url()
+
+    @property
+    def project_url(self):
+        return self.project.get_absolute_url()
+
+    @property
+    def component_url(self):
+        return self.component.get_absolute_url()
+
+    def tearDown(self) -> None:
+        super().tearDown()
+        # Reset to English language
+        activate("en")
+
+    def update_fulltext_index(self) -> None:
         wait_for_celery()
 
-    def make_manager(self):
+    def make_manager(self) -> None:
         """Make user a Manager."""
         # Sitewide privileges
         self.user.groups.add(Group.objects.get(name="Managers"))
         # Project privileges
-        self.project.add_user(self.user, "@Administration")
+        self.project.add_user(self.user, "Administration")
 
     def get_request(self, user=None):
-        """Wrapper to get fake request object."""
+        """Get fake request object."""
         request = self.factory.get("/")
-        request.user = user if user else self.user
+        request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
         request._messages = messages
@@ -138,18 +150,31 @@ class ViewTestCase(RepoTestCase):
     def get_translation(self, language="cs"):
         return self.component.translation_set.get(language__code=language)
 
-    def get_unit(self, source="Hello, world!\n", language="cs"):
-        translation = self.get_translation(language)
+    def get_unit(
+        self, source: str = "Hello, world!\n", language: str = "cs", translation=None
+    ):
+        if translation is None:
+            translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
-    def change_unit(self, target, source="Hello, world!\n", language="cs", user=None):
+    def change_unit(
+        self, target, source="Hello, world!\n", language="cs", user=None
+    ) -> None:
         unit = self.get_unit(source, language)
         unit.target = target
         unit.save_backend(user or self.user)
 
-    def edit_unit(self, source, target, language="cs", **kwargs):
+    def edit_unit(
+        self,
+        source: str,
+        target: str,
+        language: str = "cs",
+        follow: bool = False,
+        translation=None,
+        **kwargs,
+    ):
         """Do edit single unit using web interface."""
-        unit = self.get_unit(source, language)
+        unit = self.get_unit(source, language, translation=translation)
         params = {
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
@@ -159,48 +184,61 @@ class ViewTestCase(RepoTestCase):
         }
         params.update(kwargs)
         return self.client.post(
-            self.get_translation(language).get_translate_url(), params
+            unit.translation.get_translate_url(), params, follow=follow
         )
 
-    def assert_redirects_offset(self, response, exp_path, exp_offset):
+    def assert_redirects_offset(self, response, exp_path, exp_offset) -> None:
         """Assert that offset in response matches expected one."""
         self.assertEqual(response.status_code, 302)
 
         # We don't use all variables
-        # pylint: disable=unused-variable
-        scheme, netloc, path, query, fragment = urlsplit(response["Location"])
+        _scheme, _netloc, path, query, _fragment = urlsplit(response["Location"])
 
         self.assertEqual(path, exp_path)
 
         exp_offset = f"offset={exp_offset:d}"
         self.assertIn(exp_offset, query)
 
-    def assert_png(self, response):
+    def assert_png(self, response) -> None:
         """Check whether response contains valid PNG image."""
         # Check response status code
         self.assertEqual(response.status_code, 200)
         self.assert_png_data(response.content)
 
-    def assert_png_data(self, content):
+    def assert_png_data(self, content) -> None:
         """Check whether data is PNG image."""
         # Try to load PNG with PIL
         image = Image.open(BytesIO(content))
         self.assertEqual(image.format, "PNG")
 
-    def assert_zip(self, response):
+    def assert_zip(self, response, filename: str | None = None):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/zip")
         with ZipFile(BytesIO(response.content), "r") as zipfile:
             self.assertIsNone(zipfile.testzip())
+            if filename is not None:
+                self.assertIn(filename, zipfile.namelist())
+                with zipfile.open(filename) as handle:
+                    return handle.read()
+            return None
 
-    def assert_svg(self, response):
+    def assert_excel(self, response) -> None:
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response["Content-Type"],
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            "; charset=utf-8",
+        )
+        load_workbook(BytesIO(response.content))
+
+    def assert_svg(self, response) -> None:
         """Check whether response is a SVG image."""
         # Check response status code
         self.assertEqual(response.status_code, 200)
-        dom = minidom.parseString(response.content)
-        self.assertEqual(dom.firstChild.nodeName, "svg")
+        tree = parse_xml(response.content)
+        self.assertEqual(tree.tag, "{http://www.w3.org/2000/svg}svg")
 
-    def assert_backend(self, expected_translated, language="cs"):
+    def assert_backend(self, expected_translated, language="cs") -> None:
         """Check that backend has correct data."""
         translation = self.get_translation(language)
         translation.commit_pending("test", None)
@@ -210,27 +248,23 @@ class ViewTestCase(RepoTestCase):
 
         for unit in store.content_units:
             id_hash = unit.id_hash
-            self.assertFalse(
-                id_hash in messages, "Duplicate string in in backend file!"
-            )
+            self.assertNotIn(id_hash, messages, "Duplicate string in in backend file!")
             if unit.is_translated():
                 translated += 1
 
         self.assertEqual(
             translated,
             expected_translated,
-            "Did not found expected number of translations ({} != {}).".format(
-                translated, expected_translated
-            ),
+            f"Did not found expected number of translations ({translated} != {expected_translated}).",
         )
 
-    def log_as_jane(self):
+    def log_as_jane(self) -> None:
         self.client.login(username="jane", password="testpassword")
 
 
 class FixtureTestCase(ViewTestCase):
     @classmethod
-    def setUpTestData(cls):
+    def setUpTestData(cls) -> None:
         """Manually load fixture."""
         # Ensure there are no Language objects, we add
         # them in defined order in fixture
@@ -248,7 +282,7 @@ class FixtureTestCase(ViewTestCase):
 
         super().setUpTestData()
 
-    def clone_test_repos(self):
+    def clone_test_repos(self) -> None:
         return
 
     def create_project(self):
@@ -263,7 +297,7 @@ class FixtureTestCase(ViewTestCase):
 
 
 class TranslationManipulationTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component.new_lang = "add"
         self.component.save()
@@ -271,7 +305,7 @@ class TranslationManipulationTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
-    def test_model_add(self):
+    def test_model_add(self) -> None:
         self.assertTrue(
             self.component.add_new_language(
                 Language.objects.get(code="af"), self.get_request()
@@ -281,15 +315,15 @@ class TranslationManipulationTest(ViewTestCase):
             self.component.translation_set.filter(language_code="af").exists()
         )
 
-    def test_model_add_duplicate(self):
+    def test_model_add_duplicate(self) -> None:
         request = self.get_request()
         self.assertFalse(get_messages(request))
-        self.assertTrue(
+        self.assertIsNone(
             self.component.add_new_language(Language.objects.get(code="de"), request)
         )
         self.assertTrue(get_messages(request))
 
-    def test_model_add_disabled(self):
+    def test_model_add_disabled(self) -> None:
         self.component.new_lang = "contact"
         self.component.save()
         self.assertFalse(
@@ -298,7 +332,7 @@ class TranslationManipulationTest(ViewTestCase):
             )
         )
 
-    def test_model_add_superuser(self):
+    def test_model_add_superuser(self) -> None:
         self.component.new_lang = "contact"
         self.component.save()
         self.user.is_superuser = True
@@ -309,7 +343,7 @@ class TranslationManipulationTest(ViewTestCase):
             )
         )
 
-    def test_remove(self):
+    def test_remove(self) -> None:
         translation = self.component.translation_set.get(language_code="de")
         translation.remove(self.user)
         # Force scanning of the repository
@@ -320,105 +354,60 @@ class TranslationManipulationTest(ViewTestCase):
 
 
 class BasicViewTest(ViewTestCase):
-    def test_view_project(self):
-        response = self.client.get(reverse("project", kwargs=self.kw_project))
+    def test_view_project(self) -> None:
+        response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
 
-    def test_view_project_ghost(self):
+    def test_view_project_ghost(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="es"))
-        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "Spanish")
 
-    def test_view_component(self):
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+    def test_view_component(self) -> None:
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Test/Test")
         self.assertNotContains(response, "Spanish")
 
-    def test_view_component_ghost(self):
+    def test_view_component_ghost(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="es"))
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Spanish")
 
-    def test_view_component_guide(self):
+    def test_view_component_guide(self) -> None:
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")
 
-    def test_view_translation(self):
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+    def test_view_translation(self) -> None:
+        response = self.client.get(self.translation.get_absolute_url())
         self.assertContains(response, "Test/Test")
 
-    def test_view_translation_others(self):
-        other = Component.objects.create(
-            name="RESX component",
-            slug="resx",
-            project=self.project,
-            repo="weblate://test/test",
-            file_format="resx",
-            filemask="resx/*.resx",
-            template="resx/en.resx",
-            new_lang="add",
-        )
+    def test_view_translation_others(self) -> None:
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            other = Component.objects.create(
+                name="RESX component",
+                slug="resx",
+                project=self.project,
+                repo="weblate://test/test",
+                file_format="resx",
+                filemask="resx/*.resx",
+                template="resx/en.resx",
+                new_lang="add",
+            )
         # Existing translation
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        response = self.client.get(self.translation.get_absolute_url())
         self.assertContains(response, other.name)
         # Ghost translation
-        kwargs = {}
-        kwargs.update(self.kw_translation)
-        kwargs["lang"] = "it"
-        response = self.client.get(reverse("translation", kwargs=kwargs))
+        kwargs = {"path": [*self.component.get_url_path(), "it"]}
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
 
-    def test_view_redirect(self):
-        """Test case insentivite lookups and aliases in middleware."""
-        # Non existing fails with 404
-        kwargs = {"project": "invalid"}
-        response = self.client.get(reverse("project", kwargs=kwargs))
-        self.assertEqual(response.status_code, 404)
-
-        # Different casing should redirect, MySQL always does case insensitive lookups
-        kwargs["project"] = self.project.slug.upper()
-        if using_postgresql():
-            response = self.client.get(reverse("project", kwargs=kwargs))
-            self.assertRedirects(
-                response, reverse("project", kwargs=self.kw_project), status_code=301
-            )
-
-        # Non existing fails with 404
-        kwargs["component"] = "invalid"
-        response = self.client.get(reverse("component", kwargs=kwargs))
-        self.assertEqual(response.status_code, 404)
-
-        # Different casing should redirect, MySQL always does case insensitive lookups
-        kwargs["component"] = self.component.slug.upper()
-        if using_postgresql():
-            response = self.client.get(reverse("component", kwargs=kwargs))
-            self.assertRedirects(
-                response,
-                reverse("component", kwargs=self.kw_component),
-                status_code=301,
-            )
-
-        # Non existing fails with 404
-        kwargs["lang"] = "cs-DE"
-        response = self.client.get(reverse("translation", kwargs=kwargs))
-        self.assertEqual(response.status_code, 404)
-
-        # Aliased language should redirect
-        kwargs["lang"] = "czech"
-        response = self.client.get(reverse("translation", kwargs=kwargs))
-        self.assertRedirects(
-            response,
-            reverse("translation", kwargs=self.kw_translation),
-            status_code=301,
-        )
-
-    def test_view_unit(self):
+    def test_view_unit(self) -> None:
         unit = self.get_unit()
         response = self.client.get(unit.get_absolute_url())
         self.assertContains(response, "Hello, world!")
 
-    def test_view_component_list(self):
+    def test_view_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)
         response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
@@ -432,7 +421,7 @@ class BasicMonolingualViewTest(BasicViewTest):
 
 
 class SourceStringsTest(ViewTestCase):
-    def test_edit_priority(self):
+    def test_edit_priority(self) -> None:
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
@@ -447,7 +436,7 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.priority, 60)
 
-    def test_edit_readonly(self):
+    def test_edit_readonly(self) -> None:
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
@@ -474,7 +463,7 @@ class SourceStringsTest(ViewTestCase):
         self.assertFalse(unit.readonly)
         self.assertEqual(unit.state, old_state)
 
-    def test_edit_context(self):
+    def test_edit_context(self) -> None:
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
@@ -490,7 +479,7 @@ class SourceStringsTest(ViewTestCase):
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
 
-    def test_edit_check_flags(self):
+    def test_edit_check_flags(self) -> None:
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
@@ -505,23 +494,22 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit().source_unit
         self.assertEqual(unit.extra_flags, "ignore-same")
 
-    def test_view_source(self):
-        kwargs = {"lang": "en"}
-        kwargs.update(self.kw_component)
-        response = self.client.get(reverse("translation", kwargs=kwargs))
+    def test_view_source(self) -> None:
+        kwargs = {"path": [*self.component.get_url_path(), "en"]}
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, "Test/Test")
 
-    def test_matrix(self):
+    def test_matrix(self) -> None:
         response = self.client.get(reverse("matrix", kwargs=self.kw_component))
         self.assertContains(response, "Czech")
 
-    def test_matrix_load(self):
+    def test_matrix_load(self) -> None:
         response = self.client.get(
             reverse("matrix-load", kwargs=self.kw_component) + "?offset=0&lang=cs"
         )
         self.assertContains(response, 'lang="cs"')
 
-    def test_toggle_flags(self):
+    def test_toggle_flags(self) -> None:
         # Need extra power
         self.user.is_superuser = True
         self.user.save()

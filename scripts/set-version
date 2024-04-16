@@ -1,26 +1,106 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env python
 
-if [ -z "$1" ] ; then
-    echo 'Usage: ./scripts/set-version VERSION'
-    exit 1
-fi
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-sed -i "s/^VERSION =.*/VERSION = \"$1-dev\"/" weblate/utils/version.py
-sed -i "s/release =.*/release = \"$1\"/" docs/conf.py
-sed -i "s/version=.*,/version=\"$1\",/" setup.py
+import os
+import re
+import subprocess
+import sys
 
-# Update docs/changes.rst
-tmp=`mktemp`
-cp docs/changes.rst $tmp
-cat > docs/changes.rst <<EOT
-Weblate $1
--------------
+import requests
+from ruamel.yaml import YAML
+
+if len(sys.argv) != 2:
+    print("Usage: ./scripts/set-version VERSION")
+    sys.exit(1)
+
+version = sys.argv[1]
+
+
+def replace_file(name, search, replace) -> None:
+    with open(name) as handle:
+        content = handle.read()
+
+    content = re.sub(search, replace, content, flags=re.MULTILINE)
+    with open(name, "w") as handle:
+        handle.write(content)
+
+
+def prepend_file(name, content) -> None:
+    with open(name) as handle:
+        content += handle.read()
+
+    with open(name, "w") as handle:
+        handle.write(content)
+
+
+yaml = YAML()
+with open(os.path.expanduser("~/.config/hub")) as handle:
+    config = yaml.load(handle.read())
+
+# Get/create milestone
+milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"
+api_auth = f"token {config['github.com'][0]['oauth_token']}"
+headers = {"Authorization": api_auth, "Accept": "application/vnd.github.v3+json"}
+response = requests.get(
+    milestones_api, headers=headers, timeout=1, params={"state": "open"}
+)
+response.raise_for_status()
+milestone_url = None
+for milestone in response.json():
+    if milestone["title"] == version:
+        milestone_url = milestone["html_url"]
+
+if milestone_url is None:
+    response = requests.post(
+        milestones_api, headers=headers, json={"title": version}, timeout=1
+    )
+    payload = response.json()
+    try:
+        milestone_url = payload["html_url"]
+    except KeyError:
+        print(payload)
+        raise
+
+# Set version in the files
+replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
+replace_file("docs/conf.py", "release =.*", f"release = {version!r}")
+replace_file("setup.py", "version=.*", f"version={version!r},")
+
+# Update changelog
+title = f"Weblate {version}"
+underline = "-" * len(title)
+header = f"""{title}
+{underline}
 
 Not yet released.
 
-EOT
-cat >> docs/changes.rst < $tmp
-rm $tmp
+**New features**
 
-git commit -m "Setting version to $1" weblate/utils/version.py docs/conf.py docs/changes.rst setup.py
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <{milestone_url}?closed=1>`__.
+
+"""
+prepend_file("docs/changes.rst", header)
+
+files = [
+    "weblate/utils/version.py",
+    "docs/conf.py",
+    "docs/changes.rst",
+    "setup.py",
+]
+subprocess.run(["pre-commit", "run", "--files", *files], check=False)
+subprocess.run(
+    ["git", "commit", "-m", f"Setting version to {version}", *files], check=True
+)

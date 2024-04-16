@@ -1,34 +1,19 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from sys import exc_info
 from unittest import mock
 
 
-def immediate_on_commit(cls):
-    """Wrapper to make transaction.on_commit execute immediately.
+def immediate_on_commit(cls) -> None:
+    """
+    Execute transaction.on_commit immediately.
 
-    TODO: Remove when immediate_on_commit function is actually implemented
-    Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
+    This is alternative approach to TestCase.captureOnCommitCallbacks() which
+    was implemented Django Ticket https://code.djangoproject.com/ticket/30457
     """
 
-    def handle_immediate_on_commit(func, using=None):
+    def handle_immediate_on_commit(func, using=None) -> None:
         func()
 
     # Context manager executing transaction.on_commit() hooks immediately
@@ -37,8 +22,8 @@ def immediate_on_commit(cls):
     cls.on_commit_mgr = mock.patch(
         "django.db.transaction.on_commit", side_effect=handle_immediate_on_commit
     )
-    cls.on_commit_mgr.__enter__()
+    cls.on_commit_mgr.start()
 
 
-def immediate_on_commit_leave(cls):
-    cls.on_commit_mgr.__exit__(*exc_info())
+def immediate_on_commit_leave(cls) -> None:
+    cls.on_commit_mgr.stop()

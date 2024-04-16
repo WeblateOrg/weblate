@@ -1,29 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 import os
+from io import StringIO
+from tempfile import TemporaryDirectory
 
 import responses
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
+from django.core.management import call_command
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -33,9 +21,8 @@ from weblate.auth.models import Group
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.checks import check_data_writable
+from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.wladmin.middleware import ManageMiddleware
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
@@ -44,39 +31,53 @@ TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user.is_superuser = True
         self.user.save()
 
-    def test_index(self):
+    def test_index(self) -> None:
         response = self.client.get(reverse("admin:index"))
         self.assertContains(response, "SSH")
 
-    def test_manage_index(self):
+    def test_manage_index(self) -> None:
         response = self.client.get(reverse("manage"))
         self.assertContains(response, "SSH")
 
-    def test_ssh(self):
+    def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))
         self.assertContains(response, "SSH keys")
 
     @tempdir_setting("DATA_DIR")
-    def test_ssh_generate(self):
+    def test_ssh_generate(self) -> None:
         self.assertEqual(check_data_writable(), [])
         response = self.client.get(reverse("manage-ssh"))
-        self.assertContains(response, "Generate SSH key")
+        self.assertContains(response, "Generate RSA SSH key")
+        self.assertContains(response, "Generate Ed25519 SSH key")
 
-        response = self.client.post(reverse("manage-ssh"), {"action": "generate"})
+        response = self.client.post(
+            reverse("manage-ssh"), {"action": "generate"}, follow=True
+        )
         self.assertContains(response, "Created new SSH key")
         response = self.client.get(reverse("manage-ssh-key"))
         self.assertContains(response, "PRIVATE KEY")
+        response = self.client.get(reverse("manage-ssh-key"), {"type": "rsa"})
+        self.assertContains(response, "PRIVATE KEY")
+
+        response = self.client.post(
+            reverse("manage-ssh"),
+            {"action": "generate", "type": "ed25519"},
+            follow=True,
+        )
+        self.assertContains(response, "Created new SSH key")
+        response = self.client.get(reverse("manage-ssh-key"), {"type": "ed25519"})
+        self.assertContains(response, "PRIVATE KEY")
 
     @tempdir_setting("DATA_DIR")
-    def test_ssh_add(self):
+    def test_ssh_add(self) -> None:
         self.assertEqual(check_data_writable(), [])
+        oldpath = os.environ["PATH"]
         try:
-            oldpath = os.environ["PATH"]
             os.environ["PATH"] = ":".join((get_test_file(""), os.environ["PATH"]))
             # Verify there is button for adding
             response = self.client.get(reverse("manage-ssh"))
@@ -96,7 +97,7 @@ class AdminTest(ViewTestCase):
             self.assertIn("github.com", handle.read())
 
     @tempdir_setting("BACKUP_DIR")
-    def test_backup(self):
+    def test_backup(self) -> None:
         def do_post(**payload):
             return self.client.post(reverse("manage-backups"), payload, follow=True)
 
@@ -110,11 +111,11 @@ class AdminTest(ViewTestCase):
         response = do_post(service=service.pk, remove="1")
         self.assertNotContains(response, settings.BACKUP_DIR)
 
-    def test_performace(self):
+    def test_performace(self) -> None:
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "weblate.E005")
 
-    def test_error(self):
+    def test_error(self) -> None:
         ConfigurationError.objects.create(name="Test error", message="FOOOOOOOOOOOOOO")
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "FOOOOOOOOOOOOOO")
@@ -122,27 +123,27 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-performance"))
         self.assertNotContains(response, "FOOOOOOOOOOOOOO")
 
-    def test_report(self):
+    def test_report(self) -> None:
         response = self.client.get(reverse("manage-repos"))
         self.assertContains(response, "On branch main")
 
-    def test_create_project(self):
+    def test_create_project(self) -> None:
         response = self.client.get(reverse("admin:trans_project_add"))
         self.assertContains(response, "Required fields are marked in bold")
 
-    def test_create_component(self):
+    def test_create_component(self) -> None:
         response = self.client.get(reverse("admin:trans_component_add"))
         self.assertContains(response, "Import speed documentation")
 
-    def test_component(self):
+    def test_component(self) -> None:
         """Test for custom component actions."""
         self.assert_custom_admin(reverse("admin:trans_component_changelist"))
 
-    def test_project(self):
+    def test_project(self) -> None:
         """Test for custom project actions."""
         self.assert_custom_admin(reverse("admin:trans_project_changelist"))
 
-    def assert_custom_admin(self, url):
+    def assert_custom_admin(self, url) -> None:
         """Test for (sub)project custom admin."""
         response = self.client.get(url)
         self.assertContains(response, "Update VCS repository")
@@ -152,11 +153,11 @@ class AdminTest(ViewTestCase):
             )
             self.assertRedirects(response, url)
 
-    def test_configuration_health_check(self):
+    def test_configuration_health_check(self) -> None:
         # Run checks internally
-        ManageMiddleware.configuration_health_check()
+        ConfigurationError.objects.configuration_health_check()
         # List of triggered checks remotely
-        ManageMiddleware.configuration_health_check(
+        ConfigurationError.objects.configuration_health_check(
             [
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
@@ -167,10 +168,10 @@ class AdminTest(ViewTestCase):
         self.assertEqual(all_errors[0].name, "weblate.E002")
         self.assertEqual(all_errors[0].message, "Test Error")
         # No triggered checks
-        ManageMiddleware.configuration_health_check([])
+        ConfigurationError.objects.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 
-    def test_post_announcenement(self):
+    def test_post_announcenement(self) -> None:
         response = self.client.get(reverse("manage-tools"))
         self.assertContains(response, "announcement")
         self.assertFalse(Announcement.objects.exists())
@@ -181,7 +182,7 @@ class AdminTest(ViewTestCase):
         )
         self.assertTrue(Announcement.objects.exists())
 
-    def test_send_test_email(self, expected="Test e-mail sent"):
+    def test_send_test_email(self, expected="Test e-mail sent") -> None:
         response = self.client.get(reverse("manage-tools"))
         self.assertContains(response, "e-mail")
         response = self.client.post(
@@ -191,55 +192,25 @@ class AdminTest(ViewTestCase):
         if expected == "Test e-mail sent":
             self.assertEqual(len(mail.outbox), 1)
 
-    def test_invite_user(self):
+    def test_invite_user(self) -> None:
         response = self.client.get(reverse("manage-users"))
         self.assertContains(response, "E-mail")
         response = self.client.post(
             reverse("manage-users"),
             {
                 "email": "noreply@example.com",
-                "username": "username",
-                "full_name": "name",
-                "send_email": 1,
+                "group": Group.objects.get(name="Users").pk,
             },
             follow=True,
         )
-        self.assertContains(response, "Created user account")
+        self.assertContains(response, "User invitation e-mail was sent")
         self.assertEqual(len(mail.outbox), 1)
 
-    def test_invite_user_nosend(self):
-        response = self.client.get(reverse("manage-users"))
-        self.assertContains(response, "E-mail")
-        response = self.client.post(
-            reverse("manage-users"),
-            {
-                "email": "noreply@example.com",
-                "username": "username",
-                "full_name": "name",
-            },
-            follow=True,
+    def test_check_user(self) -> None:
+        response = self.client.get(
+            reverse("manage-users-check"), {"q": self.user.email}, follow=True
         )
-        self.assertContains(response, "Created user account")
-        self.assertEqual(len(mail.outbox), 0)
-
-    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
-    def test_invite_user_nomail(self):
-        response = self.client.get(reverse("manage-users"))
-        self.assertContains(response, "E-mail")
-        response = self.client.post(
-            reverse("manage-users"),
-            {
-                "email": "noreply@example.com",
-                "username": "username",
-                "full_name": "name",
-                "send_email": 1,
-            },
-            follow=True,
-        )
-        self.assertContains(response, "Created user account")
-        self.assertEqual(len(mail.outbox), 1)
-
-    def test_check_user(self):
+        self.assertRedirects(response, self.user.get_absolute_url())
         response = self.client.get(
             reverse("manage-users-check"), {"email": self.user.email}, follow=True
         )
@@ -254,11 +225,42 @@ class AdminTest(ViewTestCase):
         EMAIL_HOST="nonexisting.weblate.org",
         EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
     )
-    def test_send_test_email_error(self):
+    def test_send_test_email_error(self) -> None:
         self.test_send_test_email("Could not send test e-mail")
 
     @responses.activate
-    def test_activation_community(self):
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_wrong(self) -> None:
+        responses.add(
+            responses.POST,
+            settings.SUPPORT_API_URL,
+            status=404,
+        )
+        response = self.client.post(
+            reverse("manage-activate"), {"secret": "123456"}, follow=True
+        )
+        self.assertContains(response, "Please ensure your activation token is correct.")
+        self.assertFalse(SupportStatus.objects.exists())
+        self.assertFalse(BackupService.objects.exists())
+
+    @responses.activate
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_error(self) -> None:
+        responses.add(
+            responses.POST,
+            settings.SUPPORT_API_URL,
+            status=500,
+        )
+        response = self.client.post(
+            reverse("manage-activate"), {"secret": "123456"}, follow=True
+        )
+        self.assertContains(response, "Please try again later.")
+        self.assertFalse(SupportStatus.objects.exists())
+        self.assertFalse(BackupService.objects.exists())
+
+    @responses.activate
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_community(self) -> None:
         responses.add(
             responses.POST,
             settings.SUPPORT_API_URL,
@@ -268,6 +270,7 @@ class AdminTest(ViewTestCase):
                     "backup_repository": "",
                     "expiry": timezone.now(),
                     "in_limits": True,
+                    "limits": {},
                 },
                 cls=DjangoJSONEncoder,
             ),
@@ -284,37 +287,40 @@ class AdminTest(ViewTestCase):
         self.assertTrue(status.discoverable)
 
     @responses.activate
-    def test_activation_hosted(self):
-        responses.add(
-            responses.POST,
-            settings.SUPPORT_API_URL,
-            body=json.dumps(
-                {
-                    "name": "hosted",
-                    "backup_repository": "/tmp/xxx",
-                    "expiry": timezone.now(),
-                    "in_limits": True,
-                },
-                cls=DjangoJSONEncoder,
-            ),
-        )
-        self.client.post(reverse("manage-activate"), {"secret": "123456"})
-        status = SupportStatus.objects.get()
-        self.assertEqual(status.name, "hosted")
-        backup = BackupService.objects.get()
-        self.assertEqual(backup.repository, "/tmp/xxx")
-        self.assertFalse(backup.enabled)
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_hosted(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            responses.add(
+                responses.POST,
+                settings.SUPPORT_API_URL,
+                body=json.dumps(
+                    {
+                        "name": "hosted",
+                        "backup_repository": tempdir,
+                        "expiry": timezone.now(),
+                        "in_limits": True,
+                        "limits": {},
+                    },
+                    cls=DjangoJSONEncoder,
+                ),
+            )
+            self.client.post(reverse("manage-activate"), {"secret": "123456"})
+            status = SupportStatus.objects.get()
+            self.assertEqual(status.name, "hosted")
+            backup = BackupService.objects.get()
+            self.assertEqual(backup.repository, tempdir)
+            self.assertFalse(backup.enabled)
 
-        self.assertFalse(status.discoverable)
+            self.assertFalse(status.discoverable)
 
-        self.client.post(reverse("manage-discovery"))
-        status = SupportStatus.objects.get()
-        self.assertTrue(status.discoverable)
+            self.client.post(reverse("manage-discovery"))
+            status = SupportStatus.objects.get()
+            self.assertTrue(status.discoverable)
 
-    def test_group_management(self):
+    def test_group_management(self) -> None:
         # Add form
         response = self.client.get(reverse("admin:weblate_auth_group_add"))
-        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, "Automatic team assignment")
 
         # Create group
         name = "Test group"
@@ -335,5 +341,70 @@ class AdminTest(ViewTestCase):
         group = Group.objects.get(name=name)
         url = reverse("admin:weblate_auth_group_change", kwargs={"object_id": group.pk})
         response = self.client.get(url)
-        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, "Automatic team assignment")
         self.assertContains(response, name)
+
+    def test_groups(self) -> None:
+        name = "Test group"
+        url = reverse("manage-teams")
+        response = self.client.get(url)
+        self.assertNotContains(response, name)
+
+        # Create
+        response = self.client.post(
+            reverse("manage-teams"),
+            {
+                "name": name,
+                "language_selection": "1",
+                "project_selection": "1",
+            },
+        )
+        self.assertRedirects(response, url)
+        response = self.client.get(url)
+        self.assertContains(response, name)
+
+        # Edit
+        group = Group.objects.get(name=name)
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": name,
+                "language_selection": "1",
+                "project_selection": "1",
+                "autogroup_set-TOTAL_FORMS": "1",
+                "autogroup_set-INITIAL_FORMS": "0",
+                "autogroup_set-0-match": "^.*$",
+            },
+        )
+        self.assertRedirects(response, group.get_absolute_url())
+        group = Group.objects.get(name=name)
+
+        self.assertEqual(group.autogroup_set.count(), 1)
+
+        # Delete
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "delete": 1,
+            },
+        )
+        self.assertRedirects(response, url)
+
+        response = self.client.get(url)
+        self.assertNotContains(response, name)
+
+    def test_edit_internal_group(self) -> None:
+        response = self.client.post(
+            Group.objects.get(name="Users").get_absolute_url(),
+            {
+                "name": "Other",
+                "language_selection": "1",
+                "project_selection": "1",
+            },
+        )
+        self.assertContains(response, "Cannot change this on a built-in team")
+
+    def test_commands(self) -> None:
+        out = StringIO()
+        call_command("configuration_health_check", stdout=out)
+        self.assertEqual(out.getvalue(), "")

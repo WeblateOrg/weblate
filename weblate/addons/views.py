@@ -1,118 +1,138 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
+from weblate.trans.models import Component, Project
 from weblate.utils import messages
-from weblate.utils.views import ComponentViewMixin
+from weblate.utils.views import PathViewMixin
 
 
-class AddonViewMixin(ComponentViewMixin):
+class AddonList(PathViewMixin, ListView):
+    paginate_by = None
+    model = Addon
+    supported_path_types = (None, Component, Project)
+
     def get_queryset(self):
-        component = self.get_component()
-        if not self.request.user.has_perm("component.edit", component):
-            raise PermissionDenied("Can not edit component")
-        self.kwargs["component_obj"] = component
-        return Addon.objects.filter_component(component)
+        if isinstance(self.path_object, Component):
+            if not self.request.user.has_perm("component.edit", self.path_object):
+                raise PermissionDenied("Can not edit component")
+            self.kwargs["component_obj"] = self.path_object
+            return Addon.objects.filter_component(self.path_object)
+        if isinstance(self.path_object, Project):
+            if not self.request.user.has_perm("project.edit", self.path_object):
+                raise PermissionDenied("Can not edit project")
+            self.kwargs["project_obj"] = self.path_object
+            return Addon.objects.filter_project(self.path_object)
+
+        return Addon.objects.filter_sitewide()
 
     def get_success_url(self):
-        component = self.get_component()
-        return reverse(
-            "addons",
-            kwargs={"project": component.project.slug, "component": component.slug},
-        )
+        if self.path_object is None:
+            return reverse("manage-addons")
+        return reverse("addons", kwargs={"path": self.path_object.get_url_path()})
 
     def redirect_list(self, message=None):
         if message:
             messages.error(self.request, message)
         return redirect(self.get_success_url())
 
-
-class AddonList(AddonViewMixin, ListView):
-    paginate_by = None
-    model = Addon
-
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        component = self.kwargs["component_obj"]
-        result["object"] = component
+        target = self.path_object
+        result["object"] = target
         installed = {x.addon.name for x in result["object_list"]}
-        result["available"] = sorted(
-            (
-                x
-                for x in ADDONS.values()
-                if x.can_install(component, self.request.user)
-                and (x.multiple or x.name not in installed)
-            ),
-            key=lambda x: x.name,
-        )
+
+        if isinstance(target, Component):
+            result["available"] = sorted(
+                (
+                    x(Addon())
+                    for x in ADDONS.values()
+                    if x.can_install(target, self.request.user)
+                    and (x.multiple or x.name not in installed)
+                ),
+                key=lambda x: x.name,
+            )
+        else:
+            # This covers both project-wide and site-wide
+            result["available"] = sorted(
+                (
+                    x(Addon())
+                    for x in ADDONS.values()
+                    if (x.multiple or x.name not in installed)
+                ),
+                key=lambda x: x.name,
+            )
+
         return result
 
     def post(self, request, **kwargs):
-        component = self.get_component()
+        obj = self.path_object
+        obj_component, obj_project = None, None
+
+        if isinstance(obj, Component):
+            obj_component = obj
+        elif isinstance(obj, Project):
+            obj_project = obj
+
         name = request.POST.get("name")
         addon = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
         if (
             not name
             or addon is None
-            or not addon.can_install(component, request.user)
+            or (obj_component and not addon.can_install(obj_component, request.user))
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(_("Invalid add-on name specified!"))
+            return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
 
         form = None
         if addon.settings_form is None:
-            addon.create(component)
+            addon.create(component=obj_component, project=obj_project)
             return self.redirect_list()
+
         if "form" in request.POST:
-            form = addon.get_add_form(request.user, component, data=request.POST)
+            form = addon.get_add_form(
+                request.user,
+                component=obj_component,
+                project=obj_project,
+                data=request.POST,
+            )
             if form.is_valid():
                 instance = form.save()
                 if addon.stay_on_create:
                     messages.info(
                         self.request,
-                        _("Add-on installed, please review integration instructions."),
+                        gettext(
+                            "Add-on installed, please review integration instructions."
+                        ),
                     )
                     return redirect(instance)
                 return self.redirect_list()
         else:
-            form = addon.get_add_form(request.user, component)
-        addon.pre_install(component, request)
+            form = addon.get_add_form(
+                request.user, component=obj_component, project=obj_project
+            )
+
+        addon.pre_install(obj, request)
         return self.response_class(
             request=self.request,
             template=["addons/addon_detail.html"],
             context={
-                "addon": addon,
+                "addon": addon(Addon()),
                 "form": form,
-                "object": self.kwargs["component_obj"],
+                "object": self.path_object,
             },
         )
 
 
-class AddonDetail(AddonViewMixin, UpdateView):
+class AddonDetail(UpdateView):
     model = Addon
     template_name_suffix = "_detail"
 
@@ -123,14 +143,37 @@ class AddonDetail(AddonViewMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        result["object"] = self.object.component
+        if self.object.project:
+            result["object"] = self.object.project
+        else:
+            result["object"] = self.object.component
         result["instance"] = self.object
         result["addon"] = self.object.addon
         return result
 
+    def get_success_url(self):
+        target = self.object.component or self.object.project
+        if target is None:
+            return reverse("manage-addons")
+        return reverse("addons", kwargs={"path": target.get_url_path()})
+
+    def get_object(self):
+        obj = super().get_object()
+        if obj.component and not self.request.user.has_perm(
+            "component.edit", obj.component
+        ):
+            raise PermissionDenied("Can not edit component")
+        if obj.project and not self.request.user.has_perm("project.edit", obj.project):
+            raise PermissionDenied("Can not edit project")
+        return obj
+
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
+        obj.acting_user = request.user
         if "delete" in request.POST:
+            target = obj.component or obj.project
             obj.delete()
-            return self.redirect_list()
+            if target is None:
+                return redirect(reverse("manage-addons"))
+            return redirect(reverse("addons", kwargs={"path": target.get_url_path()}))
         return super().post(request, *args, **kwargs)

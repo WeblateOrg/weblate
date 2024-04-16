@@ -7,11 +7,11 @@
           <svg height="8" width="8">
             <rect x="0" y="0" width="8" height="8" fill="#2ECCAA"></rect>
           </svg>
-          {% trans "Last year" %}
+          {% trans "Last 12 months" %}
           <svg height="8" width="8">
             <rect x="0" y="0" width="8" height="8" fill="#BFC3C7"></rect>
           </svg>
-          {% blocktrans context "Previous year" %}Previous{% endblocktrans %}
+          {% blocktrans context "Previous 12 months" %}Previous{% endblocktrans %}
         </span>
         <h4 class="panel-title">{% trans "Activity in last 12 months" %}</h4>
       </div>
@@ -19,13 +19,19 @@
         <tr>
           {% for activity in metrics.monthly_activity %}
             <td>
-              <a href="{% url 'changes' %}?{{ last_changes_url }}&amp;start_date={{activity.previous_start_date.isoformat}}&amp;end_date={{activity.previous_end_date.isoformat}}"><svg height="140" width="8">
-                <rect x="0" y="{{ activity.previous_offset }}" width="8" height="{{ activity.previous_height }}" fill="#E9EAEC">
+              {% if object.get_url_path %}
+                {% url 'changes' path=object.get_url_path as changes_url %}
+              {% else %}
+                {% url 'changes' as changes_url %}
+              {% endif %}
+
+              <a href="{{ changes_url }}?start_date={{activity.previous_start_date.isoformat}}&amp;end_date={{activity.previous_end_date.isoformat}}"><svg height="140" width="25%">
+                <rect x="0" y="{{ activity.previous_offset }}" width="100%" height="{{ activity.previous_height }}" fill="#E9EAEC">
                   <title>{% blocktrans count _count=activity.previous with count=activity.previous|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
                 </rect>
               </svg></a>
-              <a href="{% url 'changes' %}?{{ last_changes_url }}&amp;start_date={{activity.start_date.isoformat}}&amp;end_date={{activity.end_date.isoformat }}"><svg height="140" width="8">
-                <rect x="0" y="{{ activity.current_offset }}" width="8" height="{{ activity.current_height }}" fill="#2ECCAA">
+              <a href="{{ changes_url }}?start_date={{activity.start_date.isoformat}}&amp;end_date={{activity.end_date.isoformat }}"><svg height="140" width="25%">
+                <rect x="0" y="{{ activity.current_offset }}" width="100%" height="{{ activity.current_height }}" fill="#2ECCAA">
                   <title>{% blocktrans count _count=activity.current with count=activity.current|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
                 </rect>
               </svg></a>

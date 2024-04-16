@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load translations %}
+
+<h4>
+{% if service.is_configured %}
+  {% if service.sitewide %}
+    <span class="badge pull-right flip" title="{% trans "This service is installed site wide." %}">{% trans "site wide" %}</span>
+  {% endif %}
+  {% if not service.is_enabled %}
+    <span class="badge pull-right flip" title="{% trans "This service is installed site wide, but disabled." %}">{% trans "disabled" %}</span>
+  {% endif %}
+{% endif %}
+{{ service.name }}
+{% if service.is_available %}
+  {% documentation_icon "admin/machine" service.doc_anchor %}
+{% else %}
+  <span class="badge badge-danger">{% trans "Service is no longer available" %}</span>
+{% endif %}
+</h4>

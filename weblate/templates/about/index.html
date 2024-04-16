@@ -29,11 +29,11 @@
 {% blocktrans %}Weblate can host your project as well, please get in touch.{% endblocktrans %}
 </p>
   <p>
-    {% trans "Commercial hosting is also available, pricing starts at 19 EUR per month, please get in touch for more details." %}
+    {% trans "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
   </p>
 </div>
   <div class="panel-footer">
-  <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for libre project hosting" %}</a>
+  <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a>
   <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
 {% if payment_enabled %}
   <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% trans "Gratis trial for commercial hosting" %}</a>
@@ -50,7 +50,7 @@
 <div class="panel-body formats">
 {% for ver in versions %}
   <a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
-  {% if not hide_version or user.is_authenticated %}
+  {% if not hide_version or user.is_superuser %}
     <span>{{ ver.2 }}</span>
   {% endif %}
   </a>

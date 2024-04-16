@@ -8,12 +8,12 @@
 
 <h2>{% trans "Suggestion" %}</h2>
 
-{% format_translation suggestion.target unit.translation.language unit.translation.plural %}
+{% format_unit_target unit value=suggestion.target %}
 
 {% if unit.translated %}
 <h2>{% trans "Translation change" %}</h2>
 
-{% format_translation suggestion.target unit.translation.language unit.translation.plural unit.target %}
+{% format_unit_target unit value=suggestion.target diff=unit.target %}
 {% endif %}
 
 <div class="line buttons">

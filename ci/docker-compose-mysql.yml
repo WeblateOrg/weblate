@@ -1,14 +1,18 @@
-version: "3"
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version: '3'
 
 services:
   database:
-    image: mysql:8.0.27
+    image: mysql:8.3.0
     ports:
-      - 60000:3306
+    - 60000:3306
     environment:
       MYSQL_ROOT_PASSWORD: weblate
   cache:
-    image: redis:6.2.6-alpine
+    image: redis:7.2.4-alpine
     restart: always
     ports:
-      - 60001:6379
+    - 60001:6379

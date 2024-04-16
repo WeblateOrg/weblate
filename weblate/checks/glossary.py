@@ -1,28 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.html import escape, format_html, format_html_join
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 
@@ -30,8 +13,10 @@ from weblate.checks.base import TargetCheck
 class GlossaryCheck(TargetCheck):
     default_disabled = True
     check_id = "check_glossary"
-    name = _("Does not follow glossary")
-    description = _("The translation does not follow terms defined in a glossary.")
+    name = gettext_lazy("Does not follow glossary")
+    description = gettext_lazy(
+        "The translation does not follow terms defined in a glossary."
+    )
 
     def check_single(self, source, target, unit):
         from weblate.glossary.models import get_glossary_terms
@@ -39,17 +24,22 @@ class GlossaryCheck(TargetCheck):
         forbidden = set()
         mismatched = set()
         matched = set()
+        boundary = r"\b" if unit.translation.language.uses_whitespace() else ""
         for term in get_glossary_terms(unit):
             term_source = term.source
             flags = term.all_flags
             expected = term_source if "read-only" in flags else term.target
             if "forbidden" in flags:
-                if re.search(fr"\b{re.escape(expected)}\b", target, re.IGNORECASE):
+                if re.search(
+                    rf"{boundary}{re.escape(expected)}{boundary}", target, re.IGNORECASE
+                ):
                     forbidden.add(term_source)
             else:
                 if term_source in matched:
                     continue
-                if re.search(fr"\b{re.escape(expected)}\b", target, re.IGNORECASE):
+                if re.search(
+                    rf"{boundary}{re.escape(expected)}{boundary}", target, re.IGNORECASE
+                ):
                     mismatched.discard(term_source)
                     matched.add(term_source)
                 else:
@@ -79,7 +69,9 @@ class GlossaryCheck(TargetCheck):
         if not results:
             return super().get_description(check_obj)
 
-        return mark_safe(
-            gettext("Following terms are not translated according to glossary: %s")
-            % ", ".join(escape(term) for term in sorted(results))
+        return format_html(
+            escape(
+                gettext("Following terms are not translated according to glossary: {}")
+            ),
+            format_html_join(", ", "{}", ((term,) for term in sorted(results))),
         )

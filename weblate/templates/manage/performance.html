@@ -159,6 +159,10 @@
             <td>{% trans "Cache latency" %}</td>
             <td class="number">{{ cache_latency }} ms</td>
           </tr>
+          <tr>
+            <td>{% trans "Celery latency" %}</td>
+            <td class="number">{% if celery_latency %}{{ celery_latency }} ms{% else %}{% trans "Not yet measured" %}{% endif %}</td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 from copy import copy
@@ -31,8 +16,10 @@ from weblate_language_data.languages import LANGUAGES
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
+from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
+    Category,
     Change,
     Component,
     ComponentList,
@@ -54,22 +41,24 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
 class APIBaseTest(APITestCase, RepoTestMixin):
+    CREATE_GLOSSARIES: bool = True
+
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         super().tearDownClass()
         immediate_on_commit_leave(cls)
 
     @classmethod
-    def setUpTestData(cls):
+    def setUpTestData(cls) -> None:
         super().setUpTestData()
         fixup_languages_seq()
 
-    def setUp(self):
+    def setUp(self) -> None:
         Language.objects.flush_object_cache()
         self.clone_test_repos()
         self.component = self.create_component()
@@ -93,7 +82,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             "po-mono", "po-mono/*.po", "po-mono/en.po", project=project
         )
 
-    def authenticate(self, superuser: bool = False):
+    def authenticate(self, superuser: bool = False) -> None:
         if self.user.is_superuser != superuser:
             self.user.is_superuser = superuser
             self.user.save()
@@ -103,21 +92,25 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self,
         name,
         kwargs=None,
+        *,
         data=None,
         code=200,
         superuser: bool = False,
         method="get",
         request=None,
+        headers=None,
         skip=(),
-        format: str = "multipart",
+        format: str = "multipart",  # noqa: A002
     ):
         self.authenticate(superuser)
-        url = reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request, format)
+        url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
+        response = getattr(self.client, method)(url, request, format, headers=headers)
+        content = response.content if hasattr(response, "content") else "<stream>"
+
         self.assertEqual(
             response.status_code,
             code,
-            f"Unexpected status code {response.status_code}: {response.content}",
+            f"Unexpected status code {response.status_code}: {content}",
         )
         if data is not None:
             for item in skip:
@@ -127,30 +120,30 @@ class APIBaseTest(APITestCase, RepoTestMixin):
 
 
 class UserAPITest(APIBaseTest):
-    def test_list(self):
+    def test_list(self) -> None:
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)
-        self.assertFalse("email" in response.data["results"][0])
+        self.assertNotIn("email", response.data["results"][0])
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
-    def test_get(self):
+    def test_get(self) -> None:
         response = self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="get",
             superuser=True,
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
 
-    def test_filter(self):
+    def test_filter(self) -> None:
         response = self.client.get(reverse("api:user-list"), {"username": "api"})
         self.assertEqual(response.data["count"], 1)
 
-    def test_create(self):
+    def test_create(self) -> None:
         self.do_request("api:user-list", method="post", code=403)
         self.do_request(
             "api:user-list",
@@ -166,7 +159,7 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(User.objects.count(), 3)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.do_request(
             "api:user-list",
             method="post",
@@ -189,18 +182,18 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(User.objects.count(), 3)
         self.assertEqual(User.objects.filter(is_active=True).count(), 1)
 
-    def test_add_group(self):
+    def test_add_group(self) -> None:
         group = Group.objects.get(name="Viewers")
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             code=403,
             request={"group_id": group.id},
         )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=400,
@@ -208,33 +201,70 @@ class UserAPITest(APIBaseTest):
         )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=200,
             request={"group_id": group.id},
         )
 
-    def test_list_notifications(self):
+    def test_remove_group(self) -> None:
+        group = Group.objects.get(name="Viewers")
+        username = User.objects.filter(is_active=True)[0].username
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="post",
+            code=403,
+            request={"group_id": group.id},
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": -1},
+        )
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id},
+        )
+        self.assertIn("http://example.com/api/groups/2/", response.data["groups"])
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": username},
+            method="delete",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id},
+        )
+        self.assertNotIn("http://example.com/api/groups/2/", response.data["groups"])
+
+    def test_list_notifications(self) -> None:
         response = self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="get",
             superuser=True,
             code=200,
         )
         self.assertEqual(response.data["count"], 9)
 
-    def test_post_notifications(self):
+    def test_post_notifications(self) -> None:
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             code=403,
         )
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=201,
@@ -246,8 +276,8 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(Subscription.objects.count(), 10)
 
-    def test_get_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+    def test_get_notifications(self) -> None:
+        user = User.objects.filter(is_active=True)[0]
         self.do_request(
             "api:user-notifications-details",
             kwargs={"username": user.username, "subscription_id": 1000},
@@ -258,23 +288,21 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user).first().id,
+                "subscription_id": Subscription.objects.filter(user=user)[0].id,
             },
             method="get",
             code=200,
         )
 
-    def test_put_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+    def test_put_notifications(self) -> None:
+        user = User.objects.filter(is_active=True)[0]
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
                 "subscription_id": Subscription.objects.filter(
                     user=user, notification="NewAnnouncementNotificaton"
-                )
-                .first()
-                .id,
+                )[0].id,
             },
             method="put",
             superuser=True,
@@ -287,17 +315,15 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
-    def test_patch_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+    def test_patch_notifications(self) -> None:
+        user = User.objects.filter(is_active=True)[0]
         response = self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
                 "subscription_id": Subscription.objects.filter(
                     user=user, notification="NewAnnouncementNotificaton"
-                )
-                .first()
-                .id,
+                )[0].id,
             },
             method="patch",
             superuser=True,
@@ -306,13 +332,13 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
-    def test_delete_notifications(self):
-        user = User.objects.filter(is_active=True).first()
+    def test_delete_notifications(self) -> None:
+        user = User.objects.filter(is_active=True)[0]
         self.do_request(
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user).first().id,
+                "subscription_id": Subscription.objects.filter(user=user)[0].id,
             },
             method="delete",
             superuser=True,
@@ -320,8 +346,8 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(Subscription.objects.count(), 8)
 
-    def test_statistics(self):
-        user = User.objects.filter(is_active=True).first()
+    def test_statistics(self) -> None:
+        user = User.objects.filter(is_active=True)[0]
         request = self.do_request(
             "api:user-statistics",
             kwargs={"username": user.username},
@@ -329,16 +355,16 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(request.data["commented"], user.profile.commented)
 
-    def test_put(self):
+    def test_put(self) -> None:
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="put",
             code=403,
         )
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="put",
             superuser=True,
             code=200,
@@ -349,35 +375,35 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertEqual(User.objects.filter(is_active=True).first().full_name, "Name")
+        self.assertEqual(User.objects.filter(is_active=True)[0].full_name, "Name")
 
-    def test_patch(self):
+    def test_patch(self) -> None:
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="patch",
             code=403,
         )
         self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="patch",
             superuser=True,
             code=200,
             request={"full_name": "Other"},
         )
-        self.assertEqual(User.objects.filter(is_active=True).first().full_name, "Other")
+        self.assertEqual(User.objects.filter(is_active=True)[0].full_name, "Other")
 
 
 class GroupAPITest(APIBaseTest):
-    def test_list(self):
+    def test_list(self) -> None:
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 2)
         self.authenticate(True)
         response = self.client.get(reverse("api:group-list"))
-        self.assertEqual(response.data["count"], 6)
+        self.assertEqual(response.data["count"], 7)
 
-    def test_get(self):
+    def test_get(self) -> None:
         response = self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -387,7 +413,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "Users")
 
-    def test_create(self):
+    def test_create(self) -> None:
         self.do_request("api:group-list", method="post", code=403)
         self.do_request(
             "api:group-list",
@@ -397,9 +423,29 @@ class GroupAPITest(APIBaseTest):
             format="json",
             request={"name": "Group", "project_selection": 0, "language_selection": 0},
         )
-        self.assertEqual(Group.objects.count(), 7)
+        self.assertEqual(Group.objects.count(), 8)
 
-    def test_add_role(self):
+    def test_create_project(self) -> None:
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(Group.objects.count(), 8)
+        group = Group.objects.get(name="Group")
+        self.assertEqual(group.defining_project, self.component.project)
+
+    def test_add_role(self) -> None:
         role = Role.objects.get(pk=1)
         self.do_request(
             "api:group-roles",
@@ -425,7 +471,7 @@ class GroupAPITest(APIBaseTest):
             request={"role_id": role.id},
         )
 
-    def test_add_component(self):
+    def test_add_component(self) -> None:
         self.do_request(
             "api:group-components",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -450,7 +496,7 @@ class GroupAPITest(APIBaseTest):
             request={"component_id": self.component.pk},
         )
 
-    def test_remove_component(self):
+    def test_remove_component(self) -> None:
         self.do_request(
             "api:group-components",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -487,7 +533,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Users").components.count(), 0)
 
-    def test_add_project(self):
+    def test_add_project(self) -> None:
         self.do_request(
             "api:group-projects",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -512,7 +558,7 @@ class GroupAPITest(APIBaseTest):
             request={"project_id": Project.objects.get(slug="test").pk},
         )
 
-    def test_remove_project(self):
+    def test_remove_project(self) -> None:
         self.do_request(
             "api:group-projects",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -549,7 +595,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Users").projects.count(), 0)
 
-    def test_add_language(self):
+    def test_add_language(self) -> None:
         self.do_request(
             "api:group-languages",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -574,7 +620,7 @@ class GroupAPITest(APIBaseTest):
             request={"language_code": "cs"},
         )
 
-    def test_remove_language(self):
+    def test_remove_language(self) -> None:
         self.do_request(
             "api:group-languages",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -607,7 +653,7 @@ class GroupAPITest(APIBaseTest):
             code=204,
         )
 
-    def test_add_componentlist(self):
+    def test_add_componentlist(self) -> None:
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
         self.do_request(
@@ -634,7 +680,7 @@ class GroupAPITest(APIBaseTest):
             request={"component_list_id": ComponentList.objects.get().pk},
         )
 
-    def test_remove_componentlist(self):
+    def test_remove_componentlist(self) -> None:
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
         self.do_request(
@@ -676,7 +722,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Users").componentlists.count(), 0)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -684,9 +730,9 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Group.objects.count(), 5)
+        self.assertEqual(Group.objects.count(), 6)
 
-    def test_put(self):
+    def test_put(self) -> None:
         self.do_request(
             "api:group-list",
             method="post",
@@ -712,7 +758,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Group").language_selection, 1)
 
-    def test_patch(self):
+    def test_patch(self) -> None:
         self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -729,21 +775,94 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
 
+    def test_grant_admin(self):
+        group = Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            request={"user_id": self.user.id},
+        )
+        self.assertIn("Administration rights granted.", response.data)
+
+        # Invalid user ID
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            request={"user_id": -1},
+            code=400,
+        )
+
+        # Missing user ID
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            code=400,
+        )
+
+    def test_group_admin_edit(self):
+        user = User.objects.create_user(username="testuser", password="12345")
+        group = Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=False,
+            request={"user_id": user.id},
+            code=404,
+        )
+        group.admins.add(self.user)
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=False,
+            request={"user_id": user.id},
+        )
+        self.assertIn("Administration rights granted.", response.data)
+
+    def test_revoke_admin(self):
+        group = Group.objects.create(name="Test Group")
+        user = User.objects.create_user(username="testuser", password="12345")
+        group.admins.add(user)
+
+        response = self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": group.id, "user_pk": 6555555},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        response = self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": group.id, "user_pk": user.id},
+            method="delete",
+            superuser=True,
+        )
+
+        admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
+        self.assertNotIn(user.id, admins_ids)
+
 
 class RoleAPITest(APIBaseTest):
-    def test_list_roles(self):
+    def test_list_roles(self) -> None:
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 2)
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))
-        self.assertEqual(response.data["count"], 13)
+        self.assertEqual(response.data["count"], 15)
 
-    def test_get_role(self):
+    def test_get_role(self) -> None:
         role = Role.objects.get(name="Access repository")
         response = self.client.get(reverse("api:role-detail", kwargs={"id": role.pk}))
         self.assertEqual(response.data["name"], role.name)
 
-    def test_create(self):
+    def test_create(self) -> None:
         self.do_request("api:role-list", method="post", code=403)
         self.do_request(
             "api:role-list",
@@ -761,10 +880,10 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
         )
-        self.assertEqual(Role.objects.count(), 14)
+        self.assertEqual(Role.objects.count(), 16)
         self.assertEqual(Role.objects.get(name="Role").permissions.count(), 2)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.do_request(
             "api:role-detail",
             kwargs={"id": Role.objects.all()[0].pk},
@@ -772,9 +891,9 @@ class RoleAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Role.objects.count(), 12)
+        self.assertEqual(Role.objects.count(), 14)
 
-    def test_put(self):
+    def test_put(self) -> None:
         self.do_request(
             "api:role-detail",
             kwargs={"id": Role.objects.order_by("id").all()[0].pk},
@@ -823,7 +942,7 @@ class RoleAPITest(APIBaseTest):
             "comment.add",
         )
 
-    def test_patch(self):
+    def test_patch(self) -> None:
         role = Role.objects.get(name="Access repository")
         self.assertEqual(role.permissions.count(), 3)
         self.do_request(
@@ -854,12 +973,12 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
-    def test_list_projects(self):
+    def test_list_projects(self) -> None:
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
         self.assertEqual(response.data["results"][0]["slug"], "test")
 
-    def test_list_projects_acl(self):
+    def test_list_projects_acl(self) -> None:
         self.create_acl()
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
@@ -867,13 +986,13 @@ class ProjectAPITest(APIBaseTest):
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 2)
 
-    def test_get_project(self):
+    def test_get_project(self) -> None:
         response = self.client.get(
             reverse("api:project-detail", kwargs=self.project_kwargs)
         )
         self.assertEqual(response.data["slug"], "test")
 
-    def test_repo_op_denied(self):
+    def test_repo_op_denied(self) -> None:
         for operation in ("push", "pull", "reset", "cleanup", "commit"):
             self.do_request(
                 "api:project-repository",
@@ -883,7 +1002,7 @@ class ProjectAPITest(APIBaseTest):
                 request={"operation": operation},
             )
 
-    def test_repo_ops(self):
+    def test_repo_ops(self) -> None:
         for operation in ("push", "pull", "reset", "cleanup", "commit"):
             self.do_request(
                 "api:project-repository",
@@ -893,7 +1012,7 @@ class ProjectAPITest(APIBaseTest):
                 request={"operation": operation},
             )
 
-    def test_repo_invalid(self):
+    def test_repo_invalid(self) -> None:
         self.do_request(
             "api:project-repository",
             self.project_kwargs,
@@ -903,10 +1022,10 @@ class ProjectAPITest(APIBaseTest):
             request={"operation": "invalid"},
         )
 
-    def test_repo_status_denied(self):
+    def test_repo_status_denied(self) -> None:
         self.do_request("api:project-repository", self.project_kwargs, code=403)
 
-    def test_repo_status(self):
+    def test_repo_status(self) -> None:
         self.do_request(
             "api:project-repository",
             self.project_kwargs,
@@ -915,23 +1034,23 @@ class ProjectAPITest(APIBaseTest):
             skip=("url",),
         )
 
-    def test_components(self):
+    def test_components(self) -> None:
         request = self.do_request("api:project-components", self.project_kwargs)
         self.assertEqual(request.data["count"], 2)
 
-    def test_changes(self):
+    def test_changes(self) -> None:
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 18)
+        self.assertEqual(request.data["count"], 30)
 
-    def test_statistics(self):
+    def test_statistics(self) -> None:
         request = self.do_request("api:project-statistics", self.project_kwargs)
         self.assertEqual(request.data["total"], 16)
 
-    def test_languages(self):
+    def test_languages(self) -> None:
         request = self.do_request("api:project-languages", self.project_kwargs)
         self.assertEqual(len(request.data), 4)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.do_request(
             "api:project-detail", self.project_kwargs, method="delete", code=403
         )
@@ -944,7 +1063,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Project.objects.count(), 0)
 
-    def test_create(self):
+    def test_create(self) -> None:
         self.do_request(
             "api:project-list",
             method="post",
@@ -968,7 +1087,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Project.objects.count(), 2)
 
-    def test_create_with_source_language(self):
+    def test_create_with_source_language(self) -> None:
         self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -1042,7 +1161,7 @@ class ProjectAPITest(APIBaseTest):
             "Language with this language code was not found.",
         )
 
-    def test_create_with_source_language_string(self, format="json"):
+    def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
         payload = {
             "name": "API project",
             "slug": "api-project",
@@ -1080,10 +1199,10 @@ class ProjectAPITest(APIBaseTest):
             Component.objects.get(slug="api-project").source_language.code, "ru"
         )
 
-    def test_create_with_source_language_string_multipart(self):
+    def test_create_with_source_language_string_multipart(self) -> None:
         self.test_create_with_source_language_string(format="multipart")
 
-    def test_create_component(self):
+    def test_create_component(self) -> None:
         self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -1140,8 +1259,48 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="other", project__slug="test")
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
+        # Creating duplicate
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Other",
+                "slug": "other",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "android/values-*/strings.xml",
+                "file_format": "aresource",
+                "template": "android/values/strings.xml",
+                "new_lang": "none",
+            },
+        )
 
-    def test_create_component_autoshare(self):
+    def test_create_component_category(self) -> None:
+        category = self.component.project.category_set.create(
+            name="Category", slug="category"
+        )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "category": reverse("api:category-detail", kwargs={"pk": category.pk}),
+            },
+        )
+        self.assertEqual(Component.objects.count(), 3)
+
+    def test_create_component_autoshare(self) -> None:
         repo = self.component.repo
         branch = self.component.branch
         link_repo = self.component.get_repo_link_url()
@@ -1162,6 +1321,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], repo)
+        self.assertEqual(response.data["branch"], branch)
         component = Component.objects.get(slug="c-1")
         self.assertEqual(component.repo, link_repo)
         response = self.do_request(
@@ -1181,6 +1341,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], repo)
+        self.assertEqual(response.data["branch"], "translations")
         component = Component.objects.get(slug="c-2")
         self.assertEqual(component.repo, repo)
         response = self.do_request(
@@ -1201,10 +1362,11 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], repo)
+        self.assertEqual(response.data["branch"], branch)
         component = Component.objects.get(slug="c-3")
         self.assertEqual(component.repo, repo)
 
-    def test_create_component_blank_request(self):
+    def test_create_component_blank_request(self) -> None:
         self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -1214,7 +1376,7 @@ class ProjectAPITest(APIBaseTest):
             request={},
         )
 
-    def test_create_component_no_format(self):
+    def test_create_component_no_format(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
@@ -1232,7 +1394,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertIn("file_format", response.data)
 
-    def test_create_component_no_push(self):
+    def test_create_component_no_push(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
@@ -1256,8 +1418,13 @@ class ProjectAPITest(APIBaseTest):
             "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
+        self.assertEqual(
+            response.data["linked_component"],
+            "http://example.com"
+            + reverse("api:component-detail", kwargs=self.component_kwargs),
+        )
 
-    def test_create_component_empty_push(self):
+    def test_create_component_empty_push(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
             "api:project-components",
@@ -1282,8 +1449,13 @@ class ProjectAPITest(APIBaseTest):
             "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
+        self.assertEqual(
+            response.data["linked_component"],
+            "http://example.com"
+            + reverse("api:component-detail", kwargs=self.component_kwargs),
+        )
 
-    def test_create_component_no_match(self):
+    def test_create_component_no_match(self) -> None:
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -1302,7 +1474,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 2)
         self.assertIn("filemask", response.data)
 
-    def test_create_component_local(self):
+    def test_create_component_local(self) -> None:
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -1317,14 +1489,49 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "*.strings",
                 "template": "en.strings",
                 "file_format": "strings-utf8",
-                "push": "https://username:password@github.com/example/push.git",
                 "new_lang": "none",
             },
         )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
-    def test_patch(self):
+    def test_create_component_local_nonexisting(self) -> None:
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.xliff",
+                "template": "en.xliff",
+                "file_format": "xliff",
+                "new_lang": "none",
+            },
+        )
+
+    def test_create_component_local_url(self) -> None:
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "filemask": "*.xliff",
+                "file_format": "xliff",
+                "new_lang": "none",
+            },
+        )
+
+    def test_patch(self) -> None:
         self.do_request(
             "api:project-detail", self.project_kwargs, method="patch", code=403
         )
@@ -1339,7 +1546,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["slug"], "new-slug")
 
-    def test_create_component_docfile(self):
+    def test_create_component_docfile(self) -> None:
         with open(TEST_DOC, "rb") as handle:
             response = self.do_request(
                 "api:project-components",
@@ -1353,12 +1560,55 @@ class ProjectAPITest(APIBaseTest):
                     "slug": "local-project",
                     "file_format": "html",
                     "new_lang": "add",
+                    "edit_template": "0",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "local-project/*.html")
         self.assertEqual(Component.objects.count(), 3)
 
-    def test_create_component_docfile_missing(self):
+    def test_create_component_docfile_mask(self) -> None:
+        with open(TEST_DOC, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "filemask": "doc/*.html",
+                    "edit_template": "0",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "doc/*.html")
+        self.assertEqual(Component.objects.count(), 3)
+
+    def test_create_component_docfile_mask_outside(self) -> None:
+        with open(TEST_DOC, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "filemask": "../doc/*.html",
+                },
+            )
+        self.assertEqual(Component.objects.count(), 2)
+
+    def test_create_component_docfile_missing(self) -> None:
         with open(TEST_DOC, "rb") as handle:
             self.do_request(
                 "api:project-components",
@@ -1387,7 +1637,7 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
 
-    def test_create_component_docfile_json(self):
+    def test_create_component_docfile_json(self) -> None:
         with open(TEST_DOC, "rb") as handle:
             self.do_request(
                 "api:project-components",
@@ -1402,10 +1652,11 @@ class ProjectAPITest(APIBaseTest):
                     "slug": "local-project",
                     "file_format": "html",
                     "new_lang": "add",
+                    "edit_template": "0",
                 },
             )
 
-    def test_create_component_docfile_language(self):
+    def test_create_component_docfile_language(self) -> None:
         with open(TEST_DOC, "rb") as handle:
             response = self.do_request(
                 "api:project-components",
@@ -1420,13 +1671,14 @@ class ProjectAPITest(APIBaseTest):
                     "source_language": "cs",
                     "file_format": "html",
                     "new_lang": "add",
+                    "edit_template": "0",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(response.data["template"], "local-project/cs.html")
         self.assertEqual(Component.objects.count(), 3)
 
-    def test_create_component_zipfile(self):
+    def test_create_component_zipfile(self) -> None:
         with open(TEST_ZIP, "rb") as handle:
             response = self.do_request(
                 "api:project-components",
@@ -1441,14 +1693,13 @@ class ProjectAPITest(APIBaseTest):
                     "filemask": "*.po",
                     "new_base": "project.pot",
                     "file_format": "po",
-                    "push": "https://username:password@github.com/example/push.git",
                     "new_lang": "none",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
-    def test_create_component_zipfile_bad_params(self):
+    def test_create_component_zipfile_bad_params(self) -> None:
         with open(TEST_ZIP, "rb") as handle:
             self.do_request(
                 "api:project-components",
@@ -1501,7 +1752,7 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
 
-    def test_create_component_overwrite(self):
+    def test_create_component_overwrite(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         trasnslation_filename = translation.get_filename()
         self.assertTrue(os.path.exists(trasnslation_filename))
@@ -1533,7 +1784,7 @@ class ProjectAPITest(APIBaseTest):
             f"File {trasnslation_filename} does not exist",
         )
 
-    def test_create_component_enforced(self):
+    def test_create_component_enforced(self) -> None:
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -1548,7 +1799,6 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "*.strings",
                 "template": "en.strings",
                 "file_format": "strings-utf8",
-                "push": "https://username:password@github.com/example/push.git",
                 "new_lang": "none",
                 "enforced_checks": "",
             },
@@ -1567,7 +1817,6 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "*.strings",
                 "template": "en.strings",
                 "file_format": "strings-utf8",
-                "push": "https://username:password@github.com/example/push.git",
                 "new_lang": "none",
                 "enforced_checks": '""',
             },
@@ -1587,7 +1836,6 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "*.strings",
                 "template": "en.strings",
                 "file_format": "strings-utf8",
-                "push": "https://username:password@github.com/example/push.git",
                 "new_lang": "none",
                 "enforced_checks": "",
             },
@@ -1607,7 +1855,6 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "*.strings",
                 "template": "en.strings",
                 "file_format": "strings-utf8",
-                "push": "https://username:password@github.com/example/push.git",
                 "new_lang": "none",
                 "enforced_checks": ["xxx"],
             },
@@ -1627,7 +1874,6 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "*.strings",
                 "template": "en.strings",
                 "file_format": "strings-utf8",
-                "push": "https://username:password@github.com/example/push.git",
                 "new_lang": "none",
                 "enforced_checks": ["same"],
             },
@@ -1638,9 +1884,66 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
 
+    def test_download_private_project_translations(self) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=404,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations_prohibited(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_converted(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_target_language(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "language_code": "cs"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
 
 class ComponentAPITest(APIBaseTest):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         shot = Screenshot.objects.create(
             name="Obrazek", translation=self.component.source_translation
@@ -1648,7 +1951,7 @@ class ComponentAPITest(APIBaseTest):
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
 
-    def test_list_components(self):
+    def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 2)
         self.assertEqual(response.data["results"][0]["slug"], "test")
@@ -1656,7 +1959,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["results"][1]["slug"], "glossary")
         self.assertEqual(response.data["results"][1]["project"]["slug"], "test")
 
-    def test_list_components_acl(self):
+    def test_list_components_acl(self) -> None:
         self.create_acl()
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 2)
@@ -1664,26 +1967,26 @@ class ComponentAPITest(APIBaseTest):
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 4)
 
-    def test_get_component(self):
+    def test_get_component(self) -> None:
         response = self.client.get(
             reverse("api:component-detail", kwargs=self.component_kwargs)
         )
         self.assertEqual(response.data["slug"], "test")
         self.assertEqual(response.data["project"]["slug"], "test")
 
-    def test_get_lock(self):
+    def test_get_lock(self) -> None:
         response = self.client.get(
             reverse("api:component-lock", kwargs=self.component_kwargs)
         )
         self.assertEqual(response.data, {"locked": False})
 
-    def test_set_lock_denied(self):
+    def test_set_lock_denied(self) -> None:
         self.authenticate()
         url = reverse("api:component-lock", kwargs=self.component_kwargs)
         response = self.client.post(url, {"lock": True})
         self.assertEqual(response.status_code, 403)
 
-    def test_set_lock(self):
+    def test_set_lock(self) -> None:
         self.authenticate(True)
         url = reverse("api:component-lock", kwargs=self.component_kwargs)
         response = self.client.get(url)
@@ -1693,10 +1996,10 @@ class ComponentAPITest(APIBaseTest):
         response = self.client.post(url, {"lock": False})
         self.assertEqual(response.data, {"locked": False})
 
-    def test_repo_status_denied(self):
+    def test_repo_status_denied(self) -> None:
         self.do_request("api:component-repository", self.component_kwargs, code=403)
 
-    def test_repo_status(self):
+    def test_repo_status(self) -> None:
         self.do_request(
             "api:component-repository",
             self.component_kwargs,
@@ -1710,7 +2013,7 @@ class ComponentAPITest(APIBaseTest):
             skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
-    def test_statistics(self):
+    def test_statistics(self) -> None:
         self.do_request(
             "api:component-statistics",
             self.component_kwargs,
@@ -1718,40 +2021,40 @@ class ComponentAPITest(APIBaseTest):
             skip=("results", "previous", "next"),
         )
 
-    def test_new_template_404(self):
+    def test_new_template_404(self) -> None:
         self.do_request("api:component-new-template", self.component_kwargs, code=404)
 
-    def test_new_template(self):
+    def test_new_template(self) -> None:
         self.component.new_base = "po/cs.po"
         self.component.save()
         self.do_request("api:component-new-template", self.component_kwargs)
 
-    def test_monolingual_404(self):
+    def test_monolingual_404(self) -> None:
         self.do_request(
             "api:component-monolingual-base", self.component_kwargs, code=404
         )
 
-    def test_monolingual(self):
+    def test_monolingual(self) -> None:
         component = self.create_po_mono(name="mono", project=self.component.project)
         self.do_request(
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
         )
 
-    def test_translations(self):
+    def test_translations(self) -> None:
         request = self.do_request("api:component-translations", self.component_kwargs)
         self.assertEqual(request.data["count"], 4)
 
-    def test_changes(self):
+    def test_changes(self) -> None:
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 13)
+        self.assertEqual(request.data["count"], 22)
 
-    def test_screenshots(self):
+    def test_screenshots(self) -> None:
         request = self.do_request("api:component-screenshots", self.component_kwargs)
         self.assertEqual(request.data["count"], 1)
         self.assertEqual(request.data["results"][0]["name"], "Obrazek")
 
-    def test_patch(self):
+    def test_patch(self) -> None:
         self.do_request(
             "api:component-detail", self.component_kwargs, method="patch", code=403
         )
@@ -1766,7 +2069,7 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
 
-    def test_put(self):
+    def test_put(self) -> None:
         self.do_request(
             "api:component-detail", self.component_kwargs, method="put", code=403
         )
@@ -1785,7 +2088,7 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.assertEqual(Component.objects.count(), 2)
         self.do_request(
             "api:component-detail", self.component_kwargs, method="delete", code=403
@@ -1799,7 +2102,7 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(Component.objects.count(), 1)
 
-    def test_create_translation(self):
+    def test_create_translation(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
@@ -1808,10 +2111,22 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="post",
             code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_existing(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=400,
             request={"language_code": "cs"},
         )
 
-    def test_create_translation_invalid_language_code(self):
+    def test_create_translation_invalid_language_code(self) -> None:
         self.do_request(
             "api:component-translations",
             self.component_kwargs,
@@ -1820,37 +2135,57 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "invalid"},
         )
 
-    def test_create_translation_prohibited(self):
+    def test_create_translation_prohibited(self) -> None:
         self.do_request(
             "api:component-translations",
             self.component_kwargs,
             method="post",
             code=403,
-            request={"language_code": "cs"},
+            request={"language_code": "fa"},
         )
 
-    def test_download_translation_zip_ok(self):
+    def test_download_translation_zip_ok(self) -> None:
         response = self.do_request(
-            "api:component-download-archive",
+            "api:component-file",
             self.component_kwargs,
             method="get",
             code=200,
             superuser=True,
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
+        response = self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
 
-    def test_download_translation_zip_prohibited(self):
+    def test_download_translation_zip_converted(self) -> None:
+        response = self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_translation_zip_prohibited(self) -> None:
         project = self.component.project
         project.access_control = Project.ACCESS_PROTECTED
         project.save(update_fields=["access_control"])
         self.do_request(
-            "api:component-download-archive",
+            "api:component-file",
             self.component_kwargs,
             method="get",
             code=403,
         )
 
-    def test_links(self):
+    def test_links(self) -> None:
         self.do_request(
             "api:component-links",
             self.component_kwargs,
@@ -1899,22 +2234,22 @@ class ComponentAPITest(APIBaseTest):
 
 
 class LanguageAPITest(APIBaseTest):
-    def test_list_languages(self):
+    def test_list_languages(self) -> None:
         response = self.client.get(reverse("api:language-list"))
         self.assertEqual(response.data["count"], 4)
 
-    def test_get_language(self):
+    def test_get_language(self) -> None:
         response = self.client.get(
             reverse("api:language-detail", kwargs={"code": "cs"})
         )
         self.assertEqual(response.data["name"], "Czech")
         # Check plural exists
-        self.assertEqual(response.data["plural"]["type"], 2)
+        self.assertEqual(response.data["plural"]["type"], 22)
         self.assertEqual(response.data["plural"]["number"], 3)
         # Check for aliases, with recent language-data there are 3
         self.assertGreaterEqual(len(response.data["aliases"]), 2)
 
-    def test_create(self):
+    def test_create(self) -> None:
         self.do_request("api:language-list", method="post", code=403)
         # Ensure it throws error without plural data
         self.do_request(
@@ -1923,7 +2258,12 @@ class LanguageAPITest(APIBaseTest):
             superuser=True,
             code=400,
             format="json",
-            request={"code": "new_lang", "name": "New Language", "direction": "rtl"},
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+            },
         )
         response = self.do_request(
             "api:language-list",
@@ -1935,6 +2275,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -1969,11 +2310,12 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.do_request(
             "api:language-list",
             method="post",
@@ -1984,6 +2326,7 @@ class LanguageAPITest(APIBaseTest):
                 "code": "new_lang",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
@@ -1996,7 +2339,7 @@ class LanguageAPITest(APIBaseTest):
         )
         self.assertEqual(Language.objects.count(), len(LANGUAGES))
 
-    def test_put(self):
+    def test_put(self) -> None:
         self.do_request(
             "api:language-detail",
             kwargs={"code": "cs"},
@@ -2014,12 +2357,13 @@ class LanguageAPITest(APIBaseTest):
                 "code": "cs",
                 "name": "New Language",
                 "direction": "rtl",
+                "population": 100,
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
         self.assertEqual(Language.objects.get(code="cs").name, "New Language")
 
-    def test_patch(self):
+    def test_patch(self) -> None:
         self.do_request(
             "api:language-detail",
             kwargs={"code": "cs"},
@@ -2037,12 +2381,38 @@ class LanguageAPITest(APIBaseTest):
         self.assertEqual(Language.objects.get(code="cs").name, "New Language")
 
 
+class MemoryAPITest(APIBaseTest):
+    def test_get(self) -> None:
+        self.do_request(
+            "api:memory-list",
+            method="get",
+            superuser=True,
+            code=200,
+        )
+
+        self.do_request(
+            "api:memory-list",
+            method="get",
+            superuser=False,
+            code=403,
+        )
+
+    def test_delete(self) -> None:
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": Memory.objects.all()[0].pk},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+
 class TranslationAPITest(APIBaseTest):
-    def test_list_translations(self):
+    def test_list_translations(self) -> None:
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 8)
 
-    def test_list_translations_acl(self):
+    def test_list_translations_acl(self) -> None:
         self.create_acl()
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 8)
@@ -2050,34 +2420,92 @@ class TranslationAPITest(APIBaseTest):
         response = self.client.get(reverse("api:translation-list"))
         self.assertEqual(response.data["count"], 16)
 
-    def test_get_translation(self):
+    def test_get_translation(self) -> None:
         response = self.client.get(
             reverse("api:translation-detail", kwargs=self.translation_kwargs)
         )
         self.assertEqual(response.data["language_code"], "cs")
 
-    def test_download(self):
-        response = self.client.get(
-            reverse("api:translation-file", kwargs=self.translation_kwargs)
+    def test_download(self) -> None:
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            code=200,
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
 
-    def test_download_invalid_format(self):
+    def test_download_modified(self) -> None:
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            headers={"If-Modified-Since": "Wed, 21 Oct 2015 07:28:00 GMT"},
+            code=200,
+        )
+        self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
+        self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            headers={"If-Modified-Since": response["Last-Modified"]},
+            code=304,
+        )
+
+    def test_download_args(self) -> None:
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            request={"q": 'source:r".*world.*"'},
+            code=400,
+        )
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            request={"q": 'source:r".*world.*"', "format": "po"},
+            code=200,
+        )
+        self.assertContains(response, 'msgid ""')
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=self.translation_kwargs,
+            request={"q": 'source:r".*world.*"', "format": "invalid"},
+            code=400,
+        )
+        self.assertContains(
+            response, "Conversion to invalid is not supported", status_code=400
+        )
+
+    def test_download_invalid_format_url(self) -> None:
         args = {"format": "invalid"}
         args.update(self.translation_kwargs)
         response = self.client.get(reverse("api:translation-file", kwargs=args))
         self.assertEqual(response.status_code, 404)
 
-    def test_download_format(self):
+    def test_download_format_url(self) -> None:
         args = {"format": "xliff"}
         args.update(self.translation_kwargs)
-        response = self.client.get(reverse("api:translation-file", kwargs=args))
+        response = self.do_request(
+            "api:translation-file",
+            kwargs=args,
+            code=200,
+        )
         self.assertContains(response, "<xliff")
 
-    def test_upload_denied(self):
+    def test_upload_denied(self) -> None:
         self.authenticate()
         # Remove all permissions
         self.user.groups.clear()
+        self.user.clear_cache()
+
+        # Public project should fail with 403
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+        self.assertEqual(response.status_code, 403)
+
+        # Private one with 404
+        self.component.project.access_control = Project.ACCESS_PRIVATE
+        self.component.project.save()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -2085,7 +2513,7 @@ class TranslationAPITest(APIBaseTest):
             )
         self.assertEqual(response.status_code, 404)
 
-    def test_get_units_no_filter(self):
+    def test_get_units_no_filter(self) -> None:
         self.authenticate()
         response = self.do_request(
             "api:translation-units",
@@ -2100,7 +2528,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response_json["count"], 4)
 
-    def test_get_units_q_filter(self):
+    def test_get_units_q_filter(self) -> None:
         self.authenticate()
         response = self.do_request(
             "api:translation-units",
@@ -2117,7 +2545,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response_json["count"], 1)
         self.assertEqual(response_json["results"][0]["source"], ["Hello, world!\n"])
 
-    def test_upload_bytes(self):
+    def test_upload_bytes(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
@@ -2142,7 +2570,7 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
-    def test_upload(self):
+    def test_upload(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
@@ -2167,7 +2595,7 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
-    def test_upload_source(self):
+    def test_upload_source(self) -> None:
         self.authenticate(True)
         with open(TEST_POT, "rb") as handle:
             response = self.client.put(
@@ -2200,7 +2628,7 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
-    def test_upload_content(self):
+    def test_upload_content(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
@@ -2209,7 +2637,44 @@ class TranslationAPITest(APIBaseTest):
             )
         self.assertEqual(response.status_code, 400)
 
-    def test_upload_overwrite(self):
+    def test_upload_conflicts(self) -> None:
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "conflicts": ""},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 1,
+                "count": 4,
+                "not_found": 0,
+                "result": True,
+                "skipped": 0,
+                "total": 4,
+            },
+        )
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "conflicts": "ignore"},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 0,
+                "count": 4,
+                "not_found": 0,
+                "result": False,
+                "skipped": 1,
+                "total": 4,
+            },
+        )
+
+    def test_upload_overwrite(self) -> None:
         self.test_upload()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
@@ -2228,7 +2693,7 @@ class TranslationAPITest(APIBaseTest):
             },
         )
 
-    def test_upload_suggest(self):
+    def test_upload_suggest(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
@@ -2246,7 +2711,8 @@ class TranslationAPITest(APIBaseTest):
                 "total": 4,
             },
         )
-        self.assertEqual(self.component.project.stats.suggestions, 1)
+        project = Project.objects.get(id=self.component.project_id)
+        self.assertEqual(project.stats.suggestions, 1)
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -2264,14 +2730,14 @@ class TranslationAPITest(APIBaseTest):
             },
         )
 
-    def test_upload_invalid(self):
+    def test_upload_invalid(self) -> None:
         self.authenticate()
         response = self.client.put(
             reverse("api:translation-file", kwargs=self.translation_kwargs)
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_upload_error(self):
+    def test_upload_error(self) -> None:
         self.authenticate()
         with open(TEST_BADPLURALS, "rb") as handle:
             response = self.client.put(
@@ -2279,12 +2745,19 @@ class TranslationAPITest(APIBaseTest):
                 {"file": handle},
             )
         self.assertEqual(response.status_code, 400)
-        self.assertIn("detail", response.data)
+        self.assertEqual(
+            response.data,
+            {
+                "file": ErrorDetail(
+                    string="Plural forms do not match the language.", code="invalid"
+                )
+            },
+        )
 
-    def test_repo_status_denied(self):
+    def test_repo_status_denied(self) -> None:
         self.do_request("api:translation-repository", self.translation_kwargs, code=403)
 
-    def test_repo_status(self):
+    def test_repo_status(self) -> None:
         self.do_request(
             "api:translation-repository",
             self.translation_kwargs,
@@ -2298,7 +2771,7 @@ class TranslationAPITest(APIBaseTest):
             skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
-    def test_statistics(self):
+    def test_statistics(self) -> None:
         self.do_request(
             "api:translation-statistics",
             self.translation_kwargs,
@@ -2309,37 +2782,49 @@ class TranslationAPITest(APIBaseTest):
                 "translate_url": "http://example.com/translate/test/test/cs/",
                 "failing_percent": 0.0,
                 "translated_percent": 0.0,
-                "total_words": 15,
+                "total_words": 19,
                 "failing": 0,
                 "translated_words": 0,
                 "fuzzy_percent": 0.0,
+                "fuzzy_words_percent": 0.0,
+                "fuzzy_chars_percent": 0.0,
                 "translated": 0,
                 "translated_words_percent": 0.0,
                 "translated_chars": 0,
                 "translated_chars_percent": 0.0,
                 "total_chars": 139,
                 "fuzzy": 0,
+                "fuzzy_words": 0,
+                "fuzzy_chars": 0,
                 "total": 4,
                 "recent_changes": 0,
                 "approved": 0,
+                "approved_words": 0,
+                "approved_chars": 0,
                 "approved_percent": 0.0,
+                "approved_words_percent": 0.0,
+                "approved_chars_percent": 0.0,
                 "comments": 0,
                 "suggestions": 0,
                 "readonly": 0,
+                "readonly_words": 0,
+                "readonly_chars": 0,
                 "readonly_percent": 0.0,
+                "readonly_words_percent": 0.0,
+                "readonly_chars_percent": 0.0,
             },
             skip=("last_change",),
         )
 
-    def test_changes(self):
+    def test_changes(self) -> None:
         request = self.do_request("api:translation-changes", self.translation_kwargs)
-        self.assertEqual(request.data["count"], 2)
+        self.assertEqual(request.data["count"], 5)
 
-    def test_units(self):
+    def test_units(self) -> None:
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
-    def test_autotranslate(self, format: str = "multipart"):
+    def test_autotranslate(self, format: str = "multipart") -> None:  # noqa: A002
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,
@@ -2389,10 +2874,10 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertContains(response, "Automatic translation completed")
 
-    def test_autotranslate_json(self):
+    def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
 
-    def test_add_monolingual(self):
+    def test_add_monolingual(self) -> None:
         component = self.create_acl()
         self.assertEqual(component.source_translation.unit_set.count(), 4)
         self.do_request(
@@ -2451,12 +2936,26 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             superuser=True,
             format="json",
-            request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
+            request={"key": "plural", "value": ["Source Language", "Source Languages"]},
             code=200,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            format="json",
+            request={"key": "invalid-plural", "value": [{}]},
+            code=400,
+        )
+        self.assertEqual(component.source_translation.unit_set.count(), 6)
 
-    def test_add_bilingual(self):
+    def test_add_bilingual(self) -> None:
         self.do_request(
             "api:translation-units",
             {
@@ -2519,8 +3018,151 @@ class TranslationAPITest(APIBaseTest):
             request={"source": "Source", "target": "Target", "context": "Another"},
             code=200,
         )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Wrong",
+                "state": "0",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Wrong",
+                "state": "30",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Wrong",
+                "state": "100",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "",
+                "context": "Wrong",
+                "state": "0",
+            },
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+                "context": "Fuzzy",
+                "state": "10",
+            },
+            code=200,
+        )
 
-    def test_delete(self):
+    def test_add_plural(self) -> None:
+        # Add to bilingual
+        self.component.manage_units = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": ["Singular", "Plural"],
+                "target": ["Target 0", "Target 1"],
+                "state": "20",
+            },
+            code=200,
+        )
+
+        # Add to monolingual
+        self.create_acl()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "key": "pluralized",
+                "value": ["Singular", "Plural"],
+            },
+            code=200,
+        )
+
+        # Not supported plurals
+        self.create_json_mono(name="other", project=self.component.project)
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "other",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "key": "pluralized",
+                "value": ["Singular", "Plural"],
+                "state": "20",
+            },
+            code=400,
+        )
+
+    def test_delete(self) -> None:
         start_count = Translation.objects.count()
         self.do_request(
             "api:translation-detail", self.translation_kwargs, method="delete", code=403
@@ -2536,11 +3178,15 @@ class TranslationAPITest(APIBaseTest):
 
 
 class UnitAPITest(APIBaseTest):
-    def test_list_units(self):
+    def test_list_units(self) -> None:
         response = self.client.get(reverse("api:unit-list"))
         self.assertEqual(response.data["count"], 16)
 
-    def test_get_unit(self):
+    def test_list_units_filter(self) -> None:
+        response = self.client.get(reverse("api:unit-list"), {"q": "is:translated"})
+        self.assertEqual(response.data["count"], 6)
+
+    def test_get_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"
         )
@@ -2548,7 +3194,7 @@ class UnitAPITest(APIBaseTest):
         self.assertIn("translation", response.data)
         self.assertEqual(response.data["source"], ["Hello, world!\n"])
 
-    def test_get_plural_unit(self):
+    def test_get_plural_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source__startswith="Orangutan has "
         )
@@ -2559,7 +3205,7 @@ class UnitAPITest(APIBaseTest):
             ["Orangutan has %d banana.\n", "Orangutan has %d bananas.\n"],
         )
 
-    def test_translate_unit(self):
+    def test_translate_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"
         )
@@ -2587,6 +3233,14 @@ class UnitAPITest(APIBaseTest):
             code=200,
             request={"state": "20", "target": "Test translation"},
         )
+        # Adding plural where it is not
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": ["Test translation", "Test plural"]},
+        )
         # Invalid state changes
         self.do_request(
             "api:unit-detail",
@@ -2613,7 +3267,54 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
 
-    def test_unit_review(self):
+    def test_translate_unit_whitespace(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        unit.source = "Hello test "
+        # Avoid doing all what .save() does:
+        Unit.objects.filter(pk=unit.pk).update(source=unit.source)
+        target = "Test translation "
+        # Performing update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            request={"state": "20", "target": target},
+        )
+        # Verify string was not stripped
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, target)
+
+    def test_untranslate_unit(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Performing update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            request={"state": "0", "target": ""},
+        )
+
+    def test_untranslate_unit_invalid(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # JSON payload passed as string
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            format="json",
+            request='{"state": "0", "target": [""]}',
+        )
+
+    def test_unit_review(self) -> None:
         self.component.project.translation_review = True
         self.component.project.save()
         unit = Unit.objects.get(
@@ -2624,7 +3325,7 @@ class UnitAPITest(APIBaseTest):
             "api:unit-detail",
             kwargs={"pk": unit.pk},
             method="patch",
-            code=403,
+            code=400,
             request={"state": "30", "target": "Test translation"},
         )
         self.assertFalse(Unit.objects.get(pk=unit.pk).approved)
@@ -2650,7 +3351,7 @@ class UnitAPITest(APIBaseTest):
         )
         self.assertTrue(Unit.objects.get(pk=unit.pk).approved)
 
-    def test_translate_source_unit(self):
+    def test_translate_source_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="en", source="Hello, world!\n"
         )
@@ -2683,8 +3384,20 @@ class UnitAPITest(APIBaseTest):
         )
         unit = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit.explanation, "This is good explanation")
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Actual update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            superuser=True,
+            request={"explanation": "This is rejected explanation"},
+        )
 
-    def test_unit_flags(self):
+    def test_unit_flags(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"
         )
@@ -2716,7 +3429,70 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(unit.all_flags.format(), "c-format, ignore-same")
         self.assertEqual(unit.all_checks_names, set())
 
-    def test_translate_plural_unit(self):
+    def test_unit_labels(self) -> None:
+        other_project = Project.objects.create(
+            name="OtherProject",
+            slug="other-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+
+        label1 = self.component.project.label_set.create(name="test", color="navy")
+        label2 = other_project.label_set.create(name="test_2", color="navy")
+
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!\n", STATE_TRANSLATED)
+
+        # Edit on translation will fail
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            superuser=True,
+            request={"labels": [label1.id]},
+        )
+
+        # Edit on source will fail when label doesn't exist
+        # or is not in the same project
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            request={"labels": [4000]},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            request={"labels": [label2.id]},
+        )
+
+        # Edit on source will work when label exists
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": [label1.id]},
+        )
+
+        # Label should be now updated
+        unit = Unit.objects.get(pk=unit.id)
+        self.assertEqual(len(unit.all_labels), 1)
+        self.assertEqual(unit.all_labels[0].name, "test")
+
+        label1.delete()
+        label2.delete()
+        other_project.delete()
+
+    def test_translate_plural_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source__startswith="Orangutan has "
         )
@@ -2732,7 +3508,7 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.get_target_plurals(), ["singular\n", "many\n", "other\n"])
 
-    def test_delete_unit(self):
+    def test_delete_unit(self) -> None:
         component = self._create_component(
             "po-mono",
             "po-mono/*.po",
@@ -2784,7 +3560,7 @@ class UnitAPITest(APIBaseTest):
 
 
 class ScreenshotAPITest(APIBaseTest):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         shot = Screenshot.objects.create(
             name="Obrazek", translation=self.component.source_translation
@@ -2792,23 +3568,23 @@ class ScreenshotAPITest(APIBaseTest):
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
 
-    def test_list_screenshots(self):
+    def test_list_screenshots(self) -> None:
         response = self.client.get(reverse("api:screenshot-list"))
         self.assertEqual(response.data["count"], 1)
 
-    def test_get_screenshot(self):
+    def test_get_screenshot(self) -> None:
         response = self.client.get(
             reverse("api:screenshot-detail", kwargs={"pk": Screenshot.objects.get().pk})
         )
         self.assertIn("file_url", response.data)
 
-    def test_download(self):
+    def test_download(self) -> None:
         response = self.client.get(
             reverse("api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk})
         )
         self.assertContains(response, b"PNG")
 
-    def test_upload(self, superuser=True, code=200, filename=TEST_SCREENSHOT):
+    def test_upload(self, superuser=True, code=200, filename=TEST_SCREENSHOT) -> None:
         self.authenticate(superuser)
         Screenshot.objects.get().image.delete()
 
@@ -2826,13 +3602,13 @@ class ScreenshotAPITest(APIBaseTest):
 
             self.assertIn(".png", Screenshot.objects.get().image.path)
 
-    def test_upload_denied(self):
+    def test_upload_denied(self) -> None:
         self.test_upload(False, 403)
 
-    def test_upload_invalid(self):
+    def test_upload_invalid(self) -> None:
         self.test_upload(True, 400, TEST_PO)
 
-    def test_create(self):
+    def test_create(self) -> None:
         with open(TEST_SCREENSHOT, "rb") as handle:
             self.do_request(
                 "api:screenshot-list",
@@ -2853,8 +3629,8 @@ class ScreenshotAPITest(APIBaseTest):
                 code=400,
                 superuser=True,
                 data={
-                    "detail": ErrorDetail(
-                        string="Missing language_code parameter", code="parse_error"
+                    "language_code": ErrorDetail(
+                        string="This field is required.", code="invalid"
                     )
                 },
                 request={
@@ -2870,10 +3646,18 @@ class ScreenshotAPITest(APIBaseTest):
                 code=400,
                 superuser=True,
                 data={
-                    "detail": ErrorDetail(
+                    "project_slug": ErrorDetail(
                         string="Translation matching query does not exist.",
                         code="invalid",
-                    )
+                    ),
+                    "component_slug": ErrorDetail(
+                        string="Translation matching query does not exist.",
+                        code="invalid",
+                    ),
+                    "language_code": ErrorDetail(
+                        string="Translation matching query does not exist.",
+                        code="invalid",
+                    ),
                 },
                 request={
                     "name": "Test create screenshot",
@@ -2918,7 +3702,7 @@ class ScreenshotAPITest(APIBaseTest):
             )
         self.assertEqual(Screenshot.objects.count(), 2)
 
-    def test_patch_screenshot(self):
+    def test_patch_screenshot(self) -> None:
         self.do_request(
             "api:screenshot-detail",
             kwargs={"pk": Screenshot.objects.get().pk},
@@ -2936,7 +3720,7 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertEqual(Screenshot.objects.get().name, "Test New screenshot")
 
-    def test_put_screenshot(self):
+    def test_put_screenshot(self) -> None:
         response = self.client.get(
             reverse("api:screenshot-detail", kwargs={"pk": Screenshot.objects.get().pk})
         )
@@ -2959,7 +3743,7 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertEqual(Screenshot.objects.get().name, "Test new screenshot")
 
-    def test_delete_screenshot(self):
+    def test_delete_screenshot(self) -> None:
         self.do_request(
             "api:screenshot-detail",
             kwargs={"pk": Screenshot.objects.get().pk},
@@ -2975,7 +3759,7 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertEqual(Screenshot.objects.count(), 0)
 
-    def test_units_denied(self):
+    def test_units_denied(self) -> None:
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
             reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
@@ -2983,7 +3767,7 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertEqual(response.status_code, 401)
 
-    def test_units_invalid(self):
+    def test_units_invalid(self) -> None:
         self.authenticate(True)
         response = self.client.post(
             reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
@@ -2991,7 +3775,7 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_units(self):
+    def test_units(self) -> None:
         self.authenticate(True)
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
@@ -3001,7 +3785,7 @@ class ScreenshotAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertIn(str(unit.pk), response.data["units"][0])
 
-    def test_units_delete(self):
+    def test_units_delete(self) -> None:
         self.authenticate(True)
         unit = self.component.source_translation.unit_set.all()[0]
         self.client.post(
@@ -3022,36 +3806,36 @@ class ScreenshotAPITest(APIBaseTest):
             ),
         )
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(len(Screenshot.objects.get().units.all()), 0)
+        self.assertEqual(Screenshot.objects.get().units.all().count(), 0)
 
 
 class ChangeAPITest(APIBaseTest):
-    def test_list_changes(self):
+    def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 18)
+        self.assertEqual(response.data["count"], 30)
 
-    def test_filter_changes_after(self):
-        """Filter chanages since timestamp."""
+    def test_filter_changes_after(self) -> None:
+        """Filter changes since timestamp."""
         start = Change.objects.order().last().timestamp
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 18)
+        self.assertEqual(response.data["count"], 30)
 
-    def test_filter_changes_before(self):
+    def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""
-        start = Change.objects.order().first().timestamp - timedelta(seconds=60)
+        start = Change.objects.order()[0].timestamp - timedelta(seconds=60)
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_before": start.isoformat()}
         )
         self.assertEqual(response.data["count"], 0)
 
-    def test_filter_changes_user(self):
+    def test_filter_changes_user(self) -> None:
         """Filter by non existing user."""
         response = self.client.get(reverse("api:change-list"), {"user": "nonexisting"})
         self.assertEqual(response.data["count"], 0)
 
-    def test_get_change(self):
+    def test_get_change(self) -> None:
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": Change.objects.all()[0].pk})
         )
@@ -3059,34 +3843,75 @@ class ChangeAPITest(APIBaseTest):
 
 
 class MetricsAPITest(APIBaseTest):
-    def test_metrics(self):
+    def test_metrics(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["projects"], 1)
 
-    def test_forbidden(self):
+    def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["detail"].code, "not_authenticated")
 
-    def test_ratelimit(self):
+    def test_ratelimit(self) -> None:
         self.authenticate()
-        response = self.client.get(reverse("api:metrics"), HTTP_REMOTE_ADDR="127.0.0.2")
+        response = self.client.get(
+            reverse("api:metrics"), headers={"remote-addr": "127.0.0.2"}
+        )
         current = int(response["X-RateLimit-Remaining"])
-        response = self.client.get(reverse("api:metrics"), HTTP_REMOTE_ADDR="127.0.0.2")
+        response = self.client.get(
+            reverse("api:metrics"), headers={"remote-addr": "127.0.0.2"}
+        )
         self.assertEqual(current - 1, int(response["X-RateLimit-Remaining"]))
 
 
+class SearchAPITest(APIBaseTest):
+    def test_blank(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:search"))
+        self.assertEqual(response.data, [])
+
+    def test_result(self) -> None:
+        response = self.client.get(reverse("api:search"), {"q": "test"})
+        self.assertEqual(
+            [
+                {
+                    "category": "Project",
+                    "name": "Test",
+                    "url": "/projects/test/",
+                },
+                {
+                    "category": "Component",
+                    "name": "Test/Test",
+                    "url": "/projects/test/test/",
+                },
+                {
+                    "category": "User",
+                    "name": "apitest",
+                    "url": "/user/apitest/",
+                },
+            ],
+            response.data,
+        )
+
+    def test_language(self) -> None:
+        response = self.client.get(reverse("api:search"), {"q": "czech"})
+        self.assertEqual(
+            response.data,
+            [{"category": "Language", "name": "Czech", "url": "/languages/cs/"}],
+        )
+
+
 class ComponentListAPITest(APIBaseTest):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
 
-    def test_list(self):
+    def test_list(self) -> None:
         response = self.client.get(reverse("api:componentlist-list"))
         self.assertEqual(response.data["count"], 1)
 
-    def test_get(self):
+    def test_get(self) -> None:
         response = self.client.get(
             reverse(
                 "api:componentlist-detail",
@@ -3095,7 +3920,7 @@ class ComponentListAPITest(APIBaseTest):
         )
         self.assertIn("components", response.data)
 
-    def test_create(self):
+    def test_create(self) -> None:
         self.do_request(
             "api:componentlist-list",
             method="post",
@@ -3109,7 +3934,7 @@ class ComponentListAPITest(APIBaseTest):
             request={"name": "List", "slug": "list"},
         )
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.do_request(
             "api:componentlist-detail",
             kwargs={"slug": ComponentList.objects.get().slug},
@@ -3118,7 +3943,7 @@ class ComponentListAPITest(APIBaseTest):
             code=204,
         )
 
-    def test_add_component(self):
+    def test_add_component(self) -> None:
         self.do_request(
             "api:componentlist-components",
             kwargs={"slug": ComponentList.objects.get().slug},
@@ -3142,8 +3967,16 @@ class ComponentListAPITest(APIBaseTest):
             code=200,
             request={"component_id": self.component.pk},
         )
+        response = self.do_request(
+            "api:componentlist-components",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
 
-    def test_remove_component(self):
+    def test_remove_component(self) -> None:
         self.do_request(
             "api:componentlist-delete-components",
             kwargs={
@@ -3176,7 +4009,7 @@ class ComponentListAPITest(APIBaseTest):
             code=204,
         )
 
-    def test_put(self):
+    def test_put(self) -> None:
         self.do_request(
             "api:componentlist-detail",
             kwargs={"slug": ComponentList.objects.get().slug},
@@ -3193,7 +4026,7 @@ class ComponentListAPITest(APIBaseTest):
         )
         self.assertEqual(ComponentList.objects.get().name, "List")
 
-    def test_patch(self):
+    def test_patch(self) -> None:
         self.do_request(
             "api:componentlist-detail",
             kwargs={"slug": ComponentList.objects.get().slug},
@@ -3226,7 +4059,7 @@ class AddonAPITest(APIBaseTest):
             request=request,
         )
 
-    def test_create(self):
+    def test_create(self) -> None:
         # Not authenticated user
         response = self.create_addon(code=403, superuser=False)
         self.assertFalse(self.component.addon_set.exists())
@@ -3244,7 +4077,7 @@ class AddonAPITest(APIBaseTest):
         # Existing
         response = self.create_addon(code=400)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         response = self.create_addon()
         self.do_request(
             "api:addon-detail",
@@ -3260,12 +4093,25 @@ class AddonAPITest(APIBaseTest):
             code=204,
         )
 
-    def test_configuration(self):
+    def test_configuration(self) -> None:
         self.create_addon(
             name="weblate.gettext.mo", configuration={"path": "{{var}}"}, code=400
         )
 
-    def test_edit(self):
+    def test_discover(self) -> None:
+        initial = {
+            "file_format": "po",
+            "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            "name_template": "{{ component|title }}",
+            "language_regex": "^(?!xx).*$",
+        }
+        self.assertEqual(Component.objects.all().count(), 2)
+        self.create_addon(name="weblate.discovery.discovery", configuration=initial)
+
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+        self.assertEqual(Component.objects.all().count(), 5)
+
+    def test_edit(self) -> None:
         initial = {"path": "{{ filename|stripext }}.mo"}
         expected = {"path": "{{ language_code }}.mo"}
         response = self.create_addon(name="weblate.gettext.mo", configuration=initial)
@@ -3289,3 +4135,227 @@ class AddonAPITest(APIBaseTest):
             request={"configuration": expected},
         )
         self.assertEqual(self.component.addon_set.get().configuration, expected)
+
+    def create_project_addon(
+        self, superuser=True, code=201, name="weblate.consistency.languages", **request
+    ):
+        request["name"] = name
+        return self.do_request(
+            "api:project-addons",
+            kwargs=self.project_kwargs,
+            method="post",
+            code=code,
+            superuser=superuser,
+            format="json",
+            request=request,
+        )
+
+    def test_create_project_addon(self):
+        # Not authenticated user
+        response = self.create_project_addon(code=403, superuser=False)
+        self.assertFalse(self.component.project.addon_set.exists())
+        # Non existing addon
+        response = self.create_project_addon(name="invalid.addon", code=400)
+        self.assertFalse(self.component.project.addon_set.exists())
+        # Success
+        response = self.create_project_addon()
+        self.assertTrue(
+            self.component.project.addon_set.filter(pk=response.data["id"]).exists()
+        )
+        # Existing
+        response = self.create_project_addon(code=400)
+
+    def test_delete_project_addon(self):
+        response = self.create_project_addon()
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+
+class CategoryAPITest(APIBaseTest):
+    def create_category(self, code: int = 201, **kwargs):
+        request = {
+            "name": "Category Test",
+            "slug": "category-test",
+            "project": reverse("api:project-detail", kwargs=self.project_kwargs),
+        }
+        request.update(kwargs)
+        return self.do_request(
+            "api:category-list",
+            method="post",
+            superuser=True,
+            request=request,
+            code=code,
+        )
+
+    def list_categories(self):
+        return self.do_request(
+            "api:category-list",
+            method="get",
+            superuser=True,
+        )
+
+    def test_create(self) -> None:
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 0)
+        self.create_category()
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 1)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 1)
+
+    def test_create_nested(self) -> None:
+        self.create_category()
+        self.create_category(
+            category=reverse(
+                "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
+            )
+        )
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 2)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 2)
+
+    def test_create_nested_mismatch(self) -> None:
+        component = self.create_acl()
+        self.create_category()
+        self.create_category(
+            category=reverse(
+                "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
+            ),
+            project=reverse(
+                "api:project-detail", kwargs={"slug": component.project.slug}
+            ),
+            code=400,
+        )
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 1)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 1)
+
+    def test_delete(self) -> None:
+        response = self.create_category()
+        category_url = response.data["url"]
+        response = self.do_request(
+            category_url,
+            method="delete",
+            code=403,
+        )
+        response = self.do_request(
+            category_url,
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 0)
+
+    def test_rename(self) -> None:
+        response = self.create_category()
+        category_url = response.data["url"]
+        response = self.do_request(
+            category_url,
+            method="patch",
+            code=403,
+        )
+        response = self.do_request(
+            category_url,
+            method="patch",
+            superuser=True,
+            request={"slug": "test"},
+            code=400,
+        )
+        response = self.do_request(
+            category_url,
+            method="patch",
+            superuser=True,
+            request={"slug": "test-unused"},
+        )
+
+    def test_component(self) -> None:
+        response = self.create_category()
+        category_url = response.data["url"]
+        component_url = reverse("api:component-detail", kwargs=self.component_kwargs)
+        response = self.do_request(
+            component_url,
+            request={"category": category_url},
+            method="patch",
+            superuser=True,
+        )
+        # Old URL should no longer work
+        self.do_request(component_url, code=404)
+        # But new one should
+        response = self.do_request(response.data["url"])
+        self.assertIn("category-test%252Ftest", response.data["url"])
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.get_url_path(), ("test", "category-test", "test"))
+
+        # Verify that browsing translations works
+        response = self.do_request(response.data["url"] + "translations/")
+        self.assertEqual(response.data["count"], 4)
+
+        for translation in response.data["results"]:
+            self.do_request(translation["url"])
+
+    def test_statistics(self):
+        # Create a category to get the statistics from
+        response = self.create_category()
+        category_kwargs = {"pk": response.data["id"]}
+        # Use the default category kwargs to get the statistics
+        request = self.do_request("api:category-statistics", category_kwargs)
+        self.assertEqual(request.data["total"], 0)
+
+
+class LabelAPITest(APIBaseTest):
+    def test_get_label(self) -> None:
+        label = self.component.project.label_set.create(name="test", color="navy")
+
+        response = self.do_request(
+            "api:project-labels",
+            kwargs={"slug": self.component.project.slug},
+            method="get",
+            code=200,
+        )
+
+        self.assertEqual(len(response.data["results"]), 1)
+
+        response_label = response.data["results"][0]
+
+        self.assertEqual(response_label["id"], label.id)
+        self.assertEqual(response_label["name"], label.name)
+        self.assertEqual(response_label["color"], label.color)
+
+    def test_create_label(self) -> None:
+        self.do_request(
+            "api:project-labels",
+            kwargs={"slug": Project.objects.all()[0].slug},
+            method="post",
+            superuser=True,
+            request={
+                "name": "Test Label",
+                "color": "green",
+            },
+            code=201,
+        )
+
+        self.do_request(
+            "api:project-labels",
+            kwargs={"slug": Project.objects.all()[0].slug},
+            method="post",
+            superuser=False,
+            request={
+                "name": "Test Label 2",
+                "color": "red",
+            },
+            code=403,
+        )

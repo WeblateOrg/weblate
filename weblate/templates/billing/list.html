@@ -30,7 +30,7 @@
         </td>
         <td>
           {% for project in object.all_projects %}
-            <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+            <a href="{{ project.get_absolute_url }}">{{ project }}</a>{% if project.web %}: <a href="{{ project.web }}">{{ project.web }}</a>{% endif %}
           {% empty %}
             <em>{% trans "No projects currently assigned!" %}</em>
           {% endfor %}

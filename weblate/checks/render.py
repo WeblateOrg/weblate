@@ -1,49 +1,29 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
 from django.urls import reverse
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.utils.html import format_html, format_html_join
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag
 from weblate.fonts.utils import check_render_size
 
-FONT_PARAMS = (
-    ("font-family", "sans"),
-    ("font-weight", None),
-    ("font-size", 10),
-    ("font-spacing", 0),
-)
-
-IMAGE = '<a href="{0}" class="thumbnail"><img class="img-responsive" src="{0}" /></a>'
+IMAGE = '<a href="{0}" class="thumbnail img-check"><img class="img-responsive" src="{0}" /></a>'
 
 
 class MaxSizeCheck(TargetCheckParametrized):
     """Check for maximum size of rendered text."""
 
     check_id = "max-size"
-    name = _("Maximum size of translation")
-    description = _("Translation rendered text should not exceed given size")
+    name = gettext_lazy("Maximum size of translation")
+    description = gettext_lazy("Translation rendered text should not exceed given size")
     default_disabled = True
     last_font = None
     always_display = True
@@ -52,26 +32,25 @@ class MaxSizeCheck(TargetCheckParametrized):
     def param_type(self):
         return multi_value_flag(int, 1, 2)
 
-    def get_params(self, unit):
-        for name, default in FONT_PARAMS:
-            if unit.all_flags.has_value(name):
-                try:
-                    yield unit.all_flags.get_value(name)
-                except KeyError:
-                    yield default
-            else:
-                yield default
+    def get_params(self, unit) -> tuple[str, None | int, int, int]:
+        all_flags = unit.all_flags
+        return (
+            all_flags.get_value_fallback("font-family", "sans"),
+            all_flags.get_value_fallback("font-weight", None),
+            all_flags.get_value_fallback("font-size", 10),
+            all_flags.get_value_fallback("font-spacing", 0),
+        )
 
-    def load_font(self, project, language, name):
+    def load_font(self, project, language, name: str) -> str:
         try:
             group = project.fontgroup_set.get(name=name)
         except ObjectDoesNotExist:
             return "sans"
         try:
             override = group.fontoverride_set.get(language=language)
-            return f"{override.font.family} {override.font.style}"
         except ObjectDoesNotExist:
             return f"{group.font.family} {group.font.style}"
+        return f"{override.font.family} {override.font.style}"
 
     def check_target_params(self, sources, targets, unit, value):
         if len(value) == 2:
@@ -87,14 +66,14 @@ class MaxSizeCheck(TargetCheckParametrized):
         return any(
             (
                 not check_render_size(
-                    font,
-                    weight,
-                    size,
-                    spacing,
-                    replace(target),
-                    width,
-                    lines,
-                    self.get_cache_key(unit, i),
+                    text=replace(target),
+                    font=font,
+                    weight=weight,
+                    size=size,
+                    spacing=spacing,
+                    width=width,
+                    lines=lines,
+                    cache_key=self.get_cache_key(unit, i),
                 )
                 for i, target in enumerate(targets)
             )
@@ -105,12 +84,23 @@ class MaxSizeCheck(TargetCheckParametrized):
             "render-check",
             kwargs={"check_id": self.check_id, "unit_id": check_obj.unit_id},
         )
-        return mark_safe(
-            "\n".join(
-                IMAGE.format(f"{url}?pos={i}")
+        images = format_html_join(
+            "\n",
+            IMAGE,
+            (
+                (f"{url}?pos={i}",)
                 for i in range(len(check_obj.unit.get_target_plurals()))
-            )
+            ),
         )
+        if not check_obj.id:
+            return format_html(
+                "{}{}",
+                gettext(
+                    "It fits into given boundaries. The rendering is shown for your convenience."
+                ),
+                images,
+            )
+        return images
 
     def render(self, request, unit):
         try:

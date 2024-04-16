@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 #
 # Django settings for running testsuite
@@ -24,13 +9,13 @@
 import os
 import warnings
 
-from weblate.settings_example import *  # noqa
+from weblate.settings_example import *  # noqa: F403
 
 CI_DATABASE = os.environ.get("CI_DATABASE", "")
 
 default_user = "weblate"
 default_name = "weblate"
-if CI_DATABASE in ("mysql", "mariadb"):
+if CI_DATABASE in {"mysql", "mariadb"}:
     DATABASES["default"]["ENGINE"] = "django.db.backends.mysql"
     default_user = "root"
     DATABASES["default"]["OPTIONS"] = {
@@ -47,6 +32,8 @@ elif CI_DATABASE == "postgresql":
     DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
     default_user = "postgres"
 else:
+    if not CI_DATABASE:
+        raise ValueError("Missing CI_DATABASE configuration in the environment")
     raise ValueError(f"Not supported database: {CI_DATABASE}")
 
 DATABASES["default"]["HOST"] = os.environ.get("CI_DB_HOST", "")
@@ -59,21 +46,29 @@ DATABASES["default"]["PORT"] = os.environ.get("CI_DB_PORT", "")
 ADMINS = (("Weblate test", "noreply@weblate.org"),)
 
 # The secret key is needed for tests
-SECRET_KEY = "secret key used for tests only"
+SECRET_KEY = "secret key used for tests only"  # noqa: S105
 
 SITE_DOMAIN = "example.com"
 
 # Different root for test repos
 if "CI_BASE_DIR" in os.environ:
     BASE_DIR = os.environ["CI_BASE_DIR"]
+else:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
+CACHE_DIR = os.path.join(DATA_DIR, "cache")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
-CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
+
+# Enable lazy stats for testing
+STATS_LAZY = True
+
+VCS_API_DELAY = 0
+VCS_FILE_PROTOCOL = True
 
 # Localize CDN addon
 LOCALIZE_CDN_URL = "https://cdn.example.com/"
@@ -129,10 +124,6 @@ SESSION_COOKIE_HTTPONLY = False
 # Use database backed sessions for transaction consistency in tests
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
-# Use weak password hasher in tests, there is no point in spending CPU time
-# in hashing test passwords
-PASSWORD_HASHERS = ["django.contrib.auth.hashers.CryptPasswordHasher"]
-
 # Test optional apps as well
 INSTALLED_APPS += ("weblate.billing", "weblate.legal")
 
@@ -146,14 +137,15 @@ AUTHENTICATION_BACKENDS = (
 # Disable random admin checks trigger
 BACKGROUND_ADMIN_CHECKS = False
 
+# Use weak password hasher for testing
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.MD5PasswordHasher",
+]
+
+# Let the testsuite fail on timezone issues
 warnings.filterwarnings(
     "error",
     r"DateTimeField .* received a naive datetime",
     RuntimeWarning,
     r"django\.db\.models\.fields",
 )
-
-# Generate junit compatible XML for AppVeyor
-if "APPVEYOR" in os.environ:
-    TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
-    TEST_OUTPUT_FILE_NAME = "junit.xml"

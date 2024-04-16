@@ -1,26 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.models import Translation, Unit
 
@@ -33,7 +17,7 @@ class CommaSeparatedIntegerField(forms.Field):
         try:
             return [int(item.strip()) for item in value.split(",") if item.strip()]
         except (ValueError, TypeError):
-            raise ValidationError(_("Invalid integer list!"))
+            raise ValidationError(gettext("Invalid integer list!"))
 
 
 class GlossaryModelChoiceField(forms.ModelChoiceField):
@@ -84,29 +68,42 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             "translation": GlossaryModelChoiceField,
         }
 
-    def __init__(self, unit, data=None, instance=None, initial=None, **kwargs):
+    def __init__(
+        self, unit, user, data=None, instance=None, initial=None, **kwargs
+    ) -> None:
         translation = unit.translation
         component = translation.component
         glossaries = Translation.objects.filter(
             language=translation.language,
             component__in=component.project.glossaries,
+            component__manage_units=True,
         )
+        self._user = user
+        exclude = [
+            glossary.pk
+            for glossary in glossaries
+            if not user.has_perm("unit.add", glossary)
+        ]
+        if exclude:
+            glossaries = glossaries.exclude(pk__in=exclude)
+
         if not instance and not initial:
             initial = {}
         if initial is not None and unit.is_source:
             initial["terminology"] = True
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
             initial["translation"] = glossaries[0]
+        kwargs["auto_id"] = "id_add_term_%s"
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
-        self.fields["translation"].label = _("Glossary")
+        self.fields["translation"].label = gettext("Glossary")
         self.fields["source"].label = str(component.source_language)
         self.fields["source"].required = True
         self.fields["target"].label = str(translation.language)
         if translation.is_source:
             self.fields["target"].widget = forms.HiddenInput()
 
-    def clean(self):
+    def clean(self) -> None:
         translation = self.cleaned_data.get("translation")
         if not translation:
             return
@@ -128,4 +125,5 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             "auto_context": True,
             "extra_flags": self.get_glossary_flags(),
             "explanation": self.cleaned_data.get("explanation"),
+            "skip_existing": bool(self.cleaned_data.get("terminology")),
         }

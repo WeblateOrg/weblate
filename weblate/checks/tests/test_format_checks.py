@@ -1,28 +1,15 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for quality checks."""
 
+from __future__ import annotations
 
 from django.test import SimpleTestCase
 
 from weblate.checks.format import (
+    BaseFormatCheck,
     CFormatCheck,
     CSharpFormatCheck,
     ESTemplateLiteralsCheck,
@@ -33,6 +20,7 @@ from weblate.checks.format import (
     MultipleUnnamedFormatsCheck,
     ObjectPascalFormatCheck,
     PercentPlaceholdersCheck,
+    PerlBraceFormatCheck,
     PerlFormatCheck,
     PHPFormatCheck,
     PythonBraceFormatCheck,
@@ -51,9 +39,9 @@ from weblate.trans.util import join_plural
 
 
 class PythonFormatCheckTest(CheckTestCase):
-    check = PythonFormatCheck()
+    check: BaseFormatCheck = PythonFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "python-format",
@@ -61,18 +49,18 @@ class PythonFormatCheckTest(CheckTestCase):
             [(0, 2, "%s"), (8, 10, "%d")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
 
-    def test_space_format(self):
+    def test_space_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%d % string", "%d % other", False, None)
         )
 
-    def test_percent_format(self):
+    def test_percent_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%d%% string", "%d%% string", False, None)
         )
@@ -84,45 +72,45 @@ class PythonFormatCheckTest(CheckTestCase):
             self.check.check_format("Save 12%%.", "Save 12 percent.", False, None)
         )
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%(name)s string", "%(name)s string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%(name)s string", "string", False, None)
         )
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(
             self.check.check_format("%(name)s string", "string", True, None)
         )
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "%c string", False, None))
 
-    def test_reordered_format(self):
+    def test_reordered_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%s %d string", "%d %s string", False, None)
         )
 
-    def test_wrong_named_format(self):
+    def test_wrong_named_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%(name)s string", "%(jmeno)s string", False, None)
         )
 
-    def test_reordered_named_format(self):
+    def test_reordered_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%(name)s %(foo)s string", "%(foo)s %(name)s string", False, None
             )
         )
 
-    def test_reordered_named_format_long(self):
+    def test_reordered_named_format_long(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%(count)d strings into %(languages)d languages %(percent)d%%",
@@ -132,7 +120,7 @@ class PythonFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_feedback(self):
+    def test_feedback(self) -> None:
         self.assertEqual(
             self.check.check_format("%(count)d", "%(languages)d", False, None),
             {"missing": ["(count)d"], "extra": ["(languages)d"]},
@@ -164,36 +152,63 @@ class PythonFormatCheckTest(CheckTestCase):
             {"missing": ["d"], "extra": []},
         )
 
-    def test_description(self):
+    def test_description(self) -> None:
         unit = Unit(
             source="%(count)d",
             target="%(languages)d",
             extra_flags="python-format",
+            translation=Translation(component=Component(file_format="po")),
         )
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: %(count)d<br />"
-            "Following format strings are extra: %(languages)d",
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="%(count)d">%(count)d</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="%(languages)d">%(languages)d</span>
+            """,
         )
 
-    def test_description_nolocation(self):
+    def test_description_nolocation(self) -> None:
         unit = Unit(
             source="%d %s",
             target="%s %d",
             extra_flags="python-format",
+            translation=Translation(component=Component(file_format="po")),
         )
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Following format strings are wrongly ordered: %d, %s",
+            "The following format strings are in the wrong order: %d, %s",
+        )
+
+    def test_duplicated_format(self) -> None:
+        self.assertEqual(
+            self.check.check_format(
+                "%(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                "%(classF)s %(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                False,
+                None,
+            ),
+            {"missing": [], "extra": ["(classF)s"]},
+        )
+        self.assertEqual(
+            self.check.check_format(
+                "%(test)s%(test)s%(test)s%(test)s",
+                "%(test)s%(test)s%(test)s",
+                False,
+                None,
+            ),
+            {"missing": ["(test)s"], "extra": []},
         )
 
 
 class PHPFormatCheckTest(CheckTestCase):
     check = PHPFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "php-format",
@@ -201,55 +216,55 @@ class PHPFormatCheckTest(CheckTestCase):
             [(0, 2, "%s"), (8, 10, "%d")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1$s string", "%1$s string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(self.check.check_format("%1$s string", "string", False, None))
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("%1$s string", "string", True, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "%c string", False, None))
 
-    def test_double_format(self):
+    def test_double_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%s string", "%s%s string", False, None)
         )
 
-    def test_reorder_format(self):
+    def test_reorder_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1$s %2$s string", "%2$s %1$s string", False, None)
         )
 
-    def test_wrong_named_format(self):
+    def test_wrong_named_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%1$s string", "%s string", False, None)
         )
 
-    def test_wrong_percent_format(self):
+    def test_wrong_percent_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%s%% (0.1%%)", "%s%% (0.1%x)", False, None)
         )
 
-    def test_missing_percent_format(self):
+    def test_missing_percent_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%s%% %%", "%s%% percent", False, None)
         )
 
-    def test_space_format(self):
+    def test_space_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%d % string", "%d % other", False, None)
         )
@@ -258,7 +273,7 @@ class PHPFormatCheckTest(CheckTestCase):
 class SchemeFormatCheckTest(CheckTestCase):
     check = SchemeFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "scheme-format",
@@ -266,112 +281,114 @@ class SchemeFormatCheckTest(CheckTestCase):
             [(0, 2, "~s"), (8, 10, "~d")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("~s string", "~s string", False, None))
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("~0@*~s string", "~0@*~s string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("~s string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(self.check.check_format("~1@*~s string", "string", False, None))
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("~1@*~s string", "string", True, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("~s string", "~c string", False, None))
 
-    def test_double_format(self):
+    def test_double_format(self) -> None:
         self.assertTrue(
             self.check.check_format("~s string", "~s~s string", False, None)
         )
 
-    def test_reorder_format(self):
+    def test_reorder_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "~1@*~s ~2@*~s string", "~2@*~s ~1@*~s string", False, None
             )
         )
 
-    def test_wrong_named_format(self):
+    def test_wrong_named_format(self) -> None:
         self.assertTrue(
             self.check.check_format("~1@*~s string", "~s string", False, None)
         )
 
-    def test_wrong_tilde_format(self):
+    def test_wrong_tilde_format(self) -> None:
         self.assertTrue(
             self.check.check_format("~s~~ (0.1~~)", "~s~~ (0.1~x)", False, None)
         )
 
-    def test_missing_tilde_format(self):
+    def test_missing_tilde_format(self) -> None:
         self.assertFalse(self.check.check_format("~s~~ ~~", "~s~~ tilde", False, None))
 
 
 class CFormatCheckTest(CheckTestCase):
-    check = CFormatCheck()
+    check: BaseFormatCheck = CFormatCheck()
     flag = "c-format"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (self.flag, "%sstring%d", [(0, 2, "%s"), (8, 10, "%d")])
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%10s string", "%10s string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(self.check.check_format("%10s string", "string", False, None))
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("%10s string", "string", True, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "%c string", False, None))
 
-    def test_wrong_named_format(self):
-        self.assertTrue(
-            self.check.check_format("%10s string", "%20s string", False, None)
+    def test_wrong_named_format(self) -> None:
+        self.assertEqual(
+            self.check.check_format("%10s string", "%20s string", False, None),
+            {"missing": ["10s"], "extra": ["20s"]},
         )
 
-    def test_reorder_format(self):
+    def test_reorder_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1$s %2$s string", "%2$s %1$s string", False, None)
         )
 
-    def test_locale_delimiter(self):
+    def test_locale_delimiter(self) -> None:
         self.assertFalse(
             self.check.check_format("lines: %6.3f", "radky: %'6.3f", False, None)
         )
 
-    def test_ld_format(self):
-        self.assertFalse(
+    def test_ld_format(self) -> None:
+        self.assertEqual(
             self.check.check_format(
                 "%ld bytes (free %ld bytes, used %ld bytes)",
                 "%l octets (%l octets libres, %l octets utilisés)",
                 True,
                 None,
-            )
+            ),
+            {"missing": ["ld", "ld", "ld"], "extra": ["l", "l", "l"]},
         )
 
-    def test_parenthesis(self):
+    def test_parenthesis(self) -> None:
         self.assertFalse(self.check.check_format("(%.0lf%%)", "(%%%.0lf)", False, None))
 
 
@@ -384,7 +401,7 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
     check = ObjectPascalFormatCheck()
     flag = "object-pascal-format"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             self.flag,
@@ -392,54 +409,54 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
             [(0, 4, "%-9s"), (10, 12, "%d")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
 
-    def test_width_format(self):
+    def test_width_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%10s string", "%10s string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "string", False, None))
 
-    def test_added_format(self):
+    def test_added_format(self) -> None:
         self.assertTrue(self.check.check_format("string", "%s string", False, None))
 
-    def test_missing_width_format(self):
+    def test_missing_width_format(self) -> None:
         self.assertTrue(self.check.check_format("%10s string", "string", False, None))
 
-    def test_missing_width_format_ignore(self):
+    def test_missing_width_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("%10s string", "string", True, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "%d string", False, None))
 
-    def test_invalid_format(self):
+    def test_invalid_format(self) -> None:
         self.assertTrue(self.check.check_format("%d string", "%c string", False, None))
 
-    def test_looks_like_format(self):
+    def test_looks_like_format(self) -> None:
         self.assertFalse(self.check.check_format("%c string", "%c string", False, None))
 
-    def test_percent_format(self):
+    def test_percent_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%6.2f%% string", "%6.2f%% string", False, None)
         )
 
-    def test_wrong_digits(self):
+    def test_wrong_digits(self) -> None:
         self.assertTrue(
             self.check.check_format("%6.2f string", "%5.3f string", False, None)
         )
 
-    def test_wrong_wildcard(self):
+    def test_wrong_wildcard(self) -> None:
         self.assertTrue(
             self.check.check_format("%*s string", "%10s string", False, None)
         )
 
-    def test_reorder_format(self):
+    def test_reorder_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1:s %2:d string", "%2:d %1:s string", False, None)
         )
@@ -450,10 +467,72 @@ class PerlFormatCheckTest(CFormatCheckTest):
     flag = "perl-format"
 
 
+class PerlBraceFormatCheckTest(CheckTestCase):
+    check = PerlBraceFormatCheck()
+    flag = "perl-brace-format"
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_highlight = (
+            self.flag,
+            "{x}string{y}",
+            [(0, 3, "{x}"), (9, 12, "{y}")],
+        )
+
+    def test_no_format(self) -> None:
+        self.assertFalse(self.check.check_format("string", "string", False, None))
+
+    def test_named_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("{x} string {y}", "{x} string {y}", False, None)
+        )
+
+    def test_wrong_position_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{x} string", "{x} string {y}", False, None)
+        )
+
+    def test_missing_named_format(self) -> None:
+        self.assertTrue(self.check.check_format("{x} string", "string", False, None))
+
+    def test_missing_named_format_ignore(self) -> None:
+        self.assertFalse(self.check.check_format("{x} string", "string", True, None))
+
+    def test_wrong_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{x} string", "{y} string", False, None)
+        )
+
+    def test_wrong_named_format(self) -> None:
+        self.assertEqual(
+            self.check.check_format("{x} string", "{y} string", False, None),
+            {"missing": ["{x}"], "extra": ["{y}"]},
+        )
+
+    def test_description(self) -> None:
+        unit = Unit(
+            source="{foo}",
+            target="{bar}",
+            extra_flags="es-format",
+            translation=Translation(component=Component(file_format="po")),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="{foo}">{foo}</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="{bar}">{bar}</span>
+            """,
+        )
+
+
 class PythonBraceFormatCheckTest(CheckTestCase):
     check = PythonBraceFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "python-brace-format",
@@ -461,47 +540,47 @@ class PythonBraceFormatCheckTest(CheckTestCase):
             [(0, 3, "{0}"), (9, 12, "{1}")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_position_format(self):
+    def test_position_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{} string {}", "{} string {}", False, None)
         )
 
-    def test_wrong_position_format(self):
+    def test_wrong_position_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{} string", "{} string {}", False, None)
         )
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{s1} string {s2}", "{s1} string {s2}", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("{} string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(self.check.check_format("{s1} string", "string", False, None))
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("{s} string", "string", True, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{s} string", "{c} string", False, None)
         )
 
-    def test_escaping(self):
+    def test_escaping(self) -> None:
         self.assertFalse(self.check.check_format("{{ string }}", "string", False, None))
 
-    def test_attribute_format(self):
+    def test_attribute_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{s.foo} string", "{s.foo} string", False, None)
         )
 
-    def test_wrong_attribute_format(self):
+    def test_wrong_attribute_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{s.foo} string", "{s.bar} string", False, None)
         )
@@ -510,7 +589,7 @@ class PythonBraceFormatCheckTest(CheckTestCase):
 class CSharpFormatCheckTest(CheckTestCase):
     check = CSharpFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "c-sharp-format",
@@ -518,63 +597,65 @@ class CSharpFormatCheckTest(CheckTestCase):
             [(0, 3, "{0}"), (9, 12, "{1}")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_escaping_no_position(self):
+    def test_escaping_no_position(self) -> None:
         self.assertFalse(self.check.check_format("{{ string }}", "string", False, None))
 
-    def test_simple_format(self):
+    def test_simple_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{0} strins", "{0} string", False, None)
         )
 
-    def test_format_with_width(self):
+    def test_format_with_width(self) -> None:
         self.assertFalse(
             self.check.check_format("{0,1} strins", "{0,1} string", False, None)
         )
 
-    def test_format_with_flag(self):
+    def test_format_with_flag(self) -> None:
         self.assertFalse(
             self.check.check_format("{0:C2} strins", "{0:C2} string", False, None)
         )
 
-    def test_full_format(self):
+    def test_full_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{0,1:N0} strins", "{0,1:N0} string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("{0} strins", "string", False, None))
 
-    def test_missing_width_format(self):
+    def test_missing_width_format(self) -> None:
         self.assertTrue(self.check.check_format("{0,1} strins", "string", False, None))
 
-    def test_missing_flag_format(self):
+    def test_missing_flag_format(self) -> None:
         self.assertTrue(self.check.check_format("{0:C1} strins", "string", False, None))
 
-    def test_missing_full_format(self):
+    def test_missing_full_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{0,1:C3} strins", "string", False, None)
         )
 
-    def test_wrong_format(self):
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, None)
+    def test_wrong_format(self) -> None:
+        self.assertEqual(
+            self.check.check_format("{0} string", "{1} string", False, None),
+            {"missing": ["0"], "extra": ["1"]},
         )
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("{0} string", "string", True, None))
 
-    def test_escaping_with_position(self):
+    def test_escaping_with_position(self) -> None:
         self.assertFalse(self.check.check_format("{{ 0 }}", "string", False, None))
 
-    def test_wrong_attribute_format(self):
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, None)
+    def test_wrong_attribute_format(self) -> None:
+        self.assertEqual(
+            self.check.check_format("{0} string", "{1} string", False, None),
+            {"missing": ["0"], "extra": ["1"]},
         )
 
-    def test_reordered_format(self):
+    def test_reordered_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{0} string {1}", "{1} string {0}", False, None)
         )
@@ -583,56 +664,56 @@ class CSharpFormatCheckTest(CheckTestCase):
 class JavaFormatCheckTest(CheckTestCase):
     check = JavaFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
-            "java-format",
+            "java-printf-format",
             "%1s string %2s",
             [(0, 3, "%1s"), (11, 14, "%2s")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_escaping(self):
+    def test_escaping(self) -> None:
         self.assertFalse(self.check.check_format("%% s %%", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
 
-    def test_time_format(self):
+    def test_time_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1$tH strins", "%1$tH string", False, None)
         )
 
-    def test_wrong_position_format(self):
+    def test_wrong_position_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%s string", "%s string %s", False, None)
         )
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1s string %2s", "%1s string %2s", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%1s string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(self.check.check_format("%1$05d string", "string", False, None))
 
-    def test_wrong_argument_format(self):
+    def test_wrong_argument_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%1s string", "%2s string", False, None)
         )
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%s strins", "%d string", False, None))
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(self.check.check_format("%1s string", "string", True, None))
 
-    def test_reordered_format(self):
+    def test_reordered_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%1s string %2d", "%2d string %1s", False, None)
         )
@@ -641,103 +722,107 @@ class JavaFormatCheckTest(CheckTestCase):
 class JavaMessageFormatCheckTest(CheckTestCase):
     check = JavaMessageFormatCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
-            "java-messageformat",
+            "java-format",
             "{0}string{1}",
             [(0, 3, "{0}"), (9, 12, "{1}")],
         )
         self.unit = MockUnit(source="source")
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, self.unit))
 
-    def test_escaping_no_position(self):
+    def test_escaping_no_position(self) -> None:
         self.assertFalse(
             self.check.check_format("{{ string }}", "string", False, self.unit)
         )
 
-    def test_simple_format(self):
+    def test_simple_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{0} strins", "{0} string", False, self.unit)
         )
 
-    def test_format_with_width(self):
+    def test_format_with_width(self) -> None:
         self.assertFalse(
             self.check.check_format("{0,1} strins", "{0,1} string", False, self.unit)
         )
 
-    def test_format_with_flag(self):
+    def test_format_with_flag(self) -> None:
         self.assertFalse(
             self.check.check_format("{0:C2} strins", "{0:C2} string", False, self.unit)
         )
 
-    def test_full_format(self):
+    def test_full_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{0,1:N0} strins", "{0,1:N0} string", False, self.unit
             )
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{0} strins", "string", False, self.unit)
         )
 
-    def test_missing_type_format(self):
+    def test_missing_type_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{0,number} strins", "string", False, self.unit)
         )
 
-    def test_missing_flag_format(self):
+    def test_missing_flag_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{0} strins", "string", False, self.unit)
         )
 
-    def test_missing_full_format(self):
+    def test_missing_full_format(self) -> None:
         self.assertTrue(
             self.check.check_format(
                 "{0,number,integer} strins", "string", False, self.unit
             )
         )
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{0} string", "{1} string", False, self.unit)
         )
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(
             self.check.check_format("{0} string", "string", True, self.unit)
         )
 
-    def test_escaping_with_position(self):
+    def test_escaping_with_position(self) -> None:
         self.assertFalse(self.check.check_format("{{ 0 }}", "string", False, self.unit))
 
-    def test_wrong_attribute_format(self):
+    def test_wrong_attribute_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{0} string", "{1} string", False, self.unit)
         )
 
-    def test_reordered_format(self):
+    def test_reordered_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{0} string {1}", "{1} string {0}", False, self.unit
             )
         )
 
-    def test_skip(self):
+    def test_skip(self) -> None:
         unit = MockUnit(source="source")
         self.assertTrue(self.check.should_skip(unit))
-        unit = MockUnit(source="source", flags="java-messageformat")
+        unit = MockUnit(source="source", flags="java-format")
         self.assertFalse(self.check.should_skip(unit))
         unit = MockUnit(source="source", flags="auto-java-messageformat")
         self.assertTrue(self.check.should_skip(unit))
         unit = MockUnit(source="{0}", flags="auto-java-messageformat")
         self.assertFalse(self.check.should_skip(unit))
+        unit = MockUnit(
+            source="{0}", flags="auto-java-messageformat,ignore-java-format"
+        )
+        self.assertTrue(self.check.should_skip(unit))
 
-    def test_quotes(self):
+    def test_quotes(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{0} string {1}", "'{1}' strin''g '{0}'", False, self.unit
@@ -754,14 +839,14 @@ class JavaMessageFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_description(self):
+    def test_description(self) -> None:
         unit = Unit(
             source="{0}''s brush is {1} centimeters tall",
             target="{0}'s brush is {1} centimeters tall",
-            extra_flags="java-messageformat",
+            extra_flags="java-format",
             translation=Translation(
                 component=Component(
-                    file_format="auto",
+                    file_format="po",
                     source_language=Language("en"),
                 ),
                 language=Language("cs"),
@@ -778,28 +863,28 @@ class QtFormatCheckTest(CheckTestCase):
     check = QtFormatCheck()
     flag = "qt-format"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (self.flag, "%1string%2", [(0, 2, "%1"), (8, 10, "%2")])
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_simple_format(self):
+    def test_simple_format(self) -> None:
         self.assertFalse(self.check.check_format("%1 strins", "%1 string", False, None))
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%1 strins", "string", False, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%1 string", "%2 string", False, None))
 
-    def test_reordered_format(self):
+    def test_reordered_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1 string %2", "%2 string %1", False, None)
         )
 
-    def test_reused_format(self):
+    def test_reused_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%1 string %1", "%1 string %1", False, None)
         )
@@ -809,24 +894,24 @@ class QtPluralCheckTest(CheckTestCase):
     check = QtPluralCheck()
     flag = "qt-plural-format"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (self.flag, "%Lnstring", [(0, 3, "%Ln")])
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_plural_format(self):
+    def test_plural_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%n string(s)", "%n string", False, None)
         )
 
-    def test_plural_localized_format(self):
+    def test_plural_localized_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%Ln string(s)", "%Ln string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%n string(s)", "string", False, None))
 
 
@@ -834,11 +919,11 @@ class RubyFormatCheckTest(CheckTestCase):
     check = RubyFormatCheck()
     flag = "ruby-format"
 
-    def test_check_highlight(self):
+    def test_check_highlight(self) -> None:
         self.test_highlight = (self.flag, "%dstring%s", [(0, 2, "%d"), (8, 10, "%s")])
         super().test_check_highlight()
 
-    def test_check_highlight_named(self):
+    def test_check_highlight_named(self) -> None:
         self.test_highlight = (
             self.flag,
             "%<int>dstring%<str>s",
@@ -846,7 +931,7 @@ class RubyFormatCheckTest(CheckTestCase):
         )
         super().test_check_highlight()
 
-    def test_check_highlight_named_template(self):
+    def test_check_highlight_named_template(self) -> None:
         self.test_highlight = (
             self.flag,
             "%{int}string%{str}",
@@ -854,7 +939,7 @@ class RubyFormatCheckTest(CheckTestCase):
         )
         super().test_check_highlight()
 
-    def test_check_highlight_complex_named_template(self):
+    def test_check_highlight_complex_named_template(self) -> None:
         self.test_highlight = (
             self.flag,
             "%8.8{foo}string%+08.2<float>fstring",
@@ -862,54 +947,54 @@ class RubyFormatCheckTest(CheckTestCase):
         )
         super().test_check_highlight()
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
 
-    def test_space_format(self):
+    def test_space_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%d % string", "%d % other", False, None)
         )
 
-    def test_percent_format(self):
+    def test_percent_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%d%% string", "%d%% string", False, None)
         )
 
-    def test_named_format(self):
+    def test_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%<name>s string", "%<name>s string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "string", False, None))
 
-    def test_missing_named_format(self):
+    def test_missing_named_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%<name>s string", "string", False, None)
         )
 
-    def test_missing_named_format_ignore(self):
+    def test_missing_named_format_ignore(self) -> None:
         self.assertFalse(
             self.check.check_format("%<name>s string", "string", True, None)
         )
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(self.check.check_format("%s string", "%c string", False, None))
 
-    def test_reordered_format(self):
+    def test_reordered_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%s %d string", "%d %s string", False, None)
         )
 
-    def test_wrong_named_format(self):
+    def test_wrong_named_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%<name>s string", "%<jmeno>s string", False, None)
         )
 
-    def test_reordered_named_format(self):
+    def test_reordered_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%<name>s %<foo>s string",
@@ -919,7 +1004,7 @@ class RubyFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_reordered_named_format_long(self):
+    def test_reordered_named_format_long(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%<count>d strings into %<languages>d languages %<percent>d%%",
@@ -929,29 +1014,29 @@ class RubyFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_formatting_named_format(self):
+    def test_formatting_named_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%+08.2<foo>f string", "%+08.2<foo>f string", False, None
             )
         )
 
-    def test_missing_named_template_format(self):
+    def test_missing_named_template_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%{name} string", "string", False, None)
         )
 
-    def test_missing_named_template_format_ignore(self):
+    def test_missing_named_template_format_ignore(self) -> None:
         self.assertFalse(
             self.check.check_format("%{name} string", "string", True, None)
         )
 
-    def test_wrong_named_template_format(self):
+    def test_wrong_named_template_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%{name} string", "%{jmeno} string", False, None)
         )
 
-    def test_reordered_named_template_format(self):
+    def test_reordered_named_template_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%{name} %{foo} string",
@@ -961,12 +1046,12 @@ class RubyFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_formatting_named_template_format(self):
+    def test_formatting_named_template_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%8.8{foo} string", "%8.8{foo} string", False, None)
         )
 
-    def test_reordered_named_template_format_long(self):
+    def test_reordered_named_template_format_long(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "%{count} strings into %{languages} languages %{percent}%%",
@@ -980,7 +1065,7 @@ class RubyFormatCheckTest(CheckTestCase):
 class PluralTest(FixtureTestCase):
     check = PythonFormatCheck()
 
-    def do_check(self, sources, targets, translation):
+    def do_check(self, sources, targets, translation, flags: str = ""):
         return self.check.check_target_unit(
             sources,
             targets,
@@ -988,12 +1073,15 @@ class PluralTest(FixtureTestCase):
                 translation=translation,
                 source=join_plural(sources),
                 target=join_plural(targets),
+                extra_flags=flags,
             ),
         )
 
-    def test_arabic(self):
+    def test_arabic(self) -> None:
         arabic = Language.objects.get(code="ar")
-        translation = Translation(language=arabic, plural=arabic.plural)
+        translation = Translation(
+            language=arabic, plural=arabic.plural, component=Component(file_format="po")
+        )
         # Singular, correct format string
         self.assertFalse(self.do_check(["hello %s"], ["hell %s"], translation))
         # Singular, missing format string
@@ -1015,9 +1103,55 @@ class PluralTest(FixtureTestCase):
             )
         )
 
-    def test_non_format_singular(self):
+    def test_arabic_strict(self) -> None:
+        arabic = Language.objects.get(code="ar")
+        translation = Translation(
+            language=arabic, plural=arabic.plural, component=Component(file_format="po")
+        )
+        self.assertTrue(
+            self.do_check(
+                ["hello %s"] * 2,
+                ["hell"] * 3 + ["hello %s"] * 3,
+                translation,
+                "strict-format",
+            )
+        )
+        self.assertFalse(
+            self.do_check(
+                ["hello %s"] * 2, ["hell %s"] * 6, translation, "strict-format"
+            )
+        )
+
+    def test_non_format_singular_fa(self) -> None:
+        czech = Language.objects.get(code="fa")
+        translation = Translation(
+            language=czech, plural=czech.plural, component=Component(file_format="po")
+        )
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka"],
+                translation,
+            )
+        )
+        translation = Translation(
+            language=czech,
+            plural=czech.plural,
+            component=Component(file_format="aresource"),
+        )
+        self.assertTrue(
+            self.do_check(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka"],
+                translation,
+            )
+        )
+
+    def test_non_format_singular(self) -> None:
         czech = Language.objects.get(code="cs")
-        translation = Translation(language=czech, plural=czech.plural)
+        translation = Translation(
+            language=czech, plural=czech.plural, component=Component(file_format="po")
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%d apples"],
@@ -1040,9 +1174,13 @@ class PluralTest(FixtureTestCase):
             )
         )
 
-    def test_non_format_singular_named(self):
+    def test_non_format_singular_named(self) -> None:
         language = Language.objects.get(code="cs")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1065,9 +1203,13 @@ class PluralTest(FixtureTestCase):
             )
         )
 
-    def test_non_format_singular_named_be(self):
+    def test_non_format_singular_named_be(self) -> None:
         language = Language.objects.get(code="be")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertTrue(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1076,9 +1218,13 @@ class PluralTest(FixtureTestCase):
             )
         )
 
-    def test_non_format_singular_named_kab(self):
+    def test_non_format_singular_named_kab(self) -> None:
         language = Language.objects.get(code="kab")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1087,9 +1233,13 @@ class PluralTest(FixtureTestCase):
             )
         )
 
-    def test_french_singular(self):
+    def test_french_singular(self) -> None:
         language = Language.objects.get(code="fr")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1123,7 +1273,7 @@ class PluralTest(FixtureTestCase):
 class I18NextInterpolationCheckTest(CheckTestCase):
     check = I18NextInterpolationCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "i18next-interpolation",
@@ -1131,10 +1281,10 @@ class I18NextInterpolationCheckTest(CheckTestCase):
             [(0, 7, "{{foo}}"), (15, 22, "{{bar}}")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format("{{foo}} string", "{{foo}} string", False, None)
         )
@@ -1145,7 +1295,7 @@ class I18NextInterpolationCheckTest(CheckTestCase):
             self.check.check_format("{{ foo }} string", "{{foo}} string", False, None)
         )
 
-    def test_nesting(self):
+    def test_nesting(self) -> None:
         self.assertFalse(
             self.check.check_format("$t(bar) string", "$t(bar) other", False, None)
         )
@@ -1156,15 +1306,15 @@ class I18NextInterpolationCheckTest(CheckTestCase):
             self.check.check_format("$t( bar ) string", "$t(bar) other", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{{foo}} string", "string", False, None)
         )
 
-    def test_missing_nesting(self):
+    def test_missing_nesting(self) -> None:
         self.assertTrue(self.check.check_format("$t(bar) string", "other", False, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(
             self.check.check_format("{{foo}} string", "{{bar}} string", False, None)
         )
@@ -1173,7 +1323,7 @@ class I18NextInterpolationCheckTest(CheckTestCase):
 class ESTemplateLiteralsCheckTest(CheckTestCase):
     check = ESTemplateLiteralsCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "es-format",
@@ -1181,10 +1331,10 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             [(0, 6, "${foo}"), (14, 20, "${bar}")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format("${foo} string", "${foo} string", False, None)
         )
@@ -1195,32 +1345,38 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             self.check.check_format("${ foo } string", "${foo} string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("${foo} string", "string", False, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(
             self.check.check_format("${foo} string", "${bar} string", False, None)
         )
 
-    def test_description(self):
+    def test_description(self) -> None:
         unit = Unit(
             source="${foo}",
             target="${bar}",
             extra_flags="es-format",
+            translation=Translation(component=Component(file_format="po")),
         )
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: ${foo}<br />"
-            "Following format strings are extra: ${bar}",
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="${foo}">${foo}</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="${bar}">${bar}</span>
+            """,
         )
 
 
 class PercentPlaceholdersCheckTest(CheckTestCase):
     check = PercentPlaceholdersCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "percent-placeholders",
@@ -1228,18 +1384,18 @@ class PercentPlaceholdersCheckTest(CheckTestCase):
             [(0, 5, "%foo%"), (13, 18, "%bar%")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%foo% string", "%foo% string", False, None)
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%foo% string", "string", False, None))
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%foo% string", "%bar% string", False, None)
         )
@@ -1248,7 +1404,7 @@ class PercentPlaceholdersCheckTest(CheckTestCase):
 class VueFormattingCheckTest(CheckTestCase):
     check = VueFormattingCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_highlight = (
             "vue-format",
@@ -1256,10 +1412,10 @@ class VueFormattingCheckTest(CheckTestCase):
             [(0, 5, "{foo}"), (13, 19, "%{bar}")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("strins", "string", False, None))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%{foo} string", "%{foo} string", False, None)
         )
@@ -1291,7 +1447,7 @@ class VueFormattingCheckTest(CheckTestCase):
             )
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(self.check.check_format("%{foo} string", "string", False, None))
         self.assertTrue(self.check.check_format("{foo} string", "string", False, None))
         self.assertTrue(
@@ -1309,7 +1465,7 @@ class VueFormattingCheckTest(CheckTestCase):
             self.check.check_format("@:(message.dio) string", "string", False, None)
         )
 
-    def test_wrong_format(self):
+    def test_wrong_format(self) -> None:
         self.assertTrue(
             self.check.check_format("%{foo} string", "%{bar} string", False, None)
         )
@@ -1321,26 +1477,26 @@ class VueFormattingCheckTest(CheckTestCase):
 class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
     check = MultipleUnnamedFormatsCheck()
 
-    def test_none_flag(self):
+    def test_none_flag(self) -> None:
         self.assertFalse(self.check.check_source(["text"], MockUnit()))
 
-    def test_none_format(self):
+    def test_none_format(self) -> None:
         self.assertFalse(self.check.check_source(["text"], MockUnit(flags="c-format")))
 
-    def test_good(self):
+    def test_good(self) -> None:
         self.assertFalse(
             self.check.check_source(["%1$s %2$s"], MockUnit(flags="c-format"))
         )
 
-    def test_bad_c(self):
+    def test_bad_c(self) -> None:
         self.assertTrue(self.check.check_source(["%s %s"], MockUnit(flags="c-format")))
 
-    def test_bad_python(self):
+    def test_bad_python(self) -> None:
         self.assertTrue(
             self.check.check_source(["{} {}"], MockUnit(flags="python-brace-format"))
         )
 
-    def test_good_multi_format(self):
+    def test_good_multi_format(self) -> None:
         self.assertFalse(
             self.check.check_source(
                 ["Test %s"], MockUnit(flags="c-format,python-format")

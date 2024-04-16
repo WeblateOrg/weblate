@@ -1,45 +1,36 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import boto3
-from django.conf import settings
+from django.utils.functional import cached_property
 
-from weblate.machinery.base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
+from .forms import AWSMachineryForm
 
 
 class AWSTranslation(MachineTranslation):
     """AWS machine translation."""
 
-    name = "AWS"
+    name = "Amazon Translate"
     max_score = 88
     language_map = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
     }
+    settings_form = AWSMachineryForm
 
-    def __init__(self):
-        super().__init__()
-        self.client = boto3.client(
-            "translate",
-            region_name=settings.MT_AWS_REGION,
-            aws_access_key_id=settings.MT_AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.MT_AWS_SECRET_ACCESS_KEY,
+    @classmethod
+    def get_identifier(cls) -> str:
+        return "aws"
+
+    @cached_property
+    def client(self):
+        return boto3.client(
+            service_name="translate",
+            region_name=self.settings["region"],
+            aws_access_key_id=self.settings["key"],
+            aws_secret_access_key=self.settings["secret"],
         )
 
     def map_language_code(self, code):
@@ -134,9 +125,8 @@ class AWSTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )

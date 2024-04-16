@@ -1,41 +1,82 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
 
 from django.test import SimpleTestCase
 
-from weblate.utils.html import extract_bleach
+from weblate.utils.html import HTML2Text, extract_html_tags
 
 
 class HtmlTestCase(SimpleTestCase):
-    def test_noattr(self):
+    def test_noattr(self) -> None:
+        self.assertEqual(extract_html_tags("<b>text</b>"), ({"b"}, {"b": set()}))
+
+    def test_attrs(self) -> None:
         self.assertEqual(
-            extract_bleach("<b>text</b>"), {"tags": {"b"}, "attributes": {"b": set()}}
+            extract_html_tags('<a href="#">t</a>'), ({"a"}, {"a": {"href"}})
         )
 
-    def test_attrs(self):
+    def test_noclose(self) -> None:
+        self.assertEqual(extract_html_tags("<br>"), ({"br"}, {"br": set()}))
+
+    def test_html2text_simple(self) -> None:
+        html2text = HTML2Text()
+        self.assertEqual(html2text.handle("<b>text</b>"), "**text**\n\n")
+
+    def test_html2text_img(self) -> None:
+        html2text = HTML2Text()
         self.assertEqual(
-            extract_bleach('<a href="#">t</a>'),
-            {"tags": {"a"}, "attributes": {"a": {"href"}}},
+            html2text.handle("<b>text<img src='text.png' /></b>"), "**text**\n\n"
         )
 
-    def test_noclose(self):
+    def test_html2text_wrap(self) -> None:
+        html2text = HTML2Text()
         self.assertEqual(
-            extract_bleach("<br>"), {"tags": {"br"}, "attributes": {"br": set()}}
+            html2text.handle("text " * 20),
+            """text text text text text text text text text text text text text text text
+text text text text text
+
+""",
+        )
+
+    def test_html2text_table(self) -> None:
+        html2text = HTML2Text()
+        self.assertEqual(
+            html2text.handle(
+                """
+<table>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>very long text</td>
+        <td>other text</td>
+    </tr>
+</table>
+"""
+            ),
+            """| 1              | 2          |
+|----------------|------------|
+| very long text | other text |
+
+
+""",
+        )
+
+    def test_html2text_diff(self) -> None:
+        html2text = HTML2Text()
+        self.assertEqual(
+            html2text.handle("text<ins>add</ins><del>remove</del>"),
+            "text{+add+}[-remove-]\n\n",
+        )
+        self.assertEqual(
+            html2text.handle("text <ins>add</ins><del>remove</del>"),
+            "text {+add+}[-remove-]\n\n",
+        )
+        self.assertEqual(
+            html2text.handle("text<ins> </ins>"),
+            "text{+ +}\n\n",
         )

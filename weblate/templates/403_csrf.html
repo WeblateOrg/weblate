@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
+
+<h2>{% trans "Permission Denied" %}</h2>
 <p>{% trans "CSRF verification failed. Request aborted." %}</p>
 
 {% if no_referer %}
@@ -16,5 +19,7 @@
 <p>{% trans "This site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third-parties." %}</p>
 <p>{% trans "If you have set up your browser to not save cookies, please turn them on again (at-least for this site, or for 'same-origin' requests)." %}</p>
 {% endif %}
+
+</div>
 
 {% endblock %}

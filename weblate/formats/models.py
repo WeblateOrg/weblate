@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from appconf import AppConf
 from django.utils.functional import cached_property
@@ -25,7 +9,7 @@ from weblate.utils.classloader import ClassLoader
 
 
 class ExporterLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("WEBLATE_EXPORTERS", False)
 
     def list_exporters(self, translation):
@@ -47,34 +31,23 @@ EXPORTERS = ExporterLoader()
 
 
 class FileFormatLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("WEBLATE_FORMATS", False)
         self.errors = {}
 
     @cached_property
     def autoload(self):
-        result = []
-        for fileformat in self.data.values():
-            for autoload in fileformat.autoload:
-                result.append((autoload, fileformat))
-        return result
+        return [
+            (autoload, fileformat)
+            for fileformat in self.data.values()
+            for autoload in fileformat.autoload
+        ]
 
     def get_settings(self):
         result = list(super().get_settings())
         # TBX is required for glossaries
         if "weblate.formats.ttkit.TBXFormat" not in result:
             result.append("weblate.formats.ttkit.TBXFormat")
-        return result
-
-    def load_data(self):
-        result = super().load_data()
-        for fileformat in list(result.values()):
-            try:
-                fileformat.get_class()
-            except (AttributeError, ImportError) as error:
-                result.pop(fileformat.format_id)
-                self.errors[fileformat.format_id] = str(error)
-
         return result
 
 
@@ -92,6 +65,7 @@ class FormatsConf(AppConf):
         "weblate.formats.exporters.CSVExporter",
         "weblate.formats.exporters.XlsxExporter",
         "weblate.formats.exporters.JSONExporter",
+        "weblate.formats.exporters.JSONNestedExporter",
         "weblate.formats.exporters.AndroidResourceExporter",
         "weblate.formats.exporters.StringsExporter",
     )
@@ -101,6 +75,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PoMonoFormat",
         "weblate.formats.ttkit.TSFormat",
         "weblate.formats.ttkit.XliffFormat",
+        "weblate.formats.ttkit.RichXliffFormat",
         "weblate.formats.ttkit.PoXliffFormat",
         "weblate.formats.ttkit.StringsFormat",
         "weblate.formats.ttkit.StringsUtf8Format",
@@ -109,18 +84,26 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PropertiesFormat",
         "weblate.formats.ttkit.JoomlaFormat",
         "weblate.formats.ttkit.GWTFormat",
+        "weblate.formats.ttkit.GWTISOFormat",
         "weblate.formats.ttkit.PhpFormat",
         "weblate.formats.ttkit.LaravelPhpFormat",
         "weblate.formats.ttkit.RESXFormat",
         "weblate.formats.ttkit.AndroidFormat",
+        "weblate.formats.ttkit.MOKOFormat",
         "weblate.formats.ttkit.JSONFormat",
         "weblate.formats.ttkit.JSONNestedFormat",
         "weblate.formats.ttkit.WebExtensionJSONFormat",
         "weblate.formats.ttkit.I18NextFormat",
+        "weblate.formats.ttkit.I18NextV4Format",
         "weblate.formats.ttkit.GoI18JSONFormat",
+        "weblate.formats.ttkit.GoI18V2JSONFormat",
+        "weblate.formats.ttkit.GoTextFormat",
         "weblate.formats.ttkit.ARBFormat",
+        "weblate.formats.ttkit.FormatJSFormat",
         "weblate.formats.ttkit.CSVFormat",
+        "weblate.formats.ttkit.CSVUtf8Format",
         "weblate.formats.ttkit.CSVSimpleFormat",
+        "weblate.formats.ttkit.CSVUtf8SimpleFormat",
         "weblate.formats.ttkit.CSVSimpleFormatISO",
         "weblate.formats.ttkit.YAMLFormat",
         "weblate.formats.ttkit.RubyYAMLFormat",
@@ -130,6 +113,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.SubStationAlphaFormat",
         "weblate.formats.ttkit.DTDFormat",
         "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.ttkit.ResourceDictionaryFormat",
         "weblate.formats.ttkit.INIFormat",
         "weblate.formats.ttkit.InnoSetupINIFormat",
         "weblate.formats.ttkit.PropertiesMi18nFormat",
@@ -140,6 +124,7 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.OpenDocumentFormat",
         "weblate.formats.convert.PlainTextFormat",
         "weblate.formats.convert.DokuWikiFormat",
+        "weblate.formats.convert.MarkdownFormat",
         "weblate.formats.convert.MediaWikiFormat",
         "weblate.formats.convert.WindowsRCFormat",
         "weblate.formats.ttkit.XWikiPropertiesFormat",
@@ -148,6 +133,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.TBXFormat",
         "weblate.formats.ttkit.StringsdictFormat",
         "weblate.formats.ttkit.FluentFormat",
+        "weblate.formats.multi.MultiCSVUtf8Format",
     )
 
     class Meta:

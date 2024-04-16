@@ -1,27 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
@@ -35,7 +19,7 @@ IGNORES = {
     "fy": {"jo", "mei"},
     "fr": {"vous", "nous"},
     "hi": {"कर"},
-    "tr": {"tek"},
+    "tr": {"tek", "adım", "gıcır", "sık"},
     "sq": {"të"},
 }
 
@@ -44,27 +28,28 @@ class DuplicateCheck(TargetCheck):
     """Check for duplicated tokens."""
 
     check_id = "duplicate"
-    name = _("Consecutive duplicated words")
-    description = _("Text contains the same word twice in a row:")
+    name = gettext_lazy("Consecutive duplicated words")
+    description = gettext_lazy("Text contains the same word twice in a row:")
 
-    def extract_groups(self, text: str, language_code: str):
+    def extract_groups(
+        self, text: str, language_code: str
+    ) -> tuple[list[int], list[str]]:
         previous = None
         group = 1
-        groups = []
-        words = []
-        ignored = IGNORES.get(language_code, {})
+        groups: list[int] = []
+        words: list[str] = []
+        ignored = IGNORES.get(language_code, set())
         for word in NON_WORD.split(text):
             if not word:
                 continue
-            if word not in ignored and len(word) >= 2:
-                if previous == word:
-                    group += 1
-                elif group > 1:
-                    groups.append(group)
-                    words.append(previous)
-                    group = 1
+            if word not in ignored and len(word) >= 2 and previous == word:
+                group += 1
+            elif group > 1 and previous is not None:
+                groups.append(group)
+                words.append(previous)
+                group = 1
             previous = word
-        if group > 1:
+        if group > 1 and previous is not None:
             groups.append(group)
             words.append(previous)
         return groups, words
@@ -94,8 +79,4 @@ class DuplicateCheck(TargetCheck):
         source = unit.source_string
         for target in unit.get_target_plurals():
             duplicate.update(self.check_single(source, target, unit))
-        return mark_safe(
-            "{} {}".format(
-                escape(self.description), escape(", ".join(sorted(duplicate)))
-            )
-        )
+        return format_html("{} {}", self.description, ", ".join(sorted(duplicate)))

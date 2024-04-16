@@ -43,11 +43,10 @@ Adding new third-party library typically consists of:
 Coding style
 ------------
 
-Weblate relies on `Prettier`_ for the code formatting for both JavaScript and CSS files.
+Weblate relies on `Prettier`_ for the code formatting for CSS files and
+`Biome`_ for formatting and linting the JavaScript code.
 
-We also use `ESLint`_ to check the JavaScript code.
-
-.. _ESLint: https://eslint.org/
+.. _Biome: https://biomejs.dev/
 .. _Prettier: https://prettier.io/
 
 
@@ -85,5 +84,5 @@ Additionally, there is :file:`scripts/optimize-svg` to reduce size of the SVG
 as most of the icons are embedded inside the HTML to allow styling of the
 paths.
 
-.. _Material Design Icons: https://materialdesignicons.com/
-.. _Material Design Resources: https://fonts.google.com/icons?selected=Material+Icons
+.. _Material Design Icons: https://pictogrammers.com/library/mdi/
+.. _Material Design Resources: https://fonts.google.com/icons

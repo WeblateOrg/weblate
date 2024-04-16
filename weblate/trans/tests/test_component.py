@@ -1,22 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for translation models."""
+
 import os
 
 from django.core.exceptions import ValidationError
@@ -43,7 +30,7 @@ class ComponentTest(RepoTestCase):
         units=0,
         unit="Hello, world!\n",
         source_units=None,
-    ):
+    ) -> None:
         if source_units is None:
             source_units = units
         # Validation
@@ -61,7 +48,7 @@ class ComponentTest(RepoTestCase):
             if units:
                 self.assertTrue(
                     translation.unit_set.filter(source=unit).exists(),
-                    "Unit not found, all units: {}".format(
+                    msg="Unit not found, all units: {}".format(
                         "\n".join(translation.unit_set.values_list("source", flat=True))
                     ),
                 )
@@ -76,7 +63,7 @@ class ComponentTest(RepoTestCase):
                 source_units,
             )
 
-    def test_create(self):
+    def test_create(self) -> None:
         component = self.create_component()
         self.verify_component(component, 4, "cs", 4)
         self.assertTrue(os.path.exists(component.full_path))
@@ -90,17 +77,17 @@ class ComponentTest(RepoTestCase):
         )
         self.assertEqual(unit.state, STATE_EMPTY)
 
-    def test_create_dot(self):
+    def test_create_dot(self) -> None:
         component = self._create_component("po", "./po/*.po")
         self.verify_component(component, 4, "cs", 4)
         self.assertTrue(os.path.exists(component.full_path))
         self.assertEqual("po/*.po", component.filemask)
 
-    def test_create_iphone(self):
+    def test_create_iphone(self) -> None:
         component = self.create_iphone()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_ts(self):
+    def test_create_ts(self) -> None:
         component = self.create_ts("-translated")
         self.verify_component(component, 2, "cs", 4)
 
@@ -127,17 +114,17 @@ class ComponentTest(RepoTestCase):
         self.assertTrue(unit.fuzzy)
         self.assertEqual(unit.target, "Thanks")
 
-    def test_create_ts_mono(self):
+    def test_create_ts_mono(self) -> None:
         component = self.create_ts_mono()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_appstore(self):
+    def test_create_appstore(self) -> None:
         component = self.create_appstore()
         self.verify_component(
             component, 2, "cs", 3, "Weblate - continuous localization"
         )
 
-    def test_create_po_pot(self):
+    def test_create_po_pot(self) -> None:
         component = self._create_component("po", "po/*.po", new_base="po/project.pot")
         self.verify_component(component, 4, "cs", 4)
         unit = Unit.objects.get(
@@ -150,78 +137,78 @@ class ComponentTest(RepoTestCase):
         )
         self.assertEqual(unit.state, STATE_EMPTY)
 
-    def test_create_filtered(self):
+    def test_create_filtered(self) -> None:
         component = self._create_component("po", "po/*.po", language_regex="^cs$")
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_po(self):
+    def test_create_po(self) -> None:
         component = self.create_po()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_srt(self):
+    def test_create_srt(self) -> None:
         component = self.create_srt()
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
-    def test_create_po_mercurial(self):
+    def test_create_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_po_branch(self):
+    def test_create_po_branch(self) -> None:
         component = self.create_po_branch()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_po_mercurial_branch(self):
+    def test_create_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_po_push(self):
+    def test_create_po_push(self) -> None:
         component = self.create_po_push()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_po_svn(self):
+    def test_create_po_svn(self) -> None:
         component = self.create_po_svn()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_po_empty(self):
+    def test_create_po_empty(self) -> None:
         component = self.create_po_empty()
         self.verify_component(component, 1, "en", 4)
         unit = Unit.objects.get(source="Hello, world!\n")
         self.assertEqual(unit.state, STATE_READONLY)
         self.assertEqual(unit.target, "Hello, world!\n")
 
-    def test_create_po_link(self):
+    def test_create_po_link(self) -> None:
         component = self.create_po_link()
         self.verify_component(component, 5, "cs", 4)
 
-    def test_create_po_mono(self):
+    def test_create_po_mono(self) -> None:
         component = self.create_po_mono()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_create_android(self):
+    def test_create_android(self) -> None:
         component = self.create_android()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_android_broken(self):
-        component = self.create_android(suffix="-broken")
-        self.verify_component(component, 1, "en", 3)
+    def test_create_android_broken(self) -> None:
+        with self.assertRaises(FileParseError):
+            self.create_android(suffix="-broken")
 
-    def test_create_json(self):
+    def test_create_json(self) -> None:
         component = self.create_json()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_json_mono(self):
+    def test_create_json_mono(self) -> None:
         component = self.create_json_mono()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_json_nested(self):
+    def test_create_json_nested(self) -> None:
         component = self.create_json_mono(suffix="nested")
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_json_webextension(self):
+    def test_create_json_webextension(self) -> None:
         component = self.create_json_webextension()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_json_intermediate(self):
+    def test_create_json_intermediate(self) -> None:
         component = self.create_json_intermediate()
         # The English one should have source from intermediate
         # Only 3 source units are "translated" here
@@ -242,7 +229,13 @@ class ComponentTest(RepoTestCase):
         self.assertEqual(unit.source, "Hello world!\n")
         self.assertEqual(unit.target, "Hello, world!\n")
 
-    def test_switch_json_intermediate(self):
+    def test_component_screenshot_filemask(self) -> None:
+        component = self._create_component(
+            "json", "intermediate/*.json", screenshot_filemask="screenshots/*.png"
+        )
+        self.assertEqual(component.screenshot_filemask, "screenshots/*.png")
+
+    def test_switch_json_intermediate(self) -> None:
         component = self._create_component(
             "json",
             "intermediate/*.json",
@@ -269,103 +262,103 @@ class ComponentTest(RepoTestCase):
             "Thank you for using Weblate.",
         )
 
-    def test_create_json_intermediate_empty(self):
+    def test_create_json_intermediate_empty(self) -> None:
         # This should automatically create empty English file
         component = self.create_json_intermediate_empty()
         # The English one should have source from intermediate and no translated units
         self.verify_component(component, 1, "en", 4, "Hello world!\n", source_units=0)
 
-    def test_create_joomla(self):
+    def test_create_joomla(self) -> None:
         component = self.create_joomla()
         self.verify_component(component, 3, "cs", 4)
 
-    def test_create_ini(self):
+    def test_create_ini(self) -> None:
         component = self.create_ini()
         self.verify_component(component, 2, "cs", 4, "Hello, world!\\n")
 
-    def test_create_tsv_simple(self):
+    def test_create_tsv_simple(self) -> None:
         component = self._create_component("csv-simple", "tsv/*.txt")
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
-    def test_create_tsv_simple_iso(self):
+    def test_create_tsv_simple_iso(self) -> None:
         component = self._create_component("csv-simple-iso", "tsv/*.txt")
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
-    def test_create_csv(self):
+    def test_create_csv(self) -> None:
         component = self.create_csv()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_csv_mono(self):
+    def test_create_csv_mono(self) -> None:
         component = self.create_csv_mono()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_php_mono(self):
+    def test_create_php_mono(self) -> None:
         component = self.create_php_mono()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_tsv(self):
+    def test_create_tsv(self) -> None:
         component = self.create_tsv()
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
-    def test_create_java(self):
+    def test_create_java(self) -> None:
         component = self.create_java()
         self.verify_component(component, 3, "cs", 4)
 
-    def test_create_xliff(self):
+    def test_create_xliff(self) -> None:
         component = self.create_xliff()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_xliff_complex(self):
+    def test_create_xliff_complex(self) -> None:
         component = self.create_xliff("complex")
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_xliff_mono(self):
+    def test_create_xliff_mono(self) -> None:
         component = self.create_xliff_mono()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_xliff_dph(self):
+    def test_create_xliff_dph(self) -> None:
         component = self.create_xliff(
             "DPH", source_language=Language.objects.get(code="cs")
         )
         self.verify_component(component, 2, "en", 9, "DPH")
 
-    def test_create_xliff_empty(self):
+    def test_create_xliff_empty(self) -> None:
         component = self.create_xliff(
             "EMPTY", source_language=Language.objects.get(code="cs")
         )
         self.verify_component(component, 2, "en", 6, "DPH")
 
-    def test_create_xliff_resname(self):
+    def test_create_xliff_resname(self) -> None:
         component = self.create_xliff(
             "Resname", source_language=Language.objects.get(code="cs")
         )
         self.verify_component(component, 2, "en", 2, "Hi")
 
-    def test_create_xliff_only_resname(self):
+    def test_create_xliff_only_resname(self) -> None:
         component = self.create_xliff("only-resname")
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_resx(self):
+    def test_create_resx(self) -> None:
         component = self.create_resx()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_yaml(self):
+    def test_create_yaml(self) -> None:
         component = self.create_yaml()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_ruby_yaml(self):
+    def test_create_ruby_yaml(self) -> None:
         component = self.create_ruby_yaml()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_dtd(self):
+    def test_create_dtd(self) -> None:
         component = self.create_dtd()
         self.verify_component(component, 2, "cs", 4)
 
-    def test_create_html(self):
+    def test_create_html(self) -> None:
         component = self.create_html()
         self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
 
-    def test_create_idml(self):
+    def test_create_idml(self) -> None:
         component = self.create_idml()
         self.verify_component(
             component,
@@ -375,23 +368,23 @@ class ComponentTest(RepoTestCase):
             unit="""<g id="0"><g id="1">THE HEADLINE HERE</g></g>""",
         )
 
-    def test_create_odt(self):
+    def test_create_odt(self) -> None:
         component = self.create_odt()
         self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
 
-    def test_create_winrc(self):
+    def test_create_winrc(self) -> None:
         component = self.create_winrc()
         self.verify_component(component, 2, "cs-CZ", 4)
 
-    def test_create_tbx(self):
+    def test_create_tbx(self) -> None:
         component = self.create_tbx()
         self.verify_component(component, 2, "cs", 4, unit="address bar")
 
-    def test_link(self):
+    def test_link(self) -> None:
         component = self.create_link()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_flags(self):
+    def test_flags(self) -> None:
         """Translation flags validation."""
         component = self.create_component()
         component.full_clean()
@@ -416,7 +409,7 @@ class ComponentTest(RepoTestCase):
             component.full_clean,
         )
 
-    def test_lang_code_template(self):
+    def test_lang_code_template(self) -> None:
         component = Component(project=Project())
         component.filemask = "Solution/Project/Resources.*.resx"
         component.template = "Solution/Project/Resources.resx"
@@ -424,7 +417,7 @@ class ComponentTest(RepoTestCase):
             component.get_lang_code("Solution/Project/Resources.resx"), "en"
         )
 
-    def test_switch_branch(self):
+    def test_switch_branch(self) -> None:
         component = self.create_po()
         # Switch to translation branch
         self.verify_component(component, 4, "cs", 4)
@@ -440,7 +433,7 @@ class ComponentTest(RepoTestCase):
         component.save()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_switch_branch_mercurial(self):
+    def test_switch_branch_mercurial(self) -> None:
         component = self.create_po_mercurial()
         # Switch to translation branch
         self.verify_component(component, 4, "cs", 4)
@@ -456,7 +449,7 @@ class ComponentTest(RepoTestCase):
         component.save()
         self.verify_component(component, 4, "cs", 4)
 
-    def test_update_checks(self):
+    def test_update_checks(self) -> None:
         """Setting of check_flags changes checks for related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
@@ -464,6 +457,10 @@ class ComponentTest(RepoTestCase):
         component.check_flags = f"ignore-{check.name}"
         component.save()
         self.assertEqual(Check.objects.count(), 0)
+
+
+class AutoAddonTest(RepoTestCase):
+    CREATE_GLOSSARIES = True
 
     @override_settings(
         DEFAULT_ADDONS={
@@ -486,7 +483,8 @@ class ComponentTest(RepoTestCase):
             },
         }
     )
-    def test_create_autoaddon(self):
+    def test_create_autoaddon(self) -> None:
+        self.configure_mt()
         component = self.create_idml()
         self.assertEqual(
             set(component.addon_set.values_list("name", flat=True)),
@@ -498,7 +496,7 @@ class ComponentTest(RepoTestCase):
             "weblate.gettext.msgmerge": {},
         }
     )
-    def test_create_autoaddon_msgmerge(self):
+    def test_create_autoaddon_msgmerge(self) -> None:
         component = self.create_po(new_base="po/project.pot")
         self.assertEqual(
             set(component.addon_set.values_list("name", flat=True)),
@@ -510,32 +508,32 @@ class ComponentTest(RepoTestCase):
 class ComponentDeleteTest(RepoTestCase):
     """Component object deleting testing."""
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         component = self.create_component()
         self.assertTrue(os.path.exists(component.full_path))
         component.delete()
         self.assertFalse(os.path.exists(component.full_path))
-        self.assertEqual(1, Component.objects.count())
+        self.assertEqual(0, Component.objects.count())
 
-    def test_delete_link(self):
+    def test_delete_link(self) -> None:
         component = self.create_link()
         main_project = Component.objects.get(slug="test")
         self.assertTrue(os.path.exists(main_project.full_path))
         component.delete()
         self.assertTrue(os.path.exists(main_project.full_path))
 
-    def test_delete_all(self):
+    def test_delete_all(self) -> None:
         component = self.create_component()
         self.assertTrue(os.path.exists(component.full_path))
         Component.objects.all().delete()
         self.assertFalse(os.path.exists(component.full_path))
 
-    def test_delete_with_checks(self):
+    def test_delete_with_checks(self) -> None:
         """Test deleting of component with checks works."""
         component = self.create_component()
         # Introduce missing source string check. This can happen when adding new check
         # on upgrade or similar situation.
-        unit = Unit.objects.filter(check__isnull=False).first().source_unit
+        unit = Unit.objects.filter(check__isnull=False)[0].source_unit
         unit.source = "Test..."
         unit.save(update_fields=["source"])
         unit.check_set.filter(name="ellipisis").delete()
@@ -545,7 +543,7 @@ class ComponentDeleteTest(RepoTestCase):
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
 
-    def test_rename(self):
+    def test_rename(self) -> None:
         link_component = self.create_link()
         component = link_component.linked_component
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
@@ -572,20 +570,83 @@ class ComponentChangeTest(RepoTestCase):
         )
         self.assertFalse(Component.objects.filter(repo="weblate://test/test").exists())
 
-    def test_unlink_clean(self):
+    def test_unlink_clean(self) -> None:
         """Test changing linked component to real repo based one."""
         component = self.create_link()
         component.repo = component.linked_component.repo
         component.clean()
         component.save()
 
-    def test_unlink(self):
+    def test_unlink(self) -> None:
         """Test changing linked component to real repo based one."""
         component = self.create_link()
         component.repo = component.linked_component.repo
         component.save()
 
-    def test_change_project(self):
+    def test_repo_link_generation_bitbucket(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "ssh://git@bitbucket.org/marcus/project-x.git"
+        result = component.get_bitbucket_git_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",
+        )
+        component.repo = "git@bitbucket.org:marcus/project-x.git"
+        result = component.get_bitbucket_git_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",
+        )
+
+    def test_repo_link_generation_github(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "git://github.com/marcus/project-x.git"
+        result = component.get_github_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://github.com/marcus/project-x/blob/{branch}/{filename}#L{line}",
+        )
+        component.repo = "git@github.com:marcus/project-x.git"
+        result = component.get_github_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://github.com/marcus/project-x/blob/{branch}/{filename}#L{line}",
+        )
+
+    def test_repo_link_generation_pagure(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "https://pagure.io/f/ATEST"
+        result = component.get_pagure_repoweb_template()
+        self.assertEqual(
+            result, "https://pagure.io/f/ATEST/blob/{branch}/f/{filename}/#_{line}"
+        )
+
+    def test_repo_link_generation_azure(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        component = self.create_component()
+        component.repo = "f@vs-ssh.visualstudio.com:v3/f/c/ATEST"
+        result = component.get_azure_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
+        )
+        component.repo = "git@ssh.dev.azure.com:v3/f/c/ATEST"
+        result = component.get_azure_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
+        )
+        component.repo = "https://f.visualstudio.com/c/_git/ATEST"
+        result = component.get_azure_repoweb_template()
+        self.assertEqual(
+            result,
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
+        )
+
+    def test_change_project(self) -> None:
         component = self.create_component()
 
         # Check current path exists
@@ -608,8 +669,8 @@ class ComponentChangeTest(RepoTestCase):
         # Check paths differ
         self.assertNotEqual(old_path, new_path)
 
-    def test_change_to_mono(self):
-        """Test swtiching to monolingual format on the fly."""
+    def test_change_to_mono(self) -> None:
+        """Test switching to monolingual format on the fly."""
         component = self._create_component("po", "po-mono/*.po")
         self.assertEqual(component.translation_set.count(), 4)
         component.file_format = "po-mono"
@@ -617,7 +678,7 @@ class ComponentChangeTest(RepoTestCase):
         component.save()
         self.assertEqual(component.translation_set.count(), 4)
 
-    def test_autolock(self):
+    def test_autolock(self) -> None:
         component = self.create_component()
         start = component.change_set.count()
 
@@ -653,37 +714,46 @@ class ComponentChangeTest(RepoTestCase):
 class ComponentValidationTest(RepoTestCase):
     """Component object validation testing."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component = self.create_component()
         # Ensure we have correct component
         self.component.full_clean()
 
-    def test_commit_message(self):
+    def test_commit_message(self) -> None:
         """Invalid commit message."""
         self.component.commit_message = "{% if %}"
         with self.assertRaises(ValidationError):
             self.component.full_clean()
 
-    def test_filemask(self):
+    def test_filemask(self) -> None:
         """Invalid mask."""
         self.component.filemask = "foo/x.po"
         self.assertRaisesMessage(
             ValidationError,
-            "Filemask does not contain * as a language placeholder!",
+            "File mask does not contain * as a language placeholder!",
             self.component.full_clean,
         )
 
-    def test_no_matches(self):
+    def test_screenshot_filemask(self) -> None:
+        """Invalid screenshot filemask."""
+        self.component.screenshot_filemask = "foo/x.png"
+        self.assertRaisesMessage(
+            ValidationError,
+            "File mask does not contain * as a language placeholder!",
+            self.component.full_clean,
+        )
+
+    def test_no_matches(self) -> None:
         """Not matching mask."""
         self.component.filemask = "foo/*.po"
         self.assertRaisesMessage(
             ValidationError,
-            "The filemask did not match any files.",
+            "The file mask did not match any files.",
             self.component.full_clean,
         )
 
-    def test_fileformat(self):
+    def test_fileformat(self) -> None:
         """Unknown file format."""
         self.component.file_format = "i18next"
         self.component.filemask = "invalid/*.invalid"
@@ -693,7 +763,7 @@ class ComponentValidationTest(RepoTestCase):
             self.component.full_clean,
         )
 
-    def test_repoweb(self):
+    def test_repoweb(self) -> None:
         """Invalid repoweb format."""
         self.component.repoweb = "http://{{foo}}/{{bar}}/%72"
         self.assertRaisesMessage(
@@ -701,7 +771,7 @@ class ComponentValidationTest(RepoTestCase):
         )
         self.component.repoweb = ""
 
-    def test_link_incomplete(self):
+    def test_link_incomplete(self) -> None:
         """Incomplete link."""
         self.component.repo = "weblate://foo"
         self.component.push = ""
@@ -711,7 +781,7 @@ class ComponentValidationTest(RepoTestCase):
             self.component.full_clean,
         )
 
-    def test_link_nonexisting(self):
+    def test_link_nonexisting(self) -> None:
         """Link to non existing project."""
         self.component.repo = "weblate://foo/bar"
         self.component.push = ""
@@ -721,7 +791,7 @@ class ComponentValidationTest(RepoTestCase):
             self.component.full_clean,
         )
 
-    def test_link_self(self):
+    def test_link_self(self) -> None:
         """Link pointing to self."""
         self.component.repo = "weblate://test/test"
         self.component.push = ""
@@ -731,7 +801,7 @@ class ComponentValidationTest(RepoTestCase):
             self.component.full_clean,
         )
 
-    def test_validation_mono(self):
+    def test_validation_mono(self) -> None:
         self.component.project.delete()
         project = self.create_po_mono()
         # Correct project
@@ -741,12 +811,12 @@ class ComponentValidationTest(RepoTestCase):
         with self.assertRaisesMessage(ValidationError, "File does not exist."):
             project.full_clean()
 
-    def test_validation_language_re(self):
+    def test_validation_language_re(self) -> None:
         self.component.language_regex = "[-"
         with self.assertRaises(ValidationError):
             self.component.full_clean()
 
-    def test_validation_newlang(self):
+    def test_validation_newlang(self) -> None:
         self.component.new_base = "po/project.pot"
         self.component.save()
 
@@ -761,13 +831,13 @@ class ComponentValidationTest(RepoTestCase):
         self.component.file_format = "po"
         self.component.save()
 
-        # Clean class cache, pylint: disable=protected-access
+        # Clean class cache
         del self.component.__dict__["file_format"]
 
         # With correct format it should validate
         self.component.full_clean()
 
-    def test_lang_code(self):
+    def test_lang_code(self) -> None:
         project = Project(language_aliases="xx:cs")
         component = Component(project=project)
         component.filemask = "Solution/Project/Resources.*.resx"
@@ -785,8 +855,8 @@ class ComponentValidationTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             "The language code for "
-            "Solution/Project/Resources.resx"
-            " was empty, please check the filemask.",
+            '"Solution/Project/Resources.resx"'
+            " is empty, please check the file mask.",
             component.clean_lang_codes,
             [
                 "Solution/Project/Resources.resx",
@@ -798,7 +868,7 @@ class ComponentValidationTest(RepoTestCase):
             ],
         )
 
-    def test_lang_code_double(self):
+    def test_lang_code_double(self) -> None:
         component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
         self.assertEqual(
@@ -812,7 +882,7 @@ class ComponentValidationTest(RepoTestCase):
             "el",
         )
 
-    def test_lang_code_plus(self):
+    def test_lang_code_plus(self) -> None:
         component = Component(project=Project())
         component.filemask = "po/*/master/pages/C_and_C++.po"
         self.assertEqual(
@@ -824,7 +894,7 @@ class ComponentValidationTest(RepoTestCase):
 class ComponentErrorTest(RepoTestCase):
     """Test for error handling."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.component = self.create_ts_mono()
         # Change to invalid push URL
@@ -832,13 +902,13 @@ class ComponentErrorTest(RepoTestCase):
         self.component.push = "file:/dev/null"
         self.component.save()
 
-    def test_failed_update(self):
+    def test_failed_update(self) -> None:
         self.assertFalse(self.component.do_update())
 
-    def test_failed_update_remote(self):
+    def test_failed_update_remote(self) -> None:
         self.assertFalse(self.component.update_remote_branch())
 
-    def test_failed_push(self):
+    def test_failed_push(self) -> None:
         testfile = os.path.join(self.component.full_path, "README.md")
         with open(testfile, "a") as handle:
             handle.write("CHANGE")
@@ -846,51 +916,51 @@ class ComponentErrorTest(RepoTestCase):
             self.component.repository.commit("test", files=["README.md"])
         self.assertFalse(self.component.do_push(None))
 
-    def test_failed_reset(self):
+    def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
         remove_tree(os.path.join(self.component.full_path, ".git", "objects", "pack"))
         self.assertFalse(self.component.do_reset(None))
 
-    def test_invalid_templatename(self):
+    def test_invalid_templatename(self) -> None:
         self.component.template = "foo.bar"
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
-            self.component.template_store
+            self.component.template_store  # noqa: B018
 
         with self.assertRaises(ValidationError):
             self.component.clean()
 
-    def test_invalid_filename(self):
+    def test_invalid_filename(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
-            translation.store
+            translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
-    def test_invalid_storage(self):
+    def test_invalid_storage(self) -> None:
         testfile = os.path.join(self.component.full_path, "ts-mono", "cs.ts")
         with open(testfile, "a") as handle:
             handle.write("CHANGE")
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
-            translation.store
+            translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
-    def test_invalid_template_storage(self):
+    def test_invalid_template_storage(self) -> None:
         testfile = os.path.join(self.component.full_path, "ts-mono", "en.ts")
         with open(testfile, "a") as handle:
             handle.write("CHANGE")
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
-            self.component.template_store
+            self.component.template_store  # noqa: B018
         with self.assertRaises(ValidationError):
             self.component.clean()
 
-    def test_change_source_language(self):
+    def test_change_source_language(self) -> None:
         self.component.source_language = Language.objects.get(code="cs")
         with self.assertRaises(ValidationError):
             self.component.clean()
@@ -900,7 +970,7 @@ class LinkedEditTest(ViewTestCase):
     def create_component(self):
         return self.create_link()
 
-    def test_linked(self):
+    def test_linked(self) -> None:
         # Grab current revision
         start_rev = self.component.repository.last_revision
 
@@ -922,11 +992,11 @@ class ComponentEditTest(ViewTestCase):
     """Test for error handling."""
 
     @staticmethod
-    def remove_units(store):
+    def remove_units(store) -> None:
         store.store.units = []
         store.save()
 
-    def test_unit_disappear(self):
+    def test_unit_disappear(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
 
         if self.component.has_template():
@@ -949,11 +1019,11 @@ class ComponentEditMonoTest(ComponentEditTest):
         return self.create_ts_mono()
 
     @staticmethod
-    def remove_units(store):
+    def remove_units(store) -> None:
         store.store.parse(store.store.XMLskeleton.replace("\n", "").encode())
         store.save()
 
-    def test_unit_add(self):
+    def test_unit_add(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
 
         self.remove_units(translation.store)
@@ -965,7 +1035,7 @@ class ComponentEditMonoTest(ComponentEditTest):
 
         self.assertTrue(unit.translate(self.user, ["Empty"], STATE_TRANSLATED))
 
-    def test_readonly(self):
+    def test_readonly(self) -> None:
         source = self.component.translation_set.get(language_code="en")
 
         # The source string is always translated

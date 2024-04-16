@@ -1,23 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for user handling."""
+
+from __future__ import annotations
+
+from unittest import mock
 
 from django.conf import settings
 from django.core import mail
@@ -25,7 +14,6 @@ from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
-from social_core.backends.utils import load_backends
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
@@ -34,6 +22,10 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.utils import (
+    social_core_modify_settings,
+    social_core_override_settings,
+)
 from weblate.utils.ratelimit import reset_rate_limit
 
 CONTACT_DATA = {
@@ -47,7 +39,7 @@ CONTACT_DATA = {
 class ViewTest(RepoTestCase):
     """Test for views."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         reset_rate_limit("login", address="127.0.0.1")
         reset_rate_limit("message", address="127.0.0.1")
@@ -64,7 +56,7 @@ class ViewTest(RepoTestCase):
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS=(("Weblate test", "noreply@weblate.org"),)
     )
-    def test_contact(self):
+    def test_contact(self) -> None:
         """Test for contact form."""
         # Basic get
         response = self.client.get(reverse("contact"))
@@ -82,7 +74,7 @@ class ViewTest(RepoTestCase):
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=["noreply@example.com"]
     )
-    def test_contact_separate(self):
+    def test_contact_separate(self) -> None:
         """Test for contact form."""
         # Sending message
         response = self.client.post(reverse("contact"), CONTACT_DATA)
@@ -94,7 +86,7 @@ class ViewTest(RepoTestCase):
         self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
 
     @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_contact_invalid(self):
+    def test_contact_invalid(self) -> None:
         """Test for contact form."""
         # Sending message
         data = CONTACT_DATA.copy()
@@ -102,14 +94,14 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("contact"), data)
         self.assertContains(response, "Enter a valid e-mail address.")
 
-    @override_settings(RATELIMIT_ATTEMPTS=0)
-    def test_contact_rate(self):
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=0)
+    def test_contact_rate(self) -> None:
         """Test for contact form rate limiting."""
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertContains(response, "Too many messages sent, please try again later.")
 
-    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=0)
-    def test_contact_rate_window(self):
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=1, RATELIMIT_WINDOW=0)
+    def test_contact_rate_window(self) -> None:
         """Test for contact form rate limiting."""
         message = "Too many messages sent, please try again later."
         response = self.client.post(reverse("contact"), CONTACT_DATA)
@@ -118,7 +110,7 @@ class ViewTest(RepoTestCase):
         self.assertNotContains(response, message)
 
     @override_settings(OFFER_HOSTING=False)
-    def test_hosting_disabled(self):
+    def test_hosting_disabled(self) -> None:
         """Test for hosting form with disabled hosting."""
         self.get_user()
         self.client.login(username="testuser", password="testpassword")
@@ -126,7 +118,7 @@ class ViewTest(RepoTestCase):
         self.assertRedirects(response, reverse("home"))
 
     @override_settings(OFFER_HOSTING=True)
-    def test_libre(self):
+    def test_libre(self) -> None:
         """Test for hosting form with enabled hosting."""
         from weblate.billing.models import Plan
 
@@ -143,7 +135,7 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, "Create project")
 
     @override_settings(OFFER_HOSTING=False)
-    def test_trial_disabled(self):
+    def test_trial_disabled(self) -> None:
         """Test for trial form with disabled hosting."""
         self.get_user()
         self.client.login(username="testuser", password="testpassword")
@@ -152,7 +144,7 @@ class ViewTest(RepoTestCase):
 
     @override_settings(OFFER_HOSTING=True)
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
-    def test_trial(self):
+    def test_trial(self) -> None:
         """Test for trial form with disabled hosting."""
         from weblate.billing.models import Plan
 
@@ -170,12 +162,12 @@ class ViewTest(RepoTestCase):
         response = self.client.get(reverse("trial"))
         self.assertRedirects(response, reverse("contact") + "?t=trial")
 
-    def test_contact_subject(self):
+    def test_contact_subject(self) -> None:
         # With set subject
         response = self.client.get(reverse("contact"), {"t": "reg"})
         self.assertContains(response, "Registration problems")
 
-    def test_contact_user(self):
+    def test_contact_user(self) -> None:
         user = self.get_user()
         # Login
         self.client.login(username=user.username, password="testpassword")
@@ -183,7 +175,7 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 
-    def test_user_list(self):
+    def test_user_list(self) -> None:
         """Test user pages."""
         user = self.get_user()
         response = self.client.get(reverse("user_list"), {"q": user.username})
@@ -197,7 +189,7 @@ class ViewTest(RepoTestCase):
         response = self.client.get(reverse("user_list"), {"sort_by": "invalid"})
         self.assertContains(response, user_url)
 
-    def test_user(self):
+    def test_user(self) -> None:
         """Test user pages."""
         # Setup user
         user = self.get_user()
@@ -209,7 +201,7 @@ class ViewTest(RepoTestCase):
         response = self.client.get(user.get_absolute_url())
         self.assertContains(response, "table-activity")
 
-    def test_suggestions(self):
+    def test_suggestions(self) -> None:
         """Test user pages."""
         # Setup user
         user = self.get_user()
@@ -223,7 +215,18 @@ class ViewTest(RepoTestCase):
         response = self.client.get(reverse("user_suggestions", kwargs={"user": "-"}))
         self.assertContains(response, "Suggestions")
 
-    def test_login(self):
+    def test_contributions(self) -> None:
+        """Test user pages."""
+        # Setup user
+        user = self.get_user()
+
+        # Get public profile
+        response = self.client.get(
+            reverse("user_contributions", kwargs={"user": user.username})
+        )
+        self.assertContains(response, "Translations with contribution")
+
+    def test_login(self) -> None:
         user = self.get_user()
 
         # Login
@@ -244,19 +247,17 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertRedirects(response, reverse("home"))
 
-    @override_settings(
+    @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
             "social_core.backends.github.GithubOAuth2",
             "weblate.accounts.auth.WeblateUserBackend",
         )
     )
-    def test_login_redirect(self):
-        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
-
+    def test_login_redirect(self) -> None:
         response = self.client.get(reverse("login"))
         self.assertContains(response, "Redirecting you to the authentication provider.")
 
-    def test_login_email(self):
+    def test_login_email(self) -> None:
         user = self.get_user()
 
         # Login
@@ -265,7 +266,7 @@ class ViewTest(RepoTestCase):
         )
         self.assertRedirects(response, reverse("home"))
 
-    def test_login_anonymous(self):
+    def test_login_anonymous(self) -> None:
         # Login
         response = self.client.post(
             reverse("login"),
@@ -276,7 +277,7 @@ class ViewTest(RepoTestCase):
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
-    def test_login_ratelimit(self, login=False):
+    def test_login_ratelimit(self, login=False) -> None:
         if login:
             self.test_login()
         else:
@@ -296,10 +297,10 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, "Please try again.")
 
     @override_settings(RATELIMIT_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
-    def test_login_ratelimit_login(self):
+    def test_login_ratelimit_login(self) -> None:
         self.test_login_ratelimit(True)
 
-    def test_password(self):
+    def test_password(self) -> None:
         # Create user
         self.get_user()
         # Login
@@ -334,7 +335,7 @@ class ViewTest(RepoTestCase):
             User.objects.get(username="testuser").check_password("1pa$$word!")
         )
 
-    def test_api_key(self):
+    def test_api_key(self) -> None:
         # Create user
         user = self.get_user()
         # Login
@@ -355,7 +356,7 @@ class ViewTest(RepoTestCase):
 
 
 class ProfileTest(FixtureTestCase):
-    def test_profile(self):
+    def test_profile(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
         self.assertContains(response, 'action="/accounts/profile/"')
@@ -376,11 +377,21 @@ class ProfileTest(FixtureTestCase):
                 "translate_mode": Profile.TRANSLATE_FULL,
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
+                "theme": "auto",
+                "notifications__0-scope": 0,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": 10,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": 20,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
             },
         )
         self.assertRedirects(response, reverse("profile"))
 
-    def test_profile_dasbhoard(self):
+    def test_profile_dashboard(self) -> None:
         # Save profile with invalid settings
         response = self.client.post(
             reverse("profile"),
@@ -395,11 +406,21 @@ class ProfileTest(FixtureTestCase):
                 "translate_mode": Profile.TRANSLATE_FULL,
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
+                "theme": "auto",
+                "notifications__0-scope": 0,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": 10,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": 20,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
             },
         )
         self.assertContains(response, "Select a valid choice.")
 
-    def test_userdata(self):
+    def test_userdata(self) -> None:
         response = self.client.post(reverse("userdata"))
         self.assertContains(response, "basic")
 
@@ -412,13 +433,13 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, '"de"')
         validate(response.json(), load_schema("weblate-userdata.schema.json"))
 
-    def test_subscription(self):
+    def test_subscription(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Extract current form data
-        data = {}
+        data: dict[str, str | list[str]] = {}
         for form in response.context["all_forms"]:
             for field in form:
                 value = field.value()
@@ -448,7 +469,7 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 8)
 
-    def test_subscription_customize(self):
+    def test_subscription_customize(self) -> None:
         # Initial view
         response = self.client.get(reverse("profile"))
         self.assertNotContains(response, "Project: Test")
@@ -474,12 +495,12 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, "Project: Test")
         self.assertNotContains(response, "Component: Test/Test")
 
-    def test_watch(self):
+    def test_watch(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch project
-        self.client.post(reverse("watch", kwargs=self.kw_project))
+        self.client.post(reverse("watch", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(self.user.profile.watched.count(), 1)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
@@ -492,13 +513,15 @@ class ProfileTest(FixtureTestCase):
         )
 
         # Mute notifications for project
-        self.client.post(reverse("mute", kwargs=self.kw_project))
+        self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 18
         )
 
         # Unwatch project
-        self.client.post(reverse("unwatch", kwargs=self.kw_project))
+        self.client.post(
+            reverse("unwatch", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
@@ -508,7 +531,7 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertEqual(self.user.subscription_set.count(), 9)
 
-    def test_watch_component(self):
+    def test_watch_component(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 9)
 
@@ -524,7 +547,7 @@ class ProfileTest(FixtureTestCase):
             self.user.subscription_set.filter(component=self.component).count(), 3
         )
 
-    def test_unsubscribe(self):
+    def test_unsubscribe(self) -> None:
         response = self.client.get(reverse("unsubscribe"), follow=True)
         self.assertRedirects(response, reverse("profile") + "#notifications")
 
@@ -533,7 +556,7 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "notification change link is no longer valid")
 
         response = self.client.get(
-            reverse("unsubscribe"), {"i": TimestampSigner().sign(-1)}, follow=True
+            reverse("unsubscribe"), {"i": TimestampSigner().sign("-1")}, follow=True
         )
         self.assertRedirects(response, reverse("profile") + "#notifications")
         self.assertContains(response, "notification change link is no longer valid")
@@ -543,7 +566,7 @@ class ProfileTest(FixtureTestCase):
         )
         response = self.client.get(
             reverse("unsubscribe"),
-            {"i": TimestampSigner().sign(subscription.pk)},
+            {"i": TimestampSigner().sign(f"{subscription.pk}")},
             follow=True,
         )
         self.assertRedirects(response, reverse("profile") + "#notifications")
@@ -551,14 +574,44 @@ class ProfileTest(FixtureTestCase):
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)
 
+    def test_profile_password_warning(self) -> None:
+        with mock.patch.object(User, "has_usable_password", return_value=False):
+            response = self.client.get(reverse("profile"))
+            self.assertContains(response, "Please enable the password authentication")
+            with social_core_modify_settings(
+                AUTHENTICATION_BACKENDS={
+                    "remove": "social_core.backends.email.EmailAuth"
+                }
+            ):
+                response = self.client.get(reverse("profile"))
+                self.assertNotContains(
+                    response, "Please enable the password authentication"
+                )
+        self.assertTrue(self.user.has_usable_password())
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, "Please enable the password authentication")
+
+    def test_language(self) -> None:
+        self.user.profile.languages.clear()
+
+        # English is not saved
+        self.client.get(reverse("profile"), headers={"accept-language": "en"})
+        self.assertFalse(self.user.profile.languages.exists())
+
+        # Other language is saved
+        self.client.get(reverse("profile"), headers={"accept-language": "cs"})
+        self.assertEqual(
+            set(self.user.profile.languages.values_list("code", flat=True)), {"cs"}
+        )
+
 
 class EditUserTest(FixtureTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user.is_superuser = True
         self.user.save()
 
-    def test_edit(self):
+    def test_edit(self) -> None:
         # Change user as superuser
         response = self.client.post(
             self.user.get_absolute_url(),

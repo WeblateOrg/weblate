@@ -1,114 +1,91 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-xml
-      - id: check-toml
-      - id: requirements-txt-fixer
-      - id: check-merge-conflict
-      - id: check-json
-      - id: debug-statements
-      - id: mixed-line-ending
-        args: [--fix=lf]
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.26.3
-    hooks:
-      - id: yamllint
-  - repo: https://github.com/pycqa/isort
-    rev: 5.10.0
-    hooks:
-      - id: isort
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.29.0
-    hooks:
-      - id: pyupgrade
-        args: [--py36-plus]
-  - repo: https://github.com/psf/black
-    rev: 21.10b0
-    hooks:
-      - id: black
-  - repo: https://github.com/PyCQA/flake8
-    rev: 4.0.1
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-builtins
-          - flake8-comprehensions
-          - flake8-django
-          - flake8-docstrings
-          - flake8-eradicate
-          - flake8-executable
-          - flake8-logging-format
-          - flake8-mutable
-          - flake8-polyfill
-          - flake8-print
-          - flake8-return
-          - flake8-self
-          - pep8-naming
-  - repo: https://github.com/asottile/blacken-docs
-    rev: v1.11.0
-    hooks:
-      - id: blacken-docs
-  - repo: meta
-    hooks:
-      - id: check-hooks-apply
-      - id: check-useless-excludes
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.4.1
-    hooks:
-      - id: prettier
-        files: "\\.(\
-          css|less|scss\
-          |graphql|gql\
-          |js|jsx\
-          |json\
-          |md|markdown|mdown|mkdn\
-          |mdx\
-          |vue\
-          |yaml|yml\
-          )$"
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.2.0
-    hooks:
-      - id: eslint
-        args: ["--format=compact"]
-        additional_dependencies:
-          - prettier@2.2.1
-          - eslint@>=6.2.2
-          - eslint-plugin-import@>=2.18.0
-          - eslint-plugin-node@>=9.1.0
-          - eslint-plugin-promise@>=4.2.1
-          - eslint-plugin-standard@>=4.0.0
-          - eslint-config-prettier@latest
-          - eslint-plugin-prettier@latest
-  - repo: https://github.com/awebdeveloper/pre-commit-stylelint
-    rev: 0.0.2
-    hooks:
-      - id: stylelint
-        args: ["--formatter=compact"]
-        additional_dependencies:
-          - stylelint@latest
-          - stylelint-config-prettier@latest
-          - stylelint-prettier@latest
-          - prettier@2.2.1
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.6.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-xml
+  - id: check-toml
+  - id: check-merge-conflict
+  - id: check-json
+  - id: debug-statements
+  - id: mixed-line-ending
+    args: [--fix=lf]
+  - id: pretty-format-json
+    args: [--no-sort-keys, --autofix, --no-ensure-ascii]
+    exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
+- repo: https://github.com/adamchainz/django-upgrade
+  rev: 1.16.0
+  hooks:
+  - id: django-upgrade
+    args: [--target-version, '5.0']
+- repo: https://github.com/adrienverge/yamllint
+  rev: v1.35.1
+  hooks:
+  - id: yamllint
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.3.7
+  hooks:
+  - id: ruff
+    args: [--fix, --exit-non-zero-on-fix]
+  - id: ruff-format
+- repo: https://github.com/asottile/blacken-docs
+  rev: 1.16.0
+  hooks:
+  - id: blacken-docs
+- repo: meta
+  hooks:
+  - id: check-hooks-apply
+  - id: check-useless-excludes
+- repo: https://github.com/pre-commit/mirrors-prettier
+  rev: v3.1.0
+  hooks:
+  - id: prettier
+    types_or:
+    - css
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.13.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent, '2']
+  - id: pretty-format-toml
+    args: [--autofix]
+- repo: https://github.com/executablebooks/mdformat
+  rev: 0.7.17
+  hooks:
+  - id: mdformat
+    additional_dependencies:
+    - mdformat-gfm==0.3.6
+    - mdformat-black==0.1.1
+    - mdformat-shfmt==0.1.0
+- repo: https://github.com/awebdeveloper/pre-commit-stylelint
+  rev: 0.0.2
+  hooks:
+  - id: stylelint
+    args: [--formatter=compact]
+    additional_dependencies:
+    - stylelint@16.3.1
+- repo: https://github.com/fsfe/reuse-tool
+  rev: v3.0.2
+  hooks:
+  - id: reuse
+- repo: https://github.com/shellcheck-py/shellcheck-py
+  rev: v0.10.0.1
+  hooks:
+  - id: shellcheck
+    require_serial: true
+- repo: https://github.com/biomejs/pre-commit
+  rev: v0.1.0
+  hooks:
+  - id: biome-check
+    additional_dependencies:
+    - '@biomejs/biome@1.7.0'
+    files: \.js$
 
-exclude: "^.*\\.(\
-  csv|\
-  svg|\
-  wsdl(\\.[^.]*)?\
-  )|\
-  weblate/trans/tests/data/memory-broken\\.json|\
-  weblate/templates/browserconfig\\.xml|\
-  weblate/templates/configuration/custom\\.css|\
-  weblate/trans/tests/data/cs-CZ\\.rc|\
-  weblate/static/vendor/.*\
-  $"
+
+exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js$
 ci:
-  skip:
-    - flake8
+  autoupdate_schedule: quarterly

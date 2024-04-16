@@ -1,5 +1,5 @@
-Backers who have funded Weblate
-+++++++++++++++++++++++++++++++
+Supporters who have funded Weblate
+++++++++++++++++++++++++++++++++++
 
 List of Weblate supporters:
 
@@ -14,5 +14,12 @@ List of Weblate supporters:
 * `BallotReady <https://www.ballotready.org>`_
 * Richard Nespithal
 * MyExpenses.Mobi
+* Michael Totschnig
+* James Valleroy
+* wallabag.org
+* `Scenari (Kelis) <https://scenari.software/>`_
+* `Biblibre <https://www.biblibre.com/>`_
+* Koha community
+* 24eme.fr
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.

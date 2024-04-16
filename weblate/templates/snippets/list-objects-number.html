@@ -8,6 +8,10 @@
         <a href="{{ translate_url }}?{{ query }}">
             {{ value|intcomma }}
         </a>
+    {% elif search_url %}
+        <a href="{% url 'search' path=search_url %}?{{ query }}">
+            {{ value|intcomma }}
+        </a>
     {% else %}
         {{ value|intcomma }}
     {% endif %}

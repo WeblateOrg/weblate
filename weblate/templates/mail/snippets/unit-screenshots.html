@@ -5,11 +5,11 @@
   <h2>{% trans "Source string location" %}</h2>
 
   <p>
-    {% get_location_links user.profile unit %}
+    {% get_location_links subscription_user unit %}
   </p>
 {% endif %}
 
-{% with unit.source_unit.screenshots.order as screenshots %}
+{% with screenshots=unit.source_unit.screenshots.order  %}
 {% if screenshots %}
     <h2>{% trans "Screenshot context" %}</h2>
 

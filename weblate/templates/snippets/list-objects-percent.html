@@ -3,9 +3,17 @@
 {% load icons %}
 
 <td class="number {{ class }}" data-value="{{ percent|stringformat:"f" }}" title="{% blocktrans %}{{ value }} of {{ all }}{% endblocktrans %}">
-    {% if value == all %}
+    {% if translate_url %}
+      <a href="{{ translate_url }}?{{ query }}">
+    {% endif %}
+    {% if value and value == all %}
         <span class="green" title="{% blocktrans count count=all %}Completed translation with {{ count }} string{% plural %}Completed translation with {{ count }} strings{% endblocktrans %}">{% icon "check.svg" %}</span>
+    {% elif value == 0 and all == 0 %}
+      <span class="green" title="{% blocktrans %}No strings to translate{% endblocktrans %}">{% icon "check.svg" %}</span>
     {% else %}
         {{ percent|percent_format }}
+    {% endif %}
+    {% if translate_url %}
+      </a>
     {% endif %}
 </td>

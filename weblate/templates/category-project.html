@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+{% load metrics %}
+
+{% block breadcrumbs %}
+{% path_object_breadcrumbs path_object %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
+  <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Insights" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Files" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url 'download' path=object.get_url_path %}?format=zip" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Tools" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      {% if replace_form %}
+          <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
+      {% endif %}
+      {% if bulk_state_form %}
+          <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
+      {% endif %}
+      <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
+      {% if delete_form %}
+      <li role="separator" class="divider"></li>
+      <li><a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a></li>
+      {% endif %}
+    </ul>
+   </li>
+{% include "snippets/watch-dropdown.html" with project=category.project %}
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="overview">
+{% include "snippets/list-objects.html" with objects=translations list_categories=categories name_source="component_name" label=_("Component") %}
+</div>
+
+<div class="tab-pane" id="information">
+  {% include "snippets/info.html" with language=None project=category.project stats=language_stats metrics=object|metrics %}
+</div>
+
+<div class="tab-pane" id="history">
+{% include "last-changes-content.html" %}
+<a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
+</div>
+
+<div class="tab-pane" id="search">
+
+<form action="{% url 'search' path=object.get_url_path %}" method="GET">
+{% include "snippets/search-form.html" %}
+</form>
+
+</div>
+
+{% if delete_form %}
+<div class="tab-pane" id="organize">
+{% include "trans/delete-form.html" %}
+</div>
+{% endif %}
+
+{% if replace_form %}
+<div class="tab-pane" id="replace">
+<form action="{% url 'replace' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'search-replace' right=True %}
+  {% trans "Search and replace" %}
+</h4></div>
+<div class="panel-body">
+{% crispy replace_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+{% if bulk_state_form %}
+<div class="tab-pane" id="bulk-edit">
+<form action="{% url 'bulk-edit' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+  {% trans "Bulk edit" %}
+</h4></div>
+<div class="panel-body">
+{% crispy bulk_state_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+
+
+
+</div>
+
+{% endblock %}

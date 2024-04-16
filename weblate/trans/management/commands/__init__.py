@@ -1,22 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Helper classes for management commands."""
+
+from __future__ import annotations
 
 from django.core.management.base import CommandError
 from django.db import transaction
@@ -31,13 +19,17 @@ class WeblateComponentCommand(BaseCommand):
 
     needs_repo = False
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--all",
             action="store_true",
             dest="all",
             default=False,
             help="process all components",
+        )
+        parser.add_argument(
+            "--file-format",
+            help="process all components using given file format",
         )
         parser.add_argument(
             "component",
@@ -84,19 +76,17 @@ class WeblateComponentCommand(BaseCommand):
 
     def get_components(self, **options):
         """Return list of components matching parameters."""
+        if self.needs_repo:
+            base = Component.objects.exclude(repo__startswith="weblate:/")
+        else:
+            base = Component.objects.all()
         if options["all"]:
             # all components
-            if self.needs_repo:
-                result = Component.objects.exclude(repo__startswith="weblate:/")
-            else:
-                result = Component.objects.all()
-        elif not options["component"]:
-            # no argumets to filter projects
-            self.stderr.write(
-                "Please specify either --all or at least one <project/component>"
-            )
-            raise CommandError("Nothing to process!")
-        else:
+            result = base
+        elif options["file_format"]:
+            # all components
+            result = base.filter(file_format=options["file_format"])
+        elif options["component"]:
             # start with none and add found
             result = Component.objects.none()
 
@@ -106,37 +96,41 @@ class WeblateComponentCommand(BaseCommand):
                 parts = arg.split("/")
 
                 # filter by project
-                found = Component.objects.filter(project__slug=parts[0])
+                found = base.filter(project__slug=parts[0])
 
                 # filter by component if available
                 if len(parts) == 2:
                     found = found.filter(slug=parts[1])
 
                 # warn on no match
-                if found.count() == 0:
-                    self.stderr.write(f'"{arg}" did not match any components')
+                if not found.exists():
+                    self.stderr.write(f"{arg!r} did not match any components")
                     raise CommandError("Nothing to process!")
 
                 # merge results
                 result |= found
+        else:
+            # no arguments to filter projects
+            self.stderr.write("Missing component selection!")
+            self.stderr.write(" * Use --all to select all components")
+            self.stderr.write(" * Use --file-format to filter based on the file format")
+            self.stderr.write(" * Specify at least one <project/component> argument")
+            raise CommandError("Nothing to process!")
 
         return result
 
-    def handle(self, *args, **options):
-        """The actual logic of the command.
-
-        Subclasses must implement this method.
-        """
-        raise NotImplementedError()
+    def handle(self, *args, **options) -> None:
+        raise NotImplementedError
 
 
 class WeblateLangCommand(WeblateComponentCommand):
-    """Command accepting additional language parameter.
+    """
+    Command accepting additional language parameter.
 
     It can filter list of languages to process.
     """
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--lang",
@@ -165,18 +159,14 @@ class WeblateLangCommand(WeblateComponentCommand):
 
         return result
 
-    def handle(self, *args, **options):
-        """The actual logic of the command.
-
-        Subclasses must implement this method.
-        """
-        raise NotImplementedError()
+    def handle(self, *args, **options) -> None:
+        raise NotImplementedError
 
 
 class WeblateTranslationCommand(BaseCommand):
     """Command with target of one translation."""
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument("project", help="Slug of project")
         parser.add_argument("component", help="Slug of component")
         parser.add_argument("language", help="Slug of language")
@@ -194,7 +184,7 @@ class WeblateTranslationCommand(BaseCommand):
                 component=component, language__code=options["language"]
             )
         except Translation.DoesNotExist:
-            if "add" in options and options["add"]:
+            if options.get("add"):
                 language = Language.objects.fuzzy_get(options["language"])
                 if component.add_new_language(language, None):
                     return Translation.objects.get(
@@ -202,9 +192,5 @@ class WeblateTranslationCommand(BaseCommand):
                     )
             raise CommandError("No matching translation project found!")
 
-    def handle(self, *args, **options):
-        """The actual logic of the command.
-
-        Subclasses must implement this method.
-        """
-        raise NotImplementedError()
+    def handle(self, *args, **options) -> None:
+        raise NotImplementedError

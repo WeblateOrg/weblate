@@ -1,27 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_UNIT_PRE_CREATE
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BulkEditAddonForm
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
@@ -29,7 +13,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class FlagBase(BaseAddon):
-    events = (EVENT_UNIT_PRE_CREATE,)
+    events = (AddonEvent.EVENT_UNIT_PRE_CREATE,)
     icon = "flag.svg"
 
     @classmethod
@@ -42,8 +26,8 @@ class FlagBase(BaseAddon):
 
 class SourceEditAddon(FlagBase):
     name = "weblate.flags.source_edit"
-    verbose = _('Flag new source strings as "Needs editing"')
-    description = _(
+    verbose = gettext_lazy('Flag new source strings as "Needs editing"')
+    description = gettext_lazy(
         "Whenever a new source string is imported from the VCS, it is "
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
@@ -52,7 +36,7 @@ class SourceEditAddon(FlagBase):
         "edit_template": {True},
     }
 
-    def unit_pre_create(self, unit):
+    def unit_pre_create(self, unit) -> None:
         if (
             unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -63,14 +47,14 @@ class SourceEditAddon(FlagBase):
 
 class TargetEditAddon(FlagBase):
     name = "weblate.flags.target_edit"
-    verbose = _('Flag new translations as "Needs editing"')
-    description = _(
+    verbose = gettext_lazy('Flag new translations as "Needs editing"')
+    description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS, it is "
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit translations created by the developers."
     )
 
-    def unit_pre_create(self, unit):
+    def unit_pre_create(self, unit) -> None:
         if (
             not unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -81,14 +65,14 @@ class TargetEditAddon(FlagBase):
 
 class SameEditAddon(FlagBase):
     name = "weblate.flags.same_edit"
-    verbose = _('Flag unchanged translations as "Needs editing"')
-    description = _(
+    verbose = gettext_lazy('Flag unchanged translations as "Needs editing"')
+    description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS and it matches a "
         "source string, it is flagged as needing editing in Weblate. Especially "
         "useful for file formats that include source strings for untranslated strings."
     )
 
-    def unit_pre_create(self, unit):
+    def unit_pre_create(self, unit) -> None:
         if (
             not unit.translation.is_template
             and unit.source == unit.target
@@ -100,14 +84,14 @@ class SameEditAddon(FlagBase):
 
 
 class BulkEditAddon(BaseAddon):
-    events = (EVENT_COMPONENT_UPDATE,)
+    events = (AddonEvent.EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
-    verbose = _("Bulk edit")
-    description = _("Bulk edit flags, labels, or states of strings.")
+    verbose = gettext_lazy("Bulk edit")
+    description = gettext_lazy("Bulk edit flags, labels, or states of strings.")
     settings_form = BulkEditAddonForm
     multiple = True
 
-    def component_update(self, component):
+    def component_update(self, component) -> None:
         label_set = component.project.label_set
         bulk_perform(
             None,

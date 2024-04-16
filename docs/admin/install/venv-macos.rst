@@ -7,21 +7,17 @@ Installing on macOS
 
 .. code-block:: sh
 
-    brew install python pango cairo gobject-introspection libffi glib libyaml
-    pip3 install virtualenv
+   # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
+   wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
+   brew install --formula /tmp/libxmlsec1.rb
+   brew pin libxmlsec1
 
-Make sure pip will be able to find the ``libffi`` version provided by homebrew
-— this will be needed during the installation build step.
+   brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+   pip install virtualenv
 
-.. code-block:: sh
+.. note::
 
-    export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
-
-.. include:: steps/install-system-optional.rst
-
-.. code-block:: sh
-
-    brew install tesseract
+   Using older libxmlsec is needed until https://github.com/xmlsec/python-xmlsec/issues/254 is addressed.
 
 .. include:: steps/install-system-server.rst
 
@@ -38,6 +34,9 @@ Make sure pip will be able to find the ``libffi`` version provided by homebrew
 
     # Database server: PostgreSQL
     brew install postgresql
+
+    # Gettext for the msgmerge add-on
+    brew install gettext
 
 .. include:: steps/install-python.rst
 

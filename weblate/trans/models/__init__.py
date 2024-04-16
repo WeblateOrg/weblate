@@ -1,30 +1,19 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-import os
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.db.models.signals import m2m_changed, post_delete, post_save
+import os
+from functools import partial
+
+from django.db import transaction
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
 from weblate.trans.models.announcement import Announcement
+from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
@@ -35,30 +24,33 @@ from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
+from weblate.trans.models.workflow import WorkflowSetting
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
 
 __all__ = [
-    "Project",
+    "Alert",
+    "Announcement",
+    "Category",
+    "Change",
+    "Comment",
     "Component",
+    "ComponentList",
+    "ContributorAgreement",
+    "Label",
+    "Project",
+    "Suggestion",
     "Translation",
     "Unit",
-    "Suggestion",
-    "Comment",
-    "Vote",
-    "Change",
-    "Announcement",
-    "ComponentList",
-    "WeblateConf",
-    "ContributorAgreement",
-    "Alert",
     "Variant",
-    "Label",
+    "Vote",
+    "WeblateConf",
+    "WorkflowSetting",
 ]
 
 
-def delete_object_dir(instance):
+def delete_object_dir(instance) -> None:
     """Remove path if it exists."""
     project_path = instance.full_path
     if os.path.exists(project_path):
@@ -66,32 +58,56 @@ def delete_object_dir(instance):
 
 
 @receiver(post_delete, sender=Project)
-def project_post_delete(sender, instance, **kwargs):
-    """Handler to delete (sub)project directory on project deletion."""
-    # Invalidate stats
-    instance.stats.invalidate()
+def project_post_delete(sender, instance, **kwargs) -> None:
+    """
+    Project deletion hook.
+
+    - delete project directory
+    - update stats
+    """
+    # Update stats
+    transaction.on_commit(instance.stats.update_parents)
+    instance.stats.delete()
 
     # Remove directory
     delete_object_dir(instance)
 
 
+@receiver(pre_delete, sender=Component)
+def component_pre_delete(sender, instance, **kwargs) -> None:
+    # Collect list of stats to update, this can't be done after removal
+    instance.stats.collect_update_objects()
+
+
 @receiver(post_delete, sender=Component)
-def component_post_delete(sender, instance, **kwargs):
-    """Handler to delete (sub)project directory on project deletion."""
-    # Invalidate stats
-    instance.stats.invalidate()
+def component_post_delete(sender, instance, **kwargs) -> None:
+    """
+    Component deletion hook.
+
+    - delete component directory
+    - update stats, this is accompanied by component_pre_delete
+    """
+    # Update stats
+    transaction.on_commit(instance.stats.update_parents)
+    instance.stats.delete()
 
     # Do not delete linked components
     if not instance.is_repo_link:
         delete_object_dir(instance)
 
 
+@receiver(post_delete, sender=Translation)
+def translation_post_delete(sender, instance, **kwargs) -> None:
+    """Delete translation stats on translation deletion."""
+    transaction.on_commit(instance.stats.delete)
+
+
 @receiver(m2m_changed, sender=Unit.labels.through)
 @disable_for_loaddata
-def change_labels(sender, instance, action, pk_set, **kwargs):
+def change_labels(sender, instance, action, pk_set, **kwargs) -> None:
     """Update unit labels."""
     if (
-        action not in ("post_add", "post_remove", "post_clear")
+        action not in {"post_add", "post_remove", "post_clear"}
         or (action != "post_clear" and not pk_set)
         or not instance.is_source
     ):
@@ -100,8 +116,21 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         instance.translation.component.invalidate_cache()
 
 
+@receiver(pre_delete, sender=Label)
+def label_pre_delete(sender, instance, **kwargs) -> None:
+    instance.project.collect_label_cleanup(instance)
+
+
+@receiver(post_delete, sender=Label)
+def label_post_delete(sender, instance, **kwargs) -> None:
+    """Invalidate label stats on its deletion."""
+    transaction.on_commit(
+        partial(instance.project.cleanup_label_stats, name=instance.name)
+    )
+
+
 @receiver(user_pre_delete)
-def user_commit_pending(sender, instance, **kwargs):
+def user_commit_pending(sender, instance, **kwargs) -> None:
     """Commit pending changes for user on account removal."""
     # All user changes
     all_changes = Change.objects.last_changes(instance).filter(user=instance)
@@ -122,36 +151,36 @@ def user_commit_pending(sender, instance, **kwargs):
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
 @disable_for_loaddata
-def change_componentlist(sender, instance, action, **kwargs):
+def change_componentlist(sender, instance, action, **kwargs) -> None:
     if not action.startswith("post_"):
         return
-    instance.stats.invalidate()
+    transaction.on_commit(instance.stats.update_stats)
 
 
 @receiver(post_save, sender=AutoComponentList)
 @disable_for_loaddata
-def auto_componentlist(sender, instance, **kwargs):
+def auto_componentlist(sender, instance, **kwargs) -> None:
     for component in Component.objects.iterator():
         instance.check_match(component)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
-def auto_project_componentlist(sender, instance, **kwargs):
+def auto_project_componentlist(sender, instance, **kwargs) -> None:
     for component in instance.component_set.iterator():
         auto_component_list(sender, component)
 
 
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
-def auto_component_list(sender, instance, **kwargs):
+def auto_component_list(sender, instance, **kwargs) -> None:
     for auto in AutoComponentList.objects.iterator():
         auto.check_match(instance)
 
 
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
-def post_delete_linked(sender, instance, **kwargs):
+def post_delete_linked(sender, instance, **kwargs) -> None:
     # When removing project, the linked component might be already deleted now
     try:
         if instance.linked_component:
@@ -162,13 +191,7 @@ def post_delete_linked(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Comment)
 @receiver(post_save, sender=Suggestion)
-@receiver(post_delete, sender=Suggestion)
 @disable_for_loaddata
-def stats_invalidate(sender, instance, **kwargs):
+def stats_invalidate(sender, instance, **kwargs) -> None:
     """Invalidate stats on new comment or suggestion."""
-    # Invalidate stats counts
-    instance.unit.translation.invalidate_cache()
-    # Invalidate unit cached properties
-    for key in ["all_comments", "suggestions"]:
-        if key in instance.__dict__:
-            del instance.__dict__[key]
+    instance.unit.invalidate_related_cache()

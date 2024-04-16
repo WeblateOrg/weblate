@@ -1,33 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for various helper utilities."""
 
-
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 
 from weblate.accounts.pipeline import slugify_username
 from weblate.accounts.tasks import cleanup_auditlog, cleanup_social_auth
 
 
-class PipelineTest(TestCase):
-    def test_slugify(self):
+class PipelineTest(SimpleTestCase):
+    def test_slugify(self) -> None:
         self.assertEqual(slugify_username("zkouska"), "zkouska")
         self.assertEqual(slugify_username("Zkouska"), "Zkouska")
         self.assertEqual(slugify_username("zkouška"), "zkouska")
@@ -37,8 +21,8 @@ class PipelineTest(TestCase):
 
 
 class TasksTest(TestCase):
-    def test_cleanup_social_auth(self):
+    def test_cleanup_social_auth(self) -> None:
         cleanup_social_auth()
 
-    def test_cleanup_auditlog(self):
+    def test_cleanup_auditlog(self) -> None:
         cleanup_auditlog()

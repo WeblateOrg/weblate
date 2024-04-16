@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for data exports."""
 
@@ -27,46 +12,50 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class ExportsViewTest(FixtureTestCase):
-    def test_view_rss(self):
+    def test_view_rss(self) -> None:
         response = self.client.get(reverse("rss"))
         self.assertContains(response, "Test/Test")
 
-    def test_view_rss_project(self):
-        response = self.client.get(reverse("rss-project", kwargs=self.kw_project))
-        self.assertContains(response, "Test/Test")
-
-    def test_view_rss_component(self):
-        response = self.client.get(reverse("rss-component", kwargs=self.kw_component))
-        self.assertContains(response, "Test/Test")
-
-    def test_view_rss_translation(self):
+    def test_view_rss_project(self) -> None:
         response = self.client.get(
-            reverse("rss-translation", kwargs=self.kw_translation)
+            reverse("rss", kwargs={"path": self.project.get_url_path()})
         )
         self.assertContains(response, "Test/Test")
 
-    def test_export_stats(self):
+    def test_view_rss_component(self) -> None:
+        response = self.client.get(reverse("rss", kwargs=self.kw_component))
+        self.assertContains(response, "Test/Test")
+
+    def test_view_rss_translation(self) -> None:
+        response = self.client.get(reverse("rss", kwargs=self.kw_translation))
+        self.assertContains(response, "Test/Test")
+
+    def test_export_stats(self) -> None:
         response = self.client.get(reverse("export_stats", kwargs=self.kw_component))
         parsed = json.loads(response.content.decode())
         self.assertEqual(parsed[0]["name"], "Czech")
 
-    def test_export_stats_csv(self):
+    def test_export_stats_csv(self) -> None:
         response = self.client.get(
-            reverse("export_stats", kwargs=self.kw_component), {"format": "csv"}
+            reverse("export_stats", kwargs=self.kw_component),
+            {"format": "csv"},
         )
         self.assertContains(response, "name,code")
 
-    def test_export_project_stats(self):
-        response = self.client.get(reverse("export_stats", kwargs=self.kw_project))
-        parsed = json.loads(response.content.decode())
-        self.assertIn("Czech", [i["language"] for i in parsed])
-
-    def test_export_project_stats_csv(self):
+    def test_export_project_stats(self) -> None:
         response = self.client.get(
-            reverse("export_stats", kwargs=self.kw_project), {"format": "csv"}
+            reverse("export_stats", kwargs={"path": self.project.get_url_path()})
         )
-        self.assertContains(response, "language,code")
+        parsed = json.loads(response.content.decode())
+        self.assertIn("Czech", [i["name"] for i in parsed])
 
-    def test_data(self):
+    def test_export_project_stats_csv(self) -> None:
+        response = self.client.get(
+            reverse("export_stats", kwargs={"path": self.project.get_url_path()}),
+            {"format": "csv"},
+        )
+        self.assertContains(response, "name,code")
+
+    def test_data(self) -> None:
         response = self.client.get(reverse("data_project", kwargs=self.kw_project))
         self.assertContains(response, "Test")

@@ -1,0 +1,40 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
+name: pylint check
+
+on:
+  push:
+    branches-ignore:
+    - deepsource-fix-**
+    - renovate/**
+    - weblate
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pylint:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
+        cache-dependency-path: pyproject.toml
+    - name: Install dependencies
+      run: |
+        python -m pip install $(sed -n 's/.*"\(pip==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        pip install $(sed -n 's/.*"\(wheel==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        pip install $(sed -n 's/.*"\(pylint==\([^"]*\)\)".*/\1/p' pyproject.toml)
+    - name: Add pylint annotator
+      uses: pr-annotators/pylint-pr-annotator@v0.0.1
+
+    - name: Run pylint
+      run: pylint weblate/

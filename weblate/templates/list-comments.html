@@ -20,15 +20,17 @@
     </div>
     <div class="col-xs-10 history-data">
         {% perm 'comment.delete' comment as user_can_delete_comment %}
-        {% if user_can_delete_comment %}
+        {% perm 'comment.resolve' comment as user_can_resolve_comment %}
+        {% if user_can_delete_comment or user_can_resolve_comment %}
         <div class="btn-float pull-right flip">
-            {% if not comment.resolved %}
+          {% if user_can_resolve_comment and not comment.resolved %}
             <form method="POST" action="{% url 'resolve-comment' pk=comment.pk %}" class="auto-save-translation inlineform">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
             <button class="btn btn-link green" title="{% trans "Resolve" %}">{% icon "check.svg" %}</button>
             </form>
-            {% endif %}
+          {% endif %}
+          {% if user_can_delete_comment %}
             <form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation inlineform">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next_url }}" />
@@ -37,9 +39,10 @@
             {% endif %}
             <button class="btn btn-link red" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
             </form>
+          {% endif %}
         </div>
         {% endif %}
-        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}">
+        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}" lang="{{ comment.unit.translation.language.code }}" dir="{{ comment.unit.translation.language.direction }}">
             {{ comment.comment|markdown }}
             <span class="pull-right flip text-muted">{{ comment.timestamp|naturaltime }}</span>
             <div class="clearfix"></div>

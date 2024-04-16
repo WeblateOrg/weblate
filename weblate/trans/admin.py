@@ -1,33 +1,34 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from typing import NoReturn
+
+from django.conf import settings
 from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.auth.models import User
-from weblate.trans.models import AutoComponentList, Translation, Unit
+from weblate.trans.models import (
+    Announcement,
+    AutoComponentList,
+    Change,
+    Comment,
+    Component,
+    ComponentList,
+    ContributorAgreement,
+    Project,
+    Suggestion,
+    Translation,
+    Unit,
+)
 from weblate.trans.util import sort_choices
 from weblate.wladmin.models import WeblateModelAdmin
 
 
 class RepoAdminMixin:
-    def force_commit(self, request, queryset):
+    @admin.action(description=gettext_lazy("Commit pending changes"))
+    def force_commit(self, request, queryset) -> None:
         """Commit pending changes for selected components."""
         for obj in queryset:
             obj.commit_pending("admin", request)
@@ -35,23 +36,21 @@ class RepoAdminMixin:
             request, f"Flushed changes in {queryset.count():d} git repos."
         )
 
-    force_commit.short_description = _("Commit pending changes")
-
-    def update_from_git(self, request, queryset):
+    @admin.action(description=gettext_lazy("Update VCS repository"))
+    def update_from_git(self, request, queryset) -> None:
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
-    update_from_git.short_description = _("Update VCS repository")
+    def get_qs_units(self, queryset) -> NoReturn:
+        raise NotImplementedError
 
-    def get_qs_units(self, queryset):
-        raise NotImplementedError()
+    def get_qs_translations(self, queryset) -> NoReturn:
+        raise NotImplementedError
 
-    def get_qs_translations(self, queryset):
-        raise NotImplementedError()
-
-    def update_checks(self, request, queryset):
+    @admin.action(description=gettext_lazy("Update quality checks"))
+    def update_checks(self, request, queryset) -> None:
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
         for unit in units:
@@ -62,9 +61,8 @@ class RepoAdminMixin:
 
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
-    update_checks.short_description = _("Update quality checks")
 
-
+@admin.register(Project)
 class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = (
         "name",
@@ -82,33 +80,28 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     search_fields = ["name", "slug", "web"]
     actions = ["update_from_git", "update_checks", "force_commit"]
 
+    @admin.display(description=gettext_lazy("Administrators"))
     def list_admins(self, obj):
         return ", ".join(
             User.objects.all_admins(obj).values_list("username", flat=True)
         )
 
-    list_admins.short_description = _("Administrators")
-
+    @admin.display(description=gettext_lazy("Source strings"))
     def get_total(self, obj):
         return obj.stats.source_strings
 
-    get_total.short_description = _("Source strings")
-
+    @admin.display(description=gettext_lazy("Source words"))
     def get_source_words(self, obj):
         return obj.stats.source_words
 
-    get_source_words.short_description = _("Source words")
-
+    @admin.display(description=gettext_lazy("Languages"))
     def get_language_count(self, obj):
         """Return number of languages used in this project."""
         return obj.stats.languages
 
-    get_language_count.short_description = _("Languages")
-
+    @admin.display(description=gettext_lazy("VCS repositories"))
     def num_vcs(self, obj):
         return obj.component_set.with_repo().count()
-
-    num_vcs.short_description = _("VCS repositories")
 
     def get_qs_units(self, queryset):
         return Unit.objects.filter(translation__component__project__in=queryset)
@@ -117,6 +110,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__project__in=queryset)
 
 
+@admin.register(Component)
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = ["name", "slug", "project", "repo", "branch", "vcs", "file_format"]
     prepopulated_fields = {"slug": ("name",)}
@@ -132,7 +126,7 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__in=queryset)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Wrapper to sort languages by localized names."""
+        """Sort languages by localized names."""
         result = super().formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "source_language":
             result.choices = sort_choices(result.choices)
@@ -168,6 +162,7 @@ class ChangeAdmin(WeblateModelAdmin):
     raw_id_fields = ("unit",)
 
 
+@admin.register(Announcement)
 class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ["message", "project", "component", "language"]
     search_fields = ["message"]
@@ -179,6 +174,7 @@ class AutoComponentListAdmin(admin.TabularInline):
     extra = 0
 
 
+@admin.register(ComponentList)
 class ComponentListAdmin(WeblateModelAdmin):
     list_display = ["name", "show_dashboard"]
     list_filter = ["show_dashboard"]
@@ -188,7 +184,17 @@ class ComponentListAdmin(WeblateModelAdmin):
     ordering = ["name"]
 
 
+@admin.register(ContributorAgreement)
 class ContributorAgreementAdmin(WeblateModelAdmin):
     list_display = ["user", "component", "timestamp"]
     date_hierarchy = "timestamp"
     ordering = ("user__username", "component__project__name", "component__name")
+
+
+# Show some controls only in debug mode
+if settings.DEBUG:
+    admin.site.register(Translation, TranslationAdmin)
+    admin.site.register(Unit, UnitAdmin)
+    admin.site.register(Suggestion, SuggestionAdmin)
+    admin.site.register(Comment, CommentAdmin)
+    admin.site.register(Change, ChangeAdmin)

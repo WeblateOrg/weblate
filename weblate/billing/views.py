@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import timedelta
 
@@ -54,7 +39,7 @@ def download_invoice(request, pk):
         raise Http404("No reference!")
 
     if not request.user.has_perm("billing.view", invoice.billing):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if not invoice.filename_valid:
         raise Http404(f"File {invoice.filename} does not exist!")
@@ -69,12 +54,16 @@ def download_invoice(request, pk):
     return response
 
 
-def handle_post(request, billing):
-    if "extend" in request.POST and request.user.is_superuser:
-        billing.state = Billing.STATE_TRIAL
-        billing.expiry = timezone.now() + timedelta(days=14)
-        billing.removal = None
-        billing.save(update_fields=["expiry", "removal", "state"])
+def handle_post(request, billing) -> None:
+    if "extend" in request.POST and request.user.has_perm("billing.manage"):
+        if billing.is_trial:
+            billing.state = Billing.STATE_TRIAL
+            billing.expiry = timezone.now() + timedelta(days=14)
+            billing.removal = None
+            billing.save(update_fields=["expiry", "removal", "state"])
+        elif billing.removal:
+            billing.removal = timezone.now() + timedelta(days=14)
+            billing.save(update_fields=["removal"])
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
             del billing.payment["recurring"]
@@ -83,12 +72,12 @@ def handle_post(request, billing):
         billing.state = Billing.STATE_TERMINATED
         billing.save()
     elif billing.valid_libre:
-        if "approve" in request.POST and request.user.is_superuser:
+        if "approve" in request.POST and request.user.has_perm("billing.manage"):
             billing.state = Billing.STATE_ACTIVE
             billing.plan = Plan.objects.get(slug="libre")
             billing.removal = None
             billing.save(update_fields=["state", "plan", "removal"])
-        elif "request" in request.POST:
+        elif "request" in request.POST and billing.is_libre_trial:
             form = HostingForm(request.POST)
             if form.is_valid():
                 project = billing.projects.get()
@@ -107,7 +96,7 @@ def handle_post(request, billing):
                         "message": form.cleaned_data["message"],
                         "billing_url": billing.get_absolute_url(),
                     },
-                    request.user.get_author_name(),
+                    request.user.get_author_name(request.user.email),
                     settings.ADMINS_HOSTING,
                 )
             else:
@@ -119,7 +108,7 @@ def overview(request):
     billings = Billing.objects.for_user(request.user).prefetch_related(
         "plan", "projects", "invoice_set"
     )
-    if not request.user.is_superuser and len(billings) == 1:
+    if not request.user.has_perm("billing.manage") and len(billings) == 1:
         return redirect(billings[0])
     return render(
         request,
@@ -138,7 +127,7 @@ def detail(request, pk):
     billing = get_object_or_404(Billing, pk=pk)
 
     if not request.user.has_perm("billing.view", billing):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if request.method == "POST":
         handle_post(request, billing)

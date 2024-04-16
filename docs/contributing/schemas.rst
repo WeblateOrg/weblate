@@ -10,8 +10,8 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 .. seealso::
 
     :ref:`translation-memory`,
-    :djadmin:`dump_memory`,
-    :djadmin:`import_memory`
+    :wladmin:`dump_memory`,
+    :wladmin:`import_memory`
 
 .. _schema-userdata:
 
@@ -20,4 +20,4 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 .. seealso::
 
     :ref:`user-profile`,
-    :djadmin:`dumpuserdata`
+    :wladmin:`dumpuserdata`

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from importlib import import_module
 
@@ -30,35 +15,39 @@ def load_class(name, setting):
         module, attr = name.rsplit(".", 1)
     except ValueError as error:
         raise ImproperlyConfigured(
-            f'Error importing class {name} in {setting}: "{error}"'
-        )
+            f"Error importing class {name!r} in {setting}: {error}"
+        ) from error
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
-            f'Error importing module {module} in {setting}: "{error}"'
-        )
+            f"Error importing module {module!r} in {setting}: {error}"
+        ) from error
     try:
         return getattr(mod, attr)
-    except AttributeError:
+    except AttributeError as error:
         raise ImproperlyConfigured(
-            f'Module "{module}" does not define a "{attr}" class in {setting}'
-        )
+            f"Module {module!r} does not define a {attr!r} class in {setting}"
+        ) from error
 
 
 class ClassLoader:
     """Dict like object to lazy load list of classes."""
 
-    def __init__(self, name, construct=True):
+    def __init__(
+        self, name: str, construct: bool = True, collect_errors: bool = False
+    ) -> None:
         self.name = name
         self.construct = construct
+        self.collect_errors = collect_errors
+        self.errors: dict[str, str | Exception] = {}
 
     def get_settings(self):
         result = getattr(settings, self.name)
         if result is None:
             # Special case to disable all checks/...
             result = []
-        elif not isinstance(result, (list, tuple)):
+        elif not isinstance(result, list | tuple):
             raise ImproperlyConfigured(f"Setting {self.name} must be list or tuple!")
         return result
 
@@ -66,7 +55,13 @@ class ClassLoader:
         result = {}
         value = self.get_settings()
         for path in value:
-            obj = load_class(path, self.name)
+            try:
+                obj = load_class(path, self.name)
+            except ImproperlyConfigured as error:
+                self.errors[path] = error
+                if self.collect_errors:
+                    continue
+                raise
             if self.construct:
                 obj = obj()
             result[obj.get_identifier()] = obj
@@ -79,7 +74,7 @@ class ClassLoader:
     def __getitem__(self, key):
         return self.data.__getitem__(key)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, value) -> None:
         self.data.__setitem__(key, value)
 
     def get(self, key):
@@ -97,16 +92,21 @@ class ClassLoader:
     def __iter__(self):
         return self.data.__iter__()
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.data.__len__()
 
-    def __contains__(self, item):
+    def __contains__(self, item) -> bool:
         return self.data.__contains__(item)
 
     def exists(self):
         return bool(self.data)
 
-    def get_choices(self, empty=False, exclude=(), cond=lambda x: True):
+    def get_choices(self, empty=False, exclude=(), cond=None):
+        if cond is None:
+
+            def cond(x) -> bool:
+                return True
+
         result = [
             (x, self[x].name)
             for x in sorted(self)

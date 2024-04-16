@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from time import sleep
 
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.trans.models import Component, Project
+from weblate.trans.tasks import actual_project_removal
 from weblate.utils.management.base import BaseCommand
 
 
@@ -29,13 +15,26 @@ class Command(BaseCommand):
 
     help = "imports demo project and components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--additional", type=int, default=0, help="number of additional components"
         )
+        parser.add_argument(
+            "--delete",
+            action="store_true",
+            help="Update existing add-ons configuration",
+        )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
+        if options["delete"]:
+            try:
+                project = Project.objects.get(slug="demo")
+            except Project.DoesNotExist:
+                pass
+            else:
+                # Remove without creating a backup
+                actual_project_removal(project.pk, None)
         # Create project
         project = Project.objects.create(
             name="Demo", slug="demo", web="https://demo.weblate.org/"
@@ -66,7 +65,7 @@ class Command(BaseCommand):
 
         # Install discovery
         DiscoveryAddon.create(
-            component,
+            component=component,
             configuration={
                 "file_format": "po",
                 "match": (

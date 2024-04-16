@@ -1,25 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 from collections import defaultdict
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from pyicumessageformat import Parser
 
 from weblate.checks.base import SourceCheck
@@ -87,13 +74,13 @@ def parse_icu(
     source: str,
     allow_tags: bool,
     strict_tags: bool,
-    tag_prefix: str = None,
+    tag_prefix: str | None = None,
     want_tokens=False,
-):
+) -> tuple[list[str] | None, Exception | None, list[str] | None]:
     """Parse an ICU MessageFormat message."""
     ast = None
-    err = None
-    tokens = [] if want_tokens else None
+    err: Exception | None = None
+    tokens: list[str] | None = [] if want_tokens else None
     parser = standard_parser
     if allow_tags:
         parser = strict_tag_parser if strict_tags else tag_parser
@@ -134,45 +121,38 @@ def update_maybe_value(value, old):
     return 0
 
 
-def extract_highlights(token, source, out=None):
+def extract_highlights(token, source):
     """Extract all placeholders from an AST selected for highlighting."""
-    if out is None:
-        out = []
-
     if isinstance(token, str):
-        return out
+        return
 
     if isinstance(token, list):
         for tok in token:
-            extract_highlights(tok, source, out)
-
-        return out
+            yield from extract_highlights(tok, source)
 
     # Sanity check the token. They should always have
     # start and end.
     if "start" not in token or "end" not in token:
-        return out
+        return
 
     start = token["start"]
     end = token["end"]
     usable = start < len(source)
 
-    if "hash" in token and token["hash"]:
+    if token.get("hash"):
         usable = False
 
     if "options" in token:
         usable = False
         for subast in token["options"].values():
-            extract_highlights(subast, source, out)
+            yield from extract_highlights(subast, source)
 
     if "contents" in token:
         usable = False
-        extract_highlights(token["contents"], source, out)
+        yield from extract_highlights(token["contents"], source)
 
     if usable:
-        out.append((start, end, source[start:end]))
-
-    return out
+        yield (start, end, source[start:end])
 
 
 def extract_placeholders(token, variables=None):
@@ -235,7 +215,7 @@ def extract_placeholders(token, variables=None):
             # First, we log the selector for later comparison.
             choices.add(selector)
 
-            # Second, we make sure the selector is valid if we're working
+            # Second, we ensure the selector is valid if we're working
             # with a plural/selectordinal type.
             if ttype in PLURAL_TYPES and check_bad_plural_selector(selector):
                 data.setdefault("bad_plural", set()).add(selector)
@@ -266,10 +246,16 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
     """Check for ICU MessageFormat syntax."""
 
     check_id = "icu_message_format_syntax"
-    name = _("ICU MessageFormat syntax")
-    description = _("Syntax errors in ICU MessageFormat strings.")
+    name = gettext_lazy("ICU MessageFormat syntax")
+    description = gettext_lazy("Syntax errors in ICU MessageFormat strings.")
+    default_disabled = True
 
-    def check_source_unit(self, source, unit):
+    def __init__(self) -> None:
+        super().__init__()
+        self.enable_string = "icu-message-format"
+        self.ignore_string = f"ignore-{self.enable_string}"
+
+    def check_source_unit(self, source, unit) -> bool:
         """Checker for source strings. Only check for syntax issues."""
         if not source or not source[0]:
             return False
@@ -279,18 +265,18 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
         allow_tags = strict_tags or "xml" in flags
         tag_prefix = self.get_tag_prefix(unit)
 
-        _, src_err, _ = parse_icu(source[0], allow_tags, strict_tags, tag_prefix)
-        if src_err:
-            return True
-        return False
+        _ast, src_err, _tokens = parse_icu(
+            source[0], allow_tags, strict_tags, tag_prefix
+        )
+        return bool(src_err)
 
 
 class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
     """Check for ICU MessageFormat string."""
 
     check_id = "icu_message_format"
-    name = _("ICU MessageFormat")
-    description = _(
+    name = gettext_lazy("ICU MessageFormat")
+    description = gettext_lazy(
         "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
     )
 
@@ -305,7 +291,9 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         tag_prefix = self.get_tag_prefix(unit)
 
         result = defaultdict(list)
-        src_ast, src_err, _ = parse_icu(source, allow_tags, strict_tags, tag_prefix)
+        src_ast, src_err, _tokens = parse_icu(
+            source, allow_tags, strict_tags, tag_prefix
+        )
 
         # Check to see if we're running on a source string only.
         # If we are, then we can only run a syntax check on the
@@ -316,7 +304,9 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                 return result
             return False
 
-        tgt_ast, tgt_err, _ = parse_icu(target, allow_tags, strict_tags, tag_prefix)
+        tgt_ast, tgt_err, _tokens = parse_icu(
+            target, allow_tags, strict_tags, tag_prefix
+        )
         if tgt_err:
             result["syntax"].append(tgt_err)
 
@@ -364,16 +354,17 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
             return result
         return False
 
-    def check_missing(self, result, src_vars, tgt_vars, flags):
+    def check_missing(self, result, src_vars, tgt_vars, flags) -> None:
         """Detect any variables in the target not in the source."""
         if "-missing" in flags:
             return
 
-        for name in src_vars:
-            if name not in tgt_vars:
-                result["missing"].append(name)
+        missing = [name for name in src_vars if name not in tgt_vars]
 
-    def check_for_other(self, result, name, data, flags):
+        if missing:
+            result["missing"] = missing
+
+    def check_for_other(self, result, name, data, flags) -> None:
         """Ensure types with sub-messages have other."""
         if "-require_other" in flags:
             return
@@ -382,7 +373,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         if choices and "other" not in choices:
             result["no_other"].append(name)
 
-    def check_bad_plural(self, result, name, data, src_data, flags):
+    def check_bad_plural(self, result, name, data, src_data, flags) -> None:
         """Forward bad plural selectors detected during extraction."""
         if "-plural_selectors" in flags:
             return
@@ -390,7 +381,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         if "bad_plural" in data:
             result["bad_plural"].append([name, data["bad_plural"]])
 
-    def check_bad_submessage(self, result, name, data, src_data, flags):
+    def check_bad_submessage(self, result, name, data, src_data, flags) -> None:
         """Detect any bad sub-message selectors."""
         if "-submessage_selectors" in flags:
             return
@@ -415,7 +406,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         if bad:
             result["bad_submessage"].append([name, bad])
 
-    def check_wrong_type(self, result, name, data, src_data, flags):
+    def check_wrong_type(self, result, name, data, src_data, flags) -> None:
         """Ensure that types match, when possible."""
         if "-types" in flags:
             return
@@ -433,7 +424,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                     result["wrong_type"].append(name)
                     break
 
-    def check_tags(self, result, name, data, src_data, flags):
+    def check_tags(self, result, name, data, src_data, flags) -> None:
         """Correct any erroneous XML tags."""
         if "-tags" in flags:
             return
@@ -457,72 +448,78 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
     def format_result(self, result):
         if result.get("syntax"):
-            yield _("Syntax error: %s") % ", ".join(err.msg for err in result["syntax"])
+            yield gettext("Syntax error: %s") % ", ".join(
+                err.msg for err in result["syntax"]
+            )
 
         if result.get("extra"):
-            yield _(
+            yield gettext(
                 "One or more unknown placeholders in the translation: %s"
             ) % ", ".join(result["extra"])
 
         if result.get("missing"):
-            yield _(
+            yield gettext(
                 "One or more placeholders missing in the translation: %s"
             ) % ", ".join(result["missing"])
 
         if result.get("wrong_type"):
-            yield _("One or more placeholder types are incorrect: %s") % ", ".join(
-                result["wrong_type"]
-            )
+            yield gettext(
+                "One or more placeholder types are incorrect: %s"
+            ) % ", ".join(result["wrong_type"])
 
         if result.get("no_other"):
-            yield _("Missing other sub-message for: %s") % ", ".join(result["no_other"])
+            yield gettext("Missing other sub-message for: %s") % ", ".join(
+                result["no_other"]
+            )
 
         if result.get("bad_plural"):
-            yield _("Incorrect plural selectors for: %s") % ", ".join(
+            yield gettext("Incorrect plural selectors for: %s") % ", ".join(
                 f"{x[0]} ({', '.join(x[1])})" for x in result["bad_plural"]
             )
 
         if result.get("bad_submessage"):
-            yield _("Incorrect sub-message selectors for: %s") % ", ".join(
+            yield gettext("Incorrect sub-message selectors for: %s") % ", ".join(
                 f"{x[0]} ({', '.join(x[1])})" for x in result["bad_submessage"]
             )
 
         if result.get("should_be_tag"):
-            yield _(
+            yield gettext(
                 "One or more placeholders should have "
                 "a corresponding XML tag in the translation: %s"
             ) % ", ".join(result["should_be_tag"])
 
         if result.get("not_tag"):
-            yield _(
+            yield gettext(
                 "One or more placeholders should not be "
                 "an XML tag in the translation: %s"
             ) % ", ".join(result["not_tag"])
 
         if result.get("tag_not_empty"):
-            yield _(
+            yield gettext(
                 "One or more XML tags has unexpected content in the translation: %s"
             ) % ", ".join(result["tag_not_empty"])
 
         if result.get("tag_empty"):
-            yield _(
+            yield gettext(
                 "One or more XML tags missing content in the translation: %s"
             ) % ", ".join(result["tag_empty"])
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
-            return []
+            return
 
         flags = self.get_flags(unit)
         if "-highlight" in flags:
-            return []
+            return
 
         strict_tags = "strict-xml" in flags
         allow_tags = strict_tags or "xml" in flags
         tag_prefix = self.get_tag_prefix(unit)
 
-        ast, _, _ = parse_icu(source, allow_tags, strict_tags, tag_prefix, True)
+        ast, _err, _tokens = parse_icu(
+            source, allow_tags, strict_tags, tag_prefix, True
+        )
         if not ast:
-            return []
+            return
 
-        return extract_highlights(ast, source)
+        yield from extract_highlights(ast, source)

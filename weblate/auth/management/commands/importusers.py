@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import argparse
 import json
@@ -28,7 +12,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "imports users from JSON dump of database"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--check",
             action="store_true",
@@ -40,7 +24,7 @@ class Command(BaseCommand):
             help="JSON file containing user dump to import",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         data = json.load(options["json-file"])
         options["json-file"].close()
 

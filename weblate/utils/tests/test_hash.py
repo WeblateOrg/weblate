@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.test import SimpleTestCase
 
 from weblate.utils.hash import (
     calculate_checksum,
+    calculate_dict_hash,
     calculate_hash,
     checksum_to_hash,
     hash_to_checksum,
@@ -28,14 +14,14 @@ from weblate.utils.hash import (
 
 
 class HashTest(SimpleTestCase):
-    def test_hash(self):
+    def test_hash(self) -> None:
         """Ensure hash is not changing."""
         text = "Message"
         text_hash = calculate_hash(text)
         self.assertEqual(text_hash, 8445691827737211251)
         self.assertEqual(text_hash, calculate_hash(text))
 
-    def test_hash_context(self):
+    def test_hash_context(self) -> None:
         """Ensure hash works with context."""
         text = "Message"
         context = "Context"
@@ -43,19 +29,33 @@ class HashTest(SimpleTestCase):
         self.assertEqual(text_hash, -1602104568316855346)
         self.assertEqual(text_hash, calculate_hash(context, text))
 
-    def test_hash_unicode(self):
+    def test_hash_unicode(self) -> None:
         """Ensure hash works for unicode."""
         text = "Příšerně žluťoučký kůň úpěl ďábelské ódy"
         text_hash = calculate_hash(text)
         self.assertEqual(text_hash, -4296353750398394478)
         self.assertEqual(text_hash, calculate_hash(text))
 
-    def test_checksum(self):
+    def test_checksum(self) -> None:
         """Hash to checksum conversion."""
         text_hash = calculate_hash("Message")
         checksum = hash_to_checksum(text_hash)
         self.assertEqual(checksum, "f5351ff85ab23173")
         self.assertEqual(text_hash, checksum_to_hash(checksum))
 
-    def test_calculate_checksum(self):
+    def test_calculate_checksum(self) -> None:
         self.assertEqual(calculate_checksum("Message"), "f5351ff85ab23173")
+
+    def test_calculate_dict_hash(self) -> None:
+        self.assertEqual(
+            calculate_dict_hash({"a": 1, "b": 2}),
+            calculate_dict_hash({"b": 2, "a": 1}),
+        )
+        self.assertEqual(
+            calculate_dict_hash({"a": "1", "b": "2"}),
+            calculate_dict_hash({"a": 1, "b": 2}),
+        )
+        self.assertNotEqual(
+            calculate_dict_hash({"a": 2, "b": 2}),
+            calculate_dict_hash({"a": 1, "b": 2}),
+        )

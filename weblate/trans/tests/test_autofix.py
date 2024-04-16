@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for automatix fixups."""
 
@@ -24,6 +9,8 @@ from django.test import TestCase
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
+    DevanagariDanda,
+    PunctuationSpacing,
     RemoveControlChars,
     RemoveZeroSpace,
     ReplaceTrailingDotsWithEllipsis,
@@ -34,19 +21,19 @@ from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 
 
 class AutoFixTest(TestCase):
-    def test_ellipsis(self):
+    def test_ellipsis(self) -> None:
         unit = MockUnit(source="Foo…")
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEqual(fix.fix_target(["Bar..."], unit), (["Bar…"], True))
         self.assertEqual(fix.fix_target(["Bar... "], unit), (["Bar... "], False))
 
-    def test_no_ellipsis(self):
+    def test_no_ellipsis(self) -> None:
         unit = MockUnit(source="Foo...")
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEqual(fix.fix_target(["Bar..."], unit), (["Bar..."], False))
         self.assertEqual(fix.fix_target(["Bar…"], unit), (["Bar…"], False))
 
-    def test_whitespace(self):
+    def test_whitespace(self) -> None:
         unit = MockUnit(source="Foo\n")
         fix = SameBookendingWhitespace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar\n"], True))
@@ -54,20 +41,20 @@ class AutoFixTest(TestCase):
         unit = MockUnit(source=" ")
         self.assertEqual(fix.fix_target(["  "], unit), (["  "], False))
 
-    def test_no_whitespace(self):
+    def test_no_whitespace(self) -> None:
         unit = MockUnit(source="Foo")
         fix = SameBookendingWhitespace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar"], True))
 
-    def test_whitespace_flags(self):
+    def test_whitespace_flags(self) -> None:
         fix = SameBookendingWhitespace()
         unit = MockUnit(source="str", flags="ignore-begin-space")
         self.assertEqual(fix.fix_target(["  str"], unit), (["  str"], False))
         unit = MockUnit(source="str", flags="ignore-end-space")
         self.assertEqual(fix.fix_target(["  str  "], unit), (["str  "], True))
 
-    def test_html(self):
+    def test_html(self) -> None:
         fix = BleachHTML()
         unit = MockUnit(source='<a href="script:foo()">link</a>', flags="safe-html")
         self.assertEqual(
@@ -80,10 +67,14 @@ class AutoFixTest(TestCase):
         )
         self.assertEqual(
             fix.fix_target(["<https://weblate.org>"], unit),
-            (["&lt;https://weblate.org&gt;"], True),
+            ([""], True),
+        )
+        self.assertEqual(
+            fix.fix_target(["%(percent)s %%"], unit),
+            (["%(percent)s %%"], False),
         )
 
-    def test_html_markdown(self):
+    def test_html_markdown(self) -> None:
         fix = BleachHTML()
         unit = MockUnit(
             source='<a href="script:foo()">link</a>', flags="safe-html,md-text"
@@ -99,51 +90,52 @@ class AutoFixTest(TestCase):
             (["<https://weblate.org>"], False),
         )
 
-    def test_zerospace(self):
+    def test_zerospace(self) -> None:
         unit = MockUnit(source="Foo\u200b")
         fix = RemoveZeroSpace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\u200b"], unit), (["Bar\u200b"], False))
 
-    def test_no_zerospace(self):
+    def test_no_zerospace(self) -> None:
         unit = MockUnit(source="Foo")
         fix = RemoveZeroSpace()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\u200b"], unit), (["Bar"], True))
 
-    def test_controlchars(self):
+    def test_controlchars(self) -> None:
         unit = MockUnit(source="Foo\x1b")
         fix = RemoveControlChars()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
-        self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar\x1b"], False))
+        self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar"], True))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
 
-    def test_no_controlchars(self):
+    def test_no_controlchars(self) -> None:
         unit = MockUnit(source="Foo")
         fix = RemoveControlChars()
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         self.assertEqual(fix.fix_target(["Bar\x1b"], unit), (["Bar"], True))
         self.assertEqual(fix.fix_target(["Bar\n"], unit), (["Bar\n"], False))
 
-    def test_fix_target(self):
+    def test_fix_target(self) -> None:
         unit = MockUnit(source="Foo…")
         fixed, fixups = fix_target(["Bar..."], unit)
         self.assertEqual(fixed, ["Bar…"])
         self.assertEqual(len(fixups), 1)
         self.assertEqual(str(fixups[0]), "Trailing ellipsis")
 
-    def test_apostrophes(self):
+    def test_apostrophes(self) -> None:
         unit = MockUnit(source="Foo")
         fix = DoubleApostrophes()
         # No flags
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string, but forced
-        unit.flags = "java-messageformat"
+        unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string
         unit.flags = "auto-java-messageformat"
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         unit.source = "test {0}"
+        unit.sources = [unit.source]
         # Nothing to fix
         self.assertEqual(fix.fix_target(["r {0}"], unit), (["r {0}"], False))
         # Correct string
@@ -161,5 +153,32 @@ class AutoFixTest(TestCase):
         # Quoted format
         self.assertEqual(fix.fix_target(["'r''' {0}"], unit), (["''r'' {0}"], True))
         unit.source = "foo"
-        unit.flags = "java-messageformat"
+        unit.sources = [unit.source]
+        unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))
+
+    def test_devanagaridanda(self) -> None:
+        non_unit = MockUnit(source="Foo", code="bn")
+        bn_unit = MockUnit(source="Foo.", code="bn")
+        cs_unit = MockUnit(source="Foo.", code="cs")
+        fix = DevanagariDanda()
+        self.assertEqual(fix.fix_target(["Bar."], non_unit), (["Bar."], False))
+        self.assertEqual(fix.fix_target(["Bar."], bn_unit), (["Bar।"], True))
+        self.assertEqual(fix.fix_target(["Bar|"], bn_unit), (["Bar।"], True))
+        self.assertEqual(fix.fix_target(["Bar।"], bn_unit), (["Bar।"], False))
+        self.assertEqual(fix.fix_target(["Bar."], cs_unit), (["Bar."], False))
+
+    def test_punctuation_spacing(self) -> None:
+        fix = PunctuationSpacing()
+        non_unit = MockUnit(source="Foo", code="bn")
+        fr_unit = MockUnit(source="Foo:", code="fr")
+        fr_ca_unit = MockUnit(source="Foo:", code="fr_CA")
+        cs_unit = MockUnit(source="Foo:", code="cs")
+        self.assertEqual(fix.fix_target(["Bar:"], non_unit), (["Bar:"], False))
+        self.assertEqual(
+            fix.fix_target(["Bar\u202f:"], fr_unit), (["Bar\u202f:"], False)
+        )
+        self.assertEqual(fix.fix_target(["Bar :"], fr_unit), (["Bar\u202f:"], True))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar:"], False))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
+        self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))

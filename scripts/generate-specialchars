@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """
 Parser for CLDR proposal (exported as CSV).
 
@@ -13,7 +18,7 @@ from weblate_language_data.aliases import ALIASES
 from weblate_language_data.languages import LANGUAGES
 
 # Historical values used as base data,
-SINGLE_OPEN = {
+ALT_OPEN = {
     "ja": "『",
     "zh": "『",
     "ar": "’",
@@ -104,7 +109,7 @@ SINGLE_OPEN = {
     "ug": "›",
 }
 
-SINGLE_CLOSE = {
+ALT_CLOSE = {
     "ja": "』",
     "zh": "』",
     "eo": "’",
@@ -187,7 +192,7 @@ SINGLE_CLOSE = {
     "wae": "›",
 }
 
-DOUBLE_OPEN = {
+MAIN_OPEN = {
     "eu": '"',
     "uz": '"',
     "yi": '"',
@@ -283,7 +288,7 @@ DOUBLE_OPEN = {
     "sr": "„",
 }
 
-DOUBLE_CLOSE = {
+MAIN_CLOSE = {
     "eu": '"',
     "kk": '"',
     "uz": '"',
@@ -371,7 +376,7 @@ DOUBLE_CLOSE = {
 CODES = {lang[0] for lang in LANGUAGES}
 
 
-# Parse CSV passed on the commad line
+# Parse CSV passed on the command line
 with open(sys.argv[1]) as handle:
     for (
         pos,
@@ -397,23 +402,23 @@ with open(sys.argv[1]) as handle:
                 sys.stderr.write(f"Skipping not known {code}\n")
                 continue
 
-            SINGLE_OPEN[code], SINGLE_CLOSE[code] = single.split("…")
-            DOUBLE_OPEN[code], DOUBLE_CLOSE[code] = double.split("…")
+            ALT_OPEN[code], ALT_CLOSE[code] = single.split("…")
+            MAIN_OPEN[code], MAIN_CLOSE[code] = double.split("…")
 
 # Manual overrides follow
 
 # Hebrew, see https://github.com/WeblateOrg/weblate/issues/4772
-SINGLE_OPEN["he"] = "‚"
-SINGLE_CLOSE["he"] = "’"
-DOUBLE_OPEN["he"] = "„"
-DOUBLE_CLOSE["he"] = "”"
+ALT_OPEN["he"] = "‚"
+ALT_CLOSE["he"] = "’"
+MAIN_OPEN["he"] = "„"
+MAIN_CLOSE["he"] = "”"
 
 
-sys.stdout.write("SINGLE_OPEN = ")
-pprint.pprint(SINGLE_OPEN)
-sys.stdout.write("SINGLE_CLOSE = ")
-pprint.pprint(SINGLE_CLOSE)
-sys.stdout.write("DOUBLE_OPEN = ")
-pprint.pprint(DOUBLE_OPEN)
-sys.stdout.write("DOUBLE_CLOSE = ")
-pprint.pprint(DOUBLE_CLOSE)
+sys.stdout.write("ALT_OPEN = ")
+pprint.pprint(ALT_OPEN)
+sys.stdout.write("ALT_CLOSE = ")
+pprint.pprint(ALT_CLOSE)
+sys.stdout.write("MAIN_OPEN = ")
+pprint.pprint(MAIN_OPEN)
+sys.stdout.write("MAIN_CLOSE = ")
+pprint.pprint(MAIN_CLOSE)

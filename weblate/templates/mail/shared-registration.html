@@ -8,10 +8,7 @@
 </code>
 
 <p>
-{% blocktrans count count=validity %}The confirmation URL will expire after {{ count }} hour.{% plural %}The confirmation URL will expire after {{ count }} hours.{% endblocktrans %}
-{% if action == "invite" %}
-  {% blocktrans %}In case the confirmation URL is expired, you can use password reset feature to gain access to your account.{% endblocktrans %}
-{% endif %}
+{% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
 </p>
 
 <div class="line buttons">
@@ -19,6 +16,8 @@
 <a class="button" href="{{ url }}">{% trans "Confirm password reset" %}</a>
 {% elif action == "remove" %}
 <a class="button" href="{{ url }}">{% trans "Confirm account removal" %}</a>
+{% elif action == "invite" %}
+<a class="button" href="{{ url }}">{% trans "Confirm invitation" %}</a>
 {% else %}
 <a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
 {% endif %}

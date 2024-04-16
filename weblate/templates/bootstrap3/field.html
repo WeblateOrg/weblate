@@ -37,7 +37,11 @@
                 {% include 'bootstrap3/layout/help_text_and_errors.html' %}
             {% else %}
                 <div class="controls {{ field_class }}">
-                    {% crispy_field field %}
+                    {% if field|is_multivalue %}
+                        {% crispy_field field %}
+                    {% else %}
+                        {% crispy_field field 'class' 'form-control' %}
+                    {% endif %}
                     {% include 'bootstrap3/layout/help_text_and_errors.html' %}
                 </div>
             {% endif %}

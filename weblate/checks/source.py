@@ -1,32 +1,15 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 from collections import defaultdict
 from datetime import timedelta
 
 from django.utils import timezone
-from django.utils.html import escape
+from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
@@ -39,8 +22,10 @@ class OptionalPluralCheck(SourceCheck):
     """Check for not used plural form."""
 
     check_id = "optional_plural"
-    name = _("Unpluralised")
-    description = _("The string is used as plural, but not using plural forms")
+    name = gettext_lazy("Unpluralised")
+    description = gettext_lazy(
+        "The string is used as plural, but not using plural forms"
+    )
 
     def check_source_unit(self, source, unit):
         if len(source) > 1:
@@ -52,9 +37,9 @@ class EllipsisCheck(SourceCheck):
     """Check for using "..." instead of "…"."""
 
     check_id = "ellipsis"
-    name = _("Ellipsis")
-    description = _(
-        "The string uses three dots (...) " "instead of an ellipsis character (…)"
+    name = gettext_lazy("Ellipsis")
+    description = gettext_lazy(
+        "The string uses three dots (...) instead of an ellipsis character (…)"
     )
 
     def check_source_unit(self, source, unit):
@@ -65,8 +50,10 @@ class MultipleFailingCheck(SourceCheck):
     """Check whether there are more failing checks on this translation."""
 
     check_id = "multiple_failures"
-    name = _("Multiple failing checks")
-    description = _("The translations in several languages have failing checks")
+    name = gettext_lazy("Multiple failing checks")
+    description = gettext_lazy(
+        "The translations in several languages have failing checks"
+    )
 
     def get_related_checks(self, unit):
         from weblate.checks.models import Check
@@ -89,25 +76,30 @@ class MultipleFailingCheck(SourceCheck):
         for check in related:
             checks[check.check].append(check)
 
-        output = [gettext("Following checks are failing:")]
-        for check_list in checks.values():
-            output.append(
+        output = [(gettext("Following checks are failing:"),)]
+        output.extend(
+            (
                 "{}: {}".format(
                     check_list[0].get_name(),
                     ", ".join(
-                        escape(str(check.unit.translation.language))
-                        for check in check_list
+                        str(check.unit.translation.language) for check in check_list
                     ),
-                )
+                ),
             )
+            for check_list in checks.values()
+        )
 
-        return mark_safe("<br>".join(output))
+        return format_html_join(
+            mark_safe("<br>"),  # noqa: S308
+            "{}",
+            output,
+        )
 
 
 class LongUntranslatedCheck(SourceCheck):
     check_id = "long_untranslated"
-    name = _("Long untranslated")
-    description = _("The string has not been translated for a long time")
+    name = gettext_lazy("Long untranslated")
+    description = gettext_lazy("The string has not been translated for a long time")
 
     def check_source_unit(self, source, unit):
         if unit.timestamp > timezone.now() - timedelta(days=90):
@@ -119,5 +111,5 @@ class LongUntranslatedCheck(SourceCheck):
         return (
             total
             and 2 * translated_percent
-            < unit.translation.component.stats.lazy_translated_percent
+            < unit.translation.component.stats.translated_percent
         )

@@ -1,30 +1,16 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
-# Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
-from weblate.machinery.base import (
-    MachineryRateLimit,
+from .base import (
+    DownloadTranslations,
+    MachineryRateLimitError,
     MachineTranslation,
     MachineTranslationError,
-    MissingConfiguration,
 )
+from .forms import KeySecretMachineryForm
 
 BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
 
@@ -54,14 +40,7 @@ class BaiduTranslation(MachineTranslation):
         "zh_Hant": "cht",
         "vi": "vie",
     }
-
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_BAIDU_ID is None:
-            raise MissingConfiguration("Baidu Translate requires app key")
-        if settings.MT_BAIDU_SECRET is None:
-            raise MissingConfiguration("Baidu Translate requires app secret")
+    settings_form = KeySecretMachineryForm
 
     def download_languages(self):
         """List of supported languages."""
@@ -96,6 +75,22 @@ class BaiduTranslation(MachineTranslation):
             "vie",
         ]
 
+    def check_failure(self, response) -> None:
+        payload = response.json()
+
+        if "error_code" in payload:
+            try:
+                error_code = int(payload["error_code"])
+            except ValueError:
+                pass
+            else:
+                if error_code == 54003:
+                    raise MachineryRateLimitError(payload["error_msg"])
+            raise MachineTranslationError(
+                "Error {error_code}: {error_msg}".format(**payload)
+            )
+        super().check_failure(response)
+
     def download_translations(
         self,
         source,
@@ -103,34 +98,23 @@ class BaiduTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
-            settings.MT_BAIDU_ID, settings.MT_BAIDU_SECRET, text
+            self.settings["key"], self.settings["secret"], text
         )
         args = {
             "q": text,
             "from": source,
             "to": language,
-            "appid": settings.MT_BAIDU_ID,
+            "appid": self.settings["key"],
             "salt": salt,
             "sign": sign,
         }
 
         response = self.request("get", BAIDU_API, params=args)
         payload = response.json()
-
-        if "error_code" in payload:
-            try:
-                if int(payload["error_code"]) == 54003:
-                    raise MachineryRateLimit(payload["error_msg"])
-            except ValueError:
-                pass
-            raise MachineTranslationError(
-                "Error {error_code}: {error_msg}".format(**payload)
-            )
 
         for item in payload["trans_result"]:
             yield {

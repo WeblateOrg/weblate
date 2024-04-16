@@ -10,7 +10,9 @@
         "$id": "#/items/properties/category",
         "default": 1,
         "description": "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user specific",
-        "examples": [1],
+        "examples": [
+          1
+        ],
         "minimum": 0,
         "title": "The String Category",
         "type": "integer"
@@ -19,14 +21,19 @@
         "$id": "#/items/properties/origin",
         "default": "",
         "description": "Filename or component name",
-        "examples": ["test.tmx", "project/component"],
+        "examples": [
+          "test.tmx",
+          "project/component"
+        ],
         "title": "The String Origin",
         "type": "string"
       },
       "source": {
         "$id": "#/items/properties/source",
         "default": "",
-        "examples": ["Hello"],
+        "examples": [
+          "Hello"
+        ],
         "minLength": 1,
         "title": "The Source String",
         "type": "string"
@@ -35,7 +42,9 @@
         "$id": "#/items/properties/source_language",
         "default": "",
         "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
-        "examples": ["en"],
+        "examples": [
+          "en"
+        ],
         "pattern": "^[^ ]+$",
         "title": "The Source Language",
         "type": "string"
@@ -43,7 +52,9 @@
       "target": {
         "$id": "#/items/properties/target",
         "default": "",
-        "examples": ["Ahoj"],
+        "examples": [
+          "Ahoj"
+        ],
         "minLength": 1,
         "title": "The Target String",
         "type": "string"
@@ -52,7 +63,9 @@
         "$id": "#/items/properties/target_language",
         "default": "",
         "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
-        "examples": ["cs"],
+        "examples": [
+          "cs"
+        ],
         "pattern": "^[^ ]+$",
         "title": "The Target Language",
         "type": "string"

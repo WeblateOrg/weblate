@@ -15,7 +15,7 @@
 {% show_message "info" msg %}
 
 <div class="col-sm-6 col-xs-12 btn-auth">
-    <a class="btn btn-link link-post link-auto" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}">{% auth_name backend " " %}</a>
+    <a href="" class="btn btn-link link-auto link-post" data-href="{% url 'social:begin' backend %}" {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name backend " " %}</a>
 </div>
 
 </div>

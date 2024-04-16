@@ -1,23 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-# We ignore some words which are usually not translated
+# We ignore some words which are usually untranslated
 IGNORE_WORDS = {
     "abc",
     "accelerator",
@@ -117,6 +102,7 @@ IGNORE_WORDS = {
     "cardinality",
     "cdrom",
     "celery",
+    "celsius",
     "core",
     "charset",
     "charsets",
@@ -158,6 +144,7 @@ IGNORE_WORDS = {
     "cvs",
     "cyrillic",
     "dashboard",
+    "danda",
     "data",
     "database",
     "databases",
@@ -180,6 +167,7 @@ IGNORE_WORDS = {
     "destination",
     "detail",
     "details",
+    "devanagari",
     "developer",
     "devscripts",
     "dialog",
@@ -272,6 +260,7 @@ IGNORE_WORDS = {
     "freemind",
     "freeplane",
     "frequency",
+    "frontend",
     "full",
     "fulltext",
     "function",
@@ -296,6 +285,7 @@ IGNORE_WORDS = {
     "ghz",
     "gib",
     "git",
+    "gitea",
     "github",
     "gitlab",
     "gpl",
@@ -730,6 +720,7 @@ IGNORE_WORDS = {
     "scripts",
     "scripting",
     "scroll",
+    "scrum",
     "sdk",
     "sector",
     "seed",
@@ -938,6 +929,7 @@ IGNORE_WORDS = {
     "yahoo",
     "yaml",
     "yard",
+    "youtube",
     "zcash",
     "zen",
     "zero",
@@ -1043,11 +1035,7 @@ NON_WORD_CHARS = (
     "'",
     "(",
     "*",
-    ",",
-    ".",
     "/",
-    ":",
-    ";",
     "?",
     "@",
     "[",

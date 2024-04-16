@@ -1,24 +1,15 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
+
+from email.headerregistry import Address
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
 
 from weblate.auth.data import (
     GLOBAL_PERMISSIONS,
@@ -28,10 +19,13 @@ from weblate.auth.data import (
     SELECTION_ALL,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import Group, Role
+
 
 def is_django_permission(permission: str):
     """
-    Checks whether permission looks like a Django one.
+    Check whether permission looks like a Django one.
 
     Django permissions are <app>.<action>_<model>, while
     Weblate ones are <scope>.<action> where action lacks underscores
@@ -57,7 +51,7 @@ def migrate_permissions_list(model, permissions):
     return ids
 
 
-def migrate_permissions(model):
+def migrate_permissions(model) -> None:
     """Create permissions as defined in the data."""
     ids = set()
     # Per object permissions
@@ -68,45 +62,60 @@ def migrate_permissions(model):
     model.objects.exclude(id__in=ids).delete()
 
 
-def migrate_roles(model, perm_model):
+def migrate_roles(model, perm_model) -> set[str]:
     """Create roles as defined in the data."""
-    result = False
+    result = set()
     for role, permissions in ROLES:
         instance, created = model.objects.get_or_create(name=role)
-        result |= created
+        if created:
+            result.add(role)
         instance.permissions.set(
             perm_model.objects.filter(codename__in=permissions), clear=True
         )
     return result
 
 
-def migrate_groups(model, role_model, update=False):
+def migrate_groups(
+    model: type[Group], role_model: type[Role], update: bool = False
+) -> dict[str, Group]:
     """Create groups as defined in the data."""
+    result: dict[str, Group] = {}
     for group, roles, selection in GROUPS:
-        defaults = {
-            "internal": True,
-            "project_selection": selection,
-            "language_selection": SELECTION_ALL,
-        }
-        instance, created = model.objects.get_or_create(name=group, defaults=defaults)
+        instance, created = model.objects.get_or_create(
+            name=group,
+            internal=True,
+            defining_project=None,
+            defaults={
+                "project_selection": selection,
+                "language_selection": SELECTION_ALL,
+            },
+        )
+        result[group] = instance
+        if update and not created:
+            instance.project_selection = selection
+            instance.language_selection = SELECTION_ALL
+            instance.save()
         if created or update:
             instance.roles.set(role_model.objects.filter(name__in=roles), clear=True)
-        if update:
-            for key, value in defaults.items():
-                setattr(instance, key, value)
-            instance.save()
+    return result
 
 
-def create_anonymous(model, group_model, update=True):
-    user, created = model.objects.get_or_create(
-        username=settings.ANONYMOUS_USER_NAME,
-        defaults={
-            "full_name": "Anonymous",
-            "email": "noreply@weblate.org",
-            "is_active": False,
-            "password": make_password(None),
-        },
-    )
+def create_anonymous(model, group_model, update=True) -> None:
+    try:
+        user, created = model.objects.get_or_create(
+            username=settings.ANONYMOUS_USER_NAME,
+            defaults={
+                "full_name": "Anonymous",
+                "email": "noreply@weblate.org",
+                "is_active": False,
+                "password": make_password(None),
+            },
+        )
+    except IntegrityError as error:
+        raise ValueError(
+            f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
+            f"most likely because other user is using noreply@weblate.org e-mail.: {error}"
+        ) from error
     if user.is_active:
         raise ValueError(
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) already exists and is "
@@ -120,3 +129,14 @@ def create_anonymous(model, group_model, update=True):
         user.groups.set(
             group_model.objects.filter(name__in=("Guests", "Viewers")), clear=True
         )
+
+
+def format_address(display_name, email):
+    """Format e-mail address with display name."""
+    # While Address does quote the name following RFC 5322,
+    # git still doesn't like <> being used in the string
+    return str(
+        Address(
+            display_name=display_name.replace("<", "").replace(">", ""), addr_spec=email
+        )
+    )

@@ -1,24 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import subprocess
-from functools import lru_cache
+from functools import cache as functools_cache
 
 from django.core.management.utils import find_command
 
@@ -30,16 +15,15 @@ GIT_PATHS = [
 ]
 
 
-@lru_cache(maxsize=None)
+@functools_cache
 def find_git_http_backend():
     """Find Git HTTP back-end."""
     try:
         path = subprocess.run(
             ["git", "--exec-path"],
-            universal_newlines=True,
+            text=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
         ).stdout.strip()
         if path:
             GIT_PATHS.insert(0, path)

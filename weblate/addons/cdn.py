@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import json
 import os
 from uuid import uuid4
@@ -23,20 +9,25 @@ from uuid import uuid4
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.state import STATE_TRANSLATED
 
 
 class CDNJSAddon(BaseAddon):
-    events = (EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE)
+    events = (
+        AddonEvent.EVENT_DAILY,
+        AddonEvent.EVENT_POST_COMMIT,
+        AddonEvent.EVENT_POST_UPDATE,
+    )
     name = "weblate.cdn.cdnjs"
-    verbose = _("JavaScript localization CDN")
-    description = _(
+    verbose = gettext_lazy("JavaScript localization CDN")
+    description = gettext_lazy(
         "Publishes translations into content delivery network "
         "for use in JavaScript or HTML localization."
     )
@@ -50,7 +41,7 @@ class CDNJSAddon(BaseAddon):
         # Generate UUID for the CDN
         if "state" not in kwargs:
             kwargs["state"] = {"uuid": uuid4().hex}
-        return super().create_object(component, **kwargs)
+        return super().create_object(component=component, **kwargs)
 
     @classmethod
     def can_install(cls, component, user):
@@ -74,7 +65,7 @@ class CDNJSAddon(BaseAddon):
             settings.LOCALIZE_CDN_URL, self.instance.state["uuid"], "weblate.js"
         )
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         # Get list of applicable translations
         threshold = self.instance.configuration["threshold"]
         translations = [
@@ -97,17 +88,34 @@ class CDNJSAddon(BaseAddon):
                 render_to_string(
                     "addons/js/weblate.js",
                     {
-                        "languages": '", "'.join(
-                            sorted(
-                                translation.language.code
-                                for translation in translations
+                        # `mark_safe(json.dumps(` is NOT safe in HTML files. Only JS.
+                        # See `django.utils.html.json_script`
+                        "languages": mark_safe(  # noqa: S308
+                            json.dumps(
+                                sorted(
+                                    translation.language.code
+                                    for translation in translations
+                                )
                             )
                         ),
-                        "url": os.path.join(
-                            settings.LOCALIZE_CDN_URL, self.instance.state["uuid"]
+                        "url": mark_safe(  # noqa: S308
+                            json.dumps(
+                                os.path.join(
+                                    settings.LOCALIZE_CDN_URL,
+                                    self.instance.state["uuid"],
+                                )
+                            )
                         ),
-                        "cookie_name": self.instance.configuration["cookie_name"],
-                        "css_selector": self.instance.configuration["css_selector"],
+                        "cookie_name": mark_safe(  # noqa: S308
+                            json.dumps(
+                                self.instance.configuration["cookie_name"],
+                            )
+                        ),
+                        "css_selector": mark_safe(  # noqa: S308
+                            json.dumps(
+                                self.instance.configuration["css_selector"],
+                            )
+                        ),
                     },
                 )
             )
@@ -127,7 +135,7 @@ class CDNJSAddon(BaseAddon):
                     handle,
                 )
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
@@ -137,5 +145,7 @@ class CDNJSAddon(BaseAddon):
             component.id,
         )
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(
+        self, component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         self.daily(component)

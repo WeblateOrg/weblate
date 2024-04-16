@@ -12,14 +12,11 @@ Find info about current support offerings at https://weblate.org/support.
 Integrating support
 -------------------
 
-
-.. versionadded:: 3.8
-
 Purchased support packages can optionally be integrated into your Weblate
 `subscription management <https://weblate.org/user/>`_ interface, from where you will find a link to it.
 Basic instance details about your installation are also reported back to Weblate this way.
 
-.. image:: /screenshots/support.png
+.. image:: /screenshots/support.webp
 
 .. _support-data:
 
@@ -56,14 +53,10 @@ Discover Weblate
 
 .. versionadded:: 4.5.2
 
-.. note::
-
-   This feature is currently in early beta.
-
 *Discover* is an opt-in service making it easier for users to find
-other Weblate sites and communities. Users can browse registered sites on
-https://weblate.org/discover/ and find
-projects to contribute to there.
+other Weblate sites and communities.
+Users can browse registered sites and find projects to contribute to on
+https://weblate.org/discover/.
 
 Getting listed
 ++++++++++++++
@@ -77,7 +70,7 @@ Getting listed
 List your server directly from the management panel if you have an active
 support subscription (:ref:`activate-support`):
 
-.. image:: /screenshots/support-discovery.png
+.. image:: /screenshots/support-discovery.webp
 
 All steps for listing a server without a support contract:
 
@@ -85,7 +78,7 @@ All steps for listing a server without a support contract:
 2. Register your Weblate site at https://weblate.org/subscription/discovery/
 3. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
 
-.. image:: /screenshots/support-discovery.png
+.. image:: /screenshots/support-discovery.webp
 
 .. _customize-discover:
 

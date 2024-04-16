@@ -5,8 +5,7 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
+{% path_object_breadcrumbs path_object %}
 {% endblock %}
 
 {% block content %}
@@ -17,23 +16,48 @@
 
 <div class="tab-pane" id="newlang">
 
-<form action="{% url 'new-language' project=object.project.slug component=object.slug %}" method="post">
+<form action="{% url 'new-language' path=object.get_url_path %}" method="post">
 {% csrf_token %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
 {% if object.new_lang == 'url' and not can_add %}
-<p><a href="{% url 'project' project=object.project.slug %}#information">{% trans "Information on how to start translating into another language is to be found in the translator instructions." %}</a></p>
+<p><a href="{{ object.project.get_absolute_url }}#information">{% trans "The translator instructions has info on how to start translating into other languages." %}</a></p>
 {% else %}
-<p>{% trans "Please choose the language you want to translate to." %}</p>
+<p>
+  {% trans "Please choose the language you want to translate to." %}
+  {% if object.file_format_create_style == "create" %}
+    {% if object.new_base %}
+      {# Bilingual formats #}
+      {% blocktrans with new_base=object.new_base %}A translation file will be created based on <code>{{ new_base }}</code> with all strings untranslated.{% endblocktrans %}
+    {% else %}
+      {# Monolingual formats, for example JSON or Android #}
+      {% trans "An empty translation file will be created and new strings added as they are translated." %}
+    {% endif %}
+  {% elif object.file_format_create_style == "copy" %}
+    {# Documents, for example ODT, HTML, IDML #}
+    {% if object.new_base %}
+      {% blocktrans with new_base=object.new_base %}A translation file will be created as a copy of <code>{{ new_base }}</code> with all strings marked as "Needs editing" and replaced as they are translated.{% endblocktrans %}
+    {% else %}
+      {# Should not happen #}
+      Create style: {{ object.file_format_create_style }}
+    {% endif %}
+  {% elif object.file_format_create_style == "directory" %}
+    {# App store metadata #}
+    {% trans "An empty directory will be created for translations, with individual files created as strings are translated." %}
+  {% else %}
+    {# Should not happen #}
+    Create style: {{ object.file_format_create_style }}
+  {% endif %}
+</p>
 {% if object.new_lang == 'contact' and not can_add %}
-<p>{% trans "Project maintainers are notified of this request, which prompts them to add the language manually." %}</p>
+<p>{% trans "Project maintainers are notified of this request, prompting them to add the language manually." %}</p>
 {% endif %}
 {{ form|crispy }}
 {% if user_can_add_more_translation %}
   <p class="help-block"><a href="{% url 'contact' %}?t=lang">{% trans "Can't find your language in the list above?" %}</a></p>
 {% else %}
-  <p class="help-block">{% trans "This list includes only basic languages. Please contact project maintainers for adding another one." %}</p>
+  <p class="help-block">{% trans "This list includes only basic languages. Please contact project maintainers to add others." %}</p>
 {% endif %}
 </div>
 <div class="panel-footer">
@@ -48,6 +72,8 @@
 </form>
 
 </div>
+{% else %}
+  <p>{% trans "You don't have permission to start a new translation" %}</p>
 {% endif %}
 
 {% endblock %}

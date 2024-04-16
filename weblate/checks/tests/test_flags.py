@@ -1,57 +1,43 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags
+from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 
 class FlagTest(SimpleTestCase):
-    def test_parse(self):
+    def test_parse(self) -> None:
         self.assertEqual(Flags("foo, bar").items(), {"foo", "bar"})
 
-    def test_parse_blank(self):
+    def test_parse_blank(self) -> None:
         self.assertEqual(Flags("foo, bar, ").items(), {"foo", "bar"})
 
-    def test_parse_alias(self):
+    def test_parse_alias(self) -> None:
         self.assertEqual(
             Flags("foo, md-text, bar, markdown-text").items(), {"foo", "bar", "md-text"}
         )
 
-    def test_iter(self):
+    def test_iter(self) -> None:
         self.assertEqual(sorted(Flags("foo, bar")), ["bar", "foo"])
 
-    def test_parse_empty(self):
+    def test_parse_empty(self) -> None:
         self.assertEqual(Flags("").items(), set())
 
-    def test_merge(self):
+    def test_merge(self) -> None:
         self.assertEqual(Flags({"foo"}, {"bar"}).items(), {"foo", "bar"})
 
-    def test_merge_prefix(self):
+    def test_merge_prefix(self) -> None:
         self.assertEqual(Flags({("foo", "1")}, {("foo", "2")}).items(), {("foo", "2")})
 
-    def test_values(self):
+    def test_values(self) -> None:
         flags = Flags("placeholders:bar:baz")
         self.assertEqual(flags.get_value("placeholders"), ["bar", "baz"])
 
-    def test_quoted_values(self):
+    def test_quoted_values(self) -> None:
         flags = Flags(r"""placeholders:"bar: \"value\"":'baz \'value\''""")
         self.assertEqual(
             flags.get_value("placeholders"), ['bar: "value"', "baz 'value'"]
@@ -62,29 +48,33 @@ class FlagTest(SimpleTestCase):
         flags = Flags(r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
         self.assertEqual(flags.format(), r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
 
-    def test_validate_value(self):
+    def test_newline(self) -> None:
+        flags = Flags(r"""placeholders:"\n" """)
+        self.assertEqual(flags.get_value("placeholders"), ["\n"])
+
+    def test_validate_value(self) -> None:
         with self.assertRaises(ValidationError):
             Flags("max-length:x").validate()
         Flags("max-length:30").validate()
 
-    def test_validate_name(self):
+    def test_validate_name(self) -> None:
         with self.assertRaises(ValidationError):
             Flags("invalid-check-name").validate()
         with self.assertRaises(ValidationError):
             Flags("invalid-check-name:1").validate()
         Flags("ignore-max-length").validate()
 
-    def test_typed(self):
+    def test_typed(self) -> None:
         self.assertEqual(TYPED_FLAGS.keys(), TYPED_FLAGS_ARGS.keys())
 
-    def test_remove(self):
+    def test_remove(self) -> None:
         flags = Flags("placeholders:bar:baz, foo:1, bar")
         flags.remove("foo")
         self.assertEqual(flags.items(), {("placeholders", "bar", "baz"), "bar"})
         flags.remove("bar")
         self.assertEqual(flags.items(), {("placeholders", "bar", "baz")})
 
-    def test_empty_value(self):
+    def test_empty_value(self) -> None:
         flags = Flags("regex:")
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, "")
@@ -92,7 +82,7 @@ class FlagTest(SimpleTestCase):
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, "")
 
-    def test_regex(self):
+    def test_regex(self) -> None:
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, ".*")
@@ -100,7 +90,7 @@ class FlagTest(SimpleTestCase):
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, ".*")
 
-    def test_regex_value(self):
+    def test_regex_value(self) -> None:
         flags = Flags("placeholders:r")
         self.assertEqual(flags.get_value("placeholders"), ["r"])
         flags = Flags("placeholders:r:r")
@@ -111,8 +101,9 @@ class FlagTest(SimpleTestCase):
         values = flags.get_value("placeholders")
         self.assertEqual(len(values), 1)
         self.assertEqual(values[0].pattern, ".*")
+        self.assertEqual(flags.format(), 'placeholders:r".*"')
 
-    def test_whitespace(self):
+    def test_whitespace(self) -> None:
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})
         flags = Flags(
             "max-size:120:2,font-family:DIN next pro,font-spacing:2, priority:140"
@@ -130,7 +121,7 @@ class FlagTest(SimpleTestCase):
             Flags("font-family: segoeui").items(), {("font-family", "segoeui")}
         )
 
-    def test_unicode(self):
+    def test_unicode(self) -> None:
         self.assertEqual(
             Flags("zkouška, Memóriakártya").items(), {"zkouška", "Memóriakártya"}
         )
@@ -141,7 +132,7 @@ class FlagTest(SimpleTestCase):
 
     def test_replacements(
         self, text='replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99'
-    ):
+    ) -> None:
         flags = Flags(text)
         self.assertEqual(
             flags.items(),
@@ -162,18 +153,31 @@ class FlagTest(SimpleTestCase):
             ["{COLOR-GREY}", "", "{COLOR-GARNET}", "", "{VARIABLE-01}", "99"],
         )
 
-    def test_empty_params(self):
+    def test_empty_params(self) -> None:
         self.test_replacements(
             "replacements:{COLOR-GREY}::{COLOR-GARNET}::{VARIABLE-01}:99"
         )
 
-    def test_escaped_values(self):
+    def test_escaped_values(self) -> None:
         flags = Flags(r"""placeholders:"\\":"\"" """)
         self.assertEqual(flags.get_value("placeholders"), ["\\", '"'])
 
-    def test_set(self):
+    def test_set(self) -> None:
         flags = Flags()
         flags.set_value("variant", "Long string with \"quotes\" and 'quotes'.")
         self.assertEqual(
             flags.format(), r'''variant:"Long string with \"quotes\" and 'quotes'."'''
+        )
+
+    def test_validate_variant(self) -> None:
+        name = "x" * VARIANT_KEY_LENGTH
+        Flags(f"variant:{name}").validate()
+        name = "x" * (VARIANT_KEY_LENGTH + 1)
+        with self.assertRaises(ValidationError):
+            Flags(f"variant:{name}").validate()
+
+    def test_windows_path(self) -> None:
+        flags = Flags(r"Scripts\Tscripts\pages\dist\grplus.js:1046")
+        self.assertEqual(
+            flags.format(), r'"Scripts\Tscripts\pages\dist\grplus.js":1046'
         )

@@ -35,7 +35,8 @@ The Celery process (see :ref:`celery`) usually produces its own logs as well.
 The example system-wide setups logs to several files under :file:`/var/log/celery/`.
 
 Docker containers log to their output (as per usual in the Docker world), so
-you can look at the logs using ``docker-compose logs``.
+you can look at the logs using ``docker compose logs``. You can get more
+detailed logs by changing :envvar:`WEBLATE_LOGLEVEL`.
 
 .. seealso::
 
@@ -53,7 +54,7 @@ there might a related issue.
 Things to check in that case:
 
 * Check that the Celery process is running, see :ref:`celery`
-* Check the Celery queue status, either in :ref:`management-interface`, or using :djadmin:`celery_queues`
+* Check the Celery queue status, either in :ref:`management-interface`, or using :wladmin:`celery_queues`
 * Look in the Celery logs for errors (see :ref:`weblate-logs`)
 
 .. _debug-mails:
@@ -97,3 +98,11 @@ In case some requests take too long without any indication, you might
 want to install `dogslow <https://pypi.org/project/dogslow/>`_ along with
 :ref:`collecting-errors` and get pinpointed and detailed tracebacks in
 the error collection tool.
+
+In case the slow performance is linked to the database, you can also enable
+logging of all database queries using following configuration after enabling
+:setting:`DEBUG`:
+
+.. code-block:: python
+
+   LOGGING["loggers"]["django.db.backends"] = {"handlers": ["console"], "level": "DEBUG"}

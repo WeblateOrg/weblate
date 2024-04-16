@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.test import TestCase
 
@@ -27,23 +12,23 @@ class AutoGroupTest(TestCase):
     def create_user():
         return User.objects.create_user("test1", "noreply1@weblate.org", "pass")
 
-    def test_default(self):
+    def test_default(self) -> None:
         user = self.create_user()
         self.assertEqual(user.groups.count(), 2)
 
-    def test_none(self):
+    def test_none(self) -> None:
         AutoGroup.objects.all().delete()
         user = self.create_user()
         self.assertEqual(user.groups.count(), 0)
 
-    def test_matching(self):
+    def test_matching(self) -> None:
         AutoGroup.objects.create(
             match="^.*@weblate.org", group=Group.objects.get(name="Guests")
         )
         user = self.create_user()
         self.assertEqual(user.groups.count(), 3)
 
-    def test_nonmatching(self):
+    def test_nonmatching(self) -> None:
         AutoGroup.objects.create(
             match="^.*@example.net", group=Group.objects.get(name="Guests")
         )

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load humanize %}
+{% load icons %}
+{% load urlformat %}
+{% load metrics %}
+{% load permissions %}
+{% load authnames %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
+<li><a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a></li>
+<li><a href="{% url 'user_contributions' user=page_user.username %}">{% trans "Translations with contribution" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True  name_source="translation" %}
+
+{% include "paginator.html" with page_obj=page_user_translations %}
+
+{% endblock %}

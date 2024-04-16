@@ -8,15 +8,18 @@ Installing on RedHat, Fedora and CentOS
 .. code-block:: sh
 
    dnf install \
-      libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel \
-      cairo-devel pango-devel gobject-introspection-devel libacl-devel \
-      python3-pip python3-virtualenv python3-devel git
+      libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel \
+      libyaml-devel libffi-devel cairo-devel cairo-gobject-devel pango-devel \
+      gobject-introspection-devel libacl-devel python3-pip python3-virtualenv \
+      libtool-ltdl-devel python3-devel git
 
 .. include:: steps/install-system-optional.rst
 
 .. code-block:: sh
 
-    dnf install tesseract-langpack-eng tesseract-devel leptonica-devel
+    dnf install openldap-devel libsasl2-devel
+    dnf install xmlsec1-devel
+
 
 .. include:: steps/install-system-server.rst
 
@@ -36,6 +39,9 @@ Installing on RedHat, Fedora and CentOS
 
     # SMTP server
     dnf install postfix
+
+    # Gettext for the msgmerge add-on
+    dnf install gettext
 
 .. include:: steps/install-python.rst
 

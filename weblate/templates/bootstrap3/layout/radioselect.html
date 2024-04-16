@@ -6,14 +6,14 @@
 
     {% for choice in field.field.choices %}
       {% if field.name == "color" %}
-        <input type="radio"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked{% endif %} name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter0 }}" value="{{ choice.0|unlocalize }}" {% if field.field.disabled %}disabled="true"{% endif %} {{ field.field.widget.attrs|flatatt }} {% if field.field.required %}required="required"{% endif %}>{{ choice.1|unlocalize }}
-        <label for="id_{{ field.html_name }}_{{ forloop.counter0 }}" class="{% if inline_class %}radio-{{ inline_class }}{% endif %} label label-{{choice.0 }}">
+        <input type="radio"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked{% endif %} name="{{ field.html_name }}" id="{{ field.auto_id }}_{{ forloop.counter0 }}" value="{{ choice.0|unlocalize }}" {% if field.field.disabled %}disabled="true"{% endif %} {{ field.field.widget.attrs|flatatt }} {% if field.field.required %}required="required"{% endif %}>{{ choice.1|unlocalize }}
+        <label for="{{ field.auto_id }}_{{ forloop.counter0 }}" class="{% if inline_class %}radio-{{ inline_class }}{% endif %} label label-{{choice.0 }}">
             {{ choice.1|unlocalize }}
         </label>
       {% else %}
       {% if not inline_class %}<div class="radio">{% endif %}
-        <label for="id_{{ field.html_name }}_{{ forloop.counter0 }}" class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
-            <input type="radio"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked{% endif %} name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter0 }}" value="{{ choice.0|unlocalize }}" {% if field.field.disabled %}disabled="true"{% endif %} {{ field.field.widget.attrs|flatatt }} {% if field.field.required %}required="required"{% endif %}>{{ choice.1|unlocalize }}
+        <label for="{{ field.auto_id }}_{{ forloop.counter0 }}" class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
+            <input type="radio"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked{% endif %} name="{{ field.html_name }}" id="{{ field.auto_id }}_{{ forloop.counter0 }}" value="{{ choice.0|unlocalize }}" {% if field.field.disabled %}disabled="true"{% endif %} {{ field.field.widget.attrs|flatatt }} {% if field.field.required %}required="required"{% endif %}>{{ choice.1|unlocalize }}
         </label>
       {% if not inline_class %}</div>{% endif %}
       {% endif %}

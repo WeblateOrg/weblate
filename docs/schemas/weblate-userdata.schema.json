@@ -4,41 +4,61 @@
   "type": "object",
   "definitions": {},
   "title": "Weblate user data export",
-  "required": ["basic", "profile", "auditlog"],
+  "required": [
+    "basic",
+    "profile",
+    "auditlog"
+  ],
   "properties": {
     "basic": {
       "$id": "#root/basic",
       "title": "Basic",
       "type": "object",
-      "required": ["username", "full_name", "email", "date_joined"],
+      "additionalProperties": false,
+      "required": [
+        "username",
+        "full_name",
+        "email",
+        "date_joined"
+      ],
       "properties": {
         "username": {
           "$id": "#root/basic/username",
           "title": "Username",
           "type": "string",
           "default": "",
-          "examples": ["admin"]
+          "examples": [
+            "admin"
+          ]
         },
         "full_name": {
           "$id": "#root/basic/full_name",
           "title": "Full name",
           "type": "string",
           "default": "",
-          "examples": ["Weblate Admin"]
+          "examples": [
+            "Weblate Admin"
+          ]
         },
         "email": {
           "$id": "#root/basic/email",
           "title": "E-mail",
           "type": "string",
+          "format": "email",
           "default": "",
-          "examples": ["noreply@example.com"]
+          "examples": [
+            "noreply@example.com"
+          ]
         },
         "date_joined": {
           "$id": "#root/basic/date_joined",
           "title": "Date joined",
           "type": "string",
+          "format": "date-time",
           "default": "",
-          "examples": ["2019-11-18T18:53:54.862Z"]
+          "examples": [
+            "2019-11-18T18:53:54.862Z"
+          ]
         }
       }
     },
@@ -46,6 +66,7 @@
       "$id": "#root/profile",
       "title": "Profile",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "language",
         "suggested",
@@ -70,49 +91,63 @@
           "title": "Language",
           "type": "string",
           "default": "",
-          "examples": ["cs"],
-          "pattern": "^.*$"
+          "examples": [
+            "cs"
+          ],
+          "pattern": "^[^ ]*$"
         },
         "suggested": {
           "$id": "#root/profile/suggested",
           "title": "Number of suggested strings",
           "type": "integer",
-          "examples": [1],
+          "examples": [
+            1
+          ],
           "default": 0
         },
         "translated": {
           "$id": "#root/profile/translated",
           "title": "Number of translated strings",
           "type": "integer",
-          "examples": [24],
+          "examples": [
+            24
+          ],
           "default": 0
         },
         "uploaded": {
           "$id": "#root/profile/uploaded",
           "title": "Number of uploaded screenshots",
           "type": "integer",
-          "examples": [1],
+          "examples": [
+            1
+          ],
           "default": 0
         },
         "hide_completed": {
           "$id": "#root/profile/hide_completed",
           "title": "Hide completed translations on the dashboard",
           "type": "boolean",
-          "examples": [false],
+          "examples": [
+            false
+          ],
           "default": true
         },
         "secondary_in_zen": {
           "$id": "#root/profile/secondary_in_zen",
           "title": "Show secondary translations in the Zen mode",
           "type": "boolean",
-          "examples": [true],
+          "examples": [
+            true
+          ],
           "default": true
         },
         "hide_source_secondary": {
           "$id": "#root/profile/hide_source_secondary",
           "title": "Hide source if a secondary translation exists",
           "type": "boolean",
-          "examples": [false],
+          "examples": [
+            false
+          ],
           "default": true
         },
         "editor_link": {
@@ -120,21 +155,27 @@
           "title": "Editor link",
           "type": "string",
           "default": "",
-          "examples": [""],
+          "examples": [
+            ""
+          ],
           "pattern": "^.*$"
         },
         "translate_mode": {
           "$id": "#root/profile/translate_mode",
           "title": "Translation editor mode",
           "type": "integer",
-          "examples": [0],
+          "examples": [
+            0
+          ],
           "default": 0
         },
         "zen_mode": {
           "$id": "#root/profile/zen_mode",
           "title": "Zen editor mode",
           "type": "integer",
-          "examples": [0],
+          "examples": [
+            0
+          ],
           "default": 0
         },
         "special_chars": {
@@ -142,20 +183,41 @@
           "title": "Special characters",
           "type": "string",
           "default": "",
-          "examples": ["  "],
+          "examples": [
+            "  "
+          ],
           "pattern": "^.*$"
+        },
+        "theme": {
+          "$id": "#root/profile/theme",
+          "title": "Theme",
+          "type": "string",
+          "default": "auto",
+          "examples": [
+            "auto"
+          ],
+          "pattern": "^(auto|dark|light)$"
         },
         "dashboard_view": {
           "$id": "#root/profile/dashboard_view",
           "title": "Default dashboard view",
           "type": "integer",
-          "examples": [1],
+          "examples": [
+            1
+          ],
           "default": 0
         },
         "dashboard_component_list": {
           "$id": "#root/profile/dashboard_component_list",
           "title": "Default component list",
-          "anyOf": [{ "type": "null" }, { "type": "integer" }],
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer"
+            }
+          ],
           "default": null
         },
         "languages": {
@@ -168,7 +230,9 @@
             "title": "Language code",
             "type": "string",
             "default": "",
-            "examples": ["cs"],
+            "examples": [
+              "cs"
+            ],
             "pattern": "^.*$"
           }
         },
@@ -182,7 +246,9 @@
             "title": "Language code",
             "type": "string",
             "default": "",
-            "examples": ["sk"],
+            "examples": [
+              "sk"
+            ],
             "pattern": "^.*$"
           }
         },
@@ -196,7 +262,9 @@
             "title": "Project slug",
             "type": "string",
             "default": "",
-            "examples": ["weblate"],
+            "examples": [
+              "weblate"
+            ],
             "pattern": "^.*$"
           }
         }
@@ -211,38 +279,59 @@
         "$id": "#root/auditlog/items",
         "title": "Items",
         "type": "object",
-        "required": ["address", "user_agent", "timestamp", "activity"],
+        "required": [
+          "address",
+          "user_agent",
+          "timestamp",
+          "activity"
+        ],
+        "additionalProperties": false,
         "properties": {
           "address": {
             "$id": "#root/auditlog/items/address",
             "title": "IP address",
-            "type": "string",
-            "default": "",
-            "examples": ["127.0.0.1"],
-            "pattern": "^.*$"
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "default": "",
+                "examples": [
+                  "127.0.0.1"
+                ],
+                "pattern": "^.*$"
+              }
+            ]
           },
           "user_agent": {
             "$id": "#root/auditlog/items/user_agent",
             "title": "User agent",
             "type": "string",
             "default": "",
-            "examples": ["PC / Linux / Firefox 70.0"],
+            "examples": [
+              "PC / Linux / Firefox 70.0"
+            ],
             "pattern": "^.*$"
           },
           "timestamp": {
             "$id": "#root/auditlog/items/timestamp",
             "title": "Timestamp",
             "type": "string",
+            "format": "date-time",
             "default": "",
-            "examples": ["2019-11-18T18:58:30.845Z"],
-            "pattern": "^.*$"
+            "examples": [
+              "2019-11-18T18:58:30.845Z"
+            ]
           },
           "activity": {
             "$id": "#root/auditlog/items/activity",
             "title": "Activity",
             "type": "string",
             "default": "",
-            "examples": ["login"],
+            "examples": [
+              "login"
+            ],
             "pattern": "^.*$"
           }
         }

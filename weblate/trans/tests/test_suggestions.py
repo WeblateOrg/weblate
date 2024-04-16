@@ -1,28 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for sugestion views."""
+"""Tests for suggestion views."""
 
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.trans.models import Suggestion
+from weblate.trans.models import Suggestion, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -33,7 +18,7 @@ class SuggestionsTest(ViewTestCase):
     def add_suggestion_2(self):
         return self.edit_unit("Hello, world!\n", "Ahoj svete!\n", suggest="yes")
 
-    def test_add(self):
+    def test_add(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Try empty suggestion (should not be added)
         response = self.edit_unit("Hello, world!\n", "", suggest="yes")
@@ -63,7 +48,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
-    def test_add_same(self):
+    def test_add_same(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Add first suggestion
         response = self.add_suggestion_1()
@@ -88,7 +73,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_delete(self, **kwargs):
+    def test_delete(self, **kwargs) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
@@ -108,10 +93,10 @@ class SuggestionsTest(ViewTestCase):
         suggestions = self.get_unit().suggestions.values_list("pk", flat=True)
         self.assertEqual(len(suggestions), 1)
 
-    def test_delete_spam(self):
+    def test_delete_spam(self) -> None:
         self.test_delete(spam="1")
 
-    def test_accept_edit(self):
+    def test_accept_edit(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create suggestion
         self.add_suggestion_1()
@@ -123,7 +108,7 @@ class SuggestionsTest(ViewTestCase):
         response = self.edit_unit("Hello, world!\n", "", accept_edit=suggestion)
         self.assert_redirects_offset(response, translate_url, 1)
 
-    def test_accept(self):
+    def test_accept(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
@@ -153,7 +138,7 @@ class SuggestionsTest(ViewTestCase):
         self.assert_backend(1)
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_accept_anonymous(self):
+    def test_accept_anonymous(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         self.client.logout()
         # Create suggestions
@@ -180,12 +165,26 @@ class SuggestionsTest(ViewTestCase):
         # Unit should be translated
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
-    def test_vote(self):
-        translate_url = reverse("translate", kwargs=self.kw_translation)
+    def test_vote_language(self) -> None:
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            suggestion_voting=True,
+            suggestion_autoaccept=0,
+        )
+
+        self.assert_vote()
+
+    def test_vote(self) -> None:
         self.component.suggestion_voting = True
         self.component.suggestion_autoaccept = 0
         self.component.save()
 
+        self.assert_vote()
+
+    def assert_vote(self) -> None:
+        translate_url = reverse("translate", kwargs=self.kw_translation)
         self.add_suggestion_1()
 
         suggestion_id = self.get_unit().suggestions[0].pk
@@ -202,7 +201,7 @@ class SuggestionsTest(ViewTestCase):
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(suggestion.get_num_votes(), -1)
 
-    def test_vote_autoaccept(self):
+    def test_vote_autoaccept(self) -> None:
         self.add_suggestion_1()
 
         translate_url = reverse("translate", kwargs=self.kw_translation)
@@ -228,7 +227,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assert_backend(1)
 
-    def test_vote_when_same_suggestion(self):
+    def test_vote_when_same_suggestion(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         self.component.suggestion_voting = True
         self.component.suggestion_autoaccept = 0

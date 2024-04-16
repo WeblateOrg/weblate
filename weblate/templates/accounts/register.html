@@ -10,10 +10,16 @@
 
 {% block content %}
 
-
 {% if registration_email or registration_backends %}
 
 <div class="container">
+
+{% if invitation %}
+  <div class="alert alert-info">
+    {% include "snippets/invite-info.html" %}
+    {% translate "Please complete the registration to accept the invitation." %}
+  </div>
+{% endif %}
 
 {% if form.errors %}
 {% trans "Please fix errors in the registration form." as msg%}
@@ -54,7 +60,7 @@
 
 {% for name in registration_backends %}
   <div class="col-sm-6 col-xs-12 btn-auth">
-    <a class="btn btn-default link-post" href="{% url 'social:begin' name %}" {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
+    <a href="" class="btn btn-default link-post" data-href="{% url 'social:begin' name %}" {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
   </div>
 {% endfor %}
 

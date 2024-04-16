@@ -4,7 +4,7 @@
 
 /*!
  * Bootstrap v3.4.1 (https://getbootstrap.com/)
- * Copyright 2011-2020 Twitter, Inc.
+ * Copyright 2011-2022 Twitter, Inc.
  * Licensed under the MIT license
  */
 

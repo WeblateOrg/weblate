@@ -9,11 +9,6 @@ Weblate Client
 
 .. program:: wlc
 
-.. versionadded:: 2.7
-
-    There has been full wlc utility support ever since Weblate 2.7. If you are using an older version
-    some incompatibilities with the API might occur.
-
 Installation
 ++++++++++++
 
@@ -22,7 +17,7 @@ To use the commands below, you need to install :mod:`wlc`:
 
 .. code-block:: sh
 
-    pip3 install wlc
+    pip install wlc
 
 .. _docker-wlc:
 
@@ -199,7 +194,7 @@ The following commands are available:
 
     Displays repository status for a given Weblate object (translation, component or project).
 
-.. option:: statistics
+.. option:: stats
 
     Displays detailed statistics for a given Weblate object (translation, component or project).
 
@@ -268,6 +263,23 @@ The following commands are available:
 
         File from which content is read, if left unspecified it is read from stdin.
 
+    .. option:: --method
+
+        Upload method to use, see :ref:`upload-method`.
+
+    .. option:: --fuzzy
+
+        Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+
+    .. option:: --author-name
+
+        Author name, to override currently authenticated user
+
+    .. option:: --author-email
+
+        Author e-mail, to override currently authenticated user
+
+
 .. hint::
 
    You can get more detailed information on invoking individual commands by
@@ -279,14 +291,8 @@ Configuration files
 +++++++++++++++++++
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
-    .. versionchanged:: 1.6
-
-        The files with `.ini` extension are accepted as well.
-
     Per project configuration file
 :file:`C:\\Users\\NAME\\AppData\\weblate.ini`
-    .. versionadded:: 1.6
-
     User configuration file on Windows.
 :file:`~/.config/weblate`
     User configuration file
@@ -352,6 +358,12 @@ List all projects:
     url: http://example.com/api/projects/hello/
     web: https://weblate.org/
     web_url: http://example.com/projects/hello/
+
+Upload translation file:
+
+.. code-block:: sh
+
+   $ wlc upload project/component/language --input /tmp/hello.po
 
 You can also designate what project wlc should work on:
 

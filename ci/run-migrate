@@ -1,7 +1,12 @@
 #!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Migrations test executor
 
-. ci/lib
+. ci/lib.sh
 
 if [ -n "$1" ] ; then
     TAG="weblate-$1"
@@ -10,33 +15,26 @@ else
     exit 1
 fi
 
-if [ "$TAG" = "weblate-4.5" -a "$CI_DATABASE" = "mysql" ] ; then
-    echo "Weblate 4.5 was not installable on MySQL with utf8mb4"
-    exit 0
-fi
-
 HEAD_COMMIT=$(git rev-parse HEAD)
 
 print_step "Testing migration from $TAG on $CI_DATABASE..."
 cleanup_database
 check
-git fetch --depth 1 origin tag $TAG
-if [ $? -ne 0 ] ; then
+if ! git fetch --depth 1 origin tag "$TAG" ; then
     git remote add upstream https://github.com/WeblateOrg/weblate.git
-    git fetch --depth 1 upstream tag $TAG
+    git fetch --depth 1 upstream tag "$TAG"
 fi
 check
-git checkout $TAG
+git checkout "$TAG"
 check
 # Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-virtualenv .venv-$TAG
+virtualenv --python python3.11 ".venv-$TAG"
 check
-. .venv-$TAG/bin/activate
-# Use older psycopg2 for compatibility with older Django releases
-pip install psycopg2-binary==2.7.7
-# Use specific Selenium versions to avoid issues with pip resolver
-pip install selenium==4.0.0a6.post2
-pip install -r requirements-test.txt -r docs/requirements.txt
+# shellcheck source=/dev/null
+. ".venv-$TAG/bin/activate"
+# Workaround for SystemError: ffi_prep_closure(): bad user_data
+pip install --no-binary :all: cffi
+pip install -e ".[all,mysql]"
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check
@@ -54,6 +52,9 @@ check
 check
 # Load basic project fixture
 ./manage.py loaddata simple-project.json
+check
+# Force creating project groups
+./manage.py shell -c 'from weblate.trans.models import Project; [project.save() for project in Project.objects.iterator()]'
 check
 # Enable suggestion voting
 ./manage.py shell -c 'from weblate.trans.models import Component; Component.objects.all().update(suggestion_voting=True, suggestion_autoaccept=2)'
@@ -73,20 +74,12 @@ if [ -f ./weblate/trans/tests/data/memory.json ] ; then
     ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
     check
 fi
-# Create glossaries
-if [ "$TAG" = "weblate-4.4" ] ; then
-    ./manage.py shell -c 'from weblate.lang.models import Language; from weblate.glossary.models import Glossary; from weblate.trans.models import Component; component = Component.objects.first(); glossary = Glossary.objects.create(project=component.project, name="Test Glossary", source_language=component.source_language, color="navy"); glossary.term_set.create(user=None, language=Language.objects.get(code="cs"), source="hello", target="ahoj")'
-    check
-fi
 git reset --hard
 check
-git checkout $HEAD_COMMIT
+git checkout "$HEAD_COMMIT"
 check
-# Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-virtualenv .venv-$TAG-upgrade
-check
-. .venv-$TAG-upgrade/bin/activate
-pip install -r requirements-test.txt -r docs/requirements.txt
+# Use CI environment
+deactivate
 check
 run_coverage ./manage.py migrate
 check

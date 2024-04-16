@@ -7,6 +7,7 @@
     devel/gettext
     devel/sphinx
     devel/html
+    devel/thirdparty
     devel/alerts
     devel/community
     devel/translations

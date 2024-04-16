@@ -1,24 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for check views."""
-
 
 from django.urls import reverse
 
@@ -28,63 +12,51 @@ from weblate.trans.tests.test_views import ViewTestCase
 class ChecksViewTest(ViewTestCase):
     """Testing of check views."""
 
-    def test_browse(self):
+    def test_browse(self) -> None:
         response = self.client.get(reverse("checks"))
         self.assertContains(response, "/same/")
 
-        response = self.client.get(reverse("checks"), {"lang": "de"})
-        self.assertContains(response, "/same/")
-
-        response = self.client.get(reverse("checks"), {"project": self.project.slug})
+        response = self.client.get(reverse("checks"), kwargs={"path": ("-", "-", "de")})
         self.assertContains(response, "/same/")
 
         response = self.client.get(
-            reverse("checks"),
-            {"project": self.project.slug, "component": self.component.slug},
+            reverse("checks"), kwargs={"path": self.project.get_url_path()}
         )
         self.assertContains(response, "/same/")
-
-    def test_check(self):
-        response = self.client.get(reverse("show_check", kwargs={"name": "same"}))
-        self.assertContains(response, "/same/")
-
-        response = self.client.get(reverse("show_check", kwargs={"name": "ellipsis"}))
-        self.assertContains(response, "…")
 
         response = self.client.get(
-            reverse("show_check", kwargs={"name": "not-existing"})
+            reverse("checks"), kwargs={"path": self.component.get_url_path()}
         )
+        self.assertContains(response, "/same/")
+
+    def test_check(self) -> None:
+        response = self.client.get(reverse("checks", kwargs={"name": "same"}))
+        self.assertContains(response, "/same/")
+
+        response = self.client.get(reverse("checks", kwargs={"name": "ellipsis"}))
+        self.assertContains(response, "checks.html#check-ellipsis")
+
+        response = self.client.get(reverse("checks", kwargs={"name": "not-existing"}))
         self.assertEqual(response.status_code, 404)
 
         response = self.client.get(
-            reverse("show_check", kwargs={"name": "same"}),
+            reverse("checks", kwargs={"name": "same"}),
             {"project": self.project.slug},
         )
-        self.assertRedirects(
-            response,
-            reverse(
-                "show_check_project",
-                kwargs={"name": "same", "project": self.project.slug},
-            ),
-        )
-        response = self.client.get(
-            reverse("show_check", kwargs={"name": "same"}), {"lang": "de"}
-        )
-        self.assertContains(response, "/checks/same/test/?lang=de")
 
-    def test_project(self):
+    def test_project(self) -> None:
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "same", "project": self.project.slug},
+                "checks",
+                kwargs={"name": "same", "path": self.project.get_url_path()},
             )
         )
         self.assertContains(response, "/same/")
 
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "same", "project": self.project.slug},
+                "checks",
+                kwargs={"name": "same", "path": self.project.get_url_path()},
             ),
             {"lang": "cs"},
         )
@@ -92,40 +64,35 @@ class ChecksViewTest(ViewTestCase):
 
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "ellipsis", "project": self.project.slug},
+                "checks",
+                kwargs={"name": "ellipsis", "path": self.project.get_url_path()},
             )
         )
-        self.assertContains(response, "…")
+        self.assertContains(response, "checks.html#check-ellipsis")
 
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "non-existing", "project": self.project.slug},
+                "checks",
+                kwargs={"name": "non-existing", "path": self.project.get_url_path()},
             )
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_component(self):
+    def test_component(self) -> None:
         response = self.client.get(
             reverse(
-                "show_check_component",
-                kwargs={
-                    "name": "same",
-                    "project": self.project.slug,
-                    "component": self.component.slug,
-                },
+                "checks",
+                kwargs={"name": "same", "path": self.component.get_url_path()},
             )
         )
         self.assertContains(response, "/same/")
 
         response = self.client.get(
             reverse(
-                "show_check_component",
+                "checks",
                 kwargs={
                     "name": "multiple_failures",
-                    "project": self.project.slug,
-                    "component": self.component.slug,
+                    "path": self.component.get_url_path(),
                 },
             )
         )
@@ -133,12 +100,8 @@ class ChecksViewTest(ViewTestCase):
 
         response = self.client.get(
             reverse(
-                "show_check_component",
-                kwargs={
-                    "name": "non-existing",
-                    "project": self.project.slug,
-                    "component": self.component.slug,
-                },
+                "checks",
+                kwargs={"name": "non-existing", "path": self.component.get_url_path()},
             )
         )
         self.assertEqual(response.status_code, 404)

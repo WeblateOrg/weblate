@@ -17,19 +17,14 @@ Bugs might also be caused by third party libraries, so please include
 their versions as well. You can collect them all using:
 `weblate list_versions`.
 
-[1]: https://github.com/WeblateOrg/weblate/issues
-
 ## Patch submission
 
 Patches are welcome, either as [pull requests on GitHub][2] or using e-mail on
 [the mailing list][3]
 
-[2]: https://github.com/WeblateOrg/weblate/pulls
-[3]: https://lists.cihar.com/postorius/lists/weblate.lists.cihar.com/
-
 ## Running the development version locally
 
-If you have Docker and docker-compose installed, you can spin up the development
+If you have Docker and docker-compose-plugin installed, you can spin up the development
 environment by running:
 
 ```
@@ -41,3 +36,7 @@ environment by running:
 To be found on the website:
 
 https://weblate.org/contribute/
+
+[1]: https://github.com/WeblateOrg/weblate/issues
+[2]: https://github.com/WeblateOrg/weblate/pulls
+[3]: https://lists.cihar.com/postorius/lists/weblate.lists.cihar.com/

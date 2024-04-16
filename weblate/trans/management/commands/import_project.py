@@ -1,21 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
 import os
 import re
 import tempfile
@@ -31,7 +18,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.util import is_repo_link
 from weblate.utils.files import remove_tree
 from weblate.utils.management.base import BaseCommand
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 
@@ -40,18 +27,18 @@ class Command(BaseCommand):
 
     help = "imports projects with more components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--name-template",
             default="{{ component }}",
-            help="Template string, transforming the filemask match to a project name",
+            help="Template string, transforming the file mask match to a project name",
         )
         parser.add_argument(
             "--base-file-template",
             default="",
             help=(
-                "Template string, transforming the filemask "
+                "Template string, transforming the file mask "
                 "match to a monolingual base filename"
             ),
         )
@@ -59,7 +46,7 @@ class Command(BaseCommand):
             "--new-base-template",
             default="",
             help=(
-                "Template string, transforming the filemask "
+                "Template string, transforming the file mask "
                 "match to a base filename for new translations"
             ),
         )
@@ -78,9 +65,6 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--license", default="", help="License of imported components"
-        )
-        parser.add_argument(
-            "--license-url", default="", help="License URL of imported components"
         )
         parser.add_argument(
             "--vcs", default=settings.DEFAULT_VCS, help="Version control system to use"
@@ -126,36 +110,35 @@ class Command(BaseCommand):
         parser.add_argument("branch", help="VCS repository branch")
         parser.add_argument("filemask", help="File mask")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.filemask = None
-        self.component_re = None
-        self.file_format = None
-        self.language_regex = None
-        self.license = None
-        self.main_component = None
-        self.name_template = None
-        self.source_language = None
-        self.base_file_template = None
-        self.new_base_template = None
-        self.vcs = None
-        self.push_url = None
+        self.filemask: str
+        self.file_format: str
+        self.language_regex: str
+        self.license: str
+        self.main_component: None | str = None
+        self.name_template: str
+        self.source_language: str
+        self.base_file_template: str
+        self.new_base_template: str
+        self.vcs: str
+        self.push_url: str
+        self.discovery: ComponentDiscovery | None = None
         self.logger = LOGGER
         self.push_on_commit = True
-        self.discovery = None
 
     def checkout_tmp(self, project, repo, branch):
         """Checkout project to temporary location."""
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.full_path)
         # Make the temporary directory readable by others
-        os.chmod(workdir, 0o755)  # nosec
+        os.chmod(workdir, 0o755)  # noqa: S103, nosec
 
         # Initialize git repository
         self.logger.info("Cloning git repository...")
         try:
             gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir, branch)
-        except RepositoryException as error:
+        except RepositoryError as error:
             raise CommandError(f"Failed clone: {error}")
         self.logger.info("Updating working copy in git repository...")
         with gitrepo.lock:
@@ -163,7 +146,7 @@ class Command(BaseCommand):
 
         return workdir
 
-    def parse_options(self, repo, options):
+    def parse_options(self, repo, options) -> None:
         """Parse parameters."""
         self.filemask = options["filemask"]
         self.vcs = options["vcs"]
@@ -211,7 +194,7 @@ class Command(BaseCommand):
                 compiled = re.compile(self.filemask)
             except re.error as error:
                 raise CommandError(
-                    f'Failed to compile regular expression "{self.filemask}": {error}'
+                    f"Could not compile regular expression {self.filemask!r}: {error}"
                 )
             if (
                 "component" not in compiled.groupindex
@@ -222,7 +205,7 @@ class Command(BaseCommand):
                     '"component" and/or "language"'
                 )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """Automatic import of project."""
         # Read params
         repo = options["repo"]
@@ -248,7 +231,7 @@ class Command(BaseCommand):
                     component = component.linked_component
             except Component.DoesNotExist:
                 raise CommandError(
-                    f'Component "{repo}" not found, please create it first!'
+                    f"Component {repo!r} not found, please create it first!"
                 )
         else:
             component = self.import_initial(project, repo, branch)
@@ -287,7 +270,7 @@ class Command(BaseCommand):
             self.logger.info("Found %d languages", len(langs))
 
             # Do some basic sanity check on languages
-            if Language.objects.filter(code__in=langs).count() == 0:
+            if not Language.objects.filter(code__in=langs).exists():
                 raise CommandError(
                     "None of matched languages exists, maybe you have "
                     "mixed * and ** in the mask?"
@@ -324,7 +307,7 @@ class Command(BaseCommand):
                     continue
             # Pick random
             if component is None:
-                match = list(discovery.matched_components.values())[0]
+                match = next(iter(discovery.matched_components.values()))
 
         try:
             if component is None:
