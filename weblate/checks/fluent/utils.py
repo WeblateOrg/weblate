@@ -184,7 +184,7 @@ class FluentPatterns:
                     else:
                         # Remove the leading "\u" or "\U" and convert hex
                         # sequence to a number.
-                        unicode_point = int(chars[2:], 16)
+                        unicode_point = int(chars[2:], 16)  # noqa: FURB166
                         try:
                             # Try unescape the unicode sequence.
                             literal += chr(unicode_point)
