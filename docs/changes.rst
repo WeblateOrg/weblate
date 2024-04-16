@@ -4,7 +4,8 @@ Weblate 5.5
 Not yet released.
 
 **New features**
-* :ref:`addons` Enable project-wide and site-wide addons.
+
+* :ref:`addons` can be now installed project-wide and site-wide.
 
 * API improvements
 
