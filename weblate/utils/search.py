@@ -519,10 +519,13 @@ class UserTermExpr(BaseTermExpr):
         return super().field_extra(field, query, match)
 
     def contributes_field(self, text, context: dict):
+        from weblate.trans.models import Component
+
         if "/" in text:
-            project, component = text.split("/", 1)
-            query = Q(change__project__slug__iexact=project) & Q(
-                change__component__slug__iexact=component
+            query = Q(
+                change__component_id__in=list(
+                    Component.objects.filter_by_path(text).values_list("id", flat=True)
+                )
             )
         else:
             query = Q(change__project__slug__iexact=text)

@@ -85,9 +85,7 @@ class RebuildView(MemoryFormView):
         component_id = None
         if origin:
             try:
-                component_id = project.component_set.get(
-                    slug=origin.split("/", 1)[-1]
-                ).id
+                component_id = project.component_set.get_by_path(origin).id
             except ObjectDoesNotExist:
                 raise PermissionDenied
         # Delete private entries

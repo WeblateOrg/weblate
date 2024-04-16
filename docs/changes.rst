@@ -36,6 +36,7 @@ Not yet released.
 * Fixed categories listing on per-language pages.
 * Fixed :guilabel:`Needs editing` state calculation.
 * Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`.
+* Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:`auto-translation`.
 
 **Compatibility**
 

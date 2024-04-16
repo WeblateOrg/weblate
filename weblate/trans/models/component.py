@@ -266,11 +266,11 @@ class ComponentQuerySet(models.QuerySet):
             "pull_message",
         )
 
-    def get_linked(self, val):
-        """Return component for linked repo."""
-        if not is_repo_link(val):
-            return None
-        project, *categories, component = val[10:].split("/")
+    def filter_by_path(self, path: str) -> ComponentQuerySet:
+        try:
+            project, *categories, component = path.split("/")
+        except ValueError:
+            raise Component.DoesNotExist
         kwargs = {}
         prefix = ""
         for category in reversed(categories):
@@ -278,7 +278,18 @@ class ComponentQuerySet(models.QuerySet):
             prefix = f"category__{prefix}"
         if not kwargs:
             kwargs["category"] = None
-        return self.get(slug__iexact=component, project__slug__iexact=project, **kwargs)
+        return self.filter(
+            slug__iexact=component, project__slug__iexact=project, **kwargs
+        )
+
+    def get_by_path(self, path: str) -> Component:
+        return self.filter_by_path(path).get()
+
+    def get_linked(self, val):
+        """Return component for linked repo."""
+        if not is_repo_link(val):
+            return None
+        return self.get_by_path(val[10:])
 
     def order_project(self):
         """Ordering in global scope by project name."""

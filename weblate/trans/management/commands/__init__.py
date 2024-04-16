@@ -92,15 +92,12 @@ class WeblateComponentCommand(BaseCommand):
 
             # process arguments
             for arg in options["component"]:
-                # do we have also component?
-                parts = arg.split("/")
-
-                # filter by project
-                found = base.filter(project__slug=parts[0])
-
-                # filter by component if available
-                if len(parts) == 2:
-                    found = found.filter(slug=parts[1])
+                if "/" in arg:
+                    # filter by component
+                    found = base.filter_by_path(arg)
+                else:
+                    # filter by project
+                    found = base.filter(project__slug=arg)
 
                 # warn on no match
                 if not found.exists():

@@ -1008,25 +1008,16 @@ class AutoForm(forms.Form):
                 result = self.components.get(pk=component)
             except Component.DoesNotExist:
                 raise ValidationError(gettext("Component not found!"))
+        elif "/" not in component:
+            try:
+                result = self.components.get(slug=component, project=self.obj.project)
+            except Component.DoesNotExist:
+                raise ValidationError(gettext("Component not found!"))
         else:
-            slashes = component.count("/")
-            if slashes == 0:
-                try:
-                    result = self.components.get(
-                        slug=component, project=self.obj.project
-                    )
-                except Component.DoesNotExist:
-                    raise ValidationError(gettext("Component not found!"))
-            elif slashes == 1:
-                project_slug, component_slug = component.split("/")
-                try:
-                    result = self.components.get(
-                        slug=component_slug, project__slug=project_slug
-                    )
-                except Component.DoesNotExist:
-                    raise ValidationError(gettext("Component not found!"))
-            else:
-                raise ValidationError(gettext("Please provide valid component slug!"))
+            try:
+                result = self.components.get_by_path(component)
+            except Component.DoesNotExist:
+                raise ValidationError(gettext("Component not found!"))
         if result.source_language != self.obj.source_language:
             raise ValidationError(
                 gettext(
