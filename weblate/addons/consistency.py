@@ -26,10 +26,12 @@ class LangaugeConsistencyAddon(BaseAddon):
         language_consistency.delay(
             self.instance.id,
             [language.id for language in component.project.languages],
+            component.project_id,
         )
 
     def post_add(self, translation) -> None:
         language_consistency.delay(
             self.instance.id,
             [translation.language_id],
+            translation.component.project_id,
         )

@@ -834,7 +834,7 @@ class Plural(models.Model):
     @cached_property
     def plural_function(self):
         try:
-            return c2py(self.formula if self.formula else "0")
+            return c2py(self.formula or "0")
         except ValueError as error:
             raise ValueError(f"Could not compile formula {self.formula!r}: {error}")
 

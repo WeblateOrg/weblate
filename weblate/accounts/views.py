@@ -226,7 +226,7 @@ def mail_admins_contact(request, subject, message, context, sender, to) -> None:
 def redirect_profile(page=""):
     url = reverse("profile")
     if page and ANCHOR_RE.match(page):
-        url = url + page
+        url = f"{url}{page}"
     return HttpResponseRedirect(url)
 
 
@@ -801,7 +801,7 @@ def register(request):
     # Get list of allowed backends
     backends = get_auth_keys()
     if settings.REGISTRATION_ALLOW_BACKENDS and not invitation:
-        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
+        backends &= set(settings.REGISTRATION_ALLOW_BACKENDS)
     elif not registration_open:
         backends = set()
 

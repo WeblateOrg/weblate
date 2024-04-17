@@ -191,7 +191,7 @@ validate_email = EmailValidator()
 
 def validate_plural_formula(value) -> None:
     try:
-        c2py(value if value else "0")
+        c2py(value or "0")
     except ValueError as error:
         raise ValidationError(
             gettext("Could not evaluate plural formula: {}").format(error)

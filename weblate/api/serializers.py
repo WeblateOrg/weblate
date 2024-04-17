@@ -1375,18 +1375,35 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         read_only=True,
         strip_parts=1,
     )
+    project = serializers.HyperlinkedRelatedField(
+        view_name="api:project-detail",
+        lookup_field="slug",
+        read_only=True,
+    )
     configuration = serializers.JSONField(required=False)
 
     class Meta:
         model = Addon
         fields = (
             "component",
+            "project",
             "name",
             "id",
             "configuration",
             "url",
         )
         extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
+
+    @staticmethod
+    def check_addon(name, queryset):
+        installed = set(queryset.values_list("name", flat=True))
+        available = {
+            x.name for x in ADDONS.values() if x.multiple or x.name not in installed
+        }
+        if name not in available:
+            raise serializers.ValidationError(
+                {"name": f"Add-on already installed: {name}"}
+            )
 
     def validate(self, attrs):
         instance = self.instance
@@ -1400,7 +1417,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                     {"name": "Can not change add-on name"}
                 )
         # Update or create
-        component = instance.component if instance else self._context["component"]
+        component = instance.component if instance else self._context.get("component")
+        project = instance.project if instance else self._context.get("project")
 
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:
@@ -1411,25 +1429,24 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
 
         # Don't allow duplicate add-ons
-        if not instance:
-            installed = set(
-                Addon.objects.filter_component(component).values_list("name", flat=True)
-            )
-            available = {
-                x.name for x in ADDONS.values() if x.multiple or x.name not in installed
-            }
-            if name not in available:
-                raise serializers.ValidationError(
-                    {"name": f"Add-on already installed: {name}"}
-                )
-
         addon = addon_class(Addon())
-        if not addon.can_install(component, None):
-            raise serializers.ValidationError(
-                {"name": f"could not enable add-on {name}, not compatible"}
-            )
+        if not instance:
+            if component:
+                self.check_addon(name, Addon.objects.filter_component(component))
+                if not addon.can_install(component, None):
+                    raise serializers.ValidationError(
+                        {"name": f"could not enable add-on {name}, not compatible"}
+                    )
+            if project:
+                self.check_addon(name, Addon.objects.filter_project(project))
+
         if addon.has_settings() and "configuration" in attrs:
-            form = addon.get_add_form(None, component, data=attrs["configuration"])
+            form = addon.get_add_form(
+                None,
+                component=component,
+                project=project,
+                data=attrs["configuration"],
+            )
             form.is_valid()
             if not form.is_valid():
                 raise serializers.ValidationError(

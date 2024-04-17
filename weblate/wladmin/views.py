@@ -77,6 +77,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
     ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
+    ("addons", "manage-addons", gettext_lazy("Add-ons")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)

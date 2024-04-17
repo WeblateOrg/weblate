@@ -1168,7 +1168,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         scheme_regex = r"^[a-z]+:\/\/.*"  # matches for example ssh://* and https://*
 
         if not re.match(scheme_regex, repo):
-            repo = "ssh://" + repo  # assume all links without schema are ssh links
+            repo = f"ssh://{repo}"  # assume all links without schema are ssh links
 
         (scheme, host, owner, slug) = super().parse_repo_url(repo)
 

@@ -4136,6 +4136,51 @@ class AddonAPITest(APIBaseTest):
         )
         self.assertEqual(self.component.addon_set.get().configuration, expected)
 
+    def create_project_addon(
+        self, superuser=True, code=201, name="weblate.consistency.languages", **request
+    ):
+        request["name"] = name
+        return self.do_request(
+            "api:project-addons",
+            kwargs=self.project_kwargs,
+            method="post",
+            code=code,
+            superuser=superuser,
+            format="json",
+            request=request,
+        )
+
+    def test_create_project_addon(self):
+        # Not authenticated user
+        response = self.create_project_addon(code=403, superuser=False)
+        self.assertFalse(self.component.project.addon_set.exists())
+        # Non existing addon
+        response = self.create_project_addon(name="invalid.addon", code=400)
+        self.assertFalse(self.component.project.addon_set.exists())
+        # Success
+        response = self.create_project_addon()
+        self.assertTrue(
+            self.component.project.addon_set.filter(pk=response.data["id"]).exists()
+        )
+        # Existing
+        response = self.create_project_addon(code=400)
+
+    def test_delete_project_addon(self):
+        response = self.create_project_addon()
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
 
 class CategoryAPITest(APIBaseTest):
     def create_category(self, code: int = 201, **kwargs):

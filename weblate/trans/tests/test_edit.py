@@ -289,7 +289,7 @@ class EditResxTest(EditTest):
 
     def create_component(self):
         component = self.create_resx()
-        ResxUpdateAddon.create(component)
+        ResxUpdateAddon.create(component=component)
         return component
 
 

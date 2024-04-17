@@ -179,7 +179,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
     `DeepL translator <https://www.deepl.com/translator>`_,
     `DeepL pricing <https://www.deepl.com/pro>`_,
-    `DeepL API documentation <https://www.deepl.com/docs-api.html>`_
+    `DeepL API documentation <https://developers.deepl.com/docs>`_
 
 .. _mt-glosbe:
 

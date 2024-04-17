@@ -15,7 +15,7 @@ from lxml import html
 from weblate.addons.events import AddonEvent
 from weblate.addons.models import Addon, handle_addon_event
 from weblate.lang.models import Language
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -76,9 +76,11 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def language_consistency(addon_id: int, language_ids: list[int]) -> None:
+def language_consistency(
+    addon_id: int, language_ids: list[int], project_id: int
+) -> None:
     addon = Addon.objects.get(pk=addon_id)
-    project = addon.component.project
+    project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
     request = HttpRequest()
     request.user = addon.addon.user

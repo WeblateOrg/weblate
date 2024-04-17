@@ -501,18 +501,8 @@ class UserQueryParserTest(TestCase, SearchMixin):
             ),
         )
         self.assert_query(
-            "contributes:test/other",
-            Q(change__project__slug__iexact="test")
-            & Q(change__component__slug__iexact="other")
-            & Q(
-                change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
-                - timedelta(days=30)
-            ),
-        )
-        self.assert_query(
-            "contributes:test/other/bad",
-            Q(change__project__slug__iexact="test")
-            & Q(change__component__slug__iexact="other/bad")
+            "contributes:test/test",
+            Q(change__component_id__in=[])
             & Q(
                 change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
                 - timedelta(days=30)
