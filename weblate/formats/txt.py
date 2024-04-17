@@ -126,6 +126,7 @@ class AppStoreParser(MultiParser):
         ("marketing_url.txt", "max-length:256, url"),
         ("privacy_url.txt", "max-length:256, url"),
         ("support_url.txt", "max-length:256, url"),
+        ("antifeatures/*.txt", "max-length:500"),
         ("changelogs/*.txt", "max-length:500"),
         ("*.txt", ""),
     )
