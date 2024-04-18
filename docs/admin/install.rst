@@ -186,58 +186,63 @@ Django REST Framework
        - Weblate feature
 
 
-     * - ``Amazon``
+     * - ``alibaba``
+       - `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
+       - :ref:`mt-alibaba`
+
+     * - ``amazon``
        - `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
 
 
-     * - ``LDAP``
-       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
-       - :ref:`ldap-auth`
-
-
-     * - ``zxcvbn``
-       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
-       - :ref:`password-authentication`
-
-
-     * - ``Gerrit``
-       - `git-review <https://pypi.org/project/git-review>`_
-       - :ref:`vcs-gerrit`
-
-
-     * - ``Google``
-       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
-       - :ref:`mt-google-translate-api-v3`
-
-
-     * - ``Mercurial``
-       - `mercurial <https://pypi.org/project/mercurial>`_
-       - :ref:`vcs-mercurial`
-
-
-     * - ``MySQL``
-       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
-       - MySQL or MariaDB, see :ref:`database-setup`
-
-     * - ``OpenAI``
-       - `openai <https://pypi.org/project/openai>`_
-       - :ref:`mt-openai`
-
-     * - ``Postgres``
-       - `psycopg <https://pypi.org/project/psycopg>`_
-       - PostgreSQL, see :ref:`database-setup`
-
-
-     * - ``Antispam``
+     * - ``antispam``
        - `python-akismet <https://pypi.org/project/python-akismet>`_
        - :ref:`spam-protection`
 
 
-     * - ``SAML``
+     * - ``gerrit``
+       - `git-review <https://pypi.org/project/git-review>`_
+       - :ref:`vcs-gerrit`
+
+
+     * - ``google``
+       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+       - :ref:`mt-google-translate-api-v3`
+
+
+     * - ``ldap``
+       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - :ref:`ldap-auth`
+
+
+
+     * - ``mercurial``
+       - `mercurial <https://pypi.org/project/mercurial>`_
+       - :ref:`vcs-mercurial`
+
+
+     * - ``mysql``
+       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
+       - MySQL or MariaDB, see :ref:`database-setup`
+
+
+     * - ``openai``
+       - `openai <https://pypi.org/project/openai>`_
+       - :ref:`mt-openai`
+
+     * - ``postgres``
+       - `psycopg <https://pypi.org/project/psycopg>`_
+       - PostgreSQL, see :ref:`database-setup`
+
+
+
+     * - ``saml``
        - `python3-saml <https://pypi.org/project/python3-saml>`_
        - :ref:`saml-auth`
 
+     * - ``zxcvbn``
+       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
 
