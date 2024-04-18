@@ -17,7 +17,7 @@ pip install $(sed -n 's/.*"\(wheel==\([^"]*\)\)".*/\1/p' pyproject.toml)
 pip install --no-binary :all: cffi
 
 if [ "${1:-latest}" = migrations ] ; then
-    pip install -e ".[all,mysql,ci]"
+    pip install --no-binary=lxml -e ".[all,mysql,ci]"
 else
     if [ "${1:-latest}" = minimal ] ; then
         # Adjust deps to force minimal version
@@ -25,12 +25,12 @@ else
     fi
 
     if [ "${1:-latest}" = mypy ] ; then
-      pip install -e ".[all,mysql,ci,mypy,test]"
+      pip install --no-binary=lxml -e ".[all,mysql,ci,mypy,test]"
     else
-      pip install -e ".[all,mysql,ci,test]"
+      pip install --no-binary=lxml -e ".[all,mysql,ci,test]"
     fi
     if [ "${1:-latest}" = edge ] ; then
-        pip install --upgrade-strategy eager -U -e ".[all,mysql,test,ci]"
+        pip install --no-binary=lxml --upgrade-strategy eager -U -e ".[all,mysql,test,ci]"
         # Install from git / pre-release
         pip install --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
         pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip
