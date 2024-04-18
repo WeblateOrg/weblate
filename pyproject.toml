@@ -196,7 +196,8 @@ Twitter = "https://twitter.com/WeblateOrg"
 target-version = ['py310']
 
 [tool.codespell]
-skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
+count = true
+skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,yarn.lock,known_hosts,*/vendor/*'
 
 [tool.django-stubs]
 django_settings_module = "weblate.settings_example"

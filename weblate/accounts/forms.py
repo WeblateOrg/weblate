@@ -181,7 +181,7 @@ class CommitForm(ProfileBaseForm):
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
         help_text=gettext_lazy(
-            "Used in version control commits. The address will stay in the repository forever once changes are commited by Weblate."
+            "Used in version control commits. The address will stay in the repository forever once changes are committed by Weblate."
         ),
         required=False,
         widget=forms.RadioSelect,
