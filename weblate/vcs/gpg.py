@@ -71,7 +71,7 @@ def get_gpg_key(silent=False) -> str | None:
         gpg_error("GPG key listing", error, silent)
         return None
     for line in result.stdout.splitlines():
-        if not line.startswith("fpr:"):
+        if not line.startswith("fpr:"):  # codespell:ignore fpr
             continue
         return line.split(":")[9]
     return None

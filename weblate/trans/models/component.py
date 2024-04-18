@@ -182,7 +182,7 @@ AZURE_REPOS_REGEXP = [
 
 
 def perform_on_link(func):
-    """Perfom operation on repository link."""
+    """Perform operation on repository link."""
 
     def on_link_wrapper(self, *args, **kwargs):
         linked = self.linked_component
@@ -1909,10 +1909,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @cached_property
     def linked_childs(self):
         """Return list of components which links repository to us."""
-        childs = self.component_set.prefetch()
-        for child in childs:
+        children = self.component_set.prefetch()
+        for child in children:
             child.linked_component = self
-        return childs
+        return children
 
     def get_linked_childs_for_template(self):
         return [

@@ -12,7 +12,7 @@ class DummyTranslation(MachineTranslation):
 
     def download_languages(self):
         """
-        List supported languges.
+        List supported languages.
 
         Dummy translation supports just Czech language.
         """
@@ -28,7 +28,7 @@ class DummyTranslation(MachineTranslation):
         threshold: int = 75,
     ) -> DownloadTranslations:
         """
-        Donwload translations.
+        Download translations.
 
         Dummy translation supports just few phrases.
         """

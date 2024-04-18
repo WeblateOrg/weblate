@@ -73,7 +73,7 @@ class MiddlewareTestCase(FixtureTestCase):
         self.assertIn("Hindi translation is currently not available", messages[0])
 
     def test_redirect_category(self) -> None:
-        # Non existing category should be ommitted
+        # Non existing category should be omitted
         kwargs = {
             "path": [
                 self.project.slug,

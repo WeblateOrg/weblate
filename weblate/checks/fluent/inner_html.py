@@ -620,7 +620,7 @@ class _FluentInnerHTMLCheck:
         """Parse an end tag, starting after the "</"."""
         end_tag_match = source.match(cls._END_TAG_REGEX)
         if not end_tag_match:
-            # May correspond to using a non-ASCII alpha-numeric value in the tag
+            # May correspond to using a non-ASCII alphanumeric value in the tag
             # name, which whilst technically allowed for HTML, is not allowed by
             # this check.
             #
