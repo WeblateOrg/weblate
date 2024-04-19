@@ -3024,6 +3024,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             fullname, self.source_language, self.get_new_base_filename()
         )
 
+        # Skip commit in case Component is not yet saved (called during validation)
+        if not self.pk:
+            return
+
         with self.repository.lock:
             self.commit_files(
                 template=self.add_message,
