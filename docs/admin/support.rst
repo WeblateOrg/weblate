@@ -89,4 +89,4 @@ Listing customization
 +++++++++++++++++++
 
 You are encouraged to provide an image (570 x 260 pixels) and description of your Weblate site
-at <https://weblate.org/user/>. This improves your instance’s visibility in the list.
+at https://weblate.org/user/. This improves your instance’s visibility in the list.
