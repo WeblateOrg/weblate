@@ -477,7 +477,7 @@ class LicenseNotification(Notification):
 @register_notification
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
-    verbose = pgettext_lazy("Notification name", "Parse error occured")
+    verbose = pgettext_lazy("Notification name", "Parse error occurred")
     template_name = "parse_error"
 
     def get_context(

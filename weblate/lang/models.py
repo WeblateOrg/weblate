@@ -996,11 +996,11 @@ class PluralMapper:
     def zip(self, sources, targets, unit):
         if len(sources) != self.source_plural.number:
             raise ValueError(
-                "length of `sources` does't match the number of source plurals"
+                "length of `sources` doesn't match the number of source plurals"
             )
         if len(targets) != self.target_plural.number:
             raise ValueError(
-                "length of `targets` does't match the number of target plurals"
+                "length of `targets` doesn't match the number of target plurals"
             )
         if self.same_plurals:
             return zip(sources, targets, strict=True)

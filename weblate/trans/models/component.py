@@ -182,7 +182,7 @@ AZURE_REPOS_REGEXP = [
 
 
 def perform_on_link(func):
-    """Perfom operation on repository link."""
+    """Perform operation on repository link."""
 
     def on_link_wrapper(self, *args, **kwargs):
         linked = self.linked_component
@@ -266,11 +266,11 @@ class ComponentQuerySet(models.QuerySet):
             "pull_message",
         )
 
-    def get_linked(self, val):
-        """Return component for linked repo."""
-        if not is_repo_link(val):
-            return None
-        project, *categories, component = val[10:].split("/")
+    def filter_by_path(self, path: str) -> ComponentQuerySet:
+        try:
+            project, *categories, component = path.split("/")
+        except ValueError:
+            raise Component.DoesNotExist
         kwargs = {}
         prefix = ""
         for category in reversed(categories):
@@ -278,7 +278,18 @@ class ComponentQuerySet(models.QuerySet):
             prefix = f"category__{prefix}"
         if not kwargs:
             kwargs["category"] = None
-        return self.get(slug__iexact=component, project__slug__iexact=project, **kwargs)
+        return self.filter(
+            slug__iexact=component, project__slug__iexact=project, **kwargs
+        )
+
+    def get_by_path(self, path: str) -> Component:
+        return self.filter_by_path(path).get()
+
+    def get_linked(self, val):
+        """Return component for linked repo."""
+        if not is_repo_link(val):
+            return None
+        return self.get_by_path(val[10:])
 
     def order_project(self):
         """Ordering in global scope by project name."""
@@ -1898,10 +1909,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @cached_property
     def linked_childs(self):
         """Return list of components which links repository to us."""
-        childs = self.component_set.prefetch()
-        for child in childs:
+        children = self.component_set.prefetch()
+        for child in children:
             child.linked_component = self
-        return childs
+        return children
 
     def get_linked_childs_for_template(self):
         return [
@@ -3012,6 +3023,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.file_format_cls.add_language(
             fullname, self.source_language, self.get_new_base_filename()
         )
+
+        # Skip commit in case Component is not yet saved (called during validation)
+        if not self.pk:
+            return
 
         with self.repository.lock:
             self.commit_files(

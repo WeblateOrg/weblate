@@ -34,7 +34,6 @@ jobs:
       with:
         python-version: '3.11'
         cache: pip
-        cache-dependency-path: pyproject.toml
     - name: Used versions
       run: ./ci/print-versions
     - name: Install pip dependencies
@@ -69,7 +68,6 @@ jobs:
       with:
         python-version: '3.11'
         cache: pip
-        cache-dependency-path: pyproject.toml
     - name: Used versions
       run: ./ci/print-versions
     - name: Install pip dependencies
@@ -95,7 +93,6 @@ jobs:
       with:
         python-version: '3.11'
         cache: pip
-        cache-dependency-path: pyproject.toml
     - name: Install pip dependencies
       run: |
         python -m pip install $(sed -n 's/.*"\(pip==\([^"]*\)\)".*/\1/p' pyproject.toml)

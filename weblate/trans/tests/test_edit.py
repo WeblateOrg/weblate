@@ -991,7 +991,7 @@ class EditSourceTest(ViewTestCase):
         # Edit source string
         self.edit_unit("Hello, world!\n", "Hello, beautiful world!\n", language="en")
 
-        # Force commiting source string change
+        # Force committing source string change
         self.component.commit_pending("test", None)
 
         # Translation revision should have been updated now

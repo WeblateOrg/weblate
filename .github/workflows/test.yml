@@ -69,7 +69,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
-        cache-dependency-path: pyproject.toml
     - name: Used versions
       run: ./ci/print-versions
     - name: Install pip dependencies

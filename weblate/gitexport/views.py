@@ -226,7 +226,7 @@ class GitHTTPBackendWrapper:
         if "status" in message:
             return HttpResponse(status=int(message["status"].split()[0]))
 
-        # Send streaming content as reponse
+        # Send streaming content as response
         return StreamingHttpResponse(
             streaming_content=self.stream(), content_type=message["content-type"]
         )

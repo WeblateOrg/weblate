@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-04-15 11:47+0000\n"
-"Last-Translator: GalaxyDoge72 <braydensucc@gmail.com>\n"
+"PO-Revision-Date: 2024-04-16 13:01+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -3138,10 +3138,8 @@ msgid "Ignore all checks"
 msgstr "Ignorer toutes les vérifications"
 
 #: weblate/checks/flags.py:50
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Balises de remplacement par caractères pour cent"
+msgstr "Utilisez des balises de remplacement sensibles à la casse"
 
 #: weblate/checks/flags.py:52 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -4268,10 +4266,8 @@ msgid ".NET resource file"
 msgstr "Fichier de ressource .Net"
 
 #: weblate/formats/ttkit.py:1423
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "Chaîne de caractères pour Android"
+msgstr "Kotlin Mobile Resource"
 
 #: weblate/formats/ttkit.py:1436
 #, python-format
@@ -4672,10 +4668,8 @@ msgid "Android plural"
 msgstr "Pluriels Android"
 
 #: weblate/lang/models.py:785
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "Pluriel stringsdict"
+msgstr "Pluriel Qt Linguist"
 
 #: weblate/lang/models.py:786
 msgid "Manually entered formula"
@@ -5102,10 +5096,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Impossible d’analyser le fichier JSON : %s"
 
 #: weblate/memory/models.py:201
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Impossible d’analyser le fichier TMX !"
+msgstr "Impossible d’analyser le fichier TMX : %s"
 
 #: weblate/memory/models.py:210
 msgid "Source language not defined in the TMX file!"
@@ -8584,9 +8577,7 @@ msgid "View invitation"
 msgstr "Afficher l’invitation"
 
 #: weblate/templates/mail/invite.html:16
-#, fuzzy, python-format
-#| msgid "The confirmation link will expire after %(count)s hour."
-#| msgid_plural "The confirmation link will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
 msgstr[0] "Le lien de confirmation sera valide %(count)s heure."
@@ -11328,10 +11319,6 @@ msgstr[0] "%(count)s composant sera supprimé."
 msgstr[1] "%(count)s composants seront supprimés."
 
 #: weblate/templates/trans/delete-translation.html:6
-#, fuzzy
-#| msgid ""
-#| "The “Add missing languages” add-on is installed on this component, "
-#| "removed language might be re-added by it again."
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
@@ -12856,19 +12843,14 @@ msgstr ""
 "projet"
 
 #: weblate/trans/forms.py:2831
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"Le flux de travail de traduction est configuré au niveau du projet et du "
-"composant. En activant la personnalisation ici, vous remplacez ces "
-"paramètres pour cette langue."
+"Le flux de travail de traduction est configuré au niveau projet, composant "
+"et langue. En activant la personnalisation ici, vous remplacez ces "
+"paramètres pour cette langue dans ce projet."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -12917,14 +12899,12 @@ msgstr ""
 "traduction."
 
 #: weblate/trans/guide.py:216
-#, fuzzy
-#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Ajouter un drapeau safe-html pour éviter les modifications hasardeuses du "
-"code HTML par les traducteurs."
+"Ajouter un drapeau safe-html sur les chaînes rendues comme HTML afin "
+"d'éviter les modifications hasardeuses du code HTML par les traducteurs."
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
@@ -13451,10 +13431,8 @@ msgstr "Échec de l’enregistrement de la chaîne"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:450
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Chaîne mise à jour dans le dépôt"
+msgstr "Chaîne ajoutée au dépôt"
 
 #: weblate/trans/models/change.py:524
 msgid "The component was automatically locked because of an alert."

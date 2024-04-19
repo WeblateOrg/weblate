@@ -638,7 +638,7 @@ class Change(models.Model, UserDisplayMixin):
                 self.translation.stats.fetch_last_change()
             # Update stats at the end of transaction
             transaction.on_commit(self.update_cache_last_change)
-            # Make sure stats is updated at the end of trasaction
+            # Make sure stats is updated at the end of transaction
             self.translation.invalidate_cache()
 
     def get_absolute_url(self):
