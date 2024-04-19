@@ -17,8 +17,8 @@ pip install $(sed -n 's/.*"\(wheel==\([^"]*\)\)".*/\1/p' pyproject.toml)
 pip install --no-binary :all: cffi
 
 # workaround for lxml/xmlsec1 compatibility, see https://github.com/xmlsec/python-xmlsec/issues/316
-# shellcheck disable=SC2046
-pip install --no-binary :all: $(sed -n 's/.*"\(lxml[><=]\([^"]*\)\)".*/\1/p' pyproject.toml)
+PYVERMARK=$(python -c 'import sys; print(f"{sys.version_info.major}{sys.version_info.minor}")')
+pip install "https://github.com/xmlsec/python-xmlsec/releases/download/1.3.14/xmlsec-1.3.14-cp${PYVERMARK}-cp${PYVERMARK}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
 
 if [ "${1:-latest}" = migrations ] ; then
     pip install -e ".[all,mysql,ci]"
