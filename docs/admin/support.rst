@@ -34,7 +34,7 @@ Additionally, if you turn on :ref:`discover-weblate`:
 * List of public projects (name, URL, and website).
 
 .. hint::
-Check what *Discover* shows publicly in the :ref:`discover-weblate` description.
+   Check what *Discover* shows publicly in the :ref:`discover-weblate` description.
 
 No other data is submitted.
 
