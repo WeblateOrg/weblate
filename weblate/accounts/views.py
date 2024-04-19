@@ -1082,11 +1082,20 @@ def mute_real(user, **kwargs) -> None:
     for notification_cls in NOTIFICATIONS:
         if notification_cls.ignore_watched:
             continue
-        subscription = user.subscription_set.get_or_create(
-            notification=notification_cls.get_name(),
-            defaults={"frequency": FREQ_NONE},
-            **kwargs,
-        )[0]
+        try:
+            subscription = user.subscription_set.get_or_create(
+                notification=notification_cls.get_name(),
+                defaults={"frequency": FREQ_NONE},
+                **kwargs,
+            )[0]
+        except Subscription.MultipleObjectsReturned:
+            subscriptions = user.subscription_set.filter(
+                notification=notification_cls.get_name(), **kwargs
+            )
+            # Remove extra subscriptions
+            for subscription in subscriptions[1:]:
+                subscription.delete()
+            subscription = subscriptions[0]
         if subscription.frequency != FREQ_NONE:
             subscription.frequency = FREQ_NONE
             subscription.save(update_fields=["frequency"])
