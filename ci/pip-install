@@ -16,8 +16,12 @@ pip install $(sed -n 's/.*"\(wheel==\([^"]*\)\)".*/\1/p' pyproject.toml)
 # SystemError: ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)
 pip install --no-binary :all: cffi
 
+# workaround for lxml/xmlsec1 compatibility, see https://github.com/xmlsec/python-xmlsec/issues/316
+# shellcheck disable=SC2046
+pip install --no-binary :all: $(sed -n 's/.*"\(lxml[><=]\([^"]*\)\)".*/\1/p' pyproject.toml)
+
 if [ "${1:-latest}" = migrations ] ; then
-    pip install --no-binary=lxml -e ".[all,mysql,ci]"
+    pip install -e ".[all,mysql,ci]"
 else
     if [ "${1:-latest}" = minimal ] ; then
         # Adjust deps to force minimal version
@@ -25,9 +29,9 @@ else
     fi
 
     if [ "${1:-latest}" = mypy ] ; then
-      pip install --no-binary=lxml -e ".[all,mysql,ci,mypy,test]"
+      pip install -e ".[all,mysql,ci,mypy,test]"
     else
-      pip install --no-binary=lxml -e ".[all,mysql,ci,test]"
+      pip install -e ".[all,mysql,ci,test]"
     fi
     if [ "${1:-latest}" = edge ] ; then
         pip install --no-binary=lxml --upgrade-strategy eager -U -e ".[all,mysql,test,ci]"
