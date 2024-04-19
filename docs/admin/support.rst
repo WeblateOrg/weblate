@@ -31,7 +31,7 @@ Info sent to the Weblate
 
 Additionally, if you turn on :ref:`discover-weblate`:
 
-* List of public projects (name, URL, and website). 
+* List of public projects (name, URL, and website).
 
 .. hint::
 Check what *Discover* shows publicly in the :ref:`discover-weblate` description.
@@ -66,7 +66,7 @@ Getting listed
 
 .. note::
 
-   Make sure you are OK with publishing your instance name, URL, tally of projects, components, and users, 
+   Make sure you are OK with publishing your instance name, URL, tally of projects, components, and users,
    together with names of public projects and components for use on *Discover*.
 
 
