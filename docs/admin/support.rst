@@ -3,8 +3,8 @@ Getting support for Weblate
 
 
 *Weblate* is copylefted libre software with community support.
-Subscribers receive priority support at no extra charge.
-Prepaid help packages are available for everyone.
+Hosting subscribers receive priority support at no extra charge.
+Prepaid help packages are available for everyone, including self-hosting users.
 Find info about current support offerings at https://weblate.org/support.
 
 .. _activate-support:
@@ -20,18 +20,21 @@ Basic instance details about your installation are also reported back to Weblate
 
 .. _support-data:
 
-Info sent to and (partially) shown on Weblate.org
--------------------------------------------------
+Info sent to the Weblate
+------------------------
 
-* URL to your Weblate
+* Your Weblate instance URL
 * Its site title
 * The version you are running
-* Tallies of projects, components, languages, source strings and users
+* Tallies of projects, components, languages, source strings, and users
 * The public SSH key of your instance
 
-Additionally, when :ref:`discover-weblate` is on:
+Additionally, if you turn on :ref:`discover-weblate`:
 
-* List of public projects (name, URL and website)
+* List of public projects (name, URL, and website). 
+
+.. hint::
+Check what *Discover* shows publicly in the :ref:`discover-weblate` description.
 
 No other data is submitted.
 
@@ -44,7 +47,7 @@ Integration services
 
 .. hint::
 
-   Purchased support packages are already activated upon purchase, and can be used without integrating them.
+   Purchased support packages are already activated upon purchase and can be used without integrating them.
 
 .. _discover-weblate:
 
@@ -53,8 +56,8 @@ Discover Weblate
 
 .. versionadded:: 4.5.2
 
-*Discover* is an opt-in service making it easier for users to find
-other Weblate sites and communities.
+*Discover* is an opt-in service making it easier for translators to find
+other Weblate instances and communities.
 Users can browse registered sites and find projects to contribute to on
 https://weblate.org/discover/.
 
@@ -63,8 +66,8 @@ Getting listed
 
 .. note::
 
-   Make sure you are OK with publishing some of the info about your
-   Weblate described in :ref:`support-data` for use on *Discover*.
+   Make sure you are OK with publishing your instance name, URL, tally of projects, components, and users, 
+   together with names of public projects and components for use on *Discover*.
 
 
 List your server directly from the management panel if you have an active
@@ -82,8 +85,8 @@ All steps for listing a server without a support contract:
 
 .. _customize-discover:
 
-Listing description
+Listing customization
 +++++++++++++++++++
 
-Add a text and an image (570 x 260 pixels) about your Weblate site
-from <https://weblate.org/user/>.
+You are encouraged to provide an image (570 x 260 pixels) and description of your Weblate site
+at <https://weblate.org/user/>. This improves your instance’s visibility in the list.
