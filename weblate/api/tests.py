@@ -3104,6 +3104,66 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
 
+    def test_add_bilingual_source(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+            },
+            code=200,
+        )
+        self.assertEqual(
+            set(Unit.objects.filter(source="Source").values_list("target", flat=True)),
+            {"Source", "Target"},
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source2",
+                "target": "",
+            },
+            code=200,
+        )
+        self.assertEqual(
+            set(Unit.objects.filter(source="Source2").values_list("target", flat=True)),
+            {"Source2", ""},
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source3",
+            },
+            code=200,
+        )
+        self.assertEqual(
+            set(Unit.objects.filter(source="Source3").values_list("target", flat=True)),
+            {"Source3", ""},
+        )
+
     def test_add_plural(self) -> None:
         # Add to bilingual
         self.component.manage_units = True

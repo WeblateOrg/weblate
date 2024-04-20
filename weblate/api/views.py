@@ -44,6 +44,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
+    BilingualSourceUnitSerializer,
     BilingualUnitSerializer,
     CategorySerializer,
     ChangeSerializer,
@@ -1274,6 +1275,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         serializer_class: type[NewUnitSerializer]
         if obj.component.template:
             serializer_class = MonolingualUnitSerializer
+        elif obj.is_source:
+            serializer_class = BilingualSourceUnitSerializer
         else:
             serializer_class = BilingualUnitSerializer
 

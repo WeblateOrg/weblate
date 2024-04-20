@@ -13,6 +13,7 @@ Not yet released.
   * Added :http:get:`/api/projects/(string:project)/file/`.
   * Added :http:post:`/api/groups/(int:id)/admins/`.
   * Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`.
+  * Improved :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 
 * Added :ref:`mt-systran` automatic translation support.
 

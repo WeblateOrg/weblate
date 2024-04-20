@@ -977,7 +977,11 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
-    child = serializers.CharField(trim_whitespace=False)
+    def __init__(self, child_allow_blank=False, **kwargs):
+        kwargs["child"] = serializers.CharField(
+            trim_whitespace=False, allow_blank=child_allow_blank
+        )
+        super().__init__(**kwargs)
 
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
@@ -1164,9 +1168,13 @@ class BilingualUnitSerializer(NewUnitSerializer):
         return {
             "context": data.get("context", ""),
             "source": data["source"],
-            "target": data["target"],
+            "target": data.get("target", ""),
             "state": data.get("state", None),
         }
+
+
+class BilingualSourceUnitSerializer(BilingualUnitSerializer):
+    target = PluralField(required=False, child_allow_blank=True)
 
 
 class CategorySerializer(RemovableSerializer[Category]):
