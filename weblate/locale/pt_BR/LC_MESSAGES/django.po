@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-02-14 14:18+0000\n"
-"PO-Revision-Date: 2024-04-19 08:15+0000\n"
+"PO-Revision-Date: 2024-04-20 12:18+0000\n"
 "Last-Translator: Jose Delvani <delvani.eletricista@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -1735,7 +1735,7 @@ msgstr "Squash de commits git"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Fazer squash de commits Git antes de fazer push das alterações."
+msgstr "Squash Git confirma antes de enviar alterações."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -2100,7 +2100,7 @@ msgstr "Fazer commit das alterações para o repositório interno"
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Push change from the internal repository"
-msgstr "Fazer push das alterações do repositório interno"
+msgstr "Enviar alteração do repositório interno"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -3508,7 +3508,7 @@ msgstr "Erro de sintaxe Fluent na tradução"
 #: weblate/checks/format.py:403
 #, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "Os textos de formato a seguir estão estão na ordem errada: %s"
+msgstr "Os seguintes textos de formato estão na ordem errada: %s"
 
 #: weblate/checks/format.py:485
 msgid "Python format"
@@ -4013,8 +4013,7 @@ msgstr "Grupo de fontes excluído."
 #: weblate/formats/base.py:317
 msgid "Could not load strings from the file, try choosing other format."
 msgstr ""
-"Não foi possível carregar as strings do arquivo. Tente escolher outro "
-"formato."
+"Não foi possível carregar os textos do arquivo. Tente escolher outro formato."
 
 #: weblate/formats/convert.py:263
 msgid "HTML file"
@@ -6941,7 +6940,7 @@ msgstr "Preço anual"
 
 #: weblate/templates/billing/status.html:79
 msgid "Strings limit"
-msgstr "Limites das strings"
+msgstr "Limite de textos"
 
 #: weblate/templates/billing/status.html:82
 msgid "Languages limit"
@@ -7906,14 +7905,14 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
-msgstr "Push"
+msgstr "Enviar"
 
 #: weblate/templates/js/git-status.html:41
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s comentário"
-msgstr[1] "%(count)s comentários"
+msgstr[0] "%(count)s commit de saída"
+msgstr[1] "%(count)s commits de saída"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -8063,7 +8062,7 @@ msgstr "Carrega traduções dos arquivos para o Weblate."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Use quando o Weblate perdeu algumas das strings após atualizar o repositório."
+"Use quando o Weblate perdeu alguns dos textos após atualizar o repositório."
 
 #: weblate/templates/js/git-status.html:152
 msgid "Use these operations with caution, they can lead to data loss."
@@ -10624,7 +10623,7 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Você pode querer escolher Git com push froçado como sistema de controle de "
+"Você pode escolher Git para um envio forçado como sistema de controle de "
 "versão na configuração do componente para sobrescrever o repositório remoto "
 "após fazer o rebase de commits no Weblate."
 
@@ -10824,12 +10823,11 @@ msgstr ""
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
-"O Weblate não conseguiu fazer o push das alterações para o repositório "
-"upstream."
+"O Weblate não conseguiu enviar as alterações para o repositório upstream."
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "Push the repository"
-msgstr "Empurrar para o repositório"
+msgstr "Enviar para o repositório"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10837,7 +10835,7 @@ msgid ""
 "the changes manually or set up push to automate this."
 msgstr ""
 "O repositório VCS tem muitas alterações em comparação com o upstream. Mescle "
-"as alterações manualmente ou configure o push para automatizar isso."
+"as alterações manualmente ou configure o `push` para automatizar isso."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -11227,7 +11225,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:31
 msgid "Push changes into upstream repository."
-msgstr "Fazer push as alterações para o repositório upstream."
+msgstr "Enviar as alterações para o repositório upstream."
 
 #: weblate/templates/trans/merge_instructions.html:35
 msgid ""
@@ -11750,9 +11748,9 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "A tradução automática utiliza as traduções existentes neste projeto e as "
-"aplica ao componente atual. Isso pode ser usado para fazer push das "
-"traduções para um ramo diferente, para corrigir traduções inconsistentes ou "
-"para traduzir um novo componente usando a memória de traduções."
+"aplica ao componente atual. Isso pode ser usado para enviar as traduções "
+"para um ramo diferente, para corrigir traduções inconsistentes ou para "
+"traduzir um novo componente usando a memória de traduções."
 
 #: weblate/templates/translation.html:247
 msgid ""
@@ -12677,7 +12675,7 @@ msgstr ""
 #: weblate/trans/guide.py:102
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
-"Configure uma URL de push para obter um fluxo automatizado de traduções do "
+"Configure uma URL de envio para obter um fluxo automatizado de traduções do "
 "Weblate."
 
 #: weblate/trans/guide.py:116
@@ -12755,7 +12753,7 @@ msgstr "Não foi possível mesclar o repositório."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:211
 msgid "Could not push the repository."
-msgstr "Não foi possível o push do repositório."
+msgstr "Não foi possível enviar para o repositório."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:288
@@ -13017,7 +13015,7 @@ msgstr "Falha na rebase do repositório"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
 msgid "Repository push failed"
-msgstr "Falha ao empurrar para o repositório"
+msgstr "Falha ao enviar para o repositório"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:359
@@ -13397,11 +13395,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:372
 msgid "Repository push URL"
-msgstr "URL de push do repositório"
+msgstr "URL de envio do repositório"
 
 #: weblate/trans/models/component.py:375
 msgid "URL of a push repository, pushing is turned off if empty."
-msgstr "URL de um repositório de push; o push é desativado se estiver vazio."
+msgstr "URL de envio do repositório, o envio será desativado se estiver vazio."
 
 #: weblate/trans/models/component.py:380
 msgid "Repository browser"
@@ -13450,8 +13448,7 @@ msgstr "Ramo do push"
 #: weblate/trans/models/component.py:416
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
-"Ramo para fazer push das alterações, deixe vazio para usar ramo do "
-"repositório"
+"Ramo para enviar as alterações, deixe vazio para usar ramo do repositório"
 
 #: weblate/trans/models/component.py:426
 msgid ""
@@ -13646,12 +13643,11 @@ msgstr "Mensagem de merge request"
 
 #: weblate/trans/models/component.py:657
 msgid "Push on commit"
-msgstr "Push ao fazer commit"
+msgstr "Enviar ao fazer commit"
 
 #: weblate/trans/models/component.py:660
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
-"Define se deve-se fazer push do repositório para o upstream a cada commit."
+msgstr "Se o repositório deve ser enviado para o upstream em cada commit."
 
 #: weblate/trans/models/component.py:664
 msgid "Age of changes to commit"
@@ -13902,17 +13898,15 @@ msgid "Choose No remote repository for local: URL."
 msgstr "Escolheu Nenhum repositório remoto para o local: URL."
 
 #: weblate/trans/models/component.py:2860
-#, fuzzy
-#| msgid "Push URL is not used for linked repositories."
 msgid "Push URL is not used without a remote repository."
-msgstr "A URL para levar não é usada para repositórios vinculados."
+msgstr "A URL de envio não é usado sem um repositório remoto."
 
 #: weblate/trans/models/component.py:2874
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
-"Sua URL de push parece não ter as credenciais. Forneça-as na URL ou use SSH "
+"Sua URL de envio parece não ter as credenciais. Forneça-as na URL ou use SSH "
 "com autenticação baseada em chaves."
 
 #: weblate/trans/models/component.py:2879
@@ -14118,10 +14112,8 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "Falha ao aceitar sugestão!"
+msgstr "Não foi possível aceitar a sugestão!"
 
 #: weblate/trans/models/translation.py:213
 #, python-format
@@ -14133,24 +14125,20 @@ msgstr ""
 "nova tradução, adicione um novo arquivo de idioma no repositório."
 
 #: weblate/trans/models/translation.py:222
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Falha ao analisar arquivo %(file)s: %(error)s"
+msgstr "Não foi possível analisar o arquivo %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1040
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1233
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "Fazer commit das alterações pendentes: %s"
+msgstr "Não foi possível confirmar as alterações pendentes: %s"
 
 #: weblate/trans/models/translation.py:1639
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Formato de arquivo não suportado."
+msgstr "Os plurais não são suportados pelo formato de arquivo!"
 
 #: weblate/trans/models/translation.py:1644 weblate/trans/models/unit.py:680
 #, python-format
@@ -14233,11 +14221,11 @@ msgstr "Inserir reticências"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Insira um hífen suave"
 
 #: weblate/trans/specialchars.py:19
 msgid "Insert a non-breaking space"
-msgstr ""
+msgstr "Insira um espaço ininterrupto"
 
 #: weblate/trans/specialchars.py:259
 #, python-brace-format
@@ -14309,31 +14297,25 @@ msgstr "Configuração possível"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:266
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Tradução proibida"
-msgstr[1] "Tradução proibida"
+msgstr[0] "Tradução proibida:"
+msgstr[1] "Traduções proibidas:"
 
 #: weblate/trans/templatetags/translations.py:279
-#, fuzzy
-#| msgid "Untranslatable term"
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
-msgstr[0] "Termo não traduzível"
-msgstr[1] "Termo não traduzível"
+msgstr[0] "Termo intraduzível:"
+msgstr[1] "Termos intraduzíveis:"
 
 #: weblate/trans/templatetags/translations.py:292
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
-msgstr[0] "Termo de glossário"
-msgstr[1] "Termo de glossário"
+msgstr[0] "Termo do glossário:"
+msgstr[1] "Termos do glossário:"
 
 #: weblate/trans/templatetags/translations.py:366
 msgid "New line"
@@ -14605,22 +14587,17 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "A máscara do arquivo não contém * como um espaço reservado do idioma!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for autoaccept as it would permit users to "
-#| "vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatical acceptance as it would permit "
 "users to vote on their own suggestions."
 msgstr ""
-"Um valor igual a 1 não é admitido para a aceitação automática, pois "
-"permitiria que usuários votem em suas próprias sugestões."
+"O valor 1 não é permitido para aceitação automática, pois permitiria que os "
+"usuários votassem em suas próprias sugestões."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
-msgstr "Falha ao analisar marcadores: %s"
+msgstr "Não foi possível analisar os sinalizadores: %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
@@ -14718,10 +14695,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "Licença detectada como %s. Verifique se isto está correto."
 
 #: weblate/trans/views/create.py:389
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
-msgstr "Falha ao analisar o arquivo ZIP enviado."
+msgstr "Não foi possível analisar o arquivo ZIP enviado."
 
 #: weblate/trans/views/dashboard.py:140
 msgid ""
@@ -14765,16 +14740,13 @@ msgid "Your suggestion already exists!"
 msgstr "Sua sugestão já existe!"
 
 #: weblate/trans/views/edit.py:372
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
-"Adicionado %(project)s aos seus projetos monitorados. Você pode editá-los e "
-"alterar esse comportamento nas configurações."
+"Adicionado %(project)s aos seus projetos monitorados. Você pode ajustar esse "
+"comportamento nas configurações."
 
 #: weblate/trans/views/edit.py:391
 #, python-brace-format
@@ -14818,10 +14790,8 @@ msgstr "Texto de pesquisa inválido!"
 
 #: weblate/trans/views/edit.py:743 weblate/trans/views/search.py:50
 #: weblate/trans/views/search.py:203
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
-msgstr "Falha ao processar o formulário!"
+msgstr "Não foi possível processar o formulário!"
 
 #: weblate/trans/views/edit.py:765
 msgid "Automatic translation in progress"
@@ -14836,10 +14806,8 @@ msgid "Posted new comment"
 msgstr "Novo comentário publicado"
 
 #: weblate/trans/views/edit.py:807
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "Falha ao adicionar comentário!"
+msgstr "Não foi possível adicionar o comentário!"
 
 #: weblate/trans/views/edit.py:827
 msgid "Comment has been deleted."
@@ -14854,10 +14822,9 @@ msgid "New string has been added."
 msgstr "Um novo texto foi adicionado."
 
 #: weblate/trans/views/edit.py:1043
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
-msgstr "Falha ao remover o texto: %s"
+msgstr "Não foi possível remover o texto: %s"
 
 #: weblate/trans/views/error.py:22
 msgid "Bad Request"
@@ -14897,10 +14864,9 @@ msgid "File upload has failed: %s"
 msgstr "Falha ao enviar o arquivo: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
-msgstr "Falha ao bloquear o repositório, outra operação está em progresso."
+msgstr ""
+"Não foi possível bloquear o repositório, outra operação está em andamento."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -14923,10 +14889,8 @@ msgid "Translation files have been synchronized."
 msgstr "Os arquivos de tradução foram sincronizados."
 
 #: weblate/trans/views/git.py:127
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "O comentário de tradução foi excluído."
+msgstr "As traduções foram atualizadas."
 
 #: weblate/trans/views/git.py:143
 msgid "All pending translations were committed."
@@ -14945,10 +14909,8 @@ msgid "Component is now open for translation updates."
 msgstr "O componente agora está aberto para atualizações na tradução."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr "Todos os componentes estão bloqueados para atualizações na tradução!"
+msgstr "Todos os componentes estão agora abertos para atualizações de tradução."
 
 #: weblate/trans/views/search.py:109
 msgid "Search and replace completed, no strings were updated."
@@ -15012,10 +14974,8 @@ msgid "The translation component was scheduled for removal."
 msgstr "O componente de tradução foi agendado para remoção."
 
 #: weblate/trans/views/settings.py:204
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "O projeto foi agendado para remoção."
+msgstr "A categoria estava marcada para remoção."
 
 #: weblate/trans/views/settings.py:208
 msgid "The project was scheduled for removal."
@@ -15026,27 +14986,23 @@ msgid "A language in the project was removed."
 msgstr "Um idioma no projeto foi removido."
 
 #: weblate/trans/views/settings.py:220
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "Um idioma no projeto foi removido."
+msgstr "Um idioma da categoria foi removido."
 
 #: weblate/trans/views/settings.py:235
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
-"Não foi possível renomear devido a uma questão pendente na configuração: %s"
+"Não foi possível alterar %s devido a um problema pendente nas configurações: "
+"%s"
 
 #: weblate/trans/views/settings.py:364
 msgid "Backup scheduled. It will be available soon."
 msgstr "Backup agendado. Estará disponível em breve."
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
-msgstr "Falta ao alterar informações adicionais do texto!"
+msgstr "Não foi possível alterar informações adicionais do texto!"
 
 #: weblate/trans/widgets.py:219
 msgid "Big status badge"
@@ -15193,10 +15149,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "Variável indefinida: \"%s\""
 
 #: weblate/utils/render.py:116
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "Falha ao renderizar o modelo: {}"
+msgstr "Não foi possível renderizar o modelo: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -15366,20 +15320,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Erro no parâmetro %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:68
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr ""
-"O Weblate não conseguiu fazer o push das alterações para o repositório "
-"upstream."
+msgstr "Isso enviará as alterações para o repositório upstream."
 
 #: weblate/vcs/git.py:58
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr ""
-"O Weblate não conseguiu fazer o push das alterações para o repositório "
-"upstream."
+msgstr "Isso enviará as alterações para o repositório Git upstream."
 
 #: weblate/vcs/git.py:529
 msgid "Possible cleanups:"
@@ -15398,24 +15344,17 @@ msgid "Git with force push"
 msgstr "Git com push forçado"
 
 #: weblate/vcs/git.py:731
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr ""
-"O Weblate não conseguiu fazer o push das alterações para o repositório "
-"upstream."
+msgstr "Isso forçará as alterações de envio para o repositório upstream."
 
 #: weblate/vcs/git.py:1102
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request"
-msgstr "Pull request do Bitbucket"
+msgstr "Solicitação `pull` do Azure DevOps"
 
 #: weblate/vcs/git.py:1110
-#, fuzzy
-#| msgid "This will push changes and create a Gitea pull request."
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "Isto fará o push das alterações e criará um pull request do Gitea."
+msgstr ""
+"Isso enviará alterações e criará uma solicitação `pull` do Azure DevOps."
 
 #: weblate/vcs/git.py:1341
 msgid "GitHub pull request"
@@ -15423,7 +15362,7 @@ msgstr "Pull request do GitHub"
 
 #: weblate/vcs/git.py:1346
 msgid "This will push changes and create a GitHub pull request."
-msgstr "Isto fará o push das alterações e criará um pull request do GitHub."
+msgstr "Isto fará o envio das alterações e criará um `pull request` do GitHub."
 
 #: weblate/vcs/git.py:1455
 msgid "Gitea pull request"
@@ -15431,7 +15370,7 @@ msgstr "Pull request do Gitea"
 
 #: weblate/vcs/git.py:1459
 msgid "This will push changes and create a Gitea pull request."
-msgstr "Isto fará o push das alterações e criará um pull request do Gitea."
+msgstr "Isto fará o envio das alterações e criará um `pull request` do Gitea."
 
 #: weblate/vcs/git.py:1527
 msgid "No remote repository"
@@ -15443,7 +15382,7 @@ msgstr "Merge request do GitLab"
 
 #: weblate/vcs/git.py:1637
 msgid "This will push changes and create a GitLab merge request."
-msgstr "Isto fará o push das alterações e criará um merge request do GitLab."
+msgstr "Isto fará o envio das alterações e criará um `merge request` do GitLab."
 
 #: weblate/vcs/git.py:1776
 msgid "Pagure merge request"
@@ -15451,7 +15390,7 @@ msgstr "merge request do Pagure"
 
 #: weblate/vcs/git.py:1781
 msgid "This will push changes and create a Pagure merge request."
-msgstr "Isto fará o push das alterações e criará um merge request do Pagure."
+msgstr "Isto fará o envio das alterações e criará um `merge request` do Pagure."
 
 #. Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:1870
@@ -15461,15 +15400,12 @@ msgstr "Pull request do Bitbucket"
 #: weblate/vcs/git.py:1876
 msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr ""
-"Isto fará o push das alterações e criará um pull request do Bitbucket Server."
+"Isto fará o envio das alterações e criará um `pull request` do Bitbucket "
+"Server."
 
 #: weblate/vcs/mercurial.py:45
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr ""
-"O Weblate não conseguiu fazer o push das alterações para o repositório "
-"upstream."
+msgstr "Isso enviará as alterações para o repositório Mercurial upstream."
 
 #: weblate/vcs/ssh.py:31
 msgctxt "SSH key type"
@@ -15487,10 +15423,9 @@ msgid "[hostname hashed]"
 msgstr "[nome de host com hash]"
 
 #: weblate/vcs/ssh.py:168
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "Falha ao gerar chave: %s"
+msgstr "Não foi possível gerar a chave: %s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -15510,16 +15445,14 @@ msgstr ""
 "%(fingerprint)s (%(keytype)s), verifique se está correto."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Failed to fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Falha ao buscar a chave pública para um host!"
+msgstr "Não foi possível buscar a chave pública para um host: %s"
 
 #: weblate/vcs/ssh.py:237
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Falha em obter a chave do host: %s"
+msgstr "Não foi possível obter a chave do host: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
@@ -15595,9 +15528,6 @@ msgid "Premium self-hosted support"
 msgstr "Suporte premium para hospedagem própria"
 
 #: weblate/wladmin/models.py:210
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
 msgstr "Textos hospedados"
 
@@ -15698,14 +15628,10 @@ msgstr ""
 "Weblate no discover."
 
 #: weblate/wladmin/views.py:198 weblate/wladmin/views.py:215
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid "Could not activate your installation. Please try again later."
 msgstr ""
-"Não foi possível ativar sua instalação.. Por favor, certifique-se que seu "
-"token de ativação está correto."
+"Não foi possível ativar sua instalação. Por favor, tente novamente mais "
+"tarde."
 
 #: weblate/wladmin/views.py:207
 msgid ""
@@ -15716,10 +15642,9 @@ msgstr ""
 "token de ativação está correto."
 
 #: weblate/wladmin/views.py:222
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "Falha ao buscar a tradução: %s"
+msgstr "Não foi possível ativar sua instalação: %s"
 
 #: weblate/wladmin/views.py:226
 msgid "Activation completed."
