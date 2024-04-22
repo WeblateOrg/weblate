@@ -325,7 +325,11 @@ def component_alerts(component_ids=None) -> None:
             component.update_alerts()
 
 
-@app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
+@app.task(
+    trail=False,
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
+    retry_backoff=60,
+)
 @transaction.atomic
 def component_after_save(
     pk: int,

@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Fixed skipped component update with some add-ons enabled.
+
 **Compatibility**
 
 **Upgrading**

@@ -124,7 +124,11 @@ def daily_addons() -> None:
     )
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=60,
+)
 def postconfigure_addon(addon_id: int, addon=None) -> None:
     if addon is None:
         addon = Addon.objects.get(pk=addon_id)
