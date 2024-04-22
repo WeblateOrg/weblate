@@ -13,6 +13,7 @@ Not yet released.
 **Bug fixes**
 
 * Fixed skipped component update with some add-ons enabled.
+* Allow editing strings when the source is marked for editing.
 * Updates of last updated timestamp of a string.
 
 **Compatibility**

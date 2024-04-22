@@ -444,8 +444,8 @@ class BulkEditTest(ViewTestCase):
             url, {"q": "language:en", "state": STATE_FUZZY}, follow=True
         )
         self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
-        self.assertEqual(translation.unit_set.filter(state=STATE_READONLY).count(), 4)
-        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 0)
+        self.assertEqual(translation.unit_set.filter(state=STATE_READONLY).count(), 0)
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 1)
 
         # Mark all source strings as needing edit and that should turn all
         # translated strings back to translated

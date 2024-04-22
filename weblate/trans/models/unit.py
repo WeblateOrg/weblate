@@ -659,7 +659,11 @@ class Unit(models.Model, LoggerMixin):
 
         if flags is not None:
             # Read only from the source
-            if not self.is_source and self.source_unit.state < STATE_TRANSLATED:
+            if (
+                not self.is_source
+                and self.source_unit.state < STATE_TRANSLATED
+                and self.translation.component.intermediate
+            ):
                 return STATE_READONLY
 
             # Read only from flags
@@ -928,7 +932,9 @@ class Unit(models.Model, LoggerMixin):
         * Where source string is untranslated
         """
         if "read-only" in self.all_flags or (
-            not self.is_source and self.source_unit.state < STATE_TRANSLATED
+            not self.is_source
+            and self.source_unit.state < STATE_TRANSLATED
+            and self.translation.component.intermediate
         ):
             if not self.readonly:
                 self.original_state = self.state
