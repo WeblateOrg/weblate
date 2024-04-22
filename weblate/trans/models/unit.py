@@ -57,6 +57,8 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from weblate.auth import User
+
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
     "approved": {"state": STATE_APPROVED},
@@ -884,11 +886,14 @@ class Unit(models.Model, LoggerMixin):
         # Indicate source string change
         if not same_source and source_change:
             translation.update_changes.append(
-                Change(
-                    unit=self,
-                    action=Change.ACTION_SOURCE_CHANGE,
+                self.generate_change(
+                    None,
+                    None,
+                    Change.ACTION_SOURCE_CHANGE,
+                    check_new=False,
                     old=source_change,
                     target=self.source,
+                    save=False,
                 )
             )
         # Track VCS change
@@ -1181,10 +1186,11 @@ class Unit(models.Model, LoggerMixin):
 
             # Save unit and change
             unit.save()
-            unit.change_set.create(
-                action=Change.ACTION_SOURCE_CHANGE,
-                user=user,
-                author=author,
+            unit.generate_change(
+                user,
+                author,
+                Change.ACTION_SOURCE_CHANGE,
+                check_new=False,
                 old=previous_source,
                 target=self.target,
             )
@@ -1192,7 +1198,15 @@ class Unit(models.Model, LoggerMixin):
             unit.translation.invalidate_cache()
 
     def generate_change(
-        self, user, author, change_action, check_new: bool = True, save: bool = True
+        self,
+        user: User | None,
+        author: User | None,
+        change_action: int,
+        *,
+        check_new: bool = True,
+        save: bool = True,
+        old: str | None = None,
+        target: str | None = None,
     ):
         """Create Change entry for saving unit."""
         # Notify about new contributor
@@ -1230,8 +1244,8 @@ class Unit(models.Model, LoggerMixin):
             action=action,
             user=user,
             author=author,
-            target=self.target,
-            old=self.old_unit["target"],
+            target=self.target if target is None else target,
+            old=self.old_unit["target"] if old is None else old,
             details={
                 "state": self.state,
                 "old_state": self.old_unit["state"],

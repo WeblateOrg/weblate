@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Display more details on source string change in history.
+
 **Bug fixes**
 
 * Fixed skipped component update with some add-ons enabled.
