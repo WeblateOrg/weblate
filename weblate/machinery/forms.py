@@ -166,6 +166,15 @@ class MicrosoftMachineryForm(KeyMachineryForm):
         ),
         required=False,
     )
+    category = forms.CharField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "Category"),
+        help_text=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Specify a customized system category ID to use it instead of general one.",
+        ),
+        initial="general",
+        required=False,
+    )
 
 
 class GoogleV3MachineryForm(BaseMachineryForm):
