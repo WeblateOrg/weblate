@@ -144,7 +144,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             "api-version": "3.0",
             "from": source,
             "to": language,
-            "category": "general",
+            "category": self.settings.get("category", "general"),
             "textType": "html",
         }
         response = self.request(

@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Display more details on source string change in history.
+* :ref:`mt-microsoft-translator` now supports using custom translators.
 
 **Bug fixes**
 
