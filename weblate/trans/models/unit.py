@@ -466,6 +466,10 @@ class Unit(models.Model, LoggerMixin):
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
+        # Update last_updated timestamp
+        if update_fields and "last_updated" not in update_fields:
+            update_fields.append("last_updated")
+
         # Actually save the unit
         super().save(
             force_insert=force_insert,

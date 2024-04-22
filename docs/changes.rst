@@ -12,6 +12,7 @@ Not yet released.
 **Bug fixes**
 
 * Fixed skipped component update with some add-ons enabled.
+* Updates of last updated timestamp of a string.
 
 **Compatibility**
 
