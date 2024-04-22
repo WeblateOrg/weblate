@@ -7,10 +7,14 @@ Not yet released.
 
 **Improvements**
 
+* Display more details on source string change in history.
+* :ref:`mt-microsoft-translator` now supports using custom translators.
+
 **Bug fixes**
 
 * Fixed skipped component update with some add-ons enabled.
 * Allow editing strings when the source is marked for editing.
+* Updates of last updated timestamp of a string.
 
 **Compatibility**
 

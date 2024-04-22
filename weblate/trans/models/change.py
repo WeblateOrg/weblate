@@ -879,6 +879,8 @@ class Change(models.Model, UserDisplayMixin):
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def change_notify(sender, instance, created=False, **kwargs) -> None:
+    from weblate.accounts.notifications import is_notificable_action
     from weblate.accounts.tasks import notify_change
 
-    transaction.on_commit(lambda: notify_change.delay(instance.pk))
+    if is_notificable_action(instance.action):
+        transaction.on_commit(lambda: notify_change.delay(instance.pk))

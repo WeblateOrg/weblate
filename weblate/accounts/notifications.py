@@ -70,8 +70,8 @@ SCOPE_CHOICES = (
     (SCOPE_COMPONENT, "Component"),
 )
 
-NOTIFICATIONS = []
-NOTIFICATIONS_ACTIONS = {}
+NOTIFICATIONS: list[type[Notification]] = []
+NOTIFICATIONS_ACTIONS: dict[int, list[type[Notification]]] = {}
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
@@ -81,7 +81,7 @@ def get_email_headers(notification: str) -> dict[str, str]:
     }
 
 
-def register_notification(handler):
+def register_notification(handler: type[Notification]):
     """Register notification handler."""
     NOTIFICATIONS.append(handler)
     for action in handler.actions:
@@ -89,6 +89,10 @@ def register_notification(handler):
             NOTIFICATIONS_ACTIONS[action] = []
         NOTIFICATIONS_ACTIONS[action].append(handler)
     return handler
+
+
+def is_notificable_action(action: int) -> bool:
+    return action in NOTIFICATIONS_ACTIONS
 
 
 class Notification:
@@ -105,7 +109,7 @@ class Notification:
     def __init__(self, outgoing, perm_cache=None) -> None:
         self.outgoing = outgoing
         self.subscription_cache = {}
-        self.child_notify = None
+        self.child_notify: list[Notification] | None = None
         if perm_cache is not None:
             self.perm_cache = perm_cache
         else:
