@@ -10,6 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Fixed skipped component update with some add-ons enabled.
+* Allow editing strings when the source is marked for editing.
 
 **Compatibility**
 

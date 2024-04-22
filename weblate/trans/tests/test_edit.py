@@ -16,7 +16,7 @@ from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class EditTest(ViewTestCase):
@@ -366,12 +366,12 @@ class EditResourceSourceTest(ViewTestCase):
         # Change state
         self.edit_unit("Hello, world!\n", "Hello, world!\n", "en", fuzzy="yes")
         unit = translation.unit_set.get(context="hello")
-        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
         # Change state and source
         self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en", fuzzy="yes")
         unit = translation.unit_set.get(context="hello")
-        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.state, STATE_FUZZY)
 
         # Change state and source
         self.edit_unit("Hello, universe!\n", "Hello, universe!\n", "en")
