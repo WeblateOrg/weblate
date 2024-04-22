@@ -7,17 +7,8 @@ Installing on macOS
 
 .. code-block:: sh
 
-   # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
-   wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
-   brew install --formula /tmp/libxmlsec1.rb
-   brew pin libxmlsec1
-
-   brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+   brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash libxmlsec1
    pip install virtualenv
-
-.. note::
-
-   Using older libxmlsec is needed until https://github.com/xmlsec/python-xmlsec/issues/254 is addressed.
 
 .. include:: steps/install-system-server.rst
 
