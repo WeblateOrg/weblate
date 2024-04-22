@@ -922,8 +922,13 @@ class Unit(models.Model, LoggerMixin):
             not self.is_source and self.source_unit.state < STATE_TRANSLATED
         ):
             if not self.readonly:
+                self.original_state = self.state
                 self.state = STATE_READONLY
-                self.save(same_content=True, run_checks=False, update_fields=["state"])
+                self.save(
+                    same_content=True,
+                    run_checks=False,
+                    update_fields=["state", "original_state"],
+                )
         elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
@@ -1149,7 +1154,11 @@ class Unit(models.Model, LoggerMixin):
             unit.source = self.target
             unit.num_words = self.num_words
             # Find reverted units
-            if unit.state == STATE_FUZZY and unit.previous_source == self.target:
+            if (
+                unit.state == STATE_FUZZY
+                and unit.previous_source == self.target
+                and unit.target
+            ):
                 # Unset fuzzy on reverted
                 unit.original_state = unit.state = STATE_TRANSLATED
                 unit.pending = True
@@ -1157,11 +1166,12 @@ class Unit(models.Model, LoggerMixin):
             elif (
                 unit.original_state == STATE_FUZZY
                 and unit.previous_source == self.target
+                and unit.target
             ):
                 # Unset fuzzy on reverted
                 unit.original_state = STATE_TRANSLATED
                 unit.previous_source = ""
-            elif unit.state >= STATE_TRANSLATED:
+            elif unit.state >= STATE_TRANSLATED and unit.target:
                 # Set fuzzy on changed
                 unit.original_state = STATE_FUZZY
                 if unit.state < STATE_READONLY:
