@@ -123,6 +123,37 @@ Architecture overview
       wsgi -> fs;
    }
 
+Web server
+   Handling incoming HTTP requests, :ref:`static-files`.
+Celery workers
+   :ref:`celery` are executed here.
+
+   Depending on your workload, you might want to customize the number of workers.
+
+   Use dedicated node when scaling Weblate horizontally.
+WSGI server
+   A WSGI server serving web pages to users.
+
+   Use dedicated node when scaling Weblate horizontally.
+Database
+   PostgreSQL database server for storing all the content, see :ref:`database-setup`.
+
+   Use dedicated database node for sites with hundreds of millions of hosted words.
+Redis
+   Redis server for cache and tasks queue, see :ref:`celery`.
+
+   Use dedicated node when scaling Weblate horizontally.
+File system
+   File system storage for storing VCS repositories and uploaded user data.
+
+   Use networked storage when scaling Weblate horizontally.
+E-mail server
+   SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided externally.
+
+.. hint::
+
+   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+
 .. _requirements:
 
 Software requirements
@@ -137,20 +168,9 @@ will most likely work too.
 Weblate is not supported on Windows. But it may still work and patches are
 happily accepted.
 
-Other services
-++++++++++++++
+.. seealso::
 
-Weblate is using other services for its operation. You will need at least
-following services running:
-
-* PostgreSQL database server for storing all the content, see :ref:`database-setup`.
-* Redis server for cache and tasks queue, see :ref:`celery`.
-* SMTP server for outgoing e-mail, see :ref:`out-mail`.
-* Filesystem storage (networked if you plan to scale Weblate horizontally) for storing VCS repositories.
-
-.. hint::
-
-   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+   :ref:`architecture` describes overall Weblate architecture and required services.
 
 .. _python-deps:
 
