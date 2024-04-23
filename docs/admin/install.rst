@@ -144,7 +144,7 @@ Redis
 
    Use dedicated node when scaling Weblate horizontally.
 File system
-   File system storage for storing VCS repositories and uploaded user data.
+   File system storage for storing VCS repositories and uploaded user data. This is shared by all the processes.
 
    Use networked storage when scaling Weblate horizontally.
 E-mail server
