@@ -65,6 +65,8 @@ class Plan(models.Model):
     display_limit_languages = models.IntegerField(default=0)
     limit_projects = models.IntegerField(default=0)
     display_limit_projects = models.IntegerField(default=0)
+    limit_hosted_strings = models.IntegerField(default=0)
+    display_limit_hosted_strings = models.IntegerField(default=0)
     change_access_control = models.BooleanField(default=True)
     public = models.BooleanField(default=False)
 
@@ -290,6 +292,14 @@ class Billing(models.Model):
         return f"{self.count_strings} / {self.plan.display_limit_strings}"
 
     @cached_property
+    def count_hosted_strings(self) -> int:
+        return sum(p.stats.all for p in self.all_projects)
+
+    @admin.display(description=gettext_lazy("Hosted strings"))
+    def display_hosted_strings(self) -> str:
+        return f"{self.count_hosted_strings} / {self.plan.display_limit_hosted_strings}"
+
+    @cached_property
     def count_words(self):
         return sum(p.stats.source_words for p in self.all_projects)
 
@@ -320,6 +330,10 @@ class Billing(models.Model):
             plan = self.plan
         return (
             (plan.limit_projects == 0 or self.count_projects <= plan.limit_projects)
+            and (
+                plan.limit_hosted_strings == 0
+                or self.count_hosted_strings <= plan.limit_hosted_strings
+            )
             and (plan.limit_strings == 0 or self.count_strings <= plan.limit_strings)
             and (
                 plan.limit_languages == 0
@@ -357,6 +371,10 @@ class Billing(models.Model):
             (
                 plan.display_limit_projects == 0
                 or self.count_projects <= plan.display_limit_projects
+            )
+            and (
+                plan.display_limit_hosted_strings == 0
+                or self.count_strings <= plan.display_limit_hosted_strings
             )
             and (
                 plan.display_limit_strings == 0
