@@ -31,6 +31,7 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from rest_framework.utils import formatting
@@ -102,6 +103,7 @@ from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -1510,6 +1512,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             return Response(
                 data={"error": f"Could not remove the string: {error}"},
                 status=HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+        except WeblateLockTimeoutError:
+            return Response(
+                data={
+                    "error": "Could not obtain repository lock to delete the string."
+                },
+                status=HTTP_423_LOCKED,
             )
         return Response(status=HTTP_204_NO_CONTENT)
 
