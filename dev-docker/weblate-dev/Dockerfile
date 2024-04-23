@@ -46,6 +46,9 @@ RUN apt-get update && apt-get install -y \
     libz-dev   \
     libjpeg62-turbo-dev
 
+# TODO: drop once weblate/weblate image has it
+RUN apt-get install -y gir1.2-rsvg-2.0
+
 COPY requirements.txt /tmp/
 RUN . /app/venv/bin/activate && uv pip install -r /tmp/requirements.txt
 # List should match weblate/weblate
