@@ -364,7 +364,10 @@ PostgreSQL 12 and higher is supported. PostgreSQL 15 or newer is recommended.
 
 :ref:`mysql` is supported, but not recommended for new installs.
 
-No other database servers are supported.
+.. note::
+
+   No other database servers are currently supported, but support for other
+   Django supported databases should be possible to implement.
 
 .. seealso::
 
