@@ -1976,7 +1976,7 @@ exports.feedbackIntegration = feedbackIntegration;
 exports.sendFeedback = sendFeedback;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],2:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],2:[function(require,module,exports){
 var {
     _optionalChain
 } = require('@sentry/utils');
@@ -2499,7 +2499,7 @@ function initCanvasWebGLMutationObserver(cb, win, blockClass, blockSelector, unb
     };
 }
 
-var r = `for(var t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",e="undefined"==typeof Uint8Array?[]:new Uint8Array(256),n=0;n<64;n++)e[t.charCodeAt(n)]=n;var a=function(e){var n,a=new Uint8Array(e),s=a.length,r="";for(n=0;n<s;n+=3)r+=t[a[n]>>2],r+=t[(3&a[n])<<4|a[n+1]>>4],r+=t[(15&a[n+1])<<2|a[n+2]>>6],r+=t[63&a[n+2]];return s%3==2?r=r.substring(0,r.length-1)+"=":s%3==1&&(r=r.substring(0,r.length-2)+"=="),r};const s=new Map,r=new Map;const i=self;i.onmessage=async function(t){if(!("OffscreenCanvas"in globalThis))return i.postMessage({id:t.data.id});{const{id:e,bitmap:n,width:o,height:f,dataURLOptions:c}=t.data,g=async function(t,e,n){const s=t+"-"+e;if("OffscreenCanvas"in globalThis){if(r.has(s))return r.get(s);const i=new OffscreenCanvas(t,e);i.getContext("2d");const o=await i.convertToBlob(n),f=await o.arrayBuffer(),c=a(f);return r.set(s,c),c}return""}(o,f,c),d=new OffscreenCanvas(o,f);d.getContext("2d").drawImage(n,0,0),n.close();const u=await d.convertToBlob(c),h=u.type,w=await u.arrayBuffer(),l=a(w);if(!s.has(e)&&await g===l)return s.set(e,l),i.postMessage({id:e});if(s.get(e)===l)return i.postMessage({id:e});i.postMessage({id:e,type:h,base64:l,width:o,height:f}),s.set(e,l)}};`;
+var r = `for(var e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",t="undefined"==typeof Uint8Array?[]:new Uint8Array(256),a=0;a<64;a++)t[e.charCodeAt(a)]=a;var n=function(t){var a,n=new Uint8Array(t),r=n.length,s="";for(a=0;a<r;a+=3)s+=e[n[a]>>2],s+=e[(3&n[a])<<4|n[a+1]>>4],s+=e[(15&n[a+1])<<2|n[a+2]>>6],s+=e[63&n[a+2]];return r%3==2?s=s.substring(0,s.length-1)+"=":r%3==1&&(s=s.substring(0,s.length-2)+"=="),s};const r=new Map,s=new Map;const i=self;i.onmessage=async function(e){if(!("OffscreenCanvas"in globalThis))return i.postMessage({id:e.data.id});{const{id:t,bitmap:a,width:o,height:f,maxCanvasSize:c,dataURLOptions:g}=e.data,u=async function(e,t,a){const r=e+"-"+t;if("OffscreenCanvas"in globalThis){if(s.has(r))return s.get(r);const i=new OffscreenCanvas(e,t);i.getContext("2d");const o=await i.convertToBlob(a),f=await o.arrayBuffer(),c=n(f);return s.set(r,c),c}return""}(o,f,g),[h,d]=function(e,t,a){if(!a)return[e,t];const[n,r]=a;if(e<=n&&t<=r)return[e,t];let s=e,i=t;return s>n&&(i=Math.floor(n*t/e),s=n),i>r&&(s=Math.floor(r*e/t),i=r),[s,i]}(o,f,c),l=new OffscreenCanvas(h,d),w=l.getContext("bitmaprenderer"),p=h===o&&d===f?a:await createImageBitmap(a,{resizeWidth:h,resizeHeight:d,resizeQuality:"low"});w.transferFromImageBitmap(p),a.close();const y=await l.convertToBlob(g),v=y.type,b=await y.arrayBuffer(),m=n(b);if(p.close(),!r.has(t)&&await u===m)return r.set(t,m),i.postMessage({id:t});if(r.get(t)===m)return i.postMessage({id:t});i.postMessage({id:t,type:v,base64:m,width:o,height:f}),r.set(t,m)}};`;
 
 function t(){const t=new Blob([r]);return URL.createObjectURL(t)}
 
@@ -2535,7 +2535,7 @@ class CanvasManager {
             }
             this.pendingCanvasMutations.get(target).push(mutation);
         };
-        const { sampling = 'all', win, blockClass, blockSelector, unblockSelector, recordCanvas, dataURLOptions, errorHandler, } = options;
+        const { sampling = 'all', win, blockClass, blockSelector, unblockSelector, maxCanvasSize, recordCanvas, dataURLOptions, errorHandler, } = options;
         this.mutationCb = options.mutationCb;
         this.mirror = options.mirror;
         this.options = options;
@@ -2549,14 +2549,14 @@ class CanvasManager {
             if (recordCanvas && sampling === 'all')
                 this.initCanvasMutationObserver(win, blockClass, blockSelector, unblockSelector);
             if (recordCanvas && typeof sampling === 'number')
-                this.initCanvasFPSObserver(sampling, win, blockClass, blockSelector, unblockSelector, {
+                this.initCanvasFPSObserver(sampling, win, blockClass, blockSelector, unblockSelector, maxCanvasSize, {
                     dataURLOptions,
                 });
         })();
     }
-    initCanvasFPSObserver(fps, win, blockClass, blockSelector, unblockSelector, options) {
+    initCanvasFPSObserver(fps, win, blockClass, blockSelector, unblockSelector, maxCanvasSize, options) {
         const canvasContextReset = initCanvasContextObserver(win, blockClass, blockSelector, unblockSelector, true);
-        const rafId = this.takeSnapshot(false, fps, win, blockClass, blockSelector, unblockSelector, options.dataURLOptions);
+        const rafId = this.takeSnapshot(false, fps, win, blockClass, blockSelector, unblockSelector, maxCanvasSize, options.dataURLOptions);
         this.resetObservers = () => {
             canvasContextReset();
             cancelAnimationFrame(rafId);
@@ -2576,12 +2576,12 @@ class CanvasManager {
     }
     snapshot(canvasElement) {
         const { options } = this;
-        const rafId = this.takeSnapshot(true, options.sampling === 'all' ? 2 : options.sampling || 2, options.win, options.blockClass, options.blockSelector, options.unblockSelector, options.dataURLOptions, canvasElement);
+        const rafId = this.takeSnapshot(true, options.sampling === 'all' ? 2 : options.sampling || 2, options.win, options.blockClass, options.blockSelector, options.unblockSelector, options.maxCanvasSize, options.dataURLOptions, canvasElement);
         this.resetObservers = () => {
             cancelAnimationFrame(rafId);
         };
     }
-    takeSnapshot(isManualSnapshot, fps, win, blockClass, blockSelector, unblockSelector, dataURLOptions, canvasElement) {
+    takeSnapshot(isManualSnapshot, fps, win, blockClass, blockSelector, unblockSelector, maxCanvasSize, dataURLOptions, canvasElement) {
         const snapshotInProgressMap = new Map();
         const worker = new Worker(t());
         worker.onmessage = (e) => {
@@ -2614,6 +2614,8 @@ class CanvasManager {
                             },
                             0,
                             0,
+                            width,
+                            height,
                         ],
                     },
                 ],
@@ -2663,6 +2665,7 @@ class CanvasManager {
                         width: canvas.width,
                         height: canvas.height,
                         dataURLOptions,
+                        maxCanvasSize,
                     }, [bitmap]);
                 })
                     .catch((error) => {
@@ -2741,12 +2744,18 @@ const CANVAS_QUALITY = {
 };
 
 const INTEGRATION_NAME = 'ReplayCanvas';
+const DEFAULT_MAX_CANVAS_SIZE = 1280;
 
 /** Exported only for type safe tests. */
 const _replayCanvasIntegration = ((options = {}) => {
+  const [maxCanvasWidth, maxCanvasHeight] = options.maxCanvasSize || [];
   const _canvasOptions = {
     quality: options.quality || 'medium',
     enableManualSnapshot: options.enableManualSnapshot,
+    maxCanvasSize: [
+      maxCanvasWidth ? Math.min(maxCanvasWidth, DEFAULT_MAX_CANVAS_SIZE) : DEFAULT_MAX_CANVAS_SIZE,
+      maxCanvasHeight ? Math.min(maxCanvasHeight, DEFAULT_MAX_CANVAS_SIZE) : DEFAULT_MAX_CANVAS_SIZE,
+    ] ,
   };
 
   let canvasManagerResolve;
@@ -2757,15 +2766,16 @@ const _replayCanvasIntegration = ((options = {}) => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     setupOnce() {},
     getOptions() {
-      const { quality, enableManualSnapshot } = _canvasOptions;
+      const { quality, enableManualSnapshot, maxCanvasSize } = _canvasOptions;
 
       return {
         enableManualSnapshot,
         recordCanvas: true,
-        getCanvasManager: (options) => {
+        getCanvasManager: (getCanvasManagerOptions) => {
           const manager = new CanvasManager({
-            ...options,
+            ...getCanvasManagerOptions,
             enableManualSnapshot,
+            maxCanvasSize,
             errorHandler: (err) => {
               try {
                 if (typeof err === 'object') {
@@ -2807,7 +2817,7 @@ exports.ReplayCanvas = ReplayCanvas;
 exports.replayCanvasIntegration = replayCanvasIntegration;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],3:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],3:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2850,7 +2860,7 @@ function registerBackgroundTabDetection() {
 exports.registerBackgroundTabDetection = registerBackgroundTabDetection;
 
 
-},{"../common/debug-build.js":26,"./types.js":11,"@sentry/core":70,"@sentry/utils":139}],4:[function(require,module,exports){
+},{"../common/debug-build.js":26,"./types.js":11,"@sentry/core":70,"@sentry/utils":152}],4:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -3364,7 +3374,7 @@ exports.startBrowserTracingNavigationSpan = startBrowserTracingNavigationSpan;
 exports.startBrowserTracingPageLoadSpan = startBrowserTracingPageLoadSpan;
 
 
-},{"../common/debug-build.js":26,"./backgroundtab.js":3,"./instrument.js":6,"./metrics/index.js":7,"./request.js":9,"./types.js":11,"@sentry/core":70,"@sentry/utils":139}],5:[function(require,module,exports){
+},{"../common/debug-build.js":26,"./backgroundtab.js":3,"./instrument.js":6,"./metrics/index.js":7,"./request.js":9,"./types.js":11,"@sentry/core":70,"@sentry/utils":152}],5:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -3827,7 +3837,7 @@ exports.BrowserTracing = BrowserTracing;
 exports.getMetaContent = getMetaContent;
 
 
-},{"../common/debug-build.js":26,"./backgroundtab.js":3,"./instrument.js":6,"./metrics/index.js":7,"./request.js":9,"./router.js":10,"./types.js":11,"@sentry/core":70,"@sentry/utils":139}],6:[function(require,module,exports){
+},{"../common/debug-build.js":26,"./backgroundtab.js":3,"./instrument.js":6,"./metrics/index.js":7,"./request.js":9,"./router.js":10,"./types.js":11,"@sentry/core":70,"@sentry/utils":152}],6:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -4063,7 +4073,7 @@ exports.addPerformanceInstrumentationHandler = addPerformanceInstrumentationHand
 exports.addTtfbInstrumentationHandler = addTtfbInstrumentationHandler;
 
 
-},{"../common/debug-build.js":26,"./web-vitals/getCLS.js":12,"./web-vitals/getFID.js":13,"./web-vitals/getINP.js":14,"./web-vitals/getLCP.js":15,"./web-vitals/lib/observe.js":22,"./web-vitals/onTTFB.js":25,"@sentry/utils":139}],7:[function(require,module,exports){
+},{"../common/debug-build.js":26,"./web-vitals/getCLS.js":12,"./web-vitals/getFID.js":13,"./web-vitals/getINP.js":14,"./web-vitals/getLCP.js":15,"./web-vitals/lib/observe.js":22,"./web-vitals/onTTFB.js":25,"@sentry/utils":152}],7:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -4779,7 +4789,7 @@ exports.startTrackingLongTasks = startTrackingLongTasks;
 exports.startTrackingWebVitals = startTrackingWebVitals;
 
 
-},{"../../common/debug-build.js":26,"../instrument.js":6,"../types.js":11,"../web-vitals/lib/getNavigationEntry.js":19,"../web-vitals/lib/getVisibilityWatcher.js":20,"./utils.js":8,"@sentry/core":70,"@sentry/utils":139}],8:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"../instrument.js":6,"../types.js":11,"../web-vitals/lib/getNavigationEntry.js":19,"../web-vitals/lib/getVisibilityWatcher.js":20,"./utils.js":8,"@sentry/core":70,"@sentry/utils":152}],8:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -5126,7 +5136,7 @@ exports.shouldAttachHeaders = shouldAttachHeaders;
 exports.xhrCallback = xhrCallback;
 
 
-},{"../common/fetch.js":27,"./instrument.js":6,"./types.js":11,"@sentry/core":70,"@sentry/utils":139}],10:[function(require,module,exports){
+},{"../common/fetch.js":27,"./instrument.js":6,"./types.js":11,"@sentry/core":70,"@sentry/utils":152}],10:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5197,7 +5207,7 @@ function instrumentRoutingWithDefaults(
 exports.instrumentRoutingWithDefaults = instrumentRoutingWithDefaults;
 
 
-},{"../common/debug-build.js":26,"./types.js":11,"@sentry/utils":139}],11:[function(require,module,exports){
+},{"../common/debug-build.js":26,"./types.js":11,"@sentry/utils":152}],11:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5209,7 +5219,7 @@ const WINDOW = utils.GLOBAL_OBJ
 exports.WINDOW = WINDOW;
 
 
-},{"@sentry/utils":139}],12:[function(require,module,exports){
+},{"@sentry/utils":152}],12:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const bindReporter = require('./lib/bindReporter.js');
@@ -6383,7 +6393,7 @@ exports.addTracingHeadersToFetchRequest = addTracingHeadersToFetchRequest;
 exports.instrumentFetchRequest = instrumentFetchRequest;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],28:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],28:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6456,7 +6466,7 @@ function addExtensionMethods() {
 exports.addExtensionMethods = addExtensionMethods;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],29:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],29:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6513,7 +6523,7 @@ exports.instrumentFetchRequest = fetch.instrumentFetchRequest;
 exports.addExtensionMethods = extensions.addExtensionMethods;
 
 
-},{"./browser/browserTracingIntegration.js":4,"./browser/browsertracing.js":5,"./browser/instrument.js":6,"./browser/request.js":9,"./common/fetch.js":27,"./extensions.js":28,"./node/integrations/apollo.js":30,"./node/integrations/express.js":31,"./node/integrations/graphql.js":32,"./node/integrations/lazy.js":33,"./node/integrations/mongo.js":34,"./node/integrations/mysql.js":35,"./node/integrations/postgres.js":36,"./node/integrations/prisma.js":37,"@sentry/core":70,"@sentry/utils":139}],30:[function(require,module,exports){
+},{"./browser/browserTracingIntegration.js":4,"./browser/browsertracing.js":5,"./browser/instrument.js":6,"./browser/request.js":9,"./common/fetch.js":27,"./extensions.js":28,"./node/integrations/apollo.js":30,"./node/integrations/express.js":31,"./node/integrations/graphql.js":32,"./node/integrations/lazy.js":33,"./node/integrations/mongo.js":34,"./node/integrations/mysql.js":35,"./node/integrations/postgres.js":36,"./node/integrations/prisma.js":37,"@sentry/core":70,"@sentry/utils":152}],30:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -6706,7 +6716,7 @@ function wrapResolver(
 exports.Apollo = Apollo;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":139}],31:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":152}],31:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -7203,7 +7213,7 @@ exports.extractOriginalRoute = extractOriginalRoute;
 exports.preventDuplicateSegments = preventDuplicateSegments;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/core":70,"@sentry/utils":139}],32:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/core":70,"@sentry/utils":152}],32:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -7292,7 +7302,7 @@ class GraphQL  {
 exports.GraphQL = GraphQL;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":139}],33:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":152}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -7345,7 +7355,7 @@ const lazyLoadedNodePerformanceMonitoringIntegrations = [
 exports.lazyLoadedNodePerformanceMonitoringIntegrations = lazyLoadedNodePerformanceMonitoringIntegrations;
 
 
-},{"@sentry/utils":139}],34:[function(require,module,exports){
+},{"@sentry/utils":152}],34:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -7612,7 +7622,7 @@ class Mongo  {
 exports.Mongo = Mongo;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":139}],35:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":152}],35:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -7750,7 +7760,7 @@ class Mysql  {
 exports.Mysql = Mysql;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":139}],36:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":152}],36:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils');
@@ -7883,7 +7893,7 @@ class Postgres  {
 exports.Postgres = Postgres;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":139}],37:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/utils":152}],37:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -7976,7 +7986,7 @@ class Prisma  {
 exports.Prisma = Prisma;
 
 
-},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/core":70,"@sentry/utils":139}],38:[function(require,module,exports){
+},{"../../common/debug-build.js":26,"./utils/node-utils.js":38,"@sentry/core":70,"@sentry/utils":152}],38:[function(require,module,exports){
 var {
  _optionalChain
 } = require('@sentry/utils');
@@ -8001,7 +8011,7 @@ function shouldDisableAutoInstrumentation(getCurrentHub) {
 exports.shouldDisableAutoInstrumentation = shouldDisableAutoInstrumentation;
 
 
-},{"@sentry/utils":139}],39:[function(require,module,exports){
+},{"@sentry/utils":152}],39:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8120,7 +8130,7 @@ class BrowserClient extends core.BaseClient {
 exports.BrowserClient = BrowserClient;
 
 
-},{"./debug-build.js":40,"./eventbuilder.js":41,"./helpers.js":42,"./userfeedback.js":60,"@sentry/core":70,"@sentry/utils":139}],40:[function(require,module,exports){
+},{"./debug-build.js":40,"./eventbuilder.js":41,"./helpers.js":42,"./userfeedback.js":60,"@sentry/core":70,"@sentry/utils":152}],40:[function(require,module,exports){
 arguments[4][26][0].apply(exports,arguments)
 },{"dup":26}],41:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -8445,7 +8455,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],42:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 require('@sentry-internal/tracing');
@@ -8603,7 +8613,7 @@ exports.shouldIgnoreOnError = shouldIgnoreOnError;
 exports.wrap = wrap;
 
 
-},{"@sentry-internal/tracing":29,"@sentry/core":70,"@sentry/utils":139}],43:[function(require,module,exports){
+},{"@sentry-internal/tracing":29,"@sentry/core":70,"@sentry/utils":152}],43:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8625,6 +8635,7 @@ const index = require('./integrations/index.js');
 const replay = require('@sentry/replay');
 const replayCanvas = require('@sentry-internal/replay-canvas');
 const feedback = require('@sentry-internal/feedback');
+const integrations = require('@sentry/integrations');
 const tracing = require('@sentry-internal/tracing');
 const offline = require('./transports/offline.js');
 const hubextensions = require('./profiling/hubextensions.js');
@@ -8732,7 +8743,6 @@ exports.wrap = sdk.wrap;
 exports.Breadcrumbs = breadcrumbs.Breadcrumbs;
 exports.breadcrumbsIntegration = breadcrumbs.breadcrumbsIntegration;
 exports.Dedupe = dedupe.Dedupe;
-exports.dedupeIntegration = dedupe.dedupeIntegration;
 exports.GlobalHandlers = globalhandlers.GlobalHandlers;
 exports.globalHandlersIntegration = globalhandlers.globalHandlersIntegration;
 exports.HttpContext = httpcontext.HttpContext;
@@ -8749,6 +8759,15 @@ exports.replayCanvasIntegration = replayCanvas.replayCanvasIntegration;
 exports.Feedback = feedback.Feedback;
 exports.feedbackIntegration = feedback.feedbackIntegration;
 exports.sendFeedback = feedback.sendFeedback;
+exports.captureConsoleIntegration = integrations.captureConsoleIntegration;
+exports.contextLinesIntegration = integrations.contextLinesIntegration;
+exports.debugIntegration = integrations.debugIntegration;
+exports.dedupeIntegration = integrations.dedupeIntegration;
+exports.extraErrorDataIntegration = integrations.extraErrorDataIntegration;
+exports.httpClientIntegration = integrations.httpClientIntegration;
+exports.reportingObserverIntegration = integrations.reportingObserverIntegration;
+exports.rewriteFramesIntegration = integrations.rewriteFramesIntegration;
+exports.sessionTimingIntegration = integrations.sessionTimingIntegration;
 exports.BrowserTracing = tracing.BrowserTracing;
 exports.browserTracingIntegration = tracing.browserTracingIntegration;
 exports.defaultRequestInstrumentationOptions = tracing.defaultRequestInstrumentationOptions;
@@ -8762,7 +8781,7 @@ exports.browserProfilingIntegration = integration.browserProfilingIntegration;
 exports.Integrations = INTEGRATIONS;
 
 
-},{"./client.js":39,"./eventbuilder.js":41,"./helpers.js":42,"./integrations/breadcrumbs.js":44,"./integrations/dedupe.js":45,"./integrations/globalhandlers.js":46,"./integrations/httpcontext.js":47,"./integrations/index.js":48,"./integrations/linkederrors.js":49,"./integrations/trycatch.js":50,"./profiling/hubextensions.js":51,"./profiling/integration.js":52,"./sdk.js":54,"./stack-parsers.js":55,"./transports/fetch.js":56,"./transports/offline.js":57,"./transports/xhr.js":59,"./userfeedback.js":60,"@sentry-internal/feedback":1,"@sentry-internal/replay-canvas":2,"@sentry-internal/tracing":29,"@sentry/core":70,"@sentry/replay":119}],44:[function(require,module,exports){
+},{"./client.js":39,"./eventbuilder.js":41,"./helpers.js":42,"./integrations/breadcrumbs.js":44,"./integrations/dedupe.js":45,"./integrations/globalhandlers.js":46,"./integrations/httpcontext.js":47,"./integrations/index.js":48,"./integrations/linkederrors.js":49,"./integrations/trycatch.js":50,"./profiling/hubextensions.js":51,"./profiling/integration.js":52,"./sdk.js":54,"./stack-parsers.js":55,"./transports/fetch.js":56,"./transports/offline.js":57,"./transports/xhr.js":59,"./userfeedback.js":60,"@sentry-internal/feedback":1,"@sentry-internal/replay-canvas":2,"@sentry-internal/tracing":29,"@sentry/core":70,"@sentry/integrations":126,"@sentry/replay":132}],44:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9103,7 +9122,7 @@ exports.Breadcrumbs = Breadcrumbs;
 exports.breadcrumbsIntegration = breadcrumbsIntegration;
 
 
-},{"../debug-build.js":40,"../helpers.js":42,"@sentry/core":70,"@sentry/utils":139}],45:[function(require,module,exports){
+},{"../debug-build.js":40,"../helpers.js":42,"@sentry/core":70,"@sentry/utils":152}],45:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9305,7 +9324,7 @@ exports.Dedupe = Dedupe;
 exports.dedupeIntegration = dedupeIntegration;
 
 
-},{"../debug-build.js":40,"@sentry/core":70,"@sentry/utils":139}],46:[function(require,module,exports){
+},{"../debug-build.js":40,"@sentry/core":70,"@sentry/utils":152}],46:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9544,7 +9563,7 @@ exports.GlobalHandlers = GlobalHandlers;
 exports.globalHandlersIntegration = globalHandlersIntegration;
 
 
-},{"../debug-build.js":40,"../eventbuilder.js":41,"../helpers.js":42,"@sentry/core":70,"@sentry/utils":139}],47:[function(require,module,exports){
+},{"../debug-build.js":40,"../eventbuilder.js":41,"../helpers.js":42,"@sentry/core":70,"@sentry/utils":152}],47:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9667,7 +9686,7 @@ exports.LinkedErrors = LinkedErrors;
 exports.linkedErrorsIntegration = linkedErrorsIntegration;
 
 
-},{"../eventbuilder.js":41,"@sentry/core":70,"@sentry/utils":139}],50:[function(require,module,exports){
+},{"../eventbuilder.js":41,"@sentry/core":70,"@sentry/utils":152}],50:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -9951,7 +9970,7 @@ exports.TryCatch = TryCatch;
 exports.browserApiErrorsIntegration = browserApiErrorsIntegration;
 
 
-},{"../helpers.js":42,"@sentry/core":70,"@sentry/utils":139}],51:[function(require,module,exports){
+},{"../helpers.js":42,"@sentry/core":70,"@sentry/utils":152}],51:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -10111,7 +10130,7 @@ exports.onProfilingStartRouteTransaction = onProfilingStartRouteTransaction;
 exports.startProfileForTransaction = startProfileForTransaction;
 
 
-},{"../debug-build.js":40,"../helpers.js":42,"./utils.js":53,"@sentry/core":70,"@sentry/utils":139}],52:[function(require,module,exports){
+},{"../debug-build.js":40,"../helpers.js":42,"./utils.js":53,"@sentry/core":70,"@sentry/utils":152}],52:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -10230,7 +10249,7 @@ exports.BrowserProfilingIntegration = BrowserProfilingIntegration;
 exports.browserProfilingIntegration = browserProfilingIntegration;
 
 
-},{"../debug-build.js":40,"./hubextensions.js":51,"./utils.js":53,"@sentry/core":70,"@sentry/utils":139}],53:[function(require,module,exports){
+},{"../debug-build.js":40,"./hubextensions.js":51,"./utils.js":53,"@sentry/core":70,"@sentry/utils":152}],53:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -10837,7 +10856,7 @@ exports.startJSSelfProfile = startJSSelfProfile;
 exports.takeProfileFromGlobalCache = takeProfileFromGlobalCache;
 
 
-},{"../debug-build.js":40,"../helpers.js":42,"@sentry/core":70,"@sentry/utils":139}],54:[function(require,module,exports){
+},{"../debug-build.js":40,"../helpers.js":42,"@sentry/core":70,"@sentry/utils":152}],54:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -11117,7 +11136,7 @@ exports.showReportDialog = showReportDialog;
 exports.wrap = wrap;
 
 
-},{"./client.js":39,"./debug-build.js":40,"./helpers.js":42,"./integrations/breadcrumbs.js":44,"./integrations/dedupe.js":45,"./integrations/globalhandlers.js":46,"./integrations/httpcontext.js":47,"./integrations/linkederrors.js":49,"./integrations/trycatch.js":50,"./stack-parsers.js":55,"./transports/fetch.js":56,"./transports/xhr.js":59,"@sentry/core":70,"@sentry/utils":139}],55:[function(require,module,exports){
+},{"./client.js":39,"./debug-build.js":40,"./helpers.js":42,"./integrations/breadcrumbs.js":44,"./integrations/dedupe.js":45,"./integrations/globalhandlers.js":46,"./integrations/httpcontext.js":47,"./integrations/linkederrors.js":49,"./integrations/trycatch.js":50,"./stack-parsers.js":55,"./transports/fetch.js":56,"./transports/xhr.js":59,"@sentry/core":70,"@sentry/utils":152}],55:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11297,7 +11316,7 @@ exports.opera11StackLineParser = opera11StackLineParser;
 exports.winjsStackLineParser = winjsStackLineParser;
 
 
-},{"@sentry/utils":139}],56:[function(require,module,exports){
+},{"@sentry/utils":152}],56:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -11365,7 +11384,7 @@ function makeFetchTransport(
 exports.makeFetchTransport = makeFetchTransport;
 
 
-},{"./utils.js":58,"@sentry/core":70,"@sentry/utils":139}],57:[function(require,module,exports){
+},{"./utils.js":58,"@sentry/core":70,"@sentry/utils":152}],57:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -11505,7 +11524,7 @@ exports.makeBrowserOfflineTransport = makeBrowserOfflineTransport;
 exports.pop = pop;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],58:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],58:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11595,7 +11614,7 @@ exports.clearCachedFetchImplementation = clearCachedFetchImplementation;
 exports.getNativeFetchImplementation = getNativeFetchImplementation;
 
 
-},{"../debug-build.js":40,"../helpers.js":42,"@sentry/utils":139}],59:[function(require,module,exports){
+},{"../debug-build.js":40,"../helpers.js":42,"@sentry/utils":152}],59:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -11651,7 +11670,7 @@ function makeXHRTransport(options) {
 exports.makeXHRTransport = makeXHRTransport;
 
 
-},{"@sentry/core":70,"@sentry/utils":139}],60:[function(require,module,exports){
+},{"@sentry/core":70,"@sentry/utils":152}],60:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11696,7 +11715,7 @@ function createUserFeedbackEnvelopeItem(feedback) {
 exports.createUserFeedbackEnvelope = createUserFeedbackEnvelope;
 
 
-},{"@sentry/utils":139}],61:[function(require,module,exports){
+},{"@sentry/utils":152}],61:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -11795,7 +11814,7 @@ exports.getEnvelopeEndpointWithUrlEncodedAuth = getEnvelopeEndpointWithUrlEncode
 exports.getReportDialogEndpoint = getReportDialogEndpoint;
 
 
-},{"@sentry/utils":139}],62:[function(require,module,exports){
+},{"@sentry/utils":152}],62:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -12608,7 +12627,7 @@ exports.BaseClient = BaseClient;
 exports.addEventProcessor = addEventProcessor;
 
 
-},{"./api.js":61,"./debug-build.js":65,"./envelope.js":66,"./exports.js":68,"./hub.js":69,"./integration.js":71,"./metrics/envelope.js":82,"./session.js":92,"./tracing/dynamicSamplingContext.js":95,"./utils/prepareEvent.js":115,"@sentry/utils":139}],63:[function(require,module,exports){
+},{"./api.js":61,"./debug-build.js":65,"./envelope.js":66,"./exports.js":68,"./hub.js":69,"./integration.js":71,"./metrics/envelope.js":82,"./session.js":92,"./tracing/dynamicSamplingContext.js":95,"./utils/prepareEvent.js":115,"@sentry/utils":152}],63:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -12656,7 +12675,7 @@ function createCheckInEnvelopeItem(checkIn) {
 exports.createCheckInEnvelope = createCheckInEnvelope;
 
 
-},{"@sentry/utils":139}],64:[function(require,module,exports){
+},{"@sentry/utils":152}],64:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const DEFAULT_ENVIRONMENT = 'production';
@@ -12745,7 +12764,7 @@ exports.createEventEnvelope = createEventEnvelope;
 exports.createSessionEnvelope = createSessionEnvelope;
 
 
-},{"@sentry/utils":139}],67:[function(require,module,exports){
+},{"@sentry/utils":152}],67:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -12804,7 +12823,7 @@ exports.getGlobalEventProcessors = getGlobalEventProcessors;
 exports.notifyEventProcessors = notifyEventProcessors;
 
 
-},{"./debug-build.js":65,"@sentry/utils":139}],68:[function(require,module,exports){
+},{"./debug-build.js":65,"@sentry/utils":152}],68:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13318,7 +13337,7 @@ exports.withMonitor = withMonitor;
 exports.withScope = withScope;
 
 
-},{"./constants.js":64,"./debug-build.js":65,"./hub.js":69,"./session.js":92,"./utils/prepareEvent.js":115,"@sentry/utils":139}],69:[function(require,module,exports){
+},{"./constants.js":64,"./debug-build.js":65,"./hub.js":69,"./session.js":92,"./utils/prepareEvent.js":115,"@sentry/utils":152}],69:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -14149,7 +14168,7 @@ exports.setAsyncContextStrategy = setAsyncContextStrategy;
 exports.setHubOnCarrier = setHubOnCarrier;
 
 
-},{"./constants.js":64,"./debug-build.js":65,"./scope.js":88,"./session.js":92,"./version.js":118,"@sentry/utils":139}],70:[function(require,module,exports){
+},{"./constants.js":64,"./debug-build.js":65,"./scope.js":88,"./session.js":92,"./version.js":118,"@sentry/utils":152}],70:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const hubextensions = require('./tracing/hubextensions.js');
@@ -14527,7 +14546,7 @@ exports.setupIntegration = setupIntegration;
 exports.setupIntegrations = setupIntegrations;
 
 
-},{"./debug-build.js":65,"./eventProcessors.js":67,"./exports.js":68,"./hub.js":69,"@sentry/utils":139}],72:[function(require,module,exports){
+},{"./debug-build.js":65,"./eventProcessors.js":67,"./exports.js":68,"./hub.js":69,"@sentry/utils":152}],72:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -14597,7 +14616,7 @@ exports.FunctionToString = FunctionToString;
 exports.functionToStringIntegration = functionToStringIntegration;
 
 
-},{"../exports.js":68,"../integration.js":71,"@sentry/utils":139}],73:[function(require,module,exports){
+},{"../exports.js":68,"../integration.js":71,"@sentry/utils":152}],73:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -14826,7 +14845,7 @@ exports.InboundFilters = InboundFilters;
 exports.inboundFiltersIntegration = inboundFiltersIntegration;
 
 
-},{"../debug-build.js":65,"../integration.js":71,"@sentry/utils":139}],74:[function(require,module,exports){
+},{"../debug-build.js":65,"../integration.js":71,"@sentry/utils":152}],74:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const functiontostring = require('./functiontostring.js');
@@ -14890,7 +14909,7 @@ exports.LinkedErrors = LinkedErrors;
 exports.linkedErrorsIntegration = linkedErrorsIntegration;
 
 
-},{"../integration.js":71,"@sentry/utils":139}],76:[function(require,module,exports){
+},{"../integration.js":71,"@sentry/utils":152}],76:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -14957,7 +14976,7 @@ exports.ModuleMetadata = ModuleMetadata;
 exports.moduleMetadataIntegration = moduleMetadataIntegration;
 
 
-},{"../integration.js":71,"../metadata.js":78,"@sentry/utils":139}],77:[function(require,module,exports){
+},{"../integration.js":71,"../metadata.js":78,"@sentry/utils":152}],77:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15137,7 +15156,7 @@ exports.RequestData = RequestData;
 exports.requestDataIntegration = requestDataIntegration;
 
 
-},{"../integration.js":71,"../utils/spanUtils.js":117,"@sentry/utils":139}],78:[function(require,module,exports){
+},{"../integration.js":71,"../utils/spanUtils.js":117,"@sentry/utils":152}],78:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15242,7 +15261,7 @@ exports.getMetadataForUrl = getMetadataForUrl;
 exports.stripMetadataFromStackFrames = stripMetadataFromStackFrames;
 
 
-},{"@sentry/utils":139}],79:[function(require,module,exports){
+},{"@sentry/utils":152}],79:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils$1 = require('@sentry/utils');
@@ -15418,7 +15437,7 @@ class MetricsAggregator  {
 exports.MetricsAggregator = MetricsAggregator;
 
 
-},{"./constants.js":81,"./instance.js":84,"./metric-summary.js":86,"./utils.js":87,"@sentry/utils":139}],80:[function(require,module,exports){
+},{"./constants.js":81,"./instance.js":84,"./metric-summary.js":86,"./utils.js":87,"@sentry/utils":152}],80:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils$1 = require('@sentry/utils');
@@ -15519,7 +15538,7 @@ class BrowserMetricsAggregator  {
 exports.BrowserMetricsAggregator = BrowserMetricsAggregator;
 
 
-},{"./constants.js":81,"./instance.js":84,"./metric-summary.js":86,"./utils.js":87,"@sentry/utils":139}],81:[function(require,module,exports){
+},{"./constants.js":81,"./instance.js":84,"./metric-summary.js":86,"./utils.js":87,"@sentry/utils":152}],81:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const COUNTER_METRIC_TYPE = 'c' ;
@@ -15599,7 +15618,7 @@ function createMetricEnvelopeItem(metricBucketItems) {
 exports.createMetricEnvelope = createMetricEnvelope;
 
 
-},{"./utils.js":87,"@sentry/utils":139}],83:[function(require,module,exports){
+},{"./utils.js":87,"@sentry/utils":152}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -15697,7 +15716,7 @@ exports.metrics = metrics;
 exports.set = set;
 
 
-},{"../debug-build.js":65,"../exports.js":68,"../utils/spanUtils.js":117,"./constants.js":81,"./integration.js":85,"@sentry/utils":139}],84:[function(require,module,exports){
+},{"../debug-build.js":65,"../exports.js":68,"../utils/spanUtils.js":117,"./constants.js":81,"./integration.js":85,"@sentry/utils":152}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('./constants.js');
@@ -15962,7 +15981,7 @@ exports.getMetricSummaryJsonForSpan = getMetricSummaryJsonForSpan;
 exports.updateMetricSummaryOnActiveSpan = updateMetricSummaryOnActiveSpan;
 
 
-},{"../debug-build.js":65,"../tracing/errors.js":96,"../tracing/spanstatus.js":102,"../tracing/trace.js":103,"@sentry/utils":139}],87:[function(require,module,exports){
+},{"../debug-build.js":65,"../tracing/errors.js":96,"../tracing/spanstatus.js":102,"../tracing/trace.js":103,"@sentry/utils":152}],87:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16077,7 +16096,7 @@ exports.serializeMetricBuckets = serializeMetricBuckets;
 exports.simpleHash = simpleHash;
 
 
-},{"@sentry/utils":139}],88:[function(require,module,exports){
+},{"@sentry/utils":152}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16769,7 +16788,7 @@ exports.getGlobalScope = getGlobalScope;
 exports.setGlobalScope = setGlobalScope;
 
 
-},{"./eventProcessors.js":67,"./session.js":92,"./utils/applyScopeDataToEvent.js":109,"@sentry/utils":139}],89:[function(require,module,exports){
+},{"./eventProcessors.js":67,"./session.js":92,"./utils/applyScopeDataToEvent.js":109,"@sentry/utils":152}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16840,7 +16859,7 @@ exports.initAndBind = initAndBind;
 exports.setCurrentClient = setCurrentClient;
 
 
-},{"./debug-build.js":65,"./exports.js":68,"./hub.js":69,"@sentry/utils":139}],90:[function(require,module,exports){
+},{"./debug-build.js":65,"./exports.js":68,"./hub.js":69,"@sentry/utils":152}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -17141,7 +17160,7 @@ class ServerRuntimeClient
 exports.ServerRuntimeClient = ServerRuntimeClient;
 
 
-},{"./baseclient.js":62,"./checkin.js":63,"./debug-build.js":65,"./exports.js":68,"./metrics/aggregator.js":79,"./sessionflusher.js":93,"./tracing/dynamicSamplingContext.js":95,"./tracing/hubextensions.js":97,"./tracing/spanstatus.js":102,"./utils/getRootSpan.js":110,"./utils/spanUtils.js":117,"@sentry/utils":139}],92:[function(require,module,exports){
+},{"./baseclient.js":62,"./checkin.js":63,"./debug-build.js":65,"./exports.js":68,"./metrics/aggregator.js":79,"./sessionflusher.js":93,"./tracing/dynamicSamplingContext.js":95,"./tracing/hubextensions.js":97,"./tracing/spanstatus.js":102,"./utils/getRootSpan.js":110,"./utils/spanUtils.js":117,"@sentry/utils":152}],92:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17307,7 +17326,7 @@ exports.makeSession = makeSession;
 exports.updateSession = updateSession;
 
 
-},{"@sentry/utils":139}],93:[function(require,module,exports){
+},{"@sentry/utils":152}],93:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17421,7 +17440,7 @@ class SessionFlusher  {
 exports.SessionFlusher = SessionFlusher;
 
 
-},{"./exports.js":68,"@sentry/utils":139}],94:[function(require,module,exports){
+},{"./exports.js":68,"@sentry/utils":152}],94:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17452,7 +17471,7 @@ function createSpanItem(span) {
 exports.createSpanEnvelope = createSpanEnvelope;
 
 
-},{"@sentry/utils":139}],95:[function(require,module,exports){
+},{"@sentry/utils":152}],95:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17552,7 +17571,7 @@ exports.getDynamicSamplingContextFromClient = getDynamicSamplingContextFromClien
 exports.getDynamicSamplingContextFromSpan = getDynamicSamplingContextFromSpan;
 
 
-},{"../constants.js":64,"../exports.js":68,"../utils/getRootSpan.js":110,"../utils/spanUtils.js":117,"@sentry/utils":139}],96:[function(require,module,exports){
+},{"../constants.js":64,"../exports.js":68,"../utils/getRootSpan.js":110,"../utils/spanUtils.js":117,"@sentry/utils":152}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17594,7 +17613,7 @@ errorCallback.tag = 'sentry_tracingErrorCallback';
 exports.registerErrorInstrumentation = registerErrorInstrumentation;
 
 
-},{"../debug-build.js":65,"./utils.js":105,"@sentry/utils":139}],97:[function(require,module,exports){
+},{"../debug-build.js":65,"./utils.js":105,"@sentry/utils":152}],97:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -17753,7 +17772,7 @@ exports.addTracingExtensions = addTracingExtensions;
 exports.startIdleTransaction = startIdleTransaction;
 
 
-},{"../debug-build.js":65,"../hub.js":69,"../utils/spanUtils.js":117,"./errors.js":96,"./idletransaction.js":98,"./sampling.js":100,"./transaction.js":104,"@sentry/utils":139}],98:[function(require,module,exports){
+},{"../debug-build.js":65,"../hub.js":69,"../utils/spanUtils.js":117,"./errors.js":96,"./idletransaction.js":98,"./sampling.js":100,"./transaction.js":104,"@sentry/utils":152}],98:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18162,7 +18181,7 @@ exports.IdleTransactionSpanRecorder = IdleTransactionSpanRecorder;
 exports.TRACING_DEFAULTS = TRACING_DEFAULTS;
 
 
-},{"../debug-build.js":65,"../utils/spanUtils.js":117,"./span.js":101,"./transaction.js":104,"@sentry/utils":139}],99:[function(require,module,exports){
+},{"../debug-build.js":65,"../utils/spanUtils.js":117,"./span.js":101,"./transaction.js":104,"@sentry/utils":152}],99:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('./utils.js');
@@ -18313,7 +18332,7 @@ exports.isValidSampleRate = isValidSampleRate;
 exports.sampleTransaction = sampleTransaction;
 
 
-},{"../debug-build.js":65,"../semanticAttributes.js":90,"../utils/hasTracingEnabled.js":112,"../utils/spanUtils.js":117,"@sentry/utils":139}],101:[function(require,module,exports){
+},{"../debug-build.js":65,"../semanticAttributes.js":90,"../utils/hasTracingEnabled.js":112,"../utils/spanUtils.js":117,"@sentry/utils":152}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -18959,7 +18978,7 @@ exports.Span = Span;
 exports.SpanRecorder = SpanRecorder;
 
 
-},{"../debug-build.js":65,"../metrics/metric-summary.js":86,"../semanticAttributes.js":90,"../utils/getRootSpan.js":110,"../utils/spanUtils.js":117,"./spanstatus.js":102,"@sentry/utils":139}],102:[function(require,module,exports){
+},{"../debug-build.js":65,"../metrics/metric-summary.js":86,"../semanticAttributes.js":90,"../utils/getRootSpan.js":110,"../utils/spanUtils.js":117,"./spanstatus.js":102,"@sentry/utils":152}],102:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** The status of an Span.
@@ -19482,7 +19501,7 @@ exports.startSpanManual = startSpanManual;
 exports.trace = trace;
 
 
-},{"../debug-build.js":65,"../exports.js":68,"../hub.js":69,"../utils/handleCallbackErrors.js":111,"../utils/hasTracingEnabled.js":112,"../utils/spanUtils.js":117,"./dynamicSamplingContext.js":95,"./errors.js":96,"./spanstatus.js":102,"@sentry/utils":139}],104:[function(require,module,exports){
+},{"../debug-build.js":65,"../exports.js":68,"../hub.js":69,"../utils/handleCallbackErrors.js":111,"../utils/hasTracingEnabled.js":112,"../utils/spanUtils.js":117,"./dynamicSamplingContext.js":95,"./errors.js":96,"./spanstatus.js":102,"@sentry/utils":152}],104:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -19836,7 +19855,7 @@ class Transaction extends span.Span  {
 exports.Transaction = Transaction;
 
 
-},{"../debug-build.js":65,"../hub.js":69,"../metrics/metric-summary.js":86,"../semanticAttributes.js":90,"../utils/spanUtils.js":117,"./dynamicSamplingContext.js":95,"./span.js":101,"./trace.js":103,"@sentry/utils":139}],105:[function(require,module,exports){
+},{"../debug-build.js":65,"../hub.js":69,"../metrics/metric-summary.js":86,"../semanticAttributes.js":90,"../utils/spanUtils.js":117,"./dynamicSamplingContext.js":95,"./span.js":101,"./trace.js":103,"@sentry/utils":152}],105:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -19876,7 +19895,7 @@ exports.extractTraceparentData = extractTraceparentData;
 exports.getActiveTransaction = getActiveTransaction;
 
 
-},{"../hub.js":69,"@sentry/utils":139}],106:[function(require,module,exports){
+},{"../hub.js":69,"@sentry/utils":152}],106:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -19983,7 +20002,7 @@ exports.DEFAULT_TRANSPORT_BUFFER_SIZE = DEFAULT_TRANSPORT_BUFFER_SIZE;
 exports.createTransport = createTransport;
 
 
-},{"../debug-build.js":65,"@sentry/utils":139}],107:[function(require,module,exports){
+},{"../debug-build.js":65,"@sentry/utils":152}],107:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -20106,7 +20125,7 @@ exports.eventFromEnvelope = eventFromEnvelope;
 exports.makeMultiplexedTransport = makeMultiplexedTransport;
 
 
-},{"../api.js":61,"@sentry/utils":139}],108:[function(require,module,exports){
+},{"../api.js":61,"@sentry/utils":152}],108:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -20235,7 +20254,7 @@ exports.START_DELAY = START_DELAY;
 exports.makeOfflineTransport = makeOfflineTransport;
 
 
-},{"../debug-build.js":65,"@sentry/utils":139}],109:[function(require,module,exports){
+},{"../debug-build.js":65,"@sentry/utils":152}],109:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -20430,7 +20449,7 @@ exports.mergeAndOverwriteScopeData = mergeAndOverwriteScopeData;
 exports.mergeScopeData = mergeScopeData;
 
 
-},{"../tracing/dynamicSamplingContext.js":95,"./getRootSpan.js":110,"./spanUtils.js":117,"@sentry/utils":139}],110:[function(require,module,exports){
+},{"../tracing/dynamicSamplingContext.js":95,"./getRootSpan.js":110,"./spanUtils.js":117,"@sentry/utils":152}],110:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -20519,7 +20538,7 @@ function maybeHandlePromiseRejection(
 exports.handleCallbackErrors = handleCallbackErrors;
 
 
-},{"@sentry/utils":139}],112:[function(require,module,exports){
+},{"@sentry/utils":152}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const exports$1 = require('../exports.js');
@@ -21009,7 +21028,7 @@ exports.parseEventHintOrCaptureContext = parseEventHintOrCaptureContext;
 exports.prepareEvent = prepareEvent;
 
 
-},{"../constants.js":64,"../eventProcessors.js":67,"../scope.js":88,"./applyScopeDataToEvent.js":109,"./spanUtils.js":117,"@sentry/utils":139}],116:[function(require,module,exports){
+},{"../constants.js":64,"../eventProcessors.js":67,"../scope.js":88,"./applyScopeDataToEvent.js":109,"./spanUtils.js":117,"@sentry/utils":152}],116:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const version = require('../version.js');
@@ -21167,15 +21186,1497 @@ exports.spanToTraceContext = spanToTraceContext;
 exports.spanToTraceHeader = spanToTraceHeader;
 
 
-},{"@sentry/utils":139}],118:[function(require,module,exports){
+},{"@sentry/utils":152}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.111.0';
+const SDK_VERSION = '7.112.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
 
 },{}],119:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+
+const INTEGRATION_NAME = 'CaptureConsole';
+
+const _captureConsoleIntegration = ((options = {}) => {
+  const levels = options.levels || utils.CONSOLE_LEVELS;
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    setup(client) {
+      if (!('console' in utils.GLOBAL_OBJ)) {
+        return;
+      }
+
+      utils.addConsoleInstrumentationHandler(({ args, level }) => {
+        if (core.getClient() !== client || !levels.includes(level)) {
+          return;
+        }
+
+        consoleHandler(args, level);
+      });
+    },
+  };
+}) ;
+
+const captureConsoleIntegration = core.defineIntegration(_captureConsoleIntegration);
+
+/**
+ * Send Console API calls as Sentry Events.
+ * @deprecated Use `captureConsoleIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const CaptureConsole = core.convertIntegrationFnToClass(
+  INTEGRATION_NAME,
+  captureConsoleIntegration,
+)
+
+;
+
+function consoleHandler(args, level) {
+  const captureContext = {
+    level: utils.severityLevelFromString(level),
+    extra: {
+      arguments: args,
+    },
+  };
+
+  core.withScope(scope => {
+    scope.addEventProcessor(event => {
+      event.logger = 'console';
+
+      utils.addExceptionMechanism(event, {
+        handled: false,
+        type: 'console',
+      });
+
+      return event;
+    });
+
+    if (level === 'assert' && args[0] === false) {
+      const message = `Assertion failed: ${utils.safeJoin(args.slice(1), ' ') || 'console.assert'}`;
+      scope.setExtra('arguments', args.slice(1));
+      core.captureMessage(message, captureContext);
+      return;
+    }
+
+    const error = args.find(arg => arg instanceof Error);
+    if (level === 'error' && error) {
+      core.captureException(error, captureContext);
+      return;
+    }
+
+    const message = utils.safeJoin(args, ' ');
+    core.captureMessage(message, captureContext);
+  });
+}
+
+exports.CaptureConsole = CaptureConsole;
+exports.captureConsoleIntegration = captureConsoleIntegration;
+
+
+},{"@sentry/core":70,"@sentry/utils":152}],120:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+
+const WINDOW = utils.GLOBAL_OBJ ;
+
+const DEFAULT_LINES_OF_CONTEXT = 7;
+
+const INTEGRATION_NAME = 'ContextLines';
+
+const _contextLinesIntegration = ((options = {}) => {
+  const contextLines = options.frameContextLines != null ? options.frameContextLines : DEFAULT_LINES_OF_CONTEXT;
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    processEvent(event) {
+      return addSourceContext(event, contextLines);
+    },
+  };
+}) ;
+
+const contextLinesIntegration = core.defineIntegration(_contextLinesIntegration);
+
+/**
+ * Collects source context lines around the lines of stackframes pointing to JS embedded in
+ * the current page's HTML.
+ *
+ * This integration DOES NOT work for stack frames pointing to JS files that are loaded by the browser.
+ * For frames pointing to files, context lines are added during ingestion and symbolication
+ * by attempting to download the JS files to the Sentry backend.
+ *
+ * Use this integration if you have inline JS code in HTML pages that can't be accessed
+ * by our backend (e.g. due to a login-protected page).
+ *
+ * @deprecated Use `contextLinesIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const ContextLines = core.convertIntegrationFnToClass(INTEGRATION_NAME, contextLinesIntegration)
+
+;
+
+/**
+ * Processes an event and adds context lines.
+ */
+function addSourceContext(event, contextLines) {
+  const doc = WINDOW.document;
+  const htmlFilename = WINDOW.location && utils.stripUrlQueryAndFragment(WINDOW.location.href);
+  if (!doc || !htmlFilename) {
+    return event;
+  }
+
+  const exceptions = event.exception && event.exception.values;
+  if (!exceptions || !exceptions.length) {
+    return event;
+  }
+
+  const html = doc.documentElement.innerHTML;
+  if (!html) {
+    return event;
+  }
+
+  const htmlLines = ['<!DOCTYPE html>', '<html>', ...html.split('\n'), '</html>'];
+
+  exceptions.forEach(exception => {
+    const stacktrace = exception.stacktrace;
+    if (stacktrace && stacktrace.frames) {
+      stacktrace.frames = stacktrace.frames.map(frame =>
+        applySourceContextToFrame(frame, htmlLines, htmlFilename, contextLines),
+      );
+    }
+  });
+
+  return event;
+}
+
+/**
+ * Only exported for testing
+ */
+function applySourceContextToFrame(
+  frame,
+  htmlLines,
+  htmlFilename,
+  linesOfContext,
+) {
+  if (frame.filename !== htmlFilename || !frame.lineno || !htmlLines.length) {
+    return frame;
+  }
+
+  utils.addContextToFrame(htmlLines, frame, linesOfContext);
+
+  return frame;
+}
+
+exports.ContextLines = ContextLines;
+exports.applySourceContextToFrame = applySourceContextToFrame;
+exports.contextLinesIntegration = contextLinesIntegration;
+
+
+},{"@sentry/core":70,"@sentry/utils":152}],121:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"dup":26}],122:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+
+const INTEGRATION_NAME = 'Debug';
+
+const _debugIntegration = ((options = {}) => {
+  const _options = {
+    debugger: false,
+    stringify: false,
+    ...options,
+  };
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    setup(client) {
+      if (!client.on) {
+        return;
+      }
+
+      client.on('beforeSendEvent', (event, hint) => {
+        if (_options.debugger) {
+          // eslint-disable-next-line no-debugger
+          debugger;
+        }
+
+        /* eslint-disable no-console */
+        utils.consoleSandbox(() => {
+          if (_options.stringify) {
+            console.log(JSON.stringify(event, null, 2));
+            if (hint && Object.keys(hint).length) {
+              console.log(JSON.stringify(hint, null, 2));
+            }
+          } else {
+            console.log(event);
+            if (hint && Object.keys(hint).length) {
+              console.log(hint);
+            }
+          }
+        });
+        /* eslint-enable no-console */
+      });
+    },
+  };
+}) ;
+
+const debugIntegration = core.defineIntegration(_debugIntegration);
+
+/**
+ * Integration to debug sent Sentry events.
+ * This integration should not be used in production.
+ *
+ * @deprecated Use `debugIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const Debug = core.convertIntegrationFnToClass(INTEGRATION_NAME, debugIntegration)
+
+;
+
+exports.Debug = Debug;
+exports.debugIntegration = debugIntegration;
+
+
+},{"@sentry/core":70,"@sentry/utils":152}],123:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
+
+const INTEGRATION_NAME = 'Dedupe';
+
+const _dedupeIntegration = (() => {
+  let previousEvent;
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    processEvent(currentEvent) {
+      // We want to ignore any non-error type events, e.g. transactions or replays
+      // These should never be deduped, and also not be compared against as _previousEvent.
+      if (currentEvent.type) {
+        return currentEvent;
+      }
+
+      // Juuust in case something goes wrong
+      try {
+        if (_shouldDropEvent(currentEvent, previousEvent)) {
+          debugBuild.DEBUG_BUILD && utils.logger.warn('Event dropped due to being a duplicate of previously captured event.');
+          return null;
+        }
+      } catch (_oO) {} // eslint-disable-line no-empty
+
+      return (previousEvent = currentEvent);
+    },
+  };
+}) ;
+
+const dedupeIntegration = core.defineIntegration(_dedupeIntegration);
+
+/**
+ * Deduplication filter.
+ * @deprecated Use `dedupeIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const Dedupe = core.convertIntegrationFnToClass(INTEGRATION_NAME, dedupeIntegration)
+
+;
+
+/** only exported for tests. */
+function _shouldDropEvent(currentEvent, previousEvent) {
+  if (!previousEvent) {
+    return false;
+  }
+
+  if (_isSameMessageEvent(currentEvent, previousEvent)) {
+    return true;
+  }
+
+  if (_isSameExceptionEvent(currentEvent, previousEvent)) {
+    return true;
+  }
+
+  return false;
+}
+
+function _isSameMessageEvent(currentEvent, previousEvent) {
+  const currentMessage = currentEvent.message;
+  const previousMessage = previousEvent.message;
+
+  // If neither event has a message property, they were both exceptions, so bail out
+  if (!currentMessage && !previousMessage) {
+    return false;
+  }
+
+  // If only one event has a stacktrace, but not the other one, they are not the same
+  if ((currentMessage && !previousMessage) || (!currentMessage && previousMessage)) {
+    return false;
+  }
+
+  if (currentMessage !== previousMessage) {
+    return false;
+  }
+
+  if (!_isSameFingerprint(currentEvent, previousEvent)) {
+    return false;
+  }
+
+  if (!_isSameStacktrace(currentEvent, previousEvent)) {
+    return false;
+  }
+
+  return true;
+}
+
+function _isSameExceptionEvent(currentEvent, previousEvent) {
+  const previousException = _getExceptionFromEvent(previousEvent);
+  const currentException = _getExceptionFromEvent(currentEvent);
+
+  if (!previousException || !currentException) {
+    return false;
+  }
+
+  if (previousException.type !== currentException.type || previousException.value !== currentException.value) {
+    return false;
+  }
+
+  if (!_isSameFingerprint(currentEvent, previousEvent)) {
+    return false;
+  }
+
+  if (!_isSameStacktrace(currentEvent, previousEvent)) {
+    return false;
+  }
+
+  return true;
+}
+
+function _isSameStacktrace(currentEvent, previousEvent) {
+  let currentFrames = _getFramesFromEvent(currentEvent);
+  let previousFrames = _getFramesFromEvent(previousEvent);
+
+  // If neither event has a stacktrace, they are assumed to be the same
+  if (!currentFrames && !previousFrames) {
+    return true;
+  }
+
+  // If only one event has a stacktrace, but not the other one, they are not the same
+  if ((currentFrames && !previousFrames) || (!currentFrames && previousFrames)) {
+    return false;
+  }
+
+  currentFrames = currentFrames ;
+  previousFrames = previousFrames ;
+
+  // If number of frames differ, they are not the same
+  if (previousFrames.length !== currentFrames.length) {
+    return false;
+  }
+
+  // Otherwise, compare the two
+  for (let i = 0; i < previousFrames.length; i++) {
+    const frameA = previousFrames[i];
+    const frameB = currentFrames[i];
+
+    if (
+      frameA.filename !== frameB.filename ||
+      frameA.lineno !== frameB.lineno ||
+      frameA.colno !== frameB.colno ||
+      frameA.function !== frameB.function
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function _isSameFingerprint(currentEvent, previousEvent) {
+  let currentFingerprint = currentEvent.fingerprint;
+  let previousFingerprint = previousEvent.fingerprint;
+
+  // If neither event has a fingerprint, they are assumed to be the same
+  if (!currentFingerprint && !previousFingerprint) {
+    return true;
+  }
+
+  // If only one event has a fingerprint, but not the other one, they are not the same
+  if ((currentFingerprint && !previousFingerprint) || (!currentFingerprint && previousFingerprint)) {
+    return false;
+  }
+
+  currentFingerprint = currentFingerprint ;
+  previousFingerprint = previousFingerprint ;
+
+  // Otherwise, compare the two
+  try {
+    return !!(currentFingerprint.join('') === previousFingerprint.join(''));
+  } catch (_oO) {
+    return false;
+  }
+}
+
+function _getExceptionFromEvent(event) {
+  return event.exception && event.exception.values && event.exception.values[0];
+}
+
+function _getFramesFromEvent(event) {
+  const exception = event.exception;
+
+  if (exception) {
+    try {
+      // @ts-expect-error Object could be undefined
+      return exception.values[0].stacktrace.frames;
+    } catch (_oO) {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
+exports.Dedupe = Dedupe;
+exports._shouldDropEvent = _shouldDropEvent;
+exports.dedupeIntegration = dedupeIntegration;
+
+
+},{"./debug-build.js":121,"@sentry/core":70,"@sentry/utils":152}],124:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
+
+const INTEGRATION_NAME = 'ExtraErrorData';
+
+const _extraErrorDataIntegration = ((options = {}) => {
+  const depth = options.depth || 3;
+
+  // TODO(v8): Flip the default for this option to true
+  const captureErrorCause = options.captureErrorCause || false;
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    processEvent(event, hint) {
+      return _enhanceEventWithErrorData(event, hint, depth, captureErrorCause);
+    },
+  };
+}) ;
+
+const extraErrorDataIntegration = core.defineIntegration(_extraErrorDataIntegration);
+
+/**
+ * Extract additional data for from original exceptions.
+ * @deprecated Use `extraErrorDataIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const ExtraErrorData = core.convertIntegrationFnToClass(
+  INTEGRATION_NAME,
+  extraErrorDataIntegration,
+)
+
+;
+
+function _enhanceEventWithErrorData(
+  event,
+  hint = {},
+  depth,
+  captureErrorCause,
+) {
+  if (!hint.originalException || !utils.isError(hint.originalException)) {
+    return event;
+  }
+  const exceptionName = (hint.originalException ).name || hint.originalException.constructor.name;
+
+  const errorData = _extractErrorData(hint.originalException , captureErrorCause);
+
+  if (errorData) {
+    const contexts = {
+      ...event.contexts,
+    };
+
+    const normalizedErrorData = utils.normalize(errorData, depth);
+
+    if (utils.isPlainObject(normalizedErrorData)) {
+      // We mark the error data as "already normalized" here, because we don't want other normalization procedures to
+      // potentially truncate the data we just already normalized, with a certain depth setting.
+      utils.addNonEnumerableProperty(normalizedErrorData, '__sentry_skip_normalization__', true);
+      contexts[exceptionName] = normalizedErrorData;
+    }
+
+    return {
+      ...event,
+      contexts,
+    };
+  }
+
+  return event;
+}
+
+/**
+ * Extract extra information from the Error object
+ */
+function _extractErrorData(error, captureErrorCause) {
+  // We are trying to enhance already existing event, so no harm done if it won't succeed
+  try {
+    const nativeKeys = [
+      'name',
+      'message',
+      'stack',
+      'line',
+      'column',
+      'fileName',
+      'lineNumber',
+      'columnNumber',
+      'toJSON',
+    ];
+
+    const extraErrorInfo = {};
+
+    // We want only enumerable properties, thus `getOwnPropertyNames` is redundant here, as we filter keys anyway.
+    for (const key of Object.keys(error)) {
+      if (nativeKeys.indexOf(key) !== -1) {
+        continue;
+      }
+      const value = error[key];
+      extraErrorInfo[key] = utils.isError(value) ? value.toString() : value;
+    }
+
+    // Error.cause is a standard property that is non enumerable, we therefore need to access it separately.
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
+    if (captureErrorCause && error.cause !== undefined) {
+      extraErrorInfo.cause = utils.isError(error.cause) ? error.cause.toString() : error.cause;
+    }
+
+    // Check if someone attached `toJSON` method to grab even more properties (eg. axios is doing that)
+    if (typeof error.toJSON === 'function') {
+      const serializedError = error.toJSON() ;
+
+      for (const key of Object.keys(serializedError)) {
+        const value = serializedError[key];
+        extraErrorInfo[key] = utils.isError(value) ? value.toString() : value;
+      }
+    }
+
+    return extraErrorInfo;
+  } catch (oO) {
+    debugBuild.DEBUG_BUILD && utils.logger.error('Unable to extract extra data from the Error object:', oO);
+  }
+
+  return null;
+}
+
+exports.ExtraErrorData = ExtraErrorData;
+exports.extraErrorDataIntegration = extraErrorDataIntegration;
+
+
+},{"./debug-build.js":121,"@sentry/core":70,"@sentry/utils":152}],125:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
+
+const INTEGRATION_NAME = 'HttpClient';
+
+const _httpClientIntegration = ((options = {}) => {
+  const _options = {
+    failedRequestStatusCodes: [[500, 599]],
+    failedRequestTargets: [/.*/],
+    ...options,
+  };
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    setup(client) {
+      _wrapFetch(client, _options);
+      _wrapXHR(client, _options);
+    },
+  };
+}) ;
+
+const httpClientIntegration = core.defineIntegration(_httpClientIntegration);
+
+/**
+ * Create events for failed client side HTTP requests.
+ * @deprecated Use `httpClientIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const HttpClient = core.convertIntegrationFnToClass(INTEGRATION_NAME, httpClientIntegration)
+
+;
+
+/**
+ * Interceptor function for fetch requests
+ *
+ * @param requestInfo The Fetch API request info
+ * @param response The Fetch API response
+ * @param requestInit The request init object
+ */
+function _fetchResponseHandler(
+  options,
+  requestInfo,
+  response,
+  requestInit,
+) {
+  if (_shouldCaptureResponse(options, response.status, response.url)) {
+    const request = _getRequest(requestInfo, requestInit);
+
+    let requestHeaders, responseHeaders, requestCookies, responseCookies;
+
+    if (_shouldSendDefaultPii()) {
+      [{ headers: requestHeaders, cookies: requestCookies }, { headers: responseHeaders, cookies: responseCookies }] = [
+        { cookieHeader: 'Cookie', obj: request },
+        { cookieHeader: 'Set-Cookie', obj: response },
+      ].map(({ cookieHeader, obj }) => {
+        const headers = _extractFetchHeaders(obj.headers);
+        let cookies;
+
+        try {
+          const cookieString = headers[cookieHeader] || headers[cookieHeader.toLowerCase()] || undefined;
+
+          if (cookieString) {
+            cookies = _parseCookieString(cookieString);
+          }
+        } catch (e) {
+          debugBuild.DEBUG_BUILD && utils.logger.log(`Could not extract cookies from header ${cookieHeader}`);
+        }
+
+        return {
+          headers,
+          cookies,
+        };
+      });
+    }
+
+    const event = _createEvent({
+      url: request.url,
+      method: request.method,
+      status: response.status,
+      requestHeaders,
+      responseHeaders,
+      requestCookies,
+      responseCookies,
+    });
+
+    core.captureEvent(event);
+  }
+}
+
+/**
+ * Interceptor function for XHR requests
+ *
+ * @param xhr The XHR request
+ * @param method The HTTP method
+ * @param headers The HTTP headers
+ */
+function _xhrResponseHandler(
+  options,
+  xhr,
+  method,
+  headers,
+) {
+  if (_shouldCaptureResponse(options, xhr.status, xhr.responseURL)) {
+    let requestHeaders, responseCookies, responseHeaders;
+
+    if (_shouldSendDefaultPii()) {
+      try {
+        const cookieString = xhr.getResponseHeader('Set-Cookie') || xhr.getResponseHeader('set-cookie') || undefined;
+
+        if (cookieString) {
+          responseCookies = _parseCookieString(cookieString);
+        }
+      } catch (e) {
+        debugBuild.DEBUG_BUILD && utils.logger.log('Could not extract cookies from response headers');
+      }
+
+      try {
+        responseHeaders = _getXHRResponseHeaders(xhr);
+      } catch (e) {
+        debugBuild.DEBUG_BUILD && utils.logger.log('Could not extract headers from response');
+      }
+
+      requestHeaders = headers;
+    }
+
+    const event = _createEvent({
+      url: xhr.responseURL,
+      method,
+      status: xhr.status,
+      requestHeaders,
+      // Can't access request cookies from XHR
+      responseHeaders,
+      responseCookies,
+    });
+
+    core.captureEvent(event);
+  }
+}
+
+/**
+ * Extracts response size from `Content-Length` header when possible
+ *
+ * @param headers
+ * @returns The response size in bytes or undefined
+ */
+function _getResponseSizeFromHeaders(headers) {
+  if (headers) {
+    const contentLength = headers['Content-Length'] || headers['content-length'];
+
+    if (contentLength) {
+      return parseInt(contentLength, 10);
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Creates an object containing cookies from the given cookie string
+ *
+ * @param cookieString The cookie string to parse
+ * @returns The parsed cookies
+ */
+function _parseCookieString(cookieString) {
+  return cookieString.split('; ').reduce((acc, cookie) => {
+    const [key, value] = cookie.split('=');
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+/**
+ * Extracts the headers as an object from the given Fetch API request or response object
+ *
+ * @param headers The headers to extract
+ * @returns The extracted headers as an object
+ */
+function _extractFetchHeaders(headers) {
+  const result = {};
+
+  headers.forEach((value, key) => {
+    result[key] = value;
+  });
+
+  return result;
+}
+
+/**
+ * Extracts the response headers as an object from the given XHR object
+ *
+ * @param xhr The XHR object to extract the response headers from
+ * @returns The response headers as an object
+ */
+function _getXHRResponseHeaders(xhr) {
+  const headers = xhr.getAllResponseHeaders();
+
+  if (!headers) {
+    return {};
+  }
+
+  return headers.split('\r\n').reduce((acc, line) => {
+    const [key, value] = line.split(': ');
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+/**
+ * Checks if the given target url is in the given list of targets
+ *
+ * @param target The target url to check
+ * @returns true if the target url is in the given list of targets, false otherwise
+ */
+function _isInGivenRequestTargets(
+  failedRequestTargets,
+  target,
+) {
+  return failedRequestTargets.some((givenRequestTarget) => {
+    if (typeof givenRequestTarget === 'string') {
+      return target.includes(givenRequestTarget);
+    }
+
+    return givenRequestTarget.test(target);
+  });
+}
+
+/**
+ * Checks if the given status code is in the given range
+ *
+ * @param status The status code to check
+ * @returns true if the status code is in the given range, false otherwise
+ */
+function _isInGivenStatusRanges(
+  failedRequestStatusCodes,
+  status,
+) {
+  return failedRequestStatusCodes.some((range) => {
+    if (typeof range === 'number') {
+      return range === status;
+    }
+
+    return status >= range[0] && status <= range[1];
+  });
+}
+
+/**
+ * Wraps `fetch` function to capture request and response data
+ */
+function _wrapFetch(client, options) {
+  if (!utils.supportsNativeFetch()) {
+    return;
+  }
+
+  utils.addFetchInstrumentationHandler(handlerData => {
+    if (core.getClient() !== client) {
+      return;
+    }
+
+    const { response, args } = handlerData;
+    const [requestInfo, requestInit] = args ;
+
+    if (!response) {
+      return;
+    }
+
+    _fetchResponseHandler(options, requestInfo, response , requestInit);
+  });
+}
+
+/**
+ * Wraps XMLHttpRequest to capture request and response data
+ */
+function _wrapXHR(client, options) {
+  if (!('XMLHttpRequest' in utils.GLOBAL_OBJ)) {
+    return;
+  }
+
+  utils.addXhrInstrumentationHandler(handlerData => {
+    if (core.getClient() !== client) {
+      return;
+    }
+
+    const xhr = handlerData.xhr ;
+
+    const sentryXhrData = xhr[utils.SENTRY_XHR_DATA_KEY];
+
+    if (!sentryXhrData) {
+      return;
+    }
+
+    const { method, request_headers: headers } = sentryXhrData;
+
+    try {
+      _xhrResponseHandler(options, xhr, method, headers);
+    } catch (e) {
+      debugBuild.DEBUG_BUILD && utils.logger.warn('Error while extracting response event form XHR response', e);
+    }
+  });
+}
+
+/**
+ * Checks whether to capture given response as an event
+ *
+ * @param status response status code
+ * @param url response url
+ */
+function _shouldCaptureResponse(options, status, url) {
+  return (
+    _isInGivenStatusRanges(options.failedRequestStatusCodes, status) &&
+    _isInGivenRequestTargets(options.failedRequestTargets, url) &&
+    !core.isSentryRequestUrl(url, core.getClient())
+  );
+}
+
+/**
+ * Creates a synthetic Sentry event from given response data
+ *
+ * @param data response data
+ * @returns event
+ */
+function _createEvent(data
+
+) {
+  const message = `HTTP Client Error with status code: ${data.status}`;
+
+  const event = {
+    message,
+    exception: {
+      values: [
+        {
+          type: 'Error',
+          value: message,
+        },
+      ],
+    },
+    request: {
+      url: data.url,
+      method: data.method,
+      headers: data.requestHeaders,
+      cookies: data.requestCookies,
+    },
+    contexts: {
+      response: {
+        status_code: data.status,
+        headers: data.responseHeaders,
+        cookies: data.responseCookies,
+        body_size: _getResponseSizeFromHeaders(data.responseHeaders),
+      },
+    },
+  };
+
+  utils.addExceptionMechanism(event, {
+    type: 'http.client',
+    handled: false,
+  });
+
+  return event;
+}
+
+function _getRequest(requestInfo, requestInit) {
+  if (!requestInit && requestInfo instanceof Request) {
+    return requestInfo;
+  }
+
+  // If both are set, we try to construct a new Request with the given arguments
+  // However, if e.g. the original request has a `body`, this will throw an error because it was already accessed
+  // In this case, as a fallback, we just use the original request - using both is rather an edge case
+  if (requestInfo instanceof Request && requestInfo.bodyUsed) {
+    return requestInfo;
+  }
+
+  return new Request(requestInfo, requestInit);
+}
+
+function _shouldSendDefaultPii() {
+  const client = core.getClient();
+  return client ? Boolean(client.getOptions().sendDefaultPii) : false;
+}
+
+exports.HttpClient = HttpClient;
+exports.httpClientIntegration = httpClientIntegration;
+
+
+},{"./debug-build.js":121,"@sentry/core":70,"@sentry/utils":152}],126:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const captureconsole = require('./captureconsole.js');
+const debug = require('./debug.js');
+const dedupe = require('./dedupe.js');
+const extraerrordata = require('./extraerrordata.js');
+const offline = require('./offline.js');
+const reportingobserver = require('./reportingobserver.js');
+const rewriteframes = require('./rewriteframes.js');
+const sessiontiming = require('./sessiontiming.js');
+const transaction = require('./transaction.js');
+const httpclient = require('./httpclient.js');
+const contextlines = require('./contextlines.js');
+
+
+
+exports.CaptureConsole = captureconsole.CaptureConsole;
+exports.captureConsoleIntegration = captureconsole.captureConsoleIntegration;
+exports.Debug = debug.Debug;
+exports.debugIntegration = debug.debugIntegration;
+exports.Dedupe = dedupe.Dedupe;
+exports.dedupeIntegration = dedupe.dedupeIntegration;
+exports.ExtraErrorData = extraerrordata.ExtraErrorData;
+exports.extraErrorDataIntegration = extraerrordata.extraErrorDataIntegration;
+exports.Offline = offline.Offline;
+exports.ReportingObserver = reportingobserver.ReportingObserver;
+exports.reportingObserverIntegration = reportingobserver.reportingObserverIntegration;
+exports.RewriteFrames = rewriteframes.RewriteFrames;
+exports.rewriteFramesIntegration = rewriteframes.rewriteFramesIntegration;
+exports.SessionTiming = sessiontiming.SessionTiming;
+exports.sessionTimingIntegration = sessiontiming.sessionTimingIntegration;
+exports.Transaction = transaction.Transaction;
+exports.HttpClient = httpclient.HttpClient;
+exports.httpClientIntegration = httpclient.httpClientIntegration;
+exports.ContextLines = contextlines.ContextLines;
+exports.contextLinesIntegration = contextlines.contextLinesIntegration;
+
+
+},{"./captureconsole.js":119,"./contextlines.js":120,"./debug.js":122,"./dedupe.js":123,"./extraerrordata.js":124,"./httpclient.js":125,"./offline.js":127,"./reportingobserver.js":128,"./rewriteframes.js":129,"./sessiontiming.js":130,"./transaction.js":131}],127:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const utils = require('@sentry/utils');
+const localForage = require('localforage');
+const debugBuild = require('./debug-build.js');
+
+const WINDOW = utils.GLOBAL_OBJ ;
+
+/**
+ * cache offline errors and send when connected
+ * @deprecated The offline integration has been deprecated in favor of the offline transport wrapper.
+ *
+ * http://docs.sentry.io/platforms/javascript/configuration/transports/#offline-caching
+ */
+class Offline  {
+  /**
+   * @inheritDoc
+   */
+   static __initStatic() {this.id = 'Offline';}
+
+  /**
+   * @inheritDoc
+   */
+
+  /**
+   * the current hub instance
+   */
+
+  /**
+   * maximum number of events to store while offline
+   */
+
+  /**
+   * event cache
+   */
+
+  /**
+   * @inheritDoc
+   */
+   constructor(options = {}) {
+    this.name = Offline.id;
+
+    this.maxStoredEvents = options.maxStoredEvents || 30; // set a reasonable default
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.offlineEventStore = localForage.createInstance({
+      name: 'sentry/offlineEventStore',
+    });
+  }
+
+  /**
+   * @inheritDoc
+   */
+   setupOnce(addGlobalEventProcessor, getCurrentHub) {
+    this.hub = getCurrentHub();
+
+    if ('addEventListener' in WINDOW) {
+      WINDOW.addEventListener('online', () => {
+        void this._sendEvents().catch(() => {
+          debugBuild.DEBUG_BUILD && utils.logger.warn('could not send cached events');
+        });
+      });
+    }
+
+    const eventProcessor = event => {
+      // eslint-disable-next-line deprecation/deprecation
+      if (this.hub && this.hub.getIntegration(Offline)) {
+        // cache if we are positively offline
+        if ('navigator' in WINDOW && 'onLine' in WINDOW.navigator && !WINDOW.navigator.onLine) {
+          debugBuild.DEBUG_BUILD && utils.logger.log('Event dropped due to being a offline - caching instead');
+
+          void this._cacheEvent(event)
+            .then((_event) => this._enforceMaxEvents())
+            .catch((_error) => {
+              debugBuild.DEBUG_BUILD && utils.logger.warn('could not cache event while offline');
+            });
+
+          // return null on success or failure, because being offline will still result in an error
+          return null;
+        }
+      }
+
+      return event;
+    };
+
+    eventProcessor.id = this.name;
+    addGlobalEventProcessor(eventProcessor);
+
+    // if online now, send any events stored in a previous offline session
+    if ('navigator' in WINDOW && 'onLine' in WINDOW.navigator && WINDOW.navigator.onLine) {
+      void this._sendEvents().catch(() => {
+        debugBuild.DEBUG_BUILD && utils.logger.warn('could not send cached events');
+      });
+    }
+  }
+
+  /**
+   * cache an event to send later
+   * @param event an event
+   */
+   async _cacheEvent(event) {
+    return this.offlineEventStore.setItem(utils.uuid4(), utils.normalize(event));
+  }
+
+  /**
+   * purge excess events if necessary
+   */
+   async _enforceMaxEvents() {
+    const events = [];
+
+    return this.offlineEventStore
+      .iterate((event, cacheKey, _index) => {
+        // aggregate events
+        events.push({ cacheKey, event });
+      })
+      .then(
+        () =>
+          // this promise resolves when the iteration is finished
+          this._purgeEvents(
+            // purge all events past maxStoredEvents in reverse chronological order
+            events
+              .sort((a, b) => (b.event.timestamp || 0) - (a.event.timestamp || 0))
+              .slice(this.maxStoredEvents < events.length ? this.maxStoredEvents : events.length)
+              .map(event => event.cacheKey),
+          ),
+      )
+      .catch((_error) => {
+        debugBuild.DEBUG_BUILD && utils.logger.warn('could not enforce max events');
+      });
+  }
+
+  /**
+   * purge event from cache
+   */
+   async _purgeEvent(cacheKey) {
+    return this.offlineEventStore.removeItem(cacheKey);
+  }
+
+  /**
+   * purge events from cache
+   */
+   async _purgeEvents(cacheKeys) {
+    // trail with .then to ensure the return type as void and not void|void[]
+    return Promise.all(cacheKeys.map(cacheKey => this._purgeEvent(cacheKey))).then();
+  }
+
+  /**
+   * send all events
+   */
+   async _sendEvents() {
+    return this.offlineEventStore.iterate((event, cacheKey, _index) => {
+      if (this.hub) {
+        this.hub.captureEvent(event);
+
+        void this._purgeEvent(cacheKey).catch((_error) => {
+          debugBuild.DEBUG_BUILD && utils.logger.warn('could not purge event from cache');
+        });
+      } else {
+        debugBuild.DEBUG_BUILD && utils.logger.warn('no hub found - could not send cached event');
+      }
+    });
+  }
+} Offline.__initStatic();
+
+exports.Offline = Offline;
+
+
+},{"./debug-build.js":121,"@sentry/utils":152,"localforage":188}],128:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+
+const WINDOW = utils.GLOBAL_OBJ ;
+
+const INTEGRATION_NAME = 'ReportingObserver';
+
+const SETUP_CLIENTS = new WeakMap();
+
+const _reportingObserverIntegration = ((options = {}) => {
+  const types = options.types || ['crash', 'deprecation', 'intervention'];
+
+  /** Handler for the reporting observer. */
+  function handler(reports) {
+    if (!SETUP_CLIENTS.has(core.getClient() )) {
+      return;
+    }
+
+    for (const report of reports) {
+      core.withScope(scope => {
+        scope.setExtra('url', report.url);
+
+        const label = `ReportingObserver [${report.type}]`;
+        let details = 'No details available';
+
+        if (report.body) {
+          // Object.keys doesn't work on ReportBody, as all properties are inheirted
+          const plainBody
+
+ = {};
+
+          // eslint-disable-next-line guard-for-in
+          for (const prop in report.body) {
+            plainBody[prop] = report.body[prop];
+          }
+
+          scope.setExtra('body', plainBody);
+
+          if (report.type === 'crash') {
+            const body = report.body ;
+            // A fancy way to create a message out of crashId OR reason OR both OR fallback
+            details = [body.crashId || '', body.reason || ''].join(' ').trim() || details;
+          } else {
+            const body = report.body ;
+            details = body.message || details;
+          }
+        }
+
+        core.captureMessage(`${label}: ${details}`);
+      });
+    }
+  }
+
+  return {
+    name: INTEGRATION_NAME,
+    setupOnce() {
+      if (!utils.supportsReportingObserver()) {
+        return;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      const observer = new (WINDOW ).ReportingObserver(handler, {
+        buffered: true,
+        types,
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      observer.observe();
+    },
+
+    setup(client) {
+      SETUP_CLIENTS.set(client, true);
+    },
+  };
+}) ;
+
+const reportingObserverIntegration = core.defineIntegration(_reportingObserverIntegration);
+
+/**
+ * Reporting API integration - https://w3c.github.io/reporting/
+ * @deprecated Use `reportingObserverIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const ReportingObserver = core.convertIntegrationFnToClass(
+  INTEGRATION_NAME,
+  reportingObserverIntegration,
+)
+
+;
+
+exports.ReportingObserver = ReportingObserver;
+exports.reportingObserverIntegration = reportingObserverIntegration;
+
+
+},{"@sentry/core":70,"@sentry/utils":152}],129:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+
+const INTEGRATION_NAME = 'RewriteFrames';
+
+const _rewriteFramesIntegration = ((options = {}) => {
+  const root = options.root;
+  const prefix = options.prefix || 'app:///';
+
+  const iteratee =
+    options.iteratee ||
+    ((frame) => {
+      if (!frame.filename) {
+        return frame;
+      }
+      // Determine if this is a Windows frame by checking for a Windows-style prefix such as `C:\`
+      const isWindowsFrame =
+        /^[a-zA-Z]:\\/.test(frame.filename) ||
+        // or the presence of a backslash without a forward slash (which are not allowed on Windows)
+        (frame.filename.includes('\\') && !frame.filename.includes('/'));
+      // Check if the frame filename begins with `/`
+      const startsWithSlash = /^\//.test(frame.filename);
+      if (isWindowsFrame || startsWithSlash) {
+        const filename = isWindowsFrame
+          ? frame.filename
+              .replace(/^[a-zA-Z]:/, '') // remove Windows-style prefix
+              .replace(/\\/g, '/') // replace all `\\` instances with `/`
+          : frame.filename;
+        const base = root ? utils.relative(root, filename) : utils.basename(filename);
+        frame.filename = `${prefix}${base}`;
+      }
+      return frame;
+    });
+
+  /** Process an exception event. */
+  function _processExceptionsEvent(event) {
+    try {
+      return {
+        ...event,
+        exception: {
+          ...event.exception,
+          // The check for this is performed inside `process` call itself, safe to skip here
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          values: event.exception.values.map(value => ({
+            ...value,
+            ...(value.stacktrace && { stacktrace: _processStacktrace(value.stacktrace) }),
+          })),
+        },
+      };
+    } catch (_oO) {
+      return event;
+    }
+  }
+
+  /** Process a stack trace. */
+  function _processStacktrace(stacktrace) {
+    return {
+      ...stacktrace,
+      frames: stacktrace && stacktrace.frames && stacktrace.frames.map(f => iteratee(f)),
+    };
+  }
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    processEvent(originalEvent) {
+      let processedEvent = originalEvent;
+
+      if (originalEvent.exception && Array.isArray(originalEvent.exception.values)) {
+        processedEvent = _processExceptionsEvent(processedEvent);
+      }
+
+      return processedEvent;
+    },
+  };
+}) ;
+
+const rewriteFramesIntegration = core.defineIntegration(_rewriteFramesIntegration);
+
+/**
+ * Rewrite event frames paths.
+ * @deprecated Use `rewriteFramesIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const RewriteFrames = core.convertIntegrationFnToClass(
+  INTEGRATION_NAME,
+  rewriteFramesIntegration,
+)
+
+;
+
+exports.RewriteFrames = RewriteFrames;
+exports.rewriteFramesIntegration = rewriteFramesIntegration;
+
+
+},{"@sentry/core":70,"@sentry/utils":152}],130:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+
+const INTEGRATION_NAME = 'SessionTiming';
+
+const _sessionTimingIntegration = (() => {
+  const startTime = Date.now();
+
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    processEvent(event) {
+      const now = Date.now();
+
+      return {
+        ...event,
+        extra: {
+          ...event.extra,
+          ['session:start']: startTime,
+          ['session:duration']: now - startTime,
+          ['session:end']: now,
+        },
+      };
+    },
+  };
+}) ;
+
+const sessionTimingIntegration = core.defineIntegration(_sessionTimingIntegration);
+
+/**
+ * This function adds duration since Sentry was initialized till the time event was sent.
+ * @deprecated Use `sessionTimingIntegration()` instead.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const SessionTiming = core.convertIntegrationFnToClass(
+  INTEGRATION_NAME,
+  sessionTimingIntegration,
+) ;
+
+exports.SessionTiming = SessionTiming;
+exports.sessionTimingIntegration = sessionTimingIntegration;
+
+
+},{"@sentry/core":70}],131:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+
+const INTEGRATION_NAME = 'Transaction';
+
+const transactionIntegration = (() => {
+  return {
+    name: INTEGRATION_NAME,
+    // TODO v8: Remove this
+    setupOnce() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+    processEvent(event) {
+      const frames = _getFramesFromEvent(event);
+
+      // use for loop so we don't have to reverse whole frames array
+      for (let i = frames.length - 1; i >= 0; i--) {
+        const frame = frames[i];
+
+        if (frame.in_app === true) {
+          event.transaction = _getTransaction(frame);
+          break;
+        }
+      }
+
+      return event;
+    },
+  };
+}) ;
+
+/**
+ * Add node transaction to the event.
+ * @deprecated This integration will be removed in v8.
+ */
+// eslint-disable-next-line deprecation/deprecation
+const Transaction = core.convertIntegrationFnToClass(INTEGRATION_NAME, transactionIntegration)
+
+;
+
+function _getFramesFromEvent(event) {
+  const exception = event.exception && event.exception.values && event.exception.values[0];
+  return (exception && exception.stacktrace && exception.stacktrace.frames) || [];
+}
+
+function _getTransaction(frame) {
+  return frame.module || frame.function ? `${frame.module || '?'}/${frame.function || '?'}` : '<unknown>';
+}
+
+exports.Transaction = Transaction;
+
+
+},{"@sentry/core":70}],132:[function(require,module,exports){
 var {
     _nullishCoalesce,
     _optionalChain
@@ -24689,7 +26190,7 @@ function wrapEvent(e) {
 let _takeFullSnapshot;
 const mirror = createMirror();
 function record(options = {}) {
-    const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskAllText = false, maskTextClass = 'rr-mask', unmaskTextClass = null, maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskAttributeFn, maskInputFn, maskTextFn, packFn, sampling = {}, dataURLOptions = {}, mousemoveWait, recordCanvas = false, recordCrossOriginIframes = false, recordAfter = options.recordAfter === 'DOMContentLoaded'
+    const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskAllText = false, maskTextClass = 'rr-mask', unmaskTextClass = null, maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskAttributeFn, maskInputFn, maskTextFn, maxCanvasSize = null, packFn, sampling = {}, dataURLOptions = {}, mousemoveWait, recordCanvas = false, recordCrossOriginIframes = false, recordAfter = options.recordAfter === 'DOMContentLoaded'
         ? options.recordAfter
         : 'load', userTriggeredOnInput = false, collectFonts = false, inlineImages = false, plugins, keepIframeSrcFn = () => false, ignoreCSSAttributes = new Set([]), errorHandler, onMutation, getCanvasManager, } = options;
     registerErrorHandler(errorHandler);
@@ -24872,6 +26373,7 @@ function record(options = {}) {
         blockClass,
         blockSelector,
         unblockSelector,
+        maxCanvasSize,
         sampling: sampling['canvas'],
         dataURLOptions,
         errorHandler,
@@ -30746,7 +32248,7 @@ exports.internalReplayIntegration = replayIntegration$1;
 exports.replayIntegration = replayIntegration;
 
 
-},{"@sentry-internal/tracing":29,"@sentry/core":70,"@sentry/utils":139}],120:[function(require,module,exports){
+},{"@sentry-internal/tracing":29,"@sentry/core":70,"@sentry/utils":152}],133:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -30896,7 +32398,7 @@ function truncateAggregateExceptions(exceptions, maxValueLength) {
 exports.applyAggregateErrorsToEvent = applyAggregateErrorsToEvent;
 
 
-},{"./is.js":149,"./string.js":165}],121:[function(require,module,exports){
+},{"./is.js":162,"./string.js":178}],134:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -30974,7 +32476,7 @@ exports.callFrameToStackFrame = callFrameToStackFrame;
 exports.watchdogTimer = watchdogTimer;
 
 
-},{"./node-stack-trace.js":155,"./object.js":158}],122:[function(require,module,exports){
+},{"./node-stack-trace.js":168,"./object.js":171}],135:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -31133,7 +32635,7 @@ exports.baggageHeaderToDynamicSamplingContext = baggageHeaderToDynamicSamplingCo
 exports.dynamicSamplingContextToSentryBaggageHeader = dynamicSamplingContextToSentryBaggageHeader;
 
 
-},{"./debug-build.js":133,"./is.js":149,"./logger.js":151}],123:[function(require,module,exports){
+},{"./debug-build.js":146,"./is.js":162,"./logger.js":164}],136:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -31333,7 +32835,7 @@ exports.getLocationHref = getLocationHref;
 exports.htmlTreeAsString = htmlTreeAsString;
 
 
-},{"./is.js":149,"./worldwide.js":174}],124:[function(require,module,exports){
+},{"./is.js":162,"./worldwide.js":187}],137:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _nullishCoalesce = require('./_nullishCoalesce.js');
@@ -31369,7 +32871,7 @@ async function _asyncNullishCoalesce(lhs, rhsFn) {
 exports._asyncNullishCoalesce = _asyncNullishCoalesce;
 
 
-},{"./_nullishCoalesce.js":127}],125:[function(require,module,exports){
+},{"./_nullishCoalesce.js":140}],138:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -31432,7 +32934,7 @@ async function _asyncOptionalChain(ops) {
 exports._asyncOptionalChain = _asyncOptionalChain;
 
 
-},{}],126:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _asyncOptionalChain = require('./_asyncOptionalChain.js');
@@ -31468,7 +32970,7 @@ async function _asyncOptionalChainDelete(ops) {
 exports._asyncOptionalChainDelete = _asyncOptionalChainDelete;
 
 
-},{"./_asyncOptionalChain.js":125}],127:[function(require,module,exports){
+},{"./_asyncOptionalChain.js":138}],140:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
@@ -31524,7 +33026,7 @@ function _nullishCoalesce(lhs, rhsFn) {
 exports._nullishCoalesce = _nullishCoalesce;
 
 
-},{}],128:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -31587,7 +33089,7 @@ function _optionalChain(ops) {
 exports._optionalChain = _optionalChain;
 
 
-},{}],129:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _optionalChain = require('./_optionalChain.js');
@@ -31624,7 +33126,7 @@ function _optionalChainDelete(ops) {
 exports._optionalChainDelete = _optionalChainDelete;
 
 
-},{"./_optionalChain.js":128}],130:[function(require,module,exports){
+},{"./_optionalChain.js":141}],143:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -31695,7 +33197,7 @@ function makeFifoCache(
 exports.makeFifoCache = makeFifoCache;
 
 
-},{}],131:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const envelope = require('./envelope.js');
@@ -31724,7 +33226,7 @@ function createClientReportEnvelope(
 exports.createClientReportEnvelope = createClientReportEnvelope;
 
 
-},{"./envelope.js":136,"./time.js":168}],132:[function(require,module,exports){
+},{"./envelope.js":149,"./time.js":181}],145:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -31809,9 +33311,9 @@ function parseCookie(str) {
 exports.parseCookie = parseCookie;
 
 
-},{}],133:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 arguments[4][26][0].apply(exports,arguments)
-},{"dup":26}],134:[function(require,module,exports){
+},{"dup":26}],147:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -31946,7 +33448,7 @@ exports.dsnToString = dsnToString;
 exports.makeDsn = makeDsn;
 
 
-},{"./debug-build.js":133,"./logger.js":151}],135:[function(require,module,exports){
+},{"./debug-build.js":146,"./logger.js":164}],148:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -31985,7 +33487,7 @@ exports.getSDKSource = getSDKSource;
 exports.isBrowserBundle = isBrowserBundle;
 
 
-},{}],136:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dsn = require('./dsn.js');
@@ -32233,7 +33735,7 @@ exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
-},{"./dsn.js":134,"./normalize.js":157,"./object.js":158}],137:[function(require,module,exports){
+},{"./dsn.js":147,"./normalize.js":170,"./object.js":171}],150:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -32254,7 +33756,7 @@ class SentryError extends Error {
 exports.SentryError = SentryError;
 
 
-},{}],138:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -32422,7 +33924,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"./is.js":149,"./misc.js":154,"./normalize.js":157,"./object.js":158}],139:[function(require,module,exports){
+},{"./is.js":162,"./misc.js":167,"./normalize.js":170,"./object.js":171}],152:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const aggregateErrors = require('./aggregate-errors.js');
@@ -32648,7 +34150,7 @@ exports.escapeStringForRegex = escapeStringForRegex.escapeStringForRegex;
 exports.supportsHistory = supportsHistory.supportsHistory;
 
 
-},{"./aggregate-errors.js":120,"./anr.js":121,"./baggage.js":122,"./browser.js":123,"./buildPolyfills/_asyncNullishCoalesce.js":124,"./buildPolyfills/_asyncOptionalChain.js":125,"./buildPolyfills/_asyncOptionalChainDelete.js":126,"./buildPolyfills/_nullishCoalesce.js":127,"./buildPolyfills/_optionalChain.js":128,"./buildPolyfills/_optionalChainDelete.js":129,"./cache.js":130,"./clientreport.js":131,"./dsn.js":134,"./env.js":135,"./envelope.js":136,"./error.js":137,"./eventbuilder.js":138,"./instrument/_handlers.js":140,"./instrument/console.js":141,"./instrument/dom.js":142,"./instrument/fetch.js":143,"./instrument/globalError.js":144,"./instrument/globalUnhandledRejection.js":145,"./instrument/history.js":146,"./instrument/index.js":147,"./instrument/xhr.js":148,"./is.js":149,"./isBrowser.js":150,"./logger.js":151,"./lru.js":152,"./memo.js":153,"./misc.js":154,"./node-stack-trace.js":155,"./node.js":156,"./normalize.js":157,"./object.js":158,"./path.js":159,"./promisebuffer.js":160,"./ratelimit.js":161,"./requestdata.js":162,"./severity.js":163,"./stacktrace.js":164,"./string.js":165,"./supports.js":166,"./syncpromise.js":167,"./time.js":168,"./tracing.js":169,"./url.js":170,"./userIntegrations.js":171,"./vendor/escapeStringForRegex.js":172,"./vendor/supportsHistory.js":173,"./worldwide.js":174}],140:[function(require,module,exports){
+},{"./aggregate-errors.js":133,"./anr.js":134,"./baggage.js":135,"./browser.js":136,"./buildPolyfills/_asyncNullishCoalesce.js":137,"./buildPolyfills/_asyncOptionalChain.js":138,"./buildPolyfills/_asyncOptionalChainDelete.js":139,"./buildPolyfills/_nullishCoalesce.js":140,"./buildPolyfills/_optionalChain.js":141,"./buildPolyfills/_optionalChainDelete.js":142,"./cache.js":143,"./clientreport.js":144,"./dsn.js":147,"./env.js":148,"./envelope.js":149,"./error.js":150,"./eventbuilder.js":151,"./instrument/_handlers.js":153,"./instrument/console.js":154,"./instrument/dom.js":155,"./instrument/fetch.js":156,"./instrument/globalError.js":157,"./instrument/globalUnhandledRejection.js":158,"./instrument/history.js":159,"./instrument/index.js":160,"./instrument/xhr.js":161,"./is.js":162,"./isBrowser.js":163,"./logger.js":164,"./lru.js":165,"./memo.js":166,"./misc.js":167,"./node-stack-trace.js":168,"./node.js":169,"./normalize.js":170,"./object.js":171,"./path.js":172,"./promisebuffer.js":173,"./ratelimit.js":174,"./requestdata.js":175,"./severity.js":176,"./stacktrace.js":177,"./string.js":178,"./supports.js":179,"./syncpromise.js":180,"./time.js":181,"./tracing.js":182,"./url.js":183,"./userIntegrations.js":184,"./vendor/escapeStringForRegex.js":185,"./vendor/supportsHistory.js":186,"./worldwide.js":187}],153:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('../debug-build.js');
@@ -32709,7 +34211,7 @@ exports.resetInstrumentationHandlers = resetInstrumentationHandlers;
 exports.triggerHandlers = triggerHandlers;
 
 
-},{"../debug-build.js":133,"../logger.js":151,"../stacktrace.js":164}],141:[function(require,module,exports){
+},{"../debug-build.js":146,"../logger.js":164,"../stacktrace.js":177}],154:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const logger = require('../logger.js');
@@ -32756,7 +34258,7 @@ function instrumentConsole() {
 exports.addConsoleInstrumentationHandler = addConsoleInstrumentationHandler;
 
 
-},{"../logger.js":151,"../object.js":158,"../worldwide.js":174,"./_handlers.js":140}],142:[function(require,module,exports){
+},{"../logger.js":164,"../object.js":171,"../worldwide.js":187,"./_handlers.js":153}],155:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const misc = require('../misc.js');
@@ -32997,7 +34499,7 @@ exports.addClickKeypressInstrumentationHandler = addClickKeypressInstrumentation
 exports.instrumentDOM = instrumentDOM;
 
 
-},{"../misc.js":154,"../object.js":158,"../worldwide.js":174,"./_handlers.js":140}],143:[function(require,module,exports){
+},{"../misc.js":167,"../object.js":171,"../worldwide.js":187,"./_handlers.js":153}],156:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('../object.js');
@@ -33124,7 +34626,7 @@ exports.addFetchInstrumentationHandler = addFetchInstrumentationHandler;
 exports.parseFetchArgs = parseFetchArgs;
 
 
-},{"../object.js":158,"../supports.js":166,"../worldwide.js":174,"./_handlers.js":140}],144:[function(require,module,exports){
+},{"../object.js":171,"../supports.js":179,"../worldwide.js":187,"./_handlers.js":153}],157:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -33177,7 +34679,7 @@ function instrumentError() {
 exports.addGlobalErrorInstrumentationHandler = addGlobalErrorInstrumentationHandler;
 
 
-},{"../worldwide.js":174,"./_handlers.js":140}],145:[function(require,module,exports){
+},{"../worldwide.js":187,"./_handlers.js":153}],158:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -33220,7 +34722,7 @@ function instrumentUnhandledRejection() {
 exports.addGlobalUnhandledRejectionInstrumentationHandler = addGlobalUnhandledRejectionInstrumentationHandler;
 
 
-},{"../worldwide.js":174,"./_handlers.js":140}],146:[function(require,module,exports){
+},{"../worldwide.js":187,"./_handlers.js":153}],159:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('../object.js');
@@ -33296,7 +34798,7 @@ function instrumentHistory() {
 exports.addHistoryInstrumentationHandler = addHistoryInstrumentationHandler;
 
 
-},{"../debug-build.js":133,"../logger.js":151,"../object.js":158,"../vendor/supportsHistory.js":173,"../worldwide.js":174,"./_handlers.js":140}],147:[function(require,module,exports){
+},{"../debug-build.js":146,"../logger.js":164,"../object.js":171,"../vendor/supportsHistory.js":186,"../worldwide.js":187,"./_handlers.js":153}],160:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('../debug-build.js');
@@ -33349,7 +34851,7 @@ exports.addXhrInstrumentationHandler = xhr.addXhrInstrumentationHandler;
 exports.addInstrumentationHandler = addInstrumentationHandler;
 
 
-},{"../debug-build.js":133,"../logger.js":151,"./console.js":141,"./dom.js":142,"./fetch.js":143,"./globalError.js":144,"./globalUnhandledRejection.js":145,"./history.js":146,"./xhr.js":148}],148:[function(require,module,exports){
+},{"../debug-build.js":146,"../logger.js":164,"./console.js":154,"./dom.js":155,"./fetch.js":156,"./globalError.js":157,"./globalUnhandledRejection.js":158,"./history.js":159,"./xhr.js":161}],161:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('../is.js');
@@ -33512,7 +35014,7 @@ exports.addXhrInstrumentationHandler = addXhrInstrumentationHandler;
 exports.instrumentXHR = instrumentXHR;
 
 
-},{"../is.js":149,"../object.js":158,"../worldwide.js":174,"./_handlers.js":140}],149:[function(require,module,exports){
+},{"../is.js":162,"../object.js":171,"../worldwide.js":187,"./_handlers.js":153}],162:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -33737,7 +35239,7 @@ exports.isThenable = isThenable;
 exports.isVueViewModel = isVueViewModel;
 
 
-},{}],150:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const node = require('./node.js');
@@ -33762,7 +35264,7 @@ function isElectronNodeRenderer() {
 exports.isBrowser = isBrowser;
 
 
-},{"./node.js":156,"./worldwide.js":174}],151:[function(require,module,exports){
+},{"./node.js":169,"./worldwide.js":187}],164:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -33861,7 +35363,7 @@ exports.logger = logger;
 exports.originalConsoleMethods = originalConsoleMethods;
 
 
-},{"./debug-build.js":133,"./worldwide.js":174}],152:[function(require,module,exports){
+},{"./debug-build.js":146,"./worldwide.js":187}],165:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** A simple Least Recently Used map */
@@ -33927,7 +35429,7 @@ class LRUMap {
 exports.LRUMap = LRUMap;
 
 
-},{}],153:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -33976,7 +35478,7 @@ function memoBuilder() {
 exports.memoBuilder = memoBuilder;
 
 
-},{}],154:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -34198,7 +35700,7 @@ exports.parseSemver = parseSemver;
 exports.uuid4 = uuid4;
 
 
-},{"./object.js":158,"./string.js":165,"./worldwide.js":174}],155:[function(require,module,exports){
+},{"./object.js":171,"./string.js":178,"./worldwide.js":187}],168:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -34312,7 +35814,7 @@ exports.filenameIsInApp = filenameIsInApp;
 exports.node = node;
 
 
-},{}],156:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -34386,7 +35888,7 @@ exports.loadModule = loadModule;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./env.js":135,"_process":175}],157:[function(require,module,exports){
+},{"./env.js":148,"_process":189}],170:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -34692,7 +36194,7 @@ exports.walk = visit;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is.js":149,"./memo.js":153,"./object.js":158,"./stacktrace.js":164}],158:[function(require,module,exports){
+},{"./is.js":162,"./memo.js":166,"./object.js":171,"./stacktrace.js":177}],171:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
@@ -35001,7 +36503,7 @@ exports.objectify = objectify;
 exports.urlEncode = urlEncode;
 
 
-},{"./browser.js":123,"./debug-build.js":133,"./is.js":149,"./logger.js":151,"./string.js":165}],159:[function(require,module,exports){
+},{"./browser.js":136,"./debug-build.js":146,"./is.js":162,"./logger.js":164,"./string.js":178}],172:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -35223,7 +36725,7 @@ exports.relative = relative;
 exports.resolve = resolve;
 
 
-},{}],160:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -35329,7 +36831,7 @@ function makePromiseBuffer(limit) {
 exports.makePromiseBuffer = makePromiseBuffer;
 
 
-},{"./error.js":137,"./syncpromise.js":167}],161:[function(require,module,exports){
+},{"./error.js":150,"./syncpromise.js":180}],174:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Intentionally keeping the key broad, as we don't know for sure what rate limit headers get returned from backend
@@ -35443,7 +36945,7 @@ exports.parseRetryAfterHeader = parseRetryAfterHeader;
 exports.updateRateLimits = updateRateLimits;
 
 
-},{}],162:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const cookie = require('./cookie.js');
@@ -35824,7 +37326,7 @@ exports.winterCGHeadersToDict = winterCGHeadersToDict;
 exports.winterCGRequestToRequestData = winterCGRequestToRequestData;
 
 
-},{"./cookie.js":132,"./debug-build.js":133,"./is.js":149,"./logger.js":151,"./normalize.js":157,"./url.js":170}],163:[function(require,module,exports){
+},{"./cookie.js":145,"./debug-build.js":146,"./is.js":162,"./logger.js":164,"./normalize.js":170,"./url.js":183}],176:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Note: Ideally the `SeverityLevel` type would be derived from `validSeverityLevels`, but that would mean either
@@ -35866,7 +37368,7 @@ exports.severityLevelFromString = severityLevelFromString;
 exports.validSeverityLevels = validSeverityLevels;
 
 
-},{}],164:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const nodeStackTrace = require('./node-stack-trace.js');
@@ -36022,7 +37524,7 @@ exports.stackParserFromStackParserOptions = stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stripSentryFramesAndReverse;
 
 
-},{"./node-stack-trace.js":155}],165:[function(require,module,exports){
+},{"./node-stack-trace.js":168}],178:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -36171,7 +37673,7 @@ exports.stringMatchesSomePattern = stringMatchesSomePattern;
 exports.truncate = truncate;
 
 
-},{"./is.js":149}],166:[function(require,module,exports){
+},{"./is.js":162}],179:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const debugBuild = require('./debug-build.js');
@@ -36348,7 +37850,7 @@ exports.supportsReferrerPolicy = supportsReferrerPolicy;
 exports.supportsReportingObserver = supportsReportingObserver;
 
 
-},{"./debug-build.js":133,"./logger.js":151,"./worldwide.js":174}],167:[function(require,module,exports){
+},{"./debug-build.js":146,"./logger.js":164,"./worldwide.js":187}],180:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -36546,7 +38048,7 @@ exports.rejectedSyncPromise = rejectedSyncPromise;
 exports.resolvedSyncPromise = resolvedSyncPromise;
 
 
-},{"./is.js":149}],168:[function(require,module,exports){
+},{"./is.js":162}],181:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('./worldwide.js');
@@ -36681,7 +38183,7 @@ exports.timestampInSeconds = timestampInSeconds;
 exports.timestampWithMs = timestampWithMs;
 
 
-},{"./worldwide.js":174}],169:[function(require,module,exports){
+},{"./worldwide.js":187}],182:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const baggage = require('./baggage.js');
@@ -36818,7 +38320,7 @@ exports.propagationContextFromHeaders = propagationContextFromHeaders;
 exports.tracingContextFromHeaders = tracingContextFromHeaders;
 
 
-},{"./baggage.js":122,"./misc.js":154}],170:[function(require,module,exports){
+},{"./baggage.js":135,"./misc.js":167}],183:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -36898,7 +38400,7 @@ exports.parseUrl = parseUrl;
 exports.stripUrlQueryAndFragment = stripUrlQueryAndFragment;
 
 
-},{}],171:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -37003,7 +38505,7 @@ function addOrUpdateIntegrationInFunction(
 exports.addOrUpdateIntegration = addOrUpdateIntegration;
 
 
-},{}],172:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Based on https://github.com/sindresorhus/escape-string-regexp but with modifications to:
@@ -37044,7 +38546,7 @@ function escapeStringForRegex(regexString) {
 exports.escapeStringForRegex = escapeStringForRegex;
 
 
-},{}],173:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -37077,7 +38579,7 @@ function supportsHistory() {
 exports.supportsHistory = supportsHistory;
 
 
-},{"../worldwide.js":174}],174:[function(require,module,exports){
+},{"../worldwide.js":187}],187:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -37155,7 +38657,2827 @@ exports.getGlobalSingleton = getGlobalSingleton;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],175:[function(require,module,exports){
+},{}],188:[function(require,module,exports){
+(function (global){(function (){
+/*!
+    localForage -- Offline Storage, Improved
+    Version 1.10.0
+    https://localforage.github.io/localForage
+    (c) 2013-2017 Mozilla, Apache License 2.0
+*/
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.localforage = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw (f.code="MODULE_NOT_FOUND", f)}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+(function (global){
+'use strict';
+var Mutation = global.MutationObserver || global.WebKitMutationObserver;
+
+var scheduleDrain;
+
+{
+  if (Mutation) {
+    var called = 0;
+    var observer = new Mutation(nextTick);
+    var element = global.document.createTextNode('');
+    observer.observe(element, {
+      characterData: true
+    });
+    scheduleDrain = function () {
+      element.data = (called = ++called % 2);
+    };
+  } else if (!global.setImmediate && typeof global.MessageChannel !== 'undefined') {
+    var channel = new global.MessageChannel();
+    channel.port1.onmessage = nextTick;
+    scheduleDrain = function () {
+      channel.port2.postMessage(0);
+    };
+  } else if ('document' in global && 'onreadystatechange' in global.document.createElement('script')) {
+    scheduleDrain = function () {
+
+      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+      // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+      var scriptEl = global.document.createElement('script');
+      scriptEl.onreadystatechange = function () {
+        nextTick();
+
+        scriptEl.onreadystatechange = null;
+        scriptEl.parentNode.removeChild(scriptEl);
+        scriptEl = null;
+      };
+      global.document.documentElement.appendChild(scriptEl);
+    };
+  } else {
+    scheduleDrain = function () {
+      setTimeout(nextTick, 0);
+    };
+  }
+}
+
+var draining;
+var queue = [];
+//named nextTick for less confusing stack traces
+function nextTick() {
+  draining = true;
+  var i, oldQueue;
+  var len = queue.length;
+  while (len) {
+    oldQueue = queue;
+    queue = [];
+    i = -1;
+    while (++i < len) {
+      oldQueue[i]();
+    }
+    len = queue.length;
+  }
+  draining = false;
+}
+
+module.exports = immediate;
+function immediate(task) {
+  if (queue.push(task) === 1 && !draining) {
+    scheduleDrain();
+  }
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],2:[function(_dereq_,module,exports){
+'use strict';
+var immediate = _dereq_(1);
+
+/* istanbul ignore next */
+function INTERNAL() {}
+
+var handlers = {};
+
+var REJECTED = ['REJECTED'];
+var FULFILLED = ['FULFILLED'];
+var PENDING = ['PENDING'];
+
+module.exports = Promise;
+
+function Promise(resolver) {
+  if (typeof resolver !== 'function') {
+    throw new TypeError('resolver must be a function');
+  }
+  this.state = PENDING;
+  this.queue = [];
+  this.outcome = void 0;
+  if (resolver !== INTERNAL) {
+    safelyResolveThenable(this, resolver);
+  }
+}
+
+Promise.prototype["catch"] = function (onRejected) {
+  return this.then(null, onRejected);
+};
+Promise.prototype.then = function (onFulfilled, onRejected) {
+  if (typeof onFulfilled !== 'function' && this.state === FULFILLED ||
+    typeof onRejected !== 'function' && this.state === REJECTED) {
+    return this;
+  }
+  var promise = new this.constructor(INTERNAL);
+  if (this.state !== PENDING) {
+    var resolver = this.state === FULFILLED ? onFulfilled : onRejected;
+    unwrap(promise, resolver, this.outcome);
+  } else {
+    this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
+  }
+
+  return promise;
+};
+function QueueItem(promise, onFulfilled, onRejected) {
+  this.promise = promise;
+  if (typeof onFulfilled === 'function') {
+    this.onFulfilled = onFulfilled;
+    this.callFulfilled = this.otherCallFulfilled;
+  }
+  if (typeof onRejected === 'function') {
+    this.onRejected = onRejected;
+    this.callRejected = this.otherCallRejected;
+  }
+}
+QueueItem.prototype.callFulfilled = function (value) {
+  handlers.resolve(this.promise, value);
+};
+QueueItem.prototype.otherCallFulfilled = function (value) {
+  unwrap(this.promise, this.onFulfilled, value);
+};
+QueueItem.prototype.callRejected = function (value) {
+  handlers.reject(this.promise, value);
+};
+QueueItem.prototype.otherCallRejected = function (value) {
+  unwrap(this.promise, this.onRejected, value);
+};
+
+function unwrap(promise, func, value) {
+  immediate(function () {
+    var returnValue;
+    try {
+      returnValue = func(value);
+    } catch (e) {
+      return handlers.reject(promise, e);
+    }
+    if (returnValue === promise) {
+      handlers.reject(promise, new TypeError('Cannot resolve promise with itself'));
+    } else {
+      handlers.resolve(promise, returnValue);
+    }
+  });
+}
+
+handlers.resolve = function (self, value) {
+  var result = tryCatch(getThen, value);
+  if (result.status === 'error') {
+    return handlers.reject(self, result.value);
+  }
+  var thenable = result.value;
+
+  if (thenable) {
+    safelyResolveThenable(self, thenable);
+  } else {
+    self.state = FULFILLED;
+    self.outcome = value;
+    var i = -1;
+    var len = self.queue.length;
+    while (++i < len) {
+      self.queue[i].callFulfilled(value);
+    }
+  }
+  return self;
+};
+handlers.reject = function (self, error) {
+  self.state = REJECTED;
+  self.outcome = error;
+  var i = -1;
+  var len = self.queue.length;
+  while (++i < len) {
+    self.queue[i].callRejected(error);
+  }
+  return self;
+};
+
+function getThen(obj) {
+  // Make sure we only access the accessor once as required by the spec
+  var then = obj && obj.then;
+  if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
+    return function appyThen() {
+      then.apply(obj, arguments);
+    };
+  }
+}
+
+function safelyResolveThenable(self, thenable) {
+  // Either fulfill, reject or reject with error
+  var called = false;
+  function onError(value) {
+    if (called) {
+      return;
+    }
+    called = true;
+    handlers.reject(self, value);
+  }
+
+  function onSuccess(value) {
+    if (called) {
+      return;
+    }
+    called = true;
+    handlers.resolve(self, value);
+  }
+
+  function tryToUnwrap() {
+    thenable(onSuccess, onError);
+  }
+
+  var result = tryCatch(tryToUnwrap);
+  if (result.status === 'error') {
+    onError(result.value);
+  }
+}
+
+function tryCatch(func, value) {
+  var out = {};
+  try {
+    out.value = func(value);
+    out.status = 'success';
+  } catch (e) {
+    out.status = 'error';
+    out.value = e;
+  }
+  return out;
+}
+
+Promise.resolve = resolve;
+function resolve(value) {
+  if (value instanceof this) {
+    return value;
+  }
+  return handlers.resolve(new this(INTERNAL), value);
+}
+
+Promise.reject = reject;
+function reject(reason) {
+  var promise = new this(INTERNAL);
+  return handlers.reject(promise, reason);
+}
+
+Promise.all = all;
+function all(iterable) {
+  var self = this;
+  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
+    return this.reject(new TypeError('must be an array'));
+  }
+
+  var len = iterable.length;
+  var called = false;
+  if (!len) {
+    return this.resolve([]);
+  }
+
+  var values = new Array(len);
+  var resolved = 0;
+  var i = -1;
+  var promise = new this(INTERNAL);
+
+  while (++i < len) {
+    allResolver(iterable[i], i);
+  }
+  return promise;
+  function allResolver(value, i) {
+    self.resolve(value).then(resolveFromAll, function (error) {
+      if (!called) {
+        called = true;
+        handlers.reject(promise, error);
+      }
+    });
+    function resolveFromAll(outValue) {
+      values[i] = outValue;
+      if (++resolved === len && !called) {
+        called = true;
+        handlers.resolve(promise, values);
+      }
+    }
+  }
+}
+
+Promise.race = race;
+function race(iterable) {
+  var self = this;
+  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
+    return this.reject(new TypeError('must be an array'));
+  }
+
+  var len = iterable.length;
+  var called = false;
+  if (!len) {
+    return this.resolve([]);
+  }
+
+  var i = -1;
+  var promise = new this(INTERNAL);
+
+  while (++i < len) {
+    resolver(iterable[i]);
+  }
+  return promise;
+  function resolver(value) {
+    self.resolve(value).then(function (response) {
+      if (!called) {
+        called = true;
+        handlers.resolve(promise, response);
+      }
+    }, function (error) {
+      if (!called) {
+        called = true;
+        handlers.reject(promise, error);
+      }
+    });
+  }
+}
+
+},{"1":1}],3:[function(_dereq_,module,exports){
+(function (global){
+'use strict';
+if (typeof global.Promise !== 'function') {
+  global.Promise = _dereq_(2);
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"2":2}],4:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function getIDB() {
+    /* global indexedDB,webkitIndexedDB,mozIndexedDB,OIndexedDB,msIndexedDB */
+    try {
+        if (typeof indexedDB !== 'undefined') {
+            return indexedDB;
+        }
+        if (typeof webkitIndexedDB !== 'undefined') {
+            return webkitIndexedDB;
+        }
+        if (typeof mozIndexedDB !== 'undefined') {
+            return mozIndexedDB;
+        }
+        if (typeof OIndexedDB !== 'undefined') {
+            return OIndexedDB;
+        }
+        if (typeof msIndexedDB !== 'undefined') {
+            return msIndexedDB;
+        }
+    } catch (e) {
+        return;
+    }
+}
+
+var idb = getIDB();
+
+function isIndexedDBValid() {
+    try {
+        // Initialize IndexedDB; fall back to vendor-prefixed versions
+        // if needed.
+        if (!idb || !idb.open) {
+            return false;
+        }
+        // We mimic PouchDB here;
+        //
+        // We test for openDatabase because IE Mobile identifies itself
+        // as Safari. Oh the lulz...
+        var isSafari = typeof openDatabase !== 'undefined' && /(Safari|iPhone|iPad|iPod)/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) && !/BlackBerry/.test(navigator.platform);
+
+        var hasFetch = typeof fetch === 'function' && fetch.toString().indexOf('[native code') !== -1;
+
+        // Safari <10.1 does not meet our requirements for IDB support
+        // (see: https://github.com/pouchdb/pouchdb/issues/5572).
+        // Safari 10.1 shipped with fetch, we can use that to detect it.
+        // Note: this creates issues with `window.fetch` polyfills and
+        // overrides; see:
+        // https://github.com/localForage/localForage/issues/856
+        return (!isSafari || hasFetch) && typeof indexedDB !== 'undefined' &&
+        // some outdated implementations of IDB that appear on Samsung
+        // and HTC Android devices <4.4 are missing IDBKeyRange
+        // See: https://github.com/mozilla/localForage/issues/128
+        // See: https://github.com/mozilla/localForage/issues/272
+        typeof IDBKeyRange !== 'undefined';
+    } catch (e) {
+        return false;
+    }
+}
+
+// Abstracts constructing a Blob object, so it also works in older
+// browsers that don't support the native Blob constructor. (i.e.
+// old QtWebKit versions, at least).
+// Abstracts constructing a Blob object, so it also works in older
+// browsers that don't support the native Blob constructor. (i.e.
+// old QtWebKit versions, at least).
+function createBlob(parts, properties) {
+    /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
+    parts = parts || [];
+    properties = properties || {};
+    try {
+        return new Blob(parts, properties);
+    } catch (e) {
+        if (e.name !== 'TypeError') {
+            throw e;
+        }
+        var Builder = typeof BlobBuilder !== 'undefined' ? BlobBuilder : typeof MSBlobBuilder !== 'undefined' ? MSBlobBuilder : typeof MozBlobBuilder !== 'undefined' ? MozBlobBuilder : WebKitBlobBuilder;
+        var builder = new Builder();
+        for (var i = 0; i < parts.length; i += 1) {
+            builder.append(parts[i]);
+        }
+        return builder.getBlob(properties.type);
+    }
+}
+
+// This is CommonJS because lie is an external dependency, so Rollup
+// can just ignore it.
+if (typeof Promise === 'undefined') {
+    // In the "nopromises" build this will just throw if you don't have
+    // a global promise object, but it would throw anyway later.
+    _dereq_(3);
+}
+var Promise$1 = Promise;
+
+function executeCallback(promise, callback) {
+    if (callback) {
+        promise.then(function (result) {
+            callback(null, result);
+        }, function (error) {
+            callback(error);
+        });
+    }
+}
+
+function executeTwoCallbacks(promise, callback, errorCallback) {
+    if (typeof callback === 'function') {
+        promise.then(callback);
+    }
+
+    if (typeof errorCallback === 'function') {
+        promise["catch"](errorCallback);
+    }
+}
+
+function normalizeKey(key) {
+    // Cast the key to a string, as that's all we can set as a key.
+    if (typeof key !== 'string') {
+        console.warn(key + ' used as a key, but it is not a string.');
+        key = String(key);
+    }
+
+    return key;
+}
+
+function getCallback() {
+    if (arguments.length && typeof arguments[arguments.length - 1] === 'function') {
+        return arguments[arguments.length - 1];
+    }
+}
+
+// Some code originally from async_storage.js in
+// [Gaia](https://github.com/mozilla-b2g/gaia).
+
+var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
+var supportsBlobs = void 0;
+var dbContexts = {};
+var toString = Object.prototype.toString;
+
+// Transaction Modes
+var READ_ONLY = 'readonly';
+var READ_WRITE = 'readwrite';
+
+// Transform a binary string to an array buffer, because otherwise
+// weird stuff happens when you try to work with the binary string directly.
+// It is known.
+// From http://stackoverflow.com/questions/14967647/ (continues on next line)
+// encode-decode-image-with-base64-breaks-image (2013-04-21)
+function _binStringToArrayBuffer(bin) {
+    var length = bin.length;
+    var buf = new ArrayBuffer(length);
+    var arr = new Uint8Array(buf);
+    for (var i = 0; i < length; i++) {
+        arr[i] = bin.charCodeAt(i);
+    }
+    return buf;
+}
+
+//
+// Blobs are not supported in all versions of IndexedDB, notably
+// Chrome <37 and Android <5. In those versions, storing a blob will throw.
+//
+// Various other blob bugs exist in Chrome v37-42 (inclusive).
+// Detecting them is expensive and confusing to users, and Chrome 37-42
+// is at very low usage worldwide, so we do a hacky userAgent check instead.
+//
+// content-type bug: https://code.google.com/p/chromium/issues/detail?id=408120
+// 404 bug: https://code.google.com/p/chromium/issues/detail?id=447916
+// FileReader bug: https://code.google.com/p/chromium/issues/detail?id=447836
+//
+// Code borrowed from PouchDB. See:
+// https://github.com/pouchdb/pouchdb/blob/master/packages/node_modules/pouchdb-adapter-idb/src/blobSupport.js
+//
+function _checkBlobSupportWithoutCaching(idb) {
+    return new Promise$1(function (resolve) {
+        var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, READ_WRITE);
+        var blob = createBlob(['']);
+        txn.objectStore(DETECT_BLOB_SUPPORT_STORE).put(blob, 'key');
+
+        txn.onabort = function (e) {
+            // If the transaction aborts now its due to not being able to
+            // write to the database, likely due to the disk being full
+            e.preventDefault();
+            e.stopPropagation();
+            resolve(false);
+        };
+
+        txn.oncomplete = function () {
+            var matchedChrome = navigator.userAgent.match(/Chrome\/(\d+)/);
+            var matchedEdge = navigator.userAgent.match(/Edge\//);
+            // MS Edge pretends to be Chrome 42:
+            // https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx
+            resolve(matchedEdge || !matchedChrome || parseInt(matchedChrome[1], 10) >= 43);
+        };
+    })["catch"](function () {
+        return false; // error, so assume unsupported
+    });
+}
+
+function _checkBlobSupport(idb) {
+    if (typeof supportsBlobs === 'boolean') {
+        return Promise$1.resolve(supportsBlobs);
+    }
+    return _checkBlobSupportWithoutCaching(idb).then(function (value) {
+        supportsBlobs = value;
+        return supportsBlobs;
+    });
+}
+
+function _deferReadiness(dbInfo) {
+    var dbContext = dbContexts[dbInfo.name];
+
+    // Create a deferred object representing the current database operation.
+    var deferredOperation = {};
+
+    deferredOperation.promise = new Promise$1(function (resolve, reject) {
+        deferredOperation.resolve = resolve;
+        deferredOperation.reject = reject;
+    });
+
+    // Enqueue the deferred operation.
+    dbContext.deferredOperations.push(deferredOperation);
+
+    // Chain its promise to the database readiness.
+    if (!dbContext.dbReady) {
+        dbContext.dbReady = deferredOperation.promise;
+    } else {
+        dbContext.dbReady = dbContext.dbReady.then(function () {
+            return deferredOperation.promise;
+        });
+    }
+}
+
+function _advanceReadiness(dbInfo) {
+    var dbContext = dbContexts[dbInfo.name];
+
+    // Dequeue a deferred operation.
+    var deferredOperation = dbContext.deferredOperations.pop();
+
+    // Resolve its promise (which is part of the database readiness
+    // chain of promises).
+    if (deferredOperation) {
+        deferredOperation.resolve();
+        return deferredOperation.promise;
+    }
+}
+
+function _rejectReadiness(dbInfo, err) {
+    var dbContext = dbContexts[dbInfo.name];
+
+    // Dequeue a deferred operation.
+    var deferredOperation = dbContext.deferredOperations.pop();
+
+    // Reject its promise (which is part of the database readiness
+    // chain of promises).
+    if (deferredOperation) {
+        deferredOperation.reject(err);
+        return deferredOperation.promise;
+    }
+}
+
+function _getConnection(dbInfo, upgradeNeeded) {
+    return new Promise$1(function (resolve, reject) {
+        dbContexts[dbInfo.name] = dbContexts[dbInfo.name] || createDbContext();
+
+        if (dbInfo.db) {
+            if (upgradeNeeded) {
+                _deferReadiness(dbInfo);
+                dbInfo.db.close();
+            } else {
+                return resolve(dbInfo.db);
+            }
+        }
+
+        var dbArgs = [dbInfo.name];
+
+        if (upgradeNeeded) {
+            dbArgs.push(dbInfo.version);
+        }
+
+        var openreq = idb.open.apply(idb, dbArgs);
+
+        if (upgradeNeeded) {
+            openreq.onupgradeneeded = function (e) {
+                var db = openreq.result;
+                try {
+                    db.createObjectStore(dbInfo.storeName);
+                    if (e.oldVersion <= 1) {
+                        // Added when support for blob shims was added
+                        db.createObjectStore(DETECT_BLOB_SUPPORT_STORE);
+                    }
+                } catch (ex) {
+                    if (ex.name === 'ConstraintError') {
+                        console.warn('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
+                    } else {
+                        throw ex;
+                    }
+                }
+            };
+        }
+
+        openreq.onerror = function (e) {
+            e.preventDefault();
+            reject(openreq.error);
+        };
+
+        openreq.onsuccess = function () {
+            var db = openreq.result;
+            db.onversionchange = function (e) {
+                // Triggered when the database is modified (e.g. adding an objectStore) or
+                // deleted (even when initiated by other sessions in different tabs).
+                // Closing the connection here prevents those operations from being blocked.
+                // If the database is accessed again later by this instance, the connection
+                // will be reopened or the database recreated as needed.
+                e.target.close();
+            };
+            resolve(db);
+            _advanceReadiness(dbInfo);
+        };
+    });
+}
+
+function _getOriginalConnection(dbInfo) {
+    return _getConnection(dbInfo, false);
+}
+
+function _getUpgradedConnection(dbInfo) {
+    return _getConnection(dbInfo, true);
+}
+
+function _isUpgradeNeeded(dbInfo, defaultVersion) {
+    if (!dbInfo.db) {
+        return true;
+    }
+
+    var isNewStore = !dbInfo.db.objectStoreNames.contains(dbInfo.storeName);
+    var isDowngrade = dbInfo.version < dbInfo.db.version;
+    var isUpgrade = dbInfo.version > dbInfo.db.version;
+
+    if (isDowngrade) {
+        // If the version is not the default one
+        // then warn for impossible downgrade.
+        if (dbInfo.version !== defaultVersion) {
+            console.warn('The database "' + dbInfo.name + '"' + " can't be downgraded from version " + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
+        }
+        // Align the versions to prevent errors.
+        dbInfo.version = dbInfo.db.version;
+    }
+
+    if (isUpgrade || isNewStore) {
+        // If the store is new then increment the version (if needed).
+        // This will trigger an "upgradeneeded" event which is required
+        // for creating a store.
+        if (isNewStore) {
+            var incVersion = dbInfo.db.version + 1;
+            if (incVersion > dbInfo.version) {
+                dbInfo.version = incVersion;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+// encode a blob for indexeddb engines that don't support blobs
+function _encodeBlob(blob) {
+    return new Promise$1(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onerror = reject;
+        reader.onloadend = function (e) {
+            var base64 = btoa(e.target.result || '');
+            resolve({
+                __local_forage_encoded_blob: true,
+                data: base64,
+                type: blob.type
+            });
+        };
+        reader.readAsBinaryString(blob);
+    });
+}
+
+// decode an encoded blob
+function _decodeBlob(encodedBlob) {
+    var arrayBuff = _binStringToArrayBuffer(atob(encodedBlob.data));
+    return createBlob([arrayBuff], { type: encodedBlob.type });
+}
+
+// is this one of our fancy encoded blobs?
+function _isEncodedBlob(value) {
+    return value && value.__local_forage_encoded_blob;
+}
+
+// Specialize the default `ready()` function by making it dependent
+// on the current database operations. Thus, the driver will be actually
+// ready when it's been initialized (default) *and* there are no pending
+// operations on the database (initiated by some other instances).
+function _fullyReady(callback) {
+    var self = this;
+
+    var promise = self._initReady().then(function () {
+        var dbContext = dbContexts[self._dbInfo.name];
+
+        if (dbContext && dbContext.dbReady) {
+            return dbContext.dbReady;
+        }
+    });
+
+    executeTwoCallbacks(promise, callback, callback);
+    return promise;
+}
+
+// Try to establish a new db connection to replace the
+// current one which is broken (i.e. experiencing
+// InvalidStateError while creating a transaction).
+function _tryReconnect(dbInfo) {
+    _deferReadiness(dbInfo);
+
+    var dbContext = dbContexts[dbInfo.name];
+    var forages = dbContext.forages;
+
+    for (var i = 0; i < forages.length; i++) {
+        var forage = forages[i];
+        if (forage._dbInfo.db) {
+            forage._dbInfo.db.close();
+            forage._dbInfo.db = null;
+        }
+    }
+    dbInfo.db = null;
+
+    return _getOriginalConnection(dbInfo).then(function (db) {
+        dbInfo.db = db;
+        if (_isUpgradeNeeded(dbInfo)) {
+            // Reopen the database for upgrading.
+            return _getUpgradedConnection(dbInfo);
+        }
+        return db;
+    }).then(function (db) {
+        // store the latest db reference
+        // in case the db was upgraded
+        dbInfo.db = dbContext.db = db;
+        for (var i = 0; i < forages.length; i++) {
+            forages[i]._dbInfo.db = db;
+        }
+    })["catch"](function (err) {
+        _rejectReadiness(dbInfo, err);
+        throw err;
+    });
+}
+
+// FF doesn't like Promises (micro-tasks) and IDDB store operations,
+// so we have to do it with callbacks
+function createTransaction(dbInfo, mode, callback, retries) {
+    if (retries === undefined) {
+        retries = 1;
+    }
+
+    try {
+        var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
+        callback(null, tx);
+    } catch (err) {
+        if (retries > 0 && (!dbInfo.db || err.name === 'InvalidStateError' || err.name === 'NotFoundError')) {
+            return Promise$1.resolve().then(function () {
+                if (!dbInfo.db || err.name === 'NotFoundError' && !dbInfo.db.objectStoreNames.contains(dbInfo.storeName) && dbInfo.version <= dbInfo.db.version) {
+                    // increase the db version, to create the new ObjectStore
+                    if (dbInfo.db) {
+                        dbInfo.version = dbInfo.db.version + 1;
+                    }
+                    // Reopen the database for upgrading.
+                    return _getUpgradedConnection(dbInfo);
+                }
+            }).then(function () {
+                return _tryReconnect(dbInfo).then(function () {
+                    createTransaction(dbInfo, mode, callback, retries - 1);
+                });
+            })["catch"](callback);
+        }
+
+        callback(err);
+    }
+}
+
+function createDbContext() {
+    return {
+        // Running localForages sharing a database.
+        forages: [],
+        // Shared database.
+        db: null,
+        // Database readiness (promise).
+        dbReady: null,
+        // Deferred operations on the database.
+        deferredOperations: []
+    };
+}
+
+// Open the IndexedDB database (automatically creates one if one didn't
+// previously exist), using any options set in the config.
+function _initStorage(options) {
+    var self = this;
+    var dbInfo = {
+        db: null
+    };
+
+    if (options) {
+        for (var i in options) {
+            dbInfo[i] = options[i];
+        }
+    }
+
+    // Get the current context of the database;
+    var dbContext = dbContexts[dbInfo.name];
+
+    // ...or create a new context.
+    if (!dbContext) {
+        dbContext = createDbContext();
+        // Register the new context in the global container.
+        dbContexts[dbInfo.name] = dbContext;
+    }
+
+    // Register itself as a running localForage in the current context.
+    dbContext.forages.push(self);
+
+    // Replace the default `ready()` function with the specialized one.
+    if (!self._initReady) {
+        self._initReady = self.ready;
+        self.ready = _fullyReady;
+    }
+
+    // Create an array of initialization states of the related localForages.
+    var initPromises = [];
+
+    function ignoreErrors() {
+        // Don't handle errors here,
+        // just makes sure related localForages aren't pending.
+        return Promise$1.resolve();
+    }
+
+    for (var j = 0; j < dbContext.forages.length; j++) {
+        var forage = dbContext.forages[j];
+        if (forage !== self) {
+            // Don't wait for itself...
+            initPromises.push(forage._initReady()["catch"](ignoreErrors));
+        }
+    }
+
+    // Take a snapshot of the related localForages.
+    var forages = dbContext.forages.slice(0);
+
+    // Initialize the connection process only when
+    // all the related localForages aren't pending.
+    return Promise$1.all(initPromises).then(function () {
+        dbInfo.db = dbContext.db;
+        // Get the connection or open a new one without upgrade.
+        return _getOriginalConnection(dbInfo);
+    }).then(function (db) {
+        dbInfo.db = db;
+        if (_isUpgradeNeeded(dbInfo, self._defaultConfig.version)) {
+            // Reopen the database for upgrading.
+            return _getUpgradedConnection(dbInfo);
+        }
+        return db;
+    }).then(function (db) {
+        dbInfo.db = dbContext.db = db;
+        self._dbInfo = dbInfo;
+        // Share the final connection amongst related localForages.
+        for (var k = 0; k < forages.length; k++) {
+            var forage = forages[k];
+            if (forage !== self) {
+                // Self is already up-to-date.
+                forage._dbInfo.db = dbInfo.db;
+                forage._dbInfo.version = dbInfo.version;
+            }
+        }
+    });
+}
+
+function getItem(key, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.get(key);
+
+                    req.onsuccess = function () {
+                        var value = req.result;
+                        if (value === undefined) {
+                            value = null;
+                        }
+                        if (_isEncodedBlob(value)) {
+                            value = _decodeBlob(value);
+                        }
+                        resolve(value);
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Iterate over all items stored in database.
+function iterate(iterator, callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openCursor();
+                    var iterationNumber = 1;
+
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+
+                        if (cursor) {
+                            var value = cursor.value;
+                            if (_isEncodedBlob(value)) {
+                                value = _decodeBlob(value);
+                            }
+                            var result = iterator(value, cursor.key, iterationNumber++);
+
+                            // when the iterator callback returns any
+                            // (non-`undefined`) value, then we stop
+                            // the iteration immediately
+                            if (result !== void 0) {
+                                resolve(result);
+                            } else {
+                                cursor["continue"]();
+                            }
+                        } else {
+                            resolve();
+                        }
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+
+    return promise;
+}
+
+function setItem(key, value, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = new Promise$1(function (resolve, reject) {
+        var dbInfo;
+        self.ready().then(function () {
+            dbInfo = self._dbInfo;
+            if (toString.call(value) === '[object Blob]') {
+                return _checkBlobSupport(dbInfo.db).then(function (blobSupport) {
+                    if (blobSupport) {
+                        return value;
+                    }
+                    return _encodeBlob(value);
+                });
+            }
+            return value;
+        }).then(function (value) {
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+
+                    // The reason we don't _save_ null is because IE 10 does
+                    // not support saving the `null` type in IndexedDB. How
+                    // ironic, given the bug below!
+                    // See: https://github.com/mozilla/localForage/issues/161
+                    if (value === null) {
+                        value = undefined;
+                    }
+
+                    var req = store.put(value, key);
+
+                    transaction.oncomplete = function () {
+                        // Cast to undefined so the value passed to
+                        // callback/promise is the same as what one would get out
+                        // of `getItem()` later. This leads to some weirdness
+                        // (setItem('foo', undefined) will return `null`), but
+                        // it's not my fault localStorage is our baseline and that
+                        // it's weird.
+                        if (value === undefined) {
+                            value = null;
+                        }
+
+                        resolve(value);
+                    };
+                    transaction.onabort = transaction.onerror = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function removeItem(key, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    // We use a Grunt task to make this safe for IE and some
+                    // versions of Android (including those used by Cordova).
+                    // Normally IE won't like `.delete()` and will insist on
+                    // using `['delete']()`, but we have a build step that
+                    // fixes this for us now.
+                    var req = store["delete"](key);
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
+
+                    transaction.onerror = function () {
+                        reject(req.error);
+                    };
+
+                    // The request will be also be aborted if we've exceeded our storage
+                    // space.
+                    transaction.onabort = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function clear(callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.clear();
+
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
+
+                    transaction.onabort = transaction.onerror = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function length(callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.count();
+
+                    req.onsuccess = function () {
+                        resolve(req.result);
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function key(n, callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        if (n < 0) {
+            resolve(null);
+
+            return;
+        }
+
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var advanced = false;
+                    var req = store.openKeyCursor();
+
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+                        if (!cursor) {
+                            // this means there weren't enough keys
+                            resolve(null);
+
+                            return;
+                        }
+
+                        if (n === 0) {
+                            // We have the first key, return it if that's what they
+                            // wanted.
+                            resolve(cursor.key);
+                        } else {
+                            if (!advanced) {
+                                // Otherwise, ask the cursor to skip ahead n
+                                // records.
+                                advanced = true;
+                                cursor.advance(n);
+                            } else {
+                                // When we get here, we've got the nth key.
+                                resolve(cursor.key);
+                            }
+                        }
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function keys(callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
+
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openKeyCursor();
+                    var keys = [];
+
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+
+                        if (!cursor) {
+                            resolve(keys);
+                            return;
+                        }
+
+                        keys.push(cursor.key);
+                        cursor["continue"]();
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function dropInstance(options, callback) {
+    callback = getCallback.apply(this, arguments);
+
+    var currentConfig = this.config();
+    options = typeof options !== 'function' && options || {};
+    if (!options.name) {
+        options.name = options.name || currentConfig.name;
+        options.storeName = options.storeName || currentConfig.storeName;
+    }
+
+    var self = this;
+    var promise;
+    if (!options.name) {
+        promise = Promise$1.reject('Invalid arguments');
+    } else {
+        var isCurrentDb = options.name === currentConfig.name && self._dbInfo.db;
+
+        var dbPromise = isCurrentDb ? Promise$1.resolve(self._dbInfo.db) : _getOriginalConnection(options).then(function (db) {
+            var dbContext = dbContexts[options.name];
+            var forages = dbContext.forages;
+            dbContext.db = db;
+            for (var i = 0; i < forages.length; i++) {
+                forages[i]._dbInfo.db = db;
+            }
+            return db;
+        });
+
+        if (!options.storeName) {
+            promise = dbPromise.then(function (db) {
+                _deferReadiness(options);
+
+                var dbContext = dbContexts[options.name];
+                var forages = dbContext.forages;
+
+                db.close();
+                for (var i = 0; i < forages.length; i++) {
+                    var forage = forages[i];
+                    forage._dbInfo.db = null;
+                }
+
+                var dropDBPromise = new Promise$1(function (resolve, reject) {
+                    var req = idb.deleteDatabase(options.name);
+
+                    req.onerror = function () {
+                        var db = req.result;
+                        if (db) {
+                            db.close();
+                        }
+                        reject(req.error);
+                    };
+
+                    req.onblocked = function () {
+                        // Closing all open connections in onversionchange handler should prevent this situation, but if
+                        // we do get here, it just means the request remains pending - eventually it will succeed or error
+                        console.warn('dropInstance blocked for database "' + options.name + '" until all open connections are closed');
+                    };
+
+                    req.onsuccess = function () {
+                        var db = req.result;
+                        if (db) {
+                            db.close();
+                        }
+                        resolve(db);
+                    };
+                });
+
+                return dropDBPromise.then(function (db) {
+                    dbContext.db = db;
+                    for (var i = 0; i < forages.length; i++) {
+                        var _forage = forages[i];
+                        _advanceReadiness(_forage._dbInfo);
+                    }
+                })["catch"](function (err) {
+                    (_rejectReadiness(options, err) || Promise$1.resolve())["catch"](function () {});
+                    throw err;
+                });
+            });
+        } else {
+            promise = dbPromise.then(function (db) {
+                if (!db.objectStoreNames.contains(options.storeName)) {
+                    return;
+                }
+
+                var newVersion = db.version + 1;
+
+                _deferReadiness(options);
+
+                var dbContext = dbContexts[options.name];
+                var forages = dbContext.forages;
+
+                db.close();
+                for (var i = 0; i < forages.length; i++) {
+                    var forage = forages[i];
+                    forage._dbInfo.db = null;
+                    forage._dbInfo.version = newVersion;
+                }
+
+                var dropObjectPromise = new Promise$1(function (resolve, reject) {
+                    var req = idb.open(options.name, newVersion);
+
+                    req.onerror = function (err) {
+                        var db = req.result;
+                        db.close();
+                        reject(err);
+                    };
+
+                    req.onupgradeneeded = function () {
+                        var db = req.result;
+                        db.deleteObjectStore(options.storeName);
+                    };
+
+                    req.onsuccess = function () {
+                        var db = req.result;
+                        db.close();
+                        resolve(db);
+                    };
+                });
+
+                return dropObjectPromise.then(function (db) {
+                    dbContext.db = db;
+                    for (var j = 0; j < forages.length; j++) {
+                        var _forage2 = forages[j];
+                        _forage2._dbInfo.db = db;
+                        _advanceReadiness(_forage2._dbInfo);
+                    }
+                })["catch"](function (err) {
+                    (_rejectReadiness(options, err) || Promise$1.resolve())["catch"](function () {});
+                    throw err;
+                });
+            });
+        }
+    }
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+var asyncStorage = {
+    _driver: 'asyncStorage',
+    _initStorage: _initStorage,
+    _support: isIndexedDBValid(),
+    iterate: iterate,
+    getItem: getItem,
+    setItem: setItem,
+    removeItem: removeItem,
+    clear: clear,
+    length: length,
+    key: key,
+    keys: keys,
+    dropInstance: dropInstance
+};
+
+function isWebSQLValid() {
+    return typeof openDatabase === 'function';
+}
+
+// Sadly, the best way to save binary data in WebSQL/localStorage is serializing
+// it to Base64, so this is how we store it to prevent very strange errors with less
+// verbose ways of binary <-> string data storage.
+var BASE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+var BLOB_TYPE_PREFIX = '~~local_forage_type~';
+var BLOB_TYPE_PREFIX_REGEX = /^~~local_forage_type~([^~]+)~/;
+
+var SERIALIZED_MARKER = '__lfsc__:';
+var SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER.length;
+
+// OMG the serializations!
+var TYPE_ARRAYBUFFER = 'arbf';
+var TYPE_BLOB = 'blob';
+var TYPE_INT8ARRAY = 'si08';
+var TYPE_UINT8ARRAY = 'ui08';
+var TYPE_UINT8CLAMPEDARRAY = 'uic8';
+var TYPE_INT16ARRAY = 'si16';
+var TYPE_INT32ARRAY = 'si32';
+var TYPE_UINT16ARRAY = 'ur16';
+var TYPE_UINT32ARRAY = 'ui32';
+var TYPE_FLOAT32ARRAY = 'fl32';
+var TYPE_FLOAT64ARRAY = 'fl64';
+var TYPE_SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER_LENGTH + TYPE_ARRAYBUFFER.length;
+
+var toString$1 = Object.prototype.toString;
+
+function stringToBuffer(serializedString) {
+    // Fill the string into a ArrayBuffer.
+    var bufferLength = serializedString.length * 0.75;
+    var len = serializedString.length;
+    var i;
+    var p = 0;
+    var encoded1, encoded2, encoded3, encoded4;
+
+    if (serializedString[serializedString.length - 1] === '=') {
+        bufferLength--;
+        if (serializedString[serializedString.length - 2] === '=') {
+            bufferLength--;
+        }
+    }
+
+    var buffer = new ArrayBuffer(bufferLength);
+    var bytes = new Uint8Array(buffer);
+
+    for (i = 0; i < len; i += 4) {
+        encoded1 = BASE_CHARS.indexOf(serializedString[i]);
+        encoded2 = BASE_CHARS.indexOf(serializedString[i + 1]);
+        encoded3 = BASE_CHARS.indexOf(serializedString[i + 2]);
+        encoded4 = BASE_CHARS.indexOf(serializedString[i + 3]);
+
+        /*jslint bitwise: true */
+        bytes[p++] = encoded1 << 2 | encoded2 >> 4;
+        bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+        bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+    }
+    return buffer;
+}
+
+// Converts a buffer to a string to store, serialized, in the backend
+// storage library.
+function bufferToString(buffer) {
+    // base64-arraybuffer
+    var bytes = new Uint8Array(buffer);
+    var base64String = '';
+    var i;
+
+    for (i = 0; i < bytes.length; i += 3) {
+        /*jslint bitwise: true */
+        base64String += BASE_CHARS[bytes[i] >> 2];
+        base64String += BASE_CHARS[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
+        base64String += BASE_CHARS[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
+        base64String += BASE_CHARS[bytes[i + 2] & 63];
+    }
+
+    if (bytes.length % 3 === 2) {
+        base64String = base64String.substring(0, base64String.length - 1) + '=';
+    } else if (bytes.length % 3 === 1) {
+        base64String = base64String.substring(0, base64String.length - 2) + '==';
+    }
+
+    return base64String;
+}
+
+// Serialize a value, afterwards executing a callback (which usually
+// instructs the `setItem()` callback/promise to be executed). This is how
+// we store binary data with localStorage.
+function serialize(value, callback) {
+    var valueType = '';
+    if (value) {
+        valueType = toString$1.call(value);
+    }
+
+    // Cannot use `value instanceof ArrayBuffer` or such here, as these
+    // checks fail when running the tests using casper.js...
+    //
+    // TODO: See why those tests fail and use a better solution.
+    if (value && (valueType === '[object ArrayBuffer]' || value.buffer && toString$1.call(value.buffer) === '[object ArrayBuffer]')) {
+        // Convert binary arrays to a string and prefix the string with
+        // a special marker.
+        var buffer;
+        var marker = SERIALIZED_MARKER;
+
+        if (value instanceof ArrayBuffer) {
+            buffer = value;
+            marker += TYPE_ARRAYBUFFER;
+        } else {
+            buffer = value.buffer;
+
+            if (valueType === '[object Int8Array]') {
+                marker += TYPE_INT8ARRAY;
+            } else if (valueType === '[object Uint8Array]') {
+                marker += TYPE_UINT8ARRAY;
+            } else if (valueType === '[object Uint8ClampedArray]') {
+                marker += TYPE_UINT8CLAMPEDARRAY;
+            } else if (valueType === '[object Int16Array]') {
+                marker += TYPE_INT16ARRAY;
+            } else if (valueType === '[object Uint16Array]') {
+                marker += TYPE_UINT16ARRAY;
+            } else if (valueType === '[object Int32Array]') {
+                marker += TYPE_INT32ARRAY;
+            } else if (valueType === '[object Uint32Array]') {
+                marker += TYPE_UINT32ARRAY;
+            } else if (valueType === '[object Float32Array]') {
+                marker += TYPE_FLOAT32ARRAY;
+            } else if (valueType === '[object Float64Array]') {
+                marker += TYPE_FLOAT64ARRAY;
+            } else {
+                callback(new Error('Failed to get type for BinaryArray'));
+            }
+        }
+
+        callback(marker + bufferToString(buffer));
+    } else if (valueType === '[object Blob]') {
+        // Conver the blob to a binaryArray and then to a string.
+        var fileReader = new FileReader();
+
+        fileReader.onload = function () {
+            // Backwards-compatible prefix for the blob type.
+            var str = BLOB_TYPE_PREFIX + value.type + '~' + bufferToString(this.result);
+
+            callback(SERIALIZED_MARKER + TYPE_BLOB + str);
+        };
+
+        fileReader.readAsArrayBuffer(value);
+    } else {
+        try {
+            callback(JSON.stringify(value));
+        } catch (e) {
+            console.error("Couldn't convert value into a JSON string: ", value);
+
+            callback(null, e);
+        }
+    }
+}
+
+// Deserialize data we've inserted into a value column/field. We place
+// special markers into our strings to mark them as encoded; this isn't
+// as nice as a meta field, but it's the only sane thing we can do whilst
+// keeping localStorage support intact.
+//
+// Oftentimes this will just deserialize JSON content, but if we have a
+// special marker (SERIALIZED_MARKER, defined above), we will extract
+// some kind of arraybuffer/binary data/typed array out of the string.
+function deserialize(value) {
+    // If we haven't marked this string as being specially serialized (i.e.
+    // something other than serialized JSON), we can just return it and be
+    // done with it.
+    if (value.substring(0, SERIALIZED_MARKER_LENGTH) !== SERIALIZED_MARKER) {
+        return JSON.parse(value);
+    }
+
+    // The following code deals with deserializing some kind of Blob or
+    // TypedArray. First we separate out the type of data we're dealing
+    // with from the data itself.
+    var serializedString = value.substring(TYPE_SERIALIZED_MARKER_LENGTH);
+    var type = value.substring(SERIALIZED_MARKER_LENGTH, TYPE_SERIALIZED_MARKER_LENGTH);
+
+    var blobType;
+    // Backwards-compatible blob type serialization strategy.
+    // DBs created with older versions of localForage will simply not have the blob type.
+    if (type === TYPE_BLOB && BLOB_TYPE_PREFIX_REGEX.test(serializedString)) {
+        var matcher = serializedString.match(BLOB_TYPE_PREFIX_REGEX);
+        blobType = matcher[1];
+        serializedString = serializedString.substring(matcher[0].length);
+    }
+    var buffer = stringToBuffer(serializedString);
+
+    // Return the right type based on the code/type set during
+    // serialization.
+    switch (type) {
+        case TYPE_ARRAYBUFFER:
+            return buffer;
+        case TYPE_BLOB:
+            return createBlob([buffer], { type: blobType });
+        case TYPE_INT8ARRAY:
+            return new Int8Array(buffer);
+        case TYPE_UINT8ARRAY:
+            return new Uint8Array(buffer);
+        case TYPE_UINT8CLAMPEDARRAY:
+            return new Uint8ClampedArray(buffer);
+        case TYPE_INT16ARRAY:
+            return new Int16Array(buffer);
+        case TYPE_UINT16ARRAY:
+            return new Uint16Array(buffer);
+        case TYPE_INT32ARRAY:
+            return new Int32Array(buffer);
+        case TYPE_UINT32ARRAY:
+            return new Uint32Array(buffer);
+        case TYPE_FLOAT32ARRAY:
+            return new Float32Array(buffer);
+        case TYPE_FLOAT64ARRAY:
+            return new Float64Array(buffer);
+        default:
+            throw new Error('Unkown type: ' + type);
+    }
+}
+
+var localforageSerializer = {
+    serialize: serialize,
+    deserialize: deserialize,
+    stringToBuffer: stringToBuffer,
+    bufferToString: bufferToString
+};
+
+/*
+ * Includes code from:
+ *
+ * base64-arraybuffer
+ * https://github.com/niklasvh/base64-arraybuffer
+ *
+ * Copyright (c) 2012 Niklas von Hertzen
+ * Licensed under the MIT license.
+ */
+
+function createDbTable(t, dbInfo, callback, errorCallback) {
+    t.executeSql('CREATE TABLE IF NOT EXISTS ' + dbInfo.storeName + ' ' + '(id INTEGER PRIMARY KEY, key unique, value)', [], callback, errorCallback);
+}
+
+// Open the WebSQL database (automatically creates one if one didn't
+// previously exist), using any options set in the config.
+function _initStorage$1(options) {
+    var self = this;
+    var dbInfo = {
+        db: null
+    };
+
+    if (options) {
+        for (var i in options) {
+            dbInfo[i] = typeof options[i] !== 'string' ? options[i].toString() : options[i];
+        }
+    }
+
+    var dbInfoPromise = new Promise$1(function (resolve, reject) {
+        // Open the database; the openDatabase API will automatically
+        // create it for us if it doesn't exist.
+        try {
+            dbInfo.db = openDatabase(dbInfo.name, String(dbInfo.version), dbInfo.description, dbInfo.size);
+        } catch (e) {
+            return reject(e);
+        }
+
+        // Create our key/value table if it doesn't exist.
+        dbInfo.db.transaction(function (t) {
+            createDbTable(t, dbInfo, function () {
+                self._dbInfo = dbInfo;
+                resolve();
+            }, function (t, error) {
+                reject(error);
+            });
+        }, reject);
+    });
+
+    dbInfo.serializer = localforageSerializer;
+    return dbInfoPromise;
+}
+
+function tryExecuteSql(t, dbInfo, sqlStatement, args, callback, errorCallback) {
+    t.executeSql(sqlStatement, args, callback, function (t, error) {
+        if (error.code === error.SYNTAX_ERR) {
+            t.executeSql('SELECT name FROM sqlite_master ' + "WHERE type='table' AND name = ?", [dbInfo.storeName], function (t, results) {
+                if (!results.rows.length) {
+                    // if the table is missing (was deleted)
+                    // re-create it table and retry
+                    createDbTable(t, dbInfo, function () {
+                        t.executeSql(sqlStatement, args, callback, errorCallback);
+                    }, errorCallback);
+                } else {
+                    errorCallback(t, error);
+                }
+            }, errorCallback);
+        } else {
+            errorCallback(t, error);
+        }
+    }, errorCallback);
+}
+
+function getItem$1(key, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+            dbInfo.db.transaction(function (t) {
+                tryExecuteSql(t, dbInfo, 'SELECT * FROM ' + dbInfo.storeName + ' WHERE key = ? LIMIT 1', [key], function (t, results) {
+                    var result = results.rows.length ? results.rows.item(0).value : null;
+
+                    // Check to see if this is serialized content we need to
+                    // unpack.
+                    if (result) {
+                        result = dbInfo.serializer.deserialize(result);
+                    }
+
+                    resolve(result);
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function iterate$1(iterator, callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+
+            dbInfo.db.transaction(function (t) {
+                tryExecuteSql(t, dbInfo, 'SELECT * FROM ' + dbInfo.storeName, [], function (t, results) {
+                    var rows = results.rows;
+                    var length = rows.length;
+
+                    for (var i = 0; i < length; i++) {
+                        var item = rows.item(i);
+                        var result = item.value;
+
+                        // Check to see if this is serialized content
+                        // we need to unpack.
+                        if (result) {
+                            result = dbInfo.serializer.deserialize(result);
+                        }
+
+                        result = iterator(result, item.key, i + 1);
+
+                        // void(0) prevents problems with redefinition
+                        // of `undefined`.
+                        if (result !== void 0) {
+                            resolve(result);
+                            return;
+                        }
+                    }
+
+                    resolve();
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function _setItem(key, value, callback, retriesLeft) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            // The localStorage API doesn't return undefined values in an
+            // "expected" way, so undefined is always cast to null in all
+            // drivers. See: https://github.com/mozilla/localForage/pull/42
+            if (value === undefined) {
+                value = null;
+            }
+
+            // Save the original value to pass to the callback.
+            var originalValue = value;
+
+            var dbInfo = self._dbInfo;
+            dbInfo.serializer.serialize(value, function (value, error) {
+                if (error) {
+                    reject(error);
+                } else {
+                    dbInfo.db.transaction(function (t) {
+                        tryExecuteSql(t, dbInfo, 'INSERT OR REPLACE INTO ' + dbInfo.storeName + ' ' + '(key, value) VALUES (?, ?)', [key, value], function () {
+                            resolve(originalValue);
+                        }, function (t, error) {
+                            reject(error);
+                        });
+                    }, function (sqlError) {
+                        // The transaction failed; check
+                        // to see if it's a quota error.
+                        if (sqlError.code === sqlError.QUOTA_ERR) {
+                            // We reject the callback outright for now, but
+                            // it's worth trying to re-run the transaction.
+                            // Even if the user accepts the prompt to use
+                            // more storage on Safari, this error will
+                            // be called.
+                            //
+                            // Try to re-run the transaction.
+                            if (retriesLeft > 0) {
+                                resolve(_setItem.apply(self, [key, originalValue, callback, retriesLeft - 1]));
+                                return;
+                            }
+                            reject(sqlError);
+                        }
+                    });
+                }
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function setItem$1(key, value, callback) {
+    return _setItem.apply(this, [key, value, callback, 1]);
+}
+
+function removeItem$1(key, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+            dbInfo.db.transaction(function (t) {
+                tryExecuteSql(t, dbInfo, 'DELETE FROM ' + dbInfo.storeName + ' WHERE key = ?', [key], function () {
+                    resolve();
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Deletes every item in the table.
+// TODO: Find out if this resets the AUTO_INCREMENT number.
+function clear$1(callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+            dbInfo.db.transaction(function (t) {
+                tryExecuteSql(t, dbInfo, 'DELETE FROM ' + dbInfo.storeName, [], function () {
+                    resolve();
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Does a simple `COUNT(key)` to get the number of items stored in
+// localForage.
+function length$1(callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+            dbInfo.db.transaction(function (t) {
+                // Ahhh, SQL makes this one soooooo easy.
+                tryExecuteSql(t, dbInfo, 'SELECT COUNT(key) as c FROM ' + dbInfo.storeName, [], function (t, results) {
+                    var result = results.rows.item(0).c;
+                    resolve(result);
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Return the key located at key index X; essentially gets the key from a
+// `WHERE id = ?`. This is the most efficient way I can think to implement
+// this rarely-used (in my experience) part of the API, but it can seem
+// inconsistent, because we do `INSERT OR REPLACE INTO` on `setItem()`, so
+// the ID of each key will change every time it's updated. Perhaps a stored
+// procedure for the `setItem()` SQL would solve this problem?
+// TODO: Don't change ID on `setItem()`.
+function key$1(n, callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+            dbInfo.db.transaction(function (t) {
+                tryExecuteSql(t, dbInfo, 'SELECT key FROM ' + dbInfo.storeName + ' WHERE id = ? LIMIT 1', [n + 1], function (t, results) {
+                    var result = results.rows.length ? results.rows.item(0).key : null;
+                    resolve(result);
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function keys$1(callback) {
+    var self = this;
+
+    var promise = new Promise$1(function (resolve, reject) {
+        self.ready().then(function () {
+            var dbInfo = self._dbInfo;
+            dbInfo.db.transaction(function (t) {
+                tryExecuteSql(t, dbInfo, 'SELECT key FROM ' + dbInfo.storeName, [], function (t, results) {
+                    var keys = [];
+
+                    for (var i = 0; i < results.rows.length; i++) {
+                        keys.push(results.rows.item(i).key);
+                    }
+
+                    resolve(keys);
+                }, function (t, error) {
+                    reject(error);
+                });
+            });
+        })["catch"](reject);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// https://www.w3.org/TR/webdatabase/#databases
+// > There is no way to enumerate or delete the databases available for an origin from this API.
+function getAllStoreNames(db) {
+    return new Promise$1(function (resolve, reject) {
+        db.transaction(function (t) {
+            t.executeSql('SELECT name FROM sqlite_master ' + "WHERE type='table' AND name <> '__WebKitDatabaseInfoTable__'", [], function (t, results) {
+                var storeNames = [];
+
+                for (var i = 0; i < results.rows.length; i++) {
+                    storeNames.push(results.rows.item(i).name);
+                }
+
+                resolve({
+                    db: db,
+                    storeNames: storeNames
+                });
+            }, function (t, error) {
+                reject(error);
+            });
+        }, function (sqlError) {
+            reject(sqlError);
+        });
+    });
+}
+
+function dropInstance$1(options, callback) {
+    callback = getCallback.apply(this, arguments);
+
+    var currentConfig = this.config();
+    options = typeof options !== 'function' && options || {};
+    if (!options.name) {
+        options.name = options.name || currentConfig.name;
+        options.storeName = options.storeName || currentConfig.storeName;
+    }
+
+    var self = this;
+    var promise;
+    if (!options.name) {
+        promise = Promise$1.reject('Invalid arguments');
+    } else {
+        promise = new Promise$1(function (resolve) {
+            var db;
+            if (options.name === currentConfig.name) {
+                // use the db reference of the current instance
+                db = self._dbInfo.db;
+            } else {
+                db = openDatabase(options.name, '', '', 0);
+            }
+
+            if (!options.storeName) {
+                // drop all database tables
+                resolve(getAllStoreNames(db));
+            } else {
+                resolve({
+                    db: db,
+                    storeNames: [options.storeName]
+                });
+            }
+        }).then(function (operationInfo) {
+            return new Promise$1(function (resolve, reject) {
+                operationInfo.db.transaction(function (t) {
+                    function dropTable(storeName) {
+                        return new Promise$1(function (resolve, reject) {
+                            t.executeSql('DROP TABLE IF EXISTS ' + storeName, [], function () {
+                                resolve();
+                            }, function (t, error) {
+                                reject(error);
+                            });
+                        });
+                    }
+
+                    var operations = [];
+                    for (var i = 0, len = operationInfo.storeNames.length; i < len; i++) {
+                        operations.push(dropTable(operationInfo.storeNames[i]));
+                    }
+
+                    Promise$1.all(operations).then(function () {
+                        resolve();
+                    })["catch"](function (e) {
+                        reject(e);
+                    });
+                }, function (sqlError) {
+                    reject(sqlError);
+                });
+            });
+        });
+    }
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+var webSQLStorage = {
+    _driver: 'webSQLStorage',
+    _initStorage: _initStorage$1,
+    _support: isWebSQLValid(),
+    iterate: iterate$1,
+    getItem: getItem$1,
+    setItem: setItem$1,
+    removeItem: removeItem$1,
+    clear: clear$1,
+    length: length$1,
+    key: key$1,
+    keys: keys$1,
+    dropInstance: dropInstance$1
+};
+
+function isLocalStorageValid() {
+    try {
+        return typeof localStorage !== 'undefined' && 'setItem' in localStorage &&
+        // in IE8 typeof localStorage.setItem === 'object'
+        !!localStorage.setItem;
+    } catch (e) {
+        return false;
+    }
+}
+
+function _getKeyPrefix(options, defaultConfig) {
+    var keyPrefix = options.name + '/';
+
+    if (options.storeName !== defaultConfig.storeName) {
+        keyPrefix += options.storeName + '/';
+    }
+    return keyPrefix;
+}
+
+// Check if localStorage throws when saving an item
+function checkIfLocalStorageThrows() {
+    var localStorageTestKey = '_localforage_support_test';
+
+    try {
+        localStorage.setItem(localStorageTestKey, true);
+        localStorage.removeItem(localStorageTestKey);
+
+        return false;
+    } catch (e) {
+        return true;
+    }
+}
+
+// Check if localStorage is usable and allows to save an item
+// This method checks if localStorage is usable in Safari Private Browsing
+// mode, or in any other case where the available quota for localStorage
+// is 0 and there wasn't any saved items yet.
+function _isLocalStorageUsable() {
+    return !checkIfLocalStorageThrows() || localStorage.length > 0;
+}
+
+// Config the localStorage backend, using options set in the config.
+function _initStorage$2(options) {
+    var self = this;
+    var dbInfo = {};
+    if (options) {
+        for (var i in options) {
+            dbInfo[i] = options[i];
+        }
+    }
+
+    dbInfo.keyPrefix = _getKeyPrefix(options, self._defaultConfig);
+
+    if (!_isLocalStorageUsable()) {
+        return Promise$1.reject();
+    }
+
+    self._dbInfo = dbInfo;
+    dbInfo.serializer = localforageSerializer;
+
+    return Promise$1.resolve();
+}
+
+// Remove all keys from the datastore, effectively destroying all data in
+// the app's key/value store!
+function clear$2(callback) {
+    var self = this;
+    var promise = self.ready().then(function () {
+        var keyPrefix = self._dbInfo.keyPrefix;
+
+        for (var i = localStorage.length - 1; i >= 0; i--) {
+            var key = localStorage.key(i);
+
+            if (key.indexOf(keyPrefix) === 0) {
+                localStorage.removeItem(key);
+            }
+        }
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Retrieve an item from the store. Unlike the original async_storage
+// library in Gaia, we don't modify return values at all. If a key's value
+// is `undefined`, we pass that value to the callback function.
+function getItem$2(key, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = self.ready().then(function () {
+        var dbInfo = self._dbInfo;
+        var result = localStorage.getItem(dbInfo.keyPrefix + key);
+
+        // If a result was found, parse it from the serialized
+        // string into a JS object. If result isn't truthy, the key
+        // is likely undefined and we'll pass it straight to the
+        // callback.
+        if (result) {
+            result = dbInfo.serializer.deserialize(result);
+        }
+
+        return result;
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Iterate over all items in the store.
+function iterate$2(iterator, callback) {
+    var self = this;
+
+    var promise = self.ready().then(function () {
+        var dbInfo = self._dbInfo;
+        var keyPrefix = dbInfo.keyPrefix;
+        var keyPrefixLength = keyPrefix.length;
+        var length = localStorage.length;
+
+        // We use a dedicated iterator instead of the `i` variable below
+        // so other keys we fetch in localStorage aren't counted in
+        // the `iterationNumber` argument passed to the `iterate()`
+        // callback.
+        //
+        // See: github.com/mozilla/localForage/pull/435#discussion_r38061530
+        var iterationNumber = 1;
+
+        for (var i = 0; i < length; i++) {
+            var key = localStorage.key(i);
+            if (key.indexOf(keyPrefix) !== 0) {
+                continue;
+            }
+            var value = localStorage.getItem(key);
+
+            // If a result was found, parse it from the serialized
+            // string into a JS object. If result isn't truthy, the
+            // key is likely undefined and we'll pass it straight
+            // to the iterator.
+            if (value) {
+                value = dbInfo.serializer.deserialize(value);
+            }
+
+            value = iterator(value, key.substring(keyPrefixLength), iterationNumber++);
+
+            if (value !== void 0) {
+                return value;
+            }
+        }
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Same as localStorage's key() method, except takes a callback.
+function key$2(n, callback) {
+    var self = this;
+    var promise = self.ready().then(function () {
+        var dbInfo = self._dbInfo;
+        var result;
+        try {
+            result = localStorage.key(n);
+        } catch (error) {
+            result = null;
+        }
+
+        // Remove the prefix from the key, if a key is found.
+        if (result) {
+            result = result.substring(dbInfo.keyPrefix.length);
+        }
+
+        return result;
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function keys$2(callback) {
+    var self = this;
+    var promise = self.ready().then(function () {
+        var dbInfo = self._dbInfo;
+        var length = localStorage.length;
+        var keys = [];
+
+        for (var i = 0; i < length; i++) {
+            var itemKey = localStorage.key(i);
+            if (itemKey.indexOf(dbInfo.keyPrefix) === 0) {
+                keys.push(itemKey.substring(dbInfo.keyPrefix.length));
+            }
+        }
+
+        return keys;
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Supply the number of keys in the datastore to the callback function.
+function length$2(callback) {
+    var self = this;
+    var promise = self.keys().then(function (keys) {
+        return keys.length;
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Remove an item from the store, nice and simple.
+function removeItem$2(key, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = self.ready().then(function () {
+        var dbInfo = self._dbInfo;
+        localStorage.removeItem(dbInfo.keyPrefix + key);
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+// Set a key's value and run an optional callback once the value is set.
+// Unlike Gaia's implementation, the callback function is passed the value,
+// in case you want to operate on that value only after you're sure it
+// saved, or something like that.
+function setItem$2(key, value, callback) {
+    var self = this;
+
+    key = normalizeKey(key);
+
+    var promise = self.ready().then(function () {
+        // Convert undefined values to null.
+        // https://github.com/mozilla/localForage/pull/42
+        if (value === undefined) {
+            value = null;
+        }
+
+        // Save the original value to pass to the callback.
+        var originalValue = value;
+
+        return new Promise$1(function (resolve, reject) {
+            var dbInfo = self._dbInfo;
+            dbInfo.serializer.serialize(value, function (value, error) {
+                if (error) {
+                    reject(error);
+                } else {
+                    try {
+                        localStorage.setItem(dbInfo.keyPrefix + key, value);
+                        resolve(originalValue);
+                    } catch (e) {
+                        // localStorage capacity exceeded.
+                        // TODO: Make this a specific error/event.
+                        if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+                            reject(e);
+                        }
+                        reject(e);
+                    }
+                }
+            });
+        });
+    });
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+function dropInstance$2(options, callback) {
+    callback = getCallback.apply(this, arguments);
+
+    options = typeof options !== 'function' && options || {};
+    if (!options.name) {
+        var currentConfig = this.config();
+        options.name = options.name || currentConfig.name;
+        options.storeName = options.storeName || currentConfig.storeName;
+    }
+
+    var self = this;
+    var promise;
+    if (!options.name) {
+        promise = Promise$1.reject('Invalid arguments');
+    } else {
+        promise = new Promise$1(function (resolve) {
+            if (!options.storeName) {
+                resolve(options.name + '/');
+            } else {
+                resolve(_getKeyPrefix(options, self._defaultConfig));
+            }
+        }).then(function (keyPrefix) {
+            for (var i = localStorage.length - 1; i >= 0; i--) {
+                var key = localStorage.key(i);
+
+                if (key.indexOf(keyPrefix) === 0) {
+                    localStorage.removeItem(key);
+                }
+            }
+        });
+    }
+
+    executeCallback(promise, callback);
+    return promise;
+}
+
+var localStorageWrapper = {
+    _driver: 'localStorageWrapper',
+    _initStorage: _initStorage$2,
+    _support: isLocalStorageValid(),
+    iterate: iterate$2,
+    getItem: getItem$2,
+    setItem: setItem$2,
+    removeItem: removeItem$2,
+    clear: clear$2,
+    length: length$2,
+    key: key$2,
+    keys: keys$2,
+    dropInstance: dropInstance$2
+};
+
+var sameValue = function sameValue(x, y) {
+    return x === y || typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y);
+};
+
+var includes = function includes(array, searchElement) {
+    var len = array.length;
+    var i = 0;
+    while (i < len) {
+        if (sameValue(array[i], searchElement)) {
+            return true;
+        }
+        i++;
+    }
+
+    return false;
+};
+
+var isArray = Array.isArray || function (arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
+};
+
+// Drivers are stored here when `defineDriver()` is called.
+// They are shared across all instances of localForage.
+var DefinedDrivers = {};
+
+var DriverSupport = {};
+
+var DefaultDrivers = {
+    INDEXEDDB: asyncStorage,
+    WEBSQL: webSQLStorage,
+    LOCALSTORAGE: localStorageWrapper
+};
+
+var DefaultDriverOrder = [DefaultDrivers.INDEXEDDB._driver, DefaultDrivers.WEBSQL._driver, DefaultDrivers.LOCALSTORAGE._driver];
+
+var OptionalDriverMethods = ['dropInstance'];
+
+var LibraryMethods = ['clear', 'getItem', 'iterate', 'key', 'keys', 'length', 'removeItem', 'setItem'].concat(OptionalDriverMethods);
+
+var DefaultConfig = {
+    description: '',
+    driver: DefaultDriverOrder.slice(),
+    name: 'localforage',
+    // Default DB size is _JUST UNDER_ 5MB, as it's the highest size
+    // we can use without a prompt.
+    size: 4980736,
+    storeName: 'keyvaluepairs',
+    version: 1.0
+};
+
+function callWhenReady(localForageInstance, libraryMethod) {
+    localForageInstance[libraryMethod] = function () {
+        var _args = arguments;
+        return localForageInstance.ready().then(function () {
+            return localForageInstance[libraryMethod].apply(localForageInstance, _args);
+        });
+    };
+}
+
+function extend() {
+    for (var i = 1; i < arguments.length; i++) {
+        var arg = arguments[i];
+
+        if (arg) {
+            for (var _key in arg) {
+                if (arg.hasOwnProperty(_key)) {
+                    if (isArray(arg[_key])) {
+                        arguments[0][_key] = arg[_key].slice();
+                    } else {
+                        arguments[0][_key] = arg[_key];
+                    }
+                }
+            }
+        }
+    }
+
+    return arguments[0];
+}
+
+var LocalForage = function () {
+    function LocalForage(options) {
+        _classCallCheck(this, LocalForage);
+
+        for (var driverTypeKey in DefaultDrivers) {
+            if (DefaultDrivers.hasOwnProperty(driverTypeKey)) {
+                var driver = DefaultDrivers[driverTypeKey];
+                var driverName = driver._driver;
+                this[driverTypeKey] = driverName;
+
+                if (!DefinedDrivers[driverName]) {
+                    // we don't need to wait for the promise,
+                    // since the default drivers can be defined
+                    // in a blocking manner
+                    this.defineDriver(driver);
+                }
+            }
+        }
+
+        this._defaultConfig = extend({}, DefaultConfig);
+        this._config = extend({}, this._defaultConfig, options);
+        this._driverSet = null;
+        this._initDriver = null;
+        this._ready = false;
+        this._dbInfo = null;
+
+        this._wrapLibraryMethodsWithReady();
+        this.setDriver(this._config.driver)["catch"](function () {});
+    }
+
+    // Set any config values for localForage; can be called anytime before
+    // the first API call (e.g. `getItem`, `setItem`).
+    // We loop through options so we don't overwrite existing config
+    // values.
+
+
+    LocalForage.prototype.config = function config(options) {
+        // If the options argument is an object, we use it to set values.
+        // Otherwise, we return either a specified config value or all
+        // config values.
+        if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
+            // If localforage is ready and fully initialized, we can't set
+            // any new configuration values. Instead, we return an error.
+            if (this._ready) {
+                return new Error("Can't call config() after localforage " + 'has been used.');
+            }
+
+            for (var i in options) {
+                if (i === 'storeName') {
+                    options[i] = options[i].replace(/\W/g, '_');
+                }
+
+                if (i === 'version' && typeof options[i] !== 'number') {
+                    return new Error('Database version must be a number.');
+                }
+
+                this._config[i] = options[i];
+            }
+
+            // after all config options are set and
+            // the driver option is used, try setting it
+            if ('driver' in options && options.driver) {
+                return this.setDriver(this._config.driver);
+            }
+
+            return true;
+        } else if (typeof options === 'string') {
+            return this._config[options];
+        } else {
+            return this._config;
+        }
+    };
+
+    // Used to define a custom driver, shared across all instances of
+    // localForage.
+
+
+    LocalForage.prototype.defineDriver = function defineDriver(driverObject, callback, errorCallback) {
+        var promise = new Promise$1(function (resolve, reject) {
+            try {
+                var driverName = driverObject._driver;
+                var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver');
+
+                // A driver name should be defined and not overlap with the
+                // library-defined, default drivers.
+                if (!driverObject._driver) {
+                    reject(complianceError);
+                    return;
+                }
+
+                var driverMethods = LibraryMethods.concat('_initStorage');
+                for (var i = 0, len = driverMethods.length; i < len; i++) {
+                    var driverMethodName = driverMethods[i];
+
+                    // when the property is there,
+                    // it should be a method even when optional
+                    var isRequired = !includes(OptionalDriverMethods, driverMethodName);
+                    if ((isRequired || driverObject[driverMethodName]) && typeof driverObject[driverMethodName] !== 'function') {
+                        reject(complianceError);
+                        return;
+                    }
+                }
+
+                var configureMissingMethods = function configureMissingMethods() {
+                    var methodNotImplementedFactory = function methodNotImplementedFactory(methodName) {
+                        return function () {
+                            var error = new Error('Method ' + methodName + ' is not implemented by the current driver');
+                            var promise = Promise$1.reject(error);
+                            executeCallback(promise, arguments[arguments.length - 1]);
+                            return promise;
+                        };
+                    };
+
+                    for (var _i = 0, _len = OptionalDriverMethods.length; _i < _len; _i++) {
+                        var optionalDriverMethod = OptionalDriverMethods[_i];
+                        if (!driverObject[optionalDriverMethod]) {
+                            driverObject[optionalDriverMethod] = methodNotImplementedFactory(optionalDriverMethod);
+                        }
+                    }
+                };
+
+                configureMissingMethods();
+
+                var setDriverSupport = function setDriverSupport(support) {
+                    if (DefinedDrivers[driverName]) {
+                        console.info('Redefining LocalForage driver: ' + driverName);
+                    }
+                    DefinedDrivers[driverName] = driverObject;
+                    DriverSupport[driverName] = support;
+                    // don't use a then, so that we can define
+                    // drivers that have simple _support methods
+                    // in a blocking manner
+                    resolve();
+                };
+
+                if ('_support' in driverObject) {
+                    if (driverObject._support && typeof driverObject._support === 'function') {
+                        driverObject._support().then(setDriverSupport, reject);
+                    } else {
+                        setDriverSupport(!!driverObject._support);
+                    }
+                } else {
+                    setDriverSupport(true);
+                }
+            } catch (e) {
+                reject(e);
+            }
+        });
+
+        executeTwoCallbacks(promise, callback, errorCallback);
+        return promise;
+    };
+
+    LocalForage.prototype.driver = function driver() {
+        return this._driver || null;
+    };
+
+    LocalForage.prototype.getDriver = function getDriver(driverName, callback, errorCallback) {
+        var getDriverPromise = DefinedDrivers[driverName] ? Promise$1.resolve(DefinedDrivers[driverName]) : Promise$1.reject(new Error('Driver not found.'));
+
+        executeTwoCallbacks(getDriverPromise, callback, errorCallback);
+        return getDriverPromise;
+    };
+
+    LocalForage.prototype.getSerializer = function getSerializer(callback) {
+        var serializerPromise = Promise$1.resolve(localforageSerializer);
+        executeTwoCallbacks(serializerPromise, callback);
+        return serializerPromise;
+    };
+
+    LocalForage.prototype.ready = function ready(callback) {
+        var self = this;
+
+        var promise = self._driverSet.then(function () {
+            if (self._ready === null) {
+                self._ready = self._initDriver();
+            }
+
+            return self._ready;
+        });
+
+        executeTwoCallbacks(promise, callback, callback);
+        return promise;
+    };
+
+    LocalForage.prototype.setDriver = function setDriver(drivers, callback, errorCallback) {
+        var self = this;
+
+        if (!isArray(drivers)) {
+            drivers = [drivers];
+        }
+
+        var supportedDrivers = this._getSupportedDrivers(drivers);
+
+        function setDriverToConfig() {
+            self._config.driver = self.driver();
+        }
+
+        function extendSelfWithDriver(driver) {
+            self._extend(driver);
+            setDriverToConfig();
+
+            self._ready = self._initStorage(self._config);
+            return self._ready;
+        }
+
+        function initDriver(supportedDrivers) {
+            return function () {
+                var currentDriverIndex = 0;
+
+                function driverPromiseLoop() {
+                    while (currentDriverIndex < supportedDrivers.length) {
+                        var driverName = supportedDrivers[currentDriverIndex];
+                        currentDriverIndex++;
+
+                        self._dbInfo = null;
+                        self._ready = null;
+
+                        return self.getDriver(driverName).then(extendSelfWithDriver)["catch"](driverPromiseLoop);
+                    }
+
+                    setDriverToConfig();
+                    var error = new Error('No available storage method found.');
+                    self._driverSet = Promise$1.reject(error);
+                    return self._driverSet;
+                }
+
+                return driverPromiseLoop();
+            };
+        }
+
+        // There might be a driver initialization in progress
+        // so wait for it to finish in order to avoid a possible
+        // race condition to set _dbInfo
+        var oldDriverSetDone = this._driverSet !== null ? this._driverSet["catch"](function () {
+            return Promise$1.resolve();
+        }) : Promise$1.resolve();
+
+        this._driverSet = oldDriverSetDone.then(function () {
+            var driverName = supportedDrivers[0];
+            self._dbInfo = null;
+            self._ready = null;
+
+            return self.getDriver(driverName).then(function (driver) {
+                self._driver = driver._driver;
+                setDriverToConfig();
+                self._wrapLibraryMethodsWithReady();
+                self._initDriver = initDriver(supportedDrivers);
+            });
+        })["catch"](function () {
+            setDriverToConfig();
+            var error = new Error('No available storage method found.');
+            self._driverSet = Promise$1.reject(error);
+            return self._driverSet;
+        });
+
+        executeTwoCallbacks(this._driverSet, callback, errorCallback);
+        return this._driverSet;
+    };
+
+    LocalForage.prototype.supports = function supports(driverName) {
+        return !!DriverSupport[driverName];
+    };
+
+    LocalForage.prototype._extend = function _extend(libraryMethodsAndProperties) {
+        extend(this, libraryMethodsAndProperties);
+    };
+
+    LocalForage.prototype._getSupportedDrivers = function _getSupportedDrivers(drivers) {
+        var supportedDrivers = [];
+        for (var i = 0, len = drivers.length; i < len; i++) {
+            var driverName = drivers[i];
+            if (this.supports(driverName)) {
+                supportedDrivers.push(driverName);
+            }
+        }
+        return supportedDrivers;
+    };
+
+    LocalForage.prototype._wrapLibraryMethodsWithReady = function _wrapLibraryMethodsWithReady() {
+        // Add a stub for each driver API method that delays the call to the
+        // corresponding driver method until localForage is ready. These stubs
+        // will be replaced by the driver methods as soon as the driver is
+        // loaded, so there is no performance impact.
+        for (var i = 0, len = LibraryMethods.length; i < len; i++) {
+            callWhenReady(this, LibraryMethods[i]);
+        }
+    };
+
+    LocalForage.prototype.createInstance = function createInstance(options) {
+        return new LocalForage(options);
+    };
+
+    return LocalForage;
+}();
+
+// The actual localForage object that we expose as a module or via a
+// global. It's extended by pulling in one of our other libraries.
+
+
+var localforage_js = new LocalForage();
+
+module.exports = localforage_js;
+
+},{"3":3}]},{},[4])(4)
+});
+
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],189:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 

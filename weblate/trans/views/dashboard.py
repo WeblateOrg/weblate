@@ -263,6 +263,9 @@ def dashboard_user(request: AuthenticatedHttpRequest):
 
         usersubscriptions = get_paginator(request, usersubscriptions)
         usersubscriptions = translation_prefetch_tasks(usersubscriptions)
+        owned = user.owned_projects.order()
+    else:
+        owned = Project.objects.none()
 
     return render(
         request,
@@ -282,6 +285,8 @@ def dashboard_user(request: AuthenticatedHttpRequest):
             ),
             "active_tab_slug": active_tab_slug,
             "reports_form": ReportsForm({}),
+            "all_owned_projects": owned,
+            "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
         },
     )
 

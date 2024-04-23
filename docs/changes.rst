@@ -11,6 +11,7 @@ Not yet released.
 * :ref:`mt-microsoft-translator` now supports using custom translators.
 * Improved error handling in :ref:`invite-user`.
 * Added PNG status badge.
+* Added list of managed projects to the dashboard view.
 
 **Bug fixes**
 

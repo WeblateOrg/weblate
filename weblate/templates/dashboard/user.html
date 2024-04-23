@@ -21,6 +21,9 @@
 <li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
 {% endif %}
 <li {% active_link "suggestions" %}><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a></li>
+{% if owned_projects %}
+<li {% active_link "managed" %}><a href="#managed" data-toggle="tab">{% trans "Managed projects" %} <span class="badge">{{ all_owned_projects|length }}</span></a></li>
+{% endif %}
 {% for componentlist in componentlists %}
 <li {% active_link componentlist.tab_slug %}><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a></li>
 {% endfor %}
@@ -57,6 +60,15 @@
 {% if all_componentlists %}
 <div {% active_tab "componentlists" %}>
 {% include "snippets/list-objects.html" with objects=all_componentlists label=_("Component list") %}
+</div>
+{% endif %}
+
+{% if owned_projects %}
+<div {% active_tab "managed" %}>
+{% include "snippets/list-objects.html" with objects=owned_projects label=_("Project") %}
+{% if all_owned_projects|length > 10 %}
+  <a href="{% url 'projects' %}?owned={{user.username}}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
+{% endif %}
 </div>
 {% endif %}
 
