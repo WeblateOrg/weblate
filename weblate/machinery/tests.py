@@ -1534,6 +1534,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "model": "auto",
         "persona": "",
         "style": "",
+        "base_url": "https://api.openai.com/v1",
     }
 
     def mock_empty(self) -> NoReturn:

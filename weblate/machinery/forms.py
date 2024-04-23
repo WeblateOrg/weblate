@@ -288,8 +288,17 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ("gpt-4", "GPT-4"),
         ("gpt-3.5-turbo-1106", "Updated GPT 3.5 Turbo"),
         ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
+        ("custom", "Custom model")
     )
-
+    base_url = forms.URLField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Translator Base URL",
+        ),
+        widget=forms.TextInput,
+        help_text=gettext_lazy("Base URL of the OpenAI API, if it differs from the OpenAI default URL"),
+        required=False,
+    )
     model = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -297,6 +306,14 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ),
         initial="auto",
         choices=MODEL_CHOICES,
+    )
+    custom_model = forms.CharField(
+        label=pgettext_lazy(
+            "Custom model name",
+            "Custom model name",
+        ),
+        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        required=False,
     )
     persona = forms.CharField(
         label=pgettext_lazy(
