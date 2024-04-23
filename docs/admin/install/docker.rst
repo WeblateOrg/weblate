@@ -121,7 +121,7 @@ Please see :ref:`docker-deploy` for generic deployment instructions, this
 section only mentions differences compared to it.
 
 Using own SSL certificates
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++
 
 In case you have own SSL certificate you want to use, simply place the files
 into the Weblate data volume (see :ref:`docker-volume`):
@@ -171,7 +171,7 @@ Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual val
 .. _docker-https-portal:
 
 Automatic SSL certificates using Let’s Encrypt
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++++++++
 
 In case you want to use `Let’s Encrypt <https://letsencrypt.org/>`_
 automatically generated SSL certificates on public installation, you need to
@@ -248,7 +248,7 @@ not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the Po
 .. _docker-postgres-upgrade:
 
 Upgrading PostgreSQL container
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++
 
 PostgreSQL containers do not support automatic upgrading between version, you
 need to perform the upgrade manually. Following steps show one of the options
@@ -411,7 +411,7 @@ variables, see :ref:`docker-custom-config`.
 .. _docker-secrets:
 
 Passing secrets
-~~~~~~~~~~~~~~~
++++++++++++++++
 
 .. versionadded:: 5.0
 
@@ -444,7 +444,7 @@ Related :file:`docker-compose.yml` might look like:
    `How to use secrets in Docker Compose <https://docs.docker.com/compose/use-secrets/>`_
 
 Generic settings
-~~~~~~~~~~~~~~~~
+++++++++++++++++
 
 .. envvar:: WEBLATE_DEBUG
 
@@ -1002,7 +1002,7 @@ Generic settings
 .. _docker-vcs-config:
 
 Code hosting sites credentials
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++
 
 In the Docker container, the code hosting credentials can be configured either
 in separate variables or using a Python dictionary to set them at once.  The
@@ -1099,7 +1099,7 @@ Or the path to a file containing the Python dictionary:
 .. _docker-machine:
 
 Automatic suggestion settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++
 
 .. versionchanged:: 4.13
 
@@ -1112,10 +1112,10 @@ Automatic suggestion settings
 .. _docker-auth:
 
 Authentication settings
-~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++
 
 LDAP
-++++
+~~~~
 
 .. envvar:: WEBLATE_AUTH_LDAP_SERVER_URI
 .. envvar:: WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE
@@ -1184,7 +1184,7 @@ LDAP
          :ref:`ldap-auth`
 
 GitHub
-++++++
+~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_SECRET
@@ -1198,7 +1198,7 @@ GitHub
     Enables :ref:`github_auth`.
 
 GitHub Enterprise Edition
-+++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET
@@ -1209,7 +1209,7 @@ GitHub Enterprise Edition
     Enables :ref:`github_ee_auth`.
 
 Bitbucket
-+++++++++
+~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET
@@ -1219,7 +1219,7 @@ Bitbucket
     Enables :ref:`bitbucket_auth`.
 
 Facebook
-++++++++
+~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_FACEBOOK_SECRET
@@ -1227,7 +1227,7 @@ Facebook
     Enables :ref:`facebook_auth`.
 
 Google
-++++++
+~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
@@ -1237,7 +1237,7 @@ Google
     Enables :ref:`google_auth`.
 
 GitLab
-++++++
+~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_SECRET
@@ -1246,7 +1246,7 @@ GitLab
     Enables :ref:`gitlab_auth`.
 
 Gitea
-+++++
+~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_API_URL
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_KEY
@@ -1255,7 +1255,7 @@ Gitea
    Enables Gitea authentication.
 
 Azure Active Directory
-++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
@@ -1263,7 +1263,7 @@ Azure Active Directory
     Enables Azure Active Directory authentication, see :ref:`azure-auth`.
 
 Azure Active Directory with Tenant support
-++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
@@ -1273,7 +1273,7 @@ Azure Active Directory with Tenant support
     :ref:`azure-auth`.
 
 Keycloak
-++++++++
+~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_SECRET
@@ -1288,7 +1288,7 @@ Keycloak
     `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
 
 Linux vendors
-+++++++++++++
+~~~~~~~~~~~~~
 
 You can enable authentication using Linux vendors authentication services by
 setting following variables to any value.
@@ -1299,7 +1299,7 @@ setting following variables to any value.
 .. envvar:: WEBLATE_SOCIAL_AUTH_UBUNTU
 
 Slack
-+++++
+~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_SLACK_KEY
 .. envvar:: SOCIAL_AUTH_SLACK_SECRET
@@ -1308,7 +1308,7 @@ Slack
 
 
 OpenID Connect
-++++++++++++++
+~~~~~~~~~~~~~~
 
 .. versionadded:: 4.13-1
 
@@ -1326,7 +1326,7 @@ OpenID Connect
 .. _docker-saml:
 
 SAML
-++++
+~~~~
 
 Self-signed SAML keys are automatically generated on first container startup.
 In case you want to use own keys, place the certificate and private key in
@@ -1351,7 +1351,7 @@ In case you want to use own keys, place the certificate and private key in
 
 
 Other authentication settings
-+++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
@@ -1367,7 +1367,7 @@ Other authentication settings
 
 
 PostgreSQL database setup
-~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++
 
 The database is created by :file:`docker-compose.yml`, so these settings affect
 both Weblate and PostgreSQL containers.
@@ -1460,14 +1460,14 @@ both Weblate and PostgreSQL containers.
    connection manually.
 
 MySQL or MariaDB server
-~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++
 
 Neither MySQL nor MariaDB can not be configured via environment variables. See
 :ref:`mysql` for info on using those with Weblate. Use :envvar:`WEBLATE_DATABASES`
 to configure the database connection manually.
 
 Database backup settings
-~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++
 
 .. seealso::
     :ref:`backup-dumps`
@@ -1478,7 +1478,7 @@ Database backup settings
 
 
 Caching server setup
-~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++
 
 Using Redis is strongly recommended by Weblate and you have to provide a Redis
 instance when running Weblate in Docker.
@@ -1516,7 +1516,7 @@ instance when running Weblate in Docker.
 .. _docker-mail:
 
 Email server setup
-~~~~~~~~~~~~~~~~~~
+++++++++++++++++++
 
 To make outgoing e-mail work, you need to provide a mail server.
 
@@ -1633,7 +1633,7 @@ Example SSL configuration:
     .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
 
 Site integration
-~~~~~~~~~~~~~~~~
+++++++++++++++++
 
 .. envvar:: WEBLATE_GET_HELP_URL
 
@@ -1652,7 +1652,7 @@ Site integration
    Configures :setting:`PRIVACY_URL`.
 
 Collecting error reports and monitoring performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 It is recommended to collect errors from the installation systematically,
 see :ref:`collecting-errors`.
@@ -1712,7 +1712,7 @@ To enable support for Sentry, set following:
    Configures :setting:`SENTRY_SEND_PII`.
 
 Localization CDN
-~~~~~~~~~~~~~~~~
+++++++++++++++++
 
 .. envvar:: WEBLATE_LOCALIZE_CDN_URL
 .. envvar:: WEBLATE_LOCALIZE_CDN_PATH
@@ -1745,7 +1745,7 @@ Localization CDN
 
 
 Changing enabled apps, checks, add-ons or autofixes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 The built-in configuration of enabled checks, add-ons or autofixes can be
 adjusted by the following variables:
@@ -1775,7 +1775,7 @@ adjusted by the following variables:
    :setting:`django:INSTALLED_APPS`
 
 Container settings
-~~~~~~~~~~~~~~~~~~
+++++++++++++++++++
 
 .. envvar:: WEBLATE_WORKERS
 
@@ -1883,7 +1883,7 @@ as that is user used inside the container.
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
 
 Read-only root filesystem
-~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++
 
 .. versionadded:: 4.18
 
@@ -1916,7 +1916,7 @@ variable, you can still do so, either :ref:`from the data volume
 .. _docker-settings-override:
 
 Overriding settings from the data volume
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++
 
 You can create a file at :file:`/app/data/settings-override.py`, i.e. at the
 root of the :ref:`data volume <docker-volume>`, to extend or override settings
@@ -1926,7 +1926,7 @@ defined through environment variables.
 .. _docker-custom-settings:
 
 Overriding settings by extending the Docker image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++++++++++++++++++
 
 To override settings at the Docker image level instead of from the data volume:
 
