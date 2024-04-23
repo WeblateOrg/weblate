@@ -510,12 +510,14 @@ class Profile(models.Model):
     DASHBOARD_COMPONENT_LIST = 4
     DASHBOARD_SUGGESTIONS = 5
     DASHBOARD_COMPONENT_LISTS = 6
+    DASHBOARD_MANAGED = 7
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_WATCHED, gettext_lazy("Watched translations")),
         (DASHBOARD_COMPONENT_LISTS, gettext_lazy("Component lists")),
         (DASHBOARD_COMPONENT_LIST, gettext_lazy("Component list")),
         (DASHBOARD_SUGGESTIONS, gettext_lazy("Suggested translations")),
+        (DASHBOARD_MANAGED, gettext_lazy("Managed projects")),
     )
 
     DASHBOARD_SLUGS = {
@@ -523,6 +525,7 @@ class Profile(models.Model):
         DASHBOARD_COMPONENT_LIST: "list",
         DASHBOARD_SUGGESTIONS: "suggestions",
         DASHBOARD_COMPONENT_LISTS: "componentlists",
+        DASHBOARD_MANAGED: "managed",
     }
 
     dashboard_view = models.IntegerField(

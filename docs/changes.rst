@@ -10,6 +10,7 @@ Not yet released.
 * Display more details on source string change in history.
 * :ref:`mt-microsoft-translator` now supports using custom translators.
 * Improved error handling in :ref:`invite-user`.
+* Added list of managed projects to the dashboard view.
 
 **Bug fixes**
 
