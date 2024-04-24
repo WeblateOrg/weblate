@@ -19,12 +19,15 @@ Not yet released.
 * Allow editing strings when the source is marked for editing.
 * Updates of last updated timestamp of a string.
 * Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
+* Graceful handling of locking erors in the :ref:`api`.
 
 **Compatibility**
 
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in ``REST_FRAMEWORK`` setting (newly added ``EXCEPTION_HANDLER``).
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?closed=1>`__.
 

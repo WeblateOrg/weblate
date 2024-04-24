@@ -35,7 +35,7 @@ from rest_framework.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from rest_framework.utils import formatting
-from rest_framework.views import APIView
+from rest_framework.views import APIView, exception_handler
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
@@ -129,6 +129,20 @@ DOC_TEXT = """
 <p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
 description of the API.</p>
 """
+
+
+def weblate_exception_handler(exc, context):
+    # Call REST framework's default exception handler first,
+    # to get the standard error response.
+    response = exception_handler(exc, context)
+
+    if response is None and isinstance(exc, WeblateLockTimeoutError):
+        return Response(
+            data={"error": "Could not obtain repository lock to delete the string."},
+            status=HTTP_423_LOCKED,
+        )
+
+    return response
 
 
 def get_view_description(view, html=False):
@@ -1512,13 +1526,6 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             return Response(
                 data={"error": f"Could not remove the string: {error}"},
                 status=HTTP_500_INTERNAL_SERVER_ERROR,
-            )
-        except WeblateLockTimeoutError:
-            return Response(
-                data={
-                    "error": "Could not obtain repository lock to delete the string."
-                },
-                status=HTTP_423_LOCKED,
             )
         return Response(status=HTTP_204_NO_CONTENT)
 
