@@ -1430,3 +1430,22 @@ class CDNJSAddonTest(ViewTestCase):
         )
         # The error should be there
         self.assertTrue(self.component.alert_set.filter(name="CDNAddonError").exists())
+
+
+class SiteWideAddonsTest(ViewTestCase):
+    def create_component(self):
+        return self.create_java()
+
+    def test_json(self):
+        JSONCustomizeAddon.create(
+            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+        )
+        # This is not needed in real life as installation will happen
+        # in a different request so local caching does not apply
+        self.component.drop_addons_cache()
+        rev = self.component.repository.last_revision
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+
+        self.assertNotEqual(rev, self.component.repository.last_revision)

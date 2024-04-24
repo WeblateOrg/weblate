@@ -246,7 +246,7 @@ def execute_addon_event(
     with transaction.atomic():
         scope.log_debug("running %s add-on: %s", event.label, addon.name)
         # Skip unsupported components silently
-        if addon.component and not addon.addon.can_install(component, None):
+        if not addon.component and not addon.addon.can_install(component, None):
             scope.log_debug(
                 "Skipping incompatible %s add-on: %s for component: %s",
                 event.label,
@@ -272,7 +272,7 @@ def execute_addon_event(
             scope.log_error("failed %s add-on: %s: %s", event.label, addon.name, error)
             report_error(cause=f"add-on {addon.name} failed", project=component.project)
             # Uninstall no longer compatible add-ons
-            if not addon.addon.can_install(scope, None):
+            if not addon.addon.can_install(component, None):
                 scope.log_warning(
                     "uninstalling incompatible %s add-on: %s", event.label, addon.name
                 )
