@@ -1114,10 +1114,15 @@ class LanguageConsistencyTest(ViewTestCase):
 
 
 class GitSquashAddonTest(ViewTestCase):
-    def create(self, mode):
+    def create(self, mode: str, sitewide: bool = False):
         self.assertTrue(GitSquashAddon.can_install(self.component, None))
+        component = None if sitewide else self.component
+        if sitewide:
+            # This is not needed in real life as installation will happen
+            # in a different request so local caching does not apply
+            self.component.drop_addons_cache()
         return GitSquashAddon.create(
-            component=self.component, configuration={"squash": mode}
+            component=component, configuration={"squash": mode}
         )
 
     def edit(self) -> None:
@@ -1132,8 +1137,10 @@ class GitSquashAddonTest(ViewTestCase):
             )
             self.component.commit_pending("test", None)
 
-    def test_squash(self, mode="all", expected=1) -> None:
-        addon = self.create(mode)
+    def test_squash(
+        self, mode: str = "all", expected: int = 1, sitewide: bool = False
+    ) -> None:
+        addon = self.create(mode=mode, sitewide=sitewide)
         repo = self.component.repository
         self.assertEqual(repo.count_outgoing(), 0)
         # Test no-op behavior
@@ -1141,6 +1148,9 @@ class GitSquashAddonTest(ViewTestCase):
         # Make some changes
         self.edit()
         self.assertEqual(repo.count_outgoing(), expected)
+
+    def test_squash_sitewide(self):
+        self.test_squash(sitewide=True)
 
     def test_languages(self) -> None:
         self.test_squash("language", 2)

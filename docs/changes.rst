@@ -18,6 +18,7 @@ Not yet released.
 * Fixed skipped component update with some add-ons enabled.
 * Allow editing strings when the source is marked for editing.
 * Updates of last updated timestamp of a string.
+* Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
 
 **Compatibility**
 

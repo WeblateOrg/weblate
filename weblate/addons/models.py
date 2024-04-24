@@ -101,7 +101,7 @@ class Addon(models.Model):
             self.component = None
 
         # Reallocate to repository
-        if self.repo_scope and self.component.linked_component:
+        if cls.repo_scope and self.component and self.component.linked_component:
             original_component = self.component
             self.component = self.component.linked_component
 
