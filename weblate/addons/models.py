@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
 import sentry_sdk
@@ -177,10 +178,28 @@ class Addon(models.Model):
         return result
 
     def disable(self) -> None:
-        self.component.log_warning(
-            "disabling no longer compatible add-on: %s", self.name
-        )
+        self.log_warning("disabling no longer compatible add-on: %s", self.name)
         self.delete()
+
+    @cached_property
+    def logger(self) -> logging.Logger:
+        return logging.getLogger("weblate.addons")
+
+    def log_warning(self, message: str, *args):
+        if self.project:
+            self.project.log_warning(message, *args)
+        elif self.component:
+            self.component.log_warning(message, *args)
+        else:
+            self.logger.warning(message, *args)
+
+    def log_debug(self, message: str, *args):
+        if self.project:
+            self.project.log_debug(message, *args)
+        elif self.component:
+            self.component.log_debug(message, *args)
+        else:
+            self.logger.debug(message, *args)
 
 
 class Event(models.Model):
@@ -273,9 +292,6 @@ def execute_addon_event(
             report_error(cause=f"add-on {addon.name} failed", project=component.project)
             # Uninstall no longer compatible add-ons
             if not addon.addon.can_install(component, None):
-                scope.log_warning(
-                    "uninstalling incompatible %s add-on: %s", event.label, addon.name
-                )
                 addon.disable()
         else:
             scope.log_debug("completed %s add-on: %s", event.label, addon.name)

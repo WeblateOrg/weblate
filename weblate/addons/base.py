@@ -152,15 +152,7 @@ class BaseAddon:
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        target = self.instance.component or self.instance.project
-
-        if target:
-            target.log_debug("configuring events for %s add-on", self.name)
-        else:
-            import logging
-
-            logging.getLogger("weblate.addons")
-            logging.debug("configuring events for %s add-on without target", self.name)
+        self.instance.log_debug("configuring events for %s add-on", self.name)
 
         # Configure events to current status
         self.instance.configure_events(self.events)
