@@ -200,8 +200,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             self.component.repository.last_revision, False
         )
 
-        # Skipped uninstallation for component installed add-ons
-        self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
+        self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
     def test_process_error(self) -> None:
         addon = TestAddon.create(component=self.component)
