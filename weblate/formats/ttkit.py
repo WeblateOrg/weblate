@@ -371,6 +371,9 @@ class TTKitFormat(TranslationFormat):
             # Setting source on LISAunit will make it use default language
             unit = self.store.UnitClass(None)
             unit.setsource(source, self.source_language)
+        elif hasattr(self.store, "wrapper"):
+            # gettext PO
+            unit = self.store.UnitClass(source, wrapper=self.store.wrapper)
         else:
             unit = self.store.UnitClass(source)
         # Needed by some formats (Android) to set target
