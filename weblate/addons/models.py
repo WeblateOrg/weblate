@@ -35,7 +35,7 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
     from weblate.auth.models import User
 
@@ -96,7 +96,7 @@ class Addon(models.Model):
         original_component = None
         if cls.project_scope:
             original_component = self.component
-            if original_component:
+            if self.component:
                 self.project = self.component.project
             self.component = None
 
@@ -129,7 +129,7 @@ class Addon(models.Model):
     def get_absolute_url(self):
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
-    def __init__(self, *args, acting_user: User = None, **kwargs) -> None:
+    def __init__(self, *args, acting_user: User | None = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.acting_user = acting_user
 
@@ -307,6 +307,7 @@ def handle_addon_event(
         if not auto_scope:
             execute_addon_event(addon, component, scope, event, method, args)
         else:
+            components: Iterable[Component]
             if addon.component:
                 components = [addon.component]
             elif addon.project:
@@ -314,8 +315,10 @@ def handle_addon_event(
             else:
                 components = Component.objects.iterator()
 
-            for component in components:
-                execute_addon_event(addon, component, scope, event, method, args)
+            for scope_component in components:
+                execute_addon_event(
+                    addon, scope_component, scope_component, event, method, args
+                )
 
 
 @receiver(vcs_pre_push)
