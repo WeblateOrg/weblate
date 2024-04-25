@@ -202,6 +202,10 @@ class NewLangTest(ViewTestCase):
         perform("bcp", "pt_BR", "pt-BR")
         perform("bcp_long", "ms", "ms-MY")
         perform("android", "pt_BR", "pt-rBR")
+        perform("linux_lowercase", "pt_BR", "pt_br")
+        perform("linux_lowercase", "zh_Hant", "zh_tw")
+        perform("posix_lowercase", "pt_BR", "pt_br")
+        perform("posix_lowercase", "zh_Hant", "zh_hant")
 
         self.project.language_aliases = "ia_FOO:ia"
         self.project.save()
