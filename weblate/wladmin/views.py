@@ -106,7 +106,7 @@ def manage(request):
 
 def send_test_mail(email) -> None:
     send_mail(
-        subject="Test e-mail from Weblate on %s" % timezone.now(),
+        subject=f"Test e-mail from Weblate on {timezone.now()}",
         message="It works.",
         recipient_list=[email],
         from_email=None,
