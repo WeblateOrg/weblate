@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-25 07:18+0000\n"
-"PO-Revision-Date: 2024-04-25 11:24+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-04-25 20:43+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
 "Language: he\n"
@@ -731,10 +731,8 @@ msgid ""
 msgstr "%(language)s נוספה לשפות המתורגמות שלך. ניתן לבצע התאמות בהגדרות."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "אין מספיק הרשאות לשמירת תרגומים."
+msgstr "נא לספק כתובת דוא״ל להגשת תרגומים."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -772,9 +770,6 @@ msgid "License was changed"
 msgstr "הרישיון השתנה"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "התרחשה שגיאת פענוח"
@@ -1729,10 +1724,9 @@ msgstr ""
 "שאינם בשימוש נמחקים והחדשים נוספים כעותקים של מחרוזת המקור."
 
 #: weblate/addons/views.py:93
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "שם התוסף שצוין שגוי!"
+msgstr "שם התוסף שגוי: „%s”"
 
 #: weblate/addons/views.py:113
 msgid "Add-on installed, please review integration instructions."
@@ -2314,10 +2308,8 @@ msgid "Roles"
 msgstr "תפקידים"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "נא לבחור תפקידים שחלים על קבוצה זו."
+msgstr "נא לבחור תפקידים שחלים על צוות זה."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2402,10 +2394,8 @@ msgid "Languages"
 msgstr "שפות"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "קבוצת Weblate פנימית"
+msgstr "צוות Weblate פנימי"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2469,17 +2459,12 @@ msgid "Regular expression for e-mail address"
 msgstr "ביטוי רגולרי לכתובת דוא״ל"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "משתמשים עם כתובות דוא״ל שמתאימות לחיפוש יתווספו לקבוצה הזאת."
+msgstr "משתמשים עם כתובות דוא״ל שמתאימות לחיפוש יתווספו לצוות הזה."
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "קבוצה להקצאה"
+msgstr "צוות להקצאה"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -2500,11 +2485,11 @@ msgstr "נא להקליד שם חשבון קיים או כתובת דוא״ל ב
 
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "הצעת שם משתמש למשתמש. אפשר לשנות אותו אחר כך."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "הצעת שם מלא למשתמש. אפשר לשנות אותו אחר כך."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2723,10 +2708,8 @@ msgstr[2] "מכיל %d מיזמים"
 msgstr[3] "מכיל %d מיזמים"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "אתר המיזם"
+msgstr "אתר המיזם חסר!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -2842,16 +2825,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "המקור והתרגום לא מסתיימים שניהם בסימן קריאה"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "\\n לא תואמת"
+msgstr "אינטרובאנג לא תואם"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "מקור ותרגום לא מסתיימים בסימן השמטה"
+msgstr "מקור ותרגום לא מסתיימים בביטוי אינטרובאנג"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -3470,16 +3449,12 @@ msgid "C format string does not match source"
 msgstr "המחרוזת בתבנית C אינה תואמת למקור"
 
 #: weblate/checks/format.py:513
-#, fuzzy
-#| msgid "Perl format"
 msgid "Perl brace format"
-msgstr "תבנית Perl"
+msgstr "תבנית סוגריים ב־Perl"
 
 #: weblate/checks/format.py:514
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl brace format string does not match source"
-msgstr "המחרוזת בתבנית Perl אינה תואמת למקור"
+msgstr "המחרוזת בתבנית סוגריים ב־Perl אינה תואמת למקור"
 
 #: weblate/checks/format.py:526
 msgid "Perl format"
@@ -3793,7 +3768,7 @@ msgstr "טקסט התרגום לאחר עיבוד לא אמור לחרוג מה�
 #: weblate/checks/render.py:99
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
-msgstr ""
+msgstr "הוא מתאים לגבולות שצוינו. העיבוד מופיע לנוחותך."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -4105,10 +4080,8 @@ msgid ".NET resource file"
 msgstr "קובץ מקור ‎.NET"
 
 #: weblate/formats/ttkit.py:1438
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
-msgstr "משאב מחרוזות של Android"
+msgstr "משאב Kotlin לניידים"
 
 #: weblate/formats/ttkit.py:1451
 #, python-format
@@ -4148,10 +4121,8 @@ msgid "gotext JSON file"
 msgstr "קובץ JSON לפי gotext"
 
 #: weblate/formats/ttkit.py:1542
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "קובץ JSON לפי gotext"
+msgstr "קובץ JSON לפי Format.JS"
 
 #: weblate/formats/ttkit.py:1550
 msgid "CSV file"
@@ -4477,12 +4448,9 @@ msgid "One/few/many"
 msgstr "אחד/מעטים/רבים"
 
 #: weblate/lang/models.py:768
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "אחד/שניים/מעטים/אחר"
+msgstr "אחד/אפס/מעטים/אחר"
 
 #: weblate/lang/models.py:772
 msgctxt "Plural type"
@@ -4514,10 +4482,8 @@ msgid "Android plural"
 msgstr "ריבוי של Android"
 
 #: weblate/lang/models.py:791
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "ריבוי ב־stringsdict"
+msgstr "ריבוי ב־Qt Linguist"
 
 #: weblate/lang/models.py:792
 msgid "Manually entered formula"
@@ -4778,7 +4744,7 @@ msgstr "קטגוריה"
 msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
-msgstr ""
+msgstr "ציון מזהה קטגוריית מערכת משלך לשימוש במקום במזהה הכללי."
 
 #: weblate/machinery/forms.py:184
 msgctxt "Automatic suggestion service configuration"
@@ -4788,7 +4754,7 @@ msgstr "פרטי חשבון שירות Google Translate"
 #: weblate/machinery/forms.py:189
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "נא למלא מפתח JSON של חשבון השירות."
 
 #: weblate/machinery/forms.py:194
 msgctxt "Automatic suggestion service configuration"
@@ -4798,7 +4764,7 @@ msgstr "מיזם Google Translate"
 #: weblate/machinery/forms.py:198
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "נא למלא מזהה מספרי או מספרים עם תווים של המיזם שלך ב־Google Cloud."
 
 #: weblate/machinery/forms.py:203
 msgctxt "Automatic suggestion service configuration"
@@ -4811,23 +4777,23 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"נא לבחור אזור לתרגום עם Google Cloud שמשמש למיזם Google Cloud או שהוא הכי "
+"קרוב אליך."
 
 #: weblate/machinery/forms.py:212
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "מספרים גלובליים"
+msgstr "גלובלי"
 
 #: weblate/machinery/forms.py:213
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "אירופה"
 
 #: weblate/machinery/forms.py:214
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "ארה״ב"
 
 #: weblate/machinery/forms.py:223
 #, python-format
@@ -4855,20 +4821,14 @@ msgid "Access key ID"
 msgstr "מזהה מפתח גישה"
 
 #: weblate/machinery/forms.py:244
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "מזהה מפתח גישה"
+msgstr "סוד מפתח גישה"
 
 #: weblate/machinery/forms.py:247
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "שם האזור"
+msgstr "מזהה אזור"
 
 #: weblate/machinery/forms.py:266
 msgctxt "Automatic suggestion service configuration"
@@ -4877,7 +4837,7 @@ msgstr "רשמיות"
 
 #: weblate/machinery/forms.py:268
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr ""
+msgstr "משתמש ברמת הרשמיות שצוינה אם השפה לא צוינה כ(בלתי־)רשמית"
 
 #: weblate/machinery/forms.py:285
 msgctxt "OpenAI model selection"
@@ -4898,7 +4858,7 @@ msgstr "דמות מתרגם"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr ""
+msgstr "תיאור דמות המתרגם כדי לשפר את דיוק התרגום. למשל: „אתה מאכיל סנאים.”"
 
 #: weblate/machinery/forms.py:314
 msgctxt "Automatic suggestion service configuration"
@@ -5203,7 +5163,7 @@ msgstr ""
 
 #: weblate/templates/about/donate.html:14
 msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
+msgstr "סיוע להמשך השגשוג של <strong>Weblate</strong>"
 
 #: weblate/templates/about/donate.html:18
 msgid "Welcome and thank you for supporting Weblate"
@@ -5216,35 +5176,31 @@ msgstr "תודה על בחירתך ב־Weblate"
 #: weblate/templates/about/donate.html:23
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+msgstr "פלטפורמת התרגום שמכבדת פרטיות ומחויבת לערכי הקוד הפתוח."
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "שם משתמש ב־GitHub"
-msgstr[1] "שם משתמש ב־GitHub"
-msgstr[2] "שם משתמש ב־GitHub"
-msgstr[3] "שם משתמש ב־GitHub"
+msgstr[0] "כוכב ב־GitHub"
+msgstr[1] "כוכבים ב־GitHub"
+msgstr[2] "כוכבים ב־GitHub"
+msgstr[3] "כוכבים ב־GitHub"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "נושא פתוח"
+msgstr[1] "נושאים פתוחים"
+msgstr[2] "נושאים פתוחים"
+msgstr[3] "נושאים פתוחים"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
-msgstr[0] "שינויים אחרונים"
+msgstr[0] "שינוי אחרון"
 msgstr[1] "שינויים אחרונים"
 msgstr[2] "שינויים אחרונים"
 msgstr[3] "שינויים אחרונים"
@@ -5254,32 +5210,32 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"בעוד ש־Weblate זמין בחינם לכל המשתמשים, הפיתוח שלו הוא תוצר של השקעה מתמשכת."
 
 #: weblate/templates/about/donate.html:44
 msgid "We prioritize your privacy; we never display ads or sell your data."
 msgstr ""
+"הפרטיות שלך היא בראש מעיינינו, לא נציג אף פעם פרסומות או נמכור את המידע שלך."
 
 #: weblate/templates/about/donate.html:45
 msgid ""
 "The invaluable support of the community through subscriptions and donations "
 "ensures that Weblate continues to grow and thrive."
 msgstr ""
+"התמיכה היקרה של הקהילה באמצעות מינויים ותורומות מבטיחה את המשך הצמיחה "
+"והשגשוג של Weblate."
 
 #: weblate/templates/about/donate.html:46
 msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+msgstr "מזמינים אותך להצטרף אלינו לעצב את עתיד עולם התרגום ולתרום עוד היום!"
 
 #: weblate/templates/about/donate.html:51
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase a support package"
 msgstr "רכישת חבילת תמיכה"
 
 #: weblate/templates/about/donate.html:53
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "תרומה ל־Weblate"
+msgstr "הענקה ל־Weblate"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -6164,10 +6120,8 @@ msgid "None"
 msgstr "אין"
 
 #: weblate/templates/accounts/user.html:281
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "הסרת משתמש מהקבוצה הזו"
+msgstr "הסרת משתמש מהצוות הזה"
 
 #: weblate/templates/accounts/user.html:292
 #: weblate/templates/trans/project-access.html:65
@@ -6905,10 +6859,8 @@ msgid "Yearly price"
 msgstr "מחיר שנתי"
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgid "Hosted strings"
 msgid "Hosted strings limit"
-msgstr "מחרוזות מתארחות"
+msgstr "מגבלת מחרוזות מתארחות"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
@@ -11678,20 +11630,16 @@ msgid "Invitation"
 msgstr "הזמנה"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:18
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Invitation to Weblate"
-msgstr "תרומה ל־Weblate"
+msgstr "הזמנה ל־Weblate"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:21
-#, fuzzy
-#| msgid "Please sign in to see the alerts."
 msgid "Please sign-in to view this invitation."
-msgstr "נא להיכנס כדי לצפות בהתראות."
+msgstr "נא להיכנס כדי לצפות בהזמנה הזאת."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:23
 msgid "This invitation belongs to a different user."
-msgstr ""
+msgstr "ההזמנה הזאת שייכת למשתמש אחר."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:41
 #, python-format
@@ -12494,18 +12442,13 @@ msgid "Customize translation workflow for this language in this project"
 msgstr "התאמת רצף התרגום לשפה הזאת במיזם הזה"
 
 #: weblate/trans/forms.py:2849
-#, fuzzy
-#| msgid ""
-#| "The translation workflow is configured at project and component. By "
-#| "enabling customization here, you override these settings for this "
-#| "language."
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
 "language in this project."
 msgstr ""
-"רצף התרגום מוגדר במיזם ורכיב. על ידי הפעלת התאמות כאן, אפשר לדרוס את ההגדרות "
-"האלו לשפה הזאת."
+"רצף התרגום מוגדר במיזם, ברכיב ובשפה. על ידי הפעלת התאמות כאן, אפשר לדרוס את "
+"ההגדרות האלו לשפה הזאת במיזם הזה."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
@@ -13095,22 +13038,16 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 
 #: weblate/trans/models/change.py:782
-#, fuzzy
-#| msgid "The \"{}\" file was changed."
 msgid "The “{}” file was changed."
 msgstr "הקובץ „{}” השתנה."
 
 #: weblate/trans/models/change.py:784
-#, fuzzy
-#| msgid "Parsing of the \"{}\" file was enforced."
 msgid "Parsing of the “{}” file was enforced."
 msgstr "פענוח הקובץ „{}” נכפה."
 
 #: weblate/trans/models/change.py:786
-#, fuzzy
-#| msgid "File {} was added."
 msgid "File “{}” was added."
-msgstr "הקובץ {} נוסף."
+msgstr "הקובץ „{}” נוסף."
 
 #: weblate/trans/models/change.py:792
 msgctxt "License information not available"
@@ -14408,10 +14345,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "מסכת קבצים לא כוללת * בתור ממלא מקום לשפה!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for automatical acceptance as it would permit "
-#| "users to vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
 "users to vote on their own suggestions."
@@ -14443,10 +14376,8 @@ msgid "Keys"
 msgstr "מפתחות"
 
 #: weblate/trans/views/about.py:23 weblate/trans/views/about.py:130
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate"
-msgstr "ניתן לתמוך במיזם Weblate באתר {0}"
+msgstr "תמיכה ב־Weblate"
 
 #: weblate/trans/views/about.py:65
 msgid "Weblate statistics"
@@ -14850,20 +14781,16 @@ msgid "Component {}"
 msgstr "רכיב {}"
 
 #: weblate/trans/widgets.py:369
-#, fuzzy
-#| msgid "Status badge"
 msgid "SVG status badge"
-msgstr "חלונית מצב"
+msgstr "עיטור מצב ב־SVG"
 
 #: weblate/trans/widgets.py:372
 msgid "translated"
 msgstr "מתורגם"
 
 #: weblate/trans/widgets.py:407
-#, fuzzy
-#| msgid "Big status badge"
 msgid "PNG status badge"
-msgstr "חלונית מצב גדולה"
+msgstr "עיטור מצב ב־PNG"
 
 #: weblate/trans/widgets.py:416
 msgctxt "Status widget name"
