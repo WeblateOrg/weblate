@@ -13,7 +13,6 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
-from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
@@ -217,6 +216,9 @@ def validate_filename(value) -> None:
 
 
 def validate_backup_path(value: str) -> None:
+    # Lazily import borg as it pulls quite a lot of memory usage
+    from borg.helpers import Location
+
     try:
         loc = Location(value)
     except ValueError as err:
