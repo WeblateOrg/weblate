@@ -27,7 +27,6 @@ from weblate.utils.backup import (
     initialize,
     make_password,
     prune,
-    supports_cleanup,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.requests import request
@@ -286,8 +285,6 @@ class BackupService(models.Model):
             self.backuplog_set.create(event="error", log=str(error))
 
     def cleanup(self) -> None:
-        if not supports_cleanup():
-            return
         initial = self.backuplog_set.filter(event="cleanup").exists()
         try:
             log = cleanup(self.repository, self.passphrase, initial=initial)
