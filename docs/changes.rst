@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`Searching` supports ``source_changed:DATETIME``.
+* Added several new :ref:`component-language_code_style`.
 
 **Improvements**
 

@@ -125,6 +125,10 @@ NEW_LANG_CHOICES = (
 LANGUAGE_CODE_STYLE_CHOICES = (
     ("", gettext_lazy("Default based on the file format")),
     ("posix", gettext_lazy("POSIX style using underscore as a separator")),
+    (
+        "posix_lowercase",
+        gettext_lazy("POSIX style using underscore as a separator, lower cased"),
+    ),
     ("bcp", gettext_lazy("BCP style using hyphen as a separator")),
     (
         "posix_long",
@@ -135,7 +139,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     (
         "posix_long_lowercase",
         gettext_lazy(
-            "POSIX style using underscore as a separator, including country code (lowercase)"
+            "POSIX style using underscore as a separator, including country code, lower cased"
         ),
     ),
     (
@@ -151,6 +155,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ("appstore", gettext_lazy("Apple App Store metadata style")),
     ("googleplay", gettext_lazy("Google Play metadata style")),
     ("linux", gettext_lazy("Linux style")),
+    ("linux_lowercase", gettext_lazy("Linux style, lower cased")),
 )
 
 MERGE_CHOICES = (

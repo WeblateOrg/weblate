@@ -557,6 +557,10 @@ class TranslationFormat:
     def get_language_posix(code: str) -> str:
         return code.replace("-", "_")
 
+    @classmethod
+    def get_language_posix_lowercase(cls, code: str) -> str:
+        return cls.get_language_posix(code).lower()
+
     @staticmethod
     def get_language_bcp(code: str) -> str:
         return code.replace("_", "-")
@@ -577,6 +581,10 @@ class TranslationFormat:
     def get_language_linux(cls, code: str) -> str:
         """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
         return LEGACY_CODES.get(code, cls.get_language_posix(code))
+
+    @classmethod
+    def get_language_linux_lowercase(cls, code: str) -> str:
+        return cls.get_language_linux(code).lower()
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
