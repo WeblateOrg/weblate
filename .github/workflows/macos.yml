@@ -36,6 +36,9 @@ jobs:
         brew unlink python@3.12
         rm -f /usr/local/bin/{2to3,idle3,pydoc3,python3,python3-config}
         brew link --overwrite python@3.12
+    - name: Fix OpenSSL
+      # Pulls fix from https://github.com/Homebrew/homebrew-core/pull/169721
+      run: brew reinstall openssl@3
     - name: Install brew dependencies
       run: |
         brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash libxmlsec1
