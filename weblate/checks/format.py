@@ -161,7 +161,7 @@ JAVA_MATCH = re.compile(
         (?:\d+)?                       # width
         (?:\.\d+)?                     # precision
         (?P<type>
-            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %te, etc.)
+            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %td, etc.)
        )
     )
     """,

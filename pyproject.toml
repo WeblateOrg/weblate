@@ -197,7 +197,8 @@ target-version = ['py310']
 
 [tool.codespell]
 count = true
-skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,yarn.lock,known_hosts,*/vendor/*'
+# TODO: the per-file ignores should use inlines once supported by codespell
+skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,yarn.lock,known_hosts,*/vendor/*,weblate/checks/tests/test_chars_checks.py,weblate/checks/tests/test_fluent_checks.py,weblate/checks/tests/test_format_checks.py,weblate/checks/tests/test_duplicate_checks.py,weblate/checks/tests/test_icu_checks.py,weblate/machinery/aws.py,weblate/machinery/baidu.py,weblate/machinery/apertium.py,weblate/machinery/saptranslationhub.py,weblate/screenshots/views.py,weblate/trans/specialchars.py,weblate/checks/data.py,weblate/machinery/alibaba.py,weblate/formats/base.py,weblate/formats/tests/test_multi.py,weblate/vcs/gpg.py,scripts/yarn/yarn.lock,weblate/trans/tests/data/known_hosts,scripts/generate-specialchars,docs/user/checks.rst'
 
 [tool.django-stubs]
 django_settings_module = "weblate.settings_example"
@@ -344,7 +345,7 @@ ignore = [
   "D100",  # TODO: Missing docstring in public module
   "D101",  # TODO: Missing docstring in public class
   "D102",  # TODO: Missing docstring in public method
-  "D103",  # TODO: Missing docstring in public functio
+  "D103",  # TODO: Missing docstring in public function
   "D104",  # TODO: Missing docstring in public package
   "D105",  # TODO: Missing docstring in magic method
   "D106",  # TODO: Missing docstring in public nested class

@@ -24,7 +24,7 @@ Not yet released.
 * Allow editing strings when the source is marked for editing.
 * Updates of last updated timestamp of a string.
 * Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
-* Graceful handling of locking erors in the :ref:`api`.
+* Graceful handling of locking errors in the :ref:`api`.
 
 **Compatibility**
 
@@ -57,7 +57,7 @@ Released on April 20th 2024.
 
 **Improvements**
 
-* Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
+* Docker container now validates user password strength by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
 * Improved error reporting in :ref:`machine-translation-setup`.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
@@ -439,7 +439,7 @@ Released on September 10th 2023.
 * Source strings and state display for converted formats.
 * Block :ref:`component-edit_template` on formats which do not support it.
 * :ref:`check-reused` is no longer triggered for blank strings.
-* Performace issues while browsing some categories.
+* Performance issues while browsing some categories.
 * Fixed GitHub Team and Organization authentication in Docker container.
 * GitLab merge requests when using a customized SSH port.
 
