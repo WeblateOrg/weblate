@@ -3229,6 +3229,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def count_repo_outgoing(self):
         return self._get_count_repo_outgoing()
 
+    @property
+    def count_push_branch_outgoing(self):
+        if not self.push_branch:
+            return 0
+        try:
+            return self.repository.count_outgoing(self.push_branch)
+        except RepositoryError as error:
+            report_error(cause="Could check merge needed", project=self.project)
+            self.add_alert("MergeFailure", error=self.error_text(error))
+            return 0
+
     def needs_commit(self):
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
