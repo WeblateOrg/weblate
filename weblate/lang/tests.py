@@ -286,9 +286,9 @@ class TestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_%s" % params[0].replace("@", "___").replace(
-                "+", "_"
-            ).replace("-", "__")
+            test_name = "test_create_{}".format(
+                params[0].replace("@", "___").replace("+", "_").replace("-", "__")
+            )
             if test_name in dict:
                 raise ValueError(f"Duplicate test: {params[0]}, mapped to {test_name}")
             dict[test_name] = gen_test(*params)

@@ -116,7 +116,7 @@ class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     def get_rhs_op(self, connection, rhs):
         if self._needs_fallback:
             return connection.operators["contains"] % rhs
-        return "%%%% %s = true" % rhs
+        return f"%% {rhs} = true"
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -142,7 +142,7 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
     def get_rhs_op(self, connection, rhs):
         if self._needs_fallback:
             return connection.operators["contains"] % rhs
-        return "ILIKE %s" % rhs
+        return f"ILIKE {rhs}"
 
 
 def re_escape(pattern: str) -> str:

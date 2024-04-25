@@ -17,7 +17,7 @@ class WeblateManagementUtility(ManagementUtility):
     def fetch_command(self, subcommand):
         # Block usage of some commands
         if not self.developer_mode and subcommand in RESTRICTED_COMMANDS:
-            sys.stderr.write("Blocked command: %r\n" % subcommand)
+            sys.stderr.write(f"Blocked command: {subcommand!r}\n")
             sys.stderr.write("This command is restricted for developers only.\n")
             sys.stderr.write(
                 "In case you really want to do this, please execute "
