@@ -14,6 +14,7 @@ Not yet released.
 * Improved error handling in :ref:`invite-user`.
 * Added PNG status badge.
 * Added list of managed projects to the dashboard view.
+* More detailed status of outgoing commits.
 
 **Bug fixes**
 
