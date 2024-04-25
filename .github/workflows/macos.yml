@@ -28,6 +28,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: brew update
+    - run: brew upgrade
     - run: brew list --versions
     - run: brew deps --tree --installed
     - name: Fix Python
