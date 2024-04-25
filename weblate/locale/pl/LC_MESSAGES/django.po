@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-25 07:18+0000\n"
-"PO-Revision-Date: 2024-02-15 13:17+0000\n"
+"PO-Revision-Date: 2024-04-25 09:28+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5.1-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -63,10 +63,6 @@ msgid "Use account e-mail address"
 msgstr "Używaj adresu e-mail konta"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
@@ -332,16 +328,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Wybrane sortowanie nie jest obsługiwane."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Dodaj użytkownika do grupy"
+msgstr "Dodaj użytkownika do zespołu"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "Edytuj zespół"
+msgstr "Dodaj zespół"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -449,37 +441,31 @@ msgstr ""
 "przez innego użytkownika."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Dostęp do projektu {project} został zablokowany"
+msgstr "Dostęp do projektu {project} został zablokowany."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Użytkownik został włączony przez administratora"
+msgstr "Użytkownik został włączony przez administratora."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Użytkownik został wyłączony przez administratora"
+msgstr "Użytkownik został wyłączony przez administratora."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Wyświetlono półroczny raport statusu wsparcia."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Zaproszony do {site_title} przez {username}."
+msgstr "Użytkownik został dodany do zespołu {team} przez {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Użytkownik został usunięty z zespołu {team} przez {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -777,10 +763,8 @@ msgstr ""
 "ustawieniach."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Niewystarczające uprawnienia do zapisywania tłumaczeń."
+msgstr "Podaj adres e-mail do przesyłania tłumaczeń."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -818,9 +802,6 @@ msgid "License was changed"
 msgstr "Licencja została zmieniona"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Wystąpił błąd przetwarzania"
@@ -1817,10 +1798,9 @@ msgstr ""
 "ciągu źródłowego."
 
 #: weblate/addons/views.py:93
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Podano nieprawidłową nazwę dodatku!"
+msgstr "Nieprawidłowa nazwa dodatku: „%s”"
 
 #: weblate/addons/views.py:113
 msgid "Add-on installed, please review integration instructions."
@@ -2406,10 +2386,8 @@ msgid "Roles"
 msgstr "Role"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Wybierz role przyznane tej grupie."
+msgstr "Wybierz role przyznane temu zespołowi."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2495,10 +2473,8 @@ msgid "Languages"
 msgstr "Języki"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "Wewnętrzna grupa Weblate"
+msgstr "Wewnętrzny zespół Weblate"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2566,17 +2542,12 @@ msgid "Regular expression for e-mail address"
 msgstr "Wyrażenie regularne dla adresu e-mail"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "Użytkownicy z pasującym adresem e-mail zostaną dodani do tej grupy."
+msgstr "Użytkownicy z pasującym adresem e-mail zostaną dodani do tego zespołu."
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "Grupa do przypisania"
+msgstr "Zespół do przypisania"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -2597,11 +2568,11 @@ msgstr "Wpisz istniejącą nazwę konta Weblate lub adres e-mail."
 
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Zaproponuj nazwę użytkownika. Można ją później zmienić."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Zaproponuj pełną nazwę użytkownika. Można ją później zmienić."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2822,10 +2793,8 @@ msgstr[1] "Zawiera %d projekty"
 msgstr[2] "Zawiera %d projektów"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Strona internetowa projektu"
+msgstr "Brak strony internetowej projektu!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -2944,16 +2913,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Źródło i tłumaczenie nie kończą się wykrzyknikiem"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Niedopasowane \\n"
+msgstr "Niedopasowany interrobang"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Źródło i tłumaczenie nie kończą się wielokropkiem"
+msgstr "Źródło i tłumaczenie nie kończą się inteerrobangiem"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -3943,6 +3908,8 @@ msgstr ""
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Mieści się w zadanych granicach. Renderowanie jest pokazane dla Twojej "
+"wygody."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -4918,8 +4885,6 @@ msgid "Authentication service region"
 msgstr "Region usługi uwierzytelniania"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Category"
 msgctxt "Automatic suggestion service configuration"
 msgid "Category"
 msgstr "Kategoria"
@@ -4929,6 +4894,8 @@ msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Określ dostosowany identyfikator kategorii systemu, aby go używać zamiast "
+"ogólnego."
 
 #: weblate/machinery/forms.py:184
 msgctxt "Automatic suggestion service configuration"
@@ -5363,50 +5330,44 @@ msgstr ""
 
 #: weblate/templates/about/donate.html:14
 msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
+msgstr "Pomóż <strong>Weblate</strong> dalej się rozwijać"
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Dziękujemy za korzystanie z Weblate."
+msgstr "Witamy i dziękujemy za wsparcie Weblate"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Dziękujemy za korzystanie z Weblate."
+msgstr "Witamy i dziękujemy za wybranie Weblate"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
 msgstr ""
+"szanująca prywatność platforma lokalizacyjna wyznająca wartości otwartego "
+"źródła."
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Nazwa użytkownika GitHub"
-msgstr[1] "Nazwa użytkownika GitHub"
-msgstr[2] "Nazwa użytkownika GitHub"
+msgstr[0] "Gwiazdka na GitHubie"
+msgstr[1] "Gwiazdki na GitHubie"
+msgstr[2] "Gwiazdki na GitHubie"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Otwarte zgłoszenie"
+msgstr[1] "Otwarte zgłoszenia"
+msgstr[2] "Otwarte zgłoszenia"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
-msgstr[0] "Ostatnie zmiany"
+msgstr[0] "Ostatnia zmiana"
 msgstr[1] "Ostatnie zmiany"
 msgstr[2] "Ostatnie zmiany"
 
@@ -5415,32 +5376,36 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"Choć Weblate pozostaje darmowy dla wszystkich użytkowników, jego rozwój "
+"wymaga ciągłych inwestycji."
 
 #: weblate/templates/about/donate.html:44
 msgid "We prioritize your privacy; we never display ads or sell your data."
 msgstr ""
+"Twoja prywatność jest dla nas priorytetem; nigdy nie wyświetlamy reklam ani "
+"nie sprzedajemy Twoich danych."
 
 #: weblate/templates/about/donate.html:45
 msgid ""
 "The invaluable support of the community through subscriptions and donations "
 "ensures that Weblate continues to grow and thrive."
 msgstr ""
+"Nieocenione wsparcie społeczności przez subskrypcje i darowizny zapewnia, że "
+"Weblate nadal się rozwija i prosperuje."
 
 #: weblate/templates/about/donate.html:46
 msgid "Join us in shaping the future of localization and contribute today!"
 msgstr ""
+"Dołącz do nas w kształtowaniu przyszłości lokalizacji i wnieś swój wkład już "
+"dziś!"
 
 #: weblate/templates/about/donate.html:51
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase a support package"
 msgstr "Kup pakiet wsparcia"
 
 #: weblate/templates/about/donate.html:53
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "Złóż darowiznę dla Weblate"
+msgstr "Przekaż do Weblate"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -5475,6 +5440,8 @@ msgid ""
 "Start your gratis trial today and explore our competitively priced "
 "commercial hosting solutions."
 msgstr ""
+"Rozpocznij bezpłatny okres próbny już dziś i poznaj nasze konkurencyjne "
+"cenowo komercyjne rozwiązania hostingowe."
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:254
 #: weblate/templates/snippets/billing-failure.html:9
@@ -6353,10 +6320,8 @@ msgid "None"
 msgstr "Brak"
 
 #: weblate/templates/accounts/user.html:281
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "Usuń użytkownika z tej grupy"
+msgstr "Usuń użytkownika z tego zespołu"
 
 #: weblate/templates/accounts/user.html:292
 #: weblate/templates/trans/project-access.html:65
@@ -7108,10 +7073,8 @@ msgid "Yearly price"
 msgstr "Cena roczna"
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgid "Hosted strings"
 msgid "Hosted strings limit"
-msgstr "Hostowane ciągi"
+msgstr "Limit hostowanych ciągów"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
@@ -10573,22 +10536,20 @@ msgid "Download %(key_type)s private key"
 msgstr "Pobierz klucz prywatny %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:37
-#, fuzzy
-#| msgid "IP address"
 msgid "IP addresses"
-msgstr "Adres IP"
+msgstr "Adresy IP"
 
 #: weblate/templates/snippets/ssh-key.html:41
 msgid ""
 "Weblate utilizes the IP addresses listed below to access repositories or "
 "initiate webhooks."
 msgstr ""
+"Weblate wykorzystuje adresy IP wymienione poniżej w celu uzyskania dostępu "
+"do repozytoriów lub inicjowania webhooków."
 
 #: weblate/templates/snippets/ssh-key.html:46
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "IP address copied to clipboard."
-msgstr "Klucz API skopiowany do schowka."
+msgstr "Adres IP skopiowano do schowka"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -12047,20 +12008,16 @@ msgid "Invitation"
 msgstr "Zaproszenie"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:18
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Invitation to Weblate"
-msgstr "Złóż darowiznę dla Weblate"
+msgstr "Zaproszenie do Weblate"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:21
-#, fuzzy
-#| msgid "Please sign in to see the alerts."
 msgid "Please sign-in to view this invitation."
-msgstr "Zaloguj się, aby zobaczyć alerty."
+msgstr "Zaloguj się, aby zobaczyć to zaproszenie."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:23
 msgid "This invitation belongs to a different user."
-msgstr ""
+msgstr "To zaproszenie należy do innego użytkownika."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:41
 #, python-format
@@ -13489,22 +13446,16 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s o %(time)s w projekcie %(translation)s przez %(user)s"
 
 #: weblate/trans/models/change.py:782
-#, fuzzy
-#| msgid "The \"{}\" file was changed."
 msgid "The “{}” file was changed."
 msgstr "Plik „{}” został zmieniony."
 
 #: weblate/trans/models/change.py:784
-#, fuzzy
-#| msgid "Parsing of the \"{}\" file was enforced."
 msgid "Parsing of the “{}” file was enforced."
 msgstr "Parsowanie pliku „{}” zostało wymuszone."
 
 #: weblate/trans/models/change.py:786
-#, fuzzy
-#| msgid "File {} was added."
 msgid "File “{}” was added."
-msgstr "Dodano plik {}."
+msgstr "Dodano plik „{}”."
 
 #: weblate/trans/models/change.py:792
 msgctxt "License information not available"
@@ -14847,10 +14798,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Maska pliku nie zawiera * jako symbolu zastępczego dla języka!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for automatical acceptance as it would permit "
-#| "users to vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
 "users to vote on their own suggestions."
@@ -14882,10 +14829,8 @@ msgid "Keys"
 msgstr "Klucze"
 
 #: weblate/trans/views/about.py:23 weblate/trans/views/about.py:130
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate"
-msgstr "Wspomóż Weblate na {0}"
+msgstr "Wesprzyj Weblate"
 
 #: weblate/trans/views/about.py:65
 msgid "Weblate statistics"
@@ -15298,20 +15243,16 @@ msgid "Component {}"
 msgstr "Komponent {}"
 
 #: weblate/trans/widgets.py:369
-#, fuzzy
-#| msgid "Status badge"
 msgid "SVG status badge"
-msgstr "Odznaka statusu"
+msgstr "Odznaka statusu w SVG"
 
 #: weblate/trans/widgets.py:372
 msgid "translated"
 msgstr "przetłumaczone"
 
 #: weblate/trans/widgets.py:407
-#, fuzzy
-#| msgid "Big status badge"
 msgid "PNG status badge"
-msgstr "Duża odznaka statusu"
+msgstr "Odznaka stanu w PNG"
 
 #: weblate/trans/widgets.py:416
 msgctxt "Status widget name"
