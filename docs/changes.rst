@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`Searching` supports ``source_changed:DATETIME``.
+
 **Improvements**
 
 * Display more details on source string change in history.

@@ -346,6 +346,7 @@ class UnitTermExpr(BaseTermExpr):
         "position": "position",
         "pending": "pending",
         "changed": "change__timestamp",
+        "source_changed": "source_unit__last_updated",
         "change_time": "change__timestamp",
         "added": "timestamp",
         "change_action": "change__action",
@@ -449,6 +450,9 @@ class UnitTermExpr(BaseTermExpr):
         return self.convert_datetime(text)
 
     def convert_changed(self, text):
+        return self.convert_datetime(text)
+
+    def convert_source_changed(self, text):
         return self.convert_datetime(text)
 
     def convert_added(self, text):
