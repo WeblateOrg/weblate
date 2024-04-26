@@ -1,3 +1,18 @@
+Weblate 5.5.2
+-------------
+
+Released on April 26th 2024.
+
+**Bug fixes**
+
+* Fixed publishing packages to PyPI.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?closed=1>`__.
+
 Weblate 5.5.1
 -------------
 
