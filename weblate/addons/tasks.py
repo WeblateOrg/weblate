@@ -117,7 +117,7 @@ def daily_addons() -> None:
     handle_addon_event(
         AddonEvent.EVENT_DAILY,
         daily_callback,
-        addon_queryset=Addon.objects.annotate(hourmod=F("component_id") % 24).filter(
+        addon_queryset=Addon.objects.annotate(hourmod=F("id") % 24).filter(
             hourmod=today.hour, event__event=AddonEvent.EVENT_DAILY
         ),
         auto_scope=True,

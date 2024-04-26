@@ -21,8 +21,9 @@ Not yet released.
 **Bug fixes**
 
 * Fixed skipped component update with some add-ons enabled.
+* Daily execution of project and site wide add-ons.
 * Allow editing strings when the source is marked for editing.
-* Updates of last updated timestamp of a string.
+* Updates of the last updated timestamp of a string.
 * Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
 * Graceful handling of locking errors in the :ref:`api`.
 
