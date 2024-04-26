@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.3.5
+  rev: v0.4.2
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -67,7 +67,7 @@ repos:
   - id: stylelint
     args: [--formatter=compact]
     additional_dependencies:
-    - stylelint@16.3.1
+    - stylelint@16.4.0
 - repo: https://github.com/fsfe/reuse-tool
   rev: v3.0.2
   hooks:
@@ -82,9 +82,14 @@ repos:
   hooks:
   - id: biome-check
     additional_dependencies:
-    - '@biomejs/biome@1.6.4'
+    - '@biomejs/biome@1.7.1'
     files: \.js$
-
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.2.6
+  hooks:
+  - id: codespell
+    additional_dependencies:
+    - tomli
 
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js$
 ci:

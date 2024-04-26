@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os.path
+from io import StringIO
 from typing import TYPE_CHECKING
 
 import cairo
@@ -34,8 +35,9 @@ if TYPE_CHECKING:
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+gi.require_version("Rsvg", "2.0")
 
-from gi.repository import Pango, PangoCairo  # noqa: E402
+from gi.repository import Pango, PangoCairo, Rsvg  # noqa: E402
 
 COLOR_DATA = {
     "grey": (0, 0, 0),
@@ -210,6 +212,30 @@ class SVGWidget(ContentWidget):
         raise NotImplementedError
 
 
+class PNGWidget(SVGWidget):
+    extension = "png"
+    content_type = "image/png"
+
+    def render(self, response) -> None:
+        with StringIO() as output:
+            super().render(output)
+            svgdata = output.getvalue()
+
+        handle = Rsvg.Handle.new_from_data(svgdata.encode())
+        dimensions = handle.get_dimensions()
+        viewport = Rsvg.Rectangle()
+        viewport.x = 0
+        viewport.y = 0
+        viewport.width = dimensions.width
+        viewport.height = dimensions.height
+        surface = cairo.ImageSurface(
+            cairo.FORMAT_ARGB32, int(dimensions.width), int(dimensions.height)
+        )
+        context = cairo.Context(surface)
+        handle.render_document(context, viewport)
+        surface.write_to_png(response)
+
+
 @register_widget
 class NormalWidget(BitmapWidget):
     name = "287x66"
@@ -340,7 +366,7 @@ class SVGBadgeWidget(SVGWidget):
     colors: tuple[str, ...] = ("badge",)
     order = 80
     template_name = "svg/badge.svg"
-    verbose = gettext_lazy("Status badge")
+    verbose = gettext_lazy("SVG status badge")
 
     def render(self, response) -> None:
         translated_text = gettext("translated")
@@ -373,6 +399,12 @@ class SVGBadgeWidget(SVGWidget):
                 },
             )
         )
+
+
+@register_widget
+class PNGBadgeWidget(PNGWidget, SVGBadgeWidget):
+    name = "status"
+    verbose = gettext_lazy("PNG status badge")
 
 
 @register_widget

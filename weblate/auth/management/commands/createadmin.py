@@ -66,7 +66,7 @@ class Command(BaseCommand):
         else:
             for user in matching_users:
                 self.stderr.write(
-                    f"Found maching user: username={user.username} email={user.email}"
+                    f"Found matching user: username={user.username} email={user.email}"
                 )
             raise CommandError("Multiple users matched given parameters!")
 

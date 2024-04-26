@@ -57,6 +57,8 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from weblate.auth import User
+
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
     "approved": {"state": STATE_APPROVED},
@@ -394,7 +396,7 @@ class Unit(models.Model, LoggerMixin):
     labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
 
     # The type annotation hides that field can be None because
-    # save() updates it to non-None immediatelly.
+    # save() updates it to non-None immediately.
     source_unit: Unit = models.ForeignKey(
         "trans.Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )
@@ -463,6 +465,10 @@ class Unit(models.Model, LoggerMixin):
             )
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
+
+        # Update last_updated timestamp
+        if update_fields and "last_updated" not in update_fields:
+            update_fields.append("last_updated")
 
         # Actually save the unit
         super().save(
@@ -653,7 +659,11 @@ class Unit(models.Model, LoggerMixin):
 
         if flags is not None:
             # Read only from the source
-            if not self.is_source and self.source_unit.state < STATE_TRANSLATED:
+            if (
+                not self.is_source
+                and self.source_unit.state < STATE_TRANSLATED
+                and self.translation.component.intermediate
+            ):
                 return STATE_READONLY
 
             # Read only from flags
@@ -884,11 +894,14 @@ class Unit(models.Model, LoggerMixin):
         # Indicate source string change
         if not same_source and source_change:
             translation.update_changes.append(
-                Change(
-                    unit=self,
-                    action=Change.ACTION_SOURCE_CHANGE,
+                self.generate_change(
+                    None,
+                    None,
+                    Change.ACTION_SOURCE_CHANGE,
+                    check_new=False,
                     old=source_change,
                     target=self.source,
+                    save=False,
                 )
             )
         # Track VCS change
@@ -919,11 +932,18 @@ class Unit(models.Model, LoggerMixin):
         * Where source string is untranslated
         """
         if "read-only" in self.all_flags or (
-            not self.is_source and self.source_unit.state < STATE_TRANSLATED
+            not self.is_source
+            and self.source_unit.state < STATE_TRANSLATED
+            and self.translation.component.intermediate
         ):
             if not self.readonly:
+                self.original_state = self.state
                 self.state = STATE_READONLY
-                self.save(same_content=True, run_checks=False, update_fields=["state"])
+                self.save(
+                    same_content=True,
+                    run_checks=False,
+                    update_fields=["state", "original_state"],
+                )
         elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
@@ -1149,7 +1169,11 @@ class Unit(models.Model, LoggerMixin):
             unit.source = self.target
             unit.num_words = self.num_words
             # Find reverted units
-            if unit.state == STATE_FUZZY and unit.previous_source == self.target:
+            if (
+                unit.state == STATE_FUZZY
+                and unit.previous_source == self.target
+                and unit.target
+            ):
                 # Unset fuzzy on reverted
                 unit.original_state = unit.state = STATE_TRANSLATED
                 unit.pending = True
@@ -1157,11 +1181,12 @@ class Unit(models.Model, LoggerMixin):
             elif (
                 unit.original_state == STATE_FUZZY
                 and unit.previous_source == self.target
+                and unit.target
             ):
                 # Unset fuzzy on reverted
                 unit.original_state = STATE_TRANSLATED
                 unit.previous_source = ""
-            elif unit.state >= STATE_TRANSLATED:
+            elif unit.state >= STATE_TRANSLATED and unit.target:
                 # Set fuzzy on changed
                 unit.original_state = STATE_FUZZY
                 if unit.state < STATE_READONLY:
@@ -1171,10 +1196,11 @@ class Unit(models.Model, LoggerMixin):
 
             # Save unit and change
             unit.save()
-            unit.change_set.create(
-                action=Change.ACTION_SOURCE_CHANGE,
-                user=user,
-                author=author,
+            unit.generate_change(
+                user,
+                author,
+                Change.ACTION_SOURCE_CHANGE,
+                check_new=False,
                 old=previous_source,
                 target=self.target,
             )
@@ -1182,7 +1208,15 @@ class Unit(models.Model, LoggerMixin):
             unit.translation.invalidate_cache()
 
     def generate_change(
-        self, user, author, change_action, check_new: bool = True, save: bool = True
+        self,
+        user: User | None,
+        author: User | None,
+        change_action: int,
+        *,
+        check_new: bool = True,
+        save: bool = True,
+        old: str | None = None,
+        target: str | None = None,
     ):
         """Create Change entry for saving unit."""
         # Notify about new contributor
@@ -1220,8 +1254,8 @@ class Unit(models.Model, LoggerMixin):
             action=action,
             user=user,
             author=author,
-            target=self.target,
-            old=self.old_unit["target"],
+            target=self.target if target is None else target,
+            old=self.old_unit["target"] if old is None else old,
             details={
                 "state": self.state,
                 "old_state": self.old_unit["state"],

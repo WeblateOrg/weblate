@@ -12,7 +12,6 @@ import subprocess
 from random import SystemRandom
 from urllib.parse import urlparse
 
-import borg
 from django.conf import settings
 
 from weblate.trans.util import get_clean_env
@@ -165,14 +164,7 @@ def prune(location: str, passphrase: str) -> str:
     )
 
 
-def supports_cleanup():
-    """Cleanup is supported since borg 1.2."""
-    return borg.__version_tuple__ >= (1, 2)
-
-
 def cleanup(location: str, passphrase: str, initial: bool) -> str:
-    if not supports_cleanup():
-        return ""
     cmd = ["compact"]
     if initial:
         cmd.append("--cleanup-commits")

@@ -71,6 +71,14 @@
                 </label>
                 {% format_unit_target change.unit value=change.target diff=change.old %}
             {% elif change.show_source %}
+              <label>
+                {{ change.unit.translation.component.source_language }}
+                {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
+                <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktrans %}</span>
+                {% if change.show_unit_state %}
+                  <span class="badge">{{ change.get_state_display }}</span>
+                {% endif %}
+              </label>
               {% if change.target %}
                 {% format_unit_target change.unit value=change.target diff=change.old %}
               {% else %}

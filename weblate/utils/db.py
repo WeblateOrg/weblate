@@ -78,7 +78,7 @@ class PostgreSQLFallbackLookupMixin:
     Mixin to block PostgreSQL from using trigram index.
 
     It is ineffective for very short strings as these produce a lot of matches
-    which need to be rechecked and full table scan is more effecive in that
+    which need to be rechecked and full table scan is more effective in that
     case.
 
     It is performed by concatenating empty string which will prevent index usage.
@@ -116,7 +116,7 @@ class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     def get_rhs_op(self, connection, rhs):
         if self._needs_fallback:
             return connection.operators["contains"] % rhs
-        return "%%%% %s = true" % rhs
+        return f"%% {rhs} = true"
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -142,7 +142,7 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
     def get_rhs_op(self, connection, rhs):
         if self._needs_fallback:
             return connection.operators["contains"] % rhs
-        return "ILIKE %s" % rhs
+        return f"ILIKE {rhs}"
 
 
 def re_escape(pattern: str) -> str:

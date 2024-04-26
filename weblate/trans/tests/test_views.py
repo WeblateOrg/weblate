@@ -100,6 +100,10 @@ class ViewTestCase(RepoTestCase):
         return {"project": self.project.slug}
 
     @property
+    def kw_project_path(self):
+        return {"path": self.project.get_url_path()}
+
+    @property
     def kw_component(self):
         return {"path": self.component.get_url_path()}
 
@@ -137,7 +141,7 @@ class ViewTestCase(RepoTestCase):
     def get_request(self, user=None):
         """Get fake request object."""
         request = self.factory.get("/")
-        request.user = user if user else self.user
+        request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
         request._messages = messages

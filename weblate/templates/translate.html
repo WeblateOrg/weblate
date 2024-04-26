@@ -152,12 +152,15 @@
                 </div>
               {% endif %}
               <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
+              {% if not unit.source_unit.translated %}
+                <span class="badge badge-danger">{% translate "The source string needs review." %}</span>
+              {% endif %}
+              {% if unit.translation.component.project.source_review %}
+              <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
+              {% endif %}
+              {% include "snippets/note-badge.html" with unit=unit %}
               <div class="clearfix"></div>
             </div>
-            {% if unit.translation.component.project.source_review %}
-            <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
-            {% endif %}
-            {% include "snippets/note-badge.html" with unit=unit %}
             {% format_unit_source unit search_match=search_query glossary=glossary show_copy=True %}
           </div>
         {% endif %}

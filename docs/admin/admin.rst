@@ -20,6 +20,7 @@ It includes basic overview of your Weblate:
 * Users and teams, see :ref:`custom-acl`
 * :ref:`manage-appearance`.
 * Configure :ref:`machine-translation-setup`.
+* Configure site-wide addons, see :ref:`addons`.
 
 .. _manage-performance:
 

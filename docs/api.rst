@@ -1935,8 +1935,11 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit (used as key or context)
-    :<json array value: Source strings (use single string if not creating plural)
+    :<json string key: *Monolingual translations:* Key of translation unit
+    :<json array value: *Monolingual translations:* Source strings (use single string if not creating plural)
+    :<json string context: *Bilingual translations:* Context of a translation unit
+    :<json array source: *Bilingual translations:* Source strings (use single string if not creating plural)
+    :<json array target: *Bilingual translations:* Target strings (use single string if not creating plural)
     :<json int state: String state; see :http:get:`/api/units/(int:id)/`
     :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 

@@ -13,7 +13,6 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
-from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
@@ -191,7 +190,7 @@ validate_email = EmailValidator()
 
 def validate_plural_formula(value) -> None:
     try:
-        c2py(value if value else "0")
+        c2py(value or "0")
     except ValueError as error:
         raise ValidationError(
             gettext("Could not evaluate plural formula: {}").format(error)
@@ -217,6 +216,9 @@ def validate_filename(value) -> None:
 
 
 def validate_backup_path(value: str) -> None:
+    # Lazily import borg as it pulls quite a lot of memory usage
+    from borg.helpers import Location
+
     try:
         loc = Location(value)
     except ValueError as err:

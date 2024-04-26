@@ -39,7 +39,7 @@ Use the generated file to import project when :ref:`adding-projects`.
    Restoring of the backup might fail if the restoring server has different set
    of :ref:`languages` or different configuration of
    :setting:`SIMPLIFY_LANGUAGES`. The restore will tell you which language
-   codes could not be processed and you can then add missing langage
+   codes could not be processed and you can then add missing language
    definitions manually.
 
 Automated backup using BorgBackup

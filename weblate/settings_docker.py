@@ -1117,7 +1117,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # If you set password here, adjust CELERY_BROKER_URL as well
-            "PASSWORD": REDIS_PASSWORD if REDIS_PASSWORD else None,
+            "PASSWORD": REDIS_PASSWORD or None,
             "CONNECTION_POOL_KWARGS": {},
         },
         "KEY_PREFIX": "weblate",
@@ -1165,6 +1165,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
     "PAGE_SIZE": 50,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
+    "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 

@@ -801,6 +801,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
     "PAGE_SIZE": 50,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
+    "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
@@ -867,7 +868,6 @@ CELERY_TASK_ROUTES = {
 
 # CORS allowed origins
 CORS_ALLOWED_ORIGINS = []
-CORS_URLS_REGEX = r"^/api/.*$"
 CORS_URLS_REGEX = rf"^{URL_PREFIX}/api/.*$"
 
 # Enable plain database backups

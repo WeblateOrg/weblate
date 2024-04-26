@@ -31,10 +31,11 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
+    HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from rest_framework.utils import formatting
-from rest_framework.views import APIView
+from rest_framework.views import APIView, exception_handler
 from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
@@ -44,6 +45,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
+    BilingualSourceUnitSerializer,
     BilingualUnitSerializer,
     CategorySerializer,
     ChangeSerializer,
@@ -101,6 +103,7 @@ from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -126,6 +129,20 @@ DOC_TEXT = """
 <p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
 description of the API.</p>
 """
+
+
+def weblate_exception_handler(exc, context):
+    # Call REST framework's default exception handler first,
+    # to get the standard error response.
+    response = exception_handler(exc, context)
+
+    if response is None and isinstance(exc, WeblateLockTimeoutError):
+        return Response(
+            data={"error": "Could not obtain repository lock to delete the string."},
+            status=HTTP_423_LOCKED,
+        )
+
+    return response
 
 
 def get_view_description(view, html=False):
@@ -718,7 +735,9 @@ class ProjectViewSet(
     request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
-        return self.request.user.allowed_projects.order_by("id")
+        return self.request.user.allowed_projects.prefetch_related(
+            "addon_set"
+        ).order_by("id")
 
     @action(
         detail=True,
@@ -825,6 +844,21 @@ class ProjectViewSet(
         serializer = LabelSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def addons(self, request, **kwargs):
+        obj = self.get_object()
+        obj.acting_user = request.user
+
+        if not request.user.has_perm("project.edit", obj):
+            self.permission_denied(request, "Can not create addon")
+
+        serializer = AddonSerializer(
+            data=request.data, context={"request": request, "project": obj}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save(project=obj)
+        return Response(serializer.data, status=HTTP_201_CREATED)
 
     def create(self, request, *args, **kwargs):
         if not request.user.has_perm("project.add"):
@@ -1257,6 +1291,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         serializer_class: type[NewUnitSerializer]
         if obj.component.template:
             serializer_class = MonolingualUnitSerializer
+        elif obj.is_source:
+            serializer_class = BilingualSourceUnitSerializer
         else:
             serializer_class = BilingualUnitSerializer
 
@@ -1918,18 +1954,30 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 
-    def perm_check(self, request, instance: Addon) -> None:
-        if not request.user.has_perm("component.edit", instance.component):
+    def perm_check(self, request, instance: Addon):
+        if instance.component and not request.user.has_perm(
+            "component.edit", instance.component
+        ):
+            self.permission_denied(request, "Can not manage addons")
+        if instance.project and not request.user.has_perm(
+            "project.edit", instance.project
+        ):
             self.permission_denied(request, "Can not manage addons")
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.component.acting_user = request.user
+        if instance.component:
+            instance.component.acting_user = request.user
+        if instance.project:
+            instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.component.acting_user = request.user
+        if instance.component:
+            instance.component.acting_user = request.user
+        if instance.project:
+            instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)

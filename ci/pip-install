@@ -30,7 +30,7 @@ else
       pip install -e ".[all,mysql,ci,test]"
     fi
     if [ "${1:-latest}" = edge ] ; then
-        pip install --upgrade-strategy eager -U -e ".[all,mysql,test,ci]"
+        pip install --no-binary=lxml --upgrade-strategy eager -U -e ".[all,mysql,test,ci]"
         # Install from git / pre-release
         pip install --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
         pip install --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip

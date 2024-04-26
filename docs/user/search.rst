@@ -72,6 +72,8 @@ Fields
    English name of the change action, either quoted and with spaces or
    lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for
    examples.
+``source_changed:DATETIME``
+   Source string was changed on date, supports :ref:`search-operators`.
 ``check:TEXT``
    String has failing check, see :doc:`/user/checks` for check identifiers.
 ``dismissed_check:TEXT``

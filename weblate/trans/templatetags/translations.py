@@ -1210,11 +1210,11 @@ def percent_format(number):
 def number_format(number):
     format_string = "%s"
     if number > 99999999:
-        number = number // 1000000
+        number //= 1000000
         # Translators: Number format, in millions (mega)
         format_string = gettext("%s M")
     elif number > 99999:
-        number = number // 1000
+        number //= 1000
         # Translators: Number format, in thousands (kilo)
         format_string = gettext("%s k")
     return format_string % django_number_format(number, force_grouping=True)

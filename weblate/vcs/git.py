@@ -711,19 +711,21 @@ class SubversionRepository(GitRepository):
             merge_err=False,
         )
 
-    def get_remote_branch_name(self) -> str:
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
         """
         Return the remote branch name.
 
         trunk if local branch is master, local branch otherwise.
         """
-        if self.branch == self.default_branch:
+        if branch is None:
+            branch = self.branch
+        if branch == self.default_branch:
             fetch = self.get_config("svn-remote.svn.fetch")
             if "origin/trunk" in fetch:
                 return "origin/trunk"
             if "origin/git-svn" in fetch:
                 return "origin/git-svn"
-        return f"origin/{self.branch}"
+        return f"origin/{branch}"
 
     def list_remote_branches(self):
         return []
@@ -1168,7 +1170,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         scheme_regex = r"^[a-z]+:\/\/.*"  # matches for example ssh://* and https://*
 
         if not re.match(scheme_regex, repo):
-            repo = "ssh://" + repo  # assume all links without schema are ssh links
+            repo = f"ssh://{repo}"  # assume all links without schema are ssh links
 
         (scheme, host, owner, slug) = super().parse_repo_url(repo)
 
@@ -1563,8 +1565,8 @@ class LocalRepository(GitRepository):
     ) -> None:
         return
 
-    def get_remote_branch_name(self):
-        return self.branch
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        return self.branch if branch is None else branch
 
     def update_remote(self) -> None:
         return

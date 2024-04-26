@@ -37,7 +37,7 @@ class EditorValidatorTest(SimpleTestCase):
 
     def test_invalid_format(self) -> None:
         with self.assertRaises(ValidationError):
-            validate_editor("editor://open/?file={{ fle }}&line={{ line }}")
+            validate_editor("editor://open/?file={{ fl }}&line={{ line }}")
 
     def test_no_scheme(self) -> None:
         with self.assertRaises(ValidationError):

@@ -69,11 +69,8 @@ class Command(WeblateTranslationCommand):
 
         source = None
         if options["source"]:
-            parts = options["source"].split("/")
-            if len(parts) != 2:
-                raise CommandError("Invalid source component specified!")
             try:
-                component = Component.objects.get(project__slug=parts[0], slug=parts[1])
+                component = Component.objects.get_by_path(options["source"])
             except Component.DoesNotExist:
                 raise CommandError("No matching source component found!")
             source = component.id

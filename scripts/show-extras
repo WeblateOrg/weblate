@@ -6,6 +6,8 @@
 
 import re
 
+import tomli
+
 print(
     """
 .. Table is generated using scripts/show-extras
@@ -19,20 +21,17 @@ print(
 """
 )
 
-with open("requirements-optional.txt") as requirements:
-    section = None
-    for line in requirements:
-        line = line.strip()
-        if line.startswith("-r") or not line:
-            continue
-        if line.startswith("#"):
-            section = line[2:]
-        else:
-            dependency = re.split("[;<>=[]", line)[0].strip()
-            print(
-                f"""
+with open("pyproject.toml", "rb") as handle:
+    toml_dict = tomli.load(handle)
+
+for section, data in toml_dict["project"]["optional-dependencies"].items():
+    if section in {"all", "ci", "dev", "lint", "mypy", "test"}:
+        continue
+    dependency = re.split("[;<>=[]", data[0])[0].strip()
+    print(
+        f"""
      * - ``{section}``
        - `{dependency} <https://pypi.org/project/{dependency}>`_
        -
 """
-            )
+    )

@@ -45,7 +45,6 @@ jobs:
       with:
         python-version: 3.11
         cache: pip
-        cache-dependency-path: pyproject.toml
     - name: Install pip dependencies
       run: ./ci/pip-install migrations
     - name: Check missing migrations
@@ -58,6 +57,10 @@ jobs:
       run: ./ci/run-migrate 5.2.1
     - name: Migrate from 5.3
       run: ./ci/run-migrate 5.3.1
+    - name: Migrate from 5.4
+      run: ./ci/run-migrate 5.4.3
+    - name: Migrate from 5.5
+      run: ./ci/run-migrate 5.5
     - name: Coverage
       run: |
         coverage combine

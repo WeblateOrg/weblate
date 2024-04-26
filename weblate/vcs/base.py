@@ -327,11 +327,11 @@ class Repository:
             self.log_revisions(self.ref_to_remote.format(self.get_remote_branch_name()))
         )
 
-    def count_outgoing(self):
+    def count_outgoing(self, branch: str | None = None):
         """Count outgoing commits."""
         return len(
             self.log_revisions(
-                self.ref_from_remote.format(self.get_remote_branch_name())
+                self.ref_from_remote.format(self.get_remote_branch_name(branch))
             )
         )
 
@@ -539,8 +539,8 @@ class Repository:
 
         return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
-    def get_remote_branch_name(self) -> str:
-        return f"origin/{self.branch}"
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        return f"origin/{self.branch if branch is None else branch}"
 
     def list_remote_branches(self):
         return []

@@ -16,7 +16,7 @@ from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class EditTest(ViewTestCase):
@@ -289,7 +289,7 @@ class EditResxTest(EditTest):
 
     def create_component(self):
         component = self.create_resx()
-        ResxUpdateAddon.create(component)
+        ResxUpdateAddon.create(component=component)
         return component
 
 
@@ -366,12 +366,12 @@ class EditResourceSourceTest(ViewTestCase):
         # Change state
         self.edit_unit("Hello, world!\n", "Hello, world!\n", "en", fuzzy="yes")
         unit = translation.unit_set.get(context="hello")
-        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
         # Change state and source
         self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en", fuzzy="yes")
         unit = translation.unit_set.get(context="hello")
-        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.state, STATE_FUZZY)
 
         # Change state and source
         self.edit_unit("Hello, universe!\n", "Hello, universe!\n", "en")
@@ -991,7 +991,7 @@ class EditSourceTest(ViewTestCase):
         # Edit source string
         self.edit_unit("Hello, world!\n", "Hello, beautiful world!\n", language="en")
 
-        # Force commiting source string change
+        # Force committing source string change
         self.component.commit_pending("test", None)
 
         # Translation revision should have been updated now

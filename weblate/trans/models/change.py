@@ -638,7 +638,7 @@ class Change(models.Model, UserDisplayMixin):
                 self.translation.stats.fetch_last_change()
             # Update stats at the end of transaction
             transaction.on_commit(self.update_cache_last_change)
-            # Make sure stats is updated at the end of trasaction
+            # Make sure stats is updated at the end of transaction
             self.translation.invalidate_cache()
 
     def get_absolute_url(self):
@@ -879,6 +879,8 @@ class Change(models.Model, UserDisplayMixin):
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def change_notify(sender, instance, created=False, **kwargs) -> None:
+    from weblate.accounts.notifications import is_notificable_action
     from weblate.accounts.tasks import notify_change
 
-    transaction.on_commit(lambda: notify_change.delay(instance.pk))
+    if is_notificable_action(instance.action):
+        transaction.on_commit(lambda: notify_change.delay(instance.pk))

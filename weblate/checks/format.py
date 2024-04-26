@@ -161,7 +161,7 @@ JAVA_MATCH = re.compile(
         (?:\d+)?                       # width
         (?:\.\d+)?                     # precision
         (?P<type>
-            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %te, etc.)
+            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %td, etc.)
        )
     )
     """,
@@ -577,7 +577,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
         return name_format_is_position_based(string)
 
     def format_string(self, string) -> str:
-        return "{%s}" % string
+        return f"{{{string}}}"
 
 
 class CSharpFormatCheck(BaseFormatCheck):
@@ -592,7 +592,7 @@ class CSharpFormatCheck(BaseFormatCheck):
         return name_format_is_position_based(string)
 
     def format_string(self, string) -> str:
-        return "{%s}" % string
+        return f"{{{string}}}"
 
 
 class JavaFormatCheck(BasePrintfCheck):
@@ -612,7 +612,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     regexp = JAVA_MESSAGE_MATCH
 
     def format_string(self, string) -> str:
-        return "{%s}" % string
+        return f"{{{string}}}"
 
     def should_skip(self, unit):
         all_flags = unit.all_flags

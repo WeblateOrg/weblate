@@ -211,6 +211,16 @@ class UnitQueryParserTest(TestCase, SearchMixin):
             Q(timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=timezone.utc)),
         )
 
+    def test_source_changed(self) -> None:
+        self.assert_query(
+            "source_changed:>20190301",
+            Q(
+                source_unit__last_updated__gte=datetime(
+                    2019, 3, 1, 0, 0, tzinfo=timezone.utc
+                )
+            ),
+        )
+
     def test_bool(self) -> None:
         self.assert_query("pending:true", Q(pending=True))
 
@@ -501,18 +511,8 @@ class UserQueryParserTest(TestCase, SearchMixin):
             ),
         )
         self.assert_query(
-            "contributes:test/other",
-            Q(change__project__slug__iexact="test")
-            & Q(change__component__slug__iexact="other")
-            & Q(
-                change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
-                - timedelta(days=30)
-            ),
-        )
-        self.assert_query(
-            "contributes:test/other/bad",
-            Q(change__project__slug__iexact="test")
-            & Q(change__component__slug__iexact="other/bad")
+            "contributes:test/test",
+            Q(change__component_id__in=[])
             & Q(
                 change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
                 - timedelta(days=30)

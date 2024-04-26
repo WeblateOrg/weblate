@@ -96,14 +96,14 @@ class EndStopCheckTest(CheckTestCase):
     def test_arabic(self) -> None:
         self.assertTrue(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["<unused singular (hash=…)>", "Lorem ipsum dolor sit amet."],
                 ["zero", "one", "two", "few", "many", "other"],
                 MockUnit(code="ar"),
             )
         )
         self.assertFalse(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["<unused singular (hash=…)>", "Lorem ipsum dolor sit amet."],
                 ["zero.", "one", "two.", "few.", "many.", "other."],
                 MockUnit(code="ar"),
             )
@@ -114,14 +114,14 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(True, ("Text:", "Text", ""), "ja")
         self.assertTrue(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "English."],
+                ["<unused singular (hash=…)>", "English."],
                 ["Japanese…"],
                 MockUnit(code="ja"),
             )
         )
         self.assertFalse(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "English."],
+                ["<unused singular (hash=…)>", "English."],
                 ["Japanese。"],
                 MockUnit(code="ja"),
             )

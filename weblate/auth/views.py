@@ -148,18 +148,8 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
-    def check_access(self) -> None:
-        invitation = self.object
-        user = self.request.user
-        if invitation.user:
-            if not user.is_authenticated:
-                raise PermissionDenied
-            if invitation.user != user:
-                raise Http404
-
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.check_access()
         if not self.object.user:
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)
@@ -169,13 +159,14 @@ class InvitationView(DetailView):
 
     def post(self, request, **kwargs):
         self.object = invitation = self.get_object()
+        user = request.user
 
         # Handle admin actions first
         action = request.POST.get("action", "")
         if action in {"resend", "remove"}:
             project = invitation.group.defining_project
             # Permission check
-            if not request.user.has_perm(
+            if not user.has_perm(
                 "project.permissions" if project else "user.edit", project
             ):
                 raise PermissionDenied
@@ -193,9 +184,17 @@ class InvitationView(DetailView):
                 return redirect("manage-access", project=project.slug)
             return redirect("manage-users")
 
+        # Check if invitation can be accepted
+        if not invitation.user:
+            # This should go via registration path
+            raise Http404
+        if not user.is_authenticated:
+            raise PermissionDenied
+        if invitation.user != user:
+            raise Http404
+
         # Accept invitation
-        self.check_access()
-        invitation.accept(request, request.user)
+        invitation.accept(request, user)
 
         if invitation.group.defining_project:
             return redirect(invitation.group.defining_project)

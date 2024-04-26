@@ -1,9 +1,48 @@
+Weblate 5.5.1
+-------------
+
+Released on April 26th 2024.
+
+**New features**
+
+* :ref:`Searching` supports ``source_changed:DATETIME``.
+* Added several new :ref:`component-language_code_style`.
+
+**Improvements**
+
+* Display more details on source string change in history.
+* :ref:`mt-microsoft-translator` now supports using custom translators.
+* Improved error handling in :ref:`invite-user`.
+* Added PNG status badge.
+* Added list of managed projects to the dashboard view.
+* More detailed status of outgoing commits.
+* Reduced memory usage.
+
+**Bug fixes**
+
+* Fixed skipped component update with some add-ons enabled.
+* Daily execution of project and site wide add-ons.
+* Allow editing strings when the source is marked for editing.
+* Updates of the last updated timestamp of a string.
+* Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
+* Graceful handling of locking errors in the :ref:`api`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in ``REST_FRAMEWORK`` setting (newly added ``EXCEPTION_HANDLER``).
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?closed=1>`__.
+
 Weblate 5.5
 -----------
 
-Not yet released.
+Released on April 20th 2024.
 
 **New features**
+
+* :ref:`addons` can be now installed project-wide and site-wide.
 
 * API improvements
 
@@ -11,12 +50,13 @@ Not yet released.
   * Added :http:get:`/api/projects/(string:project)/file/`.
   * Added :http:post:`/api/groups/(int:id)/admins/`.
   * Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`.
+  * Improved :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 
 * Added :ref:`mt-systran` automatic translation support.
 
 **Improvements**
 
-* Docker container now validates user password strenght by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
+* Docker container now validates user password strength by default, see :envvar:`WEBLATE_MIN_PASSWORD_SCORE`.
 * Improved error reporting in :ref:`machine-translation-setup`.
 * :ref:`check-max-size` better displays rendered text.
 * Admins can now specify username and full name when :ref:`invite-user`.
@@ -34,6 +74,7 @@ Not yet released.
 * Fixed categories listing on per-language pages.
 * Fixed :guilabel:`Needs editing` state calculation.
 * Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`.
+* Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:`auto-translation`.
 
 **Compatibility**
 
@@ -397,7 +438,7 @@ Released on September 10th 2023.
 * Source strings and state display for converted formats.
 * Block :ref:`component-edit_template` on formats which do not support it.
 * :ref:`check-reused` is no longer triggered for blank strings.
-* Performace issues while browsing some categories.
+* Performance issues while browsing some categories.
 * Fixed GitHub Team and Organization authentication in Docker container.
 * GitLab merge requests when using a customized SSH port.
 

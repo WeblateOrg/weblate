@@ -256,7 +256,7 @@ def render(
 
 def path_separator(path: str) -> str:
     """
-    Consolidate path separtor.
+    Consolidate path separator.
 
     Always use / as path separator for consistency.
     """
