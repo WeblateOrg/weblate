@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-25 07:18+0000\n"
-"PO-Revision-Date: 2024-04-26 06:35+0000\n"
+"PO-Revision-Date: 2024-04-26 10:08+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.5.1\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -1846,10 +1846,9 @@ msgstr ""
 "Zeichenketten werden als Kopien der Ausgangszeichenkette hinzugefügt."
 
 #: weblate/addons/views.py:93
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Ungültigen Namen der Erweiterung angegeben!"
+msgstr "Ungültiger Name der Erweiterung: „%s“"
 
 #: weblate/addons/views.py:113
 msgid "Add-on installed, please review integration instructions."
@@ -2435,10 +2434,8 @@ msgid "Roles"
 msgstr "Rollen"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Wählen Sie die dieser Gruppe zugewiesenen Rollen aus."
+msgstr "Wählen Sie die diesem Team zugewiesenen Rollen aus."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2525,10 +2522,8 @@ msgid "Languages"
 msgstr "Sprachen"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "Interne Weblate-Gruppe"
+msgstr "Internes Weblate-Team"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2597,19 +2592,14 @@ msgid "Regular expression for e-mail address"
 msgstr "Regulärer Ausdruck für E-Mail-Adresse"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
-"Benutzer mit übereinstimmenden E-Mail-Adressen werden zu dieser Gruppe "
+"Benutzer mit übereinstimmenden E-Mail-Adressen werden zu diesem Team "
 "hinzugefügt."
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "Zuzuweisende Gruppe"
+msgstr "Zuzuweisendes Team"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -2633,10 +2623,13 @@ msgstr ""
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
 msgstr ""
+"Benutzernamen für den Benutzer vorschlagen. Er kann später geändert werden."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
 msgstr ""
+"Vollständigen Namen für den Benutzer vorschlagen. Er kann später geändert "
+"werden."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2864,10 +2857,8 @@ msgstr[0] "Enthält %d Projekt"
 msgstr[1] "Enthält %d Projekte"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Projektseite"
+msgstr "Projektseite fehlt!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -3000,18 +2991,14 @@ msgstr ""
 "Ausrufezeichen"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Unterschiedliche Menge \\n"
+msgstr "Nicht übereinstimmendes Fragerufzeichen"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
 msgstr ""
-"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit "
-"Auslassungspunkten (…)"
+"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem "
+"Fragerufzeichen"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -5458,16 +5445,12 @@ msgid "Help <strong>Weblate</strong> keep thriving"
 msgstr ""
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Vielen Dank, dass Sie Weblate verwenden."
+msgstr "Willkommen und vielen Dank, dass Sie Weblate unterstützen"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Vielen Dank, dass Sie Weblate verwenden."
+msgstr "Willkommen und vielen Dank, dass Sie sich für Weblate entschieden haben"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
