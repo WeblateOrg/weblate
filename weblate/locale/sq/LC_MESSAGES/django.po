@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-25 07:18+0000\n"
-"PO-Revision-Date: 2024-04-25 11:24+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-04-26 10:08+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
 "Language: sq\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.5.1\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -63,10 +63,6 @@ msgid "Use account e-mail address"
 msgstr "Përdor adresë email llogarie"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
@@ -333,16 +329,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Renditja e zgjedhur nuk mbulohet."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Shtoni përdorues te ky grup"
+msgstr "Shtoni përdorues te një ekip"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "Përpunoni ekip"
+msgstr "Shtoni ekip"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -451,37 +443,31 @@ msgstr ""
 "ngarkuara nga tjetër përdorues."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Hyrja te projekti {project} u bllokua"
+msgstr "Hyrja te projekti {project} u bllokua."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Përdoruesi u aktivizua nga përgjegjësi"
+msgstr "Përdoruesi u aktivizua nga përgjegjësi."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Përdoruesi u çaktivizua nga përgjegjësi"
+msgstr "Përdoruesi u çaktivizua nga përgjegjësi."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Ftuar në {site_title} nga {username}."
+msgstr "Përdoruesi qe shtuar te ekipi {team} nga {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Përdoruesi i hoq nga ekipi {team} prej {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -779,10 +765,8 @@ msgstr ""
 "rregullimet."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Privilegje të pamjaftueshme për ruajtje përkthimesh."
+msgstr "Ju lutemi, jepni një adresë email për parashtrim përkthimesh."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -820,9 +804,6 @@ msgid "License was changed"
 msgstr "Licenca ndryshoi"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Ndodhi një gabim përtypjeje"
@@ -1833,10 +1814,9 @@ msgstr ""
 "shtohen si kopje të vargjeve burim."
 
 #: weblate/addons/views.py:93
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "U dha emër i pavlefshëm shtese!"
+msgstr "Emër i pavlefshëm shtese: “%s”"
 
 #: weblate/addons/views.py:113
 msgid "Add-on installed, please review integration instructions."
@@ -2422,10 +2402,8 @@ msgid "Roles"
 msgstr "Role"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Zgjidhni role akorduar këtij grupi."
+msgstr "Zgjidhni role akorduar këtij ekipi."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2512,10 +2490,8 @@ msgid "Languages"
 msgstr "Gjuhë"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "Grup i brendshëm Weblate"
+msgstr "Ekip i brendshëm Weblate"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2582,19 +2558,14 @@ msgid "Regular expression for e-mail address"
 msgstr "Shprehje e rregullt për adresë email"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
 "Përdorues që gjenden me adresa email që kanë përputhje, do të shtohen te ky "
-"grup."
+"ekip."
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "Grup për t’u caktuar"
+msgstr "Ekip për t’u caktuar"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -2842,10 +2813,8 @@ msgstr[0] "Përmban %d projekt"
 msgstr[1] "Përmban %d projekte"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Sajt projekti"
+msgstr "Mungon sajt projekti!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -2964,10 +2933,8 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Origjinali dhe përkthimi nuk mbarojnë që të dy me pikëçuditje"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Mospërputhje \\n"
+msgstr ""
 
 #: weblate/checks/chars.py:304
 #, fuzzy
@@ -5380,16 +5347,12 @@ msgid "Help <strong>Weblate</strong> keep thriving"
 msgstr ""
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Faleminderit që përdorni Weblate-in."
+msgstr "Mirë se vini dhe faleminderit për përkrahjen e Weblate-it"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Faleminderit që përdorni Weblate-in."
+msgstr "Mirë se vini dhe faleminderit që zgjidhni Weblate-in"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
@@ -5397,13 +5360,11 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Emër përdoruesi në GitHub"
-msgstr[1] "Emër përdoruesi në GitHub"
+msgstr[0] "Yll GitHub"
+msgstr[1] "Yje GitHub"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
@@ -5413,12 +5374,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
-msgstr[0] "Ndryshime së fundi"
+msgstr[0] "Ndryshim së fundi"
 msgstr[1] "Ndryshime së fundi"
 
 #: weblate/templates/about/donate.html:43
@@ -5442,16 +5401,12 @@ msgid "Join us in shaping the future of localization and contribute today!"
 msgstr ""
 
 #: weblate/templates/about/donate.html:51
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase a support package"
-msgstr "Blini paketë asistence"
+msgstr "Blini një paketë asistence"
 
 #: weblate/templates/about/donate.html:53
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "Dhuroni për Weblate-in"
+msgstr "Jepni për Weblate-in"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -6359,10 +6314,8 @@ msgid "None"
 msgstr "Asgjë"
 
 #: weblate/templates/accounts/user.html:281
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "Hiq përdorues prej këtij grupi"
+msgstr "Hiq përdorues prej këtij ekipi"
 
 #: weblate/templates/accounts/user.html:292
 #: weblate/templates/trans/project-access.html:65
@@ -7114,10 +7067,8 @@ msgid "Yearly price"
 msgstr "Çmim vjetor"
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgid "Hosted strings"
 msgid "Hosted strings limit"
-msgstr "Vargje të strehuar"
+msgstr "Kufi vargjesh të strehuar"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
@@ -10559,10 +10510,8 @@ msgid "Download %(key_type)s private key"
 msgstr "Shkarkoni kyç privat %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:37
-#, fuzzy
-#| msgid "IP address"
 msgid "IP addresses"
-msgstr "Adresë IP"
+msgstr "Adresa IP"
 
 #: weblate/templates/snippets/ssh-key.html:41
 msgid ""
@@ -10571,10 +10520,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/ssh-key.html:46
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "IP address copied to clipboard."
-msgstr "Kyçi u kopjua në të papastër."
+msgstr "Adresa IP u kopjua në të papastër."
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -12016,16 +11963,12 @@ msgid "Invitation"
 msgstr "Ftesë"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:18
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Invitation to Weblate"
-msgstr "Dhuroni për Weblate-in"
+msgstr "Ftesë për në Weblate"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:21
-#, fuzzy
-#| msgid "Please sign in to see the alerts."
 msgid "Please sign-in to view this invitation."
-msgstr "Që të shihni sinjalizimet, ju lutemi, bëni hyrjen."
+msgstr "Që të shihni këtë ftesë, ju lutemi, bëni hyrjen."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:23
 msgid "This invitation belongs to a different user."
@@ -13463,22 +13406,16 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s më %(time)s te %(translation)s nga %(user)s"
 
 #: weblate/trans/models/change.py:782
-#, fuzzy
-#| msgid "The \"{}\" file was changed."
 msgid "The “{}” file was changed."
-msgstr "Kartela “{}” ka ndryshuar."
+msgstr "Kartela “{}” qe ndryshuar."
 
 #: weblate/trans/models/change.py:784
-#, fuzzy
-#| msgid "Parsing of the \"{}\" file was enforced."
 msgid "Parsing of the “{}” file was enforced."
 msgstr "U detyrua përtypje e kartelës “{}”."
 
 #: weblate/trans/models/change.py:786
-#, fuzzy
-#| msgid "File {} was added."
 msgid "File “{}” was added."
-msgstr "U shtua kartela {}."
+msgstr "U shtua kartela “{}”."
 
 #: weblate/trans/models/change.py:792
 msgctxt "License information not available"
@@ -14797,10 +14734,6 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "File mask-a s’përmban * si vendmbajtëse gjuhe!"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid ""
-#| "A value of 1 is not allowed for automatical acceptance as it would permit "
-#| "users to vote on their own suggestions."
 msgid ""
 "A value of 1 is not allowed for automatic acceptance as it would permit "
 "users to vote on their own suggestions."
@@ -14835,10 +14768,8 @@ msgid "Keys"
 msgstr "Kyçe"
 
 #: weblate/trans/views/about.py:23 weblate/trans/views/about.py:130
-#, fuzzy
-#| msgid "About Weblate"
 msgid "Support Weblate"
-msgstr "Rreth Weblate-it"
+msgstr "Përkrahni Weblate-in"
 
 #: weblate/trans/views/about.py:65
 msgid "Weblate statistics"
@@ -15245,20 +15176,16 @@ msgid "Component {}"
 msgstr "Përbërës {}"
 
 #: weblate/trans/widgets.py:369
-#, fuzzy
-#| msgid "Status badge"
 msgid "SVG status badge"
-msgstr "Stemë gjendjeje"
+msgstr "Stemë SVG gjendjeje"
 
 #: weblate/trans/widgets.py:372
 msgid "translated"
 msgstr "të përkthyer"
 
 #: weblate/trans/widgets.py:407
-#, fuzzy
-#| msgid "Big status badge"
 msgid "PNG status badge"
-msgstr "Stemë e madhe gjendjeje"
+msgstr "Stemë PNG gjendjeje"
 
 #: weblate/trans/widgets.py:416
 msgctxt "Status widget name"
