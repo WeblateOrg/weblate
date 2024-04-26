@@ -27,8 +27,6 @@ Released on April 26th 2024.
 * Fixed project and site wide installation of :ref:`addon-weblate.git.squash` and :ref:`addon-weblate.discovery.discovery` add-ons.
 * Graceful handling of locking errors in the :ref:`api`.
 
-**Compatibility**
-
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
