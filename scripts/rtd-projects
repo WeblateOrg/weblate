@@ -13,7 +13,9 @@ import requests
 from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
 
 # List of translations
-LOCALES = set(DOCUMENTATION_LANGUAGES.values())
+LOCALES = {
+    locale.lower().replace("_", "-") for locale in DOCUMENTATION_LANGUAGES.values()
+}
 
 # Default values
 FIELDS = {
