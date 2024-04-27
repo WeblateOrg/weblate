@@ -105,12 +105,19 @@ Add as translation (``translate``)
 
     This option is available only if the user has the :ref:`"Edit strings" permission <privileges>`.
 Add as suggestion (``suggest``)
-    Imported strings are added as suggestions, do this when you want to have your
+    Imported strings are added as suggestions. Do this when you want to have your
     uploaded strings reviewed.
 
     Only translations are used from the uploaded file and no additional content.
 
     This option is available only if the user has the :ref:`"Add suggestion" permission <privileges>`.
+Add as approved translation (``approve``)
+    Imported strings are added as approved translations. Do this when you already
+    reviewed your translations before uploading them.
+
+    Only translations are used from the uploaded file and no additional content.
+
+    This option is available only if the user has the :ref:`"Review strings" permission <privileges>`.
 Add as translation needing edit (``fuzzy``)
     Imported strings are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
