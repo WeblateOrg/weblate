@@ -651,7 +651,7 @@ class SimpleUploadForm(forms.Form):
         return ("user/files", f"upload-{field.name}")
 
     def remove_translation_choice(self, value) -> None:
-        """Remove "Add as translation" choice."""
+        """Remove given file upload method from choices."""
         choices = self.fields["method"].choices
         self.fields["method"].choices = [
             choice for choice in choices if choice[0] != value
