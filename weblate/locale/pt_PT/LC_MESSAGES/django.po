@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-25 07:18+0000\n"
-"PO-Revision-Date: 2024-04-28 14:14+0000\n"
+"PO-Revision-Date: 2024-04-28 14:30+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_PT/>\n"
@@ -2777,7 +2777,7 @@ msgstr "Alterações no último mês"
 
 #: weblate/billing/models.py:274
 msgid "Number of changes"
-msgstr "Quantidade de alterações"
+msgstr "Número de alterações"
 
 #: weblate/billing/models.py:298 weblate/wladmin/models.py:216
 msgid "Hosted strings"
@@ -2785,11 +2785,11 @@ msgstr "Cadeias hospedadas"
 
 #: weblate/billing/models.py:310 weblate/trans/admin.py:93
 msgid "Source words"
-msgstr "Palavras-fonte"
+msgstr "Palavras fonte"
 
 #: weblate/billing/models.py:351 weblate/templates/addons/generate_help.html:16
 msgid "Number of strings"
-msgstr "Quantidade de cadeias"
+msgstr "Número de cadeias"
 
 #: weblate/billing/models.py:355 weblate/templates/billing/status.html:99
 msgid "Last invoice"
@@ -2811,10 +2811,8 @@ msgstr[0] "Contém %d projeto"
 msgstr[1] "Contém %d projetos"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Site da Web do Projeto"
+msgstr "Site da Web do Projeto em falta!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -2825,14 +2823,14 @@ msgstr[1] "Contém %d componentes"
 
 #: weblate/billing/models.py:492
 msgid "Missing license"
-msgstr "Licença ausente"
+msgstr "Licença em falta"
 
 #: weblate/billing/tasks.py:69
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Deixará de receber esta notificação assim que pagar as contas ou o projeto "
+"Deixará de receber esta notificação assim que pagar as faturas ou o projeto "
 "for removido."
 
 #: weblate/billing/tasks.py:74
@@ -2840,7 +2838,7 @@ msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Deixará de receber esta notificação assim que mudar para uma assinatura "
+"Deixará de receber esta notificação assim que mudar para uma subscrição "
 "regular ou o projeto for removido."
 
 #: weblate/checks/angularjs.py:30
@@ -2853,7 +2851,7 @@ msgstr "As cadeias de interpolação AngularJS não correspondem à fonte"
 
 #: weblate/checks/base.py:293
 msgid "The following format strings are missing: {}"
-msgstr "As seguintes cadeias de formato faltam: {}"
+msgstr "As seguintes cadeias de formato estão em falta: {}"
 
 #: weblate/checks/base.py:298
 msgid "The following format strings are extra: {}"
@@ -2865,7 +2863,7 @@ msgstr "Nova linha no início"
 
 #: weblate/checks/chars.py:30
 msgid "Source and translation do not both start with a newline"
-msgstr "A fonte e a tradução não iniciam ambas com uma nova linha"
+msgstr "A fonte e a tradução não começam ambas com uma nova linha"
 
 #: weblate/checks/chars.py:41
 msgid "Trailing newline"
@@ -2881,8 +2879,7 @@ msgstr "Espaços no início"
 
 #: weblate/checks/chars.py:54
 msgid "Source and translation do not both start with same number of spaces"
-msgstr ""
-"A fonte e a tradução não iniciam ambas com a mesma quantidade de espaços"
+msgstr "A fonte e a tradução não começam ambas com o mesmo número de espaços"
 
 #: weblate/checks/chars.py:88
 msgid "Trailing space"
@@ -2933,16 +2930,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "A fonte e a tradução não terminam ambas com um ponto de exclamação"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Não correspondido \\n"
+msgstr "Interrobang incompatível"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "A fonte e a tradução não terminam ambas com reticências"
+msgstr "A fonte e a tradução não terminam ambas com expressão ''interrobang''"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -2950,7 +2943,7 @@ msgstr "Reticências não correspondentes"
 
 #: weblate/checks/chars.py:320
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "A fonte e a tradução não terminam ambas com reticências"
+msgstr "A fonte e a tradução não terminam ambas com uma reticência"
 
 #: weblate/checks/chars.py:339
 msgid "Mismatched \\n"
@@ -3570,10 +3563,9 @@ msgid "Fluent syntax error in translation"
 msgstr "Erro de sintaxe Fluent na tradução"
 
 #: weblate/checks/format.py:404
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "As entradas de formatação seguintes estão ordenadas incorretamente: %s"
+msgstr "As cadeias de formato seguintes estão ordenadas incorretamente: %s"
 
 #: weblate/checks/format.py:488
 msgid "Python format"
@@ -3927,6 +3919,8 @@ msgstr "A tradução não deve exceder o tamanho dado"
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Encaixa em determinados limites. A renderização é mostrada para sua "
+"conveniência."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -4282,10 +4276,8 @@ msgid "gotext JSON file"
 msgstr "Ficheiro de gotext JSON"
 
 #: weblate/formats/ttkit.py:1542
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "Ficheiro de gotext JSON"
+msgstr "Ficheiro JSON Format.JS"
 
 #: weblate/formats/ttkit.py:1550
 msgid "CSV file"
@@ -4611,12 +4603,9 @@ msgid "One/few/many"
 msgstr "Um/poucos/muitos"
 
 #: weblate/lang/models.py:768
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Um/dois/poucos/outro"
+msgstr "Um/zero/poucos/outro"
 
 #: weblate/lang/models.py:772
 msgctxt "Plural type"
@@ -4648,10 +4637,8 @@ msgid "Android plural"
 msgstr "Plural de Android"
 
 #: weblate/lang/models.py:791
-#, fuzzy
-#| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "plural de stringsdict"
+msgstr "Plural de Qt Linguist"
 
 #: weblate/lang/models.py:792
 msgid "Manually entered formula"
@@ -4919,6 +4906,8 @@ msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Especifique uma Id. de categoria do sistema personalizada para a utilizar em "
+"vez de uma Id. geral."
 
 #: weblate/machinery/forms.py:184
 msgctxt "Automatic suggestion service configuration"
@@ -5026,11 +5015,9 @@ msgid "OpenAI model"
 msgstr "Modelo OpenAI"
 
 #: weblate/machinery/forms.py:303
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Relatórios de tradução"
+msgstr "Personagem do tradutor"
 
 #: weblate/machinery/forms.py:307
 msgid ""
@@ -5083,10 +5070,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Não foi possível analisar o ficheiro JSON: %s"
 
 #: weblate/memory/models.py:205
-#, fuzzy, python-format
-#| msgid "Failed to parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Falha ao analisar o ficheiro TMX!"
+msgstr "Não foi possível analisar o ficheiro TMX: %s"
 
 #: weblate/memory/models.py:214
 msgid "Source language not defined in the TMX file!"
@@ -5354,48 +5340,42 @@ msgstr ""
 
 #: weblate/templates/about/donate.html:14
 msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
+msgstr "Ajude o <strong>Weblate </strong> a continuar a prosperar"
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Obrigado por utilizar o Weblate."
+msgstr "Bem-vindo e obrigado por suportar o Weblate"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Obrigado por utilizar o Weblate."
+msgstr "Bem-vindo e obrigado por escolher o Weblate"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
 msgstr ""
+"a plataforma de localização que respeita a privacidade e está comprometida "
+"com os valores de código aberto."
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Nome de utilizador do GitHub"
-msgstr[1] "Nome de utilizador do GitHub"
+msgstr[0] "Estrela do GitHub"
+msgstr[1] "Estrelas do GitHub"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Problema em aberto"
+msgstr[1] "Problemas em aberto"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
-msgstr[0] "Alterações recentes"
+msgstr[0] "Alteração recente"
 msgstr[1] "Alterações recentes"
 
 #: weblate/templates/about/donate.html:43
