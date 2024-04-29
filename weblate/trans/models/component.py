@@ -206,10 +206,15 @@ def prefetch_tasks(components):
     """Prefetch update tasks."""
     lookup = {component.update_key: component for component in components}
     if lookup:
-        for item, value in cache.get_many(lookup.keys()).items():
+        results_dict = cache.get_many(lookup.keys())
+        results = {
+            value: AsyncResult(value) for value in results_dict.values() if value
+        }
+
+        for item, value in results_dict.items():
             if not value:
                 continue
-            lookup[item].__dict__["background_task"] = AsyncResult(value)
+            lookup[item].__dict__["background_task"] = results[value]
             lookup.pop(item)
         for component in lookup.values():
             component.__dict__["background_task"] = None
