@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-25 09:18+0200\n"
-"PO-Revision-Date: 2024-04-28 14:10+0000\n"
+"PO-Revision-Date: 2024-04-29 15:40+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.1\n"
+"X-Generator: Weblate 5.5.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -53,17 +53,13 @@ msgstr ""
 "einschränken möchten."
 
 #: ../../admin/access.rst:20
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :guilabel:`Access control` setting. Available options are:"
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "ref:`project-access_control` setting. Available options are:"
 msgstr ""
 "Sie können den Zugriff des Benutzers auf einzelne Projekte einschränken, "
-"indem Sie eine andere :guilabel:`Zugriffssteuerung`-Einstellung auswählen. "
-"Verfügbare Optionen sind:"
+"indem Sie eine andere Einstellung der :ref:`project-access_control` "
+"auswählen. Verfügbare Optionen sind:"
 
 #: ../../admin/access.rst:29 ../../admin/config.rst:488
 msgid ":guilabel:`Public`"
@@ -1885,21 +1881,18 @@ msgid "Add-ons"
 msgstr "Erweiterungen"
 
 #: ../../admin/addons.rst:6
-#, fuzzy
-#| msgid ""
-#| "Add-ons provide ways to customize and automate the translation workflow. "
-#| "Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:"
-#| "`Add-ons` menu of each respective translation component."
 msgid ""
 "Add-ons provide ways to customize and automate the translation workflow. "
 "Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Add-ons` menu of each respective translation project or component. Add-ons "
 "can be also installed site-wide in :ref:`management-interface`."
 msgstr ""
-"Erweiterungen bieten Möglichkeiten, den Ablauf der Übersetzung anzupassen "
-"und zu automatisieren. Administratoren können Erweiterungen über das Menü :"
-"guilabel:`Verwaltung` ↓ :guilabel:`Erweiterungen` der jeweiligen "
-"Übersetzungskomponente hinzufügen und verwalten."
+"Erweiterungen bieten die Möglichkeit, den Ablauf der Übersetzung anzupassen "
+"und zu automatisieren. Administratoren können Erweiterungen über das Menü "
+":guilabel:`Verwaltung` ↓ :guilabel:`Erweiterungen` des jeweiligen "
+"Übersetzungsprojekts oder -komponente hinzufügen und verwalten. "
+"Erweiterungen können auch plattformweit in der :ref:`management-interface` "
+"installiert werden."
 
 #: ../../admin/addons.rst:12
 msgid ""
@@ -4086,10 +4079,8 @@ msgid "Configure :ref:`machine-translation-setup`."
 msgstr "Konfigurieren von :ref:`machine-translation-setup`."
 
 #: ../../admin/admin.rst:23
-#, fuzzy
-#| msgid "Source string, see :ref:`additional`."
 msgid "Configure site-wide addons, see :ref:`addons`."
-msgstr "Ausgangszeichenkette, siehe :ref:`additional`."
+msgstr "Konfigurieren von plattformweiten Erweiterungen, siehe :ref:`addons`."
 
 #: ../../admin/admin.rst:28
 msgid "Performance report"
@@ -4908,10 +4899,8 @@ msgstr ""
 "ermöglicht, Passwörter unterhalb eines bestimmten Schwellenwertes abzulehnen."
 
 #: ../../admin/auth.rst:438
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:443
 msgid "SAML authentication"
@@ -5271,6 +5260,8 @@ msgstr ""
 #: ../../admin/backup.rst:35
 msgid "Use the generated file to import project when :ref:`adding-projects`."
 msgstr ""
+"Verwenden Sie die erzeugte Datei, um Projekte zu importieren, wenn Sie :ref"
+":`adding-projects`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -7229,6 +7220,8 @@ msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
+"Definiet die maximale Breite in Pixeln und optional die maximale Anzahl von "
+"Zeilen (Wortumbruch wird angewendet)."
 
 #: ../../admin/checks.rst:374
 msgid "``font-family:ubuntu``"
@@ -9127,16 +9120,12 @@ msgstr ""
 "angegeben, können Benutzer auf die Anmeldeseite zugreifen."
 
 #: ../../admin/config.rst:1217
-#, fuzzy
-#| msgid ""
-#| ":ref:`sample-configuration` contains :setting:`django:LOGGING` "
-#| "configuration."
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
 msgstr ""
-":ref:`sample-configuration` enthält die :setting:`django:LOGGING` "
-"Konfiguration."
+"Siehe die :ref:`sample-configuration` für die empfohlene Konfiguration "
+"dieser Einstellung."
 
 #: ../../admin/config.rst:1223
 msgid "MATOMO_SITE_ID"
@@ -9908,12 +9897,18 @@ msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
+"Deaktiviert die halbjährliche Prüfung des Support-Status und leitet "
+"Superuser beim Anmelden auf die Spendenseite um, wenn kein aktives "
+"Abonnement besteht."
 
 #: ../../admin/config.rst:1828
 msgid ""
 "Improve your Weblate experience by purchasing a support subscription and "
 "boosting Weblate progress instead of turning this off."
 msgstr ""
+"Verbessern Sie Ihre Weblate-Erfahrung, indem Sie ein Support-Abonnement "
+"abschließen und den Fortschritt von Weblate fördern, anstatt diese Funktion "
+"zu deaktivieren."
 
 #: ../../admin/config.rst:1833
 msgid "UNUSED_ALERT_DAYS"
@@ -11206,12 +11201,6 @@ msgstr ""
 "Grundlagen erklärt werden und auf weitere Tutorials verwiesen wird."
 
 #: ../../admin/customize.rst:33
-#, fuzzy
-#| msgid ""
-#| "To write a file with custom Python code (called a module), a place to "
-#| "store it is needed, either in the system path (usually something like :"
-#| "file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, "
-#| "which is also added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
@@ -11219,8 +11208,8 @@ msgid ""
 "added to the interpreter search path."
 msgstr ""
 "Um eine Datei mit benutzerdefiniertem Python-Code (Modul genannt) zu "
-"schreiben, wird ein Speicherort benötigt, entweder im Systempfad "
-"(normalerweise etwas wie :file:`/usr/lib/python3.9/site-packages/`) oder im "
+"schreiben, wird ein Speicherort benötigt, entweder im Systempfad ("
+"normalerweise etwas wie :file:`/usr/lib/python3.12/site-packages/`) oder im "
 "Weblate-Verzeichnis, das auch dem Suchpfad des Interpreters hinzugefügt wird."
 
 #: ../../admin/customize.rst:40
@@ -11563,7 +11552,7 @@ msgstr "Webserver"
 
 #: ../../admin/install.rst:127
 msgid "Handling incoming HTTP requests, :ref:`static-files`."
-msgstr ""
+msgstr "Verarbeitung eingehender HTTP-Anfragen, :ref:`static-files`."
 
 #: ../../admin/install.rst:132
 msgid "Celery workers"
@@ -11571,23 +11560,21 @@ msgstr "Celery-Worker"
 
 #: ../../admin/install.rst:129
 msgid ":ref:`celery` are executed here."
-msgstr ""
+msgstr ":ref:`celery` werden hier ausgeführt."
 
 #: ../../admin/install.rst:131
-#, fuzzy
-#| msgid ""
-#| "Depending on your configuration, you might also want to start Celery "
-#| "workers:"
 msgid ""
 "Depending on your workload, you might want to customize the number of "
 "workers."
 msgstr ""
-"Je nach Konfiguration möchten Sie vielleicht auch Celery-Worker starten:"
+"Je nach Auslastung möchten Sie möglicherweise die Anzahl der Worker anpassen."
 
 #: ../../admin/install.rst:133 ../../admin/install.rst:137
 #: ../../admin/install.rst:145
 msgid "Use dedicated node when scaling Weblate horizontally."
 msgstr ""
+"Verwenden Sie einen dedizierten Knoten, wenn Sie Weblate horizontal "
+"skalieren."
 
 #: ../../admin/install.rst:136
 msgid "WSGI server"
@@ -11595,7 +11582,7 @@ msgstr "WSGI-Server"
 
 #: ../../admin/install.rst:135
 msgid "A WSGI server serving web pages to users."
-msgstr ""
+msgstr "Ein WSGI-Server, der Benutzern Webseiten bereitstellt."
 
 #: ../../admin/install.rst:139
 msgid ""
@@ -11610,6 +11597,8 @@ msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
 msgstr ""
+"Verwenden Sie einen dedizierten Datenbankknoten für Websites mit Hunderten "
+"Millionen gehosteter Wörter."
 
 #: ../../admin/install.rst:144
 msgid "Redis"
@@ -11628,10 +11617,13 @@ msgid ""
 "File system storage for storing VCS repositories and uploaded user data. "
 "This is shared by all the processes."
 msgstr ""
+"Dateisystemspeicher zum Speichern von VCS-Repositorys und hochgeladenen "
+"Benutzerdaten. Dieser wird von allen Prozessen gemeinsam genutzt."
 
 #: ../../admin/install.rst:149
 msgid "Use networked storage when scaling Weblate horizontally."
 msgstr ""
+"Verwenden Sie einen Netzwerkspeicher, wenn Sie Weblate horizontal skalieren."
 
 #: ../../admin/install.rst:151
 msgid "E-mail server"
@@ -12701,16 +12693,12 @@ msgstr ""
 "`settings.py` zu definieren:"
 
 #: ../../admin/install.rst:722
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env>`_"
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
-"`Proxy-Umgebungsvariablen <https://everything.curl.dev/usingcurl/proxies/"
-"env>`_"
+"`Proxy-Umgebungsvariablen <https://everything.curl.dev/usingcurl/proxies/env."
+"html>`_"
 
 #: ../../admin/install.rst:727
 msgid "Adjusting configuration"
@@ -15402,10 +15390,8 @@ msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr "Konfiguriert :setting:`ENABLE_SHARING`."
 
 #: ../../admin/install/docker.rst:945
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
-msgstr "Konfiguriert :setting:`STATUS_URL`."
+msgstr "Konfiguriert :setting:`SUPPORT_STATUS_CHECK`."
 
 #: ../../admin/install/docker.rst:951
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
@@ -15738,6 +15724,9 @@ msgid ""
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strenght checking."
 msgstr ""
+"Minimaler Passwortwert, wie er vom `zxcvbn <https://github.com/dropbox/"
+"zxcvbn>`_-Passwortstärke-Schätzer ermittelt wurde. Standardwert ist 3, auf 0 "
+"setzen, um die Prüfung zu deaktivieren."
 
 #: ../../admin/install/docker.rst:1370
 msgid "PostgreSQL database setup"
@@ -18015,19 +18004,14 @@ msgstr ""
 "mt`."
 
 #: ../../admin/machine.rst:180
-#, fuzzy
-#| msgid ""
-#| "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
-#| "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://www."
-#| "deepl.com/docs-api.html>`_"
 msgid ""
 "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://developers."
 "deepl.com/docs>`_"
 msgstr ""
 "`DeepL-Übersetzer <https://www.deepl.com/translator>`_, `DeepL-Preise "
-"<https://www.deepl.com/pro>`_, `DeepL-API-Dokumentation <https://www.deepl."
-"com/docs-api.html>`_"
+"<https://www.deepl.com/pro>`_, `DeepL-API-Dokumentation <https://developers."
+"deepl.com/docs>`_"
 
 #: ../../admin/machine.rst:187
 msgid "Glosbe"
@@ -18338,6 +18322,8 @@ msgstr "Kategorie"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Geben Sie eine benutzerdefinierte Systemkategorie-ID an, um sie anstelle der "
+"allgemeinen Kategorie zu verwenden."
 
 #: ../../admin/machine.rst:348
 msgid ""
@@ -18380,6 +18366,10 @@ msgid ""
 "learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/"
 "concepts/customization>`_."
 msgstr ""
+"Sie können auch eine benutzerdefinierte Kategorie angeben, um den `"
+"benutzerdefinierten Übersetzer <https://learn.microsoft.com/en-gb/azure/"
+"ai-services/Translator/custom-translator/concepts/customization>`_ zu "
+"verwenden."
 
 #: ../../admin/machine.rst:368
 msgid "For Azure China, please use your endpoint from the Azure Portal."
@@ -18471,7 +18461,7 @@ msgstr "Maschineller Übersetzungsdienst von NetEase."
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
-"Dieser Dienst verwendet eine API, und Sie müssen Schlüssel und Geheimnis von "
+"Dieser Dienst verwendet eine API und Sie müssen Schlüssel und Geheimnis von "
 "NetEase abrufen."
 
 #: ../../admin/machine.rst:440
@@ -18560,16 +18550,12 @@ msgstr ""
 "und ermöglichen, den Stil der Übersetzungen zu ändern."
 
 #: ../../admin/machine.rst:482
-#, fuzzy
-#| msgid ""
-#| "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API "
-#| "keys <https://platform.openai.com/account/api-keys>`_"
 msgid ""
 "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API keys "
 "<https://platform.openai.com/api-keys>`_"
 msgstr ""
 "`OpenAI-Modelle <https://platform.openai.com/docs/models>`_, `OpenAI-API-"
-"Schlüssel <https://platform.openai.com/account/api-keys>`_"
+"Schlüssel <https://platform.openai.com/api-keys>`_"
 
 #: ../../admin/machine.rst:490
 msgid "SAP Translation Hub"
@@ -18664,29 +18650,23 @@ msgstr ""
 
 #: ../../admin/machine.rst:530
 msgid "Systran"
-msgstr ""
+msgstr "Systran"
 
 #: ../../admin/machine.rst:532
 msgid "``systran``"
 msgstr "``systran``"
 
 #: ../../admin/machine.rst:538
-#, fuzzy
-#| msgid "Machine translation service provided by SAP."
 msgid "Machine translation service provided by Systran."
-msgstr "Maschineller Übersetzungsdienst von SAP."
+msgstr "Maschineller Übersetzungsdienst von Systran."
 
 #: ../../admin/machine.rst:540
-#, fuzzy
-#| msgid ""
-#| "This service uses an API, and you need to obtain key and secret from "
-#| "NetEase."
 msgid ""
 "This service uses an API, and you need to obtain API key at <https://"
 "translate.systran.net/en/account>."
 msgstr ""
-"Dieser Dienst verwendet eine API, und Sie müssen Schlüssel und Geheimnis von "
-"NetEase abrufen."
+"Dieser Dienst verwendet eine API und Sie müssen einen API-Schlüssel unter "
+"<https://translate.systran.net/en/account> erhalten."
 
 #: ../../admin/machine.rst:545
 msgid "tmserver"
@@ -23042,22 +23022,17 @@ msgid "Getting support for Weblate"
 msgstr "Support für Weblate erhalten"
 
 #: ../../admin/support.rst:5
-#, fuzzy
-#| msgid ""
-#| "Weblate is copylefted libre software with community support. Subscribers "
-#| "receive priority support at no extra charge. Prepaid help packages are "
-#| "available for everyone. You can find more info about current support "
-#| "offerings at <https://weblate.org/support/>."
 msgid ""
 "*Weblate* is copylefted libre software with community support. Hosting "
 "subscribers receive priority support at no extra charge. Prepaid help "
 "packages are available for everyone, including self-hosting users. Find info "
 "about current support offerings at https://weblate.org/support."
 msgstr ""
-"Weblate ist eine Copyleft-lizenzierte Freie Software mit Community-Support. "
-"Abonnenten erhalten bevorzugten Support ohne Aufpreis. Prepaid-Hilfspakete "
-"sind für alle verfügbar. Weitere Informationen über aktuelle Supportangebote "
-"finden Sie unter <https://weblate.org/support/>."
+"*Weblate* ist eine Copyleft-lizenzierte Freie Software mit Community-"
+"Support. Hosting-Abonnenten erhalten bevorzugten Support ohne Aufpreis. "
+"Prepaid-Hilfspakete sind für alle verfügbar, auch für Benutzer von Self-"
+"Hosting. Informationen zu aktuellen Supportangeboten finden Sie unter "
+"https://weblate.org/support."
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
@@ -23076,60 +23051,46 @@ msgstr ""
 "über Ihre Installation werden auf diese Weise auch an Weblate zurückgemeldet."
 
 #: ../../admin/support.rst:24
-#, fuzzy
-#| msgid "Data submitted to the Weblate"
 msgid "Info sent to the Weblate"
-msgstr "An Weblate übermittelte Daten"
+msgstr "An Weblate gesendete Informationen"
 
 #: ../../admin/support.rst:26
-#, fuzzy
-#| msgid "Weblate internal URLs"
 msgid "Your Weblate instance URL"
-msgstr "Weblate-interne URLs"
+msgstr "Die URL Ihrer Weblate-Instanz"
 
 #: ../../admin/support.rst:27
-#, fuzzy
-#| msgid "Your site title"
 msgid "Its site title"
-msgstr "Ihr Seitentitel"
+msgstr "Der Seitentitel"
 
 #: ../../admin/support.rst:28
-#, fuzzy
-#| msgid "The Weblate version you are running"
 msgid "The version you are running"
-msgstr "Die von Ihnen verwendete Weblate-Version"
+msgstr "Die von Ihnen verwendete Version"
 
 #: ../../admin/support.rst:29
-#, fuzzy
-#| msgid ""
-#| "Tallies of some objects in your Weblate database (projects, components, "
-#| "languages, source strings and users)"
 msgid "Tallies of projects, components, languages, source strings, and users"
 msgstr ""
-"Zählung einiger Objekte in Ihrer Weblate-Datenbank (Projekte, Komponenten, "
-"Sprachen, Ausgangszeichenketten und Benutzer)"
+"Gesamtzahl der Projekte, Komponenten, Sprachen, Ausgangszeichenketten und "
+"Benutzer"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
 msgstr "Der öffentliche SSH-Schlüssel Ihrer Instanz"
 
 #: ../../admin/support.rst:32
-#, fuzzy
-#| msgid "Additionally, when :ref:`discover-weblate` is turned on:"
 msgid "Additionally, if you turn on :ref:`discover-weblate`:"
-msgstr "Zusätzlich, wenn :ref:`discover-weblate` eingeschaltet ist:"
+msgstr "Zusätzlich, wenn Sie :ref:`discover-weblate` aktivieren:"
 
 #: ../../admin/support.rst:34
-#, fuzzy
-#| msgid "List of public projects (name, URL and website)"
 msgid "List of public projects (name, URL, and website)."
-msgstr "Liste der öffentlichen Projekte (Name, URL und Website)"
+msgstr "Liste der öffentlichen Projekte (Name, URL, und Website)."
 
 #: ../../admin/support.rst:37
 msgid ""
 "Check what *Discover* shows publicly in the :ref:`discover-weblate` "
 "description."
 msgstr ""
+"Überprüfen Sie, was *Entdecken* in der Beschreibung von :ref:`discover-"
+"weblate` öffentlich anzeigt."
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
@@ -23152,10 +23113,6 @@ msgid ":ref:`discover-weblate`"
 msgstr ":ref:`discover-weblate`"
 
 #: ../../admin/support.rst:50
-#, fuzzy
-#| msgid ""
-#| "Purchased support packages are already activated upon purchase, and can "
-#| "be used without integrating them."
 msgid ""
 "Purchased support packages are already activated upon purchase and can be "
 "used without integrating them."
@@ -23168,21 +23125,15 @@ msgid "Discover Weblate"
 msgstr "Entdecken Sie Weblate"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid ""
-#| "Discover Weblate is an opt-in service that makes it easier for users to "
-#| "find Weblate servers and communities. Users can browse registered "
-#| "services on <https://weblate.org/discover/>, and find there projects to "
-#| "contribute."
 msgid ""
 "*Discover* is an opt-in service making it easier for translators to find "
 "other Weblate instances and communities. Users can browse registered sites "
 "and find projects to contribute to on https://weblate.org/discover/."
 msgstr ""
-"„Entdecken Sie Weblate“ ist ein Opt-In-Dienst, der es den Benutzern "
-"erleichtert, Weblate-Server und -Gemeinschaften zu finden. Benutzer können "
-"registrierte Dienste auf <https://weblate.org/discover/> durchsuchen und "
-"dort Projekte finden, zu denen sie beitragen möchten."
+"*Entdecken* ist ein Opt-In-Dienst, der es Übersetzern erleichtert, andere "
+"Weblate-Instanzen und -Gemeinschaften zu finden. Benutzer können "
+"registrierte Seiten durchsuchen und Projekte finden, zu denen sie auf "
+"https://weblate.org/discover/ beitragen können."
 
 #: ../../admin/support.rst:65
 msgid "Getting listed"
