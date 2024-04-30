@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
-gi.require_version("Rsvg", "2.0")
+gi.require_version("Rsvg", "2.46")
 
 from gi.repository import Pango, PangoCairo, Rsvg  # noqa: E402
 
