@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Improved performance of rendering large lists of objects.
+
 **Bug fixes**
 
 * Fixed crashes with librsvg older than 2.46.
