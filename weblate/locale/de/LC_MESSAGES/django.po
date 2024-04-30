@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 07:29+0000\n"
-"PO-Revision-Date: 2024-04-29 15:40+0000\n"
+"PO-Revision-Date: 2024-04-30 15:07+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.2\n"
+"X-Generator: Weblate 5.5.3-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -8220,13 +8220,11 @@ msgstr[0] "%(count)s ausgehender Commit"
 msgstr[1] "%(count)s ausgehende Commits"
 
 #: weblate/templates/js/git-status.html:43
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s fehlender Commit"
-msgstr[1] "%(count)s fehlende Commits"
+msgstr[0] "(%(count)s fehlt im Push-Branch)"
+msgstr[1] "(%(count)s fehlen im Push-Branch)"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
@@ -10608,7 +10606,7 @@ msgstr "Übersetzte Zeichenketten in einer bestimmten Sprache"
 
 #: weblate/templates/snippets/query-field.html:6
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 #: weblate/templates/snippets/query-field.html:15
 #: weblate/templates/snippets/user-query-field.html:5 weblate/utils/forms.py:25
@@ -13750,10 +13748,8 @@ msgid "POSIX style using underscore as a separator"
 msgstr "POSIX-Stil mit Unterstrich als Trennzeichen"
 
 #: weblate/trans/models/component.py:130
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "POSIX-Stil mit Unterstrich als Trennzeichen"
+msgstr "POSIX-Stil mit Unterstrich als Trennzeichen, Kleinbuchstaben"
 
 #: weblate/trans/models/component.py:132
 msgid "BCP style using hyphen as a separator"
@@ -13764,16 +13760,12 @@ msgid "POSIX style using underscore as a separator, including country code"
 msgstr "POSIX-Stil mit Unterstrich als Trennzeichen, einschließlich Ländercode"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid ""
-#| "POSIX style using underscore as a separator, including country code "
-#| "(lowercase)"
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
 msgstr ""
-"POSIX-Stil mit Unterstrich als Trennzeichen, einschließlich Ländercode "
-"(Kleinbuchstaben)"
+"POSIX-Stil mit Unterstrich als Trennzeichen, einschließlich Ländercode, "
+"Kleinbuchstaben"
 
 #: weblate/trans/models/component.py:147
 msgid "BCP style using hyphen as a separator, including country code"
@@ -13804,10 +13796,8 @@ msgid "Linux style"
 msgstr "Linux-Stil"
 
 #: weblate/trans/models/component.py:158
-#, fuzzy
-#| msgid "Linux style"
 msgid "Linux style, lower cased"
-msgstr "Linux-Stil"
+msgstr "Linux-Stil, Kleinbuchstaben"
 
 #: weblate/trans/models/component.py:162
 msgid "Merge"
