@@ -1,3 +1,24 @@
+Weblate 5.5.3
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+* Fixed crashes with librsvg older than 2.46.
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?closed=1>`__.
+
 Weblate 5.5.2
 -------------
 
