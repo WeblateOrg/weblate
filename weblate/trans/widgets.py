@@ -236,7 +236,7 @@ class PNGWidget(SVGWidget):
             viewport.height = dimensions.height
             handle.render_document(context, viewport)
         else:
-            # librsvg 2.46 and newer, this method is now deprecated
+            # librsvg before 2.46, this method is now deprecated
             handle.render_cairo(context)
         surface.write_to_png(response)
 
