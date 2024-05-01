@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 07:29+0000\n"
-"PO-Revision-Date: 2024-04-29 04:59+0000\n"
+"PO-Revision-Date: 2024-05-01 19:16+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.1\n"
+"X-Generator: Weblate 5.5.3-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -326,16 +326,12 @@ msgid "Chosen sorting is not supported."
 msgstr "選択したソートには対応していません。"
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "グループにユーザーを追加"
+msgstr "チームにユーザーを追加"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "チームの編集"
+msgstr "チームの追加"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -462,12 +458,12 @@ msgstr ""
 #: weblate/accounts/models.py:174
 #, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "ユーザーは {username} さんから {team} に追加されました。"
+msgstr "ユーザーは {username} さんによって {team} チームに追加されました。"
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "ユーザーは {username} さんによって {team} チームから削除されました。"
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -797,9 +793,6 @@ msgid "License was changed"
 msgstr "ライセンスが変更されました"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "解析エラーが発生しました"
@@ -2353,10 +2346,8 @@ msgid "Roles"
 msgstr "ロール"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "このグループに与えるロールを選択してください。"
+msgstr "このチームに与えるロールを選択してください。"
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2443,10 +2434,8 @@ msgid "Languages"
 msgstr "言語"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "内部 Weblate グループ"
+msgstr "内部 Weblate チーム"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2513,17 +2502,12 @@ msgid "Regular expression for e-mail address"
 msgstr "メール アドレスの正規表現"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "メールアドレスが一致するユーザーは、このグループに追加されます。"
+msgstr "メールアドレスが一致するユーザーは、このチームに追加されます。"
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "割り当てるグループ"
+msgstr "割り当てるチーム"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -6226,10 +6210,8 @@ msgid "None"
 msgstr "なし"
 
 #: weblate/templates/accounts/user.html:281
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "このグループからユーザーを削除する"
+msgstr "このチームからユーザーを削除する"
 
 #: weblate/templates/accounts/user.html:292
 #: weblate/templates/trans/project-access.html:65
