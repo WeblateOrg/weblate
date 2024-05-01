@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 09:30+0200\n"
-"PO-Revision-Date: 2024-04-26 10:08+0000\n"
+"PO-Revision-Date: 2024-05-01 19:16+0000\n"
 "Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
 "org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.1\n"
+"X-Generator: Weblate 5.5.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -14326,18 +14326,13 @@ msgstr ""
 "当设置为任何值时禁止电子邮箱身份认证。请参见 :ref:`disable-email-auth`。"
 
 #: ../../admin/install/docker.rst:1364
-#, fuzzy
-#| msgid ""
-#| "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
-#| "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
-#| "disable strenght checking."
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strength checking."
 msgstr ""
-"最小的密码得分由 `zxcvbn <https://github.com/dropbox/zxcvbn>`_ 密码长度预测器"
-"进行评估。默认为 3，设为 0 禁用强度检查。"
+"最小的密码得分由 `zxcvbn <https://github.com/dropbox/zxcvbn>`_ "
+"密码长度预测器进行评估。默认为 3，设为 0 禁用强度检查。"
 
 #: ../../admin/install/docker.rst:1370
 msgid "PostgreSQL database setup"
@@ -20041,10 +20036,8 @@ msgid ""
 msgstr "通常由 gettext 和相关工具使用，生成像 ``pt_BR`` 这样的语言代码。"
 
 #: ../../admin/projects.rst:732
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "POSIX 风格，使用下划线作为分隔符"
+msgstr "POSIX 风格，使用下划线作为分隔符，小写"
 
 #: ../../admin/projects.rst:735
 msgid "POSIX style using underscore as a separator, including country code"
@@ -20058,10 +20051,6 @@ msgstr ""
 "POSIX 风格的语言代码，包含国家地区代码，即使没有必要（例如 ``cs_CZ``）。"
 
 #: ../../admin/projects.rst:738
-#, fuzzy
-#| msgid ""
-#| "POSIX style using underscore as a separator, including country code "
-#| "(lowercase)"
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
@@ -20145,20 +20134,14 @@ msgid ""
 msgstr "Linux 使用的语言环境，使用中文和 POSIX 样式符号的遗留代码。"
 
 #: ../../admin/projects.rst:760
-#, fuzzy
-#| msgid "Linux style"
 msgid "Linux style, lower cased"
-msgstr "Linux 风格"
+msgstr "Linux 风格，小写"
 
 #: ../../admin/projects.rst:760
-#, fuzzy
-#| msgid ""
-#| "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
-#| "notation."
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation. Lower cased."
-msgstr "Linux 使用的语言环境，使用中文和 POSIX 样式符号的遗留代码。"
+msgstr "Linux 使用的语言环境，使用老式中文编码和 POSIX 样式符号。小写。"
 
 #: ../../admin/projects.rst:764
 msgid ""
@@ -24508,10 +24491,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.5.3"
-msgstr "Weblate 5.5.1"
+msgstr "Weblate 5.5.3"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -24532,10 +24513,8 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved performance of changing labels."
 msgid "Improved performance of rendering large lists of objects."
-msgstr "改进了更改标签的性能。"
+msgstr "改进了渲染包含许多对象的列表的性能。"
 
 #: ../../changes.rst:12 ../../changes.rst:29 ../../changes.rst:59
 #: ../../changes.rst:106 ../../changes.rst:137 ../../changes.rst:160
@@ -24548,7 +24527,7 @@ msgstr "**缺陷修复**"
 
 #: ../../changes.rst:14
 msgid "Fixed crashes with librsvg older than 2.46."
-msgstr ""
+msgstr "修复了低于 2.46 版本 librsvg 造成的崩溃。"
 
 #: ../../changes.rst:16 ../../changes.rst:117 ../../changes.rst:223
 #: ../../changes.rst:276 ../../changes.rst:341 ../../changes.rst:371
@@ -24588,46 +24567,32 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/117?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/117?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"119?closed=1>`__。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.5.2"
-msgstr "Weblate 5.5.1"
+msgstr "Weblate 5.5.2"
 
 #: ../../changes.rst:27 ../../changes.rst:42
-#, fuzzy
-#| msgid "Released on April 20th 2024."
 msgid "Released on April 26th 2024."
-msgstr "发布于 2024 年 4 月 20 日。"
+msgstr "发布于 2024 年 4 月 26 日。"
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Fixed package installation from PyPI."
 msgid "Fixed publishing packages to PyPI."
-msgstr "修复了来自 Pypi 的软件包安装。"
+msgstr "修复了发布软件包到 PyPI 的问题。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/117?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/117?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"118?closed=1>`__。"
 
 #: ../../changes.rst:40
 msgid "Weblate 5.5.1"
@@ -24635,13 +24600,11 @@ msgstr "Weblate 5.5.1"
 
 #: ../../changes.rst:46
 msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
-msgstr ""
+msgstr ":ref:`Searching` 支持 ``source_changed:DATETIME``."
 
 #: ../../changes.rst:47
-#, fuzzy
-#| msgid ":ref:`component-language_code_style`"
 msgid "Added several new :ref:`component-language_code_style`."
-msgstr ":ref:`component-language_code_style`"
+msgstr "新增几个新的 :ref:`component-language_code_style`."
 
 #: ../../changes.rst:51
 msgid "Display more details on source string change in history."
@@ -24665,7 +24628,7 @@ msgstr "操作面板视图中新增管理项目列表。"
 
 #: ../../changes.rst:56
 msgid "More detailed status of outgoing commits."
-msgstr ""
+msgstr "更详细的传出提交状态。"
 
 #: ../../changes.rst:57 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
@@ -24677,15 +24640,13 @@ msgstr "修复了某些附加组件开启时跳过部件更新的错误。"
 
 #: ../../changes.rst:62
 msgid "Daily execution of project and site wide add-ons."
-msgstr ""
+msgstr "每天执行项目和站点级别的附加组件。"
 
 #: ../../changes.rst:63
 msgid "Allow editing strings when the source is marked for editing."
 msgstr "当原文标记为需要编辑时，允许编辑字符串。"
 
 #: ../../changes.rst:64
-#, fuzzy
-#| msgid "Updates of last updated timestamp of a string."
 msgid "Updates of the last updated timestamp of a string."
 msgstr "字符串最后更新时间戳的更新。"
 
@@ -24698,8 +24659,6 @@ msgstr ""
 "weblate.discovery.discovery` 附加组件的问题。"
 
 #: ../../changes.rst:66
-#, fuzzy
-#| msgid "Graceful handling of locking erors in the :ref:`api`."
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr "优雅处理 :ref:`api`内的锁定错误。"
 
@@ -24762,15 +24721,10 @@ msgid "Added :ref:`mt-systran` automatic translation support."
 msgstr "新增：ref:`mt-systran` 自动翻译支持。"
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid ""
-#| "Docker container now validates user password strenght by default, see :"
-#| "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
-msgstr ""
-"Docker 容器现默认验证用户密码强度，见 :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
+msgstr "Docker 容器现默认验证用户密码强度，见 :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
 #: ../../changes.rst:98
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
@@ -25648,8 +25602,6 @@ msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr "空白字符串不再触发 :ref:`check-reused` 检查。"
 
 #: ../../changes.rst:479
-#, fuzzy
-#| msgid "Performace issues while browsing some categories."
 msgid "Performance issues while browsing some categories."
 msgstr "浏览某些分类时的性能问题。"
 
@@ -39810,15 +39762,10 @@ msgid "If a strings is valid XML, it is inserted as XML to translation."
 msgstr "如果字符串是有效的 XML，将被作为 XML 插入翻译。"
 
 #: ../../formats/android.rst:18
-#, fuzzy
-#| msgid ""
-#| "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the "
-#| "string to avoid intepreting them as style or resource references."
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid interpreting them as style or resource references."
-msgstr ""
-"``?`` 和 ``@`` 由字符串开头的 ``\\\\``转义来避免将它们阐释为样式或资源参考。"
+msgstr "``?`` 和 ``@`` 由字符串开头的 ``\\\\``转义来避免将它们阐释为样式或资源参考。"
 
 #: ../../formats/android.rst:19
 msgid ""
@@ -46427,17 +46374,12 @@ msgstr ""
 "空格或小写字母和空格替换为连字符。有关示例，请参见 :ref:`search-changes`。"
 
 #: ../../user/search.rst:75
-#, fuzzy
-#| msgid "``changed:DATETIME``"
 msgid "``source_changed:DATETIME``"
-msgstr "``changed:DATETIME``"
+msgstr "``source_changed:DATETIME``"
 
 #: ../../user/search.rst:76
-#, fuzzy
-#| msgid ""
-#| "String content was changed on date, supports :ref:`search-operators`."
 msgid "Source string was changed on date, supports :ref:`search-operators`."
-msgstr "字符串已于日期更，支持 :ref:`search-operators`."
+msgstr "源字符串在该日期更改，支持 :ref:`search-operators`."
 
 #: ../../user/search.rst:77
 msgid "``check:TEXT``"
