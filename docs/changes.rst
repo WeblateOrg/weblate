@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Improved performance of rendering large lists of objects.
+* Added links to manage other scope :ref:`addons`.
 
 **Bug fixes**
 

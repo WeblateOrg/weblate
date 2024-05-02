@@ -31,6 +31,8 @@ class AddonList(PathViewMixin, ListView):
             self.kwargs["project_obj"] = self.path_object
             return Addon.objects.filter_project(self.path_object)
 
+        if not self.request.user.has_perm("management.addons"):
+            raise PermissionDenied("Can not manage add-ons")
         return Addon.objects.filter_sitewide()
 
     def get_success_url(self):
@@ -59,6 +61,10 @@ class AddonList(PathViewMixin, ListView):
                 ),
                 key=lambda x: x.name,
             )
+            result["scope"] = "component"
+            result["project_addons"] = Addon.objects.filter_project(
+                target.project
+            ).count()
         else:
             # This covers both project-wide and site-wide
             result["available"] = sorted(
@@ -69,6 +75,10 @@ class AddonList(PathViewMixin, ListView):
                 ),
                 key=lambda x: x.name,
             )
+            result["scope"] = "sitewide" if target is None else "project"
+
+        if target is not None:
+            result["sitewide_addons"] = Addon.objects.filter_sitewide().count()
 
         return result
 
@@ -165,6 +175,12 @@ class AddonDetail(UpdateView):
             raise PermissionDenied("Can not edit component")
         if obj.project and not self.request.user.has_perm("project.edit", obj.project):
             raise PermissionDenied("Can not edit project")
+        if (
+            obj.project is None
+            and obj.component is None
+            and not self.request.user.has_perm("management.addons")
+        ):
+            raise PermissionDenied("Can not manage add-ons")
         return obj
 
     def post(self, request, *args, **kwargs):
