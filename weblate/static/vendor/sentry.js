@@ -20,7 +20,7 @@ const LIGHT_THEME = {
   backgroundHover: '#f6f6f7',
   foreground: '#2b2233',
   border: '1.5px solid rgba(41, 35, 47, 0.13)',
-  borderRadius: '12px',
+  borderRadius: '25px',
   boxShadow: '0px 4px 24px 0px rgba(43, 34, 51, 0.12)',
 
   success: '#268d75',
@@ -302,7 +302,14 @@ function createActorStyles(d) {
   const style = d.createElement('style');
   style.textContent = `
 .widget__actor {
-  line-height: 25px;
+  position: fixed;
+  left: var(--left);
+  right: var(--right);
+  bottom: var(--bottom);
+  top: var(--top);
+  z-index: var(--z-index);
+
+  line-height: 16px;
 
   display: flex;
   align-items: center;
@@ -313,7 +320,7 @@ function createActorStyles(d) {
   font-family: inherit;
   font-size: var(--font-size);
   font-weight: 600;
-  padding: 12px 16px;
+  padding: 16px;
   text-decoration: none;
   z-index: 9000;
 
@@ -341,6 +348,12 @@ function createActorStyles(d) {
 }
 
 .widget__actor__text {
+}
+
+@media (max-width: 600px) {
+  .widget__actor__text {
+    display: none;
+  }
 }
 
 .feedback-icon path {
@@ -2119,15 +2132,23 @@ function patch(source, name, replacement) {
     }
 }
 if (!(/[1-9][0-9]{12}/.test(Date.now().toString()))) ;
-function isBlocked(node, blockClass, blockSelector, unblockSelector, checkAncestors) {
+function closestElementOfNode(node) {
     if (!node) {
-        return false;
+        return null;
     }
     const el = node.nodeType === node.ELEMENT_NODE
         ? node
         : node.parentElement;
-    if (!el)
+    return el;
+}
+function isBlocked(node, blockClass, blockSelector, unblockSelector, checkAncestors) {
+    if (!node) {
         return false;
+    }
+    const el = closestElementOfNode(node);
+    if (!el) {
+        return false;
+    }
     const blockedPredicate = createMatchPredicate(blockClass, blockSelector);
     if (!checkAncestors) {
         const isUnblocked = unblockSelector && el.matches(unblockSelector);
@@ -2146,33 +2167,36 @@ function isBlocked(node, blockClass, blockSelector, unblockSelector, checkAncest
     }
     return blockDistance < unblockDistance;
 }
-let cachedRequestAnimationFrameImplementation;
-function getRequestAnimationFrameImplementation() {
-    if (cachedRequestAnimationFrameImplementation) {
-        return cachedRequestAnimationFrameImplementation;
+const cachedImplementations = {};
+function getImplementation(name) {
+    const cached = cachedImplementations[name];
+    if (cached) {
+        return cached;
     }
     const document = window.document;
-    let requestAnimationFrameImplementation = window.requestAnimationFrame;
+    let impl = window[name];
     if (document && typeof document.createElement === 'function') {
         try {
             const sandbox = document.createElement('iframe');
             sandbox.hidden = true;
             document.head.appendChild(sandbox);
             const contentWindow = sandbox.contentWindow;
-            if (contentWindow && contentWindow.requestAnimationFrame) {
-                requestAnimationFrameImplementation =
-                    contentWindow.requestAnimationFrame;
+            if (contentWindow && contentWindow[name]) {
+                impl =
+                    contentWindow[name];
             }
             document.head.removeChild(sandbox);
         }
         catch (e) {
         }
     }
-    return (cachedRequestAnimationFrameImplementation =
-        requestAnimationFrameImplementation.bind(window));
+    return (cachedImplementations[name] = impl.bind(window));
 }
 function onRequestAnimationFrame(...rest) {
-    return getRequestAnimationFrameImplementation()(...rest);
+    return getImplementation('requestAnimationFrame')(...rest);
+}
+function setTimeout(...rest) {
+    return getImplementation('setTimeout')(...rest);
 }
 
 var CanvasContext = /* @__PURE__ */ ((CanvasContext2) => {
@@ -21189,7 +21213,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":152}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.112.2';
+const SDK_VERSION = '7.113.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -23397,7 +23421,7 @@ function serializeTextNode(n, options) {
     const forceMask = needMaskingText(n, maskTextClass, maskTextSelector, unmaskTextClass, unmaskTextSelector, maskAllText);
     if (!isStyle && !isScript && !isTextarea && textContent && forceMask) {
         textContent = maskTextFn
-            ? maskTextFn(textContent)
+            ? maskTextFn(textContent, n.parentElement)
             : textContent.replace(/[\S]/g, '*');
     }
     if (isTextarea && textContent && (maskInputOptions.textarea || forceMask)) {
@@ -23989,14 +24013,14 @@ function throttle$1(func, wait, options = {}) {
         const context = this;
         if (remaining <= 0 || remaining > wait) {
             if (timeout) {
-                clearTimeout(timeout);
+                clearTimeout$1(timeout);
                 timeout = null;
             }
             previous = now;
             func.apply(context, args);
         }
         else if (!timeout && options.trailing !== false) {
-            timeout = setTimeout(() => {
+            timeout = setTimeout$1(() => {
                 previous = options.leading === false ? 0 : Date.now();
                 timeout = null;
                 func.apply(context, args);
@@ -24010,7 +24034,7 @@ function hookSetter(target, key, d, isRevoked, win = window) {
         ? d
         : {
             set(value) {
-                setTimeout(() => {
+                setTimeout$1(() => {
                     d.set.call(this, value);
                 }, 0);
                 if (original && original.set) {
@@ -24082,15 +24106,23 @@ function getWindowWidth() {
         (document.documentElement && document.documentElement.clientWidth) ||
         (document.body && document.body.clientWidth));
 }
-function isBlocked(node, blockClass, blockSelector, unblockSelector, checkAncestors) {
+function closestElementOfNode(node) {
     if (!node) {
-        return false;
+        return null;
     }
     const el = node.nodeType === node.ELEMENT_NODE
         ? node
         : node.parentElement;
-    if (!el)
+    return el;
+}
+function isBlocked(node, blockClass, blockSelector, unblockSelector, checkAncestors) {
+    if (!node) {
         return false;
+    }
+    const el = closestElementOfNode(node);
+    if (!el) {
+        return false;
+    }
     const blockedPredicate = createMatchPredicate(blockClass, blockSelector);
     if (!checkAncestors) {
         const isUnblocked = unblockSelector && el.matches(unblockSelector);
@@ -24236,33 +24268,39 @@ function inDom(n) {
         return false;
     return doc.contains(n) || shadowHostInDom(n);
 }
-let cachedRequestAnimationFrameImplementation;
-function getRequestAnimationFrameImplementation() {
-    if (cachedRequestAnimationFrameImplementation) {
-        return cachedRequestAnimationFrameImplementation;
+const cachedImplementations = {};
+function getImplementation(name) {
+    const cached = cachedImplementations[name];
+    if (cached) {
+        return cached;
     }
     const document = window.document;
-    let requestAnimationFrameImplementation = window.requestAnimationFrame;
+    let impl = window[name];
     if (document && typeof document.createElement === 'function') {
         try {
             const sandbox = document.createElement('iframe');
             sandbox.hidden = true;
             document.head.appendChild(sandbox);
             const contentWindow = sandbox.contentWindow;
-            if (contentWindow && contentWindow.requestAnimationFrame) {
-                requestAnimationFrameImplementation =
-                    contentWindow.requestAnimationFrame;
+            if (contentWindow && contentWindow[name]) {
+                impl =
+                    contentWindow[name];
             }
             document.head.removeChild(sandbox);
         }
         catch (e) {
         }
     }
-    return (cachedRequestAnimationFrameImplementation =
-        requestAnimationFrameImplementation.bind(window));
+    return (cachedImplementations[name] = impl.bind(window));
 }
 function onRequestAnimationFrame(...rest) {
-    return getRequestAnimationFrameImplementation()(...rest);
+    return getImplementation('requestAnimationFrame')(...rest);
+}
+function setTimeout$1(...rest) {
+    return getImplementation('setTimeout')(...rest);
+}
+function clearTimeout$1(...rest) {
+    return getImplementation('clearTimeout')(...rest);
 }
 
 var EventType = /* @__PURE__ */ ((EventType2) => {
@@ -24411,6 +24449,7 @@ class MutationBuffer {
         this.locked = false;
         this.texts = [];
         this.attributes = [];
+        this.attributeMap = new WeakMap();
         this.removes = [];
         this.mapRemoves = [];
         this.movedMap = {};
@@ -24610,6 +24649,7 @@ class MutationBuffer {
             }
             this.texts = [];
             this.attributes = [];
+            this.attributeMap = new WeakMap();
             this.removes = [];
             this.addedSet = new Set();
             this.movedSet = new Set();
@@ -24621,13 +24661,6 @@ class MutationBuffer {
             if (isIgnored(m.target, this.mirror)) {
                 return;
             }
-            let unattachedDoc;
-            try {
-                unattachedDoc = document.implementation.createHTMLDocument();
-            }
-            catch (e) {
-                unattachedDoc = this.doc;
-            }
             switch (m.type) {
                 case 'characterData': {
                     const value = m.target.textContent;
@@ -24636,7 +24669,7 @@ class MutationBuffer {
                         this.texts.push({
                             value: needMaskingText(m.target, this.maskTextClass, this.maskTextSelector, this.unmaskTextClass, this.unmaskTextSelector, this.maskAllText) && value
                                 ? this.maskTextFn
-                                    ? this.maskTextFn(value)
+                                    ? this.maskTextFn(value, closestElementOfNode(m.target))
                                     : value.replace(/[\S]/g, '*')
                                 : value,
                             node: m.target,
@@ -24669,7 +24702,7 @@ class MutationBuffer {
                         value === m.oldValue) {
                         return;
                     }
-                    let item = this.attributes.find((a) => a.node === m.target);
+                    let item = this.attributeMap.get(m.target);
                     if (target.tagName === 'IFRAME' &&
                         attributeName === 'src' &&
                         !this.keepIframeSrcFn(value)) {
@@ -24688,6 +24721,7 @@ class MutationBuffer {
                             _unchangedStyles: {},
                         };
                         this.attributes.push(item);
+                        this.attributeMap.set(m.target, item);
                     }
                     if (attributeName === 'type' &&
                         target.tagName === 'INPUT' &&
@@ -24697,7 +24731,16 @@ class MutationBuffer {
                     if (!ignoreAttribute(target.tagName, attributeName)) {
                         item.attributes[attributeName] = transformAttribute(this.doc, toLowerCase(target.tagName), toLowerCase(attributeName), value, target, this.maskAttributeFn);
                         if (attributeName === 'style') {
-                            const old = unattachedDoc.createElement('span');
+                            if (!this.unattachedDoc) {
+                                try {
+                                    this.unattachedDoc =
+                                        document.implementation.createHTMLDocument();
+                                }
+                                catch (e) {
+                                    this.unattachedDoc = this.doc;
+                                }
+                            }
+                            const old = this.unattachedDoc.createElement('span');
                             if (m.oldValue) {
                                 old.setAttribute('style', m.oldValue);
                             }
@@ -25583,7 +25626,7 @@ function initFontObserver({ fontCb, doc }) {
     };
     const restoreHandler = patch(doc.fonts, 'add', function (original) {
         return function (fontFace) {
-            setTimeout(callbackWrapper(() => {
+            setTimeout$1(callbackWrapper(() => {
                 const p = fontMap.get(fontFace);
                 if (p) {
                     fontCb(p);
@@ -26035,7 +26078,7 @@ class ShadowDomManager {
             doc: shadowRoot,
             mirror: this.mirror,
         }));
-        setTimeout(() => {
+        setTimeout$1(() => {
             if (shadowRoot.adoptedStyleSheets &&
                 shadowRoot.adoptedStyleSheets.length > 0)
                 this.bypassOptions.stylesheetManager.adoptStyleSheets(shadowRoot.adoptedStyleSheets, this.mirror.getId(shadowRoot.host));
@@ -26182,11 +26225,7 @@ class ProcessedNodeManager {
     }
 }
 
-function wrapEvent(e) {
-    const eWithTime = e;
-    eWithTime.timestamp = nowTimestamp();
-    return eWithTime;
-}
+let wrappedEmit;
 let _takeFullSnapshot;
 const mirror = createMirror();
 function record(options = {}) {
@@ -26269,7 +26308,9 @@ function record(options = {}) {
         }
         return e;
     };
-    const wrappedEmit = (e, isCheckout) => {
+    wrappedEmit = (r, isCheckout) => {
+        const e = r;
+        e.timestamp = nowTimestamp();
         if (_optionalChain([mutationBuffers, 'access', _ => _[0], 'optionalAccess', _2 => _2.isFrozen, 'call', _3 => _3()]) &&
             e.type !== EventType.FullSnapshot &&
             !(e.type === EventType.IncrementalSnapshot &&
@@ -26308,35 +26349,35 @@ function record(options = {}) {
         }
     };
     const wrappedMutationEmit = (m) => {
-        wrappedEmit(wrapEvent({
+        wrappedEmit({
             type: EventType.IncrementalSnapshot,
             data: {
                 source: IncrementalSource.Mutation,
                 ...m,
             },
-        }));
+        });
     };
-    const wrappedScrollEmit = (p) => wrappedEmit(wrapEvent({
+    const wrappedScrollEmit = (p) => wrappedEmit({
         type: EventType.IncrementalSnapshot,
         data: {
             source: IncrementalSource.Scroll,
             ...p,
         },
-    }));
-    const wrappedCanvasMutationEmit = (p) => wrappedEmit(wrapEvent({
+    });
+    const wrappedCanvasMutationEmit = (p) => wrappedEmit({
         type: EventType.IncrementalSnapshot,
         data: {
             source: IncrementalSource.CanvasMutation,
             ...p,
         },
-    }));
-    const wrappedAdoptedStyleSheetEmit = (a) => wrappedEmit(wrapEvent({
+    });
+    const wrappedAdoptedStyleSheetEmit = (a) => wrappedEmit({
         type: EventType.IncrementalSnapshot,
         data: {
             source: IncrementalSource.AdoptedStyleSheet,
             ...a,
         },
-    }));
+    });
     const stylesheetManager = new StylesheetManager({
         mutationCb: wrappedMutationEmit,
         adoptedStyleSheetCb: wrappedAdoptedStyleSheetEmit,
@@ -26362,13 +26403,13 @@ function record(options = {}) {
     const canvasManager = _getCanvasManager(getCanvasManager, {
         mirror,
         win: window,
-        mutationCb: (p) => wrappedEmit(wrapEvent({
+        mutationCb: (p) => wrappedEmit({
             type: EventType.IncrementalSnapshot,
             data: {
                 source: IncrementalSource.CanvasMutation,
                 ...p,
             },
-        })),
+        }),
         recordCanvas,
         blockClass,
         blockSelector,
@@ -26413,14 +26454,14 @@ function record(options = {}) {
             mirror,
         });
     const takeFullSnapshot = (isCheckout = false) => {
-        wrappedEmit(wrapEvent({
+        wrappedEmit({
             type: EventType.Meta,
             data: {
                 href: window.location.href,
                 width: getWindowWidth(),
                 height: getWindowHeight(),
             },
-        }), isCheckout);
+        }, isCheckout);
         stylesheetManager.reset();
         shadowDomManager.init();
         mutationBuffers.forEach((buf) => buf.lock());
@@ -26466,13 +26507,13 @@ function record(options = {}) {
         if (!node) {
             return console.warn('Failed to snapshot the document');
         }
-        wrappedEmit(wrapEvent({
+        wrappedEmit({
             type: EventType.FullSnapshot,
             data: {
                 node,
                 initialOffset: getWindowScroll(window),
             },
-        }));
+        });
         mutationBuffers.forEach((buf) => buf.unlock());
         if (document.adoptedStyleSheets && document.adoptedStyleSheets.length > 0)
             stylesheetManager.adoptStyleSheets(document.adoptedStyleSheets, mirror.getId(document));
@@ -26484,81 +26525,81 @@ function record(options = {}) {
             return callbackWrapper(initObservers)({
                 onMutation,
                 mutationCb: wrappedMutationEmit,
-                mousemoveCb: (positions, source) => wrappedEmit(wrapEvent({
+                mousemoveCb: (positions, source) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source,
                         positions,
                     },
-                })),
-                mouseInteractionCb: (d) => wrappedEmit(wrapEvent({
+                }),
+                mouseInteractionCb: (d) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.MouseInteraction,
                         ...d,
                     },
-                })),
+                }),
                 scrollCb: wrappedScrollEmit,
-                viewportResizeCb: (d) => wrappedEmit(wrapEvent({
+                viewportResizeCb: (d) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.ViewportResize,
                         ...d,
                     },
-                })),
-                inputCb: (v) => wrappedEmit(wrapEvent({
+                }),
+                inputCb: (v) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.Input,
                         ...v,
                     },
-                })),
-                mediaInteractionCb: (p) => wrappedEmit(wrapEvent({
+                }),
+                mediaInteractionCb: (p) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.MediaInteraction,
                         ...p,
                     },
-                })),
-                styleSheetRuleCb: (r) => wrappedEmit(wrapEvent({
+                }),
+                styleSheetRuleCb: (r) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.StyleSheetRule,
                         ...r,
                     },
-                })),
-                styleDeclarationCb: (r) => wrappedEmit(wrapEvent({
+                }),
+                styleDeclarationCb: (r) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.StyleDeclaration,
                         ...r,
                     },
-                })),
+                }),
                 canvasMutationCb: wrappedCanvasMutationEmit,
-                fontCb: (p) => wrappedEmit(wrapEvent({
+                fontCb: (p) => wrappedEmit({
                     type: EventType.IncrementalSnapshot,
                     data: {
                         source: IncrementalSource.Font,
                         ...p,
                     },
-                })),
+                }),
                 selectionCb: (p) => {
-                    wrappedEmit(wrapEvent({
+                    wrappedEmit({
                         type: EventType.IncrementalSnapshot,
                         data: {
                             source: IncrementalSource.Selection,
                             ...p,
                         },
-                    }));
+                    });
                 },
                 customElementCb: (c) => {
-                    wrappedEmit(wrapEvent({
+                    wrappedEmit({
                         type: EventType.IncrementalSnapshot,
                         data: {
                             source: IncrementalSource.CustomElement,
                             ...c,
                         },
-                    }));
+                    });
                 },
                 blockClass,
                 ignoreClass,
@@ -26596,13 +26637,13 @@ function record(options = {}) {
 , 'optionalAccess', _7 => _7.map, 'call', _8 => _8((p) => ({
                     observer: p.observer,
                     options: p.options,
-                    callback: (payload) => wrappedEmit(wrapEvent({
+                    callback: (payload) => wrappedEmit({
                         type: EventType.Plugin,
                         data: {
                             plugin: p.name,
                             payload,
                         },
-                    })),
+                    }),
                 }))]) || [],
             }, {});
         };
@@ -26624,18 +26665,18 @@ function record(options = {}) {
         }
         else {
             handlers.push(on('DOMContentLoaded', () => {
-                wrappedEmit(wrapEvent({
+                wrappedEmit({
                     type: EventType.DomContentLoaded,
                     data: {},
-                }));
+                });
                 if (recordAfter === 'DOMContentLoaded')
                     init();
             }));
             handlers.push(on('load', () => {
-                wrappedEmit(wrapEvent({
+                wrappedEmit({
                     type: EventType.Load,
                     data: {},
-                }));
+                });
                 if (recordAfter === 'load')
                     init();
             }, window));
