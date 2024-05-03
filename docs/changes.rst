@@ -3,8 +3,6 @@ Weblate 5.5.3
 
 Released on May 3rd 2024.
 
-**New features**
-
 **Improvements**
 
 * Improved performance of rendering large lists of objects.
@@ -14,8 +12,6 @@ Released on May 3rd 2024.
 
 * Fixed crashes with librsvg older than 2.46.
 * Daily execution of some :ref:`addons`.
-
-**Compatibility**
 
 **Upgrading**
 
