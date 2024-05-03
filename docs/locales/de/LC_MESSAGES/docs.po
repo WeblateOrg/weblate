@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 09:30+0200\n"
-"PO-Revision-Date: 2024-05-03 09:44+0000\n"
+"PO-Revision-Date: 2024-05-04 03:16+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.3-dev\n"
+"X-Generator: Weblate 5.5.3\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -27240,6 +27240,8 @@ msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
 msgstr ""
+"Das Verwenden kategorisierter Komponenten in :ref:`manage`, :ref:`memory` "
+"oder :ref:`auto-translation` korrigiert."
 
 #: ../../changes.rst:119
 msgid ""
@@ -27247,33 +27249,35 @@ msgid ""
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
 "project)/components/`."
 msgstr ""
+"Mehrere API-Aufrufe könnten von der strengeren Validierung boolescher Felder "
+"durch das Django-REST-Framework betroffen sein. Zum Beispiel :http:post:`/"
+"api/projects/(string:project)/components/`."
 
 #: ../../changes.rst:120
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
 msgstr ""
+"Die Eindeutigkeit des Namens und Slugs einer Komponente wird jetzt auf "
+"Datenbankebene unter PostgreSQL 15+ erzwungen."
 
 #: ../../changes.rst:121
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
 msgstr ""
+"Das Docker-Image liefert jetzt Python-Pakete in :file:`/app/venv` und "
+"installiert sie mit :program:`uv`."
 
 #: ../../changes.rst:127
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
 "your settings accordingly."
 msgstr ""
 "Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutendsten "
-"sind die Änderungen in ``CACHES`` und ``SOCIAL_AUTH_PIPELINE``, bitte passen "
-"Sie Ihre Einstellungen entsprechend an."
+"sind die Änderungen in ``INSTALLED_APPS`` und ``LOGOUT_REDIRECT_URL``, bitte "
+"passen Sie Ihre Einstellungen entsprechend an."
 
 #: ../../changes.rst:128
 msgid "Weblate now requires Python 3.10 and Django 5.0."
@@ -27296,63 +27300,53 @@ msgid "Released on March 26th 2024."
 msgstr "Veröffentlicht am 26. März 2024."
 
 #: ../../changes.rst:139
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid "Superuser access to components with :ref:`component-restricted`."
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr "Superuser-Zugriff auf Komponenten mit :ref:`component-restricted`."
 
 #: ../../changes.rst:140
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
+"Die Voreinstellung von :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` angepasst, "
+"um :ref:`manage-appearance` nicht zu sperren."
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid "This will push changes to the upstream repository."
 msgid "Avoid crash on pushing changes to diverged repository."
-msgstr "Dadurch werden die Änderungen in das Upstream-Repository gepusht."
+msgstr ""
+"Absturz beim Pushen von Änderungen in ein abweichendes Repository vermeiden."
 
 #: ../../changes.rst:142
-#, fuzzy
-#| msgid ""
-#| "Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on."
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr ""
-"Erweiterte Optionen der Erweiterung: :ref:`addon-weblate.generate."
-"pseudolocale`."
+"Absturz bei Installation von :ref:`addon-weblate.generate.pseudolocale` "
+"vermeiden."
 
 #: ../../changes.rst:143
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
+":ref:`azure-setup` behandelt problemlos Repositorys mit Leerzeichen in der "
+"URL."
 
 #: ../../changes.rst:144
-#, fuzzy
-#| msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
-msgstr ""
-":ref:`autofix` behandelt anstandslos Zeichenketten aus :ref:`multivalue-csv`."
+msgstr ":ref:`mt-deepl` behandelt problemlos Glossare für Sprachvarianten."
 
 #: ../../changes.rst:145
-#, fuzzy
-#| msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgid ":doc:`/formats/excel` better handles blank cells."
-msgstr ""
-"Der :doc:`/formats/apple`-Exporter erzeugt jetzt UTF-8-kodierte Dateien."
+msgstr ":doc:`/formats/excel` behandelt leere Zellen besser."
 
 #: ../../changes.rst:146
-#, fuzzy
-#| msgid "Fixed possible metadata loss when moving component between projects."
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr ""
-"Den möglichen Verlust von Metadaten beim Verschieben von Komponenten "
-"zwischen Projekten behoben."
+"Möglicher Datenverlust beim Zusammenführen von gettext-PO-Dateiänderungen in "
+"Git behoben."
 
 #: ../../changes.rst:147
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operations on project could have skipped some components."
-msgstr "Repository-Operation in %(component)s"
+msgstr ""
+"Bei Repository-Vorgängen im Projekt könnten einige Komponenten übersprungen "
+"worden sein."
 
 #: ../../changes.rst:153
 msgid ""
@@ -27372,11 +27366,12 @@ msgstr "Veröffentlicht am 22. Februar 2024."
 
 #: ../../changes.rst:162
 msgid "Displaying debugging page in case of database connection issues."
-msgstr ""
+msgstr "Anzeige der Debugging-Seite bei Problemen mit der Datenbankverbindung."
 
 #: ../../changes.rst:163 ../../changes.rst:179
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr ""
+"Die Migration mit doppelten integrierten Teams wird reibungslos abgewickelt."
 
 #: ../../changes.rst:169
 msgid ""
@@ -27399,6 +27394,8 @@ msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr ""
+"Möglicher Absturz bei der Prüfung des Weblate-Upgrades, wenn diese aus den "
+"vorherigen Versionen zwischengespeichert wurde."
 
 #: ../../changes.rst:185
 msgid ""
@@ -37314,10 +37311,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
-#, fuzzy
-#| msgid "Hook for component update."
 msgid "Event handler for component update."
-msgstr "Hook für Komponentenaktualisierung."
+msgstr "Ereignis-Handler für Komponentenaktualisierung."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
@@ -37326,10 +37321,8 @@ msgstr "Konfiguration speichern."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
-#, fuzzy
-#| msgid "event changed text or detail"
 msgid "Event handler daily."
-msgstr "Änderungstext oder -detail des Ereignisses"
+msgstr "Ereignis-Handler täglich."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_add_form:1
@@ -37344,33 +37337,23 @@ msgstr "Konfigurationsformular für diese Erweiterung zurückgeben."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_add:1
-#, fuzzy
-#| msgid "Hook triggered after new translation is added."
 msgid "Event handler after new translation is added."
-msgstr "Hook wird ausgelöst, nachdem eine neue Übersetzung hinzugefügt wird."
+msgstr "Ereignis-Handler nachdem eine neue Übersetzung hinzugefügt wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_commit:1
-#, fuzzy
-#| msgid "Hook triggered after changes are committed to the repository."
 msgid "Event handler after changes are committed to the repository."
-msgstr ""
-"Hook wird ausgelöst, nachdem Änderungen an das Repository committet werden."
+msgstr "Ereignis-Handler nachdem Änderungen an das Repository committet werden."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
-#, fuzzy
-#| msgid "Hook triggered after repository is pushed upstream."
 msgid "Event handler after repository is pushed upstream."
-msgstr "Hook wird ausgelöst, nachdem das Repository Upstream gepusht wird."
+msgstr "Ereignis-Handler nachdem das Repository Upstream gepusht wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
-#, fuzzy
-#| msgid "Hook triggered after repository is updated from upstream."
 msgid "Event handler after repository is updated from upstream."
-msgstr ""
-"Hook wird ausgelöst, nachdem das Repository von Upstream aktualisiert wird."
+msgstr "Ereignis-Handler nachdem das Repository von Upstream aktualisiert wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
@@ -37392,26 +37375,18 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
-#, fuzzy
-#| msgid "Hook triggered before changes are committed to the repository."
 msgid "Event handler before changes are committed to the repository."
-msgstr ""
-"Hook wird ausgelöst, bevor Änderungen an das Repository committet werden."
+msgstr "Ereignis-Handler bevor Änderungen an das Repository committet werden."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_push:1
-#, fuzzy
-#| msgid "Hook triggered before repository is pushed upstream."
 msgid "Event handler before repository is pushed upstream."
-msgstr "Hook wird ausgelöst, bevor das Repository Upstream gepusht wird."
+msgstr "Ereignis-Handler bevor das Repository Upstream gepusht wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
-#, fuzzy
-#| msgid "Hook triggered before repository is updated from upstream."
 msgid "Event handler before repository is updated from upstream."
-msgstr ""
-"Hook wird ausgelöst, bevor das Repository von Upstream aktualisiert wird."
+msgstr "Ereignis-Handler bevor das Repository von Upstream aktualisiert wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
@@ -37420,10 +37395,8 @@ msgstr "Informationen über den Status der Erweiterung speichern."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Hook triggered after a file is parsed."
 msgid "Event handler after a file is parsed."
-msgstr "Hook wird ausgelöst, nachdem eine Datei analysiert wird."
+msgstr "Ereignis-Handler nachdem eine Datei analysiert wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
@@ -37441,10 +37414,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
-#, fuzzy
-#| msgid "Hook triggered before new unit is created."
 msgid "Event handler before new unit is created."
-msgstr "Hook wird ausgelöst, bevor eine neue Einheit erstellt wird."
+msgstr "Ereignis-Handler bevor eine neue Einheit erstellt wird."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.user:1
@@ -37452,42 +37423,32 @@ msgid "Weblate user used to track changes by this add-on."
 msgstr "Weblate-Benutzer, um Änderungen dieser Erweiterung nachzuverfolgen."
 
 #: ../../contributing/addons.rst:13
-#, fuzzy
-#| msgid "name of an add-on"
 msgid "ORM object for an add-on."
-msgstr "Name der Erweiterung"
+msgstr "ORM-Objekt für eine Erweiterung."
 
 #: ../../contributing/addons.rst:17
-#, fuzzy
-#| msgid "Associate project with a component."
 msgid "ORM object for a component."
-msgstr "Ordnet Projekt einer Komponente zu."
+msgstr "ORM-Objekt für eine Komponente."
 
 #: ../../contributing/addons.rst:21
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "ORM object for a translation."
-msgstr "Löscht eine Übersetzung."
+msgstr "ORM-Objekt für eine Übersetzung."
 
 #: ../../contributing/addons.rst:25
-#, fuzzy
-#| msgid "Returns labels for a project."
 msgid "ORM object for a project."
-msgstr "Gibt Labels für ein Projekt zurück."
+msgstr "ORM-Objekt für ein Projekt."
 
 #: ../../contributing/addons.rst:29
 msgid "ORM object for an unit."
-msgstr ""
+msgstr "ORM-Objekt für eine Einheit."
 
 #: ../../contributing/addons.rst:33
 msgid "ORM object for an user."
-msgstr ""
+msgstr "ORM-Objekt für ein Benutzer."
 
 #: ../../contributing/addons.rst:37
-#, fuzzy
-#| msgid "Translation filename"
 msgid "Translation file wrapper."
-msgstr "Übersetzungsdateiname"
+msgstr "Übersetzungsdatei-Wrapper."
 
 #: ../../contributing/addons.rst:39
 msgid "Here is an example add-on:"
@@ -37564,13 +37525,6 @@ msgstr ""
 "dessen Konfiguration in :file:`pyproject.toml` gespeichert ist."
 
 #: ../../contributing/snippets/pre-commit.rst:10
-#, fuzzy
-#| msgid ""
-#| "The easiest approach to enforce all this is to install `pre-commit`_. The "
-#| "repository contains configuration for it to verify the committed files "
-#| "are sane. After installing it (it is already included in the :file:"
-#| "`requirements-lint.txt`) turn it on by running ``pre-commit install`` in "
-#| "Weblate checkout. This way all your changes will be automatically checked."
 msgid ""
 "The easiest approach to enforce all this is to install `pre-commit`_. The "
 "repository contains configuration for it to verify the committed files are "
@@ -37581,10 +37535,9 @@ msgstr ""
 "Der einfachste Ansatz, all dies zu erzwingen, ist die Installation von `pre-"
 "commit`_. Das Repository enthält eine entsprechende Konfiguration, um zu "
 "überprüfen, ob die committeten Dateien in Ordnung sind. Nachdem es "
-"installiert wurde (es ist bereits in der :file:`requirements-lint.txt` "
-"enthalten), aktivieren Sie es, indem Sie ``pre-commit install`` im Weblate-"
-"Checkout ausführen. Auf diese Weise werden alle Ihre Änderungen automatisch "
-"überprüft."
+"installiert wurde (es ist bereits in der :file:`pyproject.toml` enthalten), "
+"aktivieren Sie es, indem Sie ``pre-commit install`` im Weblate-Checkout "
+"ausführen. Auf diese Weise werden alle Ihre Änderungen automatisch überprüft."
 
 #: ../../contributing/snippets/pre-commit.rst:16
 msgid "You can also trigger check manually, to check all files run:"
@@ -37976,16 +37929,12 @@ msgid "Coding style"
 msgstr "Programmierstil"
 
 #: ../../contributing/frontend.rst:46
-#, fuzzy
-#| msgid ""
-#| "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
-#| "and CSS files."
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for CSS files and "
 "`Biome`_ for formatting and linting the JavaScript code."
 msgstr ""
-"Weblate verwendet `Prettier`_ für die Code-Formatierung von JavaScript- und "
-"CSS-Dateien."
+"Weblate verwendet `Prettier`_ für die Code-Formatierung von CSS-Dateien und "
+"`Biome`_ für Formatierung und Analyse des JavaScript-Codes."
 
 #: ../../contributing/frontend.rst:54
 msgid "Localization"
@@ -39603,16 +39552,13 @@ msgid "Create a virtualenv:"
 msgstr "Eine virtualenv erstellen:"
 
 #: ../../contributing/start.rst:37
-#, fuzzy
-#| msgid ""
-#| "Install Weblate (for this you need some system dependencies, see :doc:`../"
-#| "admin/install/source`):"
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`) and all dependencies useful for development:"
 msgstr ""
-"Weblate installieren (dazu benötigen Sie einige Systemabhängigkeiten, siehe :"
-"doc:`../admin/install/source`):"
+"Weblate (dazu benötigen Sie einige Systemabhängigkeiten, siehe :doc:`../"
+"admin/install/source`)und alle für die Entwicklung nützlichen Abhängigkeiten "
+"installieren:"
 
 #: ../../contributing/start.rst:43
 msgid "Start a development server:"
@@ -39638,18 +39584,16 @@ msgid "Running Weblate locally in Docker"
 msgstr "Weblate lokal in Docker ausführen"
 
 #: ../../contributing/start.rst:71
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose-plugin installed, you can spin up "
-#| "the development environment by simply running:"
 msgid ""
 "If you have Docker and the docker-compose-plugin installed, you need an "
 "additional tool called ``jq`` which you can install through your favorite "
 "package manager. Then, you can spin up the development environment by simply "
 "running:"
 msgstr ""
-"Wenn Sie Docker und docker-compose-plugin installiert haben, können Sie die "
-"Entwicklungsumgebung durch einfaches Ausführen starten:"
+"Wenn Sie Docker und das docker-compose-plugin installiert haben, wird ein "
+"zusätzliches Tool namens ``jq`` benötigt, das Sie über Ihren bevorzugten "
+"Paketmanager installieren können. Anschließend kann die Entwicklungsumgebung "
+"durch einfaches Ausführen gestarte werden:"
 
 #: ../../contributing/start.rst:79
 msgid ""
@@ -42521,11 +42465,11 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblate unterstützt das Pushen von Übersetzungsänderungen innerhalb einer :"
-"ref:`project`. Für jede :ref:`component`, die dies aktiviert hat "
+"Weblate unterstützt das Pushen von Übersetzungsänderungen innerhalb einer "
+":ref:`project`. Für jede :ref:`component`, die dies aktiviert hat "
 "(Standardeinstellung), wird die vorgenommene Änderung automatisch an andere "
 "Komponenten weitergegeben. Auf diese Weise werden die Übersetzungen synchron "
-"gehalten, auch wenn die Branches selbst schon sehr weit auseinander liegen "
+"gehalten, auch wenn die Branches selbst schon sehr weit auseinanderliegen "
 "und es nicht möglich ist, Übersetzungsänderungen einfach zwischen ihnen "
 "zusammenzuführen."
 
@@ -49784,7 +49728,7 @@ msgstr "Lange nicht übersetzt"
 
 #: ../../user/checks.rst:1774
 msgid "The string has not been translated for a long time"
-msgstr "Die Zeichenkette wurde schon lange nicht mehr übersetzt"
+msgstr "Die Zeichenkette wurde seit langem nicht übersetzt"
 
 #: ../../user/checks.rst:1776
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
