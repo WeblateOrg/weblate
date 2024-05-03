@@ -120,6 +120,9 @@ class UnitQuerySet(models.QuerySet):
             ),
         )
 
+    def count_screenshots(self):
+        return self.annotate(Count("screenshots"))
+
     def prefetch_full(self):
         from weblate.trans.models import Component
 
