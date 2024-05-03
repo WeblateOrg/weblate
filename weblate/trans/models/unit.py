@@ -1298,13 +1298,12 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_comments(self):
         """Return list of target comments."""
-        query = Q(unit=self)
         if self.is_source:
             # Add all comments on translation on source string comment
-            query |= Q(unit__source_unit=self)
+            query = Q(unit__source_unit=self)
         else:
             # Add source string comments for translation unit
-            query |= Q(unit=self.source_unit)
+            query = Q(unit__in=(self, self.source_unit))
         return Comment.objects.filter(query).prefetch_related("unit", "user").order()
 
     @cached_property
