@@ -13,6 +13,7 @@ Not yet released.
 **Bug fixes**
 
 * Fixed crashes with librsvg older than 2.46.
+* Daily execution of some :ref:`addons`.
 
 **Compatibility**
 

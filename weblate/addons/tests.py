@@ -1225,14 +1225,18 @@ class GitSquashAddonTest(ViewTestCase):
 
 
 class TestRemoval(ViewTestCase):
-    def install(self):
+    def install(self, sitewide: bool = False):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
         return (
             RemoveSuggestions.create(
-                component=self.component, configuration={"age": 7}
+                component=None if sitewide else self.component,
+                configuration={"age": 7},
             ),
-            RemoveComments.create(component=self.component, configuration={"age": 7}),
+            RemoveComments.create(
+                component=None if sitewide else self.component,
+                configuration={"age": 7},
+            ),
         )
 
     def assert_count(self, comments=0, suggestions=0) -> None:
@@ -1284,7 +1288,21 @@ class TestRemoval(ViewTestCase):
 
     def test_daily(self) -> None:
         self.install()
+        self.add_content()
+        self.age_content()
         daily_addons()
+        # Ensure the add-on is executed
+        daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_daily_sitewide(self) -> None:
+        self.install(sitewide=True)
+        self.add_content()
+        self.age_content()
+        daily_addons()
+        # Ensure the add-on is executed
+        daily_addons(modulo=False)
+        self.assert_count()
 
 
 class AutoTranslateAddonTest(ViewTestCase):

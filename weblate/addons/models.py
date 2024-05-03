@@ -283,7 +283,7 @@ def execute_addon_event(
                     getattr(addon.addon, method)(*args)
                 else:
                     # Callback is used in tasks
-                    method(addon)
+                    method(addon, component)
         except DjangoDatabaseError:
             raise
         except Exception as error:
