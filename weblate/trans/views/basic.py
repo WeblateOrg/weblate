@@ -231,9 +231,11 @@ def show_project_language(request, obj):
         user, project=project_object, language=language_object
     ).recent()
 
-    last_announcements = Change.objects.last_changes(
-        user, project=None, language=language_object
-    ).filter_announcements().recent()
+    last_announcements = (
+        Change.objects.last_changes(user, project=None, language=language_object)
+        .filter_announcements()
+        .recent()
+    )
 
     translations = translation_prefetch_tasks(prefetch_stats(obj.translation_set))
 
