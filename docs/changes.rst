@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Visually highlight explanation in :ref:`glossary`.
+
 **Bug fixes**
 
 **Compatibility**

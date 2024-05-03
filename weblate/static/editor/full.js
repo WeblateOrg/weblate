@@ -468,7 +468,7 @@
 
   FullEditor.prototype.initGlossary = function () {
     /* Copy from glossary */
-    this.$editor.on("click", ".glossary-embed.clickable-row", (e) => {
+    this.$editor.on("click", ".glossary-embed", (e) => {
       /* Avoid copy when clicked on a link */
       if ($(e.target).parents("a").length > 0) {
         return;
