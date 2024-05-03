@@ -52,6 +52,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
             action=Change.ACTION_ANNOUNCEMENT,
             project=result.project,
             component=result.component,
+            language=result.language,
             announcement=result,
             target=result.message,
             user=user,
