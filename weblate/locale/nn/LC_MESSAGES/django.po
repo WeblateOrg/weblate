@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Adaline Simonian <adalinesimonian@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 07:29+0000\n"
-"PO-Revision-Date: 2023-05-31 17:53+0000\n"
-"Last-Translator: qrynill <tryvseu@tuta.io>\n"
+"PO-Revision-Date: 2024-05-03 09:44+0000\n"
+"Last-Translator: Adaline Simonian <adalinesimonian@gmail.com>\n"
 "Language-Team: Norwegian Nynorsk <https://hosted.weblate.org/projects/"
 "weblate/application/nn/>\n"
 "Language: nn\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.5.3-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -47,13 +48,11 @@ msgstr "Fullt namn"
 
 #: weblate/accounts/forms.py:117
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Namn vert ogso brukt i versjonskontrollkommandoar."
 
 #: weblate/accounts/forms.py:181 weblate/accounts/models.py:623
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Commit e-mail"
-msgstr "Din e-post"
+msgstr "Commits e-post"
 
 #: weblate/accounts/forms.py:182
 msgid "Use account e-mail address"
@@ -64,6 +63,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
+"Vert brukt i versjonskontrollcommitar. Adressa vil verta verande i "
+"repositoriet for alltid når endringar er committa av Weblate."
 
 #: weblate/accounts/forms.py:216 weblate/accounts/models.py:617
 msgid "Public e-mail"
@@ -76,19 +77,19 @@ msgstr "Vis ikkje e-postadressa mi til andre"
 #: weblate/accounts/forms.py:323
 #, python-format
 msgid "Component list: %s"
-msgstr ""
+msgstr "Komponentliste: %s"
 
 #: weblate/accounts/forms.py:351
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Account e-mail"
-msgstr "E-postadressa di"
+msgstr "Konto-e-postadressa"
 
 #: weblate/accounts/forms.py:353
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Vert brukt for e-postvarslar og som e-postadresse for stadfesting viss ho "
+"ikkje er konfigurert nedanfor."
 
 #: weblate/accounts/forms.py:398
 msgid "Subject"
@@ -125,10 +126,8 @@ msgid "E-mail"
 msgstr "E-post"
 
 #: weblate/accounts/forms.py:424
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Påslåings-e-post vert send her."
+msgstr "E-post med ei stadfestingslenkje vil verta sendt hit."
 
 #: weblate/accounts/forms.py:466
 msgid "New password"
@@ -184,7 +183,7 @@ msgstr "Denne kontoen er uverksam."
 
 #: weblate/accounts/forms.py:720
 msgid "Component wide notifications"
-msgstr ""
+msgstr "Varsel for alle komponenter"
 
 #: weblate/accounts/forms.py:725
 msgid "Translation notifications"
@@ -216,7 +215,7 @@ msgstr "Prosjekt: {}"
 
 #: weblate/accounts/forms.py:783
 msgid "Component: {}"
-msgstr ""
+msgstr "Komponent: {}"
 
 #: weblate/accounts/forms.py:789
 msgid ""
@@ -290,7 +289,7 @@ msgstr "Brukarnamn"
 
 #: weblate/accounts/forms.py:874 weblate/auth/models.py:388
 msgid "Date joined"
-msgstr ""
+msgstr "Dato innmeldt"
 
 #: weblate/accounts/forms.py:875
 msgid "Translations made"
@@ -313,14 +312,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Stør ikkje den valde skiljinga."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Legg til brukar i ein hop"
+msgstr "Legg til brukar i eit team"
 
 #: weblate/accounts/forms.py:929
 msgid "Add team"
-msgstr ""
+msgstr "Legg til team"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -371,11 +368,11 @@ msgstr "Logga inn med {method} ({name}) på ei ny eining."
 
 #: weblate/accounts/models.py:153
 msgid "Somebody attempted to register with your e-mail."
-msgstr ""
+msgstr "Nokon prøvde å registrera seg på e-posten din."
 
 #: weblate/accounts/models.py:155
 msgid "Somebody attempted to register using your e-mail address."
-msgstr ""
+msgstr "Nokon prøvde å registrera seg med e-posadressa di."
 
 #: weblate/accounts/models.py:157
 #, python-brace-format
@@ -391,15 +388,14 @@ msgid "Account and all private data removed."
 msgstr "Sletta kontoen din og alle dei personlege dataa dine."
 
 #: weblate/accounts/models.py:160
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Sende stadfestings-e-post til {email}."
+msgstr "Stadfesting på fjerning av konto sendt til {email}."
 
 #: weblate/accounts/models.py:161
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "Samtykke med tenestekrav {date}."
+msgstr "Samtykke med tenestevilkår {date}."
 
 #: weblate/accounts/models.py:162
 #, python-brace-format
@@ -409,7 +405,7 @@ msgstr "Innboden til {site_title} av {username}."
 #: weblate/accounts/models.py:163
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Aksepterte invitasjon frå {username}."
 
 #: weblate/accounts/models.py:164
 msgid "Started trial period."
@@ -425,35 +421,35 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Systemet oppretta ein brukar for å spora forfattarskap av omsetjingar lasta "
+"opp av ein annan brukar."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Fekk ikkje tilgjenge til prosjektet {project}"
+msgstr "Fekk ikkje tilgjenge til prosjektet {project}."
 
 #: weblate/accounts/models.py:171
 msgid "User was enabled by administrator."
-msgstr ""
+msgstr "Brukar vart aktivert av administrator."
 
 #: weblate/accounts/models.py:172
 msgid "User was disabled by administrator."
-msgstr ""
+msgstr "Brukar vart deaktivert av administrator."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Halvårleg gjennomgang av supportstatus vart vist."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Innboden til {site_title} av {username}."
+msgstr "Brukar vart lagt til {team}-teamet av {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Brukar vart fjerna frå {team}-teamet av {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -472,16 +468,13 @@ msgid "Could not sign in using password."
 msgstr "Greidde ikkje å logge inn med passordet."
 
 #: weblate/accounts/models.py:186
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Innboden til {site_title} av {username}."
+msgstr "Innboden til {project} av {username}."
 
 #: weblate/accounts/models.py:189
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Bytte passord."
+msgstr "Passord konfigurert."
 
 #: weblate/accounts/models.py:195
 msgid "To restore access to your account, please reset your password."
@@ -496,6 +489,8 @@ msgstr "Om du synest at dette er uhøveleg, tal med prosjektvedlikehaldarane."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
+"Viss det var deg, kan du tilbakestilla passordet ditt for å få tilgang til "
+"kontoen din igjen."
 
 #: weblate/accounts/models.py:321 weblate/templates/accounts/profile.html:304
 #: weblate/templates/accounts/user.html:242
@@ -532,22 +527,22 @@ msgstr ""
 
 #: weblate/accounts/models.py:430
 msgid "Theme"
-msgstr ""
+msgstr "Drakt"
 
 #: weblate/accounts/models.py:433
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Synkroniser med systemet"
 
 #: weblate/accounts/models.py:434
 msgctxt "Theme selection"
 msgid "Light"
-msgstr ""
+msgstr "Ljos"
 
 #: weblate/accounts/models.py:435
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Mørk"
 
 #: weblate/accounts/models.py:439
 msgid "Hide completed translations on the dashboard"
@@ -563,7 +558,7 @@ msgstr "Skjul kjelda om det finst ei omsetjing på eit mål du skjønar"
 
 #: weblate/accounts/models.py:454
 msgid "Editor link"
-msgstr ""
+msgstr "Lenkje til redigeringsprogram"
 
 #: weblate/accounts/models.py:456
 msgid ""
@@ -637,11 +632,11 @@ msgstr "Fylgde omsetjingar"
 #: weblate/accounts/models.py:517 weblate/auth/models.py:147
 #: weblate/templates/dashboard/user.html:21
 msgid "Component lists"
-msgstr ""
+msgstr "Komponentlister"
 
 #: weblate/accounts/models.py:518 weblate/templates/dashboard/user.html:62
 msgid "Component list"
-msgstr ""
+msgstr "Komponentliste"
 
 #: weblate/accounts/models.py:519 weblate/templates/dashboard/user.html:23
 msgid "Suggested translations"
@@ -653,7 +648,7 @@ msgstr "Forvald oversynsvising"
 
 #: weblate/accounts/models.py:539
 msgid "Default component list"
-msgstr ""
+msgstr "Førehandsvald komponentliste"
 
 #: weblate/accounts/models.py:549
 #: weblate/templates/snippets/watch-dropdown.html:28
@@ -678,6 +673,8 @@ msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
+"Liberapay er ei plattform for å donera pengar til lag, organisasjonar og "
+"personar."
 
 #: weblate/accounts/models.py:571
 msgid "Fediverse URL"
@@ -688,6 +685,8 @@ msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
+"Lenkje til Fediverse-profilen din for føderale tenester som Mastodon eller "
+"diaspora*."
 
 #: weblate/accounts/models.py:580
 msgid "Code site URL"
@@ -695,7 +694,7 @@ msgstr "Kodestad-nettadresse"
 
 #: weblate/accounts/models.py:583
 msgid "Link to your code profile for services like Codeberg or GitLab."
-msgstr ""
+msgstr "Lenkje til kodeprofilen din for tenester som Codeberg eller GitLab."
 
 #: weblate/accounts/models.py:588
 msgid "GitHub username"
@@ -725,11 +724,12 @@ msgstr "Verksemd"
 #: weblate/accounts/models.py:681
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr ""
+msgstr "Vel komponentlista du ynskjer å visa i oversikta."
 
 #: weblate/accounts/models.py:692
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
+"Val av komponentliste har ingen effekt når han ikkje vert vist i oversikta."
 
 #: weblate/accounts/models.py:825 weblate/trans/views/edit.py:362
 #, python-format
@@ -742,13 +742,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:916
 msgid "Please provide an e-mail address for submitting translations."
-msgstr ""
+msgstr "Oppgje ei e-postadresse for innsending av omsetjingar."
 
 #: weblate/accounts/notifications.py:52
-#, fuzzy
-#| msgid "Instant notification"
 msgid "No notification"
-msgstr "Varsl med ein gong"
+msgstr "Ingen varsling"
 
 #: weblate/accounts/notifications.py:53
 msgid "Instant notification"
@@ -769,117 +767,102 @@ msgstr "Månadlege samandrag"
 #: weblate/accounts/notifications.py:459
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr ""
+msgstr "Operasjonen vart utført i kodelaget"
 
 #: weblate/accounts/notifications.py:470
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr ""
+msgstr "Komponent vart låst eller låst opp"
 
 #: weblate/accounts/notifications.py:477
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr ""
+msgstr "Lisens vart endra"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
 msgctxt "Notification name"
 msgid "Parse error occurred"
-msgstr "Tydingsfeil"
+msgstr "Tydingsfeil oppstod"
 
 #: weblate/accounts/notifications.py:502
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Tek bort uomsette strengar ifrå omsetjingsfilene."
+msgstr "Ny streng er tilgjengeleg for omsetjing"
 
 #: weblate/accounts/notifications.py:513
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr ""
+msgstr "Bidragsytar har gjort den fyrste omsetjing si"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Suggestions made"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Gjevne framlegg"
+msgstr "Framlegg vart lagt til"
 
 #: weblate/accounts/notifications.py:531
-#, fuzzy
-#| msgid "Comments made"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Rita merknadar"
+msgstr "Kommentar vart lagt til"
 
 #: weblate/accounts/notifications.py:553
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Nemnd i ein merknad"
+msgstr "Du vart nemnd i ein kommentar"
 
 #: weblate/accounts/notifications.py:585
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr ""
+msgstr "Omsetjinga di fekk ein kommentar"
 
 #: weblate/accounts/notifications.py:610
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr ""
+msgstr "Streng vart redigert av brukar"
 
 #: weblate/accounts/notifications.py:618
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr ""
+msgstr "Streng vart godkjent"
 
 #: weblate/accounts/notifications.py:626
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr ""
+msgstr "Streng vart endra"
 
 #: weblate/accounts/notifications.py:635
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr ""
+msgstr "Nytt språk vart lagt til eller spurt"
 
 #: weblate/accounts/notifications.py:652
-#, fuzzy
-#| msgid "Translations made"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "Omsetjingar gjort"
+msgstr "Ny omsetjingskomponent vart oppretta"
 
 #: weblate/accounts/notifications.py:660
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr ""
+msgstr "Kunngjeringa vart publisert"
 
 #: weblate/accounts/notifications.py:675
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr ""
+msgstr "Nytt varsel dukka opp i ein komponent"
 
 #: weblate/accounts/notifications.py:711
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr ""
+msgstr "Kodelagsoperasjon mislukkast"
 
 #: weblate/accounts/notifications.py:778
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "Ventande framlegg"
+msgstr "Ventande framlegg finst"
 
 #: weblate/accounts/notifications.py:788
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Ufullgjorde strengar"
+msgstr "Ufullgjorde strengar finst"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -905,54 +888,54 @@ msgstr "Passordet ditt kan ikkje samsvara med eit du har nytta før."
 
 #: weblate/accounts/pipeline.py:343
 msgid "You can not complete password reset while signed in."
-msgstr ""
+msgstr "Du kan ikkje fullføra passordtilbakestilling medan du er innlogga."
 
 #: weblate/accounts/pipeline.py:346 weblate/accounts/pipeline.py:366
 msgid "The registration link has been invalidated."
-msgstr ""
+msgstr "Registreringslenkja er gjord ugyldig."
 
 #: weblate/accounts/pipeline.py:358
 msgid "You can not complete registration while signed in."
-msgstr ""
+msgstr "Du kan ikkje fullføra registrering medan du er logga inn."
 
 #: weblate/accounts/pipeline.py:363
 msgid "You can confirm your registration only while signed in."
-msgstr ""
+msgstr "Du kan berre stadfesta registrering når du er logga inn."
 
 #: weblate/accounts/pipeline.py:540
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"E-postadressa di høyrer ikkje lenger til ein stadfest konto. Ho har verta "
-"knytt til {0}."
+"E-postadressa di høyrer ikkje lenger til ein stadfest konto. Ho har vorte "
+"endra til {0}."
 
 #: weblate/accounts/views.py:164 weblate/accounts/views.py:945
 #: weblate/accounts/views.py:1011 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
-msgstr "Nullstill passordet"
+msgstr "Nullstill passord"
 
 #: weblate/accounts/views.py:167
 msgid "Remove account"
-msgstr ""
+msgstr "Fjern konto"
 
 #: weblate/accounts/views.py:170 weblate/accounts/views.py:837
 msgid "User registration"
-msgstr ""
+msgstr "Brukarregistrering"
 
 #: weblate/accounts/views.py:198
 msgid "Could not send message to administrator."
-msgstr ""
+msgstr "Meldinga kunne ikkje sendast til administrator."
 
 #: weblate/accounts/views.py:222
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr "Sendte førespurnaden din. Du vil høyra ifrå oss snart."
+msgstr "Førespurnaden din har vorte send. Du vil høyra frå oss snart."
 
 #: weblate/accounts/views.py:341
 msgid "Your profile has been updated."
-msgstr "Retta profilen din."
+msgstr "Profilen din er oppdatert."
 
 #: weblate/accounts/views.py:384
 msgid "User profile"
@@ -969,7 +952,7 @@ msgstr "Du har sendt for mange bod, freist att seinare."
 #: weblate/accounts/views.py:494 weblate/templates/accounts/contact.html:6
 #: weblate/templates/base.html:304 weblate/templates/footer.html:16
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: weblate/accounts/views.py:518 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
@@ -1010,13 +993,12 @@ msgid "Thank you for using Weblate."
 msgstr "Takk for at du nyttar Weblate."
 
 #: weblate/accounts/views.py:874
-#, fuzzy
 msgid "Register e-mail"
-msgstr "Knyt til ei e-postadresse"
+msgstr "Registrer e-post"
 
 #: weblate/accounts/views.py:890 weblate/accounts/views.py:966
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr ""
+msgstr "Kan ikkje nullstilla passord, e-poststadfesting er avskrudd."
 
 #: weblate/accounts/views.py:921 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:147
@@ -1030,37 +1012,40 @@ msgstr "Har alt nullstilt passordet."
 
 #: weblate/accounts/views.py:1165
 msgid "Could not remove user identity"
-msgstr ""
+msgstr "Kunne ikkje fjerna brukaridentitet"
 
 #: weblate/accounts/views.py:1175
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
+msgstr "Legg til ein annan identitet ved å stadfesta e-postadressa di først."
 
 #: weblate/accounts/views.py:1224
 msgid "Could not complete registration."
-msgstr ""
+msgstr "Kunne ikkje fullføra registrering."
 
 #: weblate/accounts/views.py:1227
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Sjekk om du allereie har registrert ein konto."
 
 #: weblate/accounts/views.py:1230
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
+"Du kan også be om eit nytt passord viss du har mista legitimasjonen din."
 
 #: weblate/accounts/views.py:1241
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
+"Prøv å registrera deg på nytt for å stadfesta identiteten din, "
+"stadfestingslenkja har sannsynlegvis gått ut."
 
 #: weblate/accounts/views.py:1249
 msgid "Could not authenticate due to invalid session state."
-msgstr ""
+msgstr "Identitetsstadfesting mislykkast på grunn av ugyldig økttilstand."
 
 #: weblate/accounts/views.py:1257
 msgid "Got no e-mail address from third party authentication service."
-msgstr ""
+msgstr "Fekk inga e-postadresse frå tredjeparts-identitetsstadfestingsteneste."
 
 #: weblate/accounts/views.py:1259
 msgid "Please register using e-mail instead."
@@ -1068,20 +1053,22 @@ msgstr "Lag ein konto med e-postadressa di i staden."
 
 #: weblate/accounts/views.py:1266
 msgid "New registrations are turned off."
-msgstr ""
+msgstr "Nyregistreringar er avslått."
 
 #: weblate/accounts/views.py:1328
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
+"Identitetsstadfestinga mislukkast, antakeleg som fylgje av eit utgåttt "
+"symbol eller ein tilkoplingsfeil."
 
 #: weblate/accounts/views.py:1334
 msgid "Authentication cancelled."
-msgstr ""
+msgstr "Identitetsstadfesting avbrote."
 
 #: weblate/accounts/views.py:1337
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Tenaren tillèt ikkje identitetsstadfesting."
 
 #: weblate/accounts/views.py:1342
 msgid "The supplied e-mail address is already in use for another account."
@@ -1094,6 +1081,7 @@ msgstr "Det gjevne brukarnamnet er alt nytta av ein annan konto."
 #: weblate/accounts/views.py:1354
 msgid "The supplied user identity is already in use for another account."
 msgstr ""
+"Den medfylgjande brukaridentiteten er allereie i bruk for ein annan konto."
 
 #: weblate/accounts/views.py:1382 weblate/accounts/views.py:1395
 msgid "Notification settings adjusted."
@@ -1104,37 +1092,45 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
+"Lenkja for merknadsendring er ikkje lenger gyldig. Logg inn for å setja opp "
+"varsel."
 
 #: weblate/addons/autotranslate.py:19 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
 msgid "Automatic translation"
-msgstr ""
+msgstr "Automatisk omsetjing"
 
 #: weblate/addons/autotranslate.py:21
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+"Omsetjar strengar automatisk ved hjelp av maskinomsetjing eller andre "
+"komponentar."
 
 #: weblate/addons/base.py:381 weblate/trans/views/create.py:244
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Kodelageret er utdatert, du får kanskje ikkje forventa resultat før du "
+"oppdaterer det."
 
 #: weblate/addons/cdn.py:29
 msgid "JavaScript localization CDN"
-msgstr ""
+msgstr "Javascript-lokaliseringsinnhaldsleveransenettverk"
 
 #: weblate/addons/cdn.py:31
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"Legg omsetjingar i innhaldsleveringsnettverk for bruk i JavaScript- eller "
+"HTML-lokalisering."
 
 #: weblate/addons/cleanup.py:22
 msgid "Cleanup translation files"
-msgstr ""
+msgstr "Rydd opp i omsetjingsfiler"
 
 #: weblate/addons/cleanup.py:24
 msgid ""
@@ -1163,16 +1159,20 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Sikrar at same liste med språk vert nytta for alle komponentar i eit "
+"prosjekt."
 
 #: weblate/addons/discovery.py:17
 msgid "Component discovery"
-msgstr ""
+msgstr "Komponentoppdaging"
 
 #: weblate/addons/discovery.py:19
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
+"Legg automatisk til eller fjernar prosjektkomponentar basert på filendringar "
+"i versjonskontrollsystemet."
 
 #: weblate/addons/example.py:20
 msgid "Example add-on"
@@ -1184,11 +1184,11 @@ msgstr "Dette tillegget gjer ingenting, det er berre eit døme."
 
 #: weblate/addons/example_pre.py:19
 msgid "Execute script before commit"
-msgstr ""
+msgstr "Køyr skript før innsending"
 
 #: weblate/addons/example_pre.py:20
 msgid "This add-on executes a script."
-msgstr ""
+msgstr "Dette tillegget køyrer ein skript."
 
 #: weblate/addons/flags.py:29
 msgid "Flag new source strings as \"Needs editing\""
@@ -1200,6 +1200,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Når ein ny kjeldestreng vert importert frå versjonskontrollsystemet, vert "
+"den markert som «Treng redigering». På denne måten kan du enkelt filtrera og "
+"redigera kjeldestrenger skrive av utviklarane."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
@@ -1211,6 +1214,10 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Kvar gong ein ny omsetjeleg streng vert teken inn frå "
+"versjonskontrollsystemet, vert markert han i Weblate med at han treng "
+"handling. På denne måten kan du enkelt filtrera og endra omsetjingar laga av "
+"utviklarane."
 
 #: weblate/addons/flags.py:68
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1222,6 +1229,9 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
+"Når ein ny omsetjeleg streng vert importert frå VKS og han samsvarer med ein "
+"kjeldestreng, vert behovet for redigering flagga i Weblate. Spesielt nyttig "
+"for filformat som inkluderer kjeldestrenger for uomsette strengar."
 
 #: weblate/addons/flags.py:89 weblate/templates/category-project.html:42
 #: weblate/templates/category-project.html:108
@@ -1232,81 +1242,83 @@ msgstr ""
 #: weblate/templates/project.html:70 weblate/templates/project.html:199
 #: weblate/templates/translation.html:70 weblate/templates/translation.html:284
 msgid "Bulk edit"
-msgstr ""
+msgstr "Masseredigering"
 
 #: weblate/addons/flags.py:90
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr ""
+msgstr "Masseredigering av flagg, etiketter, eller tilstand for strengar."
 
 #: weblate/addons/forms.py:40
 msgid "Path of generated MO file"
-msgstr ""
+msgstr "Sti for generert MO-fil"
 
 #: weblate/addons/forms.py:44
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Viss ikkje angitt, vil plasseringa for PO-fila brukast."
 
 #: weblate/addons/forms.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Include strings needing editing"
-msgstr "Merk nye kjeldestrengar med «Treng brigde»"
+msgstr "Inkluder strengar som treng redigering"
 
 #: weblate/addons/forms.py:51
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Strengar som treng redigering (fuzzy) er vanlegvis ikkje klara til bruk som "
+"omsetjingar."
 
 #: weblate/addons/forms.py:77
 msgid "Name of generated file"
-msgstr ""
+msgstr "Namn på generert fil"
 
 #: weblate/addons/forms.py:81
 msgid "Content of generated file"
-msgstr ""
+msgstr "Innhald i den genererte fila"
 
 #: weblate/addons/forms.py:111 weblate/addons/forms.py:229
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Linjebrying av lange linjer"
 
 #: weblate/addons/forms.py:116
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr ""
+msgstr "Linjebryt på 77 teikn og ved nylinjer (xgettext-forval)"
 
 #: weblate/addons/forms.py:121
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr ""
+msgstr "Bryt berre linjer ved linjeskift (som 'xgettext --no-wrap')"
 
 #: weblate/addons/forms.py:123 weblate/addons/forms.py:235
 msgid "No line wrapping"
-msgstr ""
+msgstr "Ingen linjebryting"
 
 #: weblate/addons/forms.py:128
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
+"I utgangspunktet deler gettext lenkjer på 77 teikn og ved linjeskift. Med "
+"parameteret --no-wrap, blir det berre delt ved linjeskift."
 
 #: weblate/addons/forms.py:136
 msgid "Keep previous msgids of translated strings"
-msgstr ""
+msgstr "Behald tidlegare msgid-ar for omsette strengar"
 
 #: weblate/addons/forms.py:141
 msgid "Remove locations of translated strings"
-msgstr ""
+msgstr "Fjern plasseringar av omsette strengar"
 
 #: weblate/addons/forms.py:146
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "Bruk fuzzy jamføring"
 
 #: weblate/addons/forms.py:152
 msgid "Commit squashing"
-msgstr ""
+msgstr "Innsjekk-samanslåingar"
 
 #: weblate/addons/forms.py:155
 msgid "All commits into one"
-msgstr ""
+msgstr "Alle innsendingar samla til éin"
 
 #: weblate/addons/forms.py:156
 msgid "Per language"
@@ -4597,7 +4609,7 @@ msgstr ""
 #: weblate/legal/templates/legal/privacy.html:15
 #: weblate/templates/snippets/login-info.html:15
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Personvernerklæring"
 
 #: weblate/legal/templates/legal/cookies.html:27
 msgid "Cookies are used on this site for the following:"
@@ -10107,7 +10119,7 @@ msgstr ""
 
 #: weblate/templates/snippets/suggestions.html:34
 msgid "Accept"
-msgstr "Godtak"
+msgstr "Godta"
 
 #: weblate/templates/snippets/suggestions.html:36
 msgid "Accept and approve"
