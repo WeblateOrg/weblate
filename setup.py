@@ -6,12 +6,12 @@
 
 import os
 from distutils import log
-from setuptools.command.build import build
 from distutils.core import Command
 from glob import glob
 from itertools import chain
 
 from setuptools import setup
+from setuptools.command.build import build
 from setuptools.command.build_py import build_py
 from setuptools.modified import newer
 from translate.tools.pocompile import convertmo
