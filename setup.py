@@ -6,7 +6,7 @@
 
 import os
 from distutils import log
-from distutils.command.build import build
+from setuptools.command.build import build
 from distutils.core import Command
 from glob import glob
 from itertools import chain
