@@ -12,6 +12,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Improved handling placeables in :ref:`mt-openai`.
+
 **Compatibility**
 
 **Upgrading**
