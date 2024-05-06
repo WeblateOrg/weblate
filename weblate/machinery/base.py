@@ -112,6 +112,8 @@ class BatchMachineTranslation:
     settings_form: None | type[BaseMachineryForm] = None
     request_timeout = 5
     is_available = True
+    replacement_start = "[X"
+    replacement_end = "X]"
 
     @classmethod
     def get_rank(cls):
@@ -317,7 +319,7 @@ class BatchMachineTranslation:
         self, h_start: int, h_end: int, h_text: str, h_kind: None | Unit
     ) -> str:
         """Generate a single replacement."""
-        return f"[X{h_start}X]"
+        return f"{self.replacement_start}{h_start}{self.replacement_end}"
 
     def get_highlights(
         self, text: str, unit
