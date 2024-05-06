@@ -98,7 +98,7 @@ class BillingManager(models.Manager["Billing"]):
             bill.check_limits()
 
 
-class BillingQuerySet(models.QuerySet):
+class BillingQuerySet(models.QuerySet["Billing"]):
     def get_out_of_limits(self):
         return self.filter(in_limits=False)
 
