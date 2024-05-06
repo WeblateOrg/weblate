@@ -118,7 +118,7 @@ class Addon(models.Model):
         if update_fields != ["state"]:
             self.store_change(
                 Change.ACTION_ADDON_CREATE
-                if self.pk or force_insert
+                if not self.pk or force_insert
                 else Change.ACTION_ADDON_CHANGE
             )
 
