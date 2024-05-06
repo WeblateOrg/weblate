@@ -129,7 +129,8 @@ Replace existing translation file (``replace``)
     Existing file is replaced with new content. This can lead to loss of existing
     translations, use with caution.
 
-    This option is available only if the user has the :ref:`"Edit component settings" permission <privileges>`.
+    This option is available only if the user has the
+    :ref:`"Edit component settings" permission or "Add new string", "Remove a string" and "Edit strings" permissions <privileges>`.
 Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
