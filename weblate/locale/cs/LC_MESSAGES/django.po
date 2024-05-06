@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 07:29+0000\n"
-"PO-Revision-Date: 2024-05-06 12:23+0000\n"
+"PO-Revision-Date: 2024-05-06 12:46+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -60,16 +60,12 @@ msgid "Use account e-mail address"
 msgstr "Použít profilovou e-mail adresu"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
-"Používá se v revizích správy verzí. Adresa zůstane v repozitáři navždy, "
-"jakmile Weblate zapíše změny."
+"Používá se v zápisech do verzovacího systému. Adresa zůstane v repozitáři "
+"navždy, jakmile Weblate zapíše změny."
 
 #: weblate/accounts/forms.py:216 weblate/accounts/models.py:617
 msgid "Public e-mail"
@@ -327,16 +323,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Zvolené řazení není podporované."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Přidat uživatele do skupiny"
+msgstr "Přidat uživatele do týmu"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit label"
 msgid "Add team"
-msgstr "Upravit štítky"
+msgstr "Přidat tým"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -444,37 +436,31 @@ msgstr ""
 "uživatelem."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Přístup k projektu {project} byl zablokován"
+msgstr "Přístup k projektu {project} byl zablokován."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Uživatel byl povolen správcem"
+msgstr "Uživatel byl povolen správcem."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Uživatel byl zakázán správcem"
+msgstr "Uživatel byl zakázán správcem."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Byl zobrazen pololetní přehled stavu podpory."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Pozvánka do {site_title} od {username}."
+msgstr "Uživatel byl přidán do týmu {team} uživatelem {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Uživatel byl odstraněn z týmu {team} uživatelem {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -768,10 +754,8 @@ msgstr ""
 "nastaveních."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Nemáte oprávnění pro ukládání překladů."
+msgstr "Prosím poskytněte e-mailovou adresu pro odesílání překladů."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -809,9 +793,6 @@ msgid "License was changed"
 msgstr "Licence byla změněna"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Došlo k chybě při zpracování"
@@ -1799,10 +1780,9 @@ msgstr ""
 "originálu, a přidá nové se zdrojovým řetězcem jako překladem."
 
 #: weblate/addons/views.py:93
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Zadán nesprávný název doplňku!"
+msgstr "Neplatný název doplňku: „%s“"
 
 #: weblate/addons/views.py:113
 msgid "Add-on installed, please review integration instructions."
@@ -2387,10 +2367,8 @@ msgid "Roles"
 msgstr "Role"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Zvolte role udělené této skupině."
+msgstr "Vyberte role udělené tomuto týmu."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2475,10 +2453,8 @@ msgid "Languages"
 msgstr "Jazyky"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "Vnitřní skupina Weblate"
+msgstr "Interní tým Weblate"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2544,18 +2520,13 @@ msgid "Regular expression for e-mail address"
 msgstr "Regulární výraz pro e-mailovou adresu"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
-"Uživatelé s odpovídající e-mailovou adresou budou přidáni do této skupiny."
+"Uživatelé, jejichž e-mailové adresy se shodují, budou přidáni do tohoto týmu."
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "Skupina k přiřazení"
+msgstr "Tým k přiřazení"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -2576,11 +2547,11 @@ msgstr "Zadejte název existujícího účtu na Weblate nebo e-mailovou adresu."
 
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Navrhněte uživatelské jméno pro uživatele. Lze jej později změnit."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Navrhněte celé jméno uživatele. Lze jej později změnit."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2769,9 +2740,6 @@ msgid "Number of changes"
 msgstr "Počet změn"
 
 #: weblate/billing/models.py:298 weblate/wladmin/models.py:215
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
 msgstr "Hostovaných řetězců"
 
@@ -2804,10 +2772,8 @@ msgstr[1] "Obsahuje %d projekty"
 msgstr[2] "Obsahuje %d projektů"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Stránky projektu"
+msgstr "Chybí webová stránka projektu!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -2924,16 +2890,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Neodpovídající \\n"
+msgstr "Neodpovídající interrobang"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Překlad a zdroj oba nekončí výpustky"
+msgstr "Překlad a zdroj oba nekončí výrazem interrobang"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -3165,10 +3127,8 @@ msgid "String variant"
 msgstr "Varianta řetězce"
 
 #: weblate/checks/flags.py:74
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Soubor Fluent"
+msgstr "Fluent typ"
 
 #: weblate/checks/flags.py:275
 #, python-format
