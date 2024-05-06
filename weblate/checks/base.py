@@ -22,6 +22,8 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
+    from weblate.trans.models import Unit
+
 
 class Check:
     """Basic class for checks."""
@@ -202,7 +204,7 @@ class BatchCheckMixin(Check):
         component.batched_checks.add(self.check_id)
         return self.check_id in unit.all_checks_names
 
-    def check_component(self, component) -> bool:
+    def check_component(self, component) -> Iterable[Unit]:
         raise NotImplementedError
 
     def perform_batch(self, component) -> None:

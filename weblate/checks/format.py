@@ -266,7 +266,7 @@ class BaseFormatCheck(TargetCheck):
     regexp: Pattern[str]
     plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
-    normalize_remove = None
+    normalize_remove: str | None = None
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
