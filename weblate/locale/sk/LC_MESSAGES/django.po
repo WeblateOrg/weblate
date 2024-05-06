@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-04-30 07:29+0000\n"
-"PO-Revision-Date: 2024-05-06 14:20+0000\n"
+"PO-Revision-Date: 2024-05-06 14:39+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -60,10 +60,6 @@ msgid "Use account e-mail address"
 msgstr "Použiť profilovú e-mailovú adresu"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
@@ -456,10 +452,9 @@ msgid "Semiannual support status review was displayed."
 msgstr "Bol zobrazený polročný prehľad stavu podpory."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Pozvánka do {site_title} od {username}."
+msgstr "Používateľ bol pridaný do tímu {team} pužívateľom {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
@@ -760,10 +755,8 @@ msgstr ""
 "nastaveniach."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Nemáte oprávnenie na ukladanie prekladov."
+msgstr "Prosím poskytnite e-mailovú adresu pre odosielanie prekladov."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -801,12 +794,9 @@ msgid "License was changed"
 msgstr "Licencia bola zmenená"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
-msgstr "Vyskytla sa chyba spracovania"
+msgstr "Došlo k chybe pri spracovaní"
 
 #: weblate/accounts/notifications.py:502
 msgctxt "Notification name"
@@ -1794,10 +1784,9 @@ msgstr ""
 "origináli, a pridá nové so zdrojovým reťazcom ako prekladom."
 
 #: weblate/addons/views.py:93
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Zadaný nesprávny názov doplnku!"
+msgstr "Neplatný názov doplnku: „%s“"
 
 #: weblate/addons/views.py:113
 msgid "Add-on installed, please review integration instructions."
@@ -2564,11 +2553,11 @@ msgstr "Zadajte názov existujúceho účtu na Weblate alebo e-mailovú adresu."
 
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Navrhnite používateľské meno pre používateľov. Neskôr sa to dá zmeniť."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Navrhnite celé meno používateľa . Neskôr sa to dá zmeniť."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2909,16 +2898,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Oba preklad aj zdroj nekončia výkričníkom"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Nezodpovedajúci \\n"
+msgstr "Nezodpovedajúci interrobang"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Oba preklad aj zdroj nekončia troma bodkami"
+msgstr "Oba preklad aj zdroj nekončia výrazom interrobang"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -3150,10 +3135,8 @@ msgid "String variant"
 msgstr "Varianta reťazca"
 
 #: weblate/checks/flags.py:74
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent type"
-msgstr "Súbor písma"
+msgstr "Fluent typ"
 
 #: weblate/checks/flags.py:275
 #, python-format
@@ -7001,11 +6984,8 @@ msgid "Yearly price"
 msgstr "Ročná cena"
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings limit"
-msgstr "Hosťované reťazce"
+msgstr "Limit hosťovaných reťazcov"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
