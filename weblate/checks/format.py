@@ -328,11 +328,8 @@ class BaseFormatCheck(TargetCheck):
     def cleanup_string(self, text):
         return text
 
-    def normalize(self, matches):
+    def normalize(self, matches: list[str]) -> list[str]:
         if self.normalize_remove is None:
-            return matches
-        if isinstance(matches, Counter):
-            matches.pop(self.normalize_remove, None)
             return matches
         return [m for m in matches if m != self.normalize_remove]
 
@@ -346,37 +343,34 @@ class BaseFormatCheck(TargetCheck):
 
         uses_position = True
 
-        # Calculate value
-        src_matches = self.extract_matches(source)
+        # Calculate value and ignore mismatch in percent position
+        src_matches = self.normalize(self.extract_matches(source))
         if src_matches:
             uses_position = any(self.is_position_based(x) for x in src_matches)
 
-        tgt_matches = self.extract_matches(target)
+        tgt_matches = self.normalize(self.extract_matches(target))
 
+        missing: list[str] = []
+        extra: list[str] = []
         if not uses_position:
-            src_matches = Counter(src_matches)
-            tgt_matches = Counter(tgt_matches)
+            src_counter = Counter(src_matches)
+            tgt_counter = Counter(tgt_matches)
 
-        if src_matches != tgt_matches:
-            # Ignore mismatch in percent position
-            if self.normalize(src_matches) == self.normalize(tgt_matches):
-                return False
-            if not uses_position:
-                missing = sorted(src_matches - tgt_matches)
-                extra = sorted(tgt_matches - src_matches)
-            else:
-                missing = []
-                extra = []
-                for i in range(min(len(src_matches), len(tgt_matches))):
-                    if src_matches[i] != tgt_matches[i]:
-                        missing.append(src_matches[i])
-                        extra.append(tgt_matches[i])
-                missing.extend(src_matches[len(tgt_matches) :])
-                extra.extend(tgt_matches[len(src_matches) :])
-            # We can ignore missing format strings
-            # for first of plurals
-            if ignore_missing and missing and not extra:
-                return False
+            if src_counter != tgt_counter:
+                missing = sorted(src_counter - tgt_counter)
+                extra = sorted(tgt_counter - src_counter)
+        elif src_matches != tgt_matches:
+            for i in range(min(len(src_matches), len(tgt_matches))):
+                if src_matches[i] != tgt_matches[i]:
+                    missing.append(src_matches[i])
+                    extra.append(tgt_matches[i])
+            missing.extend(src_matches[len(tgt_matches) :])
+            extra.extend(tgt_matches[len(src_matches) :])
+
+        # We can ignore missing format strings for first of plurals
+        if ignore_missing and missing and not extra:
+            return False
+        if missing or extra:
             return {"missing": missing, "extra": extra}
         return False
 
