@@ -42,11 +42,12 @@ class PastPasswordsValidator:
             if user.has_usable_password():
                 passwords.append(user.password)
 
-            passwords.extend(
-                log.params["password"]
-                for log in AuditLog.objects.get_past_passwords(user=user)
-                if "password" in log.params
-            )
+            if user.pk:
+                passwords.extend(
+                    log.params["password"]
+                    for log in AuditLog.objects.get_past_passwords(user=user)
+                    if "password" in log.params
+                )
 
             for old in passwords:
                 if check_password(password, old):
