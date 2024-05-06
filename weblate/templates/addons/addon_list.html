@@ -16,6 +16,14 @@
 
 {% block content %}
 
+<ul class="nav nav-pills">
+  <li class="active"><a href="#addons" data-toggle="tab">{% trans "Add-ons" %}</a></li>
+  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="addons">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">
     {% documentation_icon 'admin/addons' right=True %}
@@ -89,5 +97,12 @@
 {% endif %}
   </div>
 </div>
+</div>
 
+<div class="tab-pane" id="history">
+{% include "last-changes-content.html" %}
+<a class="btn btn-primary" href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{action}}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% trans "Browse all add-on changes" %}</a>
+</div>
+
+</div>
 {% endblock %}

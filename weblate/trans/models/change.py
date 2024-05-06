@@ -558,6 +558,12 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
+    ACTIONS_ADDON = {
+        ACTION_ADDON_CREATE,
+        ACTION_ADDON_CHANGE,
+        ACTION_ADDON_REMOVE,
+    }
+
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
         ACTION_LOCK: gettext_lazy(

@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Visually highlight explanation in :ref:`glossary`.
+* Add :ref:`addons` history tab in management.
 
 **Bug fixes**
 

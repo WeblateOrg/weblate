@@ -9,7 +9,7 @@ from django.utils.translation import gettext
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Change, Component, Project
 from weblate.utils import messages
 from weblate.utils.views import PathViewMixin
 
@@ -49,6 +49,19 @@ class AddonList(PathViewMixin, ListView):
         result = super().get_context_data(**kwargs)
         target = self.path_object
         result["object"] = target
+        result["change_actions"] = Change.ACTIONS_ADDON
+        if target is None:
+            result["last_changes"] = Change.objects.filter(
+                action__in=Change.ACTIONS_ADDON
+            ).order()[:10]
+        elif isinstance(target, Component):
+            result["last_changes"] = target.change_set.filter(
+                action__in=Change.ACTIONS_ADDON
+            ).order()[:10]
+        else:
+            result["last_changes"] = target.change_set.filter(
+                action__in=Change.ACTIONS_ADDON, component=None
+            ).order()[:10]
         installed = {x.addon.name for x in result["object_list"]}
 
         if isinstance(target, Component):
