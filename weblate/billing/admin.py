@@ -24,9 +24,12 @@ class PlanAdmin(WeblateModelAdmin):
         "display_limit_strings",
         "display_limit_languages",
         "display_limit_projects",
+        "public",
+        "change_access_control",
     )
     ordering = ["price"]
     prepopulated_fields = {"slug": ("name",)}
+    list_filter = ["public", "change_access_control"]
 
 
 def format_user(obj) -> str:
