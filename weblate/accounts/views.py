@@ -529,7 +529,7 @@ def trial(request):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
-    plan = request.POST.get("plan", "enterprise")
+    plan = request.POST.get("plan", "640k")
 
     # Avoid frequent requests for a trial for same user
     if plan != "libre" and request.user.auditlog_set.filter(activity="trial").exists():
