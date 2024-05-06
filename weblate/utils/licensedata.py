@@ -314,6 +314,12 @@ LICENSES = (
         True,
     ),
     (
+        "BSD-2-clause-first-lines",
+        "BSD 2-Clause - first lines requirement",
+        "https://spdx.org/licenses/BSD-2-clause-first-lines.html",
+        False,
+    ),
+    (
         "BSD-2-Clause-Darwin",
         "BSD 2-Clause - Ian Darwin variant",
         "https://spdx.org/licenses/BSD-2-Clause-Darwin.html",
@@ -489,6 +495,7 @@ LICENSES = (
         "https://spdx.org/licenses/Caldera-no-preamble.html",
         False,
     ),
+    ("Catharon", "Catharon License", "https://spdx.org/licenses/Catharon.html", False),
     (
         "CECILL-1.0",
         "CeCILL Free Software License Agreement v1.0",
@@ -1590,6 +1597,12 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-UC-export-US",
+        "Historical Permission Notice and Disclaimer - University of California, US export warning",
+        "https://spdx.org/licenses/HPND-UC-export-US.html",
+        False,
+    ),
+    (
         "HPND-MIT-disclaimer",
         "Historical Permission Notice and Disclaimer with MIT disclaimer",
         "https://spdx.org/licenses/HPND-MIT-disclaimer.html",
@@ -2050,6 +2063,7 @@ LICENSES = (
         True,
     ),
     ("Naumen", "Naumen Public License", "https://spdx.org/licenses/Naumen.html", True),
+    ("NCL", "NCL Source Code License", "https://spdx.org/licenses/NCL.html", False),
     (
         "NBPL-1.0",
         "Net Boolean Public License v1",
@@ -2390,6 +2404,7 @@ LICENSES = (
     ("PHP-3.0", "PHP License v3.0", "https://spdx.org/licenses/PHP-3.0.html", True),
     ("PHP-3.01", "PHP License v3.01", "https://spdx.org/licenses/PHP-3.01.html", True),
     ("Pixar", "Pixar License", "https://spdx.org/licenses/Pixar.html", False),
+    ("pkgconf", "pkgconf License", "https://spdx.org/licenses/pkgconf.html", False),
     (
         "Plexus",
         "Plexus Classworlds License",
@@ -2712,6 +2727,12 @@ LICENSES = (
         False,
     ),
     ("Sun-PPP", "Sun PPP License", "https://spdx.org/licenses/Sun-PPP.html", False),
+    (
+        "Sun-PPP-2000",
+        "Sun PPP License (2000)",
+        "https://spdx.org/licenses/Sun-PPP-2000.html",
+        False,
+    ),
     (
         "SPL-1.0",
         "Sun Public License v1.0",

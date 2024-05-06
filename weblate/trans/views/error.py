@@ -41,6 +41,7 @@ def csrf_failure(request, reason=""):
             "title": gettext("Permission Denied"),
             "no_referer": reason == REASON_NO_REFERER,
             "no_cookie": reason == REASON_NO_CSRF_COOKIE,
+            "reason": reason,
         },
         status=403,
     )

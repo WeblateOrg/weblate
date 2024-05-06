@@ -139,6 +139,8 @@ GLOBAL_PERMISSIONS = (
     ("componentlist.edit", gettext_noop("Manage component lists")),
     # Translators: Permission name
     ("billing.manage", gettext_noop("Manage billing")),
+    # Translators: Permission name
+    ("management.addons", gettext_noop("Manage site-wide add-ons")),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}

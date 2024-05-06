@@ -1,3 +1,45 @@
+Weblate 5.5.4
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+* Visually highlight explanation in :ref:`glossary`.
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?closed=1>`__.
+
+Weblate 5.5.3
+-------------
+
+Released on May 3rd 2024.
+
+**Improvements**
+
+* Improved performance of rendering large lists of objects.
+* Added links to manage other scope :ref:`addons`.
+
+**Bug fixes**
+
+* Fixed crashes with librsvg older than 2.46.
+* Daily execution of some :ref:`addons`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?closed=1>`__.
+
 Weblate 5.5.2
 -------------
 

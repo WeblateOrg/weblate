@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape, format_html, format_html_join, urlize
-from django.utils.safestring import mark_safe
+from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
 
@@ -50,6 +50,7 @@ from weblate.utils.stats import (
     GhostProjectLanguageStats,
     ProjectLanguage,
 )
+from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
@@ -761,17 +762,16 @@ def get_stats(obj):
     return obj.stats
 
 
-@register.inclusion_tag("snippets/list-objects-percent.html")
+@register.simple_tag
 def review_percent(obj):
     stats = get_stats(obj)
-
-    return {
-        "value": stats.approved + stats.readonly,
-        "percent": stats.approved_percent + stats.readonly_percent,
-        "query": "q=state:>=approved",
-        "all": stats.all,
-        "class": "zero-width-540",
-    }
+    return list_objects_percent(
+        value=stats.approved + stats.readonly,
+        percent=stats.approved_percent + stats.readonly_percent,
+        query="q=state:>=approved",
+        total=stats.all,
+        css="zero-width-540",
+    )
 
 
 def translation_progress_data(
@@ -986,7 +986,7 @@ def show_contributor_agreement(context, component):
 
 
 @register.simple_tag(takes_context=True)
-def get_translate_url(context, obj, glossary_browse=True):
+def get_translate_url(context, obj, glossary_browse=True) -> str:
     """Get translate URL based on user preference."""
     if isinstance(obj, BaseStats) or not hasattr(obj, "get_translate_url"):
         return ""
@@ -997,6 +997,15 @@ def get_translate_url(context, obj, glossary_browse=True):
     else:
         name = "translate"
     return reverse(name, kwargs={"path": obj.get_url_path()})
+
+
+@register.simple_tag
+def get_search_url(obj) -> str:
+    """Get translate URL based on user preference."""
+    if not hasattr(obj, "get_url_path"):
+        # Ghost translation
+        return ""
+    return reverse("search", kwargs={"path": obj.get_url_path()})
 
 
 @register.simple_tag(takes_context=True)
@@ -1354,3 +1363,102 @@ def get_workflow_flags(translation, component):
         "enable_suggestions": component.enable_suggestions,
         "translation_review": component.project.translation_review,
     }
+
+
+@register.simple_tag
+def list_objects_number(
+    value: int,
+    search_url: str | None = None,
+    translate_url: str | None = None,
+    query: str = "",
+    css: str | None = None,
+    show_zero: bool = False,
+):
+    value_formatted: str | SafeString
+    url_start: str | SafeString
+    url_end: str | SafeString
+    url_start = url_end = ""
+    if value == 0 and not show_zero:
+        value_formatted = format_html("""<span class="sr-only">{}</span>""", value)
+    else:
+        if search_url or translate_url:
+            url_start = format_html(
+                '<a href="{url}?{query}">',
+                url=translate_url or search_url,
+                query=query,
+            )
+            url_end = mark_safe("</a>")  # noqa: S308
+        value_formatted = intcomma(value)
+    return format_html(
+        """
+        <td class="number {css}" data-value="{value}">
+            {url_start}
+            {value_formatted}
+            {url_end}
+        </td>
+        """,
+        url_start=url_start,
+        url_end=url_end,
+        css=css,
+        value=value,
+        value_formatted=value_formatted,
+    )
+
+
+@register.simple_tag
+def list_objects_percent(
+    percent: float,
+    value: int,
+    total: int,
+    search_url: str | None = None,
+    translate_url: str | None = None,
+    query: str = "",
+    css: str | None = None,
+):
+    url_start: str | SafeString
+    url_end: str | SafeString
+    if search_url or translate_url:
+        url_start = format_html(
+            '<a href="{url}?{query}">',
+            url=translate_url or search_url,
+            query=query,
+        )
+        url_end = mark_safe("</a>")  # noqa: S308
+    else:
+        url_start = url_end = ""
+
+    if value and value == total:
+        percent_formatted = format_html(
+            """<span class="green" title="{}">{}</span>""",
+            ngettext(
+                "Completed translation with %(count)s string",
+                "Completed translation with %(count)s strings",
+                total,
+            )
+            % {"count": intcomma(total)},
+            icon("check.svg"),
+        )
+    elif value == 0 and total == 0:
+        percent_formatted = format_html(
+            """<span class="green" title="{}">{}</span>""",
+            gettext("No strings to translate"),
+            icon("check.svg"),
+        )
+    else:
+        percent_formatted = percent_format(percent)
+    return format_html(
+        """
+        <td class="number {css}" data-value="{percent}" title="{value_formatted}">
+            {url_start}
+            {percent_formatted}
+            {url_end}
+        </td>
+        """,
+        url_start=url_start,
+        url_end=url_end,
+        css=css,
+        percent=f"{percent:f}",
+        percent_formatted=percent_formatted,
+        value_formatted=gettext("%(value)s of %(all)s")
+        % {"value": intcomma(value), "all": intcomma(total)},
+    )

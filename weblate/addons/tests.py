@@ -695,7 +695,7 @@ class ViewTests(ViewTestCase):
             {"name": "weblate.gettext.authors"},
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_simple_project_addon(self) -> None:
         response = self.client.post(
@@ -703,7 +703,7 @@ class ViewTests(ViewTestCase):
             {"name": "weblate.consistency.languages"},
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_simple_site_wide_addon(self) -> None:
         response = self.client.post(
@@ -711,7 +711,15 @@ class ViewTests(ViewTestCase):
             {"name": "weblate.consistency.languages"},
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertEqual(response.status_code, 403)
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("manage-addons"),
+            {"name": "weblate.consistency.languages"},
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_invalid(self) -> None:
         response = self.client.post(
@@ -738,9 +746,17 @@ class ViewTests(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_config_site_wide_addon(self) -> None:
+        response = self.client.post(
+            reverse("manage-addons"),
+            {"name": "weblate.generate.generate"},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 403)
+        self.user.is_superuser = True
+        self.user.save()
         response = self.client.post(
             reverse("manage-addons"),
             {"name": "weblate.generate.generate"},
@@ -757,7 +773,7 @@ class ViewTests(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_pseudolocale(self) -> None:
         response = self.client.post(
@@ -776,7 +792,7 @@ class ViewTests(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
     def test_edit_config(self) -> None:
         self.test_add_config()
@@ -792,7 +808,7 @@ class ViewTests(ViewTestCase):
         response = self.client.post(
             addon.instance.get_absolute_url(), {"delete": "1"}, follow=True
         )
-        self.assertContains(response, "no add-ons currently installed")
+        self.assertContains(response, "No add-ons currently installed")
 
 
 class PropertiesAddonTest(ViewTestCase):
@@ -1069,7 +1085,7 @@ class DiscoveryTest(ViewTestCase):
                 },
                 follow=True,
             )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
 
 class ScriptsTest(TestAddonMixin, ViewTestCase):
@@ -1209,14 +1225,18 @@ class GitSquashAddonTest(ViewTestCase):
 
 
 class TestRemoval(ViewTestCase):
-    def install(self):
+    def install(self, sitewide: bool = False):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
         return (
             RemoveSuggestions.create(
-                component=self.component, configuration={"age": 7}
+                component=None if sitewide else self.component,
+                configuration={"age": 7},
             ),
-            RemoveComments.create(component=self.component, configuration={"age": 7}),
+            RemoveComments.create(
+                component=None if sitewide else self.component,
+                configuration={"age": 7},
+            ),
         )
 
     def assert_count(self, comments=0, suggestions=0) -> None:
@@ -1268,7 +1288,21 @@ class TestRemoval(ViewTestCase):
 
     def test_daily(self) -> None:
         self.install()
+        self.add_content()
+        self.age_content()
         daily_addons()
+        # Ensure the add-on is executed
+        daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_daily_sitewide(self) -> None:
+        self.install(sitewide=True)
+        self.add_content()
+        self.age_content()
+        daily_addons()
+        # Ensure the add-on is executed
+        daily_addons(modulo=False)
+        self.assert_count()
 
 
 class AutoTranslateAddonTest(ViewTestCase):
@@ -1330,7 +1364,7 @@ class BulkEditAddonTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 add-on installed")
+        self.assertContains(response, "Installed 1 add-on")
 
 
 class CDNJSAddonTest(ViewTestCase):

@@ -112,16 +112,8 @@ class RedirectMiddleware:
         except Project.MultipleObjectsReturned:
             return None
         except Project.DoesNotExist:
-            try:
-                project = (
-                    Change.objects.filter(
-                        action=Change.ACTION_RENAME_PROJECT,
-                        old=slug,
-                    )
-                    .order()[0]
-                    .project
-                )
-            except IndexError:
+            project = Change.objects.lookup_project_rename(slug)
+            if project is None:
                 return None
 
         request.user.check_access(project)
