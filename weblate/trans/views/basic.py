@@ -232,7 +232,9 @@ def show_project_language(request, obj):
     ).recent()
 
     last_announcements = (
-        Change.objects.last_changes(user, project=project_object, language=language_object)
+        Change.objects.last_changes(
+            user, project=project_object, language=language_object
+        )
         .filter_announcements()
         .recent()
     )
