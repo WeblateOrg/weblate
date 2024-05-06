@@ -62,9 +62,12 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(self, filename: str | BinaryIO | None = None) -> None:
+    def __init__(
+        self, filename: str | None = None, *, fileio: BinaryIO | None = None
+    ) -> None:
         self.data: dict[str, Any] = {}
         self.filename = filename
+        self.fileio = fileio
         self.timestamp = timezone.now()
         self.project: Project | None = None
         self.project_schema = load_schema("weblate-backup.schema.json")
@@ -360,9 +363,10 @@ class ProjectBackup:
     def validate(self) -> None:
         if not self.supports_restore:
             raise ValueError("Restore is not supported on this database.")
-        if self.filename is None:
+        input_file = self.filename or self.fileio
+        if input_file is None:
             raise TypeError("Can not validate None file.")
-        with ZipFile(self.filename, "r") as zipfile:
+        with ZipFile(input_file, "r") as zipfile:
             self.load_data(zipfile)
             self.load_memory(zipfile)
             self.load_components(zipfile)
@@ -625,13 +629,13 @@ class ProjectBackup:
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
-        if self.filename is None or isinstance(self.filename, str):
+        if self.fileio is None or isinstance(self.fileio, str):
             raise TypeError("Need a file object.")
-        # self.filename is a file object from upload here
-        self.filename.seek(0)
+        # self.fileio is a file object from upload here
+        self.fileio.seek(0)
         while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):
             timestamp += 1
         filename = os.path.join(backup_dir, f"{timestamp}.zip")
         with open(filename, "xb") as target:
-            copyfileobj(self.filename, target)
+            copyfileobj(self.fileio, target)
         return filename

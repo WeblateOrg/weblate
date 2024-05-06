@@ -2274,7 +2274,7 @@ class ProjectImportForm(BillingMixin, forms.Form):
 
     def clean_zipfile(self):
         zipfile = self.cleaned_data["zipfile"]
-        backup = ProjectBackup(zipfile)
+        backup = ProjectBackup(fileio=zipfile)
         try:
             backup.validate()
         except Exception as error:
