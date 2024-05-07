@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-05-04 03:16+0000\n"
+"PO-Revision-Date: 2024-05-07 20:39+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.3\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -2200,10 +2200,8 @@ msgstr "Xestionar a facturación"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "engadidos instalados"
+msgstr "Xestionar os engadidos de todo o sitio"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -5318,7 +5316,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "Razón do fallo de CSRF: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -6189,14 +6187,10 @@ msgid "Your trial will last 14 days."
 msgstr "O seu período de proba durará 14 días."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"O seu período de proba executará o plan Enterprise, mais pode escoller "
-"calquera plan máis adiante."
+"O seu período de proba executará o plan 640k, mais pode escoller calquera "
+"plan máis adiante."
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -6480,18 +6474,15 @@ msgid "History"
 msgstr "Historial"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "Non hai engadidos instalados actualmente."
+msgstr "Non hai ningún engadido instalado"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "engadidos instalados"
-msgstr[1] "engadidos instalados"
+msgstr[0] "%(count)s engadido instalado"
+msgstr[1] "%(count)s engadidos instalados"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6506,21 +6497,22 @@ msgstr "Configurar"
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
 msgstr ""
+"Os engadidos poden ser instalados tanto no ámbito do proxecto coma no do "
+"compoñente."
 
 #: weblate/templates/addons/addon_list.html:61
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Non hai engadidos instalados actualmente."
-msgstr[1] "Non hai engadidos instalados actualmente."
+msgstr[0] "Xestionar os engadidos de todo o proxecto (%(count)s instalado)"
+msgstr[1] "Xestionar os engadidos de todo o proxecto (%(count)s instalados)"
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Xestionar os engadidos de todo o sitio (%(count)s instalado)"
+msgstr[1] "Xestionar os engadidos de todo o sitio (%(count)s instalados)"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -6545,10 +6537,8 @@ msgstr ""
 "Algúns engadidos pedirán unha configuración adicional durante a instalación."
 
 #: weblate/templates/addons/addon_list.html:104
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all add-on changes"
-msgstr "Procurar tódalas mudanzas de lingua"
+msgstr "Examinar todos os cambios de engadidos"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -9834,16 +9824,12 @@ msgid "Edit glossary term"
 msgstr "Editar o termo no glosario"
 
 #: weblate/templates/snippets/glossary.html:38
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Glossary translation explanation"
-msgstr "Explicación da tradución"
+msgstr "Explicación da tradución do glosario"
 
 #: weblate/templates/snippets/glossary.html:47
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Glossary string explanation"
-msgstr "Explicación para a cadea de orixe"
+msgstr "Explicación da cadea do glosario"
 
 #: weblate/templates/snippets/glossary.html:56
 msgid "No related strings found in the glossary."
