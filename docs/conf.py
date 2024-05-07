@@ -59,7 +59,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.5.1"
+release = "5.5.4"
 
 
 # -- General configuration ---------------------------------------------------
@@ -325,6 +325,7 @@ linkcheck_ignore = [
     # Access to our service has been temporarily blocked
     "https://yandex.com/dev/translate/",
     # 403
+    "https://openai.com/",
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",

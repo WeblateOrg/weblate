@@ -41,7 +41,7 @@ with precision and nuance.
 You always reply with translated string only.
 You do not include transliteration.
 {separator}
-You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
+{placeables}
 {glossary}
 """
 SEPARATOR = "\n==WEBLATE_PART==\n"
@@ -52,6 +52,9 @@ your answer separates strings by {SEPARATOR}.
 GLOSSARY_PROMPT = """
 Use the following glossary during the translation:
 {}
+"""
+PLACEABLES_PROMPT = """
+You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
 """
 
 
@@ -97,7 +100,7 @@ class OpenAITranslation(BatchMachineTranslation):
         return text
 
     def get_prompt(
-        self, source_language: str, target_language: str, units: list
+        self, source_language: str, target_language: str, texts: list[str], units: list
     ) -> str:
         glossary = ""
         if any(units):
@@ -107,6 +110,13 @@ class OpenAITranslation(BatchMachineTranslation):
             if glossary:
                 glossary = GLOSSARY_PROMPT.format(glossary)
         separator = SEPARATOR_PROMPT if len(units) > 1 else ""
+        placeables = ""
+        if any(self.replacement_start in text for text in texts):
+            placeables = PLACEABLES_PROMPT.format(
+                placeable_1=self.format_replacement(0, -1, "", None),
+                placeable_2=self.format_replacement(123, -1, "", None),
+            )
+
         return PROMPT.format(
             source_language=source_language,
             target_language=target_language,
@@ -114,8 +124,7 @@ class OpenAITranslation(BatchMachineTranslation):
             style=self.format_prompt_part("style"),
             glossary=glossary,
             separator=separator,
-            placeable_1=self.format_replacement(0, -1, "", None),
-            placeable_2=self.format_replacement(123, -1, "", None),
+            placeables=placeables,
         )
 
     def download_multiple_translations(
@@ -128,7 +137,7 @@ class OpenAITranslation(BatchMachineTranslation):
     ) -> DownloadMultipleTranslations:
         texts = [text for text, _unit in sources]
         units = [unit for _text, unit in sources]
-        prompt = self.get_prompt(source, language, units)
+        prompt = self.get_prompt(source, language, texts, units)
         messages = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
             ChatCompletionUserMessageParam(role="user", content=SEPARATOR.join(texts)),

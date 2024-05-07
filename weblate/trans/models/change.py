@@ -31,6 +31,9 @@ if TYPE_CHECKING:
     from weblate.trans.models import Translation
 
 
+CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
+
+
 class ChangeQuerySet(models.QuerySet["Change"]):
     def content(self, prefetch=False):
         """Return queryset with content changes."""
@@ -205,6 +208,25 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         if not user.needs_project_filter:
             return self
         return self.filter(project__in=user.allowed_projects)
+
+    def lookup_project_rename(self, name: str) -> Project:
+        lookup = cache.get(CHANGE_PROJECT_LOOKUP_KEY)
+        if lookup is None:
+            lookup = self.generate_project_rename_lookup()
+        if name not in lookup:
+            return None
+        try:
+            return Project.objects.get(pk=lookup[name])
+        except Project.DoesNotExist:
+            return None
+
+    def generate_project_rename_lookup(self) -> dict[str, int]:
+        lookup = {}
+        for change in self.filter(action=Change.ACTION_RENAME_PROJECT).order():
+            if change.old not in lookup:
+                lookup[change.old] = change.project_id
+        cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
+        return lookup
 
 
 class ChangeManager(models.Manager["Change"]):
@@ -536,6 +558,12 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
+    ACTIONS_ADDON = {
+        ACTION_ADDON_CREATE,
+        ACTION_ADDON_CHANGE,
+        ACTION_ADDON_REMOVE,
+    }
+
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
         ACTION_LOCK: gettext_lazy(
@@ -640,6 +668,9 @@ class Change(models.Model, UserDisplayMixin):
             transaction.on_commit(self.update_cache_last_change)
             # Make sure stats is updated at the end of transaction
             self.translation.invalidate_cache()
+
+        if self.action == Change.ACTION_RENAME_PROJECT:
+            Change.objects.generate_project_rename_lookup()
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""

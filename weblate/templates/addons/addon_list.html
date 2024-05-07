@@ -16,10 +16,22 @@
 
 {% block content %}
 
+<ul class="nav nav-pills">
+  <li class="active"><a href="#addons" data-toggle="tab">{% trans "Add-ons" %}</a></li>
+  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="addons">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">
     {% documentation_icon 'admin/addons' right=True %}
-  {% trans "Installed add-ons" %}
+    {% if not object_list %}
+      {% trans "No add-ons currently installed" %}
+    {% else %}
+      {% blocktrans count count=object_list|length %}Installed {{ count }} add-on{% plural %}Installed {{ count }} add-ons{% endblocktrans %}
+    {% endif %}
   </h4></div>
   <table class="table table-striped">
   <tbody>
@@ -41,11 +53,20 @@
   </tbody>
   </table>
   <div class="panel-footer">
-{% if not object_list %}
-  {% trans "There are no add-ons currently installed." %}
-{% else %}
-  {% blocktrans count count=object_list|length %}There is currently {{ count }} add-on installed.{% plural %}There are currently {{ count }} add-ons installed.{% endblocktrans %}
-{% endif %}
+    {% if scope == "sitewide" %}
+      {% trans "Add-ons can be installed on project and component scope as well." %}
+    {% endif %}
+    {% if scope == "component" %}
+      <a href="{% url 'addons' path=object.project.get_url_path %}" class="btn btn-primary">
+        {% blocktrans count count=project_addons %}Manage project-wide add-ons ({{ count }} installed){% plural %}Manage project-wide add-ons ({{ count }} installed){% endblocktrans %}
+      </a>
+    {% endif %}
+    {% if scope == "project" or scope == "component" %}
+      {% perm "management.addons" as user_can_manage_addons %}
+      <a href="{% url 'manage-addons' %}" class="btn btn-primary" {% if not user_can_manage_addons %}disabled="disabled"{% endif %}>
+        {% blocktrans count count=sitewide_addons %}Manage site-wide add-ons ({{ count }} installed){% plural %}Manage site-wide add-ons ({{ count }} installed){% endblocktrans %}
+      </a>
+    {% endif %}
   </div>
 </div>
 
@@ -76,5 +97,12 @@
 {% endif %}
   </div>
 </div>
+</div>
 
+<div class="tab-pane" id="history">
+{% include "last-changes-content.html" %}
+<a class="btn btn-primary" href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{action}}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% trans "Browse all add-on changes" %}</a>
+</div>
+
+</div>
 {% endblock %}

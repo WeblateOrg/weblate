@@ -6,14 +6,14 @@
 
 import os
 from distutils import log
-from distutils.command.build import build
 from distutils.core import Command
-from distutils.dep_util import newer
 from glob import glob
 from itertools import chain
 
 from setuptools import setup
+from setuptools.command.build import build
 from setuptools.command.build_py import build_py
+from setuptools.modified import newer
 from translate.tools.pocompile import convertmo
 
 LOCALE_MASKS = [

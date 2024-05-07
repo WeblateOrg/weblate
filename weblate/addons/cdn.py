@@ -86,7 +86,7 @@ class CDNJSAddon(BaseAddon):
             # sure the template is valid JavaScript code as well
             handle.write(
                 render_to_string(
-                    "addons/js/weblate.js",
+                    "addons/js/weblate.js.template",
                     {
                         # `mark_safe(json.dumps(` is NOT safe in HTML files. Only JS.
                         # See `django.utils.html.json_script`

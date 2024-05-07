@@ -10,7 +10,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.forms import HiddenInput
+from django.forms import Form, HiddenInput
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -26,6 +26,7 @@ from weblate.trans.forms import (
     ComponentDiscoverForm,
     ComponentDocCreateForm,
     ComponentInitCreateForm,
+    ComponentProjectForm,
     ComponentScratchCreateForm,
     ComponentSelectForm,
     ComponentZipCreateForm,
@@ -34,6 +35,7 @@ from weblate.trans.forms import (
     ProjectImportForm,
 )
 from weblate.trans.models import Category, Component, Project
+from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -59,7 +61,8 @@ class BaseCreateView(CreateView):
 @method_decorator(session_ratelimit_post("project"), name="dispatch")
 class CreateProject(BaseCreateView):
     model = Project
-    form_class = ProjectCreateForm
+    object: Project
+    form_class: type[Form] = ProjectCreateForm
     billings = None
 
     def get_form(self, form_class=None):
@@ -207,7 +210,7 @@ class CreateComponent(BaseCreateView):
     selected_category = None
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
-    form_class = ComponentInitCreateForm
+    form_class: type[ComponentProjectForm] = ComponentInitCreateForm
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -427,7 +430,7 @@ class CreateFromDoc(CreateComponent):
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
-    components = None
+    components: ComponentQuerySet
     origin = None
 
     @cached_property

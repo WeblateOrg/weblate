@@ -46,13 +46,15 @@ ADDONS = ClassLoader("WEBLATE_ADDONS", False)
 
 class AddonQuerySet(models.QuerySet):
     def filter_for_execution(self, component):
-        return self.prefetch_related("event_set").filter(
+        query = (
             Q(component=component)
             | Q(project=component.project)
             | (Q(component__linked_component=component) & Q(repo_scope=True))
-            | (Q(component=component.linked_component) & Q(repo_scope=True))
             | (Q(component__isnull=True) & Q(project__isnull=True))
         )
+        if component.linked_component:
+            query |= Q(component=component.linked_component) & Q(repo_scope=True)
+        return self.filter(query).prefetch_related("event_set")
 
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
@@ -116,7 +118,7 @@ class Addon(models.Model):
         if update_fields != ["state"]:
             self.store_change(
                 Change.ACTION_ADDON_CREATE
-                if self.pk or force_insert
+                if not self.pk or force_insert
                 else Change.ACTION_ADDON_CHANGE
             )
 
@@ -283,7 +285,7 @@ def execute_addon_event(
                     getattr(addon.addon, method)(*args)
                 else:
                     # Callback is used in tasks
-                    method(addon)
+                    method(addon, component)
         except DjangoDatabaseError:
             raise
         except Exception as error:

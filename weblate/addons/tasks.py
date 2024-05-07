@@ -109,17 +109,18 @@ def language_consistency(
 
 
 @app.task(trail=False)
-def daily_addons() -> None:
-    def daily_callback(addon) -> None:
-        addon.addon.daily(addon.component)
+def daily_addons(modulo: bool = True) -> None:
+    def daily_callback(addon, component) -> None:
+        addon.addon.daily(component)
 
     today = timezone.now()
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY)
+    if modulo:
+        addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)
     handle_addon_event(
         AddonEvent.EVENT_DAILY,
         daily_callback,
-        addon_queryset=Addon.objects.annotate(hourmod=F("id") % 24).filter(
-            hourmod=today.hour, event__event=AddonEvent.EVENT_DAILY
-        ),
+        addon_queryset=addons,
         auto_scope=True,
     )
 

@@ -31,17 +31,14 @@
         </div>
         <div class="panel-body">
 
-          <p>
-            {% trans "Please check in advance whether your project is eligible for gratis project hosting on this site." %}
-          </p>
-
-          <ul>
-            {% include "snippets/libre-basic.html" %}
-            <li>{% trans "You will have 14 days to set up your project." %}</li>
-            <li>{% trans "Please request project approval once you finish the setup." %}</li>
-            <li>{% trans "Unapproved projects will be removed." %}</li>
-            <li>{% trans "There is no guarantee of service availability, nor quality for Libre hosting." %}</li>
-          </ul>
+          {% include "snippets/libre-basic.html" %}
+          <h4>{% trans "Your trial" %}</h4>
+            <ul>
+              <li>{% trans "You will have 14 days to set up your project." %}</li>
+              <li>{% trans "Please request project approval once you finish the setup." %}</li>
+              <li>{% trans "Unapproved projects will be removed." %}</li>
+              <li>{% trans "We reserve our right to reject inappropriate content (erotic, gambling, etc.)." %}</li>
+            </ul>
 
         </div>
         <div class="panel-footer">

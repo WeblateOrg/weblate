@@ -330,9 +330,11 @@ def search_results(request, code, obj, units=None):
     if units is None:
         units = []
     else:
-        units = units.exclude(
-            id__in=obj.units.values_list("id", flat=True)
-        ).prefetch_full()
+        units = (
+            units.exclude(id__in=obj.units.values_list("id", flat=True))
+            .prefetch_full()
+            .count_screenshots()
+        )
 
     return JsonResponse(
         data={

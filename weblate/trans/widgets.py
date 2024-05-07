@@ -223,16 +223,21 @@ class PNGWidget(SVGWidget):
 
         handle = Rsvg.Handle.new_from_data(svgdata.encode())
         dimensions = handle.get_dimensions()
-        viewport = Rsvg.Rectangle()
-        viewport.x = 0
-        viewport.y = 0
-        viewport.width = dimensions.width
-        viewport.height = dimensions.height
         surface = cairo.ImageSurface(
             cairo.FORMAT_ARGB32, int(dimensions.width), int(dimensions.height)
         )
         context = cairo.Context(surface)
-        handle.render_document(context, viewport)
+        if hasattr(Rsvg, "Rectangle"):
+            # librsvg 2.46 and newer
+            viewport = Rsvg.Rectangle()
+            viewport.x = 0
+            viewport.y = 0
+            viewport.width = dimensions.width
+            viewport.height = dimensions.height
+            handle.render_document(context, viewport)
+        else:
+            # librsvg before 2.46, this method is now deprecated
+            handle.render_cairo(context)
         surface.write_to_png(response)
 
 

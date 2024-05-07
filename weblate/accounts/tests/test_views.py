@@ -148,11 +148,11 @@ class ViewTest(RepoTestCase):
         """Test for trial form with disabled hosting."""
         from weblate.billing.models import Plan
 
-        Plan.objects.create(price=1, slug="enterprise")
+        Plan.objects.create(price=1, slug="640k")
         user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("trial"))
-        self.assertContains(response, "Enterprise")
+        self.assertContains(response, "640k")
         response = self.client.post(reverse("trial"), follow=True)
         self.assertContains(response, "Create project")
         billing = user.billing_set.get()

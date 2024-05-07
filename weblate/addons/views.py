@@ -9,7 +9,7 @@ from django.utils.translation import gettext
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Change, Component, Project
 from weblate.utils import messages
 from weblate.utils.views import PathViewMixin
 
@@ -31,6 +31,8 @@ class AddonList(PathViewMixin, ListView):
             self.kwargs["project_obj"] = self.path_object
             return Addon.objects.filter_project(self.path_object)
 
+        if not self.request.user.has_perm("management.addons"):
+            raise PermissionDenied("Can not manage add-ons")
         return Addon.objects.filter_sitewide()
 
     def get_success_url(self):
@@ -47,6 +49,19 @@ class AddonList(PathViewMixin, ListView):
         result = super().get_context_data(**kwargs)
         target = self.path_object
         result["object"] = target
+        result["change_actions"] = Change.ACTIONS_ADDON
+        if target is None:
+            result["last_changes"] = Change.objects.filter(
+                action__in=Change.ACTIONS_ADDON
+            ).order()[:10]
+        elif isinstance(target, Component):
+            result["last_changes"] = target.change_set.filter(
+                action__in=Change.ACTIONS_ADDON
+            ).order()[:10]
+        else:
+            result["last_changes"] = target.change_set.filter(
+                action__in=Change.ACTIONS_ADDON, component=None
+            ).order()[:10]
         installed = {x.addon.name for x in result["object_list"]}
 
         if isinstance(target, Component):
@@ -59,6 +74,10 @@ class AddonList(PathViewMixin, ListView):
                 ),
                 key=lambda x: x.name,
             )
+            result["scope"] = "component"
+            result["project_addons"] = Addon.objects.filter_project(
+                target.project
+            ).count()
         else:
             # This covers both project-wide and site-wide
             result["available"] = sorted(
@@ -69,6 +88,10 @@ class AddonList(PathViewMixin, ListView):
                 ),
                 key=lambda x: x.name,
             )
+            result["scope"] = "sitewide" if target is None else "project"
+
+        if target is not None:
+            result["sitewide_addons"] = Addon.objects.filter_sitewide().count()
 
         return result
 
@@ -165,6 +188,12 @@ class AddonDetail(UpdateView):
             raise PermissionDenied("Can not edit component")
         if obj.project and not self.request.user.has_perm("project.edit", obj.project):
             raise PermissionDenied("Can not edit project")
+        if (
+            obj.project is None
+            and obj.component is None
+            and not self.request.user.has_perm("management.addons")
+        ):
+            raise PermissionDenied("Can not manage add-ons")
         return obj
 
     def post(self, request, *args, **kwargs):

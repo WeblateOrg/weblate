@@ -1,3 +1,59 @@
+Weblate 5.5.4
+-------------
+
+Released on May 9th 2024.
+
+**Improvements**
+
+* Visually highlight explanation in :ref:`glossary`.
+* Add :ref:`addons` history tab in management.
+
+**Bug fixes**
+
+* Improved handling placeables in :ref:`mt-openai`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?closed=1>`__.
+
+Weblate 5.5.3
+-------------
+
+Released on May 3rd 2024.
+
+**Improvements**
+
+* Improved performance of rendering large lists of objects.
+* Added links to manage other scope :ref:`addons`.
+
+**Bug fixes**
+
+* Fixed crashes with librsvg older than 2.46.
+* Daily execution of some :ref:`addons`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?closed=1>`__.
+
+Weblate 5.5.2
+-------------
+
+Released on April 26th 2024.
+
+**Bug fixes**
+
+* Fixed publishing packages to PyPI.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?closed=1>`__.
+
 Weblate 5.5.1
 -------------
 
