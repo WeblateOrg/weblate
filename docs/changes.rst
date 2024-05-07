@@ -7,6 +7,7 @@ Released on May 9th 2024.
 
 * Visually highlight explanation in :ref:`glossary`.
 * Add :ref:`addons` history tab in management.
+* New :ref:`alerts` when :ref:`glossary` might not work as expected.
 
 **Bug fixes**
 

@@ -657,3 +657,14 @@ class UnusedComponent(BaseAlert):
         oldest_change = component.change_set.order_by("timestamp").first()
         # Weird, each component should have change
         return oldest_change is None or oldest_change.timestamp < cutoff
+
+
+@register
+class MonolingualGlossary(BaseAlert):
+    verbose = gettext_lazy("Glossary using monolingual files.")
+    doc_page = "user/glossary"
+    dismissable = True
+
+    @staticmethod
+    def check_component(component: Component) -> bool | None | dict:
+        return component.is_glossary and bool(component.template)
