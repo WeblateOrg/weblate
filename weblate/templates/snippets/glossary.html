@@ -26,27 +26,27 @@
     {% if item.note %}
       <tr>
         <td colspan="4">
-          <span class="badge" title="{% trans "Source string description" %}">
+          <div class="alert alert-info" title="{% trans "Source string description" %}">
           {{ item.note }}
-          </span>
+          </div>
         </td>
       </tr>
     {% endif %}
     {% if not item.is_source and item.explanation %}
       <tr>
         <td colspan="4">
-          <span class="badge" title="{% trans "Glossary translation explanation" %}">
+          <div class="alert alert-info" title="{% trans "Glossary translation explanation" %}">
           {{ item.explanation|markdown }}
-          </span>
+          </div>
         </td>
       </tr>
     {% endif %}
     {% if item.source_unit.explanation %}
       <tr>
         <td colspan="4">
-          <span class="badge" title="{% trans "Glossary string explanation" %}">
+          <div class="alert alert-info" title="{% trans "Glossary string explanation" %}">
           {{ item.source_unit.explanation|markdown }}
-          </span>
+          </div>
         </td>
       </tr>
     {% endif %}
