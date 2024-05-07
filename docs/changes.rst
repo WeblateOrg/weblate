@@ -1,9 +1,7 @@
 Weblate 5.5.4
 -------------
 
-Not yet released.
-
-**New features**
+Released on May 9th 2024.
 
 **Improvements**
 
@@ -13,8 +11,6 @@ Not yet released.
 **Bug fixes**
 
 * Improved handling placeables in :ref:`mt-openai`.
-
-**Compatibility**
 
 **Upgrading**
 
