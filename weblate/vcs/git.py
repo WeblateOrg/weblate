@@ -568,10 +568,8 @@ class GitWithGerritRepository(GitRepository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> None:
         # Gets the gerrit username from push URL and sets it as the value of gitreview.username
-        gerrit_user = push_url.split('@')[0].split('//')[1]
-        self.config_update(
-            ("gitreview", "username", gerrit_user)
-        )
+        gerrit_user = push_url.split("@")[0].split("//")[1]
+        self.config_update(("gitreview", "username", gerrit_user))
         super().configure_remote(pull_url, push_url, branch, fast)
 
 
