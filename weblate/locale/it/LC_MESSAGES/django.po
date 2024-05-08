@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-30 15:07+0000\n"
+"PO-Revision-Date: 2024-05-09 06:41+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.3-dev\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:79
@@ -1202,7 +1202,7 @@ msgstr "Esempio componente aggiuntivo"
 
 #: weblate/addons/example.py:22
 msgid "This add-on does nothing it is just an example."
-msgstr "Questa componente aggiuntivo non fa nulla, è solo un esempio."
+msgstr "Questo componente aggiuntivo non fa nulla, è solo un esempio."
 
 #: weblate/addons/example_pre.py:19
 msgid "Execute script before commit"
@@ -2202,10 +2202,8 @@ msgstr "Gestisci fatturazione"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Componenti aggiuntivi installati"
+msgstr "Gestisci componenti aggiuntivi lato sito"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -5323,7 +5321,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "Motivo dell'errore CSRF: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -5395,7 +5393,7 @@ msgstr[1] "Stelle di GitHub"
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] "Problemi aperti"
+msgstr[0] "Problema aperto"
 msgstr[1] "Problemi aperti"
 
 #: weblate/templates/about/donate.html:37
@@ -5439,7 +5437,7 @@ msgstr "Acquista un pacchetto di assistenza"
 
 #: weblate/templates/about/donate.html:53
 msgid "Give to Weblate"
-msgstr "Dona a Weblate"
+msgstr "Fai una donazione a Weblate"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -6192,14 +6190,10 @@ msgid "Your trial will last 14 days."
 msgstr "La tua prova durerà 14 giorni."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"La tua versione di prova eseguirà il piano Enterprise, ma puoi scegliere "
-"qualsiasi piano in un secondo momento."
+"Il tuo periodo di prova sarà basato sul piano da 640k, ma potrai scegliere "
+"qualsiasi piano in seguito."
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -6483,18 +6477,15 @@ msgid "History"
 msgstr "Cronologia"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "Non ci sono attualmente componenti aggiuntivi installati."
+msgstr "Nessun componente aggiuntivo attualmente installato"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Componenti aggiuntivi installati"
-msgstr[1] "Componenti aggiuntivi installati"
+msgstr[0] "Installato %(count)s componente aggiuntivo"
+msgstr[1] "Installati %(count)s componenti aggiuntivi"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6509,21 +6500,22 @@ msgstr "Configura"
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
 msgstr ""
+"I componenti aggiuntivi possono essere installati anche nell'ambito del "
+"progetto e del componente."
 
 #: weblate/templates/addons/addon_list.html:61
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Non ci sono attualmente componenti aggiuntivi installati."
-msgstr[1] "Non ci sono attualmente componenti aggiuntivi installati."
+msgstr[0] "Gestisci componenti aggiuntivi lato progetto (%(count)s installato)"
+msgstr[1] "Gestisci componenti aggiuntivi lato progetto (%(count)s installati)"
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gestisci componenti aggiuntivi lato sito (%(count)s installato)"
+msgstr[1] "Gestisci componenti aggiuntivi lato sito (%(count)s installati)"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -6549,10 +6541,8 @@ msgstr ""
 "l'installazione."
 
 #: weblate/templates/addons/addon_list.html:104
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all add-on changes"
-msgstr "Sfoglia tutte le modifiche della lingua"
+msgstr "Sfoglia tutte le modifiche ai componenti aggiuntivi"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -9854,16 +9844,12 @@ msgid "Edit glossary term"
 msgstr "Modifica termine glossario"
 
 #: weblate/templates/snippets/glossary.html:38
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Glossary translation explanation"
-msgstr "Spiegazione traduzione"
+msgstr "Spiegazione della traduzione del glossario"
 
 #: weblate/templates/snippets/glossary.html:47
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Glossary string explanation"
-msgstr "Spiegazione stringa sorgente"
+msgstr "Spiegazione della stringa del glossario"
 
 #: weblate/templates/snippets/glossary.html:56
 msgid "No related strings found in the glossary."
