@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-30 15:07+0000\n"
+"PO-Revision-Date: 2024-05-09 06:41+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.5.3-dev\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -2116,10 +2116,8 @@ msgstr "ניהול חיוב"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "תוספים שמותקנים"
+msgstr "ניהול תוספים שמותקנים ברמת אתר"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -5133,7 +5131,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "סיבת כשל CSRF:‏ %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -5973,13 +5971,9 @@ msgid "Your trial will last 14 days."
 msgstr "תקופת הניסיון שלך תארוך 14 ימים."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"בתקופת הניסיון שלך תזכה להטבות התכנית הארגונית, אך ניתן לבחור בכל תכנית אחרת "
+"התקופה הניסיונית שלך תאפשר עד 640 אלף מחרוזות, אך ניתן לבחור בכל תוכנית אחרת "
 "בהמשך."
 
 #: weblate/templates/accounts/trial.html:25
@@ -6270,20 +6264,17 @@ msgid "History"
 msgstr "היסטוריה"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "לא מותקנים תוספים כרגע."
+msgstr "אין תוספים מותקנים כרגע"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "תוספים שמותקנים"
-msgstr[1] "תוספים שמותקנים"
-msgstr[2] "תוספים שמותקנים"
-msgstr[3] "תוספים שמותקנים"
+msgstr[0] "תוסף מותקן"
+msgstr[1] "שני תוספים מותקנים"
+msgstr[2] "%(count)s תוספים מותקנים"
+msgstr[3] "%(count)s תוספים מותקנים"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6297,26 +6288,25 @@ msgstr "הגדרה"
 
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
-msgstr ""
+msgstr "אפשר להתקין תוספים גם ברמת מיזם ורכיב."
 
 #: weblate/templates/addons/addon_list.html:61
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "לא מותקנים תוספים כרגע."
-msgstr[1] "לא מותקנים תוספים כרגע."
-msgstr[2] "לא מותקנים תוספים כרגע."
-msgstr[3] "לא מותקנים תוספים כרגע."
+msgstr[0] "ניהול תוספים ברמת מיזם (מותקן אחד)"
+msgstr[1] "ניהול תוספים ברמת מיזם (שניים מותקנים)"
+msgstr[2] "ניהול תוספים ברמת מיזם (%(count)s מותקנים)"
+msgstr[3] "ניהול תוספים ברמת מיזם (%(count)s מותקנים)"
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "ניהול תוספים ברמת אתר (אחד מותקן)"
+msgstr[1] "ניהול תוספים ברמת אתר (שניים מותקנים)"
+msgstr[2] "ניהול תוספים ברמת אתר (%(count)s מותקנים)"
+msgstr[3] "ניהול תוספים ברמת אתר (%(count)s מותקנים)"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -6338,10 +6328,8 @@ msgid "Some add-ons will ask for additional configuration during installation."
 msgstr "חלק מהתוספים ידרשו הגדרות נוספות במהלך ההתקנה."
 
 #: weblate/templates/addons/addon_list.html:104
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all add-on changes"
-msgstr "עיון בכל השינויים בשפה"
+msgstr "עיון בכל השינויים בתוספים"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -7594,7 +7582,7 @@ msgstr "סך הכול, <strong>%(percent)s%%</strong> מהתרגומים האל�
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
-msgstr "אם ברצונך לתרום לתרגום המיזם %(project)s, עליך להירשם לשרת זה."
+msgstr "כדי לתרום לתרגום המיזם %(project)s, יש להירשם לשרת זה."
 
 #: weblate/templates/engage.html:53
 msgid ""
@@ -7866,15 +7854,13 @@ msgstr[2] "%(count)s הגשות יוצאות"
 msgstr[3] "%(count)s הגשות יוצאות"
 
 #: weblate/templates/js/git-status.html:43
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "הגשה חסרה"
-msgstr[1] "%(count)s הגשות חסרות"
-msgstr[2] "%(count)s הגשות חסרות"
-msgstr[3] "%(count)s הגשות חסרות"
+msgstr[0] "(חסרה בענף הדחיפה)"
+msgstr[1] "(%(count)s חסרות בענף הדחיפה)"
+msgstr[2] "(%(count)s חסרות בענף הדחיפה)"
+msgstr[3] "(%(count)s חסרות בענף הדחיפה)"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
@@ -9566,16 +9552,12 @@ msgid "Edit glossary term"
 msgstr "עריכת מונח במונחון"
 
 #: weblate/templates/snippets/glossary.html:38
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Glossary translation explanation"
-msgstr "הסבר על תרום"
+msgstr "הסבר על תרגום במונחון"
 
 #: weblate/templates/snippets/glossary.html:47
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Glossary string explanation"
-msgstr "הסבר על מחרוזת המקור"
+msgstr "הסבר על מחרוזת במונחון"
 
 #: weblate/templates/snippets/glossary.html:56
 msgid "No related strings found in the glossary."
@@ -11968,7 +11950,7 @@ msgstr "הסבר על מחרוזת המקור"
 
 #: weblate/trans/forms.py:524
 msgid "Translation explanation"
-msgstr "הסבר על תרום"
+msgstr "הסבר על תרגום"
 
 #: weblate/trans/forms.py:541
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -13149,10 +13131,8 @@ msgid "POSIX style using underscore as a separator"
 msgstr "סגנון POSIX שמשתמש בקו תחתי כמפריד"
 
 #: weblate/trans/models/component.py:130
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "סגנון POSIX שמשתמש בקו תחתי כמפריד"
+msgstr "סגנון POSIX שמשתמש בקו תחתי כמפריד, אותיות קטנות"
 
 #: weblate/trans/models/component.py:132
 msgid "BCP style using hyphen as a separator"
