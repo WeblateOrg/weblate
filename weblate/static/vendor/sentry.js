@@ -3976,12 +3976,15 @@ function triggerHandlers(type, data) {
 }
 
 function instrumentCls() {
-  return getCLS.onCLS(metric => {
-    triggerHandlers('cls', {
-      metric,
-    });
-    _previousCls = metric;
-  });
+  return getCLS.onCLS(
+    metric => {
+      triggerHandlers('cls', {
+        metric,
+      });
+      _previousCls = metric;
+    },
+    { reportAllChanges: true },
+  );
 }
 
 function instrumentFid() {
@@ -5288,7 +5291,10 @@ const onHidden = require('./lib/onHidden.js');
  * hidden. As a result, the `callback` function might be called multiple times
  * during the same page load._
  */
-const onCLS = (onReport) => {
+const onCLS = (
+  onReport,
+  options = {},
+) => {
   const metric = initMetric.initMetric('CLS', 0);
   let report;
 
@@ -5334,7 +5340,7 @@ const onCLS = (onReport) => {
 
   const po = observe.observe('layout-shift', handleEntries);
   if (po) {
-    report = bindReporter.bindReporter(onReport, metric);
+    report = bindReporter.bindReporter(onReport, metric, options.reportAllChanges);
 
     const stopListening = () => {
       handleEntries(po.takeRecords() );
@@ -11930,6 +11936,7 @@ class BaseClient {
     if (this._dsn) {
       const url = api.getEnvelopeEndpointWithUrlEncodedAuth(this._dsn, options);
       this._transport = options.transport({
+        tunnel: this._options.tunnel,
         recordDroppedEvent: this.recordDroppedEvent.bind(this),
         ...options.transportOptions,
         url,
@@ -20062,6 +20069,7 @@ function makeOverrideReleaseTransport(
     const transport = createTransport(options);
 
     return {
+      ...transport,
       send: async (envelope) => {
         const event = eventFromEnvelope(envelope, ['event', 'transaction', 'profile', 'replay_event']);
 
@@ -20070,9 +20078,21 @@ function makeOverrideReleaseTransport(
         }
         return transport.send(envelope);
       },
-      flush: timeout => transport.flush(timeout),
     };
   };
+}
+
+/** Overrides the DSN in the envelope header  */
+function overrideDsn(envelope, dsn) {
+  return utils.createEnvelope(
+    dsn
+      ? {
+          ...envelope[0],
+          dsn,
+        }
+      : envelope[0],
+    envelope[1],
+  );
 }
 
 /**
@@ -20084,26 +20104,31 @@ function makeMultiplexedTransport(
 ) {
   return options => {
     const fallbackTransport = createTransport(options);
-    const otherTransports = {};
+    const otherTransports = new Map();
 
     function getTransport(dsn, release) {
       // We create a transport for every unique dsn/release combination as there may be code from multiple releases in
       // use at the same time
       const key = release ? `${dsn}:${release}` : dsn;
 
-      if (!otherTransports[key]) {
+      let transport = otherTransports.get(key);
+
+      if (!transport) {
         const validatedDsn = utils.dsnFromString(dsn);
         if (!validatedDsn) {
           return undefined;
         }
-        const url = api.getEnvelopeEndpointWithUrlEncodedAuth(validatedDsn);
 
-        otherTransports[key] = release
+        const url = api.getEnvelopeEndpointWithUrlEncodedAuth(validatedDsn, options.tunnel);
+
+        transport = release
           ? makeOverrideReleaseTransport(createTransport, release)({ ...options, url })
           : createTransport({ ...options, url });
+
+        otherTransports.set(key, transport);
       }
 
-      return otherTransports[key];
+      return [dsn, transport];
     }
 
     async function send(envelope) {
@@ -20124,18 +20149,24 @@ function makeMultiplexedTransport(
 
       // If we have no transports to send to, use the fallback transport
       if (transports.length === 0) {
-        transports.push(fallbackTransport);
+        // Don't override the DSN in the header for the fallback transport. '' is falsy
+        transports.push(['', fallbackTransport]);
       }
 
-      const results = await Promise.all(transports.map(transport => transport.send(envelope)));
+      const results = await Promise.all(
+        transports.map(([dsn, transport]) => transport.send(overrideDsn(envelope, dsn))),
+      );
 
       return results[0];
     }
 
     async function flush(timeout) {
-      const allTransports = [...Object.keys(otherTransports).map(dsn => otherTransports[dsn]), fallbackTransport];
-      const results = await Promise.all(allTransports.map(transport => transport.flush(timeout)));
-      return results.every(r => r);
+      const promises = [await fallbackTransport.flush(timeout)];
+      for (const [, transport] of otherTransports) {
+        promises.push(await transport.flush(timeout));
+      }
+
+      return promises.every(r => r);
     }
 
     return {
@@ -21213,7 +21244,7 @@ exports.spanToTraceHeader = spanToTraceHeader;
 },{"@sentry/utils":152}],118:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.113.0';
+const SDK_VERSION = '7.114.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
