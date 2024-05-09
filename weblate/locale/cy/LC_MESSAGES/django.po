@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-25 20:43+0000\n"
+"PO-Revision-Date: 2024-05-09 10:43+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -2205,10 +2205,8 @@ msgstr "Rheoli bilio"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Ychwanegynnau wedi'u gosod"
+msgstr "Rheoli ychwanegiadau'r wefan"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -5320,7 +5318,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "Rheswm methiant CSRF: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -6202,13 +6200,9 @@ msgid "Your trial will last 14 days."
 msgstr "Bydd eich treial yn para am 14 diwrnod."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"Bydd eich cyfle profi yn rhedeg y cynllun Menter, ond gallwch ddewis unrhyw "
+"Bydd eich cyfle profi yn rhedeg y cynllun 640k, ond gallwch ddewis unrhyw "
 "gynllun yn ddiweddarach."
 
 #: weblate/templates/accounts/trial.html:25
@@ -6511,22 +6505,19 @@ msgid "History"
 msgstr "Hanes"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
 msgstr "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Ychwanegynnau wedi'u gosod"
-msgstr[1] "Ychwanegynnau wedi'u gosod"
-msgstr[2] "Ychwanegynnau wedi'u gosod"
-msgstr[3] "Ychwanegynnau wedi'u gosod"
-msgstr[4] "Ychwanegynnau wedi'u gosod"
-msgstr[5] "Ychwanegynnau wedi'u gosod"
+msgstr[0] "%(count)s ychwanegyn wedi'u gosod"
+msgstr[1] "%(count)s ychwanegyn wedi'i osod"
+msgstr[2] "%(count)s ychwanegyn wedi'u gosod"
+msgstr[3] "%(count)s ychwanegyn wedi'u gosod"
+msgstr[4] "%(count)s ychwanegyn wedi'u gosod"
+msgstr[5] "%(count)s ychwanegyn wedi'u gosod"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6540,30 +6531,30 @@ msgstr "Ffurfweddu"
 
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
-msgstr ""
+msgstr "Mae modd ychwanegu ategolion ar gylch gorchwyl project a chydran hefyd."
 
 #: weblate/templates/addons/addon_list.html:61
 #, fuzzy, python-format
 #| msgid "There are no add-ons currently installed."
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
-msgstr[1] "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
-msgstr[2] "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
-msgstr[3] "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
-msgstr[4] "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
+msgstr[0] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[1] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[2] "Rheoli ategolion ar draws y project (%(count)s wedi'i osod)"
+msgstr[3] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[4] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
 msgstr[5] "Nid oes unrhyw ychwanegion wedi'u gosod ar hyn o bryd."
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[1] "Rheoli ategolion ar draws y project (%(count)s wedi'i osod)"
+msgstr[2] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[3] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[4] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
+msgstr[5] "Rheoli ategolion ar draws y project (%(count)s wedi'u gosod)"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -6589,10 +6580,8 @@ msgstr ""
 "gosodiad."
 
 #: weblate/templates/addons/addon_list.html:104
-#, fuzzy
-#| msgid "Browse all translation changes"
 msgid "Browse all add-on changes"
-msgstr "Pori pob newid yn y cyfieithu"
+msgstr "Pori pob newid yn yr ychwanegion"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -8188,17 +8177,15 @@ msgstr[4] "%(count)s traddodyn allan"
 msgstr[5] "%(count)s traddodi sy'n mynd allan"
 
 #: weblate/templates/js/git-status.html:43
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s traddodion coll"
-msgstr[1] "%(count)s traddodyn coll"
-msgstr[2] "%(count)s traddodyn coll"
-msgstr[3] "%(count)s traddodyn coll"
-msgstr[4] "%(count)s traddodyn coll"
-msgstr[5] "%(count)s traddodyn coll"
+msgstr[0] "(%(count)s coll yn y gangen gwthio)"
+msgstr[1] "(%(count)s goll yn y gangen gwthio)"
+msgstr[2] "(%(count)s coll yn y gangen gwthio)"
+msgstr[3] "(%(count)s coll yn y gangen gwthio)"
+msgstr[4] "(%(count)s coll yn y gangen gwthio)"
+msgstr[5] "(%(count)s coll yn y gangen gwthio)"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
@@ -9981,16 +9968,12 @@ msgid "Edit glossary term"
 msgstr "Golygu term geirfa"
 
 #: weblate/templates/snippets/glossary.html:38
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Glossary translation explanation"
-msgstr "Esboniad o'r cyfieithiad"
+msgstr "Esboniad o'r cyfieithiad termau"
 
 #: weblate/templates/snippets/glossary.html:47
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Glossary string explanation"
-msgstr "Esboniad o'r llinyn ffynhonnell"
+msgstr "Esboniad o'r llinyn termau"
 
 #: weblate/templates/snippets/glossary.html:56
 msgid "No related strings found in the glossary."
@@ -10609,7 +10592,7 @@ msgstr "Llinynnau wedi'u cyfieithu mewn iaith penodol"
 
 #: weblate/templates/snippets/query-field.html:6
 msgid "Filters"
-msgstr ""
+msgstr "Hidlyddion"
 
 #: weblate/templates/snippets/query-field.html:15
 #: weblate/templates/snippets/user-query-field.html:5 weblate/utils/forms.py:25
@@ -13739,10 +13722,8 @@ msgid "POSIX style using underscore as a separator"
 msgstr "Arddull POSIX gan ddefnyddio tanlinellu fel gwahanydd"
 
 #: weblate/trans/models/component.py:130
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "Arddull POSIX gan ddefnyddio tanlinellu fel gwahanydd"
+msgstr "Arddull POSIX gan ddefnyddio tanlinellu fel gwahanydd, nodau bach"
 
 #: weblate/trans/models/component.py:132
 msgid "BCP style using hyphen as a separator"
@@ -13754,16 +13735,12 @@ msgstr ""
 "Arddull POSIX gan ddefnyddio tanlinellu fel gwahanydd, gan gynnwys cod gwlad"
 
 #: weblate/trans/models/component.py:142
-#, fuzzy
-#| msgid ""
-#| "POSIX style using underscore as a separator, including country code "
-#| "(lowercase)"
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
 msgstr ""
-"Arddull POSIX gan ddefnyddio tanlinellu fel gwahanydd, gan gynnwys cod gwlad "
-"(llythrennau bach)"
+"Arddull POSIX gan ddefnyddio tanlinellu fel gwahanydd, gan gynnwys cod "
+"gwlad, nodau bach"
 
 #: weblate/trans/models/component.py:147
 msgid "BCP style using hyphen as a separator, including country code"
@@ -13797,10 +13774,8 @@ msgid "Linux style"
 msgstr "Arddull Linux"
 
 #: weblate/trans/models/component.py:158
-#, fuzzy
-#| msgid "Linux style"
 msgid "Linux style, lower cased"
-msgstr "Arddull Linux"
+msgstr "Arddull Linux, nodau bach"
 
 #: weblate/trans/models/component.py:162
 msgid "Merge"
