@@ -552,12 +552,11 @@ class GitWithGerritRepository(GitRepository):
         if url is not None:
             if url.startswith("git@"):
                 return url.split(":")[-1].split("/")[0]
-            elif url.startswith(("ssh://", "https://")) and '@' in url:
+            if url.startswith(("ssh://", "https://")) and "@" in url:
                 return url.split("//")[-1].split("@")[0]
-            elif url.startswith(("ssh://", "https://")):
+            if url.startswith(("ssh://", "https://")):
                 return url.split("//")[-1].split("/")[1]
-            else:
-                return ""
+            return ""
         return ""
 
     def push(self, branch) -> None:
