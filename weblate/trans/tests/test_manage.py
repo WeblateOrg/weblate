@@ -11,6 +11,7 @@ from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, Component, Project, Translation
+from weblate.utils.stats import ProjectLanguage
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
@@ -224,6 +225,12 @@ class AnnouncementTest(ViewTestCase):
 
     def test_project(self) -> None:
         url = reverse("announcement", kwargs={"path": self.project.get_url_path()})
+        self.perform_test(url)
+
+    def test_project_language(self) -> None:
+        print("[TEST] Test Project Language Announcement")
+        project_language = ProjectLanguage(project=self.project, language=Language.objects.get(code="cs"))
+        url = reverse("announcement", kwargs={"path": project_language.get_url_path()})
         self.perform_test(url)
 
     def test_delete(self) -> None:
