@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-09 06:41+0000\n"
+"PO-Revision-Date: 2024-05-10 02:28+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -6916,16 +6916,15 @@ msgstr ""
 "`custom-checks`）を渡します。設定が必要な項目:"
 
 #: ../../admin/checks.rst:372
-#, fuzzy
-#| msgid "``max-size:500``"
 msgid "``max-size:500`` / ``max-size:300:5``"
-msgstr "``max-size:500``"
+msgstr "``max-size:500`` / ``max-size:300:5``"
 
 #: ../../admin/checks.rst:373
 msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
-msgstr ""
+msgstr "最大幅をピクセル単位で設定し、オプションで最大行数を設定します（単語の折り返"
+"しが適用されます）。"
 
 #: ../../admin/checks.rst:374
 msgid "``font-family:ubuntu``"
@@ -8752,16 +8751,10 @@ msgstr ""
 "ン イン ページにアクセスできます。"
 
 #: ../../admin/config.rst:1217
-#, fuzzy
-#| msgid ""
-#| ":ref:`sample-configuration` contains :setting:`django:LOGGING` "
-#| "configuration."
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
-msgstr ""
-":ref:`sample-configuration` は、:setting:`django:LOGGING` の設定を含んでいま"
-"す。"
+msgstr "推奨設定については、:ref:`sample-configuration` を参照してください。"
 
 #: ../../admin/config.rst:1223
 msgid "MATOMO_SITE_ID"
@@ -9489,19 +9482,22 @@ msgstr ""
 
 #: ../../admin/config.rst:1819
 msgid "SUPPORT_STATUS_CHECK"
-msgstr ""
+msgstr "SUPPORT_STATUS_CHECK"
 
 #: ../../admin/config.rst:1823
 msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
+"有効なサポート サブスクリプションがない場合は、半年ごとのサポート状況チェック"
+"を無効にし、ログイン時にスーパーユーザーを寄付ページにリダイレクトさせます。"
 
 #: ../../admin/config.rst:1828
 msgid ""
 "Improve your Weblate experience by purchasing a support subscription and "
 "boosting Weblate progress instead of turning this off."
-msgstr ""
+msgstr "これを無効とせずに、サポート サブスクリプションに加入し Weblate "
+"の開発に貢献することで、Weblate の機能を向上させてください。"
 
 #: ../../admin/config.rst:1833
 msgid "UNUSED_ALERT_DAYS"
@@ -10743,22 +10739,16 @@ msgstr ""
 "さい。"
 
 #: ../../admin/customize.rst:33
-#, fuzzy
-#| msgid ""
-#| "To write a file with custom Python code (called a module), a place to "
-#| "store it is needed, either in the system path (usually something like :"
-#| "file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, "
-#| "which is also added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
 "lib/python3.12/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
-"（モジュールと呼ばれる）Python のカスタム コードを含むファイルを作成するに"
-"は、それを格納する場所が必要です。システム パス（通常は :file:`/usr/lib/"
-"python3.9/site-packages/` など）か、インタプリタ検索パスに追加された Weblate "
-"ディレクトリのどちらかになります。"
+"（モジュールと呼ばれる）Python のカスタム "
+"コードを含むファイルを作成するには、それを格納する場所が必要です。システム "
+"パス（通常は :file:`/usr/lib/python3.12/site-packages/` など）か、"
+"インタプリタ検索パスに追加された Weblate ディレクトリのどちらかになります。"
 
 #: ../../admin/customize.rst:40
 msgid ""
@@ -11092,42 +11082,34 @@ msgstr "Web サーバー"
 
 #: ../../admin/install.rst:127
 msgid "Handling incoming HTTP requests, :ref:`static-files`."
-msgstr ""
+msgstr "受信 HTTP リクエストの処理、:ref:`static-files`。"
 
 #: ../../admin/install.rst:132
-#, fuzzy
-#| msgid "Celery worker"
 msgid "Celery workers"
 msgstr "Celery ワーカー"
 
 #: ../../admin/install.rst:129
 msgid ":ref:`celery` are executed here."
-msgstr ""
+msgstr ":ref:`celery` は、ここで実行されます。"
 
 #: ../../admin/install.rst:131
-#, fuzzy
-#| msgid ""
-#| "Depending on your configuration, you might also want to start Celery "
-#| "workers:"
 msgid ""
 "Depending on your workload, you might want to customize the number of "
 "workers."
-msgstr "Celery Worker を起動する場合の設定方法:"
+msgstr "作業負荷に応じて、ワーカー数を変更してください。"
 
 #: ../../admin/install.rst:133 ../../admin/install.rst:137
 #: ../../admin/install.rst:145
 msgid "Use dedicated node when scaling Weblate horizontally."
-msgstr ""
+msgstr "Weblate を水平方向にスケーリングする場合は、専用ノードを使用してください。"
 
 #: ../../admin/install.rst:136
-#, fuzzy
-#| msgid "Web server"
 msgid "WSGI server"
-msgstr "Web サーバー"
+msgstr "WSGI サーバー"
 
 #: ../../admin/install.rst:135
 msgid "A WSGI server serving web pages to users."
-msgstr ""
+msgstr "ユーザーに Web ページを提供する WSGI サーバー。"
 
 #: ../../admin/install.rst:139
 msgid ""
@@ -11141,47 +11123,43 @@ msgstr ""
 msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
-msgstr ""
+msgstr "数百億の単語をホストするサイトの場合、専用のデータベース "
+"ノードを使用してください。"
 
 #: ../../admin/install.rst:144
-#, fuzzy
-#| msgid "Swedish"
 msgid "Redis"
-msgstr "スウェーデン語"
+msgstr "Redis"
 
 #: ../../admin/install.rst:143
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgstr "キャッシュとタスク キューの Redis サーバー。参照: :ref:`celery`。"
 
 #: ../../admin/install.rst:148
-#, fuzzy
-#| msgid "File size"
 msgid "File system"
-msgstr "ファイル サイズ"
+msgstr "ファイルシステム"
 
 #: ../../admin/install.rst:147
 msgid ""
 "File system storage for storing VCS repositories and uploaded user data. "
 "This is shared by all the processes."
 msgstr ""
+"ファイルシステム ストレージ は、VCS リポジトリとアップロードされたユーザーデ"
+"ータを保存するための領域です。これは、すべてのプロセスで共有されます。"
 
 #: ../../admin/install.rst:149
 msgid "Use networked storage when scaling Weblate horizontally."
-msgstr ""
+msgstr "Weblate を水平方向にスケーリングする場合は、ネットワーク "
+"ストレージを使用してください。"
 
 #: ../../admin/install.rst:151
-#, fuzzy
-#| msgid "Email server setup"
 msgid "E-mail server"
-msgstr "メールサーバーの設定"
+msgstr "メールサーバー"
 
 #: ../../admin/install.rst:151
-#, fuzzy
-#| msgid "SMTP server for outgoing e-mail, see :ref:`out-mail`."
 msgid ""
 "SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided "
 "externally."
-msgstr "メール送信用の SMTP サーバー。参照: :ref:`out-mail`。"
+msgstr "メール送信用の SMTP サーバー。参照: :ref:`out-mail`。外部から提供できます。"
 
 #: ../../admin/install.rst:155
 msgid ""
@@ -11216,32 +11194,26 @@ msgstr ""
 "チは歓迎します。"
 
 #: ../../admin/install.rst:173
-#, fuzzy
-#| msgid ":ref:`architecture` describes how Weblate works internally."
 msgid ""
 ":ref:`architecture` describes overall Weblate architecture and required "
 "services."
-msgstr ":ref:`architecture` は、Weblate 内部の動作原理を説明します。"
+msgstr ":ref:`architecture` では、Weblate "
+"の全体的なアーキテクチャと必要なサービスについて解説しています。"
 
 #: ../../admin/install.rst:178
 msgid "Python dependencies"
 msgstr "Python の依存関係"
 
 #: ../../admin/install.rst:180
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.9 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.10 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblateは、`Python <https://www.python.org/>`_ で書かれており、Python 3.9 以"
-"降に対応しています。依存関係は、pip を使ってのインストールすることも、ディス"
-"トリビューションのパッケージからもインストールできます。:file:`requirements."
-"txt` は、依存関係の完全なリストです。"
+"Weblateは、`Python <https://www.python.org/>`_ で書かれており、Python 3.10 "
+"以降に対応しています。依存関係は、pip を使ってのインストールすることも、ディ"
+"ストリビューションのパッケージからもインストールできます。:file:`requirements"
+".txt` は、依存関係の完全なリストです。"
 
 #: ../../admin/install.rst:184
 msgid "Most notable dependencies:"
@@ -11316,11 +11288,10 @@ msgid "``alibaba``"
 msgstr "``alibaba``"
 
 #: ../../admin/install.rst:210
-#, fuzzy
-#| msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
 msgid ""
 "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
-msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
+msgstr ""
+"`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
 
 #: ../../admin/install.rst:211
 msgid ":ref:`mt-alibaba`"
@@ -11592,19 +11563,14 @@ msgid "Hardware requirements"
 msgstr "ハードウェア要件"
 
 #: ../../admin/install/steps/hw.rst:4
-#, fuzzy
-#| msgid ""
-#| "Weblate should run on any contemporary hardware without problems, the "
-#| "following is the minimal configuration required to run Weblate on a "
-#| "single host (Weblate, database and webserver):"
 msgid ""
 "Weblate should run on any contemporary hardware without problems, the "
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and web server):"
 msgstr ""
-"Weblate は、最新のハードウェアであれば問題なく動作します。以下は、Weblate を"
-"単一のホスト（Weblate、データベース、Web サーバー）で動作させるために必要な最"
-"小限の構成:"
+"Weblate は、最新のハードウェアであれば問題なく動作します。以下は、Weblate "
+"を単一のホスト（Weblate、データベース、Web "
+"サーバー）で動作させるために必要な最小限の構成:"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "3 GB of RAM"
@@ -11627,23 +11593,18 @@ msgstr ""
 "よって大きく変化します。"
 
 #: ../../admin/install/steps/hw.rst:18
-#, fuzzy
-#| msgid "Reduced memory usage."
 msgid "Memory usage"
-msgstr "メモリ使用量の削減。"
+msgstr "メモリ使用量"
 
 #: ../../admin/install/steps/hw.rst:20
-#, fuzzy
-#| msgid ""
-#| "The more memory the better - it is used for caching on all levels "
-#| "(filesystem, database and Weblate)."
 msgid ""
 "The more memory the better - it is used for caching on all levels (file "
 "system, database and Weblate). For hundreds of translation components, at "
 "least 4 GB of RAM is recommended."
 msgstr ""
-"メモリは多ければ多いほど良い - すべてのレベル（ファイルシステム、データベー"
-"ス、Weblate）でキャッシュとして使用します。"
+"メモリは多ければ多いほど良い - すべてのレベル（ファイルシステム、データベース"
+"、Weblate）でキャッシュとして使用します。数百の翻訳コンポーネントの場合は、"
+"少なくとも 4 GB の RAM を推奨します。"
 
 #: ../../admin/install/steps/hw.rst:27
 msgid ""
@@ -11654,63 +11615,52 @@ msgstr ""
 "す。"
 
 #: ../../admin/install/steps/hw.rst:30
-#, fuzzy
-#| msgid "Usage"
 msgid "CPU usage"
-msgstr "使用方法"
+msgstr "CPU 使用率"
 
 #: ../../admin/install/steps/hw.rst:32
-#, fuzzy
-#| msgid ""
-#| "Many concurrent users increases the amount of needed CPU cores. For "
-#| "hundreds of translation components at least 4 GB of RAM is recommended."
 msgid "Many concurrent users increase the amount of needed CPU cores."
-msgstr ""
-"同時使用者が多い場合、必要な CPU コアの数が増えます。数百の翻訳コンポーネント"
-"を使用する場合は、少なくとも 4 GB の RAM が必要です。"
+msgstr "同時使用者が多い場合、必要な CPU コアの数が増えます。"
 
 #: ../../admin/install/steps/hw.rst:35
-#, fuzzy
-#| msgid "Docker usage"
 msgid "Storage usage"
-msgstr "Docker の使用"
+msgstr "ストレージ使用量"
 
 #: ../../admin/install/steps/hw.rst:37
 msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words."
-msgstr ""
+msgstr "一般的なデータベース ストレージの使用量は、ホストサーバーで管理する 100 "
+"万語の単語につき約 300 MB 必要です。"
 
 #: ../../admin/install/steps/hw.rst:39
-#, fuzzy
-#| msgid ""
-#| "The typical database storage usage is around 300 MB per 1 million hosted "
-#| "words. Storage space needed for cloned repositories varies, but Weblate "
-#| "tries to keep their size minimal by doing shallow clones."
 msgid ""
 "Storage space needed for cloned repositories varies, but Weblate tries to "
 "keep their size minimal by doing shallow clones."
 msgstr ""
-"一般的なデータベース ストレージの使用量は、ホストサーバーで管理する 100 万語"
-"の単語につき約 300 MB 必要です。リポジトリのクローンに必要なストレージ スペー"
-"スはさまざまですが、Weblate は、シャロー クローンを実行してサイズを最小限に抑"
-"える努力をします。"
+"リポジトリのクローンに必要なストレージ スペースはさまざまですが、Weblate は、"
+"シャロー クローンを実行してサイズを最小限に抑える努力をします。"
 
 #: ../../admin/install/steps/hw.rst:43
 msgid "Nodes"
-msgstr ""
+msgstr "ノード数"
 
 #: ../../admin/install/steps/hw.rst:45
 msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
+"小規模から中規模のサイト（ホストされた単語数が数百万）の場合、Weblate "
+"のすべてのコンポーネント（参照: "
+":ref:`architecture`）を単一ノードで実行できます。"
 
 #: ../../admin/install/steps/hw.rst:48
 msgid ""
 "When you grow to hundreds of millions of hosted words, it is recommended to "
 "have a dedicated node for database (see :ref:`database-setup`)."
 msgstr ""
+"数億件の翻訳対象語を扱う規模に成長する場合は、専用のデータベース "
+"ノードを用意することを推奨します（参照: :ref:`database-setup`）。"
 
 #: ../../admin/install.rst:334
 msgid "Verifying release signatures"
@@ -11799,11 +11749,9 @@ msgstr ""
 "PostgreSQL データベース サーバーで Weblate を実行することを推奨します。"
 
 #: ../../admin/install.rst:385
-#, fuzzy
-#| msgid "PostgreSQL 12 and higher is supported."
 msgid ""
 "PostgreSQL 12 and higher is supported. PostgreSQL 15 or newer is recommended."
-msgstr "PostgreSQL 12 以降に対応しています。"
+msgstr "PostgreSQL 12 以降に対応しています。PostgreSQL 15 以降を推奨します。"
 
 #: ../../admin/install.rst:387
 msgid ":ref:`mysql` is supported, but not recommended for new installs."
@@ -11813,7 +11761,8 @@ msgstr ":ref:`mysql` に対応していますが、新規インストールは�
 msgid ""
 "No other database servers are currently supported, but support for other "
 "Django supported databases should be possible to implement."
-msgstr ""
+msgstr "現時点では他のデータベース サーバーには対応していませんが、他の Django "
+"に対応しているデータベースに対応することはできるはすです。"
 
 #: ../../admin/install.rst:398
 msgid ""
@@ -12234,15 +12183,10 @@ msgstr ""
 "でいます。:file:`settings.py` にプロキシを設定してください。設定内容:"
 
 #: ../../admin/install.rst:722
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env>`_"
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
-msgstr ""
-"`プロキシ環境変数 <https://everything.curl.dev/usingcurl/proxies/env>`_"
+msgstr "`プロキシ環境変数 <https://everything.curl.dev/usingcurl/proxies/env.html>`_"
 
 #: ../../admin/install.rst:727
 msgid "Adjusting configuration"
@@ -14837,10 +14781,8 @@ msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr ":setting:`ENABLE_SHARING` を設定します。"
 
 #: ../../admin/install/docker.rst:945
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
-msgstr ":setting:`STATUS_URL` の設定。"
+msgstr ":setting:`SUPPORT_STATUS_CHECK` の設定。"
 
 #: ../../admin/install/docker.rst:951
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
@@ -15159,6 +15101,9 @@ msgid ""
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strength checking."
 msgstr ""
+"`zxcvbn <https://github.com/dropbox/zxcvbn>`_ "
+"パスワード強度推定ツールによって評価された最小パスワード スコア。"
+"デフォルトは 3 で、強度チェックを無効にするには 0 に設定します。"
 
 #: ../../admin/install/docker.rst:1370
 msgid "PostgreSQL database setup"
@@ -17350,19 +17295,14 @@ msgstr ""
 "mt`。"
 
 #: ../../admin/machine.rst:180
-#, fuzzy
-#| msgid ""
-#| "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
-#| "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://www."
-#| "deepl.com/docs-api.html>`_"
 msgid ""
 "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://developers."
 "deepl.com/docs>`_"
 msgstr ""
 "`DeepL translator <https://www.deepl.com/translator>`_ 、`DeepL の価格 "
-"<https://www.deepl.com/pro>`_ 、`DeepL API ドキュメント <https://www.deepl."
-"com/docs-api.html>`_"
+"<https://www.deepl.com/pro>`_ 、`DeepL API ドキュメント <https://developers."
+"deepl.com/docs>`_"
 
 #: ../../admin/machine.rst:187
 msgid "Glosbe"
@@ -17658,7 +17598,8 @@ msgstr "カテゴリ"
 #: ../../admin/machine.rst:345
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
-msgstr ""
+msgstr "独自のシステムカテゴリ ID "
+"を指定して、一般的なカテゴリの代わりに使用してください。"
 
 #: ../../admin/machine.rst:348
 msgid ""
@@ -17698,6 +17639,9 @@ msgid ""
 "learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/"
 "concepts/customization>`_."
 msgstr ""
+"`カスタム トランスレーター <https://learn.microsoft.com/en-gb/azure/"
+"ai-services/Translator/custom-translator/concepts/customization>`_ "
+"を使用してカスタム カテゴリを指定することもできます。"
 
 #: ../../admin/machine.rst:368
 msgid "For Azure China, please use your endpoint from the Azure Portal."
@@ -17875,16 +17819,12 @@ msgstr ""
 "は OpenAI のプロンプトで使用することにより翻訳スタイルを変更できます。"
 
 #: ../../admin/machine.rst:482
-#, fuzzy
-#| msgid ""
-#| "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API "
-#| "keys <https://platform.openai.com/account/api-keys>`_"
 msgid ""
 "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API keys "
 "<https://platform.openai.com/api-keys>`_"
 msgstr ""
 "`OpenAI モデル <https://platform.openai.com/docs/models>`_ 、`OpenAI API "
-"キー <https://platform.openai.com/account/api-keys>`_"
+"キー <https://platform.openai.com/api-keys>`_"
 
 #: ../../admin/machine.rst:490
 msgid "SAP Translation Hub"
@@ -17978,29 +17918,23 @@ msgstr ""
 
 #: ../../admin/machine.rst:530
 msgid "Systran"
-msgstr ""
+msgstr "シストラン"
 
 #: ../../admin/machine.rst:532
 msgid "``systran``"
 msgstr "``systran``"
 
 #: ../../admin/machine.rst:538
-#, fuzzy
-#| msgid "Machine translation service provided by SAP."
 msgid "Machine translation service provided by Systran."
-msgstr "SAP が提供する機械翻訳サービス。"
+msgstr "シストランが提供する機械翻訳サービス。"
 
 #: ../../admin/machine.rst:540
-#, fuzzy
-#| msgid ""
-#| "This service uses an API, and you need to obtain key and secret from "
-#| "NetEase."
 msgid ""
 "This service uses an API, and you need to obtain API key at <https://"
 "translate.systran.net/en/account>."
 msgstr ""
-"このサービスは API を使用するので、NetEase からキーとシークレットの取得が必要"
-"です。"
+"このサービスは API を使用するので、<https://translate.systran.net/en/"
+"account> から API キーの取得が必要です。"
 
 #: ../../admin/machine.rst:545
 msgid "tmserver"
@@ -21352,16 +21286,11 @@ msgid "Linux style, lower cased"
 msgstr "Linux 形式、小文字表記"
 
 #: ../../admin/projects.rst:760
-#, fuzzy
-#| msgid ""
-#| "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
-#| "notation."
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation. Lower cased."
-msgstr ""
-"Linux で使用するロケール。ロケールは、中国語や POSIX 形式の表記にレガシーコー"
-"ドが使用されています。"
+msgstr "Linux で使用するロケール。ロケールは、中国語や POSIX "
+"形式の表記にレガシーコードが使用されています。小文字表記。"
 
 #: ../../admin/projects.rst:764
 msgid ""
@@ -22153,23 +22082,17 @@ msgid "Getting support for Weblate"
 msgstr "Weblate によるサポートを受ける方法"
 
 #: ../../admin/support.rst:5
-#, fuzzy
-#| msgid ""
-#| "Weblate is copylefted libre software with community support. Subscribers "
-#| "receive priority support at no extra charge. Prepaid help packages are "
-#| "available for everyone. You can find more info about current support "
-#| "offerings at <https://weblate.org/support/>."
 msgid ""
 "*Weblate* is copylefted libre software with community support. Hosting "
 "subscribers receive priority support at no extra charge. Prepaid help "
 "packages are available for everyone, including self-hosting users. Find info "
 "about current support offerings at https://weblate.org/support."
 msgstr ""
-"Weblate は、コピーレフトな Libre ソフトウェアでありコミュニティによる支援もあ"
-"ります。サブスクライバ（定期購入者）は、追加料金なしで優先的なサポートを受け"
-"られます。事前購入のヘルプ パッケージ（一時的な緊急サポート）は、誰でも申し込"
-"めます。現在提供されているサポートの詳細については、<https://weblate.org/"
-"support/> を確認してください。"
+"\"Weblate\" は、コピーレフトな Libre ソフトウェアでありコミュニティによる支援"
+"もあります。ホスティングの加入者は、追加料金なしで優先的なサポートを受けられ"
+"ます。事前購入のヘルプ パッケージ（一時的な緊急サポート）は、自己ホスティング"
+"ユーザーを含むすべての人が申し込めます。現在提供されているサポートの詳細につ"
+"いては、https://weblate.org/support を確認してください。"
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
@@ -22188,28 +22111,20 @@ msgstr ""
 "す。"
 
 #: ../../admin/support.rst:24
-#, fuzzy
-#| msgid "Data submitted to the Weblate"
 msgid "Info sent to the Weblate"
-msgstr "Weblate に送信されるデータ"
+msgstr "Weblate に送信された情報"
 
 #: ../../admin/support.rst:26
-#, fuzzy
-#| msgid "Weblate internal URLs"
 msgid "Your Weblate instance URL"
-msgstr "Weblate の内部 URL"
+msgstr "Weblate インスタンス URL"
 
 #: ../../admin/support.rst:27
-#, fuzzy
-#| msgid "Your site title"
 msgid "Its site title"
 msgstr "サイトのタイトル"
 
 #: ../../admin/support.rst:28
-#, fuzzy
-#| msgid "The Weblate version you are running"
 msgid "The version you are running"
-msgstr "実行中の Weblate のバージョン"
+msgstr "実行中のバージョン"
 
 #: ../../admin/support.rst:29
 #, fuzzy
