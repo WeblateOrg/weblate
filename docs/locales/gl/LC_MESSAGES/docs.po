@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-07 20:39+0000\n"
+"PO-Revision-Date: 2024-05-09 10:43+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "documentation/gl/>\n"
@@ -130,9 +130,9 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-"O :guilabel:`Control de acceso` pode ser cambiado na lapela :guilabel:"
-"`Acceso` da configuración (:guilabel:`Xestionar` ↓ :guilabel:`Axustes`) de "
-"cada proxecto."
+"O :guilabel:`Control de acceso` pode ser cambiado na lapela "
+":guilabel:`Acceso` da configuración (:guilabel:`Xestionar` ↓ "
+":guilabel:`Axustes`) de cada proxecto."
 
 #: ../../admin/access.rst:66 ../../admin/projects.rst:201
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
@@ -169,6 +169,12 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
+"Os usuarios co privilexio de :guilabel:`Xestionar o acceso ao proxecto` (ver "
+":ref:`privilexios`) poden xestionar os usuarios nos proxectos engadíndoos "
+"aos equipos. A colección inicial de equipos é fornecida por Weblate, mais "
+"poden definirse equipos adicionais para fornecer un control de acceso máis "
+"detallado. Pode limitar os equipos a idiomas e asignarlles roles de acceso "
+"designados (ver :ref:`privilexios`)."
 
 #: ../../admin/access.rst:96
 msgid "The following teams are automatically created for every project:"
@@ -224,7 +230,7 @@ msgstr "Idiomas"
 
 #: ../../admin/access.rst:116
 msgid "Can manage translated languages (add or remove translations)."
-msgstr "Pode xestionar idiomas traducidos (engadir ou retirar traducións)."
+msgstr "Pode xestionar os idiomas traducidos (engadir ou retirar traducións)."
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:485 ../../api.rst:2469
 #: ../../user/glossary.rst:4 ../../user/translating.rst:294
@@ -233,7 +239,8 @@ msgstr "Glosario"
 
 #: ../../admin/access.rst:119
 msgid "Can manage glossary (add or remove entries, also upload)."
-msgstr "Pode xestionar o glosario (engadir ou retirar entradas, tamén enviar)."
+msgstr ""
+"Pode xestionar o glosario (engadir ou retirar entradas, tamén envialas)."
 
 #: ../../admin/access.rst:122 ../../api.rst:2064
 msgid "Memory"
@@ -241,7 +248,7 @@ msgstr "Memoria"
 
 #: ../../admin/access.rst:122
 msgid "Can manage translation memory."
-msgstr "Pode xestionar a memoria da tradución."
+msgstr "Pode xestionar a memoria de tradución."
 
 #: ../../admin/access.rst:126 ../../admin/access.rst:505 ../../api.rst:2215
 #: ../../user/translating.rst:283
@@ -253,8 +260,8 @@ msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
-"Pode xestionar capturas de pantalla (engadilas ou eliminalas e asocialas ás "
-"cadeas de orixe)."
+"Pode xestionar as capturas de pantalla (engadilas ou retiralas e asocialas "
+"ás cadeas de orixe)."
 
 #: ../../admin/access.rst:129 ../../admin/addons.rst:24
 #: ../../admin/continuous.rst:484 ../../user/translating.rst:345
@@ -269,7 +276,7 @@ msgstr "Tradución automática"
 
 #: ../../admin/access.rst:132 ../../admin/access.rst:551
 msgid "VCS"
-msgstr "Sistema do Control de Versións (VCS)"
+msgstr "SCV (VCS)"
 
 #: ../../admin/access.rst:132
 msgid "Can manage VCS and access the exported repository."
@@ -289,6 +296,9 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Estas funcionalidades están dispoñíbeis na páxina de :guilabel:`Control de "
+"acceso`, á que se pode acceder dende o menú do proxecto :guilabel:`Xestionar`"
+" ↓ :guilabel:`Usuarios`."
 
 #: ../../admin/access.rst:143
 msgid "Team administrators"
@@ -313,6 +323,10 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"Ao engadir usuarios existentes enviaráselle un convite para confirmar. Con "
+":setting:`REGISTRATION_OPEN`, o administrador tamén pode convidar novos "
+"usuarios usando o correo-e. Os usuarios convidados deben completar o proceso "
+"de rexistro para acceder ao proxecto."
 
 #: ../../admin/access.rst:160
 msgid ""
@@ -332,6 +346,8 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"Están dispoñíbeis o mesmo tipo de convites en todo o sitio dende a :ref:`"
+"interface de xestión <management-interface>` na lapela :guilabel:`Usuarios`."
 
 #: ../../admin/access.rst:174
 msgid ""
@@ -362,6 +378,9 @@ msgid ""
 "(see :ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the "
 "Weblate user interface."
 msgstr ""
+"Pode estabelecer os seus proxectos como :guilabel:`Protexidos` ou "
+":guilabel:`Privados` (ver :ref:`acl`), e :ref:`xestionar os usuarios <manage-"
+"acl>` por proxecto na interface de usuario de Weblate."
 
 #: ../../admin/access.rst:195
 msgid ""
@@ -409,6 +428,11 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
+"As funcionalidades máis potentes do sistema de control de acceso de Weblate "
+"poden configurarse na :ref:`interface de xestión`. Pode usala para xestionar "
+"os permisos de calquera proxecto. Non necesariamente ten que cambiar o :ref:`"
+"control de acceso <acl>`a :guilabel:`Personalizado` para utilizalo. Porén, "
+"debe ter privilexios de superusuario para usalo."
 
 #: ../../admin/access.rst:223
 msgid ""
@@ -470,6 +494,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Tamén pode definir algúns equipos personalizados novos. Se quere seguir a "
+"xestionar os seus permisos en todo o sitio para estes equipos, escolla un "
+"valor axeitado para a :guilabel:`Selección de proxecto` (p. ex. :guilabel:`"
+"Todos os proxectos` ou :guilabel:`Todos os proxectos públicos`)."
 
 #: ../../admin/access.rst:255
 #, fuzzy
@@ -515,7 +543,7 @@ msgstr ""
 
 #: ../../admin/access.rst:272
 msgid "Group `Users`"
-msgstr "Grupo «Usuarios»"
+msgstr "Grupo `Usuarios`"
 
 #: ../../admin/access.rst:275 ../../admin/access.rst:291
 msgid "Language selection"
@@ -523,7 +551,7 @@ msgstr "Selección de idioma"
 
 #: ../../admin/access.rst:276 ../../admin/access.rst:292
 msgid "`As defined`"
-msgstr "«Como foi definido»"
+msgstr "`Como foi definido`"
 
 #: ../../admin/access.rst:278
 msgid "All but `Czech`"
@@ -545,7 +573,7 @@ msgstr "Roles"
 
 #: ../../admin/access.rst:288
 msgid "`Power users`"
-msgstr "«Usuarios avanzados»"
+msgstr "`Usuarios avanzados`"
 
 #: ../../admin/access.rst:289
 msgid "Project selection"
@@ -553,11 +581,11 @@ msgstr "Selección de proxecto"
 
 #: ../../admin/access.rst:290
 msgid "`All public projects`"
-msgstr "«Todos os proxectos públicos»"
+msgstr "`Todos os proxectos públicos`"
 
 #: ../../admin/access.rst:294
 msgid "`Czech`"
-msgstr "«Checo»"
+msgstr "`Checo`"
 
 #: ../../admin/access.rst:298
 msgid "Add users you wish to give the permissions to into this team."
@@ -671,6 +699,12 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Se o equipo especifica calquera :guilabel:`lista de compoñentes`, todos os "
+"permisos concedidos aos membros dese equipo son outorgados para todos os "
+"compoñentes nas listas de compoñentes unidas ao equipo, e outórgase un "
+"acceso sen permisos adicionais para todos os proxectos nos que se atopan "
+"estes compoñentes. Ignóranse os :guilabel:`Compoñentes` e os "
+":guilabel:`Proxectos`."
 
 #: ../../admin/access.rst:371
 msgid ""
@@ -2303,7 +2337,7 @@ msgstr "Eliminar esta conta"
 #: ../../admin/addons.rst:243
 msgid "One folder per language containing translation files for components."
 msgstr ""
-"Un cartafol por lingua que contén os ficheiros da tradución dos compoñentes."
+"Un cartafol por idioma que contén os ficheiros de tradución dos compoñentes."
 
 #: ../../admin/addons.rst:245 ../../admin/addons.rst:258
 #: ../../admin/addons.rst:271 ../../admin/addons.rst:284
@@ -2346,7 +2380,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:256
 msgid "Usual structure for storing gettext PO files."
-msgstr "Estrutura habitual para almacenar ficheiros gettext PO."
+msgstr "Estrutura habitual para almacenar ficheiros PO de gettext."
 
 #: ../../admin/addons.rst:259
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
@@ -2439,7 +2473,7 @@ msgstr "Cadeas aprobadas"
 
 #: ../../admin/addons.rst:296
 msgid "Android resource strings, split into several files."
-msgstr "Cadeas dos recursos Android, divididas en varios ficheiros."
+msgstr "Cadeas de recursos de Android, divididas en varios ficheiros."
 
 #: ../../admin/addons.rst:299
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
@@ -3182,7 +3216,7 @@ msgstr "``no_location``"
 
 #: ../../admin/addons.rst:701
 msgid "Remove locations of translated strings"
-msgstr "Retirar as posicións das cadeas traducidas"
+msgstr "Retirar as localizacións das cadeas traducidas"
 
 #: ../../admin/addons.rst:703
 msgid "Use fuzzy matching"
@@ -4261,7 +4295,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:195
 msgid "Google OAuth 2"
-msgstr "Autenticación automática de Google 2 (Google OAuth 2)"
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:197
 msgid ""
@@ -10211,10 +10245,8 @@ msgid "Use dedicated node when scaling Weblate horizontally."
 msgstr ""
 
 #: ../../admin/install.rst:136
-#, fuzzy
-#| msgid "Web server"
 msgid "WSGI server"
-msgstr "Servidor web"
+msgstr "Servidor WSGI"
 
 #: ../../admin/install.rst:135
 msgid "A WSGI server serving web pages to users."
@@ -10667,10 +10699,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/steps/hw.rst:18
-#, fuzzy
-#| msgid "Memory"
 msgid "Memory usage"
-msgstr "Memoria"
+msgstr "Uso da memoria"
 
 #: ../../admin/install/steps/hw.rst:20
 msgid ""
@@ -14430,10 +14460,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/openshift.rst:60
-#, fuzzy
-#| msgid "Permission"
 msgid "Provisioning"
-msgstr "Permiso"
+msgstr "Aprovisionamento"
 
 #: ../../admin/install/openshift.rst:62
 msgid ""
@@ -15266,7 +15294,7 @@ msgstr "``baidu``"
 #: ../../admin/machine.rst:119 ../../admin/machine.rst:429
 #: ../../admin/machine.rst:652
 msgid "Client ID"
-msgstr "ID de cliente"
+msgstr "ID do cliente"
 
 #: ../../admin/machine.rst:121 ../../admin/machine.rst:431
 #: ../../admin/machine.rst:654
@@ -15501,7 +15529,7 @@ msgid ""
 "project or is closest to you."
 msgstr ""
 "Escolla unha rexión de tradución de Google Cloud que sexa utilizada para o "
-"proxecto de Google Cloud ou que estea máis próxima a Vde."
+"proxecto de Google Cloud ou que estea máis preto de Vde."
 
 #: ../../admin/machine.rst:237
 msgid ""
@@ -38571,6 +38599,11 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
+"Varios formatos teñen compatibilidade nativa para fornecerlle información "
+"adicional aos tradutores (por exemplo :ref:`xliff`, :ref:`gettext`, "
+":ref:`webex`, :ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref:`go-i18n-json`, "
+":ref:`gotext-json`, :ref:`arb`, :ref:`dotnet`). Moitos outros formatos "
+"extraen o comentario máis preto como descrición da cadea de fonte."
 
 #: ../../formats.rst:419
 msgid ""
@@ -38636,6 +38669,9 @@ msgid ""
 "used in different scopes (for example `Sun` can be used as an abbreviated "
 "name of the day \"Sunday\" or as the name of our closest star)."
 msgstr ""
+"O contexto utilízase para diferenciar cadeas idénticas nun formato bilingüe "
+"usado en diferentes ámbitos (por exemplo, `Sun` pódese usar como un nome "
+"abreviado do día \"Domingo\" ou como o nome da nosa estrela máis preta)."
 
 #: ../../formats.rst:469
 msgid ""
