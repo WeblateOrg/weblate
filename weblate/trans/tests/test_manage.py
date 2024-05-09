@@ -228,7 +228,6 @@ class AnnouncementTest(ViewTestCase):
         self.perform_test(url)
 
     def test_project_language(self) -> None:
-        print("[TEST] Test Project Language Announcement")
         project_language = ProjectLanguage(
             project=self.project, language=Language.objects.get(code="cs")
         )
