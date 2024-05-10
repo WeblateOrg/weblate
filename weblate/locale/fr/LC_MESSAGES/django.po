@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-05-01 23:41+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2024-05-10 06:42+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.3-dev\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -474,7 +474,7 @@ msgstr "L’utilisateur a été désactivé par un administrateur."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "La révision semestrielle du statut de l’assistance a été affichée."
 
 #: weblate/accounts/models.py:174
 #, python-brace-format
@@ -2246,10 +2246,8 @@ msgstr "Gérer la facturation"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Extensions installées"
+msgstr "Gérer les modules complémentaires à l’échelle du site"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -2996,18 +2994,14 @@ msgstr ""
 "d’exclamation"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Pas de correspondance \\n"
+msgstr "Incohérence de point exclarrogatif"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
 msgstr ""
 "La chaîne source et la traduction ne se finissent pas toutes les deux par "
-"des points de suspension"
+"des points exclarrogatifs"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -4009,6 +4003,8 @@ msgstr "Le texte traduit ne doit pas dépasser une taille donnée"
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Il s’inscrit dans des limites données. Le rendu est présenté pour votre "
+"commodité."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -5003,6 +4999,8 @@ msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Spécifiez un ID de catégorie système personnalisé pour l’utiliser à la place "
+"de l’identifiant général."
 
 #: weblate/machinery/forms.py:184
 msgctxt "Automatic suggestion service configuration"
@@ -5406,7 +5404,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "Raison de l’échec CSRF : %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -5454,10 +5452,8 @@ msgid "Help <strong>Weblate</strong> keep thriving"
 msgstr "Aidez <strong>Weblate</strong> à continuer de prospérer"
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Merci d’avoir utilisé Weblate."
+msgstr "Bienvenue et merci de soutenir Weblate"
 
 #: weblate/templates/about/donate.html:20
 msgid "Welcome and thank you for choosing Weblate"
@@ -5471,28 +5467,24 @@ msgstr ""
 "engagée dans les valeurs de l'open-source."
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Nom d’utilisateur GitHub"
-msgstr[1] "Nom d’utilisateur GitHub"
+msgstr[0] "Étoile GitHub"
+msgstr[1] "Étoiles GitHub"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Problème ouvert"
+msgstr[1] "Problèmes ouverts"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
-msgstr[0] "Modifications récentes"
+msgstr[0] "Modification récente"
 msgstr[1] "Modifications récentes"
 
 #: weblate/templates/about/donate.html:43
@@ -6302,14 +6294,10 @@ msgid "Your trial will last 14 days."
 msgstr "Votre essai durera 14 jours."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"Votre essai utilisera l’offre Enterprise, mais vous pourrez choisir "
-"n’importe quelle offre plus tard."
+"Votre essai utilisera l’offre 640k, mais vous pourrez choisir n’importe "
+"quelle offre plus tard."
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -6592,18 +6580,15 @@ msgid "History"
 msgstr "Historique"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "Aucune extension n’est actuellement installée."
+msgstr "Aucun module complémentaire n’est actuellement installé"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Extensions installées"
-msgstr[1] "Extensions installées"
+msgstr[0] "Module complémentaire installé : %(count)s"
+msgstr[1] "Modules complémentaires installés : %(count)s"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6618,21 +6603,28 @@ msgstr "Paramétrer"
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
 msgstr ""
+"Les modules complémentaires peuvent également être installés au niveau des "
+"projets et composants."
 
 #: weblate/templates/addons/addon_list.html:61
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Aucune extension n’est actuellement installée."
-msgstr[1] "Aucune extension n’est actuellement installée."
+msgstr[0] ""
+"Gérer les modules complémentaires à l’échelle du projet (%(count)s installé)"
+msgstr[1] ""
+"Gérer les modules complémentaires à l’échelle du projet (%(count)s installés)"
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
 msgstr[0] ""
+"Gérer les modules complémentaires installés sur l’ensemble du site (%(count)"
+"s installé)"
 msgstr[1] ""
+"Gérer les modules complémentaires installés sur l’ensemble du site (%(count)"
+"s installés)"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -6658,10 +6650,9 @@ msgstr ""
 "leur installation."
 
 #: weblate/templates/addons/addon_list.html:104
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all add-on changes"
-msgstr "Parcourir toutes les modifications de la langue"
+msgstr ""
+"Parcourez toutes les modifications apportées aux modules complémentaires"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -8222,13 +8213,11 @@ msgstr[0] "%(count)s commit sortant"
 msgstr[1] "%(count)s commits sortants"
 
 #: weblate/templates/js/git-status.html:43
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s commit manquant"
-msgstr[1] "%(count)s commits manquants"
+msgstr[0] "(%(count)s manquant dans la branche push)"
+msgstr[1] "(%(count)s manquants dans la branche push)"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
@@ -9980,16 +9969,12 @@ msgid "Edit glossary term"
 msgstr "Modifier un terme du glossaire"
 
 #: weblate/templates/snippets/glossary.html:38
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Glossary translation explanation"
-msgstr "Explication de la traduction"
+msgstr "Explication de la traduction du glossaire"
 
 #: weblate/templates/snippets/glossary.html:47
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Glossary string explanation"
-msgstr "Explication de la chaîne source"
+msgstr "Explication de la chaîne de glossaire"
 
 #: weblate/templates/snippets/glossary.html:56
 msgid "No related strings found in the glossary."
@@ -10707,6 +10692,8 @@ msgid ""
 "Weblate utilizes the IP addresses listed below to access repositories or "
 "initiate webhooks."
 msgstr ""
+"Weblate utilise les adresses IP répertoriées ci-dessous pour accéder aux "
+"dépôts ou initier des webhooks."
 
 #: weblate/templates/snippets/ssh-key.html:46
 msgid "IP address copied to clipboard."
@@ -13649,22 +13636,16 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
 
 #: weblate/trans/models/change.py:813
-#, fuzzy
-#| msgid "The \"{}\" file was changed."
 msgid "The “{}” file was changed."
 msgstr "Le fichier « {} » a été modifié."
 
 #: weblate/trans/models/change.py:815
-#, fuzzy
-#| msgid "Parsing of the \"{}\" file was enforced."
 msgid "Parsing of the “{}” file was enforced."
 msgstr "L’analyse du fichier « {} » a été réalisée."
 
 #: weblate/trans/models/change.py:817
-#, fuzzy
-#| msgid "File {} was added."
 msgid "File “{}” was added."
-msgstr "Le fichier {} a été ajouté."
+msgstr "Le fichier « {} » a été ajouté."
 
 #: weblate/trans/models/change.py:823
 msgctxt "License information not available"
