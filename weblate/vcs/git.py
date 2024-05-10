@@ -575,7 +575,7 @@ class GitWithGerritRepository(GitRepository):
             gerrit_user = self.get_username_from_url(push_url)
             return (
                 ('remote "gerrit"', "url", push_url),
-                ("gitreview", "username", gerrit_user)
+                ("gitreview", "username", gerrit_user),
             )
         return (('remote "gerrit"', "url", None),)
 
