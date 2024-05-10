@@ -572,21 +572,12 @@ class GitWithGerritRepository(GitRepository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> tuple[tuple[str, str, str | None], ...]:
         if push_url:
-            return (('remote "gerrit"', "url", push_url),)
+            gerrit_user = self.get_username_from_url(push_url)
+            return (
+                ('remote "gerrit"', "url", push_url),
+                ("gitreview", "username", gerrit_user)
+            )
         return (('remote "gerrit"', "url", None),)
-
-    def configure_remote(
-        self, pull_url: str, push_url: str, branch: str, fast: bool = True
-    ) -> None:
-        """
-        Configure remote repository.
-
-        Gets the gerrit username from push URL and
-        sets it as the value of gitreview.username.
-        """
-        gerrit_user = self.get_username_from_url(push_url)
-        self.config_update(("gitreview", "username", gerrit_user))
-        super().configure_remote(pull_url, push_url, branch, fast)
 
 
 class SubversionRepository(GitRepository):
