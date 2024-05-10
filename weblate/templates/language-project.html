@@ -24,6 +24,9 @@
     </a>
     <ul class="dropdown-menu">
     <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+      {% if last_announcements %}
+        <li><a href="#announcement-history" data-toggle="tab">{% trans "Announcements" %}</a></li>
+      {% endif %}
     </ul>
   </li>
   <li class="dropdown">
@@ -62,6 +65,9 @@
         </a>
         <ul class="dropdown-menu">
         <li><a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a></li>
+        {% if announcement_form %}
+          <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
+        {% endif %}
         </ul>
     </li>
     {% endif %}
@@ -83,6 +89,14 @@
 {% include "last-changes-content.html" %}
 <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
 </div>
+
+{% if last_announcements %}
+  <div class="tab-pane" id="announcement-history">
+    {% include "last-changes-content.html" with last_changes=last_announcements %}
+    <a class="btn btn-primary"
+       href="{% url 'changes' path=object.get_url_path %}?action=46">{% trans "Browse all project changes" %}</a>
+  </div>
+{% endif %}
 
 <div class="tab-pane" id="search">
 
@@ -136,8 +150,27 @@
 </div>
 {% endif %}
 
-
-
+{% if announcement_form %}
+  <div class="tab-pane" id="announcement">
+    <form action="{% url 'announcement' path=object.get_url_path %}" method="post">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">
+          {% documentation_icon 'admin/announcements' right=True %}
+          {% trans "Post announcement" %}
+        </h4></div>
+        <div class="panel-body">
+          {% csrf_token %}
+          {{ announcement_form|crispy }}
+          <p
+            class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  </div>
+{% endif %}
 
 </div>
 

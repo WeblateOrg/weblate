@@ -283,7 +283,7 @@ def add_category(request, path):
 @login_required
 @require_POST
 def announcement(request, path):
-    obj = parse_path(request, path, (Translation, Component, Project))
+    obj = parse_path(request, path, (ProjectLanguage, Translation, Component, Project))
 
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied
@@ -295,7 +295,10 @@ def announcement(request, path):
 
     # Scope specific attributes
     scope = {}
-    if isinstance(obj, Translation):
+    if isinstance(obj, ProjectLanguage):
+        scope["project"] = obj.project
+        scope["language"] = obj.language
+    elif isinstance(obj, Translation):
         scope["project"] = obj.component.project
         scope["component"] = obj.component
         scope["language"] = obj.language

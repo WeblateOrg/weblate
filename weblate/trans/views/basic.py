@@ -231,6 +231,14 @@ def show_project_language(request, obj):
         user, project=project_object, language=language_object
     ).recent()
 
+    last_announcements = (
+        Change.objects.last_changes(
+            user, project=project_object, language=language_object
+        )
+        .filter_announcements()
+        .recent()
+    )
+
     translations = translation_prefetch_tasks(prefetch_stats(obj.translation_set))
 
     # Add ghost translations
@@ -255,6 +263,7 @@ def show_project_language(request, obj):
             "object": obj,
             "path_object": obj,
             "last_changes": last_changes,
+            "last_announcements": last_announcements,
             "translations": translations,
             "categories": prefetch_stats(
                 CategoryLanguage(category, obj.language)
@@ -263,6 +272,9 @@ def show_project_language(request, obj):
             "title": f"{project_object} - {language_object}",
             "search_form": SearchForm(
                 user, language=language_object, initial=SearchForm.get_initial(request)
+            ),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
             ),
             "licenses": project_object.component_set.exclude(license="").order_by(
                 "license"
