@@ -8,6 +8,7 @@ Released on May 10th 2024.
 * Visually highlight explanation in :ref:`glossary`.
 * Add :ref:`addons` history tab in management.
 * New :ref:`alerts` when :ref:`glossary` might not work as expected.
+* :doc:`/admin/announcements` can be posted on project/language scope.
 
 **Bug fixes**
 
