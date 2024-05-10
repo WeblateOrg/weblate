@@ -22,20 +22,23 @@ if [ "$1" = "--tag" ] ; then
     shift
 fi
 
-# Grab version
-version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
-namever="weblate-$version"
 
 # What are we going to build?
 if [ "$DO_TAG" -eq 1 ] ; then
     ./scripts/prepare-release
+
+    # Grab version
+    version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
+    namever="weblate-$version"
+
+    # Tag release
     git tag -s "$namever" -m "Version $version"
     cd ~/weblate/test
     git pull -q
     git tag -s "$namever" -m "Test data for version $version"
     cd ~/weblate/weblate
 
-    # Git tags
+    # Push git tags
     git push --tags
     cd ~/weblate/test
     git push --tags
