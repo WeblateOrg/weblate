@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-10 23:08+0000\n"
+"PO-Revision-Date: 2024-05-11 20:59+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "documentation/gl/>\n"
@@ -42,8 +42,8 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
-"Os proxectos co plan Libre de balde aloxados en «Hosted Weblate» son sempre :"
-"guilabel:`Públicos`. Pode cambiar ao plan de pago se quere restrinxir o "
+"Os proxectos co plan Libre de balde aloxados en «Hosted Weblate» son sempre "
+":guilabel:`Públicos`. Pode cambiar ao plan de pago se quere restrinxir o "
 "acceso ao seu proxecto."
 
 #: ../../admin/access.rst:20
@@ -167,6 +167,10 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"O conxunto real de permisos dispoñíbeis para os usuarios de xeito "
+"predeterminado en proxectos `Públicos`, `Protexidos` e `Privados` pode ser "
+"redefinido pola administración das instancias de Weblate usando a :ref:`"
+"configuración personalizada <custom-acl>`."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -197,7 +201,7 @@ msgstr ""
 
 #: ../../admin/access.rst:98
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Para proxectos `Públicos`, `Protexidos` e `Privados`:"
 
 #: ../../admin/access.rst:101
 msgid "Administration"
@@ -1622,7 +1626,7 @@ msgstr "ID do engadido"
 
 #: ../../admin/addons.rst:26
 msgid "``weblate.autotranslate.autotranslate``"
-msgstr ""
+msgstr "``weblate.autotranslate.autotranslate``"
 
 #: ../../admin/addons.rst:0 ../../admin/config.rst:4
 #: ../../admin/install/kubernetes.rst:26 ../../admin/install/openshift.rst:102
@@ -1693,7 +1697,7 @@ msgstr "``fuzzy`` -- Cadeas marcadas para editar"
 
 #: ../../admin/addons.rst:48
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
-msgstr ""
+msgstr "``check:inconsistent`` -- Verificación fallada: Inconsistente"
 
 #: ../../admin/addons.rst:50
 msgid "``auto_source``"
@@ -1780,7 +1784,7 @@ msgstr "CDN de rexionalización de JavaScript"
 
 #: ../../admin/addons.rst:83
 msgid "``weblate.cdn.cdnjs``"
-msgstr ""
+msgstr "``weblate.cdn.cdnjs``"
 
 #: ../../admin/addons.rst:85 ../../devel/html.rst:49
 msgid "Translation threshold"
@@ -1881,7 +1885,7 @@ msgstr "Retirar as cadeas en branco"
 
 #: ../../admin/addons.rst:129
 msgid "``weblate.cleanup.blank``"
-msgstr ""
+msgstr "``weblate.cleanup.blank``"
 
 #: ../../admin/addons.rst:130 ../../admin/addons.rst:149
 #: ../../admin/addons.rst:166 ../../admin/addons.rst:403
@@ -1918,12 +1922,13 @@ msgid "Cleanup translation files"
 msgstr "Limpeza dos ficheiros de tradución"
 
 #: ../../admin/addons.rst:148
+#, fuzzy
 msgid "``weblate.cleanup.generic``"
-msgstr ""
+msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:150
 msgid "repository pre-commit, repository post-update"
-msgstr ""
+msgstr "repositorio «precommit», repositorio postactualización"
 
 #: ../../admin/addons.rst:152
 msgid ""
@@ -1941,8 +1946,6 @@ msgid "Add missing languages"
 msgstr "Engadir os idiomas que faltan"
 
 #: ../../admin/addons.rst:165
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.consistency.languages``"
 msgstr "``weblate.consistency.languages``"
 
@@ -2151,7 +2154,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:225
 msgid "``{{ component }}``"
-msgstr "``{{ component }}``"
+msgstr "``{{ compoñente }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
@@ -2167,7 +2170,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:230
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ path }}: {{ component }}``"
+msgstr "``{{ ruta }}: {{ compoñente }}``"
 
 #: ../../admin/addons.rst:230
 msgid "Custom match group from the regular expression"
@@ -2201,7 +2204,7 @@ msgstr "Expresión regular:"
 
 #: ../../admin/addons.rst:246
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr ""
+msgstr "``(?P<códigoIdioma>[^/.]*)/(?P<compoñente>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:291
@@ -2236,6 +2239,7 @@ msgstr "Estrutura habitual para almacenar ficheiros PO de gettext."
 #: ../../admin/addons.rst:259
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``locale/(?P<códigoIdioma>[^/.]*)/LC_MESSAGES/(?P<compoñente>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:261
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
@@ -2258,14 +2262,14 @@ msgid "Complex filenames"
 msgstr "Nomes complexos de ficheiros"
 
 #: ../../admin/addons.rst:269
-#, fuzzy
-#| msgid "New translation in %(translation)s"
 msgid "Using both component and language name within filename."
-msgstr "Nova tradución en %(translation)s"
+msgstr ""
+"Usando ambolos dous, o nome do compoñente e o do idioma, dentro do nome do "
+"ficheiro."
 
 #: ../../admin/addons.rst:272
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
+msgstr "``src/locale/(?P<compoñente>[^/]*)\\.(?P<códigoIdioma>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:274
 msgid ":file:`src/locale/application.cs.po`"
@@ -2284,20 +2288,17 @@ msgid ":file:`src/locale/website.de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:280
-#, fuzzy
-#| msgid "Language code"
 msgid "Repeated language code"
-msgstr "Código da lingua"
+msgstr "Código de idioma repetido"
 
 #: ../../admin/addons.rst:282
-#, fuzzy
-#| msgid "Language code"
 msgid "Using language in both path and filename."
-msgstr "Código da lingua"
+msgstr "Usando o idioma tanto na ruta como no nome do ficheiro."
 
 #: ../../admin/addons.rst:285
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 msgstr ""
+"``locale/(?P<códigoIdioma>[^/.]*)/(?P<compoñente>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
@@ -2316,18 +2317,18 @@ msgid ":file:`locale/de/website/de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:294
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Split Android strings"
-msgstr "Cadeas aprobadas"
+msgstr "Dividir as cadeas de Android"
 
 #: ../../admin/addons.rst:296
 msgid "Android resource strings, split into several files."
 msgstr "Cadeas de recursos de Android, divididas en varios ficheiros."
 
 #: ../../admin/addons.rst:299
+#, fuzzy
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 msgstr ""
+"``res/values-(?P<códigoIdioma>[^/.]*)/strings-(?P<compoñente>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:301
 msgid ":file:`res/values-cs/strings-about.xml`"
@@ -2358,15 +2359,16 @@ msgid ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 msgstr ""
+"``(?P<xerarquíaOrixinal>.+/)(?P<compoñente>[^/]*)/src/main/resources/"
+"ApplicationResources_(?P<códigoIdioma>[^/.]*)\\.properties``"
 
 #: ../../admin/addons.rst:313
-#, fuzzy
 msgid "Component name:"
-msgstr "Comentarios"
+msgstr "Nome do compoñente:"
 
 #: ../../admin/addons.rst:314
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr "``{{ originalHierarchy }}: {{ component }}``"
+msgstr "``{{ xerarquíaOrixinal }}: {{ compoñente }}``"
 
 #: ../../admin/addons.rst:316
 msgid ""
@@ -2411,7 +2413,7 @@ msgstr "Edición masiva"
 
 #: ../../admin/addons.rst:341
 msgid "``weblate.flags.bulk``"
-msgstr ""
+msgstr "``weblate.flags.bulk``"
 
 #: ../../admin/addons.rst:343
 msgid "``q``"
@@ -2430,28 +2432,20 @@ msgid "State to set"
 msgstr "Estado a definir"
 
 #: ../../admin/addons.rst:347
-#, fuzzy
-#| msgid "Download changes"
 msgid "``-1`` -- Do not change"
-msgstr "Baixar as mudanzas"
+msgstr "``-1`` -- Non cambiar"
 
 #: ../../admin/addons.rst:349
-#, fuzzy
-#| msgid "Needs editing"
 msgid "``10`` -- Needs editing"
-msgstr "Precisa dunha edición"
+msgstr "``10`` -- Precisa de edición"
 
 #: ../../admin/addons.rst:351
-#, fuzzy
-#| msgid "Translated"
 msgid "``20`` -- Translated"
-msgstr "Traducido"
+msgstr "``20`` -- Traducido"
 
 #: ../../admin/addons.rst:353
-#, fuzzy
-#| msgid "Approved"
 msgid "``30`` -- Approved"
-msgstr "Aprobada"
+msgstr "``30`` -- Aprobada"
 
 #: ../../admin/addons.rst:355
 msgid "``add_flags``"
@@ -2486,9 +2480,8 @@ msgid "Labels to remove"
 msgstr "Etiquetas a retirar"
 
 #: ../../admin/addons.rst:363
-#, fuzzy
 msgid "component update"
-msgstr "Comentarios"
+msgstr "actualización do compoñente"
 
 #: ../../admin/addons.rst:365
 msgid "Bulk edit flags, labels, or states of strings."
@@ -2510,20 +2503,16 @@ msgid "Label new strings automatically"
 msgstr ""
 
 #: ../../admin/addons.rst:376 ../../admin/addons.rst:384
-#, fuzzy
-#| msgid "Search filter"
 msgid "Search query"
-msgstr "Filtro da procura"
+msgstr "Consulta da busca"
 
 #: ../../admin/addons.rst:377
 msgid "``NOT has:label``"
 msgstr ""
 
 #: ../../admin/addons.rst:379
-#, fuzzy
-#| msgid "Percent"
 msgid "*recent*"
-msgstr "Porcentaxe"
+msgstr "*recente*"
 
 #: ../../admin/addons.rst:381
 msgid "Marking all :ref:`appstore` changelog strings read-only"
@@ -2538,9 +2527,8 @@ msgid "``read-only``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:392
-#, fuzzy
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
-msgstr "Comentarios"
+msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 
 #: ../../admin/addons.rst:400
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -2553,7 +2541,7 @@ msgstr ""
 #: ../../admin/addons.rst:404 ../../admin/addons.rst:426
 #: ../../admin/addons.rst:443
 msgid "unit post-create"
-msgstr ""
+msgstr "unidade postcreación"
 
 #: ../../admin/addons.rst:406
 msgid ""
@@ -2571,6 +2559,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Tamén pode querer reforzar a comprobación :ref:`check-same` engadindo o "
+"marcador ``strict-same`` a :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:417 ../../admin/addons.rst:434
 #: ../../admin/addons.rst:451
@@ -2583,7 +2573,7 @@ msgstr "Marcar as novas cadeas de orixe como «Precisa de edición»"
 
 #: ../../admin/addons.rst:424
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:428
 msgid ""
@@ -2651,10 +2641,8 @@ msgstr "Contido do ficheiro xerado"
 
 #: ../../admin/addons.rst:477 ../../admin/addons.rst:598
 #: ../../admin/addons.rst:679 ../../admin/addons.rst:789
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository pre-commit"
-msgstr "Detalles do repositorio"
+msgstr "repositorio «precommit»"
 
 #: ../../admin/addons.rst:479
 msgid "Generates a file containing detailed info about the translation status."
@@ -2783,7 +2771,7 @@ msgstr "``include_readonly``"
 
 #: ../../admin/addons.rst:544
 msgid "Include read-only strings"
-msgstr "Incluír cadeas de só lectura"
+msgstr "Incluír as cadeas de só lectura"
 
 #: ../../admin/addons.rst:548
 msgid ""
@@ -2879,10 +2867,8 @@ msgid "``weblate.gettext.configure``"
 msgstr ""
 
 #: ../../admin/addons.rst:619 ../../admin/addons.rst:664
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository post-add, daily"
-msgstr "Detalles do repositorio"
+msgstr "repositorio postadición, diariamente"
 
 #: ../../admin/addons.rst:621
 msgid ""
@@ -2935,10 +2921,8 @@ msgstr "Sen axuste de liñas"
 
 #: ../../admin/addons.rst:641 ../../admin/addons.rst:778
 #: ../../admin/addons.rst:867 ../../admin/addons.rst:900
-#, fuzzy
-#| msgid "Customize download"
 msgid "storage post-load"
-msgstr "Persoalizar a baixada"
+msgstr "almacenamento postcarga"
 
 #: ../../admin/addons.rst:643
 msgid ""
@@ -3115,11 +3099,8 @@ msgid "``all`` -- All commits into one"
 msgstr "Tódolos envíos nun só"
 
 #: ../../admin/addons.rst:729
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "``language`` -- Per language"
-msgstr "Xestionar linguas"
+msgstr "``language`` -- Por idioma"
 
 #: ../../admin/addons.rst:731
 msgid "``file`` -- Per file"
@@ -3164,10 +3145,8 @@ msgstr ""
 "combinadas dos «commits» concentrados."
 
 #: ../../admin/addons.rst:739
-#, fuzzy
-#| msgid "Repository status"
 msgid "repository post-commit"
-msgstr "Estado do repositorio"
+msgstr "repositorio «postcommit»"
 
 #: ../../admin/addons.rst:741
 msgid "Squash Git commits prior to pushing changes."
@@ -3284,16 +3263,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:795
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strips blank lines and comments."
-msgstr "Cadeas con comentarios"
+msgstr "Elimina as liñas en branco e os comentarios."
 
 #: ../../admin/addons.rst:796
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Sorts the strings by the keys."
-msgstr "Comentario da cadea de orixe"
+msgstr "Ordena as cadeas polas claves."
 
 #: ../../admin/addons.rst:797
 #, fuzzy
@@ -3583,6 +3558,8 @@ msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
+"HEAD (cabeceira) anterior á postactualización (dispoñíbel so após executar o "
+"gancho de postactualización)."
 
 #: ../../admin/addons.rst:988
 msgid "Component slug used to construct URL."
@@ -3613,10 +3590,8 @@ msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:1015
-#, fuzzy
-#| msgid "Failed to update repository: %s"
 msgid "Post-update repository processing"
-msgstr "Fallou a actualización do repositorio: %s"
+msgstr "Procesamento do repositorio postactualización"
 
 #: ../../admin/addons.rst:1017
 msgid ""
@@ -9140,6 +9115,8 @@ msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Sempre que Weblate actualice o repositorio, activaranse os engadidos "
+"postactualización, consulte :ref:`engadidos`."
 
 #: ../../admin/continuous.rst:105
 msgid "Avoiding merge conflicts"
@@ -13996,10 +13973,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1886
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Read-only root filesystem"
-msgstr "Cadeas pretas"
+msgstr "Sistema de ficheiros raíz de só lectura"
 
 #: ../../admin/install/docker.rst:1890
 msgid ""
@@ -16479,7 +16454,7 @@ msgstr ""
 #: ../../admin/management.rst:407
 #, fuzzy
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr "Por exemplo: ``{{ component }}/res/values/string.xml``"
+msgstr "Por exemplo: ``{{ compoñente }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:411
 msgid "Customize the base file for addition of new translations."
@@ -16487,7 +16462,7 @@ msgstr ""
 
 #: ../../admin/management.rst:413
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr "Por exemplo: ``{{ component }}/ts/en.ts``"
+msgstr "Por exemplo: ``{{ compoñente }}/ts/en.ts``"
 
 #: ../../admin/management.rst:417
 msgid ""
@@ -18631,6 +18606,8 @@ msgid ""
 "You might want to turn on :ref:`component-edit_template` together with :"
 "guilabel:`Manage strings` for monolingual formats."
 msgstr ""
+"Pode querer activar :ref:`component-edit_template` xunto con :guilabel:`"
+"Xestionar as cadeas` para formatos monolingües."
 
 #: ../../admin/projects.rst:709
 msgid ""
@@ -22548,40 +22525,28 @@ msgid "percentage of approved characters"
 msgstr "Cadeas sen traducir"
 
 #: ../../api.rst:2532
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "number of read-only strings"
-msgstr "Cadeas pretas"
+msgstr "número de cadeas de só lectura"
 
 #: ../../api.rst:2533
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "number of read-only words"
-msgstr "Cadeas pretas"
+msgstr "número de palabras de só lectura"
 
 #: ../../api.rst:2534
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "number of read-only characters"
-msgstr "Cadeas pretas"
+msgstr "número de caracteres de só lectura"
 
 #: ../../api.rst:2535
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "percentage of read-only strings"
-msgstr "Cadeas pretas"
+msgstr "porcentaxe de cadeas de só lectura"
 
 #: ../../api.rst:2536
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "percentage of read-only words"
-msgstr "Cadeas pretas"
+msgstr "porcentaxe de palabras de só lectura"
 
 #: ../../api.rst:2537
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "percentage of read-only characters"
-msgstr "Cadeas pretas"
+msgstr "porcentaxe de caracteres de só lectura"
 
 #: ../../api.rst:2538
 #, fuzzy
@@ -24309,10 +24274,9 @@ msgid "Source strings and state display for converted formats."
 msgstr ""
 
 #: ../../changes.rst:495
-#, fuzzy
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
-msgstr "Comentarios"
+msgstr "Bloquear :ref:`component-edit_template` en formatos que non o admitan."
 
 #: ../../changes.rst:496
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
@@ -25146,6 +25110,8 @@ msgstr ""
 msgid ""
 "Added support for custom pre-commit hooks and committing additional files."
 msgstr ""
+"Engadida a compatibilidade para ganchos de «precommit» personalizados e "
+"facer «commit» de ficheiros adicionais."
 
 #: ../../changes/v1.rst:95
 msgid "Rewritten search for better performance and user experience."
@@ -27398,10 +27364,8 @@ msgid "Avoid sending auditlog notifications to deleted e-mails."
 msgstr ""
 
 #: ../../changes/v3.rst:127
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Added support for read-only strings."
-msgstr "Hai algunhas mudanzas que non se invaron!"
+msgstr "Engadida a compatibilidade para cadeas de só lectura."
 
 #: ../../changes/v3.rst:128
 msgid "Added support for Markdown in comments."
@@ -28799,10 +28763,8 @@ msgid "Added site-wide search for projects, components, languages and users."
 msgstr ""
 
 #: ../../changes/v4.rst:49
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "New add-on Fill read-only strings with source."
-msgstr "Tradución automática"
+msgstr "Novo engadido: Encher as cadeas de só lectura coa orixe."
 
 #: ../../changes/v4.rst:51
 msgid ""
@@ -35492,6 +35454,14 @@ msgid ""
 "definitions. In most cases the `browser-plugin of languageTool <https://"
 "languagetool.org/#firefox_chrome>`_  is useful as a proof-reading tool."
 msgstr ""
+"Seguir estas recomendacións é compatíbel coa creación dunha ferramenta de "
+"postedición completa e multilingüe. As boas traducións defínense a través do "
+"modelo sistémico-funcional de House que pretende unha tradución correcta "
+"contextual. Escriba a súa propia `guía de postedición <https://en.wikipedia."
+"org/wiki/Postediting>`_ e modifique estas recomendacións para que se axusten "
+"ás súas propias definicións. Na maioría dos casos, o `complemento de "
+"navegador de languageTool <https://languagetool.org/#firefox_chrome>`_ é "
+"útil como ferramenta de corrección de textos."
 
 #: ../../devel/community.rst:6
 msgid ""
@@ -35532,6 +35502,15 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
+"A postedición da TM (tradución con máquinas) con asignación de terminoloxía "
+"inflúe en cada nivel do proceso de tradución. O sistema de tradución con "
+"máquinas pódese adaptar ao vocabulario e ao estilo específicos cun "
+"adestramento continuo ou `reparación neural difusa <https://aclanthology.org/"
+"P19-1175.pdf>`_. `Importe <https://docs.weblate.org/en/latest/admin/memory."
+"html#imported-translation-memory>`_ a súa memoria de tradución existente en "
+"Weblate ou cree un ámbito inicial coa súa terminoloxía básica. No final, o "
+"lector debe ser instruído con documentos de terminoloxía adicionais para "
+"garantir un bo coñecemento e rendemento na materia."
 
 #: ../../devel/community.rst:27
 msgid "Machine translation"
@@ -35544,6 +35523,11 @@ msgid ""
 "supports the needed languages and domains. Make clear how the translation "
 "backend functions and which quality the post-editor has to expect."
 msgstr ""
+"A calidade da tradución automática (a miúdo medida coa puntuación BLEU) "
+"correlacionase co tempo de edición [1]. Escolla unha infraestrutura de "
+"máquina que admita os idiomas e dominios necesarios. Deixe claro como "
+"funciona a infraestrutura da tradución e que calidade debe agardar o "
+"posteditor."
 
 #: ../../devel/community.rst:31
 #, fuzzy
@@ -35560,6 +35544,12 @@ msgid ""
 "best review. Screenshots, explanations also help to review the strings in "
 "context."
 msgstr ""
+"As traducións deben ser revisadas por unha segunda persoa após a "
+"postedición. Cun revisor imparcial e competente, a regra das dúas persoas "
+"reduce os erros e mellora a calidade e coherencia do contido. Fornecer aos "
+"revisores vistas previas ou traducións alfa axudará a unha mellor revisión. "
+"As capturas da pantalla e as explicacións tamén axudan a revisar as cadeas "
+"no seu contexto."
 
 #: ../../devel/community.rst:37
 #, fuzzy
@@ -35608,6 +35598,9 @@ msgid ""
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Marina Sanchez-Torron e Philipp Koehn en *Machine Translation Quality and "
+"Post-Editor Productivity*, Imaxe 1: https://www.cs.jhu.edu/~phi/publications/"
+"machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:50
 msgid ""
@@ -44813,6 +44806,8 @@ msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"Buscar polos estados da cadea (``aprobada``, ``traducida``, ``precisa de "
+"edición``, ``baleira``, ``de só lectura``), admite :ref:`search-operators`."
 
 #: ../../user/search.rst:49
 msgid "``pending:BOOLEAN``"
@@ -44844,6 +44839,9 @@ msgid ""
 "string states (``approved``, ``translated``, ``untranslated``, ``needs-"
 "editing``, ``read-only``)."
 msgstr ""
+"Buscar traducións pendentes (``pendente``). Tamén pode buscar todos os "
+"estados da cadea (``aprobada``, ``traducida``, ``sen traducir``, ``precisa "
+"de edición``, ``de só lectura``)."
 
 #: ../../user/search.rst:56 ../../user/search.rst:177
 msgid "``language:TEXT``"
@@ -44889,7 +44887,7 @@ msgstr ""
 
 #: ../../user/search.rst:68
 msgid "``change_time:DATETIME``"
-msgstr ""
+msgstr "``change_time:DATA E HORA``"
 
 #: ../../user/search.rst:67
 msgid ""
@@ -45100,7 +45098,7 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
-"Por exemplo, a procura de cadeas marcadas para editar en 2018 pode ser "
+"Por exemplo, a busca de cadeas marcadas para editar en 2018 pode ser "
 "introducida como ``change_time:2018 AND change_action:marked-for-edit`` ou "
 "``change_time:2018 AND change_action:\"Marked for edit\"``."
 
@@ -46139,6 +46137,8 @@ msgid ""
 "On a Hosted Weblate, this is pre-cofigured for most of the public sites, "
 "please see :ref:`hosted-push`."
 msgstr ""
+"Nun «Hosted Weblate», isto está preconfigurado para a maioría dos sitios "
+"públicos, consulte :ref:`hosted-push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
