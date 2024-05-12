@@ -14,7 +14,7 @@ from django.contrib import admin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models, transaction
+from django.db import models
 from django.db.models import F, Q
 from django.db.models.functions import Upper
 from django.db.models.signals import post_save

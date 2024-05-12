@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
-from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
