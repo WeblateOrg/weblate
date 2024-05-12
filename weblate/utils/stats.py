@@ -468,9 +468,7 @@ class TranslationStats(BaseStats):
                 transaction.on_commit(self.update_parents)
             else:
                 pk = self._object.pk
-                transaction.on_commit(
-                    lambda: update_translation_stats_parents.delay(pk)
-                )
+                update_translation_stats_parents.delay_on_commit(pk)
 
     def get_update_objects(self, *, full: bool = True):
         translation = self._object
@@ -969,7 +967,7 @@ class ComponentStats(AggregatingStats):
             transaction.on_commit(self.update_language_stats_parents)
         else:
             pk = self._object.pk
-            transaction.on_commit(lambda: update_language_stats_parents.delay(pk))
+            update_language_stats_parents.delay_on_commit(pk)
 
     def get_language_stats(self):
         return (

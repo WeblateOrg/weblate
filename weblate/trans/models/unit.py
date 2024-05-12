@@ -1146,9 +1146,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.invalidate_cache()
 
             # Postpone completed translation detection
-            transaction.on_commit(
-                lambda: detect_completed_translation.delay(change.pk, old_translated)
-            )
+            detect_completed_translation.delay_on_commit(change.pk, old_translated)
 
             # Update user stats
             change.author.profile.increase_count("translated")
@@ -1817,6 +1815,4 @@ class Unit(models.Model, LoggerMixin):
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):
-            transaction.on_commit(
-                lambda: handle_unit_translation_change.delay(self.id, user_id)
-            )
+            handle_unit_translation_change.delay_on_commit(self.id, user_id)

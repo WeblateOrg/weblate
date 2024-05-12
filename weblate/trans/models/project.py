@@ -274,7 +274,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
         # Update translation memory on enabled sharing
         if update_tm:
-            transaction.on_commit(lambda: import_memory.delay(self.id))
+            import_memory.delay_on_commit(self.id)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

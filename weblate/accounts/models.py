@@ -304,7 +304,7 @@ class AuditLog(models.Model):
         super().save(*args, **kwargs)
         if self.should_notify():
             email = self.user.email
-            transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))
+            notify_auditlog.delay_on_commit(self.pk, email)
 
     def get_params(self):
         from weblate.accounts.templatetags.authnames import get_auth_name
