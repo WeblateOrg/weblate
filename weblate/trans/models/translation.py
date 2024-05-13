@@ -968,12 +968,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             accepted += 1
 
-            # We intentionally avoid propagating:
-            # - in most cases it's not desired
-            # - it slows down import considerably
-            # - it brings locking issues as import is
-            #   executed with lock held and linked repos
-            #   can't obtain the lock
             unit.translate(
                 request.user,
                 split_plural(unit2.target),
