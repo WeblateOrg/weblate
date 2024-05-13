@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-13 17:56+0000\n"
+"PO-Revision-Date: 2024-05-13 23:19+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -11994,12 +11994,17 @@ msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
+"Для малих сайтів та сайтів середнього розміру (мільйони розміщених слів), "
+"усі складники Weblate (див. :ref:`architecture`) можна запустити на одному "
+"вузлі."
 
 #: ../../admin/install/steps/hw.rst:48
 msgid ""
 "When you grow to hundreds of millions of hosted words, it is recommended to "
 "have a dedicated node for database (see :ref:`database-setup`)."
 msgstr ""
+"Якщо кількість розміщених рядків зросте до сотень мільйонів, рекомендуємо "
+"розмістити базу даних на окремому вузлі (див. :ref:`database-setup`)."
 
 #: ../../admin/install.rst:334
 msgid "Verifying release signatures"
@@ -12111,6 +12116,8 @@ msgid ""
 "No other database servers are currently supported, but support for other "
 "Django supported databases should be possible to implement."
 msgstr ""
+"У поточній версії не передбачено підтримки інших баз даних, але можлива "
+"реалізація інших підтримуваних Django баз даних."
 
 #: ../../admin/install.rst:398
 msgid ""
@@ -15555,6 +15562,9 @@ msgid ""
 "dropbox/zxcvbn>`_ password strength estimator. Defaults to 3, set to 0 to "
 "disable strength checking."
 msgstr ""
+"Мінімальна оцінка пароля за допомогою засобу оцінки складності пароля `"
+"zxcvbn <https://github.com/dropbox/zxcvbn>`_. Типовою є 3, встановіть 0, щоб "
+"вимкнути перевірку складності."
 
 #: ../../admin/install/docker.rst:1370
 msgid "PostgreSQL database setup"
@@ -18132,6 +18142,8 @@ msgstr "Категорія"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Вказати нетиповий ідентифікатор системної категорії, щоб використовувати "
+"його замість загального."
 
 #: ../../admin/machine.rst:348
 msgid ""
@@ -18174,6 +18186,9 @@ msgid ""
 "learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/"
 "concepts/customization>`_."
 msgstr ""
+"Ви можете також вказати нетипову категорію для використання `нетипового "
+"перекладача <https://learn.microsoft.com/en-gb/azure/ai-services/Translator/"
+"custom-translator/concepts/customization>`_."
 
 #: ../../admin/machine.rst:368
 msgid "For Azure China, please use your endpoint from the Azure Portal."
@@ -18466,16 +18481,13 @@ msgid "Machine translation service provided by Systran."
 msgstr "Служба комп'ютерного перекладу, яка надається Systran."
 
 #: ../../admin/machine.rst:540
-#, fuzzy
-#| msgid ""
-#| "This service uses an API, and you need to obtain key and secret from "
-#| "NetEase."
 msgid ""
 "This service uses an API, and you need to obtain API key at <https://"
 "translate.systran.net/en/account>."
 msgstr ""
-"Ця служба використовує програмний інтерфейс — вам слід отримати ключ і "
-"пароль від NetEase."
+"У цій службі використано програмний інтерфейс, і вам слід отримати ключ до "
+"програмного інтерфейсу на сторінці <https://translate.systran.net/en/"
+"account>."
 
 #: ../../admin/machine.rst:545
 msgid "tmserver"
@@ -22774,24 +22786,19 @@ msgid "Getting support for Weblate"
 msgstr "Отримання підтримки щодо Weblate"
 
 #: ../../admin/support.rst:5
-#, fuzzy
-#| msgid ""
-#| "Weblate is copylefted libre software with community support. Subscribers "
-#| "receive priority support at no extra charge. Prepaid help packages are "
-#| "available for everyone. You can find more info about current support "
-#| "offerings at <https://weblate.org/support/>."
 msgid ""
 "*Weblate* is copylefted libre software with community support. Hosting "
 "subscribers receive priority support at no extra charge. Prepaid help "
 "packages are available for everyone, including self-hosting users. Find info "
 "about current support offerings at https://weblate.org/support."
 msgstr ""
-"Weblate є вільним програмним забезпеченням, модифікація якого можлива лише "
+"*Weblate* є вільним програмним забезпеченням, модифікація якого можлива лише "
 "за умов вільного її поширення, із супроводом, який забезпечується спільнотою "
 "користувачів. Передплатники отримують пріоритетну підтримку без додаткових "
-"сплат. Передплачені пакунки допомоги доступні для всіх. Докладніше про "
-"поточні пропозиції супроводу можна дізнатися за допомогою сторінки <https://"
-"weblate.org/support/>."
+"сплат. Передплачені пакунки допомоги доступні для всіх, зокрема "
+"користувачів, які розміщують програмне забезпечення на власних серверах. "
+"Докладніше про поточні пропозиції супроводу можна дізнатися за допомогою "
+"сторінки https://weblate.org/support."
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
@@ -22847,6 +22854,7 @@ msgid ""
 "Check what *Discover* shows publicly in the :ref:`discover-weblate` "
 "description."
 msgstr ""
+"Перевірте, що показуватиме *Discover* усім в описі :ref:`discover-weblate`."
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
@@ -22881,21 +22889,15 @@ msgid "Discover Weblate"
 msgstr "Виявлення Weblate"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid ""
-#| "Discover Weblate is an opt-in service that makes it easier for users to "
-#| "find Weblate servers and communities. Users can browse registered "
-#| "services on <https://weblate.org/discover/>, and find there projects to "
-#| "contribute."
 msgid ""
 "*Discover* is an opt-in service making it easier for translators to find "
 "other Weblate instances and communities. Users can browse registered sites "
 "and find projects to contribute to on https://weblate.org/discover/."
 msgstr ""
-"«Виявлення Weblate» є додатковою службою, яка спрощує для користувачів пошук "
-"серверів та спільнот Weblate. Користувачі можуть здійснювати навігацію "
-"зареєстрованими службами на <https://weblate.org/discover/> і знаходити там "
-"проєкти для участі в них."
+"*Discover* є внутрішньою службою, яка спрощує для перекладачів пошук інших "
+"екземплярів Weblate та спільнот. Користувачі можуть переглядати "
+"зареєстровані сайти для пошуку проєктів для власних внесків на "
+"https://weblate.org/discover/."
 
 #: ../../admin/support.rst:65
 msgid "Getting listed"
@@ -22907,34 +22909,31 @@ msgid ""
 "projects, components, and users, together with names of public projects and "
 "components for use on *Discover*."
 msgstr ""
+"Переконайтеся, що ви згодні з оприлюдненням назви вашого екземпляра, адреси, "
+"позначки проєктів, складників та користувачів, а також назв відкритих "
+"проєктів та складників для використання у *Discover*."
 
 #: ../../admin/support.rst:73
 msgid ""
 "List your server directly from the management panel if you have an active "
 "support subscription (:ref:`activate-support`):"
 msgstr ""
+"Додайте ваш сервер безпосередньо з панелі керування, якщо у вас є активна "
+"передплата підтримки (:ref:`activate-support`):"
 
 #: ../../admin/support.rst:78
-#, fuzzy
-#| msgid ""
-#| "Listing your server without a support subscription in Discover Weblate:"
 msgid "All steps for listing a server without a support contract:"
-msgstr "Додавання вашого сервера без передплати підтримки до Discover Weblate:"
+msgstr "Усі кроки для додавання сервера до списку без контракту щодо підтримки:"
 
 #: ../../admin/support.rst:80
 msgid "Register yourself at https://weblate.org/user/"
 msgstr "Зареєструйтеся на https://weblate.org/user/"
 
 #: ../../admin/support.rst:81
-#, fuzzy
-#| msgid ""
-#| "Register your Weblate server in the discovery database at <https://"
-#| "weblate.org/subscription/discovery/>"
 msgid ""
 "Register your Weblate site at https://weblate.org/subscription/discovery/"
 msgstr ""
-"Зареєструйте ваш сервер Weblate у базі даних виявлення на сторінці <https://"
-"weblate.org/subscription/discovery/>"
+"Зареєструйте ваш сайт Weblate на https://weblate.org/subscription/discovery/"
 
 #: ../../admin/support.rst:82
 msgid ""
@@ -22954,6 +22953,9 @@ msgid ""
 "your Weblate site at https://weblate.org/user/. This improves your "
 "instance’s visibility in the list."
 msgstr ""
+"Будемо раді, якщо ви надасте зображення (570 x 260 пікселів) та опис вашого "
+"сайта Weblate на https://weblate.org/user/. Це зробить ваш екземпляр "
+"помітнішим у списку."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -23552,6 +23554,10 @@ msgid ""
 "of 10000. The default value is also configurable using the `PAGE_SIZE` "
 "setting."
 msgstr ""
+"Повертати вказану кількість записів у відповідь на один запит. Типовою є 50, "
+"а максимальною — 1000. Для кінцевих точок `units` типовим є значення 100, а "
+"максимальним — 10000. Типове значення можна налаштувати за допомогою "
+"параметра `PAGE_SIZE`."
 
 #: ../../api.rst:0
 msgid "Request Headers"
@@ -24439,7 +24445,7 @@ msgstr ""
 #: ../../api.rst:913
 msgid ""
 "The language code to download; If not specified, all languages are included."
-msgstr ""
+msgstr "Код мови для отримання; якщо не вказано, буде включено усі мови."
 
 #: ../../api.rst:917
 msgid ""
@@ -26765,10 +26771,8 @@ msgid "Added several new :ref:`component-language_code_style`."
 msgstr "Додано декілька нових :ref:`component-language_code_style`."
 
 #: ../../changes.rst:69
-#, fuzzy
-#| msgid "Record source string changes in history."
 msgid "Display more details on source string change in history."
-msgstr "Реалізовано запис змін у початковому рядку до журналу."
+msgstr "Показувати у журналі більше подробиць щодо змін у початковому рядку."
 
 #: ../../changes.rst:70
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
@@ -26785,10 +26789,8 @@ msgid "Added PNG status badge."
 msgstr "Додано значок стану PNG."
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid "Fixed listing of managed projects in profile."
 msgid "Added list of managed projects to the dashboard view."
-msgstr "Виправлено побудову списку керованих проєктів у профілі."
+msgstr "Додано список керованих проєктів на панель приладів."
 
 #: ../../changes.rst:74
 msgid "More detailed status of outgoing commits."
@@ -26799,10 +26801,9 @@ msgid "Reduced memory usage."
 msgstr "Зменшено споживання пам'яті."
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid "Fixed Git commit squashing with trailers enabled."
 msgid "Fixed skipped component update with some add-ons enabled."
-msgstr "Виправлено об'єднання внесків Git, якщо увімкнено трейлери."
+msgstr ""
+"Виправлено пропускання оновлення складника, якщо увімкнено деякі додатки."
 
 #: ../../changes.rst:80
 msgid "Daily execution of project and site wide add-ons."
@@ -26823,22 +26824,20 @@ msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
 msgstr ""
+"Виправлено встановлення додатків :ref:`addon-weblate.git.squash` та :ref"
+":`addon-weblate.discovery.discovery` при встановлення на рівні проєкту і "
+"сайта."
 
 #: ../../changes.rst:84
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr ""
+"Штатна обробка помилок блокування у :ref:`програмному інтерфейсі <api>`."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid ""
-#| "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
-#| "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
-msgstr ""
-"**Змінено у 4.11.1:** зміни у параметрі ``REST_FRAMEWORK`` (вилучення одно з "
-"модулів у ``DEFAULT_AUTHENTICATION_CLASSES``)."
+msgstr "Зміна у параметрі ``REST_FRAMEWORK`` (додано ``EXCEPTION_HANDLER``)."
 
 #: ../../changes.rst:92
 msgid ""
@@ -26912,6 +26911,8 @@ msgstr ":ref:`check-max-size` краще показує оброблений т�
 #: ../../changes.rst:118
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
+"У новій версії адміністратори можуть вказувати ім'я користувача і повне ім'я "
+"при виконанні дії :ref:`invite-user`."
 
 #: ../../changes.rst:119
 msgid "Added :ref:`check-end-interrobang`."
@@ -26919,7 +26920,7 @@ msgstr "Додано :ref:`check-end-interrobang`."
 
 #: ../../changes.rst:120
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
-msgstr ""
+msgstr ":ref:`alerts` у новій версії оновлюються за потреби, а не лише щоденно."
 
 #: ../../changes.rst:121
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
@@ -26941,43 +26942,38 @@ msgstr ""
 "пробіли."
 
 #: ../../changes.rst:127
-#, fuzzy
-#| msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgid ":ref:`alerts` better handle non-latin source languages."
 msgstr ""
-"Удосконалено обробку у :ref:`mt-openai` для пакетних перекладів і глосаріїв."
+"У модулі :ref:`alerts` реалізовано кращу обробку для початкових мов, які не "
+"записуються латиницею."
 
 #: ../../changes.rst:128
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
-msgstr ""
+msgstr ":ref:`check-max-size` іноді ігнорував ``font-spacing:ІНТЕРВАЛ``."
 
 #: ../../changes.rst:129
-#, fuzzy
-#| msgid "Fixed UI language selection in some cases."
 msgid "Fixed per-language statistics on nested categories."
-msgstr "Виправлено засіб вибору мови інтерфейсу у деяких випадках."
+msgstr "Виправлено статистику для окремих мов у вкладених категоріях."
 
 #: ../../changes.rst:130
-#, fuzzy
-#| msgid "Fixed creating new languages."
 msgid "Fixed categories listing on per-language pages."
-msgstr "Виправлено створення нових мов."
+msgstr "Виправлено списки категорій на сторінках окремих мов."
 
 #: ../../changes.rst:131
-#, fuzzy
-#| msgid "Toggle the :guilabel:`Needs editing` checkbox."
 msgid "Fixed :guilabel:`Needs editing` state calculation."
-msgstr "Перемкнути прапорець :guilabel:`Потребує редагування`."
+msgstr "Виправлено обчислення стану :guilabel:`Потребує редагування`."
 
 #: ../../changes.rst:132
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
-msgstr ""
+msgstr "Виправлено зміну :ref:`component-push` з :ref:`vcs-gerrit`."
 
 #: ../../changes.rst:133
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
 msgstr ""
+"Виправлено використання категоризованих складників у :ref:`manage`, "
+":ref:`memory` або :ref:`auto-translation`."
 
 #: ../../changes.rst:135 ../../changes.rst:241 ../../changes.rst:294
 #: ../../changes.rst:359 ../../changes.rst:389 ../../changes.rst:434
@@ -26991,18 +26987,25 @@ msgid ""
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
 "project)/components/`."
 msgstr ""
+"На декілька викликів програмного інтерфейсу може вплинути строга перевірка "
+"булевих полів у бібліотеці REST Django. Приклад: :http:post:`/api/projects/"
+"(string:project)/components/`."
 
 #: ../../changes.rst:138
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
 msgstr ""
+"Унікальність назви та ідентифікатора складника у новій версії примусово "
+"забезпечується на рівні бази даних у PostgreSQL 15+."
 
 #: ../../changes.rst:139
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
 msgstr ""
+"У новій версії образу для Docker пакунки Python постачаються у :file:`/app/"
+"venv` і встановлюються за допомогою :program:`uv`."
 
 #: ../../changes.rst:145
 msgid ""
@@ -27043,47 +27046,44 @@ msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
+"Скориговано типове значення :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` так, "
+"щоб не блокувати :ref:`manage-appearance`."
 
 #: ../../changes.rst:159
-#, fuzzy
-#| msgid "This will push changes to the upstream repository."
 msgid "Avoid crash on pushing changes to diverged repository."
-msgstr "У результаті зміни буде записано до основного сховища коду."
+msgstr ""
+"Усунено аварійне завершення роботи при записі змін до сховища із "
+"розходженнями."
 
 #: ../../changes.rst:160
-#, fuzzy
-#| msgid ""
-#| "Extended options of the :ref:`addon-weblate.generate.pseudolocale` add-on."
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
-msgstr "Розширено параметр додатка :ref:`addon-weblate.generate.pseudolocale`."
+msgstr ""
+"Усунено аварійне завершення роботи при встановленні :ref:`addon-weblate."
+"generate.pseudolocale`."
 
 #: ../../changes.rst:161
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
+"Реалізовано штатну обробку у :ref:`azure-setup` сховищ із пробілами в адресі."
 
 #: ../../changes.rst:162
-#, fuzzy
-#| msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ""
-"Нова версія :ref:`autofix` штатно обробляє рядки з :ref:`multivalue-csv`."
+"Реалізовано штатну обробку :ref:`mt-deepl` глосаріїв для варіантів мови."
 
 #: ../../changes.rst:163
 msgid ":doc:`/formats/excel` better handles blank cells."
 msgstr ":doc:`/formats/excel` краще обробляє порожні комірки."
 
 #: ../../changes.rst:164
-#, fuzzy
-#| msgid "Fixed possible metadata loss when moving component between projects."
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr ""
-"Виправлено можливу втрату метаданих при пересуванні складника між проєктами."
+"Виправлено можливу втрату даних при об'єднанні змір у файлі PO gettext у Git."
 
 #: ../../changes.rst:165
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operations on project could have skipped some components."
-msgstr "Робота репозиторію в %(component)s"
+msgstr ""
+"Дії зі сховищем для проєкту могли призвести до пропускання деяких складників."
 
 #: ../../changes.rst:171
 msgid ""
@@ -27104,10 +27104,13 @@ msgstr "Випущено 22 лютого 2024 року."
 #: ../../changes.rst:180
 msgid "Displaying debugging page in case of database connection issues."
 msgstr ""
+"Реалізовано показ сторінки діагностики у випадку проблем зі з'єднанням з "
+"базою даних."
 
 #: ../../changes.rst:181 ../../changes.rst:197
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr ""
+"Реалізовано штатну обробку перенесення із дублюванням вбудованих команд."
 
 #: ../../changes.rst:187
 msgid ""
@@ -27130,6 +27133,8 @@ msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr ""
+"Усунено можливе аварійне завершення при перевірці можливості оновлення "
+"Weblate, якщо існували кеші з попередніх версій."
 
 #: ../../changes.rst:203
 msgid ""
@@ -27167,7 +27172,7 @@ msgstr ""
 
 #: ../../changes.rst:216
 msgid "Weblate is now available in தமிழ்."
-msgstr ""
+msgstr "Weblate тепер доступний தமிழ்."
 
 #: ../../changes.rst:220
 msgid "Better logging in :wladmin:`createadmin`."
@@ -39156,18 +39161,16 @@ msgid "Running Weblate locally in Docker"
 msgstr "Запуск Weblate локально у Docker"
 
 #: ../../contributing/start.rst:71
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose-plugin installed, you can spin up "
-#| "the development environment by simply running:"
 msgid ""
 "If you have Docker and the docker-compose-plugin installed, you need an "
 "additional tool called ``jq`` which you can install through your favorite "
 "package manager. Then, you can spin up the development environment by simply "
 "running:"
 msgstr ""
-"Якщо у вас встановлено Docker і docker-compose-plugin, ви можете запустити "
-"середовище розробки простими командами:"
+"Якщо у вас встановлено Docker і docker-compose-plugin, вам знадобиться "
+"додаткова програма із назвою ``jq``, яка може встановлювати дані за "
+"допомогою вашої улюбленої програми для керування пакунками. Далі, ви можете "
+"запустити середовище розробки простими командами:"
 
 #: ../../contributing/start.rst:79
 msgid ""
@@ -48163,15 +48166,12 @@ msgid "``ignore-end-Interrobang``"
 msgstr "``ignore-end-Interrobang``"
 
 #: ../../user/checks.rst:1233
-#, fuzzy
-#| msgid ""
-#| "Checks that trailing spaces are replicated between both source and "
-#| "translation."
 msgid ""
 "Checks that interrobang marks are replicated between both source and "
 "translation. It allows the swap between \"!?\" and \"?!\"."
 msgstr ""
-"Перевіряє, чи відтворено кінцеві крапки з початкового рядка у перекладі."
+"Перевіряє, чи відтворено позначки інтерробенга з початкового рядка у "
+"перекладі. Уможливлює перемикання між «!?» і «?!»."
 
 #: ../../user/checks.rst:1238
 msgid ""
@@ -49506,16 +49506,12 @@ msgid "Add as approved translation (``approve``)"
 msgstr "Додати як схвалений переклад (``approve``)"
 
 #: ../../user/files.rst:115
-#, fuzzy
-#| msgid ""
-#| "Imported strings are added as suggestions, do this when you want to have "
-#| "your uploaded strings reviewed."
 msgid ""
 "Imported strings are added as approved translations. Do this when you "
 "already reviewed your translations before uploading them."
 msgstr ""
-"Імпортовані рядки буде додано як пропозиції. Виберіть цей варіант, якщо ви "
-"хочете вивантажити переклади для рецензування."
+"Імпортовані рядки буде додано як затверджені переклади. Скористайтеся цим, "
+"якщо ви вже рецензували ваші переклади до їхнього вивантаження."
 
 #: ../../user/files.rst:120
 msgid ""
@@ -49556,6 +49552,10 @@ msgid ""
 "settings\" permission or \"Add new string\", \"Remove a string\" and \"Edit "
 "strings\" permissions <privileges>`."
 msgstr ""
+"Цим параметром можна буде скористатися, лише якщо у користувача є :ref:`"
+"права доступу «Редагування параметрів складника» або права доступу «"
+"Додавання нового рядка», «Вилучення рядка» та «Редагування рядків» "
+"<privileges>`."
 
 #: ../../user/files.rst:138
 msgid "Update source strings (``source``)"
@@ -49574,6 +49574,9 @@ msgid ""
 "This option is available only for some file formats and only if the user has "
 "the :ref:`\"Upload translations\" permission <privileges>`."
 msgstr ""
+"Цим параметром можна скористатися лише для деяких форматів файлів, і лише "
+"тоді, коли у користувача є :ref:`права доступу «Вивантаження перекладів» "
+"<privileges>`."
 
 #: ../../user/files.rst:149
 msgid "Add new strings (``add``)"
