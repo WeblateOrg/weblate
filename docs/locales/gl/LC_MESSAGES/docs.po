@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-13 12:04+0000\n"
+"PO-Revision-Date: 2024-05-13 16:46+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "documentation/gl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5-dev\n"
+"X-Generator: Weblate 5.5.5\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -2154,7 +2154,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:225
 msgid "``{{ component }}``"
-msgstr "``{{ compoñente }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
@@ -2170,7 +2170,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:230
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ ruta }}: {{ compoñente }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:230
 msgid "Custom match group from the regular expression"
@@ -2298,7 +2298,8 @@ msgstr "Usando o idioma tanto na ruta como no nome do ficheiro."
 #: ../../admin/addons.rst:285
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 msgstr ""
-"``locale/(?P<códigoIdioma>[^/.]*)/(?P<compoñente>[^/]*)/(?P=language)\\.po``"
+"``locale/(?P<códigoIdioma>[^/.]*)/(?P<compoñente>[^/]*)/(?P=códigoIdioma)\\."
+"po``"
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
@@ -2368,15 +2369,15 @@ msgstr "Nome do compoñente:"
 
 #: ../../admin/addons.rst:314
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr "``{{ xerarquíaOrixinal }}: {{ compoñente }}``"
+msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
 #: ../../admin/addons.rst:316
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
 "properties`"
 msgstr ""
-":file:`dirBase/módulo1/submódulo/src/main/resources/ApplicationResources_fr."
-"properties`"
+":file:`directorioBase/módulo1/submódulo/src/main/resources/"
+"ApplicationResources_fr.properties`"
 
 #: ../../admin/addons.rst:317
 msgid ""
@@ -2670,7 +2671,7 @@ msgstr "Por exemplo, xerando un ficheiro de resumo para cada tradución:"
 
 #: ../../admin/addons.rst:487
 msgid "``locale/{{ language_code }}.json``"
-msgstr "``locale/{{ código_de_idioma }}.json``"
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:498
 msgid "Content"
@@ -5424,10 +5425,10 @@ msgid "``regex:REGEX``"
 msgstr ""
 
 #: ../../admin/checks.rst:109
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation, see :ref:`check-regex`."
-msgstr "Expresión regular empregada para coincidir cos archivos da tradución"
+msgstr ""
+"Expresión regular empregada para relacionar ficheiros de tradución, consulte "
+":ref:`check-regex`."
 
 #: ../../admin/checks.rst:110
 msgid "``forbidden``"
@@ -6194,10 +6195,8 @@ msgid "``ignore-regex``"
 msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:265
-#, fuzzy
-#| msgid "Format string does not match source"
 msgid "Skip the :ref:`check-regex` quality check."
-msgstr "O formato da cadea non casa coa orixe"
+msgstr "Omite a comprobación de calidade :ref:`check-regex`."
 
 #: ../../admin/checks.rst:266 ../../user/checks.rst:1385
 msgid "``ignore-reused``"
@@ -16397,7 +16396,7 @@ msgstr ""
 
 #: ../../admin/management.rst:369
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:373
 msgid ""
@@ -16405,6 +16404,9 @@ msgid ""
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
+"Importa por lotes os compoñentes ao proxecto en función da máscara de "
+"ficheiro. Está baseado no engadido :ref:`addon-weblate.discovery.discovery`, "
+"polo que pode querer usalo no seu canto."
 
 #: ../../admin/management.rst:377
 msgid ""
@@ -16421,10 +16423,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
-"O `<repoGit>` define o URL do repositorio de Git a usar, e `<póla>` "
-"significa a póla de Git. Para importar compoñentes de tradución adicionais "
-"dun compoñente Weblate existente, use un URL "
-"`weblate://<proxecto>/<compoñente>` para o `<repoGit>`."
+"<repoGit>` define o URL do repositorio de Git a usar, e `<póla>` significa a "
+"póla de Git. Para importar compoñentes de tradución adicionais dun "
+"compoñente Weblate existente, use un URL `weblate://<proxecto>/<compoñente>` "
+"para o `<repoGit>`."
 
 #: ../../admin/management.rst:385
 msgid ""
@@ -16432,12 +16434,17 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"`<máscaraDeFicheiro>` define a detección de ficheiros para o repositorio. "
+"Pódese simplificar usando comodíns ou pode usar toda a potencia das "
+"expresións regulares."
 
 #: ../../admin/management.rst:388
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"A coincidencia sinxela usa ``**`` para o nome do compoñente e ``*`` para o "
+"idioma, por exemplo: ``**/*.po``"
 
 #: ../../admin/management.rst:391
 msgid ""
@@ -16453,6 +16460,8 @@ msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"A importación fai coincidir os compoñentes existentes en función dos "
+"ficheiros e engade os que non existen. Non cambia os xa existentes."
 
 #: ../../admin/management.rst:399
 msgid "Customize the name of a component using Django template syntax."
@@ -16460,16 +16469,15 @@ msgstr ""
 
 #: ../../admin/management.rst:401
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "Por exemplo: ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:405
 msgid "Customize the base file for monolingual translations."
 msgstr ""
 
 #: ../../admin/management.rst:407
-#, fuzzy
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr "Por exemplo: ``{{ compoñente }}/res/values/string.xml``"
+msgstr "Por exemplo: ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:411
 msgid "Customize the base file for addition of new translations."
@@ -16477,7 +16485,7 @@ msgstr ""
 
 #: ../../admin/management.rst:413
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr "Por exemplo: ``{{ compoñente }}/ts/en.ts``"
+msgstr "Por exemplo: ``{{ component }}/ts/en.ts``"
 
 #: ../../admin/management.rst:417
 msgid ""
@@ -18118,6 +18126,8 @@ msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Por exemplo, en GitHub, use algo como: ``https://github.com/WeblateOrg/hello/"
+"blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:376
 msgid ""
@@ -18126,6 +18136,10 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
+"No caso de que as súas rutas sexan relativas a diferentes cartafoles (a ruta "
+"contén ``..``), podería querer quitar o directorio inicial co filtro "
+"``parentdir`` (ver: :ref:`markup`): ``https://github.com/WeblateOrg/hello/"
+"blob/{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:384
 msgid "Exported repository URL"
@@ -18205,6 +18219,8 @@ msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
+"No caso de que o seu nome de ficheiro conteña caracteres especiais como ``[``"
+", ``]``, estes deben escaparse como ``[[]`` ou ``[]]``."
 
 #: ../../admin/projects.rst:436 ../../admin/projects.rst:480
 msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
@@ -19166,7 +19182,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:1023
 msgid "``{{ language_code }}``"
-msgstr "``{{ código_de_idioma }}``"
+msgstr "``{{ language_code }}``"
 
 #: ../../admin/projects.rst:1025
 msgid "``{{ language_name }}``"
@@ -19322,7 +19338,7 @@ msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
-"nome de ficheiro, tamén pode eliminar as partes principais usando o filtro "
+"nome de ficheiro, tamén pode quitar as partes iniciais usando o filtro "
 "``parentdir``, por exemplo ``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:1071
@@ -36744,11 +36760,12 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr ""
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:50
+#, fuzzy
 msgid "``docs/locales/{{ component }}.pot``"
-msgstr ""
+msgstr "``docs/locales/{{ component }}.pot``"
 
 #: ../../devel/sphinx.rst:54
 msgid ""
@@ -41570,7 +41587,7 @@ msgstr "Informacións"
 
 #: ../../user/checks.rst:430
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``O seu saldo é {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:434
 msgid ""
@@ -41706,7 +41723,7 @@ msgstr "``i18next_interpolation``"
 
 #: ../../user/checks.rst:506
 msgid "``There are {{number}} apples``"
-msgstr ""
+msgstr "``Hai {{number}} mazás``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -42991,7 +43008,7 @@ msgstr "A tradución non coincide coa expresión regular"
 
 #: ../../user/checks.rst:1361
 msgid "``weblate.checks.placeholders.RegexCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.RegexCheck``"
 
 #: ../../user/checks.rst:1362 ../../user/checks.rst:1363
 msgid "``regex``"
@@ -44566,6 +44583,8 @@ msgid ""
 "Usually something like ``editor://open/?file={{filename}}&line={{line}}`` is "
 "a good option."
 msgstr ""
+"Xeralmente algo como ``editor://open/?file={{filename}}&line={{line}}`` é "
+"unha boa opción."
 
 #: ../../user/profile.rst:142
 msgid ""
