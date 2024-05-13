@@ -247,6 +247,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
 
         # Skip recently modified paths
         if path.stat().st_mtime > yesterday:
+            empty_dir = False
             continue
 
         try:
@@ -261,8 +262,9 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
         else:
             if component.is_repo_link():
                 LOGGER.info("removing stale VCS path (uses link): %s", root)
-                root.rmdir()
-            empty_dir = False
+                remove_tree(path)
+            else:
+                empty_dir = False
 
     if empty_dir and root != vcs_root:
         try:
@@ -442,7 +444,7 @@ def project_removal(pk: int, uid: int | None) -> None:
     retry_backoff_max=3600,
 )
 def auto_translate(
-    user_id: int,
+    user_id: int | None,
     translation_id: int,
     mode: str,
     filter_type: str,

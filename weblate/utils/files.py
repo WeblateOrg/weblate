@@ -5,6 +5,7 @@
 import os
 import shutil
 import stat
+from pathlib import Path
 
 from django.conf import settings
 from translation_finder.finder import EXCLUDES
@@ -36,7 +37,7 @@ def remove_readonly(func, path, excinfo) -> None:
         func(path)
 
 
-def remove_tree(path: str, ignore_errors: bool = False) -> None:
+def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
     # TODO: switch to onexc with Python >= 3.12
     shutil.rmtree(path, ignore_errors=ignore_errors, onerror=remove_readonly)
 
