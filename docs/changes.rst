@@ -1,18 +1,12 @@
 Weblate 5.5.5
 -------------
 
-Not yet released.
-
-**New features**
-
-**Improvements**
+Released on May 13th 2024.
 
 **Bug fixes**
 
 * False-positive merge failure alert when using push branch.
 * Cleanup of stale repositories.
-
-**Compatibility**
 
 **Upgrading**
 
