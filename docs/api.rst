@@ -2149,7 +2149,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
-    :>json array labels: labels, available on source units
+    :<json array labels: labels, available on source units
 
 .. http:put::  /api/units/(int:id)/
 
@@ -2163,7 +2163,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
-    :>json array labels: labels, available on source units
+    :<json array labels: labels, available on source units
 
 .. http:delete::  /api/units/(int:id)/
 
