@@ -1048,7 +1048,7 @@ class Unit(models.Model, LoggerMixin):
             unit.state = self.state
             unit.save_backend(
                 user,
-                False,
+                propagate=False,
                 change_action=change_action,
                 author=None,
                 run_checks=False,
