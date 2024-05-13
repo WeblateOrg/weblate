@@ -548,6 +548,17 @@ class GitWithGerritRepository(GitRepository):
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
+    def get_username_from_url(self, url) -> str:
+        if url is not None:
+            if url.startswith("git@"):
+                return url.split(":")[-1].split("/")[0]
+            if url.startswith(("ssh://", "https://")) and "@" in url:
+                return url.split("//")[-1].split("@")[0]
+            if url.startswith(("ssh://", "https://")):
+                return url.split("//")[-1].split("/")[1]
+            return ""
+        return ""
+
     def push(self, branch) -> None:
         if self.needs_push():
             try:
@@ -561,7 +572,11 @@ class GitWithGerritRepository(GitRepository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> tuple[tuple[str, str, str | None], ...]:
         if push_url:
-            return (('remote "gerrit"', "url", push_url),)
+            gerrit_user = self.get_username_from_url(push_url)
+            return (
+                ('remote "gerrit"', "url", push_url),
+                ("gitreview", "username", gerrit_user),
+            )
         return (('remote "gerrit"', "url", None),)
 
 
