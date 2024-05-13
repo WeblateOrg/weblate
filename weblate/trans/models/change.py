@@ -914,4 +914,4 @@ def change_notify(sender, instance, created=False, **kwargs) -> None:
     from weblate.accounts.tasks import notify_change
 
     if is_notificable_action(instance.action):
-        transaction.on_commit(lambda: notify_change.delay(instance.pk))
+        notify_change.delay_on_commit(instance.pk)

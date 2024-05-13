@@ -1719,10 +1719,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
-            transaction.on_commit(
-                lambda: perform_push.delay(
-                    self.pk, None, force_commit=False, do_update=do_update
-                )
+            perform_push.delay_on_commit(
+                self.pk, None, force_commit=False, do_update=do_update
             )
 
     @perform_on_link
@@ -2532,7 +2530,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.needs_cleanup and not self.template:
             from weblate.trans.tasks import cleanup_component
 
-            transaction.on_commit(lambda: cleanup_component.delay(self.id))
+            cleanup_component.delay_on_commit(self.id)
 
         if was_change:
             if self.needs_variants_update:
@@ -2559,9 +2557,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 batch_update_checks(self.id, batched_checks, component=self)
             else:
-                transaction.on_commit(
-                    lambda: batch_update_checks.delay(self.id, batched_checks)
-                )
+                batch_update_checks.delay_on_commit(self.id, batched_checks)
         self.batch_checks = False
         self.batched_checks = set()
 
@@ -3694,11 +3690,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         update_token = get_random_identifier()
         cache.set(self.update_checks_key, update_token)
-        transaction.on_commit(
-            lambda: update_checks.delay(
-                self.pk, update_token, update_state=update_state
-            )
-        )
+        update_checks.delay_on_commit(self.pk, update_token, update_state=update_state)
 
     @property
     def all_repo_components(self):

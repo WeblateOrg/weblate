@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models, transaction
+from django.db import models
 from django.db.models import Count, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
@@ -274,7 +274,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
         # Update translation memory on enabled sharing
         if update_tm:
-            transaction.on_commit(lambda: import_memory.delay(self.id))
+            import_memory.delay_on_commit(self.id)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

@@ -14,7 +14,7 @@ from django.contrib import admin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models, transaction
+from django.db import models
 from django.db.models import F, Q
 from django.db.models.functions import Upper
 from django.db.models.signals import post_save
@@ -304,7 +304,7 @@ class AuditLog(models.Model):
         super().save(*args, **kwargs)
         if self.should_notify():
             email = self.user.email
-            transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))
+            notify_auditlog.delay_on_commit(self.pk, email)
 
     def get_params(self):
         from weblate.accounts.templatetags.authnames import get_auth_name
