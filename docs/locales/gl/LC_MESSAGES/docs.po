@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-13 11:03+0000\n"
+"PO-Revision-Date: 2024-05-13 12:04+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "documentation/gl/>\n"
@@ -2383,20 +2383,22 @@ msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
 "properties`"
 msgstr ""
-":file:`dirBase/módulo1/submódulo/src/main/resources/ApplicationResources_es."
-"properties`"
+":file:`directorioBase/módulo1/submódulo/src/main/resources/"
+"ApplicationResources_es.properties`"
 
 #: ../../admin/addons.rst:318
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_de.properties`"
 msgstr ""
-":file:`dirBase/módulo2/src/main/resources/ApplicationResources_de.properties`"
+":file:`directorioBase/módulo2/src/main/resources/ApplicationResources_de."
+"properties`"
 
 #: ../../admin/addons.rst:319
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`"
 msgstr ""
-":file:`dirBase/módulo2/src/main/resources/ApplicationResources_ro.properties`"
+":file:`directorioBase/módulo2/src/main/resources/ApplicationResources_ro."
+"properties`"
 
 #: ../../admin/addons.rst:324
 msgid ""
@@ -2597,7 +2599,7 @@ msgstr "Marcar as novas traducións como «Precisa de edición»"
 
 #: ../../admin/addons.rst:441
 msgid "``weblate.flags.target_edit``"
-msgstr ""
+msgstr "``weblate.flags.target_edit``"
 
 #: ../../admin/addons.rst:445
 msgid ""
@@ -2615,7 +2617,7 @@ msgstr "Encher as cadeas de só lectura coa orixe"
 
 #: ../../admin/addons.rst:460
 msgid "``weblate.generate.fill_read_only``"
-msgstr ""
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:464
 msgid "Fills in translation of read-only strings with source string."
@@ -2627,7 +2629,7 @@ msgstr "Xerador de estatísticas"
 
 #: ../../admin/addons.rst:471
 msgid "``weblate.generate.generate``"
-msgstr ""
+msgstr "``weblate.generate.generate``"
 
 #: ../../admin/addons.rst:473
 msgid "``filename``"
@@ -2663,18 +2665,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:484
-#, fuzzy
-#| msgid "Failed translation"
 msgid "For example generating a summary file for each translation:"
-msgstr "Fallou a tradución"
+msgstr "Por exemplo, xerando un ficheiro de resumo para cada tradución:"
 
 #: ../../admin/addons.rst:487
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ código_de_idioma }}.json``"
 
 #: ../../admin/addons.rst:498
 msgid "Content"
-msgstr ""
+msgstr "Contido"
 
 #: ../../admin/addons.rst:502
 msgid ":ref:`markup`"
@@ -16411,6 +16411,8 @@ msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"`<proxecto>` nomea un proxecto existente, ao que se van importar os "
+"compoñentes."
 
 #: ../../admin/management.rst:380
 msgid ""
@@ -16419,6 +16421,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"O `<repoGit>` define o URL do repositorio de Git a usar, e `<póla>` "
+"significa a póla de Git. Para importar compoñentes de tradución adicionais "
+"dun compoñente Weblate existente, use un URL "
+"`weblate://<proxecto>/<compoñente>` para o `<repoGit>`."
 
 #: ../../admin/management.rst:385
 msgid ""
@@ -16438,8 +16444,9 @@ msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
-"A expresión regular ten que conter grupos chamados `compoñente` e `códIdioma`"
-". Por exemplo: ``(?P<códIdioma>[^/]*)/(?P<compoñente>[^-/]*)\\.po``"
+"A expresión regular ten que conter grupos chamados `compoñente` e "
+"`códigoIdioma`. Por exemplo: ``(?P<códigoIdioma>[^/]*)/(?P<compoñente>[^-/]*)"
+"\\.po``"
 
 #: ../../admin/management.rst:394
 msgid ""
@@ -19159,7 +19166,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:1023
 msgid "``{{ language_code }}``"
-msgstr "``{{ language_code }}``"
+msgstr "``{{ código_de_idioma }}``"
 
 #: ../../admin/projects.rst:1025
 msgid "``{{ language_name }}``"
@@ -29993,10 +30000,11 @@ msgid "Added support for :ref:`vcs-gitea`."
 msgstr "Hai algunhas mudanzas que non se invaron!"
 
 #: ../../changes/v4.rst:422
-#, fuzzy
 msgid ""
 "Added Linux-style language code to :ref:`component-language_code_style`."
-msgstr "Comentarios"
+msgstr ""
+"Engadido código de idioma estilo Linux a :ref:`component-"
+"language_code_style`."
 
 #: ../../changes/v4.rst:423
 #, fuzzy
@@ -36731,6 +36739,8 @@ msgstr "Descubrimento de compoñentes"
 msgid ""
 "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``docs/locales/(?P<códigoIdioma>[^/.]*)/LC_MESSAGES/(?P<compoñente>[^/]*)\\."
+"po``"
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
@@ -37086,14 +37096,19 @@ msgid ""
 "code used in generated filenames. Additionally, any mappings defined in :ref:"
 "`project-language_aliases` are applied in reverse."
 msgstr ""
+"O :ref:`component-language_code_style` permítelle personalizar o código de "
+"idioma usado nos nomes de ficheiros xerados. Ademais, calquera asignación "
+"definida en :ref:`project-language_aliases` aplícase á inversa."
 
 #: ../../devel/translations.rst:43
-#, fuzzy
 msgid ""
 ":ref:`component-new_lang`, :ref:`component-new_base`, :ref:`component-"
 "language_code_style`, :ref:`language-code`, :ref:`project-"
 "language_aliases`, :ref:`language-parsing-codes`"
-msgstr "Comentarios"
+msgstr ""
+":ref:`component-new_lang`, :ref:`component-new_base`, :ref:`component-"
+"language_code_style`, :ref:`language-code`, :ref:`project-language_aliases`, "
+":ref:`language-parsing-codes`"
 
 #: ../../devel/translations.rst:52
 msgid ""
@@ -37431,6 +37446,9 @@ msgid ""
 "`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you "
 "have SSH access to this machine, you can use the repository directly."
 msgstr ""
+"Non hai nada especial sobre o repositorio, reside no directorio "
+":setting:`DATA_DIR` e chámase :file:`vcs/<proxecto>/<compoñente>/`. Se ten "
+"acceso SSH a esta máquina, pode usar o repositorio directamente."
 
 #: ../../faq.rst:199
 msgid ""
@@ -38006,11 +38024,12 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:566
-#, fuzzy
 msgid ""
 ":ref:`languages`, :ref:`component-language_code_style`, :ref:`adding-"
 "translation`"
-msgstr "Comentarios"
+msgstr ""
+":ref:`languages`, :ref:`component-language_code_style`, :ref:`adding-"
+"translation`"
 
 #: ../../formats.rst:4 ../../user/files.rst:82
 msgid "Supported file formats"
