@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-25 11:24+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-05-13 07:42+0000\n"
+"Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.5.5-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -62,15 +62,11 @@ msgid "Use account e-mail address"
 msgstr "Да се използва адресът на е-пощата на профила"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
-"Използва се при подавания към системата за контрол на версиите. Адресът ще "
+"Използва се при подавания към системата за управление на версии. Адресът ще "
 "остане в хранилището завинаги, след като промените бъдат подадени от Weblate."
 
 #: weblate/accounts/forms.py:216 weblate/accounts/models.py:617
@@ -331,16 +327,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Избраната подредба не се поддържа."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Добавяне на потребител в група"
+msgstr "Добавяне на потребител към екип"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "Редактиране на екипа"
+msgstr "Добавяне на екип"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -449,37 +441,31 @@ msgstr ""
 "качени от друг потребител."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Достъпът до проекта {project} е спрян"
+msgstr "Достъпът до проекта {project} е спрян."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Потребителят беше активиран от администратор"
+msgstr "Потребителят е включен от администратор."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Потребителят беше деактивиран от администратор"
+msgstr "Потребителят е изключен от администратор."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Беше показан преглед на състоянието на поддръжката за полугодието."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Поканен в {site_title} от {username}."
+msgstr "Потребител е добавен в екип {team} от {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Потребител е премахнат от екип {team} от {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -773,10 +759,8 @@ msgstr ""
 "ги промените в настройките."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Нямате нужните права, за да можете да запазвате преводите си."
+msgstr "Посочете адрес на ел. поща, за да можете да изпращате преводи."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -814,12 +798,9 @@ msgid "License was changed"
 msgstr "Лицензът беше променен"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
-msgstr "Възникна грешка при анализиране"
+msgstr "Грешка при анализиране"
 
 #: weblate/accounts/notifications.py:502
 msgctxt "Notification name"
@@ -1824,10 +1805,9 @@ msgstr ""
 "новите се добавят като се копира съответния изходен низ."
 
 #: weblate/addons/views.py:116
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Посочено е неправилно име на добавка!"
+msgstr "Неправилно име на добавка: „%s“"
 
 #: weblate/addons/views.py:136
 msgid "Add-on installed, please review integration instructions."
@@ -2220,10 +2200,8 @@ msgstr "Управление на плащанията"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Инсталирани добавки"
+msgstr "Управление на добавките за цялата страница"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -2419,10 +2397,8 @@ msgid "Roles"
 msgstr "Роли"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Изберете ролите, предоставяни на тази група."
+msgstr "Изберете ролите, предоставяни на екипа."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2507,10 +2483,8 @@ msgid "Languages"
 msgstr "Езици"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "Вътрешна група на Weblate"
+msgstr "Вътрешен екип на Weblate"
 
 #: weblate/auth/models.py:169
 msgid "Team administrators"
@@ -2577,11 +2551,9 @@ msgid "Regular expression for e-mail address"
 msgstr "Регулярен израз за проверка на е-пощата"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "Потребителите, чиито е-пощи съвпадат, ще бъдат добавени в тази група."
+msgstr ""
+"Потребителите, чиито адреси на ел. поща съвпадат, ще бъдат добавени в екипа."
 
 #: weblate/auth/models.py:820
 #, fuzzy
