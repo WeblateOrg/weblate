@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* False-positive merge failure alert when using push branch.
+
 **Compatibility**
 
 **Upgrading**

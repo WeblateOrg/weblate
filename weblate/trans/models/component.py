@@ -3245,9 +3245,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return 0
         try:
             return self.repository.count_outgoing(self.push_branch)
-        except RepositoryError as error:
-            report_error(cause="Could check merge needed", project=self.project)
-            self.add_alert("MergeFailure", error=self.error_text(error))
+        except RepositoryError:
+            # We silently ignore this error as push branch might not be existing if not needed
             return 0
 
     def needs_commit(self):
