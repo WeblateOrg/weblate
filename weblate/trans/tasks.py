@@ -260,7 +260,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             LOGGER.info("removing stale VCS path (not found): %s", path)
             remove_tree(path)
         else:
-            if component.is_repo_link():
+            if component.is_repo_link:
                 LOGGER.info("removing stale VCS path (uses link): %s", root)
                 remove_tree(path)
             else:
