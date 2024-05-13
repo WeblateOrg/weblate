@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-25 11:24+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-05-13 12:04+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.5.5-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -68,10 +68,6 @@ msgid "Use account e-mail address"
 msgstr "Адреса е-пошти облікового запису"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
@@ -338,16 +334,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Підтримки вибраного упорядковування не передбачено."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Додати користувача до групи"
+msgstr "Додати користувача до команди"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "Редагувати команду"
+msgstr "Додати команду"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -455,37 +447,31 @@ msgstr ""
 "які завантажено іншим користувачем."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Доступ до проєкту {project} було заблоковано"
+msgstr "Доступ до проєкту {project} було заблоковано."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Запис користувача було увімкнено адміністратором"
+msgstr "Запис користувача було увімкнено адміністратором."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Запис користувача було вимкнено адміністратором"
+msgstr "Запис користувача було вимкнено адміністратором."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Було показано огляд піврічного стану супроводу."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Запрошено до {site_title} користувачем {username}."
+msgstr "До команди {team} було додано користувача від імені {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "З команди {team} було вилучено користувача від імені {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -786,10 +772,8 @@ msgstr ""
 "параметрах перекладу."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Недостатньо прав для збереження перекладів."
+msgstr "Будь ласка, надайте адресу електронної пошти для надсилання перекладів."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -827,9 +811,6 @@ msgid "License was changed"
 msgstr "Змінено умови ліцензування"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Сталася помилка обробки"
@@ -1830,10 +1811,9 @@ msgstr ""
 "початкового рядка."
 
 #: weblate/addons/views.py:116
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Вказано хибну назву додатка!"
+msgstr "Некоректна назва додатка: «%s»"
 
 #: weblate/addons/views.py:136
 msgid "Add-on installed, please review integration instructions."
@@ -2228,10 +2208,8 @@ msgstr "Керування рахунками"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Встановлені додатки"
+msgstr "Керування додатками для усього сайта"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -2427,10 +2405,8 @@ msgid "Roles"
 msgstr "Ролі"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Вибрати ролі, доступні для цієї групи."
+msgstr "Вибрати ролі, доступні для цієї команди."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
