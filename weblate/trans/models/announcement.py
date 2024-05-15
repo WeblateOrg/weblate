@@ -51,6 +51,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         Change.objects.create(
             action=Change.ACTION_ANNOUNCEMENT,
             project=result.project,
+            project_category=result.project_category,
             component=result.component,
             language=result.language,
             announcement=result,
@@ -73,6 +74,13 @@ class Announcement(models.Model):
     project = models.ForeignKey(
         "trans.Project",
         verbose_name=gettext_lazy("Project"),
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
+    )
+    project_category = models.ForeignKey(
+        "trans.Category",
+        verbose_name=gettext_lazy("Project Category"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,

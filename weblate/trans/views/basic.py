@@ -452,11 +452,17 @@ def show_project(request, obj):
 def show_category(request, obj):
     user = request.user
 
-    all_changes = (
-        Change.objects.for_category(obj).filter_components(request.user).prefetch()
+    last_changes = Change.objects.last_changes(
+        user, project=obj.project, project_category=obj
+    ).recent()
+
+    last_announcements = (
+        Change.objects.last_changes(
+            user, project=obj.project, project_category=obj
+        )
+        .filter_announcements()
+        .recent()
     )
-    last_changes = all_changes.recent()
-    last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user)
     all_components = get_paginator(request, prefetch_stats(all_components))
@@ -496,6 +502,9 @@ def show_category(request, obj):
             "last_announcements": last_announcements,
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(user, initial=SearchForm.get_initial(request)),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
+            ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj
             ),

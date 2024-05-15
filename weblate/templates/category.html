@@ -75,7 +75,9 @@
             <li><a href="#add-category" data-toggle="tab">{% trans "Add new category" %}</a></li>
           {% endif %}
           <li><a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a></li>
-
+          {% if announcement_form %}
+            <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
+          {% endif %}
         {% if delete_form or rename_form %}
         <li role="separator" class="divider"></li>
         <li><a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a></li>
@@ -213,6 +215,28 @@
 {% endif %}
 
 </div>
+{% endif %}
+
+{% if announcement_form %}
+  <div class="tab-pane" id="announcement">
+    <form action="{% url 'announcement' path=object.get_url_path %}" method="post">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">
+          {% documentation_icon 'admin/announcements' right=True %}
+          {% trans "Post announcement" %}
+        </h4></div>
+        <div class="panel-body">
+          {% csrf_token %}
+          {{ announcement_form|crispy }}
+          <p
+            class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  </div>
 {% endif %}
 
 </div>
