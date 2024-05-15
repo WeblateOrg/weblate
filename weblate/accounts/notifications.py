@@ -497,10 +497,13 @@ class ParseErrorNotification(Notification):
 
 @register_notification
 class NewStringNotificaton(Notification):
-    actions = (Change.ACTION_NEW_UNIT, Change.ACTION_NEW_UNIT_REPO)
-    verbose = pgettext_lazy(
-        "Notification name", "New string is available for translation"
+    actions = (
+        Change.ACTION_NEW_UNIT,
+        Change.ACTION_NEW_UNIT_REPO,
+        Change.ACTION_MARKED_EDIT,
+        Change.ACTION_SOURCE_CHANGE,
     )
+    verbose = pgettext_lazy("Notification name", "String is available for translation")
     template_name = "new_string"
     filter_languages = True
     required_attr = "unit"

@@ -192,7 +192,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(
-            1, "[Weblate] New string to translate in Test/Test — Czech"
+            1, "[Weblate] String to translate in Test/Test — Czech"
         )
 
     def test_notify_new_translation(self) -> None:

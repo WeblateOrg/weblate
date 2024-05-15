@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`subscriptions` now include strings which need updating.
+
 **Bug fixes**
 
 **Compatibility**
