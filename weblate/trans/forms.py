@@ -1295,6 +1295,8 @@ class ReportsForm(forms.Form):
             languages = Language.objects.filter(
                 translation__component=scope["component"]
             ).exclude(pk=scope["component"].source_language_id)
+        else:
+            raise ValueError(f"Invalid scope: {scope}")
         self.fields["language"].choices += languages.as_choices()
 
     def clean(self) -> None:
