@@ -73,6 +73,12 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "LastAuthorCommentNotificaton",
         )
         for notification in notifications:
+            # Remove any conflicting notifications
+            Subscription.objects.filter(
+                user=self.user,
+                scope=SCOPE_WATCHED,
+                notification=notification,
+            ).delete()
             Subscription.objects.create(
                 user=self.user,
                 scope=SCOPE_WATCHED,
@@ -430,6 +436,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notification="ToDoStringsNotification",
         subj="4 unfinished strings in Test/Test",
     ) -> None:
+        self.user.subscription_set.filter(frequency=frequency).delete()
         self.user.subscription_set.create(
             scope=SCOPE_WATCHED, notification=notification, frequency=frequency
         )

@@ -4,6 +4,7 @@
 
 from weblate.accounts.notifications import (
     FREQ_INSTANT,
+    FREQ_WEEKLY,
     SCOPE_ADMIN,
     SCOPE_ALL,
     SCOPE_WATCHED,
@@ -14,6 +15,7 @@ DEFAULT_NOTIFICATIONS = [
     (SCOPE_WATCHED, FREQ_INSTANT, "LastAuthorCommentNotificaton"),
     (SCOPE_WATCHED, FREQ_INSTANT, "MentionCommentNotificaton"),
     (SCOPE_WATCHED, FREQ_INSTANT, "NewAnnouncementNotificaton"),
+    (SCOPE_WATCHED, FREQ_WEEKLY, "NewStringNotificaton"),
     (SCOPE_ADMIN, FREQ_INSTANT, "MergeFailureNotification"),
     (SCOPE_ADMIN, FREQ_INSTANT, "ParseErrorNotification"),
     (SCOPE_ADMIN, FREQ_INSTANT, "NewTranslationNotificaton"),
