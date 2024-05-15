@@ -457,9 +457,7 @@ def show_category(request, obj):
     ).recent()
 
     last_announcements = (
-        Change.objects.last_changes(
-            user, project=obj.project, project_category=obj
-        )
+        Change.objects.last_changes(user, project=obj.project, project_category=obj)
         .filter_announcements()
         .recent()
     )

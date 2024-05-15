@@ -283,8 +283,9 @@ def add_category(request, path):
 @login_required
 @require_POST
 def announcement(request, path):
-    obj = parse_path(request, path,
-                     (ProjectLanguage, Translation, Component, Project, Category))
+    obj = parse_path(
+        request, path, (ProjectLanguage, Translation, Component, Project, Category)
+    )
 
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied

@@ -10,7 +10,7 @@ from django.core import mail
 from django.urls import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.models import Announcement, Component, Project, Translation, Category
+from weblate.trans.models import Announcement, Category, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
@@ -236,7 +236,8 @@ class AnnouncementTest(ViewTestCase):
 
     def test_category(self) -> None:
         category = Category(
-            project=self.project, name="Test Category", slug="test-category")
+            project=self.project, name="Test Category", slug="test-category"
+        )
         category.save()
         url = reverse("announcement", kwargs={"path": category.get_url_path()})
         self.perform_test(url)

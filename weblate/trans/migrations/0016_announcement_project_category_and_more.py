@@ -5,20 +5,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('trans', '0015_alter_component_language_code_style'),
+        ("trans", "0015_alter_component_language_code_style"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='announcement',
-            name='project_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.category', verbose_name='Project Category'),
+            model_name="announcement",
+            name="project_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="trans.category",
+                verbose_name="Project Category",
+            ),
         ),
         migrations.AddField(
-            model_name='change',
-            name='project_category',
-            field=models.ForeignKey(db_index=False, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.category'),
+            model_name="change",
+            name="project_category",
+            field=models.ForeignKey(
+                db_index=False,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="trans.category",
+            ),
         ),
     ]
