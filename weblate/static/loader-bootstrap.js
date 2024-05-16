@@ -1027,11 +1027,20 @@ $(function () {
     }
 
     if ($group.hasClass("query-field")) {
-      $group.find("textarea[name=q]").val($this.data("field"));
-      if ($this.closest(".result-page-form").length) {
+      if (
+        $(".search-toolbar").length === 0 &&
+        $this.closest(".result-page-form").length > 0
+      ) {
+        const textarea = $group.find("textarea[name=q]");
+        textarea.val($this.data("field"));
+        textarea[0].dispatchEvent(new Event("change", { bubbles: true }));
         const $form = $this.closest("form");
         $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
+      } else {
+        $group
+          .find("textarea[name=q]")
+          .insertAtCaret(` ${$this.data("field")} `);
       }
     }
     $this.closest("ul").dropdown("toggle");
