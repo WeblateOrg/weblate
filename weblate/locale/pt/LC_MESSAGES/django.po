@@ -5,13 +5,14 @@
 # ssantos <ssantos@web.de>, 2024.
 # Manuela Silva <mmsrs@sky.com>, 2024.
 # Francielle Souza <fransoonerorlater@gmail.com>, 2024.
+# Gedyane Ribeiro dos Santos <geddyzion@outlook.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-29 04:59+0000\n"
-"Last-Translator: Francielle Souza <fransoonerorlater@gmail.com>\n"
+"PO-Revision-Date: 2024-05-17 04:01+0000\n"
+"Last-Translator: Gedyane Ribeiro dos Santos <geddyzion@outlook.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.1\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -65,10 +66,6 @@ msgid "Use account e-mail address"
 msgstr "Utilizar um endereço de ''e-mail'' da conta"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "Used in version control commits. The address will stay in the repository "
-#| "forever once changes are commited by Weblate."
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
@@ -461,7 +458,7 @@ msgstr "O utilizador foi desativado pelo administrador."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Revisão semestral do status do suporte foi mostrado."
 
 #: weblate/accounts/models.py:174
 #, python-brace-format
@@ -471,7 +468,7 @@ msgstr "O utilizador foi adicionado à equipa {team} por {username}."
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "O usuário foi removido da {team} por {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -2206,10 +2203,8 @@ msgstr "Gerir a faturação"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Extensões instaladas"
+msgstr "Gerenciar extensões em todo o site"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -2591,11 +2586,11 @@ msgstr ""
 
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Sugira um nome de usuário. Ele pode ser modificado mais tarde."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Sugira um nome completo para o usuário. Pode ser modificado mais tarde."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2938,10 +2933,8 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "A fonte e a tradução não terminam ambas com um ponto de exclamação"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Não correspondido \\n"
+msgstr "interrobang não compatível \\n"
 
 #: weblate/checks/chars.py:304
 msgid "Source and translation do not both end with an interrobang expression"
@@ -3574,10 +3567,9 @@ msgid "Fluent syntax error in translation"
 msgstr "Erro de sintaxe Fluent na tradução"
 
 #: weblate/checks/format.py:398
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "As cadeias de formatação a seguir estão ordenados incorretamente: %s"
+msgstr "As cadeias de formatação a seguir estão ordenadas incorretamente: %s"
 
 #: weblate/checks/format.py:482
 msgid "Python format"
@@ -3931,6 +3923,8 @@ msgstr "A tradução não deve exceder o tamanho dado"
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Encaixa-se nos limites dados. A renderização é mostrada para sua "
+"conveniência."
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
@@ -4289,7 +4283,7 @@ msgstr "Ficheiro de gotext JSON"
 #, fuzzy
 #| msgid "gotext JSON file"
 msgid "Format.JS JSON file"
-msgstr "Ficheiro de gotext JSON"
+msgstr "Arquivo de Format.JS JSON"
 
 #: weblate/formats/ttkit.py:1553
 msgid "CSV file"
@@ -4655,7 +4649,7 @@ msgstr "Plural de Android"
 #, fuzzy
 #| msgid "stringsdict plural"
 msgid "Qt Linguist plural"
-msgstr "plural de stringsdict"
+msgstr "plural de Qt Linguista"
 
 #: weblate/lang/models.py:792
 msgid "Manually entered formula"
@@ -4914,8 +4908,6 @@ msgid "Authentication service region"
 msgstr "Região do serviço de autenticação"
 
 #: weblate/machinery/forms.py:170
-#, fuzzy
-#| msgid "Category"
 msgctxt "Automatic suggestion service configuration"
 msgid "Category"
 msgstr "Categoria"
@@ -4925,6 +4917,8 @@ msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Especifique um ID de categoria do sistema personalizado para usar em vez de "
+"um generalizado."
 
 #: weblate/machinery/forms.py:184
 msgctxt "Automatic suggestion service configuration"
@@ -5036,7 +5030,7 @@ msgstr "Modelo OpenAI"
 #| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Relatórios de tradução"
+msgstr "pessoa do tradutor"
 
 #: weblate/machinery/forms.py:307
 msgid ""
@@ -5092,7 +5086,7 @@ msgstr "Não foi possível analisar o ficheiro JSON: %s"
 #, fuzzy, python-format
 #| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file: %s"
-msgstr "A análise do ficheiro TMX falhou!"
+msgstr "A análise do ficheiro TMX falhou"
 
 #: weblate/memory/models.py:214
 msgid "Source language not defined in the TMX file!"
@@ -5322,7 +5316,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "Falha do CSRF: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -5364,25 +5358,24 @@ msgstr ""
 "administradores do servidor caso o erro persista."
 
 #: weblate/templates/about/donate.html:14
+#, fuzzy
 msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
+msgstr "Ajuda<strong>Weblate</strong> continuar desenvolvendo"
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Obrigado por utilizar o Weblate."
+msgstr "Bem vindo e obrigado por apoiar o Weblate"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Obrigado por utilizar o Weblate."
+msgstr "Bem-vindo e obrigado por utilizar o Weblate"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
 msgstr ""
+"a plataforma de localização que respeita a privacidade, comprometida com "
+"valores de código aberto."
 
 #: weblate/templates/about/donate.html:29
 #, fuzzy
@@ -5397,12 +5390,10 @@ msgstr[1] "Nome de utilizador do GitHub"
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Problema aberto"
+msgstr[1] "Problemas abertos"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
@@ -5414,26 +5405,30 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"A Weblate continua gratuita para todos os usuários, mas seu desenvolvimento "
+"requer investimento contínuo."
 
 #: weblate/templates/about/donate.html:44
 msgid "We prioritize your privacy; we never display ads or sell your data."
 msgstr ""
+"Nós priorizamos sua privacidade; nunca mostramos anúncios ou vendemos seus "
+"dados."
 
 #: weblate/templates/about/donate.html:45
 msgid ""
 "The invaluable support of the community through subscriptions and donations "
 "ensures that Weblate continues to grow and thrive."
 msgstr ""
+"O valor inestimável da comunidade através de inscrições e doações assegura "
+"que a Weblate continue a crescer e se desenvolver."
 
 #: weblate/templates/about/donate.html:46
 msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+msgstr "Junte-se a nós moldando o futuro da localização e contribua hoje!"
 
 #: weblate/templates/about/donate.html:51
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase a support package"
-msgstr "Comprar pacote de apoio"
+msgstr "Compre um pacote de apoio"
 
 #: weblate/templates/about/donate.html:53
 #, fuzzy
@@ -5474,6 +5469,8 @@ msgid ""
 "Start your gratis trial today and explore our competitively priced "
 "commercial hosting solutions."
 msgstr ""
+"Comece seu teste grátis hoje e explore nossas soluções em hosting comercial "
+"com preços competitivos."
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:254
 #: weblate/templates/snippets/billing-failure.html:9
@@ -5718,10 +5715,8 @@ msgstr "Por favor, corrija os erros no formulário de registo."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:122
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Usar endereço de e-mail da conta"
+msgstr "Verificar novo endereço de e-mail"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:227
@@ -6199,14 +6194,10 @@ msgid "Your trial will last 14 days."
 msgstr "A sua avaliação vai durar 14 dias."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"A sua avaliação vai usar o plano Empresarial, mas pode escolher outro plano "
-"mais tarde."
+"Seu teste vai usar o plano Empresarial de 640k, mas outro plano pode ser "
+"escolhido mais tarde."
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -6353,10 +6344,8 @@ msgid "None"
 msgstr "Nenhum"
 
 #: weblate/templates/accounts/user.html:281
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "Remover utilizador deste grupo"
+msgstr "Remover usuário deste grupo"
 
 #: weblate/templates/accounts/user.html:292
 #: weblate/templates/trans/project-access.html:65
@@ -6492,10 +6481,8 @@ msgid "History"
 msgstr "Histórico"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "Não existem extensões atualmente instaladas."
+msgstr "Não existem extensões atualmente instaladas"
 
 #: weblate/templates/addons/addon_list.html:33
 #, fuzzy, python-format
