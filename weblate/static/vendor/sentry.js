@@ -15532,6 +15532,7 @@ exports.getSpanDescendants = core.getSpanDescendants;
 exports.getSpanStatusFromHttpCode = core.getSpanStatusFromHttpCode;
 exports.inboundFiltersIntegration = core.inboundFiltersIntegration;
 exports.isInitialized = core.isInitialized;
+exports.lastEventId = core.lastEventId;
 exports.makeMultiplexedTransport = core.makeMultiplexedTransport;
 exports.moduleMetadataIntegration = core.moduleMetadataIntegration;
 exports.parameterize = core.parameterize;
@@ -18078,7 +18079,7 @@ function init(browserOptions = {}) {
  *
  * @param options Everything is optional, we try to fetch all info need from the global scope.
  */
-function showReportDialog(options) {
+function showReportDialog(options = {}) {
   // doesn't work without a document (React Native)
   if (!helpers.WINDOW.document) {
     debugBuild.DEBUG_BUILD && utils.logger.error('Global document not defined in showReportDialog call');
@@ -18099,6 +18100,13 @@ function showReportDialog(options) {
       ...scope.getUser(),
       ...options.user,
     };
+  }
+
+  if (!options.eventId) {
+    const eventId = core.lastEventId();
+    if (eventId) {
+      options.eventId = eventId;
+    }
   }
 
   const script = helpers.WINDOW.document.createElement('script');
@@ -20369,6 +20377,10 @@ class BaseClient {
 
     this.emit('preprocessEvent', event, hint);
 
+    if (!event.type) {
+      isolationScope.setLastEventId(event.event_id || hint.event_id);
+    }
+
     return prepareEvent.prepareEvent(options, event, hint, currentScope, this, isolationScope).then(evt => {
       if (evt === null) {
         return evt;
@@ -21146,6 +21158,21 @@ function setUser(user) {
 }
 
 /**
+ * The last error event id of the isolation scope.
+ *
+ * Warning: This function really returns the last recorded error event id on the current
+ * isolation scope. If you call this function after handling a certain error and another error
+ * is captured in between, the last one is returned instead of the one you might expect.
+ * Also, ids of events that were never sent to Sentry (for example because
+ * they were dropped in `beforeSend`) could be returned.
+ *
+ * @returns The last event id of the isolation scope.
+ */
+function lastEventId() {
+  return currentScopes.getIsolationScope().lastEventId();
+}
+
+/**
  * Create a cron monitor check in and send it to Sentry.
  *
  * @param checkIn An object that describes a check in.
@@ -21250,6 +21277,12 @@ async function close(timeout) {
  */
 function isInitialized() {
   return !!currentScopes.getClient();
+}
+
+/** If the SDK is initialized & enabled. */
+function isEnabled() {
+  const client = currentScopes.getClient();
+  return !!client && client.getOptions().enabled !== false && !!client.getTransport();
 }
 
 /**
@@ -21366,7 +21399,9 @@ exports.captureSession = captureSession;
 exports.close = close;
 exports.endSession = endSession;
 exports.flush = flush;
+exports.isEnabled = isEnabled;
 exports.isInitialized = isInitialized;
+exports.lastEventId = lastEventId;
 exports.setContext = setContext;
 exports.setExtra = setExtra;
 exports.setExtras = setExtras;
@@ -21834,7 +21869,9 @@ exports.captureSession = exports$1.captureSession;
 exports.close = exports$1.close;
 exports.endSession = exports$1.endSession;
 exports.flush = exports$1.flush;
+exports.isEnabled = exports$1.isEnabled;
 exports.isInitialized = exports$1.isInitialized;
+exports.lastEventId = exports$1.lastEventId;
 exports.setContext = exports$1.setContext;
 exports.setExtra = exports$1.setExtra;
 exports.setExtras = exports$1.setExtras;
@@ -24319,6 +24356,8 @@ class Scope  {
 
   /** The client on this scope */
 
+  /** Contains the last event id of a captured event.  */
+
   // NOTE: Any field which gets added here should get added not only to the constructor but also to the `clone` method.
 
    constructor() {
@@ -24355,6 +24394,7 @@ class Scope  {
     newScope._sdkProcessingMetadata = { ...this._sdkProcessingMetadata };
     newScope._propagationContext = { ...this._propagationContext };
     newScope._client = this._client;
+    newScope._lastEventId = this._lastEventId;
 
     spanOnScope._setSpanForScope(newScope, spanOnScope._getSpanForScope(this));
 
@@ -24371,8 +24411,22 @@ class Scope  {
   /**
    * @inheritDoc
    */
+   setLastEventId(lastEventId) {
+    this._lastEventId = lastEventId;
+  }
+
+  /**
+   * @inheritDoc
+   */
    getClient() {
     return this._client ;
+  }
+
+  /**
+   * @inheritDoc
+   */
+   lastEventId() {
+    return this._lastEventId;
   }
 
   /**
@@ -27846,19 +27900,13 @@ function parseSampleRate(sampleRate) {
   }
 
   const rate = typeof sampleRate === 'string' ? parseFloat(sampleRate) : sampleRate;
-  if (typeof rate !== 'number' || isNaN(rate)) {
+  if (typeof rate !== 'number' || isNaN(rate) || rate < 0 || rate > 1) {
     debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `[Tracing] Given sample rate is invalid. Sample rate must be a boolean or a number between 0 and 1. Got ${JSON.stringify(
           sampleRate,
         )} of type ${JSON.stringify(typeof sampleRate)}.`,
       );
-    return undefined;
-  }
-
-  if (rate < 0 || rate > 1) {
-    debugBuild.DEBUG_BUILD &&
-      utils.logger.warn(`[Tracing] Given sample rate is invalid. Sample rate must be between 0 and 1. Got ${rate}.`);
     return undefined;
   }
 
@@ -28617,7 +28665,7 @@ exports.updateMetricSummaryOnActiveSpan = updateMetricSummaryOnActiveSpan;
 },{"../asyncContext/index.js":61,"../carrier.js":65,"../currentScopes.js":68,"../debug-build.js":69,"../metrics/metric-summary.js":98,"../semanticAttributes.js":102,"../tracing/dynamicSamplingContext.js":106,"../tracing/errors.js":107,"../tracing/spanstatus.js":115,"./spanOnScope.js":130,"@sentry/utils":152}],132:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '8.0.0';
+const SDK_VERSION = '8.1.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
