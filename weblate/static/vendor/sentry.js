@@ -379,7 +379,7 @@ function instrumentXHR() {
 
   utils.fill(xhrproto, 'open', function (originalOpen) {
     return function ( ...args) {
-      const startTimestamp = Date.now();
+      const startTimestamp = utils.timestampInSeconds() * 1000;
 
       // open() should always be called with two or more arguments
       // But to be on the safe side, we actually validate this and bail out if we don't have a method & url
@@ -419,7 +419,7 @@ function instrumentXHR() {
           }
 
           const handlerData = {
-            endTimestamp: Date.now(),
+            endTimestamp: utils.timestampInSeconds() * 1000,
             startTimestamp,
             xhr: this,
           };
@@ -472,7 +472,7 @@ function instrumentXHR() {
       }
 
       const handlerData = {
-        startTimestamp: Date.now(),
+        startTimestamp: utils.timestampInSeconds() * 1000,
         xhr: this,
       };
       utils.triggerHandlers('xhr', handlerData);
@@ -17434,8 +17434,8 @@ function createProfilePayload(
     ? start_timestamp
     : typeof event.start_timestamp === 'number'
       ? event.start_timestamp * 1000
-      : Date.now();
-  const transactionEndMs = typeof event.timestamp === 'number' ? event.timestamp * 1000 : Date.now();
+      : utils.timestampInSeconds() * 1000;
+  const transactionEndMs = typeof event.timestamp === 'number' ? event.timestamp * 1000 : utils.timestampInSeconds() * 1000;
 
   const profile = {
     event_id: profile_id,
@@ -20614,14 +20614,27 @@ function processBeforeSend(
   event,
   hint,
 ) {
-  const { beforeSend, beforeSendTransaction } = options;
+  const { beforeSend, beforeSendTransaction, beforeSendSpan } = options;
 
   if (isErrorEvent(event) && beforeSend) {
     return beforeSend(event, hint);
   }
 
-  if (isTransactionEvent(event) && beforeSendTransaction) {
-    return beforeSendTransaction(event, hint);
+  if (isTransactionEvent(event)) {
+    if (event.spans && beforeSendSpan) {
+      const processedSpans = [];
+      for (const span of event.spans) {
+        const processedSpan = beforeSendSpan(span);
+        if (processedSpan) {
+          processedSpans.push(processedSpan);
+        }
+      }
+      event.spans = processedSpans;
+    }
+
+    if (beforeSendTransaction) {
+      return beforeSendTransaction(event, hint);
+    }
   }
 
   return event;
@@ -20986,8 +20999,10 @@ function createEventEnvelope(
 
 /**
  * Create envelope from Span item.
+ *
+ * Takes an optional client and runs spans through `beforeSendSpan` if available.
  */
-function createSpanEnvelope(spans) {
+function createSpanEnvelope(spans, client) {
   function dscHasRequiredProps(dsc) {
     return !!dsc.trace_id && !!dsc.public_key;
   }
@@ -21001,7 +21016,20 @@ function createSpanEnvelope(spans) {
     sent_at: new Date().toISOString(),
     ...(dscHasRequiredProps(dsc) && { trace: dsc }),
   };
-  const items = spans.map(span => utils.createSpanEnvelopeItem(spanUtils.spanToJSON(span)));
+
+  const beforeSendSpan = client && client.getOptions().beforeSendSpan;
+  const convertToSpanJSON = beforeSendSpan
+    ? (span) => beforeSendSpan(spanUtils.spanToJSON(span) )
+    : (span) => spanUtils.spanToJSON(span);
+
+  const items = [];
+  for (const span of spans) {
+    const spanJson = convertToSpanJSON(span);
+    if (spanJson) {
+      items.push(utils.createSpanEnvelopeItem(spanJson));
+    }
+  }
+
   return utils.createEnvelope(headers, items);
 }
 
@@ -21848,6 +21876,9 @@ exports.timedEventsToMeasurements = measurement.timedEventsToMeasurements;
 exports.sampleSpan = sampling.sampleSpan;
 exports.logSpanEnd = logSpans.logSpanEnd;
 exports.logSpanStart = logSpans.logSpanStart;
+exports.SEMANTIC_ATTRIBUTE_CACHE_HIT = semanticAttributes.SEMANTIC_ATTRIBUTE_CACHE_HIT;
+exports.SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE = semanticAttributes.SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE;
+exports.SEMANTIC_ATTRIBUTE_CACHE_KEY = semanticAttributes.SEMANTIC_ATTRIBUTE_CACHE_KEY;
 exports.SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME = semanticAttributes.SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME;
 exports.SEMANTIC_ATTRIBUTE_PROFILE_ID = semanticAttributes.SEMANTIC_ATTRIBUTE_PROFILE_ID;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON = semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON;
@@ -23147,17 +23178,18 @@ exports.rewriteFramesIntegration = rewriteFramesIntegration;
 },{"../integration.js":77,"@sentry/utils":152}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const utils = require('@sentry/utils');
 const integration = require('../integration.js');
 
 const INTEGRATION_NAME = 'SessionTiming';
 
 const _sessionTimingIntegration = (() => {
-  const startTime = Date.now();
+  const startTime = utils.timestampInSeconds() * 1000;
 
   return {
     name: INTEGRATION_NAME,
     processEvent(event) {
-      const now = Date.now();
+      const now = utils.timestampInSeconds() * 1000;
 
       return {
         ...event,
@@ -23181,7 +23213,7 @@ const sessionTimingIntegration = integration.defineIntegration(_sessionTimingInt
 exports.sessionTimingIntegration = sessionTimingIntegration;
 
 
-},{"../integration.js":77}],89:[function(require,module,exports){
+},{"../integration.js":77,"@sentry/utils":152}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -24313,7 +24345,7 @@ const DEFAULT_MAX_BREADCRUMBS = 100;
 /**
  * Holds additional event information.
  */
-class Scope  {
+class ScopeClass  {
   /** Flag if notifying is happening. */
 
   /** Callback for client to receive scope changes. */
@@ -24378,7 +24410,7 @@ class Scope  {
    * @inheritDoc
    */
    clone() {
-    const newScope = new Scope();
+    const newScope = new ScopeClass();
     newScope._breadcrumbs = [...this._breadcrumbs];
     newScope._tags = { ...this._tags };
     newScope._extra = { ...this._extra };
@@ -24848,6 +24880,19 @@ class Scope  {
   }
 }
 
+// NOTE: By exporting this here as const & type, instead of doing `export class`,
+// We can get the correct class when importing from `@sentry/core`, but the original type (from `@sentry/types`)
+// This is helpful for interop, e.g. when doing `import type { Scope } from '@sentry/node';` (which re-exports this)
+
+/**
+ * Holds additional event information.
+ */
+const Scope = ScopeClass;
+
+/**
+ * Holds additional event information.
+ */
+
 function generatePropagationContext() {
   return {
     traceId: utils.uuid4(),
@@ -24965,6 +25010,15 @@ const SEMANTIC_ATTRIBUTE_PROFILE_ID = 'sentry.profile_id';
 
 const SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME = 'sentry.exclusive_time';
 
+const SEMANTIC_ATTRIBUTE_CACHE_HIT = 'cache.hit';
+
+const SEMANTIC_ATTRIBUTE_CACHE_KEY = 'cache.key';
+
+const SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE = 'cache.item_size';
+
+exports.SEMANTIC_ATTRIBUTE_CACHE_HIT = SEMANTIC_ATTRIBUTE_CACHE_HIT;
+exports.SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE = SEMANTIC_ATTRIBUTE_CACHE_ITEM_SIZE;
+exports.SEMANTIC_ATTRIBUTE_CACHE_KEY = SEMANTIC_ATTRIBUTE_CACHE_KEY;
 exports.SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME = SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME;
 exports.SEMANTIC_ATTRIBUTE_PROFILE_ID = SEMANTIC_ATTRIBUTE_PROFILE_ID;
 exports.SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON = SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON;
@@ -25746,15 +25800,17 @@ function startIdleSpan(startSpanOptions, options = {}) {
     const latestSpanEndTimestamp = childEndTimestamps.length ? Math.max(...childEndTimestamps) : undefined;
 
     const spanEndTimestamp = spanUtils.spanTimeInputToSeconds(timestamp);
+    // In reality this should always exist here, but type-wise it may be undefined...
     const spanStartTimestamp = spanUtils.spanToJSON(span).start_timestamp;
 
     // The final endTimestamp should:
     // * Never be before the span start timestamp
     // * Be the latestSpanEndTimestamp, if there is one, and it is smaller than the passed span end timestamp
     // * Otherwise be the passed end timestamp
-    const endTimestamp = Math.max(
-      spanStartTimestamp || -Infinity,
-      Math.min(spanEndTimestamp, latestSpanEndTimestamp || Infinity),
+    // Final timestamp can never be after finalTimeout
+    const endTimestamp = Math.min(
+      spanStartTimestamp ? spanStartTimestamp + finalTimeout / 1000 : Infinity,
+      Math.max(spanStartTimestamp || -Infinity, Math.min(spanEndTimestamp, latestSpanEndTimestamp || Infinity)),
     );
 
     span.end(endTimestamp);
@@ -25845,7 +25901,7 @@ function startIdleSpan(startSpanOptions, options = {}) {
     }
 
     const attributes = spanJSON.data || {};
-    if (spanJSON.op === 'ui.action.click' && !attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON]) {
+    if (!attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON]) {
       span.setAttribute(semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_IDLE_SPAN_FINISH_REASON, _finishReason);
     }
 
@@ -25853,6 +25909,7 @@ function startIdleSpan(startSpanOptions, options = {}) {
 
     const childSpans = spanUtils.getSpanDescendants(span).filter(child => child !== span);
 
+    let discardedSpans = 0;
     childSpans.forEach(childSpan => {
       // We cancel all pending spans with status "cancelled" to indicate the idle span was finished early
       if (childSpan.isRecording()) {
@@ -25882,8 +25939,13 @@ function startIdleSpan(startSpanOptions, options = {}) {
 
       if (!spanEndedBeforeFinalTimeout || !spanStartedBeforeIdleSpanEnd) {
         spanUtils.removeChildSpanFromSpan(span, childSpan);
+        discardedSpans++;
       }
     });
+
+    if (discardedSpans > 0) {
+      span.setAttribute('sentry.idle_span_discarded_spans', discardedSpans);
+    }
   }
 
   client.on('spanStart', startedSpan => {
@@ -26276,12 +26338,12 @@ class SentrySpan  {
 
     this._events = [];
 
+    this._isStandaloneSpan = spanContext.isStandalone;
+
     // If the span is already ended, ensure we finalize the span immediately
     if (this._endTime) {
       this._onSpanEnded();
     }
-
-    this._isStandaloneSpan = spanContext.isStandalone;
   }
 
   /** @inheritdoc */
@@ -26438,7 +26500,7 @@ class SentrySpan  {
 
     // if this is a standalone span, we send it immediately
     if (this._isStandaloneSpan) {
-      sendSpanEnvelope(envelope.createSpanEnvelope([this]));
+      sendSpanEnvelope(envelope.createSpanEnvelope([this], client));
       return;
     }
 
@@ -26536,9 +26598,21 @@ function isStandaloneSpan(span) {
   return span instanceof SentrySpan && span.isStandaloneSpan();
 }
 
+/**
+ * Sends a `SpanEnvelope`.
+ *
+ * Note: If the envelope's spans are dropped, e.g. via `beforeSendSpan`,
+ * the envelope will not be sent either.
+ */
 function sendSpanEnvelope(envelope) {
   const client = currentScopes.getClient();
   if (!client) {
+    return;
+  }
+
+  const spanItems = envelope[1];
+  if (!spanItems || spanItems.length === 0) {
+    client.recordDroppedEvent('before_send', 'span');
     return;
   }
 
@@ -27818,9 +27892,13 @@ function hasTracingEnabled(
     return false;
   }
 
-  const client = currentScopes.getClient();
-  const options = maybeOptions || (client && client.getOptions());
+  const options = maybeOptions || getClientOptions();
   return !!options && (options.enableTracing || 'tracesSampleRate' in options || 'tracesSampler' in options);
+}
+
+function getClientOptions() {
+  const client = currentScopes.getClient();
+  return client && client.getOptions();
 }
 
 exports.hasTracingEnabled = hasTracingEnabled;
@@ -28665,7 +28743,7 @@ exports.updateMetricSummaryOnActiveSpan = updateMetricSummaryOnActiveSpan;
 },{"../asyncContext/index.js":61,"../carrier.js":65,"../currentScopes.js":68,"../debug-build.js":69,"../metrics/metric-summary.js":98,"../semanticAttributes.js":102,"../tracing/dynamicSamplingContext.js":106,"../tracing/errors.js":107,"../tracing/spanstatus.js":115,"./spanOnScope.js":130,"@sentry/utils":152}],132:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '8.1.0';
+const SDK_VERSION = '8.2.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -30751,6 +30829,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('../object.js');
 const supports = require('../supports.js');
+const time = require('../time.js');
 const worldwide = require('../worldwide.js');
 const handlers = require('./handlers.js');
 
@@ -30783,7 +30862,7 @@ function instrumentFetch() {
           method,
           url,
         },
-        startTimestamp: Date.now(),
+        startTimestamp: time.timestampInSeconds() * 1000,
       };
 
       handlers.triggerHandlers('fetch', {
@@ -30795,7 +30874,7 @@ function instrumentFetch() {
         (response) => {
           const finishedHandlerData = {
             ...handlerData,
-            endTimestamp: Date.now(),
+            endTimestamp: time.timestampInSeconds() * 1000,
             response,
           };
 
@@ -30805,7 +30884,7 @@ function instrumentFetch() {
         (error) => {
           const erroredHandlerData = {
             ...handlerData,
-            endTimestamp: Date.now(),
+            endTimestamp: time.timestampInSeconds() * 1000,
             error,
           };
 
@@ -30873,7 +30952,7 @@ exports.addFetchInstrumentationHandler = addFetchInstrumentationHandler;
 exports.parseFetchArgs = parseFetchArgs;
 
 
-},{"../object.js":167,"../supports.js":175,"../worldwide.js":182,"./handlers.js":157}],155:[function(require,module,exports){
+},{"../object.js":167,"../supports.js":175,"../time.js":177,"../worldwide.js":182,"./handlers.js":157}],155:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
