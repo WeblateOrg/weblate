@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`addons` Added add-on activity log model for tracking add-on activity.
+
 **Improvements**
 
 * :ref:`subscriptions` now include strings which need updating.
