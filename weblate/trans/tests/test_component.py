@@ -769,6 +769,14 @@ class ComponentValidationTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError, 'Undefined variable: "foo"', self.component.full_clean
         )
+        self.component.repoweb = "http://{{ component_name }}/{{ filename }}/%72"
+        self.assertRaisesMessage(
+            ValidationError, "Enter a valid URL", self.component.full_clean
+        )
+        self.component.repoweb = (
+            "http://example.com/{{ component_name }}/{{ filename }}/%72"
+        )
+        self.assertIsNone(self.component.full_clean())
         self.component.repoweb = ""
 
     def test_link_incomplete(self) -> None:

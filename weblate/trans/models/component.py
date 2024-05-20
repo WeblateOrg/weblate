@@ -97,7 +97,6 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
-    WeblateURLValidator,
     validate_filename,
     validate_re_nonempty,
     validate_slug,
@@ -395,14 +394,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ),
         blank=True,
     )
-    repoweb = models.URLField(
+    repoweb = models.CharField(
         verbose_name=gettext_lazy("Repository browser"),
+        max_length=200,
         help_text=gettext_lazy(
             "Link to repository browser, use {{branch}} for branch, "
             "{{filename}} and {{line}} as filename and line placeholders. "
             "You might want to strip leading directory by using {{filename|parentdir}}."
         ),
-        validators=[WeblateURLValidator(), validate_repoweb],
+        validators=[validate_repoweb],
         blank=True,
     )
     git_export = models.CharField(

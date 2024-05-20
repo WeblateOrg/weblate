@@ -299,6 +299,18 @@ class WeblateURLValidator(URLValidator):
     schemes = ["http", "https"]
 
 
+class WeblateEditorURLValidator(URLValidator):
+    schemes = ["editor", "netbeans", "txmt", "pycharm", "phpstorm", "idea", "jetbrains"]
+
+    regex = re.compile(
+        r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+        r"(?:" + WeblateURLValidator.hostname_re + ")"
+        r"(?:[/?#][^\s]*)?"  # resource path
+        r"\Z",
+        re.IGNORECASE,
+    )
+
+
 class WeblateServiceURLValidator(WeblateURLValidator):
     """
     Validator allowing local URLs like http://domain:5000.
