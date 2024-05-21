@@ -26,14 +26,14 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
-        cache-dependency-path: docs/requirements.txt
     - name: Install apt dependencies
       run: |
         sudo apt update
         sudo apt install -y graphviz
-    - name: Install pip dependencies
-      run: pip install -r docs/requirements.txt
+    - name: Install Python dependencies
+      run: |
+        pip install uv
+        uv pip install --system -r docs/requirements.txt
     - name: Sphinx build
       run: |
         echo "::add-matcher::.github/matchers/sphinx.json"
@@ -54,10 +54,11 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
         cache-dependency-path: docs/requirements.txt
-    - name: Install pip dependencies
-      run: pip install -r docs/requirements.txt
+    - name: Install Python dependencies
+      run: |
+        pip install uv
+        uv pip install --system -r docs/requirements.txt
     - name: Sphinx linkcheck
       run: |
         ./ci/run-docs linkcheck

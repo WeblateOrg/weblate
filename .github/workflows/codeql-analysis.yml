@@ -35,10 +35,9 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
     - name: Used versions
       run: ./ci/print-versions
-    - name: Install pip dependencies
+    - name: Install Python dependencies
       run: ./ci/pip-install
 
     - name: Initialize CodeQL
