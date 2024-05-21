@@ -199,7 +199,7 @@ class RenameTest(ViewTestCase):
 
 
 class AnnouncementTest(ViewTestCase):
-    data = {"message": "Announcement testing", "category": "warning"}
+    data = {"message": "Announcement testing", "severity": "warning"}
     outbox = 0
 
     def perform_test(self, url) -> None:
@@ -255,5 +255,5 @@ class AnnouncementTest(ViewTestCase):
 
 
 class AnnouncementNotifyTest(AnnouncementTest):
-    data = {"message": "Announcement testing", "category": "warning", "notify": "1"}
+    data = {"message": "Announcement testing", "severity": "warning", "notify": "1"}
     outbox = 1

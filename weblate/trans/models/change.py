@@ -247,7 +247,7 @@ class ChangeManager(models.Manager["Change"]):
         translation=None,
         component=None,
         project=None,
-        project_category=None,
+        category=None,
         language=None,
     ):
         """
@@ -274,8 +274,8 @@ class ChangeManager(models.Manager["Change"]):
             result = project.change_set.filter_components(user)
             if language is not None:
                 result = result.filter(language=language)
-            if project_category is not None:
-                result = result.filter(project_category=project_category)
+            if category is not None:
+                result = result.filter(category=category)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
@@ -587,7 +587,7 @@ class Change(models.Model, UserDisplayMixin):
     project = models.ForeignKey(
         "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
-    project_category = models.ForeignKey(
+    category = models.ForeignKey(
         "trans.Category", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     component = models.ForeignKey(

@@ -302,7 +302,7 @@ def announcement(request, path):
         scope["language"] = obj.language
     elif isinstance(obj, Category):
         scope["project"] = obj.project
-        scope["project_category"] = obj
+        scope["category"] = obj
     elif isinstance(obj, Translation):
         scope["project"] = obj.component.project
         scope["component"] = obj.component

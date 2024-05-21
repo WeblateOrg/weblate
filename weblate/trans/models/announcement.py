@@ -51,7 +51,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         Change.objects.create(
             action=Change.ACTION_ANNOUNCEMENT,
             project=result.project,
-            project_category=result.project_category,
+            category=result.category,
             component=result.component,
             language=result.language,
             announcement=result,
@@ -78,9 +78,9 @@ class Announcement(models.Model):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    project_category = models.ForeignKey(
+    category = models.ForeignKey(
         "trans.Category",
-        verbose_name=gettext_lazy("Project Category"),
+        verbose_name=gettext_lazy("Category"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
@@ -99,10 +99,10 @@ class Announcement(models.Model):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    category = models.CharField(
+    severity = models.CharField(
         max_length=25,
-        verbose_name=gettext_lazy("Category"),
-        help_text=gettext_lazy("Category defines color used for the message."),
+        verbose_name=gettext_lazy("Severity"),
+        help_text=gettext_lazy("Severity defines color used for the message."),
         choices=(
             ("info", gettext_lazy("Info (light blue)")),
             ("warning", gettext_lazy("Warning (yellow)")),
