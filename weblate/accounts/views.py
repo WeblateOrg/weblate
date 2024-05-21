@@ -770,7 +770,9 @@ class WeblateLogoutView(LogoutView):
 
     def get_default_redirect_url(self):
         # Avoid need for LOGOUT_REDIRECT_URL to be configured
-        return reverse("home")
+        if not settings.LOGOUT_REDIRECT_URL:
+            return reverse("home")
+        return super().get_default_redirect_url()
 
 
 def fake_email_sent(request, reset=False):
