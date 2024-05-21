@@ -768,6 +768,10 @@ class WeblateLogoutView(LogoutView):
         messages.info(self.request, gettext("Thank you for using Weblate."))
         return super().dispatch(request, *args, **kwargs)
 
+    def get_default_redirect_url(self):
+        # Avoid need for LOGOUT_REDIRECT_URL to be configured
+        return reverse("home")
+
 
 def fake_email_sent(request, reset=False):
     """Fake redirect to e-mail sent page."""
