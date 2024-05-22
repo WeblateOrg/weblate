@@ -8,11 +8,6 @@ from itertools import chain
 from typing import TYPE_CHECKING, Literal
 
 from django.core.cache import cache
-from openai import OpenAI
-from openai.types.chat import (
-    ChatCompletionSystemMessageParam,
-    ChatCompletionUserMessageParam,
-)
 
 from weblate.glossary.models import (
     get_glossary_terms,
@@ -66,6 +61,8 @@ class OpenAITranslation(BatchMachineTranslation):
     settings_form = OpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
+        from openai import OpenAI
+
         super().__init__(settings)
         self.client = OpenAI(api_key=self.settings["key"], timeout=self.request_timeout)
         self._models: None | set[str] = None
@@ -135,6 +132,11 @@ class OpenAITranslation(BatchMachineTranslation):
         user=None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
+        from openai.types.chat import (
+            ChatCompletionSystemMessageParam,
+            ChatCompletionUserMessageParam,
+        )
+
         texts = [text for text, _unit in sources]
         units = [unit for _text, unit in sources]
         prompt = self.get_prompt(source, language, texts, units)

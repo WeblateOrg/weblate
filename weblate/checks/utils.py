@@ -4,9 +4,6 @@
 
 from operator import itemgetter
 
-from pygments.lexers.markup import RstLexer
-from pygments.token import Token
-
 from weblate.checks.models import CHECKS
 
 
@@ -17,6 +14,9 @@ def highlight_pygments(source: str, unit):
     This is not really a full syntax highlighting, we're only interested in
     non-translatable strings.
     """
+    from pygments.lexers.markup import RstLexer
+    from pygments.token import Token
+
     if "rst-text" in unit.all_flags:
         lexer = RstLexer(stripnl=False)
         start = 0
