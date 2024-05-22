@@ -384,7 +384,7 @@ class MoExporter(PoExporter):
 
     @staticmethod
     def supports(translation):
-        return translation.component.file_format == "po"
+        return translation.component.file_format in {"po", "po-mono"}
 
 
 class CVSBaseExporter(BaseExporter):
