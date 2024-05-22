@@ -11,6 +11,9 @@ languages. The component corresponds to one translatable file (for example
 organize component into logical sets (for example to group all translations
 used within one application).
 
+Additionally, components within projects can be structured using categories.
+Components can belong to a category, and categories can be nested.
+
 Internally, each project has translations to common strings propagated across
 other components within it by default. This lightens the burden of repetitive
 and multi version translation. The translation propagation can be disabled per
