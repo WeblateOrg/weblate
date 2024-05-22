@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import boto3
 from django.utils.functional import cached_property
 
 from .base import DownloadTranslations, MachineTranslation
@@ -26,6 +25,8 @@ class AWSTranslation(MachineTranslation):
 
     @cached_property
     def client(self):
+        import boto3
+
         return boto3.client(
             service_name="translate",
             region_name=self.settings["region"],

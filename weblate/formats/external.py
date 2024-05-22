@@ -12,9 +12,6 @@ from typing import TYPE_CHECKING
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy
-from openpyxl import Workbook, load_workbook
-from openpyxl.cell.cell import TYPE_STRING
-from openpyxl.workbook.child import INVALID_TITLE_REGEX
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
@@ -30,6 +27,8 @@ class XlsxFormat(CSVFormat):
     autoload = ("*.xlsx",)
 
     def write_cell(self, worksheet, column: int, row: int, value: str):
+        from openpyxl.cell.cell import TYPE_STRING
+
         cell = worksheet.cell(column=column, row=row)
         cell.value = value
         # Set the data_type after value to override function auto-detection
@@ -37,6 +36,8 @@ class XlsxFormat(CSVFormat):
         return cell
 
     def get_title(self, fallback: str = "Weblate"):
+        from openpyxl.workbook.child import INVALID_TITLE_REGEX
+
         title = self.store.targetlanguage
         if title is None:
             return fallback
@@ -47,6 +48,8 @@ class XlsxFormat(CSVFormat):
         return title
 
     def save_content(self, handle) -> None:
+        from openpyxl import Workbook
+
         workbook = Workbook()
         worksheet = workbook.active
         worksheet.title = self.get_title()
@@ -77,6 +80,8 @@ class XlsxFormat(CSVFormat):
         return output.getvalue()
 
     def parse_store(self, storefile):
+        from openpyxl import load_workbook
+
         # try to load the given file via openpyxl
         # catch at least the BadZipFile exception if an unsupported
         # file has been given
