@@ -52,7 +52,7 @@ services:
     - ./postgres-init:/docker-entrypoint-initdb.d
     restart: always
     ports:
-      - "5433:5432"
+    - 5433:5432
   cache:
     image: redis:7-alpine
     restart: always
