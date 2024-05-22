@@ -452,15 +452,13 @@ def show_project(request, obj):
 def show_category(request, obj):
     user = request.user
 
-    last_changes = Change.objects.last_changes(
-        user, project=obj.project, category=obj
-    ).recent()
-
-    last_announcements = (
-        Change.objects.last_changes(user, project=obj.project, category=obj)
-        .filter_announcements()
-        .recent()
+    all_changes = (
+        Change.objects.for_category(obj)
+        .filter_components(request.user).prefetch()
     )
+
+    last_changes = all_changes.recent()
+    last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user)
     all_components = get_paginator(request, prefetch_stats(all_components))
