@@ -453,8 +453,7 @@ def show_category(request, obj):
     user = request.user
 
     all_changes = (
-        Change.objects.for_category(obj)
-        .filter_components(request.user).prefetch()
+        Change.objects.for_category(obj).filter_components(request.user).prefetch()
     )
 
     last_changes = all_changes.recent()

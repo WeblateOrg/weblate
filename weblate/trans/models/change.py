@@ -43,7 +43,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
     def for_category(self, category):
-        if hasattr(category, 'component'):
+        if hasattr(category, "component"):
             return self.filter(component_id__in=category.all_component_ids)
         return self.filter(category=category)
 
