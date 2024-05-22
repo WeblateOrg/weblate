@@ -1907,7 +1907,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def do_file_scan(self, request=None):
         self.commit_pending("file-scan", request.user if request else None)
         try:
-            return self.create_translations(request=request)
+            return self.create_translations(request=request, force=True)
         except FileParseError:
             return False
 
