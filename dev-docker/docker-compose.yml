@@ -51,6 +51,8 @@ services:
     - postgres-data:/var/lib/postgresql/data
     - ./postgres-init:/docker-entrypoint-initdb.d
     restart: always
+    ports:
+      - "5433:5432"
   cache:
     image: redis:7-alpine
     restart: always
