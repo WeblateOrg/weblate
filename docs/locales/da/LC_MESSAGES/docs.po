@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-17 04:01+0000\n"
+"PO-Revision-Date: 2024-05-24 09:13+0000\n"
 "Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -1829,7 +1829,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:85 ../../devel/html.rst:49
 msgid "Translation threshold"
-msgstr "Grænse for oversættelse"
+msgstr "Oversættelsestærskel"
 
 #: ../../admin/addons.rst:85
 msgid "Threshold for inclusion of translations."
@@ -1845,7 +1845,7 @@ msgstr "CSS-vælger"
 
 #: ../../admin/addons.rst:87
 msgid "CSS selector to detect localizable elements."
-msgstr "CSS-vælger til registrering af lokaliseringselementer."
+msgstr "CSS-vælger til at registrere lokaliserbare elementer."
 
 #: ../../admin/addons.rst:89
 msgid "``cookie_name``"
@@ -1853,11 +1853,11 @@ msgstr "``cookie_name``"
 
 #: ../../admin/addons.rst:89 ../../devel/html.rst:55
 msgid "Language cookie name"
-msgstr "Sprog cookie navn"
+msgstr "Navn på sprogcookie"
 
 #: ../../admin/addons.rst:89
 msgid "Name of cookie which stores language preference."
-msgstr "Navn på cookie der lagrer sprog-referencer."
+msgstr "Navn på den cookie, der gemmer sprogpræference."
 
 #: ../../admin/addons.rst:91
 msgid "``files``"
@@ -1865,15 +1865,15 @@ msgstr "``files``"
 
 #: ../../admin/addons.rst:91 ../../devel/html.rst:60
 msgid "Extract strings from HTML files"
-msgstr "Udpak strenge fra HTML filer"
+msgstr "Udtræk strenge fra HTML-filer"
 
 #: ../../admin/addons.rst:91
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Liste over filnavne i det aktuelle lager eller fjern-URL-adresser, der skal "
-"fortolkes for strenge, der kan oversættes."
+"Liste over filnavne i aktuelt repository eller eksterne URL'er at analysere "
+"for oversættelige strenge."
 
 #: ../../admin/addons.rst:93
 msgid "daily, repository post-commit, repository post-update"
@@ -2688,7 +2688,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:464
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Udfylder oversættelse af skrivebeskyttede strenge med kildestrengen."
+msgstr "Udfylder oversættelse af skrivebeskyttede strenge med kildestreng."
 
 #: ../../admin/addons.rst:469
 msgid "Statistics generator"
@@ -2723,7 +2723,7 @@ msgstr "Detaljer for arkiv"
 
 #: ../../admin/addons.rst:479
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Genererer en fil med detaljeret information om oversættelsen."
+msgstr "Genererer en fil med detaljerede oplysninger om oversættelsesstatus."
 
 #: ../../admin/addons.rst:481
 msgid ""
@@ -2759,7 +2759,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:515
 msgid "Fills in translation strings with source string."
-msgstr "Udfylder oversættelsesstrenge med kildestrengen."
+msgstr "Udfylder oversættelsesstrenge med kildestreng."
 
 #: ../../admin/addons.rst:517
 msgid ""
@@ -2770,7 +2770,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:524
 msgid "Pseudolocale generation"
-msgstr "Generering af pseudolokaler"
+msgstr "Pseudolokalgenerering"
 
 #: ../../admin/addons.rst:528
 msgid "``weblate.generate.pseudolocale``"
@@ -2790,47 +2790,39 @@ msgstr "Måloversættelse"
 
 #: ../../admin/addons.rst:532
 msgid "All strings in this translation will be overwritten"
-msgstr "Alle strenge i denne oversættelse vil blive overskrevet"
+msgstr "Alle strenge i denne oversættelse overskrives"
 
 #: ../../admin/addons.rst:534
 msgid "``prefix``"
 msgstr "``prefix``"
 
 #: ../../admin/addons.rst:534
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Strengpræfiks"
+msgstr "Fast strengpræfiks"
 
 #: ../../admin/addons.rst:536
 msgid "``var_prefix``"
 msgstr "``var_prefix``"
 
 #: ../../admin/addons.rst:536
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Strengpræfiks"
+msgstr "Variabel strengpræfiks"
 
 #: ../../admin/addons.rst:538
 msgid "``suffix``"
 msgstr "``suffix``"
 
 #: ../../admin/addons.rst:538
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Strengsuffiks"
+msgstr "Fast strengsuffiks"
 
 #: ../../admin/addons.rst:540
 msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
 #: ../../admin/addons.rst:540
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Strengsuffiks"
+msgstr "Variabel strengsuffiks"
 
 #: ../../admin/addons.rst:542
 msgid "``var_multiplier``"
@@ -2838,13 +2830,15 @@ msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:542
 msgid "Variable part multiplier"
-msgstr "Variabel del-multiplikator"
+msgstr "Variabel delmultiplikator"
 
 #: ../../admin/addons.rst:542
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Antal gange den variable del skal gentages afhængigt af kildestrengens "
+"længde."
 
 #: ../../admin/addons.rst:544
 msgid "``include_readonly``"
@@ -2859,8 +2853,8 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Genererer en oversættelse ved automatisk at tilføje præfiks og suffiks til "
-"kildetrådene."
+"Genererer en oversættelse ved at tilføje præfiks og suffiks til kildestrenge "
+"automatisk."
 
 #: ../../admin/addons.rst:551
 msgid ""
@@ -2921,7 +2915,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:594
 msgid "Contributors in comment"
-msgstr "Bidragydere i kommentar"
+msgstr "Bidragsydere i kommentar"
 
 #: ../../admin/addons.rst:596
 msgid "``weblate.gettext.authors``"
@@ -2932,8 +2926,8 @@ msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Opdaterer kommentardelen af po-filoverskriften, så den inkluderer "
-"bidragsnavne og år med bidrag."
+"Opdaterer kommentardelen af PO-filens overskrift for at inkludere "
+"bidragsydernes navne og bidragsår."
 
 #: ../../admin/addons.rst:603
 msgid "The PO file header will look like this:"
@@ -3010,9 +3004,7 @@ msgstr ""
 #: ../../admin/addons.rst:643
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr ""
-"Giver mulighed for tilpasning af opførsel for gettext-output, f.eks. "
-"linjeombrydning."
+msgstr "Tillader tilpasning af gettext-outputadfærd, fx linjeombrydning."
 
 #: ../../admin/addons.rst:645
 msgid "It offers the following options:"
@@ -3052,11 +3044,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:666
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Opdaterer LINGUAS-filen, når der tilføjes en ny oversættelse."
+msgstr "Opdaterer LINGUAS-filen, når en ny oversættelse tilføjes."
 
 #: ../../admin/addons.rst:671
 msgid "Generate MO files"
-msgstr "Generer MO-filer"
+msgstr "Generér MO-filer"
 
 #: ../../admin/addons.rst:673
 msgid "``weblate.gettext.mo``"
@@ -3087,6 +3079,8 @@ msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Strenge, der skal redigeres (fuzzy), er typisk ikke klar til brug som "
+"oversættelser."
 
 #: ../../admin/addons.rst:681
 msgid "Automatically generates a MO file for every changed PO file."
@@ -3161,7 +3155,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:721
 msgid "Squash Git commits"
-msgstr "Squash Git-indsendelser"
+msgstr "Squash Git-commits"
 
 #: ../../admin/addons.rst:723
 msgid "``weblate.git.squash``"
@@ -3238,7 +3232,7 @@ msgstr "Status for arkiv"
 
 #: ../../admin/addons.rst:741
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Squash Git-indsendelser inden ændringerne skubbes."
+msgstr "Squash Git-commits inden ændringer pushes."
 
 #: ../../admin/addons.rst:743
 msgid ""
@@ -3325,9 +3319,7 @@ msgstr ""
 #: ../../admin/addons.rst:780
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
-msgstr ""
-"Giver mulighed for tilpasning af opførsel for JSON-output, f.eks. indrykning "
-"eller sortering."
+msgstr "Tillader justering af JSON-outputadfærd, fx indrykning eller sortering."
 
 #: ../../admin/addons.rst:785
 #, fuzzy
