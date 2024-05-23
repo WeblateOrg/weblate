@@ -27,14 +27,6 @@ const types = require('./types.js');
 const cachedImplementations = {};
 
 /**
- * isNative checks if the given function is a native implementation
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-function isNative(func) {
-  return func && /^function\s+\w+\(\)\s+\{\s+\[native code\]\s+\}$/.test(func.toString());
-}
-
-/**
  * Get the native implementation of a browser function.
  *
  * This can be used to ensure we get an unwrapped version of a function, in cases where a wrapped function can lead to problems.
@@ -54,7 +46,7 @@ function getNativeImplementation(
   let impl = types.WINDOW[name] ;
 
   // Fast path to avoid DOM I/O
-  if (isNative(impl)) {
+  if (utils.isNativeFunction(impl)) {
     return (cachedImplementations[name] = impl.bind(types.WINDOW) );
   }
 
@@ -23988,7 +23980,7 @@ function addToMetricsAggregator(
  * @experimental This API is experimental and might have breaking changes in the future.
  */
 function increment(aggregator, name, value = 1, data) {
-  addToMetricsAggregator(aggregator, constants.COUNTER_METRIC_TYPE, name, value, data);
+  addToMetricsAggregator(aggregator, constants.COUNTER_METRIC_TYPE, name, ensureNumber(value), data);
 }
 
 /**
@@ -23997,7 +23989,7 @@ function increment(aggregator, name, value = 1, data) {
  * @experimental This API is experimental and might have breaking changes in the future.
  */
 function distribution(aggregator, name, value, data) {
-  addToMetricsAggregator(aggregator, constants.DISTRIBUTION_METRIC_TYPE, name, value, data);
+  addToMetricsAggregator(aggregator, constants.DISTRIBUTION_METRIC_TYPE, name, ensureNumber(value), data);
 }
 
 /**
@@ -24015,7 +24007,7 @@ function set(aggregator, name, value, data) {
  * @experimental This API is experimental and might have breaking changes in the future.
  */
 function gauge(aggregator, name, value, data) {
-  addToMetricsAggregator(aggregator, constants.GAUGE_METRIC_TYPE, name, value, data);
+  addToMetricsAggregator(aggregator, constants.GAUGE_METRIC_TYPE, name, ensureNumber(value), data);
 }
 
 const metrics = {
@@ -24028,6 +24020,11 @@ const metrics = {
    */
   getMetricsAggregatorForClient,
 };
+
+// Although this is typed to be a number, we try to handle strings as well here
+function ensureNumber(number) {
+  return typeof number === 'string' ? parseInt(number) : number;
+}
 
 exports.metrics = metrics;
 
@@ -28799,7 +28796,7 @@ exports.updateMetricSummaryOnActiveSpan = updateMetricSummaryOnActiveSpan;
 },{"../asyncContext/index.js":61,"../carrier.js":65,"../currentScopes.js":68,"../metrics/metric-summary.js":99,"../semanticAttributes.js":103,"../tracing/spanstatus.js":116,"./spanOnScope.js":131,"@sentry/utils":153}],133:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '8.3.0';
+const SDK_VERSION = '8.4.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -30763,7 +30760,7 @@ exports.safeJoin = string.safeJoin;
 exports.snipLine = string.snipLine;
 exports.stringMatchesSomePattern = string.stringMatchesSomePattern;
 exports.truncate = string.truncate;
-exports.isNativeFetch = supports.isNativeFetch;
+exports.isNativeFunction = supports.isNativeFunction;
 exports.supportsDOMError = supports.supportsDOMError;
 exports.supportsDOMException = supports.supportsDOMException;
 exports.supportsErrorEvent = supports.supportsErrorEvent;
@@ -33840,12 +33837,13 @@ function supportsFetch() {
     return false;
   }
 }
+
 /**
- * isNativeFetch checks if the given function is a native implementation of fetch()
+ * isNative checks if the given function is a native implementation
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-function isNativeFetch(func) {
-  return func && /^function fetch\(\)\s+\{\s+\[native code\]\s+\}$/.test(func.toString());
+function isNativeFunction(func) {
+  return func && /^function\s+\w+\(\)\s+\{\s+\[native code\]\s+\}$/.test(func.toString());
 }
 
 /**
@@ -33865,7 +33863,7 @@ function supportsNativeFetch() {
 
   // Fast path to avoid DOM I/O
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  if (isNativeFetch(WINDOW.fetch)) {
+  if (isNativeFunction(WINDOW.fetch)) {
     return true;
   }
 
@@ -33881,7 +33879,7 @@ function supportsNativeFetch() {
       doc.head.appendChild(sandbox);
       if (sandbox.contentWindow && sandbox.contentWindow.fetch) {
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        result = isNativeFetch(sandbox.contentWindow.fetch);
+        result = isNativeFunction(sandbox.contentWindow.fetch);
       }
       doc.head.removeChild(sandbox);
     } catch (err) {
@@ -33929,7 +33927,7 @@ function supportsReferrerPolicy() {
   }
 }
 
-exports.isNativeFetch = isNativeFetch;
+exports.isNativeFunction = isNativeFunction;
 exports.supportsDOMError = supportsDOMError;
 exports.supportsDOMException = supportsDOMException;
 exports.supportsErrorEvent = supportsErrorEvent;
