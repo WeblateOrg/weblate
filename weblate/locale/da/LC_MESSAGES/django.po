@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-05-17 04:01+0000\n"
+"PO-Revision-Date: 2024-05-24 09:13+0000\n"
 "Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -1283,6 +1283,8 @@ msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Strenge, der skal redigeres (fuzzy), er typisk ikke klar til brug som "
+"oversættelser."
 
 #: weblate/addons/forms.py:77
 msgid "Name of generated file"
@@ -1541,7 +1543,7 @@ msgstr "Inkludér venligst komponentmarkup i skabelonen."
 
 #: weblate/addons/forms.py:488
 msgid "Translation threshold"
-msgstr "Grænse for oversættelse"
+msgstr "Oversættelsestærskel"
 
 #: weblate/addons/forms.py:493
 msgid "Threshold for inclusion of translations."
@@ -1553,33 +1555,32 @@ msgstr "CSS-vælger"
 
 #: weblate/addons/forms.py:499
 msgid "CSS selector to detect localizable elements."
-msgstr "CSS-vælger til registrering af lokaliseringselementer."
+msgstr "CSS-vælger til at registrere lokaliserbare elementer."
 
 #: weblate/addons/forms.py:502
 msgid "Language cookie name"
-msgstr "Sprog cookie navn"
+msgstr "Navn på sprogcookie"
 
 #: weblate/addons/forms.py:505
 msgid "Name of cookie which stores language preference."
-msgstr "Navn på cookie der lagrer sprog-referencer."
+msgstr "Navn på den cookie, der gemmer sprogpræference."
 
 #: weblate/addons/forms.py:510
 msgid "Extract strings from HTML files"
-msgstr "Udpak strenge fra HTML filer"
+msgstr "Udtræk strenge fra HTML-filer"
 
 #: weblate/addons/forms.py:513
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Liste over filnavne i det aktuelle lager eller fjern-URL-adresser, der skal "
-"fortolkes for strenge, der kan oversættes."
+"Liste over filnavne i aktuelt repository eller eksterne URL'er at analysere "
+"for oversættelige strenge."
 
 #: weblate/addons/forms.py:541
-#, fuzzy, python-format
-#| msgid "Failed to update git: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Kunne ikke opdatere Git: %s"
+msgstr "Kunne ikke analysere CSS-vælger: %s"
 
 #: weblate/addons/forms.py:553 weblate/billing/models.py:290
 #: weblate/templates/snippets/query-builder.html:14
@@ -1595,41 +1596,35 @@ msgstr "Måloversættelse"
 
 #: weblate/addons/forms.py:560
 msgid "All strings in this translation will be overwritten"
-msgstr "Alle strenge i denne oversættelse vil blive overskrevet"
+msgstr "Alle strenge i denne oversættelse overskrives"
 
 #: weblate/addons/forms.py:565 weblate/templates/addons/pseudolocale.html:11
-#, fuzzy
-#| msgid "String prefix"
 msgid "Fixed string prefix"
-msgstr "Strengpræfiks"
+msgstr "Fast strengpræfiks"
 
 #: weblate/addons/forms.py:570 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "String prefix"
 msgid "Variable string prefix"
-msgstr "Strengpræfiks"
+msgstr "Variabel strengpræfiks"
 
 #: weblate/addons/forms.py:575 weblate/templates/addons/pseudolocale.html:15
-#, fuzzy
-#| msgid "String suffix"
 msgid "Fixed string suffix"
-msgstr "Strengsuffiks"
+msgstr "Fast strengsuffiks"
 
 #: weblate/addons/forms.py:580 weblate/templates/addons/pseudolocale.html:14
-#, fuzzy
-#| msgid "String suffix"
 msgid "Variable string suffix"
-msgstr "Strengsuffiks"
+msgstr "Variabel strengsuffiks"
 
 #: weblate/addons/forms.py:585
 msgid "Variable part multiplier"
-msgstr "Variabel del-multiplikator"
+msgstr "Variabel delmultiplikator"
 
 #: weblate/addons/forms.py:589
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Antal gange den variable del skal gentages afhængigt af kildestrengens "
+"længde."
 
 #: weblate/addons/forms.py:594
 msgid "Include read-only strings"
@@ -1637,7 +1632,7 @@ msgstr "Inkludér skrivebeskyttede strenge"
 
 #: weblate/addons/forms.py:624
 msgid "The source and target have to be different languages."
-msgstr "Kilden og 'target' skal være forskellige sprog."
+msgstr "Kilden og målet skal være forskellige sprog."
 
 #: weblate/addons/generate.py:28
 msgid "Statistics generator"
@@ -1645,19 +1640,19 @@ msgstr "Statistikgenerator"
 
 #: weblate/addons/generate.py:30
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Genererer en fil med detaljeret information om oversættelsen."
+msgstr "Genererer en fil med detaljerede oplysninger om oversættelsesstatus."
 
 #: weblate/addons/generate.py:122
 msgid "Pseudolocale generation"
-msgstr "Generering af pseudolokaler"
+msgstr "Pseudolokalgenerering"
 
 #: weblate/addons/generate.py:124
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Genererer en oversættelse ved automatisk at tilføje præfiks og suffiks til "
-"kildetrådene."
+"Genererer en oversættelse ved at tilføje præfiks og suffiks til kildestrenge "
+"automatisk."
 
 #: weblate/addons/generate.py:196
 msgid "Prefill translation with source"
@@ -1665,7 +1660,7 @@ msgstr "Forudfyld oversættelse med kilde"
 
 #: weblate/addons/generate.py:197
 msgid "Fills in translation strings with source string."
-msgstr "Udfylder oversættelsesstrenge med kildestrengen."
+msgstr "Udfylder oversættelsesstrenge med kildestreng."
 
 #: weblate/addons/generate.py:227
 msgid "Fill read-only strings with source"
@@ -1673,11 +1668,11 @@ msgstr "Udfyld skrivebeskyttede strenge med kilde"
 
 #: weblate/addons/generate.py:229
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Udfylder oversættelse af skrivebeskyttede strenge med kildestrengen."
+msgstr "Udfylder oversættelse af skrivebeskyttede strenge med kildestreng."
 
 #: weblate/addons/gettext.py:27
 msgid "Generate MO files"
-msgstr "Generer MO-filer"
+msgstr "Generér MO-filer"
 
 #: weblate/addons/gettext.py:29
 msgid "Automatically generates a MO file for every changed PO file."
@@ -1689,7 +1684,7 @@ msgstr "Opdater LINGUAS-fil"
 
 #: weblate/addons/gettext.py:62
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Opdaterer LINGUAS-filen, når der tilføjes en ny oversættelse."
+msgstr "Opdaterer LINGUAS-filen, når en ny oversættelse tilføjes."
 
 #: weblate/addons/gettext.py:153
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1712,9 +1707,9 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Opdaterer alle po-filer (som konfigureret af \"File mask\") til at matche "
-"POT-filen (som konfigureret af \"Skabelon til nye oversættelser\") ved hjælp "
-"af msgmerge."
+"Opdaterer alle PO-filer (som konfigureret af \"Filmaske\"), så de matcher "
+"POT-filen (som konfigureret af \"Skabelon for nye oversættelser\") med "
+"msgmerge."
 
 #: weblate/addons/gettext.py:315
 msgid "Customize gettext output"
@@ -1723,29 +1718,27 @@ msgstr "Tilpas gettext-output"
 #: weblate/addons/gettext.py:317
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr ""
-"Giver mulighed for tilpasning af opførsel for gettext-output, f.eks. "
-"linjeombrydning."
+msgstr "Tillader tilpasning af gettext-outputadfærd, fx linjeombrydning."
 
 #: weblate/addons/gettext.py:333
 msgid "Contributors in comment"
-msgstr "Bidragydere i kommentar"
+msgstr "Bidragsydere i kommentar"
 
 #: weblate/addons/gettext.py:335
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Opdaterer kommentardelen af po-filoverskriften, så den inkluderer "
-"bidragsnavne og år med bidrag."
+"Opdaterer kommentardelen af PO-filens overskrift for at inkludere "
+"bidragsydernes navne og bidragsår."
 
 #: weblate/addons/git.py:19
 msgid "Squash Git commits"
-msgstr "Squash Git-indsendelser"
+msgstr "Squash Git-commits"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Squash Git-indsendelser inden ændringerne skubbes."
+msgstr "Squash Git-commits inden ændringer pushes."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -1754,9 +1747,7 @@ msgstr "Tilpas JSON-output"
 #: weblate/addons/json.py:15
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
-msgstr ""
-"Giver mulighed for tilpasning af opførsel for JSON-output, f.eks. indrykning "
-"eller sortering."
+msgstr "Tillader justering af JSON-outputadfærd, fx indrykning eller sortering."
 
 #: weblate/addons/properties.py:133
 #, fuzzy
