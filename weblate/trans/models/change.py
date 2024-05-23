@@ -350,6 +350,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_CATEGORY = 69
     ACTION_SAVE_FAILED = 70
     ACTION_NEW_UNIT_REPO = 71
+    ACTION_COMPLETED_COMPONENT = 72
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -487,6 +488,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SAVE_FAILED, gettext_lazy("Saving string failed")),
         # Translators: Name of event in the history
         (ACTION_NEW_UNIT_REPO, gettext_lazy("String added in the repository")),
+        # Translators: Name of event in the history
+        (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translated")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {

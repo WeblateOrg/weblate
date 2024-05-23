@@ -71,6 +71,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "NewTranslationNotificaton",
             "MentionCommentNotificaton",
             "LastAuthorCommentNotificaton",
+            "ComponentTranslatedNotificaton",
+            "LanguageTranslatedNotificaton",
         )
         for notification in notifications:
             # Remove any conflicting notifications
@@ -340,6 +342,31 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(
             User.objects.filter(is_active=True).count(),
             "[Weblate] New announcement at Weblate",
+        )
+
+    def test_notify_component_translated(self) -> None:
+        unit = self.get_unit()
+        unit.change_set.create(
+            user=self.anotheruser,
+            old="",
+            action=Change.ACTION_COMPLETED_COMPONENT,
+        )
+
+        # Check mail - TranslatedComponentNotification
+        self.validate_notifications(
+            1, "[Weblate] All language translations have been completed in Test/Test"
+        )
+
+    def test_notify_language_translated(self) -> None:
+        unit = self.get_unit(language="cs")
+        unit.change_set.create(
+            user=self.anotheruser,
+            details={"language": "de"},
+            action=Change.ACTION_COMPLETE,
+        )
+
+        self.validate_notifications(
+            1, "[Weblate] New language was translated in Test/Test"
         )
 
     def test_notify_alert(self) -> None:

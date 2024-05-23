@@ -685,11 +685,25 @@ def cleanup_project_backup_download() -> None:
 @app.task(trail=False)
 def detect_completed_translation(change_id: int, old_translated: int) -> None:
     change = Change.objects.get(pk=change_id)
-
     translated = change.translation.stats.translated
     if old_translated < translated and translated == change.translation.stats.all:
-        change.translation.change_set.create(
+        change.translation.component.change_set.create(
             action=Change.ACTION_COMPLETE,
+            user=change.user,
+            author=change.author,
+            details={"language": change.translation.language.code},
+        )
+        check_component_completion(change_id)
+
+
+def check_component_completion(change_id: int) -> None:
+    change = Change.objects.get(pk=change_id)
+    component = change.translation.component
+
+    # check if component is fully translated
+    if component.stats.translated == component.stats.all:
+        change.translation.component.change_set.create(
+            action=Change.ACTION_COMPLETED_COMPONENT,
             user=change.user,
             author=change.author,
         )

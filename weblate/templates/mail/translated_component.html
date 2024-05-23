@@ -1,0 +1,17 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+
+<h2>{{ component }}</h2>
+
+<p>
+  {% trans "Congratulations on your completely translated component" %}
+</p>
+
+<div class="line buttons">
+    <a class="button" href="{{ component.get_absolute_url }}#translations">{% trans "View all component translations" %}</a>
+</div>
+
+{% endblock %}

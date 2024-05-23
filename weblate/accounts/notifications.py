@@ -529,6 +529,29 @@ class NewSuggestionNotificaton(Notification):
 
 
 @register_notification
+class LanguageTranslatedNotificaton(Notification):
+    actions = (Change.ACTION_COMPLETE,)
+    verbose = pgettext_lazy("Notification name", "Language was translated")
+    template_name = "translated_language"
+
+    def get_context(
+        self, change=None, subscription=None, extracontext=None, changes=None
+    ):
+        context = super().get_context(change, subscription, extracontext, changes)
+        if change:
+            context["language"] = Language.objects.get(code=change.details["language"])
+        return context
+
+
+@register_notification
+class ComponentTranslatedNotificaton(Notification):
+    actions = (Change.ACTION_COMPLETED_COMPONENT,)
+    verbose = pgettext_lazy("Notification name", "Component was translated")
+    template_name = "translated_component"
+    required_attr = "component"
+
+
+@register_notification
 class NewCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     verbose = pgettext_lazy("Notification name", "Comment was added")
