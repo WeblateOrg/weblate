@@ -21,6 +21,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         python-version:
@@ -29,6 +30,7 @@ jobs:
         - '3.12'
         requirements: [latest]
         database: [postgresql]
+        experimental: [false]
         include:
           # Reduced testing for mysql
         - python-version: 3.11
@@ -46,6 +48,7 @@ jobs:
         - python-version: 3.11
           requirements: edge
           database: postgresql
+          experimental: true
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     env:
       CI_DATABASE: ${{ matrix.database }}
