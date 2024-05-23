@@ -11,6 +11,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Loading of strings with many glossary matches.
+
 **Compatibility**
 
 **Upgrading**
