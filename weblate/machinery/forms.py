@@ -288,7 +288,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ("gpt-4", "GPT-4"),
         ("gpt-3.5-turbo-1106", "Updated GPT 3.5 Turbo"),
         ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
-        ("custom", "Custom model")
+        ("custom", "Custom model"),
     )
     base_url = forms.URLField(
         label=pgettext_lazy(
@@ -296,7 +296,9 @@ class OpenAIMachineryForm(KeyMachineryForm):
             "Translator Base URL",
         ),
         widget=forms.TextInput,
-        help_text=gettext_lazy("Base URL of the OpenAI API, if it differs from the OpenAI default URL"),
+        help_text=gettext_lazy(
+            "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
+        ),
         required=False,
     )
     model = forms.ChoiceField(
