@@ -71,8 +71,10 @@ def get_glossary_units(project, source_language, target_language):
     )
 
 
-def get_glossary_terms(unit: Unit) -> list[Unit]:
+def get_glossary_terms(unit: Unit, *, full: bool = False) -> list[Unit]:
     """Return list of term pairs for an unit."""
+    from weblate.trans.models.component import Component
+
     if unit.glossary_terms is not None:
         return unit.glossary_terms
     translation = unit.translation
@@ -117,13 +119,28 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
             unit.glossary_terms = []
             return []
 
+        base_units = get_glossary_units(project, source_language, language)
+        # Variant is used for variant grouping below, source unit for flags
+        base_units = base_units.select_related("source_unit", "variant")
+
+        if full:
+            # Include full details needed for rendering
+            base_units = base_units.prefetch()
+        else:
+            # Component priority is needed for ordering, file format and flags for flags
+            base_units = base_units.prefetch_related(
+                Prefetch(
+                    "translation__component",
+                    queryset=Component.objects.only(
+                        "priority", "file_format", "check_flags"
+                    ),
+                ),
+            )
+
         units = list(
-            get_glossary_units(project, source_language, language)
-            .prefetch()
-            .filter(
+            base_units.filter(
                 Q(source__lower__md5__in=[MD5(Value(term)) for term in positions]),
             )
-            .select_related("source_unit", "variant")
         )
 
         # Add variants manually. This could be done by adding filtering on
