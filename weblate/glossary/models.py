@@ -93,17 +93,22 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
     source = PLURAL_SEPARATOR.join(parts)
 
     uses_whitespace = source_language.uses_whitespace()
+    boundaries: set[int] = set()
+    if uses_whitespace:
+        # Get list of word boundaries
+        boundaries = {match.span()[0] for match in NON_WORD_RE.finditer(source)}
+        boundaries.add(-1)
+        boundaries.add(len(source))
 
     automaton = project.glossary_automaton
-    positions = defaultdict(list[tuple[int, int]])
+    positions: dict[str, list[tuple[int, int]]] = defaultdict(list)
     # Extract terms present in the source
     with sentry_sdk.start_span(op="glossary.match", description=project.slug):
         for _termno, start, end in automaton.find_matches_as_indexes(
             source, overlapping=True
         ):
             if not uses_whitespace or (
-                (start == 0 or NON_WORD_RE.match(source[start - 1]))
-                and (end >= len(source) or NON_WORD_RE.match(source[end]))
+                (start - 1 in boundaries) and (end in boundaries)
             ):
                 term = source[start:end].lower()
                 positions[term].append((start, end))
