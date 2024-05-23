@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * :ref:`subscriptions` now include strings which need updating.
+* Improved compatibility with password managers.
 
 **Bug fixes**
 
