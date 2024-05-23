@@ -699,7 +699,7 @@ def translate(request, path):
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": unit.translation.component.locked,
-            "glossary": get_glossary_terms(unit),
+            "glossary": get_glossary_terms(unit, full=True),
             "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "screenshots": (
