@@ -38,4 +38,6 @@ else
 fi
 
 # Verify that deps are consistent
-uv pip check
+if [ "${1:-latest}" != edge ] ; then
+    uv pip check
+fi
