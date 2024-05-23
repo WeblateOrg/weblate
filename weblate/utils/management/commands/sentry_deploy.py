@@ -9,7 +9,6 @@ import weblate.utils.version
 from weblate.utils.management.base import BaseCommand
 
 TAGS_API = "https://api.github.com/repos/WeblateOrg/weblate/git/ref/tags/{}"
-RELEASES_API = "https://sentry.weblate.org/api/0/organizations/weblate/releases/"
 
 
 class Command(BaseCommand):
@@ -29,7 +28,8 @@ class Command(BaseCommand):
             ref = response.json()["object"]["sha"]
 
         sentry_auth = {"Authorization": f"Bearer {settings.SENTRY_TOKEN}"}
-        release_url = RELEASES_API + version + "/"
+        sentry_url = settings.SENTRY_RELEASES_API_URL
+        release_url = sentry_url + version + "/"
 
         # Ensure the release is tracked on Sentry
         response = requests.get(release_url, headers=sentry_auth, timeout=1)
@@ -41,7 +41,7 @@ class Command(BaseCommand):
                 "refs": [{"repository": "WeblateOrg/weblate", "commit": ref}],
             }
             response = requests.post(
-                RELEASES_API, json=data, headers=sentry_auth, timeout=1
+                sentry_url, json=data, headers=sentry_auth, timeout=1
             )
             self.stdout.write(f"Created new release {version}")
         response.raise_for_status()
