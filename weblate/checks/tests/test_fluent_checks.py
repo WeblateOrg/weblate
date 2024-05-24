@@ -1728,13 +1728,13 @@ class FluentInnerHTMLCheckTestBase:
             # Can include a "'" in double quotes.
             "before <img data-val1=\"val'ue\" other='ok'/> after",
             # And '"' in single quotes.
-            'before <my-img data-val=\'val"ue\' other="ok"></my-img> after',
+            'before <my-img data-val=\'val"ue\' other="ok"></my-img> after',  # codespell:ignore
             # Empty values.
             "<img data-empty=''/>",
             '<my-img data-empty=""></my-img>',
             # Sub-elements.
             "<p>test<br>sub-<strong><em>el</em>ements</strong></p>",
-            "<div><h1 class='ok'>heading</h1></div> and <div>val<br>ue</div>",
+            "<div><h1 class='ok'>heading</h1></div> and <div>val<br>ue</div>",  # codespell:ignore
             # HTML character references.
             "test&lt;string&AMP;ok",
             "test <img val='x&#x27;\"'> string",
@@ -1745,7 +1745,7 @@ class FluentInnerHTMLCheckTestBase:
             "a>b",
             "a!b",
             "a?b",
-            "test <div>hel/>lo</div>",
+            "test <div>hel/>lo</div>",  # codespell:ignore
             "a'b'c'",
             'a"b"c"',
             # Technically HTML parsing errors, but are ok since these won't lead

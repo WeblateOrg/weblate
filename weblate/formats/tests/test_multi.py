@@ -25,7 +25,7 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
     EXPECTED_PATH = "csv/cs_CZ.csv"
     MATCH = """\n"271681002","Stomach ache (finding)",""\n"""
     BASE = TEST_CSV
-    FIND = "Myocardial infarction (disorder)"
+    FIND = "Myocardial infarction (disorder)"  # codespell:ignore infarction
     FIND_CONTEXT = "22298006"
     FIND_MATCH = join_plural(
         ["Infarctus myocardique", "Infarctus du myocarde", "Infarctus cardiaque"]
@@ -36,19 +36,19 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
 
     EXPECTED_EDIT = [
         '"context","source","target"',
-        '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',
-        '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',
+        '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',  # codespell:ignore infarction
+        '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',  # codespell:ignore infarction
         '"271681002","Stomach ache (finding)","douleur à l\'estomac"',
         '"271681002","Stomach ache (finding)","douleur gastrique"',
     ]
     EXPECTED_ADD = [
         '"context","source","target"',
-        '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',
-        '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',
-        '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',
+        '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',  # codespell:ignore infarction
+        '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',  # codespell:ignore infarction
+        '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',  # codespell:ignore infarction
         '"271681002","Stomach ache (finding)","douleur à l\'estomac"',
         '"271681002","Stomach ache (finding)","douleur gastrique"',
-        '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',
+        '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',  # codespell:ignore infarction
     ]
 
     def assert_same(self, newdata, testdata) -> None:

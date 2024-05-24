@@ -142,11 +142,11 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(True, ("Text.", "Text", ""), "sat")
 
     def test_my(self) -> None:
-        self.do_test(False, ("Te xt", "Te xt", ""), "my")
-        self.do_test(True, ("Te xt", "Te xt။", ""), "my")
+        self.do_test(False, ("Te xt", "Te xt", ""), "my")  # codespell:ignore
+        self.do_test(True, ("Te xt", "Te xt။", ""), "my")  # codespell:ignore
         self.do_test(False, ("Text.", "Text။", ""), "my")
         self.do_test(False, ("Text?", "ပုံဖျက်မလး။", ""), "my")
-        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")
+        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")  # codespell:ignore
 
 
 class EndColonCheckTest(CheckTestCase):
@@ -197,7 +197,7 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_my(self) -> None:
         self.do_test(False, ("Texte", "Texte", ""), "my")
         self.do_test(False, ("Text?", "ပုံဖျက်မလား။", ""), "my")
-        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")  # codespell:ignore
 
     def test_interrobang(self) -> None:
         self.do_test(False, ("string!?", "string?", ""))

@@ -95,7 +95,7 @@ GOOGLEPLAY_CODES = {
     "es": "es-ES",
     "sv": "sv-SE",
     "ta": "ta-IN",
-    "te": "te-IN",
+    "te": "te-IN",  # codespell:ignore te
     "tr": "tr-TR",
 }
 
