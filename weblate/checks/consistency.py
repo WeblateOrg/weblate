@@ -264,7 +264,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
     def should_break_changes(change):
         from weblate.trans.models import Change
 
-        # Stop changes processin on source string change or on
+        # Stop changes processing on source string change or on
         # intentional marking as needing edit
         return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
 
