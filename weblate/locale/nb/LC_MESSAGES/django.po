@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-05-07 15:21+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-05-26 23:23+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.4-rc\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -69,6 +69,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
+"Brukt i versjonskontrollinnsendelser. Adressen vil forbli i kodelageret for "
+"alltid når endringer sendes inn av Weblate."
 
 #: weblate/accounts/forms.py:216 weblate/accounts/models.py:617
 msgid "Public e-mail"
@@ -95,6 +97,8 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Brukt for e-postmerknader og som e-postadresse for innsendelser hvis dette "
+"ikke er satt opp nedenfor."
 
 #: weblate/accounts/forms.py:398
 msgid "Subject"
@@ -466,8 +470,9 @@ msgid "User was disabled by administrator."
 msgstr "Meldingen er sendt til administrator."
 
 #: weblate/accounts/models.py:173
+#, fuzzy
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Halvårlig statusrapportgjennomgang ble vist."
 
 #: weblate/accounts/models.py:174
 #, fuzzy, python-brace-format
@@ -476,9 +481,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Invitert til {site_title} av {username}."
 
 #: weblate/accounts/models.py:175
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Brukeren ble fjernet fra {team}-laget av {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -1354,6 +1359,8 @@ msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Strenger som trenger redigering (fuzzy) er typisk ikke klare til bruk som "
+"oversettelser."
 
 #: weblate/addons/forms.py:77
 msgid "Name of generated file"
@@ -2682,11 +2689,11 @@ msgstr "Skriv inn eksisterende Weblate-kontonavn eller e-postadresse."
 
 #: weblate/auth/models.py:1022
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "Foreslå brukernavn for brukeren. Kan endes senere."
 
 #: weblate/auth/models.py:1031
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "Foreslå fullt navn for brukeren. Kan endres senere."
 
 #: weblate/auth/models.py:1037 weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/user.html:265
@@ -2816,8 +2823,10 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Ustøttet komponentoppsett"
 
 #: weblate/auth/permissions.py:291
+#, fuzzy
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"Kan ikke fjerne terminologioversettelse. Fjern kildestrengen istedenfor."
 
 #: weblate/auth/permissions.py:303 weblate/auth/permissions.py:320
 #, fuzzy
@@ -11288,13 +11297,12 @@ msgstr ""
 "etter rebasering av innsendelser i Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:33
-#, fuzzy
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
 "Weblate-kodelageret mangler noen innsendelser fra oppstrøm. Kanskje det ikke "
-"mottar merkander ved oppdateringer fra fjernkodelageret?"
+"mottar merknader ved oppdateringer av fjernkodelageret?"
 
 #: weblate/templates/trans/alert/common-repo.html:37
 msgid ""
@@ -11633,7 +11641,7 @@ msgstr "Last ned siste endringer som CSV"
 
 #: weblate/templates/trans/change_list.html:25
 msgid "Follow using RSS"
-msgstr "Bruke RSS til å følge med"
+msgstr "Bruk RSS til å følge med"
 
 #: weblate/templates/trans/component_create.html:7
 #: weblate/templates/trans/component_form.html:7
@@ -12533,12 +12541,11 @@ msgid "The uploaded file will be merged with the current translation."
 msgstr "Den opplastede filen vil bli flettet med den gjeldende oversettelsen."
 
 #: weblate/templates/translation.html:394
-#, fuzzy
 msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
 msgstr ""
-"Velg det fra rullegardinsmenyen hvis du ønske rå overskrive allerede "
+"Velg det fra rullegardinsmenyen hvis du ønsker å overskrive allerede "
 "oversatte strenger."
 
 #: weblate/templates/translation.html:420
