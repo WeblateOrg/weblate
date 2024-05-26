@@ -93,6 +93,7 @@ def perform_load(
         changed_template=changed_template,
         from_link=from_link,
         change=change,
+        run_async=False,
     )
 
 
