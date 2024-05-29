@@ -43,7 +43,9 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
     def for_category(self, category):
-        return self.filter(Q(component_id__in=category.all_component_ids) | Q(category=category))
+        return self.filter(
+            Q(component_id__in=category.all_component_ids) | Q(category=category)
+        )
 
     def filter_announcements(self):
         return self.filter(action=Change.ACTION_ANNOUNCEMENT)
