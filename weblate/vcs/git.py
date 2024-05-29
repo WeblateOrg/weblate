@@ -1083,6 +1083,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                         auth=self.get_auth(credentials),
+                        timeout=5,
                     )
                 except (OSError, HTTPError) as error:
                     report_error(cause="request")
