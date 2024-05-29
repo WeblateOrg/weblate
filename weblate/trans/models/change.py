@@ -849,7 +849,7 @@ class Change(models.Model, UserDisplayMixin):
             else:
                 result = mask_email(details["email"])
             if "group" in details:
-                result = "result ({details['group']})"
+                result = f"{result} ({details['group']})"
             return result
         if self.action in {
             self.ACTION_ADDED_LANGUAGE,
