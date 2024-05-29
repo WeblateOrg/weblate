@@ -4,11 +4,9 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('trans', '0017_alter_change_action'),
-        ('trans', '0017_announcement_severity_change_category_and_more'),
+        ("trans", "0017_alter_change_action"),
+        ("trans", "0017_announcement_severity_change_category_and_more"),
     ]
 
-    operations = [
-    ]
+    operations = []
