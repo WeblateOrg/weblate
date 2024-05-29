@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-05-17 04:01+0000\n"
+"PO-Revision-Date: 2024-05-29 15:12+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
 msgid "None"
-msgstr "Tuntematon käyttäjä"
+msgstr "Ei mitään"
 
 #: weblate/accounts/avatar.py:104 weblate/templates/accounts/profile.html:219
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:266
@@ -52,14 +52,11 @@ msgstr "Koko nimi"
 
 #: weblate/accounts/forms.py:117
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Nimeä käytetään myös versionhallinnan sitoumuksissa."
 
 #: weblate/accounts/forms.py:181 weblate/accounts/models.py:623
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
-msgstr "Yhteyshenkilön sähköpostiosoite"
+msgstr "Sitoumuksen sähköposti"
 
 #: weblate/accounts/forms.py:182
 msgid "Use account e-mail address"
@@ -330,16 +327,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Valittua lajittelua ei tueta."
 
 #: weblate/accounts/forms.py:917
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Lisää käyttäjä ryhmään"
+msgstr "Lisää käyttäjä joukkueeseen"
 
 #: weblate/accounts/forms.py:929
-#, fuzzy
-#| msgid "Edit team"
 msgid "Add team"
-msgstr "Muokkaa joukkuetta"
+msgstr "Lisää joukkue"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -449,32 +442,26 @@ msgstr ""
 "tekijöitä."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Pääsy projektiin {project} estettiin"
+msgstr "Pääsy projektiin {project} estettiin."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator."
-msgstr "Viesti ylläpitäjälle on lähetetty."
+msgstr "Järjestelmänvalvoja on ottanut käyttäjän käyttöön."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator."
-msgstr "Viesti ylläpitäjälle on lähetetty."
+msgstr "Järjestelmänvalvoja on poistanut käyttäjän käytöstä."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "{site_title}:een kutsunut {username}."
+msgstr "{username} lisäsi käyttäjän {team}-joukkueeseen."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
@@ -503,10 +490,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Kutsuttu projektiin {project} käyttäjän {username} toimesta."
 
 #: weblate/accounts/models.py:189
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Salasana vaihdettu."
+msgstr "Salasana määritetty."
 
 #: weblate/accounts/models.py:195
 msgid "To restore access to your account, please reset your password."
@@ -775,10 +760,8 @@ msgstr ""
 "%(language)s lisättiin kääntämiisi kieliin. Voit säätää niitä asetuksista."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Käyttöoikeutesi eivät riitä käännösten tallentamiseen."
+msgstr "Anna sähköpostiosoite käännösten lähettämistä varten."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -801,11 +784,9 @@ msgid "Monthly digest"
 msgstr "Kuukausittainen yhteenveto"
 
 #: weblate/accounts/notifications.py:459
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Merkkijono päivitetty tietovarastossa"
+msgstr "Toiminto suoritettiin tietovarastossa"
 
 #: weblate/accounts/notifications.py:470
 msgctxt "Notification name"
@@ -818,9 +799,6 @@ msgid "License was changed"
 msgstr "Lisenssiä muutettiin"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Tapahtui jäsennysvirhe"
@@ -886,18 +864,14 @@ msgid "Announcement was published"
 msgstr "Tiedotus julkaistiin"
 
 #: weblate/accounts/notifications.py:675
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Uusi hälytys käännöskomponentissa %(component)s"
+msgstr "Uusi hälytys ilmestyi komponenttiin"
 
 #: weblate/accounts/notifications.py:711
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Arkistotoimenpide"
+msgstr "Tietovarastotoiminta epäonnistui"
 
 #: weblate/accounts/notifications.py:778
 msgctxt "Notification name"
@@ -1078,16 +1052,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Voit pyytää uutta salasanaa jos olet unohtanut kirjautumistietosi."
 
 #: weblate/accounts/views.py:1241
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
-"Ole hyvä ja yritä rekisteröitymistä uudelleen, vahvistusvarmiste on "
-"todennäköisesti vanhentunut."
+"Yritä rekisteröityä uudelleen vahvistaaksesi henkilöllisyytesi, "
+"vahvistuslinkki on todennäköisesti vanhentunut."
 
 #: weblate/accounts/views.py:1249
 msgid "Could not authenticate due to invalid session state."
@@ -1698,16 +1668,13 @@ msgid "Fills in translation strings with source string."
 msgstr "Täyttää käännöstekstit lähdeteksteillä."
 
 #: weblate/addons/generate.py:227
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Esitäytä käännös lähteellä"
+msgstr "Täytä vain luku -muotoiset merkkijonot lähteellä"
 
 #: weblate/addons/generate.py:229
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Täyttää käännöstekstit lähdeteksteillä."
+msgstr ""
+"Täyttää vain luku -muotoisten merkkijonojen käännöksen lähdemerkkijonolla."
 
 #: weblate/addons/gettext.py:27
 msgid "Generate MO files"
@@ -1832,10 +1799,9 @@ msgstr ""
 "lähdetekstin kopioina."
 
 #: weblate/addons/views.py:116
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Virheellinen lisäosan nimi!"
+msgstr "Virheellinen lisäosan nimi: ”%s”"
 
 #: weblate/addons/views.py:136
 msgid "Add-on installed, please review integration instructions."
@@ -1846,14 +1812,10 @@ msgid "Customize XML output"
 msgstr "Mukauta XML-tulostusta"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
-"Antaa säätää YAML-tulostuksen toimintaa, kuten rivin pituutta ja "
-"rivinvaihtoja."
+"Mahdollistaa XML-tulostuskäyttäytymisen säätämisen, esimerkiksi tagien "
+"sulkemisen."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2192,10 +2154,8 @@ msgstr "Hallinnoi kielimäärittelyjä"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Hallinnoi käyttäjiä"
+msgstr "Hallitse joukkueita"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/users.html:18
@@ -2235,10 +2195,8 @@ msgstr "Hallinnoi laskutusta"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Asennetut lisäosat"
+msgstr "Hallitse koko sivuston lisäosia"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -2405,10 +2363,8 @@ msgid "User invitation e-mail was sent."
 msgstr "Käyttäjäkutsu-sähköposti lähetettiin."
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in groups."
 msgid "Cannot change this on a built-in team."
-msgstr "%s:n muuttaminen on kielletty sisäänrakennetuissa ryhmissä."
+msgstr "Tätä ei voi muuttaa sisäänrakennetussa joukkueessa."
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2436,10 +2392,8 @@ msgid "Roles"
 msgstr "Roolit"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Valitse roolit joilla on pääsy tähän ryhmään."
+msgstr "Valitse tälle joukkueelle myönnetyt roolit."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2491,10 +2445,9 @@ msgid "Components"
 msgstr "Komponentit"
 
 #: weblate/auth/models.py:142
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "Sinulla ei ole oikeuksia luoda komponentteja mihinkään projektiin."
+msgstr ""
+"Tyhjä valinta antaa pääsyn kaikkiin projektin laajuisiin komponentteihin."
 
 #: weblate/auth/models.py:152
 msgid "Language selection"
@@ -2526,16 +2479,12 @@ msgid "Languages"
 msgstr "Kielet"
 
 #: weblate/auth/models.py:164
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Internal Weblate team"
-msgstr "Sisäinen Weblate-ryhmä"
+msgstr "Sisäinen Weblate-joukkue"
 
 #: weblate/auth/models.py:169
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Ylläpitäjät"
+msgstr "Joukkueen järjestelmänvalvojat"
 
 #: weblate/auth/models.py:172
 msgid "The administrator can add or remove users from a team."
@@ -2588,31 +2537,25 @@ msgid "Teams"
 msgstr "Joukkueet"
 
 #: weblate/auth/models.py:395 weblate/auth/models.py:1039
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
-msgstr "Käyttäjälle on myönnetty kaikki näihin ryhmiin sisältyvät oikeudet."
+msgstr ""
+"Käyttäjälle myönnetään kaikki näiden joukkueiden jäsenyyteen sisältyvät "
+"oikeudet."
 
 #: weblate/auth/models.py:811
 msgid "Regular expression for e-mail address"
 msgstr "Säännöllinen lauseke sähköpostiosoitteille"
 
 #: weblate/auth/models.py:815
-#, fuzzy
-#| msgid ""
-#| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
-"Käyttäjät, joiden sähköpostiosoiteet täsmäävät, lisätään tähän ryhmään."
+"Käyttäjät, joiden sähköpostiosoitteet löytyvät vastaavanlaisista, lisätään "
+"tähän joukkueeseen."
 
 #: weblate/auth/models.py:820
-#, fuzzy
-#| msgid "Group to assign"
 msgid "Team to assign"
-msgstr "Liitettävä ryhmä"
+msgstr "Määrättävä joukkue"
 
 #: weblate/auth/models.py:835 weblate/trans/forms.py:1225
 msgid "User to block"
@@ -2734,34 +2677,30 @@ msgid "Add the string to the source language instead."
 msgstr "Lisää teksti lähdekieleen."
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Komponentin asetuksia ei tueta"
+msgstr "Ehdota käyttäjälle käyttäjätunnusta. Se voidaan muuttaa myöhemmin."
 
 #: weblate/auth/permissions.py:291
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"Terminologian käännöstä ei voi poistaa, poista sen sijaan lähdemerkkijono."
 
 #: weblate/auth/permissions.py:303 weblate/auth/permissions.py:320
 msgid "File format does not support this."
 msgstr "Tiedostomuoto ei tue tätä."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in groups."
 msgid "Cannot remove built-in team!"
-msgstr "%s:n muuttaminen on kielletty sisäänrakennetuissa ryhmissä."
+msgstr "Sisäänrakennettua joukkuetta ei voi poistaa!"
 
 #: weblate/auth/views.py:180
 msgid "User invitation was removed."
 msgstr "Käyttäjän kutsu poistettiin."
 
 #: weblate/auth/views.py:217
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "Lähetä uudelleen käyttäjälle kutsu sähköpostitse"
+msgstr "Hyväksytty kutsu %s-joukkueeseen."
 
 #: weblate/billing/admin.py:73 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:120
@@ -2863,10 +2802,8 @@ msgstr[0] "Sisältää %d projektin"
 msgstr[1] "Sisältää %d projektia"
 
 #: weblate/billing/models.py:469
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Projektin verkkosivusto"
+msgstr "Projektin verkkosivusto puuttuu!"
 
 #: weblate/billing/models.py:477
 #, python-format
@@ -2984,16 +2921,12 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Lähdeteksti ja käännös eivät molemmat pääty huutomerkkiin"
 
 #: weblate/checks/chars.py:302
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang"
-msgstr "Ristiriitaiset \\n:t"
+msgstr "Yhteensopimaton interrobang"
 
 #: weblate/checks/chars.py:304
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an interrobang expression"
-msgstr "Lähde ja käännös eivät molemmat pääty pistekolmikkoon"
+msgstr "Lähde ja käännös eivät kumpikaan pääty interrobang-lausekkeeseen"
 
 #: weblate/checks/chars.py:318
 msgid "Mismatched ellipsis"
@@ -3181,10 +3114,8 @@ msgid "Ignore all checks"
 msgstr "Jätä huomiotta kaikki tarkistukset"
 
 #: weblate/checks/flags.py:50
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Use case insensitive placeholders"
-msgstr "Prosenttipaikanvaraajat"
+msgstr "Käytä paikkamerkkejä, joissa kirjainkoolla ei ole merkitystä"
 
 #: weblate/checks/flags.py:52 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:18
@@ -4227,11 +4158,11 @@ msgstr "Joomla-kielitiedosto"
 
 #: weblate/formats/ttkit.py:1367
 msgid "GWT properties (UTF-8)"
-msgstr "GWT properties (UTF-8)"
+msgstr "GWT-ominaisuudet (UTF-8)"
 
 #: weblate/formats/ttkit.py:1377
 msgid "GWT properties (ISO-8859-1)"
-msgstr "GWT properties (ISO-8859-1)"
+msgstr "GWT-ominaisuudet (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1383
 msgid "PHP strings"
@@ -4907,11 +4838,9 @@ msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
 
 #: weblate/machinery/forms.py:165
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Tunnistautuminen peruttu."
+msgstr "Todennuspalvelualue"
 
 #: weblate/machinery/forms.py:170
 msgctxt "Automatic suggestion service configuration"
@@ -5694,7 +5623,7 @@ msgstr ""
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "Vahvistuslinkki vanhenee %(count)s tunnin kuluttua."
+msgstr[0] "Vahvistuslinkki vanhenee tunnin kuluttua."
 msgstr[1] "Vahvistuslinkki vanhenee %(count)s tunnin kuluttua."
 
 #: weblate/templates/accounts/email-sent.html:41
@@ -5710,6 +5639,8 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
+"Sähköposti ei ole välitöntä tekniikkaa. Odota vahvistussähköpostia vähintään "
+"30 minuuttia ennen kuin kirjoitat meille ongelmista."
 
 #: weblate/templates/accounts/email-sent.html:52
 #: weblate/templates/mail/shared-registration.html:27
@@ -8827,7 +8758,7 @@ msgstr "Jäsennysvirhe komponentissa %(component)s"
 #: weblate/templates/mail/pending_suggestions.html:10
 #: weblate/trans/filter.py:29 weblate/trans/filter.py:126
 msgid "Strings with suggestions"
-msgstr "Tekstit, joihin on ehdotuksia"
+msgstr "Merkkijonot, joihin on ehdotuksia"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, python-format
@@ -10111,7 +10042,7 @@ msgstr "Epäonnistuneet tarkastukset"
 #: weblate/templates/snippets/info.html:375
 msgctxt "Number of strings"
 msgid "Strings with suggestions"
-msgstr "Tekstit, joihin on ehdotuksia"
+msgstr "Merkkijonot, joihin on ehdotuksia"
 
 #: weblate/templates/snippets/info.html:384
 msgctxt "Number of strings"
@@ -10212,10 +10143,8 @@ msgid "The project has had active development for at least three months."
 msgstr "Projektia on kehitetty aktiivisesti vähintään kolme kuukautta."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "Täyttämättömät ohjeet yhteisön lokalisoinnin tarkistuslistasta:"
+msgstr "Tarkista ohjeet yhteisön lokalisoinnin tarkistuslistasta."
 
 #: weblate/templates/snippets/list-objects.html:35
 msgid "Add project"
@@ -10502,7 +10431,7 @@ msgstr "Automaattitarkistuksen hylkäämät tekstit"
 
 #: weblate/templates/snippets/query-builder.html:96
 msgid "Strings with suggestions from others"
-msgstr "Tekstit, joihin on ehdotuksia"
+msgstr "Meerkkijonot, joihin on ehdotuksia muilta"
 
 #: weblate/templates/snippets/query-builder.html:101 weblate/trans/filter.py:54
 #: weblate/trans/filter.py:131
@@ -11184,7 +11113,7 @@ msgstr "Varmuuskopio luodaan taustalla."
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] "Varmuuskopiot poistetaan %(keep_days)s päivän jälkeen."
+msgstr[0] "Varmuuskopiot poistetaan päivän jälkeen."
 msgstr[1] "Varmuuskopiot poistetaan %(keep_days)s päivän jälkeen."
 
 #: weblate/templates/trans/change_list.html:11
@@ -15249,7 +15178,7 @@ msgstr "Komponentti on nyt avoinna käännöspäivityksille."
 
 #: weblate/trans/views/lock.py:54
 msgid "All components are now open for translation updates."
-msgstr "Kaikki komponentit ovat nyt avoinna kääntämistä varten."
+msgstr "Kaikki komponentit ovat nyt avoimia käännöspäivityksille."
 
 #: weblate/trans/views/search.py:109
 msgid "Search and replace completed, no strings were updated."
@@ -15686,10 +15615,8 @@ msgid "This will push changes to the upstream Git repository."
 msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
 
 #: weblate/vcs/git.py:534
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible cleanups:"
-msgstr "Mahdollinen kokoonpano"
+msgstr "Mahdollisia siivouksia:"
 
 #: weblate/vcs/git.py:542
 msgid "This will push changes to Gerrit for a review."
