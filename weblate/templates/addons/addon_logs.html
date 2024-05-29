@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+{% load permissions %}
+
+{% block breadcrumbs %}
+{% if object %}
+    {% path_object_breadcrumbs object %}
+    <li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
+{% else %}
+    <li><a href="{% url 'manage-addons' %}">{% trans "Add-ons" %}</a></li>
+{% endif %}
+<li>
+{% if instance %}
+<a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
+{% else %}
+{{ addon.verbose }}
+{% endif %}
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% trans "Add-on Activity Logs" %}</h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="30">{% trans "Status" %}</th>
+          <th>{% trans "Event" %}</th>
+          <th>{% trans "Details" %}</th>
+          <th>{% trans "Timestamp" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in addon_activity_log %}
+          <tr>
+            <td>
+              {% if log.details.error_occured %}
+                <!-- This is a warning sign -->
+                <span class="text-danger">&#9888;</span>
+              {% else %}
+                <!-- This is a green tick -->
+                <span class="text-success">&#10004;</span>
+              {% endif %}
+            </td>
+            <td>
+              {{ log.get_event_display }}
+            </td>
+            <td>{{ log.details.result }}</td>
+            <td>{{ log.created|date:"Y-m-d H:i" }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4">{% trans "No add-on activity logs available." %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    {% if addon_activity_log.has_other_pages %}
+      <div class="panel-footer">
+        <div class="text-center">
+          <nav>
+            <ul class="pagination">
+              {% if addon_activity_log.has_previous %}
+                <li><a href="?page={{ addon_activity_log.previous_page_number }}">&laquo; {% trans "Previous" %}</a></li>
+              {% endif %}
+              {% if addon_activity_log.has_next %}
+                <li><a href="?page={{ addon_activity_log.next_page_number }}">{% trans "Next" %} &raquo;</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  {% endblock %}

@@ -197,6 +197,11 @@ real_patterns = [
         name="addon-detail",
     ),
     path(
+        "addon/<int:pk>/logs/",
+        weblate.addons.views.AddonLogs.as_view(),
+        name="addon-logs",
+    ),
+    path(
         "access/<name:project>/",
         weblate.trans.views.acl.manage_access,
         name="manage-access",

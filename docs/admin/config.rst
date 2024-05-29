@@ -2002,7 +2002,17 @@ example:
 .. seealso::
 
     :ref:`addons`,
-    :setting:`DEFAULT_ADDONS`
+    :setting:`DEFAULT_ADDONS`,
+    :setting:`ADDON_ACTIVITY_LOG_EXPIRY`
+
+.. setting:: ADDON_ACTIVITY_LOG_EXPIRY
+
+ADDON_ACTIVITY_LOG_EXPIRY
+-------------------------
+
+.. versionadded:: 5.6
+
+Configures how long activity logs for add-ons are kept. Defaults to 180 days.
 
 .. setting:: WEBLATE_EXPORTERS
 

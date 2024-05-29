@@ -6,12 +6,12 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext
-from django.views.generic import ListView, UpdateView
+from django.views.generic import DetailView, ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Change, Component, Project
 from weblate.utils import messages
-from weblate.utils.views import PathViewMixin
+from weblate.utils.views import PathViewMixin, get_paginator
 
 
 class AddonList(PathViewMixin, ListView):
@@ -155,8 +155,27 @@ class AddonList(PathViewMixin, ListView):
         )
 
 
-class AddonDetail(UpdateView):
+class BaseAddonView(DetailView):
     model = Addon
+
+    def get_object(self):
+        obj = super().get_object()
+        if obj.component and not self.request.user.has_perm(
+            "component.edit", obj.component
+        ):
+            raise PermissionDenied("Can not edit component")
+        if obj.project and not self.request.user.has_perm("project.edit", obj.project):
+            raise PermissionDenied("Can not edit project")
+        if (
+            obj.project is None
+            and obj.component is None
+            and not self.request.user.has_perm("management.addons")
+        ):
+            raise PermissionDenied("Can not manage add-ons")
+        return obj
+
+
+class AddonDetail(BaseAddonView, UpdateView):
     template_name_suffix = "_detail"
 
     def get_form(self, form_class=None):
@@ -180,22 +199,6 @@ class AddonDetail(UpdateView):
             return reverse("manage-addons")
         return reverse("addons", kwargs={"path": target.get_url_path()})
 
-    def get_object(self):
-        obj = super().get_object()
-        if obj.component and not self.request.user.has_perm(
-            "component.edit", obj.component
-        ):
-            raise PermissionDenied("Can not edit component")
-        if obj.project and not self.request.user.has_perm("project.edit", obj.project):
-            raise PermissionDenied("Can not edit project")
-        if (
-            obj.project is None
-            and obj.component is None
-            and not self.request.user.has_perm("management.addons")
-        ):
-            raise PermissionDenied("Can not manage add-ons")
-        return obj
-
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
         obj.acting_user = request.user
@@ -206,3 +209,21 @@ class AddonDetail(UpdateView):
                 return redirect(reverse("manage-addons"))
             return redirect(reverse("addons", kwargs={"path": target.get_url_path()}))
         return super().post(request, *args, **kwargs)
+
+
+class AddonLogs(BaseAddonView):
+    template_name_suffix = "_logs"
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        if self.object.project:
+            result["object"] = self.object.project
+        else:
+            result["object"] = self.object.component
+        result["instance"] = self.object
+        result["addon"] = self.object.addon
+        result["addon_activity_log"] = get_paginator(
+            self.request,
+            self.object.get_addon_activity_logs(),
+        )
+        return result
