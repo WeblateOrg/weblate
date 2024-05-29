@@ -96,6 +96,7 @@
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
       {% if user_can_edit_component %}
+      <li><a href="{% url 'create-component' %}?component={{ object.id }}#existing">{% trans "Duplicate Component" %}</li>
       <li><a href="{% url 'guide' path=object.get_url_path %}">{% trans "Community localization checklist" %}</a></li>
       <li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
       {% endif %}

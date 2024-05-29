@@ -432,6 +432,7 @@ class CreateComponentSelection(CreateComponent):
 
     components: ComponentQuerySet
     origin = None
+    duplicate_existing_component = None
 
     @cached_property
     def branch_data(self):
@@ -463,6 +464,16 @@ class CreateComponentSelection(CreateComponent):
             self.components = self.components.filter(project__pk=self.selected_project)
         self.origin = request.POST.get("origin")
 
+        try:
+            self.duplicate_existing_component = int(request.GET.get("component"))
+        except (ValueError, TypeError):
+            self.duplicate_existing_component = None
+        self.initial = {}
+        if self.duplicate_existing_component:
+            self.initial["component"] = Component.objects.get(
+                pk=self.duplicate_existing_component
+            )
+
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
         kwargs["components"] = self.components
@@ -493,6 +504,10 @@ class CreateComponentSelection(CreateComponent):
             ).order_project()
             form.branch_data = self.branch_data
         elif isinstance(form, ComponentSelectForm):
+            if self.duplicate_existing_component:
+                self.components |= Component.objects.filter(
+                    pk=self.duplicate_existing_component
+                )
             form.fields["component"].queryset = self.components
         return form
 
@@ -518,12 +533,22 @@ class CreateComponentSelection(CreateComponent):
         component = form.cleaned_data["component"]
         if self.origin == "existing":
             return self.redirect_create(
-                repo=component.get_repo_link_url(),
+                repo=component.repo or component.get_repo_link_url(),
                 project=component.project.pk,
+                category=component.category.pk if component.category else "",
                 name=form.cleaned_data["name"],
                 slug=form.cleaned_data["slug"],
                 vcs=component.vcs,
                 source_language=component.source_language.pk,
+                license=component.license,
+                agreement=component.agreement,
+                merge_style=component.merge_style,
+                commit_message=component.commit_message,
+                add_message=component.add_message,
+                delete_message=component.delete_message,
+                merge_message=component.merge_message,
+                addon_message=component.addon_message,
+                pull_message=component.pull_message,
             )
         if self.origin == "branch":
             form.instance.save()
