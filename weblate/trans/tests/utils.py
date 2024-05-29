@@ -24,7 +24,7 @@ from django.utils.functional import cached_property
 from weblate.auth.models import User
 from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.utils.files import remove_tree
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -167,6 +167,12 @@ class RepoTestMixin:
         self.addCleanup(remove_tree, project.full_path, True)
         return project
 
+    def create_category(self, project, **kwargs):
+        """Create test category."""
+        return Category.objects.create(
+            name="Test", slug="test", project=project, **kwargs
+        )
+
     def format_local_path(self, path):
         """Format path for local access to the repository."""
         if sys.platform != "win32":
@@ -188,6 +194,8 @@ class RepoTestMixin:
             raise SkipTest(f"File format {file_format} is not supported!")
         if "project" not in kwargs:
             kwargs["project"] = self.create_project()
+        if "category" not in kwargs:
+            kwargs["category"] = self.create_category(project=kwargs["project"])
 
         repo = push = self.format_local_path(getattr(self, f"{vcs}_repo_path"))
         if vcs not in VCS_REGISTRY:

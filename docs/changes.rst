@@ -11,6 +11,7 @@ Not yet released.
 
 * :ref:`subscriptions` now include strings which need updating.
 * Improved compatibility with password managers.
+* :ref:`trans` Clone more settings automatically during duplication of existing component.
 
 **Bug fixes**
 
