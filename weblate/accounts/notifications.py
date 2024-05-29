@@ -500,6 +500,7 @@ class NewStringNotificaton(Notification):
     actions = (
         Change.ACTION_NEW_UNIT,
         Change.ACTION_NEW_UNIT_REPO,
+        Change.ACTION_NEW_UNIT_UPLOAD,
         Change.ACTION_MARKED_EDIT,
         Change.ACTION_SOURCE_CHANGE,
     )

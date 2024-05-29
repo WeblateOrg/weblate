@@ -355,6 +355,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_CATEGORY = 69
     ACTION_SAVE_FAILED = 70
     ACTION_NEW_UNIT_REPO = 71
+    ACTION_STRING_UPLOAD_UPDATE = 72
+    ACTION_NEW_UNIT_UPLOAD = 73
+    ACTION_SOURCE_UPLOAD = 74
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -492,6 +495,12 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SAVE_FAILED, gettext_lazy("Saving string failed")),
         # Translators: Name of event in the history
         (ACTION_NEW_UNIT_REPO, gettext_lazy("String added in the repository")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_UPLOAD_UPDATE, gettext_lazy("String updated in the upload")),
+        # Translators: Name of event in the history
+        (ACTION_NEW_UNIT_UPLOAD, gettext_lazy("String added in the upload")),
+        # Translators: Name of event in the history
+        (ACTION_SOURCE_UPLOAD, gettext_lazy("Translation updated by source upload")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -511,6 +520,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
         ACTION_STRING_REPO_UPDATE,
+        ACTION_STRING_UPLOAD_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -554,6 +564,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW_UNIT,
         ACTION_STRING_REPO_UPDATE,
         ACTION_NEW_UNIT_REPO,
+        ACTION_STRING_UPLOAD_UPDATE,
+        ACTION_NEW_UNIT_UPLOAD,
     }
 
     # Actions indicating a repository merge failure
