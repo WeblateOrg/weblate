@@ -499,7 +499,8 @@ function initHighlight(root) {
        * to apply first. The code is borrowed from Prism.util.clone.
        */
       for (const key in languageMode) {
-        if (Object.hasOwn(languageMode, key)) {
+        // biome-ignore lint/suspicious/noPrototypeBuiltins: Firefox < 92 compatibility, Object.hasOwn(languageMode, key) should be used instead
+        if (languageMode.hasOwnProperty(key)) {
           extension[key] = Prism.util.clone(languageMode[key]);
         }
       }
