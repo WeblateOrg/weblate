@@ -455,6 +455,7 @@ def show_category(request, obj):
     all_changes = (
         Change.objects.for_category(obj).filter_components(request.user).prefetch()
     )
+
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
@@ -496,6 +497,9 @@ def show_category(request, obj):
             "last_announcements": last_announcements,
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(user, initial=SearchForm.get_initial(request)),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
+            ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj
             ),

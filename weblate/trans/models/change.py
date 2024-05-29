@@ -43,7 +43,9 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
     def for_category(self, category):
-        return self.filter(component_id__in=category.all_component_ids)
+        return self.filter(
+            Q(component_id__in=category.all_component_ids) | Q(category=category)
+        )
 
     def filter_announcements(self):
         return self.filter(action=Change.ACTION_ANNOUNCEMENT)
@@ -247,6 +249,7 @@ class ChangeManager(models.Manager["Change"]):
         translation=None,
         component=None,
         project=None,
+        category=None,
         language=None,
     ):
         """
@@ -273,6 +276,8 @@ class ChangeManager(models.Manager["Change"]):
             result = project.change_set.filter_components(user)
             if language is not None:
                 result = result.filter(language=language)
+            if category is not None:
+                result = result.filter(category=category)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
@@ -583,6 +588,9 @@ class Change(models.Model, UserDisplayMixin):
     )
     project = models.ForeignKey(
         "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
+    )
+    category = models.ForeignKey(
+        "trans.Category", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     component = models.ForeignKey(
         "trans.Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
