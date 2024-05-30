@@ -186,6 +186,7 @@ class PluralTextarea(forms.Textarea):
 
     def __init__(self, *args, **kwargs) -> None:
         self.profile = None
+        self.is_source_plural = None
         super().__init__(*args, **kwargs)
 
     def get_rtl_toolbar(self, fieldname):
@@ -299,9 +300,14 @@ class PluralTextarea(forms.Textarea):
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
         unit = value
-        values = unit.get_target_plurals()
         translation = unit.translation
         lang_label = lang = translation.language
+        if self.is_source_plural:
+            plurals = ['' for _ in range(lang.plural.number)]
+            values = plurals
+        else:
+            plurals = unit.get_source_plurals()
+            values = unit.get_target_plurals()
         if "zen-mode" in self.attrs:
             lang_label = format_html(
                 '<a class="language" href="{}">{}</a>',
@@ -310,7 +316,6 @@ class PluralTextarea(forms.Textarea):
             )
         plural = translation.plural
         tabindex = self.attrs["tabindex"]
-        plurals = unit.get_source_plurals()
         placeables = set()
         for text in plurals:
             placeables.update(hl[2] for hl in highlight_string(text, unit))
@@ -2406,13 +2411,15 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
+        self, translation, user, tabindex: int | None = None,
+        is_source_plural: bool | None = None, *args, **kwargs
     ) -> None:
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["context"].label = translation.component.context_label
         self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
+        self.fields["source"].widget.is_source_plural = is_source_plural
         self.fields["source"].initial = Unit(
             translation=translation.component.source_translation, id_hash=0
         )
@@ -2476,7 +2483,7 @@ class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
     pass
 
 
-def get_new_unit_form(translation, user, data=None, initial=None):
+def get_new_unit_form(translation, user, data=None, initial=None, is_source_plural=None):
     if translation.component.has_template():
         return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
     if translation.component.is_glossary:
@@ -2488,7 +2495,10 @@ def get_new_unit_form(translation, user, data=None, initial=None):
             translation, user, data=data, initial=initial
         )
     if translation.is_source:
-        return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
+        return NewBilingualSourceUnitForm(
+            translation, user, data=data, initial=initial,
+            is_source_plural=is_source_plural
+        )
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
 
 
