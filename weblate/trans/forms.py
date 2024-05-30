@@ -303,7 +303,7 @@ class PluralTextarea(forms.Textarea):
         translation = unit.translation
         lang_label = lang = translation.language
         if self.is_source_plural:
-            plurals = ['' for _ in range(lang.plural.number)]
+            plurals = ["" for _ in range(lang.plural.number)]
             values = plurals
         else:
             plurals = unit.get_source_plurals()
@@ -2411,8 +2411,13 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None,
-        is_source_plural: bool | None = None, *args, **kwargs
+        self,
+        translation,
+        user,
+        tabindex: int | None = None,
+        is_source_plural: bool | None = None,
+        *args,
+        **kwargs,
     ) -> None:
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
@@ -2483,7 +2488,9 @@ class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
     pass
 
 
-def get_new_unit_form(translation, user, data=None, initial=None, is_source_plural=None):
+def get_new_unit_form(
+    translation, user, data=None, initial=None, is_source_plural=None
+):
     if translation.component.has_template():
         return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
     if translation.component.is_glossary:
@@ -2496,8 +2503,11 @@ def get_new_unit_form(translation, user, data=None, initial=None, is_source_plur
         )
     if translation.is_source:
         return NewBilingualSourceUnitForm(
-            translation, user, data=data, initial=initial,
-            is_source_plural=is_source_plural
+            translation,
+            user,
+            data=data,
+            initial=initial,
+            is_source_plural=is_source_plural,
         )
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
 
