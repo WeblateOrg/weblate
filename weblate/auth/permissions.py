@@ -47,11 +47,11 @@ def register_perm(*perms):
     return wrap_perm
 
 
-def check_global_permission(user, permission):
+def check_global_permission(user, permission: str) -> bool:
     """Check whether user has a global permission."""
     if user.is_superuser:
         return True
-    return user.groups.filter(roles__permissions__codename=permission).exists()
+    return permission in user.global_permissions
 
 
 def check_permission(user, permission, obj):
