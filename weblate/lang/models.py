@@ -664,7 +664,7 @@ class Language(models.Model, CacheKeyMixin):
         return self.base_code in vals
 
     def get_source_plurals(self):
-        """Returns initial number of source fields for pluralized new string."""
+        """Return blank source fields for pluralized new string."""
         values = ["" for _ in range(self.plural.number)]
         return values
 
