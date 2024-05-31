@@ -180,7 +180,11 @@ class EditTest(ViewTestCase):
         self.component.commit_pending("test", None)
 
     def add_plural_unit(self, key):
-        args = {"context": key, "source_0": "%(count)s test", "source_1": "%(count)s tests"}
+        args = {
+            "context": key,
+            "source_0": "%(count)s test",
+            "source_1": "%(count)s tests",
+        }
         language = "en"
 
         return self.client.post(
@@ -216,7 +220,7 @@ class EditTest(ViewTestCase):
 
         # Duplicate string
         response = self.add_plural_unit("test-plural")
-        print('[TEST] response: {}'.format(response.content))
+        print(f"[TEST] response: {response.content}")
         self.assertContains(response, "This string seems to already exist.")
 
         self.component.commit_pending("test", None)
