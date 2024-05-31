@@ -220,7 +220,6 @@ class EditTest(ViewTestCase):
 
         # Duplicate string
         response = self.add_plural_unit("test-plural")
-        print(f"[TEST] response: {response.content}")
         self.assertContains(response, "This string seems to already exist.")
 
         self.component.commit_pending("test", None)
