@@ -216,6 +216,9 @@ class EditTest(ViewTestCase):
         if not self.component.file_format_cls.can_add_unit:
             self.assertEqual(response.status_code, 403)
             return
+        if not self.component.file_format_cls.supports_plural:
+            self.assertContains(response, "Plurals are not supported by the file format")
+            return
         self.assertContains(response, "New string has been added")
 
         # Duplicate string
