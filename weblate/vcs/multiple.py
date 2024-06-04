@@ -1,3 +1,7 @@
+# Copyright © Maciej Olko <maciej.olko@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from django.utils.translation import gettext_lazy
 
 from weblate.vcs.base import Repository
