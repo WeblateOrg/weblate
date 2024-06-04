@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-06-02 06:22+0000\n"
+"PO-Revision-Date: 2024-06-04 10:29+0000\n"
 "Last-Translator: hugoalh <hugoalh@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hant/>\n"
@@ -111,7 +111,7 @@ msgstr "只有選定的使用者看得到。"
 #: ../../admin/access.rst:46
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
-msgstr ""
+msgstr "**對於根本不應該公開曝光的專案選擇此選項。**"
 
 #: ../../admin/access.rst:58 ../../admin/config.rst:494
 msgid ":guilabel:`Custom`"
@@ -119,11 +119,11 @@ msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:54
 msgid "Not available on Hosted Weblate."
-msgstr ""
+msgstr "在託管的 Weblate 上無法使用。"
 
 #: ../../admin/access.rst:56
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "你必須使用 :ref:`custom-acl` 設定所有權限。"
 
 #: ../../admin/access.rst:58
 msgid ""
@@ -330,6 +330,8 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"新增現有使用者將向他們發送確認邀請。透過 :setting:`REGISTRATION_OPEN`，管理員"
+"還可以使用電子郵件邀請新使用者。受邀的使用者必須完成註冊程序才能存取該專案。"
 
 #: ../../admin/access.rst:160
 #, fuzzy
@@ -352,17 +354,10 @@ msgstr ""
 "(如，`Administration` 組成員資格) 就足夠了。"
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
-msgstr ""
-"如果被邀請的使用者錯過了邀請的有效性，則可以在密碼重設表單中使用被邀請的電子"
-"郵件地址設定密碼，因為已經建立了帳戶。"
+msgstr "如果受邀的使用者錯過了邀請的有效期，則必須建立新的邀請。"
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -376,7 +371,7 @@ msgstr ""
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
-msgstr ""
+msgstr "Weblate 現在不會自動建立帳戶或將使用者新增至團隊。這只會在使用者確認後完成。"
 
 #: ../../admin/access.rst:180
 msgid "Blocking users"
@@ -434,10 +429,8 @@ msgstr ""
 "`Administration` 團隊。"
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Simple access control"
 msgid "Site-wide access control"
-msgstr "簡單的存取控制"
+msgstr "全站存取控制"
 
 #: ../../snippets/not-hosted.rst:3
 msgid "This feature is unavailable on Hosted Weblate."
@@ -771,7 +764,7 @@ msgstr ""
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
-msgstr ""
+msgstr "使用龐大的組件列表可能會對效能產生影響，請考慮透過專案提供存取權限。"
 
 #: ../../admin/access.rst:374
 msgid ""
@@ -907,6 +900,9 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"該功能最常見的用例是將所有新使用者指派給某個預設團隊。此行為用於預設的 "
+"`Users` 和 `Guest` 團隊（請參閱 :ref:`default-teams`）。使用常規表達式 "
+"``^.*$`` 來匹配所有使用者。"
 
 #: ../../admin/access.rst:434
 #, fuzzy
@@ -953,36 +949,24 @@ msgid "Default teams and roles"
 msgstr "預設團隊和角色"
 
 #: ../../admin/access.rst:453
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
-msgstr "安裝後，建立預設群組（請參閱:ref:“預設群組”）。"
+msgstr "安裝後，將建立一組預設的團隊（請參閱 :ref:`default-teams`）。"
 
 #: ../../admin/access.rst:455
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"這些角色和組是在安裝時建立的。升級時，內建角色始終透過資料庫遷移保持最新狀"
-"態。您實際上無法更改它們，如果要定義自己的權限集，請定義一個新角色。"
+"這些角色和團隊是在安裝時建立的。升級時，內建角色總是透過資料庫遷移以保持最新"
+"。你實際上無法變更它們，如果你想定義自己的權限集，請定義一個新角色。"
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Site wide privileges"
 msgid "List of privileges"
-msgstr "全網站範圍的特權"
+msgstr "特權列表"
 
 #: ../../admin/access.rst:469 ../../admin/optionals.rst:266
 #: ../../user/checks.rst:0
@@ -994,10 +978,8 @@ msgid "Permission"
 msgstr "權限"
 
 #: ../../admin/access.rst:469
-#, fuzzy
-#| msgid "Built-in add-ons"
 msgid "Built-in roles"
-msgstr "內建附加元件"
+msgstr "內建角色"
 
 #: ../../admin/access.rst:471
 msgid "Billing (see :ref:`billing`)"
@@ -1008,10 +990,8 @@ msgid "View billing info"
 msgstr "檢視帳單資訊"
 
 #: ../../admin/access.rst:471
-#, fuzzy
-#| msgid "View billing info [`Administration`, `Billing`]"
 msgid ":guilabel:`Administration`, :guilabel:`Billing`"
-msgstr "檢視帳單資訊[`Administration`, `Billing`]"
+msgstr ":guilabel:`Administration`, :guilabel:`Billing`"
 
 #: ../../admin/access.rst:473 ../../api.rst:2178
 msgid "Changes"
@@ -1041,14 +1021,12 @@ msgstr "張貼評註"
 #: ../../admin/access.rst:517 ../../admin/access.rst:519
 #: ../../admin/access.rst:527 ../../admin/access.rst:533
 #: ../../admin/access.rst:547 ../../admin/access.rst:549
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Power user`, `Review strings`, "
-#| "`Translate`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
-msgstr "`管理權限`、`編輯來源`、`超級使用者`、`審核字串`、`翻譯`"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, "
+":guilabel:`Review strings`, :guilabel:`Translate`"
 
 #: ../../admin/access.rst:477
 msgid "Delete comment"
@@ -1060,10 +1038,8 @@ msgstr "解決評註"
 
 #: ../../admin/access.rst:479 ../../admin/access.rst:521
 #: ../../admin/access.rst:523
-#, fuzzy
-#| msgid "`Administration`, `Review strings`"
 msgid ":guilabel:`Administration`, :guilabel:`Review strings`"
-msgstr "`管理權限`、`審核字串`"
+msgstr ":guilabel:`Administration`, :guilabel:`Review strings`"
 
 #: ../../admin/access.rst:481 ../../admin/addons.rst:56
 msgid "Component"
@@ -1080,10 +1056,8 @@ msgstr "鎖定組件，防止翻譯"
 #: ../../admin/access.rst:483 ../../admin/access.rst:553
 #: ../../admin/access.rst:555 ../../admin/access.rst:557
 #: ../../admin/access.rst:561
-#, fuzzy
-#| msgid "`Administration`, `Manage repository`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage repository`"
-msgstr "`系統管理`、`管理儲存庫`"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage repository`"
 
 #: ../../admin/access.rst:485
 msgid "Add glossary entry"
@@ -1091,12 +1065,12 @@ msgstr "增加詞彙表條目"
 
 #: ../../admin/access.rst:485 ../../admin/access.rst:487
 #: ../../admin/access.rst:489 ../../admin/access.rst:491
-#, fuzzy
-#| msgid "`Administration`, `Manage glossary`, `Power user`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
 "user`"
-msgstr "`Administration`, `Manage glossary`, `Power user"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
+"user`"
 
 #: ../../admin/access.rst:487
 msgid "Edit glossary entry"
@@ -1128,9 +1102,8 @@ msgid "Edit translation memory"
 msgstr "編輯翻譯記憶"
 
 #: ../../admin/access.rst:495 ../../admin/access.rst:497
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
-msgstr "刪除現有翻譯"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 
 #: ../../admin/access.rst:497
 msgid "Delete translation memory"
@@ -1162,9 +1135,8 @@ msgstr "加入畫面快照"
 
 #: ../../admin/access.rst:505 ../../admin/access.rst:507
 #: ../../admin/access.rst:509
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr "新增截圖"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
 
 #: ../../admin/access.rst:507
 msgid "Edit screenshot"
@@ -1183,10 +1155,8 @@ msgid "Edit additional string info"
 msgstr "編輯額外字串資訊"
 
 #: ../../admin/access.rst:511
-#, fuzzy
-#| msgid "Edit string when suggestions are enforced"
 msgid ":guilabel:`Administration`, :guilabel:`Edit source`"
-msgstr "當施行建議時編輯字串"
+msgstr ":guilabel:`Administration`, :guilabel:`Edit source`"
 
 #: ../../admin/access.rst:513
 msgid "Strings"
@@ -1221,11 +1191,10 @@ msgid "Edit source strings"
 msgstr "編輯來源字串"
 
 #: ../../admin/access.rst:525
-#, fuzzy
-#| msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
-msgstr "編輯來源字串[`Administration`, `Edit source`, `Power user`]"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
 
 #: ../../admin/access.rst:527 ../../user/translating.rst:46
 #: ../../workflows.rst:80
@@ -1241,25 +1210,22 @@ msgid "Add suggestion"
 msgstr "新增建議"
 
 #: ../../admin/access.rst:529
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
-#| "strings`, `Translate`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
 "suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`"
-msgstr "`管理權限`、`編輯來源`、`新增建議`、`超級使用者`、`審核字串`、`翻譯`"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
+"suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, "
+":guilabel:`Translate`"
 
 #: ../../admin/access.rst:531
 msgid "Delete suggestion"
 msgstr "刪除建議"
 
 #: ../../admin/access.rst:531
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ":guilabel:`Administration`, :guilabel:`Power user`"
-msgstr "開始翻譯成其他新語言"
+msgstr ":guilabel:`Administration`, :guilabel:`Power user`"
 
 #: ../../admin/access.rst:533
 msgid "Vote on suggestion"
@@ -1274,46 +1240,42 @@ msgid "Add language for translation"
 msgstr "加入新語言的翻譯"
 
 #: ../../admin/access.rst:535
-#, fuzzy
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
 "languages`"
-msgstr "執行自動翻譯"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
+"languages`"
 
 #: ../../admin/access.rst:537
 msgid "Perform automatic translation"
 msgstr "執行自動翻譯"
 
 #: ../../admin/access.rst:537
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr "執行自動翻譯"
+msgstr ":guilabel:`Administration`, :guilabel:`Automatic translation`"
 
 #: ../../admin/access.rst:539
 msgid "Delete existing translation"
 msgstr "刪除既有的翻譯"
 
 #: ../../admin/access.rst:539 ../../admin/access.rst:543
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage languages`"
-msgstr "刪除現有翻譯"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage languages`"
 
 #: ../../admin/access.rst:541
 msgid "Download translation file"
 msgstr "下載翻譯檔案"
 
 #: ../../admin/access.rst:541
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Access repository`, `Power user`, "
-#| "`Review strings`, `Translate`, `Manage languages`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
 msgstr ""
-"`管理權限`、`編輯來源`、`存取儲存庫`、`超級使用者`、`審核字串`、`翻譯`、`管理"
-"語言`"
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
+"repository`, :guilabel:`Power user`, :guilabel:`Review strings`, "
+":guilabel:`Translate`, :guilabel:`Manage languages`"
 
 #: ../../admin/access.rst:543
 msgid "Add several languages for translation"
@@ -1340,13 +1302,12 @@ msgid "Access the internal repository"
 msgstr "存取內部儲存庫"
 
 #: ../../admin/access.rst:551 ../../admin/access.rst:559
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Access repository`, `Power user`, `Manage repository`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
-msgstr "`系統管理`、`存取儲存庫`、`超級使用者`、`管理儲存庫`"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
+"user`, :guilabel:`Manage repository`"
 
 #: ../../admin/access.rst:553
 msgid "Commit changes to the internal repository"
@@ -1430,10 +1391,8 @@ msgstr ""
 "位。它們中的大多數都會影響到您的 Weblate 安裝中的所有專案。"
 
 #: ../../admin/access.rst:595
-#, fuzzy
-#| msgid "List of privileges and built-in roles"
 msgid "List of built-in roles"
-msgstr "特殊權限列表與內建角色"
+msgstr "內建角色列表"
 
 #: ../../admin/access.rst:600
 msgid "`Administration`"
@@ -1466,6 +1425,30 @@ msgid ""
 "changes in the internal repository`, :guilabel:`Update the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post "
+"comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, "
+":guilabel:`Edit component settings`, :guilabel:`Lock component, preventing "
+"translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary "
+"entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
+", :guilabel:`Use automatic suggestions`, :guilabel:`Delete translation "
+"memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit project "
+"settings`, :guilabel:`Manage project access`, :guilabel:`Download reports`, "
+":guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit "
+"screenshot`, :guilabel:`Edit additional string info`, :guilabel:`Accept "
+"suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, "
+":guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, "
+":guilabel:`Add several languages for translation`, :guilabel:`Perform "
+"automatic translation`, :guilabel:`Delete existing translation`, :guilabel:`"
+"Download translation file`, :guilabel:`Add new string`, :guilabel:`Dismiss "
+"failing check`, :guilabel:`Remove a string`, :guilabel:`Edit strings`, "
+":guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review "
+"strings`, :guilabel:`Edit source strings`, :guilabel:`Define author of "
+"uploaded translation`, :guilabel:`Overwrite existing strings with upload`, "
+":guilabel:`Upload translations`, :guilabel:`Access the internal repository`, "
+":guilabel:`Commit changes to the internal repository`, :guilabel:`Push "
+"change from the internal repository`, :guilabel:`Reset changes in the "
+"internal repository`, :guilabel:`Update the internal repository`, :guilabel:`"
+"View upstream repository location`"
 
 #: ../../admin/access.rst:602
 #, fuzzy
@@ -1483,6 +1466,12 @@ msgid ""
 "guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with "
 "upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`"
+"Edit additional string info`, :guilabel:`Accept suggestion`, :guilabel:`Add "
+"suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation "
+"file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, "
+":guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with "
+"upload`, :guilabel:`Upload translations`"
 
 #: ../../admin/access.rst:604
 #, fuzzy
@@ -1491,10 +1480,8 @@ msgid "`Add suggestion`"
 msgstr "新增建議"
 
 #: ../../admin/access.rst:605
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Add suggestion`"
-msgstr ":guilabel:`Custom`"
+msgstr ":guilabel:`Add suggestion`"
 
 #: ../../admin/access.rst:606
 #, fuzzy
@@ -1508,6 +1495,8 @@ msgid ""
 ":guilabel:`Download translation file`, :guilabel:`Access the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`Download translation file`, :guilabel:`Access the internal "
+"repository`, :guilabel:`View upstream repository location`"
 
 #: ../../admin/access.rst:608
 #, fuzzy
@@ -1520,6 +1509,8 @@ msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgstr ""
+":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, "
+":guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 
 #: ../../admin/access.rst:610
 #, fuzzy
@@ -1540,6 +1531,16 @@ msgid ""
 "guilabel:`Access the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Add glossary entry`, :guilabel:`Delete "
+"glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary "
+"entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept "
+"suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, "
+":guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, "
+":guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, "
+":guilabel:`Edit strings`, :guilabel:`Edit source strings`, :guilabel:`"
+"Overwrite existing strings with upload`, :guilabel:`Upload translations`, "
+":guilabel:`Access the internal repository`, :guilabel:`View upstream "
+"repository location`"
 
 #: ../../admin/access.rst:612
 #, fuzzy
@@ -1557,6 +1558,13 @@ msgid ""
 "strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:"
 "`Upload translations`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Resolve comment`, :guilabel:`Use "
+"automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add "
+"suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation "
+"file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, "
+":guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review "
+"strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`"
+"Upload translations`"
 
 #: ../../admin/access.rst:614
 msgid "`Translate`"
@@ -1570,6 +1578,11 @@ msgid ""
 "failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing "
 "strings with upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`"
+"Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on "
+"suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss "
+"failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing "
+"strings with upload`, :guilabel:`Upload translations`"
 
 #: ../../admin/access.rst:616
 #, fuzzy
@@ -1584,6 +1597,9 @@ msgid ""
 "for translation`, :guilabel:`Delete existing translation`, :guilabel:"
 "`Download translation file`"
 msgstr ""
+":guilabel:`Add language for translation`, :guilabel:`Add several languages "
+"for translation`, :guilabel:`Delete existing translation`, :guilabel:`"
+"Download translation file`"
 
 #: ../../admin/access.rst:618
 #, fuzzy
@@ -1592,10 +1608,8 @@ msgid "`Automatic translation`"
 msgstr "自動翻譯"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid ":guilabel:`Perform automatic translation`"
-msgstr "執行自動翻譯"
+msgstr ":guilabel:`Perform automatic translation`"
 
 #: ../../admin/access.rst:620
 #, fuzzy
@@ -1604,11 +1618,10 @@ msgid "`Manage translation memory`"
 msgstr "管理翻譯記憶"
 
 #: ../../admin/access.rst:621
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid ""
 ":guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`"
-msgstr "共享的翻譯記憶"
+msgstr ""
+":guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`"
 
 #: ../../admin/access.rst:622
 #, fuzzy
@@ -25219,10 +25232,8 @@ msgid "string age"
 msgstr "字串年齡"
 
 #: ../../api.rst:2144
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs partial update on translation unit."
-msgstr "執行自動翻譯"
+msgstr "對翻譯單元執行部分更新。"
 
 #: ../../api.rst:2148 ../../api.rst:2162
 #, fuzzy
@@ -25238,19 +25249,15 @@ msgstr ""
 
 #: ../../api.rst:2152 ../../api.rst:2166
 msgid "labels, available on source units"
-msgstr ""
+msgstr "標籤，在來源單位上可用"
 
 #: ../../api.rst:2158
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs full update on translation unit."
-msgstr "執行自動翻譯"
+msgstr "對翻譯單元執行完整更新。"
 
 #: ../../api.rst:2172
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Deletes a translation unit."
-msgstr "刪除翻譯記憶"
+msgstr "刪除一個翻譯單元。"
 
 #: ../../api.rst:2184
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -25382,10 +25389,8 @@ msgid "Remove source string association with screenshot."
 msgstr "檢閱 %s 的來源字串"
 
 #: ../../api.rst:2278
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string unit ID"
-msgstr "%s 的來源字串"
+msgstr "來源字串單元 ID"
 
 #: ../../api.rst:2283
 msgid "Creates a new screenshot."
@@ -25421,26 +25426,20 @@ msgid "Returns information about add-on information."
 msgstr "傳回有關附加元件的資訊。"
 
 #: ../../api.rst:2345 ../../api.rst:2359
-#, fuzzy
-#| msgid "Example addon"
 msgid "name of an add-on"
-msgstr "範例附加元件"
+msgstr "附加元件的名稱"
 
 #: ../../api.rst:2347 ../../api.rst:2360 ../../api.rst:2368 ../../api.rst:2376
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Optional add-on configuration"
-msgstr "不良的組態"
+msgstr "選擇性的附加元件組態"
 
 #: ../../api.rst:2351
 msgid ":doc:`/admin/addons`"
-msgstr ""
+msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2355
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Creates a new add-on."
-msgstr "建立新詞彙表"
+msgstr "建立一個新的附加元件。"
 
 #: ../../api.rst:2364
 msgid "Edit partial information about add-on."
@@ -25502,10 +25501,8 @@ msgid "Deletes the component list."
 msgstr "刪除組件列表。"
 
 #: ../../api.rst:2444
-#, fuzzy
-#| msgid "Associate component with a component list."
 msgid "List components in a component list."
-msgstr "使組件與組件列表相關。"
+msgstr "列出組件列表中的組件。"
 
 #: ../../api.rst:0
 #, fuzzy
@@ -25573,17 +25570,15 @@ msgstr "有評註內容的字串"
 
 #: ../../api.rst:2492
 msgid "Task progress in percent"
-msgstr ""
+msgstr "任務進度百分比"
 
 #: ../../api.rst:2493
 msgid "Task result or progress details"
 msgstr "任務結果或過程細節"
 
 #: ../../api.rst:2494
-#, fuzzy
-#| msgid "Last login"
 msgid "Task log"
-msgstr "上次登入"
+msgstr "任務日誌"
 
 #: ../../api.rst:2499
 msgid "Statistics"
@@ -25650,28 +25645,20 @@ msgid "percentage of failing checks"
 msgstr "檢查失敗的百分比"
 
 #: ../../api.rst:2526
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of approved strings"
-msgstr "納入唯讀字串"
+msgstr "已核可的字串數量"
 
 #: ../../api.rst:2527
-#, fuzzy
-#| msgid "number of failing checks"
 msgid "number of approved words"
-msgstr "檢查失敗的數量"
+msgstr "已核可的字數"
 
 #: ../../api.rst:2528
-#, fuzzy
-#| msgid "number of failing checks"
 msgid "number of approved characters"
-msgstr "檢查失敗的數量"
+msgstr "已核可的字元數"
 
 #: ../../api.rst:2529
-#, fuzzy
-#| msgid "percentage of translated strings"
 msgid "percentage of approved strings"
-msgstr "已翻譯字串的百分比"
+msgstr "已核可字串的百分比"
 
 #: ../../api.rst:2530
 #, fuzzy
@@ -25686,10 +25673,8 @@ msgid "percentage of approved characters"
 msgstr "已翻譯字串的百分比"
 
 #: ../../api.rst:2532
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of read-only strings"
-msgstr "納入唯讀字串"
+msgstr "唯讀字串的數量"
 
 #: ../../api.rst:2533
 #, fuzzy
@@ -25698,10 +25683,8 @@ msgid "number of read-only words"
 msgstr "納入唯讀字串"
 
 #: ../../api.rst:2534
-#, fuzzy
-#| msgid "number of total characters"
 msgid "number of read-only characters"
-msgstr "總字符的數量"
+msgstr "唯讀字元的數量"
 
 #: ../../api.rst:2535
 #, fuzzy
@@ -38313,10 +38296,8 @@ msgid "**source\\_language**"
 msgstr "來源語言"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "*The Source Language*"
-msgstr "來源語言"
+msgstr "*來源語言*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
@@ -38341,10 +38322,8 @@ msgid "**target**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Target strings"
 msgid "*The Target String*"
-msgstr "目標字串"
+msgstr "*目標字串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
@@ -38357,10 +38336,8 @@ msgid "**target\\_language**"
 msgstr "字串目標語言"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "*The Target Language*"
-msgstr "字串目標語言"
+msgstr "*目標語言*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
@@ -38608,10 +38585,8 @@ msgid "**translate\\_mode**"
 msgstr "未翻譯"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "翻譯編輯器模式"
+msgstr "*翻譯編輯器模式*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
@@ -38619,7 +38594,7 @@ msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Zen editor mode*"
-msgstr "禪譯編輯模式"
+msgstr "*禪譯編輯模式*"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
