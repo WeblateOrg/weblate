@@ -360,8 +360,6 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SOURCE_UPLOAD = 74
     ACTION_COMPLETED_COMPONENT = 75
 
-
-
     ACTION_CHOICES = (
         # Translators: Name of event in the history
         (ACTION_UPDATE, gettext_lazy("Resource updated")),
