@@ -11,7 +11,7 @@ import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -203,6 +203,10 @@ class Addon(models.Model):
         else:
             self.logger.debug(message, *args)
 
+    def get_addon_activity_logs(self) -> QuerySet[AddonActivityLog]:
+        """Return activity logs for add-on."""
+        return self.addonactivitylog_set.order_by("-created")
+
 
 class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE, db_index=False)
@@ -252,6 +256,9 @@ class AddonsConf(AppConf):
     LOCALIZE_CDN_URL = None
     LOCALIZE_CDN_PATH = None
 
+    # How long to keep add-on activity log entries
+    ADDON_ACTIVITY_LOG_EXPIRY = 180
+
     class Meta:
         prefix = ""
 
@@ -264,6 +271,17 @@ def execute_addon_event(
     method: str | Callable,
     args: tuple | None = None,
 ):
+    # Log logging result and error flag for add-on activity log
+    log_result = None
+    error_occurred = False
+
+    # Events to exclude from logging
+    exclude_from_logging = {
+        AddonEvent.EVENT_UNIT_PRE_CREATE,
+        AddonEvent.EVENT_UNIT_POST_SAVE,
+        AddonEvent.EVENT_STORE_POST_LOAD,
+    }
+
     with transaction.atomic():
         scope.log_debug("running %s add-on: %s", event.label, addon.name)
         # Skip unsupported components silently
@@ -282,14 +300,16 @@ def execute_addon_event(
                 op=f"addon.{event.name}", description=addon.name
             ):
                 if isinstance(method, str):
-                    getattr(addon.addon, method)(*args)
+                    log_result = getattr(addon.addon, method)(*args)
                 else:
                     # Callback is used in tasks
-                    method(addon, component)
+                    log_result = method(addon, component)
         except DjangoDatabaseError:
             raise
         except Exception as error:
             # Log failure
+            error_occurred = True
+            log_result = str(error)
             scope.log_error("failed %s add-on: %s: %s", event.label, addon.name, error)
             report_error(cause=f"add-on {addon.name} failed", project=component.project)
             # Uninstall no longer compatible add-ons
@@ -297,6 +317,15 @@ def execute_addon_event(
                 addon.disable()
         else:
             scope.log_debug("completed %s add-on: %s", event.label, addon.name)
+        finally:
+            # Check if add-on is still installed and log activity
+            if event not in exclude_from_logging and addon.pk is not None:
+                AddonActivityLog.objects.create(
+                    addon=addon,
+                    component=component,
+                    event=event,
+                    details={"result": log_result, "error": error_occurred},
+                )
 
 
 def handle_addon_event(
@@ -455,3 +484,19 @@ def store_post_load_handler(sender, translation, store, **kwargs) -> None:
         (translation, store),
         translation=translation,
     )
+
+
+class AddonActivityLog(models.Model):
+    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
+    event = models.IntegerField(choices=AddonEvent.choices)
+    created = models.DateTimeField(auto_now_add=True)
+    details = models.JSONField(default=dict)
+
+    class Meta:
+        verbose_name = "add-on activity log"
+        verbose_name_plural = "add-on activity logs"
+        ordering = ["-created"]
+
+    def __str__(self):
+        return f"{self.addon}: {self.get_event_display()} at {self.created}"

@@ -43,7 +43,9 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
     def for_category(self, category):
-        return self.filter(component_id__in=category.all_component_ids)
+        return self.filter(
+            Q(component_id__in=category.all_component_ids) | Q(category=category)
+        )
 
     def filter_announcements(self):
         return self.filter(action=Change.ACTION_ANNOUNCEMENT)
@@ -247,6 +249,7 @@ class ChangeManager(models.Manager["Change"]):
         translation=None,
         component=None,
         project=None,
+        category=None,
         language=None,
     ):
         """
@@ -273,6 +276,8 @@ class ChangeManager(models.Manager["Change"]):
             result = project.change_set.filter_components(user)
             if language is not None:
                 result = result.filter(language=language)
+            if category is not None:
+                result = result.filter(category=category)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
@@ -350,7 +355,12 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_CATEGORY = 69
     ACTION_SAVE_FAILED = 70
     ACTION_NEW_UNIT_REPO = 71
-    ACTION_COMPLETED_COMPONENT = 72
+    ACTION_STRING_UPLOAD_UPDATE = 72
+    ACTION_NEW_UNIT_UPLOAD = 73
+    ACTION_SOURCE_UPLOAD = 74
+    ACTION_COMPLETED_COMPONENT = 75
+
+
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -489,6 +499,12 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_NEW_UNIT_REPO, gettext_lazy("String added in the repository")),
         # Translators: Name of event in the history
+        (ACTION_STRING_UPLOAD_UPDATE, gettext_lazy("String updated in the upload")),
+        # Translators: Name of event in the history
+        (ACTION_NEW_UNIT_UPLOAD, gettext_lazy("String added in the upload")),
+        # Translators: Name of event in the history
+        (ACTION_SOURCE_UPLOAD, gettext_lazy("Translation updated by source upload")),
+        # Translators: Name of event in the history
         (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translated")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
@@ -509,6 +525,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
         ACTION_STRING_REPO_UPDATE,
+        ACTION_STRING_UPLOAD_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -552,6 +569,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW_UNIT,
         ACTION_STRING_REPO_UPDATE,
         ACTION_NEW_UNIT_REPO,
+        ACTION_STRING_UPLOAD_UPDATE,
+        ACTION_NEW_UNIT_UPLOAD,
     }
 
     # Actions indicating a repository merge failure
@@ -586,6 +605,9 @@ class Change(models.Model, UserDisplayMixin):
     )
     project = models.ForeignKey(
         "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
+    )
+    category = models.ForeignKey(
+        "trans.Category", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     component = models.ForeignKey(
         "trans.Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
@@ -852,7 +874,7 @@ class Change(models.Model, UserDisplayMixin):
             else:
                 result = mask_email(details["email"])
             if "group" in details:
-                result = "result ({details['group']})"
+                result = f"{result} ({details['group']})"
             return result
         if self.action in {
             self.ACTION_ADDED_LANGUAGE,

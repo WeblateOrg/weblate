@@ -127,10 +127,10 @@ TESSERACT_LANGUAGES = {
     "sv": "swe",  # Swedish
     "syr": "syr",  # Syriac
     "ta": "tam",  # Tamil
-    "te": "tel",  # Telugu
+    "te": "tel",  # Telugu # codespell:ignore te
     "tg": "tgk",  # Tajik
     "tl": "tgl",  # Tagalog
-    "th": "tha",  # Thai
+    "th": "tha",  # Thai # codespell:ignore tha
     "ti": "tir",  # Tigrinya
     "tr": "tur",  # Turkish
     "ug": "uig",  # Uighur; Uyghur
@@ -138,7 +138,7 @@ TESSERACT_LANGUAGES = {
     "ur": "urd",  # Urdu
     "uz_Latn": "uzb",  # Uzbek
     "uz": "uzb_cyrl",  # Uzbek - Cyrillic
-    "vi": "vie",  # Vietnamese
+    "vi": "vie",  # Vietnamese # codespell:ignore vie
     "yi": "yid",  # Yiddish
 }
 

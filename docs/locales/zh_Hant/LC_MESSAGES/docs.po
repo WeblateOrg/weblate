@@ -9,12 +9,13 @@
 # lhm8624 <gs5600@sina.com>, 2024.
 # Hange <knuckmew@yahoo.com.hk>, 2024.
 # hugoalh <hugoalh@users.noreply.hosted.weblate.org>, 2024.
+# Supaplex <bejokeup@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 13:27+0200\n"
-"PO-Revision-Date: 2024-05-03 09:44+0000\n"
+"PO-Revision-Date: 2024-06-04 10:29+0000\n"
 "Last-Translator: hugoalh <hugoalh@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hant/>\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.3-dev\n"
+"X-Generator: Weblate 5.6-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -51,16 +52,11 @@ msgstr ""
 "的。如果你想限制對你專案的存取，可以切換到付費方案。"
 
 #: ../../admin/access.rst:20
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :guilabel:`Access control` setting. Available options are:"
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "ref:`project-access_control` setting. Available options are:"
-msgstr ""
-"您可以透過選擇不同的\\ :guilabel:`存取控制`\\ 設定來限制使用者對個別專案的存"
-"取。可用的選項有："
+msgstr "您可以透過選擇不同的 :ref:`專案存取控制` "
+"設定來限制使用者對個別專案的存取。可用的選項有："
 
 #: ../../admin/access.rst:29 ../../admin/config.rst:488
 msgid ":guilabel:`Public`"
@@ -82,7 +78,7 @@ msgstr "所有人都可能可以存取VCS 儲存庫。"
 msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
-msgstr ""
+msgstr "**選擇這是開源專案，或是 Weblate 站台是私有或是鎖定。**"
 
 #: ../../admin/access.rst:37 ../../admin/config.rst:490
 msgid ":guilabel:`Protected`"
@@ -102,7 +98,7 @@ msgstr "只有選定的使用者可以存取 VCS 儲存庫。"
 msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
-msgstr ""
+msgstr "** 選擇這個增加可見度，但你仍能控制誰來貢獻。**"
 
 #: ../../admin/access.rst:45 ../../admin/config.rst:492
 msgid ":guilabel:`Private`"
@@ -115,7 +111,7 @@ msgstr "只有選定的使用者看得到。"
 #: ../../admin/access.rst:46
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
-msgstr ""
+msgstr "**對於根本不應該公開曝光的專案選擇此選項。**"
 
 #: ../../admin/access.rst:58 ../../admin/config.rst:494
 msgid ":guilabel:`Custom`"
@@ -123,11 +119,11 @@ msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:54
 msgid "Not available on Hosted Weblate."
-msgstr ""
+msgstr "在託管的 Weblate 上無法使用。"
 
 #: ../../admin/access.rst:56
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "你必須使用 :ref:`custom-acl` 設定所有權限。"
 
 #: ../../admin/access.rst:58
 msgid ""
@@ -324,8 +320,6 @@ msgstr ""
 "的團隊是很有用的。"
 
 #: ../../admin/access.rst:153
-#, fuzzy
-#| msgid "Invite new user"
 msgid "Inviting new users"
 msgstr "邀請新使用者"
 
@@ -336,6 +330,8 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"新增現有使用者將向他們發送確認邀請。透過 :setting:`REGISTRATION_OPEN`，管理員"
+"還可以使用電子郵件邀請新使用者。受邀的使用者必須完成註冊程序才能存取該專案。"
 
 #: ../../admin/access.rst:160
 #, fuzzy
@@ -358,17 +354,10 @@ msgstr ""
 "(如，`Administration` 組成員資格) 就足夠了。"
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
-msgstr ""
-"如果被邀請的使用者錯過了邀請的有效性，則可以在密碼重設表單中使用被邀請的電子"
-"郵件地址設定密碼，因為已經建立了帳戶。"
+msgstr "如果受邀的使用者錯過了邀請的有效期，則必須建立新的邀請。"
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -382,7 +371,7 @@ msgstr ""
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
-msgstr ""
+msgstr "Weblate 現在不會自動建立帳戶或將使用者新增至團隊。這只會在使用者確認後完成。"
 
 #: ../../admin/access.rst:180
 msgid "Blocking users"
@@ -440,18 +429,12 @@ msgstr ""
 "`Administration` 團隊。"
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Simple access control"
 msgid "Site-wide access control"
-msgstr "簡單的存取控制"
+msgstr "全站存取控制"
 
 #: ../../snippets/not-hosted.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is unavailable for projects running the Libre plan on Hosted "
-#| "Weblate."
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr "此功能不適用於執行在 Weblate 伺服器的 Libre 方案 。"
+msgstr "此功能在託管的 Weblate 上不可用。"
 
 #: ../../admin/access.rst:213
 msgid ""
@@ -781,7 +764,7 @@ msgstr ""
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
-msgstr ""
+msgstr "使用龐大的組件列表可能會對效能產生影響，請考慮透過專案提供存取權限。"
 
 #: ../../admin/access.rst:374
 msgid ""
@@ -795,14 +778,6 @@ msgstr ""
 "外權限的存取權限。\\ :guilabel:`專案`\\ 被忽略。"
 
 #: ../../admin/access.rst:379
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -810,9 +785,10 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"您可以在 `donate page`_上助推 Weblate 的開發。收集到的資金用於免費託管自由軟"
-"件專案和 Weblate 的進一步開發。籌款目標和資助者的回報等選項，請檢視 `donate "
-"page`_。"
+"否則，如果團隊指定了任何 :guilabel:`Projects`，無論是直接列出它們還是將 "
+":guilabel:`Projects selection` 設定為類似 :guilabel:`All public projects` "
+"的值，所有這些權限都套用於所有專案，這實際上授予了存取所有專案的相同權限 "
+":ref:`unrestricted components <component-restricted>`。"
 
 #: ../../admin/access.rst:385
 #, fuzzy
@@ -924,6 +900,9 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"該功能最常見的用例是將所有新使用者指派給某個預設團隊。此行為用於預設的 "
+"`Users` 和 `Guest` 團隊（請參閱 :ref:`default-teams`）。使用常規表達式 "
+"``^.*$`` 來匹配所有使用者。"
 
 #: ../../admin/access.rst:434
 #, fuzzy
@@ -970,36 +949,24 @@ msgid "Default teams and roles"
 msgstr "預設團隊和角色"
 
 #: ../../admin/access.rst:453
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
-msgstr "安裝後，建立預設群組（請參閱:ref:“預設群組”）。"
+msgstr "安裝後，將建立一組預設的團隊（請參閱 :ref:`default-teams`）。"
 
 #: ../../admin/access.rst:455
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"這些角色和組是在安裝時建立的。升級時，內建角色始終透過資料庫遷移保持最新狀"
-"態。您實際上無法更改它們，如果要定義自己的權限集，請定義一個新角色。"
+"這些角色和團隊是在安裝時建立的。升級時，內建角色總是透過資料庫遷移以保持最新"
+"。你實際上無法變更它們，如果你想定義自己的權限集，請定義一個新角色。"
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Site wide privileges"
 msgid "List of privileges"
-msgstr "全網站範圍的特權"
+msgstr "特權列表"
 
 #: ../../admin/access.rst:469 ../../admin/optionals.rst:266
 #: ../../user/checks.rst:0
@@ -1011,10 +978,8 @@ msgid "Permission"
 msgstr "權限"
 
 #: ../../admin/access.rst:469
-#, fuzzy
-#| msgid "Built-in add-ons"
 msgid "Built-in roles"
-msgstr "內建附加元件"
+msgstr "內建角色"
 
 #: ../../admin/access.rst:471
 msgid "Billing (see :ref:`billing`)"
@@ -1025,10 +990,8 @@ msgid "View billing info"
 msgstr "檢視帳單資訊"
 
 #: ../../admin/access.rst:471
-#, fuzzy
-#| msgid "View billing info [`Administration`, `Billing`]"
 msgid ":guilabel:`Administration`, :guilabel:`Billing`"
-msgstr "檢視帳單資訊[`Administration`, `Billing`]"
+msgstr ":guilabel:`Administration`, :guilabel:`Billing`"
 
 #: ../../admin/access.rst:473 ../../api.rst:2178
 msgid "Changes"
@@ -1043,10 +1006,8 @@ msgstr "下載更動處"
 #: ../../admin/access.rst:501 ../../admin/access.rst:503
 #: ../../admin/access.rst:513 ../../admin/access.rst:515
 #: ../../admin/access.rst:545
-#, fuzzy
-#| msgid "Administration"
 msgid ":guilabel:`Administration`"
-msgstr "管理"
+msgstr ":guilabel:`Administration`"
 
 #: ../../admin/access.rst:475 ../../user/translating.rst:62
 msgid "Comments"
@@ -1060,14 +1021,12 @@ msgstr "張貼評註"
 #: ../../admin/access.rst:517 ../../admin/access.rst:519
 #: ../../admin/access.rst:527 ../../admin/access.rst:533
 #: ../../admin/access.rst:547 ../../admin/access.rst:549
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Power user`, `Review strings`, "
-#| "`Translate`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
-msgstr "`管理權限`、`編輯來源`、`超級使用者`、`審核字串`、`翻譯`"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, "
+":guilabel:`Review strings`, :guilabel:`Translate`"
 
 #: ../../admin/access.rst:477
 msgid "Delete comment"
@@ -1079,10 +1038,8 @@ msgstr "解決評註"
 
 #: ../../admin/access.rst:479 ../../admin/access.rst:521
 #: ../../admin/access.rst:523
-#, fuzzy
-#| msgid "`Administration`, `Review strings`"
 msgid ":guilabel:`Administration`, :guilabel:`Review strings`"
-msgstr "`管理權限`、`審核字串`"
+msgstr ":guilabel:`Administration`, :guilabel:`Review strings`"
 
 #: ../../admin/access.rst:481 ../../admin/addons.rst:56
 msgid "Component"
@@ -1099,10 +1056,8 @@ msgstr "鎖定組件，防止翻譯"
 #: ../../admin/access.rst:483 ../../admin/access.rst:553
 #: ../../admin/access.rst:555 ../../admin/access.rst:557
 #: ../../admin/access.rst:561
-#, fuzzy
-#| msgid "`Administration`, `Manage repository`"
 msgid ":guilabel:`Administration`, :guilabel:`Manage repository`"
-msgstr "`系統管理`、`管理儲存庫`"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage repository`"
 
 #: ../../admin/access.rst:485
 msgid "Add glossary entry"
@@ -1110,12 +1065,12 @@ msgstr "增加詞彙表條目"
 
 #: ../../admin/access.rst:485 ../../admin/access.rst:487
 #: ../../admin/access.rst:489 ../../admin/access.rst:491
-#, fuzzy
-#| msgid "`Administration`, `Manage glossary`, `Power user`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
 "user`"
-msgstr "`Administration`, `Manage glossary`, `Power user"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
+"user`"
 
 #: ../../admin/access.rst:487
 msgid "Edit glossary entry"
@@ -1147,9 +1102,8 @@ msgid "Edit translation memory"
 msgstr "編輯翻譯記憶"
 
 #: ../../admin/access.rst:495 ../../admin/access.rst:497
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
-msgstr "刪除現有翻譯"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 
 #: ../../admin/access.rst:497
 msgid "Delete translation memory"
@@ -1181,9 +1135,8 @@ msgstr "加入畫面快照"
 
 #: ../../admin/access.rst:505 ../../admin/access.rst:507
 #: ../../admin/access.rst:509
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr "新增截圖"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
 
 #: ../../admin/access.rst:507
 msgid "Edit screenshot"
@@ -1202,10 +1155,8 @@ msgid "Edit additional string info"
 msgstr "編輯額外字串資訊"
 
 #: ../../admin/access.rst:511
-#, fuzzy
-#| msgid "Edit string when suggestions are enforced"
 msgid ":guilabel:`Administration`, :guilabel:`Edit source`"
-msgstr "當施行建議時編輯字串"
+msgstr ":guilabel:`Administration`, :guilabel:`Edit source`"
 
 #: ../../admin/access.rst:513
 msgid "Strings"
@@ -1240,11 +1191,10 @@ msgid "Edit source strings"
 msgstr "編輯來源字串"
 
 #: ../../admin/access.rst:525
-#, fuzzy
-#| msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
-msgstr "編輯來源字串[`Administration`, `Edit source`, `Power user`]"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
 
 #: ../../admin/access.rst:527 ../../user/translating.rst:46
 #: ../../workflows.rst:80
@@ -1260,25 +1210,22 @@ msgid "Add suggestion"
 msgstr "新增建議"
 
 #: ../../admin/access.rst:529
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
-#| "strings`, `Translate`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
 "suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`"
-msgstr "`管理權限`、`編輯來源`、`新增建議`、`超級使用者`、`審核字串`、`翻譯`"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
+"suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, "
+":guilabel:`Translate`"
 
 #: ../../admin/access.rst:531
 msgid "Delete suggestion"
 msgstr "刪除建議"
 
 #: ../../admin/access.rst:531
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ":guilabel:`Administration`, :guilabel:`Power user`"
-msgstr "開始翻譯成其他新語言"
+msgstr ":guilabel:`Administration`, :guilabel:`Power user`"
 
 #: ../../admin/access.rst:533
 msgid "Vote on suggestion"
@@ -1293,46 +1240,42 @@ msgid "Add language for translation"
 msgstr "加入新語言的翻譯"
 
 #: ../../admin/access.rst:535
-#, fuzzy
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
 "languages`"
-msgstr "執行自動翻譯"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
+"languages`"
 
 #: ../../admin/access.rst:537
 msgid "Perform automatic translation"
 msgstr "執行自動翻譯"
 
 #: ../../admin/access.rst:537
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr "執行自動翻譯"
+msgstr ":guilabel:`Administration`, :guilabel:`Automatic translation`"
 
 #: ../../admin/access.rst:539
 msgid "Delete existing translation"
 msgstr "刪除既有的翻譯"
 
 #: ../../admin/access.rst:539 ../../admin/access.rst:543
-#, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage languages`"
-msgstr "刪除現有翻譯"
+msgstr ":guilabel:`Administration`, :guilabel:`Manage languages`"
 
 #: ../../admin/access.rst:541
 msgid "Download translation file"
 msgstr "下載翻譯檔案"
 
 #: ../../admin/access.rst:541
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Edit source`, `Access repository`, `Power user`, "
-#| "`Review strings`, `Translate`, `Manage languages`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
 msgstr ""
-"`管理權限`、`編輯來源`、`存取儲存庫`、`超級使用者`、`審核字串`、`翻譯`、`管理"
-"語言`"
+":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
+"repository`, :guilabel:`Power user`, :guilabel:`Review strings`, "
+":guilabel:`Translate`, :guilabel:`Manage languages`"
 
 #: ../../admin/access.rst:543
 msgid "Add several languages for translation"
@@ -1359,13 +1302,12 @@ msgid "Access the internal repository"
 msgstr "存取內部儲存庫"
 
 #: ../../admin/access.rst:551 ../../admin/access.rst:559
-#, fuzzy
-#| msgid ""
-#| "`Administration`, `Access repository`, `Power user`, `Manage repository`"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
-msgstr "`系統管理`、`存取儲存庫`、`超級使用者`、`管理儲存庫`"
+msgstr ""
+":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
+"user`, :guilabel:`Manage repository`"
 
 #: ../../admin/access.rst:553
 msgid "Commit changes to the internal repository"
@@ -1449,16 +1391,12 @@ msgstr ""
 "位。它們中的大多數都會影響到您的 Weblate 安裝中的所有專案。"
 
 #: ../../admin/access.rst:595
-#, fuzzy
-#| msgid "List of privileges and built-in roles"
 msgid "List of built-in roles"
-msgstr "特殊權限列表與內建角色"
+msgstr "內建角色列表"
 
 #: ../../admin/access.rst:600
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`"
-msgstr "管理"
+msgstr "`Administration`"
 
 #: ../../admin/access.rst:601
 msgid ""
@@ -1487,6 +1425,30 @@ msgid ""
 "changes in the internal repository`, :guilabel:`Update the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post "
+"comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, "
+":guilabel:`Edit component settings`, :guilabel:`Lock component, preventing "
+"translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary "
+"entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
+", :guilabel:`Use automatic suggestions`, :guilabel:`Delete translation "
+"memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit project "
+"settings`, :guilabel:`Manage project access`, :guilabel:`Download reports`, "
+":guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit "
+"screenshot`, :guilabel:`Edit additional string info`, :guilabel:`Accept "
+"suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, "
+":guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, "
+":guilabel:`Add several languages for translation`, :guilabel:`Perform "
+"automatic translation`, :guilabel:`Delete existing translation`, :guilabel:`"
+"Download translation file`, :guilabel:`Add new string`, :guilabel:`Dismiss "
+"failing check`, :guilabel:`Remove a string`, :guilabel:`Edit strings`, "
+":guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review "
+"strings`, :guilabel:`Edit source strings`, :guilabel:`Define author of "
+"uploaded translation`, :guilabel:`Overwrite existing strings with upload`, "
+":guilabel:`Upload translations`, :guilabel:`Access the internal repository`, "
+":guilabel:`Commit changes to the internal repository`, :guilabel:`Push "
+"change from the internal repository`, :guilabel:`Reset changes in the "
+"internal repository`, :guilabel:`Update the internal repository`, :guilabel:`"
+"View upstream repository location`"
 
 #: ../../admin/access.rst:602
 #, fuzzy
@@ -1504,6 +1466,12 @@ msgid ""
 "guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with "
 "upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`"
+"Edit additional string info`, :guilabel:`Accept suggestion`, :guilabel:`Add "
+"suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation "
+"file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, "
+":guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with "
+"upload`, :guilabel:`Upload translations`"
 
 #: ../../admin/access.rst:604
 #, fuzzy
@@ -1512,10 +1480,8 @@ msgid "`Add suggestion`"
 msgstr "新增建議"
 
 #: ../../admin/access.rst:605
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Add suggestion`"
-msgstr ":guilabel:`Custom`"
+msgstr ":guilabel:`Add suggestion`"
 
 #: ../../admin/access.rst:606
 #, fuzzy
@@ -1529,6 +1495,8 @@ msgid ""
 ":guilabel:`Download translation file`, :guilabel:`Access the internal "
 "repository`, :guilabel:`View upstream repository location`"
 msgstr ""
+":guilabel:`Download translation file`, :guilabel:`Access the internal "
+"repository`, :guilabel:`View upstream repository location`"
 
 #: ../../admin/access.rst:608
 #, fuzzy
@@ -1541,6 +1509,8 @@ msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgstr ""
+":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, "
+":guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 
 #: ../../admin/access.rst:610
 #, fuzzy
@@ -1561,6 +1531,16 @@ msgid ""
 "guilabel:`Access the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Add glossary entry`, :guilabel:`Delete "
+"glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary "
+"entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept "
+"suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, "
+":guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, "
+":guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, "
+":guilabel:`Edit strings`, :guilabel:`Edit source strings`, :guilabel:`"
+"Overwrite existing strings with upload`, :guilabel:`Upload translations`, "
+":guilabel:`Access the internal repository`, :guilabel:`View upstream "
+"repository location`"
 
 #: ../../admin/access.rst:612
 #, fuzzy
@@ -1578,12 +1558,17 @@ msgid ""
 "strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:"
 "`Upload translations`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Resolve comment`, :guilabel:`Use "
+"automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add "
+"suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation "
+"file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, "
+":guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review "
+"strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`"
+"Upload translations`"
 
 #: ../../admin/access.rst:614
-#, fuzzy
-#| msgid "Translate"
 msgid "`Translate`"
-msgstr "翻譯"
+msgstr "`Translate`"
 
 #: ../../admin/access.rst:615
 msgid ""
@@ -1593,6 +1578,11 @@ msgid ""
 "failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing "
 "strings with upload`, :guilabel:`Upload translations`"
 msgstr ""
+":guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`"
+"Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on "
+"suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss "
+"failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing "
+"strings with upload`, :guilabel:`Upload translations`"
 
 #: ../../admin/access.rst:616
 #, fuzzy
@@ -1607,6 +1597,9 @@ msgid ""
 "for translation`, :guilabel:`Delete existing translation`, :guilabel:"
 "`Download translation file`"
 msgstr ""
+":guilabel:`Add language for translation`, :guilabel:`Add several languages "
+"for translation`, :guilabel:`Delete existing translation`, :guilabel:`"
+"Download translation file`"
 
 #: ../../admin/access.rst:618
 #, fuzzy
@@ -1615,10 +1608,8 @@ msgid "`Automatic translation`"
 msgstr "自動翻譯"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid ":guilabel:`Perform automatic translation`"
-msgstr "執行自動翻譯"
+msgstr ":guilabel:`Perform automatic translation`"
 
 #: ../../admin/access.rst:620
 #, fuzzy
@@ -1627,11 +1618,10 @@ msgid "`Manage translation memory`"
 msgstr "管理翻譯記憶"
 
 #: ../../admin/access.rst:621
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid ""
 ":guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`"
-msgstr "共享的翻譯記憶"
+msgstr ""
+":guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`"
 
 #: ../../admin/access.rst:622
 #, fuzzy
@@ -1662,10 +1652,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:626
-#, fuzzy
-#| msgid "Billing"
 msgid "`Billing`"
-msgstr "帳單"
+msgstr "`Billing`"
 
 #: ../../admin/access.rst:627
 #, fuzzy
@@ -2514,51 +2502,34 @@ msgstr "各語言各一個資料夾包含組件的翻譯檔。"
 #: ../../admin/addons.rst:245 ../../admin/addons.rst:258
 #: ../../admin/addons.rst:271 ../../admin/addons.rst:284
 #: ../../admin/addons.rst:298 ../../admin/addons.rst:311
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "正則表達式"
+msgstr "常規表達式："
 
 #: ../../admin/addons.rst:246
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:291
 #: ../../admin/addons.rst:304 ../../admin/addons.rst:320
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "符合的檔案"
+msgstr "符合的檔案："
 
 #: ../../admin/addons.rst:248
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`cs/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:249
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`cs/website.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:250
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`de/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`de/application.po`"
 
 #: ../../admin/addons.rst:251
-#, fuzzy
-#| msgid ":file:`weblate-*.png`"
 msgid ":file:`de/website.po`"
-msgstr ":file:`weblate-*.png`"
+msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:254
 msgid "Gettext locales layout"
@@ -2569,13 +2540,8 @@ msgid "Usual structure for storing gettext PO files."
 msgstr "儲存 gettext PO 檔的常用結構。"
 
 #: ../../admin/addons.rst:259
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:261
 #, fuzzy
@@ -2602,10 +2568,8 @@ msgid ":file:`locale/de/LC_MESSAGES/website.po`"
 msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../admin/addons.rst:267
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "組件檔名比對"
+msgstr "複雜的檔案名稱"
 
 #: ../../admin/addons.rst:269
 msgid "Using both component and language name within filename."
@@ -2776,7 +2740,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:333
 msgid ":ref:`markup`, :wladmin:`import_project`"
-msgstr ""
+msgstr ":ref:`markup`, :wladmin:`import_project`"
 
 #: ../../admin/addons.rst:339 ../../user/translating.rst:407
 msgid "Bulk edit"
@@ -4077,10 +4041,8 @@ msgid "Users and teams, see :ref:`custom-acl`"
 msgstr "調整翻譯標誌（參見:ref:“客製檢查”）"
 
 #: ../../admin/admin.rst:21
-#, fuzzy
-#| msgid ":ref:`component-branch`"
 msgid ":ref:`manage-appearance`."
-msgstr ":ref:`component-branch`"
+msgstr ":ref:`manage-appearance`。"
 
 #: ../../admin/admin.rst:22
 #, fuzzy
@@ -4835,10 +4797,8 @@ msgstr ""
 "password/>`_ 這會非常實際地估計密碼的難度，並允許拒絕低於下面適當閾值的密碼。"
 
 #: ../../admin/auth.rst:438
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
-msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
+msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 
 #: ../../admin/auth.rst:443
 msgid "SAML authentication"
@@ -7311,7 +7271,7 @@ msgstr ""
 
 #: ../../admin/config.rst:24
 msgid "ADMINS_CONTACT"
-msgstr ""
+msgstr "ADMINS_CONTACT"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -7594,10 +7554,8 @@ msgid "Removes control characters if the source does not contain any."
 msgstr "去掉控製字元，如果源字串不包含的話。"
 
 #: ../../admin/config.rst:183
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:184
 msgid ""
@@ -7639,8 +7597,6 @@ msgid "Right now this controls:"
 msgstr "此刻的控制項："
 
 #: ../../admin/config.rst:213
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加元件"
 
@@ -7736,8 +7692,6 @@ msgid ":ref:`backup`, :doc:`borg:usage/create`"
 msgstr ":doc:`borg:usage/list` ， :doc:`borg:usage/extract`"
 
 #: ../../admin/config.rst:280
-#, fuzzy
-#| msgid "BASE_DIR"
 msgid "CACHE_DIR"
 msgstr "CACHE_DIR"
 
@@ -7961,10 +7915,8 @@ msgid ""
 msgstr "寄件人為:mailheader:`From`, 您的電子郵箱伺服器需要允許傳送此類郵件。"
 
 #: ../../admin/config.rst:416
-#, fuzzy
-#| msgid ":setting:`AUTOFIX_LIST`"
 msgid ":setting:`ADMINS_CONTACT`"
-msgstr ":setting:`AUTOFIX_LIST`"
+msgstr ":setting:`ADMINS_CONTACT`"
 
 #: ../../admin/config.rst:421
 msgid "DATA_DIR"
@@ -8248,10 +8200,8 @@ msgid ""
 msgstr "預設為 `en`。匹配的語言對象需要存在於資料庫中。"
 
 #: ../../admin/config.rst:621
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`languages`, :ref:`component-source_language`"
-msgstr "元件名稱"
+msgstr ":ref:`languages`，:ref:`component-source_language`"
 
 #: ../../admin/config.rst:627
 msgid "DEFAULT_MERGE_STYLE"
@@ -8521,10 +8471,8 @@ msgstr ""
 "personal access token`_"
 
 #: ../../admin/config.rst:840
-#, fuzzy
-#| msgid "GITEA_CREDENTIALS"
 msgid "BITBUCKETSERVER_CREDENTIALS"
-msgstr "GITEA_CREDENTIALS"
+msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:844
 #, fuzzy
@@ -8539,10 +8487,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:865
-#, fuzzy
-#| msgid "PAGURE_CREDENTIALS"
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr "PAGURE_CREDENTIALS"
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:869
 #, fuzzy
@@ -9217,10 +9163,8 @@ msgid ":ref:`project-name`"
 msgstr ":ref:`project-name`"
 
 #: ../../admin/config.rst:1402
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_HOST"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_HOST"
 
 #: ../../admin/config.rst:1406
 msgid ""
@@ -9231,10 +9175,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1411
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Default configuration:"
-msgstr "Weblate 設定組態"
+msgstr "預設組態："
 
 #: ../../admin/config.rst:1419
 msgid ""
@@ -9243,10 +9185,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1427
-#, fuzzy
-#| msgid "PROJECT_WEB_RESTRICT_RE"
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
-msgstr "PROJECT_WEB_RESTRICT_RE"
+msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1431
 msgid "Reject using numeric IP address in project website. On by default."
@@ -9463,10 +9403,8 @@ msgstr ""
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
 #: ../../admin/config.rst:1585
-#, fuzzy
-#| msgid "REGISTRATION_OPEN"
 msgid "REGISTRATION_REBIND"
-msgstr "REGISTRATION_OPEN"
+msgstr "REGISTRATION_REBIND"
 
 #: ../../admin/config.rst:1589
 msgid ""
@@ -9533,7 +9471,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1641
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1643
 #, fuzzy
@@ -9543,7 +9481,7 @@ msgstr "您的 Rollbar 環境，預設為 ``production``。"
 
 #: ../../admin/config.rst:1648
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1650 ../../admin/install/docker.rst:1682
 msgid ""
@@ -9558,10 +9496,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1659
-#, fuzzy
-#| msgid "SENTRY_DSN"
 msgid "SENTRY_SEND_PII"
-msgstr "SENTRY_DSN"
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1661
 msgid ""
@@ -9571,7 +9507,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1666
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1668 ../../admin/install/docker.rst:1697
 msgid ""
@@ -9783,7 +9719,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1819
 msgid "SUPPORT_STATUS_CHECK"
-msgstr ""
+msgstr "SUPPORT_STATUS_CHECK"
 
 #: ../../admin/config.rst:1823
 msgid ""
@@ -9799,7 +9735,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1833
 msgid "UNUSED_ALERT_DAYS"
-msgstr ""
+msgstr "UNUSED_ALERT_DAYS"
 
 #: ../../admin/config.rst:1837
 msgid ""
@@ -10025,10 +9961,8 @@ msgid "The default list already has the common formats."
 msgstr "預設列表已經具有了常見格式。"
 
 #: ../../admin/config.rst:2040
-#, fuzzy
-#| msgid "WEBLATE_ADDONS"
 msgid "WEBLATE_MACHINERY"
-msgstr "WEBLATE_ADDONS"
+msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:2044
 #, fuzzy
@@ -10037,10 +9971,8 @@ msgid "List of machinery services available for use."
 msgstr "可供使用的文件格式列表。"
 
 #: ../../admin/config.rst:2048
-#, fuzzy
-#| msgid ":doc:`psa:pipeline`"
 msgid ":doc:`/admin/machine`"
-msgstr ":doc:`psa:pipeline`"
+msgstr ":doc:`/admin/machine`"
 
 #: ../../admin/config.rst:2053
 msgid "WEBLATE_GPG_IDENTITY"
@@ -11286,10 +11218,8 @@ msgstr ""
 "後面的部署不是由 Weblate 團隊開發或支援的。部分設定會與本文件中描述的有偏差。"
 
 #: ../../admin/deployments.rst:21
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "Weblate Cloudron Package"
-msgstr "Weblate 語言"
+msgstr "Weblate Cloudron 軟體包"
 
 #: ../../admin/deployments.rst:23
 #, fuzzy
@@ -11309,10 +11239,8 @@ msgstr ""
 "<https://git.cloudron.io/cloudron/weblate-app>`_ 上維護。"
 
 #: ../../admin/deployments.rst:-1
-#, fuzzy
-#| msgid "Installing Weblate"
 msgid "Install Weblate with Cloudron"
-msgstr "安裝 Weblate"
+msgstr "使用 Cloudron 安裝 Weblate"
 
 #: ../../admin/deployments.rst:32
 msgid "Weblate in YunoHost"
@@ -11337,10 +11265,8 @@ msgid ""
 msgstr "可以使用管理界面，或這個按鈕（它將帶您到您的伺服器）："
 
 #: ../../admin/deployments.rst:-1
-#, fuzzy
-#| msgid "Installing Weblate"
 msgid "Install Weblate with YunoHost"
-msgstr "安裝 Weblate"
+msgstr "使用 YunoHost 安裝 Weblate"
 
 #: ../../admin/deployments.rst:46
 msgid "It also is possible to use the command-line interface:"
@@ -11456,10 +11382,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:144
-#, fuzzy
-#| msgid "Swedish"
 msgid "Redis"
-msgstr "瑞典語"
+msgstr "Redis"
 
 #: ../../admin/install.rst:143
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
@@ -11615,10 +11539,8 @@ msgid "Python Package"
 msgstr "Python 大括號格式"
 
 #: ../../admin/install.rst:206
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "Weblate feature"
-msgstr "Weblate 前端"
+msgstr "Weblate 功能"
 
 #: ../../admin/install.rst:209 ../../admin/machine.rst:36
 msgid "``alibaba``"
@@ -11949,10 +11871,8 @@ msgid ""
 msgstr "根據 Weblate 中管理的翻譯大小，安裝 Weblate 的實際要求差異很大。"
 
 #: ../../admin/install/steps/hw.rst:18
-#, fuzzy
-#| msgid "Reduced memory usage."
 msgid "Memory usage"
-msgstr "減少了內存的使用。"
+msgstr "記憶體使用情況"
 
 #: ../../admin/install/steps/hw.rst:20
 #, fuzzy
@@ -12382,10 +12302,8 @@ msgstr ""
 "setting:`django:CONN_MAX_AGE` 可能會有幫助。"
 
 #: ../../admin/install.rst:603
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configuring Weblate to use MySQL/MariaDB"
-msgstr "設定附加元件"
+msgstr "組態 Weblate 以使用 MySQL／MariaDB"
 
 #: ../../admin/install.rst:605
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
@@ -14399,10 +14317,8 @@ msgid "https://github.com/docker-library/postgres/issues/37"
 msgstr "https://github.com/docker-library/postgres/issues/37"
 
 #: ../../admin/install/docker.rst:261
-#, fuzzy
-#| msgid "List of Weblate supporters:"
 msgid "Stop Weblate container:"
-msgstr "Weblate 支援者列表："
+msgstr "停止 Weblate 容器："
 
 #: ../../admin/install/docker.rst:267
 msgid "Backup the database:"
@@ -14762,10 +14678,8 @@ msgstr ""
 "法。"
 
 #: ../../admin/install/docker.rst:610
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr "組態 :setting:`STATUS_URL`."
+msgstr "組態 :std:setting:`REGISTRATION_REBIND`。"
 
 #: ../../admin/install/docker.rst:614
 msgid ""
@@ -14872,10 +14786,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:708
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_PORT`"
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
-msgstr ":setting:`django:EMAIL_PORT`"
+msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 
 #: ../../admin/install/docker.rst:710
 #, fuzzy
@@ -14917,10 +14829,8 @@ msgid ""
 msgstr "可以替換整個設定，或者使用 ``ADD`` 和 ``REMOVE`` 變量修改預設值。"
 
 #: ../../admin/install/docker.rst:749
-#, fuzzy
-#| msgid "Can not change authentication for demo!"
 msgid "To enforce authentication for the contact form, do:"
-msgstr "無法更動 Demo 的身份核對！"
+msgstr "若要對聯絡表單強制進行身份驗證，請執行下列操作："
 
 #: ../../admin/install/docker.rst:758
 msgid ""
@@ -15077,32 +14987,24 @@ msgid ":ref:`api-rate`"
 msgstr ":ref:`api-rate`"
 
 #: ../../admin/install/docker.rst:896
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_AVATARS`."
 msgid "Configures :setting:`ENABLE_HOOKS`."
-msgstr "組態 :setting:`ENABLE_AVATARS`."
+msgstr "組態 :setting:`ENABLE_HOOKS`。"
 
 #: ../../admin/install/docker.rst:902
 msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr "組態 :setting:`ENABLE_AVATARS`."
 
 #: ../../admin/install/docker.rst:908
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr "組態 :setting:`STATUS_URL`."
+msgstr "組態 :setting:`AVATAR_URL_PREFIX`。"
 
 #: ../../admin/install/docker.rst:914
-#, fuzzy
-#| msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
-msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
+msgstr "組態 :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`。"
 
 #: ../../admin/install/docker.rst:920
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
-msgstr "組態 :setting:`STATUS_URL`."
+msgstr "組態 :setting:`SSH_EXTRA_ARGS`。"
 
 #: ../../admin/install/docker.rst:926
 #, fuzzy
@@ -15112,10 +15014,8 @@ msgid ""
 msgstr "組態 :setting:`BORG_EXTRA_ARGS` 。"
 
 #: ../../admin/install/docker.rst:939
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_AVATARS`."
 msgid "Configures :setting:`ENABLE_SHARING`."
-msgstr "組態 :setting:`ENABLE_AVATARS`."
+msgstr "組態 :setting:`ENABLE_SHARING`。"
 
 #: ../../admin/install/docker.rst:945
 #, fuzzy
@@ -15124,28 +15024,20 @@ msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
 msgstr "組態 :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:951
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr "組態 :setting:`STATUS_URL`."
+msgstr "組態 :setting:`EXTRA_HTML_HEAD`。"
 
 #: ../../admin/install/docker.rst:957
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr "組態 :setting:`DEFAULT_COMMITER_EMAIL`。"
+msgstr "組態 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`。"
 
 #: ../../admin/install/docker.rst:963
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr "組態 :setting:`DEFAULT_COMMITER_EMAIL`。"
+msgstr "組態 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`。"
 
 #: ../../admin/install/docker.rst:969
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr "組態 :setting:`LICENSE_FILTER`."
+msgstr "組態 :setting:`UNUSED_ALERT_DAYS`。"
 
 #: ../../admin/install/docker.rst:975
 msgid "Allow CORS requests from given origins."
@@ -15315,10 +15207,8 @@ msgid "**Example with search and bind against Active Directory:**"
 msgstr "**針對作用中的目錄的搜尋與綁定的例子：**"
 
 #: ../../admin/install/docker.rst:1183
-#, fuzzy
-#| msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
-msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
+msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:1187
 msgid "GitHub"
@@ -15335,10 +15225,8 @@ msgid "GitHub Enterprise Edition"
 msgstr "GitHub 驗證"
 
 #: ../../admin/install/docker.rst:1209
-#, fuzzy
-#| msgid "Enables :ref:`github_auth`."
 msgid "Enables :ref:`github_ee_auth`."
-msgstr "允許 :ref:`github_auth`。"
+msgstr "允許 :ref:`github_ee_auth`。"
 
 #: ../../admin/install/docker.rst:1212
 msgid "Bitbucket"
@@ -15438,10 +15326,8 @@ msgid "Configures generic OpenID Connect integration."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1324
-#, fuzzy
-#| msgid ":doc:`psa:backends/openid`"
 msgid ":doc:`psa:backends/oidc`"
-msgstr ":doc:`psa:backends/openid`"
+msgstr ":doc:`psa:backends/oidc`"
 
 #: ../../admin/install/docker.rst:1329
 msgid "SAML"
@@ -15695,10 +15581,8 @@ msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:1566
-#, fuzzy
-#| msgid "Authentication"
 msgid "E-mail authentication user."
-msgstr "身份核對"
+msgstr "電子郵件驗證使用者。"
 
 #: ../../admin/install/docker.rst:1568
 msgid ":setting:`django:EMAIL_HOST_USER`"
@@ -15711,10 +15595,8 @@ msgid "E-mail authentication password."
 msgstr "已取消身份核對。"
 
 #: ../../admin/install/docker.rst:1576
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
+msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1581
 msgid ""
@@ -15776,10 +15658,8 @@ msgid "Configures if and how Weblate should update repositories."
 msgstr "組態 Weblate 來使用 PostgreSQL"
 
 #: ../../admin/install/docker.rst:1631
-#, fuzzy
-#| msgid ":setting:`AUTOFIX_LIST`"
 msgid ":setting:`AUTO_UPDATE`"
-msgstr ":setting:`AUTOFIX_LIST`"
+msgstr ":setting:`AUTO_UPDATE`"
 
 #: ../../admin/install/docker.rst:1633
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
@@ -15804,10 +15684,8 @@ msgid "Configures :setting:`LEGAL_URL`."
 msgstr "組態: setting:`LEGAL_URL`."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "Configures :setting:`LEGAL_URL`."
 msgid "Configures :setting:`PRIVACY_URL`."
-msgstr "組態: setting:`LEGAL_URL`."
+msgstr "組態 :setting:`PRIVACY_URL`。"
 
 #: ../../admin/install/docker.rst:1657
 msgid ""
@@ -16293,10 +16171,8 @@ msgstr ""
 "捲新增到 Docker 容器中，例如："
 
 #: ../../admin/install/docker.rst:2027
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring PostgreSQL server"
-msgstr "組態 Weblate 來使用 PostgreSQL"
+msgstr "組態 PostgreSQL 伺服器"
 
 #: ../../admin/install/docker.rst:2029
 msgid ""
@@ -17180,10 +17056,8 @@ msgid "Number of worldwide speakers of this language."
 msgstr "會說這個語言的人數。"
 
 #: ../../admin/languages.rst:146
-#, fuzzy
-#| msgid "Plural definition source"
 msgid "Plural definitions"
-msgstr "複數形定義來源"
+msgstr "複數形定義"
 
 #: ../../admin/languages.rst:148
 msgid ""
@@ -17338,7 +17212,7 @@ msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:32
 msgid "Alibaba"
-msgstr ""
+msgstr "阿里巴巴"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -18153,10 +18027,8 @@ msgstr ""
 "<https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:445
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI"
-msgstr "禪譯模式"
+msgstr "OpenAI"
 
 #: ../../admin/machine.rst:453
 msgid "``model``"
@@ -18461,10 +18333,8 @@ msgstr ""
 "translate/>`_, `由 Yandex 翻譯驅動 <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:627
-#, fuzzy
-#| msgid "Yandex"
 msgid "Yandex v2"
-msgstr "Yandex"
+msgstr "Yandex v2"
 
 #: ../../admin/machine.rst:631
 msgid "``yandex-v2``"
@@ -18820,7 +18690,7 @@ msgstr ":ref:`production-cron`"
 
 #: ../../admin/management.rst:223
 msgid "cleanup_ssh_keys"
-msgstr ""
+msgstr "cleanup_ssh_keys"
 
 #: ../../admin/management.rst:229
 msgid "Performs cleanup of stored SSH host keys:"
@@ -18901,7 +18771,7 @@ msgstr "這在遷移或合併 Weblate 事例是會很方便。"
 
 #: ../../admin/management.rst:293
 msgid "import_demo"
-msgstr ""
+msgstr "import_demo"
 
 #: ../../admin/management.rst:299
 msgid ""
@@ -18924,7 +18794,7 @@ msgstr "移除專案"
 
 #: ../../admin/management.rst:310
 msgid "import_json"
-msgstr ""
+msgstr "import_json"
 
 #: ../../admin/management.rst:314
 msgid "Batch import of components based on JSON data."
@@ -18966,7 +18836,7 @@ msgstr ":wladmin:`import_memory`"
 
 #: ../../admin/management.rst:346
 msgid "import_memory"
-msgstr ""
+msgstr "import_memory"
 
 #: ../../admin/management.rst:350
 msgid "Imports a TMX or JSON file into the Weblate translation memory."
@@ -18996,7 +18866,7 @@ msgstr "在您的 TMX 文件地區恰好與您在Weblate使用地區不同的情
 
 #: ../../admin/management.rst:369
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:373
 #, fuzzy
@@ -19178,7 +19048,7 @@ msgstr ""
 
 #: ../../admin/management.rst:519
 msgid "importuserdata"
-msgstr ""
+msgstr "importuserdata"
 
 #: ../../admin/management.rst:523
 #, fuzzy
@@ -19188,7 +19058,7 @@ msgstr "從 :djadmin:`dumpuserdata` 建立的文件中導入使用者數據"
 
 #: ../../admin/management.rst:526
 msgid "importusers"
-msgstr ""
+msgstr "importusers"
 
 #: ../../admin/management.rst:530
 msgid "Imports users from JSON dump of the Django auth_users database."
@@ -19208,7 +19078,7 @@ msgstr "可以從現有的 Django 安裝中導出使用者，這需要使用："
 
 #: ../../admin/management.rst:545
 msgid "install_addon"
-msgstr ""
+msgstr "install_addon"
 
 #: ../../admin/management.rst:549
 msgid "Installs an add-on to a set of components."
@@ -19289,7 +19159,7 @@ msgstr ":doc:`machine`"
 
 #: ../../admin/management.rst:608
 msgid "list_languages"
-msgstr ""
+msgstr "list_languages"
 
 #: ../../admin/management.rst:612
 msgid ""
@@ -19306,7 +19176,7 @@ msgstr ""
 
 #: ../../admin/management.rst:618
 msgid "list_translators"
-msgstr ""
+msgstr "list_translators"
 
 #: ../../admin/management.rst:622
 msgid "Lists translators by contributed language for the given project::"
@@ -19327,7 +19197,7 @@ msgstr ""
 
 #: ../../admin/management.rst:638
 msgid "list_versions"
-msgstr ""
+msgstr "list_versions"
 
 #: ../../admin/management.rst:642
 msgid "Lists all Weblate dependencies and their versions."
@@ -19335,7 +19205,7 @@ msgstr "列出所有 Weblate 相依及其版本。"
 
 #: ../../admin/management.rst:645
 msgid "loadpo"
-msgstr ""
+msgstr "loadpo"
 
 #: ../../admin/management.rst:649
 msgid ""
@@ -19366,7 +19236,7 @@ msgstr ""
 
 #: ../../admin/management.rst:670
 msgid "lock_translation"
-msgstr ""
+msgstr "lock_translation"
 
 #: ../../admin/management.rst:674
 msgid "Prevents further translation of a component."
@@ -19409,11 +19279,11 @@ msgstr ""
 
 #: ../../admin/management.rst:703
 msgid ":djadmin:`django:migrate`, :ref:`tables-setup`"
-msgstr ""
+msgstr ":djadmin:`django:migrate`，:ref:`tables-setup`"
 
 #: ../../admin/management.rst:707
 msgid "move_language"
-msgstr ""
+msgstr "move_language"
 
 #: ../../admin/management.rst:711
 msgid ""
@@ -19437,7 +19307,7 @@ msgstr ""
 
 #: ../../admin/management.rst:727
 msgid "pushgit"
-msgstr ""
+msgstr "pushgit"
 
 #: ../../admin/management.rst:731
 msgid "Pushes committed changes to the upstream VCS repository."
@@ -19457,7 +19327,7 @@ msgstr ""
 
 #: ../../admin/management.rst:746
 msgid "unlock_translation"
-msgstr ""
+msgstr "unlock_translation"
 
 #: ../../admin/management.rst:750
 msgid "Unlocks a given component, making it available for translation."
@@ -19469,7 +19339,7 @@ msgstr ":wladmin:`lock_translation`"
 
 #: ../../admin/management.rst:764
 msgid "setupgroups"
-msgstr ""
+msgstr "setupgroups"
 
 #: ../../admin/management.rst:768
 msgid ""
@@ -19495,7 +19365,7 @@ msgstr ":ref:`privileges`"
 
 #: ../../admin/management.rst:784
 msgid "setuplang"
-msgstr ""
+msgstr "setuplang"
 
 #: ../../admin/management.rst:788
 msgid "Updates list of defined languages in Weblate."
@@ -19507,7 +19377,7 @@ msgstr "關閉現有語言的自動更新（只新增新的）。"
 
 #: ../../admin/management.rst:795
 msgid "updatechecks"
-msgstr ""
+msgstr "updatechecks"
 
 #: ../../admin/management.rst:799
 msgid "Updates all checks for all strings."
@@ -19529,7 +19399,7 @@ msgstr "每個組件的一個月內，可以使用 :setting:`background_tasks` �
 
 #: ../../admin/management.rst:814
 msgid "updategit"
-msgstr ""
+msgstr "updategit"
 
 #: ../../admin/management.rst:818
 msgid "Fetches remote VCS repositories and updates the internal cache."
@@ -19607,10 +19477,8 @@ msgstr ""
 "對於安裝提示，請參見 :ref:`weblate-translation-memory`，它預設是打開的。"
 
 #: ../../admin/memory.rst:26
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation-memory scopes"
-msgstr "翻譯記憶狀態"
+msgstr "翻譯記憶體的範圍"
 
 #: ../../admin/memory.rst:28
 #, fuzzy
@@ -19701,13 +19569,8 @@ msgid "Make sure the translations you share have good quality."
 msgstr ""
 
 #: ../../admin/memory.rst:65
-#, fuzzy
-#| msgid ""
-#| "Configures default value of :ref:`project-use_shared_tm` and :ref:"
-#| "`project-contribute_shared_tm`."
 msgid ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
-msgstr ""
-"組態預設值:ref:`project-use_shared_tm`和:ref:`project-contribute_shared_tm`。"
+msgstr ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 
 #: ../../admin/memory.rst:68
 #, fuzzy
@@ -19772,10 +19635,8 @@ msgid "You can search for translations in the view built for this."
 msgstr "您可以透過以下方式取得某一組件的所有翻譯統計數據："
 
 #: ../../admin/memory.rst:101
-#, fuzzy
-#| msgid "Django admin interface"
 msgid "Admin interface"
-msgstr "Django 管理介面"
+msgstr "管理介面"
 
 #: ../../admin/memory.rst:103
 #, fuzzy
@@ -19827,7 +19688,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
-msgstr ""
+msgstr "選擇性的 Weblate 模組"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
@@ -19969,7 +19830,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:112
 msgid ":file:`legal/documents/tos.html`"
-msgstr ""
+msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:113
 msgid "Terms of service document"
@@ -19977,7 +19838,7 @@ msgstr "服務條款文件"
 
 #: ../../admin/optionals.rst:114
 msgid ":file:`legal/documents/privacy.html`"
-msgstr ""
+msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:115
 msgid "Privacy policy document"
@@ -19985,7 +19846,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:117
 msgid ":file:`legal/documents/summary.html`"
-msgstr ""
+msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:117
 msgid "Short overview of the terms of service and privacy policy"
@@ -20049,7 +19910,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:173
 msgid "Weblate currently supports:"
-msgstr ""
+msgstr "Weblate 目前支援："
 
 #: ../../admin/optionals.rst:175
 msgid "`Gravatar <https://gravatar.com/>`_"
@@ -20178,7 +20039,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:248
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
-msgstr ""
+msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:253 ../../user/translating.rst:381
 msgid "Rate limiting"
@@ -20234,19 +20095,19 @@ msgstr "``REGISTRATION``"
 #: ../../admin/optionals.rst:268 ../../admin/optionals.rst:272
 #: ../../admin/optionals.rst:283
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../../admin/optionals.rst:268 ../../admin/optionals.rst:270
 #: ../../admin/optionals.rst:272 ../../admin/optionals.rst:280
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: ../../admin/optionals.rst:268 ../../admin/optionals.rst:270
 #: ../../admin/optionals.rst:272 ../../admin/optionals.rst:276
 #: ../../admin/optionals.rst:278 ../../admin/optionals.rst:280
 #: ../../admin/optionals.rst:283
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: ../../admin/optionals.rst:270
 msgid "Sending message to admins"
@@ -20258,7 +20119,7 @@ msgstr "``MESSAGE``"
 
 #: ../../admin/optionals.rst:270 ../../admin/optionals.rst:280
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: ../../admin/optionals.rst:272
 #, fuzzy
@@ -20280,16 +20141,16 @@ msgstr "``SEARCH``"
 
 #: ../../admin/optionals.rst:274
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: ../../admin/optionals.rst:274 ../../admin/optionals.rst:276
 #: ../../admin/optionals.rst:278
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: ../../admin/optionals.rst:276 ../../user/translating.rst:110
 msgid "Translating"
-msgstr ""
+msgstr "正在翻譯"
 
 #: ../../admin/optionals.rst:276
 msgid "``TRANSLATE``"
@@ -20297,7 +20158,7 @@ msgstr "``TRANSLATE``"
 
 #: ../../admin/optionals.rst:276 ../../admin/optionals.rst:278
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: ../../admin/optionals.rst:278
 msgid "Adding to glossary"
@@ -20625,10 +20486,8 @@ msgid "Verbose project name, used to display the project name."
 msgstr "詳細的項目名稱，用於顯示項目名稱。"
 
 #: ../../admin/projects.rst:130
-#, fuzzy
-#| msgid ":setting:`MT_GOOGLE_PROJECT`"
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
-msgstr ":setting:`MT_GOOGLE_PROJECT`"
+msgstr ":setting:`PROJECT_NAME_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
@@ -21102,10 +20961,8 @@ msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
 msgstr ""
 
 #: ../../admin/projects.rst:449
-#, fuzzy
-#| msgid "Note"
 msgid "Note:"
-msgstr "備註"
+msgstr "備註："
 
 #: ../../admin/projects.rst:451
 msgid ""
@@ -22121,11 +21978,11 @@ msgstr "幾個附加元件"
 
 #: ../../admin/projects.rst:1017
 msgid ":ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/projects.rst:1018
 msgid ":ref:`addon-weblate.generate.generate`"
-msgstr ""
+msgstr ":ref:`addon-weblate.generate.generate`"
 
 #: ../../admin/projects.rst:1019
 msgid ":ref:`addon-script`"
@@ -22513,16 +22370,12 @@ msgstr ""
 "的細節，也會以這種方式反饋給 Weblate。"
 
 #: ../../admin/support.rst:24
-#, fuzzy
-#| msgid "Data submitted to the Weblate"
 msgid "Info sent to the Weblate"
-msgstr "提交給 Weblate 的資料"
+msgstr "提交給 Weblate 的資訊"
 
 #: ../../admin/support.rst:26
-#, fuzzy
-#| msgid "List of Weblate supporters:"
 msgid "Your Weblate instance URL"
-msgstr "Weblate 支援者列表："
+msgstr "你的 Weblate 執行個體網址"
 
 #: ../../admin/support.rst:27
 #, fuzzy
@@ -22531,10 +22384,8 @@ msgid "Its site title"
 msgstr "全平台"
 
 #: ../../admin/support.rst:28
-#, fuzzy
-#| msgid "The Weblate version you are running"
 msgid "The version you are running"
-msgstr "您執行的 Weblate 版本"
+msgstr "你正在運行的版本"
 
 #: ../../admin/support.rst:29
 #, fuzzy
@@ -22642,10 +22493,8 @@ msgid "All steps for listing a server without a support contract:"
 msgstr "列出您的伺服器，沒有Socation WebBlate中的支援訂閱："
 
 #: ../../admin/support.rst:80
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register yourself at https://weblate.org/user/"
-msgstr "在 Weblate 中註冊帳號"
+msgstr "在 https://weblate.org/user/ 進行註冊"
 
 #: ../../admin/support.rst:81
 #, fuzzy
@@ -24349,8 +24198,6 @@ msgid "type project"
 msgstr "建立專案"
 
 #: ../../api.rst:1185 ../../api.rst:1194 ../../api.rst:1206 ../../api.rst:2447
-#, fuzzy
-#| msgid "Strings"
 msgid "string"
 msgstr "字串"
 
@@ -25073,10 +24920,8 @@ msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgstr "源單元連結；請參見 :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1948
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr "元件名稱"
+msgstr ":ref:`component-manage_units`，:ref:`adding-new-strings`"
 
 #: ../../api.rst:1953
 msgid "Trigger automatic translation."
@@ -25214,7 +25059,7 @@ msgstr ""
 
 #: ../../api.rst:2081
 msgid "Units"
-msgstr ""
+msgstr "單位"
 
 #: ../../api.rst:2083
 msgid ""
@@ -25387,10 +25232,8 @@ msgid "string age"
 msgstr "字串年齡"
 
 #: ../../api.rst:2144
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs partial update on translation unit."
-msgstr "執行自動翻譯"
+msgstr "對翻譯單元執行部分更新。"
 
 #: ../../api.rst:2148 ../../api.rst:2162
 #, fuzzy
@@ -25406,19 +25249,15 @@ msgstr ""
 
 #: ../../api.rst:2152 ../../api.rst:2166
 msgid "labels, available on source units"
-msgstr ""
+msgstr "標籤，在來源單位上可用"
 
 #: ../../api.rst:2158
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs full update on translation unit."
-msgstr "執行自動翻譯"
+msgstr "對翻譯單元執行完整更新。"
 
 #: ../../api.rst:2172
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Deletes a translation unit."
-msgstr "刪除翻譯記憶"
+msgstr "刪除一個翻譯單元。"
 
 #: ../../api.rst:2184
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -25550,10 +25389,8 @@ msgid "Remove source string association with screenshot."
 msgstr "檢閱 %s 的來源字串"
 
 #: ../../api.rst:2278
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string unit ID"
-msgstr "%s 的來源字串"
+msgstr "來源字串單元 ID"
 
 #: ../../api.rst:2283
 msgid "Creates a new screenshot."
@@ -25564,22 +25401,16 @@ msgid "Screenshot name"
 msgstr "畫面快照名稱"
 
 #: ../../api.rst:2297
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit partial information about screenshot."
-msgstr "更多 Weblate 相關資訊"
+msgstr "編輯有關螢幕擷圖的部分資訊。"
 
 #: ../../api.rst:2308
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit full information about screenshot."
-msgstr "更多 Weblate 相關資訊"
+msgstr "編輯有關螢幕擷圖的完整資訊。"
 
 #: ../../api.rst:2319
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Delete screenshot."
-msgstr "刪除畫面快照"
+msgstr "刪除螢幕擷圖。"
 
 #: ../../api.rst:2333
 msgid "Returns a list of add-ons."
@@ -25591,50 +25422,36 @@ msgid ""
 msgstr "附加元件對象屬性記錄在 :http:get:`/api/units/(int:id)/`。"
 
 #: ../../api.rst:2341
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about add-on information."
-msgstr "更多 Weblate 相關資訊"
+msgstr "傳回有關附加元件的資訊。"
 
 #: ../../api.rst:2345 ../../api.rst:2359
-#, fuzzy
-#| msgid "Example addon"
 msgid "name of an add-on"
-msgstr "範例附加元件"
+msgstr "附加元件的名稱"
 
 #: ../../api.rst:2347 ../../api.rst:2360 ../../api.rst:2368 ../../api.rst:2376
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Optional add-on configuration"
-msgstr "不良的組態"
+msgstr "選擇性的附加元件組態"
 
 #: ../../api.rst:2351
 msgid ":doc:`/admin/addons`"
-msgstr ""
+msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2355
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Creates a new add-on."
-msgstr "建立新詞彙表"
+msgstr "建立一個新的附加元件。"
 
 #: ../../api.rst:2364
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit partial information about add-on."
-msgstr "更多 Weblate 相關資訊"
+msgstr "編輯有關附加元件的部分資訊。"
 
 #: ../../api.rst:2372
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit full information about add-on."
-msgstr "更多 Weblate 相關資訊"
+msgstr "編輯有關附加元件的完整資訊。"
 
 #: ../../api.rst:2380
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete add-on."
-msgstr "刪除評註"
+msgstr "刪除附加元件。"
 
 #: ../../api.rst:2389
 msgid "Component lists"
@@ -25684,10 +25501,8 @@ msgid "Deletes the component list."
 msgstr "刪除組件列表。"
 
 #: ../../api.rst:2444
-#, fuzzy
-#| msgid "Associate component with a component list."
 msgid "List components in a component list."
-msgstr "使組件與組件列表相關。"
+msgstr "列出組件列表中的組件。"
 
 #: ../../api.rst:0
 #, fuzzy
@@ -25740,10 +25555,8 @@ msgid "Listing of the tasks is currently not available."
 msgstr "服務目前無法使用。"
 
 #: ../../api.rst:2487
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about a task."
-msgstr "更多 Weblate 相關資訊"
+msgstr "傳回有關任務的資訊。"
 
 #: ../../api.rst:2489
 msgid "Task UUID"
@@ -25757,17 +25570,15 @@ msgstr "有評註內容的字串"
 
 #: ../../api.rst:2492
 msgid "Task progress in percent"
-msgstr ""
+msgstr "任務進度百分比"
 
 #: ../../api.rst:2493
 msgid "Task result or progress details"
 msgstr "任務結果或過程細節"
 
 #: ../../api.rst:2494
-#, fuzzy
-#| msgid "Last login"
 msgid "Task log"
-msgstr "上次登入"
+msgstr "任務日誌"
 
 #: ../../api.rst:2499
 msgid "Statistics"
@@ -25781,7 +25592,7 @@ msgstr ""
 
 #: ../../api.rst:2506
 msgid "URL path"
-msgstr ""
+msgstr "網址路徑"
 
 #: ../../api.rst:2510
 #, fuzzy
@@ -25834,28 +25645,20 @@ msgid "percentage of failing checks"
 msgstr "檢查失敗的百分比"
 
 #: ../../api.rst:2526
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of approved strings"
-msgstr "納入唯讀字串"
+msgstr "已核可的字串數量"
 
 #: ../../api.rst:2527
-#, fuzzy
-#| msgid "number of failing checks"
 msgid "number of approved words"
-msgstr "檢查失敗的數量"
+msgstr "已核可的字數"
 
 #: ../../api.rst:2528
-#, fuzzy
-#| msgid "number of failing checks"
 msgid "number of approved characters"
-msgstr "檢查失敗的數量"
+msgstr "已核可的字元數"
 
 #: ../../api.rst:2529
-#, fuzzy
-#| msgid "percentage of translated strings"
 msgid "percentage of approved strings"
-msgstr "已翻譯字串的百分比"
+msgstr "已核可字串的百分比"
 
 #: ../../api.rst:2530
 #, fuzzy
@@ -25870,10 +25673,8 @@ msgid "percentage of approved characters"
 msgstr "已翻譯字串的百分比"
 
 #: ../../api.rst:2532
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of read-only strings"
-msgstr "納入唯讀字串"
+msgstr "唯讀字串的數量"
 
 #: ../../api.rst:2533
 #, fuzzy
@@ -25882,10 +25683,8 @@ msgid "number of read-only words"
 msgstr "納入唯讀字串"
 
 #: ../../api.rst:2534
-#, fuzzy
-#| msgid "number of total characters"
 msgid "number of read-only characters"
-msgstr "總字符的數量"
+msgstr "唯讀字元的數量"
 
 #: ../../api.rst:2535
 #, fuzzy
@@ -25918,10 +25717,8 @@ msgid "number of strings with comments"
 msgstr "帶有註釋的字串數量"
 
 #: ../../api.rst:2540
-#, fuzzy
-#| msgid "Project name"
 msgid "object name"
-msgstr "專案名稱"
+msgstr "物件名稱"
 
 #: ../../api.rst:2541
 msgid "URL to access the object (if applicable)"
@@ -26062,8 +25859,6 @@ msgid "Category of the matched item."
 msgstr ""
 
 #: ../../api.rst:2589
-#, fuzzy
-#| msgid "Category"
 msgid "Categories"
 msgstr "類別"
 
@@ -26080,10 +25875,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2607 ../../api.rst:2620 ../../api.rst:2630 ../../api.rst:2640
-#, fuzzy
-#| msgid "Category"
 msgid "Category ID"
-msgstr "類別"
+msgstr "類別 ID"
 
 #: ../../api.rst:2609
 #, fuzzy
@@ -26108,20 +25901,16 @@ msgid "Link to a parent category."
 msgstr ""
 
 #: ../../api.rst:2618
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit partial information about category."
-msgstr "更多 Weblate 相關資訊"
+msgstr "編輯有關類別的部分資訊。"
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "參數 id"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Key type"
 msgid "type id"
-msgstr "金鑰類型"
+msgstr "類型 id"
 
 #: ../../api.rst:0
 #, fuzzy
@@ -26136,16 +25925,12 @@ msgid "Optional category configuration"
 msgstr "不良的組態"
 
 #: ../../api.rst:2628
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Edit full information about category."
-msgstr "更多 Weblate 相關資訊"
+msgstr "編輯有關類別的完整資訊。"
 
 #: ../../api.rst:2638
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete category."
-msgstr "刪除評註"
+msgstr "刪除類別。"
 
 #: ../../api.rst:2647
 #, fuzzy
@@ -26231,6 +26016,8 @@ msgid ""
 "https://docs.github.com/en/get-started/customizing-your-github-workflow/"
 "exploring-integrations/about-webhooks"
 msgstr ""
+"https://docs.github.com/en/get-started/customizing-your-github-workflow/"
+"exploring-integrations/about-webhooks"
 
 #: ../../api.rst:2704
 msgid "Generic information about GitHub Webhooks"
@@ -26239,7 +26026,7 @@ msgstr "GitHub Webhooks 的一般資訊"
 #: ../../api.rst:2705 ../../api.rst:2719 ../../api.rst:2733 ../../api.rst:2747
 #: ../../api.rst:2766 ../../api.rst:2780 ../../api.rst:2794
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2706 ../../api.rst:2720 ../../api.rst:2734 ../../api.rst:2748
 #: ../../api.rst:2767 ../../api.rst:2781 ../../api.rst:2795
@@ -26258,7 +26045,7 @@ msgstr "關於設定 GitLab 整合的指示"
 
 #: ../../api.rst:2717
 msgid "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
-msgstr ""
+msgstr "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
 
 #: ../../api.rst:2718
 msgid "Generic information about GitLab Webhooks"
@@ -26294,7 +26081,7 @@ msgstr "關於設定 Pagure 整合的指示"
 
 #: ../../api.rst:2745
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
-msgstr ""
+msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2746
 msgid "Generic information about Pagure Webhooks"
@@ -26321,18 +26108,12 @@ msgid "For instruction on setting up Azure integration"
 msgstr "關於設定 Azure 整合的指示"
 
 #: ../../api.rst:2764
-#, fuzzy
-#| msgid ""
-#| "`Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/"
-#| "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
-#| "hooks/azure/`, :ref:`hosted-push`"
 msgid ""
 "https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/"
 "webhooks?view=azure-devops"
 msgstr ""
-"`Azure DevOps 手冊中的Web hooks <https://docs.microsoft.com/en-us/azure/"
-"devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:` /"
-"hooks/azure/`, :ref:`hosted-push`"
+"https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/"
+"webhooks?view=azure-devops"
 
 #: ../../api.rst:2765
 #, fuzzy
@@ -26352,7 +26133,7 @@ msgstr "關於設定 Gitea 整合的指示"
 
 #: ../../api.rst:2778
 msgid "https://docs.gitea.io/en-us/webhooks/"
-msgstr ""
+msgstr "https://docs.gitea.io/zh-tw/webhooks/"
 
 #: ../../api.rst:2779
 msgid "Generic information about Gitea Webhooks"
@@ -26374,7 +26155,7 @@ msgstr "關於設定 Gitee 整合的指示"
 
 #: ../../api.rst:2792
 msgid "https://gitee.com/help/categories/40"
-msgstr ""
+msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:2793
 msgid "Generic information about Gitee Webhooks"
@@ -26382,7 +26163,7 @@ msgstr "關於 Gitee Webhooks 的一般資訊"
 
 #: ../../api.rst:2800
 msgid "Exports"
-msgstr ""
+msgstr "匯出"
 
 #: ../../api.rst:2802
 msgid ""
@@ -26443,10 +26224,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.5.4"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.5.4"
 
 #: ../../changes.rst:4
 #, fuzzy
@@ -26476,10 +26255,8 @@ msgstr ""
 #: ../../changes.rst:257 ../../changes.rst:290 ../../changes.rst:315
 #: ../../changes.rst:351 ../../changes.rst:384 ../../changes.rst:425
 #: ../../changes.rst:458 ../../changes.rst:491 ../../changes.rst:548
-#, fuzzy
-#| msgid "**languages**"
 msgid "**Bug fixes**"
-msgstr "**語言**"
+msgstr "**臭蟲修復**"
 
 #: ../../changes.rst:13
 #, fuzzy
@@ -26535,10 +26312,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.5.3"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.5.3"
 
 #: ../../changes.rst:24
 #, fuzzy
@@ -26579,10 +26354,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.5.2"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.5.2"
 
 #: ../../changes.rst:45 ../../changes.rst:60
 #, fuzzy
@@ -26609,16 +26382,14 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:58
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.5.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.5.1"
 
 #: ../../changes.rst:62 ../../changes.rst:99 ../../changes.rst:210
 #: ../../changes.rst:272 ../../changes.rst:334 ../../changes.rst:375
 #: ../../changes.rst:402 ../../changes.rst:478 ../../changes.rst:519
 msgid "**New features**"
-msgstr ""
+msgstr "**新功能**"
 
 #: ../../changes.rst:64
 msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
@@ -26717,10 +26488,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:95
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.5"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.5"
 
 #: ../../changes.rst:97
 #, fuzzy
@@ -26733,10 +26502,8 @@ msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid "Performance improvements."
 msgid "API improvements"
-msgstr "性能改進。"
+msgstr "API 改進"
 
 #: ../../changes.rst:105
 #, fuzzy
@@ -26929,10 +26696,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:151
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.4.3"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.4.3"
 
 #: ../../changes.rst:153
 #, fuzzy
@@ -27001,10 +26766,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:174
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.4.2"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.4.2"
 
 #: ../../changes.rst:176
 #, fuzzy
@@ -27033,10 +26796,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:190
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.4.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.4.1"
 
 #: ../../changes.rst:192
 #, fuzzy
@@ -27063,10 +26824,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:206
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.4"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.4"
 
 #: ../../changes.rst:208
 #, fuzzy
@@ -27081,16 +26840,12 @@ msgid ":ref:`check-perl-brace-format` quality check."
 msgstr "跳過“ Perl 格式”品質檢查。"
 
 #: ../../changes.rst:213
-#, fuzzy
-#| msgid ":doc:`tt:formats/dtd`"
 msgid ":doc:`/formats/moko`."
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`/formats/moko`。"
 
 #: ../../changes.rst:214
-#, fuzzy
-#| msgid ":doc:`tt:formats/flatxml`"
 msgid ":doc:`/formats/formatjs`."
-msgstr ":doc:`tt:formats/flatxml`"
+msgstr ":doc:`/formats/formatjs`。"
 
 #: ../../changes.rst:215
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
@@ -27226,10 +26981,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:253
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.3.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.3.1"
 
 #: ../../changes.rst:255
 #, fuzzy
@@ -27256,10 +27009,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:268
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.3"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.3"
 
 #: ../../changes.rst:270
 #, fuzzy
@@ -27290,10 +27041,8 @@ msgstr ""
 "更改列表的 URL；請參見 :http:get:`/api/projects/(string:project)/repository/`"
 
 #: ../../changes.rst:277
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`。"
 
 #: ../../changes.rst:278
 #, fuzzy
@@ -27372,10 +27121,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:306
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.2.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.2.1"
 
 #: ../../changes.rst:308
 #, fuzzy
@@ -27430,10 +27177,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:330
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.2"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.2"
 
 #: ../../changes.rst:332
 #, fuzzy
@@ -27548,10 +27293,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:371
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.1.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.1.1"
 
 #: ../../changes.rst:373
 #, fuzzy
@@ -27605,10 +27348,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:398
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.1"
 
 #: ../../changes.rst:400
 #, fuzzy
@@ -27791,10 +27532,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:449
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.0.2"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.0.2"
 
 #: ../../changes.rst:451
 #, fuzzy
@@ -27831,10 +27570,8 @@ msgid "Translating a language inside a category."
 msgstr "翻譯的基礎語言可被修改。"
 
 #: ../../changes.rst:463
-#, fuzzy
-#| msgid "Category"
 msgid "Categories sorting."
-msgstr "類別"
+msgstr "類別排序。"
 
 #: ../../changes.rst:469 ../../changes.rst:510
 msgid ""
@@ -27855,10 +27592,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:474
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.0.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:476
 #, fuzzy
@@ -27972,10 +27707,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes.rst:515
-#, fuzzy
-#| msgid "Weblate 4.0"
 msgid "Weblate 5.0"
-msgstr "Weblate 4.0"
+msgstr "Weblate 5.0"
 
 #: ../../changes.rst:517
 #, fuzzy
@@ -30010,7 +29743,7 @@ msgstr "發佈於 2016 年 08 月 31 日。"
 
 #: ../../changes/v2.rst:287
 msgid "Translations."
-msgstr ""
+msgstr "翻譯。"
 
 #: ../../changes/v2.rst:288
 #, fuzzy
@@ -32297,16 +32030,12 @@ msgid "Add support for providing additional textual context."
 msgstr "為提供另外的文本語境新增支援。"
 
 #: ../../changes/v4.rst:2
-#, fuzzy
-#| msgid "Weblate 3.x series"
 msgid "Weblate 4.x series"
-msgstr "Weblate 3.x 系列"
+msgstr "Weblate 4.x 系列"
 
 #: ../../changes/v4.rst:5
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.18.2"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.18.2"
 
 #: ../../changes/v4.rst:7
 msgid "Released on June 30th 2023."
@@ -32354,10 +32083,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:18
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.18.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.18.1"
 
 #: ../../changes/v4.rst:20
 msgid "Released on June 16th 2023."
@@ -32386,10 +32113,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:28
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.18"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.18"
 
 #: ../../changes/v4.rst:30
 msgid "Released on June 15th 2023."
@@ -32538,10 +32263,8 @@ msgstr ""
 "整您的设置。"
 
 #: ../../changes/v4.rst:64
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.17"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.17"
 
 #: ../../changes/v4.rst:66
 msgid "Released on April 17th 2023."
@@ -32665,20 +32388,16 @@ msgid ""
 msgstr ""
 
 #: ../../changes/v4.rst:107
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.4"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.4"
 
 #: ../../changes/v4.rst:109
 msgid "Released on March 16th 2023."
 msgstr "發佈於 2023 年 03 月 16 日。"
 
 #: ../../changes/v4.rst:111 ../../changes/v4.rst:122
-#, fuzzy
-#| msgid "Locales updates."
 msgid "Dependencies updates."
-msgstr "區域設定更新。"
+msgstr "依賴項更新。"
 
 #: ../../changes/v4.rst:112
 #, fuzzy
@@ -32699,10 +32418,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:117
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.3"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.3"
 
 #: ../../changes/v4.rst:119
 msgid "Released on March 15th 2023."
@@ -32727,10 +32444,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:129
-#, fuzzy
-#| msgid "Weblate 4.6.2"
 msgid "Weblate 4.16.2"
-msgstr "Weblate 4.6.2"
+msgstr "Weblate 4.16.2"
 
 #: ../../changes/v4.rst:131
 msgid "Released on March 8th 2023."
@@ -32780,10 +32495,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:142
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.16.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.16.1"
 
 #: ../../changes/v4.rst:144 ../../changes/v4.rst:153
 msgid "Released on March 1st 2023."
@@ -32806,10 +32519,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:151
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.16"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.16"
 
 #: ../../changes/v4.rst:155
 msgid "Format string checks now also detects duplicated formats."
@@ -32922,10 +32633,8 @@ msgstr ""
 "`static-files`。"
 
 #: ../../changes/v4.rst:181
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.15.2"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.15.2"
 
 #: ../../changes/v4.rst:183
 msgid "Released on January 25th 2023."
@@ -32959,10 +32668,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:192
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.15.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.15.1"
 
 #: ../../changes/v4.rst:194
 msgid "Released on January 19th 2023."
@@ -33029,10 +32736,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:209
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.15"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.15"
 
 #: ../../changes/v4.rst:211
 msgid "Released on December 16th 2022."
@@ -33488,10 +33193,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes/v4.rst:332
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.13.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.13.1"
 
 #: ../../changes/v4.rst:334
 msgid "Released on July 1st 2022."
@@ -33564,10 +33267,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:349
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.13"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.13"
 
 #: ../../changes/v4.rst:351
 msgid "Released on June 15th 2022."
@@ -33740,10 +33441,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:399
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.12.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.12.1"
 
 #: ../../changes/v4.rst:401
 msgid "Released on April 29th 2022."
@@ -33794,10 +33493,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:412
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.12"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.12"
 
 #: ../../changes/v4.rst:414
 msgid "Released on April 20th 2022."
@@ -33893,10 +33590,8 @@ msgid "There are no special steps required."
 msgstr "有幾個新的且更新的要求。"
 
 #: ../../changes/v4.rst:439
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11.2"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11.2"
 
 #: ../../changes/v4.rst:441 ../../changes/v4.rst:450
 msgid "Released on March 4th 2022."
@@ -33919,10 +33614,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:448
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
 msgid ""
@@ -33966,10 +33659,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:461
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.11"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.11"
 
 #: ../../changes/v4.rst:463
 msgid "Released on February 25th 2022."
@@ -34151,10 +33842,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes/v4.rst:506
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.10.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.10.1"
 
 #: ../../changes/v4.rst:508
 msgid "Released on December 22nd 2021."
@@ -34209,10 +33898,8 @@ msgstr ""
 "closed=1>`__."
 
 #: ../../changes/v4.rst:521
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.10"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.10"
 
 #: ../../changes/v4.rst:523
 msgid "Released on December 16th 2021."
@@ -34810,10 +34497,8 @@ msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
 msgstr ""
 
 #: ../../changes/v4.rst:684
-#, fuzzy
-#| msgid "Weblate now requires Django 3.1."
 msgid "Weblate now requires Django 3.2."
-msgstr "Weblate 現在需要Django 3.1。"
+msgstr "Weblate 現在需要 Django 3.2。"
 
 #: ../../changes/v4.rst:685
 #, fuzzy
@@ -36877,7 +36562,7 @@ msgstr ""
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
-msgstr ""
+msgstr "領導"
 
 #: ../../contributing/about.rst:31
 #, fuzzy
@@ -36889,7 +36574,7 @@ msgstr "本項目由 Michal Čihař <michal@cihar.com> 來維護。"
 
 #: ../../contributing/about.rst:34
 msgid "Authors"
-msgstr ""
+msgstr "作者"
 
 #: ../../contributing/about.rst:36
 #, fuzzy
@@ -36932,10 +36617,8 @@ msgstr "組件更新"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Save configuration."
-msgstr "不良的組態"
+msgstr "儲存組態。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
@@ -37207,13 +36890,11 @@ msgstr "還能夠手動觸發檢查，來檢查所有文件的執行："
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
-msgstr ""
+msgstr "Weblate 貢獻者溝通指南"
 
 #: ../../contributing/communication.rst:5
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub Issues"
-msgstr "GitHub 使用者名稱"
+msgstr "GitHub 議題"
 
 #: ../../contributing/communication.rst:6
 msgid ""
@@ -37225,10 +36906,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/communication.rst:11
-#, fuzzy
-#| msgid "Weblate discussions"
 msgid "Weblate GitHub Discussions"
-msgstr "Weblate 討論"
+msgstr "Weblate GitHub 討論"
 
 #: ../../contributing/communication.rst:12
 msgid ""
@@ -37240,10 +36919,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/communication.rst:18
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Weblate on Mastodon"
-msgstr "Weblate 設定組態"
+msgstr "Mastondon 上的 Weblate"
 
 #: ../../contributing/communication.rst:19
 msgid ""
@@ -37620,7 +37297,7 @@ msgstr ":doc:`django文件中的翻譯主題<django：主題/ i18n / translation
 
 #: ../../contributing/frontend.rst:78
 msgid "Icons"
-msgstr ""
+msgstr "圖示"
 
 #: ../../contributing/frontend.rst:80
 msgid ""
@@ -37711,10 +37388,8 @@ msgstr ""
 "串位置`\\ 部分，並以修正提交 PR。"
 
 #: ../../contributing/index.rst:35
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Contribute to Weblate documentation"
-msgstr "為 Weblate 做出貢獻"
+msgstr "為 Weblate 文件作出貢獻"
 
 #: ../../contributing/index.rst:37
 msgid ""
@@ -37839,8 +37514,6 @@ msgstr ""
 "page`_。"
 
 #: ../../../BACKERS.rst:2
-#, fuzzy
-#| msgid "Backers who have funded Weblate"
 msgid "Supporters who have funded Weblate"
 msgstr "資助 Weblate 的支援者"
 
@@ -37870,11 +37543,11 @@ msgstr "Loic Dachary"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
-msgstr ""
+msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 #, fuzzy
@@ -37900,7 +37573,7 @@ msgstr ""
 
 #: ../../../BACKERS.rst:18
 msgid "James Valleroy"
-msgstr ""
+msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:19
 msgid "wallabag.org"
@@ -37994,7 +37667,7 @@ msgstr "客戶端文件（CSS、Javascript 和圖片），請參見 :doc:`fronte
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
-msgstr ""
+msgstr "模組"
 
 #: ../../contributing/internals.rst:29
 msgid ""
@@ -38294,10 +37967,8 @@ msgstr ""
 "www.gnu.org/licenses/>。"
 
 #: ../../contributing/modules.rst:2
-#, fuzzy
-#| msgid "Contributing to Weblate"
 msgid "Contributing to Weblate modules"
-msgstr "為 Weblate 做貢獻"
+msgstr "為 Weblate 模組作出貢獻"
 
 #: ../../contributing/modules.rst:4
 msgid ""
@@ -38498,24 +38169,20 @@ msgstr ""
 "組態。"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "刪除翻譯記憶"
+msgstr "Weblate 翻譯記憶結構"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Key type"
 msgid "type"
-msgstr "金鑰類型"
+msgstr "類型"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr ""
+msgstr "*陣列*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
@@ -38528,16 +38195,12 @@ msgid "*The Translation Memory Item*"
 msgstr "翻譯記憶"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Object"
 msgid "*object*"
-msgstr "對象"
+msgstr "*物件*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "properties"
-msgstr "GWT 屬性"
+msgstr "屬性"
 
 #: ../../contributing/schemas.rst:9
 msgid "**category**"
@@ -38558,27 +38221,25 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*integer*"
-msgstr ""
+msgstr "*整數*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Query examples"
 msgid "examples"
-msgstr "查詢範例"
+msgstr "例子"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../workflows.rst:146
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../../contributing/schemas.rst:9
 msgid "minimum"
-msgstr ""
+msgstr "最小"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../workflows.rst:115 ../../workflows.rst:180
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "default"
@@ -38599,24 +38260,20 @@ msgid "Filename or component name"
 msgstr "重新命名元件"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Strings"
 msgid "*string*"
-msgstr "字串"
+msgstr "*字串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test.tmx"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Move component"
 msgid "project/component"
-msgstr "移動元件"
+msgstr "專案／組件"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**來源**"
 
 #: ../../contributing/schemas.rst:9
 #, fuzzy
@@ -38625,10 +38282,8 @@ msgid "*The Source String*"
 msgstr "來源字串"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
-msgstr "黃色"
+msgstr "你好"
 
 #: ../../contributing/schemas.rst:9
 msgid "minLength"
@@ -38641,10 +38296,8 @@ msgid "**source\\_language**"
 msgstr "來源語言"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "*The Source Language*"
-msgstr "來源語言"
+msgstr "*來源語言*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
@@ -38669,10 +38322,8 @@ msgid "**target**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Target strings"
 msgid "*The Target String*"
-msgstr "目標字串"
+msgstr "*目標字串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
@@ -38685,20 +38336,16 @@ msgid "**target\\_language**"
 msgstr "字串目標語言"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "*The Target Language*"
-msgstr "字串目標語言"
+msgstr "*目標語言*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Additional projects"
 msgid "additionalProperties"
-msgstr "其他專案"
+msgstr "additionalProperties"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
@@ -38721,10 +38368,8 @@ msgstr ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:-1
-#, fuzzy
-#| msgid "data exports"
 msgid "Weblate user data export"
-msgstr "資料匯出"
+msgstr "Weblate 使用者資料匯出"
 
 #: ../../contributing/schemas.rst:19
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
@@ -38769,8 +38414,6 @@ msgid "*Full name*"
 msgstr "全名"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate Admin"
 msgstr "Weblate 管理"
 
@@ -38789,10 +38432,8 @@ msgid "noreply@example.com"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "C format"
 msgid "format"
-msgstr "C 格式"
+msgstr "格式"
 
 #: ../../contributing/schemas.rst:19
 msgid "email"
@@ -38873,7 +38514,7 @@ msgstr "翻譯的字串數"
 
 #: ../../contributing/schemas.rst:19
 msgid "24"
-msgstr ""
+msgstr "24"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -38944,10 +38585,8 @@ msgid "**translate\\_mode**"
 msgstr "未翻譯"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "翻譯編輯器模式"
+msgstr "*翻譯編輯器模式*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
@@ -38955,7 +38594,7 @@ msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Zen editor mode*"
-msgstr "禪譯編輯模式"
+msgstr "*禪譯編輯模式*"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -38998,10 +38637,8 @@ msgid "**dashboard\\_component\\_list**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default component list"
 msgid "*Default component list*"
-msgstr "預設元件列表"
+msgstr "*預設組件列表*"
 
 #: ../../contributing/schemas.rst:19
 msgid "null"
@@ -39140,10 +38777,8 @@ msgid "login"
 msgstr "登入"
 
 #: ../../contributing/schemas.rst:22
-#, fuzzy
-#| msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
-msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
+msgstr ":ref:`user-profile`，:wladmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
 #, fuzzy
@@ -39694,10 +39329,8 @@ msgid "Misconfigured monolingual translation."
 msgstr "單語翻譯設定錯誤。"
 
 #: ../../devel/alerts.rst:20
-#, fuzzy
-#| msgid "Component name"
 msgid "Broken :ref:`component`"
-msgstr "元件名稱"
+msgstr "損壞的 :ref:`component`"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
@@ -40117,12 +39750,12 @@ msgstr ""
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
-msgstr ""
+msgstr "欄位"
 
 #: ../../devel/gettext.rst:222 ../../user/checks.rst:1687
 #: ../../workflows.rst:106 ../../workflows.rst:138 ../../workflows.rst:171
 msgid "Value"
-msgstr ""
+msgstr "數值"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
@@ -40194,10 +39827,8 @@ msgstr ""
 "而這些可以在您的 web 頁面上使用來將其在地化。"
 
 #: ../../devel/html.rst:20
-#, fuzzy
-#| msgid "Create component"
 msgid "Creating component"
-msgstr "建立元件"
+msgstr "正在建立組件"
 
 #: ../../devel/html.rst:22
 msgid ""
@@ -40249,10 +39880,8 @@ msgstr ""
 "以）。"
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configuring Weblate CDN add-on"
-msgstr "設定附加元件"
+msgstr "組態 Weblate CDN 附加元件"
 
 #: ../../devel/html.rst:47
 #, fuzzy
@@ -40294,10 +39923,8 @@ msgstr ""
 "見 :ref:`cdn-addon-extract`。"
 
 #: ../../devel/html.rst:65
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "String extraction for Weblate CDN"
-msgstr "需要處理的字串"
+msgstr "Weblate CDN 的字串提取"
 
 #: ../../devel/html.rst:67
 msgid ""
@@ -40335,10 +39962,8 @@ msgstr ""
 "化。"
 
 #: ../../devel/html.rst:101
-#, fuzzy
-#| msgid "Localization"
 msgid "HTML localization using Weblate CDN"
-msgstr "在地化"
+msgstr "使用 Weblate CDN 進行 HTML 在地化"
 
 #: ../../devel/html.rst:103
 msgid ""
@@ -40567,10 +40192,8 @@ msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:46
-#, fuzzy
-#| msgid "List of recent changes done in Weblate"
 msgid "Fetching remote changes into Weblate"
-msgstr "最近 Weblate 中所做的更動列表"
+msgstr "取得遠端變更至 Weblate"
 
 #: ../../devel/integration.rst:48
 #, fuzzy
@@ -40941,7 +40564,7 @@ msgstr "所有統計資料可以在三個變量中得到："
 
 #: ../../devel/reporting.rst:84
 msgid "`Total`"
-msgstr ""
+msgstr "`Total`"
 
 #: ../../devel/reporting.rst:85
 #, fuzzy
@@ -40951,7 +40574,7 @@ msgstr "編輯的字串的總數。"
 
 #: ../../devel/reporting.rst:86
 msgid "`New`"
-msgstr ""
+msgstr "`New`"
 
 #: ../../devel/reporting.rst:87
 #, fuzzy
@@ -40962,7 +40585,7 @@ msgstr "新翻譯的字串，以前沒有翻譯。"
 
 #: ../../devel/reporting.rst:88
 msgid "`Approved`"
-msgstr ""
+msgstr "`Approved`"
 
 #: ../../devel/reporting.rst:89
 #, fuzzy
@@ -40972,7 +40595,7 @@ msgstr "在復查流程中同意的字串數量（請參見 :ref:`reviews`）。
 
 #: ../../devel/reporting.rst:91
 msgid "`Edited`"
-msgstr ""
+msgstr "`Edited`"
 
 #: ../../devel/reporting.rst:91
 #, fuzzy
@@ -40986,7 +40609,7 @@ msgstr "後面是每項內容的計量："
 
 #: ../../devel/reporting.rst:95
 msgid "`Count`"
-msgstr ""
+msgstr "`Count`"
 
 #: ../../devel/reporting.rst:96
 #, fuzzy
@@ -40996,7 +40619,7 @@ msgstr "字串的數量。"
 
 #: ../../devel/reporting.rst:97
 msgid "`Edits`"
-msgstr ""
+msgstr "`Edits`"
 
 #: ../../devel/reporting.rst:98
 #, fuzzy
@@ -41273,10 +40896,8 @@ msgid "`gettext PO file`"
 msgstr "gettext PO 檔"
 
 #: ../../devel/sphinx.rst:43
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery configuration"
-msgstr "元件探索"
+msgstr "組件探索組態"
 
 #: ../../devel/sphinx.rst:46
 msgid ""
@@ -41388,7 +41009,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:36
 msgid "Platform"
-msgstr ""
+msgstr "平台"
 
 #: ../../devel/starting.rst:36
 msgid "Recommended format"
@@ -41420,7 +41041,7 @@ msgstr ":ref:`qtling`"
 
 #: ../../devel/starting.rst:44
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: ../../devel/starting.rst:44 ../../devel/starting.rst:48
 #: ../../devel/starting.rst:52 ../../formats.rst:51
@@ -41437,11 +41058,11 @@ msgstr ":ref:`gettext` [#php]_"
 
 #: ../../devel/starting.rst:48
 msgid "C/C++"
-msgstr ""
+msgstr "C/C++"
 
 #: ../../devel/starting.rst:50
 msgid "C#"
-msgstr ""
+msgstr "C#"
 
 #: ../../devel/starting.rst:50 ../../formats.rst:187
 msgid ":ref:`dotnet`"
@@ -41449,7 +41070,7 @@ msgstr ":ref:`dotnet`"
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
@@ -41477,7 +41098,7 @@ msgstr ":ref:`xliff` [#java]_"
 
 #: ../../devel/starting.rst:60
 msgid "JavaScript"
-msgstr ""
+msgstr "JavaScript"
 
 #: ../../devel/starting.rst:60
 msgid ":ref:`js-i18next` [#js]_"
@@ -41580,16 +41201,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/thirdparty.rst:13
-#, fuzzy
-#| msgid ""
-#| "`JWeblate, a Java-based Weblate library <https://github.com/"
-#| "javierllorente/jweblate>`_"
 msgid ""
 "`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
 "perceval-weblate>`_"
 msgstr ""
-"`JWeblate，一個基於 Java 所建立的 Weblate 函式庫 <https://github.com/"
-"javierllorente/jweblate>`_"
+"`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
+"perceval-weblate>`_"
 
 #: ../../devel/thirdparty.rst:14
 msgid ""
@@ -41894,10 +41511,8 @@ msgstr ""
 "各種字串必須最長 768 個字符。這是由於 MySQL 資料庫的兼容而導致的技術限制。"
 
 #: ../../devel/translations.rst:145
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
-msgstr "元件名稱"
+msgstr ":ref:`custom-checks`，:ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:149
 #, fuzzy
@@ -42504,10 +42119,8 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:413
-#, fuzzy
-#| msgid "How to handle requests for creating new translations."
 msgid "How to handle renaming translation files?"
-msgstr "如何處理建立新翻譯的請求。"
+msgstr "如何處理重新命名的翻譯檔案？"
 
 #: ../../faq.rst:415
 msgid ""
@@ -42726,10 +42339,8 @@ msgid ""
 msgstr "此外，如果翻譯檔案格式支援，則檔案標頭會更新為包含翻譯者的名稱。"
 
 #: ../../faq.rst:531
-#, fuzzy
-#| msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
+msgstr ":wladmin:`list_translators`，:doc:`../devel/reporting`"
 
 #: ../../faq.rst:535
 msgid "Why does Weblate force showing all PO files in a single tree?"
@@ -42846,7 +42457,7 @@ msgstr "所有受支援格式的功能"
 
 #: ../../formats.rst:43
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: ../../formats.rst:44
 msgid "Linguality [#m]_"
@@ -42880,7 +42491,7 @@ msgstr "附加狀態 [#a]_"
 
 #: ../../formats.rst:52 ../../formats.rst:324
 msgid "bilingual"
-msgstr ""
+msgstr "雙語"
 
 #: ../../formats.rst:53 ../../formats.rst:54 ../../formats.rst:55
 #: ../../formats.rst:56 ../../formats.rst:61 ../../formats.rst:62
@@ -42906,7 +42517,7 @@ msgstr ""
 #: ../../user/checks.rst:1700 ../../user/checks.rst:1701
 #: ../../user/checks.rst:1702 ../../user/checks.rst:1703
 msgid "yes"
-msgstr ""
+msgstr "是"
 
 #: ../../formats.rst:57 ../../formats.rst:65
 msgid "yes [#po]_"
@@ -42942,7 +42553,7 @@ msgstr ":ref:`xliff`"
 #: ../../formats.rst:68 ../../formats.rst:76 ../../formats.rst:108
 #: ../../formats.rst:124 ../../formats.rst:204
 msgid "both"
-msgstr ""
+msgstr "兩者"
 
 #: ../../formats.rst:74
 msgid "needs editing, approved"
@@ -42999,7 +42610,7 @@ msgstr ":ref:`javaprop`"
 #: ../../user/checks.rst:1693 ../../user/checks.rst:1694
 #: ../../user/checks.rst:1695 ../../user/checks.rst:1699
 msgid "no"
-msgstr ""
+msgstr "否"
 
 #: ../../formats.rst:83
 msgid ":ref:`mi18n-lang`"
@@ -43132,28 +42743,20 @@ msgid "See :ref:`bimono`"
 msgstr "請參見 :ref:`bimono`"
 
 #: ../../formats.rst:357
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-plurals`"
-msgstr "請參見 :ref:`custom-checks`"
+msgstr "請參見 :ref:`format-plurals`"
 
 #: ../../formats.rst:358
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-description`"
-msgstr "請參見 :ref:`custom-checks`"
+msgstr "請參見 :ref:`format-description`"
 
 #: ../../formats.rst:359
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-context`"
-msgstr "請參見 :ref:`custom-checks`"
+msgstr "請參見 :ref:`format-context`"
 
 #: ../../formats.rst:360
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-location`"
-msgstr "請參見 :ref:`custom-checks`"
+msgstr "請參見 :ref:`format-location`"
 
 #: ../../formats.rst:361
 #, fuzzy
@@ -43172,10 +42775,8 @@ msgid ""
 msgstr "放在 ``<string>`` 元素前的 XML 註釋，解析為開發者的註釋。"
 
 #: ../../formats.rst:363
-#, fuzzy
-#| msgid "See :ref:`custom-checks`"
 msgid "See :ref:`format-flags`."
-msgstr "請參見 :ref:`custom-checks`"
+msgstr "請參見 :ref:`format-flags`。"
 
 #: ../../formats.rst:364
 msgid "The gettext type comments are used as flags."
@@ -43238,8 +42839,6 @@ msgstr ""
 "供的字串，但不要在最終的字串中使用。"
 
 #: ../../formats.rst:395
-#, fuzzy
-#| msgid "String state"
 msgid "String states"
 msgstr "字串狀態"
 
@@ -43364,8 +42963,6 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:475
-#, fuzzy
-#| msgid "Pluralized string"
 msgid "Pluralized strings"
 msgstr "複數化字串"
 
@@ -43910,16 +43507,12 @@ msgstr ""
 "到Excel工作簿中，則您已經獲得了具有正確文件格式的文件。"
 
 #: ../../formats/excel.rst:22
-#, fuzzy
-#| msgid "``path/*.srt``"
 msgid "``path/*.xlsx``"
-msgstr "``path/*.srt``"
+msgstr "``path/*.xlsx``"
 
 #: ../../formats/excel.rst:24 ../../formats/excel.rst:26
-#, fuzzy
-#| msgid "``path/en.srt``"
 msgid "``path/en.xlsx``"
-msgstr "``path/en.srt``"
+msgstr "``path/en.xlsx``"
 
 #: ../../formats/excel.rst:28
 #, fuzzy
@@ -43978,16 +43571,12 @@ msgid "`Project Fluent website <https://projectfluent.org/>`_"
 msgstr ""
 
 #: ../../formats/fluent.rst:30
-#, fuzzy
-#| msgid "``_locales/*/messages.json``"
 msgid "``locales/*/messages.ftl``"
-msgstr "``_locales/*/messages.json``"
+msgstr "``locales/*/messages.ftl``"
 
 #: ../../formats/fluent.rst:32
-#, fuzzy
-#| msgid "``_locales/en/messages.json``"
 msgid "``locales/en/messages.ftl``"
-msgstr "``_locales/en/messages.json``"
+msgstr "``locales/en/messages.ftl``"
 
 #: ../../formats/fluent.rst:36
 #, fuzzy
@@ -44011,16 +43600,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats/formatjs.rst:45
-#, fuzzy
-#| msgid "``langs/*.json``"
 msgid "``src/lang/*.json``"
-msgstr "``langs/*.json``"
+msgstr "``src/lang/*.json``"
 
 #: ../../formats/formatjs.rst:47
-#, fuzzy
-#| msgid "``langs/translation-en.json``"
 msgid "``src/extracted/en.json``"
-msgstr "``langs/translation-en.json``"
+msgstr "``src/extracted/en.json``"
 
 #: ../../formats/formatjs.rst:51
 #, fuzzy
@@ -44180,10 +43765,8 @@ msgid "Example file v2:"
 msgstr "範例檔案："
 
 #: ../../formats/go-i18n.rst:49
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr "典型的 Weblate :ref:`component`"
+msgstr "v1 的典型 Weblate :ref:`component`"
 
 #: ../../formats/go-i18n.rst:51 ../../formats/go-i18n.rst:64
 #: ../../formats/i18next.rst:53
@@ -44202,10 +43785,8 @@ msgid "`go-i18n v1 JSON file`"
 msgstr "go-i18n JSON 檔"
 
 #: ../../formats/go-i18n.rst:62
-#, fuzzy
-#| msgid "Typical Weblate :ref:`component`"
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr "典型的 Weblate :ref:`component`"
+msgstr "v2 的典型 Weblate :ref:`component`"
 
 #: ../../formats/go-i18n.rst:70
 #, fuzzy
@@ -44244,16 +43825,12 @@ msgstr ""
 "customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats/gotext.rst:28
-#, fuzzy
-#| msgid "``_locales/*/messages.json``"
 msgid "``internal/translations/locales/*/messages.gotext.json``"
-msgstr "``_locales/*/messages.json``"
+msgstr "``internal/translations/locales/*/messages.gotext.json``"
 
 #: ../../formats/gotext.rst:30
-#, fuzzy
-#| msgid "``_locales/en/messages.json``"
 msgid "``internal/translations/locales/en-GB/messages.gotext.json``"
-msgstr "``_locales/en/messages.json``"
+msgstr "``internal/translations/locales/en-GB/messages.gotext.json``"
 
 #: ../../formats/gotext.rst:34
 #, fuzzy
@@ -44320,22 +43897,16 @@ msgid ":doc:`tt:formats/html`"
 msgstr ":doc:`tt:formats/html`"
 
 #: ../../formats/html.rst:27
-#, fuzzy
-#| msgid "``path/*.srt``"
 msgid "``path/*.html``"
-msgstr "``path/*.srt``"
+msgstr "``path/*.html``"
 
 #: ../../formats/html.rst:29 ../../formats/html.rst:31
-#, fuzzy
-#| msgid "``path/en.srt``"
 msgid "``path/en.html``"
-msgstr "``path/en.srt``"
+msgstr "``path/en.html``"
 
 #: ../../formats/html.rst:33
-#, fuzzy
-#| msgid "HTML file"
 msgid "`HTML file`"
-msgstr "HTML 檔"
+msgstr "`HTML file`"
 
 #: ../../formats/i18next.rst:4
 msgid "i18next JSON files"
@@ -44418,22 +43989,16 @@ msgid ""
 msgstr "從Adobe Indesign標記語言文件中提取可翻譯內容，並為翻譯提供。"
 
 #: ../../formats/idml.rst:18
-#, fuzzy
-#| msgid "``path/*.srt``"
 msgid "``path/*.idml``"
-msgstr "``path/*.srt``"
+msgstr "``path/*.idml``"
 
 #: ../../formats/idml.rst:20 ../../formats/idml.rst:22
-#, fuzzy
-#| msgid "``path/en.srt``"
 msgid "``path/en.idml``"
-msgstr "``path/en.srt``"
+msgstr "``path/en.idml``"
 
 #: ../../formats/idml.rst:24
-#, fuzzy
-#| msgid "IDML file"
 msgid "`IDML file`"
-msgstr "IDML 檔"
+msgstr "`IDML file`"
 
 #: ../../formats/ini.rst:4
 msgid "INI translations"
@@ -44755,10 +44320,8 @@ msgid "``path/en.md``"
 msgstr "``path/en.srt``"
 
 #: ../../formats/markdown.rst:35
-#, fuzzy
-#| msgid "Markdown text"
 msgid "`Markdown file`"
-msgstr "Markdown 文字"
+msgstr "`Markdown file`"
 
 #: ../../formats/mi18n.rst:4
 msgid "mi18n lang files"
@@ -44812,11 +44375,11 @@ msgstr ""
 
 #: ../../formats/moko.rst:17
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
-msgstr ""
+msgstr "``shared/src/commonMain/resources/MR/*/plurals.xml``"
 
 #: ../../formats/moko.rst:19
 msgid "``shared/src/commonMain/resources/MR/base/plurals.xml``"
-msgstr ""
+msgstr "``shared/src/commonMain/resources/MR/base/plurals.xml``"
 
 #: ../../formats/moko.rst:23
 #, fuzzy
@@ -44839,22 +44402,16 @@ msgid ":doc:`tt:formats/odf`"
 msgstr ":doc:`tt:formats/odf`"
 
 #: ../../formats/odf.rst:20
-#, fuzzy
-#| msgid "``path/*.srt``"
 msgid "``path/*.odt``"
-msgstr "``path/*.srt``"
+msgstr "``path/*.odt``"
 
 #: ../../formats/odf.rst:22 ../../formats/odf.rst:24
-#, fuzzy
-#| msgid "``path/en.srt``"
 msgid "``path/en.odt``"
-msgstr "``path/en.srt``"
+msgstr "``path/en.odt``"
 
 #: ../../formats/odf.rst:26
-#, fuzzy
-#| msgid "OpenDocument file"
 msgid "`OpenDocument file`"
-msgstr "OpenDocument 檔"
+msgstr "`OpenDocument file`"
 
 #: ../../formats/php.rst:4
 msgid "PHP strings"
@@ -44956,10 +44513,8 @@ msgstr ""
 "cleanup.generic`"
 
 #: ../../formats/resourcedict.rst:34
-#, fuzzy
-#| msgid "``language/*.islu``"
 msgid "``Languages/*.xaml``"
-msgstr "``language/*.islu``"
+msgstr "``Languages/*.xaml``"
 
 #: ../../formats/resourcedict.rst:36
 msgid "``Language/en.xaml``"
@@ -45119,10 +44674,8 @@ msgid "TermBase eXchange format"
 msgstr "TermBase eXchange 格式"
 
 #: ../../formats/tbx.rst:6
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supported features"
-msgstr "支持的文件格式"
+msgstr "支持的功能"
 
 #: ../../formats/tbx.rst:8
 msgid ":ref:`format-explanation`"
@@ -45147,8 +44700,6 @@ msgstr ""
 "`tt：格式/ tbx`:ref:`詞彙表`"
 
 #: ../../formats/tbx.rst:23
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanations"
 msgstr "解釋"
 
@@ -45210,16 +44761,12 @@ msgid ":doc:`tt:formats/text`"
 msgstr ""
 
 #: ../../formats/txt.rst:35
-#, fuzzy
-#| msgid "``path/*.srt``"
 msgid "``path/*.txt``"
-msgstr "``path/*.srt``"
+msgstr "``path/*.txt``"
 
 #: ../../formats/txt.rst:37 ../../formats/txt.rst:39
-#, fuzzy
-#| msgid "``path/en.srt``"
 msgid "``path/en.txt``"
-msgstr "``path/en.srt``"
+msgstr "``path/en.txt``"
 
 #: ../../formats/txt.rst:41
 msgid "`Plain text file`"
@@ -46595,13 +46142,11 @@ msgstr ""
 
 #: ../../user/checks.rst:343
 msgid "but not:"
-msgstr ""
+msgstr "但不是："
 
 #: ../../user/checks.rst:349
-#, fuzzy
-#| msgid "Port"
 msgid "nor"
-msgstr "連接埠"
+msgstr "也非"
 
 #: ../../user/checks.rst:357
 msgid ""
@@ -46618,10 +46163,8 @@ msgid "Fluent syntax error in translation"
 msgstr "譯文中 Fluent 的語法有錯"
 
 #: ../../user/checks.rst:369
-#, fuzzy
-#| msgid "``weblate.checks.qt.QtPluralCheck``"
 msgid "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
-msgstr "``weblate.checks.qt.QtPluralCheck``"
+msgstr "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
 
 #: ../../user/checks.rst:370 ../../user/checks.rst:371
 msgid "``fluent-target-syntax``"
@@ -46918,10 +46461,8 @@ msgid ""
 msgstr "ICU MessageFormat 字串有語法錯誤或是佔位符不相符。"
 
 #: ../../user/checks.rst:524
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
 msgid "``weblate.checks.icu.ICUMessageFormatCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
+msgstr "``weblate.checks.icu.ICUMessageFormatCheck``"
 
 #: ../../user/checks.rst:525
 msgid "``icu_message_format``"
@@ -47239,10 +46780,8 @@ msgid "Perl brace format string does not match source"
 msgstr "Perl 大括號格式字串與來源不符"
 
 #: ../../user/checks.rst:717
-#, fuzzy
-#| msgid "``weblate.checks.format.PerlFormatCheck``"
 msgid "``weblate.checks.format.PerlBraceFormatCheck``"
-msgstr "``weblate.checks.format.PerlFormatCheck``"
+msgstr "``weblate.checks.format.PerlBraceFormatCheck``"
 
 #: ../../user/checks.rst:718
 msgid "``perl_brace_format``"
@@ -47596,10 +47135,8 @@ msgid "all strings"
 msgstr "所有字串"
 
 #: ../../user/checks.rst:913
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.checks.consistency.TranslatedCheck``"
-msgstr "Weblate 語言"
+msgstr "``weblate.checks.consistency.TranslatedCheck``"
 
 #: ../../user/checks.rst:914
 msgid "``translated``"
@@ -47623,10 +47160,8 @@ msgid ""
 msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
 
 #: ../../user/checks.rst:927
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.checks.consistency.ConsistencyCheck``"
-msgstr "Weblate 語言"
+msgstr "``weblate.checks.consistency.ConsistencyCheck``"
 
 #: ../../user/checks.rst:928
 msgid "``inconsistent``"
@@ -48079,10 +47614,8 @@ msgid ""
 msgstr "`wikipedia上的問號<https://en.wikipedia.org/wiki/question_mark>`_"
 
 #: ../../user/checks.rst:1225
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched interrobang mark"
-msgstr "不相配 \\n"
+msgstr "不相配的疑問驚嘆號"
 
 #: ../../user/checks.rst:1227
 #, fuzzy
@@ -48172,16 +47705,11 @@ msgid "``newline-count``"
 msgstr "``newline-count``"
 
 #: ../../user/checks.rst:1268
-#, fuzzy
-#| msgid ""
-#| "Usually newlines are important for formatting program output. Check fails "
-#| "if the number of ``\\n`` literals in translation do not match the source."
 msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of new lines in translation does not match the source."
-msgstr ""
-"通常換行符號對於格式化程序輸出很重要。如果在翻譯中的 ``\\n`` 字義不匹配源，則"
-"檢查失敗。"
+msgstr "通常換行符號對於格式化程式輸出很重要。如果在翻譯中的新行數與來源不相配，則檢"
+"查失敗。"
 
 #: ../../user/checks.rst:1275
 msgid "Missing plurals"
@@ -48192,10 +47720,8 @@ msgid "Some plural forms are untranslated"
 msgstr "有些複數形未翻譯"
 
 #: ../../user/checks.rst:1279
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.checks.consistency.PluralsCheck``"
-msgstr "Weblate 語言"
+msgstr "``weblate.checks.consistency.PluralsCheck``"
 
 #: ../../user/checks.rst:1280
 msgid "``plurals``"
@@ -48325,10 +47851,8 @@ msgid "Different strings are translated the same."
 msgstr "不同字串的譯文相同。"
 
 #: ../../user/checks.rst:1383
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.checks.consistency.ReusedCheck``"
-msgstr "Weblate 語言"
+msgstr "``weblate.checks.consistency.ReusedCheck``"
 
 #: ../../user/checks.rst:1384
 msgid "``reused``"
@@ -48349,10 +47873,8 @@ msgid "Some plural forms are translated in the same way"
 msgstr "有些複數形沒有以相同方式翻譯"
 
 #: ../../user/checks.rst:1397
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.checks.consistency.SamePluralsCheck``"
-msgstr "Weblate 語言"
+msgstr "``weblate.checks.consistency.SamePluralsCheck``"
 
 #: ../../user/checks.rst:1398
 msgid "``same-plurals``"
@@ -48402,10 +47924,8 @@ msgid "Source and translation do not both start with same number of spaces"
 msgstr "翻譯沒有和來源一致以相同數目的空格開頭"
 
 #: ../../user/checks.rst:1429
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.chars.BeginSpaceCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.chars.BeginSpaceCheck``"
 
 #: ../../user/checks.rst:1430
 msgid "``begin_space``"
@@ -48649,10 +48169,8 @@ msgid "Translation contains extra zero-width space character"
 msgstr "翻譯中包含有額外的零寬度的空白字元"
 
 #: ../../user/checks.rst:1600
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.chars.ZeroWidthSpaceCheck``"
 
 #: ../../user/checks.rst:1601
 msgid "``zero-width-space``"
@@ -48705,7 +48223,7 @@ msgstr "來源字串"
 
 #: ../../user/checks.rst:1627
 msgid "``weblate.checks.source.EllipsisCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.EllipsisCheck``"
 
 #: ../../user/checks.rst:1628
 msgid "``ellipsis``"
@@ -48735,10 +48253,8 @@ msgid "Fluent source should be valid inner HTML"
 msgstr "Fluent 來源應為有效的內部 HTML"
 
 #: ../../user/checks.rst:1649
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``"
 
 #: ../../user/checks.rst:1650 ../../user/checks.rst:1651
 msgid "``fluent-source-inner-html``"
@@ -48795,24 +48311,20 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1684
-#, fuzzy
-#| msgid "Example:"
 msgid "Examples:"
 msgstr "範例："
 
 #: ../../user/checks.rst:1687
 msgid "Warns?"
-msgstr ""
+msgstr "警告？"
 
 #: ../../user/checks.rst:1687
 msgid "Reason"
-msgstr ""
+msgstr "原因"
 
 #: ../../user/checks.rst:1689
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three<four``"
-msgstr "``threshold``"
+msgstr "``three<four``"
 
 #: ../../user/checks.rst:1689
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
@@ -48829,10 +48341,8 @@ msgid "The ``.innerHTML`` would match the ``.textContent``."
 msgstr ""
 
 #: ../../user/checks.rst:1691
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three <four>``"
-msgstr "``threshold``"
+msgstr "``three <four>``"
 
 #: ../../user/checks.rst:1691
 #, fuzzy
@@ -48841,20 +48351,16 @@ msgid "Missing a closing tag."
 msgstr "缺少查詢字串。"
 
 #: ../../user/checks.rst:1692
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three <four/>``"
-msgstr "``threshold``"
+msgstr "``three <four/>``"
 
 #: ../../user/checks.rst:1692
 msgid "``four`` is not a HTML void element, so should not self-close."
 msgstr ""
 
 #: ../../user/checks.rst:1693
-#, fuzzy
-#| msgid "``md-text``"
 msgid "``<a-b>text</a-b>``"
-msgstr "``md-text``"
+msgstr "``<a-b>文字</a-b>``"
 
 #: ../../user/checks.rst:1693
 msgid "Custom element tag with a matching closing tag."
@@ -48878,7 +48384,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1696
 msgid "``<img class=a/>``"
-msgstr ""
+msgstr "``<img class=a/>``"
 
 #: ../../user/checks.rst:1696
 #, fuzzy
@@ -48888,7 +48394,7 @@ msgstr "不支援偵測到的檔案格式。"
 
 #: ../../user/checks.rst:1697
 msgid "``<aØ attr=''/>``"
-msgstr ""
+msgstr "``<aØ attr=''/>``"
 
 #: ../../user/checks.rst:1697
 msgid "Non-ASCII tag name."
@@ -48896,7 +48402,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1698
 msgid "``kind&ethical``"
-msgstr ""
+msgstr "``kind&ethical``"
 
 #: ../../user/checks.rst:1698
 msgid "The ``&eth`` part would be converted to ``ð``."
@@ -48904,7 +48410,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1699
 msgid "``kind&eth;ical``"
-msgstr ""
+msgstr "``kind&eth;ical``"
 
 #: ../../user/checks.rst:1699
 msgid "The character reference seems to be intentional."
@@ -48912,17 +48418,15 @@ msgstr ""
 
 #: ../../user/checks.rst:1700
 msgid "``three&lte;four``"
-msgstr ""
+msgstr "``three&lte;four``"
 
 #: ../../user/checks.rst:1700
 msgid "The ``&lte;`` part would be converted to ``<e;``."
 msgstr ""
 
 #: ../../user/checks.rst:1701
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three&lf;four``"
-msgstr "``threshold``"
+msgstr "``three&lf;four``"
 
 #: ../../user/checks.rst:1701
 #, fuzzy
@@ -48978,10 +48482,8 @@ msgid "Fluent syntax error in source"
 msgstr "原文中 Fluent 的語法有錯"
 
 #: ../../user/checks.rst:1735
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
 
 #: ../../user/checks.rst:1736 ../../user/checks.rst:1737
 msgid "``fluent-source-syntax``"
@@ -49016,10 +48518,8 @@ msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "ICU MessageFormat 字串有語法錯誤。"
 
 #: ../../user/checks.rst:1760
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.icu.ICUSourceCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.icu.ICUSourceCheck``"
 
 #: ../../user/checks.rst:1761
 msgid "``icu_message_format_syntax``"
@@ -49235,7 +48735,7 @@ msgstr "GetText Mo（僅在翻譯使用GetText Po時可用）"
 
 #: ../../user/files.rst:36
 msgid "CSV (``csv``)"
-msgstr ""
+msgstr "CSV（``csv``）"
 
 #: ../../user/files.rst:37
 #, fuzzy
@@ -49280,16 +48780,13 @@ msgstr ""
 "`FMT_CAPABS`。"
 
 #: ../../user/files.rst:52
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`, :setting:`WEBLATE_EXPORTERS`"
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+":http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`, "
+":setting:`WEBLATE_EXPORTERS`"
 
 #: ../../user/files.rst:58
 #, fuzzy
@@ -49306,14 +48803,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:67
-#, fuzzy
-#| msgid ""
-#| "Response is same as :http:get:`/api/components/(string:project)/(string:"
-#| "component)/lock/`."
 msgid ":http:get:`/api/components/(string:project)/(string:component)/file/`"
-msgstr ""
-"響應時間與 :http:get:`/api/components/(string:project)/(string:component)/"
-"lock/`相同。"
+msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 
 #: ../../user/files.rst:72
 msgid "Uploading translations"
@@ -50210,7 +49701,7 @@ msgstr ""
 
 #: ../../user/search.rst:25
 msgid "Fields"
-msgstr ""
+msgstr "欄位"
 
 #: ../../user/search.rst:27
 msgid "``source:TEXT``"
@@ -50281,10 +49772,8 @@ msgid "String priority."
 msgstr ""
 
 #: ../../user/search.rst:41
-#, fuzzy
-#| msgid "``priority:NUMBER``"
 msgid "``id:NUMBER``"
-msgstr "``priority:NUMBER``"
+msgstr "``id:NUMBER``"
 
 #: ../../user/search.rst:42
 #, fuzzy
@@ -50293,10 +49782,8 @@ msgid "String unique identifier."
 msgstr "單元識別問題"
 
 #: ../../user/search.rst:43
-#, fuzzy
-#| msgid "``priority:NUMBER``"
 msgid "``position:NUMBER``"
-msgstr "``priority:NUMBER``"
+msgstr "``position:NUMBER``"
 
 #: ../../user/search.rst:44
 #, fuzzy
@@ -50479,10 +49966,8 @@ msgid "Search in user comments."
 msgstr ""
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Resolved comment"
 msgid "``resolved_comment:TEXT``"
-msgstr "解決的評註"
+msgstr "``resolved_comment:TEXT``"
 
 #: ../../user/search.rst:84
 #, fuzzy
@@ -50527,10 +50012,8 @@ msgid "Search in explanations."
 msgstr "在位置字串中搜尋"
 
 #: ../../user/search.rst:93
-#, fuzzy
-#| msgid "Explanation"
 msgid "``label:TEXT``"
-msgstr "解釋"
+msgstr "``label:TEXT``"
 
 #: ../../user/search.rst:94
 #, fuzzy
@@ -50539,10 +50022,8 @@ msgid "Search in labels."
 msgstr "字串標籤"
 
 #: ../../user/search.rst:96
-#, fuzzy
-#| msgid "Explanation"
 msgid "``screenshot:TEXT``"
-msgstr "解釋"
+msgstr "``screenshot:TEXT``"
 
 #: ../../user/search.rst:96
 #, fuzzy
@@ -51973,7 +51454,7 @@ msgstr ":ref:`hosted-push`"
 
 #: ../../vcs.rst:195
 msgid "Weblate internal URLs"
-msgstr ""
+msgstr "Weblate 內部網址"
 
 #: ../../vcs.rst:197
 msgid ""
@@ -52097,13 +51578,11 @@ msgstr ""
 
 #: ../../vcs.rst:262
 msgid "Git"
-msgstr ""
+msgstr "Git"
 
 #: ../../vcs.rst:266
-#, fuzzy
-#| msgid "Weblate now requires Python 3.6 or newer."
 msgid "Weblate needs Git 2.12 or newer."
-msgstr "Weblate 現在需要 Python 3.6 或更新版本。"
+msgstr "Weblate 現在需要 Git 2.12 或更新版本。"
 
 #: ../../vcs.rst:270 ../../vcs.rst:519
 msgid ""
@@ -52480,7 +51959,7 @@ msgstr ""
 
 #: ../../vcs.rst:507
 msgid "Mercurial"
-msgstr ""
+msgstr "Mercurial"
 
 #: ../../vcs.rst:509
 msgid "Mercurial is another VCS you can use directly in Weblate."
@@ -52708,8 +52187,6 @@ msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr "覆蓋正在使用的組態檔部分，請參見 :ref:`wlc-config`。"
 
 #: ../../wlc.rst:133
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
 msgstr "指令"
 
@@ -52956,7 +52433,7 @@ msgstr ""
 
 #: ../../wlc.rst:342
 msgid "Examples"
-msgstr ""
+msgstr "例子"
 
 #: ../../wlc.rst:344
 msgid "Print current program version:"
@@ -53049,10 +52526,8 @@ msgid "Project-language customization"
 msgstr "要移除的專案語言"
 
 #: ../../workflows.rst:35
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Language customization"
-msgstr "重設自訂客製"
+msgstr "語言自訂"
 
 #: ../../workflows.rst:36
 #, fuzzy
@@ -53217,7 +52692,7 @@ msgstr "當翻譯者不確定更改時，建議是建議更改的可選方法。
 
 #: ../../workflows.rst:106 ../../workflows.rst:138 ../../workflows.rst:171
 msgid "Setting"
-msgstr ""
+msgstr "設定"
 
 #: ../../workflows.rst:106 ../../workflows.rst:138 ../../workflows.rst:171
 msgid "Note"

@@ -740,6 +740,14 @@ class User(AbstractBaseUser):
             self._fetch_permissions()
         return self._permissions["components"]
 
+    @cached_property
+    def global_permissions(self) -> set[str]:
+        return set(
+            Permission.objects.filter(
+                role__group__user=self, codename__in=GLOBAL_PERM_NAMES
+            ).values_list("codename", flat=True)
+        )
+
     def projects_with_perm(self, perm: str, explicit: bool = False):
         if not explicit and self.is_superuser:
             return Project.objects.all().order()

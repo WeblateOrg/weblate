@@ -9,6 +9,12 @@ This is an automatically generated file, see scripts/generate-license-data
 """
 
 LICENSES = (
+    (
+        "3D-Slicer-1.0",
+        "3D Slicer License v1.0",
+        "https://spdx.org/licenses/3D-Slicer-1.0.html",
+        False,
+    ),
     ("Glide", "3dfx Glide License", "https://spdx.org/licenses/Glide.html", False),
     ("Abstyles", "Abstyles License", "https://spdx.org/licenses/Abstyles.html", False),
     (
@@ -144,6 +150,7 @@ LICENSES = (
         "https://spdx.org/licenses/ANTLR-PD-fallback.html",
         False,
     ),
+    ("any-OSI", "Any OSI License", "https://spdx.org/licenses/any-OSI.html", False),
     (
         "Apache-1.0",
         "Apache License 1.0",
@@ -314,9 +321,9 @@ LICENSES = (
         True,
     ),
     (
-        "BSD-2-clause-first-lines",
+        "BSD-2-Clause-first-lines",
         "BSD 2-Clause - first lines requirement",
-        "https://spdx.org/licenses/BSD-2-clause-first-lines.html",
+        "https://spdx.org/licenses/BSD-2-Clause-first-lines.html",
         False,
     ),
     (
@@ -639,6 +646,12 @@ LICENSES = (
         "Common Public License 1.0",
         "https://spdx.org/licenses/CPL-1.0.html",
         True,
+    ),
+    (
+        "cve-tou",
+        "Common Vulnerability Enumeration ToU License",
+        "https://spdx.org/licenses/cve-tou.html",
+        False,
     ),
     (
         "CDLA-Permissive-1.0",
@@ -1487,6 +1500,7 @@ LICENSES = (
         False,
     ),
     ("gtkbook", "gtkbook License", "https://spdx.org/licenses/gtkbook.html", False),
+    ("Gutmann", "Gutmann License", "https://spdx.org/licenses/Gutmann.html", False),
     (
         "HaskellReport",
         "Haskell Language Report License",
@@ -1555,6 +1569,12 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-Intel",
+        "Historical Permission Notice and Disclaimer - Intel variant",
+        "https://spdx.org/licenses/HPND-Intel.html",
+        False,
+    ),
+    (
         "HPND-Kevlin-Henney",
         "Historical Permission Notice and Disclaimer - Kevlin Henney variant",
         "https://spdx.org/licenses/HPND-Kevlin-Henney.html",
@@ -1564,6 +1584,12 @@ LICENSES = (
         "HPND-Markus-Kuhn",
         "Historical Permission Notice and Disclaimer - Markus Kuhn variant",
         "https://spdx.org/licenses/HPND-Markus-Kuhn.html",
+        False,
+    ),
+    (
+        "HPND-merchantability-variant",
+        "Historical Permission Notice and Disclaimer - merchantability variant",
+        "https://spdx.org/licenses/HPND-merchantability-variant.html",
         False,
     ),
     (
@@ -1615,9 +1641,27 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-sell-variant-MIT-disclaimer-rev",
+        "HPND sell variant with MIT disclaimer - reverse",
+        "https://spdx.org/licenses/HPND-sell-variant-MIT-disclaimer-rev.html",
+        False,
+    ),
+    (
+        "HPND-export2-US",
+        "HPND with US Government export control and 2 disclaimers",
+        "https://spdx.org/licenses/HPND-export2-US.html",
+        False,
+    ),
+    (
         "HPND-export-US",
         "HPND with US Government export control warning",
         "https://spdx.org/licenses/HPND-export-US.html",
+        False,
+    ),
+    (
+        "HPND-export-US-acknowledgement",
+        "HPND with US Government export control warning and acknowledgment",
+        "https://spdx.org/licenses/HPND-export-US-acknowledgement.html",
         False,
     ),
     (
@@ -2063,6 +2107,12 @@ LICENSES = (
         True,
     ),
     ("Naumen", "Naumen Public License", "https://spdx.org/licenses/Naumen.html", True),
+    (
+        "NCBI-PD",
+        "NCBI Public Domain Notice",
+        "https://spdx.org/licenses/NCBI-PD.html",
+        False,
+    ),
     ("NCL", "NCL Source Code License", "https://spdx.org/licenses/NCL.html", False),
     (
         "NBPL-1.0",
@@ -2401,6 +2451,7 @@ LICENSES = (
         True,
     ),
     ("PADL", "PADL License", "https://spdx.org/licenses/PADL.html", False),
+    ("PPL", "Peer Production License", "https://spdx.org/licenses/PPL.html", False),
     ("PHP-3.0", "PHP License v3.0", "https://spdx.org/licenses/PHP-3.0.html", True),
     ("PHP-3.01", "PHP License v3.01", "https://spdx.org/licenses/PHP-3.01.html", True),
     ("Pixar", "Pixar License", "https://spdx.org/licenses/Pixar.html", False),

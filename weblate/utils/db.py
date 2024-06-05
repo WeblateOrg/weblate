@@ -59,7 +59,7 @@ def adjust_similarity_threshold(value: float) -> None:
         return
 
     with connection.cursor() as cursor:
-        # The SELECT has to be executed first as othervise the trgm extension
+        # The SELECT has to be executed first as otherwise the trgm extension
         # might not yet be loaded and GUC setting not possible.
         if current_similarity == -1:
             cursor.execute("SELECT show_limit()")

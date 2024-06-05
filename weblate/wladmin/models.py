@@ -187,7 +187,7 @@ class SupportStatus(models.Model):
         ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
-        response = request("post", settings.SUPPORT_API_URL, data=data)
+        response = request("post", settings.SUPPORT_API_URL, data=data, timeout=30)
         response.raise_for_status()
         payload = response.json()
         self.name = payload["name"]

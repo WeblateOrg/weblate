@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-05-18 01:27+0000\n"
+"PO-Revision-Date: 2024-05-29 10:11+0000\n"
 "Last-Translator: Supaplex <bejokeup@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -3202,14 +3202,13 @@ msgid ""
 msgstr "這些變型的 Fluent 數值有多出來的 HTML {tag} 標記：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1115
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following variants in the original Fluent value do not have at least one "
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
-msgstr ""
-"原文 Fluent 值中的下列變型，在翻譯中沒有至少一個與同一組 HTML 元素配對的變"
-"型：{variant_list}。"
+msgstr "原文 Fluent 值中的下列變型，在翻譯中沒有至少一個與同一組 HTML "
+"元素配對的變型：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1130
 msgid ""
@@ -3326,33 +3325,31 @@ msgstr ""
 "Fluent 引用相符的變數：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:533
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following variants in the original Fluent value do not have at least one "
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
-msgstr ""
-"原文 Fluent 值中的下列變型，在翻譯中沒有至少一個與同一組 Fluent 引用相符的變"
-"型：{variant_list}。"
+msgstr "原文 Fluent 值中的下列變型，在翻譯中沒有至少一個與同一組 Fluent "
+"引用相符的變型：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:549
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
-msgstr ""
-"已翻譯的 Fluent {attribute} 屬性在原文中沒有具有相同 Fluent 引用集的配對變"
-"型。"
+msgstr "已翻譯的 Fluent {attribute} 屬性在原文中沒有具有相同 Fluent "
+"引用集的配對變型。"
 
 #: weblate/checks/fluent/references.py:557
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following variants in the translated Fluent {attribute} attribute do not "
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
-"已翻譯的 Fluent {attribute} 屬性中的下列變體，在具有相同 Fluent 引用集的原文"
-"中沒有配對的變型：{variant_list}。"
+"已翻譯的 Fluent {attribute} 屬性中的下列變體，在具有相同 Fluent "
+"引用集的原文中沒有配對的變型：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:568
 msgid ""
@@ -6190,14 +6187,13 @@ msgstr "歷史"
 
 #: weblate/templates/addons/addon_list.html:31
 msgid "No add-ons currently installed"
-msgstr "沒有安裝的附加元件。"
+msgstr "目前沒有安裝任何附加元件"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "已安裝的附加元件"
+msgstr[0] "已安裝 %(count)s 個附加元件"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6211,20 +6207,19 @@ msgstr "設定"
 
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
-msgstr ""
+msgstr "附加元件也可以安裝在專案和組件範圍內。"
 
 #: weblate/templates/addons/addon_list.html:61
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "目前沒有安裝的附加元件。"
+msgstr[0] "管理專案範圍的附加元件（已安裝 %(count)s 個）"
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
+msgstr[0] "管理網站範圍的附加元件（已安裝 %(count)s 個）"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -6246,10 +6241,8 @@ msgid "Some add-ons will ask for additional configuration during installation."
 msgstr "有些附加元件會在安裝時，要求進行額外設定。"
 
 #: weblate/templates/addons/addon_list.html:104
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all add-on changes"
-msgstr "瀏覽語言的所有更動"
+msgstr "瀏覽所有附加元件變更"
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -7728,12 +7721,10 @@ msgid_plural "%(count)s outgoing commits"
 msgstr[0] "%(count)s 個待送出送交"
 
 #: weblate/templates/js/git-status.html:43
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s 個缺少的送交"
+msgstr[0] "送交當中缺少%(count)s 個"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
@@ -9371,16 +9362,12 @@ msgid "Edit glossary term"
 msgstr "編輯詞彙表字詞"
 
 #: weblate/templates/snippets/glossary.html:38
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Glossary translation explanation"
-msgstr "譯文解釋"
+msgstr "詞彙表翻譯解釋"
 
 #: weblate/templates/snippets/glossary.html:47
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Glossary string explanation"
-msgstr "來源字串解釋"
+msgstr "詞彙表字串解釋"
 
 #: weblate/templates/snippets/glossary.html:56
 msgid "No related strings found in the glossary."

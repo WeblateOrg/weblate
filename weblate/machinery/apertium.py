@@ -27,7 +27,7 @@ LANGUAGE_MAP = {
     "sr": "hbs",
     "nb_NO": "nob",
     "nn": "nno",
-    "se": "sme",
+    "se": "sme",  # codespell:ignore sme
     "oc": "oci",
     "pt": "por",
     "co": "cos",
@@ -58,9 +58,9 @@ LANGUAGE_MAP = {
     "lv": "lvs",
     "as": "asm",
     "hi": "hin",
-    "te": "tel",
+    "te": "tel",  # codespell:ignore te
     "hy": "hye",
-    "th": "tha",
+    "th": "tha",  # codespell:ignore tha
     "mk": "mkd",
     "la": "lat",
     "ga": "gle",

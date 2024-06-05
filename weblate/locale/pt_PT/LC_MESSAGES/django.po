@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-04-28 15:59+0000\n"
+"PO-Revision-Date: 2024-05-28 16:49+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_PT/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.1\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -1002,7 +1002,7 @@ msgstr ""
 #: weblate/accounts/views.py:565 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr "Avaliação gratuita"
+msgstr "Teste gratuito"
 
 #: weblate/accounts/views.py:740 weblate/templates/403.html:18
 #: weblate/templates/404.html:18 weblate/templates/accounts/login.html:8
@@ -1213,15 +1213,15 @@ msgstr "Esta extensão não faz nada, é apenas um exemplo."
 
 #: weblate/addons/example_pre.py:19
 msgid "Execute script before commit"
-msgstr "Executar o script antes de submeter"
+msgstr "Executar ''script'' antes de submeter"
 
 #: weblate/addons/example_pre.py:20
 msgid "This add-on executes a script."
-msgstr "Esta extensão executa um script."
+msgstr "Esta extensão executa um ''script''."
 
 #: weblate/addons/flags.py:29
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Marcar as novas cadeias fonte como \"Precisa de edição\""
+msgstr "Marcar as novas entradas fonte como \"Precisa de edição\""
 
 #: weblate/addons/flags.py:31
 msgid ""
@@ -1229,9 +1229,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Sempre que uma nova cadeia é importada de VCS, esta é marcada como precisa "
-"de edição no Weblate. Deste modo pode filtrar e editar facilmente as cadeias "
-"fonte escritas pelos programadores."
+"Sempre que uma nova entrada é importada de VCS, esta é marcada como precisa "
+"de edição no Weblate. Deste modo pode filtrar e editar facilmente as "
+"entradas fonte escritas pelos programadores."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
@@ -1271,11 +1271,11 @@ msgstr ""
 #: weblate/templates/project.html:70 weblate/templates/project.html:199
 #: weblate/templates/translation.html:70 weblate/templates/translation.html:284
 msgid "Bulk edit"
-msgstr "Edição em massa"
+msgstr "Edição em série"
 
 #: weblate/addons/flags.py:90
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Edição em série de marcadores, etiquetas, ou estados de cadeias."
+msgstr "Edição em série de marcadores, etiquetas, ou estados das entradas."
 
 #: weblate/addons/forms.py:40
 msgid "Path of generated MO file"
@@ -1287,15 +1287,15 @@ msgstr "Se não especificado, será utilizada a localização do ficheiro PO."
 
 #: weblate/addons/forms.py:48
 msgid "Include strings needing editing"
-msgstr "Incluir cadeias que necessita edição"
+msgstr "Incluir entradas de texto que necessitam de edição"
 
 #: weblate/addons/forms.py:51
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
-"Cadeias que necessitam edição (fuzzy/aproximados) normalmente não estão "
-"prontas para uso como traduções."
+"Entradas de texto que necessitam de edição (aproximadas) normalmente não "
+"estão prontas para serem utilizadas como traduções."
 
 #: weblate/addons/forms.py:77
 msgid "Name of generated file"
@@ -1332,11 +1332,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:136
 msgid "Keep previous msgids of translated strings"
-msgstr "Manter \"msgids\" anteriores das cadeias traduzidas"
+msgstr "Manter \"msgids\" anteriores das entradas traduzidas"
 
 #: weblate/addons/forms.py:141
 msgid "Remove locations of translated strings"
-msgstr "Remover localizações das cadeias traduzidas"
+msgstr "Remover localizações das entradas traduzidas"
 
 #: weblate/addons/forms.py:146
 msgid "Use fuzzy matching"
@@ -1348,7 +1348,7 @@ msgstr "Submeter com squash"
 
 #: weblate/addons/forms.py:155
 msgid "All commits into one"
-msgstr "Todos os commits num só"
+msgstr "Todos as submissões numa só"
 
 #: weblate/addons/forms.py:156
 msgid "Per language"
@@ -1364,7 +1364,7 @@ msgstr "Por autor"
 
 #: weblate/addons/forms.py:164
 msgid "Append trailers to squashed commit message"
-msgstr "Anexar linhas finalizadoras à mensagem do commit de squash"
+msgstr "Anexar linhas finalizadoras à mensagem de submissão de squash"
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -1373,8 +1373,8 @@ msgid ""
 "authored-by: …'."
 msgstr ""
 "As linhas finalizadoras são linhas semelhantes aos cabeçalhos de e-mail RFC "
-"822, no final de uma mensagem de commit de outra forma livre, como \"Co-"
-"authored-by: …'."
+"822, no final de uma mensagem de submissão de outra forma livre, como \"Co"
+"-authored-by: …'."
 
 #: weblate/addons/forms.py:174
 msgid "Commit message"
@@ -1385,8 +1385,8 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Esta mensagem de commit será usada em vez das mensagens de commit combinadas "
-"dos commits após squash."
+"Esta mensagem de submissão será utilizada em vez das mensagens de submissão "
+"combinadas das submissões após squash."
 
 #: weblate/addons/forms.py:195
 msgid "Sort JSON keys"
@@ -1406,7 +1406,7 @@ msgstr "Espaços"
 
 #: weblate/addons/forms.py:203
 msgid "Tabs"
-msgstr "Guias"
+msgstr "Separadores"
 
 #: weblate/addons/forms.py:214
 msgid "Include closing tag for blank XML tags"
@@ -1807,11 +1807,11 @@ msgstr ""
 #: weblate/addons/views.py:116
 #, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Nome do extra inválido: \"%s\""
+msgstr "Nome de extensão inválida: \"%s\""
 
 #: weblate/addons/views.py:136
 msgid "Add-on installed, please review integration instructions."
-msgstr "Extensão instalada, revise as instruções de integração."
+msgstr "Extensão instalada, por favor, leia as instruções de integração."
 
 #: weblate/addons/xml.py:17
 msgid "Customize XML output"
@@ -2200,10 +2200,8 @@ msgstr "Gerir a faturação"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Extensões instaladas"
+msgstr "Gerir extensões de todo o site"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -2788,7 +2786,7 @@ msgstr "Número de alterações"
 
 #: weblate/billing/models.py:298 weblate/wladmin/models.py:215
 msgid "Hosted strings"
-msgstr "Cadeias hospedadas"
+msgstr "Entradas alojadas"
 
 #: weblate/billing/models.py:310 weblate/trans/admin.py:93
 msgid "Source words"
@@ -5309,7 +5307,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "Motivo da falha de CSRF: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:27
@@ -6185,14 +6183,10 @@ msgid "Your trial will last 14 days."
 msgstr "A sua avaliação vai durar 14 dias."
 
 #: weblate/templates/accounts/trial.html:24
-#, fuzzy
-#| msgid ""
-#| "Your trial will run the Enterprise plan, but you can choose any plan "
-#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"A sua avaliação vai usar o plano Empresarial, mas pode escolher outro plano "
-"mais tarde."
+"O seu período de testes vai utilizar o plano 640k, mas pode escolher outro "
+"plano mais tarde."
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -6439,7 +6433,7 @@ msgstr "Configurar extensão"
 #: weblate/templates/addons/addon_head.html:7
 msgid "This add-on is used for all components sharing this repository."
 msgstr ""
-"Esta extensão é usada para todos os componentes que partilham este "
+"Esta extensão é utilizada para todos os componentes que partilham este "
 "repositório."
 
 #: weblate/templates/addons/addon_head.html:7
@@ -6476,18 +6470,15 @@ msgid "History"
 msgstr "Histórico"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "Não existem extensões atualmente instaladas."
+msgstr "Atualmente, não existem extensões instaladas"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Extensões instaladas"
-msgstr[1] "Extensões instaladas"
+msgstr[0] "Instalada %(count)s extensão"
+msgstr[1] "Instaladas %(count)s extensões"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6502,21 +6493,22 @@ msgstr "Configurar"
 #: weblate/templates/addons/addon_list.html:57
 msgid "Add-ons can be installed on project and component scope as well."
 msgstr ""
+"As extensões também podem ser instaladas no escopo do projeto e do "
+"componente."
 
 #: weblate/templates/addons/addon_list.html:61
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Não existem extensões atualmente instaladas."
-msgstr[1] "Não existem extensões atualmente instaladas."
+msgstr[0] "Gerir extensões em todo o projeto (%(count)s instalada)"
+msgstr[1] "Gerir extensões em todo o projeto (%(count)s instaladas)"
 
 #: weblate/templates/addons/addon_list.html:67
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gerir extensões em todo o site (%(count)s instalada)"
+msgstr[1] "Gerir extensões em todo o site (%(count)s instaladas)"
 
 #: weblate/templates/addons/addon_list.html:76
 msgid "Available add-ons"
@@ -10483,7 +10475,7 @@ msgstr "Cadeias traduzidas numa determinada língua"
 
 #: weblate/templates/snippets/query-field.html:6
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #: weblate/templates/snippets/query-field.html:15
 #: weblate/templates/snippets/user-query-field.html:5 weblate/utils/forms.py:25

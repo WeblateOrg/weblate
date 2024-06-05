@@ -930,7 +930,7 @@ def announcements(context, project=None, component=None, language=None):
                 render_to_string(
                     "message.html",
                     {
-                        "tags": f"{announcement.category} announcement",
+                        "tags": f"{announcement.severity} announcement",
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
                         "can_delete": user.has_perm(

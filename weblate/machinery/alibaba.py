@@ -90,7 +90,7 @@ class AlibabaTranslation(MachineTranslation):
             "kdx",
             "dtp",
             "ru",
-            "fo",
+            "fo",  # codespell:ignore fo
             "fr",
             "sa",
             "fil",
@@ -195,11 +195,11 @@ class AlibabaTranslation(MachineTranslation):
             "tl",
             "tg",
             "ty",
-            "te",
+            "te",  # codespell:ignore te
             "ta",
             "th",
             "to",
-            "toi",
+            "toi",  # codespell:ignore toi
             "ti",
             "tvl",
             "tyv",
@@ -241,7 +241,7 @@ class AlibabaTranslation(MachineTranslation):
             "ia",
             "hi",
             "id",
-            "inh",
+            "inh",  # codespell:ignore inh
             "en",
             "yo",
             "vi",

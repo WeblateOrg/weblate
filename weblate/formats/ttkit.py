@@ -1070,7 +1070,7 @@ class INIUnit(TTKitUnit):
         return False
 
 
-class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
+class BasePoFormat(TTKitFormat):
     loader = pofile
     plural_preference = None
     supports_plural: bool = True
@@ -1125,6 +1125,27 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
         self.store.updateheader(**kwargs)
 
+    def add_unit(self, ttkit_unit) -> None:
+        self.store.require_index()
+        # Check if there is matching obsolete unit
+        old_unit = self.store.id_index.get(ttkit_unit.getid())
+        if old_unit and old_unit.isobsolete():
+            self.store.removeunit(old_unit)
+        super().add_unit(ttkit_unit)
+
+
+class PoFormat(BasePoFormat, BilingualUpdateMixin):
+    name = gettext_lazy("gettext PO file")
+    format_id = "po"
+    monolingual = False
+    autoload: tuple[str, ...] = ("*.po", "*.pot")
+    unit_class = PoUnit
+
+    @classmethod
+    def get_new_file_content(cls) -> bytes:
+        """Empty PO file content."""
+        return b""
+
     @classmethod
     def do_bilingual_update(
         cls, in_file: str, out_file: str, template: str, **kwargs
@@ -1178,27 +1199,6 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 errors.append(line)
             if errors:
                 raise UpdateError(" ".join(cmd), "\n".join(errors))
-
-    def add_unit(self, ttkit_unit) -> None:
-        self.store.require_index()
-        # Check if there is matching obsolete unit
-        old_unit = self.store.id_index.get(ttkit_unit.getid())
-        if old_unit and old_unit.isobsolete():
-            self.store.removeunit(old_unit)
-        super().add_unit(ttkit_unit)
-
-
-class PoFormat(BasePoFormat):
-    name = gettext_lazy("gettext PO file")
-    format_id = "po"
-    monolingual = False
-    autoload: tuple[str, ...] = ("*.po", "*.pot")
-    unit_class = PoUnit
-
-    @classmethod
-    def get_new_file_content(cls) -> bytes:
-        """Empty PO file content."""
-        return b""
 
 
 class PoMonoFormat(BasePoFormat):

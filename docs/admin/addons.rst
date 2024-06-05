@@ -1034,3 +1034,12 @@ Use the commit script to automatically change a translation before it is committ
 to the repository.
 
 It is passed as a single parameter consisting of the filename of a current translation.
+
+
+Add-on activity logging
+-----------------------
+
+Add-on activity log keeps track of the add-on execution and can be used to
+keep track of add-on activity.
+
+The logs can be pruned after a certain time interval by configuring the :setting:`ADDON_ACTIVITY_LOG_EXPIRY`.

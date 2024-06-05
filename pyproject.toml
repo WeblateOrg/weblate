@@ -72,7 +72,7 @@ dependencies = [
   "redis>=5.0.2,<5.1.0",
   "requests>=2.32.2,<2.33",
   "ruamel.yaml>=0.17.2,<0.19.0",
-  "sentry-sdk>=2.2,<2.4",
+  "sentry-sdk>=2.2,<2.5",
   "siphashc>=2.1,<3.0",
   "social-auth-app-django>=5.4.0,<6.0.0",
   "social-auth-core>=4.5.0,<5.0.0",
@@ -112,13 +112,13 @@ antispam = [
 ]
 ci = [
   "build==1.2.1",
-  "coverage==7.5.1",
-  "uv==0.2.2",
+  "coverage==7.5.3",
+  "uv==0.2.6",
   "twine==5.1.0"
 ]
 dev = [
   "Weblate[all,ci,test,lint,mypy]",
-  "django-debug-toolbar==4.3.0",
+  "django-debug-toolbar==4.4.2",
   "PyICU==2.13.1",
   "reuse==3.0.2",
   "scour==0.38.2",
@@ -142,24 +142,24 @@ mercurial = [
   "mercurial>=6.2,<7.0"
 ]
 mypy = [
-  "boto3-stubs==1.34.111",
+  "boto3-stubs==1.34.119",
   "celery-types==0.22.0",
-  "django-stubs-ext==5.0.0",
-  "django-stubs==5.0.0",
+  "django-stubs-ext==5.0.2",
+  "django-stubs==5.0.2",
   "djangorestframework-stubs==3.15.0",
   "types-lxml==2024.4.14",
   "mypy==1.10.0",
   "types-jsonschema==4.22.0.20240501",
-  "types-openpyxl==3.1.0.20240428",
+  "types-openpyxl==3.1.2.20240601",
   "types-Pillow==10.2.0.20240520",
   "types-python-dateutil==2.9.0.20240316",
-  "types-requests==2.32.0.20240523"
+  "types-requests==2.32.0.20240602"
 ]
 mysql = [
   "mysqlclient>=2.1.1,<3"
 ]
 openai = [
-  "openai>=1.3.0,<1.31"
+  "openai>=1.3.0,<1.32"
 ]
 postgres = [
   "psycopg[binary]>=3.1.8,<4"
@@ -197,8 +197,8 @@ target-version = ['py310']
 
 [tool.codespell]
 count = true
-# TODO: the per-file ignores should use inlines once supported by codespell
-skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,yarn.lock,known_hosts,*/vendor/*,weblate/checks/tests/test_chars_checks.py,weblate/checks/tests/test_fluent_checks.py,weblate/checks/tests/test_format_checks.py,weblate/checks/tests/test_duplicate_checks.py,weblate/checks/tests/test_icu_checks.py,weblate/machinery/aws.py,weblate/machinery/baidu.py,weblate/machinery/apertium.py,weblate/machinery/saptranslationhub.py,weblate/screenshots/views.py,weblate/trans/specialchars.py,weblate/checks/data.py,weblate/machinery/alibaba.py,weblate/formats/base.py,weblate/formats/tests/test_multi.py,weblate/vcs/gpg.py,scripts/yarn/yarn.lock,weblate/trans/tests/data/known_hosts,scripts/generate-specialchars,docs/user/checks.rst'
+ignore-words-list = "assertIn"
+skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,*/vendor/*,weblate/trans/specialchars.py,scripts/yarn/yarn.lock,weblate/trans/tests/data/known_hosts,docs/user/checks.rst,docs/toc-devel.rst'
 
 [tool.django-stubs]
 django_settings_module = "weblate.settings_example"

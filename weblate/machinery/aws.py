@@ -107,7 +107,7 @@ class AWSTranslation(MachineTranslation):
             "sv",
             "sw",
             "ta",
-            "te",
+            "te",  # codespell:ignore te
             "th",
             "tl",
             "tr",

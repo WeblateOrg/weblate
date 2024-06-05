@@ -38,7 +38,7 @@ class BaiduTranslation(MachineTranslation):
         "sl": "slo",
         "sw": "swe",
         "zh_Hant": "cht",
-        "vi": "vie",
+        "vi": "vie",  # codespell:ignore vie
     }
     settings_form = KeySecretMachineryForm
 
@@ -72,7 +72,7 @@ class BaiduTranslation(MachineTranslation):
             "swe",
             "hu",
             "cht",
-            "vie",
+            "vie",  # codespell:ignore vie
         ]
 
     def check_failure(self, response) -> None:
