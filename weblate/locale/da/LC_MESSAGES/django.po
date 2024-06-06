@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-06-06 05:44+0000\n"
+"PO-Revision-Date: 2024-06-06 07:24+0000\n"
 "Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -8019,34 +8019,30 @@ msgid "Commit"
 msgstr "Commit"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s time siden"
-msgstr[1] "%(count)s timer siden"
+msgstr[0] "%(count)s afventende ændring"
+msgstr[1] "%(count)s afventende ændringer"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Indsend afventende ændringer til det lokale arkiv"
+msgstr ""
+"Dette vil commit alle afventende ændringer, der findes i Weblate og ikke i "
+"repositoriet."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
-msgstr "Send"
+msgstr "Push"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "%(count)s udgående commit"
+msgstr[1] "%(count)s udgående commits"
 
 #: weblate/templates/js/git-status.html:43
 #, fuzzy, python-format
@@ -8059,7 +8055,7 @@ msgstr[1] "%(count)s stemmer"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
-msgstr ""
+msgstr "Opdater"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with merge"
@@ -8078,25 +8074,19 @@ msgid "Update with merge without fast-forward"
 msgstr "Hent ændringer fra fjernarkivet"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "%(count)s mangler commit"
+msgstr[1] "%(count)s mangler commits"
 
 #: weblate/templates/js/git-status.html:76
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Nulstilling af arkivet vil forkaste alle lokale ændringer!"
+msgstr "Dette opdaterer Weblate-repositoriet med upstream-ændringerne."
 
 #: weblate/templates/js/git-status.html:83
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Tillad ændringer i det lokale arkiv"
+msgstr "Tillad ændringer i Weblate-repositoriet"
 
 #: weblate/templates/js/git-status.html:83
 #: weblate/templates/snippets/component/lock.html:11
@@ -8204,46 +8194,38 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:144
 msgid "Rescan"
-msgstr ""
+msgstr "Scan igen"
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Ryd op i alle usporede ændringer i det lokale arkiv"
+msgstr "Scan alle oversættelsesfiler i Weblate-repositoriet igen"
 
 #: weblate/templates/js/git-status.html:149
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "Fjerner nuværende oversættelse fra lageret."
+msgstr "Indlæser oversættelser fra filerne til Weblate."
 
 #: weblate/templates/js/git-status.html:150
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
+"Bruges, når Weblate overså nogle strenge efter opdatering af repositoriet."
 
 #: weblate/templates/js/git-status.html:155
 msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
+msgstr "Brug disse operationer med omtanke. De kan medføre datatab."
 
 #: weblate/templates/js/git-status.html:164
-#, fuzzy, python-format
-#| msgid "Merge failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Flettefejl i %(component)s"
+msgstr "Repository for %(component)s"
 
 #: weblate/templates/js/git-status.html:170
 msgid "Repository details"
-msgstr "Detaljer for arkiv"
+msgstr "Detaljer om repository"
 
 #: weblate/templates/js/git-status.html:178
 msgid "Repository changes"
-msgstr "Ændringer for arkiv"
+msgstr "Ændringer i repository"
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:31
