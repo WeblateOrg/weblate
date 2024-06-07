@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-06-07 18:48+0000\n"
+"PO-Revision-Date: 2024-06-07 20:51+0000\n"
 "Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -9202,10 +9202,9 @@ msgstr ""
 "nedenfor."
 
 #: weblate/templates/manage/teams.html:75
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the group <b>%(name)s</b>."
-msgstr "Dette vil fratage <b>%(user)s</b> adgangen til dette projekt."
+msgstr "Dette sletter gruppen <b>%(name)s</b>."
 
 #: weblate/templates/manage/teams.html:77
 #, python-format
@@ -9216,14 +9215,16 @@ msgid_plural ""
 "There are %(count)s members of this group. Deleting the group might affect "
 "their access."
 msgstr[0] ""
+"Der er %(count)s medlem af denne gruppe. Sletning af gruppen kan påvirke "
+"deres adgang."
 msgstr[1] ""
+"Der er %(count)s medlemmer af denne gruppe. Sletning af gruppen kan påvirke "
+"deres adgang."
 
 #: weblate/templates/manage/teams.html:102
 #: weblate/templates/trans/project-access.html:258
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new team"
-msgstr "Håndter ordliste"
+msgstr "Opret nyt team"
 
 #: weblate/templates/manage/tools.html:35
 #: weblate/templates/manage/tools.html:42
@@ -9253,8 +9254,6 @@ msgid "Generate a test event to test Sentry integration."
 msgstr ""
 
 #: weblate/templates/manage/users.html:29
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user"
 msgstr "Tilføj ny bruger"
 
@@ -9264,36 +9263,26 @@ msgstr "Afventende invitationer"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "Administration"
+msgstr "Send invitation igen"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Invitation link copied to clipboard."
-msgstr "Kopiér til udklipsholder"
+msgstr "Invitationslink kopieret til udklipsholder."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Administration"
 msgid "Remove invitation"
-msgstr "Administration"
+msgstr "Fjern invitation"
 
 #: weblate/templates/matrix-table.html:13
-#, fuzzy
-#| msgid "Service status"
 msgid "String missing"
-msgstr "Status for tjeneste"
+msgstr "Streng mangler"
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "matrix"
+msgstr "Matrix"
 
 #: weblate/templates/matrix.html:37
 msgid "Displayed languages"
@@ -9313,14 +9302,12 @@ msgid "Number of entries for %(project)s"
 msgstr "Antal indtastninger for %(project)s"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy
-#| msgid "Number of your entries"
 msgid "Number of uploaded shared entries"
-msgstr "Antal indtastninger af dig"
+msgstr "Antal uploadede delte indtastninger"
 
 #: weblate/templates/memory/index.html:39
 msgid "Number of your entries"
-msgstr "Antal indtastninger af dig"
+msgstr "Antal af dine indtastninger"
 
 #: weblate/templates/memory/index.html:45
 #: weblate/templates/memory/index.html:108
@@ -9328,7 +9315,7 @@ msgstr "Antal indtastninger af dig"
 #: weblate/templates/memory/index.html:202
 #: weblate/templates/memory/index.html:214
 msgid "Download as JSON"
-msgstr "Download som JSON"
+msgstr "Hent som JSON"
 
 #: weblate/templates/memory/index.html:46
 #: weblate/templates/memory/index.html:109
@@ -9336,7 +9323,7 @@ msgstr "Download som JSON"
 #: weblate/templates/memory/index.html:203
 #: weblate/templates/memory/index.html:215
 msgid "Download as TMX"
-msgstr "Download som TMX"
+msgstr "Hent som TMX"
 
 #: weblate/templates/memory/index.html:60
 #: weblate/templates/memory/index.html:83
@@ -9348,7 +9335,9 @@ msgid ""
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
 msgstr[0] ""
+"Dette sletter %(count)s indtastning permanent fra oversættelseshukommelsen."
 msgstr[1] ""
+"Dette sletter %(count)s indtastninger permanent fra oversættelseshukommelsen."
 
 #: weblate/templates/memory/index.html:71
 #: weblate/templates/memory/index.html:87
@@ -9359,15 +9348,13 @@ msgstr ""
 
 #: weblate/templates/memory/index.html:84
 #: weblate/templates/memory/index.html:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Memory will be then populated with the current translations."
-msgstr "Den uploadede fil vil blive flettet med den nuværende oversættelse."
+msgstr "Hukommelsen fyldes derefter med de aktuelle oversættelser."
 
 #: weblate/templates/memory/index.html:164
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Indtastninger for %(source_language)s til %(target_language)s"
 
 #: weblate/templates/memory/index.html:175
 msgid "Shared translation memory"
@@ -9384,16 +9371,12 @@ msgid "off"
 msgstr "fra"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of your entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Antal indtastninger af dig"
+msgstr "Antal delte indtastninger i denne Weblate-instans"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Samlet antal indtastninger"
+msgstr "Samlet antal indtastninger i denne Weblate-instans"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9406,16 +9389,12 @@ msgid "Delete announcement"
 msgstr "Ny meddelelse"
 
 #: weblate/templates/new-language.html:25
-#, fuzzy
-#| msgid ""
-#| "Please see translator instructions for information how to start "
-#| "translation into another language."
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
 msgstr ""
-"Se oversætterinstruktionerne for oplysninger om hvordan man opretter en "
-"oversættelse til et nyt sprog."
+"Oversætterinstruktionerne indeholder info om, hvordan man kommer i gang med "
+"at oversætte til andre sprog."
 
 #: weblate/templates/new-language.html:28
 msgid "Please choose the language you want to translate to."
@@ -9427,12 +9406,16 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
+"En oversættelsesfil oprettes baseret på <code>%(new_base)s</code> med alle "
+"strenge uoversat."
 
 #: weblate/templates/new-language.html:35
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
 msgstr ""
+"En tom oversættelsesfil oprettes, og nye strenge tilføjes, efterhånden som "
+"de oversættes."
 
 #: weblate/templates/new-language.html:40
 #, python-format
@@ -9441,23 +9424,24 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"En oversættelsesfil oprettes som en kopi af <code>%(new_base)s</code> med "
+"alle strenge markeret som \"Skal redigeres\" og erstattes, efterhånden som "
+"de oversættes."
 
 #: weblate/templates/new-language.html:47
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
+"En tom mappe oprettes til oversættelser, og de enkelte filer oprettes, "
+"efterhånden som strengene oversættes."
 
 #: weblate/templates/new-language.html:54
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
 msgstr ""
-"Projektvedligeholdere underrettes om anmodningen som spørger dem om at "
+"Projektvedligeholdere får besked om denne anmodning og bliver spurgt om at "
 "tilføje sproget manuelt."
 
 #: weblate/templates/new-language.html:58
@@ -9469,6 +9453,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
+"Denne liste indeholder kun basale sprog. Kontakt venligst "
+"projektvedligeholdere for at tilføje andre."
 
 #: weblate/templates/new-language.html:65
 msgid "Request new translation"
@@ -9481,34 +9467,29 @@ msgstr "Du har ikke tilladelse til at starte en ny oversættelse"
 
 #: weblate/templates/paginator.html:9
 #: weblate/templates/snippets/position-field.html:15
-#, fuzzy
-#| msgid "Go to position"
 msgid "Click to edit position"
-msgstr "Gå til placering"
+msgstr "Klik for at redigere position"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr "%(position)s/%(total)s"
+msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/paginator.html:12
 #: weblate/templates/snippets/position-field.html:22
 msgid "Go to position"
-msgstr "Gå til placering"
+msgstr "Gå til position"
 
 #: weblate/templates/paginator.html:21
 #: weblate/templates/snippets/position-field.html:24
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
-msgstr "Hop"
+msgstr "Spring til"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:24
 #, python-format
 msgid "/ %(total)s"
-msgstr "/%(total)s"
+msgstr "/ %(total)s"
 
 #: weblate/templates/project-label-edit.html:9
 #: weblate/templates/project-labels.html:10 weblate/templates/project.html:107
@@ -9518,48 +9499,40 @@ msgid "Labels"
 msgstr "Etiketter"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "Rediger grundfil"
+msgstr "Rediger etiket"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:19
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "Sprognavn"
+msgstr "Etikettens navn"
 
 #: weblate/templates/project-labels.html:19 weblate/trans/models/label.py:21
 msgid "Color"
 msgstr "Farve"
 
 #: weblate/templates/project-labels.html:20
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Labeled source strings"
-msgstr "Redigere kildestrenge"
+msgstr "Mærkede kildestrenge"
 
 #: weblate/templates/project-labels.html:44
-#, fuzzy
-#| msgid "Used languages"
 msgid "Add label"
-msgstr "Anvendte sprog"
+msgstr "Tilføj etiket"
 
 #: weblate/templates/project.html:224
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
+"Beskeden vises for alle oversættelser i projektet, indtil den udløber, eller "
+"permanent, indtil den slettes."
 
 #: weblate/templates/project.html:262
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Opret projekt"
+msgstr "Organiser projekt"
 
 #: weblate/templates/project.html:266
 msgid "Renaming the project will also change URLs for all its components."
-msgstr ""
+msgstr "Omdøbning af projektet ændrer også URL'erne for alle dets komponenter."
 
 #: weblate/templates/project.html:310
 #, fuzzy
@@ -9578,7 +9551,7 @@ msgstr ""
 
 #: weblate/templates/projects.html:19
 msgid "Ask for project hosting"
-msgstr "Spørg om hosting af projekt"
+msgstr "Spørg efter projekthosting"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -9589,26 +9562,24 @@ msgstr ""
 "nylig."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please sign in and try again later."
 msgid "You have been signed out, please sign in and try again later."
-msgstr "Du er blevet logget ud, log venligst ind senere og prøv igen."
+msgstr "Du er blevet logget ud; log venligst ind og prøv igen senere."
 
 #: weblate/templates/ratelimit.html:9
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Please try again later."
-msgstr "For mange søgeforespørgsler, prøv igen senere."
+msgstr "Prøv venligst igen senere."
 
 #: weblate/templates/replace.html:13
 msgid "Please review and confirm the search and replace results."
-msgstr "Gennemgå og bekræft resultaterne for søg og erstat."
+msgstr "Gennemgå og bekræft venligst søge- og erstatningsresultaterne."
 
 #: weblate/templates/replace.html:17
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
 msgstr ""
+"Viser og erstatter kun de første 250 matches. Udfør erstatningen igen for at "
+"erstatte flere."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -9618,7 +9589,7 @@ msgstr "Tildelte kildestrenge"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
-"Skærmbilledet vises for at tilføje visuel kontekst til alle viste "
+"Skærmbilledet vises for at føje visuel kontekst til alle de listede "
 "kildestrenge."
 
 #: weblate/templates/screenshots/screenshot_detail.html:34
@@ -9635,8 +9606,7 @@ msgstr "Søgning efter kildestreng"
 
 #: weblate/templates/screenshots/screenshot_detail.html:94
 msgid "Deleting screenshot will remove it from all associated source strings."
-msgstr ""
-"Sletning af skærmbilledet vil fjerne det fra alle tilknyttede kildestrenge."
+msgstr "Sletning af skærmbillede fjerner det fra alle tilknyttede kildestrenge."
 
 #: weblate/templates/screenshots/screenshot_list.html:23
 #: weblate/templates/translate.html:807
@@ -9654,10 +9624,8 @@ msgid "There are no assigned strings."
 msgstr "Der er ingen tildelte strenge."
 
 #: weblate/templates/screenshots/screenshot_sources_search_actions.html:2
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Add to screenshot"
-msgstr "Tilføje skærmbillede"
+msgstr "Tilføj til skærmbillede"
 
 #: weblate/templates/search.html:25
 #: weblate/templates/snippets/embed-units.html:114
@@ -9672,28 +9640,24 @@ msgid ""
 "source files."
 msgstr ""
 "Weblate er et webbaseret oversættelsesværktøj med tæt integration af "
-"versionsstyring. Det har en enkel og overskuelig brugerflade, udbredelse af "
-"oversættelser på tværs af komponenter, kvalitetstjek og automatisk "
-"sammenkædning med kildefiler."
+"versionsstyring. Det har en enkel og stilren brugergrænseflade, udbredelse "
+"af oversættelser på tværs af komponenter, kvalitetstjek og automatisk "
+"linking til kildefiler."
 
 #: weblate/templates/snippets/about.html:5
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
-msgstr "Mere information om Weblate fås på %(weblate_link)s."
+msgstr "Mere information om Weblate kan findes på %(weblate_link)s."
 
 #: weblate/templates/snippets/about.html:7
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr "Weblate er fri software skabt af frivillige, og accepterer donationer."
+msgstr "Weblate er fri software skabt af frivillige og tager imod donationer."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Sidste måned"
+msgstr "Sidste 12 måneder"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
 msgstr "Forrige"
@@ -9704,42 +9668,28 @@ msgstr "Aktivitet de seneste 12 måneder"
 
 #: weblate/templates/snippets/activity.html:30
 #: weblate/templates/snippets/activity.html:35
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)s time siden"
-msgstr[1] "%(count)s timer siden"
+msgstr[0] "%(count)s ændring"
+msgstr[1] "%(count)s ændringer"
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"Det kan være forårsaget af manglende abonnement eller at nogle af dine "
-"faktureringer er over forfaldsdatoen eller over grænserne."
+msgstr "Det kan skyldes et manglende abonnement."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
 msgstr ""
-"Det kan være forårsaget af manglende abonnement eller at nogle af dine "
-"faktureringer er over forfaldsdatoen eller over grænserne."
+"Det kan skyldes, at nogle af dine regninger er forfaldne eller overskredet."
 
 #: weblate/templates/snippets/bulk-help.html:3
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
-"Du kan skifte tilstand på alle strenge som matcher den givne type samtidigt."
+"Du kan ændre tilstanden for alle strenge, der matcher den givne type, på én "
+"gang."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:8
 msgid "View contributor agreement"
@@ -9747,47 +9697,42 @@ msgstr "Vis bidragsyderaftale"
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
-msgstr ""
+msgstr "Få besked, når dette projekt låses op igen"
 
 #: weblate/templates/snippets/component/lock.html:17
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
 msgstr ""
+"Oversættelsen er midlertidigt lukket for bidrag grundet vedligeholdelse. Kom "
+"venligst tilbage senere."
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "Oversættelsen er i øjeblikket låst for opdateringer."
+msgstr "Oversættelsen blev automatisk låst grundet følgende varsler:"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
+"Den maksimale strenglængde bestemmes ud fra kildestrengen eller flagene."
 
 #: weblate/templates/snippets/editor.html:15
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Kommentar til kildestrengen"
+msgstr "Længde på kildestreng"
 
 #: weblate/templates/snippets/embed-units-clone.html:5
 #: weblate/templates/snippets/format-translation.html:16
 msgid "Clone to translation"
-msgstr "Kopi i oversættelse"
+msgstr "Klon til oversættelse"
 
 #: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:178
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string"
-msgstr "Målstrenge"
+msgstr "Målstreng"
 
 #: weblate/templates/snippets/embed-units.html:67
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Assigned screenshots"
-msgstr "Tilføje skærmbillede"
+msgstr "Tildelte skærmbilleder"
 
 #: weblate/templates/snippets/embed-units.html:70
 msgid "Actions"
