@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-05-07 11:27+0000\n"
-"PO-Revision-Date: 2024-06-08 08:42+0000\n"
+"PO-Revision-Date: 2024-06-09 09:09+0000\n"
 "Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -10850,6 +10850,8 @@ msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
 msgstr ""
+"Hvis der ikke er brug for oversættelsesfilen til kildesproget, skal du "
+"fjerne den fra repositoriet."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
@@ -10858,42 +10860,32 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
 msgstr ""
-"Komponenten indeholder flere oversættelsesfiler som er tilknyttet til et "
+"Komponenten indeholder flere oversættelsesfiler, der er knyttet til et "
 "enkelt sprog i Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:25
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of the translation files."
-msgstr ""
-"Ret det venligst ved at fjerne en af de duplikerede strenge fra "
-"oversættelsesfilerne."
+msgstr "Ret venligst dette ved at fjerne en af oversættelsesfilerne."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:31
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
+"Undgå at have oversættelsesfiler for både den almindelige sprogkode og den "
+"tilsvarende områdebetegnelse (fx de og de_DE)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
 msgid "Language codes"
 msgstr "Sprogkoder"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
-#, fuzzy
-#| msgid "Filename"
 msgid "File names"
-msgstr "Filnavn"
+msgstr "Filnavne"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -10914,20 +10906,17 @@ msgstr ""
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr ""
+msgstr "Følgende filer findes ikke længere i repositoriet:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:15
 #: weblate/trans/models/component.py:492
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Template for new translations"
-msgstr "Skabelonfil for nye oversættelser"
+msgstr "Skabelon for nye oversættelser"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate kunne ikke sammenlægge opstrømsændringer mens softwarekilden "
-"opdateres."
+"Weblate kunne ikke flette upstream-ændringer, mens repositoriet opdateres."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -10940,35 +10929,28 @@ msgstr ""
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
-msgstr ""
+msgstr "Oversættelseskomponenten ser ensproget ud, men er ikke sat op til det."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Please add a monolingual base language file in the component settings."
-msgstr "Enkeltsproget grundsprogfil"
+msgstr "Tilføj venligst en ensproget grundsprogfil i komponentindstillingerne."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
 msgstr ""
+"Dette projekt passer ikke længere ind i betingelserne for Libre-hosting."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "The repository for this component is linked to %(target)s."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Softwarekilden for denne komponent er knyttet til %(target)s."
+msgstr "Denne komponentopsætning er ufuldstændig, da den mangler oversættelser."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can add new translation string here, it will automatically appear in "
-#| "all translations."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
 msgstr ""
-"Her kan du tilføje ny oversættelsesstreng. Den vises automatisk i alle "
-"oversættelser."
+"Det er muligt at starte nye oversættelser direkte i Weblate og oprette filer "
+"baseret på filmasken."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 #, python-format
@@ -10976,87 +10958,85 @@ msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
+"Tjek, om filmasken <code>%(filemask)s</code> matcher filer i dit "
+"versionskontrolsystems repository."
 
 #. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
 #, python-format
 msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kun noget af %(count)s forekomst vises."
+msgstr[1] "Kun nogle af %(count)s forekomster vises."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
 msgstr ""
-"Weblate kunne ikke fortolke oversættelsesfilerne mens oversættelserne "
+"Weblate kunne ikke analysere oversættelsesfilerne, mens oversættelserne "
 "opdateres."
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "Weblate could not push changes to the upstream repository."
-msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
+msgstr "Weblate kunne ikke pushe ændringer til upstream-repositoriet."
 
 #: weblate/templates/trans/alert/pushfailure.html:13
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "Nulstil arkiv"
+msgstr "Push repositoriet"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"VCS-softwarearkivet har mange ændringer i forhold til opstrømmen. Sammenlæg "
-"venligst ændringerne manuelt eller opsæt push for at gøre det automatisk."
+"VCS-repositoriet har mange ændringer i forhold til upstream. Flet venligst "
+"ændringerne manuelt eller opsæt push for at automatisere dette."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"VCS-softwarearkivet er ikke opdateret med den seneste opstrøm. Sammenlæg "
-"venligst ændringerne manuelt eller opsæt hooks for at gøre det automatisk."
+"VCS-repositoriet er ikke opdateret med upstream-repositoriet. Flet venligst "
+"ændringer manuelt eller opsæt hooks til at automatisere dette."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/models/component.py:364
 msgid "Version control system"
-msgstr "Versionsstyringssystem"
+msgstr "Versionskontrolsystem"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr ""
+"Det kan ske efter deaktivering af understøttelse af disse funktioner, eller "
+"når der mangler afhængigheder."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Component is now open for translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Komponent er nu åbent for oversættelsesopdateringer."
-msgstr[1] "Komponent er nu åbent for oversættelsesopdateringer."
+msgstr[0] ""
+"Komponenten har ikke modtaget nogen oversættelse inden for %(count)s dag."
+msgstr[1] ""
+"Komponenten har ikke modtaget nogen oversættelse inden for %(count)s dage."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
+"Overvej venligst at fjerne komponenten, hvis den ikke længere er nyttig."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Fandt fejlslagne tjek"
+msgstr "Følgende tvungne tjek bruges ikke nogen steder:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
 #, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr ""
+msgstr "%(check)s kvalitetskontrol håndhæves, men den er ikke tilgængelig."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
 #, python-format
@@ -11064,37 +11044,37 @@ msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
 msgstr ""
+"%(check)s kvalitetskontrol håndhæves, men slås ikke til med <code>%(flag)s</"
+"code> flag."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:17
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
+"Kontrollen kan slås til ved at føje det tilsvarende flag til streng- eller "
+"komponentflag."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "At least one screenshot has no string assigned to it."
-msgstr ""
+msgstr "Mindst ét skærmbillede har ikke fået tildelt en streng."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
-msgstr "Håndter skærmbilleder"
+msgstr "Administrer skærmbilleder"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
+"Weblate kunne ikke hente upstream-ændringer ved opdatering af repositoriet."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Opdater VCS arkiv"
+msgstr "Opdater repositoriet"
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are currently no backups."
-msgstr "Der er ikke installeret nogen tilføjelser."
+msgstr "Der er i øjeblikket ingen sikkerhedskopier."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
@@ -11104,17 +11084,15 @@ msgid "Trigger backup"
 msgstr "Ydeevne"
 
 #: weblate/templates/trans/backups.html:32
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "Backup will be generated in the background."
-msgstr "Oversættelsen har nået slutningen."
+msgstr "Sikkerhedskopien genereres i baggrunden."
 
 #: weblate/templates/trans/backups.html:33
 #, python-format
 msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sikkerhedskopier fjernes efter %(keep_days)s dag."
+msgstr[1] "Sikkerhedskopier fjernes efter %(keep_days)s dage."
 
 #: weblate/templates/trans/change_list.html:11
 #: weblate/templates/trans/change_list.html:13
@@ -11125,7 +11103,7 @@ msgstr "Ændringer"
 #: weblate/templates/trans/change_list.html:20
 #: weblate/templates/trans/change_list.html:22
 msgid "Download latest changes as CSV"
-msgstr "Download seneste ændringer som CSV"
+msgstr "Hent seneste ændringer som CSV"
 
 #: weblate/templates/trans/change_list.html:25
 msgid "Follow using RSS"
@@ -11142,16 +11120,12 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Du har ikke tilladelse til at oprette komponenter i nogen projekter."
 
 #: weblate/templates/trans/component_create.html:25
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "Versionsstyring"
+msgstr "Fra versionskontrol"
 
 #: weblate/templates/trans/component_create.html:28
-#, fuzzy
-#| msgid "From component list"
 msgid "From existing component"
-msgstr "Fra komponentliste"
+msgstr "Fra eksisterende komponent"
 
 #: weblate/templates/trans/component_create.html:31
 #, fuzzy
@@ -11160,16 +11134,12 @@ msgid "Additional branch"
 msgstr "Yderligere besked"
 
 #: weblate/templates/trans/component_create.html:34
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translations files"
-msgstr "Upload oversættelse"
+msgstr "Upload oversættelsesfiler"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Kommentar til oversættelsen"
+msgstr "Oversæt dokument"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -11180,6 +11150,8 @@ msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
+"Opret en ny oversættelseskomponent fra det eksterne versionskontrolsystems "
+"repository."
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_create.html:66
@@ -11226,20 +11198,17 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Filnavnene i arkivet skal indeholde landekoder."
 
 #: weblate/templates/trans/component_create.html:105
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
-msgstr "Der er ikke nogen oversættelseskomponenter i øjeblikket."
+msgstr ""
+"Opret en ny oversættelseskomponent fra et uploadet dokument til oversættelse."
 
 #: weblate/templates/trans/component_create.html:119
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "Create a new empty translation component to start from scratch."
-msgstr "Der er ikke nogen oversættelseskomponenter i øjeblikket."
+msgstr "Opret en ny tom oversættelseskomponent for at starte fra bunden."
 
 #: weblate/templates/trans/component_create.html:120
 #, python-format
@@ -11258,30 +11227,23 @@ msgstr ""
 
 #: weblate/templates/trans/delete-category-language.html:4
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Handlingen kan ikke fortrydes. Det vil slette %(object)s-oversættelsen og al "
-"relateret indhold permanent."
+"Denne handling kan ikke fortrydes. Det sletter %(object)s-oversættelser og "
+"alt relateret indhold permanent."
 
 #: weblate/templates/trans/delete-category-language.html:6
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be also removed:"
 msgid "The following translations will be removed:"
-msgstr "Følgende oversættelseskomponenter fjernes:"
+msgstr "Følgende oversættelser fjernes:"
 
 #: weblate/templates/trans/delete-category-language.html:14
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project name"
 msgid "Project language to remove"
-msgstr "Projektnavn"
+msgstr "Projektsprog at fjerne"
 
 #: weblate/templates/trans/delete-category.html:5
 #, python-format
@@ -11289,7 +11251,7 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Handlingen kan ikke fortrydes. Det vil slette %(object)s-projektet og al "
+"Denne handling kan ikke fortrydes. Det sletter %(object)s-projektet og alt "
 "relateret indhold permanent."
 
 #: weblate/templates/trans/delete-category.html:6
@@ -11298,6 +11260,8 @@ msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
 msgstr ""
+"Dette omfatter, men er ikke begrænset til, oversættelseshukommelse, "
+"ordlister eller brugertilladelser."
 
 #: weblate/templates/trans/delete-category.html:11
 #: weblate/templates/trans/delete-component.html:8
@@ -11309,17 +11273,13 @@ msgstr "Følgende oversættelseskomponenter fjernes:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
-#, fuzzy
-#| msgid "The following translation components will be also removed:"
 msgid "The following translation categories will be removed:"
-msgstr "Følgende oversættelseskomponenter fjernes:"
+msgstr "Følgende oversættelseskategorier fjernes:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:33
-#, fuzzy
-#| msgid "Project name"
 msgid "Project to remove"
-msgstr "Projektnavn"
+msgstr "Projekt at fjerne"
 
 #: weblate/templates/trans/delete-component.html:4
 #, python-format
@@ -11327,50 +11287,48 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"Handlingen kan ikke fortrydes. Det vil slette %(object)s-komponenten og al "
+"Denne handling kan ikke fortrydes. Det sletter %(object)s-komponenten og alt "
 "relateret indhold permanent."
 
 #: weblate/templates/trans/delete-component.html:20
-#, fuzzy
-#| msgid "Component to use"
 msgid "Component to remove"
-msgstr "Komponent som skal bruges"
+msgstr "Komponent at fjerne"
 
 #: weblate/templates/trans/delete-form.html:11
 msgid "I understand the consequences, delete this translation"
-msgstr "Jeg forstår konsekvenserne - slet oversættelsen"
+msgstr "Jeg forstår konsekvenserne; slet denne oversættelse"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
-"Handlingen kan ikke fortrydes. Det vil slette %(object)s-projektet og al "
+"Denne handling kan ikke fortrydes. Det sletter %(object)s-kategorien og alt "
 "relateret indhold permanent."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be also removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "Følgende oversættelseskomponenter fjernes:"
-msgstr[1] "Følgende oversættelseskomponenter fjernes:"
+msgstr[0] "%(count)s komponent fjernes af dette."
+msgstr[1] "%(count)s komponenter fjernes af dette."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
 "The “Add missing languages” add-on is installed on this component, a removed "
 "language might be re-added by it again."
 msgstr ""
+"Tilføjelsen “Tilføj manglende sprog” er installeret på denne komponent. Et "
+"fjernet sprog tilføjes muligvis igen af den."
 
 #: weblate/templates/trans/delete-translation.html:11
 msgid ""
 "The glossary component automatically maintains translation for each language "
 "used in the project, a removed language might be re-added again."
 msgstr ""
+"Ordlistekomponenten vedligeholder automatisk oversættelsen for hvert sprog, "
+"der bruges i projektet, og et fjernet sprog tilføjes muligvis igen."
 
 #: weblate/templates/trans/delete-translation.html:16
 #, python-format
@@ -11378,22 +11336,20 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
-"Handlingen kan ikke fortrydes. Det vil slette %(object)s-oversættelsen og al "
-"relateret indhold permanent."
+"Denne handling kan ikke fortrydes. Det sletter %(object)s-oversættelsen og "
+"alt relateret indhold permanent."
 
 #: weblate/templates/trans/delete-translation.html:20
 msgid "Translation to remove"
-msgstr "Oversættelse som skal fjernes"
+msgstr "Oversættelse at fjerne"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
 msgstr "Det fundne filformat understøttes ikke."
 
 #: weblate/templates/trans/guide/addon.html:3
-#, fuzzy
-#| msgid "Example addon"
 msgid "Enable add-on:"
-msgstr "Eksempel på tilføjelse"
+msgstr "Aktivér tilføjelse:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
