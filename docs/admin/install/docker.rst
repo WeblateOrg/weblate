@@ -390,7 +390,7 @@ volume should be separate for each container.
 
 Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE`
 environment variable. Please follow carefully the documentation as some of the
-services should be running just once in the cluster and the ordering of the
+services should be running just once in the cluster, and the order of the
 services matters as well.
 
 You can find example setup in the ``docker-compose`` repo as
