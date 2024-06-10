@@ -134,7 +134,7 @@ class WeblateDateField(forms.DateField):
 
 
 class DateRangeInput(forms.TextInput):
-    """Input compatible with date range picker"""
+    """Input compatible with date range picker."""
 
     template_name = "snippets/range-field.html"
 
@@ -151,11 +151,14 @@ class DateRangeField(forms.CharField):
         start, end = value.split(" - ")
         return {
             "start_date": from_current_timezone(datetime.strptime(start, "%m/%d/%Y")),
-            "end_date": from_current_timezone(datetime.strptime(end, "%m/%d/%Y"))
+            "end_date": from_current_timezone(datetime.strptime(end, "%m/%d/%Y")),
         }
 
     def validate(self, value):
-        if not (isinstance(value["start_date"], datetime) and isinstance(value["end_date"], datetime)):
+        if not (
+            isinstance(value["start_date"], datetime)
+            and isinstance(value["end_date"], datetime)
+        ):
             raise ValidationError(gettext("Invalid date!"))
 
     def clean(self, value):
@@ -1334,7 +1337,10 @@ class ReportsForm(forms.Form):
             hour=23, minute=59, second=59, microsecond=999999
         )
         # Final validation
-        if self.cleaned_data["period"]["start_date"] > self.cleaned_data["period"]["end_date"]:
+        if (
+            self.cleaned_data["period"]["start_date"]
+            > self.cleaned_data["period"]["end_date"]
+        ):
             msg = gettext("The starting date has to be before the ending date.")
             raise ValidationError({"start_date": msg, "end_date": msg})
 

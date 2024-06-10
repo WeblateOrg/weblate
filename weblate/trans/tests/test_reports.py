@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
 from django.urls import reverse
 from django.utils import timezone
@@ -127,10 +127,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.add_change()
         return self.client.post(
             reverse("credits", kwargs=self.get_kwargs()),
-            {
-                "style": style,
-                "period": "01/01/2000 - 01/01/2100"
-            },
+            {"style": style, "period": "01/01/2000 - 01/01/2100"},
         )
 
     def test_credits_view_json(self) -> None:
@@ -168,10 +165,7 @@ class ReportsComponentTest(BaseReportsTest):
 
     def get_counts(self, style, **kwargs):
         self.add_change()
-        params = {
-            "style": style,
-            "period": "01/01/2000 - 01/01/2100"
-        }
+        params = {"style": style, "period": "01/01/2000 - 01/01/2100"}
         params.update(kwargs)
         return self.client.post(reverse("counts", kwargs=self.get_kwargs()), params)
 
