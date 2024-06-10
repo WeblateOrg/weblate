@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -13,11 +17,15 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils import messages
 from weblate.utils.views import PathViewMixin, get_paginator
 
+if TYPE_CHECKING:
+    from weblate.addons.base import BaseAddon
+
 
 class AddonList(PathViewMixin, ListView):
     paginate_by = None
     model = Addon
     supported_path_types = (None, Component, Project)
+    path_object: None | Component | Project
 
     def get_queryset(self):
         if isinstance(self.path_object, Component):
@@ -105,7 +113,7 @@ class AddonList(PathViewMixin, ListView):
             obj_project = obj
 
         name = request.POST.get("name")
-        addon = ADDONS.get(name)
+        addon: type[BaseAddon] = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
         if (
             not name
@@ -177,6 +185,7 @@ class BaseAddonView(DetailView):
 
 class AddonDetail(BaseAddonView, UpdateView):
     template_name_suffix = "_detail"
+    object: Addon
 
     def get_form(self, form_class=None):
         return self.object.addon.get_settings_form(

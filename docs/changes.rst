@@ -16,6 +16,7 @@ Not yet released.
 **Bug fixes**
 
 * Loading of strings with many glossary matches.
+* Fixed behavior of some site-wide :ref:`addons`.
 
 **Compatibility**
 

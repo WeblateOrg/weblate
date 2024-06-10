@@ -19,6 +19,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.addons.tasks import postconfigure_addon
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -32,7 +33,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.formats.base import TranslationFormat
-    from weblate.trans.models import Component, Project, Translation, Unit
+    from weblate.trans.models import Project, Translation, Unit
 
 
 class BaseAddon:
@@ -371,10 +372,10 @@ class BaseAddon:
         return filename
 
     @classmethod
-    def pre_install(cls, component: Component, request) -> None:
-        if cls.trigger_update:
-            perform_update.delay("Component", component.pk, auto=True)
-            if component.repo_needs_merge():
+    def pre_install(cls, obj: Component | Project | None, request) -> None:
+        if cls.trigger_update and isinstance(obj, Component):
+            perform_update.delay("Component", obj.pk, auto=True)
+            if obj.repo_needs_merge():
                 messages.warning(
                     request,
                     gettext(
