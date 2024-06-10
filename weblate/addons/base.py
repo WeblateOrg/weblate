@@ -42,7 +42,7 @@ class BaseAddon:
     events: tuple[AddonEvent, ...] = ()
     settings_form: None | type[BaseAddonForm] = None
     name = ""
-    compat: dict[str, set[str]] = {}
+    compat: dict[str, set[str | bool]] = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
     description: StrOrPromise = "Base add-on"
