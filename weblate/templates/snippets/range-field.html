@@ -9,6 +9,7 @@
         startDate: moment(),
         endDate: moment(),
         alwaysShowCalendars: true,
+        opens: "left",
         ranges: {
           "Today": [moment(), moment()],
           "Yesterday": [moment().subtract(1, "days"), moment().subtract(1, "days")],
@@ -18,11 +19,8 @@
           "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
           "This Year": [moment().startOf("year"), moment().endOf("year")],
           "Last Year": [moment().subtract(1, "year").startOf("year"), moment().subtract(1, "year").endOf("year")]
-        },
-        opens: "left",
-      }  , function(start, end, label) {
-        console.log("A new date selection was made: " + start.format("YYYY-MM-DD") + " to " + end.format("YYYY-MM-DD"));
-      });
+        }
+        }, function(start, end, label) {});
     });
   </script>
 {% endcompress %}
