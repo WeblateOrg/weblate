@@ -171,7 +171,9 @@ class OpenAITranslation(BatchMachineTranslation):
                 extra_log=translations_string,
                 message=True,
             )
-            raise MachineTranslationError("Could not parse assistant reply")
+            raise MachineTranslationError(
+                f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
+            )
 
         for index, text in enumerate(texts):
             # Extract the assistant's reply from the response
