@@ -572,7 +572,10 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
 
 @app.task(trail=False)
 def update_checks(pk: int, update_token: str, update_state: bool = False) -> None:
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        return
 
     # Skip when further updates are scheduled
     latest_token = cache.get(component.update_checks_key)
