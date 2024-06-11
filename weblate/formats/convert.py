@@ -522,7 +522,7 @@ class WindowsRCFormat(ConvertFormat):
                 sublang=sublang,
                 charset=encoding,
             )
-            outputrclines = converter.convertstore(self.store)
+            outputrclines = converter.convertstore(self.store, includefuzzy=True)
             try:
                 handle.write(outputrclines.encode(encoding))
             except UnicodeEncodeError:
