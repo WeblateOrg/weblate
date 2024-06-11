@@ -17,6 +17,7 @@ Not yet released.
 
 * Loading of strings with many glossary matches.
 * Fixed behavior of some site-wide :ref:`addons`.
+* Saving strings needing editing to :doc:`/formats/winrc`.
 
 **Compatibility**
 
