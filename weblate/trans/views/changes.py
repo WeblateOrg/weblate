@@ -93,6 +93,12 @@ class ChangesView(PathViewMixin, ListView):
         super().setup(*args, **kwargs)
         self.changes_form = ChangesForm(data=self.request.GET)
 
+    def get_request_param(self, request, param: str) -> str:
+        value = request.GET.get(param)
+        if "/" in value or not value:
+            return "-"
+        return value
+
     def get(self, request, *args, **kwargs):
         if self.path_object is None and self.request.GET:
             # Handle GET params for filtering prior Weblate 5.0
@@ -108,9 +114,9 @@ class ChangesView(PathViewMixin, ListView):
                     path = unit.get_url_path()
             else:
                 path = [
-                    request.GET.get("project", "-") or "-",
-                    request.GET.get("component", "-") or "-",
-                    request.GET.get("lang") or "-",
+                    self.get_request_param(request, "project"),
+                    self.get_request_param(request, "component"),
+                    self.get_request_param(request, "lang"),
                 ]
                 while path and path[-1] == "-":
                     path.pop()
