@@ -474,7 +474,7 @@ def auto_translate(
                 auto.process_mt(engines, threshold)
             else:
                 auto.process_others(component)
-        except MachineTranslationError as error:
+        except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
             return {
                 "translation": translation_id,
