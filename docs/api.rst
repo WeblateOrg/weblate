@@ -2136,6 +2136,7 @@ and XLIFF.
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
+    :>json timestamp last_updated: last string update
 
 .. http:patch::  /api/units/(int:id)/
 

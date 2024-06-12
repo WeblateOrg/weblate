@@ -13,6 +13,7 @@ Not yet released.
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
 * Grafully handle temporary machine translation errors in automatic suggestions.
+* :http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp.
 
 **Bug fixes**
 
