@@ -209,7 +209,7 @@ class GitHTTPBackendWrapper:
         # Log error
         if output_err:
             report_error(
-                cause="Git backend failure",
+                "Git backend failure",
                 extra_log=output_err,
                 project=self.obj.project,
                 level="error",

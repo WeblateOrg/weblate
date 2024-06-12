@@ -491,7 +491,7 @@ class TTKitFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File-parsing error")
+            report_error("File-parsing error")
             return False
         return os.path.exists(base)
 
@@ -1176,15 +1176,15 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
                 text=True,
             )
         except FileNotFoundError as error:
-            report_error(cause="Failed msgmerge")
+            report_error("Failed msgmerge")
             raise UpdateError(
                 "msgmerge not found, please install gettext", error
             ) from error
         except OSError as error:
-            report_error(cause="Failed msgmerge")
+            report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
-            report_error(cause="Failed msgmerge")
+            report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error.output + error.stderr) from error
         else:
             # The warnings can cause corruption (for example in case

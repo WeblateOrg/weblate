@@ -311,7 +311,7 @@ def execute_addon_event(
             error_occurred = True
             log_result = str(error)
             scope.log_error("failed %s add-on: %s: %s", event.label, addon.name, error)
-            report_error(cause=f"add-on {addon.name} failed", project=component.project)
+            report_error(f"add-on {addon.name} failed", project=component.project)
             # Uninstall no longer compatible add-ons
             if not addon.addon.can_install(component, None):
                 addon.disable()

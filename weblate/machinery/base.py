@@ -225,7 +225,7 @@ class BatchMachineTranslation:
 
     def report_error(self, message) -> None:
         """Report error situations."""
-        report_error(cause="Machinery error")
+        report_error("Machinery error")
         LOGGER.error(message, self.name)
 
     @cached_property

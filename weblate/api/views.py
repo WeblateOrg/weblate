@@ -1247,9 +1247,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 data["fuzzy"],
             )
         except Exception as error:
-            report_error(
-                cause="Upload error", print_tb=True, project=obj.component.project
-            )
+            report_error("Upload error", print_tb=True, project=obj.component.project)
             raise ValidationError({"file": str(error)})
 
         return Response(

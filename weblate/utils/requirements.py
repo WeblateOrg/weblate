@@ -160,7 +160,7 @@ def get_db_version():
                 cursor.execute("SHOW server_version")
                 version = cursor.fetchone()
         except (RuntimeError, DatabaseError):
-            report_error(cause="PostgreSQL version check")
+            report_error("PostgreSQL version check")
             return None
 
         return (
@@ -172,7 +172,7 @@ def get_db_version():
         with connection.cursor() as cursor:
             version = cursor.connection.get_server_info()
     except (RuntimeError, DatabaseError):
-        report_error(cause="MySQL version check")
+        report_error("MySQL version check")
         return None
     return (
         f"{connection.display_name} sever",
@@ -188,7 +188,7 @@ def get_cache_version():
         try:
             version = cache.client.get_client().info()["redis_version"]
         except RuntimeError:
-            report_error(cause="Redis version check")
+            report_error("Redis version check")
             return None
 
         return ("Redis server", "https://redis.io/", version)

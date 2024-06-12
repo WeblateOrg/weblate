@@ -305,7 +305,7 @@ class BaseAddon:
                     "error": str(err),
                 }
             )
-            report_error(cause="Add-on script error", project=component.project)
+            report_error("Add-on script error", project=component.project)
 
     def trigger_alerts(self, component: Component) -> None:
         if self.alerts:

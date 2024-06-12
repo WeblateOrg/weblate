@@ -49,7 +49,7 @@ def get_uri_error(uri: str) -> None | str:
             LOGGER.debug("URL check for %s, tested success", uri)
             return None
     except requests.exceptions.RequestException as error:
-        report_error(cause="URL check failed")
+        report_error("URL check failed")
         if getattr(error.response, "status_code", 0) == 429:
             # Silently ignore rate limiting issues
             return None

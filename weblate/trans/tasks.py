@@ -313,9 +313,7 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD) -> None:
             else:
                 component.delete_alert("RepositoryChanges")
         except RepositoryError as error:
-            report_error(
-                cause="Could not check repository status", project=component.project
-            )
+            report_error("Could not check repository status", project=component.project)
             component.add_alert("MergeFailure", error=component.error_text(error))
 
 

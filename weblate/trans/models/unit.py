@@ -770,7 +770,7 @@ class Unit(models.Model, LoggerMixin):
         except DjangoDatabaseError:
             raise
         except Exception as error:
-            report_error(cause="Unit update error", project=component.project)
+            report_error("Unit update error", project=component.project)
             translation.component.handle_parse_error(error, translation)
 
         pending = False

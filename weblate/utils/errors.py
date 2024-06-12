@@ -30,9 +30,9 @@ except ImportError:
 
 
 def report_error(
-    level: str = "warning",
     cause: str = "Handled exception",
     *,
+    level: str = "warning",
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str | None = None,
