@@ -12,6 +12,7 @@ Not yet released.
 * :ref:`subscriptions` now include strings which need updating.
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
+* Grafully handle temporary machine translation errors in automatic suggestions.
 
 **Bug fixes**
 
