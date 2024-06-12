@@ -1410,14 +1410,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
     queryset = Unit.objects.none()
 
-    def get_serializer(self, instance, *args, **kwargs):
-        # Get correct serializer based on action and instance
+    def get_serializer_class(self):
+        """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
-            serializer_class = UnitSerializer
-        else:
-            serializer_class = UnitWriteSerializer
-        kwargs["context"] = self.get_serializer_context()
-        return serializer_class(instance, *args, **kwargs)
+            return UnitSerializer
+        return UnitWriteSerializer
 
     def get_queryset(self):
         return (
