@@ -154,6 +154,7 @@ const inp = require('./metrics/inp.js');
 
 exports.addClsInstrumentationHandler = instrument.addClsInstrumentationHandler;
 exports.addFidInstrumentationHandler = instrument.addFidInstrumentationHandler;
+exports.addInpInstrumentationHandler = instrument.addInpInstrumentationHandler;
 exports.addLcpInstrumentationHandler = instrument.addLcpInstrumentationHandler;
 exports.addPerformanceInstrumentationHandler = instrument.addPerformanceInstrumentationHandler;
 exports.addTtfbInstrumentationHandler = instrument.addTtfbInstrumentationHandler;
@@ -169,6 +170,7 @@ exports.getNativeImplementation = getNativeImplementation.getNativeImplementatio
 exports.setTimeout = getNativeImplementation.setTimeout;
 exports.SENTRY_XHR_DATA_KEY = xhr.SENTRY_XHR_DATA_KEY;
 exports.addXhrInstrumentationHandler = xhr.addXhrInstrumentationHandler;
+exports.registerInpInteractionListener = inp.registerInpInteractionListener;
 exports.startTrackingINP = inp.startTrackingINP;
 
 
@@ -1181,6 +1183,11 @@ const utils$1 = require('@sentry/utils');
 const instrument = require('./instrument.js');
 const utils = require('./utils.js');
 
+// We only care about name here
+
+const LAST_INTERACTIONS = [];
+const INTERACTIONS_ROUTE_MAP = new Map();
+
 /**
  * Start tracking INP webvital events.
  */
@@ -1240,6 +1247,7 @@ function _trackINP() {
       return;
     }
 
+    const { interactionId } = entry;
     const interactionType = INP_ENTRY_MAP[entry.name];
 
     const options = client.getOptions();
@@ -1250,7 +1258,15 @@ function _trackINP() {
     const activeSpan = core.getActiveSpan();
     const rootSpan = activeSpan ? core.getRootSpan(activeSpan) : undefined;
 
-    const routeName = rootSpan ? core.spanToJSON(rootSpan).description : undefined;
+    // We first try to lookup the route name from our INTERACTIONS_ROUTE_MAP,
+    // where we cache the route per interactionId
+    const cachedRouteName = interactionId != null ? INTERACTIONS_ROUTE_MAP.get(interactionId) : undefined;
+
+    // Else, we try to use the active span.
+    // Finally, we fall back to look at the transactionName on the scope
+    const routeName =
+      cachedRouteName || (rootSpan ? core.spanToJSON(rootSpan).description : scope.getScopeData().transactionName);
+
     const user = scope.getUser();
 
     // We need to get the replay, user, and activeTransaction from the current scope
@@ -1274,6 +1290,7 @@ function _trackINP() {
       environment: options.environment,
       transaction: routeName,
       [core.SEMANTIC_ATTRIBUTE_EXCLUSIVE_TIME]: metric.value,
+      [core.SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN]: 'auto.http.browser.inp',
       user: userDisplay || undefined,
       profile_id: profileId || undefined,
       replay_id: replayId || undefined,
@@ -1298,6 +1315,43 @@ function _trackINP() {
   });
 }
 
+/** Register a listener to cache route information for INP interactions. */
+function registerInpInteractionListener(latestRoute) {
+  const handleEntries = ({ entries }) => {
+    entries.forEach(entry => {
+      if (!instrument.isPerformanceEventTiming(entry) || !latestRoute.name) {
+        return;
+      }
+
+      const interactionId = entry.interactionId;
+      if (interactionId == null) {
+        return;
+      }
+
+      // If the interaction was already recorded before, nothing more to do
+      if (INTERACTIONS_ROUTE_MAP.has(interactionId)) {
+        return;
+      }
+
+      // We keep max. 10 interactions in the list, then remove the oldest one & clean up
+      if (LAST_INTERACTIONS.length > 10) {
+        const last = LAST_INTERACTIONS.shift() ;
+        INTERACTIONS_ROUTE_MAP.delete(last);
+      }
+
+      // We add the interaction to the list of recorded interactions
+      // and store the route information for this interaction
+      // (we clone the object because it is mutated when it changes)
+      LAST_INTERACTIONS.push(interactionId);
+      INTERACTIONS_ROUTE_MAP.set(interactionId, latestRoute.name);
+    });
+  };
+
+  instrument.addPerformanceInstrumentationHandler('event', handleEntries);
+  instrument.addPerformanceInstrumentationHandler('first-input', handleEntries);
+}
+
+exports.registerInpInteractionListener = registerInpInteractionListener;
 exports.startTrackingINP = startTrackingINP;
 
 
@@ -1539,12 +1593,20 @@ function getCleanupCallback(
   };
 }
 
+/**
+ * Check if a PerformanceEntry is a PerformanceEventTiming by checking for the `duration` property.
+ */
+function isPerformanceEventTiming(entry) {
+  return 'duration' in entry;
+}
+
 exports.addClsInstrumentationHandler = addClsInstrumentationHandler;
 exports.addFidInstrumentationHandler = addFidInstrumentationHandler;
 exports.addInpInstrumentationHandler = addInpInstrumentationHandler;
 exports.addLcpInstrumentationHandler = addLcpInstrumentationHandler;
 exports.addPerformanceInstrumentationHandler = addPerformanceInstrumentationHandler;
 exports.addTtfbInstrumentationHandler = addTtfbInstrumentationHandler;
+exports.isPerformanceEventTiming = isPerformanceEventTiming;
 
 
 },{"../debug-build.js":1,"./web-vitals/getCLS.js":11,"./web-vitals/getFID.js":12,"./web-vitals/getINP.js":13,"./web-vitals/getLCP.js":14,"./web-vitals/lib/observe.js":21,"./web-vitals/onTTFB.js":27,"@sentry/utils":154}],10:[function(require,module,exports){
@@ -10275,6 +10337,16 @@ const ENTRY_TYPES
 };
 
 /**
+ * Handler creater for web vitals
+ */
+function webVitalHandler(
+  getter,
+  replay,
+) {
+  return ({ metric }) => void replay.replayPerformanceEntries.push(getter(metric));
+}
+
+/**
  * Create replay performance entries from the browser performance entries.
  */
 function createPerformanceEntries(
@@ -10390,28 +10462,65 @@ function createResourceEntry(
 }
 
 /**
- * Add a LCP event to the replay based on an LCP metric.
+ * Add a LCP event to the replay based on a LCP metric.
  */
-function getLargestContentfulPaint(metric
+function getLargestContentfulPaint(metric) {
+  const lastEntry = metric.entries[metric.entries.length - 1] ;
+  const node = lastEntry ? lastEntry.element : undefined;
+  return getWebVital(metric, 'largest-contentful-paint', node);
+}
 
+/**
+ * Add a CLS event to the replay based on a CLS metric.
+ */
+function getCumulativeLayoutShift(metric) {
+  // get first node that shifts
+  const firstEntry = metric.entries[0] ;
+  const node = firstEntry ? (firstEntry.sources ? firstEntry.sources[0].node : undefined) : undefined;
+  return getWebVital(metric, 'cumulative-layout-shift', node);
+}
+
+/**
+ * Add a FID event to the replay based on a FID metric.
+ */
+function getFirstInputDelay(metric) {
+  const lastEntry = metric.entries[metric.entries.length - 1] ;
+  const node = lastEntry ? lastEntry.target : undefined;
+  return getWebVital(metric, 'first-input-delay', node);
+}
+
+/**
+ * Add an INP event to the replay based on an INP metric.
+ */
+function getInteractionToNextPaint(metric) {
+  const lastEntry = metric.entries[metric.entries.length - 1] ;
+  const node = lastEntry ? lastEntry.target : undefined;
+  return getWebVital(metric, 'interaction-to-next-paint', node);
+}
+
+/**
+ * Add an web vital event to the replay based on the web vital metric.
+ */
+function getWebVital(
+  metric,
+  name,
+  node,
 ) {
-  const entries = metric.entries;
-  const lastEntry = entries[entries.length - 1] ;
-  const element = lastEntry ? lastEntry.element : undefined;
-
   const value = metric.value;
+  const rating = metric.rating;
 
   const end = getAbsoluteTime(value);
 
   const data = {
-    type: 'largest-contentful-paint',
-    name: 'largest-contentful-paint',
+    type: 'web-vital',
+    name,
     start: end,
     end,
     data: {
       value,
       size: value,
-      nodeId: element ? record.mirror.getId(element) : undefined,
+      rating,
+      nodeId: node ? record.mirror.getId(node) : undefined,
     },
   };
 
@@ -10441,9 +10550,10 @@ function setupPerformanceObserver(replay) {
   });
 
   clearCallbacks.push(
-    browserUtils.addLcpInstrumentationHandler(({ metric }) => {
-      replay.replayPerformanceEntries.push(getLargestContentfulPaint(metric));
-    }),
+    browserUtils.addLcpInstrumentationHandler(webVitalHandler(getLargestContentfulPaint, replay)),
+    browserUtils.addClsInstrumentationHandler(webVitalHandler(getCumulativeLayoutShift, replay)),
+    browserUtils.addFidInstrumentationHandler(webVitalHandler(getFirstInputDelay, replay)),
+    browserUtils.addInpInstrumentationHandler(webVitalHandler(getInteractionToNextPaint, replay)),
   );
 
   // A callback to cleanup all handlers
@@ -11418,7 +11528,8 @@ function handleBeforeSendEvent(replay) {
 }
 
 function handleHydrationError(replay, event) {
-  const exceptionValue = event.exception && event.exception.values && event.exception.values[0].value;
+  const exceptionValue =
+    event.exception && event.exception.values && event.exception.values[0] && event.exception.values[0].value;
   if (typeof exceptionValue !== 'string') {
     return;
   }
@@ -18638,8 +18749,6 @@ const request = require('./request.js');
 
 const BROWSER_TRACING_INTEGRATION_ID = 'BrowserTracing';
 
-/** Options for Browser Tracing integration */
-
 const DEFAULT_BROWSER_TRACING_OPTIONS = {
   ...core.TRACING_DEFAULTS,
   instrumentNavigation: true,
@@ -18865,6 +18974,10 @@ const browserTracingIntegration = ((_options = {}) => {
 
       if (enableInteractions) {
         registerInteractionListener(idleTimeout, finalTimeout, childSpanTimeout, latestRoute);
+      }
+
+      if (enableInp) {
+        browserUtils.registerInpInteractionListener(latestRoute);
       }
 
       request.instrumentOutgoingRequests({
@@ -30588,6 +30701,7 @@ const ITEM_TYPE_TO_DATA_CATEGORY_MAP = {
   client_report: 'internal',
   user_report: 'default',
   profile: 'profile',
+  profile_chunk: 'profile',
   replay_event: 'replay',
   replay_recording: 'replay',
   check_in: 'monitor',
@@ -31148,6 +31262,7 @@ exports.addConsoleInstrumentationHandler = addConsoleInstrumentationHandler;
 },{"../logger.js":162,"../object.js":169,"../worldwide.js":186,"./handlers.js":159}],156:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const is = require('../is.js');
 const object = require('../object.js');
 const supports = require('../supports.js');
 const time = require('../time.js');
@@ -31190,6 +31305,15 @@ function instrumentFetch() {
         ...handlerData,
       });
 
+      // We capture the stack right here and not in the Promise error callback because Safari (and probably other
+      // browsers too) will wipe the stack trace up to this point, only leaving us with this file which is useless.
+
+      // NOTE: If you are a Sentry user, and you are seeing this stack frame,
+      //       it means the error, that was caused by your fetch call did not
+      //       have a stack trace, so the SDK backfilled the stack trace so
+      //       you can see which fetch call failed.
+      const virtualStackTrace = new Error().stack;
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       return originalFetch.apply(worldwide.GLOBAL_OBJ, args).then(
         (response) => {
@@ -31210,6 +31334,16 @@ function instrumentFetch() {
           };
 
           handlers.triggerHandlers('fetch', erroredHandlerData);
+
+          if (is.isError(error) && error.stack === undefined) {
+            // NOTE: If you are a Sentry user, and you are seeing this stack frame,
+            //       it means the error, that was caused by your fetch call did not
+            //       have a stack trace, so the SDK backfilled the stack trace so
+            //       you can see which fetch call failed.
+            error.stack = virtualStackTrace;
+            object.addNonEnumerableProperty(error, 'framesToPop', 1);
+          }
+
           // NOTE: If you are a Sentry user, and you are seeing this stack frame,
           //       it means the sentry.javascript SDK caught an error invoking your application code.
           //       This is expected behavior and NOT indicative of a bug with sentry.javascript.
@@ -31273,7 +31407,7 @@ exports.addFetchInstrumentationHandler = addFetchInstrumentationHandler;
 exports.parseFetchArgs = parseFetchArgs;
 
 
-},{"../object.js":169,"../supports.js":178,"../time.js":180,"../worldwide.js":186,"./handlers.js":159}],157:[function(require,module,exports){
+},{"../is.js":160,"../object.js":169,"../supports.js":178,"../time.js":180,"../worldwide.js":186,"./handlers.js":159}],157:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -34827,7 +34961,7 @@ exports.supportsHistory = supportsHistory;
 },{"../worldwide.js":186}],185:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '8.8.0';
+const SDK_VERSION = '8.9.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
