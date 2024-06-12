@@ -10,6 +10,7 @@ from weblate.vcs.base import Repository
 class MultipleRepositories(Repository):
     name = "Many repositories"  # limit length to 20
     push_label = gettext_lazy("This will push changes to the upstream repositories.")
+    identifier = "many-repositories"
 
     @classmethod
     def is_supported(cls):
