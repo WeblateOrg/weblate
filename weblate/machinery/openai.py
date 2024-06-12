@@ -9,11 +9,7 @@ from typing import TYPE_CHECKING, Literal
 
 from django.core.cache import cache
 
-from weblate.glossary.models import (
-    get_glossary_terms,
-    render_glossary_units_tsv,
-)
-from weblate.utils.errors import report_error
+from weblate.glossary.models import get_glossary_terms, render_glossary_units_tsv
 
 from .base import (
     BatchMachineTranslation,
@@ -157,7 +153,7 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations_string = response.choices[0].message.content
         if translations_string is None:
-            report_error(
+            self.report_error(
                 "Blank assistant reply",
                 extra_log=translations_string,
                 message=True,
@@ -166,7 +162,7 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations = translations_string.split(SEPARATOR)
         if len(translations) != len(texts):
-            report_error(
+            self.report_error(
                 "Failed to parse assistant reply",
                 extra_log=translations_string,
                 message=True,
@@ -180,7 +176,7 @@ class OpenAITranslation(BatchMachineTranslation):
             try:
                 translation = translations[index]
             except IndexError:
-                report_error("Missing assistant reply")
+                self.report_error("Missing assistant reply")
                 continue
 
             result[text] = [

@@ -25,7 +25,6 @@ from requests.exceptions import HTTPError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
-from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
@@ -223,10 +222,13 @@ class BatchMachineTranslation:
             return self.language_map[code]
         return code
 
-    def report_error(self, message) -> None:
+    def report_error(
+        self, cause: str, extra_log: str | None = None, message: bool = False
+    ) -> None:
         """Report error situations."""
-        report_error("Machinery error")
-        LOGGER.error(message, self.name)
+        report_error(
+            f"machinery[{self.name}]: {cause}", extra_log=extra_log, message=message
+        )
 
     @cached_property
     def supported_languages(self):
@@ -245,7 +247,7 @@ class BatchMachineTranslation:
         except Exception as exc:
             self.supported_languages_error = exc
             self.supported_languages_error_age = time.time()
-            self.report_error("Could not fetch languages from %s, using defaults")
+            self.report_error("Could not fetch languages, using defaults")
             return set()
 
         # Update cache
@@ -517,7 +519,7 @@ class BatchMachineTranslation:
                 if self.is_rate_limit_error(exc):
                     self.set_rate_limit()
 
-                self.report_error("Could not fetch translations from %s")
+                self.report_error("Could not fetch translations")
                 if isinstance(exc, MachineTranslationError):
                     raise
                 raise MachineTranslationError(self.get_error_message(exc)) from exc
