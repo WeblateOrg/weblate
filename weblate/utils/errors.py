@@ -99,7 +99,7 @@ def init_error_collection(celery=False) -> None:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
             integrations=[
-                CeleryIntegration(),
+                CeleryIntegration(monitor_beat_tasks=True),
                 DjangoIntegration(),
                 RedisIntegration(),
             ],
