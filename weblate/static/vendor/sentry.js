@@ -34961,7 +34961,7 @@ exports.supportsHistory = supportsHistory;
 },{"../worldwide.js":186}],185:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '8.9.1';
+const SDK_VERSION = '8.9.2';
 
 exports.SDK_VERSION = SDK_VERSION;
 
