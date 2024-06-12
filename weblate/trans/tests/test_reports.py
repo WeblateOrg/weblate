@@ -128,9 +128,7 @@ class ReportsComponentTest(BaseReportsTest):
         params = {"style": style, "period": "01/01/2000 - 01/01/2100"}
         params.update(kwargs)
         return self.client.post(
-            reverse("credits", kwargs=self.get_kwargs()),
-            params,
-            follow=follow
+            reverse("credits", kwargs=self.get_kwargs()), params, follow=follow
         )
 
     def test_credits_view_json(self) -> None:
@@ -174,14 +172,18 @@ class ReportsComponentTest(BaseReportsTest):
     def test_credits_invalid_start(self):
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{}invalid - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = "{}invalid - {}".format(
+            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
+        )
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
     def test_credits_invalid_end(self):
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{} - {}invalid".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = "{} - {}invalid".format(
+            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
+        )
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
@@ -192,7 +194,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(
             response,
-            "Error in parameter period: The starting date has to be before the ending date."
+            "Error in parameter period: The starting date has to be before the ending date.",
         )
 
     def get_counts(self, style, follow=False, **kwargs):
@@ -200,8 +202,7 @@ class ReportsComponentTest(BaseReportsTest):
         params = {"style": style, "period": "01/01/2000 - 01/01/2100"}
         params.update(kwargs)
         return self.client.post(
-            reverse("counts", kwargs=self.get_kwargs()),
-            params, follow=follow
+            reverse("counts", kwargs=self.get_kwargs()), params, follow=follow
         )
 
     def test_counts_view_json(self) -> None:
@@ -334,14 +335,18 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_invalid_start(self):
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{}invalid - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = "{}invalid - {}".format(
+            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
+        )
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
     def test_counts_invalid_end(self):
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{} - {}invalid".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = "{} - {}invalid".format(
+            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
+        )
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
@@ -352,7 +357,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(
             response,
-            "Error in parameter period: The starting date has to be before the ending date."
+            "Error in parameter period: The starting date has to be before the ending date.",
         )
 
 

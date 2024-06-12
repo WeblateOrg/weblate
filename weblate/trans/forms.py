@@ -156,9 +156,8 @@ class DateRangeField(forms.CharField):
             raise ValidationError(gettext("Invalid date!"))
 
     def validate(self, value):
-        if (
-            isinstance(value["start_date"], datetime)
-            and isinstance(value["end_date"], datetime)
+        if isinstance(value["start_date"], datetime) and isinstance(
+            value["end_date"], datetime
         ):
             if value["start_date"] > value["end_date"]:
                 raise ValidationError(
