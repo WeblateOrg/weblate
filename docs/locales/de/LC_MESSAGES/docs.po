@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-11 20:40+0200\n"
-"PO-Revision-Date: 2024-06-12 09:26+0000\n"
+"PO-Revision-Date: 2024-06-13 14:09+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -4020,22 +4020,25 @@ msgstr ""
 "aktuellen Übersetzung besteht."
 
 #: ../../admin/addons.rst:1040
-#, fuzzy
-#| msgid "Account activity"
 msgid "Add-on activity logging"
-msgstr "Kontoaktivität"
+msgstr "Aktivitätsprotokollierung für Erweiterungen"
 
 #: ../../admin/addons.rst:1042
 msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
+"Das Aktivitätsprotokoll der Erweiterungen verfolgt das Ausführen der "
+"Erweiterungen und kann verwendet werden, um die Aktivitäten der "
+"Erweiterungen nachzuvollziehen."
 
 #: ../../admin/addons.rst:1045
 msgid ""
 "The logs can be pruned after a certain time interval by configuring the :"
 "setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 msgstr ""
+"Die Protokolle können nach einem bestimmten Zeitintervall gelöscht werden, "
+"indem :setting:`ADDON_ACTIVITY_LOG_EXPIRY` konfiguriert wird."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:114
 msgid "Management interface"
@@ -26978,18 +26981,16 @@ msgstr "**Verbesserungen**"
 #: ../../changes.rst:12
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ""
+":ref:`subscriptions` enthalten jetzt Zeichenketten, die aktualisiert werden "
+"müssen."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved compatibility with some Subversion setups."
 msgid "Improved compatibility with password managers."
-msgstr "Verbesserte Kompatibilität mit einigen Subversion-Konfigurationen."
+msgstr "Verbesserte Kompatibilität mit Passwortmanager."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved merging of upstream changes."
 msgid "Improved tracking of uploaded changes."
-msgstr "Verbessertes Zusammenführen von Upstream-Änderungen."
+msgstr "Verbessertes Nachverfolgen von hochgeladenen Änderungen."
 
 #: ../../changes.rst:16 ../../changes.rst:35 ../../changes.rst:58
 #: ../../changes.rst:78 ../../changes.rst:94 ../../changes.rst:124
@@ -27002,23 +27003,18 @@ msgid "**Bug fixes**"
 msgstr "**Fehlerbehebungen**"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Caching counts of strings with failing checks."
 msgid "Loading of strings with many glossary matches."
-msgstr ""
-"Caching der Anzahl von Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen."
+msgstr "Laden von Zeichenketten mit vielen Übereinstimmungen im Glossar."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Daily execution of some :ref:`addons`."
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Tägliche Ausführung einiger :ref:`addons`."
+msgstr "Das Verhalten einiger plattformweiter :ref:`addons` korrigiert."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Plural forms handling in :doc:`/formats/qt`."
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr "Behandlung von Pluralformen in :doc:`/formats/qt`."
+msgstr ""
+"Bearbeitungsbedürftige Zeichenketten werden in :doc:`/formats/winrc` "
+"gespeichert."
 
 #: ../../changes.rst:22 ../../changes.rst:182 ../../changes.rst:288
 #: ../../changes.rst:341 ../../changes.rst:406 ../../changes.rst:436
@@ -27079,13 +27075,11 @@ msgstr "Veröffentlicht am 13. Mai 2024."
 
 #: ../../changes.rst:37
 msgid "False-positive merge failure alert when using push branch."
-msgstr ""
+msgstr "Falsch-positive Merge-Konflikt-Warnung beim Pushen des Branches."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Cleanup of stale repositories."
-msgstr "Status der Repositorys"
+msgstr "Bereinigung von veralteten Repositorys."
 
 #: ../../changes.rst:44
 msgid ""
@@ -27114,10 +27108,13 @@ msgstr "Reiter für :ref:`addons`-Verlauf unter Verwaltung hinzugefügt."
 #: ../../changes.rst:55
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
+"Neue :ref:`alerts` wenn das :ref:`glossary` nicht wie erwartet funktioniert."
 
 #: ../../changes.rst:56
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
+":doc:`/admin/announcements` können im Projekt-/Sprachbereich veröffentlicht "
+"werden."
 
 #: ../../changes.rst:60
 msgid "Improved handling placeables in :ref:`mt-openai`."
@@ -39777,10 +39774,6 @@ msgstr ""
 "sollten Sie mit :ref:`adding-projects` fortfahren."
 
 #: ../../contributing/start.rst:84
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in the :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory. For easier access to the database "
@@ -39788,7 +39781,9 @@ msgid ""
 "``5433``."
 msgstr ""
 "Das :file:`Dockerfile` und :file:`docker-compose.yml` hierfür befinden sich "
-"im Verzeichnis :file:`dev-docker`."
+"im Verzeichnis :file:`dev-docker`. Um den Zugriff auf die Datenbank während "
+"der Entwicklung zu vereinfachen, wird der Container, in dem PostgreSQL "
+"läuft, auf Port ``5433`` bereitgestellt."
 
 #: ../../contributing/start.rst:88
 msgid ""
@@ -40950,6 +40945,9 @@ msgid ""
 "Additionally, components within projects can be structured using categories. "
 "Components can belong to a category, and categories can be nested."
 msgstr ""
+"Zusätzlich können Komponenten innerhalb von Projekten mithilfe von "
+"Kategorien strukturiert werden. Komponenten können zu einer Kategorie "
+"gehören, und Kategorien können verschachtelt werden."
 
 #: ../../snippets/basics.rst:17
 msgid ""
