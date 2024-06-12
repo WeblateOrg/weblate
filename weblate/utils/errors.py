@@ -54,7 +54,7 @@ def report_error(
         if project is not None:
             sentry_sdk.set_tag("project", project.slug)
         sentry_sdk.set_tag("user.locale", get_language())
-        sentry_sdk.level = level
+        sentry_sdk.set_level(level)
         if message:
             sentry_sdk.capture_message(cause)
         else:
