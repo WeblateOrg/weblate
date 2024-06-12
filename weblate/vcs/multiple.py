@@ -23,3 +23,6 @@ class MultipleRepositories(Repository):
     @classmethod
     def get_version(cls):
         return 1  # cannot check internal repos without instantiating the class, assuming True
+
+    def is_valid(self):
+        return True
