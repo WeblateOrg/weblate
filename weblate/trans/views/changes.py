@@ -95,7 +95,7 @@ class ChangesView(PathViewMixin, ListView):
 
     def get_request_param(self, request, param: str) -> str:
         value = request.GET.get(param)
-        if "/" in value or not value:
+        if not value or "/" in value:
             return "-"
         return value
 
