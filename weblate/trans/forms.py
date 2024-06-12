@@ -133,32 +133,38 @@ class WeblateDateField(forms.DateField):
         return value
 
 
-class DateRangeInput(forms.TextInput):
-    """Input compatible with date range picker."""
-
-    template_name = "snippets/range-field.html"
-
-
 class DateRangeField(forms.CharField):
     """Field for a date range input."""
 
     def __init__(self, **kwargs) -> None:
-        if "widget" not in kwargs:
-            kwargs["widget"] = DateRangeInput
         super().__init__(**kwargs)
 
     def to_python(self, value):
-        start, end = value.split(" - ")
-        return {
-            "start_date": from_current_timezone(datetime.strptime(start, "%m/%d/%Y")),
-            "end_date": from_current_timezone(datetime.strptime(end, "%m/%d/%Y")),
-        }
+        try:
+            start, end = value.split(" - ")
+            start_date = datetime.strptime(start, "%m/%d/%Y").replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            end_date = datetime.strptime(end, "%m/%d/%Y").replace(
+                hour=23, minute=59, second=59, microsecond=999999
+            )
+            return {
+                "start_date": from_current_timezone(start_date),
+                "end_date": from_current_timezone(end_date),
+            }
+        except ValueError:
+            raise ValidationError(gettext("Invalid date!"))
 
     def validate(self, value):
-        if not (
+        if (
             isinstance(value["start_date"], datetime)
             and isinstance(value["end_date"], datetime)
         ):
+            if value["start_date"] > value["end_date"]:
+                raise ValidationError(
+                    gettext("The starting date has to be before the ending date.")
+                )
+        else:
             raise ValidationError(gettext("Invalid date!"))
 
     def clean(self, value):
@@ -1325,24 +1331,6 @@ class ReportsForm(forms.Form):
         # Invalid value, skip rest of the validation
         if "period" not in self.cleaned_data:
             return
-
-        # Handle predefined periods
-        start = self.cleaned_data["period"]["start_date"]
-        end = self.cleaned_data["period"]["end_date"]
-        # Sanitize timestamps
-        self.cleaned_data["period"]["start_date"] = start.replace(
-            hour=0, minute=0, second=0, microsecond=0
-        )
-        self.cleaned_data["period"]["end_date"] = end.replace(
-            hour=23, minute=59, second=59, microsecond=999999
-        )
-        # Final validation
-        if (
-            self.cleaned_data["period"]["start_date"]
-            > self.cleaned_data["period"]["end_date"]
-        ):
-            msg = gettext("The starting date has to be before the ending date.")
-            raise ValidationError({"start_date": msg, "end_date": msg})
 
 
 class CleanRepoMixin:

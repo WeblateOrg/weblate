@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load static %}
 {% load translations %}
+{% load compress %}
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load metrics %}
+
+{% block extra_script %}
+  {% compress js %}
+    <script defer data-cfasync="false" src="{% static 'vendor/moment.js' %}{{ cache_param }}"></script>
+    <script defer data-cfasync="false" src="{% static 'vendor/daterangepicker.js' %}{{ cache_param }}"></script>
+  {% endcompress %}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'vendor/daterangepicker.css' %}{{ cache_param }}" />
+  {% endcompress %}
+{% endblock %}
 
 {% block breadcrumbs %}
 {% path_object_breadcrumbs path_object %}

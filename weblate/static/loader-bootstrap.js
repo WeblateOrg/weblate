@@ -1380,6 +1380,25 @@ $(function () {
     });
   });
 
+  $("input[name='period']").daterangepicker({
+    autoApply: true,
+    startDate: moment(),
+    endDate: moment(),
+    alwaysShowCalendars: true,
+    opens: "left",
+    ranges: {
+      "Today": [moment(), moment()],
+      "Yesterday": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+      "Last 7 Days": [moment().subtract(6, "days"), moment()],
+      "Last 30 Days": [moment().subtract(29, "days"), moment()],
+      "This Month": [moment().startOf("month"), moment().endOf("month")],
+      "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
+      "This Year": [moment().startOf("year"), moment().endOf("year")],
+      "Last Year": [moment().subtract(1, "year").startOf("year"), moment().subtract(1, "year").endOf("year")],
+    },
+  }, function(start, end, label) {
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c%s",
