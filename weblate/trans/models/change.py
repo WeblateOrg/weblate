@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
@@ -166,7 +167,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         more effective here.
         """
         result = []
-        with transaction.atomic():
+        with transaction.atomic(), sentry_sdk.start_span(op="recent changes"):
             for change in self.order().iterator(chunk_size=count):
                 result.append(change)
                 if len(result) >= count:
