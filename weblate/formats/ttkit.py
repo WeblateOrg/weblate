@@ -242,24 +242,6 @@ class TTKitFormat(TranslationFormat):
     units: list[TranslateToolkitUnit]
     store: TranslationStore
 
-    def __init__(
-        self,
-        storefile,
-        template_store=None,
-        language_code: str | None = None,
-        source_language: str | None = None,
-        is_template: bool = False,
-        existing_units: list[Any] | None = None,
-    ) -> None:
-        super().__init__(
-            storefile,
-            template_store=template_store,
-            language_code=language_code,
-            is_template=is_template,
-            source_language=source_language,
-            existing_units=existing_units,
-        )
-
     @staticmethod
     def serialize(store):
         """Serialize given Translate Toolkit store."""
@@ -329,13 +311,13 @@ class TTKitFormat(TranslationFormat):
 
         return store
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TranslationUnit) -> None:
         """Add new unit to underlying store."""
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
-            self.store.addunit(ttkit_unit, new=True)
+            self.store.addunit(unit.unit, new=True)
         else:
-            self.store.addunit(ttkit_unit)
+            self.store.addunit(unit.unit)
 
     def save_content(self, handle) -> None:
         """Store content to file."""
@@ -1125,13 +1107,13 @@ class BasePoFormat(TTKitFormat):
 
         self.store.updateheader(**kwargs)
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()
         # Check if there is matching obsolete unit
-        old_unit = self.store.id_index.get(ttkit_unit.getid())
+        old_unit = self.store.id_index.get(unit.unit.getid())
         if old_unit and old_unit.isobsolete():
             self.store.removeunit(old_unit)
-        super().add_unit(ttkit_unit)
+        super().add_unit(unit)
 
 
 class PoFormat(BasePoFormat, BilingualUpdateMixin):
@@ -1940,7 +1922,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
             # to avoid any change.
             elif not unit.has_content():
                 unit.unit = unit.mainunit
-            self.add_unit(unit.unit)
+            self.add_unit(unit)
 
         self.store.serialize(handle)
 
