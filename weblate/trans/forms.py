@@ -1094,9 +1094,9 @@ class EngageForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         self.fields["lang"].queryset = project.languages
-        self.fields["component"].queryset = project.component_set.filter_access(
-            user
-        ).order()
+        self.fields["component"].queryset = (
+            project.component_set.filter_access(user).prefetch().order()
+        )
 
 
 class NewLanguageOwnerForm(forms.Form):
