@@ -140,12 +140,13 @@ class DateRangeField(forms.CharField):
         super().__init__(**kwargs)
 
     def to_python(self, value):
+        """Convert the string input into data range values."""
         try:
             start, end = value.split(" - ")
-            start_date = datetime.strptime(start, "%m/%d/%Y").replace(
+            start_date = datetime.strptime(start, "%m/%d/%Y").replace(  # noqa: DTZ007
                 hour=0, minute=0, second=0, microsecond=0
             )
-            end_date = datetime.strptime(end, "%m/%d/%Y").replace(
+            end_date = datetime.strptime(end, "%m/%d/%Y").replace(  # noqa: DTZ007
                 hour=23, minute=59, second=59, microsecond=999999
             )
             return {
@@ -156,6 +157,7 @@ class DateRangeField(forms.CharField):
             raise ValidationError(gettext("Invalid date!"))
 
     def validate(self, value):
+        """Validate the date range values."""
         if isinstance(value["start_date"], datetime) and isinstance(
             value["end_date"], datetime
         ):
@@ -167,6 +169,7 @@ class DateRangeField(forms.CharField):
             raise ValidationError(gettext("Invalid date!"))
 
     def clean(self, value):
+        """Produce a clean and validated date range values."""
         value = self.to_python(value)
         self.validate(value)
         return value
