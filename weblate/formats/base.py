@@ -456,7 +456,7 @@ class TranslationFormat:
     def ensure_index(self):
         return self._unit_index
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TranslationUnit) -> None:
         """Add new unit to underlying store."""
         raise NotImplementedError
 
@@ -698,17 +698,10 @@ class TranslationFormat:
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-        skip_build: bool = False,
     ):
         """Add new unit to monolingual store."""
         # Create backend unit object
         unit = self.create_unit(key, source, target)
-
-        # Add it to the file
-        self.add_unit(unit)
-
-        if skip_build:
-            return None
 
         # Build an unit object
         if self.has_template:
@@ -732,6 +725,9 @@ class TranslationFormat:
             self._unit_index[result.id_hash] = result
         if "_template_index" in self.__dict__:
             self._template_index[mono_unit.id_hash] = mono_unit
+
+        # Add it to the file
+        self.add_unit(result)
 
         return result
 

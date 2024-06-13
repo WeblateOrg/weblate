@@ -729,7 +729,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 # This has be done prior setting target as some formats
                 # generate content based on target language.
                 if add:
-                    store.add_unit(pounit.unit)
+                    store.add_unit(pounit)
 
                 # Store translations
                 try:

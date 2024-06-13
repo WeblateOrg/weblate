@@ -191,8 +191,8 @@ class ConvertFormat(TranslationFormat):
             return False
         return True
 
-    def add_unit(self, ttkit_unit) -> None:
-        self.store.addunit(ttkit_unit)
+    def add_unit(self, unit: TranslationUnit) -> None:
+        self.store.addunit(unit.unit)
 
     @classmethod
     def get_class(cls):

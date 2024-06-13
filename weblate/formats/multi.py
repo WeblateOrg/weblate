@@ -165,6 +165,13 @@ class MultiFormatMixin(TranslationFormat):
     def _get_all_monolingual_units(self):
         return self.merge_multi(super()._get_all_monolingual_units())
 
+    def add_unit(self, unit: TranslationUnit) -> None:
+        if isinstance(unit, MultiUnit):
+            for child in unit.units:
+                super().add_unit(child)
+        else:
+            super().add_unit(unit)
+
 
 class MultiCSVUtf8Format(MultiFormatMixin, CSVUtf8Format):
     name = gettext_lazy("Multivalue CSV file (UTF-8)")
