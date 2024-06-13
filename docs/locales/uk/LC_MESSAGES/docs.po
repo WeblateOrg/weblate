@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-11 20:40+0200\n"
-"PO-Revision-Date: 2024-05-13 23:19+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2024-06-13 14:09+0000\n"
+"Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -3964,22 +3964,24 @@ msgstr ""
 "перекладу."
 
 #: ../../admin/addons.rst:1040
-#, fuzzy
-#| msgid "Account activity"
 msgid "Add-on activity logging"
-msgstr "Діяльність профілю"
+msgstr "Журналювання діяльності додатків"
 
 #: ../../admin/addons.rst:1042
 msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
+"Журнал діяльності додатків відстежує виконання додатків і може бути "
+"використаний для відстеження їхньої активності."
 
 #: ../../admin/addons.rst:1045
 msgid ""
 "The logs can be pruned after a certain time interval by configuring the :"
 "setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 msgstr ""
+"Журнали можна вилучати через певний проміжок часу за допомогою налаштування "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:114
 msgid "Management interface"
@@ -10004,23 +10006,23 @@ msgstr ""
 "ніж вилучати його зі списку."
 
 #: ../../admin/config.rst:2004
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+":ref:`addons`, :setting:`DEFAULT_ADDONS`, "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`"
 
 #: ../../admin/config.rst:2011
-#, fuzzy
-#| msgid "AUDITLOG_EXPIRY"
 msgid "ADDON_ACTIVITY_LOG_EXPIRY"
-msgstr "AUDITLOG_EXPIRY"
+msgstr "ADDON_ACTIVITY_LOG_EXPIRY"
 
 #: ../../admin/config.rst:2015
 msgid ""
 "Configures how long activity logs for add-ons are kept. Defaults to 180 days."
 msgstr ""
+"Дозволяє налаштувати тривалість зберігання журналів діяльності додатків. "
+"Типовим значенням є 180 днів."
 
 #: ../../admin/config.rst:2020
 msgid "WEBLATE_EXPORTERS"
@@ -14666,20 +14668,14 @@ msgstr ""
 "контейнерів."
 
 #: ../../admin/install/docker.rst:391
-#, fuzzy
-#| msgid ""
-#| "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
-#| "environment variable. Please follow carefully the documentation as some "
-#| "of the services should be running just once in the cluster and the "
-#| "ordering of the services matters as well."
 msgid ""
 "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
 "environment variable. Please follow carefully the documentation as some of "
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
-"У кожного контейнера Weblate є визначена за допомогою змінної середовища :"
-"envvar:`WEBLATE_SERVICE`роль. Будь ласка, точно виконуйте настанови з "
+"У кожного контейнера Weblate є визначена за допомогою змінної середовища "
+":envvar:`WEBLATE_SERVICE`роль. Будь ласка, точно виконуйте настанови з "
 "документації, оскільки деякі служби у кластері мають запускатися лише один "
 "раз, крім того, має значення порядок запуску служб."
 
@@ -26658,10 +26654,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.5"
 msgid "Weblate 5.6"
-msgstr "Weblate 5.5"
+msgstr "Weblate 5.6"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -26676,7 +26670,7 @@ msgstr "**Нові можливості**"
 
 #: ../../changes.rst:8
 msgid ":ref:`addons` activity log for tracking add-on activity."
-msgstr ""
+msgstr "Журнал діяльності :ref:`addons` для відстеження активності додатків."
 
 #: ../../changes.rst:10 ../../changes.rst:51 ../../changes.rst:73
 #: ../../changes.rst:114 ../../changes.rst:160 ../../changes.rst:265
@@ -26688,19 +26682,15 @@ msgstr "**Удосконалення**"
 
 #: ../../changes.rst:12
 msgid ":ref:`subscriptions` now include strings which need updating."
-msgstr ""
+msgstr ":ref:`subscriptions` тепер містить рядки, які потребують оновлення."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved compatibility with some Subversion setups."
 msgid "Improved compatibility with password managers."
-msgstr "Удосконалено сумісність із деякими конфігураціями Subversion."
+msgstr "Покращено сумісність з менеджерами паролів."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved merging of upstream changes."
 msgid "Improved tracking of uploaded changes."
-msgstr "Удосконалено об'єднання із змінами, які внесено у основному сховищі."
+msgstr "Покращено відстеження завантажених змін."
 
 #: ../../changes.rst:16 ../../changes.rst:35 ../../changes.rst:58
 #: ../../changes.rst:78 ../../changes.rst:94 ../../changes.rst:124
@@ -26713,22 +26703,16 @@ msgid "**Bug fixes**"
 msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Caching counts of strings with failing checks."
 msgid "Loading of strings with many glossary matches."
-msgstr "Реалізовано кешування кількостей рядків, які не пройшли перевірки."
+msgstr "Завантаження рядків з великою кількістю збігів у глосарії."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Daily execution of some :ref:`addons`."
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Щодення виконання деяких :ref:`додатків <addons>`."
+msgstr "Виправлено поведінку деяких загальних :ref:`додатків <addons>`."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Plural forms handling in :doc:`/formats/qt`."
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr "Реалізовано обробку форм множини у :doc:`/formats/qt`."
+msgstr "Збережено рядки, що потребують редагування, у :doc:`/formats/winrc`."
 
 #: ../../changes.rst:22 ../../changes.rst:182 ../../changes.rst:288
 #: ../../changes.rst:341 ../../changes.rst:406 ../../changes.rst:436
@@ -26772,60 +26756,45 @@ msgstr ""
 "instructions` для виконання оновлення."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/119?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/119?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"114?closed=1>`__."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Weblate 5.5.4"
 msgid "Weblate 5.5.5"
-msgstr "Weblate 5.5.4"
+msgstr "Weblate 5.5.5"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Released on May 9th 2024."
 msgid "Released on May 13th 2024."
-msgstr "Випущено 9 травня 2024 року."
+msgstr "Випущено 13 травня 2024 року."
 
 #: ../../changes.rst:37
 msgid "False-positive merge failure alert when using push branch."
 msgstr ""
+"Хибнопозитивне попередження про помилку злиття при використанні push-гілки."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Cleanup of stale repositories."
-msgstr "Стан репозиторіїв"
+msgstr "Очищено застарілі репозиторії."
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"121?closed=1>`__."
 
 #: ../../changes.rst:47
 msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Released on May 10th 2012."
 msgid "Released on May 10th 2024."
-msgstr "Випущено 10 травня 2012 року."
+msgstr "Випущено 10 травня 2024 року."
 
 #: ../../changes.rst:53
 msgid "Visually highlight explanation in :ref:`glossary`."
@@ -26838,10 +26807,13 @@ msgstr "Додано вкладку журналу :ref:`addons` у керува
 #: ../../changes.rst:55
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
+"Нові сповіщення (:ref:`alerts`), коли глосарій (:ref:`glossary`) може "
+"працювати не так, як очікувалося."
 
 #: ../../changes.rst:56
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
+"doc:`/admin/announcements` може бути розміщено у проєкті/ мовному розділі."
 
 #: ../../changes.rst:60
 msgid "Improved handling placeables in :ref:`mt-openai`."
@@ -39333,10 +39305,6 @@ msgstr ""
 "екземпляр буде порожнім, тому ви можете продовжити з :ref:`adding-projects`."
 
 #: ../../contributing/start.rst:84
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in the :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory. For easier access to the database "
@@ -39344,7 +39312,9 @@ msgid ""
 "``5433``."
 msgstr ""
 "Файли :file:`Dockerfile` і :file:`docker-compose.yml` для цього екземпляра "
-"зберігатимуться у каталозі :file:`dev-docker`."
+"зберігатимуться у каталозі :file:`dev-docker`. Для полегшення доступу до "
+"бази даних під час розробки, контейнер з PostgreSQL виставляється на порт "
+"``5433``."
 
 #: ../../contributing/start.rst:88
 msgid ""
@@ -40490,6 +40460,9 @@ msgid ""
 "Additionally, components within projects can be structured using categories. "
 "Components can belong to a category, and categories can be nested."
 msgstr ""
+"Крім того, складники в проєктах можуть бути структуровані за допомогою "
+"категорій. Складники можуть належати до категорії, а категорії можуть бути "
+"вкладеними."
 
 #: ../../snippets/basics.rst:17
 msgid ""
