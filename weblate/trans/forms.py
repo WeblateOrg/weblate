@@ -158,15 +158,10 @@ class DateRangeField(forms.CharField):
 
     def validate(self, value):
         """Validate the date range values."""
-        if isinstance(value["start_date"], datetime) and isinstance(
-            value["end_date"], datetime
-        ):
-            if value["start_date"] > value["end_date"]:
-                raise ValidationError(
-                    gettext("The starting date has to be before the ending date.")
-                )
-        else:
-            raise ValidationError(gettext("Invalid date!"))
+        if value["start_date"] > value["end_date"]:
+            raise ValidationError(
+                gettext("The starting date has to be before the ending date.")
+            )
 
     def clean(self, value):
         """Produce a clean and validated date range values."""
