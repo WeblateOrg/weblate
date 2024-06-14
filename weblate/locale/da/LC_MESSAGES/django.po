@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-11 18:39+0000\n"
-"PO-Revision-Date: 2024-06-09 09:09+0000\n"
+"PO-Revision-Date: 2024-06-14 09:00+0000\n"
 "Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -134,7 +134,7 @@ msgstr "E-mail"
 
 #: weblate/accounts/forms.py:429
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Hertil sendes e-mail med et bekræftelseslink."
+msgstr "E-mail med et bekræftelseslink sendes her."
 
 #: weblate/accounts/forms.py:471
 msgid "New password"
@@ -358,7 +358,7 @@ msgstr "Fulde navn ændret fra {old} til {new}."
 
 #: weblate/accounts/models.py:147
 msgid "Password reset requested."
-msgstr "Anmodning om nulstilling af adgangskode."
+msgstr "Nulstilling af adgangskode anmodet."
 
 #: weblate/accounts/models.py:148
 msgid "Password reset confirmed, password turned off."
@@ -399,7 +399,7 @@ msgstr "Kunne ikke logge ind med {method} ({name})."
 
 #: weblate/accounts/models.py:158
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Konto låst på grund af mange mislykkede loginforsøg."
+msgstr "Konto låst grundet for mange mislykkede loginforsøg."
 
 #: weblate/accounts/models.py:159
 msgid "Account and all private data removed."
@@ -584,8 +584,8 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Indtast en tilpasset URL, der skal bruges som link til kildekoden. Du kan "
-"bruge {{branch}} til branch, {{filename}} og {{line}} som filnavn og "
+"Indtast en brugerdefineret URL, der skal bruges som link til kildekoden. Du "
+"kan bruge {{branch}} til branch, {{filename}} og {{line}} som filnavn og "
 "linjepladsholdere."
 
 #: weblate/accounts/models.py:465
@@ -637,7 +637,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:502
 msgid "Automatically watch projects on contribution"
-msgstr "Se automatisk projekter ved bidrag"
+msgstr "Overvåg automatisk projekter ved bidrag"
 
 #: weblate/accounts/models.py:505
 msgid ""
@@ -806,12 +806,9 @@ msgid "Parse error occurred"
 msgstr "Der opstod en analysefejl"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Ny streng er tilgængelig til oversættelse"
+msgstr "Streng er tilgængelig til oversættelse"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
@@ -902,7 +899,7 @@ msgstr "Din adgangskode kan ikke bestå af kun et enkelt tegn eller blanktegn."
 
 #: weblate/accounts/password_validation.py:55
 msgid "Can not reuse previously used password."
-msgstr "Kan ikke genbruge tidligere anvendt adgangskode."
+msgstr "Kan ikke genbruge tidligere brugt adgangskode."
 
 #: weblate/accounts/password_validation.py:61
 msgid "Your password can't match a password you have used in the past."
@@ -1140,7 +1137,7 @@ msgstr ""
 
 #: weblate/addons/cdn.py:29
 msgid "JavaScript localization CDN"
-msgstr "JavaScript lokalisering CDN"
+msgstr "JavaScript-lokalisering CDN"
 
 #: weblate/addons/cdn.py:31
 msgid ""
@@ -16210,10 +16207,8 @@ msgid "Compilation failed: {0}"
 msgstr "Kompilering mislykkedes: {0}"
 
 #: weblate/utils/validators.py:62
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "The regular expression can not match an empty string."
-msgstr "Regulært udtryk der bruges til at matche brugers e-mail."
+msgstr "Det regulære udtryk kan ikke matche en tom streng."
 
 #: weblate/utils/validators.py:70
 #, python-brace-format
@@ -16221,7 +16216,7 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
-"Regulære udtryk mangler navngivne gruppe \"{0}\", den simpleste måde at "
+"Regulært udtryk mangler navngivne gruppe \"{0}\". Den enkleste måde at "
 "definere den på er {1}."
 
 #: weblate/utils/validators.py:112
@@ -16235,7 +16230,7 @@ msgstr "Ikke-understøttet billedtype: %s"
 
 #: weblate/utils/validators.py:129
 msgid "The image is too big, please crop or scale it down."
-msgstr "Billedet er for stort, beskær eller nedskalér det venligst."
+msgstr "Billedet er for stort. Beskær eller nedskaler det venligst."
 
 #: weblate/utils/validators.py:148
 #, fuzzy
@@ -16293,42 +16288,32 @@ msgstr ""
 
 #: weblate/utils/validators.py:276 weblate/utils/validators.py:285
 #: weblate/utils/validators.py:294
-#, fuzzy
-#| msgid "This field is required."
 msgid "This URL is prohibited"
-msgstr "Dette felt er påkrævet."
+msgstr "Denne URL er forbudt"
 
 #: weblate/utils/views.py:173 weblate/utils/views.py:199
-#, fuzzy
-#| msgid "String priority"
 msgid "Position and priority"
-msgstr "Strengens prioritet"
+msgstr "Position og prioritet"
 
 #: weblate/utils/views.py:174
-#, fuzzy
-#| msgid "Go to position"
 msgid "Position"
-msgstr "Gå til placering"
+msgstr "Position"
 
 #: weblate/utils/views.py:181
 msgid "Number of words"
 msgstr "Antal ord"
 
 #: weblate/utils/views.py:182
-#, fuzzy
-#| msgid "Number of components"
 msgid "Number of comments"
-msgstr "Antal komponenter"
+msgstr "Antal kommentarer"
 
 #: weblate/utils/views.py:183
 msgid "Number of failing checks"
 msgstr "Antal fejlslagne tjek"
 
 #: weblate/utils/views.py:185
-#, fuzzy
-#| msgid "Source string location"
 msgid "String location"
-msgstr "Kildestrengens placering"
+msgstr "Strenglokation"
 
 #: weblate/utils/views.py:564
 #, python-format
@@ -16352,10 +16337,8 @@ msgstr ""
 "Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
 
 #: weblate/vcs/git.py:534
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible cleanups:"
-msgstr "Mulig konfiguration"
+msgstr "Mulige oprydninger:"
 
 #: weblate/vcs/git.py:542
 msgid "This will push changes to Gerrit for a review."
@@ -16402,10 +16385,8 @@ msgid "This will push changes and create a GitHub pull request."
 msgstr "Ugyldig fletteanmodning!"
 
 #: weblate/vcs/git.py:1502
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Gitea pull request"
-msgstr "Ugyldig fletteanmodning!"
+msgstr "Gitea-pull request"
 
 #: weblate/vcs/git.py:1506
 #, fuzzy
@@ -16414,10 +16395,8 @@ msgid "This will push changes and create a Gitea pull request."
 msgstr "Ugyldig fletteanmodning!"
 
 #: weblate/vcs/git.py:1574
-#, fuzzy
-#| msgid "Source code repository"
 msgid "No remote repository"
-msgstr "Kildekodearkiv"
+msgstr "Intet eksternt repository"
 
 #: weblate/vcs/git.py:1679
 #, fuzzy
@@ -16465,16 +16444,14 @@ msgstr ""
 "Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
 
 #: weblate/vcs/ssh.py:45
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:51
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:84
@@ -16482,10 +16459,9 @@ msgid "[hostname hashed]"
 msgstr "[værtsnavn hashed]"
 
 #: weblate/vcs/ssh.py:182
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "Oprettelse af nøgle mislykkedes: %s"
+msgstr "Kunne ikke generere nøgle: %s"
 
 #: weblate/vcs/ssh.py:189
 msgid "Created new SSH key."
@@ -16502,80 +16478,71 @@ msgid ""
 "please verify that it is correct."
 msgstr ""
 "Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s "
-"(%(keytype)s, bekræft venligst at det er korrekt."
+"(%(keytype)s. Bekræft venligst, at det er korrekt."
 
 #: weblate/vcs/ssh.py:240 weblate/vcs/ssh.py:246
-#, fuzzy, python-format
-#| msgid "Failed to fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Kunne ikke hente offentlig nøgle for værten!"
+msgstr "Kunne ikke hente offentlig nøgle for en vært: %s"
 
 #: weblate/vcs/ssh.py:250
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
 msgstr "Kunne ikke hente værtsnøgle: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
-msgstr "Aktiveringsamulet"
+msgstr "Aktiveringstoken"
 
 #: weblate/wladmin/forms.py:19
 msgid ""
 "Please enter the activation token obtained when making the subscription."
 msgstr ""
+"Indtast venligst den aktiveringstoken, du fik, da du oprettede abonnementet."
 
 #: weblate/wladmin/forms.py:29
-#, fuzzy
-#| msgid "Port:"
 msgid "Port"
-msgstr "Port:"
+msgstr "Port"
 
 #: weblate/wladmin/forms.py:44
-#, fuzzy
-#| msgid "Activation email will be sent here."
 msgid "The test e-mail will be sent to this address."
-msgstr "Aktiverings-e-mail bliver sendt hertil."
+msgstr "Test-e-mailen sendes til denne adresse."
 
 #: weblate/wladmin/forms.py:57
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "Angiv venligst en skrifttypefamilie passende til CSS."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Siden blev ikke fundet"
+msgstr "Sidens skrifttype"
 
 #: weblate/wladmin/forms.py:69
-#, fuzzy
-#| msgid "Add host key"
 msgid "Header font"
-msgstr "Tilføj værtsnøgle"
+msgstr "Overskriftens skrifttype"
 
 #: weblate/wladmin/forms.py:80
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "Fokus på kommentareditor"
+msgstr "Fokusfarve"
 
 #: weblate/wladmin/forms.py:83
 msgid "Hover color"
-msgstr ""
+msgstr "Hover-farve"
 
 #: weblate/wladmin/forms.py:86
 msgid "Hide page footer"
-msgstr ""
+msgstr "Skjul sidefod"
 
 #: weblate/wladmin/forms.py:89
 msgid "Always show hamburger menu"
-msgstr ""
+msgstr "Vis altid hamburgermenu"
 
 #: weblate/wladmin/forms.py:92
 msgid ""
 "Persistent navigational drop-down menu in the top right corner, even if "
 "there is room for a full menu."
 msgstr ""
+"Vedvarende rullemenu til navigation i øverste højre hjørne, selv hvis der er "
+"plads til en fuld menu."
 
 #: weblate/wladmin/models.py:123
 msgid "Community support"
@@ -16587,15 +16554,15 @@ msgstr "Hosted tjeneste"
 
 #: weblate/wladmin/models.py:125
 msgid "Basic self-hosted support"
-msgstr "Grundlæggende support til selv-hosting"
+msgstr "Basal support til selvhosting"
 
 #: weblate/wladmin/models.py:126
 msgid "Extended self-hosted support"
-msgstr "Udvidet support til selv-hosting"
+msgstr "Udvidet support til selvhosting"
 
 #: weblate/wladmin/models.py:127
 msgid "Premium self-hosted support"
-msgstr "Premium support til selv-hosting"
+msgstr "Premium support til selvhosting"
 
 #: weblate/wladmin/models.py:240
 #, fuzzy
@@ -16611,45 +16578,39 @@ msgstr ""
 
 #: weblate/wladmin/models.py:302
 msgid "Backup performed"
-msgstr ""
+msgstr "Sikkerhedskopiering udført"
 
 #: weblate/wladmin/models.py:303
 msgid "Backup failed"
-msgstr ""
+msgstr "Sikkerhedskopiering mislykkedes"
 
 #: weblate/wladmin/models.py:304
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "Slet denne konto"
+msgstr "Slettede de ældste sikkerhedskopier"
 
 #: weblate/wladmin/models.py:305
 msgid "Cleaned up backup storage"
-msgstr ""
+msgstr "Ryddede op i sikkerhedskopilageret"
 
 #: weblate/wladmin/models.py:306
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "Vedligeholdelse af arkiv"
+msgstr "Initialisering af repository"
 
 #: weblate/wladmin/sites.py:12 weblate/wladmin/sites.py:13
 msgid "Weblate administration"
-msgstr "Weblate administration"
+msgstr "Weblate-administration"
 
 #: weblate/wladmin/sites.py:33
 msgid "Object listing turned off"
-msgstr "Objektlistning er slået fra"
+msgstr "Objektliste slået fra"
 
 #: weblate/wladmin/templates/admin/base.html:6
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Return to Weblate"
-msgstr "Donér til Weblate"
+msgstr "Gå tilbage til Weblate"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:9
 msgid "Import speed documentation"
-msgstr "Dokumentation om import-hastighed"
+msgstr "Dokumentation for importhastighed"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked in bold."
@@ -16658,77 +16619,65 @@ msgstr "Påkrævede felter er markeret med fed."
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid ""
 "Do not change the object here, please use the Weblate interface instead."
-msgstr "Objektet skal ikke ændres her, brug Weblate-brugerfladen i stedet."
+msgstr "Ændr ikke objektet her; brug venligst Weblate-grænsefladen i stedet."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
 msgstr "Rapporter"
 
 #: weblate/wladmin/views.py:68
-#, fuzzy
-#| msgid "Weblate statistics"
 msgid "Weblate status"
-msgstr "Weblate statistik"
+msgstr "Weblate-status"
 
 #: weblate/wladmin/views.py:74
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
-msgstr "Arkiv"
+msgstr "Repositories"
 
 #: weblate/wladmin/views.py:127
-#, fuzzy
-#| msgid "Register email"
 msgid "Test e-mail sent."
-msgstr "Registrer e-mail"
+msgstr "Test-e-mail sendt."
 
 #: weblate/wladmin/views.py:131
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not send test e-mail: %s"
-msgstr "Oprettelse af nøgle mislykkedes: %s"
+msgstr "Kunne ikke sende test-e-mail: %s"
 
 #: weblate/wladmin/views.py:167
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Ændr venligst SITE_TITLE i indstillinger for at gøre din Weblate let at "
+"genkende i opdag."
 
 #: weblate/wladmin/views.py:199 weblate/wladmin/views.py:216
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Could not activate your installation. Please try again later."
-msgstr "For mange søgeforespørgsler, prøv igen senere."
+msgstr "Kunne ikke aktivere din installation. Prøv venligst igen senere."
 
 #: weblate/wladmin/views.py:208
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
 msgstr ""
+"Kunne ikke aktivere din installation. Sørg for, at din aktiveringstoken er "
+"korrekt."
 
 #: weblate/wladmin/views.py:223
-#, fuzzy, python-format
-#| msgid "Failed to change translation flags!"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "Kunne ikke ændre oversættelsesflag!"
+msgstr "Kunne ikke aktivere din installation: %s"
 
 #: weblate/wladmin/views.py:227
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Activation completed."
-msgstr "Oversættelse er fuldført"
+msgstr "Aktivering fuldført."
 
 #: weblate/wladmin/views.py:267
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup process triggered"
-msgstr "Din konto er blevet fjernet."
+msgstr "Sikkerhedskopieringsproces udløst"
 
 #: weblate/wladmin/views.py:289
-#, fuzzy
-#| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
-msgstr "Kunne ikke afvise konfigurationsfejl!"
+msgstr "Kunne ikke afvise konfigurationsfejlen!"
 
 #~ msgid ""
 #~ "There is no guarantee of service availability, nor quality for Libre "
