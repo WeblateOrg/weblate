@@ -665,7 +665,7 @@ class Language(models.Model, CacheKeyMixin):
 
     def get_source_plurals(self):
         """Return blank source fields for pluralized new string."""
-        return ["" for _ in range(self.plural.number)]
+        return [""] * self.plural.number
 
 
 class PluralQuerySet(models.QuerySet):

@@ -103,7 +103,9 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="#new-singular" data-toggle="tab">{% trans "Singular" %}</a></li>
-      <li><a href="#new-plural" data-toggle="tab">{% trans "Plural" %}</a></li>
+      {% if object.language.plural.number > 1 %}
+        <li><a href="#new-plural" data-toggle="tab">{% trans "Plural" %}</a></li>
+      {% endif %}
     </ul>
     </li>
   {% endif %}
@@ -316,29 +318,33 @@
         </div>
         <div class="panel-footer">
           <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
-          <a class="btn btn-warning btn-spaced" href="#new-plural">{% trans "Change to Plural" %}</a>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="tab-pane" id="new-plural">
-    <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
-      <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="panel-title">{{ object.component.get_add_label }}</h4></div>
-        <div class="panel-body">
-          {% if obj.is_source %}
-            <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+          {% if object.language.plural.number > 1 %}
+            <a class="btn btn-warning btn-spaced" href="#new-plural">{% trans "Change to Plural" %}</a>
           {% endif %}
-          {% csrf_token %}
-          {{ new_unit_plural_form|crispy }}
-        </div>
-        <div class="panel-footer">
-          <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
-          <a class="btn btn-warning btn-spaced" href="#new-singular">{% trans "Change to Singular" %}</a>
         </div>
       </div>
     </form>
   </div>
+  {% if object.language.plural.number > 1 %}
+    <div class="tab-pane" id="new-plural">
+      <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">{{ object.component.get_add_label }}</h4></div>
+          <div class="panel-body">
+            {% if obj.is_source %}
+              <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+            {% endif %}
+            {% csrf_token %}
+            {{ new_unit_plural_form|crispy }}
+          </div>
+          <div class="panel-footer">
+            <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+            <a class="btn btn-warning btn-spaced" href="#new-singular">{% trans "Change to Singular" %}</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endif %}
 {% endif %}
 
 <div class="tab-pane" id="download">
