@@ -12,10 +12,13 @@
   {% endif %}
   <link rel="stylesheet" href="{% static 'vendor/multi.css' %}{{ cache_param }}" />
   <link rel="stylesheet" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'daterangepicker.css' %}{{ cache_param }}" />
 {% if theme == "auto" %}
   <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" media="(prefers-color-scheme: dark)" />
+  <link rel="stylesheet" href="{% static 'daterangepicker-dark.css' %}{{ cache_param }}" />
 {% elif theme == "dark" %}
   <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'daterangepicker-dark.css' %}{{ cache_param }}" />
 {% endif %}
 {% endcompress %}
 {% if fonts_cdn_url %}
