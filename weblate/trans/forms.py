@@ -133,6 +133,43 @@ class WeblateDateField(forms.DateField):
         return value
 
 
+class DateRangeField(forms.CharField):
+    """Field for a date range input."""
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    def to_python(self, value):
+        """Convert the string input into data range values."""
+        try:
+            start, end = value.split(" - ")
+            start_date = datetime.strptime(start, "%m/%d/%Y").replace(  # noqa: DTZ007
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            end_date = datetime.strptime(end, "%m/%d/%Y").replace(  # noqa: DTZ007
+                hour=23, minute=59, second=59, microsecond=999999
+            )
+            return {
+                "start_date": from_current_timezone(start_date),
+                "end_date": from_current_timezone(end_date),
+            }
+        except ValueError:
+            raise ValidationError(gettext("Invalid date!"))
+
+    def validate(self, value):
+        """Validate the date range values."""
+        if value["start_date"] > value["end_date"]:
+            raise ValidationError(
+                gettext("The starting date has to be before the ending date.")
+            )
+
+    def clean(self, value):
+        """Produce a clean and validated date range values."""
+        value = self.to_python(value)
+        self.validate(value)
+        return value
+
+
 class ChecksumField(forms.CharField):
     """Field for handling checksum IDs for translation."""
 
@@ -1253,20 +1290,10 @@ class ReportsForm(forms.Form):
             ("html", gettext_lazy("HTML")),
         ),
     )
-    period = forms.ChoiceField(
+    period = DateRangeField(
         label=gettext_lazy("Report period"),
-        choices=(
-            ("30days", gettext_lazy("Last 30 days")),
-            ("this-month", gettext_lazy("This month")),
-            ("month", gettext_lazy("Last month")),
-            ("this-year", gettext_lazy("This year")),
-            ("year", gettext_lazy("Last year")),
-            ("", gettext_lazy("As specified below")),
-        ),
         required=False,
     )
-    start_date = WeblateDateField(label=gettext_lazy("Starting date"), required=False)
-    end_date = WeblateDateField(label=gettext_lazy("Ending date"), required=False)
     language = forms.ChoiceField(
         label=gettext_lazy("Language"),
         choices=[("", gettext_lazy("All languages"))],
@@ -1281,8 +1308,6 @@ class ReportsForm(forms.Form):
             Field("style"),
             Field("period"),
             Field("language"),
-            Field("start_date"),
-            Field("end_date"),
         )
         if not scope:
             languages = Language.objects.have_translation()
@@ -1303,45 +1328,6 @@ class ReportsForm(forms.Form):
         # Invalid value, skip rest of the validation
         if "period" not in self.cleaned_data:
             return
-
-        # Handle predefined periods
-        if self.cleaned_data["period"] == "30days":
-            end = timezone.now()
-            start = end - timedelta(days=30)
-        elif self.cleaned_data["period"] == "month":
-            end = timezone.now().replace(day=1) - timedelta(days=1)
-            start = end.replace(day=1)
-        elif self.cleaned_data["period"] == "this-month":
-            end = timezone.now().replace(day=1) + timedelta(days=31)
-            end = end.replace(day=1) - timedelta(days=1)
-            start = end.replace(day=1)
-        elif self.cleaned_data["period"] == "year":
-            year = timezone.now().year - 1
-            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
-            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
-        elif self.cleaned_data["period"] == "this-year":
-            year = timezone.now().year
-            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
-            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
-        else:
-            # Validate custom period
-            if not self.cleaned_data.get("start_date"):
-                raise ValidationError({"start_date": gettext("Missing date!")})
-            if not self.cleaned_data.get("end_date"):
-                raise ValidationError({"end_date": gettext("Missing date!")})
-            start = self.cleaned_data["start_date"]
-            end = self.cleaned_data["end_date"]
-        # Sanitize timestamps
-        self.cleaned_data["start_date"] = start.replace(
-            hour=0, minute=0, second=0, microsecond=0
-        )
-        self.cleaned_data["end_date"] = end.replace(
-            hour=23, minute=59, second=59, microsecond=999999
-        )
-        # Final validation
-        if self.cleaned_data["start_date"] > self.cleaned_data["end_date"]:
-            msg = gettext("The starting date has to be before the ending date.")
-            raise ValidationError({"start_date": msg, "end_date": msg})
 
 
 class CleanRepoMixin:
