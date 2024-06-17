@@ -24,6 +24,8 @@ Not yet released.
 
 **Compatibility**
 
+* Compatibility with Django 5.1.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
