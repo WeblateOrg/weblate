@@ -202,7 +202,7 @@ class GitHTTPBackendWrapper:
         self.selector.unregister(stderr)
         self.selector.close()
 
-        retcode = self.process.poll()
+        retcode = self.process.wait()
 
         output_err = b"".join(self._stderr).decode()
 
