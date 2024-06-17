@@ -1020,6 +1020,13 @@ $(function () {
 
     $button.attr("data-field", $this.data("field"));
 
+    const $title = $this.find("span.title");
+    let text = $this.text();
+    if ($title.length) {
+      text = $title.text();
+    }
+    $group.find("span.search-label-auto").text(text);
+
     if ($group.hasClass("sort-field")) {
       $group.find("input[name=sort_by]").val($this.data("sort"));
       if ($this.closest(".result-page-form").length) {
