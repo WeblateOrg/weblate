@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`addons` activity log for tracking add-on activity.
+* Improved date range selection in :ref:`reports`.
 
 **Improvements**
 
@@ -21,6 +22,7 @@ Not yet released.
 * Loading of strings with many glossary matches.
 * Fixed behavior of some site-wide :ref:`addons`.
 * Saving strings needing editing to :doc:`/formats/winrc`.
+* :ref:`check-xml-tags` better handle XML entities.
 
 **Compatibility**
 
