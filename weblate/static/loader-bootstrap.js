@@ -1414,17 +1414,26 @@ $(function () {
         ],
       },
       ranges: {
-        gettext("Today"): [moment(), moment()],
-        gettext("Yesterday"): [moment().subtract(1, "days"), moment().subtract(1, "days")],
-        gettext("Last 7 days"): [moment().subtract(6, "days"), moment()],
-        gettext("Last 30 days"): [moment().subtract(29, "days"), moment()],
-        getttext("This month"): [moment().startOf("month"), moment().endOf("month")],
-        gettext("Last month"): [
+        [gettext("Today")]: [moment(), moment()],
+        [gettext("Yesterday")]: [
+          moment().subtract(1, "days"),
+          moment().subtract(1, "days"),
+        ],
+        [gettext("Last 7 days")]: [moment().subtract(6, "days"), moment()],
+        [gettext("Last 30 days")]: [moment().subtract(29, "days"), moment()],
+        [gettext("This month")]: [
+          moment().startOf("month"),
+          moment().endOf("month"),
+        ],
+        [gettext("Last month")]: [
           moment().subtract(1, "month").startOf("month"),
           moment().subtract(1, "month").endOf("month"),
         ],
-        gettext("This year"): [moment().startOf("year"), moment().endOf("year")],
-        gettext("Last year"): [
+        [gettext("This year")]: [
+          moment().startOf("year"),
+          moment().endOf("year"),
+        ],
+        [gettext("Last year")]: [
           moment().subtract(1, "year").startOf("year"),
           moment().subtract(1, "year").endOf("year"),
         ],
