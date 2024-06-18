@@ -26,7 +26,7 @@ def collect_metrics() -> None:
         Metric.objects.collect_component_list(clist)
     for translation in prefetch_stats(Translation.objects.all()):
         Metric.objects.collect_translation(translation)
-    for user in User.objects.filter(is_active=True):
+    for user in User.objects.filter():
         Metric.objects.collect_user(user)
     for language in prefetch_stats(Language.objects.all()):
         Metric.objects.collect_language(language)

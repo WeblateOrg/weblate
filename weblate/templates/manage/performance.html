@@ -19,13 +19,12 @@
     {% trans "Configuration errors" %}
   </h4>
 </div>
-  <table class="table table-striped">
+  <table class="table table-striped table-responsive">
   <thead>
   <tr>
     <th>{% trans "Last occurrence" %}</th>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Message" %}</th>
-    <th></th>
     <th></th>
   </tr>
   </thead>
@@ -33,7 +32,10 @@
   {% for error in errors %}
   <tr class="row{% cycle '1' '2' %}">
       <td>{{ error.timestamp }}</td>
-      <td>{{ error.name }}</td>
+      <td>
+        {{ error.name }}
+        {% configuration_error_link error.name %}
+      </td>
       <td><pre>{{ error.message }}</pre></td>
       <td>
       <form method="POST">
@@ -42,9 +44,6 @@
       <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" class="btn btn-primary" />
       <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" class="btn btn-primary" />
       </form>
-      </td>
-      <td>
-        {% configuration_error_link error.name %}
       </td>
   </tr>
   {% endfor %}
@@ -66,20 +65,21 @@
     {% trans "System checks" %}
   </h4>
 </div>
-  <table class="table table-striped">
+  <table class="table table-striped table-responsive">
   <thead>
   <tr>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Message" %}</th>
-    <th></th>
   </tr>
   </thead>
   <tbody>
   {% for check in checks %}
   <tr class="row{% cycle '1' '2' %}">
-      <td>{{ check.id }}</td>
+      <td>
+        {{ check.id }}
+        {% check_link check %}
+      </td>
       <td>{{ check.msg }}</td>
-      <td>{% check_link check %}</td>
   </tr>
   {% endfor %}
   </tbody>

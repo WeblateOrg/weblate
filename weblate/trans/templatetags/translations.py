@@ -589,19 +589,30 @@ def documentation(context, page, anchor=""):
     return get_doc_url(page, anchor, user=user)
 
 
-@register.inclusion_tag("documentation-icon.html", takes_context=True)
-def documentation_icon(context, page, anchor="", right=False):
-    return {"right": right, "doc_url": documentation(context, page, anchor)}
+def render_documentation_icon(doc_url: str, right: bool):
+    if not doc_url:
+        return ""
+    return format_html(
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener">{}</a>""",
+        "pull-right flip" if right else "",
+        doc_url,
+        gettext("Documentation"),
+        icon("info.svg"),
+    )
 
 
-@register.inclusion_tag("documentation-icon.html", takes_context=True)
+@register.simple_tag(takes_context=True)
+def documentation_icon(context, page: str, anchor: str = "", right: bool = False):
+    return render_documentation_icon(documentation(context, page, anchor), right)
+
+
+@register.simple_tag(takes_context=True)
 def form_field_doc_link(context, form, field):
     if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
-        return {
-            "right": False,
-            "doc_url": get_doc_url(*field_doc, user=context["user"]),  # type: ignore[misc]
-        }
-    return {}
+        return render_documentation_icon(
+            get_doc_url(*field_doc, user=context["user"]), False
+        )
+    return ""
 
 
 @register.inclusion_tag("message.html")

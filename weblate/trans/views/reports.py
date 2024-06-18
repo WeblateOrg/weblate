@@ -85,8 +85,8 @@ def get_credits(request, path=None):
 
     data = generate_credits(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        form.cleaned_data["start_date"],
-        form.cleaned_data["end_date"],
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )
@@ -238,8 +238,8 @@ def get_counts(request, path=None):
 
     data = generate_counts(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        form.cleaned_data["start_date"],
-        form.cleaned_data["end_date"],
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )

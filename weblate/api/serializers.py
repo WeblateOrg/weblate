@@ -1059,6 +1059,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     source = PluralField()
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
+    last_updated = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
     labels = UnitLabelsSerializer(many=True)
 
@@ -1094,6 +1095,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "extra_flags",
             "pending",
             "timestamp",
+            "last_updated",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
@@ -1333,6 +1335,8 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "timestamp",
             "action",
             "target",
+            "old",
+            "details",
             "id",
             "action_name",
             "url",

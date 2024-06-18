@@ -10,6 +10,8 @@ https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
 src/main/java/org/freeplane/ant/FormatTranslation.java
 """
 
+from __future__ import annotations
+
 import re
 
 from django.utils.translation import gettext_lazy
@@ -66,7 +68,7 @@ def value_quality(value) -> int:
 
 def filter_lines(lines):
     """Filter comments, empty lines and duplicate strings."""
-    result = []
+    result: list[str] = []
     lastkey = None
     lastvalue = None
 

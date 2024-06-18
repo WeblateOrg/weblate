@@ -446,7 +446,7 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(group.defining_project, self.component.project)
 
     def test_add_role(self) -> None:
-        role = Role.objects.get(pk=1)
+        role = Role.objects.get(name="Administration")
         self.do_request(
             "api:group-roles",
             kwargs={"id": Group.objects.get(name="Users").id},

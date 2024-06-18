@@ -225,7 +225,7 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
         except Exception:
-            report_error(cause="Failed squash", project=component.project)
+            report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
             repository.execute(["reset", "--hard"])
             repository.execute(["checkout", repository.branch])

@@ -287,9 +287,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         except FileParseError:
             raise
         except Exception as exc:
-            report_error(
-                cause="Translation parse error", project=self.component.project
-            )
+            report_error("Translation parse error", project=self.component.project)
             self.component.handle_parse_error(exc, self)
 
     def sync_unit(
@@ -337,9 +335,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             try:
                 new_revision = self.get_git_blob_hash()
             except Exception as exc:
-                report_error(
-                    cause="Translation parse error", project=self.component.project
-                )
+                report_error("Translation parse error", project=self.component.project)
                 self.component.handle_parse_error(exc, self)
             if not self.revision:
                 self.reason = "new file"
@@ -447,8 +443,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             except FileParseError as error:
                 report_error(
-                    cause="Could not parse file on update",
-                    project=self.component.project,
+                    "Could not parse file on update", project=self.component.project
                 )
                 self.log_warning("skipping update due to parse error: %s", error)
                 self.store_update_changes()
@@ -576,7 +571,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store = self.store
         except FileParseError as error:
             report_error(
-                cause="Could not parse file on commit", project=self.component.project
+                "Could not parse file on commit", project=self.component.project
             )
             self.log_error("skipping commit due to error: %s", error)
             return False
@@ -585,7 +580,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store.ensure_index()
         except ValueError as error:
             report_error(
-                cause="Could not parse file on commit", project=self.component.project
+                "Could not parse file on commit", project=self.component.project
             )
             self.log_error("skipping commit due to error: %s", error)
             return False
@@ -723,9 +718,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     pounit, add = store.find_unit(unit.context, unit.source)
                 except UnitNotFoundError:
                     # Bail out if we have not found anything
-                    report_error(
-                        cause="String disappeared", project=self.component.project
-                    )
+                    report_error("String disappeared", project=self.component.project)
                     self.log_error(
                         "string %s disappeared from the file, removing", unit
                     )
@@ -736,7 +729,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 # This has be done prior setting target as some formats
                 # generate content based on target language.
                 if add:
-                    store.add_unit(pounit.unit)
+                    store.add_unit(pounit)
 
                 # Store translations
                 try:
@@ -748,7 +741,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     pounit.set_source_explanation(unit.source_unit.explanation)
                 except Exception as error:
                     report_error(
-                        cause="Could not update unit", project=self.component.project
+                        "Could not update unit", project=self.component.project
                     )
                     # TODO: once we have a deeper stack of pending changes,
                     # this should be kept as pending, so that the changes are not lost

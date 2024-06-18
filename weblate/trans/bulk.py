@@ -9,7 +9,7 @@ from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.label import TRANSLATION_LABELS
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
-EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
+EDITABLE_STATES = {STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED}
 
 
 def bulk_perform(  # noqa: C901

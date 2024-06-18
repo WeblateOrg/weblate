@@ -98,8 +98,9 @@ class GitExportTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            "/git/test/test/info/refs??service=git-upload-pack",
+            "/git/test/test/info/refs?service=git-upload-pack",
             status_code=301,
+            fetch_redirect_response=False,
         )
 
     def test_reject_push(self) -> None:

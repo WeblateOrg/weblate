@@ -8,9 +8,13 @@ Developing add-ons
 .. autoclass:: BaseAddon
     :members:
 
+.. currentmodule:: weblate.addons.models
+
 .. class:: Addon
 
    ORM object for an add-on.
+
+.. currentmodule:: weblate.trans.models
 
 .. class:: Component
 

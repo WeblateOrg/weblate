@@ -60,7 +60,7 @@ class ProxyMiddleware:
                 validate_ipv46_address(address)
                 request.META["REMOTE_ADDR"] = address
             except ValidationError:
-                report_error(cause="Invalid IP address")
+                report_error("Invalid IP address")
 
         return self.get_response(request)
 

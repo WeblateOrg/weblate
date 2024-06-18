@@ -1087,7 +1087,6 @@ class Migration(migrations.Migration):
                 "verbose_name": "string",
                 "verbose_name_plural": "strings",
                 "unique_together": {("translation", "id_hash")},
-                "index_together": set(),
             },
         ),
         migrations.CreateModel(

@@ -133,7 +133,7 @@ def tools(request):
                 return redirect("manage-tools")
 
         if "sentry" in request.POST:
-            report_error(cause="Test message", message=True, level="info")
+            report_error("Test message", message=True, level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:

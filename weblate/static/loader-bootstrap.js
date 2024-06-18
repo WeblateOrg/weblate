@@ -1020,6 +1020,13 @@ $(function () {
 
     $button.attr("data-field", $this.data("field"));
 
+    const $title = $this.find("span.title");
+    let text = $this.text();
+    if ($title.length) {
+      text = $title.text();
+    }
+    $group.find("span.search-label-auto").text(text);
+
     if ($group.hasClass("sort-field")) {
       $group.find("input[name=sort_by]").val($this.data("sort"));
       if ($this.closest(".result-page-form").length) {
@@ -1379,6 +1386,68 @@ $(function () {
         });
     });
   });
+
+  $("input[name='period']").daterangepicker(
+    {
+      autoApply: true,
+      startDate: moment(),
+      endDate: moment(),
+      alwaysShowCalendars: true,
+      opens: "left",
+      locale: {
+        customRangeLabel: gettext("Custom range"),
+        daysOfWeek: [
+          pgettext("Short name of day", "Su"),
+          pgettext("Short name of day", "Mo"),
+          pgettext("Short name of day", "Tu"),
+          pgettext("Short name of day", "We"),
+          pgettext("Short name of day", "Th"),
+          pgettext("Short name of day", "Fr"),
+          pgettext("Short name of day", "Sa"),
+        ],
+        monthNames: [
+          pgettext("Short name of month", "Jan"),
+          pgettext("Short name of month", "Feb"),
+          pgettext("Short name of month", "Mar"),
+          pgettext("Short name of month", "Apr"),
+          pgettext("Short name of month", "May"),
+          pgettext("Short name of month", "Jun"),
+          pgettext("Short name of month", "Jul"),
+          pgettext("Short name of month", "Aug"),
+          pgettext("Short name of month", "Sep"),
+          pgettext("Short name of month", "Oct"),
+          pgettext("Short name of month", "Nov"),
+          pgettext("Short name of month", "Dec"),
+        ],
+      },
+      ranges: {
+        [gettext("Today")]: [moment(), moment()],
+        [gettext("Yesterday")]: [
+          moment().subtract(1, "days"),
+          moment().subtract(1, "days"),
+        ],
+        [gettext("Last 7 days")]: [moment().subtract(6, "days"), moment()],
+        [gettext("Last 30 days")]: [moment().subtract(29, "days"), moment()],
+        [gettext("This month")]: [
+          moment().startOf("month"),
+          moment().endOf("month"),
+        ],
+        [gettext("Last month")]: [
+          moment().subtract(1, "month").startOf("month"),
+          moment().subtract(1, "month").endOf("month"),
+        ],
+        [gettext("This year")]: [
+          moment().startOf("year"),
+          moment().endOf("year"),
+        ],
+        [gettext("Last year")]: [
+          moment().subtract(1, "year").startOf("year"),
+          moment().subtract(1, "year").endOf("year"),
+        ],
+      },
+    },
+    (start, end, label) => {},
+  );
 
   /* Warn users that they do not want to use developer console in most cases */
   console.log(

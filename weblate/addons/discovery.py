@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
@@ -30,7 +29,8 @@ class DiscoveryAddon(BaseAddon):
     ) -> None:
         if child:
             return
-        self.discovery.perform(
+        discovery = self.get_discovery(component)
+        discovery.perform(
             remove=self.instance.configuration.get("remove"), background=True
         )
 
@@ -41,14 +41,13 @@ class DiscoveryAddon(BaseAddon):
             kwargs["data"]["confirm"] = False
         return super().get_settings_form(user, **kwargs)
 
-    @cached_property
-    def discovery(self):
+    def get_discovery(self, component):
         # Handle old settings which did not have this set
         if "new_base_template" not in self.instance.configuration:
             self.instance.configuration["new_base_template"] = ""
         if "intermediate_template" not in self.instance.configuration:
             self.instance.configuration["intermediate_template"] = ""
         return ComponentDiscovery(
-            self.instance.component,
+            component,
             **ComponentDiscovery.extract_kwargs(self.instance.configuration),
         )

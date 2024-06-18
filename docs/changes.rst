@@ -1,23 +1,34 @@
 Weblate 5.6
 -----------
 
-Not yet released.
+Released on June 19th 2024.
 
 **New features**
 
 * :ref:`addons` activity log for tracking add-on activity.
+* Improved date range selection in :ref:`reports`.
 
 **Improvements**
 
 * :ref:`subscriptions` now include strings which need updating.
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
+* Grafully handle temporary machine translation errors in automatic suggestions.
+* :http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp.
+* :http:get:`/api/changes/(int:id)/` now includes `old` and `details`.
+* Reduced memory usage and increased performance of some views.
 
 **Bug fixes**
 
 * Loading of strings with many glossary matches.
+* Fixed behavior of some site-wide :ref:`addons`.
+* Saving strings needing editing to :doc:`/formats/winrc`.
+* :ref:`check-xml-tags` better handle XML entities.
+* Automatic suggestions could mix up replacements between translated strings.
 
 **Compatibility**
+
+* Compatibility with Django 5.1.
 
 **Upgrading**
 

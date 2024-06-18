@@ -373,6 +373,16 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
+    def test_batch(self):
+        machine_translation = self.get_machine()
+        units = [
+            MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
+            MockUnit(code="cs", source="Hello, %d!", flags="c-format"),
+        ]
+        machine_translation.batch_translate(units)
+        self.assertEqual(units[0].machinery["translation"], ["Nazdar %s!"])
+        self.assertEqual(units[1].machinery["translation"], ["Nazdar %d!"])
+
     def test_key(self) -> None:
         machine_translation = self.get_machine()
         self.assertEqual(

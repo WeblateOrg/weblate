@@ -313,9 +313,7 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD) -> None:
             else:
                 component.delete_alert("RepositoryChanges")
         except RepositoryError as error:
-            report_error(
-                cause="Could not check repository status", project=component.project
-            )
+            report_error("Could not check repository status", project=component.project)
             component.add_alert("MergeFailure", error=component.error_text(error))
 
 
@@ -474,7 +472,7 @@ def auto_translate(
                 auto.process_mt(engines, threshold)
             else:
                 auto.process_others(component)
-        except MachineTranslationError as error:
+        except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
             return {
                 "translation": translation_id,
@@ -572,7 +570,10 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
 
 @app.task(trail=False)
 def update_checks(pk: int, update_token: str, update_state: bool = False) -> None:
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        return
 
     # Skip when further updates are scheduled
     latest_token = cache.get(component.update_checks_key)

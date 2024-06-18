@@ -25,7 +25,7 @@ class GlossaryCheck(TargetCheck):
         mismatched = set()
         matched = set()
         boundary = r"\b" if unit.translation.language.uses_whitespace() else ""
-        for term in get_glossary_terms(unit):
+        for term in get_glossary_terms(unit, include_variants=False):
             term_source = term.source
             flags = term.all_flags
             expected = term_source if "read-only" in flags else term.target

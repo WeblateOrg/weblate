@@ -164,12 +164,12 @@ class MemoryManager(models.Manager):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(cause="Could not parse memory")
+            report_error("Could not parse memory")
             raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
-            report_error(cause="Could not validate memory")
+            report_error("Could not validate memory")
             raise MemoryImportError(
                 gettext("Could not parse JSON file: %s") % error
             ) from error
@@ -200,7 +200,7 @@ class MemoryManager(models.Manager):
         try:
             storage = tmxfile.parsefile(fileobj)
         except (SyntaxError, AssertionError) as error:
-            report_error(cause="Could not parse")
+            report_error("Could not parse")
             raise MemoryImportError(
                 gettext("Could not parse TMX file: %s") % error
             ) from error

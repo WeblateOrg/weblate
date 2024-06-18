@@ -17,7 +17,7 @@ GPG_ERRORS = {}
 
 
 def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
-    report_error(cause=name)
+    report_error(name)
 
     if not silent:
         GPG_ERRORS[name] = "{}\n{}\n{}".format(
