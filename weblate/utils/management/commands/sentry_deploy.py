@@ -32,7 +32,7 @@ class Command(BaseCommand):
         release_url = sentry_url + version + "/"
 
         # Ensure the release is tracked on Sentry
-        response = requests.get(release_url, headers=sentry_auth, timeout=5)
+        response = requests.get(release_url, headers=sentry_auth, timeout=30)
         if response.status_code == 404:
             data = {
                 "version": version,
