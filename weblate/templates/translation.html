@@ -74,6 +74,9 @@
       {% endif %}
       <li><a href="{% url 'data_project' project=object.component.project.slug  %}">{% trans "Data exports" %}</a></li>
       <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
+      {% if user_can_add_unit %}
+        <li><a href="#new" data-toggle="tab">{{ object.component.get_add_label }}</a></li>
+      {% endif %}
     </ul>
   </li>
   {% if user_can_see_repository_status %}
@@ -95,19 +98,6 @@
       {% endif %}
     </ul>
   </li>
-  {% endif %}
-  {% if user_can_add_unit %}
-    <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      {{ object.component.get_add_label }} <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="#new-singular" data-toggle="tab">{% trans "Singular" %}</a></li>
-      {% if object.language.plural.number > 1 %}
-        <li><a href="#new-plural" data-toggle="tab">{% trans "Plural" %}</a></li>
-      {% endif %}
-    </ul>
-    </li>
   {% endif %}
   {% include "snippets/share-menu.html" with object=object %}
 </ul>
@@ -305,8 +295,9 @@
 {% endif %}
 
 {% if user_can_add_unit %}
-  <div class="tab-pane" id="new-singular">
-    <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
+  <div class="tab-pane" id="new">
+    <div id="new-singular">
+      <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
       <div class="panel panel-default">
         <div class="panel-heading"><h4 class="panel-title">{{ object.component.get_add_label }}</h4></div>
         <div class="panel-body">
@@ -315,18 +306,22 @@
           {% endif %}
           {% csrf_token %}
           {{ new_unit_form|crispy }}
+          <label class="radio-inline">
+            <input type="radio" name="new-unit-form-type" id="show-singular" value="singular" checked> {% trans "Singular" %}
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="new-unit-form-type" id="show-plural" value="plural"
+              {% if object.language.plural.number < 2 %} disabled{% endif %}> {% trans "Plural" %}
+          </label>
         </div>
         <div class="panel-footer">
           <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
-          {% if object.language.plural.number > 1 %}
-            <a class="btn btn-warning btn-spaced" href="#new-plural">{% trans "Change to Plural" %}</a>
-          {% endif %}
         </div>
       </div>
     </form>
-  </div>
-  {% if object.language.plural.number > 1 %}
-    <div class="tab-pane" id="new-plural">
+    </div>
+    {% if object.language.plural.number > 1 %}
+    <div id="new-plural" class="hidden">
       <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
         <div class="panel panel-default">
           <div class="panel-heading"><h4 class="panel-title">{{ object.component.get_add_label }}</h4></div>
@@ -336,15 +331,21 @@
             {% endif %}
             {% csrf_token %}
             {{ new_unit_plural_form|crispy }}
+            <label class="radio-inline">
+              <input type="radio" name="new-unit-form-type" id="show-singular" value="singular"> {% trans "Singular" %}
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="new-unit-form-type" id="show-plural" value="plural"> {% trans "Plural" %}
+            </label>
           </div>
           <div class="panel-footer">
             <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
-            <a class="btn btn-warning btn-spaced" href="#new-singular">{% trans "Change to Singular" %}</a>
           </div>
         </div>
       </form>
     </div>
   {% endif %}
+  </div>
 {% endif %}
 
 <div class="tab-pane" id="download">

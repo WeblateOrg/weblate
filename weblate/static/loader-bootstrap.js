@@ -1449,6 +1449,22 @@ $(function () {
     (start, end, label) => {},
   );
 
+  /* Singular or plural new unit switcher */
+  $("input[name='new-unit-form-type']").on("change", function () {
+    const selected = $(this).val();
+    if (selected === "singular") {
+      $("input[name='new-unit-form-type']").removeAttr("checked");
+      $("#new-singular #show-singular").prop("checked", true);
+      $("#new-plural").addClass("hidden");
+      $("#new-singular").removeClass("hidden");
+    } else if (selected === "plural") {
+      $("input[name='new-unit-form-type']").removeAttr("checked");
+      $("#new-plural #show-plural").prop("checked", true);
+      $("#new-singular").addClass("hidden");
+      $("#new-plural").removeClass("hidden");
+    }
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c%s",
