@@ -534,14 +534,7 @@ class LanguageTranslatedNotificaton(Notification):
     actions = (Change.ACTION_COMPLETE,)
     verbose = pgettext_lazy("Notification name", "Language was translated")
     template_name = "translated_language"
-
-    def get_context(
-        self, change=None, subscription=None, extracontext=None, changes=None
-    ):
-        context = super().get_context(change, subscription, extracontext, changes)
-        if change:
-            context["language"] = Language.objects.get(code=change.details["language"])
-        return context
+    required_attr = "translation"
 
 
 @register_notification
