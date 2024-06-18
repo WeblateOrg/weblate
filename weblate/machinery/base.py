@@ -527,13 +527,16 @@ class BatchMachineTranslation:
             # Postprocess translations
             for text, result in translations.items():
                 for _unit, original_source, replacements in pending[text]:
-                    for item in result:
+                    # Always operate on copy of the dictionaries
+                    partial = [x.copy() for x in result]
+
+                    for item in partial:
                         item["original_source"] = original_source
                     if cache_key:
-                        cache.set(cache_key, result, 30 * 86400)
+                        cache.set(cache_key, partial, 30 * 86400)
                     if replacements or self.force_uncleanup:
-                        self.uncleanup_results(replacements, result)
-                    output[original_source] = result
+                        self.uncleanup_results(replacements, partial)
+                    output[original_source] = partial
         return output
 
     def get_error_message(self, exc: Exception) -> str:
