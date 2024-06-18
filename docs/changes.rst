@@ -24,6 +24,7 @@ Released on June 19th 2024.
 * Fixed behavior of some site-wide :ref:`addons`.
 * Saving strings needing editing to :doc:`/formats/winrc`.
 * :ref:`check-xml-tags` better handle XML entities.
+* Automatic suggestions could mix up replacements between translated strings.
 
 **Compatibility**
 
