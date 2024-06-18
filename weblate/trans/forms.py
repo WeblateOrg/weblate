@@ -2383,12 +2383,19 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
+        self,
+        translation,
+        user,
+        tabindex: int | None = None,
+        is_source_plural: bool | None = None,
+        *args,
+        **kwargs,
     ) -> None:
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
+        self.fields["source"].widget.is_source_plural = is_source_plural
         self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
 
@@ -2492,7 +2499,13 @@ def get_new_unit_form(
     translation, user, data=None, initial=None, is_source_plural=None
 ):
     if translation.component.has_template():
-        return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
+        return NewMonolingualUnitForm(
+            translation,
+            user,
+            data=data,
+            initial=initial,
+            is_source_plural=is_source_plural,
+        )
     if translation.component.is_glossary:
         if translation.is_source:
             return NewBilingualGlossarySourceUnitForm(
