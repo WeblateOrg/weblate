@@ -311,7 +311,7 @@
           </label>
           <label class="radio-inline">
             <input type="radio" name="new-unit-form-type" id="show-plural" value="plural"
-              {% if object.language.plural.number < 2 %} disabled{% endif %}> {% trans "Plural" %}
+              {% if object.plural.number < 2 %} disabled{% endif %}> {% trans "Plural" %}
           </label>
         </div>
         <div class="panel-footer">
@@ -320,7 +320,7 @@
       </div>
     </form>
     </div>
-    {% if object.language.plural.number > 1 %}
+    {% if object.plural.number > 1 %}
     <div id="new-plural" class="hidden">
       <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
         <div class="panel panel-default">

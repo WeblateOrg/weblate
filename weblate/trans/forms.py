@@ -303,7 +303,7 @@ class PluralTextarea(forms.Textarea):
         translation = unit.translation
         lang_label = lang = translation.language
         if self.is_source_plural:
-            plurals = lang.get_source_plurals()
+            plurals = translation.get_source_plurals()
             values = plurals
         else:
             plurals = unit.get_source_plurals()

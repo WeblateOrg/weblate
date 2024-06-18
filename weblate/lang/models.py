@@ -663,10 +663,6 @@ class Language(models.Model, CacheKeyMixin):
         """Detect whether language is in given list, ignores variants."""
         return self.base_code in vals
 
-    def get_source_plurals(self):
-        """Return blank source fields for pluralized new string."""
-        return [""] * self.plural.number
-
 
 class PluralQuerySet(models.QuerySet):
     def order(self):
