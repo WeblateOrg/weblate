@@ -15,13 +15,13 @@ from django.utils.translation import gettext_lazy
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
-from weblate.formats.ttkit import CSVFormat
+from weblate.formats.ttkit import CSVUtf8Format
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-class XlsxFormat(CSVFormat):
+class XlsxFormat(CSVUtf8Format):
     name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
@@ -113,7 +113,7 @@ class XlsxFormat(CSVFormat):
             name = os.path.basename(storefile.name) + ".csv"
 
         # return the new csv as bytes
-        content = output.getvalue().encode()
+        content = output.getvalue().encode("utf-8")
 
         # Load the file as CSV
         return super().parse_store(NamedBytesIO(name, content))
