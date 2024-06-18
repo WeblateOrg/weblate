@@ -1335,6 +1335,8 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "timestamp",
             "action",
             "target",
+            "old",
+            "details",
             "id",
             "action_name",
             "url",

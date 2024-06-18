@@ -2209,7 +2209,9 @@ Changes
     :>json timestamp timestamp: event timestamp
     :>json int action: numeric identification of action
     :>json string action_name: text description of action
-    :>json string target: event changed text or detail
+    :>json string target: event changed text
+    :>json string old: previous text
+    :>json object details: additional details about the change
     :>json int id: change identifier
 
 Screenshots

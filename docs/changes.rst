@@ -15,6 +15,7 @@ Not yet released.
 * Improved tracking of uploaded changes.
 * Grafully handle temporary machine translation errors in automatic suggestions.
 * :http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp.
+* :http:get:`/api/changes/(int:id)/` now includes `old` and `details`.
 * Reduced memory usage and increased performance of some views.
 
 **Bug fixes**
