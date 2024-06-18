@@ -1646,7 +1646,7 @@ and profiles for defined percentage of operations. This can be configured using
 .. seealso::
 
    `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
-   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+   `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 Rollbar
 +++++++
