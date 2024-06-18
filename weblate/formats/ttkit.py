@@ -1586,13 +1586,17 @@ class CSVFormat(TTKitFormat):
                 content = handle.read()
         return content, filename
 
-    def parse_store(self, storefile):
+    def parse_store(self, storefile, *, dialect: None | str = None):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
 
         # Parse file
         store = self.get_store_instance()
-        store.parse(content, sample_length=40000)
+        store.parse(
+            content,
+            sample_length=40000 if dialect is None else None,
+            dialect=dialect,
+        )
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
             return store
