@@ -361,7 +361,6 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit = self.get_unit(language="cs")
         unit.change_set.create(
             user=self.anotheruser,
-            details={"language": "de"},
             action=Change.ACTION_COMPLETE,
         )
 
