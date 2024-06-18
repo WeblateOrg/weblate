@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-17 11:36+0000\n"
-"PO-Revision-Date: 2024-06-18 06:05+0000\n"
+"PO-Revision-Date: 2024-06-18 12:33+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1927,7 +1927,7 @@ msgstr "Izbriši zapis iz glosara"
 #. Translators: Permission name
 #: weblate/auth/data.py:41
 msgid "Upload glossary entries"
-msgstr "Aktualiziraj zapise u glosaru"
+msgstr "Prenesi zapise u glosaru"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
@@ -8058,14 +8058,12 @@ msgstr[1] "%(count)s izlazne promjene"
 msgstr[2] "%(count)s izlaznih promjena"
 
 #: weblate/templates/js/git-status.html:43
-#, fuzzy, python-format
-#| msgid "%(count)s missing commit"
-#| msgid_plural "%(count)s missing commits"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "%(count)s nedostajuća promjena"
-msgstr[1] "%(count)s nedostajuće promjene"
-msgstr[2] "%(count)s nedostajućih promjena"
+msgstr[0] "(%(count)s nedostaje u grani slanja)"
+msgstr[1] "(%(count)s nedostaju u grani slanja)"
+msgstr[2] "(%(count)s nedostaje u grani slanja)"
 
 #: weblate/templates/js/git-status.html:54
 msgid "Update"
@@ -10752,6 +10750,9 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
+"Gerrit je zabranio ovo slanje. Možda ćeš trebati gerrit-račun koji ima „"
+"forge author” dozvole za repozitorij/granu ili ćeš morati koristiti dodatak "
+"za združivanje (squash) na ovoj komponenti u Weblateu."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 msgid ""
@@ -10924,6 +10925,8 @@ msgid ""
 "Using monolingual files as a glossary is not recommended because adding "
 "strings to target language only is not possible in monolingual files."
 msgstr ""
+"Korištenje jednojezičnih datoteka kao glosar se ne preporučuje, jer u "
+"jednojezičnim datotekama nije moguće dodavati izraze samo u ciljni jezik."
 
 #: weblate/templates/trans/alert/monolingualglossary.html:6
 msgid ""
@@ -11066,7 +11069,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "At least one screenshot has no string assigned to it."
-msgstr "Postoji barem jedna snimka ekrana bez izraza."
+msgstr "Postoji barem jedna snimka ekrana kojoj nije dodijeljen nijedan izraz."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -11367,6 +11370,8 @@ msgstr "Tipičan proces za ispravljanje problema pri sjedinjavanju"
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
+"Otvori postojeće preuzimanje (checkout) izvornog repozitorija ili izvedi "
+"novo."
 
 #: weblate/templates/trans/merge_instructions.html:13
 msgid ""
@@ -12247,10 +12252,8 @@ msgid "Labeled: {}"
 msgstr "Etiketirano: {}"
 
 #: weblate/trans/forms.py:157
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid date!"
-msgstr "Neispravna slika!"
+msgstr "Neispravni datum!"
 
 #: weblate/trans/forms.py:163
 msgid "The starting date has to be before the ending date."
@@ -13007,26 +13010,20 @@ msgid "Component seems unused."
 msgstr "Čini se da se komponenta ne koristi."
 
 #: weblate/trans/models/alert.py:664
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Glossary using monolingual files."
-msgstr "Prijevod koristi jednojezične datoteke."
+msgstr "Glosar koristi jednojezične datoteke."
 
 #: weblate/trans/models/announcement.py:104
-#, fuzzy
-#| msgid "Security"
 msgid "Severity"
-msgstr "Sigurnost"
+msgstr "Važnost"
 
 #: weblate/trans/models/announcement.py:105
-#, fuzzy
-#| msgid "Category defines color used for the message."
 msgid "Severity defines color used for the message."
-msgstr "Kategorija određuje boju koja će se koristiti za poruku."
+msgstr "Važnost određuje boju koja će se koristiti za poruku."
 
 #: weblate/trans/models/announcement.py:107
 msgid "Info (light blue)"
-msgstr "Informacije (svjetlo plava)"
+msgstr "Informacija (svjetlo plava)"
 
 #: weblate/trans/models/announcement.py:108
 msgid "Warning (yellow)"
@@ -13422,24 +13419,18 @@ msgstr "Izraz dodan u repozitorij"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:500
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String updated in the upload"
-msgstr "Izraz aktualiziran u repozitoriju"
+msgstr "Izraz aktualiziran u prijenosu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:502
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "String added in the upload"
-msgstr "Izraz dodan u repozitorij"
+msgstr "Izraz dodan u prijenos"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:504
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "Translation updated by source upload"
-msgstr "Zamijenjena prevodilačka datoteka putem prijenosa"
+msgstr "Prijevod aktualiziran prijenosom izvora"
 
 #: weblate/trans/models/change.py:588
 msgid "The component was automatically locked because of an alert."
