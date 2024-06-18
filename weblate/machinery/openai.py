@@ -98,7 +98,9 @@ class OpenAITranslation(BatchMachineTranslation):
         glossary = ""
         if any(units):
             glossary = render_glossary_units_tsv(
-                chain.from_iterable(get_glossary_terms(unit) for unit in units)
+                chain.from_iterable(
+                    get_glossary_terms(unit, include_variants=False) for unit in units
+                )
             )
             if glossary:
                 glossary = GLOSSARY_PROMPT.format(glossary)
