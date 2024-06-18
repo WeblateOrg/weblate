@@ -515,7 +515,7 @@ class ProfileTest(FixtureTestCase):
         # Mute notifications for project
         self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 18
+            self.user.subscription_set.filter(project=self.project).count(), 20
         )
 
         # Unwatch project
@@ -540,7 +540,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 18
+            self.user.subscription_set.filter(project=self.project).count(), 20
         )
         # Only default notifications should be enabled
         self.assertEqual(
