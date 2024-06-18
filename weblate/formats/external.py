@@ -20,6 +20,8 @@ from weblate.formats.ttkit import CSVUtf8Format
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+CSV_DIALECT = "unix"
+
 
 class XlsxFormat(CSVUtf8Format):
     name = gettext_lazy("Excel Open XML")
@@ -93,7 +95,7 @@ class XlsxFormat(CSVUtf8Format):
 
         output = StringIO()
 
-        writer = csv.writer(output, dialect="unix")
+        writer = csv.writer(output, dialect=CSV_DIALECT)
 
         # value can be None or blank stringfor cells having formatting only,
         # we need to ignore such columns as that would be treated like "" fields
@@ -116,7 +118,7 @@ class XlsxFormat(CSVUtf8Format):
         content = output.getvalue().encode("utf-8")
 
         # Load the file as CSV
-        return super().parse_store(NamedBytesIO(name, content))
+        return super().parse_store(NamedBytesIO(name, content), dialect=CSV_DIALECT)
 
     @staticmethod
     def mimetype() -> str:
