@@ -96,7 +96,7 @@ def git_export(request, path, git_request):
         raise Http404("Not a git repository")
     if obj.is_repo_link:
         return redirect(
-            "{}?{}".format(
+            "{}{}".format(
                 reverse(
                     "git-export",
                     kwargs={
@@ -112,6 +112,18 @@ def git_export(request, path, git_request):
     # Invoke Git HTTP backend
     wrapper = GitHTTPBackendWrapper(obj, request, git_request)
     return wrapper.get_response()
+
+
+class GitStreamingHttpResponse(StreamingHttpResponse):
+    def __init__(self, streaming_content, *args, **kwargs):
+        super().__init__(streaming_content.stream(), *args, **kwargs)
+        self.wrapper = streaming_content
+
+    def close(self):
+        if self.wrapper.process.poll() is None:
+            self.wrapper.process.kill()
+        self.wrapper.process.wait()
+        super().close()
 
 
 class GitHTTPBackendWrapper:
@@ -202,7 +214,7 @@ class GitHTTPBackendWrapper:
         self.selector.unregister(stderr)
         self.selector.close()
 
-        retcode = self.process.wait()
+        retcode = self.process.poll()
 
         output_err = b"".join(self._stderr).decode()
 
@@ -217,16 +229,17 @@ class GitHTTPBackendWrapper:
             )
 
         # Handle failure
-        if retcode:
+        if retcode is not None and retcode != 0:
             return HttpResponseServerError(output_err)
 
         message = message_from_string(self._headers.decode())
 
         # Handle status in response
         if "status" in message:
+            self.process.wait()
             return HttpResponse(status=int(message["status"].split()[0]))
 
         # Send streaming content as response
-        return StreamingHttpResponse(
-            streaming_content=self.stream(), content_type=message["content-type"]
+        return GitStreamingHttpResponse(
+            streaming_content=self, content_type=message["content-type"]
         )
