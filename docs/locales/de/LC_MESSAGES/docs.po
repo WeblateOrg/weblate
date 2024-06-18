@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-06-18 13:11+0000\n"
+"PO-Revision-Date: 2024-06-19 08:11+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.6-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -20851,8 +20851,8 @@ msgid ""
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
 "Oberhalb der :ref:`component` gibt es individuelle Übersetzungen, die von "
-"Weblate automatisch behandelt werden, wenn Übersetzungsdateien (die mit der "
-"in der :ref:`component` definierten :ref:`component-filemask` "
+"Weblate automatisch verarbeitet werden, wenn Übersetzungsdateien (die mit "
+"der in der :ref:`component` definierten :ref:`component-filemask` "
 "übereinstimmen) im VCS-Repository erscheinen."
 
 #: ../../admin/projects.rst:25
@@ -22268,8 +22268,8 @@ msgid ""
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
 "Sie können konfigurieren, wie Aktualisierungen aus dem Upstream-Repository "
-"behandelt werden sollen. Die tatsächliche Implementierung hängt vom VCS ab, "
-"siehe :doc:`/vcs`."
+"verarbeitet werden sollen. Die tatsächliche Implementierung hängt vom VCS "
+"ab, siehe :doc:`/vcs`."
 
 #: ../../admin/projects.rst:777
 msgid "Rebase"
@@ -25997,10 +25997,8 @@ msgid "string age"
 msgstr "Alter der Zeichenkette"
 
 #: ../../api.rst:2139
-#, fuzzy
-#| msgid "string age"
 msgid "last string update"
-msgstr "Alter der Zeichenkette"
+msgstr "Letzte Aktualisierung der Zeichenkette"
 
 #: ../../api.rst:2145
 msgid "Performs partial update on translation unit."
@@ -26097,20 +26095,16 @@ msgid "text description of action"
 msgstr "Textbeschreibung der Aktion"
 
 #: ../../api.rst:2212
-#, fuzzy
-#| msgid "event changed text or detail"
 msgid "event changed text"
-msgstr "Änderungstext oder -detail des Ereignisses"
+msgstr "Änderungstext des Ereignisses"
 
 #: ../../api.rst:2213
-#, fuzzy
-#| msgid "Previous"
 msgid "previous text"
-msgstr "Zurück"
+msgstr "Vorheriger Text"
 
 #: ../../api.rst:2214
 msgid "additional details about the change"
-msgstr ""
+msgstr "Zusätzliche Details über die Änderung"
 
 #: ../../api.rst:2215
 msgid "change identifier"
@@ -26992,10 +26986,8 @@ msgstr ""
 "Erweiterungsaktivitäten."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improved UX of languages selection in profile."
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "Verbessertes Benutzererlebnis der Sprachauswahl im Profil."
+msgstr "Verbesserte Auswahl des Datumsbereichs in :ref:`reports`."
 
 #: ../../changes.rst:11 ../../changes.rst:59 ../../changes.rst:81
 #: ../../changes.rst:122 ../../changes.rst:168 ../../changes.rst:273
@@ -27024,24 +27016,23 @@ msgid ""
 "Grafully handle temporary machine translation errors in automatic "
 "suggestions."
 msgstr ""
+"Vorübergehende maschinelle Übersetzungsfehler in automatischen Vorschlägen "
+"werden problemlos verarbeitet."
 
 #: ../../changes.rst:17
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ""
+":http:get:`/api/units/(int:id)/` enthält jetzt den Zeitstempel "
+"`last_updated`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
-msgstr ":http:get:`/api/categories/(int:id)/statistics/` hinzugefügt."
+msgstr ":http:get:`/api/changes/(int:id)/` enthält jetzt `old` und `details`."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Extend metrics usage to improve performance of several pages."
 msgid "Reduced memory usage and increased performance of some views."
 msgstr ""
-"Erweiterte Verwendung von Metriken, um die Leistung mehrerer Seiten zu "
-"verbessern."
+"Reduzierter Speicherverbrauch und verbesserte Leistung einiger Ansichten."
 
 #: ../../changes.rst:21 ../../changes.rst:43 ../../changes.rst:66
 #: ../../changes.rst:86 ../../changes.rst:102 ../../changes.rst:132
@@ -27068,10 +27059,8 @@ msgstr ""
 "gespeichert."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid ":ref:`check-max-size` better displays rendered text."
 msgid ":ref:`check-xml-tags` better handle XML entities."
-msgstr ":ref:`check-max-size` zeigt den gerenderten Text besser an."
+msgstr ":ref:`check-xml-tags` kann XML-Entitäten besser verarbeiten."
 
 #: ../../changes.rst:28 ../../changes.rst:190 ../../changes.rst:296
 #: ../../changes.rst:349 ../../changes.rst:414 ../../changes.rst:444
@@ -27550,16 +27539,16 @@ msgstr ""
 #: ../../changes.rst:216
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
-":ref:`azure-setup` behandelt problemlos Repositorys mit Leerzeichen in der "
+":ref:`azure-setup` verarbeitet problemlos Repositorys mit Leerzeichen in der "
 "URL."
 
 #: ../../changes.rst:217
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
-msgstr ":ref:`mt-deepl` behandelt problemlos Glossare für Sprachvarianten."
+msgstr ":ref:`mt-deepl` verarbeitet problemlos Glossare für Sprachvarianten."
 
 #: ../../changes.rst:218
 msgid ":doc:`/formats/excel` better handles blank cells."
-msgstr ":doc:`/formats/excel` behandelt leere Zellen besser."
+msgstr ":doc:`/formats/excel` verarbeitet leere Zellen besser."
 
 #: ../../changes.rst:219
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
@@ -28212,7 +28201,8 @@ msgstr "Verbesserte OCR-Fehlerbehandlung in :ref:`screenshots`."
 #: ../../changes.rst:483
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
-":ref:`autofix` behandelt anstandslos Zeichenketten aus :ref:`multivalue-csv`."
+":ref:`autofix` verarbeitet problemlos Zeichenketten aus :ref:`multivalue-"
+"csv`."
 
 #: ../../changes.rst:484
 msgid "Occasional crash in :ref:`machine-translation` caching."
@@ -36475,7 +36465,7 @@ msgstr ""
 #: ../../changes/v4.rst:1003
 msgid "Unit API now properly handles plural strings."
 msgstr ""
-"Die Einheiten-API behandelt jetzt Zeichenketten mit Pluralformen korrekt."
+"Die Einheiten-API verarbeitet jetzt Zeichenketten mit Pluralformen korrekt."
 
 #: ../../changes/v4.rst:1004
 msgid "Component creation can now handle ZIP file or document upload."
@@ -39592,7 +39582,7 @@ msgstr "**user\\_agent**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*User agent*"
-msgstr "*User Agent*"
+msgstr "*User-Agent*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
