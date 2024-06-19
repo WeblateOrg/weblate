@@ -1736,8 +1736,8 @@ Localization CDN
         :setting:`LOCALIZE_CDN_PATH`
 
 
-Changing enabled apps, checks, add-ons or autofixes
-+++++++++++++++++++++++++++++++++++++++++++++++++++
+Changing enabled apps, checks, add-ons, machine translation or autofixes
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 The built-in configuration of enabled checks, add-ons or autofixes can be
 adjusted by the following variables:
@@ -1750,6 +1750,13 @@ adjusted by the following variables:
 .. envvar:: WEBLATE_REMOVE_AUTOFIX
 .. envvar:: WEBLATE_ADD_ADDONS
 .. envvar:: WEBLATE_REMOVE_ADDONS
+.. envvar:: WEBLATE_ADD_MACHINERY
+
+   .. versionadded:: 5.6.1
+
+.. envvar:: WEBLATE_REMOVE_MACHINERY
+
+   .. versionadded:: 5.6.1
 
 **Example:**
 
@@ -1765,6 +1772,7 @@ adjusted by the following variables:
    :setting:`AUTOFIX_LIST`,
    :setting:`WEBLATE_ADDONS`,
    :setting:`django:INSTALLED_APPS`
+   :setting:`WEBLATE_MACHINERY`
 
 Container settings
 ++++++++++++++++++

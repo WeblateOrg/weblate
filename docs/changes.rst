@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services.
+
 **Bug fixes**
 
 **Compatibility**

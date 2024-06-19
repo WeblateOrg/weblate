@@ -1088,6 +1088,36 @@ WEBLATE_ADDONS = [
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
+# Machinery configuration
+WEBLATE_MACHINERY = [
+    "weblate.machinery.apertium.ApertiumAPYTranslation",
+    "weblate.machinery.aws.AWSTranslation",
+    "weblate.machinery.alibaba.AlibabaTranslation",
+    "weblate.machinery.baidu.BaiduTranslation",
+    "weblate.machinery.deepl.DeepLTranslation",
+    "weblate.machinery.glosbe.GlosbeTranslation",
+    "weblate.machinery.google.GoogleTranslation",
+    "weblate.machinery.googlev3.GoogleV3Translation",
+    "weblate.machinery.libretranslate.LibreTranslateTranslation",
+    "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    "weblate.machinery.modernmt.ModernMTTranslation",
+    "weblate.machinery.mymemory.MyMemoryTranslation",
+    "weblate.machinery.netease.NeteaseSightTranslation",
+    "weblate.machinery.tmserver.AmagamaTranslation",
+    "weblate.machinery.tmserver.TMServerTranslation",
+    "weblate.machinery.yandex.YandexTranslation",
+    "weblate.machinery.yandexv2.YandexV2Translation",
+    "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    "weblate.machinery.youdao.YoudaoTranslation",
+    "weblate.machinery.ibm.IBMTranslation",
+    "weblate.machinery.systran.SystranTranslation",
+    "weblate.machinery.openai.OpenAITranslation",
+    "weblate.machinery.weblatetm.WeblateTranslation",
+    "weblate.memory.machine.WeblateMemory",
+]
+modify_env_list(WEBLATE_MACHINERY, "MACHINERY")
+
+
 # E-mail address that error messages come from.
 SERVER_EMAIL = get_env_str("WEBLATE_SERVER_EMAIL", "weblate@example.com")
 
