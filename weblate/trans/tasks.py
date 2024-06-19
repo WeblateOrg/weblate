@@ -322,7 +322,10 @@ def component_alerts(component_ids=None) -> None:
     if component_ids:
         components = Component.objects.filter(pk__in=component_ids)
     else:
-        components = Component.objects.all()
+        now = timezone.now()
+        components = Component.objects.annotate(hourmod=F("id") % 24).filter(
+            hourmod=now.hour
+        )
     for component in components.prefetch():
         with transaction.atomic():
             component.update_alerts()
@@ -708,9 +711,7 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=3, minute=45), repository_alerts.s(), name="repository-alerts"
     )
-    sender.add_periodic_task(
-        crontab(hour=3, minute=55), component_alerts.s(), name="component-alerts"
-    )
+    sender.add_periodic_task(3600, component_alerts.s(), name="component-alerts")
     sender.add_periodic_task(
         crontab(hour=0, minute=40), cleanup_suggestions.s(), name="suggestions-cleanup"
     )
