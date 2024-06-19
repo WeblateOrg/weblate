@@ -2447,11 +2447,18 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
+        self,
+        translation,
+        user,
+        tabindex: int | None = None,
+        is_source_plural: bool | None = None,
+        *args,
+        **kwargs,
     ) -> None:
-        super().__init__(translation, user, tabindex, *args, **kwargs)
+        super().__init__(translation, user, tabindex, is_source_plural, *args, **kwargs)
         self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
         self.fields["target"].widget.profile = user.profile
+        self.fields["target"].widget.is_source_plural = is_source_plural
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
 
@@ -2522,7 +2529,9 @@ def get_new_unit_form(
             initial=initial,
             is_source_plural=is_source_plural,
         )
-    return NewBilingualUnitForm(translation, user, data=data, initial=initial)
+    return NewBilingualUnitForm(
+        translation, user, data=data, initial=initial, is_source_plural=is_source_plural
+    )
 
 
 class BulkEditForm(forms.Form):

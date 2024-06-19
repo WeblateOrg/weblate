@@ -179,13 +179,13 @@ class EditTest(ViewTestCase):
         # Make sure writing out pending units works
         self.component.commit_pending("test", None)
 
-    def add_plural_unit(self, key):
-        args = {
-            "context": key,
-            "source_0": "%(count)s test",
-            "source_1": "%(count)s tests",
-        }
-        language = "en"
+    def add_plural_unit(self, args=None, language="en"):
+        if args is None:
+            args = {
+                "context": "test-plural",
+                "source_0": "%(count)s test",
+                "source_1": "%(count)s tests",
+            }
 
         return self.client.post(
             reverse(
@@ -198,21 +198,21 @@ class EditTest(ViewTestCase):
             follow=True,
         )
 
-    def test_new_plural_unit(self):
+    def test_new_plural_unit(self, args=None, language="en"):
         """Test the implementation of adding a new plural unit."""
-        response = self.add_plural_unit("test-plural")
+        response = self.add_plural_unit(args, language)
         self.assertEqual(response.status_code, 403)
 
         self.make_manager()
 
         self.component.manage_units = False
         self.component.save()
-        response = self.add_plural_unit("test-plural")
+        response = self.add_plural_unit(args, language)
         self.assertEqual(response.status_code, 403)
 
         self.component.manage_units = True
         self.component.save()
-        response = self.add_plural_unit("test-plural")
+        response = self.add_plural_unit(args, language)
         if not self.component.file_format_cls.can_add_unit:
             self.assertEqual(response.status_code, 403)
             return
@@ -224,10 +224,22 @@ class EditTest(ViewTestCase):
         self.assertContains(response, "New string has been added")
 
         # Duplicate string
-        response = self.add_plural_unit("test-plural")
+        response = self.add_plural_unit(args)
         self.assertContains(response, "This string seems to already exist.")
 
         self.component.commit_pending("test", None)
+
+    def test_bilingual_new_plural_unit(self):
+        args = {
+            "context": "new-bilingual-plural-unit",
+            "source_0": "%(count)s word",
+            "source_1": "%(count)s words",
+            "target_0": "%(count)s slovo",
+            "target_1": "%(count)s slova",
+            "target_2": "%(count)s slov",
+        }
+
+        self.test_new_plural_unit(args, "cs")
 
 
 class EditValidationTest(ViewTestCase):
