@@ -90,6 +90,7 @@ class Migration(migrations.Migration):
                     (68, "Renamed category"),
                     (69, "Moved category"),
                     (70, "Could not save string"),
+                    (75, "Component translated"),
                 ],
                 default=2,
             ),
