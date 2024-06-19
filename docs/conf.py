@@ -59,7 +59,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.6"
+release = "5.6.1"
 
 
 # -- General configuration ---------------------------------------------------
