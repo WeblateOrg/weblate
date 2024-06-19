@@ -24,6 +24,7 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
@@ -114,6 +115,8 @@ from weblate.utils.state import (
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.wladmin.models import ConfigurationError
+
+from .renderers import OpenMetricsRenderer
 
 REPO_OPERATIONS = {
     "push": ("vcs.push", "do_push", (), True),
@@ -1812,6 +1815,7 @@ class Metrics(APIView):
     """Metrics view for monitoring."""
 
     permission_classes = (IsAuthenticated,)
+    renderer_classes = (JSONRenderer, BrowsableAPIRenderer, OpenMetricsRenderer)
 
     def get(self, request, format=None):  # noqa: A002
         stats = GlobalStats()

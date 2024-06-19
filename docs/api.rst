@@ -2560,6 +2560,10 @@ Metrics
 
     Returns server metrics.
 
+    .. versionchanged:: 5.6.1
+
+       Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
+
     :>json int units: Number of units
     :>json int units_translated: Number of translated units
     :>json int users: Number of users

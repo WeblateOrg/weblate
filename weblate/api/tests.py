@@ -3908,6 +3908,11 @@ class MetricsAPITest(APIBaseTest):
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["projects"], 1)
 
+    def test_metrics_openmetrics(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertContains(response, "# EOF")
+
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["detail"].code, "not_authenticated")
