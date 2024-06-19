@@ -7,7 +7,7 @@ from __future__ import annotations
 import copy
 import json
 import re
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from secrets import token_hex
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -115,22 +115,6 @@ class MarkdownTextarea(forms.Textarea):
 
 class WeblateDateInput(forms.DateInput):
     input_type = "date"
-
-
-class WeblateDateField(forms.DateField):
-    def __init__(self, **kwargs) -> None:
-        if "widget" not in kwargs:
-            kwargs["widget"] = WeblateDateInput
-        super().__init__(**kwargs)
-
-    def to_python(self, value):
-        """Produce timezone-aware datetime with 00:00:00 as time."""
-        value = super().to_python(value)
-        if isinstance(value, date):
-            return from_current_timezone(
-                datetime(value.year, value.month, value.day, 0, 0, 0)  # noqa: DTZ001
-            )
-        return value
 
 
 class DateRangeField(forms.CharField):
