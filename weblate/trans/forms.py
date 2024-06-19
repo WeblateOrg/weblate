@@ -141,6 +141,9 @@ class DateRangeField(forms.CharField):
 
     def to_python(self, value):
         """Convert the string input into data range values."""
+        value = super().to_python(value)
+        if value in self.empty_values:
+            return None
         try:
             start, end = value.split(" - ")
             start_date = datetime.strptime(start, "%m/%d/%Y").replace(  # noqa: DTZ007
@@ -158,7 +161,10 @@ class DateRangeField(forms.CharField):
 
     def validate(self, value):
         """Validate the date range values."""
-        if value["start_date"] > value["end_date"]:
+        if self.required:
+            super().validate(value)
+
+        if value not in self.empty_values and value["start_date"] > value["end_date"]:
             raise ValidationError(
                 gettext("The starting date has to be before the ending date.")
             )
@@ -1292,7 +1298,7 @@ class ReportsForm(forms.Form):
     )
     period = DateRangeField(
         label=gettext_lazy("Report period"),
-        required=False,
+        required=True,
     )
     language = forms.ChoiceField(
         label=gettext_lazy("Language"),
@@ -2699,8 +2705,10 @@ class ChangesForm(forms.Form):
     user = UsernameField(
         label=gettext_lazy("Author username"), required=False, help_text=None
     )
-    start_date = WeblateDateField(label=gettext_lazy("Starting date"), required=False)
-    end_date = WeblateDateField(label=gettext_lazy("Ending date"), required=False)
+    period = DateRangeField(
+        label=gettext_lazy("Change period"),
+        required=False,
+    )
 
     def clean_user(self):
         username = self.cleaned_data.get("user")

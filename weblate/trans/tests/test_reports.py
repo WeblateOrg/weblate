@@ -167,7 +167,9 @@ class ReportsComponentTest(BaseReportsTest):
     def test_credits_blank_period(self):
         period = ""
         response = self.get_credits("json", period=period, follow=True)
-        self.assertContains(response, "Error in parameter period: Invalid date!")
+        self.assertContains(
+            response, "Error in parameter period: This field is required."
+        )
 
     def test_credits_invalid_start(self):
         end = timezone.now()
@@ -330,7 +332,9 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_blank_period(self):
         period = ""
         response = self.get_counts("json", period=period, follow=True)
-        self.assertContains(response, "Error in parameter period: Invalid date!")
+        self.assertContains(
+            response, "Error in parameter period: This field is required."
+        )
 
     def test_counts_invalid_start(self):
         end = timezone.now()
