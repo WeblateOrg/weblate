@@ -161,6 +161,9 @@ class DateRangeField(forms.CharField):
 
     def validate(self, value):
         """Validate the date range values."""
+        if self.required:
+            super().validate(value)
+
         if value not in self.empty_values and value["start_date"] > value["end_date"]:
             raise ValidationError(
                 gettext("The starting date has to be before the ending date.")
@@ -1295,7 +1298,7 @@ class ReportsForm(forms.Form):
     )
     period = DateRangeField(
         label=gettext_lazy("Report period"),
-        required=False,
+        required=True,
     )
     language = forms.ChoiceField(
         label=gettext_lazy("Language"),
