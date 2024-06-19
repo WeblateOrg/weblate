@@ -509,7 +509,7 @@ class ProfileTest(FixtureTestCase):
         # Mute notifications for component
         self.client.post(reverse("mute", kwargs=self.kw_component))
         self.assertEqual(
-            self.user.subscription_set.filter(component=self.component).count(), 18
+            self.user.subscription_set.filter(component=self.component).count(), 20
         )
 
         # Mute notifications for project
