@@ -469,6 +469,14 @@ class Migration(migrations.Migration):
                                 "Pending suggestions exist",
                             ),
                             ("ToDoStringsNotification", "Unfinished strings exist"),
+                            (
+                                "LanguageTranslatedNotificaton",
+                                "Language was translated",
+                            ),
+                            (
+                                "ComponentTranslatedNotificaton",
+                                "Component was translated",
+                            ),
                         ],
                         max_length=100,
                     ),
