@@ -366,7 +366,10 @@ class BatchMachineTranslation:
 
     def get_language_possibilities(self, language: Language) -> Iterator[str]:
         code = language.code
-        yield self.map_language_code(code)
+        mapped_code = self.map_language_code(code)
+        if not mapped_code:
+            return
+        yield mapped_code
         code = code.replace("-", "_")
         while "_" in code:
             code = code.rsplit("_", 1)[0]
