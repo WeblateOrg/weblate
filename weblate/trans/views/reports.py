@@ -83,15 +83,10 @@ def get_credits(request, path=None):
         show_form_errors(request, form)
         return redirect_param(obj or "home", "#reports")
 
-    start_date = end_date = None
-    if form.cleaned_data["period"]:
-        start_date = form.cleaned_data["period"]["start_date"]
-        end_date = form.cleaned_data["period"]["end_date"]
-
     data = generate_credits(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        start_date,
-        end_date,
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )
@@ -186,10 +181,9 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
     if language_code:
         base = base.filter(language__code=language_code)
 
-    if start_date is not None and end_date is not None:
-        base = base.filter(timestamp__range=(start_date, end_date))
-
-    changes = base.filter(**kwargs).prefetch_related("author", "unit")
+    changes = base.filter(
+        timestamp__range=(start_date, end_date), **kwargs
+    ).prefetch_related("author", "unit")
     for change in changes:
         email = change.author.email
 
@@ -242,15 +236,10 @@ def get_counts(request, path=None):
         show_form_errors(request, form)
         return redirect_param(obj or "home", "#reports")
 
-    start_date = end_date = None
-    if form.cleaned_data["period"]:
-        start_date = form.cleaned_data["period"]["start_date"]
-        end_date = form.cleaned_data["period"]["end_date"]
-
     data = generate_counts(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        start_date,
-        end_date,
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )
