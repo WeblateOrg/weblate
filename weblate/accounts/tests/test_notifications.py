@@ -346,7 +346,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_component_translated(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(
+        unit.translation.component.change_set.create(
             user=self.anotheruser,
             old="",
             action=Change.ACTION_COMPLETED_COMPONENT,
@@ -359,7 +359,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_language_translated(self) -> None:
         unit = self.get_unit(language="cs")
-        unit.change_set.create(
+        unit.translation.change_set.create(
             user=self.anotheruser,
             action=Change.ACTION_COMPLETE,
         )
