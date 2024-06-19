@@ -87,7 +87,6 @@ class Migration(migrations.Migration):
                     (72, "String updated in the upload"),
                     (73, "String added in the upload"),
                     (74, "Translation updated by source upload"),
-                    (75, "Component translated"),
                 ],
                 default=2,
             ),

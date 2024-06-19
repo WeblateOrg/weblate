@@ -84,7 +84,6 @@ class Migration(migrations.Migration):
                     (69, "Category moved"),
                     (70, "Saving string failed"),
                     (71, "String added in the repository"),
-                    (75, "Component translated"),
                 ],
                 default=2,
             ),

@@ -53,8 +53,6 @@ class Migration(migrations.Migration):
                     ("MergeFailureNotification", "Repository operation failed"),
                     ("PendingSuggestionsNotification", "Pending suggestions exist"),
                     ("ToDoStringsNotification", "Unfinished strings exist"),
-                    ("LanguageTranslatedNotificaton", "Language was translated"),
-                    ("ComponentTranslatedNotificaton", "Component was translated"),
                 ],
                 max_length=100,
             ),
