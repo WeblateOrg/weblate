@@ -875,13 +875,14 @@ function addPerformanceEntries(span) {
     _addTtfbRequestTimeToMeasurements(_measurements);
 
     ['fcp', 'fp', 'lcp'].forEach(name => {
-      if (!_measurements[name] || !transactionStartTime || timeOrigin >= transactionStartTime) {
+      const measurement = _measurements[name];
+      if (!measurement || !transactionStartTime || timeOrigin >= transactionStartTime) {
         return;
       }
       // The web vitals, fcp, fp, lcp, and ttfb, all measure relative to timeOrigin.
       // Unfortunately, timeOrigin is not captured within the span span data, so these web vitals will need
       // to be adjusted to be relative to span.startTimestamp.
-      const oldValue = _measurements[name].value;
+      const oldValue = measurement.value;
       const measurementTimestamp = timeOrigin + utils.msToSec(oldValue);
 
       // normalizedValue should be in milliseconds
@@ -889,7 +890,7 @@ function addPerformanceEntries(span) {
       const delta = normalizedValue - oldValue;
 
       debugBuild.DEBUG_BUILD && utils$1.logger.log(`[Measurements] Normalized ${name} from ${oldValue} to ${normalizedValue} (${delta})`);
-      _measurements[name].value = normalizedValue;
+      measurement.value = normalizedValue;
     });
 
     const fidMark = _measurements['mark.fid'];
@@ -913,8 +914,8 @@ function addPerformanceEntries(span) {
       delete _measurements.cls;
     }
 
-    Object.keys(_measurements).forEach(measurementName => {
-      core.setMeasurement(measurementName, _measurements[measurementName].value, _measurements[measurementName].unit);
+    Object.entries(_measurements).forEach(([measurementName, measurement]) => {
+      core.setMeasurement(measurementName, measurement.value, measurement.unit);
     });
 
     _tagMetricInfo(span);
@@ -1751,6 +1752,8 @@ const onCLS = (onReport, opts = {}) => {
             // session.
             if (
               sessionValue &&
+              firstSessionEntry &&
+              lastSessionEntry &&
               entry.startTime - lastSessionEntry.startTime < 1000 &&
               entry.startTime - firstSessionEntry.startTime < 5000
             ) {
@@ -1945,7 +1948,7 @@ const processEntry = (entry) => {
   if (
     existingInteraction ||
     longestInteractionList.length < MAX_INTERACTIONS_TO_CONSIDER ||
-    entry.duration > minLongestInteraction.latency
+    (minLongestInteraction && entry.duration > minLongestInteraction.latency)
   ) {
     // If the interaction already exists, update it. Otherwise create one.
     if (existingInteraction) {
@@ -2885,10 +2888,10 @@ const SUCCESS_MESSAGE_TIMEOUT = 5000;
  * Public API to send a Feedback item to Sentry
  */
 const sendFeedback = (
-  options,
+  params,
   hint = { includeReplay: true },
 ) => {
-  if (!options.message) {
+  if (!params.message) {
     throw new Error('Unable to submit feedback with empty message');
   }
 
@@ -2899,11 +2902,14 @@ const sendFeedback = (
     throw new Error('No client setup, cannot send feedback.');
   }
 
+  if (params.tags && Object.keys(params.tags).length) {
+    core.getCurrentScope().setTags(params.tags);
+  }
   const eventId = core.captureFeedback(
     {
       source: FEEDBACK_API_SOURCE,
       url: utils.getLocationHref(),
-      ...options,
+      ...params,
     },
     hint,
   );
@@ -2924,17 +2930,19 @@ const sendFeedback = (
       if (
         response &&
         typeof response.statusCode === 'number' &&
-        (response.statusCode < 200 || response.statusCode >= 300)
+        response.statusCode >= 200 &&
+        response.statusCode < 300
       ) {
-        if (response.statusCode === 0) {
-          return reject(
-            'Unable to send Feedback. This is because of network issues, or because you are using an ad-blocker.',
-          );
-        }
-        return reject('Unable to send Feedback. Invalid response from server.');
+        resolve(eventId);
       }
 
-      resolve(eventId);
+      if (response && typeof response.statusCode === 'number' && response.statusCode === 0) {
+        return reject(
+          'Unable to send Feedback. This is because of network issues, or because you are using an ad-blocker.',
+        );
+      }
+
+      return reject('Unable to send Feedback. Invalid response from server.');
     });
   });
 };
@@ -3021,6 +3029,10 @@ function mergeOptions(
   return {
     ...defaultOptions,
     ...optionOverrides,
+    tags: {
+      ...defaultOptions.tags,
+      ...optionOverrides.tags,
+    },
     onFormOpen: () => {
       optionOverrides.onFormOpen && optionOverrides.onFormOpen();
       defaultOptions.onFormOpen && defaultOptions.onFormOpen();
@@ -3299,8 +3311,10 @@ const buildFeedbackIntegration = ({
   const feedbackIntegration = (({
     // FeedbackGeneralConfiguration
     id = 'sentry-feedback',
-    showBranding = true,
     autoInject = true,
+    showBranding = true,
+    isEmailRequired = false,
+    isNameRequired = false,
     showEmail = true,
     showName = true,
     enableScreenshot = true,
@@ -3308,8 +3322,7 @@ const buildFeedbackIntegration = ({
       email: 'email',
       name: 'username',
     },
-    isNameRequired = false,
-    isEmailRequired = false,
+    tags,
 
     // FeedbackThemeConfiguration
     colorScheme = 'system',
@@ -3350,6 +3363,7 @@ const buildFeedbackIntegration = ({
       showName,
       enableScreenshot,
       useSentryUser,
+      tags,
 
       colorScheme,
       themeDark,
@@ -3661,6 +3675,7 @@ function Form({
   screenshotInput,
 }) {
   const {
+    tags,
     addScreenshotButtonLabel,
     removeScreenshotButtonLabel,
     cancelButtonLabel,
@@ -3737,13 +3752,14 @@ function Form({
               email: data.email,
               message: data.message,
               source: FEEDBACK_WIDGET_SOURCE,
+              tags,
             },
             { attachments: data.attachments },
           );
           onSubmitSuccess(data);
         } catch (error) {
           DEBUG_BUILD && utils.logger.error(error);
-          setError('There was a problem submitting feedback, please wait and try again.');
+          setError(error );
           onSubmitError(error );
         }
       } catch (e2) {
@@ -3754,18 +3770,18 @@ function Form({
   );
 
   return (
-    y$1('form', { class: "form", onSubmit: handleSubmit, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 142}}
+    y$1('form', { class: "form", onSubmit: handleSubmit, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 144}}
       , ScreenshotInputComponent && showScreenshotInput ? (
-        y$1(ScreenshotInputComponent, { onError: onScreenshotError, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 144}} )
+        y$1(ScreenshotInputComponent, { onError: onScreenshotError, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 146}} )
       ) : null
 
-      , y$1('div', { class: "form__right", 'data-sentry-feedback': true, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 147}}
-        , y$1('div', { class: "form__top", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 148}}
-          , error ? y$1('div', { class: "form__error-container", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 149}}, error) : null
+      , y$1('div', { class: "form__right", 'data-sentry-feedback': true, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 149}}
+        , y$1('div', { class: "form__top", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 150}}
+          , error ? y$1('div', { class: "form__error-container", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 151}}, error) : null
 
           , showName ? (
-            y$1('label', { for: "name", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 152}}
-              , y$1(LabelText, { label: nameLabel, isRequiredLabel: isRequiredLabel, isRequired: isNameRequired, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 153}} )
+            y$1('label', { for: "name", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 154}}
+              , y$1(LabelText, { label: nameLabel, isRequiredLabel: isRequiredLabel, isRequired: isNameRequired, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 155}} )
               , y$1('input', {
                 class: "form__input",
                 defaultValue: defaultName,
@@ -3773,16 +3789,16 @@ function Form({
                 name: "name",
                 placeholder: namePlaceholder,
                 required: isNameRequired,
-                type: "text", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 154}}
+                type: "text", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 156}}
               )
             )
           ) : (
-            y$1('input', { 'aria-hidden': true, value: defaultName, name: "name", type: "hidden", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 165}} )
+            y$1('input', { 'aria-hidden': true, value: defaultName, name: "name", type: "hidden", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 167}} )
           )
 
           , showEmail ? (
-            y$1('label', { for: "email", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 169}}
-              , y$1(LabelText, { label: emailLabel, isRequiredLabel: isRequiredLabel, isRequired: isEmailRequired, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 170}} )
+            y$1('label', { for: "email", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 171}}
+              , y$1(LabelText, { label: emailLabel, isRequiredLabel: isRequiredLabel, isRequired: isEmailRequired, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 172}} )
               , y$1('input', {
                 class: "form__input",
                 defaultValue: defaultEmail,
@@ -3790,15 +3806,15 @@ function Form({
                 name: "email",
                 placeholder: emailPlaceholder,
                 required: isEmailRequired,
-                type: "email", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 171}}
+                type: "email", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 173}}
 )
             )
           ) : (
-            y$1('input', { 'aria-hidden': true, value: defaultEmail, name: "email", type: "hidden", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 182}} )
+            y$1('input', { 'aria-hidden': true, value: defaultEmail, name: "email", type: "hidden", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 184}} )
           )
 
-          , y$1('label', { for: "message", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 185}}
-            , y$1(LabelText, { label: messageLabel, isRequiredLabel: isRequiredLabel, isRequired: true, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 186}} )
+          , y$1('label', { for: "message", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 187}}
+            , y$1(LabelText, { label: messageLabel, isRequiredLabel: isRequiredLabel, isRequired: true, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 188}} )
             , y$1('textarea', {
               autoFocus: true,
               class: "form__input form__input--textarea" ,
@@ -3806,31 +3822,31 @@ function Form({
               name: "message",
               placeholder: messagePlaceholder,
               required: true,
-              rows: 5, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 187}}
+              rows: 5, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 189}}
             )
           )
 
           , ScreenshotInputComponent ? (
-            y$1('label', { for: "screenshot", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 199}}
+            y$1('label', { for: "screenshot", class: "form__label", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 201}}
               , y$1('button', {
                 class: "btn btn--default" ,
                 type: "button",
                 onClick: () => {
                   setScreenshotError(null);
                   setShowScreenshotInput(prev => !prev);
-                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 200}}
+                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 202}}
 
                 , showScreenshotInput ? removeScreenshotButtonLabel : addScreenshotButtonLabel
               )
-              , screenshotError ? y$1('div', { class: "form__error-container", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 210}}, screenshotError.message) : null
+              , screenshotError ? y$1('div', { class: "form__error-container", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 212}}, screenshotError.message) : null
             )
           ) : null
         )
-        , y$1('div', { class: "btn-group", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 214}}
-          , y$1('button', { class: "btn btn--primary" , type: "submit", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 215}}
+        , y$1('div', { class: "btn-group", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 216}}
+          , y$1('button', { class: "btn btn--primary" , type: "submit", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 217}}
             , submitButtonLabel
           )
-          , y$1('button', { class: "btn btn--default" , type: "button", onClick: onFormClose, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 218}}
+          , y$1('button', { class: "btn btn--default" , type: "button", onClick: onFormClose, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 220}}
             , cancelButtonLabel
           )
         )
@@ -3843,11 +3859,13 @@ function LabelText({
   label,
   isRequired,
   isRequiredLabel,
-}) {
+}
+
+) {
   return (
-    y$1('span', { class: "form__label__text", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 233}}
+    y$1('span', { class: "form__label__text", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 239}}
       , label
-      , isRequired && y$1('span', { class: "form__label__text--required", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 235}}, isRequiredLabel)
+      , isRequired && y$1('span', { class: "form__label__text--required", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 241}}, isRequiredLabel)
     )
   );
 }
@@ -4062,13 +4080,13 @@ const FORM = `
 }
 
 .form__right {
+  flex: 0 0 var(--form-width, 272px);
   width: var(--form-width, 272px);
   display: flex;
   overflow: auto;
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
-  flex: 1 0 auto;
 }
 
 @media (max-width: 600px) {
@@ -4294,6 +4312,7 @@ const feedbackModalIntegration = (() => {
         removeFromDom() {
           shadowRoot.removeChild(el);
           shadowRoot.removeChild(style);
+          DOCUMENT.body.style.overflow = originalOverflow;
         },
         open() {
           renderContent(true);
@@ -4333,7 +4352,7 @@ const feedbackModalIntegration = (() => {
             onFormSubmitted: () => {
               options.onFormSubmitted && options.onFormSubmitted();
             },
-            open: open, __self: undefined, __source: {fileName: _jsxFileName$1, lineNumber: 72}}
+            open: open, __self: undefined, __source: {fileName: _jsxFileName$1, lineNumber: 73}}
           ),
           el,
         );
@@ -4381,12 +4400,14 @@ function createScreenshotInputStyles() {
   width: 100%;
   height: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .editor__canvas-container canvas {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
+  position: relative;
 }
 
 .editor__crop-btn-group {
@@ -4528,8 +4549,6 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
       if (cropButton) {
         cropButton.style.width = `${imageDimensions.width}px`;
         cropButton.style.height = `${imageDimensions.height}px`;
-        cropButton.style.left = `${imageDimensions.x}px`;
-        cropButton.style.top = `${imageDimensions.y}px`;
       }
 
       setCroppingRect({ startX: 0, startY: 0, endX: imageDimensions.width, endY: imageDimensions.height });
@@ -4623,8 +4642,8 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
       const cutoutCanvas = DOCUMENT.createElement('canvas');
       const imageBox = constructRect(getContainedSize(imageBuffer));
       const croppingBox = constructRect(croppingRect);
-      cutoutCanvas.width = croppingBox.width;
-      cutoutCanvas.height = croppingBox.height;
+      cutoutCanvas.width = croppingBox.width * DPI;
+      cutoutCanvas.height = croppingBox.height * DPI;
 
       const cutoutCtx = cutoutCanvas.getContext('2d');
       if (cutoutCtx && imageBuffer) {
@@ -4636,8 +4655,8 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
           (croppingBox.height / imageBox.height) * imageBuffer.height,
           0,
           0,
-          croppingBox.width,
-          croppingBox.height,
+          cutoutCanvas.width,
+          cutoutCanvas.height,
         );
       }
 
@@ -4646,6 +4665,8 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
         ctx.clearRect(0, 0, imageBuffer.width, imageBuffer.height);
         imageBuffer.width = cutoutCanvas.width;
         imageBuffer.height = cutoutCanvas.height;
+        imageBuffer.style.width = `${croppingBox.width}px`;
+        imageBuffer.style.height = `${croppingBox.height}px`;
         ctx.drawImage(cutoutCanvas, 0, 0);
         resizeCropper();
       }
@@ -4663,6 +4684,8 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
           }
           imageBuffer.width = imageSource.videoWidth;
           imageBuffer.height = imageSource.videoHeight;
+          imageBuffer.style.width = '100%';
+          imageBuffer.style.height = '100%';
           context.drawImage(imageSource, 0, 0);
         },
         [imageBuffer],
@@ -4680,34 +4703,34 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
     });
 
     return (
-      y$1('div', { class: "editor", __self: this, __source: {fileName: _jsxFileName, lineNumber: 249}}
-        , y$1('style', { dangerouslySetInnerHTML: styles, __self: this, __source: {fileName: _jsxFileName, lineNumber: 250}} )
-        , y$1('div', { class: "editor__canvas-container", ref: canvasContainerRef, __self: this, __source: {fileName: _jsxFileName, lineNumber: 251}}
-          , y$1('div', { class: "editor__crop-container", style: { position: 'absolute' }, ref: cropContainerRef, __self: this, __source: {fileName: _jsxFileName, lineNumber: 252}}
-            , y$1('canvas', { style: { position: 'absolute' }, ref: croppingRef, __self: this, __source: {fileName: _jsxFileName, lineNumber: 253}})
+      y$1('div', { class: "editor", __self: this, __source: {fileName: _jsxFileName, lineNumber: 251}}
+        , y$1('style', { dangerouslySetInnerHTML: styles, __self: this, __source: {fileName: _jsxFileName, lineNumber: 252}} )
+        , y$1('div', { class: "editor__canvas-container", ref: canvasContainerRef, __self: this, __source: {fileName: _jsxFileName, lineNumber: 253}}
+          , y$1('div', { class: "editor__crop-container", style: { position: 'absolute', zIndex: 1 }, ref: cropContainerRef, __self: this, __source: {fileName: _jsxFileName, lineNumber: 254}}
+            , y$1('canvas', { style: { position: 'absolute' }, ref: croppingRef, __self: this, __source: {fileName: _jsxFileName, lineNumber: 255}})
             , y$1(CropCorner, {
               left: croppingRect.startX - CROP_BUTTON_BORDER,
               top: croppingRect.startY - CROP_BUTTON_BORDER,
               onGrabButton: onGrabButton,
-              corner: "top-left", __self: this, __source: {fileName: _jsxFileName, lineNumber: 254}}
+              corner: "top-left", __self: this, __source: {fileName: _jsxFileName, lineNumber: 256}}
 )
             , y$1(CropCorner, {
               left: croppingRect.endX - CROP_BUTTON_SIZE + CROP_BUTTON_BORDER,
               top: croppingRect.startY - CROP_BUTTON_BORDER,
               onGrabButton: onGrabButton,
-              corner: "top-right", __self: this, __source: {fileName: _jsxFileName, lineNumber: 260}}
+              corner: "top-right", __self: this, __source: {fileName: _jsxFileName, lineNumber: 262}}
 )
             , y$1(CropCorner, {
               left: croppingRect.startX - CROP_BUTTON_BORDER,
               top: croppingRect.endY - CROP_BUTTON_SIZE + CROP_BUTTON_BORDER,
               onGrabButton: onGrabButton,
-              corner: "bottom-left", __self: this, __source: {fileName: _jsxFileName, lineNumber: 266}}
+              corner: "bottom-left", __self: this, __source: {fileName: _jsxFileName, lineNumber: 268}}
 )
             , y$1(CropCorner, {
               left: croppingRect.endX - CROP_BUTTON_SIZE + CROP_BUTTON_BORDER,
               top: croppingRect.endY - CROP_BUTTON_SIZE + CROP_BUTTON_BORDER,
               onGrabButton: onGrabButton,
-              corner: "bottom-right", __self: this, __source: {fileName: _jsxFileName, lineNumber: 272}}
+              corner: "bottom-right", __self: this, __source: {fileName: _jsxFileName, lineNumber: 274}}
 )
             , y$1('div', {
               style: {
@@ -4715,7 +4738,7 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
                 top: Math.max(0, croppingRect.endY + 8),
                 display: confirmCrop ? 'flex' : 'none',
               },
-              class: "editor__crop-btn-group", __self: this, __source: {fileName: _jsxFileName, lineNumber: 278}}
+              class: "editor__crop-btn-group", __self: this, __source: {fileName: _jsxFileName, lineNumber: 280}}
 
               , y$1('button', {
                 onClick: e => {
@@ -4730,7 +4753,7 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
                   }
                   setConfirmCrop(false);
                 },
-                class: "btn btn--default" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 286}}
+                class: "btn btn--default" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 288}}
 
                 , options.cancelButtonLabel
               )
@@ -4740,7 +4763,7 @@ function makeScreenshotEditorComponent({ imageBuffer, dialog, options }) {
                   submit();
                   setConfirmCrop(false);
                 },
-                class: "btn btn--primary" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 303}}
+                class: "btn btn--primary" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 305}}
 
                 , options.confirmButtonLabel
               )
@@ -4773,7 +4796,7 @@ function CropCorner({
       },
       onClick: e => {
         e.preventDefault();
-      }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 333}}
+      }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 335}}
 )
   );
 }
@@ -10356,11 +10379,12 @@ function createPerformanceEntries(
 }
 
 function createPerformanceEntry(entry) {
-  if (!ENTRY_TYPES[entry.entryType]) {
+  const entryType = ENTRY_TYPES[entry.entryType];
+  if (!entryType) {
     return null;
   }
 
-  return ENTRY_TYPES[entry.entryType](entry);
+  return entryType(entry);
 }
 
 function getAbsoluteTime(time) {
@@ -10476,7 +10500,11 @@ function getLargestContentfulPaint(metric) {
 function getCumulativeLayoutShift(metric) {
   // get first node that shifts
   const firstEntry = metric.entries[0] ;
-  const node = firstEntry ? (firstEntry.sources ? firstEntry.sources[0].node : undefined) : undefined;
+  const node = firstEntry
+    ? firstEntry.sources && firstEntry.sources[0]
+      ? firstEntry.sources[0].node
+      : undefined
+    : undefined;
   return getWebVital(metric, 'cumulative-layout-shift', node);
 }
 
@@ -10569,7 +10597,7 @@ function setupPerformanceObserver(replay) {
  */
 const DEBUG_BUILD = (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__);
 
-const r = `var t=Uint8Array,n=Uint16Array,r=Int32Array,e=new t([0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0,0]),i=new t([0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,0,0]),a=new t([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]),s=function(t,e){for(var i=new n(31),a=0;a<31;++a)i[a]=e+=1<<t[a-1];var s=new r(i[30]);for(a=1;a<30;++a)for(var o=i[a];o<i[a+1];++o)s[o]=o-i[a]<<5|a;return{b:i,r:s}},o=s(e,2),f=o.b,h=o.r;f[28]=258,h[258]=28;for(var l=s(i,0).r,u=new n(32768),c=0;c<32768;++c){var v=(43690&c)>>1|(21845&c)<<1;v=(61680&(v=(52428&v)>>2|(13107&v)<<2))>>4|(3855&v)<<4,u[c]=((65280&v)>>8|(255&v)<<8)>>1}var d=function(t,r,e){for(var i=t.length,a=0,s=new n(r);a<i;++a)t[a]&&++s[t[a]-1];var o,f=new n(r);for(a=1;a<r;++a)f[a]=f[a-1]+s[a-1]<<1;if(e){o=new n(1<<r);var h=15-r;for(a=0;a<i;++a)if(t[a])for(var l=a<<4|t[a],c=r-t[a],v=f[t[a]-1]++<<c,d=v|(1<<c)-1;v<=d;++v)o[u[v]>>h]=l}else for(o=new n(i),a=0;a<i;++a)t[a]&&(o[a]=u[f[t[a]-1]++]>>15-t[a]);return o},g=new t(288);for(c=0;c<144;++c)g[c]=8;for(c=144;c<256;++c)g[c]=9;for(c=256;c<280;++c)g[c]=7;for(c=280;c<288;++c)g[c]=8;var w=new t(32);for(c=0;c<32;++c)w[c]=5;var p=d(g,9,0),y=d(w,5,0),m=function(t){return(t+7)/8|0},b=function(n,r,e){return(null==r||r<0)&&(r=0),(null==e||e>n.length)&&(e=n.length),new t(n.subarray(r,e))},M=["unexpected EOF","invalid block type","invalid length/literal","invalid distance","stream finished","no stream handler",,"no callback","invalid UTF-8 data","extra field too long","date not in range 1980-2099","filename too long","stream finishing","invalid zip data"],E=function(t,n,r){var e=new Error(n||M[t]);if(e.code=t,Error.captureStackTrace&&Error.captureStackTrace(e,E),!r)throw e;return e},z=function(t,n,r){r<<=7&n;var e=n/8|0;t[e]|=r,t[e+1]|=r>>8},A=function(t,n,r){r<<=7&n;var e=n/8|0;t[e]|=r,t[e+1]|=r>>8,t[e+2]|=r>>16},_=function(r,e){for(var i=[],a=0;a<r.length;++a)r[a]&&i.push({s:a,f:r[a]});var s=i.length,o=i.slice();if(!s)return{t:F,l:0};if(1==s){var f=new t(i[0].s+1);return f[i[0].s]=1,{t:f,l:1}}i.sort((function(t,n){return t.f-n.f})),i.push({s:-1,f:25001});var h=i[0],l=i[1],u=0,c=1,v=2;for(i[0]={s:-1,f:h.f+l.f,l:h,r:l};c!=s-1;)h=i[i[u].f<i[v].f?u++:v++],l=i[u!=c&&i[u].f<i[v].f?u++:v++],i[c++]={s:-1,f:h.f+l.f,l:h,r:l};var d=o[0].s;for(a=1;a<s;++a)o[a].s>d&&(d=o[a].s);var g=new n(d+1),w=x(i[c-1],g,0);if(w>e){a=0;var p=0,y=w-e,m=1<<y;for(o.sort((function(t,n){return g[n.s]-g[t.s]||t.f-n.f}));a<s;++a){var b=o[a].s;if(!(g[b]>e))break;p+=m-(1<<w-g[b]),g[b]=e}for(p>>=y;p>0;){var M=o[a].s;g[M]<e?p-=1<<e-g[M]++-1:++a}for(;a>=0&&p;--a){var E=o[a].s;g[E]==e&&(--g[E],++p)}w=e}return{t:new t(g),l:w}},x=function(t,n,r){return-1==t.s?Math.max(x(t.l,n,r+1),x(t.r,n,r+1)):n[t.s]=r},D=function(t){for(var r=t.length;r&&!t[--r];);for(var e=new n(++r),i=0,a=t[0],s=1,o=function(t){e[i++]=t},f=1;f<=r;++f)if(t[f]==a&&f!=r)++s;else{if(!a&&s>2){for(;s>138;s-=138)o(32754);s>2&&(o(s>10?s-11<<5|28690:s-3<<5|12305),s=0)}else if(s>3){for(o(a),--s;s>6;s-=6)o(8304);s>2&&(o(s-3<<5|8208),s=0)}for(;s--;)o(a);s=1,a=t[f]}return{c:e.subarray(0,i),n:r}},T=function(t,n){for(var r=0,e=0;e<n.length;++e)r+=t[e]*n[e];return r},k=function(t,n,r){var e=r.length,i=m(n+2);t[i]=255&e,t[i+1]=e>>8,t[i+2]=255^t[i],t[i+3]=255^t[i+1];for(var a=0;a<e;++a)t[i+a+4]=r[a];return 8*(i+4+e)},C=function(t,r,s,o,f,h,l,u,c,v,m){z(r,m++,s),++f[256];for(var b=_(f,15),M=b.t,E=b.l,x=_(h,15),C=x.t,U=x.l,F=D(M),I=F.c,S=F.n,L=D(C),O=L.c,j=L.n,q=new n(19),B=0;B<I.length;++B)++q[31&I[B]];for(B=0;B<O.length;++B)++q[31&O[B]];for(var G=_(q,7),H=G.t,J=G.l,K=19;K>4&&!H[a[K-1]];--K);var N,P,Q,R,V=v+5<<3,W=T(f,g)+T(h,w)+l,X=T(f,M)+T(h,C)+l+14+3*K+T(q,H)+2*q[16]+3*q[17]+7*q[18];if(c>=0&&V<=W&&V<=X)return k(r,m,t.subarray(c,c+v));if(z(r,m,1+(X<W)),m+=2,X<W){N=d(M,E,0),P=M,Q=d(C,U,0),R=C;var Y=d(H,J,0);z(r,m,S-257),z(r,m+5,j-1),z(r,m+10,K-4),m+=14;for(B=0;B<K;++B)z(r,m+3*B,H[a[B]]);m+=3*K;for(var Z=[I,O],$=0;$<2;++$){var tt=Z[$];for(B=0;B<tt.length;++B){var nt=31&tt[B];z(r,m,Y[nt]),m+=H[nt],nt>15&&(z(r,m,tt[B]>>5&127),m+=tt[B]>>12)}}}else N=p,P=g,Q=y,R=w;for(B=0;B<u;++B){var rt=o[B];if(rt>255){A(r,m,N[(nt=rt>>18&31)+257]),m+=P[nt+257],nt>7&&(z(r,m,rt>>23&31),m+=e[nt]);var et=31&rt;A(r,m,Q[et]),m+=R[et],et>3&&(A(r,m,rt>>5&8191),m+=i[et])}else A(r,m,N[rt]),m+=P[rt]}return A(r,m,N[256]),m+P[256]},U=new r([65540,131080,131088,131104,262176,1048704,1048832,2114560,2117632]),F=new t(0),I=function(){for(var t=new Int32Array(256),n=0;n<256;++n){for(var r=n,e=9;--e;)r=(1&r&&-306674912)^r>>>1;t[n]=r}return t}(),S=function(){var t=-1;return{p:function(n){for(var r=t,e=0;e<n.length;++e)r=I[255&r^n[e]]^r>>>8;t=r},d:function(){return~t}}},L=function(){var t=1,n=0;return{p:function(r){for(var e=t,i=n,a=0|r.length,s=0;s!=a;){for(var o=Math.min(s+2655,a);s<o;++s)i+=e+=r[s];e=(65535&e)+15*(e>>16),i=(65535&i)+15*(i>>16)}t=e,n=i},d:function(){return(255&(t%=65521))<<24|(65280&t)<<8|(255&(n%=65521))<<8|n>>8}}},O=function(a,s,o,f,u){if(!u&&(u={l:1},s.dictionary)){var c=s.dictionary.subarray(-32768),v=new t(c.length+a.length);v.set(c),v.set(a,c.length),a=v,u.w=c.length}return function(a,s,o,f,u,c){var v=c.z||a.length,d=new t(f+v+5*(1+Math.ceil(v/7e3))+u),g=d.subarray(f,d.length-u),w=c.l,p=7&(c.r||0);if(s){p&&(g[0]=c.r>>3);for(var y=U[s-1],M=y>>13,E=8191&y,z=(1<<o)-1,A=c.p||new n(32768),_=c.h||new n(z+1),x=Math.ceil(o/3),D=2*x,T=function(t){return(a[t]^a[t+1]<<x^a[t+2]<<D)&z},F=new r(25e3),I=new n(288),S=new n(32),L=0,O=0,j=c.i||0,q=0,B=c.w||0,G=0;j+2<v;++j){var H=T(j),J=32767&j,K=_[H];if(A[J]=K,_[H]=J,B<=j){var N=v-j;if((L>7e3||q>24576)&&(N>423||!w)){p=C(a,g,0,F,I,S,O,q,G,j-G,p),q=L=O=0,G=j;for(var P=0;P<286;++P)I[P]=0;for(P=0;P<30;++P)S[P]=0}var Q=2,R=0,V=E,W=J-K&32767;if(N>2&&H==T(j-W))for(var X=Math.min(M,N)-1,Y=Math.min(32767,j),Z=Math.min(258,N);W<=Y&&--V&&J!=K;){if(a[j+Q]==a[j+Q-W]){for(var $=0;$<Z&&a[j+$]==a[j+$-W];++$);if($>Q){if(Q=$,R=W,$>X)break;var tt=Math.min(W,$-2),nt=0;for(P=0;P<tt;++P){var rt=j-W+P&32767,et=rt-A[rt]&32767;et>nt&&(nt=et,K=rt)}}}W+=(J=K)-(K=A[J])&32767}if(R){F[q++]=268435456|h[Q]<<18|l[R];var it=31&h[Q],at=31&l[R];O+=e[it]+i[at],++I[257+it],++S[at],B=j+Q,++L}else F[q++]=a[j],++I[a[j]]}}for(j=Math.max(j,B);j<v;++j)F[q++]=a[j],++I[a[j]];p=C(a,g,w,F,I,S,O,q,G,j-G,p),w||(c.r=7&p|g[p/8|0]<<3,p-=7,c.h=_,c.p=A,c.i=j,c.w=B)}else{for(j=c.w||0;j<v+w;j+=65535){var st=j+65535;st>=v&&(g[p/8|0]=w,st=v),p=k(g,p+1,a.subarray(j,st))}c.i=v}return b(d,0,f+m(p)+u)}(a,null==s.level?6:s.level,null==s.mem?Math.ceil(1.5*Math.max(8,Math.min(13,Math.log(a.length)))):12+s.mem,o,f,u)},j=function(t,n,r){for(;r;++n)t[n]=r,r>>>=8},q=function(t,n){var r=n.filename;if(t[0]=31,t[1]=139,t[2]=8,t[8]=n.level<2?4:9==n.level?2:0,t[9]=3,0!=n.mtime&&j(t,4,Math.floor(new Date(n.mtime||Date.now())/1e3)),r){t[3]=8;for(var e=0;e<=r.length;++e)t[e+10]=r.charCodeAt(e)}},B=function(t){return 10+(t.filename?t.filename.length+1:0)},G=function(){function n(n,r){if("function"==typeof n&&(r=n,n={}),this.ondata=r,this.o=n||{},this.s={l:0,i:32768,w:32768,z:32768},this.b=new t(98304),this.o.dictionary){var e=this.o.dictionary.subarray(-32768);this.b.set(e,32768-e.length),this.s.i=32768-e.length}}return n.prototype.p=function(t,n){this.ondata(O(t,this.o,0,0,this.s),n)},n.prototype.push=function(n,r){this.ondata||E(5),this.s.l&&E(4);var e=n.length+this.s.z;if(e>this.b.length){if(e>2*this.b.length-32768){var i=new t(-32768&e);i.set(this.b.subarray(0,this.s.z)),this.b=i}var a=this.b.length-this.s.z;a&&(this.b.set(n.subarray(0,a),this.s.z),this.s.z=this.b.length,this.p(this.b,!1)),this.b.set(this.b.subarray(-32768)),this.b.set(n.subarray(a),32768),this.s.z=n.length-a+32768,this.s.i=32766,this.s.w=32768}else this.b.set(n,this.s.z),this.s.z+=n.length;this.s.l=1&r,(this.s.z>this.s.w+8191||r)&&(this.p(this.b,r||!1),this.s.w=this.s.i,this.s.i-=2)},n}();var H=function(){function t(t,n){this.c=L(),this.v=1,G.call(this,t,n)}return t.prototype.push=function(t,n){this.c.p(t),G.prototype.push.call(this,t,n)},t.prototype.p=function(t,n){var r=O(t,this.o,this.v&&(this.o.dictionary?6:2),n&&4,this.s);this.v&&(function(t,n){var r=n.level,e=0==r?0:r<6?1:9==r?3:2;if(t[0]=120,t[1]=e<<6|(n.dictionary&&32),t[1]|=31-(t[0]<<8|t[1])%31,n.dictionary){var i=L();i.p(n.dictionary),j(t,2,i.d())}}(r,this.o),this.v=0),n&&j(r,r.length-4,this.c.d()),this.ondata(r,n)},t}(),J="undefined"!=typeof TextEncoder&&new TextEncoder,K="undefined"!=typeof TextDecoder&&new TextDecoder;try{K.decode(F,{stream:!0})}catch(t){}var N=function(){function t(t){this.ondata=t}return t.prototype.push=function(t,n){this.ondata||E(5),this.d&&E(4),this.ondata(P(t),this.d=n||!1)},t}();function P(n,r){if(r){for(var e=new t(n.length),i=0;i<n.length;++i)e[i]=n.charCodeAt(i);return e}if(J)return J.encode(n);var a=n.length,s=new t(n.length+(n.length>>1)),o=0,f=function(t){s[o++]=t};for(i=0;i<a;++i){if(o+5>s.length){var h=new t(o+8+(a-i<<1));h.set(s),s=h}var l=n.charCodeAt(i);l<128||r?f(l):l<2048?(f(192|l>>6),f(128|63&l)):l>55295&&l<57344?(f(240|(l=65536+(1047552&l)|1023&n.charCodeAt(++i))>>18),f(128|l>>12&63),f(128|l>>6&63),f(128|63&l)):(f(224|l>>12),f(128|l>>6&63),f(128|63&l))}return b(s,0,o)}function Q(t){return function(t,n){n||(n={});var r=S(),e=t.length;r.p(t);var i=O(t,n,B(n),8),a=i.length;return q(i,n),j(i,a-8,r.d()),j(i,a-4,e),i}(P(t))}const R=new class{constructor(){this._init()}clear(){this._init()}addEvent(t){if(!t)throw new Error("Adding invalid event");const n=this._hasEvents?",":"";this.stream.push(n+t),this._hasEvents=!0}finish(){this.stream.push("]",!0);const t=function(t){let n=0;for(let r=0,e=t.length;r<e;r++)n+=t[r].length;const r=new Uint8Array(n);for(let n=0,e=0,i=t.length;n<i;n++){const i=t[n];r.set(i,e),e+=i.length}return r}(this._deflatedData);return this._init(),t}_init(){this._hasEvents=!1,this._deflatedData=[],this.deflate=new H,this.deflate.ondata=(t,n)=>{this._deflatedData.push(t)},this.stream=new N(((t,n)=>{this.deflate.push(t,n)})),this.stream.push("[")}},V={clear:()=>{R.clear()},addEvent:t=>R.addEvent(t),finish:()=>R.finish(),compress:t=>Q(t)};addEventListener("message",(function(t){const n=t.data.method,r=t.data.id,e=t.data.arg;if(n in V&&"function"==typeof V[n])try{const t=V[n](e);postMessage({id:r,method:n,success:!0,response:t})}catch(t){postMessage({id:r,method:n,success:!1,response:t.message}),console.error(t)}})),postMessage({id:void 0,method:"init",success:!0,response:void 0});`;
+const r = `var t=Uint8Array,n=Uint16Array,r=Int32Array,e=new t([0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0,0]),i=new t([0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,0,0]),a=new t([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]),s=function(t,e){for(var i=new n(31),a=0;a<31;++a)i[a]=e+=1<<t[a-1];var s=new r(i[30]);for(a=1;a<30;++a)for(var o=i[a];o<i[a+1];++o)s[o]=o-i[a]<<5|a;return{b:i,r:s}},o=s(e,2),f=o.b,h=o.r;f[28]=258,h[258]=28;for(var l=s(i,0).r,u=new n(32768),c=0;c<32768;++c){var v=(43690&c)>>1|(21845&c)<<1;v=(61680&(v=(52428&v)>>2|(13107&v)<<2))>>4|(3855&v)<<4,u[c]=((65280&v)>>8|(255&v)<<8)>>1}var d=function(t,r,e){for(var i=t.length,a=0,s=new n(r);a<i;++a)t[a]&&++s[t[a]-1];var o,f=new n(r);for(a=1;a<r;++a)f[a]=f[a-1]+s[a-1]<<1;if(e){o=new n(1<<r);var h=15-r;for(a=0;a<i;++a)if(t[a])for(var l=a<<4|t[a],c=r-t[a],v=f[t[a]-1]++<<c,d=v|(1<<c)-1;v<=d;++v)o[u[v]>>h]=l}else for(o=new n(i),a=0;a<i;++a)t[a]&&(o[a]=u[f[t[a]-1]++]>>15-t[a]);return o},g=new t(288);for(c=0;c<144;++c)g[c]=8;for(c=144;c<256;++c)g[c]=9;for(c=256;c<280;++c)g[c]=7;for(c=280;c<288;++c)g[c]=8;var w=new t(32);for(c=0;c<32;++c)w[c]=5;var p=d(g,9,0),y=d(w,5,0),m=function(t){return(t+7)/8|0},b=function(n,r,e){return(null==r||r<0)&&(r=0),(null==e||e>n.length)&&(e=n.length),new t(n.subarray(r,e))},M=["unexpected EOF","invalid block type","invalid length/literal","invalid distance","stream finished","no stream handler",,"no callback","invalid UTF-8 data","extra field too long","date not in range 1980-2099","filename too long","stream finishing","invalid zip data"],E=function(t,n,r){var e=new Error(n||M[t]);if(e.code=t,Error.captureStackTrace&&Error.captureStackTrace(e,E),!r)throw e;return e},z=function(t,n,r){r<<=7&n;var e=n/8|0;t[e]|=r,t[e+1]|=r>>8},A=function(t,n,r){r<<=7&n;var e=n/8|0;t[e]|=r,t[e+1]|=r>>8,t[e+2]|=r>>16},_=function(r,e){for(var i=[],a=0;a<r.length;++a)r[a]&&i.push({s:a,f:r[a]});var s=i.length,o=i.slice();if(!s)return{t:F,l:0};if(1==s){var f=new t(i[0].s+1);return f[i[0].s]=1,{t:f,l:1}}i.sort((function(t,n){return t.f-n.f})),i.push({s:-1,f:25001});var h=i[0],l=i[1],u=0,c=1,v=2;for(i[0]={s:-1,f:h.f+l.f,l:h,r:l};c!=s-1;)h=i[i[u].f<i[v].f?u++:v++],l=i[u!=c&&i[u].f<i[v].f?u++:v++],i[c++]={s:-1,f:h.f+l.f,l:h,r:l};var d=o[0].s;for(a=1;a<s;++a)o[a].s>d&&(d=o[a].s);var g=new n(d+1),w=x(i[c-1],g,0);if(w>e){a=0;var p=0,y=w-e,m=1<<y;for(o.sort((function(t,n){return g[n.s]-g[t.s]||t.f-n.f}));a<s;++a){var b=o[a].s;if(!(g[b]>e))break;p+=m-(1<<w-g[b]),g[b]=e}for(p>>=y;p>0;){var M=o[a].s;g[M]<e?p-=1<<e-g[M]++-1:++a}for(;a>=0&&p;--a){var E=o[a].s;g[E]==e&&(--g[E],++p)}w=e}return{t:new t(g),l:w}},x=function(t,n,r){return-1==t.s?Math.max(x(t.l,n,r+1),x(t.r,n,r+1)):n[t.s]=r},D=function(t){for(var r=t.length;r&&!t[--r];);for(var e=new n(++r),i=0,a=t[0],s=1,o=function(t){e[i++]=t},f=1;f<=r;++f)if(t[f]==a&&f!=r)++s;else{if(!a&&s>2){for(;s>138;s-=138)o(32754);s>2&&(o(s>10?s-11<<5|28690:s-3<<5|12305),s=0)}else if(s>3){for(o(a),--s;s>6;s-=6)o(8304);s>2&&(o(s-3<<5|8208),s=0)}for(;s--;)o(a);s=1,a=t[f]}return{c:e.subarray(0,i),n:r}},T=function(t,n){for(var r=0,e=0;e<n.length;++e)r+=t[e]*n[e];return r},k=function(t,n,r){var e=r.length,i=m(n+2);t[i]=255&e,t[i+1]=e>>8,t[i+2]=255^t[i],t[i+3]=255^t[i+1];for(var a=0;a<e;++a)t[i+a+4]=r[a];return 8*(i+4+e)},C=function(t,r,s,o,f,h,l,u,c,v,m){z(r,m++,s),++f[256];for(var b=_(f,15),M=b.t,E=b.l,x=_(h,15),C=x.t,U=x.l,F=D(M),I=F.c,S=F.n,L=D(C),O=L.c,j=L.n,q=new n(19),B=0;B<I.length;++B)++q[31&I[B]];for(B=0;B<O.length;++B)++q[31&O[B]];for(var G=_(q,7),H=G.t,J=G.l,K=19;K>4&&!H[a[K-1]];--K);var N,P,Q,R,V=v+5<<3,W=T(f,g)+T(h,w)+l,X=T(f,M)+T(h,C)+l+14+3*K+T(q,H)+2*q[16]+3*q[17]+7*q[18];if(c>=0&&V<=W&&V<=X)return k(r,m,t.subarray(c,c+v));if(z(r,m,1+(X<W)),m+=2,X<W){N=d(M,E,0),P=M,Q=d(C,U,0),R=C;var Y=d(H,J,0);z(r,m,S-257),z(r,m+5,j-1),z(r,m+10,K-4),m+=14;for(B=0;B<K;++B)z(r,m+3*B,H[a[B]]);m+=3*K;for(var Z=[I,O],$=0;$<2;++$){var tt=Z[$];for(B=0;B<tt.length;++B){var nt=31&tt[B];z(r,m,Y[nt]),m+=H[nt],nt>15&&(z(r,m,tt[B]>>5&127),m+=tt[B]>>12)}}}else N=p,P=g,Q=y,R=w;for(B=0;B<u;++B){var rt=o[B];if(rt>255){A(r,m,N[(nt=rt>>18&31)+257]),m+=P[nt+257],nt>7&&(z(r,m,rt>>23&31),m+=e[nt]);var et=31&rt;A(r,m,Q[et]),m+=R[et],et>3&&(A(r,m,rt>>5&8191),m+=i[et])}else A(r,m,N[rt]),m+=P[rt]}return A(r,m,N[256]),m+P[256]},U=new r([65540,131080,131088,131104,262176,1048704,1048832,2114560,2117632]),F=new t(0),I=function(){for(var t=new Int32Array(256),n=0;n<256;++n){for(var r=n,e=9;--e;)r=(1&r&&-306674912)^r>>>1;t[n]=r}return t}(),S=function(){var t=-1;return{p:function(n){for(var r=t,e=0;e<n.length;++e)r=I[255&r^n[e]]^r>>>8;t=r},d:function(){return~t}}},L=function(){var t=1,n=0;return{p:function(r){for(var e=t,i=n,a=0|r.length,s=0;s!=a;){for(var o=Math.min(s+2655,a);s<o;++s)i+=e+=r[s];e=(65535&e)+15*(e>>16),i=(65535&i)+15*(i>>16)}t=e,n=i},d:function(){return(255&(t%=65521))<<24|(65280&t)<<8|(255&(n%=65521))<<8|n>>8}}},O=function(a,s,o,f,u){if(!u&&(u={l:1},s.dictionary)){var c=s.dictionary.subarray(-32768),v=new t(c.length+a.length);v.set(c),v.set(a,c.length),a=v,u.w=c.length}return function(a,s,o,f,u,c){var v=c.z||a.length,d=new t(f+v+5*(1+Math.ceil(v/7e3))+u),g=d.subarray(f,d.length-u),w=c.l,p=7&(c.r||0);if(s){p&&(g[0]=c.r>>3);for(var y=U[s-1],M=y>>13,E=8191&y,z=(1<<o)-1,A=c.p||new n(32768),_=c.h||new n(z+1),x=Math.ceil(o/3),D=2*x,T=function(t){return(a[t]^a[t+1]<<x^a[t+2]<<D)&z},F=new r(25e3),I=new n(288),S=new n(32),L=0,O=0,j=c.i||0,q=0,B=c.w||0,G=0;j+2<v;++j){var H=T(j),J=32767&j,K=_[H];if(A[J]=K,_[H]=J,B<=j){var N=v-j;if((L>7e3||q>24576)&&(N>423||!w)){p=C(a,g,0,F,I,S,O,q,G,j-G,p),q=L=O=0,G=j;for(var P=0;P<286;++P)I[P]=0;for(P=0;P<30;++P)S[P]=0}var Q=2,R=0,V=E,W=J-K&32767;if(N>2&&H==T(j-W))for(var X=Math.min(M,N)-1,Y=Math.min(32767,j),Z=Math.min(258,N);W<=Y&&--V&&J!=K;){if(a[j+Q]==a[j+Q-W]){for(var $=0;$<Z&&a[j+$]==a[j+$-W];++$);if($>Q){if(Q=$,R=W,$>X)break;var tt=Math.min(W,$-2),nt=0;for(P=0;P<tt;++P){var rt=j-W+P&32767,et=rt-A[rt]&32767;et>nt&&(nt=et,K=rt)}}}W+=(J=K)-(K=A[J])&32767}if(R){F[q++]=268435456|h[Q]<<18|l[R];var it=31&h[Q],at=31&l[R];O+=e[it]+i[at],++I[257+it],++S[at],B=j+Q,++L}else F[q++]=a[j],++I[a[j]]}}for(j=Math.max(j,B);j<v;++j)F[q++]=a[j],++I[a[j]];p=C(a,g,w,F,I,S,O,q,G,j-G,p),w||(c.r=7&p|g[p/8|0]<<3,p-=7,c.h=_,c.p=A,c.i=j,c.w=B)}else{for(j=c.w||0;j<v+w;j+=65535){var st=j+65535;st>=v&&(g[p/8|0]=w,st=v),p=k(g,p+1,a.subarray(j,st))}c.i=v}return b(d,0,f+m(p)+u)}(a,null==s.level?6:s.level,null==s.mem?Math.ceil(1.5*Math.max(8,Math.min(13,Math.log(a.length)))):12+s.mem,o,f,u)},j=function(t,n,r){for(;r;++n)t[n]=r,r>>>=8},q=function(t,n){var r=n.filename;if(t[0]=31,t[1]=139,t[2]=8,t[8]=n.level<2?4:9==n.level?2:0,t[9]=3,0!=n.mtime&&j(t,4,Math.floor(new Date(n.mtime||Date.now())/1e3)),r){t[3]=8;for(var e=0;e<=r.length;++e)t[e+10]=r.charCodeAt(e)}},B=function(t){return 10+(t.filename?t.filename.length+1:0)},G=function(){function n(n,r){if("function"==typeof n&&(r=n,n={}),this.ondata=r,this.o=n||{},this.s={l:0,i:32768,w:32768,z:32768},this.b=new t(98304),this.o.dictionary){var e=this.o.dictionary.subarray(-32768);this.b.set(e,32768-e.length),this.s.i=32768-e.length}}return n.prototype.p=function(t,n){this.ondata(O(t,this.o,0,0,this.s),n)},n.prototype.push=function(n,r){this.ondata||E(5),this.s.l&&E(4);var e=n.length+this.s.z;if(e>this.b.length){if(e>2*this.b.length-32768){var i=new t(-32768&e);i.set(this.b.subarray(0,this.s.z)),this.b=i}var a=this.b.length-this.s.z;a&&(this.b.set(n.subarray(0,a),this.s.z),this.s.z=this.b.length,this.p(this.b,!1)),this.b.set(this.b.subarray(-32768)),this.b.set(n.subarray(a),32768),this.s.z=n.length-a+32768,this.s.i=32766,this.s.w=32768}else this.b.set(n,this.s.z),this.s.z+=n.length;this.s.l=1&r,(this.s.z>this.s.w+8191||r)&&(this.p(this.b,r||!1),this.s.w=this.s.i,this.s.i-=2)},n}();var H=function(){function t(t,n){this.c=L(),this.v=1,G.call(this,t,n)}return t.prototype.push=function(t,n){this.c.p(t),G.prototype.push.call(this,t,n)},t.prototype.p=function(t,n){var r=O(t,this.o,this.v&&(this.o.dictionary?6:2),n&&4,this.s);this.v&&(function(t,n){var r=n.level,e=0==r?0:r<6?1:9==r?3:2;if(t[0]=120,t[1]=e<<6|(n.dictionary&&32),t[1]|=31-(t[0]<<8|t[1])%31,n.dictionary){var i=L();i.p(n.dictionary),j(t,2,i.d())}}(r,this.o),this.v=0),n&&j(r,r.length-4,this.c.d()),this.ondata(r,n)},t}(),J="undefined"!=typeof TextEncoder&&new TextEncoder,K="undefined"!=typeof TextDecoder&&new TextDecoder;try{K.decode(F,{stream:!0})}catch(t){}var N=function(){function t(t){this.ondata=t}return t.prototype.push=function(t,n){this.ondata||E(5),this.d&&E(4),this.ondata(P(t),this.d=n||!1)},t}();function P(n,r){if(r){for(var e=new t(n.length),i=0;i<n.length;++i)e[i]=n.charCodeAt(i);return e}if(J)return J.encode(n);var a=n.length,s=new t(n.length+(n.length>>1)),o=0,f=function(t){s[o++]=t};for(i=0;i<a;++i){if(o+5>s.length){var h=new t(o+8+(a-i<<1));h.set(s),s=h}var l=n.charCodeAt(i);l<128||r?f(l):l<2048?(f(192|l>>6),f(128|63&l)):l>55295&&l<57344?(f(240|(l=65536+(1047552&l)|1023&n.charCodeAt(++i))>>18),f(128|l>>12&63),f(128|l>>6&63),f(128|63&l)):(f(224|l>>12),f(128|l>>6&63),f(128|63&l))}return b(s,0,o)}function Q(t){return function(t,n){n||(n={});var r=S(),e=t.length;r.p(t);var i=O(t,n,B(n),8),a=i.length;return q(i,n),j(i,a-8,r.d()),j(i,a-4,e),i}(P(t))}const R=new class{constructor(){this._init()}clear(){this._init()}addEvent(t){if(!t)throw new Error("Adding invalid event");const n=this._hasEvents?",":"";this.stream.push(n+t),this._hasEvents=!0}finish(){this.stream.push("]",!0);const t=function(t){let n=0;for(const r of t)n+=r.length;const r=new Uint8Array(n);for(let n=0,e=0,i=t.length;n<i;n++){const i=t[n];r.set(i,e),e+=i.length}return r}(this._deflatedData);return this._init(),t}_init(){this._hasEvents=!1,this._deflatedData=[],this.deflate=new H,this.deflate.ondata=(t,n)=>{this._deflatedData.push(t)},this.stream=new N(((t,n)=>{this.deflate.push(t,n)})),this.stream.push("[")}},V={clear:()=>{R.clear()},addEvent:t=>R.addEvent(t),finish:()=>R.finish(),compress:t=>Q(t)};addEventListener("message",(function(t){const n=t.data.method,r=t.data.id,e=t.data.arg;if(n in V&&"function"==typeof V[n])try{const t=V[n](e);postMessage({id:r,method:n,success:!0,response:t})}catch(t){postMessage({id:r,method:n,success:!1,response:t.message}),console.error(t)}})),postMessage({id:void 0,method:"init",success:!0,response:void 0});`;
 
 function e(){const e=new Blob([r]);return URL.createObjectURL(e)}
 
@@ -11548,6 +11576,9 @@ function handleHydrationError(replay, event) {
   ) {
     const breadcrumb = createBreadcrumb({
       category: 'replay.hydrate-error',
+      data: {
+        url: utils.getLocationHref(),
+      },
     });
     addBreadcrumbEvent(replay, breadcrumb);
   }
@@ -12086,11 +12117,11 @@ function buildNetworkRequestOrResponse(
 
 /** Filter a set of headers */
 function getAllowedHeaders(headers, allowedHeaders) {
-  return Object.keys(headers).reduce((filteredHeaders, key) => {
+  return Object.entries(headers).reduce((filteredHeaders, [key, value]) => {
     const normalizedKey = key.toLowerCase();
     // Avoid putting empty strings into the headers
     if (allowedHeaders.includes(normalizedKey) && headers[key]) {
-      filteredHeaders[normalizedKey] = headers[key];
+      filteredHeaders[normalizedKey] = value;
     }
     return filteredHeaders;
   }, {});
@@ -12578,8 +12609,10 @@ function getResponseHeaders(xhr) {
   }
 
   return headers.split('\r\n').reduce((acc, line) => {
-    const [key, value] = line.split(': ');
-    acc[key.toLowerCase()] = value;
+    const [key, value] = line.split(': ') ;
+    if (value) {
+      acc[key.toLowerCase()] = value;
+    }
     return acc;
   }, {});
 }
@@ -15259,6 +15292,7 @@ function eventFromPlainObject(
     const frames = parseStackFrames(stackParser, syntheticException);
     if (frames.length) {
       // event.exception.values[0] has been set above
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       event.exception.values[0].stacktrace = { frames };
     }
   }
@@ -15825,6 +15859,7 @@ exports.startNewTrace = core.startNewTrace;
 exports.startSession = core.startSession;
 exports.startSpan = core.startSpan;
 exports.startSpanManual = core.startSpanManual;
+exports.thirdPartyErrorFilterIntegration = core.thirdPartyErrorFilterIntegration;
 exports.withActiveSpan = core.withActiveSpan;
 exports.withIsolationScope = core.withIsolationScope;
 exports.withScope = core.withScope;
@@ -16806,28 +16841,8 @@ function _fetchResponseHandler(
     let requestHeaders, responseHeaders, requestCookies, responseCookies;
 
     if (_shouldSendDefaultPii()) {
-      [{ headers: requestHeaders, cookies: requestCookies }, { headers: responseHeaders, cookies: responseCookies }] = [
-        { cookieHeader: 'Cookie', obj: request },
-        { cookieHeader: 'Set-Cookie', obj: response },
-      ].map(({ cookieHeader, obj }) => {
-        const headers = _extractFetchHeaders(obj.headers);
-        let cookies;
-
-        try {
-          const cookieString = headers[cookieHeader] || headers[cookieHeader.toLowerCase()] || undefined;
-
-          if (cookieString) {
-            cookies = _parseCookieString(cookieString);
-          }
-        } catch (e) {
-          debugBuild.DEBUG_BUILD && utils.logger.log(`Could not extract cookies from header ${cookieHeader}`);
-        }
-
-        return {
-          headers,
-          cookies,
-        };
-      });
+      [requestHeaders, requestCookies] = _parseCookieHeaders('Cookie', request);
+      [responseHeaders, responseCookies] = _parseCookieHeaders('Set-Cookie', response);
     }
 
     const event = _createEvent({
@@ -16842,6 +16857,26 @@ function _fetchResponseHandler(
 
     core.captureEvent(event);
   }
+}
+
+function _parseCookieHeaders(
+  cookieHeader,
+  obj,
+) {
+  const headers = _extractFetchHeaders(obj.headers);
+  let cookies;
+
+  try {
+    const cookieString = headers[cookieHeader] || headers[cookieHeader.toLowerCase()] || undefined;
+
+    if (cookieString) {
+      cookies = _parseCookieString(cookieString);
+    }
+  } catch (e) {
+    debugBuild.DEBUG_BUILD && utils.logger.log(`Could not extract cookies from header ${cookieHeader}`);
+  }
+
+  return [headers, cookies];
 }
 
 /**
@@ -16921,7 +16956,9 @@ function _getResponseSizeFromHeaders(headers) {
 function _parseCookieString(cookieString) {
   return cookieString.split('; ').reduce((acc, cookie) => {
     const [key, value] = cookie.split('=');
-    acc[key] = value;
+    if (key && value) {
+      acc[key] = value;
+    }
     return acc;
   }, {});
 }
@@ -16957,7 +16994,9 @@ function _getXHRResponseHeaders(xhr) {
 
   return headers.split('\r\n').reduce((acc, line) => {
     const [key, value] = line.split(': ');
-    acc[key] = value;
+    if (key && value) {
+      acc[key] = value;
+    }
     return acc;
   }, {});
 }
@@ -17644,6 +17683,7 @@ if (isUserAgentData(userAgentData)) {
       OS_PLATFORM_VERSION = ua.platformVersion || '';
 
       if (ua.fullVersionList && ua.fullVersionList.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const firstUa = ua.fullVersionList[ua.fullVersionList.length - 1];
         OS_BROWSER = `${firstUa.brand} ${firstUa.version}`;
       }
@@ -17797,12 +17837,13 @@ function convertJSSelfProfileToSampledFormat(input) {
     },
   };
 
-  if (!input.samples.length) {
+  const firstSample = input.samples[0];
+  if (!firstSample) {
     return profile;
   }
 
   // We assert samples.length > 0 above and timestamp should always be present
-  const start = input.samples[0].timestamp;
+  const start = firstSample.timestamp;
   // The JS SDK might change it's time origin based on some heuristic (see See packages/utils/src/time.ts)
   // when that happens, we need to ensure we are correcting the profile timings so the two timelines stay in sync.
   // Since JS self profiling time origin is always initialized to performance.timeOrigin, we need to adjust for
@@ -17811,9 +17852,7 @@ function convertJSSelfProfileToSampledFormat(input) {
     typeof performance.timeOrigin === 'number' ? performance.timeOrigin : utils.browserPerformanceTimeOrigin || 0;
   const adjustForOriginChange = origin - (utils.browserPerformanceTimeOrigin || origin);
 
-  for (let i = 0; i < input.samples.length; i++) {
-    const jsSample = input.samples[i];
-
+  input.samples.forEach((jsSample, i) => {
     // If sample has no stack, add an empty sample
     if (jsSample.stackId === undefined) {
       if (EMPTY_STACK_ID === undefined) {
@@ -17828,7 +17867,7 @@ function convertJSSelfProfileToSampledFormat(input) {
         stack_id: EMPTY_STACK_ID,
         thread_id: THREAD_ID_STRING,
       };
-      continue;
+      return;
     }
 
     let stackTop = input.stacks[jsSample.stackId];
@@ -17843,7 +17882,7 @@ function convertJSSelfProfileToSampledFormat(input) {
       const frame = input.frames[stackTop.frameId];
 
       // If our frame has not been indexed yet, index it
-      if (profile.frames[stackTop.frameId] === undefined) {
+      if (frame && profile.frames[stackTop.frameId] === undefined) {
         profile.frames[stackTop.frameId] = {
           function: frame.name,
           abs_path: typeof frame.resourceId === 'number' ? input.resources[frame.resourceId] : undefined,
@@ -17865,7 +17904,7 @@ function convertJSSelfProfileToSampledFormat(input) {
     profile['stacks'][STACK_ID] = stack;
     profile['samples'][i] = sample;
     STACK_ID++;
-  }
+  });
 
   return profile;
 }
@@ -18538,20 +18577,20 @@ const chromeEvalRegex = /\((\S*)(?::(\d+))(?::(\d+))\)/;
 // See: https://github.com/getsentry/sentry-javascript/issues/6880
 const chromeStackParserFn = line => {
   // If the stack line has no function name, we need to parse it differently
-  const noFnParts = chromeRegexNoFnName.exec(line);
+  const noFnParts = chromeRegexNoFnName.exec(line) ;
 
   if (noFnParts) {
     const [, filename, line, col] = noFnParts;
     return createFrame(filename, utils.UNKNOWN_FUNCTION, +line, +col);
   }
 
-  const parts = chromeRegex.exec(line);
+  const parts = chromeRegex.exec(line) ;
 
   if (parts) {
     const isEval = parts[2] && parts[2].indexOf('eval') === 0; // start of line
 
     if (isEval) {
-      const subMatch = chromeEvalRegex.exec(parts[2]);
+      const subMatch = chromeEvalRegex.exec(parts[2]) ;
 
       if (subMatch) {
         // throw out eval line/column and use top-most line/column number
@@ -18581,12 +18620,12 @@ const geckoREgex =
 const geckoEvalRegex = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
 
 const gecko = line => {
-  const parts = geckoREgex.exec(line);
+  const parts = geckoREgex.exec(line) ;
 
   if (parts) {
     const isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
     if (isEval) {
-      const subMatch = geckoEvalRegex.exec(parts[3]);
+      const subMatch = geckoEvalRegex.exec(parts[3]) ;
 
       if (subMatch) {
         // throw out eval line/column and use top-most line number
@@ -18612,7 +18651,7 @@ const geckoStackLineParser = [GECKO_PRIORITY, gecko];
 const winjsRegex = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:[-a-z]+):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
 
 const winjs = line => {
-  const parts = winjsRegex.exec(line);
+  const parts = winjsRegex.exec(line) ;
 
   return parts
     ? createFrame(parts[2], parts[1] || utils.UNKNOWN_FUNCTION, +parts[3], parts[4] ? +parts[4] : undefined)
@@ -18624,7 +18663,7 @@ const winjsStackLineParser = [WINJS_PRIORITY, winjs];
 const opera10Regex = / line (\d+).*script (?:in )?(\S+)(?:: in function (\S+))?$/i;
 
 const opera10 = line => {
-  const parts = opera10Regex.exec(line);
+  const parts = opera10Regex.exec(line) ;
   return parts ? createFrame(parts[2], parts[3] || utils.UNKNOWN_FUNCTION, +parts[1]) : undefined;
 };
 
@@ -18634,7 +18673,7 @@ const opera11Regex =
   / line (\d+), column (\d+)\s*(?:in (?:<anonymous function: ([^>]+)>|([^)]+))\(.*\))? in (.*):\s*$/i;
 
 const opera11 = line => {
-  const parts = opera11Regex.exec(line);
+  const parts = opera11Regex.exec(line) ;
   return parts ? createFrame(parts[5], parts[3] || parts[4] || utils.UNKNOWN_FUNCTION, +parts[1], +parts[2]) : undefined;
 };
 
@@ -18670,7 +18709,7 @@ const extractSafariExtensionDetails = (func, filename) => {
 
   return isSafariExtension || isSafariWebExtension
     ? [
-        func.indexOf('@') !== -1 ? func.split('@')[0] : utils.UNKNOWN_FUNCTION,
+        func.indexOf('@') !== -1 ? (func.split('@')[0] ) : utils.UNKNOWN_FUNCTION,
         isSafariExtension ? `safari-extension:${filename}` : `safari-web-extension:${filename}`,
       ]
     : [func, filename];
@@ -19210,13 +19249,13 @@ function extractNetworkProtocol(nextHopProtocol) {
   for (const char of nextHopProtocol) {
     // http/1.1 etc.
     if (char === '/') {
-      [name, version] = nextHopProtocol.split('/');
+      [name, version] = nextHopProtocol.split('/') ;
       break;
     }
     // h2, h3 etc.
     if (!isNaN(Number(char))) {
       name = _name === 'h' ? 'http' : _name;
-      version = nextHopProtocol.split(_name)[1];
+      version = nextHopProtocol.split(_name)[1] ;
       break;
     }
     _name += char;
@@ -19591,12 +19630,13 @@ function unshift(store, value, maxQueueSize) {
 function shift(store) {
   return store(store => {
     return keys(store).then(keys => {
-      if (keys.length === 0) {
+      const firstKey = keys[0];
+      if (firstKey == null) {
         return undefined;
       }
 
-      return promisifyRequest(store.get(keys[0])).then(value => {
-        store.delete(keys[0]);
+      return promisifyRequest(store.get(firstKey)).then(value => {
+        store.delete(firstKey);
         return promisifyRequest(store.transaction).then(() => value);
       });
     });
@@ -20021,7 +20061,7 @@ class AsyncContextStack {
    * Returns the topmost scope layer in the order domain > local > process.
    */
    getStackTop() {
-    return this._stack[this._stack.length - 1];
+    return this._stack[this._stack.length - 1] ;
   }
 
   /**
@@ -20420,8 +20460,7 @@ class BaseClient {
       const key = `${reason}:${category}`;
       debugBuild.DEBUG_BUILD && utils.logger.log(`Adding outcome: "${key}"`);
 
-      // The following works because undefined + 1 === NaN and NaN is falsy
-      this._outcomes[key] = this._outcomes[key] + 1 || 1;
+      this._outcomes[key] = (this._outcomes[key] || 0) + 1;
     }
   }
 
@@ -20444,8 +20483,9 @@ class BaseClient {
 
   /** @inheritdoc */
    emit(hook, ...rest) {
-    if (this._hooks[hook]) {
-      this._hooks[hook].forEach(callback => callback(...rest));
+    const callbacks = this._hooks[hook];
+    if (callbacks) {
+      callbacks.forEach(callback => callback(...rest));
     }
   }
 
@@ -20758,12 +20798,12 @@ class BaseClient {
    _clearOutcomes() {
     const outcomes = this._outcomes;
     this._outcomes = {};
-    return Object.keys(outcomes).map(key => {
+    return Object.entries(outcomes).map(([key, quantity]) => {
       const [reason, category] = key.split(':') ;
       return {
         reason,
         category,
-        quantity: outcomes[key],
+        quantity,
       };
     });
   }
@@ -21657,11 +21697,11 @@ const currentScopes = require('./currentScopes.js');
  * Send user feedback to Sentry.
  */
 function captureFeedback(
-  feedbackParams,
+  params,
   hint = {},
   scope = currentScopes.getCurrentScope(),
 ) {
-  const { message, name, email, url, source, associatedEventId } = feedbackParams;
+  const { message, name, email, url, source, associatedEventId, tags } = params;
 
   const feedbackEvent = {
     contexts: {
@@ -21676,6 +21716,7 @@ function captureFeedback(
     },
     type: 'feedback',
     level: 'info',
+    tags,
   };
 
   const client = (scope && scope.getClient()) || currentScopes.getClient();
@@ -22232,7 +22273,7 @@ function filterDuplicates(integrations) {
     integrationsByName[name] = currentInstance;
   });
 
-  return Object.keys(integrationsByName).map(k => integrationsByName[k]);
+  return Object.values(integrationsByName);
 }
 
 /** Gets integrations to install */
@@ -22261,9 +22302,9 @@ function getIntegrationsToSetup(options) {
   // `beforeSendTransaction`. It therefore has to run after all other integrations, so that the changes of all event
   // processors will be reflected in the printed values. For lack of a more elegant way to guarantee that, we therefore
   // locate it and, assuming it exists, pop it out of its current spot and shove it onto the end of the array.
-  const debugIndex = findIndex(finalIntegrations, integration => integration.name === 'Debug');
-  if (debugIndex !== -1) {
-    const [debugInstance] = finalIntegrations.splice(debugIndex, 1);
+  const debugIndex = finalIntegrations.findIndex(integration => integration.name === 'Debug');
+  if (debugIndex > -1) {
+    const [debugInstance] = finalIntegrations.splice(debugIndex, 1) ;
     finalIntegrations.push(debugInstance);
   }
 
@@ -22348,17 +22389,6 @@ function addIntegration(integration) {
   }
 
   client.addIntegration(integration);
-}
-
-// Polyfill for Array.findIndex(), which is not supported in ES5
-function findIndex(arr, callback) {
-  for (let i = 0; i < arr.length; i++) {
-    if (callback(arr[i]) === true) {
-      return i;
-    }
-  }
-
-  return -1;
 }
 
 /**
@@ -22642,7 +22672,9 @@ function _isSameStacktrace(currentEvent, previousEvent) {
 
   // Otherwise, compare the two
   for (let i = 0; i < previousFrames.length; i++) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const frameA = previousFrames[i];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const frameB = currentFrames[i];
 
     if (
@@ -22707,8 +22739,9 @@ const _extraErrorDataIntegration = ((options = {}) => {
   const { depth = 3, captureErrorCause = true } = options;
   return {
     name: INTEGRATION_NAME,
-    processEvent(event, hint) {
-      return _enhanceEventWithErrorData(event, hint, depth, captureErrorCause);
+    processEvent(event, hint, client) {
+      const { maxValueLength = 250 } = client.getOptions();
+      return _enhanceEventWithErrorData(event, hint, depth, captureErrorCause, maxValueLength);
     },
   };
 }) ;
@@ -22720,13 +22753,14 @@ function _enhanceEventWithErrorData(
   hint = {},
   depth,
   captureErrorCause,
+  maxValueLength,
 ) {
   if (!hint.originalException || !utils.isError(hint.originalException)) {
     return event;
   }
   const exceptionName = (hint.originalException ).name || hint.originalException.constructor.name;
 
-  const errorData = _extractErrorData(hint.originalException , captureErrorCause);
+  const errorData = _extractErrorData(hint.originalException , captureErrorCause, maxValueLength);
 
   if (errorData) {
     const contexts = {
@@ -22754,7 +22788,11 @@ function _enhanceEventWithErrorData(
 /**
  * Extract extra information from the Error object
  */
-function _extractErrorData(error, captureErrorCause) {
+function _extractErrorData(
+  error,
+  captureErrorCause,
+  maxValueLength,
+) {
   // We are trying to enhance already existing event, so no harm done if it won't succeed
   try {
     const nativeKeys = [
@@ -22777,7 +22815,7 @@ function _extractErrorData(error, captureErrorCause) {
         continue;
       }
       const value = error[key];
-      extraErrorInfo[key] = utils.isError(value) ? value.toString() : value;
+      extraErrorInfo[key] = utils.isError(value) || typeof value === 'string' ? utils.truncate(`${value}`, maxValueLength) : value;
     }
 
     // Error.cause is a standard property that is non enumerable, we therefore need to access it separately.
@@ -23573,7 +23611,9 @@ function formatIssueTitle(issue) {
 function formatIssueMessage(zodError) {
   const errorKeyMap = new Set();
   for (const iss of zodError.issues) {
-    if (iss.path) errorKeyMap.add(iss.path[0]);
+    if (iss.path && iss.path[0]) {
+      errorKeyMap.add(iss.path[0]);
+    }
   }
   const errorKeys = Array.from(errorKeyMap);
 
@@ -24529,11 +24569,8 @@ function getMetricSummaryJsonForSpan(span) {
   const output = {};
 
   for (const [, [exportKey, summary]] of storage) {
-    if (!output[exportKey]) {
-      output[exportKey] = [];
-    }
-
-    output[exportKey].push(utils.dropUndefinedKeys(summary));
+    const arr = output[exportKey] || (output[exportKey] = []);
+    arr.push(utils.dropUndefinedKeys(summary));
   }
 
   return output;
@@ -25843,7 +25880,7 @@ class SessionFlusher  {
    constructor(client, attrs) {
     this._client = client;
     this.flushTimeout = 60;
-    this._pendingAggregates = {};
+    this._pendingAggregates = new Map();
     this._isEnabled = true;
 
     // Call to setInterval, so that flush is called every 60 seconds.
@@ -25862,15 +25899,13 @@ class SessionFlusher  {
     if (sessionAggregates.aggregates.length === 0) {
       return;
     }
-    this._pendingAggregates = {};
+    this._pendingAggregates = new Map();
     this._client.sendSession(sessionAggregates);
   }
 
   /** Massages the entries in `pendingAggregates` and returns aggregated sessions */
    getSessionAggregates() {
-    const aggregates = Object.keys(this._pendingAggregates).map((key) => {
-      return this._pendingAggregates[parseInt(key)];
-    });
+    const aggregates = Array.from(this._pendingAggregates.values());
 
     const sessionAggregates = {
       attrs: this._sessionAttrs,
@@ -25914,13 +25949,13 @@ class SessionFlusher  {
    _incrementSessionStatusCount(status, date) {
     // Truncate minutes and seconds on Session Started attribute to have one minute bucket keys
     const sessionStartedTrunc = new Date(date).setSeconds(0, 0);
-    this._pendingAggregates[sessionStartedTrunc] = this._pendingAggregates[sessionStartedTrunc] || {};
 
     // corresponds to aggregated sessions in one specific minute bucket
     // for example, {"started":"2021-03-16T08:00:00.000Z","exited":4, "errored": 1}
-    const aggregationCounts = this._pendingAggregates[sessionStartedTrunc];
-    if (!aggregationCounts.started) {
-      aggregationCounts.started = new Date(sessionStartedTrunc).toISOString();
+    let aggregationCounts = this._pendingAggregates.get(sessionStartedTrunc);
+    if (!aggregationCounts) {
+      aggregationCounts = { started: new Date(sessionStartedTrunc).toISOString() };
+      this._pendingAggregates.set(sessionStartedTrunc, aggregationCounts);
     }
 
     switch (status) {
@@ -26001,15 +26036,25 @@ function getDynamicSamplingContextFromSpan(span) {
   const dsc = getDynamicSamplingContextFromClient(spanUtils.spanToJSON(span).trace_id || '', client);
 
   const rootSpan = spanUtils.getRootSpan(span);
-  if (!rootSpan) {
-    return dsc;
-  }
 
+  // For core implementation, we freeze the DSC onto the span as a non-enumerable property
   const frozenDsc = (rootSpan )[FROZEN_DSC_FIELD];
   if (frozenDsc) {
     return frozenDsc;
   }
 
+  // For OpenTelemetry, we freeze the DSC on the trace state
+  const traceState = rootSpan.spanContext().traceState;
+  const traceStateDsc = traceState && traceState.get('sentry.dsc');
+
+  // If the span has a DSC, we want it to take precedence
+  const dscOnTraceState = traceStateDsc && utils.baggageHeaderToDynamicSamplingContext(traceStateDsc);
+
+  if (dscOnTraceState) {
+    return dscOnTraceState;
+  }
+
+  // Else, we generate it from the span
   const jsonSpan = spanUtils.spanToJSON(rootSpan);
   const attributes = jsonSpan.data || {};
   const maybeSampleRate = attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE];
@@ -26022,13 +26067,14 @@ function getDynamicSamplingContextFromSpan(span) {
   const source = attributes[semanticAttributes.SEMANTIC_ATTRIBUTE_SENTRY_SOURCE];
 
   // after JSON conversion, txn.name becomes jsonSpan.description
-  if (source && source !== 'url') {
-    dsc.transaction = jsonSpan.description;
+  const name = jsonSpan.description;
+  if (source !== 'url' && name) {
+    dsc.transaction = name;
   }
 
   dsc.sampled = String(spanUtils.spanIsSampled(rootSpan));
 
-  client.emit('createDsc', dsc);
+  client.emit('createDsc', dsc, rootSpan);
 
   return dsc;
 }
@@ -26889,7 +26935,15 @@ class SentrySpan  {
 
     // if this is a standalone span, we send it immediately
     if (this._isStandaloneSpan) {
-      sendSpanEnvelope(envelope.createSpanEnvelope([this], client));
+      if (this._sampled) {
+        sendSpanEnvelope(envelope.createSpanEnvelope([this], client));
+      } else {
+        debugBuild.DEBUG_BUILD &&
+          utils.logger.log('[Tracing] Discarding standalone span because its trace was not chosen to be sampled.');
+        if (client) {
+          client.recordDroppedEvent('sample_rate', 'span');
+        }
+      }
       return;
     }
 
@@ -27774,14 +27828,12 @@ function makeMultiplexedTransport(
         .filter((t) => !!t);
 
       // If we have no transports to send to, use the fallback transport
-      if (transports.length === 0) {
-        // Don't override the DSN in the header for the fallback transport. '' is falsy
-        transports.push(['', fallbackTransport]);
-      }
+      // Don't override the DSN in the header for the fallback transport. '' is falsy
+      const transportsWithFallback = transports.length ? transports : [['', fallbackTransport]];
 
-      const results = await Promise.all(
-        transports.map(([dsn, transport]) => transport.send(overrideDsn(envelope, dsn))),
-      );
+      const results = (await Promise.all(
+        transportsWithFallback.map(([dsn, transport]) => transport.send(overrideDsn(envelope, dsn))),
+      )) ;
 
       return results[0];
     }
@@ -28586,25 +28638,29 @@ function applyDebugIds(event, stackParser) {
   }
 
   // Build a map of filename -> debug_id
-  const filenameDebugIdMap = Object.keys(debugIdMap).reduce((acc, debugIdStackTrace) => {
-    let parsedStack;
-    const cachedParsedStack = debugIdStackFramesCache.get(debugIdStackTrace);
-    if (cachedParsedStack) {
-      parsedStack = cachedParsedStack;
-    } else {
-      parsedStack = stackParser(debugIdStackTrace);
-      debugIdStackFramesCache.set(debugIdStackTrace, parsedStack);
-    }
-
-    for (let i = parsedStack.length - 1; i >= 0; i--) {
-      const stackFrame = parsedStack[i];
-      if (stackFrame.filename) {
-        acc[stackFrame.filename] = debugIdMap[debugIdStackTrace];
-        break;
+  const filenameDebugIdMap = Object.entries(debugIdMap).reduce(
+    (acc, [debugIdStackTrace, debugIdValue]) => {
+      let parsedStack;
+      const cachedParsedStack = debugIdStackFramesCache.get(debugIdStackTrace);
+      if (cachedParsedStack) {
+        parsedStack = cachedParsedStack;
+      } else {
+        parsedStack = stackParser(debugIdStackTrace);
+        debugIdStackFramesCache.set(debugIdStackTrace, parsedStack);
       }
-    }
-    return acc;
-  }, {});
+
+      for (let i = parsedStack.length - 1; i >= 0; i--) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const stackFrame = parsedStack[i];
+        if (stackFrame.filename) {
+          acc[stackFrame.filename] = debugIdValue;
+          break;
+        }
+      }
+      return acc;
+    },
+    {},
+  );
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -28654,11 +28710,11 @@ function applyDebugMeta(event) {
   event.debug_meta = event.debug_meta || {};
   event.debug_meta.images = event.debug_meta.images || [];
   const images = event.debug_meta.images;
-  Object.keys(filenameDebugIdMap).forEach(filename => {
+  Object.entries(filenameDebugIdMap).forEach(([filename, debug_id]) => {
     images.push({
       type: 'sourcemap',
       code_file: filename,
-      debug_id: filenameDebugIdMap[filename],
+      debug_id,
     });
   });
 }
@@ -29504,9 +29560,9 @@ function parseBaggageHeader(
     // Combine all baggage headers into one object containing the baggage values so we can later read the Sentry-DSC-values from it
     return baggageHeader.reduce((acc, curr) => {
       const currBaggageObject = baggageHeaderToObject(curr);
-      for (const key of Object.keys(currBaggageObject)) {
-        acc[key] = currBaggageObject[key];
-      }
+      Object.entries(currBaggageObject).forEach(([key, value]) => {
+        acc[key] = value;
+      });
       return acc;
     }, {});
   }
@@ -29525,7 +29581,9 @@ function baggageHeaderToObject(baggageHeader) {
     .split(',')
     .map(baggageEntry => baggageEntry.split('=').map(keyOrValue => decodeURIComponent(keyOrValue.trim())))
     .reduce((acc, [key, value]) => {
-      acc[key] = value;
+      if (key && value) {
+        acc[key] = value;
+      }
       return acc;
     }, {});
 }
@@ -29640,11 +29698,6 @@ function _htmlElementAsString(el, keyAttrs) {
 ;
 
   const out = [];
-  let className;
-  let classes;
-  let key;
-  let attr;
-  let i;
 
   if (!elem || !elem.tagName) {
     return '';
@@ -29680,22 +29733,22 @@ function _htmlElementAsString(el, keyAttrs) {
       out.push(`#${elem.id}`);
     }
 
-    className = elem.className;
+    const className = elem.className;
     if (className && is.isString(className)) {
-      classes = className.split(/\s+/);
-      for (i = 0; i < classes.length; i++) {
-        out.push(`.${classes[i]}`);
+      const classes = className.split(/\s+/);
+      for (const c of classes) {
+        out.push(`.${c}`);
       }
     }
   }
   const allowedAttrs = ['aria-label', 'type', 'name', 'title', 'alt'];
-  for (i = 0; i < allowedAttrs.length; i++) {
-    key = allowedAttrs[i];
-    attr = elem.getAttribute(key);
+  for (const k of allowedAttrs) {
+    const attr = elem.getAttribute(k);
     if (attr) {
-      out.push(`[${key}="${attr}"]`);
+      out.push(`[${k}="${attr}"]`);
     }
   }
+
   return out.join('');
 }
 
@@ -30370,7 +30423,7 @@ function dsnFromString(str) {
     return undefined;
   }
 
-  const [protocol, publicKey, pass = '', host, port = '', lastPath] = match.slice(1);
+  const [protocol, publicKey, pass = '', host = '', port = '', lastPath = ''] = match.slice(1);
   let path = '';
   let projectId = lastPath;
 
@@ -32045,6 +32098,7 @@ function uuid4() {
         // @see https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues#typedarray
         const typedArray = new Uint8Array(1);
         crypto.getRandomValues(typedArray);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return typedArray[0];
       };
     }
@@ -32135,15 +32189,19 @@ const SEMVER_REGEXP =
  * Represents Semantic Versioning object
  */
 
+function _parseInt(input) {
+  return parseInt(input || '', 10);
+}
+
 /**
  * Parses input into a SemVer interface
  * @param input string representation of a semver version
  */
 function parseSemver(input) {
   const match = input.match(SEMVER_REGEXP) || [];
-  const major = parseInt(match[1], 10);
-  const minor = parseInt(match[2], 10);
-  const patch = parseInt(match[3], 10);
+  const major = _parseInt(match[1]);
+  const minor = _parseInt(match[2]);
+  const patch = _parseInt(match[3]);
   return {
     buildmetadata: match[5],
     major: isNaN(major) ? undefined : major,
@@ -32173,7 +32231,11 @@ function addContextToFrame(lines, frame, linesOfContext = 5) {
     .slice(Math.max(0, sourceLine - linesOfContext), sourceLine)
     .map((line) => string.snipLine(line, 0));
 
-  frame.context_line = string.snipLine(lines[Math.min(maxLines - 1, sourceLine)], frame.colno || 0);
+  // We guard here to ensure this is not larger than the existing number of lines
+  const lineIndex = Math.min(maxLines - 1, sourceLine);
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  frame.context_line = string.snipLine(lines[lineIndex], frame.colno || 0);
 
   frame.post_context = lines
     .slice(Math.min(sourceLine + 1, maxLines), sourceLine + 1 + linesOfContext)
@@ -32333,9 +32395,9 @@ function node(getModule) {
         filename,
         module: getModule ? getModule(filename) : undefined,
         function: functionName,
-        lineno: parseInt(lineMatch[3], 10) || undefined,
-        colno: parseInt(lineMatch[4], 10) || undefined,
-        in_app: filenameIsInApp(filename, isNative),
+        lineno: _parseIntOrUndefined(lineMatch[3]),
+        colno: _parseIntOrUndefined(lineMatch[4]),
+        in_app: filenameIsInApp(filename || '', isNative),
       };
     }
 
@@ -32357,6 +32419,10 @@ function node(getModule) {
  */
 function nodeStackLineParser(getModule) {
   return [90, node(getModule)];
+}
+
+function _parseIntOrUndefined(input) {
+  return parseInt(input || '', 10) || undefined;
 }
 
 exports.filenameIsInApp = filenameIsInApp;
@@ -32912,12 +32978,14 @@ function extractExceptionKeysForMessage(exception, maxLength = 40) {
   const keys = Object.keys(convertToPlainObject(exception));
   keys.sort();
 
-  if (!keys.length) {
+  const firstKey = keys[0];
+
+  if (!firstKey) {
     return '[object has no keys]';
   }
 
-  if (keys[0].length >= maxLength) {
-    return string.truncate(keys[0], maxLength);
+  if (firstKey.length >= maxLength) {
+    return string.truncate(firstKey, maxLength);
   }
 
   for (let includedKeys = keys.length; includedKeys > 0; includedKeys--) {
@@ -33241,7 +33309,7 @@ function join(...args) {
 /** JSDoc */
 function dirname(path) {
   const result = splitPath(path);
-  const root = result[0];
+  const root = result[0] || '';
   let dir = result[1];
 
   if (!root && !dir) {
@@ -33259,7 +33327,7 @@ function dirname(path) {
 
 /** JSDoc */
 function basename(path, ext) {
-  let f = splitPath(path)[2];
+  let f = splitPath(path)[2] || '';
   if (ext && f.slice(ext.length * -1) === ext) {
     f = f.slice(0, f.length - ext.length);
   }
@@ -33299,7 +33367,7 @@ function makePromiseBuffer(limit) {
    * @returns Removed promise.
    */
   function remove(task) {
-    return buffer.splice(buffer.indexOf(task), 1)[0];
+    return buffer.splice(buffer.indexOf(task), 1)[0] || Promise.resolve(undefined);
   }
 
   /**
@@ -33479,7 +33547,7 @@ function updateRateLimits(
      *         Only present if rate limit applies to the metric_bucket data category.
      */
     for (const limit of rateLimitHeader.trim().split(',')) {
-      const [retryAfter, categories, , , namespaces] = limit.split(':', 5);
+      const [retryAfter, categories, , , namespaces] = limit.split(':', 5) ;
       const headerDelay = parseInt(retryAfter, 10);
       const delay = (!isNaN(headerDelay) ? headerDelay : 60) * 1000; // 60sec default
       if (!categories) {
@@ -33911,7 +33979,7 @@ function createStackParser(...parsers) {
     const lines = stack.split('\n');
 
     for (let i = skipFirstLines; i < lines.length; i++) {
-      const line = lines[i];
+      const line = lines[i] ;
       // Ignore lines over 1kb as they are unlikely to be stack frames.
       // Many of the regular expressions use backtracking which results in run time that increases exponentially with
       // input size. Huge strings can result in hangs/Denial of Service:
@@ -33975,7 +34043,7 @@ function stripSentryFramesAndReverse(stack) {
   const localStack = Array.from(stack);
 
   // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
-  if (/sentryWrapped/.test(localStack[localStack.length - 1].function || '')) {
+  if (/sentryWrapped/.test(getLastStackFrame(localStack).function || '')) {
     localStack.pop();
   }
 
@@ -33983,7 +34051,7 @@ function stripSentryFramesAndReverse(stack) {
   localStack.reverse();
 
   // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
-  if (STRIP_FRAME_REGEXP.test(localStack[localStack.length - 1].function || '')) {
+  if (STRIP_FRAME_REGEXP.test(getLastStackFrame(localStack).function || '')) {
     localStack.pop();
 
     // When using synthetic events, we will have a 2 levels deep stack, as `new Error('Sentry syntheticException')`
@@ -33994,16 +34062,20 @@ function stripSentryFramesAndReverse(stack) {
     //
     // instead of just the top `Sentry` call itself.
     // This forces us to possibly strip an additional frame in the exact same was as above.
-    if (STRIP_FRAME_REGEXP.test(localStack[localStack.length - 1].function || '')) {
+    if (STRIP_FRAME_REGEXP.test(getLastStackFrame(localStack).function || '')) {
       localStack.pop();
     }
   }
 
   return localStack.slice(0, STACKTRACE_FRAME_LIMIT).map(frame => ({
     ...frame,
-    filename: frame.filename || localStack[localStack.length - 1].filename,
+    filename: frame.filename || getLastStackFrame(localStack).filename,
     function: frame.function || UNKNOWN_FUNCTION,
   }));
+}
+
+function getLastStackFrame(arr) {
+  return arr[arr.length - 1] || {};
 }
 
 const defaultFunctionName = '<anonymous>';
@@ -34844,8 +34916,7 @@ function parseUrl(url) {
  * @returns URL or path without query string or fragment
  */
 function stripUrlQueryAndFragment(urlPath) {
-  // eslint-disable-next-line no-useless-escape
-  return urlPath.split(/[\?#]/, 1)[0];
+  return (urlPath.split(/[?#]/, 1) )[0];
 }
 
 /**
@@ -34961,7 +35032,7 @@ exports.supportsHistory = supportsHistory;
 },{"../worldwide.js":186}],185:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '8.9.2';
+const SDK_VERSION = '8.10.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
