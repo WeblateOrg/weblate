@@ -32,7 +32,7 @@ class DeepLTranslation(
     # better than other ones.
     max_score = 91
     language_map = {
-        "zh_hans": "zh",
+        "zh_Hans": "zh",
         "pt": "pt-pt",
     }
     force_uncleanup = True

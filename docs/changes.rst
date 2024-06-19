@@ -11,6 +11,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Language aliases in :doc:`/admin/machine`.
+
 **Compatibility**
 
 **Upgrading**

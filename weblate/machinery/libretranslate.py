@@ -21,7 +21,7 @@ class LibreTranslateTranslation(BatchMachineTranslation):
     name = "LibreTranslate"
     max_score = 89
     language_map = {
-        "zh_hans": "zh",
+        "zh_Hans": "zh",
     }
     settings_form = LibreTranslateMachineryForm
     request_timeout = 20
