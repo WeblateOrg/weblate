@@ -219,7 +219,13 @@ def update_remotes() -> None:
     if settings.AUTO_UPDATE not in {"full", "remote", True, False}:
         return
 
-    for component in Component.objects.with_repo().iterator():
+    now = timezone.now()
+    components = (
+        Component.objects.with_repo()
+        .annotate(hourmod=F("id") % 24)
+        .filter(hourmod=now.hour)
+    )
+    for component in components.prefetch().iterator(chunk_size=100):
         perform_update("Component", -1, auto=True, obj=component)
 
 
@@ -702,9 +708,7 @@ def detect_completed_translation(change_id: int, old_translated: int) -> None:
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
-    sender.add_periodic_task(
-        crontab(hour=3, minute=5), update_remotes.s(), name="update-remotes"
-    )
+    sender.add_periodic_task(3600, update_remotes.s(), name="update-remotes")
     sender.add_periodic_task(
         crontab(minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
