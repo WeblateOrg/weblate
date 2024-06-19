@@ -1652,7 +1652,6 @@ class Migration(migrations.Migration):
                             (67, "Removed category"),
                             (68, "Renamed category"),
                             (69, "Moved category"),
-                            (75, "Component translated"),
                         ],
                         default=2,
                     ),
