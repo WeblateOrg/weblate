@@ -145,7 +145,9 @@ class ChangeQuerySet(models.QuerySet["Change"]):
     ):
         """Return list of authors."""
         authors = self.content()
-        if date_range is not None:
+        if date_range is not None and (
+            date_range[0] is not None and date_range[1] is not None
+        ):
             authors = authors.filter(timestamp__range=date_range)
         return (
             authors.exclude(author__isnull=True)

@@ -167,7 +167,11 @@ class ReportsComponentTest(BaseReportsTest):
     def test_credits_blank_period(self):
         period = ""
         response = self.get_credits("json", period=period, follow=True)
-        self.assertContains(response, "Error in parameter period: Invalid date!")
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(
+            response.content.decode(),
+            [{"Czech": [["weblate@example.org", "Weblate <b>Test</b>", 1]]}],
+        )
 
     def test_credits_invalid_start(self):
         end = timezone.now()
@@ -330,7 +334,8 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_blank_period(self):
         period = ""
         response = self.get_counts("json", period=period, follow=True)
-        self.assertContains(response, "Error in parameter period: Invalid date!")
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
     def test_counts_invalid_start(self):
         end = timezone.now()
