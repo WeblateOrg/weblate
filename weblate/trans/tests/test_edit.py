@@ -230,16 +230,23 @@ class EditTest(ViewTestCase):
         self.component.commit_pending("test", None)
 
     def test_bilingual_new_plural_unit(self):
-        args = {
-            "context": "new-bilingual-plural-unit",
-            "source_0": "%(count)s word",
-            "source_1": "%(count)s words",
-            "target_0": "%(count)s slovo",
-            "target_1": "%(count)s slova",
-            "target_2": "%(count)s slov",
-        }
+        """Test the implementation of adding a bilingual new plural unit."""
+        if (
+            not self.component.has_template()
+            and self.component.file_format_cls.can_add_unit
+        ):
+            args = {
+                "context": "new-bilingual-plural-unit",
+                "source_0": "%(count)s word",
+                "source_1": "%(count)s words",
+                "target_0": "%(count)s slovo",
+                "target_1": "%(count)s slova",
+                "target_2": "%(count)s slov",
+            }
 
-        self.test_new_plural_unit(args, "cs")
+            self.test_new_plural_unit(args, language="cs")
+        else:
+            raise SkipTest("Not supported")
 
 
 class EditValidationTest(ViewTestCase):
