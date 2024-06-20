@@ -19,6 +19,10 @@
         {% crispy search_form  %}
     </form>
     {% if page_obj.object_list %}
+        <!-- Display total number of strings and words -->
+        <div>
+            <p>{{ total_strings }} strings / {{ total_words }} words</p>
+        </div>
         {% include "snippets/embed-units.html" with units=page_obj.object_list hide_context=True include_search=True force_source=True show_translation=True %}
         {% include "paginator.html" %}
     {% else %}
