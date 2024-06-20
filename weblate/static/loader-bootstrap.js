@@ -1451,15 +1451,36 @@ $(function () {
 
   /* Singular or plural new unit switcher */
   $("input[name='new-unit-form-type']").on("change", function () {
+    const refreshInput = (el, value) => {
+      el.value = value;
+      el.dispatchEvent(new CustomEvent("input"));
+    };
+    const transferTextareaInputs = (fromId, toId) => {
+      $(`${toId} textarea`).each((toIdx, toTextArea) => {
+        $(`${fromId} textarea`).each((fromIdx, fromTextArea) => {
+          if (fromTextArea.name === toTextArea.name) {
+            refreshInput(toTextArea, fromTextArea.value);
+          }
+        });
+      });
+    };
     const selected = $(this).val();
     if (selected === "singular") {
       $("input[name='new-unit-form-type']").removeAttr("checked");
       $("#new-singular #show-singular").prop("checked", true);
+      $("#new-singular input[name='context']").val(
+        $("#new-plural input[name='context']").val(),
+      );
+      transferTextareaInputs("#new-plural", "#new-singular");
       $("#new-plural").addClass("hidden");
       $("#new-singular").removeClass("hidden");
     } else if (selected === "plural") {
       $("input[name='new-unit-form-type']").removeAttr("checked");
       $("#new-plural #show-plural").prop("checked", true);
+      $("#new-plural input[name='context']").val(
+        $("#new-singular input[name='context']").val(),
+      );
+      transferTextareaInputs("#new-singular", "#new-plural");
       $("#new-singular").addClass("hidden");
       $("#new-plural").removeClass("hidden");
     }
