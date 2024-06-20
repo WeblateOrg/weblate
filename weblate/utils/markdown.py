@@ -5,7 +5,8 @@
 import re
 from functools import reduce
 
-import misaka
+import mistletoe
+from mistletoe import span_token
 from django.db.models import Q
 from django.utils.safestring import mark_safe
 
@@ -24,29 +25,32 @@ def get_mention_users(text):
     )
 
 
-class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
-    def link(self, content, raw_url, title=""):
-        result = super().link(content, raw_url, title)
+class SkipHtmlSpan(span_token.HtmlSpan):
+    """A token that strips HTML tags from the content."""
+    pattern = span_token._open_tag + r'|' + span_token._closing_tag
+    parse_inner = False
+    content: str
+    precedence = 4
+    
+    def __init__(self, match):
+        self.content = ''
+
+    @classmethod
+    def find(cls, string):
+        return re.compile(cls.pattern, re.DOTALL).finditer(string)
+
+
+class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(SkipHtmlSpan, process_html_tokens=False)
+
+    def render_link(self, token: span_token.Link) -> str:
+        result = super().render_link(token)
         return result.replace(' href="', ' rel="ugc" target="_blank" href="')
 
-    def check_url(self, url, is_image_src=False):
-        if url.startswith("/user/"):
-            return True
-        return super().check_url(url, is_image_src)
-
-
-RENDERER = WeblateHtmlRenderer()
-MARKDOWN = misaka.Markdown(
-    RENDERER,
-    extensions=(
-        "fenced-code",
-        "tables",
-        "autolink",
-        "space-headers",
-        "strikethrough",
-        "superscript",
-    ),
-)
+    def render_skip_html_span(self, token: SkipHtmlSpan) -> str:
+        return token.content
 
 
 def render_markdown(text):
@@ -62,4 +66,5 @@ def render_markdown(text):
                 f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
             )
     text = "".join(parts)
-    return mark_safe(MARKDOWN(text))  # noqa: S308
+    with SafeWeblateHtmlRenderer() as renderer:
+        return mark_safe(renderer.render(mistletoe.Document(text)))
