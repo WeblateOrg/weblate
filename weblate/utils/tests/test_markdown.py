@@ -20,6 +20,15 @@ class MarkdownTestCase(TestCase):
         self.assertEqual(
             "<p>link</p>\n", render_markdown('<a href="javascript:alert()">link</a>')
         )
+        self.assertEqual(
+            "<p>link</p>\n", render_markdown('<a href="javascript:alert()"><a href="javascript:alert()">link</a>')
+        )
+        self.assertEqual(
+            "<p>link</p>\n", render_markdown('<a href="javascript:alert()"><a href="javascript:alert()">link</a></a>')
+        )
+        self.assertEqual(
+            "<p>link</p>\n", render_markdown('<div><a href="javascript:alert()">link</a></div>')
+        )
 
     def test_intra_emphasis(self) -> None:
         self.assertEqual(
