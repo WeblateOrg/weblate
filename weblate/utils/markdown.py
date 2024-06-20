@@ -6,9 +6,9 @@ import re
 from functools import reduce
 
 import mistletoe
-from mistletoe import span_token
 from django.db.models import Q
 from django.utils.safestring import mark_safe
+from mistletoe import span_token
 
 from weblate.auth.models import User
 
@@ -27,12 +27,13 @@ def get_mention_users(text):
 
 class SkipHtmlSpan(span_token.HtmlSpan):
     """A token that strips HTML tags from the content."""
-    pattern = span_token._open_tag + r'|' + span_token._closing_tag
+
+    pattern = span_token._open_tag + r"|" + span_token._closing_tag
     parse_inner = False
     content: str
-    
+
     def __init__(self, match):
-        self.content = ''
+        self.content = ""
 
     @classmethod
     def find(cls, string):
@@ -44,13 +45,14 @@ class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
     A subclass of :class:`mistletoe.HtmlRenderer` wich adds a layer of protection
     against malicious input:
     1. Check if the URL is valid based on scheme and content
-    2. Strip HTML tags from the content
+    2. Strip HTML tags from the content.
     """
-    _allowed_url_re = re.compile(r'^https?:', re.I)
+
+    _allowed_url_re = re.compile(r"^https?:", re.IGNORECASE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(SkipHtmlSpan, process_html_tokens=False)
-    
+
     def render_skip_html_span(self, token: SkipHtmlSpan) -> str:
         return token.content
 
@@ -58,25 +60,20 @@ class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         if self.check_url(token.target):
             result = super().render_link(token)
             return result.replace(' href="', ' rel="ugc" target="_blank" href="')
-        else:
-            return self.escape_html_text('[%s](%s)' % (token.title, token.target))
-    
+        return self.escape_html_text(f"[{token.title}]({token.target})")
+
     def render_auto_link(self, token: span_token.AutoLink) -> str:
         if self.check_url(token.target):
             return super().render_auto_link(token)
-        else:
-            return self.escape_html_text('<%s>' % token.target)
+        return self.escape_html_text(f"<{token.target}>")
 
     def render_image(self, token: span_token.Image) -> str:
         if self.check_url(token.src):
             return super().render_image(token)
-        else:
-            return self.escape_html_text('![%s](%s)' % (token.title, token.src))
+        return self.escape_html_text(f"![{token.title}]({token.src})")
 
     def check_url(self, url: str) -> bool:
-        """
-        Check if an url is valid or not  the scheme.
-        """
+        """Check if an url is valid or not  the scheme."""
         if url.startswith("/user/"):
             return True
         return bool(self._allowed_url_re.match(url))

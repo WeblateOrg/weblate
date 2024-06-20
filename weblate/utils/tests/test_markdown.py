@@ -21,16 +21,26 @@ class MarkdownTestCase(TestCase):
             "<p>link</p>\n", render_markdown('<a href="javascript:alert()">link</a>')
         )
         self.assertEqual(
-            "<p>link</p>\n", render_markdown('<a href="javascript:alert()"><a href="javascript:alert()">link</a>')
+            "<p>link</p>\n",
+            render_markdown(
+                '<a href="javascript:alert()"><a href="javascript:alert()">link</a>'
+            ),
         )
         self.assertEqual(
-            "<p>link</p>\n", render_markdown('<a href="javascript:alert()"><a href="javascript:alert()">link</a></a>')
+            "<p>link</p>\n",
+            render_markdown(
+                '<a href="javascript:alert()"><a href="javascript:alert()">link</a></a>'
+            ),
         )
         self.assertEqual(
-            "<p>link</p>\n", render_markdown('<div><a href="javascript:alert()">link</a></div>')
+            "<p>link</p>\n",
+            render_markdown('<div><a href="javascript:alert()">link</a></div>'),
         )
         self.assertEqual(
-            "<p>before link after</p>\n", render_markdown('<div>before <a href="javascript:alert()">link</a> after</div>')
+            "<p>before link after</p>\n",
+            render_markdown(
+                '<div>before <a href="javascript:alert()">link</a> after</div>'
+            ),
         )
 
     def test_intra_emphasis(self) -> None:
