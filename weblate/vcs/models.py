@@ -21,6 +21,7 @@ class VCSConf(AppConf):
         "weblate.vcs.git.GitForcePushRepository",
         "weblate.vcs.git.BitbucketServerRepository",
         "weblate.vcs.mercurial.HgRepository",
+        "weblate.vcs.multiple.MultipleRepositories",
     )
     VCS_CLONE_DEPTH = 1
     VCS_API_DELAY = 10

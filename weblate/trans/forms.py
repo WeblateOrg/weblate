@@ -1609,6 +1609,7 @@ class ComponentSettingsForm(
             "local",
             "git-force-push",
             "azure_devops",
+            "many-repositories",
         )
         if self.instance.vcs not in vcses:
             vcses = (self.instance.vcs,)
