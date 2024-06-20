@@ -972,7 +972,7 @@ Generic settings
 
    .. versionadded:: 4.16
 
-   Allow CORS requests from given origins.
+   Allow CORS requests to API from given origins.
 
    **Example:**
 
@@ -980,6 +980,12 @@ Generic settings
 
         environment:
           WEBLATE_CORS_ALLOWED_ORIGINS: https://example.com,https://weblate.org
+
+.. envvar:: WEBLATE_CORS_ALLOW_ALL_ORIGINS
+
+   .. versionadded:: 5.6.1
+
+      Allows CORS requests to API from all origins.
 
 
 .. envvar:: CLIENT_MAX_BODY_SIZE
