@@ -27,7 +27,7 @@ def get_mention_users(text):
 class SkipHtmlSpan(span_token.HtmlSpan):
     """A token that strips HTML tags from the content."""
 
-    pattern = re.compile(span_token._open_tag + r"|" + span_token._closing_tag)
+    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")
     parse_inner = False
     content: str
 
@@ -73,11 +73,15 @@ class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
 
         If the URL is valid, render the auto link as usual. Otherwise, escape the URL.
         """
-        # Check if the URL is valid
-        if self.check_url(token.target):
-            # Render the auto link as usual
+
+        def valid_email(email: str) -> bool:
+            pattern = re.compile(
+                r"(mailto:)?[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+            )
+            return bool(pattern.match(email))
+
+        if self.check_url(token.target) or valid_email(token.target):
             return super().render_auto_link(token)
-        # Escape the URL
         return self.escape_html_text(f"<{token.target}>")
 
     def render_image(self, token: span_token.Image) -> str:
@@ -86,11 +90,8 @@ class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
 
         If the URL is valid, add the necessary attributes to the image tag. Otherwise, escape the URL.
         """
-        # Check if the URL is valid
         if self.check_url(token.src):
-            # Render the image as usual
             return super().render_image(token)
-        # Escape the URL
         return self.escape_html_text(f"![{token.title}]({token.src})")
 
     def check_url(self, url: str) -> bool:
