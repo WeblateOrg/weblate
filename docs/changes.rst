@@ -7,7 +7,7 @@ Not yet released.
 
 **Improvements**
 
-* Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services.
+* Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API.
 * Added OpenMetrics compatibility for :http:get:`/api/metrics/`.
 
 **Bug fixes**
