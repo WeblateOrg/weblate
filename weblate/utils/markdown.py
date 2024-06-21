@@ -35,9 +35,9 @@ class SkipHtmlSpan(span_token.HtmlSpan):
         self.content = ""
 
 
-class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
+class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
     """
-    A subclass of :class:`mistletoe.HtmlRenderer` which adds a layer of protection against malicious input.
+    A renderer which adds a layer of protection against malicious input.
 
     1. Check if the URL is valid based on scheme and content
     2. Strip HTML tags from the content.
@@ -71,10 +71,12 @@ class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         """
         Render an auto link token.
 
-        If the URL is valid, render the auto link as usual. Otherwise, escape the URL.
+        If the URL is valid, render the auto link as usual.
+        Otherwise, escape the URL.
         """
 
         def valid_email(email: str) -> bool:
+            """Check if an email address is valid."""
             pattern = re.compile(
                 r"(mailto:)?[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
             )
@@ -88,7 +90,8 @@ class SafeWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         """
         Render an image token.
 
-        If the URL is valid, add the necessary attributes to the image tag. Otherwise, escape the URL.
+        If the URL is valid, add the necessary attributes to the image tag.
+        Otherwise, escape the URL.
         """
         if self.check_url(token.src):
             return super().render_image(token)
@@ -114,5 +117,5 @@ def render_markdown(text):
                 f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
             )
     text = "".join(parts)
-    with SafeWeblateHtmlRenderer() as renderer:
+    with SaferWeblateHtmlRenderer() as renderer:
         return renderer.render(mistletoe.Document(text))
