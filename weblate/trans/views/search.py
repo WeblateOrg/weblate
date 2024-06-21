@@ -157,7 +157,7 @@ def search(request, path=None):
 
         # Calculate total number of strings and words
         total_strings = units.paginator.count
-        total_words = sum(unit.num_words for unit in units.object_list)
+        total_words = sum(unit.num_words for unit in unit_set.all())
 
         # Rebuild context from scratch here to get new form
         context.update(
