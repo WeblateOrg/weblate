@@ -19,7 +19,7 @@
         {% crispy search_form  %}
     </form>
     {% if page_obj.object_list %}
-        <div><p>{{ total_strings }} strings / {{ total_words }} words</p></div>
+      <div><p>{{ total_strings }} {% trans "strings" %} / {{ total_words }} {% trans "words" %}</p></div>
         {% include "snippets/embed-units.html" with units=page_obj.object_list hide_context=True include_search=True force_source=True show_translation=True %}
         {% include "paginator.html" %}
     {% else %}
