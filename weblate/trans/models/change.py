@@ -504,7 +504,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_SOURCE_UPLOAD, gettext_lazy("Translation updated by source upload")),
         # Translators: Name of event in the history
-        (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translated")),
+        (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translation completed")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
