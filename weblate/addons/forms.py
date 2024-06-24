@@ -630,3 +630,11 @@ class PseudolocaleAddonForm(BaseAddonForm):
         result["source"] = result["source"].pk
         result["target"] = result["target"].pk
         return result
+
+
+class PropertiesSortAddonForm(BaseAddonForm):
+    case_sensitive = forms.BooleanField(
+        label=gettext_lazy("Enable case-sensitive key sorting"),
+        required=False,
+        initial=False,
+    )

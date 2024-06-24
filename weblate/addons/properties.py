@@ -18,6 +18,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
+from weblate.addons.forms import PropertiesSortAddonForm
 
 SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
@@ -113,12 +114,12 @@ def filter_lines(lines):
     return result
 
 
-def format_file(filename) -> None:
+def format_file(filename, case_sensitive) -> None:
     """Format single properties file."""
     with open(filename) as handle:
         lines = handle.readlines()
 
-    result = sorted(lines, key=sort_key)
+    result = sorted(lines) if case_sensitive else sorted(lines, key=sort_key)
 
     fix_newlines(result)
     format_unicode(result)
@@ -136,6 +137,8 @@ class PropertiesSortAddon(BaseAddon):
     description = gettext_lazy("Formats and sorts the Java properties file.")
     compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
     icon = "sort-alphabetical.svg"
+    settings_form = PropertiesSortAddonForm
 
     def pre_commit(self, translation, author) -> None:
-        format_file(translation.get_filename())
+        case_sensitive = self.instance.configuration["case_sensitive"]
+        format_file(translation.get_filename(), case_sensitive)
