@@ -84,11 +84,6 @@ def get_queue_stats():
     return {queue: get_queue_length(queue) for queue in get_queue_list()}
 
 
-def is_task_ready(task):
-    """Check whether Celery task is completed."""
-    return task.ready()
-
-
 def get_task_progress(task):
     """Return progress of a Celery task."""
     # Completed task
