@@ -350,7 +350,7 @@ Cognitive Services.
 
 Weblate implements Translator API V3.
 
-The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+The service automatically uses :ref:`glossary` via `dynamic dictionary <https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-dictionary>`_, see :ref:`glossary-mt`.
 
 Translator Text API V2
 ``````````````````````
