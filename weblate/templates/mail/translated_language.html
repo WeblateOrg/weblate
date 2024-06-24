@@ -1,17 +1,4 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
-
 {% block content %}
-
-<h2>{% trans "Requested language" %}</h2>
-
-<p>
-There was a new language "{{ translation.language }} ({{ translation.language.code }})" completely translated in {{component}}.
-</p>
-
-<div class="line buttons">
-   <a class="button" href="{{ translation.get_absolute_url }}">{% trans "View the translated language" %}</a>
-</div>
-
 {% endblock %}
