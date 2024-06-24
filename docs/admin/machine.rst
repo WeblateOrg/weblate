@@ -602,6 +602,7 @@ Weblate Translation Memory
 Use :ref:`translation-memory` as a machine translation service.
 Any string that has been translated before (or uploaded to the
 translation memory) can be translated in this way.
+This suggestion source works with fuzzy matching.
 
 .. note::
 Recreating :ref:`translation-memory` reduces capabilities of this TM source.
