@@ -605,7 +605,8 @@ translation memory) can be translated in this way.
 This suggestion source works with fuzzy matching.
 
 .. note::
-Recreating :ref:`translation-memory` reduces capabilities of this TM source.
+
+   Recreating :ref:`translation-memory` reduces capabilities of this TM source.
 
 .. _mt-yandex:
 
