@@ -43,7 +43,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
     2. Strip HTML tags from the content.
     """
 
-    _allowed_url_re = re.compile(r"^https?:", re.IGNORECASE)
+    _allowed_url_re = re.compile(r"^https?://", re.IGNORECASE)
 
     def __init__(self, *args, **kwargs):
         super().__init__(SkipHtmlSpan, process_html_tokens=False)
