@@ -686,6 +686,7 @@ def cleanup_project_backup_download() -> None:
 @app.task(trail=False)
 def detect_completed_translation(change_id: int, old_translated: int) -> None:
     change = Change.objects.get(pk=change_id)
+
     translated = change.translation.stats.translated
     if old_translated < translated and translated == change.translation.stats.all:
         change.translation.change_set.create(
