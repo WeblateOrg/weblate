@@ -24,9 +24,11 @@ SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
 
 
-def sort_key(line):
+def sort_key(line, case_sensitive):
     """Sort key for properties."""
     prefix = SPLITTER.split(line, 1)[0]
+    if case_sensitive:
+        return prefix
     return prefix.lower()
 
 
@@ -119,7 +121,7 @@ def format_file(filename, case_sensitive) -> None:
     with open(filename) as handle:
         lines = handle.readlines()
 
-    result = sorted(lines) if case_sensitive else sorted(lines, key=sort_key)
+    result = sorted(lines, key=lambda line: sort_key(line, case_sensitive))
 
     fix_newlines(result)
     format_unicode(result)
