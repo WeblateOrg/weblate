@@ -85,25 +85,14 @@ def get_queue_stats():
 
 
 def is_task_ready(task):
-    """
-    Workaround broken ready() for failed Celery results.
-
-    In case the task ends with an exception, the result tries to reconstruct
-    that. It can fail in case the exception can not be reconstructed using
-    data in args attribute.
-
-    See https://github.com/celery/celery/issues/5057
-    """
-    try:
-        return task.ready()
-    except TypeError:
-        return True
+    """Check whether Celery task is completed."""
+    return task.ready()
 
 
 def get_task_progress(task):
     """Return progress of a Celery task."""
     # Completed task
-    if is_task_ready(task):
+    if task.ready():
         return 100
     # In progress
     result = task.result
