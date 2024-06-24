@@ -354,7 +354,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail - TranslatedComponentNotification
         self.validate_notifications(
-            1, "[Weblate] Translations in all languages have been completed in Test/Test"
+            1,
+            "[Weblate] Translations in all languages have been completed in Test/Test",
         )
 
     def test_notify_language_translated(self) -> None:
@@ -364,9 +365,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_COMPLETE,
         )
 
-        self.validate_notifications(
-            1, "[Weblate] Test/Test (Czech) has been completed"
-        )
+        self.validate_notifications(1, "[Weblate] Test/Test (Czech) has been completed")
 
     def test_notify_alert(self) -> None:
         self.component.project.add_user(self.user, "Administration")
