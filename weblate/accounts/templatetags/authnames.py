@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING
 from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.utils.html import format_html, mark_safe
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
 if TYPE_CHECKING:
