@@ -288,7 +288,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ("gpt-4", "GPT-4"),
         ("gpt-3.5-turbo-1106", "Updated GPT 3.5 Turbo"),
         ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
-        ("custom", "Custom model"),
+        ("custom", pettext_lazy("OpenAI model selection", "Custom model")),
     )
     base_url = forms.URLField(
         label=pgettext_lazy(
@@ -311,7 +311,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
     )
     custom_model = forms.CharField(
         label=pgettext_lazy(
-            "Custom model name",
+            "OpenAI model selection",
             "Custom model name",
         ),
         help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
