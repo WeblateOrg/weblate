@@ -4383,7 +4383,9 @@ class CategoryAPITest(APIBaseTest):
 
 class LabelAPITest(APIBaseTest):
     def test_get_label(self) -> None:
-        label = self.component.project.label_set.create(name="test", color="navy")
+        label = self.component.project.label_set.create(
+            name="test", description="test description", color="navy"
+        )
 
         response = self.do_request(
             "api:project-labels",
@@ -4398,6 +4400,7 @@ class LabelAPITest(APIBaseTest):
 
         self.assertEqual(response_label["id"], label.id)
         self.assertEqual(response_label["name"], label.name)
+        self.assertEqual(response_label["description"], label.description)
         self.assertEqual(response_label["color"], label.color)
 
     def test_create_label(self) -> None:
@@ -4408,6 +4411,7 @@ class LabelAPITest(APIBaseTest):
             superuser=True,
             request={
                 "name": "Test Label",
+                "description": "Test description for Test Label",
                 "color": "green",
             },
             code=201,
@@ -4420,6 +4424,7 @@ class LabelAPITest(APIBaseTest):
             superuser=False,
             request={
                 "name": "Test Label 2",
+                "description": "Test description for Test Label 2",
                 "color": "red",
             },
             code=403,
