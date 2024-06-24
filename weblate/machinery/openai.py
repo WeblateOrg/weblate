@@ -61,7 +61,7 @@ class OpenAITranslation(BatchMachineTranslation):
 
         super().__init__(settings)
         self.client = OpenAI(
-            api_key=self.settings["key"], 
+            api_key=self.settings["key"],
             timeout=self.request_timeout,
             base_url=self.settings.get("base_url") or None,
         )
