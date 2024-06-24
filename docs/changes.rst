@@ -1,9 +1,7 @@
 Weblate 5.6.1
 -------------
 
-Not yet released.
-
-**New features**
+Released on June 24th 2024.
 
 **Improvements**
 
@@ -13,8 +11,6 @@ Not yet released.
 **Bug fixes**
 
 * Language aliases in :doc:`/admin/machine`.
-
-**Compatibility**
 
 **Upgrading**
 
