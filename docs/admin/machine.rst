@@ -586,9 +586,10 @@ Weblate
 :Configuration: `This service has no configuration.`
 
 
-Weblate machine translation service can provide translations for strings that
-are already translated inside Weblate. It looks for exact matches in the
-existing strings.
+Weblate machine translation service can provide translations based 
+on the exact matches of a string in the currently existing strings
+in a (state)(ref:`translation-states`) ``Translated``, ``Approved``
+, or flagged as ``read-only`` inside Weblate.
 
 .. _mt-weblate-translation-memory:
 
@@ -598,9 +599,12 @@ Weblate Translation Memory
 :Service ID: ``weblate-translation-memory``
 :Configuration: `This service has no configuration.`
 
-Use :ref:`translation-memory` as a machine translation service. Any string that
-has been translated in past (or uploaded to the translation memory) can be
-translated in this way.
+Use :ref:`translation-memory` as a machine translation service. 
+Any string that has been translated before (or uploaded to the
+translation memory) can be translated in this way. 
+
+.. note::
+Recreating :ref:`translation-memory` reduces capabilities of this TM source. 
 
 .. _mt-yandex:
 
