@@ -992,7 +992,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         self.assertEqual(expected + "\n", newdata)
 
 
-class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
+class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     FORMAT = XWikiPagePropertiesFormat
     FILE = TEST_XWIKI_PAGE_PROPERTIES
     SOURCE_FILE = TEST_XWIKI_PAGE_PROPERTIES_SOURCE
@@ -1103,7 +1103,7 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
         self.assert_same(testdata, newdata)
 
 
-class XWikiFullPageFormatTest(BaseFormatTest):
+class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
     FORMAT = XWikiFullPageFormat
     FILE = TEST_XWIKI_FULL_PAGE
     SOURCE_FILE = TEST_XWIKI_FULL_PAGE_SOURCE

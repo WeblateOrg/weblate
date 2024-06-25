@@ -17,14 +17,16 @@
 <tr>
 <th>{% trans "Label name" %}</th>
 <th>{% trans "Color" %}</th>
+<th>{% trans "Description" %}</th>
 <th class="number">{% trans "Labeled source strings" %}</th>
-<th></th>
+<th>{% trans "Actions" %}</th>
 </tr>
 <tbody>
 {% for label in labels %}
 <tr>
 <td>{{ label.name }}</td>
 <td><span class="label label-{{label.color }}">{{ label.get_color_display }}</span></td>
+<td>{{ label.description }}</td>
 <td class="number">
   <a href="{% url 'search' path=object.get_url_path %}?q={{ label.filter_name }}">
     {{ label.string_count|intcomma }}

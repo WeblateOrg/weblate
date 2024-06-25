@@ -101,7 +101,7 @@ from weblate.trans.tasks import (
     project_removal,
 )
 from weblate.trans.views.files import download_multi
-from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
+from weblate.utils.celery import get_queue_stats, get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1932,7 +1932,7 @@ class TasksViewSet(ViewSet):
         result = task.result
         return Response(
             {
-                "completed": is_task_ready(task),
+                "completed": task.ready(),
                 "progress": get_task_progress(task),
                 "result": str(result) if isinstance(result, Exception) else result,
                 "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
@@ -1941,7 +1941,7 @@ class TasksViewSet(ViewSet):
 
     def destroy(self, request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
-        if not is_task_ready(task) and component is not None:
+        if not task.ready() and component is not None:
             task.revoke(terminate=True)
             # Unlink task from component
             if component.background_task_id == pk:

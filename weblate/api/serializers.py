@@ -1006,7 +1006,7 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
 class LabelSerializer(serializers.ModelSerializer[Label]):
     class Meta:
         model = Label
-        fields = ("id", "name", "color")
+        fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
 
 

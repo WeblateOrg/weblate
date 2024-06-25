@@ -17,25 +17,57 @@ class LabelTest(ViewTestCase):
 
     def test_create(self) -> None:
         response = self.client.post(
-            self.labels_url, {"name": "Test label", "color": "orange"}, follow=True
+            self.labels_url,
+            {
+                "name": "Test label",
+                "description": "Test description for Test Label",
+                "color": "orange",
+            },
+            follow=True,
         )
         self.assertRedirects(response, self.labels_url)
         self.assertContains(response, "Test label")
         self.assertTrue(self.project.label_set.filter(name="Test label").exists())
 
-    def test_edit(self) -> None:
+    def test_edit_name(self) -> None:
         self.test_create()
         label = self.project.label_set.get()
         response = self.client.post(
             reverse(
                 "label_edit", kwargs={"project": self.project.slug, "pk": label.pk}
             ),
-            {"name": "Renamed label", "color": "orange"},
+            {
+                "name": "Renamed label",
+                "description": "Test description for Test Label",
+                "color": "orange",
+            },
             follow=True,
         )
         self.assertRedirects(response, self.labels_url)
         self.assertContains(response, "Renamed label")
         self.assertTrue(self.project.label_set.filter(name="Renamed label").exists())
+
+    def test_edit_description(self) -> None:
+        self.test_create()
+        label = self.project.label_set.get()
+        response = self.client.post(
+            reverse(
+                "label_edit", kwargs={"project": self.project.slug, "pk": label.pk}
+            ),
+            {
+                "name": "Test label",
+                "description": "Edited description for Test Label",
+                "color": "orange",
+            },
+            follow=True,
+        )
+        self.assertRedirects(response, self.labels_url)
+        self.assertContains(response, "Test label")
+        self.assertTrue(
+            self.project.label_set.filter(
+                description="Edited description for Test Label"
+            ).exists()
+        )
 
     def test_delete(self) -> None:
         self.test_create()

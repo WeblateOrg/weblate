@@ -704,6 +704,15 @@ def detect_completed_translation(change_id: int, old_translated: int) -> None:
             author=change.author,
         )
 
+        # check if component is fully translated
+        component = change.translation.component
+        if component.stats.translated == component.stats.all:
+            change.translation.component.change_set.create(
+                action=Change.ACTION_COMPLETED_COMPONENT,
+                user=change.user,
+                author=change.author,
+            )
+
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:

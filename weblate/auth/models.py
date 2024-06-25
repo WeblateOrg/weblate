@@ -58,6 +58,10 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
+    from social_core.backends.base import BaseAuth
+    from social_django.models import DjangoStorage
+    from social_django.strategy import DjangoStrategy
+
     from weblate.auth.permissions import PermissionResult
 
     PermissionCacheType = dict[int, list[tuple[set[str] | None, set[Language] | None]]]
@@ -398,6 +402,9 @@ class User(AbstractBaseUser):
     )
 
     objects = UserManager.from_queryset(UserQuerySet)()
+
+    # social_auth integration
+    social_auth: DjangoStorage
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
@@ -1119,3 +1126,9 @@ class AuthenticatedHttpRequest(HttpRequest):
     user: User
     # Added by weblate.accounts.AuthenticationMiddleware
     accepted_language: Language
+
+    # type hint for social_auth
+    social_strategy: DjangoStrategy
+
+    # type hint for auth
+    backend: BaseAuth | None

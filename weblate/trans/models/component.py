@@ -73,7 +73,7 @@ from weblate.trans.validators import (
     validate_language_code,
 )
 from weblate.utils import messages
-from weblate.utils.celery import get_task_progress, is_task_ready
+from weblate.utils.celery import get_task_progress
 from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -1102,7 +1102,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER
             and self.background_task is not None
-            and not is_task_ready(self.background_task)
+            and not self.background_task.ready()
         )
 
     def get_source_translation(self):

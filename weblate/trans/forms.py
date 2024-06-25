@@ -2729,7 +2729,7 @@ class ChangesForm(forms.Form):
 class LabelForm(forms.ModelForm):
     class Meta:
         model = Label
-        fields = ("name", "color")
+        fields = ("name", "description", "color")
         widgets = {"color": ColorWidget()}
 
     def __init__(self, *args, **kwargs) -> None:
