@@ -664,6 +664,7 @@ def show_translation(request, obj):
                 project=project,
             ),
             "new_unit_form": get_new_unit_form(obj, user),
+            "new_unit_plural_form": get_new_unit_form(obj, user, is_source_plural=True),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
             ),
