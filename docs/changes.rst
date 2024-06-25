@@ -11,6 +11,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`addon-weblate.properties.sort` can now do case-sensitive sorting.
+
 **Bug fixes**
 
 **Compatibility**
