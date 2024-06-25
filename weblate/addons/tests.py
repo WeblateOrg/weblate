@@ -849,6 +849,16 @@ class PropertiesAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
 
+    def test_sort_case_sensitive(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.assertTrue(PropertiesSortAddon.can_install(self.component, None))
+        PropertiesSortAddon.create(
+            component=self.component, configuration={"case_sensitive": True}
+        )
+        self.get_translation().commit_pending("test", None)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("java/swing_messages_cs.properties", commit)
+
     def test_cleanup(self) -> None:
         self.assertTrue(CleanupAddon.can_install(self.component, None))
         init_rev = self.component.repository.last_revision
