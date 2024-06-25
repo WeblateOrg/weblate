@@ -62,7 +62,7 @@ Fields
    ``needs-editing`` or ``fuzzy``
       Needing editing strings, same as ``state:needs-editing``.
    ``translated``
-      Translated strings, same as ``state:translated``.
+      Translated strings, same as ``state:>translated``.
    ``untranslated``:
       Untranslated strings, same as ``state:<translated``.
    ``pending``
