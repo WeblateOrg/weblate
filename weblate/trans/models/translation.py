@@ -1681,6 +1681,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def all_repo_components(self):
         return self.component.all_repo_components
 
+    def get_source_plurals(self):
+        """Return blank source fields for pluralized new string."""
+        return [""] * self.plural.number
+
 
 class GhostTranslation:
     """Ghost translation object used to show missing translations."""
