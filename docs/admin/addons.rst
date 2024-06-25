@@ -785,7 +785,9 @@ Format the Java properties file
 -------------------------------
 
 :Add-on ID: ``weblate.properties.sort``
-:Configuration: `This add-on has no configuration.`
+:Configuration: +--------------------+--------------------------------------------+--+
+                | ``case_sensitive`` | Enable case-sensitive key sorting          |  |
+                +--------------------+--------------------------------------------+--+
 :Triggers: repository pre-commit
 
 Formats and sorts the Java properties file.

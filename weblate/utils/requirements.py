@@ -50,7 +50,7 @@ REQUIRES = [
     "hiredis",
     "sentry_sdk",
     "Cython",
-    "misaka",
+    "mistletoe",
     "GitPython",
     "borgbackup",
     "pyparsing",

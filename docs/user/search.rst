@@ -45,14 +45,28 @@ Fields
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
-   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
+   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``).
+
+   This field also supports :ref:`search-operators`, so searching for completed strings can be performed as ``state:>=translated``, searching for strings needing translation as ``state:<translated``.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
    Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``.
 ``is:TEXT``
-   Search for pending translations (``pending``).
-   Can also search for all string states (``approved``, ``translated``, ``untranslated``, ``needs-editing``, ``read-only``).
+   Filters string on a condition:
+
+   ``read-only`` or ``readonly``
+      Read-only strings, same as ``state:read-only``.
+   ``approved``
+      Approved strings, same as ``state:approved``.
+   ``needs-editing`` or ``fuzzy``
+      Needing editing strings, same as ``state:needs-editing``.
+   ``translated``
+      Translated strings, same as ``state:>translated``.
+   ``untranslated``:
+      Untranslated strings, same as ``state:<translated``.
+   ``pending``
+      Pending strings not yet committed to the file (see :ref:`lazy-commit`).
 ``language:TEXT``
    String target language.
 ``component:TEXT``
