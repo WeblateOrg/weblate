@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -69,6 +70,9 @@ from weblate.utils.views import (
     show_form_errors,
     try_set_language,
 )
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 @never_cache
@@ -194,7 +198,7 @@ def show_engage(request, path):
 
 
 @never_cache
-def show(request, path):
+def show(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,
         path,
@@ -222,7 +226,7 @@ def show(request, path):
     raise TypeError(f"Not supported show: {obj}")
 
 
-def show_project_language(request, obj):
+def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguage):
     language_object = obj.language
     project_object = obj.project
     user = request.user
@@ -246,6 +250,8 @@ def show_project_language(request, obj):
         existing = {translation.component.slug for translation in translations}
         missing = project_object.get_child_components_filter(
             lambda qs: qs.exclude(slug__in=existing)
+            .prefetch()
+            .prefetch_related("source_language")
         )
         translations.extend(
             GhostTranslation(component, language_object)
