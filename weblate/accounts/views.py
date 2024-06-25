@@ -200,9 +200,11 @@ def mail_admins_contact(request, subject, message, context, sender, to) -> None:
         return
 
     if settings.CONTACT_FORM == "reply-to":
-        kwargs = {"headers": {"Reply-To": sender}}
+        headers = {"Reply-To": sender}
+        from_email = None
     else:
-        kwargs = {"from_email": sender}
+        from_email = sender
+        headers = None
 
     mail = EmailMultiAlternatives(
         subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
@@ -213,7 +215,8 @@ def mail_admins_contact(request, subject, message, context, sender, to) -> None:
             username=request.user.username,
         ),
         to=to,
-        **kwargs,
+        from_email=from_email,
+        headers=headers,
     )
 
     mail.send(fail_silently=False)
