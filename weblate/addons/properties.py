@@ -24,7 +24,7 @@ SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
 
 
-def sort_key(line, case_sensitive):
+def sort_key(line: str, case_sensitive: bool) -> str:
     """Sort key for properties."""
     prefix = SPLITTER.split(line, 1)[0]
     if case_sensitive:
@@ -116,7 +116,7 @@ def filter_lines(lines):
     return result
 
 
-def format_file(filename, case_sensitive) -> None:
+def format_file(filename: str, case_sensitive: bool) -> None:
     """Format single properties file."""
     with open(filename) as handle:
         lines = handle.readlines()
@@ -142,5 +142,5 @@ class PropertiesSortAddon(BaseAddon):
     settings_form = PropertiesSortAddonForm
 
     def pre_commit(self, translation, author) -> None:
-        case_sensitive = self.instance.configuration["case_sensitive"]
+        case_sensitive = self.instance.configuration.get("case_sensitive", False)
         format_file(translation.get_filename(), case_sensitive)
