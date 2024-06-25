@@ -578,7 +578,11 @@
           .attr("dir", this.state.dir)
           .html(el.html),
       );
-      row.append($("<td>").html(el.diff));
+      row.append(
+        $("<td>")
+          .attr("class", "machinery-diff")
+          .html(el.diff)
+      );
       row.append(
         $("<td/>").attr("class", "machinery-text").html(el.source_diff),
       );
