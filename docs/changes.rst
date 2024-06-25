@@ -5,11 +5,17 @@ Not yet released.
 
 **New features**
 
+* :ref:`adding-new-strings` can now create plural strings in the user interface.
+* :ref:`labels` now include description to explain them.
+* New :ref:`subscriptions` for completed translation and component.
+
 **Improvements**
 
 **Bug fixes**
 
 **Compatibility**
+
+* Weblate now uses mistletoe instead of misaka as a Markdown renderer.
 
 **Upgrading**
 
