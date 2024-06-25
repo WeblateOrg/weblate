@@ -253,6 +253,8 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
             .prefetch()
             .prefetch_related("source_language")
         )
+        for item in missing:
+            item.project = project_object
         translations.extend(
             GhostTranslation(component, language_object)
             for component in missing
