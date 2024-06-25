@@ -1711,7 +1711,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.log_info("skipped push: upstream not configured")
             return
         if not self.repo_needs_push():
-            self.log_info("skipped push: nothing to push")
+            self.log_info(
+                "skipped push: nothing to push (%d/%d outgoing)",
+                self.count_repo_outgoing,
+                self.count_push_branch_outgoing,
+            )
             return
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.do_push(None, force_commit=False, do_update=do_update)
@@ -3230,13 +3234,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @property
     def count_push_branch_outgoing(self):
-        if not self.push_branch:
-            return 0
         try:
             return self.repository.count_outgoing(self.push_branch)
         except RepositoryError:
             # We silently ignore this error as push branch might not be existing if not needed
-            return 0
+            return self.count_repo_outgoing
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -3248,7 +3250,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def repo_needs_push(self, retry: bool = True):
         """Check for something to push to remote repository."""
-        return self.count_repo_outgoing > 0
+        return self.count_push_branch_outgoing > 0
 
     @property
     def file_format_name(self):

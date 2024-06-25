@@ -922,6 +922,13 @@ class GitMergeRequestBase(GitForcePushRepository):
             (f'remote "{remote_name}"', "pushurl", push_url),
         )
 
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        remote = "origin"
+        if branch is not None:
+            credentials = self.get_credentials()
+            remote = credentials["username"]
+        return f"{remote}/{self.branch if branch is None else branch}"
+
     def fork(self, credentials: dict) -> None:
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
