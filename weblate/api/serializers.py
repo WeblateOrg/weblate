@@ -1442,6 +1442,10 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
         # Don't allow duplicate add-ons
         addon = addon_class(Addon())
+        if not component and addon_class.needs_component:
+            raise serializers.ValidationError(
+                {"component": "This add-on can only be installed on the component."}
+            )
         if not instance:
             if component:
                 self.check_addon(name, Addon.objects.filter_component(component))
