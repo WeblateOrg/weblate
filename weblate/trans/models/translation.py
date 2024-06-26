@@ -1558,7 +1558,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 translation_unit.delete()
                 self.notify_deletion(translation_unit, user)
                 # Skip file processing on source language without a storage
-                if not self.filename:
+                if not translation.filename:
                     continue
                 # Does unit exist in the file?
                 try:
