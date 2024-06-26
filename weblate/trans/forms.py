@@ -1102,7 +1102,8 @@ class LanguageCodeChoiceField(forms.ModelChoiceField):
     def to_python(self, value):
         # Add explicit validation here to avoid DataError on invalid input
         # such as: PostgreSQL text fields cannot contain NUL (0x00) bytes
-        validate_slug(value)
+        if value:
+            validate_slug(value)
         return super().to_python(value)
 
 
