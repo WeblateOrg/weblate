@@ -1311,6 +1311,10 @@ class ReportsForm(forms.Form):
             languages = Language.objects.filter(
                 translation__component__project=scope["project"]
             ).distinct()
+        elif "category" in scope:
+            languages = Language.objects.filter(
+                translation__component__category=scope["category"]
+            ).distinct()
         elif "component" in scope:
             languages = Language.objects.filter(
                 translation__component=scope["component"]
