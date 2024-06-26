@@ -227,6 +227,8 @@ def parse_path(  # noqa: C901
 
     # Language URL
     if path[:2] == ["-", "-"] and len(path) == 3:
+        if path[2] == "-" and None in types:
+            return None
         check_type(Language)
         return get_object_or_404(Language, code=path[2])
 

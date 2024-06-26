@@ -124,13 +124,47 @@ class WidgetsComponentRenderTest(WidgetsRenderTest):
         self.assert_widget(widget, response)
 
 
-class WidgetsLanguageRenderTest(WidgetsRenderTest):
+class WidgetsProjectLanguageRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
                 kwargs={
                     "path": [*self.project.get_url_path(), "-", "cs"],
+                    "widget": widget,
+                    "color": color,
+                    "extension": WIDGETS[widget].extension,
+                },
+            )
+        )
+
+        self.assert_widget(widget, response)
+
+
+class WidgetsLanguageRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": ["-", "-", "cs"],
+                    "widget": widget,
+                    "color": color,
+                    "extension": WIDGETS[widget].extension,
+                },
+            )
+        )
+
+        self.assert_widget(widget, response)
+
+
+class WidgetsGlobalRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": ["-", "-", "-"],
                     "widget": widget,
                     "color": color,
                     "extension": WIDGETS[widget].extension,

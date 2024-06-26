@@ -904,6 +904,10 @@ class LanguageStats(AggregatingStats):
     def get_child_objects(self):
         return self._object.translation_set.only("id", "language")
 
+    @property
+    def language(self):
+        return self._object
+
 
 class ComponentStats(AggregatingStats):
     sum_source_keys = False
@@ -1278,6 +1282,15 @@ class GlobalStats(ParentAggregatingStats):
     @cached_property
     def cache_key(self) -> str:
         return "stats-global"
+
+    def get_single_language_stats(self, language):
+        return LanguageStats(language)
+
+    def get_language_stats(self):
+        return prefetch_stats(
+            self.get_single_language_stats(language)
+            for language in Language.objects.have_translation()
+        )
 
 
 class GhostStats(BaseStats):

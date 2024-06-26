@@ -23,11 +23,12 @@ from django.utils.translation import (
 )
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.utils.stats import GlobalStats, ProjectLanguage, ProjectLanguageStats
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
@@ -72,6 +73,14 @@ class Widget:
         self.obj = obj
         self.color = self.get_color_name(color)
         self.lang = lang
+        if obj is None:
+            stats = GlobalStats()
+        elif lang:
+            stats = obj.stats.get_single_language_stats(lang)
+        else:
+            stats = obj.stats
+        self.stats = stats
+        self.percent = stats.translated_percent
 
     def get_color_name(self, color):
         """Return color name based on allowed ones."""
@@ -79,24 +88,13 @@ class Widget:
             return self.colors[0]
         return color
 
-
-class ContentWidget(Widget):
-    """Generic content widget class."""
-
-    def __init__(self, obj, color=None, lang=None) -> None:
-        """Create Widget object."""
-        super().__init__(obj, color, lang)
-        # Get translation status
-        stats = obj.stats.get_single_language_stats(lang) if lang else obj.stats
-        self.percent = stats.translated_percent
-
     def get_percent_text(self):
         return pgettext("Translated percents", "%(percent)s%%") % {
             "percent": int(self.percent)
         }
 
 
-class BitmapWidget(ContentWidget):
+class BitmapWidget(Widget):
     """Base class for bitmap rendering widgets."""
 
     colors: tuple[str, ...] = ("grey", "white", "black")
@@ -115,8 +113,8 @@ class BitmapWidget(ContentWidget):
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get object and related params
-        self.total = obj.stats.source_strings
-        self.languages = obj.stats.languages
+        self.total = self.stats.source_strings
+        self.languages = self.stats.languages
         self.params = self.get_text_params()
 
         # Set rendering variables
@@ -126,7 +124,7 @@ class BitmapWidget(ContentWidget):
     def get_text_params(self):
         """Create dictionary used for text formatting."""
         return {
-            "name": self.obj.name,
+            "name": self.obj.name if self.obj else settings.SITE_TITLE,
             "count": self.total,
             "languages": self.languages,
             "percent": self.percent,
@@ -201,7 +199,7 @@ class BitmapWidget(ContentWidget):
         surface.write_to_png(response)
 
 
-class SVGWidget(ContentWidget):
+class SVGWidget(Widget):
     """Base class for SVG rendering widgets."""
 
     extension = "svg"
@@ -322,13 +320,18 @@ class OpenGraphWidget(NormalWidget):
         ]
 
     def get_name(self) -> str:
+        if self.obj is None:
+            return settings.SITE_TITLE
         return str(self.obj)
 
     def get_title(self, name: str, suffix: str = "") -> str:
-        # Translators: Text on OpenGraph image
-        if isinstance(self.obj, Project):
+        if self.obj is None:
+            template = "{}"
+        elif isinstance(self.obj, Project):
+            # Translators: Text on OpenGraph image
             template = gettext("Project {}")
         else:
+            # Translators: Text on OpenGraph image
             template = gettext("Component {}")
 
         return format_html(template, format_html("<b>{}</b>{}", name, suffix))
@@ -355,20 +358,6 @@ class OpenGraphWidget(NormalWidget):
                 break
 
         PangoCairo.show_layout(ctx, layout)
-
-
-class SiteOpenGraphWidget(OpenGraphWidget):
-    def __init__(self, obj=None, color=None, lang=None) -> None:
-        super().__init__(GlobalStats())
-
-    def get_name(self) -> str:
-        return settings.SITE_TITLE
-
-    def get_title(self, name: str, suffix: str = "") -> str:
-        return format_html("<b>{}</b>{}", name, suffix)
-
-    def get_text_params(self):
-        return {}
 
 
 @register_widget
@@ -433,7 +422,14 @@ class MultiLanguageWidget(SVGWidget):
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        languages = self.obj.stats.get_language_stats()
+        if isinstance(self.stats, ProjectLanguageStats):
+            languages = [self.stats]
+        elif isinstance(self.obj, ProjectLanguage):
+            languages = [self.obj]
+        elif isinstance(self.obj, Language):
+            languages = [self.obj.stats]
+        else:
+            languages = self.stats.get_language_stats()
         for stats in sort_unicode(languages, lambda x: str(x.language)):
             # Skip empty translations
             if stats.translated == 0:
@@ -448,7 +444,10 @@ class MultiLanguageWidget(SVGWidget):
                 language_width,
                 (render_size(text=language_name)[0].width + 10),
             )
-            project_language = ProjectLanguage(self.obj, language)
+            if self.obj is None:
+                project_language = language
+            else:
+                project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (
                     # Language name
