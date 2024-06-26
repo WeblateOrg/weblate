@@ -1886,7 +1886,9 @@ as that is user used inside the container.
 
 .. seealso::
 
-   `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
+   `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_,
+   :setting:`DATA_DIR`,
+   :setting:`CACHE_DIR`
 
 Read-only root filesystem
 +++++++++++++++++++++++++
