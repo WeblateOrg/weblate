@@ -1864,20 +1864,20 @@ Container settings
 Docker container volumes
 ------------------------
 
-There are two volumes (data and cache) exported by the Weblate container. The
+There are two volumes (``data`` and ``cache``) exported by the Weblate container. The
 other service containers (PostgreSQL or Redis) have their data volumes as well,
 but those are not covered by this document.
 
-The data volume is used to store Weblate persistent data such as cloned
-repositories or to customize Weblate installation.
+The ``data`` volume is mounted as :file:`/app/data` and is used to store
+Weblate persistent data such as cloned repositories or to customize Weblate
+installation. :setting:`DATA_DIR` describes in more detail what is stored here.
 
 The placement of the Docker volume on host system depends on your Docker
 configuration, but usually it is stored in
 :file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/` (the path
 consist of name of your docker-compose directory, container, and volume names).
-In the container it is mounted as :file:`/app/data`.
 
-The cache volume is mounted as :file:`/app/cache` and is used to store static
+The ``cache`` volume is mounted as :file:`/app/cache` and is used to store static
 files and :setting:`CACHE_DIR`. Its content is recreated on container startup
 and the volume can be mounted using ephemeral filesystem such as `tmpfs`.
 
