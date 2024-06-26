@@ -12,6 +12,7 @@ Not yet released.
 **Improvements**
 
 * :ref:`addon-weblate.properties.sort` can now do case-sensitive sorting.
+* The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
 
 **Bug fixes**
 
