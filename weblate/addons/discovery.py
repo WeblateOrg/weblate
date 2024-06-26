@@ -22,6 +22,7 @@ class DiscoveryAddon(BaseAddon):
     multiple = True
     icon = "magnify.svg"
     repo_scope = True
+    needs_component = True
     trigger_update = True
 
     def post_update(
