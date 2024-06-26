@@ -49,6 +49,7 @@ class BaseAddon:
     icon = "cog.svg"
     project_scope = False
     repo_scope = False
+    needs_component = False
     has_summary = False
     alert: str = ""
     trigger_update = False
