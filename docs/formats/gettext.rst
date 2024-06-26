@@ -25,6 +25,21 @@ headers or linking to corresponding source files.
     :ref:`addon-weblate.gettext.mo`,
     :ref:`addon-weblate.gettext.msgmerge`
 
+Showing source string change
+++++++++++++++++++++++++++++
+
+Weblate can extract previous source strings from the PO files if present and
+show the string difference for strings needing editing based on that. To
+include these, :program:`msgmerge` has to be executed with ``--previous`` and
+the resulting PO file then contains lines such as:
+
+.. code-block:: po
+
+   #, fuzzy
+   #| msgid "previous-untranslated-string"
+   msgid "untranslated-string"
+   msgstr "translated-string"
+
 PO file header
 ++++++++++++++
 
