@@ -41,7 +41,7 @@ class Command(BaseCommand):
                 "refs": [{"repository": "WeblateOrg/weblate", "commit": ref}],
             }
             response = requests.post(
-                sentry_url, json=data, headers=sentry_auth, timeout=5
+                sentry_url, json=data, headers=sentry_auth, timeout=30
             )
             self.stdout.write(f"Created new release {version}")
         response.raise_for_status()
@@ -51,7 +51,7 @@ class Command(BaseCommand):
             release_url + "deploys/",
             data={"environment": settings.SENTRY_ENVIRONMENT},
             headers=sentry_auth,
-            timeout=5,
+            timeout=30,
         )
         response.raise_for_status()
         self.stdout.write("Created new Sentry deploy {}".format(response.json()["id"]))
