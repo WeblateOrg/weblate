@@ -154,6 +154,11 @@ def search(request, path=None):
         units = get_paginator(
             request, units.order_by_request(search_form.cleaned_data, obj)
         )
+
+        # Calculate total number of strings and words
+        total_strings = units.paginator.count
+        total_words = sum(unit.num_words for unit in unit_set.all())
+
         # Rebuild context from scratch here to get new form
         context.update(
             {
@@ -168,6 +173,8 @@ def search(request, path=None):
                 "search_items": search_form.items(),
                 "sort_name": sort["name"],
                 "sort_query": sort["query"],
+                "total_strings": total_strings,
+                "total_words": total_words,
             }
         )
     elif is_ratelimited:
