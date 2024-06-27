@@ -7,6 +7,7 @@ from functools import reduce
 
 import mistletoe
 from django.db.models import Q
+from django.utils.safestring import mark_safe
 from mistletoe import span_token
 
 from weblate.auth.models import User
@@ -118,4 +119,4 @@ def render_markdown(text):
             )
     text = "".join(parts)
     with SaferWeblateHtmlRenderer() as renderer:
-        return renderer.render(mistletoe.Document(text))
+        return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308
