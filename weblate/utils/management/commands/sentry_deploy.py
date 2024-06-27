@@ -4,6 +4,7 @@
 
 import requests
 from django.conf import settings
+from django.core.management.base import CommandError
 
 import weblate.utils.version
 from weblate.utils.management.base import BaseCommand
@@ -23,7 +24,11 @@ class Command(BaseCommand):
             version = weblate.utils.version.TAG_NAME
             response = requests.get(TAGS_API.format(version), timeout=5)
             response.raise_for_status()
-            response = requests.get(response.json()["object"]["url"], timeout=5)
+            data = response.json()
+            object_url = data["object"]["url"]
+            if not object_url.startswith("https://api.github.com/"):
+                raise CommandError(f"Unexpected URL from GitHub: {object_url}")
+            response = requests.get(object_url, timeout=5)
             response.raise_for_status()
             ref = response.json()["object"]["sha"]
 
