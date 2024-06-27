@@ -601,9 +601,11 @@ class ProjectBackup:
             # Extract VCS
             for name in zipfile.namelist():
                 if name.startswith(self.VCS_PREFIX):
-                    targetpath = os.path.join(
-                        project.full_path, name[self.VCS_PREFIX_LEN :]
-                    )
+                    path = name[self.VCS_PREFIX_LEN :]
+                    # Skip potentially dangerous paths
+                    if path != os.path.normpath(path):
+                        continue
+                    targetpath = os.path.join(project.full_path, path)
                     upperdirs = os.path.dirname(targetpath)
                     if upperdirs and not os.path.exists(upperdirs):
                         os.makedirs(upperdirs)
