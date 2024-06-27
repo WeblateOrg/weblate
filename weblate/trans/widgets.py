@@ -28,7 +28,12 @@ from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import GlobalStats, ProjectLanguage, ProjectLanguageStats
+from weblate.utils.stats import (
+    GlobalStats,
+    ProjectLanguage,
+    ProjectLanguageStats,
+    TranslationStats,
+)
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
@@ -113,7 +118,10 @@ class BitmapWidget(Widget):
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get object and related params
-        self.total = self.stats.source_strings
+        if isinstance(self.stats, TranslationStats):
+            self.total = self.stats.all
+        else:
+            self.total = self.stats.source_strings
         self.languages = self.stats.languages
         self.params = self.get_text_params()
 
@@ -422,7 +430,7 @@ class MultiLanguageWidget(SVGWidget):
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        if isinstance(self.stats, ProjectLanguageStats):
+        if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
             languages = [self.stats]
         elif isinstance(self.obj, ProjectLanguage):
             languages = [self.obj]
