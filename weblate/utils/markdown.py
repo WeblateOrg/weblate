@@ -36,6 +36,10 @@ class SkipHtmlSpan(span_token.HtmlSpan):
         self.content = ""
 
 
+class PlainAutoLink(span_token.AutoLink):
+    pattern = re.compile(r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+)\b")
+
+
 class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
     """
     A renderer which adds a layer of protection against malicious input.
@@ -47,7 +51,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
     _allowed_url_re = re.compile(r"^https?://", re.IGNORECASE)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(SkipHtmlSpan, process_html_tokens=False)
+        super().__init__(SkipHtmlSpan, PlainAutoLink, process_html_tokens=False)
 
     def render_skip_html_span(self, token: SkipHtmlSpan) -> str:
         """
@@ -56,6 +60,14 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         Return the content of the token, without any HTML tags.
         """
         return token.content
+
+    def render_plain_auto_link(self, token: PlainAutoLink) -> str:
+        """
+        Render a skip HTML span token.
+
+        Return the content of the token, without any HTML tags.
+        """
+        return self.render_auto_link(token)
 
     def render_link(self, token: span_token.Link) -> str:
         """
@@ -68,7 +80,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
             return result.replace(' href="', ' rel="ugc" target="_blank" href="')
         return self.escape_html_text(f"[{token.title}]({token.target})")
 
-    def render_auto_link(self, token: span_token.AutoLink) -> str:
+    def render_auto_link(self, token: span_token.AutoLink | PlainAutoLink) -> str:
         """
         Render an auto link token.
 

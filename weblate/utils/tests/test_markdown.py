@@ -104,6 +104,12 @@ class MarkdownTestCase(TestCase):
             render_markdown("![title](ftp://invalid.link)"),
         )
 
+    def test_plain_link(self) -> None:
+        self.assertEqual(
+            '<p>This is <a href="https://weblate.org">https://weblate.org</a></p>\n',
+            render_markdown("This is https://weblate.org"),
+        )
+
 
 class MarkdownMentionTestCase(TestCase):
     def test_mention(self) -> None:
