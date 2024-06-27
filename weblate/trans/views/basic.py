@@ -503,6 +503,7 @@ def show_category(request, obj):
             "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
+            "reports_form": ReportsForm({"category": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(user, initial=SearchForm.get_initial(request)),
             "announcement_form": optional_form(

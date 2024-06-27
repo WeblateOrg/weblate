@@ -706,6 +706,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
+        if self.category is not None:
+            return self.category.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
         return None
@@ -717,6 +719,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.translation
         if self.component is not None:
             return self.component
+        if self.category is not None:
+            return self.category
         if self.project is not None:
             return self.project
         return None
@@ -759,6 +763,7 @@ class Change(models.Model, UserDisplayMixin):
             self.language = self.translation.language
         if self.component:
             self.project = self.component.project
+            self.category = self.component.category
 
     @property
     def plural_count(self):
