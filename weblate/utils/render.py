@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
@@ -10,25 +14,16 @@ from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
 
 from weblate.utils.site import get_site_url
+from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
 
-# List of schemes not allowed in editor URL
-# This list is not intededed to be complete, just block
-# the possibly dangerous ones.
-FORBIDDEN_URL_SCHEMES = {
-    "javascript",
-    "data",
-    "vbscript",
-    "mailto",
-    "ftp",
-    "sms",
-    "tel",
-}
+if TYPE_CHECKING:
+    from django.core.validators import URLValidator
 
 
 class InvalidString(str):
     __slots__ = ()
 
-    def __mod__(self, other):
+    def __mod__(self, other: str):
         raise TemplateSyntaxError(gettext('Undefined variable: "%s"') % other)
 
 
@@ -44,7 +39,7 @@ class RestrictedEngine(Engine):
         super().__init__(*args, **kwargs)
 
 
-def render_template(template, **kwargs):
+def render_template(template: str, **kwargs):
     """Render string template with Weblate context."""
     from weblate.trans.models import Component, Project, Translation
 
@@ -107,7 +102,7 @@ def render_template(template, **kwargs):
         )
 
 
-def validate_render(value, **kwargs):
+def validate_render(value: str, **kwargs) -> str:
     """Validate rendered template."""
     try:
         return render_template(value, **kwargs)
@@ -117,7 +112,7 @@ def validate_render(value, **kwargs):
         ) from err
 
 
-def validate_render_component(value, translation: bool = False, **kwargs) -> None:
+def validate_render_component(value: str, translation: bool = False, **kwargs) -> str:
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
     from weblate.utils.stats import DummyTranslationStats
@@ -129,6 +124,7 @@ def validate_render_component(value, translation: bool = False, **kwargs) -> Non
         name="component",
         slug="component",
         branch="main",
+        source_language=Language(name="aa", code="x-aa"),
         vcs="git",
         id=-1,
     )
@@ -143,18 +139,18 @@ def validate_render_component(value, translation: bool = False, **kwargs) -> Non
         kwargs["translation"].stats = DummyTranslationStats(translation)
     else:
         kwargs["component"] = component
-    validate_render(value, **kwargs)
+    return validate_render(value, **kwargs)
 
 
-def validate_render_addon(value) -> None:
+def validate_render_addon(value: str) -> None:
     validate_render_component(value, hook_name="addon", addon_name="addon")
 
 
-def validate_render_commit(value) -> None:
+def validate_render_commit(value: str) -> None:
     validate_render_component(value, translation=True, author="author")
 
 
-def validate_repoweb(val) -> None:
+def validate_repoweb(val: str, allow_editor: bool = False) -> None:
     """
     Validate whether URL for repository browser is valid.
 
@@ -167,10 +163,20 @@ def validate_repoweb(val) -> None:
                 "please use the template language instead."
             )
         )
-    validate_render(val, filename="file.po", line=9, branch="main")
+    url = validate_render_component(val, filename="file.po", line=9, branch="main")
+
+    validator: URLValidator
+    if (
+        allow_editor
+        and val.split("://")[0].lower() in WeblateEditorURLValidator.schemes
+    ):
+        validator = WeblateEditorURLValidator()
+    else:
+        validator = WeblateURLValidator()
+    validator(url)
 
 
-def validate_editor(val) -> None:
+def validate_editor(val: str) -> None:
     """
     Validate URL for custom editor link.
 
@@ -179,24 +185,4 @@ def validate_editor(val) -> None:
     """
     if not val:
         return
-    validate_repoweb(val)
-
-    if ":" not in val:
-        raise ValidationError(gettext("The editor link lacks URL scheme!"))
-
-    scheme = val.split(":", 1)[0]
-
-    # Block forbidden schemes as well as format strings
-    if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES or "%" in scheme:
-        raise ValidationError(gettext("Forbidden URL scheme!"))
-
-
-def migrate_repoweb(val):
-    return val % {
-        "file": "{{filename}}",
-        "../file": "{{filename|parentdir}}",
-        "../../file": "{{filename|parentdir|parentdir}}",
-        "../../../file": "{{filename|parentdir|parentdir}}",
-        "line": "{{line}}",
-        "branch": "{{branch}}",
-    }
+    validate_repoweb(val, allow_editor=True)

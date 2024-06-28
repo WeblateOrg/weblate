@@ -178,7 +178,7 @@ class SameCheck(TargetCheck):
             # Extract untranslatable terms
             terms = [
                 re.escape(term.source)
-                for term in get_glossary_terms(unit)
+                for term in get_glossary_terms(unit, include_variants=False)
                 if "read-only" in term.all_flags
             ]
             if terms:

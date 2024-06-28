@@ -114,6 +114,12 @@ def git_status(request, path):
             "outgoing_commits": sum(
                 repo.count_repo_outgoing for repo in repo_components
             ),
+            "has_push_branch": any(repo.push_branch for repo in repo_components),
+            "push_branch_outgoing_commits": sum(
+                repo.count_push_branch_outgoing
+                for repo in repo_components
+                if repo.push_branch
+            ),
             "missing_commits": sum(repo.count_repo_missing for repo in repo_components),
             "supports_push": any(
                 repo.repository_class.supports_push for repo in repo_components

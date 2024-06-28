@@ -10,10 +10,11 @@ from django.core import mail
 from django.urls import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.models import Announcement, Component, Project, Translation
+from weblate.trans.models import Announcement, Category, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
+from weblate.utils.stats import ProjectLanguage
 
 
 class RemovalTest(ViewTestCase):
@@ -198,7 +199,7 @@ class RenameTest(ViewTestCase):
 
 
 class AnnouncementTest(ViewTestCase):
-    data = {"message": "Announcement testing", "category": "warning"}
+    data = {"message": "Announcement testing", "severity": "warning"}
     outbox = 0
 
     def perform_test(self, url) -> None:
@@ -226,6 +227,21 @@ class AnnouncementTest(ViewTestCase):
         url = reverse("announcement", kwargs={"path": self.project.get_url_path()})
         self.perform_test(url)
 
+    def test_project_language(self) -> None:
+        project_language = ProjectLanguage(
+            project=self.project, language=Language.objects.get(code="cs")
+        )
+        url = reverse("announcement", kwargs={"path": project_language.get_url_path()})
+        self.perform_test(url)
+
+    def test_category(self) -> None:
+        category = Category(
+            project=self.project, name="Test Category", slug="test-category"
+        )
+        category.save()
+        url = reverse("announcement", kwargs={"path": category.get_url_path()})
+        self.perform_test(url)
+
     def test_delete(self) -> None:
         self.test_project()
         message = Announcement.objects.all()[0]
@@ -239,5 +255,5 @@ class AnnouncementTest(ViewTestCase):
 
 
 class AnnouncementNotifyTest(AnnouncementTest):
-    data = {"message": "Announcement testing", "category": "warning", "notify": "1"}
+    data = {"message": "Announcement testing", "severity": "warning", "notify": "1"}
     outbox = 1

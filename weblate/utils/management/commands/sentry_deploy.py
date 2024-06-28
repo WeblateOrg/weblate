@@ -4,12 +4,12 @@
 
 import requests
 from django.conf import settings
+from django.core.management.base import CommandError
 
 import weblate.utils.version
 from weblate.utils.management.base import BaseCommand
 
 TAGS_API = "https://api.github.com/repos/WeblateOrg/weblate/git/ref/tags/{}"
-RELEASES_API = "https://sentry.weblate.org/api/0/organizations/weblate/releases/"
 
 
 class Command(BaseCommand):
@@ -22,17 +22,22 @@ class Command(BaseCommand):
         else:
             # Get commit hash from GitHub
             version = weblate.utils.version.TAG_NAME
-            response = requests.get(TAGS_API.format(version), timeout=1)
+            response = requests.get(TAGS_API.format(version), timeout=5)
             response.raise_for_status()
-            response = requests.get(response.json()["object"]["url"], timeout=1)
+            data = response.json()
+            object_url = data["object"]["url"]
+            if not object_url.startswith("https://api.github.com/"):
+                raise CommandError(f"Unexpected URL from GitHub: {object_url}")
+            response = requests.get(object_url, timeout=5)
             response.raise_for_status()
             ref = response.json()["object"]["sha"]
 
         sentry_auth = {"Authorization": f"Bearer {settings.SENTRY_TOKEN}"}
-        release_url = RELEASES_API + version + "/"
+        sentry_url = settings.SENTRY_RELEASES_API_URL
+        release_url = sentry_url + version + "/"
 
         # Ensure the release is tracked on Sentry
-        response = requests.get(release_url, headers=sentry_auth, timeout=1)
+        response = requests.get(release_url, headers=sentry_auth, timeout=30)
         if response.status_code == 404:
             data = {
                 "version": version,
@@ -41,7 +46,7 @@ class Command(BaseCommand):
                 "refs": [{"repository": "WeblateOrg/weblate", "commit": ref}],
             }
             response = requests.post(
-                RELEASES_API, json=data, headers=sentry_auth, timeout=1
+                sentry_url, json=data, headers=sentry_auth, timeout=30
             )
             self.stdout.write(f"Created new release {version}")
         response.raise_for_status()
@@ -51,7 +56,7 @@ class Command(BaseCommand):
             release_url + "deploys/",
             data={"environment": settings.SENTRY_ENVIRONMENT},
             headers=sentry_auth,
-            timeout=1,
+            timeout=30,
         )
         response.raise_for_status()
         self.stdout.write("Created new Sentry deploy {}".format(response.json()["id"]))

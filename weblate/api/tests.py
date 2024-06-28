@@ -253,7 +253,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=200,
         )
-        self.assertEqual(response.data["count"], 9)
+        self.assertEqual(response.data["count"], 10)
 
     def test_post_notifications(self) -> None:
         self.do_request(
@@ -274,7 +274,7 @@ class UserAPITest(APIBaseTest):
                 "frequency": 1,
             },
         )
-        self.assertEqual(Subscription.objects.count(), 10)
+        self.assertEqual(Subscription.objects.count(), 11)
 
     def test_get_notifications(self) -> None:
         user = User.objects.filter(is_active=True)[0]
@@ -344,7 +344,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Subscription.objects.count(), 8)
+        self.assertEqual(Subscription.objects.count(), 9)
 
     def test_statistics(self) -> None:
         user = User.objects.filter(is_active=True)[0]
@@ -446,7 +446,7 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(group.defining_project, self.component.project)
 
     def test_add_role(self) -> None:
-        role = Role.objects.get(pk=1)
+        role = Role.objects.get(name="Administration")
         self.do_request(
             "api:group-roles",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -774,6 +774,79 @@ class GroupAPITest(APIBaseTest):
             request={"language_selection": 1},
         )
         self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
+
+    def test_grant_admin(self):
+        group = Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            request={"user_id": self.user.id},
+        )
+        self.assertIn("Administration rights granted.", response.data)
+
+        # Invalid user ID
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            request={"user_id": -1},
+            code=400,
+        )
+
+        # Missing user ID
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            code=400,
+        )
+
+    def test_group_admin_edit(self):
+        user = User.objects.create_user(username="testuser", password="12345")
+        group = Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=False,
+            request={"user_id": user.id},
+            code=404,
+        )
+        group.admins.add(self.user)
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=False,
+            request={"user_id": user.id},
+        )
+        self.assertIn("Administration rights granted.", response.data)
+
+    def test_revoke_admin(self):
+        group = Group.objects.create(name="Test Group")
+        user = User.objects.create_user(username="testuser", password="12345")
+        group.admins.add(user)
+
+        response = self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": group.id, "user_pk": 6555555},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        response = self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": group.id, "user_pk": user.id},
+            method="delete",
+            superuser=True,
+        )
+
+        admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
+        self.assertNotIn(user.id, admins_ids)
 
 
 class RoleAPITest(APIBaseTest):
@@ -1810,6 +1883,63 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 3)
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
+
+    def test_download_private_project_translations(self) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=404,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations_prohibited(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_converted(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_target_language(self) -> None:
+        response = self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "language_code": "cs"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
 
 
 class ComponentAPITest(APIBaseTest):
@@ -2974,6 +3104,66 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
 
+    def test_add_bilingual_source(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source",
+                "target": "Target",
+            },
+            code=200,
+        )
+        self.assertEqual(
+            set(Unit.objects.filter(source="Source").values_list("target", flat=True)),
+            {"Source", "Target"},
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source2",
+                "target": "",
+            },
+            code=200,
+        )
+        self.assertEqual(
+            set(Unit.objects.filter(source="Source2").values_list("target", flat=True)),
+            {"Source2", ""},
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": "Source3",
+            },
+            code=200,
+        )
+        self.assertEqual(
+            set(Unit.objects.filter(source="Source3").values_list("target", flat=True)),
+            {"Source3", ""},
+        )
+
     def test_add_plural(self) -> None:
         # Add to bilingual
         self.component.manage_units = True
@@ -3718,6 +3908,11 @@ class MetricsAPITest(APIBaseTest):
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["projects"], 1)
 
+    def test_metrics_openmetrics(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertContains(response, "# EOF")
+
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["detail"].code, "not_authenticated")
@@ -4006,6 +4201,51 @@ class AddonAPITest(APIBaseTest):
         )
         self.assertEqual(self.component.addon_set.get().configuration, expected)
 
+    def create_project_addon(
+        self, superuser=True, code=201, name="weblate.consistency.languages", **request
+    ):
+        request["name"] = name
+        return self.do_request(
+            "api:project-addons",
+            kwargs=self.project_kwargs,
+            method="post",
+            code=code,
+            superuser=superuser,
+            format="json",
+            request=request,
+        )
+
+    def test_create_project_addon(self):
+        # Not authenticated user
+        response = self.create_project_addon(code=403, superuser=False)
+        self.assertFalse(self.component.project.addon_set.exists())
+        # Non existing addon
+        response = self.create_project_addon(name="invalid.addon", code=400)
+        self.assertFalse(self.component.project.addon_set.exists())
+        # Success
+        response = self.create_project_addon()
+        self.assertTrue(
+            self.component.project.addon_set.filter(pk=response.data["id"]).exists()
+        )
+        # Existing
+        response = self.create_project_addon(code=400)
+
+    def test_delete_project_addon(self):
+        response = self.create_project_addon()
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
 
 class CategoryAPITest(APIBaseTest):
     def create_category(self, code: int = 201, **kwargs):
@@ -4143,7 +4383,9 @@ class CategoryAPITest(APIBaseTest):
 
 class LabelAPITest(APIBaseTest):
     def test_get_label(self) -> None:
-        label = self.component.project.label_set.create(name="test", color="navy")
+        label = self.component.project.label_set.create(
+            name="test", description="test description", color="navy"
+        )
 
         response = self.do_request(
             "api:project-labels",
@@ -4158,6 +4400,7 @@ class LabelAPITest(APIBaseTest):
 
         self.assertEqual(response_label["id"], label.id)
         self.assertEqual(response_label["name"], label.name)
+        self.assertEqual(response_label["description"], label.description)
         self.assertEqual(response_label["color"], label.color)
 
     def test_create_label(self) -> None:
@@ -4168,6 +4411,7 @@ class LabelAPITest(APIBaseTest):
             superuser=True,
             request={
                 "name": "Test Label",
+                "description": "Test description for Test Label",
                 "color": "green",
             },
             code=201,
@@ -4180,6 +4424,7 @@ class LabelAPITest(APIBaseTest):
             superuser=False,
             request={
                 "name": "Test Label 2",
+                "description": "Test description for Test Label 2",
                 "color": "red",
             },
             code=403,

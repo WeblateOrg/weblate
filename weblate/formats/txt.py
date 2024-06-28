@@ -9,12 +9,18 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, NoReturn
+from typing import TYPE_CHECKING, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.formats.base import BaseItem, TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    BaseItem,
+    BaseStore,
+    InnerStore,
+    TranslationFormat,
+    TranslationUnit,
+)
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
@@ -71,8 +77,9 @@ class TextSerializer:
             handle.write(b"\n")
 
 
-class MultiParser:
+class MultiParser(BaseStore):
     filenames: tuple[tuple[str, str], ...] = ()
+    units: list[TextItem]
 
     def __init__(self, storefile) -> None:
         if not isinstance(storefile, str):
@@ -119,6 +126,7 @@ class AppStoreParser(MultiParser):
         ("marketing_url.txt", "max-length:256, url"),
         ("privacy_url.txt", "max-length:256, url"),
         ("support_url.txt", "max-length:256, url"),
+        ("antifeatures/*.txt", "max-length:500"),
         ("changelogs/*.txt", "max-length:500"),
         ("*.txt", ""),
     )
@@ -189,8 +197,11 @@ class AppStoreFormat(TranslationFormat):
     simple_filename = False
     language_format = "googleplay"
     create_style = "directory"
+    store: AppStoreParser
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: InnerStore | None
+    ) -> AppStoreParser:
         return AppStoreParser(storefile)
 
     def create_unit(
@@ -212,9 +223,9 @@ class AppStoreFormat(TranslationFormat):
         """Handle creation of new translation file."""
         os.makedirs(filename)
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TextUnit) -> None:  # type: ignore[override]
         """Add new unit to underlying store."""
-        self.store.units.append(ttkit_unit)
+        self.store.units.append(unit.unit)
 
     def save(self) -> None:
         """Save underlying store to disk."""
@@ -253,7 +264,7 @@ class AppStoreFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File parse error")
+            report_error("File-parsing error")
             return False
         return True
 

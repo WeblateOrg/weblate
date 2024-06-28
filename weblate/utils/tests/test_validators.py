@@ -11,6 +11,8 @@ from django.test.utils import override_settings
 
 from weblate.utils.render import validate_editor
 from weblate.utils.validators import (
+    WeblateServiceURLValidator,
+    WeblateURLValidator,
     clean_fullname,
     validate_backup_path,
     validate_filename,
@@ -35,7 +37,7 @@ class EditorValidatorTest(SimpleTestCase):
 
     def test_invalid_format(self) -> None:
         with self.assertRaises(ValidationError):
-            validate_editor("editor://open/?file={{ fle }}&line={{ line }}")
+            validate_editor("editor://open/?file={{ fl }}&line={{ line }}")
 
     def test_no_scheme(self) -> None:
         with self.assertRaises(ValidationError):
@@ -137,6 +139,23 @@ class WebsiteTest(SimpleTestCase):
         with override_settings(PROJECT_WEB_RESTRICT_NUMERIC=False):
             validate_project_web("https://[2606:4700:4700::1111]")
             validate_project_web("https://1.1.1.1")
+
+    def verify_validator(self, validator) -> None:
+        validator("https://1.1.1.1")
+        validator("http://1.1.1.1")
+        validator("https://[2606:4700:4700::1111]")
+        validator("https://domain.tld:5000")
+        with self.assertRaises(ValidationError):
+            validator("ftp://domain.tld")
+
+    def test_url_validator(self) -> None:
+        validator = WeblateURLValidator()
+        self.verify_validator(validator)
+
+    def test_service_url_validator(self) -> None:
+        validator = WeblateServiceURLValidator()
+        self.verify_validator(validator)
+        validator("https://domain:5000")
 
 
 class BackupTest(SimpleTestCase):

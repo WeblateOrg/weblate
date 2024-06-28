@@ -5,7 +5,7 @@ Add-ons
 
 Add-ons provide ways to customize and automate the translation workflow.
 Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
-translation component.
+translation project or component. Add-ons can be also installed site-wide in :ref:`management-interface`.
 
 .. hint::
 
@@ -785,7 +785,9 @@ Format the Java properties file
 -------------------------------
 
 :Add-on ID: ``weblate.properties.sort``
-:Configuration: `This add-on has no configuration.`
+:Configuration: +--------------------+--------------------------------------------+--+
+                | ``case_sensitive`` | Enable case-sensitive key sorting          |  |
+                +--------------------+--------------------------------------------+--+
 :Triggers: repository pre-commit
 
 Formats and sorts the Java properties file.
@@ -1034,3 +1036,12 @@ Use the commit script to automatically change a translation before it is committ
 to the repository.
 
 It is passed as a single parameter consisting of the filename of a current translation.
+
+
+Add-on activity logging
+-----------------------
+
+Add-on activity log keeps track of the add-on execution and can be used to
+keep track of add-on activity.
+
+The logs can be pruned after a certain time interval by configuring the :setting:`ADDON_ACTIVITY_LOG_EXPIRY`.

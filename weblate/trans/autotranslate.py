@@ -10,6 +10,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models.functions import MD5, Lower
 
+from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.trans.util import split_plural
@@ -185,11 +186,17 @@ class AutoTranslate:
             )
 
             for batch_start in range(0, num_units, batch_size):
-                translation_service.batch_translate(
-                    units[batch_start : batch_start + batch_size],
-                    self.user,
-                    threshold=threshold,
-                )
+                try:
+                    translation_service.batch_translate(
+                        units[batch_start : batch_start + batch_size],
+                        self.user,
+                        threshold=threshold,
+                    )
+                except MachineTranslationError as error:
+                    # Ignore errors here to complete fetching
+                    self.translation.log_error(
+                        "failed automatic translation: %s", error
+                    )
                 self.set_progress(pos * num_units + batch_start)
 
         return {
@@ -203,7 +210,7 @@ class AutoTranslate:
         translations = self.fetch_mt(engines, int(threshold))
 
         # Adjust total number to show correct progress
-        offset = self.progress_steps / 2
+        offset = self.progress_steps // 2
         self.progress_steps = offset + len(translations)
 
         with transaction.atomic():

@@ -71,8 +71,16 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "NewTranslationNotificaton",
             "MentionCommentNotificaton",
             "LastAuthorCommentNotificaton",
+            "ComponentTranslatedNotificaton",
+            "LanguageTranslatedNotificaton",
         )
         for notification in notifications:
+            # Remove any conflicting notifications
+            Subscription.objects.filter(
+                user=self.user,
+                scope=SCOPE_WATCHED,
+                notification=notification,
+            ).delete()
             Subscription.objects.create(
                 user=self.user,
                 scope=SCOPE_WATCHED,
@@ -192,7 +200,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(
-            1, "[Weblate] New string to translate in Test/Test — Czech"
+            1, "[Weblate] String to translate in Test/Test — Czech"
         )
 
     def test_notify_new_translation(self) -> None:
@@ -336,6 +344,29 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "[Weblate] New announcement at Weblate",
         )
 
+    def test_notify_component_translated(self) -> None:
+        unit = self.get_unit()
+        unit.translation.component.change_set.create(
+            user=self.anotheruser,
+            old="",
+            action=Change.ACTION_COMPLETED_COMPONENT,
+        )
+
+        # Check mail - TranslatedComponentNotification
+        self.validate_notifications(
+            1,
+            "[Weblate] Translations in all languages have been completed in Test/Test",
+        )
+
+    def test_notify_language_translated(self) -> None:
+        unit = self.get_unit(language="cs")
+        unit.translation.change_set.create(
+            user=self.anotheruser,
+            action=Change.ACTION_COMPLETE,
+        )
+
+        self.validate_notifications(1, "[Weblate] Test/Test — Czech has been completed")
+
     def test_notify_alert(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         self.component.add_alert("PushFailure", error="Some error")
@@ -430,6 +461,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notification="ToDoStringsNotification",
         subj="4 unfinished strings in Test/Test",
     ) -> None:
+        self.user.subscription_set.filter(frequency=frequency).delete()
         self.user.subscription_set.create(
             scope=SCOPE_WATCHED, notification=notification, frequency=frequency
         )

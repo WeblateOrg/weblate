@@ -16,15 +16,20 @@ class PlanAdmin(WeblateModelAdmin):
     list_display = (
         "name",
         "price",
+        "limit_hosted_strings",
         "limit_strings",
         "limit_languages",
         "limit_projects",
+        "display_limit_hosted_strings",
         "display_limit_strings",
         "display_limit_languages",
         "display_limit_projects",
+        "public",
+        "change_access_control",
     )
     ordering = ["price"]
     prepopulated_fields = {"slug": ("name",)}
+    list_filter = ["public", "change_access_control"]
 
 
 def format_user(obj) -> str:
@@ -81,7 +86,8 @@ class BillingAdmin(WeblateModelAdmin):
         for project in obj.projects.all():
             group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
-                group.user_set.add(*obj.owners.all())
+                for user in obj.owners.all():
+                    user.add_team(request, group)
 
 
 @admin.register(Invoice)

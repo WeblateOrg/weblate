@@ -7,7 +7,7 @@ from __future__ import annotations
 import copy
 import json
 import re
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from secrets import token_hex
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -34,8 +34,8 @@ from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
+from weblate.configuration.models import Setting
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
-from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
@@ -117,19 +117,46 @@ class WeblateDateInput(forms.DateInput):
     input_type = "date"
 
 
-class WeblateDateField(forms.DateField):
+class DateRangeField(forms.CharField):
+    """Field for a date range input."""
+
     def __init__(self, **kwargs) -> None:
-        if "widget" not in kwargs:
-            kwargs["widget"] = WeblateDateInput
         super().__init__(**kwargs)
 
     def to_python(self, value):
-        """Produce timezone-aware datetime with 00:00:00 as time."""
+        """Convert the string input into data range values."""
         value = super().to_python(value)
-        if isinstance(value, date):
-            return from_current_timezone(
-                datetime(value.year, value.month, value.day, 0, 0, 0)  # noqa: DTZ001
+        if value in self.empty_values:
+            return None
+        try:
+            start, end = value.split(" - ")
+            start_date = datetime.strptime(start, "%m/%d/%Y").replace(  # noqa: DTZ007
+                hour=0, minute=0, second=0, microsecond=0
             )
+            end_date = datetime.strptime(end, "%m/%d/%Y").replace(  # noqa: DTZ007
+                hour=23, minute=59, second=59, microsecond=999999
+            )
+            return {
+                "start_date": from_current_timezone(start_date),
+                "end_date": from_current_timezone(end_date),
+            }
+        except ValueError:
+            raise ValidationError(gettext("Invalid date!"))
+
+    def validate(self, value):
+        """Validate the date range values."""
+        if self.required:
+            super().validate(value)
+
+        if value not in self.empty_values and value["start_date"] > value["end_date"]:
+            raise ValidationError(
+                gettext("The starting date has to be before the ending date.")
+            )
+
+    def clean(self, value):
+        """Produce a clean and validated date range values."""
+        value = self.to_python(value)
+        self.validate(value)
         return value
 
 
@@ -159,6 +186,7 @@ class PluralTextarea(forms.Textarea):
 
     def __init__(self, *args, **kwargs) -> None:
         self.profile = None
+        self.is_source_plural = None
         super().__init__(*args, **kwargs)
 
     def get_rtl_toolbar(self, fieldname):
@@ -272,9 +300,14 @@ class PluralTextarea(forms.Textarea):
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
         unit = value
-        values = unit.get_target_plurals()
         translation = unit.translation
         lang_label = lang = translation.language
+        if self.is_source_plural:
+            plurals = translation.get_source_plurals()
+            values = plurals
+        else:
+            plurals = unit.get_source_plurals()
+            values = unit.get_target_plurals()
         if "zen-mode" in self.attrs:
             lang_label = format_html(
                 '<a class="language" href="{}">{}</a>',
@@ -283,7 +316,6 @@ class PluralTextarea(forms.Textarea):
             )
         plural = translation.plural
         tabindex = self.attrs["tabindex"]
-        plurals = unit.get_source_plurals()
         placeables = set()
         for text in plurals:
             placeables.update(hl[2] for hl in highlight_string(text, unit))
@@ -650,7 +682,7 @@ class SimpleUploadForm(forms.Form):
         return ("user/files", f"upload-{field.name}")
 
     def remove_translation_choice(self, value) -> None:
-        """Remove "Add as translation" choice."""
+        """Remove given file upload method from choices."""
         choices = self.fields["method"].choices
         self.fields["method"].choices = [
             choice for choice in choices if choice[0] != value
@@ -906,15 +938,28 @@ class AutoForm(forms.Form):
     def __init__(self, obj, user=None, *args, **kwargs) -> None:
         """Generate choices for other components in the same project."""
         super().__init__(*args, **kwargs)
-        self.obj = obj
+        self.obj, machinery_settings = obj, {}
 
-        # Add components from other projects with enabled shared TM
-        self.components = obj.project.component_set.filter(
-            source_language=obj.source_language
-        ) | Component.objects.filter(
-            source_language_id=obj.source_language_id,
-            project__contribute_shared_tm=True,
-        ).exclude(project=obj.project)
+        if isinstance(obj, Component):
+            self.components = obj.project.component_set.filter(
+                source_language=obj.source_language
+            ) | Component.objects.filter(
+                source_language_id=obj.source_language_id,
+                project__contribute_shared_tm=True,
+            ).exclude(project=obj.project)
+            machinery_settings = obj.project.get_machinery_settings()
+        elif isinstance(obj, Project):
+            self.components = obj.component_set.filter(
+                source_language_id__in=obj.source_language_ids
+            ) | Component.objects.filter(
+                source_language_id__in=obj.source_language_ids,
+                project__contribute_shared_tm=True,
+            ).exclude(project=obj)
+            machinery_settings = obj.get_machinery_settings()
+        else:
+            # Site-wide add-ons
+            self.components = Component.objects.all()
+            machinery_settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
 
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components
@@ -938,8 +983,6 @@ class AutoForm(forms.Form):
                 ("", gettext("All components in current project")),
                 *choices,
             ]
-
-        machinery_settings = obj.project.get_machinery_settings()
 
         engines = sorted(
             (
@@ -996,25 +1039,16 @@ class AutoForm(forms.Form):
                 result = self.components.get(pk=component)
             except Component.DoesNotExist:
                 raise ValidationError(gettext("Component not found!"))
+        elif "/" not in component:
+            try:
+                result = self.components.get(slug=component, project=self.obj.project)
+            except Component.DoesNotExist:
+                raise ValidationError(gettext("Component not found!"))
         else:
-            slashes = component.count("/")
-            if slashes == 0:
-                try:
-                    result = self.components.get(
-                        slug=component, project=self.obj.project
-                    )
-                except Component.DoesNotExist:
-                    raise ValidationError(gettext("Component not found!"))
-            elif slashes == 1:
-                project_slug, component_slug = component.split("/")
-                try:
-                    result = self.components.get(
-                        slug=component_slug, project__slug=project_slug
-                    )
-                except Component.DoesNotExist:
-                    raise ValidationError(gettext("Component not found!"))
-            else:
-                raise ValidationError(gettext("Please provide valid component slug!"))
+            try:
+                result = self.components.get_by_path(component)
+            except Component.DoesNotExist:
+                raise ValidationError(gettext("Component not found!"))
         if result.source_language != self.obj.source_language:
             raise ValidationError(
                 gettext(
@@ -1068,7 +1102,8 @@ class LanguageCodeChoiceField(forms.ModelChoiceField):
     def to_python(self, value):
         # Add explicit validation here to avoid DataError on invalid input
         # such as: PostgreSQL text fields cannot contain NUL (0x00) bytes
-        validate_slug(value)
+        if value:
+            validate_slug(value)
         return super().to_python(value)
 
 
@@ -1092,9 +1127,9 @@ class EngageForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         self.fields["lang"].queryset = project.languages
-        self.fields["component"].queryset = project.component_set.filter_access(
-            user
-        ).order()
+        self.fields["component"].queryset = (
+            project.component_set.filter_access(user).prefetch().order()
+        )
 
 
 class NewLanguageOwnerForm(forms.Form):
@@ -1251,20 +1286,10 @@ class ReportsForm(forms.Form):
             ("html", gettext_lazy("HTML")),
         ),
     )
-    period = forms.ChoiceField(
+    period = DateRangeField(
         label=gettext_lazy("Report period"),
-        choices=(
-            ("30days", gettext_lazy("Last 30 days")),
-            ("this-month", gettext_lazy("This month")),
-            ("month", gettext_lazy("Last month")),
-            ("this-year", gettext_lazy("This year")),
-            ("year", gettext_lazy("Last year")),
-            ("", gettext_lazy("As specified below")),
-        ),
-        required=False,
+        required=True,
     )
-    start_date = WeblateDateField(label=gettext_lazy("Starting date"), required=False)
-    end_date = WeblateDateField(label=gettext_lazy("Ending date"), required=False)
     language = forms.ChoiceField(
         label=gettext_lazy("Language"),
         choices=[("", gettext_lazy("All languages"))],
@@ -1279,8 +1304,6 @@ class ReportsForm(forms.Form):
             Field("style"),
             Field("period"),
             Field("language"),
-            Field("start_date"),
-            Field("end_date"),
         )
         if not scope:
             languages = Language.objects.have_translation()
@@ -1288,10 +1311,16 @@ class ReportsForm(forms.Form):
             languages = Language.objects.filter(
                 translation__component__project=scope["project"]
             ).distinct()
+        elif "category" in scope:
+            languages = Language.objects.filter(
+                translation__component__category=scope["category"]
+            ).distinct()
         elif "component" in scope:
             languages = Language.objects.filter(
                 translation__component=scope["component"]
             ).exclude(pk=scope["component"].source_language_id)
+        else:
+            raise ValueError(f"Invalid scope: {scope}")
         self.fields["language"].choices += languages.as_choices()
 
     def clean(self) -> None:
@@ -1299,45 +1328,6 @@ class ReportsForm(forms.Form):
         # Invalid value, skip rest of the validation
         if "period" not in self.cleaned_data:
             return
-
-        # Handle predefined periods
-        if self.cleaned_data["period"] == "30days":
-            end = timezone.now()
-            start = end - timedelta(days=30)
-        elif self.cleaned_data["period"] == "month":
-            end = timezone.now().replace(day=1) - timedelta(days=1)
-            start = end.replace(day=1)
-        elif self.cleaned_data["period"] == "this-month":
-            end = timezone.now().replace(day=1) + timedelta(days=31)
-            end = end.replace(day=1) - timedelta(days=1)
-            start = end.replace(day=1)
-        elif self.cleaned_data["period"] == "year":
-            year = timezone.now().year - 1
-            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
-            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
-        elif self.cleaned_data["period"] == "this-year":
-            year = timezone.now().year
-            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
-            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
-        else:
-            # Validate custom period
-            if not self.cleaned_data.get("start_date"):
-                raise ValidationError({"start_date": gettext("Missing date!")})
-            if not self.cleaned_data.get("end_date"):
-                raise ValidationError({"end_date": gettext("Missing date!")})
-            start = self.cleaned_data["start_date"]
-            end = self.cleaned_data["end_date"]
-        # Sanitize timestamps
-        self.cleaned_data["start_date"] = start.replace(
-            hour=0, minute=0, second=0, microsecond=0
-        )
-        self.cleaned_data["end_date"] = end.replace(
-            hour=23, minute=59, second=59, microsecond=999999
-        )
-        # Final validation
-        if self.cleaned_data["start_date"] > self.cleaned_data["end_date"]:
-            msg = gettext("The starting date has to be before the ending date.")
-            raise ValidationError({"start_date": msg, "end_date": msg})
 
 
 class CleanRepoMixin:
@@ -2271,7 +2261,7 @@ class ProjectImportForm(BillingMixin, forms.Form):
 
     def clean_zipfile(self):
         zipfile = self.cleaned_data["zipfile"]
-        backup = ProjectBackup(zipfile)
+        backup = ProjectBackup(fileio=zipfile)
         try:
             backup.validate()
         except Exception as error:
@@ -2398,12 +2388,19 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
+        self,
+        translation,
+        user,
+        tabindex: int | None = None,
+        is_source_plural: bool | None = None,
+        *args,
+        **kwargs,
     ) -> None:
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
+        self.fields["source"].widget.is_source_plural = is_source_plural
         self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
 
@@ -2426,13 +2423,20 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
+        self,
+        translation,
+        user,
+        tabindex: int | None = None,
+        is_source_plural: bool | None = None,
+        *args,
+        **kwargs,
     ) -> None:
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["context"].label = translation.component.context_label
         self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
+        self.fields["source"].widget.is_source_plural = is_source_plural
         self.fields["source"].initial = Unit(
             translation=translation.component.source_translation, id_hash=0
         )
@@ -2448,12 +2452,45 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
     )
 
     def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
+        self,
+        translation,
+        user,
+        tabindex: int | None = None,
+        is_source_plural: bool | None = None,
+        *args,
+        **kwargs,
     ) -> None:
-        super().__init__(translation, user, tabindex, *args, **kwargs)
+        super().__init__(translation, user, tabindex, is_source_plural, *args, **kwargs)
         self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
         self.fields["target"].widget.profile = user.profile
+        self.fields["target"].widget.is_source_plural = is_source_plural
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
+
+
+class GlossaryAddMixin(forms.Form):
+    terminology = forms.BooleanField(
+        label=gettext_lazy("Terminology"),
+        help_text=gettext_lazy("String will be part of the glossary in all languages"),
+        required=False,
+    )
+    forbidden = forms.BooleanField(
+        label=gettext_lazy("Forbidden translation"),
+        required=False,
+    )
+    read_only = forms.BooleanField(
+        label=gettext_lazy("Untranslatable term"),
+        required=False,
+    )
+
+    def get_glossary_flags(self):
+        result = []
+        if self.cleaned_data.get("terminology"):
+            result.append("terminology")
+        if self.cleaned_data.get("forbidden"):
+            result.append("forbidden")
+        if self.cleaned_data.get("read_only"):
+            result.append("read-only")
+        return ", ".join(result)
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
@@ -2470,9 +2507,17 @@ class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
     pass
 
 
-def get_new_unit_form(translation, user, data=None, initial=None):
+def get_new_unit_form(
+    translation, user, data=None, initial=None, is_source_plural=None
+):
     if translation.component.has_template():
-        return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
+        return NewMonolingualUnitForm(
+            translation,
+            user,
+            data=data,
+            initial=initial,
+            is_source_plural=is_source_plural,
+        )
     if translation.component.is_glossary:
         if translation.is_source:
             return NewBilingualGlossarySourceUnitForm(
@@ -2482,8 +2527,16 @@ def get_new_unit_form(translation, user, data=None, initial=None):
             translation, user, data=data, initial=initial
         )
     if translation.is_source:
-        return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
-    return NewBilingualUnitForm(translation, user, data=data, initial=initial)
+        return NewBilingualSourceUnitForm(
+            translation,
+            user,
+            data=data,
+            initial=initial,
+            is_source_plural=is_source_plural,
+        )
+    return NewBilingualUnitForm(
+        translation, user, data=data, initial=initial, is_source_plural=is_source_plural
+    )
 
 
 class BulkEditForm(forms.Form):
@@ -2512,10 +2565,10 @@ class BulkEditForm(forms.Form):
     )
 
     def __init__(self, user, obj, *args, **kwargs) -> None:
-        project = kwargs.pop("project")
+        project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)
-        labels = project.label_set.all()
+        labels = Label.objects.all() if project is None else project.label_set.all()
         if labels:
             self.fields["remove_labels"].queryset = labels
             self.fields["add_labels"].queryset = labels
@@ -2666,7 +2719,7 @@ class AnnouncementForm(forms.ModelForm):
 
     class Meta:
         model = Announcement
-        fields = ["message", "category", "expiry", "notify"]
+        fields = ["message", "severity", "expiry", "notify"]
         widgets = {
             "expiry": WeblateDateInput(),
             "message": MarkdownTextarea,
@@ -2683,8 +2736,10 @@ class ChangesForm(forms.Form):
     user = UsernameField(
         label=gettext_lazy("Author username"), required=False, help_text=None
     )
-    start_date = WeblateDateField(label=gettext_lazy("Starting date"), required=False)
-    end_date = WeblateDateField(label=gettext_lazy("Ending date"), required=False)
+    period = DateRangeField(
+        label=gettext_lazy("Change period"),
+        required=False,
+    )
 
     def clean_user(self):
         username = self.cleaned_data.get("user")
@@ -2721,7 +2776,7 @@ class ChangesForm(forms.Form):
 class LabelForm(forms.ModelForm):
     class Meta:
         model = Label
-        fields = ("name", "color")
+        fields = ("name", "description", "color")
         widgets = {"color": ColorWidget()}
 
     def __init__(self, *args, **kwargs) -> None:

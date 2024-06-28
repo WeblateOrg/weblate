@@ -58,6 +58,10 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
+    from social_core.backends.base import BaseAuth
+    from social_django.models import DjangoStorage
+    from social_django.strategy import DjangoStrategy
+
     from weblate.auth.permissions import PermissionResult
 
     PermissionCacheType = dict[int, list[tuple[set[str] | None, set[Language] | None]]]
@@ -398,6 +402,9 @@ class User(AbstractBaseUser):
     )
 
     objects = UserManager.from_queryset(UserQuerySet)()
+
+    # social_auth integration
+    social_auth: DjangoStorage
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
@@ -740,6 +747,14 @@ class User(AbstractBaseUser):
             self._fetch_permissions()
         return self._permissions["components"]
 
+    @cached_property
+    def global_permissions(self) -> set[str]:
+        return set(
+            Permission.objects.filter(
+                role__group__user=self, codename__in=GLOBAL_PERM_NAMES
+            ).values_list("codename", flat=True)
+        )
+
     def projects_with_perm(self, perm: str, explicit: bool = False):
         if not explicit and self.is_superuser:
             return Project.objects.all().order()
@@ -773,6 +788,36 @@ class User(AbstractBaseUser):
         """Return formatted author name with e-mail."""
         return format_address(
             self.get_visible_name(), address or self.profile.get_commit_email()
+        )
+
+    def add_team(self, request: AuthenticatedHttpRequest | None, team: Group) -> None:
+        from weblate.accounts.models import AuditLog
+
+        self.groups.add(team)
+        AuditLog.objects.create(
+            user=self,
+            request=request if request is not None and request.user == self else None,
+            activity="team-add",
+            username=request.user.username
+            if request is not None and request.user
+            else None,
+            team=team.name,
+        )
+
+    def remove_team(
+        self, request: AuthenticatedHttpRequest | None, team: Group
+    ) -> None:
+        from weblate.accounts.models import AuditLog
+
+        self.groups.remove(team)
+        AuditLog.objects.create(
+            user=self,
+            request=request if request is not None and request.user == self else None,
+            activity="team-remove",
+            username=request.user.username
+            if request is not None and request.user
+            else None,
+            team=team.name,
         )
 
 
@@ -856,7 +901,7 @@ def auto_assign_group(user) -> None:
     # Add user to automatic groups
     for auto in AutoGroup.objects.prefetch_related("group"):
         if re.match(auto.match, user.email or ""):
-            user.groups.add(auto.group)
+            user.add_team(None, auto.group)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
@@ -877,14 +922,14 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
 def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs) -> None:
     if action != "post_remove":
         return
-    pk = pk_set.pop()
-    if reverse:
-        group = instance
-        user = User.objects.get(pk=pk)
-    else:
-        group = Group.objects.get(pk=pk)
-        user = instance
-    group.admins.remove(user)
+    for pk in pk_set:
+        if reverse:
+            group = instance
+            user = User.objects.get(pk=pk)
+        else:
+            group = Group.objects.get(pk=pk)
+            user = instance
+        group.admins.remove(user)
 
 
 @receiver(post_save, sender=User)
@@ -1044,8 +1089,6 @@ class Invitation(models.Model):
         if self.user and self.user != user:
             raise ValueError("User mismatch on accept!")
 
-        user.groups.add(self.group)
-
         if self.is_superuser:
             user.is_superuser = True
             user.save(update_fields=["is_superuser"])
@@ -1056,6 +1099,9 @@ class Invitation(models.Model):
             activity="accepted",
             username=self.author.username,
         )
+
+        user.add_team(request, self.group)
+
         self.delete()
 
 
@@ -1080,3 +1126,9 @@ class AuthenticatedHttpRequest(HttpRequest):
     user: User
     # Added by weblate.accounts.AuthenticationMiddleware
     accepted_language: Language
+
+    # type hint for social_auth
+    social_strategy: DjangoStrategy
+
+    # type hint for auth
+    backend: BaseAuth | None

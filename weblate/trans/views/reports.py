@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
-from weblate.trans.models import Change, Component, Project
+from weblate.trans.models import Category, Change, Component, Project
 from weblate.trans.util import count_words, redirect_param
 from weblate.utils.views import parse_path, show_form_errors
 
@@ -66,13 +66,16 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
 @require_POST
 def get_credits(request, path=None):
     """View for credits."""
-    obj = parse_path(request, path, (Component, Project, None))
+    obj = parse_path(request, path, (Component, Category, Project, None))
     if obj is None:
         kwargs = {"translation__isnull": False}
         scope = {}
     elif isinstance(obj, Project):
         kwargs = {"translation__component__project": obj}
         scope = {"project": obj}
+    elif isinstance(obj, Category):
+        kwargs = {"translation__component__category": obj}
+        scope = {"category": obj}
     else:
         kwargs = {"translation__component": obj}
         scope = {"component": obj}
@@ -85,8 +88,8 @@ def get_credits(request, path=None):
 
     data = generate_credits(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        form.cleaned_data["start_date"],
-        form.cleaned_data["end_date"],
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )
@@ -196,7 +199,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
-        tgt_words = count_words(change.target, language_code)
+        tgt_words = count_words(change.target, change.language.base_code)
         edits = change.get_distance()
 
         current["chars"] += src_chars
@@ -222,11 +225,13 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
 @require_POST
 def get_counts(request, path=None):
     """View for work counts."""
-    obj = parse_path(request, path, (Component, Project, None))
+    obj = parse_path(request, path, (Component, Category, Project, None))
     if obj is None:
         kwargs = {}
     elif isinstance(obj, Project):
         kwargs = {"project": obj}
+    elif isinstance(obj, Category):
+        kwargs = {"category": obj}
     else:
         kwargs = {"component": obj}
 
@@ -238,8 +243,8 @@ def get_counts(request, path=None):
 
     data = generate_counts(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        form.cleaned_data["start_date"],
-        form.cleaned_data["end_date"],
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )

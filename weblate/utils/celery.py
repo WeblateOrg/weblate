@@ -36,8 +36,8 @@ def handle_task_failure(exception=None, **kwargs) -> None:
     from weblate.utils.errors import report_error
 
     report_error(
+        "Failure while executing task",
         extra_log=repr(kwargs),
-        cause="Failure while executing task",
         skip_sentry=True,
         print_tb=True,
         level="error",
@@ -64,7 +64,7 @@ def show_failing_system_check(sender, logger, **kwargs) -> None:
 
 
 def get_queue_length(queue="celery"):
-    with app.connection_or_acquire() as conn:
+    with app.connection_or_acquire() as conn:  # types: ignore[attr-defined]
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
         ).message_count
@@ -84,26 +84,10 @@ def get_queue_stats():
     return {queue: get_queue_length(queue) for queue in get_queue_list()}
 
 
-def is_task_ready(task):
-    """
-    Workaround broken ready() for failed Celery results.
-
-    In case the task ends with an exception, the result tries to reconstruct
-    that. It can fail in case the exception can not be reconstructed using
-    data in args attribute.
-
-    See https://github.com/celery/celery/issues/5057
-    """
-    try:
-        return task.ready()
-    except TypeError:
-        return True
-
-
 def get_task_progress(task):
     """Return progress of a Celery task."""
     # Completed task
-    if is_task_ready(task):
+    if task.ready():
         return 100
     # In progress
     result = task.result

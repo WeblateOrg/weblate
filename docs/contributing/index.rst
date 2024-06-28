@@ -52,6 +52,10 @@ Please respect these guidelines while writing:
     1. Rewrite
     2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
 
+Documentation can be also edited and built locally, the Python requirements are
+in `docs/requirements.txt`. You will also need :program:`graphviz` to build the
+documentation.
+
 .. hint::
 
     You can `translate the docs <https://hosted.weblate.org/projects/weblate/documentation/>`_.

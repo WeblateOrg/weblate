@@ -499,7 +499,8 @@ function initHighlight(root) {
        * to apply first. The code is borrowed from Prism.util.clone.
        */
       for (const key in languageMode) {
-        if (Object.hasOwn(languageMode, key)) {
+        // biome-ignore lint/suspicious/noPrototypeBuiltins: Firefox < 92 compatibility, Object.hasOwn(languageMode, key) should be used instead
+        if (languageMode.hasOwnProperty(key)) {
           extension[key] = Prism.util.clone(languageMode[key]);
         }
       }
@@ -1018,12 +1019,13 @@ $(function () {
     const $button = $group.find("button.search-field");
 
     $button.attr("data-field", $this.data("field"));
+
     const $title = $this.find("span.title");
     let text = $this.text();
     if ($title.length) {
       text = $title.text();
     }
-    $group.find("span.search-label").text(text);
+    $group.find("span.search-label-auto").text(text);
 
     if ($group.hasClass("sort-field")) {
       $group.find("input[name=sort_by]").val($this.data("sort"));
@@ -1033,11 +1035,20 @@ $(function () {
     }
 
     if ($group.hasClass("query-field")) {
-      $group.find("textarea[name=q]").val($this.data("field"));
-      if ($this.closest(".result-page-form").length) {
+      if (
+        $(".search-toolbar").length === 0 &&
+        $this.closest(".result-page-form").length > 0
+      ) {
+        const textarea = $group.find("textarea[name=q]");
+        textarea.val($this.data("field"));
+        textarea[0].dispatchEvent(new Event("change", { bubbles: true }));
         const $form = $this.closest("form");
         $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
+      } else {
+        $group
+          .find("textarea[name=q]")
+          .insertAtCaret(` ${$this.data("field")} `);
       }
     }
     $this.closest("ul").dropdown("toggle");
@@ -1374,6 +1385,105 @@ $(function () {
           element.classList.toggle("visible");
         });
     });
+  });
+
+  $("input[name='period']").daterangepicker(
+    {
+      autoApply: true,
+      startDate: moment(),
+      endDate: moment(),
+      alwaysShowCalendars: true,
+      opens: "left",
+      locale: {
+        customRangeLabel: gettext("Custom range"),
+        daysOfWeek: [
+          pgettext("Short name of day", "Su"),
+          pgettext("Short name of day", "Mo"),
+          pgettext("Short name of day", "Tu"),
+          pgettext("Short name of day", "We"),
+          pgettext("Short name of day", "Th"),
+          pgettext("Short name of day", "Fr"),
+          pgettext("Short name of day", "Sa"),
+        ],
+        monthNames: [
+          pgettext("Short name of month", "Jan"),
+          pgettext("Short name of month", "Feb"),
+          pgettext("Short name of month", "Mar"),
+          pgettext("Short name of month", "Apr"),
+          pgettext("Short name of month", "May"),
+          pgettext("Short name of month", "Jun"),
+          pgettext("Short name of month", "Jul"),
+          pgettext("Short name of month", "Aug"),
+          pgettext("Short name of month", "Sep"),
+          pgettext("Short name of month", "Oct"),
+          pgettext("Short name of month", "Nov"),
+          pgettext("Short name of month", "Dec"),
+        ],
+      },
+      ranges: {
+        [gettext("Today")]: [moment(), moment()],
+        [gettext("Yesterday")]: [
+          moment().subtract(1, "days"),
+          moment().subtract(1, "days"),
+        ],
+        [gettext("Last 7 days")]: [moment().subtract(6, "days"), moment()],
+        [gettext("Last 30 days")]: [moment().subtract(29, "days"), moment()],
+        [gettext("This month")]: [
+          moment().startOf("month"),
+          moment().endOf("month"),
+        ],
+        [gettext("Last month")]: [
+          moment().subtract(1, "month").startOf("month"),
+          moment().subtract(1, "month").endOf("month"),
+        ],
+        [gettext("This year")]: [
+          moment().startOf("year"),
+          moment().endOf("year"),
+        ],
+        [gettext("Last year")]: [
+          moment().subtract(1, "year").startOf("year"),
+          moment().subtract(1, "year").endOf("year"),
+        ],
+      },
+    },
+    (start, end, label) => {},
+  );
+
+  /* Singular or plural new unit switcher */
+  $("input[name='new-unit-form-type']").on("change", function () {
+    const refreshInput = (el, value) => {
+      el.value = value;
+      el.dispatchEvent(new CustomEvent("input"));
+    };
+    const transferTextareaInputs = (fromId, toId) => {
+      $(`${toId} textarea`).each((toIdx, toTextArea) => {
+        $(`${fromId} textarea`).each((fromIdx, fromTextArea) => {
+          if (fromTextArea.name === toTextArea.name) {
+            refreshInput(toTextArea, fromTextArea.value);
+          }
+        });
+      });
+    };
+    const selected = $(this).val();
+    if (selected === "singular") {
+      $("input[name='new-unit-form-type']").removeAttr("checked");
+      $("#new-singular #show-singular").prop("checked", true);
+      $("#new-singular input[name='context']").val(
+        $("#new-plural input[name='context']").val(),
+      );
+      transferTextareaInputs("#new-plural", "#new-singular");
+      $("#new-plural").addClass("hidden");
+      $("#new-singular").removeClass("hidden");
+    } else if (selected === "plural") {
+      $("input[name='new-unit-form-type']").removeAttr("checked");
+      $("#new-plural #show-plural").prop("checked", true);
+      $("#new-plural input[name='context']").val(
+        $("#new-singular input[name='context']").val(),
+      );
+      transferTextareaInputs("#new-singular", "#new-plural");
+      $("#new-singular").addClass("hidden");
+      $("#new-plural").removeClass("hidden");
+    }
   });
 
   /* Warn users that they do not want to use developer console in most cases */

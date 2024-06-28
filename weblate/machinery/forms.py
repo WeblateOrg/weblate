@@ -8,6 +8,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
+from weblate.utils.validators import WeblateServiceURLValidator
+
 
 class BaseMachineryForm(forms.Form):
     def __init__(self, machinery, *args, **kwargs) -> None:
@@ -36,7 +38,8 @@ class KeyMachineryForm(BaseMachineryForm):
 
 class URLMachineryForm(BaseMachineryForm):
     url = forms.URLField(
-        label=pgettext_lazy("Automatic suggestion service configuration", "API URL")
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        validators=[WeblateServiceURLValidator()],
     )
 
 
@@ -163,6 +166,15 @@ class MicrosoftMachineryForm(KeyMachineryForm):
         ),
         required=False,
     )
+    category = forms.CharField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "Category"),
+        help_text=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Specify a customized system category ID to use it instead of general one.",
+        ),
+        initial="general",
+        required=False,
+    )
 
 
 class GoogleV3MachineryForm(BaseMachineryForm):
@@ -240,6 +252,7 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.modernmt.com/",
+        validators=[WeblateServiceURLValidator()],
     )
 
 
@@ -247,6 +260,7 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.deepl.com/v2/",
+        validators=[WeblateServiceURLValidator()],
     )
     formality = forms.CharField(
         label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),
@@ -269,6 +283,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
+        ("gpt-4o", "GPT-4o"),
         ("gpt-4-1106-preview", "GPT-4 Turbo"),
         ("gpt-4", "GPT-4"),
         ("gpt-3.5-turbo-1106", "Updated GPT 3.5 Turbo"),

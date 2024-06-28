@@ -19,6 +19,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
+ENV PATH=/app/venv/bin/:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 # Make sure user exists in the container
 RUN if ! getent group "${GROUP_ID}"; then \
             groupadd --gid "${GROUP_ID}" developer; \
@@ -45,7 +46,10 @@ RUN apt-get update && apt-get install -y \
     libz-dev   \
     libjpeg62-turbo-dev
 
+# TODO: drop once weblate/weblate image has it
+RUN apt-get install -y gir1.2-rsvg-2.0
+
 COPY requirements.txt /tmp/
-RUN pip3 install -r /tmp/requirements.txt
+RUN . /app/venv/bin/activate && uv pip install -r /tmp/requirements.txt
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp/localtime

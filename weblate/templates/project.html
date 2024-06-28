@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load static %}
 {% load translations %}
+{% load compress %}
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load metrics %}
@@ -107,6 +109,7 @@
         <li><a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a></li>
         <li><a href="{% url 'machinery-list' project=object.slug %}">{% trans "Automatic suggestions" %}</a></li>
         <li><a href="{% url 'backups' project=object.slug %}">{% trans "Backups" %}</a></li>
+        <li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
         {% endif %}
 
         {% if user_can_view_billing and object.billings %}

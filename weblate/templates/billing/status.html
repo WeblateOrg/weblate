@@ -76,17 +76,28 @@
         {% endif %}
     </td>
   </tr>
+  {% if plan.display_limit_hosted_strings %}
+  <tr><th>{% trans "Hosted strings limit" %}</th>
+  {% include "billing/used.html" with max=plan.limit_hosted_strings total=plan.display_limit_hosted_strings used=billing.count_hosted_strings %}
+  </tr>
+  {% endif %}
+  {% if plan.display_limit_strings %}
   <tr><th>{% trans "Strings limit" %}</th>
   {% include "billing/used.html" with max=plan.limit_strings total=plan.display_limit_strings used=billing.count_strings %}
   </tr>
+  {% endif %}
+  {% if plan.display_limit_languages %}
   <tr><th>{% trans "Languages limit" %}</th>
   {% include "billing/used.html" with max=plan.limit_languages total=plan.display_limit_languages used=billing.count_languages %}
   </tr>
-  <tr><th>{% trans "Last invoice" %}</th>
-  <td colspan="2">{{ billing.last_invoice }}</td></tr>
+  {% endif %}
+  {% if plan.display_limit_project %}
   <tr><th>{% trans "Projects limit" %}</th>
   {% include "billing/used.html" with max=plan.limit_projects total=plan.display_limit_projects used=billing.all_projects|length %}
   </tr>
+  {% endif %}
+  <tr><th>{% trans "Last invoice" %}</th>
+  <td colspan="2">{{ billing.last_invoice }}</td></tr>
   {% if billing.all_projects %}
     <tr>
       <td colspan="3">

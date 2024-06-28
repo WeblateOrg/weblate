@@ -51,10 +51,7 @@ from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
-from weblate.utils.urls import register_weblate_converters
 from weblate.utils.version import VERSION
-
-register_weblate_converters()
 
 handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
@@ -195,6 +192,11 @@ real_patterns = [
         "addon/<int:pk>/",
         weblate.addons.views.AddonDetail.as_view(),
         name="addon-detail",
+    ),
+    path(
+        "addon/<int:pk>/logs/",
+        weblate.addons.views.AddonLogs.as_view(),
+        name="addon-logs",
     ),
     path(
         "access/<name:project>/",
@@ -767,6 +769,9 @@ real_patterns = [
     path("admin/", admin.site.urls),
     # Weblate management interface
     path("manage/", weblate.wladmin.views.manage, name="manage"),
+    path(
+        "manage/addons/", weblate.addons.views.AddonList.as_view(), name="manage-addons"
+    ),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
     path(
         "manage/users/",
@@ -812,6 +817,7 @@ real_patterns = [
     path("hosting/", weblate.accounts.views.hosting, name="hosting"),
     path("trial/", weblate.accounts.views.trial, name="trial"),
     path("about/", weblate.trans.views.about.AboutView.as_view(), name="about"),
+    path("donate/", weblate.trans.views.about.DonateView.as_view(), name="donate"),
     path("keys/", weblate.trans.views.about.KeysView.as_view(), name="keys"),
     path("stats/", weblate.trans.views.about.StatsView.as_view(), name="stats"),
     # User pages

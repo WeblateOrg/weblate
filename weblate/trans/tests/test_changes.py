@@ -4,7 +4,10 @@
 
 """Tests for changes browsing."""
 
+from datetime import timedelta
+
 from django.urls import reverse
+from django.utils import timezone
 
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -57,3 +60,10 @@ class ChangesTest(ViewTestCase):
         response = self.client.get(reverse("changes"), {"user": self.user.username})
         self.assertContains(response, "Translation added")
         self.assertNotContains(response, "Invalid search string!")
+
+    def test_daterange(self) -> None:
+        end = timezone.now()
+        start = end - timedelta(days=1)
+        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        response = self.client.get(reverse("changes"), {"period": period})
+        self.assertContains(response, "Resource update")

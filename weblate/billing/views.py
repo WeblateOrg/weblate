@@ -7,7 +7,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import Http404, HttpResponse
+from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -44,14 +44,12 @@ def download_invoice(request, pk):
     if not invoice.filename_valid:
         raise Http404(f"File {invoice.filename} does not exist!")
 
-    with open(invoice.full_filename, "rb") as handle:
-        data = handle.read()
-
-    response = HttpResponse(data, content_type="application/pdf")
-    response["Content-Disposition"] = f"attachment; filename={invoice.filename}"
-    response["Content-Length"] = len(data)
-
-    return response
+    return FileResponse(
+        open(invoice.full_filename, "rb"),  # noqa: SIM115
+        as_attachment=True,
+        filename=invoice.filename,
+        content_type="application/pdf",
+    )
 
 
 def handle_post(request, billing) -> None:

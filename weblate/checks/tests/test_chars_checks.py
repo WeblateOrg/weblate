@@ -13,6 +13,7 @@ from weblate.checks.chars import (
     EndColonCheck,
     EndEllipsisCheck,
     EndExclamationCheck,
+    EndInterrobangCheck,
     EndNewlineCheck,
     EndQuestionCheck,
     EndSemicolonCheck,
@@ -95,14 +96,14 @@ class EndStopCheckTest(CheckTestCase):
     def test_arabic(self) -> None:
         self.assertTrue(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["<unused singular (hash=…)>", "Lorem ipsum dolor sit amet."],
                 ["zero", "one", "two", "few", "many", "other"],
                 MockUnit(code="ar"),
             )
         )
         self.assertFalse(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "Lorem ipsum dolor sit amet."],
+                ["<unused singular (hash=…)>", "Lorem ipsum dolor sit amet."],
                 ["zero.", "one", "two.", "few.", "many.", "other."],
                 MockUnit(code="ar"),
             )
@@ -113,14 +114,14 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(True, ("Text:", "Text", ""), "ja")
         self.assertTrue(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "English."],
+                ["<unused singular (hash=…)>", "English."],
                 ["Japanese…"],
                 MockUnit(code="ja"),
             )
         )
         self.assertFalse(
             self.check.check_target(
-                ["<unusued singular (hash=…)>", "English."],
+                ["<unused singular (hash=…)>", "English."],
                 ["Japanese。"],
                 MockUnit(code="ja"),
             )
@@ -141,11 +142,11 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(True, ("Text.", "Text", ""), "sat")
 
     def test_my(self) -> None:
-        self.do_test(False, ("Te xt", "Te xt", ""), "my")
-        self.do_test(True, ("Te xt", "Te xt။", ""), "my")
+        self.do_test(False, ("Te xt", "Te xt", ""), "my")  # codespell:ignore
+        self.do_test(True, ("Te xt", "Te xt။", ""), "my")  # codespell:ignore
         self.do_test(False, ("Text.", "Text။", ""), "my")
         self.do_test(False, ("Text?", "ပုံဖျက်မလး။", ""), "my")
-        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")
+        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")  # codespell:ignore
 
 
 class EndColonCheckTest(CheckTestCase):
@@ -196,7 +197,15 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_my(self) -> None:
         self.do_test(False, ("Texte", "Texte", ""), "my")
         self.do_test(False, ("Text?", "ပုံဖျက်မလား။", ""), "my")
-        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")  # codespell:ignore
+
+    def test_interrobang(self) -> None:
+        self.do_test(False, ("string!?", "string?", ""))
+        self.do_test(False, ("string?", "string?!", ""))
+        self.do_test(False, ("string⁈", "string?", ""))
+        self.do_test(False, ("string?", "string⁉", ""))
+        self.do_test(False, ("string？！", "string?", ""))
+        self.do_test(False, ("string?", "string！？", ""))
 
 
 class EndExclamationCheckTest(CheckTestCase):
@@ -215,6 +224,38 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def test_eu(self) -> None:
         self.do_test(False, ("Text!", "¡Texte!", ""), "eu")
+
+    def test_interrobang(self) -> None:
+        self.do_test(False, ("string!?", "string!", ""))
+        self.do_test(False, ("string!", "string?!", ""))
+        self.do_test(False, ("string⁈", "string!", ""))
+        self.do_test(False, ("string!", "string⁉", ""))
+        self.do_test(False, ("string？！", "string!", ""))
+        self.do_test(False, ("string!", "string！？", ""))
+
+
+class EndInterrobangCheckTest(CheckTestCase):
+    check = EndInterrobangCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_good_matching = ("string!?", "string?!", "")
+        self.test_failure_1 = ("string!?", "string?", "")
+        self.test_failure_2 = ("string!?", "string!", "")
+        self.test_failure_3 = ("string!", "string!?", "")
+
+    def test_translate(self) -> None:
+        self.do_test(False, ("string!?", "string!?", ""))
+        self.do_test(False, ("string⁉", "string⁈", ""))
+        self.do_test(False, ("string⁉", "string⁉", ""))
+        self.do_test(False, ("string！？", "string！？", ""))
+        self.do_test(False, ("string！？", "string？！", ""))
+        self.do_test(False, ("string?!", "string？！", ""))
+        self.do_test(False, ("string！？", "string!?", ""))
+        self.do_test(True, ("string?", "string?!", ""))
+        self.do_test(False, ("string⁉", "string!?", ""))
+        self.do_test(False, ("string?!", "string⁈", ""))
+        self.do_test(False, ("string？！", "string⁈", ""))
 
 
 class EndEllipsisCheckTest(CheckTestCase):

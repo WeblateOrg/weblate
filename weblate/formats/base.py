@@ -9,10 +9,11 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING, BinaryIO, TypeAlias
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
+from translate.storage.base import TranslationStore as TranslateToolkitStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
@@ -22,7 +23,7 @@ from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Sequence
 
     from django_stubs_ext import StrOrPromise
 
@@ -94,7 +95,7 @@ GOOGLEPLAY_CODES = {
     "es": "es-ES",
     "sv": "sv-SE",
     "ta": "ta-IN",
-    "te": "te-IN",
+    "te": "te-IN",  # codespell:ignore te
     "tr": "tr-TR",
 }
 
@@ -119,6 +120,13 @@ class BaseItem:
 
 
 InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
+
+
+class BaseStore:
+    units: Sequence[InnerUnit]
+
+
+InnerStore: TypeAlias = TranslateToolkitStore | BaseStore
 
 
 class TranslationUnit:
@@ -204,7 +212,7 @@ class TranslationUnit:
         return ""
 
     @classmethod
-    def calculate_id_hash(cls, has_template: bool, source: str, context: str):
+    def calculate_id_hash(cls, has_template: bool, source: str, context: str) -> int:
         """
         Return hash of source string, used for quick lookup.
 
@@ -215,22 +223,26 @@ class TranslationUnit:
         return calculate_hash(context)
 
     @cached_property
-    def id_hash(self):
+    def id_hash(self) -> int:
         return self.calculate_id_hash(
             self.template is not None,
             self.source,
             self.context,
         )
 
-    def is_translated(self):
-        """Check whether unit is translated."""
-        return bool(self.target)
+    def has_translation(self) -> bool:
+        """Check whether unit has translation."""
+        return any(split_plural(self.target))
 
-    def is_approved(self, fallback=False):
+    def is_translated(self) -> bool:
+        """Check whether unit is translated."""
+        return self.has_translation()
+
+    def is_approved(self, fallback=False) -> bool:
         """Check whether unit is approved."""
         return fallback
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback=False) -> bool:
         """Check whether unit needs edit."""
         return fallback
 
@@ -292,6 +304,7 @@ class TranslationFormat:
     can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
+    store: InnerStore
 
     @classmethod
     def get_identifier(cls):
@@ -349,7 +362,9 @@ class TranslationFormat:
             return [self.storefile]
         return [self.storefile.name]
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: InnerStore | None
+    ) -> InnerStore:
         raise NotImplementedError
 
     @classmethod
@@ -441,7 +456,7 @@ class TranslationFormat:
     def ensure_index(self):
         return self._unit_index
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TranslationUnit) -> None:
         """Add new unit to underlying store."""
         raise NotImplementedError
 
@@ -468,7 +483,7 @@ class TranslationFormat:
         raise NotImplementedError
 
     @property
-    def all_store_units(self) -> list[BaseItem]:
+    def all_store_units(self) -> list[InnerUnit]:
         """Wrapper for all store units for possible filtering."""
         return self.store.units
 
@@ -542,6 +557,10 @@ class TranslationFormat:
     def get_language_posix(code: str) -> str:
         return code.replace("-", "_")
 
+    @classmethod
+    def get_language_posix_lowercase(cls, code: str) -> str:
+        return cls.get_language_posix(code).lower()
+
     @staticmethod
     def get_language_bcp(code: str) -> str:
         return code.replace("_", "-")
@@ -562,6 +581,10 @@ class TranslationFormat:
     def get_language_linux(cls, code: str) -> str:
         """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
         return LEGACY_CODES.get(code, cls.get_language_posix(code))
+
+    @classmethod
+    def get_language_linux_lowercase(cls, code: str) -> str:
+        return cls.get_language_linux(code).lower()
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
@@ -675,17 +698,10 @@ class TranslationFormat:
         key: str,
         source: str | list[str],
         target: str | list[str] | None = None,
-        skip_build: bool = False,
     ):
         """Add new unit to monolingual store."""
         # Create backend unit object
         unit = self.create_unit(key, source, target)
-
-        # Add it to the file
-        self.add_unit(unit)
-
-        if skip_build:
-            return None
 
         # Build an unit object
         if self.has_template:
@@ -709,6 +725,9 @@ class TranslationFormat:
             self._unit_index[result.id_hash] = result
         if "_template_index" in self.__dict__:
             self._template_index[mono_unit.id_hash] = mono_unit
+
+        # Add it to the file
+        self.add_unit(result)
 
         return result
 

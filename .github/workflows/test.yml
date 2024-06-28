@@ -21,6 +21,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         python-version:
@@ -29,23 +30,28 @@ jobs:
         - '3.12'
         requirements: [latest]
         database: [postgresql]
+        experimental: [false]
         include:
           # Reduced testing for mysql
         - python-version: 3.11
           requirements: latest
           database: mysql
+          experimental: false
           # Reduced testing for mariadb
         - python-version: 3.11
           requirements: latest
           database: mariadb
+          experimental: false
           # Reduced testing for minimal deps
         - python-version: '3.10'
           requirements: minimal
           database: postgresql
+          experimental: false
           # Reduced testing for edge deps
         - python-version: 3.11
           requirements: edge
           database: postgresql
+          experimental: true
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     env:
       CI_DATABASE: ${{ matrix.database }}
@@ -68,11 +74,9 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-        cache: pip
-        cache-dependency-path: pyproject.toml
     - name: Used versions
       run: ./ci/print-versions
-    - name: Install pip dependencies
+    - name: Install Python dependencies
       run: ./ci/pip-install ${{ matrix.requirements }}
     - name: Prepare database
       run: ./ci/prepare-database

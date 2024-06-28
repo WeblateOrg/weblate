@@ -688,7 +688,6 @@ def translate(request, path):
             "offset": offset,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
-            "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
@@ -700,7 +699,7 @@ def translate(request, path):
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": unit.translation.component.locked,
-            "glossary": get_glossary_terms(unit),
+            "glossary": get_glossary_terms(unit, full=True),
             "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "screenshots": (
@@ -908,7 +907,6 @@ def zen(request, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
-            "filter_name": search_result["name"],
             "filter_count": len(search_result["ids"]),
             "sort_name": sort["name"],
             "sort_query": sort["query"],
@@ -1081,7 +1079,6 @@ def browse(request, path):
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,
-            "filter_name": search_result["name"],
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": base_unit_url + str(offset + 1)

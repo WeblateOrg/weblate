@@ -227,8 +227,7 @@ def add_host_key(request, host, port="") -> None:
                 # Remove existing key entries
                 if os.path.exists(known_hosts_file):
                     with open(known_hosts_file) as handle:
-                        for line in handle:
-                            keys.discard(line.strip())
+                        keys.difference_update(line.strip() for line in handle)
                 # Write any new keys
                 if keys:
                     with open(known_hosts_file, "a") as handle:

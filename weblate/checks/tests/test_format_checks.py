@@ -187,8 +187,8 @@ class PythonFormatCheckTest(CheckTestCase):
     def test_duplicated_format(self) -> None:
         self.assertEqual(
             self.check.check_format(
-                "%(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
-                "%(classF)s %(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                "%(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",  # codespell:ignore
+                "%(classF)s %(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",  # codespell:ignore
                 False,
                 None,
             ),

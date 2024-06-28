@@ -102,33 +102,51 @@ Add as translation (``translate``)
     the default behavior.
 
     Only translations are used from the uploaded file and no additional content.
+
+    This option is available only if the user has the :ref:`"Edit strings" permission <privileges>`.
 Add as suggestion (``suggest``)
-    Imported strings are added as suggestions, do this when you want to have your
+    Imported strings are added as suggestions. Do this when you want to have your
     uploaded strings reviewed.
 
     Only translations are used from the uploaded file and no additional content.
+
+    This option is available only if the user has the :ref:`"Add suggestion" permission <privileges>`.
+Add as approved translation (``approve``)
+    Imported strings are added as approved translations. Do this when you already
+    reviewed your translations before uploading them.
+
+    Only translations are used from the uploaded file and no additional content.
+
+    This option is available only if the user has the :ref:`"Review strings" permission <privileges>`.
 Add as translation needing edit (``fuzzy``)
     Imported strings are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
 
     Only translations are used from the uploaded file and no additional content.
+
+    This option is available only if the user has the :ref:`"Edit strings" permission <privileges>`.
 Replace existing translation file (``replace``)
     Existing file is replaced with new content. This can lead to loss of existing
     translations, use with caution.
+
+    This option is available only if the user has the
+    :ref:`"Edit component settings" permission or "Add new string", "Remove a string" and "Edit strings" permissions <privileges>`.
 Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
 
-    This option is supported only for some file formats.
+    This option is available only for some file formats and only if the user has the
+    :ref:`"Upload translations" permission <privileges>`.
 Add new strings (``add``)
     Adds new strings to the translation. It skips the one which already exist.
 
     In case you want to both add new strings and update existing translations,
     upload the file second time with :guilabel:`Add as translation`.
 
-    This option is available only with :ref:`component-manage_units` turned on.
-
     Only source, translation and key (context) are used from the uploaded file.
+
+    This option is available only with :ref:`component-manage_units` turned on
+    and only if the user has the :ref:`"Add new string" permission <privileges>`.
 
 .. seealso::
 

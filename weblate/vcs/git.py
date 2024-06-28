@@ -87,7 +87,7 @@ class GitRepository(Repository):
         try:
             result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
         except RepositoryError:
-            report_error(cause="Listing remote branch")
+            report_error("Listing remote branch")
             return super().get_remote_branch(repo)
         for line in result.splitlines():
             if not line.startswith("ref: "):
@@ -358,6 +358,11 @@ class GitRepository(Repository):
         self.execute(["rm", "--force", "--", *files])
         self.commit(message, author)
 
+    def get_remote_configure(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ) -> tuple[tuple[str, str, str | None], ...]:
+        return ()
+
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ) -> None:
@@ -388,6 +393,7 @@ class GitRepository(Repository):
                 "merge",
                 dumps(f"refs/heads/{branch}", ensure_ascii=False),
             ),
+            *self.get_remote_configure(pull_url, push_url, branch, fast),
         )
         self.branch = branch
 
@@ -542,6 +548,17 @@ class GitWithGerritRepository(GitRepository):
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
+    def get_username_from_url(self, url) -> str:
+        if url is not None:
+            if url.startswith("git@"):
+                return url.split(":")[-1].split("/")[0]
+            if url.startswith(("ssh://", "https://")) and "@" in url:
+                return url.split("//")[-1].split("@")[0]
+            if url.startswith(("ssh://", "https://")):
+                return url.split("//")[-1].split("/")[1]
+            return ""
+        return ""
+
     def push(self, branch) -> None:
         if self.needs_push():
             try:
@@ -550,6 +567,17 @@ class GitWithGerritRepository(GitRepository):
                 if "(no new changes)" in str(error):
                     return
                 raise
+
+    def get_remote_configure(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ) -> tuple[tuple[str, str, str | None], ...]:
+        if push_url:
+            gerrit_user = self.get_username_from_url(push_url)
+            return (
+                ('remote "gerrit"', "url", push_url),
+                ("gitreview", "username", gerrit_user),
+            )
+        return (('remote "gerrit"', "url", None),)
 
 
 class SubversionRepository(GitRepository):
@@ -698,19 +726,21 @@ class SubversionRepository(GitRepository):
             merge_err=False,
         )
 
-    def get_remote_branch_name(self) -> str:
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
         """
         Return the remote branch name.
 
         trunk if local branch is master, local branch otherwise.
         """
-        if self.branch == self.default_branch:
+        if branch is None:
+            branch = self.branch
+        if branch == self.default_branch:
             fetch = self.get_config("svn-remote.svn.fetch")
             if "origin/trunk" in fetch:
                 return "origin/trunk"
             if "origin/git-svn" in fetch:
                 return "origin/git-svn"
-        return f"origin/{self.branch}"
+        return f"origin/{branch}"
 
     def list_remote_branches(self):
         return []
@@ -892,6 +922,13 @@ class GitMergeRequestBase(GitForcePushRepository):
             (f'remote "{remote_name}"', "pushurl", push_url),
         )
 
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        remote = "origin"
+        if branch is not None:
+            credentials = self.get_credentials()
+            remote = credentials["username"]
+        return f"{remote}/{self.branch if branch is None else branch}"
+
     def fork(self, credentials: dict) -> None:
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
@@ -1053,9 +1090,10 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                         auth=self.get_auth(credentials),
+                        timeout=5,
                     )
                 except (OSError, HTTPError) as error:
-                    report_error(cause="request")
+                    report_error("Git API request")
                     raise RepositoryError(0, str(error)) from error
 
                 # GitHub recommends a delay between 2 requests of at least 1s,
@@ -1066,7 +1104,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 try:
                     response_data = response.json()
                 except JSONDecodeError as error:
-                    report_error(cause="request json decoding")
+                    report_error("GIT API request json decoding")
                     self.raise_for_response(response)
                     raise RepositoryError(0, str(error)) from error
 
@@ -1155,7 +1193,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         scheme_regex = r"^[a-z]+:\/\/.*"  # matches for example ssh://* and https://*
 
         if not re.match(scheme_regex, repo):
-            repo = "ssh://" + repo  # assume all links without schema are ssh links
+            repo = f"ssh://{repo}"  # assume all links without schema are ssh links
 
         (scheme, host, owner, slug) = super().parse_repo_url(repo)
 
@@ -1550,8 +1588,8 @@ class LocalRepository(GitRepository):
     ) -> None:
         return
 
-    def get_remote_branch_name(self):
-        return self.branch
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        return self.branch if branch is None else branch
 
     def update_remote(self) -> None:
         return

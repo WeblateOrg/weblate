@@ -246,6 +246,6 @@ def invert_re(regex):
     try:
         invre = GroupEmitter(RE_PARSER.parse_string(regex)).make_generator()
     except ParseException:
-        report_error(cause="Regexp parser")
+        report_error("Regexp parser")
         return []
     return invre()

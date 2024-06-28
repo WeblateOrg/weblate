@@ -1915,5 +1915,7 @@ class Differ:
                 template = "<ins>{}</ins>"
             elif op == self.DIFF_EQUAL:
                 template = "{}"
+            else:
+                raise ValueError(f"Unsuppoorted operation: {op}")
             output.append(format_html(template, data))
         return "".join(output)

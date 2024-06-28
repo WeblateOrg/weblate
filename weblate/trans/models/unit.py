@@ -57,6 +57,8 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from weblate.auth import User
+
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
     "approved": {"state": STATE_APPROVED},
@@ -117,6 +119,9 @@ class UnitQuerySet(models.QuerySet):
                 to_attr="all_checks",
             ),
         )
+
+    def count_screenshots(self):
+        return self.annotate(Count("screenshots"))
 
     def prefetch_full(self):
         from weblate.trans.models import Component
@@ -394,7 +399,7 @@ class Unit(models.Model, LoggerMixin):
     labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
 
     # The type annotation hides that field can be None because
-    # save() updates it to non-None immediatelly.
+    # save() updates it to non-None immediately.
     source_unit: Unit = models.ForeignKey(
         "trans.Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )
@@ -463,6 +468,10 @@ class Unit(models.Model, LoggerMixin):
             )
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
+
+        # Update last_updated timestamp
+        if update_fields and "last_updated" not in update_fields:
+            update_fields.append("last_updated")
 
         # Actually save the unit
         super().save(
@@ -653,7 +662,11 @@ class Unit(models.Model, LoggerMixin):
 
         if flags is not None:
             # Read only from the source
-            if not self.is_source and self.source_unit.state < STATE_TRANSLATED:
+            if (
+                not self.is_source
+                and self.source_unit.state < STATE_TRANSLATED
+                and self.translation.component.intermediate
+            ):
                 return STATE_READONLY
 
             # Read only from flags
@@ -757,7 +770,7 @@ class Unit(models.Model, LoggerMixin):
         except DjangoDatabaseError:
             raise
         except Exception as error:
-            report_error(cause="Unit update error", project=component.project)
+            report_error("Unit update error", project=component.project)
             translation.component.handle_parse_error(error, translation)
 
         pending = False
@@ -884,11 +897,14 @@ class Unit(models.Model, LoggerMixin):
         # Indicate source string change
         if not same_source and source_change:
             translation.update_changes.append(
-                Change(
-                    unit=self,
-                    action=Change.ACTION_SOURCE_CHANGE,
+                self.generate_change(
+                    None,
+                    None,
+                    Change.ACTION_SOURCE_CHANGE,
+                    check_new=False,
                     old=source_change,
                     target=self.source,
+                    save=False,
                 )
             )
         # Track VCS change
@@ -897,9 +913,9 @@ class Unit(models.Model, LoggerMixin):
                 self.generate_change(
                     user=None,
                     author=None,
-                    change_action=Change.ACTION_NEW_UNIT_REPO
+                    change_action=translation.create_unit_change_action
                     if created
-                    else Change.ACTION_STRING_REPO_UPDATE,
+                    else translation.update_unit_change_action,
                     check_new=False,
                     save=False,
                 )
@@ -919,11 +935,18 @@ class Unit(models.Model, LoggerMixin):
         * Where source string is untranslated
         """
         if "read-only" in self.all_flags or (
-            not self.is_source and self.source_unit.state < STATE_TRANSLATED
+            not self.is_source
+            and self.source_unit.state < STATE_TRANSLATED
+            and self.translation.component.intermediate
         ):
             if not self.readonly:
+                self.original_state = self.state
                 self.state = STATE_READONLY
-                self.save(same_content=True, run_checks=False, update_fields=["state"])
+                self.save(
+                    same_content=True,
+                    run_checks=False,
+                    update_fields=["state", "original_state"],
+                )
         elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
@@ -1025,7 +1048,7 @@ class Unit(models.Model, LoggerMixin):
             unit.state = self.state
             unit.save_backend(
                 user,
-                False,
+                propagate=False,
                 change_action=change_action,
                 author=None,
                 run_checks=False,
@@ -1123,9 +1146,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.invalidate_cache()
 
             # Postpone completed translation detection
-            transaction.on_commit(
-                lambda: detect_completed_translation.delay(change.pk, old_translated)
-            )
+            detect_completed_translation.delay_on_commit(change.pk, old_translated)
 
             # Update user stats
             change.author.profile.increase_count("translated")
@@ -1149,7 +1170,11 @@ class Unit(models.Model, LoggerMixin):
             unit.source = self.target
             unit.num_words = self.num_words
             # Find reverted units
-            if unit.state == STATE_FUZZY and unit.previous_source == self.target:
+            if (
+                unit.state == STATE_FUZZY
+                and unit.previous_source == self.target
+                and unit.target
+            ):
                 # Unset fuzzy on reverted
                 unit.original_state = unit.state = STATE_TRANSLATED
                 unit.pending = True
@@ -1157,11 +1182,12 @@ class Unit(models.Model, LoggerMixin):
             elif (
                 unit.original_state == STATE_FUZZY
                 and unit.previous_source == self.target
+                and unit.target
             ):
                 # Unset fuzzy on reverted
                 unit.original_state = STATE_TRANSLATED
                 unit.previous_source = ""
-            elif unit.state >= STATE_TRANSLATED:
+            elif unit.state >= STATE_TRANSLATED and unit.target:
                 # Set fuzzy on changed
                 unit.original_state = STATE_FUZZY
                 if unit.state < STATE_READONLY:
@@ -1171,10 +1197,11 @@ class Unit(models.Model, LoggerMixin):
 
             # Save unit and change
             unit.save()
-            unit.change_set.create(
-                action=Change.ACTION_SOURCE_CHANGE,
-                user=user,
-                author=author,
+            unit.generate_change(
+                user,
+                author,
+                Change.ACTION_SOURCE_CHANGE,
+                check_new=False,
                 old=previous_source,
                 target=self.target,
             )
@@ -1182,7 +1209,15 @@ class Unit(models.Model, LoggerMixin):
             unit.translation.invalidate_cache()
 
     def generate_change(
-        self, user, author, change_action, check_new: bool = True, save: bool = True
+        self,
+        user: User | None,
+        author: User | None,
+        change_action: int,
+        *,
+        check_new: bool = True,
+        save: bool = True,
+        old: str | None = None,
+        target: str | None = None,
     ):
         """Create Change entry for saving unit."""
         # Notify about new contributor
@@ -1220,8 +1255,8 @@ class Unit(models.Model, LoggerMixin):
             action=action,
             user=user,
             author=author,
-            target=self.target,
-            old=self.old_unit["target"],
+            target=self.target if target is None else target,
+            old=self.old_unit["target"] if old is None else old,
             details={
                 "state": self.state,
                 "old_state": self.old_unit["state"],
@@ -1264,13 +1299,12 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_comments(self):
         """Return list of target comments."""
-        query = Q(unit=self)
         if self.is_source:
             # Add all comments on translation on source string comment
-            query |= Q(unit__source_unit=self)
+            query = Q(unit__source_unit=self)
         else:
             # Add source string comments for translation unit
-            query |= Q(unit=self.source_unit)
+            query = Q(unit__in=(self, self.source_unit))
         return Comment.objects.filter(query).prefetch_related("unit", "user").order()
 
     @cached_property
@@ -1781,6 +1815,4 @@ class Unit(models.Model, LoggerMixin):
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):
-            transaction.on_commit(
-                lambda: handle_unit_translation_change.delay(self.id, user_id)
-            )
+            handle_unit_translation_change.delay_on_commit(self.id, user_id)

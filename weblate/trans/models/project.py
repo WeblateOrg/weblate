@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models, transaction
+from django.db import models
 from django.db.models import Count, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
@@ -31,6 +31,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
+    WeblateURLValidator,
     validate_language_aliases,
     validate_project_name,
     validate_project_web,
@@ -145,7 +146,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
-        validators=[validate_project_web],
+        validators=[WeblateURLValidator(), validate_project_web],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
@@ -273,7 +274,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
         # Update translation memory on enabled sharing
         if update_tm:
-            transaction.on_commit(lambda: import_memory.delay(self.id))
+            import_memory.delay_on_commit(self.id)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -322,13 +323,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                 group_objs = self.defined_groups.all()
             else:
                 raise
-        user.groups.add(*group_objs)
+        for team in group_objs:
+            user.add_team(None, team)
         user.profile.watched.add(self)
 
     def remove_user(self, user) -> None:
         """Add user based on username or email address."""
-        groups = self.defined_groups.all()
-        user.groups.remove(*groups)
+        for group in self.defined_groups.iterator():
+            user.remove_team(None, group)
 
     def get_url_path(self):
         return (self.slug,)
@@ -377,7 +379,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             for component in self.all_repo_components
         )
         if use_all:
-            return all(generator)
+            # Call methods on all components as this performs an operation
+            return all(list(generator))
+        # This is status checking, call only needed methods
         return any(generator)
 
     def commit_pending(self, reason, user):
@@ -671,5 +675,5 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         prefetch_stats(self.label_cleanups)
 
     def cleanup_label_stats(self, name: str) -> None:
-        for translation in prefetch_stats(self.label_cleanups):
+        for translation in self.label_cleanups:
             translation.stats.remove_stats(f"label:{name}")

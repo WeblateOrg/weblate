@@ -16,7 +16,6 @@ import cairo
 import gi
 from django.conf import settings
 from django.core.cache import cache as django_cache
-from PIL import ImageFont
 
 from weblate.utils.data import data_dir
 
@@ -259,6 +258,8 @@ def check_render_size(
 
 def get_font_name(filelike):
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
+    from PIL import ImageFont
+
     if not hasattr(filelike, "loaded_font"):
         # The tempfile creation is workaround for Pillow crashing on invalid font
         # see https://github.com/python-pillow/Pillow/issues/3853

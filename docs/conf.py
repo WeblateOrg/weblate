@@ -59,8 +59,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.5"
-
+release = "5.7"
 
 # -- General configuration ---------------------------------------------------
 
@@ -325,8 +324,10 @@ linkcheck_ignore = [
     # Access to our service has been temporarily blocked
     "https://yandex.com/dev/translate/",
     # 403
+    "https://openai.com/",
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
+    "https://translate.systran.net/en/account",
 ]
 
 # HTTP docs
@@ -360,6 +361,7 @@ autodoc_mock_imports = [
     "weblate.lang.models",
     "weblate.vcs.git",
     "weblate.utils.files",
+    "weblate.utils.validators",
 ]
 
 # Create single gettext PO file for while documentation,

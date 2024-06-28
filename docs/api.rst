@@ -612,6 +612,28 @@ Groups
     :param component_list_id: The unique componentlist ID
     :type component_list_id: int
 
+.. http:post:: /api/groups/(int:id)/admins/
+
+    .. versionadded:: 5.5
+
+    Add user to team admins.
+
+    :param id: Group's ID
+    :type id: int
+    :form string user_id: The user's ID
+
+.. http:delete:: /api/groups/(int:id)/admins/(int:user_id)
+
+    .. versionadded:: 5.5
+
+    Delete user from team admins.
+
+    :param id: Group's ID
+    :type id: int
+    :param user_id: The user's ID
+    :type user_id: integer
+
+
 
 Roles
 +++++
@@ -877,6 +899,18 @@ Projects
     :param project: Project URL slug
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
+
+.. http:get:: /api/projects/(string:project)/file/
+
+    .. versionadded:: 5.5
+
+    Downloads all available translations associated with the project as an archive file using the requested format and language.
+
+    :param project: Project URL slug
+    :type project: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
+    :query string language_code: The language code to download; If not specified, all languages are included.
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -1901,8 +1935,11 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit (used as key or context)
-    :<json array value: Source strings (use single string if not creating plural)
+    :<json string key: *Monolingual translations:* Key of translation unit
+    :<json array value: *Monolingual translations:* Source strings (use single string if not creating plural)
+    :<json string context: *Bilingual translations:* Context of a translation unit
+    :<json array source: *Bilingual translations:* Source strings (use single string if not creating plural)
+    :<json array target: *Bilingual translations:* Target strings (use single string if not creating plural)
     :<json int state: String state; see :http:get:`/api/units/(int:id)/`
     :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
@@ -2099,6 +2136,7 @@ and XLIFF.
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
+    :>json timestamp last_updated: last string update
 
 .. http:patch::  /api/units/(int:id)/
 
@@ -2112,7 +2150,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
-    :>json array labels: labels, available on source units
+    :<json array labels: labels, available on source units
 
 .. http:put::  /api/units/(int:id)/
 
@@ -2126,7 +2164,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
-    :>json array labels: labels, available on source units
+    :<json array labels: labels, available on source units
 
 .. http:delete::  /api/units/(int:id)/
 
@@ -2171,7 +2209,9 @@ Changes
     :>json timestamp timestamp: event timestamp
     :>json int action: numeric identification of action
     :>json string action_name: text description of action
-    :>json string target: event changed text or detail
+    :>json string target: event changed text
+    :>json string old: previous text
+    :>json object details: additional details about the change
     :>json int id: change identifier
 
 Screenshots
@@ -2519,6 +2559,10 @@ Metrics
 .. http:get:: /api/metrics/
 
     Returns server metrics.
+
+    .. versionchanged:: 5.6.1
+
+       Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
 
     :>json int units: Number of units
     :>json int units_translated: Number of translated units

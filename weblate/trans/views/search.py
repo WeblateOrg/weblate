@@ -166,7 +166,6 @@ def search(request, path=None):
                 "search_url": search_form.urlencode(),
                 "search_query": search_form.cleaned_data["q"],
                 "search_items": search_form.items(),
-                "filter_name": search_form.get_name(),
                 "sort_name": sort["name"],
                 "sort_query": sort["query"],
             }

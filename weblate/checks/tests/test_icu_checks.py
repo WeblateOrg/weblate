@@ -152,7 +152,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
             self.check.check_format(
                 "You have {count, plural, one {# message} other {# messages}}. "
                 "Yes. {count, number}.",
-                "Sie haben {count, plural, one {# Nachricht} other "
+                "Sie haben {count, plural, one {# Nachricht} other "  # codespell:ignore
                 "{# Nachrichten}}. Ja. {count, number}.",
                 False,
                 self.get_mock(),

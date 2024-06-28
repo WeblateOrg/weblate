@@ -233,7 +233,7 @@ class BasicLanguagesTest(TestCase):
         for i, lang in enumerate(languages):
             if bitset & 1 << i:
                 langs.append(lang)
-        return langs if langs else None
+        return langs or None
 
     @staticmethod
     def get_friendly_result(result, expected, languages) -> str:
@@ -286,9 +286,9 @@ class TestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_%s" % params[0].replace("@", "___").replace(
-                "+", "_"
-            ).replace("-", "__")
+            test_name = "test_create_{}".format(
+                params[0].replace("@", "___").replace("+", "_").replace("-", "__")
+            )
             if test_name in dict:
                 raise ValueError(f"Duplicate test: {params[0]}, mapped to {test_name}")
             dict[test_name] = gen_test(*params)

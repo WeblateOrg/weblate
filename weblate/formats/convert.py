@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, BinaryIO
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -41,7 +41,10 @@ from translate.storage.xml_extract.extract import (
 )
 
 from weblate.checks.flags import Flags
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    TranslationFormat,
+    TranslationUnit,
+)
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.trans.util import get_string
@@ -50,6 +53,9 @@ from weblate.utils.state import STATE_APPROVED
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from translate.storage.base import TranslationStore
+    from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
     from weblate.trans.models import Unit
 
@@ -60,8 +66,8 @@ class ConvertPoUnit(PoUnit):
     def is_translated(self):
         """Check whether unit is translated."""
         if self.parent.is_template:
-            return bool(self.target)
-        return self.unit is not None and bool(self.target)
+            return self.has_translation()
+        return self.unit is not None and self.has_translation()
 
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs editing."""
@@ -91,7 +97,7 @@ class ConvertXliffUnit(XliffUnit):
     def is_translated(self):
         """Check whether unit is translated."""
         if self.parent.is_template:
-            return bool(self.target)
+            return self.has_translation()
         return self.unit is not None
 
     @cached_property
@@ -115,6 +121,8 @@ class ConvertFormat(TranslationFormat):
     unit_class: type[TranslationUnit] = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
+    units: list[TranslateToolkitUnit]
+    store: TranslationStore
 
     def save_content(self, handle) -> None:
         """Store content to file."""
@@ -131,7 +139,9 @@ class ConvertFormat(TranslationFormat):
     def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return False
 
-    def load(self, storefile, template_store):
+    def load(
+        self, storefile: str | BinaryIO, template_store: TranslationStore | None
+    ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")  # noqa: SIM115
@@ -177,12 +187,12 @@ class ConvertFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File parse error")
+            report_error("File-parsing error")
             return False
         return True
 
-    def add_unit(self, ttkit_unit) -> None:
-        self.store.addunit(ttkit_unit)
+    def add_unit(self, unit: TranslationUnit) -> None:
+        self.store.addunit(unit.unit)
 
     @classmethod
     def get_class(cls):
@@ -512,7 +522,7 @@ class WindowsRCFormat(ConvertFormat):
                 sublang=sublang,
                 charset=encoding,
             )
-            outputrclines = converter.convertstore(self.store)
+            outputrclines = converter.convertstore(self.store, includefuzzy=True)
             try:
                 handle.write(outputrclines.encode(encoding))
             except UnicodeEncodeError:

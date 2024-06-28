@@ -24,7 +24,7 @@ Patches are welcome, either as [pull requests on GitHub][2] or using e-mail on
 
 ## Running the development version locally
 
-If you have Docker and docker-compose installed, you can spin up the development
+If you have Docker and docker-compose-plugin installed, you can spin up the development
 environment by running:
 
 ```

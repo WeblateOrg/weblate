@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING
 from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.utils.html import format_html, mark_safe
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
 if TYPE_CHECKING:
@@ -82,13 +83,16 @@ auth_name_default_separator = mark_safe("<br />")  # noqa: S308
 
 
 @register.simple_tag
-def auth_name(auth: str, separator: str = auth_name_default_separator):
+def auth_name(auth: str, separator: str = auth_name_default_separator, only: str = ""):
     """Create HTML markup for social authentication method."""
     params = get_auth_params(auth)
 
     if not params["image"].startswith("http"):
         params["image"] = staticfiles_storage.url("auth/" + params["image"])
     params["icon"] = format_html(IMAGE_SOCIAL_TEMPLATE, separator=separator, **params)
+
+    if only:
+        return params[only]
 
     return format_html(SOCIAL_TEMPLATE, separator=separator, **params)
 

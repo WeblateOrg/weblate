@@ -70,8 +70,8 @@ SCOPE_CHOICES = (
     (SCOPE_COMPONENT, "Component"),
 )
 
-NOTIFICATIONS = []
-NOTIFICATIONS_ACTIONS = {}
+NOTIFICATIONS: list[type[Notification]] = []
+NOTIFICATIONS_ACTIONS: dict[int, list[type[Notification]]] = {}
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
@@ -81,7 +81,7 @@ def get_email_headers(notification: str) -> dict[str, str]:
     }
 
 
-def register_notification(handler):
+def register_notification(handler: type[Notification]):
     """Register notification handler."""
     NOTIFICATIONS.append(handler)
     for action in handler.actions:
@@ -89,6 +89,10 @@ def register_notification(handler):
             NOTIFICATIONS_ACTIONS[action] = []
         NOTIFICATIONS_ACTIONS[action].append(handler)
     return handler
+
+
+def is_notificable_action(action: int) -> bool:
+    return action in NOTIFICATIONS_ACTIONS
 
 
 class Notification:
@@ -105,7 +109,7 @@ class Notification:
     def __init__(self, outgoing, perm_cache=None) -> None:
         self.outgoing = outgoing
         self.subscription_cache = {}
-        self.child_notify = None
+        self.child_notify: list[Notification] | None = None
         if perm_cache is not None:
             self.perm_cache = perm_cache
         else:
@@ -477,7 +481,7 @@ class LicenseNotification(Notification):
 @register_notification
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
-    verbose = pgettext_lazy("Notification name", "Parse error occured")
+    verbose = pgettext_lazy("Notification name", "Parse error occurred")
     template_name = "parse_error"
 
     def get_context(
@@ -493,10 +497,14 @@ class ParseErrorNotification(Notification):
 
 @register_notification
 class NewStringNotificaton(Notification):
-    actions = (Change.ACTION_NEW_UNIT, Change.ACTION_NEW_UNIT_REPO)
-    verbose = pgettext_lazy(
-        "Notification name", "New string is available for translation"
+    actions = (
+        Change.ACTION_NEW_UNIT,
+        Change.ACTION_NEW_UNIT_REPO,
+        Change.ACTION_NEW_UNIT_UPLOAD,
+        Change.ACTION_MARKED_EDIT,
+        Change.ACTION_SOURCE_CHANGE,
     )
+    verbose = pgettext_lazy("Notification name", "String is available for translation")
     template_name = "new_string"
     filter_languages = True
     required_attr = "unit"
@@ -519,6 +527,22 @@ class NewSuggestionNotificaton(Notification):
     template_name = "new_suggestion"
     filter_languages = True
     required_attr = "suggestion"
+
+
+@register_notification
+class LanguageTranslatedNotificaton(Notification):
+    actions = (Change.ACTION_COMPLETE,)
+    verbose = pgettext_lazy("Notification name", "Language was translated")
+    template_name = "translated_language"
+    required_attr = "translation"
+
+
+@register_notification
+class ComponentTranslatedNotificaton(Notification):
+    actions = (Change.ACTION_COMPLETED_COMPONENT,)
+    verbose = pgettext_lazy("Notification name", "Component was translated")
+    template_name = "translated_component"
+    required_attr = "component"
 
 
 @register_notification

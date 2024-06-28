@@ -82,7 +82,8 @@ as the password. The new installation is empty, so you might want to continue wi
 :ref:`adding-projects`.
 
 The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in the
-:file:`dev-docker` directory.
+:file:`dev-docker` directory. For easier access to the database during development,
+the container running PostgreSQL is exposed on port ``5433``.
 
 The script also accepts some parameters, to execute tests, run it with the
 ``test`` parameter and then specify any :djadmin:`django:test` parameters,

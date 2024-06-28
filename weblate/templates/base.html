@@ -75,6 +75,8 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-icu-message-format.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'prism-weblatesearch.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/moment.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/daterangepicker.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
 {% block extra_script %}
@@ -306,7 +308,7 @@ var _rollbarConfig = {
             <li role="separator" class="divider"></li>
             <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
             <li><a href="https://weblate.org/contribute/">{% trans "Contribute to Weblate" %}</a></li>
-            <li><a href="{{ donate_url }}">{% trans "Donate to Weblate" %}</a></li>
+            <li><a href="{% url 'donate' %}">{% trans "Donate to Weblate" %}</a></li>
           </ul>
         </li>
       </ul>

@@ -13,13 +13,11 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
-from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
-from django.core.validators import validate_ipv46_address
+from django.core.validators import URLValidator, validate_ipv46_address
 from django.utils.translation import gettext, gettext_lazy
-from PIL import Image
 
 from weblate.trans.util import cleanup_path
 from weblate.utils.data import data_dir
@@ -81,6 +79,8 @@ def validate_re_nonempty(value):
 
 def validate_bitmap(value) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
+    from PIL import Image
+
     if value is None:
         return
 
@@ -191,7 +191,7 @@ validate_email = EmailValidator()
 
 def validate_plural_formula(value) -> None:
     try:
-        c2py(value if value else "0")
+        c2py(value or "0")
     except ValueError as error:
         raise ValidationError(
             gettext("Could not evaluate plural formula: {}").format(error)
@@ -217,6 +217,9 @@ def validate_filename(value) -> None:
 
 
 def validate_backup_path(value: str) -> None:
+    # Lazily import borg as it pulls quite a lot of memory usage
+    from borg.helpers import Location
+
     try:
         loc = Location(value)
     except ValueError as err:
@@ -289,3 +292,54 @@ def validate_project_web(value) -> None:
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+
+class WeblateURLValidator(URLValidator):
+    """Validator for http and https URLs only."""
+
+    schemes = ["http", "https"]
+
+
+class WeblateEditorURLValidator(URLValidator):
+    schemes = ["editor", "netbeans", "txmt", "pycharm", "phpstorm", "idea", "jetbrains"]
+
+    regex = re.compile(
+        r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+        r"(?:" + WeblateURLValidator.hostname_re + ")"
+        r"(?:[/?#][^\s]*)?"  # resource path
+        r"\Z",
+        re.IGNORECASE,
+    )
+
+
+class WeblateServiceURLValidator(WeblateURLValidator):
+    """
+    Validator allowing local URLs like http://domain:5000.
+
+    This is useful for using dockerized services.
+    """
+
+    host_re = (
+        "("
+        + WeblateURLValidator.hostname_re
+        + WeblateURLValidator.domain_re
+        + WeblateURLValidator.tld_re
+        + "|"
+        + WeblateURLValidator.hostname_re
+        + ")"
+    )
+    regex = re.compile(
+        r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+        r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
+        r"(?:"
+        + WeblateURLValidator.ipv4_re
+        + "|"
+        + WeblateURLValidator.ipv6_re
+        + "|"
+        + host_re
+        + ")"
+        r"(?::[0-9]{1,5})?"  # port
+        r"(?:[/?#][^\s]*)?"  # resource path
+        r"\Z",
+        re.IGNORECASE,
+    )

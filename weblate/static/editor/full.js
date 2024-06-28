@@ -468,7 +468,7 @@
 
   FullEditor.prototype.initGlossary = function () {
     /* Copy from glossary */
-    this.$editor.on("click", ".glossary-embed.clickable-row", (e) => {
+    this.$editor.on("click", ".glossary-embed", (e) => {
       /* Avoid copy when clicked on a link */
       if ($(e.target).parents("a").length > 0) {
         return;
@@ -499,14 +499,20 @@
       );
       if (cloneElement !== null) {
         const source = cloneElement.getAttribute("data-clone-text");
+        const term_source = document
+          .getElementById("div_id_add_term_source")
+          .querySelector("textarea");
+        const term_target = document
+          .getElementById("div_id_add_term_target")
+          .querySelector("textarea");
         if (source.length < 200) {
-          const term_source = document.getElementById("id_add_term_source");
-          const term_target = document.getElementById("id_add_term_target");
           term_source.value = source;
           term_target.value = document.querySelector(
             ".translation-editor",
           ).value;
         }
+        term_source.dispatchEvent(new Event("input"));
+        term_target.dispatchEvent(new Event("input"));
       }
       e.target.setAttribute("data-shown", true);
     });
@@ -572,7 +578,7 @@
           .attr("dir", this.state.dir)
           .html(el.html),
       );
-      row.append($("<td>").html(el.diff));
+      row.append($("<td>").attr("class", "machinery-text").html(el.diff));
       row.append(
         $("<td/>").attr("class", "machinery-text").html(el.source_diff),
       );

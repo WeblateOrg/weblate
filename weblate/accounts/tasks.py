@@ -47,7 +47,10 @@ def cleanup_auditlog() -> None:
 
 @app.task(trail=False)
 def notify_change(change_id) -> None:
-    from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+    from weblate.accounts.notifications import (
+        NOTIFICATIONS_ACTIONS,
+        is_notificable_action,
+    )
     from weblate.trans.models import Change
 
     try:
@@ -56,7 +59,10 @@ def notify_change(change_id) -> None:
         # The change was removed meanwhile
         return
     perm_cache = {}
-    if change.action in NOTIFICATIONS_ACTIONS:
+
+    # The same condition is applied at notify_change.delay, but we need to recheck
+    # here to make sure this doesn't break on upgrades when processing older tasks
+    if is_notificable_action(change.action):
         outgoing = []
         for notification_cls in NOTIFICATIONS_ACTIONS[change.action]:
             notification = notification_cls(outgoing, perm_cache)
@@ -156,7 +162,7 @@ def send_mails(mails) -> None:
             connection.open()
         except Exception:
             LOGGER.exception("Could not initialize e-mail backend")
-            report_error(cause="Could not send notifications")
+            report_error("Could not send notifications")
             connection.close()
             return
         connection = monkey_patch_smtp_logging(connection)

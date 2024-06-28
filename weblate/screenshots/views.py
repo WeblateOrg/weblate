@@ -18,8 +18,6 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
-from PIL import Image
-from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
@@ -33,6 +31,8 @@ from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
+    from tesserocr import PyTessBaseAPI
+
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.lang.models import Language
 
@@ -127,10 +127,10 @@ TESSERACT_LANGUAGES = {
     "sv": "swe",  # Swedish
     "syr": "syr",  # Syriac
     "ta": "tam",  # Tamil
-    "te": "tel",  # Telugu
+    "te": "tel",  # Telugu # codespell:ignore te
     "tg": "tgk",  # Tajik
     "tl": "tgl",  # Tagalog
-    "th": "tha",  # Thai
+    "th": "tha",  # Thai # codespell:ignore tha
     "ti": "tir",  # Tigrinya
     "tr": "tur",  # Turkish
     "ug": "uig",  # Uighur; Uyghur
@@ -138,7 +138,7 @@ TESSERACT_LANGUAGES = {
     "ur": "urd",  # Urdu
     "uz_Latn": "uzb",  # Uzbek
     "uz": "uzb_cyrl",  # Uzbek - Cyrillic
-    "vi": "vie",  # Vietnamese
+    "vi": "vie",  # Vietnamese # codespell:ignore vie
     "yi": "yid",  # Yiddish
 }
 
@@ -330,9 +330,11 @@ def search_results(request, code, obj, units=None):
     if units is None:
         units = []
     else:
-        units = units.exclude(
-            id__in=obj.units.values_list("id", flat=True)
-        ).prefetch_full()
+        units = (
+            units.exclude(id__in=obj.units.values_list("id", flat=True))
+            .prefetch_full()
+            .count_screenshots()
+        )
 
     return JsonResponse(
         data={
@@ -369,6 +371,8 @@ def search_source(request, pk):
 
 
 def ocr_get_strings(api, image: str, resolution: int = 72):
+    from tesserocr import RIL, iterate_level
+
     try:
         api.SetImageFile(image)
     except RuntimeError:
@@ -402,6 +406,8 @@ def ocr_extract(api, image: str, strings, resolution: int):
 
 @contextmanager
 def get_tesseract(language: Language) -> PyTessBaseAPI:
+    from tesserocr import OEM, PSM, PyTessBaseAPI
+
     # Get matching language
     try:
         tess_language = TESSERACT_LANGUAGES[language.code]
@@ -425,6 +431,8 @@ def get_tesseract(language: Language) -> PyTessBaseAPI:
 @login_required
 @require_POST
 def ocr_search(request, pk):
+    from PIL import Image
+
     obj = get_screenshot(request, pk)
     translation = obj.translation
 

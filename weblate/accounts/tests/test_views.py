@@ -148,11 +148,11 @@ class ViewTest(RepoTestCase):
         """Test for trial form with disabled hosting."""
         from weblate.billing.models import Plan
 
-        Plan.objects.create(price=1, slug="enterprise")
+        Plan.objects.create(price=1, slug="640k")
         user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("trial"))
-        self.assertContains(response, "Enterprise")
+        self.assertContains(response, "640k")
         response = self.client.post(reverse("trial"), follow=True)
         self.assertContains(response, "Create project")
         billing = user.billing_set.get()
@@ -436,7 +436,7 @@ class ProfileTest(FixtureTestCase):
     def test_subscription(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Extract current form data
         data: dict[str, str | list[str]] = {}
@@ -454,20 +454,20 @@ class ProfileTest(FixtureTestCase):
         # Save unchanged data
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Remove some subscriptions
         data["notifications__1-notify-LastAuthorCommentNotificaton"] = "0"
         data["notifications__1-notify-MentionCommentNotificaton"] = "0"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 7)
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
         # Add some subscriptions
         data["notifications__2-notify-ChangedStringNotificaton"] = "1"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
     def test_subscription_customize(self) -> None:
         # Initial view
@@ -497,7 +497,7 @@ class ProfileTest(FixtureTestCase):
 
     def test_watch(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Watch project
         self.client.post(reverse("watch", kwargs={"path": self.project.get_url_path()}))
@@ -509,13 +509,13 @@ class ProfileTest(FixtureTestCase):
         # Mute notifications for component
         self.client.post(reverse("mute", kwargs=self.kw_component))
         self.assertEqual(
-            self.user.subscription_set.filter(component=self.component).count(), 18
+            self.user.subscription_set.filter(component=self.component).count(), 20
         )
 
         # Mute notifications for project
         self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 18
+            self.user.subscription_set.filter(project=self.project).count(), 20
         )
 
         # Unwatch project
@@ -529,22 +529,22 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.subscription_set.filter(component=self.component).count(), 0
         )
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 10)
 
     def test_watch_component(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Watch component
         self.client.post(reverse("watch", kwargs=self.kw_component))
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 18
+            self.user.subscription_set.filter(project=self.project).count(), 20
         )
         # Only default notifications should be enabled
         self.assertEqual(
-            self.user.subscription_set.filter(component=self.component).count(), 3
+            self.user.subscription_set.filter(component=self.component).count(), 4
         )
 
     def test_unsubscribe(self) -> None:

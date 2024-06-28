@@ -12,10 +12,11 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView
 
+from weblate.lang.models import Language
 from weblate.trans.forms import EngageForm
 from weblate.trans.models import Component, Project, Translation
 from weblate.trans.util import render
-from weblate.trans.widgets import WIDGETS, SiteOpenGraphWidget
+from weblate.trans.widgets import WIDGETS, OpenGraphWidget
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path, show_form_errors, try_set_language
@@ -116,7 +117,7 @@ class WidgetRedirectView(RedirectView):
                 path.append("-")
             path.append(lang)
         # Redirect no longer supported badge styles to svg
-        if widget in {"status", "shields"}:
+        if widget == "shields":
             widget = "svg"
         return reverse(
             "widget-image",
@@ -134,19 +135,24 @@ class WidgetRedirectView(RedirectView):
 def render_widget(request, path: list[str], widget: str, color: str, extension: str):
     # We intentionally skip ACL here to allow widget sharing
     obj = parse_path(
-        request, path, (Component, ProjectLanguage, Project, Translation), skip_acl=True
+        request,
+        path,
+        (Component, ProjectLanguage, Project, Translation, Language, None),
+        skip_acl=True,
     )
-    lang = None
-    if hasattr(obj, "language"):
-        lang = obj.language
+    lang = set_lang = None
+    if isinstance(obj, Language):
+        set_lang = obj
+    elif hasattr(obj, "language"):
+        set_lang = lang = obj.language
     if isinstance(obj, Translation):
         obj = obj.component
     if isinstance(obj, ProjectLanguage):
         obj = obj.project
 
-    if lang:
+    if set_lang:
         if "native" not in request.GET:
-            try_set_language(lang.code)
+            try_set_language(set_lang.code)
     else:
         try_set_language("en")
 
@@ -179,7 +185,7 @@ def render_widget(request, path: list[str], widget: str, color: str, extension: 
 @cache_control(max_age=3600)
 def render_og(request):
     # Construct object
-    widget_obj = SiteOpenGraphWidget()
+    widget_obj = OpenGraphWidget(None)
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)

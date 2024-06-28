@@ -123,6 +123,37 @@ Architecture overview
       wsgi -> fs;
    }
 
+Web server
+   Handling incoming HTTP requests, :ref:`static-files`.
+Celery workers
+   :ref:`celery` are executed here.
+
+   Depending on your workload, you might want to customize the number of workers.
+
+   Use dedicated node when scaling Weblate horizontally.
+WSGI server
+   A WSGI server serving web pages to users.
+
+   Use dedicated node when scaling Weblate horizontally.
+Database
+   PostgreSQL database server for storing all the content, see :ref:`database-setup`.
+
+   Use dedicated database node for sites with hundreds of millions of hosted words.
+Redis
+   Redis server for cache and tasks queue, see :ref:`celery`.
+
+   Use dedicated node when scaling Weblate horizontally.
+File system
+   File system storage for storing VCS repositories and uploaded user data. This is shared by all the processes.
+
+   Use networked storage when scaling Weblate horizontally.
+E-mail server
+   SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided externally.
+
+.. hint::
+
+   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+
 .. _requirements:
 
 Software requirements
@@ -137,20 +168,9 @@ will most likely work too.
 Weblate is not supported on Windows. But it may still work and patches are
 happily accepted.
 
-Other services
-++++++++++++++
+.. seealso::
 
-Weblate is using other services for its operation. You will need at least
-following services running:
-
-* PostgreSQL database server for storing all the content, see :ref:`database-setup`.
-* Redis server for cache and tasks queue, see :ref:`celery`.
-* SMTP server for outgoing e-mail, see :ref:`out-mail`.
-* Filesystem storage (networked if you plan to scale Weblate horizontally) for storing VCS repositories.
-
-.. hint::
-
-   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+   :ref:`architecture` describes overall Weblate architecture and required services.
 
 .. _python-deps:
 
@@ -186,58 +206,63 @@ Django REST Framework
        - Weblate feature
 
 
-     * - ``Amazon``
+     * - ``alibaba``
+       - `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
+       - :ref:`mt-alibaba`
+
+     * - ``amazon``
        - `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
 
 
-     * - ``LDAP``
-       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
-       - :ref:`ldap-auth`
-
-
-     * - ``zxcvbn``
-       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
-       - :ref:`password-authentication`
-
-
-     * - ``Gerrit``
-       - `git-review <https://pypi.org/project/git-review>`_
-       - :ref:`vcs-gerrit`
-
-
-     * - ``Google``
-       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
-       - :ref:`mt-google-translate-api-v3`
-
-
-     * - ``Mercurial``
-       - `mercurial <https://pypi.org/project/mercurial>`_
-       - :ref:`vcs-mercurial`
-
-
-     * - ``MySQL``
-       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
-       - MySQL or MariaDB, see :ref:`database-setup`
-
-     * - ``OpenAI``
-       - `openai <https://pypi.org/project/openai>`_
-       - :ref:`mt-openai`
-
-     * - ``Postgres``
-       - `psycopg <https://pypi.org/project/psycopg>`_
-       - PostgreSQL, see :ref:`database-setup`
-
-
-     * - ``Antispam``
+     * - ``antispam``
        - `python-akismet <https://pypi.org/project/python-akismet>`_
        - :ref:`spam-protection`
 
 
-     * - ``SAML``
+     * - ``gerrit``
+       - `git-review <https://pypi.org/project/git-review>`_
+       - :ref:`vcs-gerrit`
+
+
+     * - ``google``
+       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+       - :ref:`mt-google-translate-api-v3`
+
+
+     * - ``ldap``
+       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - :ref:`ldap-auth`
+
+
+
+     * - ``mercurial``
+       - `mercurial <https://pypi.org/project/mercurial>`_
+       - :ref:`vcs-mercurial`
+
+
+     * - ``mysql``
+       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
+       - MySQL or MariaDB, see :ref:`database-setup`
+
+
+     * - ``openai``
+       - `openai <https://pypi.org/project/openai>`_
+       - :ref:`mt-openai`
+
+     * - ``postgres``
+       - `psycopg <https://pypi.org/project/psycopg>`_
+       - PostgreSQL, see :ref:`database-setup`
+
+
+
+     * - ``saml``
        - `python3-saml <https://pypi.org/project/python3-saml>`_
        - :ref:`saml-auth`
 
+     * - ``zxcvbn``
+       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
 
@@ -301,6 +326,8 @@ with development files and GObject introspection data.
   :doc:`install/venv-redhat`,
   :doc:`install/venv-macos`
 
+.. include:: install/steps/hw.rst
+
 .. _verify:
 
 Verifying release signatures
@@ -359,7 +386,12 @@ PostgreSQL 12 and higher is supported. PostgreSQL 15 or newer is recommended.
 
 :ref:`mysql` is supported, but not recommended for new installs.
 
-No other database servers are supported.
+
+
+.. note::
+
+   No other database servers are currently supported, but support for other
+   Django supported databases should be possible to implement.
 
 .. seealso::
 
@@ -1614,7 +1646,7 @@ and profiles for defined percentage of operations. This can be configured using
 .. seealso::
 
    `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
-   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+   `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 Rollbar
 +++++++

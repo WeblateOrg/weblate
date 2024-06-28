@@ -35,17 +35,17 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     settings_form = MicrosoftMachineryForm
 
     language_map = {
-        "zh-hant": "zh-Hant",
-        "zh-hans": "zh-Hans",
-        "zh-tw": "zh-Hant",
-        "zh-cn": "zh-Hans",
+        "zh_Hant": "zh-Hant",
+        "zh_Hans": "zh-Hans",
+        "zh_TW": "zh-Hant",
+        "zh_CN": "zh-Hans",
         "tlh": "tlh-Latn",
         "tlh-qaak": "tlh-Piqd",
         "nb": "no",
-        "bs-latn": "bs-Latn",
+        "bs_Latn": "bs-Latn",
         "sr": "sr-Latn",
-        "sr-latn": "sr-Latn",
-        "sr-cyrl": "sr-Cyrl",
+        "sr_Latn": "sr-Latn",
+        "sr_Cyrl": "sr-Cyrl",
         "mn": "mn-Mong",
     }
 
@@ -95,9 +95,9 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         return super().map_language_code(code).replace("_", "-")
 
     def check_failure(self, response) -> None:
-        super().check_failure(response)
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
+        super().check_failure(response)
         if (
             response.url.startswith("https://api.cognitive.microsofttranslator.com/")
             and response.status_code == 200
@@ -144,7 +144,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             "api-version": "3.0",
             "from": source,
             "to": language,
-            "category": "general",
+            "category": self.settings.get("category", "general"),
             "textType": "html",
         }
         response = self.request(
@@ -178,7 +178,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_highlights(self, text, unit):
         result = list(super().get_highlights(text, unit))
 
-        for term in get_glossary_terms(unit):
+        for term in get_glossary_terms(unit, include_variants=False):
             for start, end in term.glossary_positions:
                 glossary_highlight = (start, end, text[start:end], term)
                 handled = False

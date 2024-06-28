@@ -30,9 +30,9 @@ except ImportError:
 
 
 def report_error(
-    level: str = "warning",
     cause: str = "Handled exception",
     *,
+    level: str = "warning",
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str | None = None,
@@ -50,16 +50,15 @@ def report_error(
         rollbar.report_exc_info(level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
-        with sentry_sdk.push_scope() as scope:
-            scope.set_tag("cause", cause)
-            if project is not None:
-                scope.set_tag("project", project.slug)
-            scope.set_tag("user.locale", get_language())
-            scope.level = level
-            if message:
-                sentry_sdk.capture_message(cause)
-            else:
-                sentry_sdk.capture_exception()
+        sentry_sdk.set_tag("cause", cause)
+        if project is not None:
+            sentry_sdk.set_tag("project", project.slug)
+        sentry_sdk.set_tag("user.locale", get_language())
+        sentry_sdk.set_level(level)
+        if message:
+            sentry_sdk.capture_message(cause)
+        else:
+            sentry_sdk.capture_exception()
 
     log = getattr(LOGGER, level)
 
@@ -100,7 +99,7 @@ def init_error_collection(celery=False) -> None:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
             integrations=[
-                CeleryIntegration(),
+                CeleryIntegration(monitor_beat_tasks=True),
                 DjangoIntegration(),
                 RedisIntegration(),
             ],

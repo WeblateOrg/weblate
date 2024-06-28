@@ -977,7 +977,11 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
-    child = serializers.CharField(trim_whitespace=False)
+    def __init__(self, child_allow_blank=False, **kwargs):
+        kwargs["child"] = serializers.CharField(
+            trim_whitespace=False, allow_blank=child_allow_blank
+        )
+        super().__init__(**kwargs)
 
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
@@ -1002,7 +1006,7 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
 class LabelSerializer(serializers.ModelSerializer[Label]):
     class Meta:
         model = Label
-        fields = ("id", "name", "color")
+        fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
 
 
@@ -1055,6 +1059,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     source = PluralField()
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
+    last_updated = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
     labels = UnitLabelsSerializer(many=True)
 
@@ -1090,6 +1095,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "extra_flags",
             "pending",
             "timestamp",
+            "last_updated",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
@@ -1164,9 +1170,13 @@ class BilingualUnitSerializer(NewUnitSerializer):
         return {
             "context": data.get("context", ""),
             "source": data["source"],
-            "target": data["target"],
+            "target": data.get("target", ""),
             "state": data.get("state", None),
         }
+
+
+class BilingualSourceUnitSerializer(BilingualUnitSerializer):
+    target = PluralField(required=False, child_allow_blank=True)
 
 
 class CategorySerializer(RemovableSerializer[Category]):
@@ -1325,6 +1335,8 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "timestamp",
             "action",
             "target",
+            "old",
+            "details",
             "id",
             "action_name",
             "url",
@@ -1375,18 +1387,35 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         read_only=True,
         strip_parts=1,
     )
+    project = serializers.HyperlinkedRelatedField(
+        view_name="api:project-detail",
+        lookup_field="slug",
+        read_only=True,
+    )
     configuration = serializers.JSONField(required=False)
 
     class Meta:
         model = Addon
         fields = (
             "component",
+            "project",
             "name",
             "id",
             "configuration",
             "url",
         )
         extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
+
+    @staticmethod
+    def check_addon(name, queryset):
+        installed = set(queryset.values_list("name", flat=True))
+        available = {
+            x.name for x in ADDONS.values() if x.multiple or x.name not in installed
+        }
+        if name not in available:
+            raise serializers.ValidationError(
+                {"name": f"Add-on already installed: {name}"}
+            )
 
     def validate(self, attrs):
         instance = self.instance
@@ -1400,7 +1429,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                     {"name": "Can not change add-on name"}
                 )
         # Update or create
-        component = instance.component if instance else self._context["component"]
+        component = instance.component if instance else self._context.get("component")
+        project = instance.project if instance else self._context.get("project")
 
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:
@@ -1411,25 +1441,28 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
 
         # Don't allow duplicate add-ons
-        if not instance:
-            installed = set(
-                Addon.objects.filter_component(component).values_list("name", flat=True)
-            )
-            available = {
-                x.name for x in ADDONS.values() if x.multiple or x.name not in installed
-            }
-            if name not in available:
-                raise serializers.ValidationError(
-                    {"name": f"Add-on already installed: {name}"}
-                )
-
         addon = addon_class(Addon())
-        if not addon.can_install(component, None):
+        if not component and addon_class.needs_component:
             raise serializers.ValidationError(
-                {"name": f"could not enable add-on {name}, not compatible"}
+                {"component": "This add-on can only be installed on the component."}
             )
+        if not instance:
+            if component:
+                self.check_addon(name, Addon.objects.filter_component(component))
+                if not addon.can_install(component, None):
+                    raise serializers.ValidationError(
+                        {"name": f"could not enable add-on {name}, not compatible"}
+                    )
+            if project:
+                self.check_addon(name, Addon.objects.filter_project(project))
+
         if addon.has_settings() and "configuration" in attrs:
-            form = addon.get_add_form(None, component, data=attrs["configuration"])
+            form = addon.get_add_form(
+                None,
+                component=component,
+                project=project,
+                data=attrs["configuration"],
+            )
             form.is_valid()
             if not form.is_valid():
                 raise serializers.ValidationError(

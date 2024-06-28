@@ -219,7 +219,13 @@ def update_remotes() -> None:
     if settings.AUTO_UPDATE not in {"full", "remote", True, False}:
         return
 
-    for component in Component.objects.with_repo().iterator():
+    now = timezone.now()
+    components = (
+        Component.objects.with_repo()
+        .annotate(hourmod=F("id") % 24)
+        .filter(hourmod=now.hour)
+    )
+    for component in components.prefetch().iterator(chunk_size=100):
         perform_update("Component", -1, auto=True, obj=component)
 
 
@@ -247,19 +253,24 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
 
         # Skip recently modified paths
         if path.stat().st_mtime > yesterday:
+            empty_dir = False
             continue
 
         try:
             # Find matching components
-            parse_path(
+            component: Component = parse_path(
                 None, path.relative_to(vcs_root).parts, (Component,), skip_acl=True
             )
         except Http404:
             # Remove stale dir
-            LOGGER.info("removing stale VCS path: %s", path)
+            LOGGER.info("removing stale VCS path (not found): %s", path)
             remove_tree(path)
         else:
-            empty_dir = False
+            if component.is_repo_link:
+                LOGGER.info("removing stale VCS path (uses link): %s", root)
+                remove_tree(path)
+            else:
+                empty_dir = False
 
     if empty_dir and root != vcs_root:
         try:
@@ -271,7 +282,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
                 skip_acl=True,
             )
         except Http404:
-            LOGGER.info("removing stale VCS path: %s", root)
+            LOGGER.info("removing stale VCS path (not found): %s", root)
             root.rmdir()
         else:
             empty_dir = False
@@ -308,9 +319,7 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD) -> None:
             else:
                 component.delete_alert("RepositoryChanges")
         except RepositoryError as error:
-            report_error(
-                cause="Could not check repository status", project=component.project
-            )
+            report_error("Could not check repository status", project=component.project)
             component.add_alert("MergeFailure", error=component.error_text(error))
 
 
@@ -319,13 +328,20 @@ def component_alerts(component_ids=None) -> None:
     if component_ids:
         components = Component.objects.filter(pk__in=component_ids)
     else:
-        components = Component.objects.all()
-    for component in components.prefetch():
+        now = timezone.now()
+        components = Component.objects.annotate(hourmod=F("id") % 24).filter(
+            hourmod=now.hour
+        )
+    for component in components.prefetch().iterator(chunk_size=100):
         with transaction.atomic():
             component.update_alerts()
 
 
-@app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
+@app.task(
+    trail=False,
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
+    retry_backoff=60,
+)
 @transaction.atomic
 def component_after_save(
     pk: int,
@@ -435,7 +451,7 @@ def project_removal(pk: int, uid: int | None) -> None:
     retry_backoff_max=3600,
 )
 def auto_translate(
-    user_id: int,
+    user_id: int | None,
     translation_id: int,
     mode: str,
     filter_type: str,
@@ -465,7 +481,7 @@ def auto_translate(
                 auto.process_mt(engines, threshold)
             else:
                 auto.process_others(component)
-        except MachineTranslationError as error:
+        except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
             return {
                 "translation": translation_id,
@@ -546,16 +562,16 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
             clist.components.add(component)
         # Copy add-ons
         if copy_addons:
-            addons = Addon.objects.filter(
-                component__pk=copy_from, project_scope=False, repo_scope=False
-            )
+            addons = Addon.objects.filter(component__pk=copy_from, repo_scope=False)
             for addon in addons:
                 # Avoid installing duplicate addons
                 if component.addon_set.filter(name=addon.name).exists():
                     continue
                 if not addon.addon.can_install(component, None):
                     continue
-                addon.addon.create(component, configuration=addon.configuration)
+                addon.addon.create(
+                    component=component, configuration=addon.configuration
+                )
     if in_task:
         return {"component": component.id}
     return component
@@ -563,7 +579,10 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
 
 @app.task(trail=False)
 def update_checks(pk: int, update_token: str, update_state: bool = False) -> None:
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        return
 
     # Skip when further updates are scheduled
     latest_token = cache.get(component.update_checks_key)
@@ -685,22 +704,27 @@ def detect_completed_translation(change_id: int, old_translated: int) -> None:
             author=change.author,
         )
 
+        # check if component is fully translated
+        component = change.translation.component
+        if component.stats.translated == component.stats.all:
+            change.translation.component.change_set.create(
+                action=Change.ACTION_COMPLETED_COMPONENT,
+                user=change.user,
+                author=change.author,
+            )
+
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
-    sender.add_periodic_task(
-        crontab(hour=3, minute=5), update_remotes.s(), name="update-remotes"
-    )
+    sender.add_periodic_task(3600, update_remotes.s(), name="update-remotes")
     sender.add_periodic_task(
         crontab(minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
     sender.add_periodic_task(
         crontab(hour=3, minute=45), repository_alerts.s(), name="repository-alerts"
     )
-    sender.add_periodic_task(
-        crontab(hour=3, minute=55), component_alerts.s(), name="component-alerts"
-    )
+    sender.add_periodic_task(3600, component_alerts.s(), name="component-alerts")
     sender.add_periodic_task(
         crontab(hour=0, minute=40), cleanup_suggestions.s(), name="suggestions-cleanup"
     )

@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import csv
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -22,11 +25,16 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import PathViewMixin
 
+if TYPE_CHECKING:
+    from django.db.models import Model
+
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class ChangesView(PathViewMixin, ListView):
     """Browser for changes."""
 
-    paginate_by = 20
+    paginate_by: int | None = 20
     supported_path_types = (
         None,
         Project,
@@ -93,7 +101,13 @@ class ChangesView(PathViewMixin, ListView):
         super().setup(*args, **kwargs)
         self.changes_form = ChangesForm(data=self.request.GET)
 
-    def get(self, request, *args, **kwargs):
+    def get_request_param(self, request: AuthenticatedHttpRequest, param: str) -> str:
+        value = request.GET.get(param)
+        if not value or "/" in value:
+            return "-"
+        return value
+
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if self.path_object is None and self.request.GET:
             # Handle GET params for filtering prior Weblate 5.0
             path = None
@@ -108,9 +122,9 @@ class ChangesView(PathViewMixin, ListView):
                     path = unit.get_url_path()
             else:
                 path = [
-                    request.GET.get("project", "-") or "-",
-                    request.GET.get("component", "-") or "-",
-                    request.GET.get("lang") or "-",
+                    self.get_request_param(request, "project"),
+                    self.get_request_param(request, "component"),
+                    self.get_request_param(request, "lang"),
                 ]
                 while path and path[-1] == "-":
                     path.pop()
@@ -124,6 +138,7 @@ class ChangesView(PathViewMixin, ListView):
     def get_queryset(self):
         """Return list of changes to browse."""
         filters = {}
+        params: dict[str, Model]
         if self.path_object is None:
             params = {}
         elif isinstance(self.path_object, Project):
@@ -148,10 +163,9 @@ class ChangesView(PathViewMixin, ListView):
         if form.is_valid():
             if action := form.cleaned_data.get("action"):
                 filters["action__in"] = action
-            if start_date := form.cleaned_data.get("start_date"):
-                filters["timestamp__date__gte"] = start_date
-            if end_date := form.cleaned_data.get("end_date"):
-                filters["timestamp__date__lte"] = end_date
+            if period := form.cleaned_data.get("period"):
+                filters["timestamp__date__gte"] = period["start_date"]
+                filters["timestamp__date__lte"] = period["end_date"]
             if user := form.cleaned_data.get("user"):
                 filters["user"] = user
 
@@ -177,7 +191,7 @@ class ChangesCSVView(ChangesView):
 
     paginate_by = None
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         object_list = self.get_queryset()[:2000]
 
         if not request.user.has_perm("change.download", self.path_object):
@@ -212,7 +226,7 @@ class ChangesCSVView(ChangesView):
 
 
 @login_required
-def show_change(request, pk):
+def show_change(request: AuthenticatedHttpRequest, pk: int):
     change = get_object_or_404(Change, pk=pk)
     acl_obj = change.translation or change.component or change.project
     if not request.user.has_perm("unit.edit", acl_obj):

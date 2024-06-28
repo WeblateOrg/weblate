@@ -728,10 +728,13 @@ Default based on the file format
 POSIX style using underscore as a separator
    Typically used by gettext and related tools, produces language codes like
    ``pt_BR``.
+POSIX style using underscore as a separator, lower cased
+   Typically used by gettext and related tools, produces language codes like
+   ``pt_BR``.
 POSIX style using underscore as a separator, including country code
    POSIX style language code including the country code even when not necessary
    (for example ``cs_CZ``).
-POSIX style using underscore as a separator, including country code (lowercase)
+POSIX style using underscore as a separator, including country code, lower cased
    POSIX style language code including the country code even when not necessary (lowercase)
    (for example ``cs_cz``).
 BCP style using hyphen as a separator
@@ -753,6 +756,8 @@ Android style
    ``pt-rBR``.
 Linux style
    Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
+Linux style, lower cased
+   Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation. Lower cased.
 
 .. seealso::
 

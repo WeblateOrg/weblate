@@ -18,6 +18,7 @@ FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00a0\u2009])([{}])".format(
 )
 FRENCH_PUNCTUATION_MISSING_RE = "([^\u202f])([{}])".format("".join(FRENCH_PUNCTUATION))
 MY_QUESTION_MARK = "\u1038\u104b"
+INTERROBANGS = ("?!", "!?", "？！", "！？", "⁈", "⁉")
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -248,6 +249,8 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
+        if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
+            return False
         if unit.translation.language.is_base(("jbo",)):
             return False
         if unit.translation.language.is_base(("hy",)):
@@ -274,6 +277,8 @@ class EndExclamationCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
+        if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
+            return False
         if (
             unit.translation.language.is_base(("eu",))
             and source[-1] == "!"
@@ -288,6 +293,22 @@ class EndExclamationCheck(TargetCheck):
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
         return self.check_chars(source, target, -1, ("!", "！", "՜", "᥄", "႟", "߹"))
+
+
+class EndInterrobangCheck(TargetCheck):
+    """Check for final interrobang expression."""
+
+    check_id = "end_Interrobang"
+    name = gettext_lazy("Mismatched interrobang")
+    description = gettext_lazy(
+        "Source and translation do not both end with an interrobang expression"
+    )
+
+    def check_single(self, source, target, unit):
+        if not source or not target:
+            return False
+
+        return source.endswith(INTERROBANGS) != target.endswith(INTERROBANGS)
 
 
 class EndEllipsisCheck(TargetCheck):

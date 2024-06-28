@@ -980,6 +980,7 @@ CHECK_LIST = [
     "weblate.checks.chars.EndColonCheck",
     "weblate.checks.chars.EndQuestionCheck",
     "weblate.checks.chars.EndExclamationCheck",
+    "weblate.checks.chars.EndInterrobangCheck",
     "weblate.checks.chars.EndEllipsisCheck",
     "weblate.checks.chars.EndSemicolonCheck",
     "weblate.checks.chars.MaxLengthCheck",
@@ -1087,6 +1088,36 @@ WEBLATE_ADDONS = [
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
+# Machinery configuration
+WEBLATE_MACHINERY = [
+    "weblate.machinery.apertium.ApertiumAPYTranslation",
+    "weblate.machinery.aws.AWSTranslation",
+    "weblate.machinery.alibaba.AlibabaTranslation",
+    "weblate.machinery.baidu.BaiduTranslation",
+    "weblate.machinery.deepl.DeepLTranslation",
+    "weblate.machinery.glosbe.GlosbeTranslation",
+    "weblate.machinery.google.GoogleTranslation",
+    "weblate.machinery.googlev3.GoogleV3Translation",
+    "weblate.machinery.libretranslate.LibreTranslateTranslation",
+    "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    "weblate.machinery.modernmt.ModernMTTranslation",
+    "weblate.machinery.mymemory.MyMemoryTranslation",
+    "weblate.machinery.netease.NeteaseSightTranslation",
+    "weblate.machinery.tmserver.AmagamaTranslation",
+    "weblate.machinery.tmserver.TMServerTranslation",
+    "weblate.machinery.yandex.YandexTranslation",
+    "weblate.machinery.yandexv2.YandexV2Translation",
+    "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    "weblate.machinery.youdao.YoudaoTranslation",
+    "weblate.machinery.ibm.IBMTranslation",
+    "weblate.machinery.systran.SystranTranslation",
+    "weblate.machinery.openai.OpenAITranslation",
+    "weblate.machinery.weblatetm.WeblateTranslation",
+    "weblate.memory.machine.WeblateMemory",
+]
+modify_env_list(WEBLATE_MACHINERY, "MACHINERY")
+
+
 # E-mail address that error messages come from.
 SERVER_EMAIL = get_env_str("WEBLATE_SERVER_EMAIL", "weblate@example.com")
 
@@ -1116,7 +1147,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # If you set password here, adjust CELERY_BROKER_URL as well
-            "PASSWORD": REDIS_PASSWORD if REDIS_PASSWORD else None,
+            "PASSWORD": REDIS_PASSWORD or None,
             "CONNECTION_POOL_KWARGS": {},
         },
         "KEY_PREFIX": "weblate",
@@ -1164,6 +1195,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
     "PAGE_SIZE": 50,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
+    "EXCEPTION_HANDLER": "weblate.api.views.weblate_exception_handler",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
@@ -1267,7 +1299,8 @@ CELERY_TASK_ROUTES = {
 
 # CORS allowed origins
 CORS_ALLOWED_ORIGINS = get_env_list("WEBLATE_CORS_ALLOWED_ORIGINS")
-CORS_URLS_REGEX = r"^/api/.*$"
+CORS_ALLOW_ALL_ORIGINS = get_env_bool("WEBLATE_CORS_ALLOW_ALL_ORIGINS", False)
+CORS_URLS_REGEX = rf"^{URL_PREFIX}/api/.*$"
 
 # Database backup type
 DATABASE_BACKUP = get_env_str("WEBLATE_DATABASE_BACKUP", "plain")
@@ -1314,6 +1347,8 @@ SSH_EXTRA_ARGS = get_env_str("WEBLATE_SSH_EXTRA_ARGS", "")
 BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
 
 ENABLE_SHARING = get_env_bool("WEBLATE_ENABLE_SHARING")
+
+SUPPORT_STATUS_CHECK = get_env_bool("WEBLATE_SUPPORT_STATUS_CHECK")
 
 EXTRA_HTML_HEAD = get_env_str("WEBLATE_EXTRA_HTML_HEAD", "")
 

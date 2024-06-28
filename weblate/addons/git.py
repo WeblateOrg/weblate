@@ -37,7 +37,7 @@ class GitSquashAddon(BaseAddon):
     repo_scope = True
 
     def squash_all(self, component, repository, base=None, author=None) -> None:
-        remote = base if base else repository.get_remote_branch_name()
+        remote = base or repository.get_remote_branch_name()
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
         # Can happen for added and removed translation
@@ -66,7 +66,13 @@ class GitSquashAddon(BaseAddon):
 
         return repository.execute(command)
 
-    def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
+    def get_squash_commit_message(
+        self,
+        repository,
+        log_format: str,
+        remote: str,
+        filenames: list[str] | None = None,
+    ) -> str:
         commit_message = self.instance.configuration.get("commit_message")
 
         if self.instance.configuration.get("append_trailers", True):
@@ -219,7 +225,7 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
         except Exception:
-            report_error(cause="Failed squash", project=component.project)
+            report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
             repository.execute(["reset", "--hard"])
             repository.execute(["checkout", repository.branch])

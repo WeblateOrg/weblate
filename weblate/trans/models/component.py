@@ -73,7 +73,7 @@ from weblate.trans.validators import (
     validate_language_code,
 )
 from weblate.utils import messages
-from weblate.utils.celery import get_task_progress, is_task_ready
+from weblate.utils.celery import get_task_progress
 from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -124,6 +124,10 @@ NEW_LANG_CHOICES = (
 LANGUAGE_CODE_STYLE_CHOICES = (
     ("", gettext_lazy("Default based on the file format")),
     ("posix", gettext_lazy("POSIX style using underscore as a separator")),
+    (
+        "posix_lowercase",
+        gettext_lazy("POSIX style using underscore as a separator, lower cased"),
+    ),
     ("bcp", gettext_lazy("BCP style using hyphen as a separator")),
     (
         "posix_long",
@@ -134,7 +138,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     (
         "posix_long_lowercase",
         gettext_lazy(
-            "POSIX style using underscore as a separator, including country code (lowercase)"
+            "POSIX style using underscore as a separator, including country code, lower cased"
         ),
     ),
     (
@@ -150,6 +154,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ("appstore", gettext_lazy("Apple App Store metadata style")),
     ("googleplay", gettext_lazy("Google Play metadata style")),
     ("linux", gettext_lazy("Linux style")),
+    ("linux_lowercase", gettext_lazy("Linux style, lower cased")),
 )
 
 MERGE_CHOICES = (
@@ -181,7 +186,7 @@ AZURE_REPOS_REGEXP = [
 
 
 def perform_on_link(func):
-    """Perfom operation on repository link."""
+    """Perform operation on repository link."""
 
     def on_link_wrapper(self, *args, **kwargs):
         linked = self.linked_component
@@ -200,10 +205,15 @@ def prefetch_tasks(components):
     """Prefetch update tasks."""
     lookup = {component.update_key: component for component in components}
     if lookup:
-        for item, value in cache.get_many(lookup.keys()).items():
+        results_dict = cache.get_many(lookup.keys())
+        results = {
+            value: AsyncResult(value) for value in results_dict.values() if value
+        }
+
+        for item, value in results_dict.items():
             if not value:
                 continue
-            lookup[item].__dict__["background_task"] = AsyncResult(value)
+            lookup[item].__dict__["background_task"] = results[value]
             lookup.pop(item)
         for component in lookup.values():
             component.__dict__["background_task"] = None
@@ -265,11 +275,11 @@ class ComponentQuerySet(models.QuerySet):
             "pull_message",
         )
 
-    def get_linked(self, val):
-        """Return component for linked repo."""
-        if not is_repo_link(val):
-            return None
-        project, *categories, component = val[10:].split("/")
+    def filter_by_path(self, path: str) -> ComponentQuerySet:
+        try:
+            project, *categories, component = path.split("/")
+        except ValueError:
+            raise Component.DoesNotExist
         kwargs = {}
         prefix = ""
         for category in reversed(categories):
@@ -277,7 +287,18 @@ class ComponentQuerySet(models.QuerySet):
             prefix = f"category__{prefix}"
         if not kwargs:
             kwargs["category"] = None
-        return self.get(slug__iexact=component, project__slug__iexact=project, **kwargs)
+        return self.filter(
+            slug__iexact=component, project__slug__iexact=project, **kwargs
+        )
+
+    def get_by_path(self, path: str) -> Component:
+        return self.filter_by_path(path).get()
+
+    def get_linked(self, val):
+        """Return component for linked repo."""
+        if not is_repo_link(val):
+            return None
+        return self.get_by_path(val[10:])
 
     def order_project(self):
         """Ordering in global scope by project name."""
@@ -373,8 +394,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ),
         blank=True,
     )
-    repoweb = models.URLField(
+    repoweb = models.CharField(
         verbose_name=gettext_lazy("Repository browser"),
+        max_length=200,
         help_text=gettext_lazy(
             "Link to repository browser, use {{branch}} for branch, "
             "{{filename}} and {{line}} as filename and line placeholders. "
@@ -964,7 +986,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 continue
 
             if addon.has_settings():
-                form = addon.get_add_form(None, component, data=configuration)
+                form = addon.get_add_form(None, component=component, data=configuration)
                 if not form.is_valid():
                     component.log_warning(
                         "could not enable addon %s, invalid settings", name
@@ -977,7 +999,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             component.log_info("enabling addon %s", name)
             # Running is disabled now, it is triggered in after_save
-            addon.create(component, run=False, configuration=configuration)
+            addon.create(component=component, run=False, configuration=configuration)
 
     def create_glossary(self) -> None:
         project = self.project
@@ -1080,7 +1102,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER
             and self.background_task is not None
-            and not is_task_ready(self.background_task)
+            and not self.background_task.ready()
         )
 
     def get_source_translation(self):
@@ -1517,7 +1539,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
         except RepositoryError as error:
-            report_error(cause="Could not update the repository", project=self.project)
+            report_error("Could not update the repository", project=self.project)
             error_text = self.error_text(error)
             if validate:
                 self.handle_update_error(error_text, retry)
@@ -1689,7 +1711,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.log_info("skipped push: upstream not configured")
             return
         if not self.repo_needs_push():
-            self.log_info("skipped push: nothing to push")
+            self.log_info(
+                "skipped push: nothing to push (%d/%d outgoing)",
+                self.count_repo_outgoing,
+                self.count_push_branch_outgoing,
+            )
             return
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.do_push(None, force_commit=False, do_update=do_update)
@@ -1697,10 +1723,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
-            transaction.on_commit(
-                lambda: perform_push.delay(
-                    self.pk, None, force_commit=False, do_update=do_update
-                )
+            perform_push.delay_on_commit(
+                self.pk, None, force_commit=False, do_update=do_update
             )
 
     @perform_on_link
@@ -1712,7 +1736,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.repository.push(self.push_branch)
             except RepositoryError as error:
                 error_text = self.error_text(error)
-                report_error(cause="Could not push the repo", project=self.project)
+                report_error("Could not push the repo", project=self.project)
                 self.change_set.create(
                     action=Change.ACTION_FAILED_PUSH,
                     target=error_text,
@@ -1734,8 +1758,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             self.repository.unshallow()
                         except RepositoryError:
                             report_error(
-                                cause="Could not unshallow the repo",
-                                project=self.project,
+                                "Could not unshallow the repo", project=self.project
                             )
                         else:
                             return self.push_repo(request, retry=False)
@@ -1823,9 +1846,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_info("resetting to remote repo")
                 self.repository.reset()
             except RepositoryError:
-                report_error(
-                    cause="Could not reset the repository", project=self.project
-                )
+                report_error("Could not reset the repository", project=self.project)
                 messages.error(
                     request,
                     gettext("Could not reset to remote branch on %s.") % self,
@@ -1861,9 +1882,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryError:
-                report_error(
-                    cause="Could not clean the repository", project=self.project
-                )
+                report_error("Could not clean the repository", project=self.project)
                 messages.error(
                     request,
                     gettext("Could not clean the repository on %s.") % self,
@@ -1887,7 +1906,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def do_file_scan(self, request=None):
         self.commit_pending("file-scan", request.user if request else None)
         try:
-            return self.create_translations(request=request)
+            return self.create_translations(request=request, force=True)
         except FileParseError:
             return False
 
@@ -1897,10 +1916,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @cached_property
     def linked_childs(self):
         """Return list of components which links repository to us."""
-        childs = self.component_set.prefetch()
-        for child in childs:
+        children = self.component_set.prefetch()
+        for child in children:
             child.linked_component = self
-        return childs
+        return children
 
     def get_linked_childs_for_template(self):
         return [
@@ -1956,7 +1975,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             component.template_store  # noqa: B018
                         except FileParseError as error:
                             report_error(
-                                cause="Could not parse template file on commit",
+                                "Could not parse template file on commit",
                                 project=self.project,
                             )
                             component.log_error(
@@ -2125,7 +2144,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
             except RepositoryError as error:
                 # Report error
-                report_error(cause=f"Failed {method}", project=self.project)
+                report_error(f"Failed {method}", project=self.project)
 
                 # In case merge has failure recover
                 error = self.error_text(error)
@@ -2493,9 +2512,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     force, langs, request=request, from_link=True
                 )
             except FileParseError:
-                report_error(
-                    cause="Failed linked component update", project=self.project
-                )
+                report_error("Failed linked component update", project=self.project)
                 continue
 
         # Run source checks on updated source strings
@@ -2510,7 +2527,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.needs_cleanup and not self.template:
             from weblate.trans.tasks import cleanup_component
 
-            transaction.on_commit(lambda: cleanup_component.delay(self.id))
+            cleanup_component.delay_on_commit(self.id)
 
         if was_change:
             if self.needs_variants_update:
@@ -2537,9 +2554,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 batch_update_checks(self.id, batched_checks, component=self)
             else:
-                transaction.on_commit(
-                    lambda: batch_update_checks.delay(self.id, batched_checks)
-                )
+                batch_update_checks.delay_on_commit(self.id, batched_checks)
         self.batch_checks = False
         self.batched_checks = set()
 
@@ -3012,6 +3027,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             fullname, self.source_language, self.get_new_base_filename()
         )
 
+        # Skip commit in case Component is not yet saved (called during validation)
+        if not self.pk:
+            return
+
         with self.repository.lock:
             self.commit_files(
                 template=self.add_message,
@@ -3193,7 +3212,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.repository.count_missing()
         except RepositoryError as error:
-            report_error(cause="Could check merge needed", project=self.project)
+            report_error("Could check merge needed", project=self.project)
             self.add_alert("MergeFailure", error=self.error_text(error))
             return 0
 
@@ -3205,13 +3224,22 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if retry and "Host key verification failed" in error_text:
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
-            report_error(cause="Could check push needed", project=self.project)
+            report_error("Could check push needed", project=self.project)
             self.add_alert("PushFailure", error=error_text)
             return 0
 
     @property
     def count_repo_outgoing(self):
         return self._get_count_repo_outgoing()
+
+    @property
+    def count_push_branch_outgoing(self):
+        try:
+            return self.repository.count_outgoing(self.push_branch)
+        except RepositoryError:
+            report_error("Counting outgoing commits", project=self.project)
+            # We silently ignore this error as push branch might not be existing if not needed
+            return self.count_repo_outgoing
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -3223,7 +3251,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def repo_needs_push(self, retry: bool = True):
         """Check for something to push to remote repository."""
-        return self.count_repo_outgoing > 0
+        return self.count_push_branch_outgoing > 0
 
     @property
     def file_format_name(self):
@@ -3317,7 +3345,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.load_template_store()
         except Exception as error:
-            report_error(cause="Template parse error", project=self.project)
+            report_error("Template parse error", project=self.project)
             self.handle_parse_error(error, filename=self.template)
 
     @cached_property
@@ -3559,7 +3587,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         result = defaultdict(list)
         result["__lookup__"] = {}
-        for addon in Addon.objects.filter_component(self):
+        for addon in Addon.objects.filter_for_execution(self):
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
             result["__all__"].append(addon)
@@ -3658,11 +3686,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         update_token = get_random_identifier()
         cache.set(self.update_checks_key, update_token)
-        transaction.on_commit(
-            lambda: update_checks.delay(
-                self.pk, update_token, update_state=update_state
-            )
-        )
+        update_checks.delay_on_commit(self.pk, update_token, update_state=update_state)
 
     @property
     def all_repo_components(self):

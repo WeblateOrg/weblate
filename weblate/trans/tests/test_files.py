@@ -159,15 +159,11 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(
-            translation.stats.suggestions, 2 if self.test_file == TEST_XLIFF else 1
-        )
+        self.assertEqual(translation.stats.suggestions, 1)
 
     def test_import_xliff(self) -> None:
         response = self.do_import(test_file=TEST_XLIFF, follow=True)
-        self.assertContains(
-            response, "updated: 2" if self.has_plurals else "updated: 1"
-        )
+        self.assertContains(response, "updated: 1")
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
@@ -585,7 +581,7 @@ class ImportSourceTest(ImportBaseTest):
         """Test importing normally."""
         translation = self.get_translation()
         self.assertFalse(
-            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).exists()
+            translation.change_set.filter(action=Change.ACTION_SOURCE_UPLOAD).exists()
         )
         response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
@@ -603,7 +599,7 @@ class ImportSourceTest(ImportBaseTest):
         self.assertEqual(unit.target, "")
 
         self.assertEqual(
-            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).count(),
+            translation.change_set.filter(action=Change.ACTION_SOURCE_UPLOAD).count(),
             self.expected_uploads,
         )
 

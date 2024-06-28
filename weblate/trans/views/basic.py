@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -69,6 +70,9 @@ from weblate.utils.views import (
     show_form_errors,
     try_set_language,
 )
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 @never_cache
@@ -194,7 +198,7 @@ def show_engage(request, path):
 
 
 @never_cache
-def show(request, path):
+def show(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,
         path,
@@ -222,7 +226,7 @@ def show(request, path):
     raise TypeError(f"Not supported show: {obj}")
 
 
-def show_project_language(request, obj):
+def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguage):
     language_object = obj.language
     project_object = obj.project
     user = request.user
@@ -231,6 +235,14 @@ def show_project_language(request, obj):
         user, project=project_object, language=language_object
     ).recent()
 
+    last_announcements = (
+        Change.objects.last_changes(
+            user, project=project_object, language=language_object
+        )
+        .filter_announcements()
+        .recent()
+    )
+
     translations = translation_prefetch_tasks(prefetch_stats(obj.translation_set))
 
     # Add ghost translations
@@ -238,7 +250,11 @@ def show_project_language(request, obj):
         existing = {translation.component.slug for translation in translations}
         missing = project_object.get_child_components_filter(
             lambda qs: qs.exclude(slug__in=existing)
+            .prefetch()
+            .prefetch_related("source_language")
         )
+        for item in missing:
+            item.project = project_object
         translations.extend(
             GhostTranslation(component, language_object)
             for component in missing
@@ -255,10 +271,18 @@ def show_project_language(request, obj):
             "object": obj,
             "path_object": obj,
             "last_changes": last_changes,
+            "last_announcements": last_announcements,
             "translations": translations,
+            "categories": prefetch_stats(
+                CategoryLanguage(category, obj.language)
+                for category in obj.project.category_set.filter(category=None).all()
+            ),
             "title": f"{project_object} - {language_object}",
             "search_form": SearchForm(
                 user, language=language_object, initial=SearchForm.get_initial(request)
+            ),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
             ),
             "licenses": project_object.component_set.exclude(license="").order_by(
                 "license"
@@ -317,6 +341,10 @@ def show_category_language(request, obj):
             "path_object": obj,
             "last_changes": last_changes,
             "translations": translations,
+            "categories": prefetch_stats(
+                CategoryLanguage(category, obj.language)
+                for category in obj.category.category_set.all()
+            ),
             "title": f"{category_object} - {language_object}",
             "search_form": SearchForm(
                 user, language=language_object, initial=SearchForm.get_initial(request)
@@ -420,7 +448,7 @@ def show_project(request, obj):
                 project=obj,
             ),
             "components": components,
-            "categories": obj.category_set.filter(category=None),
+            "categories": prefetch_stats(obj.category_set.filter(category=None)),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
@@ -435,6 +463,7 @@ def show_category(request, obj):
     all_changes = (
         Change.objects.for_category(obj).filter_components(request.user).prefetch()
     )
+
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
@@ -474,8 +503,12 @@ def show_category(request, obj):
             "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
+            "reports_form": ReportsForm({"category": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(user, initial=SearchForm.get_initial(request)),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
+            ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj
             ),
@@ -498,7 +531,7 @@ def show_category(request, obj):
                 project=obj.project,
             ),
             "components": components,
-            "categories": obj.category_set.all(),
+            "categories": prefetch_stats(obj.category_set.all()),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
@@ -582,20 +615,23 @@ def show_translation(request, obj):
 
     # Translations to same language from other components in this project
     # Show up to 10 of them, needs to be list to append ghost ones later
-    other_translations = translation_prefetch_tasks(
-        prefetch_stats(
-            list(
-                Translation.objects.prefetch()
-                .filter(component__project=project, language=obj.language)
-                .exclude(component__is_glossary=True)
-                .exclude(pk=obj.pk)[:10]
-            )
-        )
+    other_translations = list(
+        Translation.objects.prefetch()
+        .filter(component__project=project, language=obj.language)
+        .exclude(component__is_glossary=True)
+        .exclude(pk=obj.pk)[:10]
     )
-
-    # Include ghost translations for other components, this
-    # adds quick way to create translations in other components
-    if len(other_translations) < 10:
+    if len(other_translations) == 10:
+        # Discard too long list as the selection is purely random and thus most
+        # likely useless
+        other_translations = []
+    else:
+        # Prefetch stats and tasks for component listing
+        other_translations = translation_prefetch_tasks(
+            prefetch_stats(other_translations)
+        )
+        # Include ghost translations for other components, this
+        # adds quick way to create translations in other components
         existing = {translation.component.slug for translation in other_translations}
         existing.add(component.slug)
         for test_component in project.child_components:
@@ -637,6 +673,7 @@ def show_translation(request, obj):
                 project=project,
             ),
             "new_unit_form": get_new_unit_form(obj, user),
+            "new_unit_plural_form": get_new_unit_form(obj, user, is_source_plural=True),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
             ),

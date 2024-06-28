@@ -33,7 +33,7 @@ from weblate.lang import data
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
-from weblate.trans.util import is_ngram_code, sort_objects, sort_unicode
+from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
@@ -488,10 +488,10 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             if Plural.SOURCE_DEFAULT in plurals[code]:
                 plural = plurals[code][Plural.SOURCE_DEFAULT][0]
                 modified = False
-                for item in plural_data:
-                    if getattr(plural, item) != plural_data[item]:
+                for item, value in plural_data.items():
+                    if getattr(plural, item) != value:
                         modified = True
-                        setattr(plural, item, plural_data[item])
+                        setattr(plural, item, value)
                 if modified:
                     logger(
                         f"Updated default plural {plural_formula} for language {code}"
@@ -645,8 +645,8 @@ class Language(models.Model, CacheKeyMixin):
     def base_code(self) -> str:
         return self.code.replace("_", "-").split("-")[0]
 
-    def uses_ngram(self) -> bool:
-        return is_ngram_code(self.base_code)
+    def uses_whitespace(self) -> bool:
+        return self.base_code not in data.NO_SPACE_LANGUAGES
 
     @cached_property
     def plural(self):
@@ -834,7 +834,7 @@ class Plural(models.Model):
     @cached_property
     def plural_function(self):
         try:
-            return c2py(self.formula if self.formula else "0")
+            return c2py(self.formula or "0")
         except ValueError as error:
             raise ValueError(f"Could not compile formula {self.formula!r}: {error}")
 
@@ -996,11 +996,11 @@ class PluralMapper:
     def zip(self, sources, targets, unit):
         if len(sources) != self.source_plural.number:
             raise ValueError(
-                "length of `sources` does't match the number of source plurals"
+                "length of `sources` doesn't match the number of source plurals"
             )
         if len(targets) != self.target_plural.number:
             raise ValueError(
-                "length of `targets` does't match the number of target plurals"
+                "length of `targets` doesn't match the number of target plurals"
             )
         if self.same_plurals:
             return zip(sources, targets, strict=True)

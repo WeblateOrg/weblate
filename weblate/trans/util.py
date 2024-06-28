@@ -256,7 +256,7 @@ def render(
 
 def path_separator(path: str) -> str:
     """
-    Consolidate path separtor.
+    Consolidate path separator.
 
     Always use / as path separator for consistency.
     """
@@ -347,8 +347,9 @@ def check_upload_method_permissions(
     if method == "approve":
         return user.has_perm("unit.review", translation)
     if method == "replace":
-        return bool(translation.filename) and user.has_perm(
-            "component.edit", translation
+        return bool(translation.filename) and (
+            user.has_perm("component.edit", translation)
+            or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
         )
     raise ValueError(f"Invalid method: {method}")
 
@@ -360,7 +361,7 @@ def is_unused_string(string: str) -> bool:
 
 def count_words(string: str, lang_code: str = "") -> int:
     """Count number of words in a string."""
-    if is_ngram_code(lang_code):
+    if lang_code in {"ja", "zh", "ko"}:
         count = 0
         for s in split_plural(string):
             if is_unused_string(s):
@@ -374,7 +375,3 @@ def count_words(string: str, lang_code: str = "") -> int:
                 even = not even
         return count
     return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
-
-
-def is_ngram_code(string: str) -> bool:
-    return string in {"ja", "zh", "ko"}

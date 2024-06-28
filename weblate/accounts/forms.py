@@ -85,11 +85,16 @@ class UniqueEmailMixin(forms.Form):
 class PasswordField(forms.CharField):
     """Password field."""
 
-    def __init__(self, *args, **kwargs) -> None:
-        kwargs["widget"] = forms.PasswordInput(render_value=False)
+    def __init__(self, new_password: bool = False, **kwargs) -> None:
+        kwargs["widget"] = forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password" if new_password else "current-password"
+            },
+            render_value=False,
+        )
         kwargs["max_length"] = 256
         kwargs["strip"] = False
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
 
 class UniqueUsernameField(UsernameField):
@@ -181,7 +186,7 @@ class CommitForm(ProfileBaseForm):
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
         help_text=gettext_lazy(
-            "Used in version control commits. The address will stay in the repository forever once changes are commited by Weblate."
+            "Used in version control commits. The address will stay in the repository forever once changes are committed by Weblate."
         ),
         required=False,
         widget=forms.RadioSelect,
@@ -465,8 +470,12 @@ class SetPasswordForm(DjangoSetPasswordForm):
     new_password1 = PasswordField(
         label=gettext_lazy("New password"),
         help_text=password_validation.password_validators_help_text_html(),
+        new_password=True,
     )
-    new_password2 = PasswordField(label=gettext_lazy("New password confirmation"))
+    new_password2 = PasswordField(
+        label=gettext_lazy("New password confirmation"),
+        new_password=True,
+    )
 
     @transaction.atomic
     def save(self, request, delete_session=False) -> None:

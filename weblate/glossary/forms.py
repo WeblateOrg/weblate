@@ -4,8 +4,9 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext
 
+from weblate.trans.forms import NewBilingualGlossaryUnitForm
 from weblate.trans.models import Translation, Unit
 
 
@@ -25,41 +26,16 @@ class GlossaryModelChoiceField(forms.ModelChoiceField):
         return obj.component.name
 
 
-class GlossaryAddMixin(forms.Form):
-    terminology = forms.BooleanField(
-        label=gettext_lazy("Terminology"),
-        help_text=gettext_lazy("String will be part of the glossary in all languages"),
-        required=False,
-    )
-    forbidden = forms.BooleanField(
-        label=gettext_lazy("Forbidden translation"),
-        required=False,
-    )
-    read_only = forms.BooleanField(
-        label=gettext_lazy("Untranslatable term"),
-        required=False,
-    )
-
-    def get_glossary_flags(self):
-        result = []
-        if self.cleaned_data.get("terminology"):
-            result.append("terminology")
-        if self.cleaned_data.get("forbidden"):
-            result.append("forbidden")
-        if self.cleaned_data.get("read_only"):
-            result.append("read-only")
-        return ", ".join(result)
-
-
-class TermForm(GlossaryAddMixin, forms.ModelForm):
+class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
     """Form for adding term to a glossary."""
 
     terms = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = Unit
-        fields = ["source", "target", "translation", "explanation"]
+        fields = ["context", "source", "target", "translation", "explanation"]
         widgets = {
+            "context": forms.TextInput,
             "source": forms.TextInput,
             "target": forms.TextInput,
             "explanation": forms.TextInput,
@@ -78,7 +54,6 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             component__in=component.project.glossaries,
             component__manage_units=True,
         )
-        self._user = user
         exclude = [
             glossary.pk
             for glossary in glossaries
@@ -94,13 +69,18 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
             initial["translation"] = glossaries[0]
         kwargs["auto_id"] = "id_add_term_%s"
-        super().__init__(data=data, instance=instance, initial=initial, **kwargs)
+        super().__init__(
+            translation=translation,
+            user=user,
+            data=data,
+            instance=instance,
+            initial=initial,
+            **kwargs,
+        )
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = gettext("Glossary")
-        self.fields["source"].label = str(component.source_language)
-        self.fields["source"].required = True
-        self.fields["target"].label = str(translation.language)
         if translation.is_source:
+            self.fields["target"].required = False
             self.fields["target"].widget = forms.HiddenInput()
 
     def clean(self) -> None:
@@ -115,15 +95,8 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         translation.validate_new_unit_data(**data)
 
     def as_kwargs(self):
-        is_source = self.cleaned_data["translation"].is_source
-        return {
-            "context": "",
-            "source": self.cleaned_data["source"],
-            "target": self.cleaned_data["source"]
-            if is_source
-            else self.cleaned_data.get("target"),
-            "auto_context": True,
-            "extra_flags": self.get_glossary_flags(),
-            "explanation": self.cleaned_data.get("explanation"),
-            "skip_existing": bool(self.cleaned_data.get("terminology")),
-        }
+        result = super().as_kwargs()
+        if self.cleaned_data["translation"].is_source:
+            result["target"] = result["source"]
+        result["skip_existing"] = bool(self.cleaned_data.get("terminology"))
+        return result
