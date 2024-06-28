@@ -3,18 +3,15 @@ Translating using Weblate
 
 Thank you for your interest in translating with Weblate!
 
-Projects either accept translations directly,
-or accept the suggestions made by users.
+Generally, there are two most used modes of translation:
+* Project accepts direct translations
+* Project accepts the suggestions made by users.
+Sometimes, anonymous suggestions are accepted as well.
+
 There are more translation workflows detailed in :ref:`workflows`.
 
-Sometimes suggestions by users without accounts are accepted as well.
-
-Projects or the components in them are either visible to everyone,
-or only a certain group of translators.
-Alternatively only suggestions are allowed, and possibly only
-accepted once a set number of votes is reached.
-
-:ref:`workflows` has more info on the translation workflow.
+Projects, or the components in them are either visible to everyone,
+or only to a certain group of translators.
 
 .. seealso::
 
@@ -36,8 +33,10 @@ Translation links
 Having navigated to a component, a set of links lead to its actual translation.
 The translation is further divided into individual checks, like
 :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`.
-If the whole project is translated without any errors, :guilabel:`All strings` is still available.
-Alternatively you can use the search field to find a specific string or term.
+If the whole project is already translated without any errors, :guilabel:`All strings`
+is still available. Alternatively you can use the :ref:`Search <Searching>` feature
+to find a specific string or term.
+
 
 .. image:: /screenshots/strings-to-check.webp
 
@@ -46,12 +45,11 @@ Suggestions
 
 .. note::
 
-    Actual permissions might vary depending on the Weblate configuration.
+    Actual permissions might vary depending on your Weblate configuration.
 
-This is useful when uncertainty about a translation arises, to the point
-where it can not even be included as :guilabel:`Strings needing action`.
-Anonymous users can (by default) only forward suggestions, prompting review
-by other translators.
+Anonymous users (by default) can only forward suggestions. Doing so is still
+available to signed-in users, in cases where uncertainty about a translation
+arises, prompting other translators to review it.
 
 All suggestions are scanned on a daily basis to remove duplicates and
 those matching current translations.
@@ -61,12 +59,19 @@ those matching current translations.
 Comments
 --------
 
-Comments can either be made about translations, feedback on source strings,
-or to report source string bugs (if turned on using :ref:`project-source_review`).
-Use source string comments to ask for clarifications or context.
+Three types of comments can be posted: 
+* for translations
+* for source strings
+* for reporting source string bugs when this functionality is turned on using
+:ref:`project-source_review`.
 
-Markdown syntax can be used for all comments.
-Mention other users by using``@mention``.
+Choose the suitable type for the topic you want to discuss.
+Source string comments are in any event good for providing feedback on 
+the original string, for example that it should be rephrased, or to ask
+questions about it.
+
+Markdown syntax can be used in all comments, as well as mentioning other
+users by using``@username``.
 
 .. seealso::
 
@@ -77,8 +82,9 @@ Mention other users by using``@mention``.
 Variants
 --------
 
-Variants are used to group different length variants of the string.
-The end user can then have strings that fit their screen or window size.
+Variants are used to group different-length variants of a string.
+The frontend of your project can then utilize different strings
+depending on the size of a screen or window.
 
 .. seealso::
 
@@ -127,18 +133,18 @@ Plurals
 +++++++
 
 Words changing form to account for their numeric designation are called plurals.
-Each language has its own definition of them, and English supports one.
-In (the singular definition of) "car", implicitly one car is referenced,
-in (the plural), "cars" two or more are referenced (or the concept of cars as a noun).
-Languages like for example Czech or Arabic have more plurals and also their
-rules for plurals are different.
+Each language has its own definition of them. English, for example, supports one.
+In the singular definition of an example "car", implicitly one car is referenced,
+in the plural definition of "cars", two or more cars are referenced (or the concept
+of cars as a noun). Languages like, for example, Czech or Arabic have more forms
+of plurals, and their rules for plurals are different as well.
 
 Weblate has full support for each of these forms, in each respective language.
-Each gramattical number is translated separately for a pre-defined set of
+Each grammatical number is translated in a separate field for a pre-defined set of
 cardinal numbers specific to the translation language.
-The number of fields and how it is in turn used in the translated application or
-project depends on the configured plural formula.
-Weblate shows the basic info, and the `Language Plural Rules`_
+The number of fields and how they are in turn used in the translated application or
+project, depends on the configured plural formula.
+Weblate shows the basic information and the `Language Plural Rules`_
 by the Unicode Consortium is a more detailed description.
 
 .. _Language Plural Rules: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
@@ -256,8 +262,8 @@ Visual keyboard
 +++++++++++++++
 
 A small visual keyboard row is shown just above the translation field.
-It is specific to each language, and comes in handy for local punctuation
-or characters that are hard to type.
+Its rows are specific to each language; it can be useful for local punctuation
+or characters that are hard to type by hand.
 
 The shown symbols factor into three categories:
 
@@ -280,7 +286,7 @@ Screenshots
     Screenshots can be uploaded to Weblate to better inform translators
     of where and how the string is used, see :ref:`screenshots`.
 Nearby strings
-    Displays neighbouring entries from the translation file.
+    Displays neighbouring strings from the translation file.
     These are usually also used in a similar context and prove
     useful in keeping the translation consistent.
 Other occurrences
@@ -302,8 +308,8 @@ If you want direct links, the translation format has to support it.
 Translation history
 +++++++++++++++++++
 
-Every change is revertable, and saved in the database
-(unless turned off in component settings).
+Every change is by default (unless turned-off in component settings) saved in
+the database, and can be reverted.
 Optionally, translations can also be reverted
 in the underlying version control system.
 
@@ -314,13 +320,13 @@ Weblate can limit the length of a translation in several ways to ensure the
 translated string is not too long:
 
 * The default limitation for translation is ten times longer than the source
-  string. This can be turned off with :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
-  Truncations might be also caused by a monolingual translation erroneously set up
-  as a bilingual one, making Weblate mistake the translation key for the actual
-  source string. More info in :ref:`bimono`.
-* Maximal length in characters defined by translation file or flag, as per
+  string. This can be modified with :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
+  If you are hitting this, it can also be caused by a monolingual translation being 
+  wrongly set up as a bilingual one, making Weblate mistaking the translation
+  key for the actual source string. See :ref:`bimono` for more info.
+* Maximum length in characters defined by the translation file or flag, as per
   :ref:`check-max-length`.
-* Maximal rendered size in pixels as defined by flags, as per :ref:`check-max-size`.
+* Maximal rendered size in pixels as defined by flags; see :ref:`check-max-size`.
 
 .. _machine-translation:
 
@@ -379,12 +385,12 @@ Rate limiting
 -------------
 
 To avoid abuse of the interface, rate limiting is applied to several
-operations like searching, sending contact forms or translating.
-If affected by it, you are blocked for a certain period until you can
+operations like searching, sending contact forms, or translating.
+If affected by it, you are blocked for a certain period, until you can
 perform the operation again.
 
 Default limits and fine-tuning is described in the administrative manual,
-as per :ref:`rate-limit`.
+see :ref:`rate-limit`.
 
 .. _search-replace:
 
@@ -404,13 +410,13 @@ strings using :guilabel:`Search and replace` in the :guilabel:`Tools` menu.
 Bulk edit
 ---------
 
-Bulk editing allows performing one operation for many strings.
-Define strings by searching for them and actions to carry out for matching ones.
+Bulk editing allows performing one operation for multiple strings.
+Define strings by searching for them and actions to perform on matching ones.
 Supported operations:
 
-* Changing string state (for example to approve all unreviewed strings).
-* Adjusting translation flags (see :ref:`custom-checks`)
-* Adjusting string labels (see :ref:`labels`)
+* Change string state (for example to approve all unreviewed strings).
+* Adjust translation flags (see :ref:`custom-checks`)
+* Adjust string labels (see :ref:`labels`)
 
 .. hint::
 
@@ -426,22 +432,23 @@ Supported operations:
 Matrix View
 -----------
 
-Compare different languages efficiently with this view.
+You can compare different languages efficiently using this view
 It is available on every component page, from the :guilabel:`Tools` menu.
 First select all languages you want to compare, confirm your selection,
 then click on any translation to open and edit it.
 
-The matrix view is also a very good starting point to find and add missing
-translations in different languages to one view.
+The matrix view is also a very good starting point to find missing
+translations in different languages, and quickly add them from one view.
 
 Zen Mode
 --------
-
-Open the Zen editor by clicking the :guilabel:`Zen` button
-on the top-right of the regular translation view.
-It simplifies the layout and removes additional UI elements such as
+This mode simplifies the layout and removes additional UI elements such as
 :guilabel:`Nearby strings` or the :guilabel:`Glossary`.
+It is available by clicking the :guilabel:`Zen` button
+on the top-right of the regular editor (translation of a string).
 
-Pick whether to use the Zen editor as your default editor,
-and whether to list translations in it :guilabel:`Top to bottom` or :guilabel:`Side by side`
-in :ref:`profile-preferences` tab in your :ref:`user-profile`.
+You can select the Zen editor as your default editor using the
+:ref:`profile-preferences` tab on your :ref:`user-profile`.
+You can also choose there between having translations listed
+:guilabel:`Top to bottom` or :guilabel:`Side by side`,
+depending on your personal preference.
