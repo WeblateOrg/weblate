@@ -3,13 +3,14 @@ Weblate 5.6.2
 
 Not yet released.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
-**Compatibility**
+* Rendering of :ref:`labels` color selection widget.
+* Detection of pending outgoing commits.
+* :ref:`addons` button layout.
+* Crash when installing :ref:`addon-weblate.discovery.discovery` add-on.
+* Removal of source strings in :ref:`glossary`.
+* Validation of :ref:`projectbackup` ZIP file upon restoring.
 
 **Upgrading**
 
