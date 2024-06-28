@@ -1,11 +1,13 @@
 Translating using Weblate
 =========================
 
+Thank you for your interest in translating with Weblate!
+
 Projects either accept translations directly,
-or when a number of votes is reached.
+or accept the suggestions made by users.
 There are more translation workflows detailed in :ref:`workflows`.
 
-Sometimes suggestions are accepted by users without accounts.
+Sometimes suggestions by users without accounts are accepted as well.
 
 Projects or the components in them are either visible to everyone,
 or only a certain group of translators.
