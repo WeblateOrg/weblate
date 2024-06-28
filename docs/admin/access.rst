@@ -75,8 +75,8 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. note::
 
-    Administraotrs can change the default permissions available to users
-    of `Public`, `Protected`, and `Private` projects by using :ref:`custom settings <custom-acl>`.
+    Instance administraotrs can modify the default permission sets available to users
+    in `Public`, `Protected`, and `Private` projects by using :ref:`custom settings <custom-acl>`.
 
 .. seealso::
 
@@ -93,13 +93,14 @@ Granting users :guilabel:`Manage project access` (see :ref:`privileges`)
 allows them to assign other users in Public`, `Protected` and
 `Private` (but not `Custom`) projects via adding them to teams.
 
-These are the default teams, and more can be added with fine-grained access-control:
+These are the default teams provided with Weblate; teams can
+be added or modified by users with sufficient privileges:
 
 Administration
     All available permissions for the project.
 
 Review (if :ref:`review workflow <reviews>` is on)
-    Approve translations during review.
+    Approve translations in a review.
 
 For `Protected` and `Private` projects only:
 
@@ -114,7 +115,7 @@ Languages
     Manage translated languages (add or remove translations).
 
 Glossary
-    Manage glossary (add, remove and upload entries).
+    Manage glossary (add, remove, and upload entries).
 
 Memory
     Manage translation memory.
@@ -139,7 +140,7 @@ the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
 .. hint::
 
-    You can limit teams to languages
+    You can limit teams to languages or components,
     and assign them designated access roles (see :ref:`privileges`).
 
 
@@ -187,7 +188,7 @@ Blocking users
 .. versionadded:: 4.7
 
 If users misbehave in your project, you can block them from contributing.
-With the relevant permissions blocked users can still see the project,
+With the relevant permissions blocked, users can still see the project,
 but won't be able to contribute.
 
 Per-project permission management
@@ -209,13 +210,13 @@ team of the project.
 
 .. _custom-acl:
 
-Site-wide access-control
+Site-wide access control
 ------------------------
 
 .. include:: /snippets/not-hosted.rst
 
 The permission system is based on roles defining a set of permissions,
-and teams linking these to users and translations, read :ref:`auth-model`
+and teams linking roles to users and translations, read :ref:`auth-model`
 for more details.
 
 The most powerful features of the Weblate’s access control system can be configured
@@ -265,7 +266,7 @@ by site-wide or per-project teams by adding another custom team.
 
 **Example:**
 
-  Restricting translation to `Czech` to select set of translators,
+  Restricting translation to `Czech` to a selected set of translators,
   (while keeping translations to other languages public):
 
   1. Remove the permission to translate `Czech` from all users. In the
@@ -300,8 +301,8 @@ by site-wide or per-project teams by adding another custom team.
 
   3. Add users you wish to give the permissions to into this team.
 
-Management permissions this way is powerful, but can be quite a tedious.
-You can ony delegate it to other site-wide administrators.
+Management permissions this way is powerful, but can be quite a tedious job.
+You can only delegate it to other users by granting them Superuser status.
 
 .. _auth-model:
 
@@ -319,7 +320,8 @@ The authentication models consist of several objects:
 `User`
     A user can belong to several teams.
 `Group`
-    Groups connect roles, users, and projects, languages, and component lists).
+    Groups connect roles and users with authentication objects
+    (projects, languages, components, and component lists).
 
 .. graphviz::
 
@@ -353,7 +355,7 @@ Component-browsing access
 Granting browsing access to a user in one project gives it access to
 any component with derived browsing permissions.
 With :ref:`component-restricted` on, access to components
-or component lists are granted explicitly.
+(or component lists) are granted explicitly.
 
 .. _perm-check:
 
@@ -590,7 +592,7 @@ List of privileges
 .. note::
 
    Site-wide privileges are not granted to any default role.
-   These are powerful and quite close to site-wide administrator status.
+   These are powerful and quite close to the Superuser status.
    Most of them affect all projects in your Weblate installation.
 
 List of built-in roles
@@ -650,7 +652,7 @@ however, re-create them if you delete or rename them.
     Default roles: `Add suggestion`, `Access repository`
 
 `Viewers`
-    This role ensures all users visibility of public projects.
+    This role ensures the visibility of public projects to all users.
     By default, all users are members of this team.
 
     By default, :ref:`automatic team assignment <autoteam>` makes all new
@@ -678,12 +680,12 @@ however, re-create them if you delete or rename them.
 
 .. warning::
 
-    Never remove the predefined Weblate teams and users, as this can lead to
-    unexpected problems! If you have no use for them, remove all their
+    Never remove the predefined Weblate teams and users, as that can lead to
+    unexpected problems! If you have no use for them, simply remove all their
     privileges instead.
 
-Locking down Weblate
---------------------
+Additional access restrictions
+------------------------------
 
 If you want to use your Weblate installation in a less public manner, i.e. allow
 new users on an invitational basis only, it can be done by configuring Weblate
