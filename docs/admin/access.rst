@@ -69,9 +69,9 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. note::
 
-    Even `Private` project statistics are accounted for
-    in the site-wide statistics and language summary.
-    This does not reveal project names or other info.
+    Even `Private` project statistics are counted into
+    the site-wide statistics and language summary.
+    This does not reveal project names or any other info.
 
 .. note::
 
