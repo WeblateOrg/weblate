@@ -13,13 +13,13 @@ URL = "https://hosted.weblate.org/exports/stats/weblate/application/"
 THRESHOLD = 40
 
 
-def print_language(lang, fmt="{0} ({1})"):
+def print_language(lang, fmt="{0} ({1})") -> None:
     """Print language code with its name."""
     locale = Locale(lang)
     print(fmt.format(lang, locale.getDisplayName(locale).capitalize()))
 
 
-def main():
+def main() -> None:
     # load and parse data
     data = requests.get(URL, timeout=5).json()
 

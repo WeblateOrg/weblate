@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.core.cache import caches
-from django.utils.functional import SimpleLazyObject
+from __future__ import annotations
+
+import time
+
+from django.core.cache import cache, caches
 from django_redis.cache import RedisCache
 
 
@@ -11,4 +14,7 @@ def is_redis_cache() -> bool:
     return isinstance(caches["default"], RedisCache)
 
 
-IS_USING_REDIS = SimpleLazyObject(is_redis_cache)
+def measure_cache_latency() -> float:
+    start = time.monotonic()
+    cache.get("celery_loaded")
+    return round(1000 * (time.monotonic() - start))

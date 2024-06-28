@@ -39,6 +39,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.chars.EndColonCheck",
         "weblate.checks.chars.EndQuestionCheck",
         "weblate.checks.chars.EndExclamationCheck",
+        "weblate.checks.chars.EndInterrobangCheck",
         "weblate.checks.chars.EndEllipsisCheck",
         "weblate.checks.chars.EndSemicolonCheck",
         "weblate.checks.chars.MaxLengthCheck",
@@ -134,7 +135,7 @@ class Check(models.Model):
         verbose_name = "Quality check"
         verbose_name_plural = "Quality checks"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.get_name())
 
     @cached_property
@@ -173,7 +174,7 @@ class Check(models.Model):
             return self.check_obj.get_doc_url(user=user)
         return ""
 
-    def set_dismiss(self, state=True):
+    def set_dismiss(self, state=True) -> None:
         """Set ignore flag."""
         self.dismissed = state
         self.save(update_fields=["dismissed"])
@@ -181,6 +182,10 @@ class Check(models.Model):
 
 
 def get_display_checks(unit):
+    check_objects = {check.name: check for check in unit.all_checks}
     for check, check_obj in CHECKS.target.items():
         if check_obj.should_display(unit):
-            yield Check(unit=unit, dismissed=False, name=check)
+            try:
+                yield check_objects[check]
+            except KeyError:
+                yield Check(unit=unit, dismissed=False, name=check)

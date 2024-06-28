@@ -14,28 +14,28 @@ from weblate.trans.tests.test_views import ViewTestCase
 class DashboardTest(ViewTestCase):
     """Test for home/index view."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user.profile.languages.add(Language.objects.get(code="cs"))
 
-    def test_view_home_anonymous(self):
+    def test_view_home_anonymous(self) -> None:
         self.client.logout()
         response = self.client.get(reverse("home"))
         self.assertContains(response, "Browse 1 project")
 
-    def test_view_home(self):
+    def test_view_home(self) -> None:
         response = self.client.get(reverse("home"))
         self.assertContains(response, "test/test")
 
-    def test_view_projects(self):
+    def test_view_projects(self) -> None:
         response = self.client.get(reverse("projects"))
         self.assertContains(response, "Test")
 
-    def test_view_projects_slash(self):
+    def test_view_projects_slash(self) -> None:
         response = self.client.get("/projects")
         self.assertRedirects(response, reverse("projects"), status_code=301)
 
-    def test_home_with_announcement(self):
+    def test_home_with_announcement(self) -> None:
         msg = Announcement(message="test_message")
         msg.save()
 
@@ -43,11 +43,11 @@ class DashboardTest(ViewTestCase):
         self.assertContains(response, "announcement")
         self.assertContains(response, "test_message")
 
-    def test_home_without_announcement(self):
+    def test_home_without_announcement(self) -> None:
         response = self.client.get(reverse("home"))
         self.assertNotContains(response, "announcement")
 
-    def test_component_list(self):
+    def test_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)
 
@@ -58,7 +58,7 @@ class DashboardTest(ViewTestCase):
         )
         self.assertEqual(len(response.context["componentlists"]), 1)
 
-    def test_component_list_ghost(self):
+    def test_component_list_ghost(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)
 
@@ -68,7 +68,7 @@ class DashboardTest(ViewTestCase):
 
         self.assertContains(response, "Spanish")
 
-    def test_user_component_list(self):
+    def test_user_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)
 
@@ -80,7 +80,7 @@ class DashboardTest(ViewTestCase):
         self.assertContains(response, "TestCL")
         self.assertEqual(response.context["active_tab_slug"], "list-testcl")
 
-    def test_subscriptions(self):
+    def test_subscriptions(self) -> None:
         # no subscribed projects at first
         response = self.client.get(reverse("home"))
         self.assertFalse(len(response.context["watched_projects"]))
@@ -90,7 +90,7 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(len(response.context["watched_projects"]), 1)
 
-    def test_language_filters(self):
+    def test_language_filters(self) -> None:
         # check language filters
         response = self.client.get(reverse("home"))
         self.assertFalse(response.context["usersubscriptions"])
@@ -104,7 +104,7 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(len(response.context["usersubscriptions"]), 1)
 
-    def test_user_nolang(self):
+    def test_user_nolang(self) -> None:
         self.user.profile.languages.clear()
         # This picks up random language
         self.client.get(reverse("home"), headers={"accept-language": "en"})
@@ -115,7 +115,7 @@ class DashboardTest(ViewTestCase):
         self.assertTrue(response.context["suggestions"])
         self.assertFalse(self.user.profile.languages.exists())
 
-    def test_user_hide_completed(self):
+    def test_user_hide_completed(self) -> None:
         self.user.profile.hide_completed = True
         self.user.profile.save()
 
@@ -123,17 +123,17 @@ class DashboardTest(ViewTestCase):
         self.assertContains(response, "test/test")
 
     @override_settings(SINGLE_PROJECT=True)
-    def test_single_project(self):
+    def test_single_project(self) -> None:
         response = self.client.get(reverse("home"))
         self.assertRedirects(response, self.component.get_absolute_url())
 
     @override_settings(SINGLE_PROJECT="test")
-    def test_single_project_slug(self):
+    def test_single_project_slug(self) -> None:
         response = self.client.get(reverse("home"))
         self.assertRedirects(response, self.project.get_absolute_url())
 
     @override_settings(SINGLE_PROJECT=True)
-    def test_single_project_restricted(self):
+    def test_single_project_restricted(self) -> None:
         # Additional component to redirect to a project
         self.create_link_existing()
         # Make the project private

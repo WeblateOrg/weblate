@@ -6,8 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.fluent.utils import (
@@ -139,7 +138,7 @@ class _VariantReferences:
         self.counted_references = _CountedReferences(references)
 
     def name(self) -> str:
-        """The name for this variant."""
+        """Generate the name for this variant."""
         return variant_name(self.path)
 
 
@@ -667,8 +666,8 @@ class FluentReferencesCheck(TargetCheck):
     """
 
     check_id = "fluent-references"
-    name = _("Fluent references")
-    description = _("Fluent references should match")
+    name = gettext_lazy("Fluent references")
+    description = gettext_lazy("Fluent references should match")
     default_disabled = True
 
     @classmethod
@@ -705,9 +704,7 @@ class FluentReferencesCheck(TargetCheck):
         target: str,
         unit: TransUnitModel,
     ) -> bool:
-        if self._compare_references(unit, source, target):
-            return True
-        return False
+        return bool(self._compare_references(unit, source, target))
 
     @classmethod
     def _get_all_references_in_branch(

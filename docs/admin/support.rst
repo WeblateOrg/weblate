@@ -2,10 +2,10 @@ Getting support for Weblate
 ===========================
 
 
-Weblate is copylefted libre software with community support.
-Subscribers receive priority support at no extra charge. Prepaid help packages are
-available for everyone. You can find more info about current support
-offerings at <https://weblate.org/support/>.
+*Weblate* is copylefted libre software with community support.
+Hosting subscribers receive priority support at no extra charge.
+Prepaid help packages are available for everyone, including self-hosting users.
+Find info about current support offerings at https://weblate.org/support.
 
 .. _activate-support:
 
@@ -20,18 +20,21 @@ Basic instance details about your installation are also reported back to Weblate
 
 .. _support-data:
 
-Data submitted to the Weblate
------------------------------
+Info sent to the Weblate
+------------------------
 
-* URL where your Weblate instance is configured
-* Your site title
-* The Weblate version you are running
-* Tallies of some objects in your Weblate database (projects, components, languages, source strings and users)
+* Your Weblate instance URL
+* Its site title
+* The version you are running
+* Tallies of projects, components, languages, source strings, and users
 * The public SSH key of your instance
 
-Additionally, when :ref:`discover-weblate` is turned on:
+Additionally, if you turn on :ref:`discover-weblate`:
 
-* List of public projects (name, URL and website)
+* List of public projects (name, URL, and website).
+
+.. hint::
+   Check what *Discover* shows publicly in the :ref:`discover-weblate` description.
 
 No other data is submitted.
 
@@ -44,7 +47,7 @@ Integration services
 
 .. hint::
 
-   Purchased support packages are already activated upon purchase, and can be used without integrating them.
+   Purchased support packages are already activated upon purchase and can be used without integrating them.
 
 .. _discover-weblate:
 
@@ -53,37 +56,37 @@ Discover Weblate
 
 .. versionadded:: 4.5.2
 
-Discover Weblate is an opt-in service that makes it easier for users to find
-Weblate servers and communities. Users can browse registered services on
-<https://weblate.org/discover/>, and find there projects to contribute.
+*Discover* is an opt-in service making it easier for translators to find
+other Weblate instances and communities.
+Users can browse registered sites and find projects to contribute to on
+https://weblate.org/discover/.
 
 Getting listed
 ++++++++++++++
 
-.. hint::
+.. note::
 
-   Participating in Discover Weblate makes Weblate submit some information
-   about your server, please see :ref:`support-data`.
+   Make sure you are OK with publishing your instance name, URL, tally of projects, components, and users,
+   together with names of public projects and components for use on *Discover*.
 
 
-To list your server with an active support subscription (see
-:ref:`activate-support`) in Discover Weblate all you need to do is turn this on
-in the management panel:
+List your server directly from the management panel if you have an active
+support subscription (:ref:`activate-support`):
 
 .. image:: /screenshots/support-discovery.webp
 
-Listing your server without a support subscription in Discover Weblate:
+All steps for listing a server without a support contract:
 
-1. Register yourself at <https://weblate.org/user/>
-2. Register your Weblate server in the discovery database at <https://weblate.org/subscription/discovery/>
-3. Confirm the service activation in your Weblate and turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
+1. Register yourself at https://weblate.org/user/
+2. Register your Weblate site at https://weblate.org/subscription/discovery/
+3. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
 
 .. image:: /screenshots/support-discovery.webp
 
 .. _customize-discover:
 
-Customizing listing
-+++++++++++++++++++
+Listing customization
++++++++++++++++++++++
 
-You can customize the listing by providing a text and image (570 x 260 pixels)
-at <https://weblate.org/user/>.
+You are encouraged to provide an image (570 x 260 pixels) and description of your Weblate site
+at https://weblate.org/user/. This improves your instance’s visibility in the list.

@@ -14,7 +14,7 @@ TRANSLATION_LABELS = {"Automatically translated"}
 
 class Label(models.Model):
     project = models.ForeignKey(
-        "Project", on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Project", on_delete=models.deletion.CASCADE, db_index=False
     )
     name = models.CharField(verbose_name=gettext_lazy("Label name"), max_length=190)
     color = models.CharField(
@@ -24,6 +24,9 @@ class Label(models.Model):
         blank=False,
         default=None,
     )
+    description = models.CharField(
+        verbose_name=gettext_lazy("Label description"), default="", max_length=250
+    )
 
     class Meta:
         app_label = "trans"
@@ -31,11 +34,11 @@ class Label(models.Model):
         verbose_name = "label"
         verbose_name_plural = "label"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return format_html(
             '<span class="label label-{}">{}</span>', self.color, self.name
         )
 
     @property
-    def filter_name(self):
+    def filter_name(self) -> str:
         return f"label:{Flags.format_value(self.name)}"

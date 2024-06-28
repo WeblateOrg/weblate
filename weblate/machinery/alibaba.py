@@ -9,7 +9,7 @@ from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
 from aliyunsdkcore.client import AcsClient
 from django.utils.functional import cached_property
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
 from .forms import AlibabaMachineryForm
 
 
@@ -90,7 +90,7 @@ class AlibabaTranslation(MachineTranslation):
             "kdx",
             "dtp",
             "ru",
-            "fo",
+            "fo",  # codespell:ignore fo
             "fr",
             "sa",
             "fil",
@@ -195,11 +195,11 @@ class AlibabaTranslation(MachineTranslation):
             "tl",
             "tg",
             "ty",
-            "te",
+            "te",  # codespell:ignore te
             "ta",
             "th",
             "to",
-            "toi",
+            "toi",  # codespell:ignore toi
             "ti",
             "tvl",
             "tyv",
@@ -241,7 +241,7 @@ class AlibabaTranslation(MachineTranslation):
             "ia",
             "hi",
             "id",
-            "inh",
+            "inh",  # codespell:ignore inh
             "en",
             "yo",
             "vi",
@@ -261,7 +261,7 @@ class AlibabaTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         # Create an API request and set the request parameters.
         request = TranslateGeneralRequest.TranslateGeneralRequest()

@@ -8,6 +8,12 @@ Mobile Kotlin resources
 
 `Mobile Kotlin resources`_ specific format heavily based on :doc:`/formats/android`.
 
+.. note::
+
+   There is also JetBrains Compose Multiplatform Kotlin Resources which use a
+   different format which matches :doc:`/formats/android`, please use that
+   instead.
+
 Weblate configuration
 +++++++++++++++++++++
 

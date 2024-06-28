@@ -21,20 +21,18 @@ from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
 
-class AddonFormMixin:
+class BaseAddonForm(forms.Form):
+    def __init__(self, user, addon, instance=None, *args, **kwargs) -> None:
+        self._addon = addon
+        self.user = user
+        forms.Form.__init__(self, *args, **kwargs)
+
     def serialize_form(self):
         return self.cleaned_data
 
     def save(self):
         self._addon.configure(self.serialize_form())
         return self._addon.instance
-
-
-class BaseAddonForm(forms.Form, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
-        self._addon = addon
-        self.user = user
-        super().__init__(*args, **kwargs)
 
 
 class GenerateMoForm(BaseAddonForm):
@@ -54,7 +52,7 @@ class GenerateMoForm(BaseAddonForm):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -65,7 +63,7 @@ class GenerateMoForm(BaseAddonForm):
             ),
         )
 
-    def test_render(self, value):
+    def test_render(self, value) -> None:
         validate_render_component(value, translation=True)
 
     def clean_path(self):
@@ -84,7 +82,7 @@ class GenerateForm(BaseAddonForm):
         required=True,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -95,7 +93,7 @@ class GenerateForm(BaseAddonForm):
             ),
         )
 
-    def test_render(self, value):
+    def test_render(self, value) -> None:
         validate_render_component(value, translation=True)
 
     def clean_filename(self):
@@ -182,7 +180,7 @@ class GitSquashForm(BaseAddonForm):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -336,7 +334,7 @@ class DiscoveryForm(BaseAddonForm):
         widget=forms.HiddenInput,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -381,7 +379,7 @@ class DiscoveryForm(BaseAddonForm):
             **ComponentDiscovery.extract_kwargs(self.cleaned_data),
         )
 
-    def clean(self):
+    def clean(self) -> None:
         if file_format := self.cleaned_data.get("file_format"):
             is_monolingual = FILE_FORMATS[file_format].monolingual
             if is_monolingual and not self.cleaned_data.get("base_file_template"):
@@ -431,7 +429,7 @@ class DiscoveryForm(BaseAddonForm):
         if self.cleaned_match_re is None:
             matches = {"component": "test"}
         else:
-            matches = {key: "test" for key in self.cleaned_match_re.groupindex}
+            matches = dict.fromkeys(self.cleaned_match_re.groupindex, "test")
         return validate_render(value, **matches)
 
     def template_clean(self, name):
@@ -455,19 +453,25 @@ class DiscoveryForm(BaseAddonForm):
         return self.template_clean("intermediate_template")
 
 
-class AutoAddonForm(AutoForm, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, **kwargs):
-        self.user = user
-        self._addon = addon
-        super().__init__(obj=addon.instance.component, **kwargs)
+class AutoAddonForm(BaseAddonForm, AutoForm):
+    def __init__(self, user, addon, instance=None, **kwargs) -> None:
+        BaseAddonForm.__init__(self, user, addon)
+        AutoForm.__init__(
+            self, obj=addon.instance.component or addon.instance.project, **kwargs
+        )
 
 
-class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, **kwargs):
-        self.user = user
-        self._addon = addon
+class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
+    def __init__(self, user, addon, instance=None, **kwargs) -> None:
+        BaseAddonForm.__init__(self, user, addon)
         component = addon.instance.component
-        super().__init__(obj=component, project=component.project, user=None, **kwargs)
+        BulkEditForm.__init__(
+            self,
+            obj=component,
+            project=component.project if component else None,
+            user=None,
+            **kwargs,
+        )
 
     def serialize_form(self):
         result = dict(self.cleaned_data)
@@ -500,7 +504,8 @@ class CDNJSForm(BaseAddonForm):
         initial="",
         help_text=gettext_lazy("Name of cookie which stores language preference."),
     )
-    files = forms.CharField(
+    # This shadows files from the Form class
+    files = forms.CharField(  # type: ignore[assignment]
         widget=forms.Textarea(),
         label=gettext_lazy("Extract strings from HTML files"),
         required=False,
@@ -510,7 +515,7 @@ class CDNJSForm(BaseAddonForm):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -555,7 +560,8 @@ class PseudolocaleAddonForm(BaseAddonForm):
         help_text=gettext_lazy("All strings in this translation will be overwritten"),
         queryset=Translation.objects.none(),
     )
-    prefix = forms.CharField(
+    # This shadows prefix from the Form class
+    prefix = forms.CharField(  # type: ignore[assignment]
         label=gettext_lazy("Fixed string prefix"),
         required=False,
         initial="",
@@ -589,11 +595,12 @@ class PseudolocaleAddonForm(BaseAddonForm):
         required=False,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        queryset = self._addon.instance.component.translation_set.all()
-        self.fields["source"].queryset = queryset
-        self.fields["target"].queryset = queryset
+        if self._addon.instance.component:
+            queryset = self._addon.instance.component.translation_set.all()
+            self.fields["source"].queryset = queryset
+            self.fields["target"].queryset = queryset
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),
@@ -609,10 +616,25 @@ class PseudolocaleAddonForm(BaseAddonForm):
             ),
         )
 
-    def clean(self):
+    def clean(self) -> None:
         if "source" not in self.cleaned_data or "target" not in self.cleaned_data:
             return
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
             raise forms.ValidationError(
                 gettext("The source and target have to be different languages.")
             )
+
+    def serialize_form(self):
+        result = dict(self.cleaned_data)
+        # Need to convert to JSON serializable objects
+        result["source"] = result["source"].pk
+        result["target"] = result["target"].pk
+        return result
+
+
+class PropertiesSortAddonForm(BaseAddonForm):
+    case_sensitive = forms.BooleanField(
+        label=gettext_lazy("Enable case-sensitive key sorting"),
+        required=False,
+        initial=False,
+    )

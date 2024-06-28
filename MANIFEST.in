@@ -3,8 +3,6 @@ include ChangeLog
 include README.rst
 include BACKERS.rst
 include CONTRIBUTING.md
-include requirements-*.txt
-include requirements.txt
 include manage.py
 recursive-include weblate *.py
 recursive-include weblate/static *
@@ -31,4 +29,5 @@ include weblate/trans/tests/data/*
 include weblate/trans/fixtures/simple-project.json
 exclude weblate/settings.py
 prune docs/_build
+prune data*
 global-exclude *.swp *.swo __pycache__ *.pyc *.pyo

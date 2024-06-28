@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
+from typing import TYPE_CHECKING
 
 import dateutil.parser
 from appconf import AppConf
@@ -24,7 +27,6 @@ from weblate.utils.backup import (
     initialize,
     make_password,
     prune,
-    supports_cleanup,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.requests import request
@@ -32,6 +34,9 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
 from weblate.vcs.ssh import ensure_ssh_key
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 
 class WeblateConf(AppConf):
@@ -48,8 +53,8 @@ class WeblateModelAdmin(ModelAdmin):
     delete_selected_confirmation_template = "wladmin/delete_selected_confirmation.html"
 
 
-class ConfigurationErrorManager(models.Manager):
-    def configuration_health_check(self, checks=None):
+class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
+    def configuration_health_check(self, checks=None) -> None:
         # Run deployment checks if needed
         if checks is None:
             checks = run_checks(include_deployment_checks=True)
@@ -110,7 +115,7 @@ class ConfigurationError(models.Model):
         verbose_name = "Configuration error"
         verbose_name_plural = "Configuration errors"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -145,13 +150,13 @@ class SupportStatus(models.Model):
         verbose_name = "Support status"
         verbose_name_plural = "Support statuses"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}:{self.expiry}"
 
     def get_verbose(self):
         return SUPPORT_NAMES.get(self.name, self.name)
 
-    def refresh(self):
+    def refresh(self) -> None:
         stats = GlobalStats()
         data = {
             "secret": self.secret,
@@ -182,7 +187,7 @@ class SupportStatus(models.Model):
         ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
-        response = request("post", settings.SUPPORT_API_URL, data=data)
+        response = request("post", settings.SUPPORT_API_URL, data=data, timeout=360)
         response.raise_for_status()
         payload = response.json()
         self.name = payload["name"]
@@ -249,13 +254,13 @@ class BackupService(models.Model):
         verbose_name = "Support service"
         verbose_name_plural = "Support services"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.repository
 
     def last_logs(self):
         return self.backuplog_set.order_by("-timestamp")[:10]
 
-    def ensure_init(self):
+    def ensure_init(self) -> None:
         if not self.paperkey:
             try:
                 log = initialize(self.repository, self.passphrase)
@@ -265,23 +270,21 @@ class BackupService(models.Model):
             except BackupError as error:
                 self.backuplog_set.create(event="error", log=str(error))
 
-    def backup(self):
+    def backup(self) -> None:
         try:
             log = backup(self.repository, self.passphrase)
             self.backuplog_set.create(event="backup", log=log)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
-    def prune(self):
+    def prune(self) -> None:
         try:
             log = prune(self.repository, self.passphrase)
             self.backuplog_set.create(event="prune", log=log)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
-    def cleanup(self):
-        if not supports_cleanup():
-            return
+    def cleanup(self) -> None:
         initial = self.backuplog_set.filter(event="cleanup").exists()
         try:
             log = cleanup(self.repository, self.passphrase, initial=initial)
@@ -310,5 +313,21 @@ class BackupLog(models.Model):
         verbose_name = "Backup log"
         verbose_name_plural = "Backup logs"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.service}:{self.event}"
+
+
+def get_support_status(request: HttpRequest) -> SupportStatus:
+    if hasattr(request, "_weblate_support_status"):
+        support_status = request._weblate_support_status
+    else:
+        support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
+        if support_status is None:
+            support_status_instance = SupportStatus.objects.get_current()
+            support_status = {
+                "has_support": support_status_instance.name != "community",
+                "in_limits": support_status_instance.in_limits,
+            }
+            cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
+        request._weblate_support_status = support_status
+    return support_status

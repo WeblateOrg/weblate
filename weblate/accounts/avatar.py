@@ -18,7 +18,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.requests import request
 
 
-def avatar_for_email(email, size=80):
+def avatar_for_email(email, size=80) -> str:
     """Generate url for avatar."""
     # Safely handle blank e-mail
     if not email:
@@ -26,12 +26,7 @@ def avatar_for_email(email, size=80):
 
     mail_hash = hashlib.md5(email.lower().encode(), usedforsecurity=False).hexdigest()
 
-    return "{}avatar/{}?d={}&s={}".format(
-        settings.AVATAR_URL_PREFIX,
-        mail_hash,
-        quote(settings.AVATAR_DEFAULT_IMAGE),
-        str(size),
-    )
+    return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?d={quote(settings.AVATAR_DEFAULT_IMAGE)}&s={size!s}"
 
 
 def get_fallback_avatar_url(size: int):
@@ -63,7 +58,7 @@ def get_avatar_image(user, size: int):
             image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (OSError, CertificateError):
-            report_error(cause=f"Could not fetch avatar for {username}")
+            report_error(f"Could not fetch avatar for {username}")
             return get_fallback_avatar(size)
 
     return image

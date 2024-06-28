@@ -4,7 +4,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-from .base import MachineryRateLimitError, MachineTranslation, MachineTranslationError
+from .base import (
+    DownloadTranslations,
+    MachineryRateLimitError,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeySecretMachineryForm
 
 BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
@@ -33,7 +38,7 @@ class BaiduTranslation(MachineTranslation):
         "sl": "slo",
         "sw": "swe",
         "zh_Hant": "cht",
-        "vi": "vie",
+        "vi": "vie",  # codespell:ignore vie
     }
     settings_form = KeySecretMachineryForm
 
@@ -67,8 +72,24 @@ class BaiduTranslation(MachineTranslation):
             "swe",
             "hu",
             "cht",
-            "vie",
+            "vie",  # codespell:ignore vie
         ]
+
+    def check_failure(self, response) -> None:
+        payload = response.json()
+
+        if "error_code" in payload:
+            try:
+                error_code = int(payload["error_code"])
+            except ValueError:
+                pass
+            else:
+                if error_code == 54003:
+                    raise MachineryRateLimitError(payload["error_msg"])
+            raise MachineTranslationError(
+                "Error {error_code}: {error_msg}".format(**payload)
+            )
+        super().check_failure(response)
 
     def download_translations(
         self,
@@ -78,7 +99,7 @@ class BaiduTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             self.settings["key"], self.settings["secret"], text
@@ -94,18 +115,6 @@ class BaiduTranslation(MachineTranslation):
 
         response = self.request("get", BAIDU_API, params=args)
         payload = response.json()
-
-        if "error_code" in payload:
-            try:
-                error_code = int(payload["error_code"])
-            except ValueError:
-                pass
-            else:
-                if error_code == 54003:
-                    raise MachineryRateLimitError(payload["error_msg"])
-            raise MachineTranslationError(
-                "Error {error_code}: {error_msg}".format(**payload)
-            )
 
         for item in payload["trans_result"]:
             yield {

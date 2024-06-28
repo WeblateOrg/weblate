@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# mypy: disable-error-code="var-annotated"
+
 from appconf import AppConf
 
 
@@ -46,6 +48,9 @@ class WeblateConf(AppConf):
     SENTRY_TOKEN = None
     SENTRY_SEND_PII = True
     SENTRY_PROJECTS = ["weblate"]
+    SENTRY_RELEASES_API_URL = (
+        "https://sentry.io/api/0/organizations/4507304895905792/releases/"
+    )
     SENTRY_EXTRA_ARGS = {}
     SENTRY_TRACES_SAMPLE_RATE = 0
     SENTRY_PROFILES_SAMPLE_RATE = 0

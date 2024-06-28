@@ -2,10 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import boto3
 from django.utils.functional import cached_property
 
-from .base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 from .forms import AWSMachineryForm
 
 
@@ -21,13 +20,15 @@ class AWSTranslation(MachineTranslation):
     settings_form = AWSMachineryForm
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return "aws"
 
     @cached_property
     def client(self):
+        import boto3
+
         return boto3.client(
-            "translate",
+            service_name="translate",
             region_name=self.settings["region"],
             aws_access_key_id=self.settings["key"],
             aws_secret_access_key=self.settings["secret"],
@@ -106,7 +107,7 @@ class AWSTranslation(MachineTranslation):
             "sv",
             "sw",
             "ta",
-            "te",
+            "te",  # codespell:ignore te
             "th",
             "tl",
             "tr",
@@ -126,7 +127,7 @@ class AWSTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )

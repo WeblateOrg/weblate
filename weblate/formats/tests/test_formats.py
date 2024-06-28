@@ -5,16 +5,19 @@
 
 """File format specific behavior."""
 
+from __future__ import annotations
+
 import os.path
 import shutil
 from io import BytesIO
+from typing import NoReturn
 from unittest import SkipTest, TestCase
 
 from lxml import etree
 from translate.storage.po import pofile
 
-from weblate.formats.auto import AutodetectFormat, detect_filename
-from weblate.formats.base import UpdateError
+from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
+from weblate.formats.base import TranslationFormat, UpdateError
 from weblate.formats.ttkit import (
     AndroidFormat,
     CSVFormat,
@@ -98,102 +101,112 @@ TEST_FLUENT = get_test_file("cs.ftl")
 
 
 class AutoLoadTest(TestCase):
-    def single_test(self, filename, fileclass):
+    def single_test(self, filename, fileclass) -> None:
         with open(filename, "rb") as handle:
-            store = AutodetectFormat.parse(handle)
+            store = try_load(
+                filename,
+                handle.read(),
+                None,
+                None,
+                is_template=fileclass.monolingual is None or fileclass.monolingual,
+            )
             self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
 
-    def test_detect_android(self):
+    def test_detect_android(self) -> None:
         self.assertEqual(AndroidFormat, detect_filename("foo/bar/strings_baz.xml"))
 
-    def test_po(self):
+    def test_po(self) -> None:
         self.single_test(TEST_PO, PoFormat)
         self.single_test(TEST_POT, PoFormat)
 
-    def test_json(self):
+    def test_json(self) -> None:
         self.single_test(TEST_JSON, JSONFormat)
 
-    def test_php(self):
+    def test_php(self) -> None:
         self.single_test(TEST_PHP, PhpFormat)
 
-    def test_properties(self):
+    def test_properties(self) -> None:
         self.single_test(TEST_PROPERTIES, PropertiesFormat)
 
-    def test_joomla(self):
+    def test_joomla(self) -> None:
         self.single_test(TEST_JOOMLA, JoomlaFormat)
 
-    def test_android(self):
+    def test_android(self) -> None:
         self.single_test(TEST_ANDROID, AndroidFormat)
 
-    def test_xliff(self):
+    def test_xliff(self) -> None:
         self.single_test(TEST_XLIFF, RichXliffFormat)
 
-    def test_resx(self):
+    def test_resx(self) -> None:
         self.single_test(TEST_RESX, RESXFormat)
 
-    def test_yaml(self):
+    def test_yaml(self) -> None:
         self.single_test(TEST_YAML, YAMLFormat)
 
-    def test_ruby_yaml(self):
+    def test_ruby_yaml(self) -> None:
         self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
 
-    def test_content(self):
+    def test_content(self) -> None:
         """Test content based guess from ttkit."""
         with open(TEST_PO, "rb") as handle:
             data = handle.read()
 
         handle = BytesIO(data)
-        store = AutodetectFormat.parse(handle)
+        store = AutodetectFormat(handle)
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin):
-    FORMAT = None
+    FORMAT: type[TranslationFormat] = TranslationFormat
     FILE = TEST_PO
     BASE = TEST_POT
     TEMPLATE = None
     MIME = "text/x-gettext-catalog"
     EXT = "po"
     COUNT = 4
-    MATCH = "msgid_plural"
+    MATCH: str | bytes | None = "msgid_plural"
     MASK = "po/*.po"
     EXPECTED_PATH = "po/cs_CZ.po"
     FIND = "Hello, world!\n"
     FIND_CONTEXT = ""
     FIND_MATCH = "Ahoj světe!\n"
-    NEW_UNIT_MATCH = b'\nmsgctxt "key"\nmsgid "Source string"\n'
+    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[str, ...] | None = (
+        b'\nmsgctxt "key"\nmsgid "Source string"\n'
+    )
     NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
-    EXPECTED_FLAGS = "c-format, max-length:100"
+    EXPECTED_FLAGS: str | list[str] = "c-format, max-length:100"
     EDIT_OFFSET = 0
-    EDIT_TARGET = "Nazdar, svete!\n"
+    EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
     MONOLINGUAL = False
 
     @classmethod
-    def setUpClass(cls):
-        if cls.FORMAT is None:
+    def setUpClass(cls) -> None:
+        if cls.FORMAT is TranslationFormat:
             raise SkipTest("Base test class not intended for execution.")
         super().setUpClass()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.create_temp()
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         super().tearDown()
         self.remove_temp()
 
-    def parse_file(self, filename):
+    def parse_file(self, filename: str, template: str | None = None):
         if self.MONOLINGUAL:
             return self.FORMAT(
                 filename,
-                template_store=self.FORMAT(self.TEMPLATE or filename, is_template=True),
+                template_store=self.FORMAT(
+                    template or self.TEMPLATE or filename, is_template=True
+                ),
             )
         return self.FORMAT(filename)
 
-    def test_parse(self):
+    def test_parse(self) -> None:
         storage = self.parse_file(self.FILE)
         self.assertEqual(len(storage.all_units), self.COUNT)
         self.assertEqual(storage.mimetype(), self.MIME)
@@ -233,13 +246,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             self.assert_same(newdata, testdata)
         return newdata
 
-    def test_save(self):
+    def test_save(self) -> None:
         self._test_save()
 
-    def test_edit(self):
+    def test_edit(self) -> None:
         self._test_save(self.EDIT_TARGET)
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         """
         Content aware comparison.
 
@@ -249,7 +262,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         self.maxDiff = None
         self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
 
-    def test_find(self):
+    def test_find(self) -> None:
         storage = self.parse_file(self.FILE)
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
@@ -259,7 +272,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
 
-    def test_add(self):
+    def test_add(self) -> None:
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
         out = os.path.join(self.tempdir, f"test.{self.EXT}")
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), self.BASE)
@@ -271,7 +284,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
                 data = handle.read()
             self.assertIn(self.MATCH, data)
 
-    def test_get_language_filename(self):
+    def test_get_language_filename(self) -> None:
         self.assertEqual(
             self.FORMAT.get_language_filename(
                 self.MASK, self.FORMAT.get_language_code("cs_CZ")
@@ -279,7 +292,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             self.EXPECTED_PATH,
         )
 
-    def test_new_unit(self):
+    def test_new_unit(self) -> None:
         if not self.FORMAT.can_add_unit:
             raise SkipTest("Not supported")
         # Read test content
@@ -294,10 +307,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             handle.write(testdata)
 
         # Parse test file
-        storage = self.parse_file(testfile)
+        storage = self.parse_file(testfile, template=testfile)
+        if self.MONOLINGUAL:
+            # Add to template for monolingual (it is the same file, just different object)
+            storage = storage.template_store
 
         # Add new unit
-        storage.new_unit(self.NEW_UNIT_KEY, "Source string", skip_build=True)
+        storage.new_unit(self.NEW_UNIT_KEY, "Source string")
         storage.save()
 
         # Read new content
@@ -311,7 +327,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         else:
             self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
-    def test_flags(self):
+    def test_flags(self) -> None:
         """
         Check flags on corresponding translatable units.
 
@@ -328,7 +344,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
 
 
 class XMLMixin:
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.assertXMLEqual(newdata.decode(), testdata.decode())
 
 
@@ -336,7 +352,7 @@ class PoFormatTest(BaseFormatTest):
     FORMAT = PoFormat
     EDIT_OFFSET = 1
 
-    def test_add_encoding(self):
+    def test_add_encoding(self) -> None:
         out = os.path.join(self.tempdir, "test.po")
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), TEST_POT_UNICODE)
         with open(out) as handle:
@@ -348,7 +364,7 @@ class PoFormatTest(BaseFormatTest):
             store = self.parse_file(handle)
             return store.get_plural(Language.objects.get(code="he"), store)
 
-    def test_plurals(self):
+    def test_plurals(self) -> None:
         self.assertEqual(
             self.load_plural(TEST_HE_CLDR).formula,
             "(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))",
@@ -362,7 +378,7 @@ class PoFormatTest(BaseFormatTest):
             self.load_plural(TEST_HE_THREE).formula, "n==1 ? 0 : n==2 ? 2 : 1"
         )
 
-    def test_msgmerge(self):
+    def test_msgmerge(self) -> None:
         test_file = os.path.join(self.tempdir, "test.po")
         with open(test_file, "w") as handle:
             handle.write("")
@@ -384,7 +400,7 @@ class PoFormatTest(BaseFormatTest):
         with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
-    def test_obsolete(self):
+    def test_obsolete(self) -> None:
         # Test adding unit matching obsolete one
         storage = self.FORMAT(TEST_PO)
         # Remove duplicate entry
@@ -399,7 +415,7 @@ class PoFormatTest(BaseFormatTest):
         self.assertNotIn('\nmsgid "Hello, world!\\n"', content)
 
         # Add unit back, it should now overwrite obsolete one
-        storage.add_unit(unit.unit)
+        storage.add_unit(unit)
 
         # Verify it is properly added
         handle = BytesIO()
@@ -410,7 +426,7 @@ class PoFormatTest(BaseFormatTest):
 
 
 class PropertiesFormatTest(BaseFormatTest):
-    FORMAT = PropertiesFormat
+    FORMAT: type[TranslationFormat] = PropertiesFormat
     FILE = TEST_PROPERTIES
     MIME = "text/plain"
     COUNT = 12
@@ -425,7 +441,7 @@ class PropertiesFormatTest(BaseFormatTest):
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -456,7 +472,7 @@ class GWTFormatTest(BaseFormatTest):
     BASE = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -491,9 +507,9 @@ class JSONFormatTest(BaseFormatTest):
     MATCH = "{}\n"
     BASE = ""
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: str | list[str] = ""
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.assertJSONEqual(newdata.decode(), testdata.decode())
 
 
@@ -591,7 +607,7 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
     NEW_UNIT_MATCH = b'<string name="key">Source string</string>'
     MONOLINGUAL = True
 
-    def test_get_language_filename(self):
+    def test_get_language_filename(self) -> None:
         self.assertEqual(
             self.FORMAT.get_language_filename(
                 self.MASK, self.FORMAT.get_language_code("sr_Latn")
@@ -617,7 +633,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
     )
     EXPECTED_FLAGS = "c-format, max-length:100"
 
-    def test_set_state(self):
+    def test_set_state(self) -> None:
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -666,7 +682,7 @@ class XliffIdFormatTest(RichXliffFormatTest):
     EXPECTED_FLAGS = "xml-text"
     COUNT = 5
 
-    def test_edit_xliff(self):
+    def test_edit_xliff(self) -> None:
         with open(get_test_file("ids-translated.xliff")) as handle:
             expected = handle.read()
         with open(get_test_file("ids-edited.xliff")) as handle:
@@ -786,7 +802,7 @@ class YAMLFormatTest(BaseFormatTest):
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
@@ -817,7 +833,7 @@ class TSFormatTest(XMLMixin, BaseFormatTest):
     FIND_MATCH = "Ahoj svete!\n"
     NEW_UNIT_MATCH = b"<source>Source string</source>"
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         # Comparing of XML with doctype fails...
         newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
@@ -865,7 +881,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     EXPECTED_FLAGS = ""
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
-    def _test_save(self, edit=False):
+    def _test_save(self, edit=False) -> NoReturn:
         raise SkipTest("Saving currently adds field headers")
 
 
@@ -943,7 +959,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     COUNT_CONTENT = 8
     EXT = "properties"
     MASK = "java/xwiki_*.properties"
-    EXPECTED_PATH = "java/xwiki_cs-CZ.properties"
+    EXPECTED_PATH = "java/xwiki_cs_CZ.properties"
     FIND = "job.question.button.confirm"
     FIND_CONTEXT = "job.question.button.confirm"
     FIND_MATCH = "Confirm the operation {0}"
@@ -953,17 +969,17 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     EDIT_TARGET = "[{0}] تىپتىكى خىزمەتنى باشلاش"
     EDIT_OFFSET = 3
 
-    def test_new_language(self):
+    def test_new_language(self) -> None:
         self.maxDiff = None
         out = os.path.join(self.tempdir, f"test_new_language.{self.EXT}")
         language = Language.objects.get(code="cs")
         self.FORMAT.add_language(out, language, self.BASE)
         template_storage = self.parse_file(self.FILE)
         new_language = self.FORMAT(out, template_storage, language.code)
-        unit, add = new_language.find_unit("job.status.success")
+        unit, add = new_language.find_unit("job.status.success", "")
         self.assertTrue(add)
         unit.set_target("Fait")
-        new_language.add_unit(unit.unit)
+        new_language.add_unit(unit)
         new_language.save()
 
         # Read new content
@@ -976,7 +992,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         self.assertEqual(expected + "\n", newdata)
 
 
-class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
+class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     FORMAT = XWikiPagePropertiesFormat
     FILE = TEST_XWIKI_PAGE_PROPERTIES
     SOURCE_FILE = TEST_XWIKI_PAGE_PROPERTIES_SOURCE
@@ -994,7 +1010,7 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
 
-    def test_get_language_filename(self):
+    def test_get_language_filename(self) -> None:
         self.assertEqual(
             self.FORMAT.get_language_filename(
                 self.MASK, self.FORMAT.get_language_code("cs")
@@ -1002,7 +1018,7 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             self.EXPECTED_PATH,
         )
 
-    def _test_save(self, edit=False):
+    def _test_save(self, edit=False) -> None:
         self.maxDiff = None
         super()._test_save(edit)
 
@@ -1030,16 +1046,16 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
-    def translate_unit(self, units, translation_data, index, target):
+    def translate_unit(self, units, translation_data, index, target) -> None:
         unit_to_translate, create = translation_data.find_unit(
             units[index].context, units[index].source
         )
         self.assertTrue(create)
-        translation_data.add_unit(unit_to_translate.unit)
+        translation_data.add_unit(unit_to_translate)
         translation_data.all_units[index].unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
-    def test_translate_file(self):
+    def test_translate_file(self) -> None:
         self.maxDiff = None
         # Parse test file
         storage = self.parse_file(self.SOURCE_FILE)
@@ -1087,7 +1103,7 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
         self.assert_same(testdata, newdata)
 
 
-class XWikiFullPageFormatTest(BaseFormatTest):
+class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
     FORMAT = XWikiFullPageFormat
     FILE = TEST_XWIKI_FULL_PAGE
     SOURCE_FILE = TEST_XWIKI_FULL_PAGE_SOURCE
@@ -1112,7 +1128,7 @@ class XWikiFullPageFormatTest(BaseFormatTest):
                 "{{/info}}"
                 [{0}] تىپتىكى خىزمەتنى باشلاش"""
 
-    def test_get_language_filename(self):
+    def test_get_language_filename(self) -> None:
         self.assertEqual(
             self.FORMAT.get_language_filename(
                 self.MASK, self.FORMAT.get_language_code("cs")
@@ -1120,12 +1136,12 @@ class XWikiFullPageFormatTest(BaseFormatTest):
             self.EXPECTED_PATH,
         )
 
-    def test_new_unit(self):
+    def test_new_unit(self) -> None:
         # This test does not make sense in this context, since we're not supposed
         # to be able to add new units.
         pass
 
-    def _test_save(self, edit=False):
+    def _test_save(self, edit=False) -> None:
         self.maxDiff = None
         super()._test_save(edit)
 
@@ -1154,16 +1170,16 @@ class XWikiFullPageFormatTest(BaseFormatTest):
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
-    def translate_unit(self, units, translation_data, index, target):
+    def translate_unit(self, units, translation_data, index, target) -> None:
         unit_to_translate, create = translation_data.find_unit(
             units[index].context, units[index].source
         )
         self.assertTrue(create)
-        translation_data.add_unit(unit_to_translate.unit)
+        translation_data.add_unit(unit_to_translate)
         translation_data.all_units[index].unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
-    def test_translate_file(self):
+    def test_translate_file(self) -> None:
         self.maxDiff = None
         # Parse test file
         storage = self.parse_file(self.SOURCE_FILE)
@@ -1240,7 +1256,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     MONOLINGUAL = True
     EXPECTED_FLAGS = ""
 
-    def test_get_plural(self):
+    def test_get_plural(self) -> None:
         # Use up-to-date languages database and not the one from fixture
         Language.objects.all().delete()
         Language.objects.setup(update=False)

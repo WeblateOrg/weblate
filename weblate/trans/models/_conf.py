@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# mypy: disable-error-code="var-annotated"
+
 from appconf import AppConf
 
 
@@ -118,7 +120,7 @@ class WeblateConf(AppConf):
 
     DEFAULT_ADDON_MESSAGE = """Update translation files
 
-Updated by "{{ addon_name }}" hook in Weblate.
+Updated by "{{ addon_name }}" add-on in Weblate.
 
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}"""
@@ -180,6 +182,8 @@ Current translation status:
     PROJECT_BACKUP_KEEP_COUNT = 3
 
     EXTRA_HTML_HEAD = ""
+
+    IP_ADDRESSES = []
 
     class Meta:
         prefix = ""

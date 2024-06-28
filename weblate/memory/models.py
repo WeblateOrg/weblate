@@ -5,11 +5,11 @@
 import json
 import math
 import os
-from functools import reduce
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Value
+from django.db.models.functions import MD5
 from django.utils.encoding import force_str
 from django.utils.translation import gettext, pgettext
 from jsonschema import validate
@@ -24,9 +24,9 @@ from weblate.memory.utils import (
     CATEGORY_PRIVATE_OFFSET,
     CATEGORY_SHARED,
     CATEGORY_USER_OFFSET,
-    is_valid_entry,
+    is_valid_memory_entry,
 )
-from weblate.utils.db import adjust_similarity_threshold
+from weblate.utils.db import adjust_similarity_threshold, using_postgresql
 from weblate.utils.errors import report_error
 
 
@@ -35,7 +35,11 @@ class MemoryImportError(Exception):
 
 
 def get_node_data(unit, node):
-    """Generic implementation of LISAUnit.gettarget."""
+    """
+    Return XML unit text.
+
+    Generic implementation of LISAUnit.gettarget.
+    """
     # The language should be present as xml:lang, but in some
     # cases it's there only as lang
     return (
@@ -49,28 +53,67 @@ class MemoryQuerySet(models.QuerySet):
         base = self
         if "memory_db" in settings.DATABASES:
             base = base.using("memory_db")
-        query = []
+        query = Q()
         if from_file:
-            query.append(Q(from_file=from_file))
+            query |= Q(from_file=from_file)
         if use_shared:
-            query.append(Q(shared=use_shared))
+            query |= Q(shared=use_shared)
         if project:
-            query.append(Q(project=project))
+            query |= Q(project=project)
         if user:
-            query.append(Q(user=user))
-        return base.filter(reduce(lambda x, y: x | y, query))
+            query |= Q(user=user)
+        return base.filter(query)
+
+    def filter(self, *args, **kwargs):
+        if using_postgresql():
+            # Use MD5 for filtering to utilize MD5 index,
+            # MariaDB does not support that, but has partial
+            # index on text fields created manually
+            for field in ("source", "target", "origin"):
+                if field in kwargs:
+                    kwargs[f"{field}__md5"] = MD5(Value(kwargs.pop(field)))
+                in_field = f"{field}__in"
+                if in_field in kwargs:
+                    kwargs[f"{field}__md5__in"] = [
+                        MD5(Value(value)) for value in kwargs.pop(in_field)
+                    ]
+        return super().filter(*args, **kwargs)
+
+    def threshold_to_similarity(self, text: str, threshold: int) -> float:
+        """
+        Convert machinery threshold into PostgreSQL similarity threshold.
+
+        Machinery threshold typical values:
+
+        - 75 machinery
+        - 80 automatic translation (default value)
+        - 10 search
+
+        PostgreSQL similarity threshold needs to be higher to avoid too slow
+        queries.
+        """
+        length = len(text)
+
+        base = 0.172489 * math.log(threshold) + 0.207051
+        bonus = 7.03436 * math.exp(-6.07957 * base)
+        length_bonus = (0.0733418 * math.log(length) + 0.324497) * bonus
+
+        return max(0.6, min(1.0, round(base + length_bonus, 3)))
 
     def lookup(
-        self, source_language, target_language, text: str, user, project, use_shared
+        self,
+        source_language,
+        target_language,
+        text: str,
+        user,
+        project,
+        use_shared,
+        threshold: int = 75,
     ):
-        # Basic similarity for short strings
-        length = len(text)
-        threshold = 0.5
         # Adjust similarity based on string length to get more relevant matches
         # for long strings
-        if length > 50:
-            threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
-        adjust_similarity_threshold(threshold)
+        adjust_similarity_threshold(self.threshold_to_similarity(text, threshold))
+
         # Actual database query
         return (
             self.prefetch_project()
@@ -121,13 +164,15 @@ class MemoryManager(models.Manager):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(cause="Could not parse memory")
+            report_error("Could not parse memory")
             raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
-            report_error(cause="Could not validate memory")
-            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
+            report_error("Could not validate memory")
+            raise MemoryImportError(
+                gettext("Could not parse JSON file: %s") % error
+            ) from error
         found = 0
         lang_cache = {}
         for entry in data:
@@ -154,9 +199,11 @@ class MemoryManager(models.Manager):
             kwargs = {"from_file": True}
         try:
             storage = tmxfile.parsefile(fileobj)
-        except (SyntaxError, AssertionError):
-            report_error(cause="Could not parse")
-            raise MemoryImportError(gettext("Could not parse TMX file!"))
+        except (SyntaxError, AssertionError) as error:
+            report_error("Could not parse")
+            raise MemoryImportError(
+                gettext("Could not parse TMX file: %s") % error
+            ) from error
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
@@ -210,8 +257,8 @@ class MemoryManager(models.Manager):
                 found += 1
         return found
 
-    def update_entry(self, **kwargs):
-        if not is_valid_entry(**kwargs):
+    def update_entry(self, **kwargs) -> None:
+        if not is_valid_memory_entry(**kwargs):  # pylint: disable=missing-kwoa
             return
         if not self.filter(**kwargs).exists():
             self.create(**kwargs)
@@ -253,8 +300,27 @@ class Memory(models.Model):
     class Meta:
         verbose_name = "Translation memory entry"
         verbose_name_plural = "Translation memory entries"
+        indexes = [
+            # Additional indexes are created manually in the migration for full text search
+            # Use MD5 to index text fields, applied in MemoryQuerySet.filter
+            models.Index(
+                MD5("origin"),
+                MD5("source"),
+                MD5("target"),
+                "source_language",
+                "target_language",
+                name="memory_md5_index",
+            ),
+            # Partial index for to optimize lookup for file based entries
+            # MySQL/MariaDB does not supports condition and uses full index instead.
+            models.Index(
+                "from_file",
+                condition=Q(from_file=True),
+                name="memory_from_file",
+            ),
+        ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Memory: {self.source_language}:{self.target_language}"
 
     def get_origin_display(self):

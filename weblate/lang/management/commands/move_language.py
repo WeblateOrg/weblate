@@ -2,18 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language
 from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
     help = "Move all content from one language to other"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument("source", help="Source language code")
         parser.add_argument("target", help="Target language code")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         source = Language.objects.get(code=options["source"])
         target = Language.objects.get(code=options["target"])
 
@@ -42,9 +42,11 @@ class Command(BaseCommand):
             group.languages.add(target)
 
         for plural in source.plural_set.iterator():
+            formulas = target.plural_set.filter(formula=plural.formula)
             try:
-                new_plural = target.plural_set.filter(formula=plural.formula).first()
-                plural.translation_set.update(plural=new_plural)
-            except Plural.DoesNotExist:
+                new_plural = formulas[0]
+            except IndexError:
                 plural.language = target
                 plural.save()
+            else:
+                plural.translation_set.update(plural=new_plural)

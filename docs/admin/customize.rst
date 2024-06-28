@@ -6,10 +6,15 @@ Contribute your changes upstream so that everybody can benefit. This reduces
 your maintenance costs; code in Weblate is taken care of when changing internal
 interfaces or refactoring the code.
 
+.. hint::
+
+   You can also customize Weblate look in :ref:`manage-appearance`.
+
 .. warning::
 
+
    Neither internal interfaces nor templates are considered a stable API.
-   Please review your own customizations for every upgrade, the interfaces or their
+   Please review your customizations for every upgrade, the interfaces or their
    semantics might change without notice.
 
 .. seealso::
@@ -27,7 +32,7 @@ basics and pointing to further tutorials.
 
 To write a file with custom Python code (called a module), a place to store it
 is needed, either in the system path (usually something like
-:file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, which
+:file:`/usr/lib/python3.12/site-packages/`) or in the Weblate directory, which
 is also added to the interpreter search path.
 
 .. hint::

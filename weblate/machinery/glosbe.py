@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.machinery.base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 
 
 class GlosbeTranslation(MachineTranslation):
@@ -16,7 +16,7 @@ class GlosbeTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return code.replace("_", "-").split("-")[0].lower()
 
-    def is_supported(self, source, language):
+    def is_supported(self, source, language) -> bool:
         """Any language is supported."""
         return True
 
@@ -28,7 +28,7 @@ class GlosbeTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         params = {"from": source, "dest": language, "format": "json", "phrase": text}
         response = self.request(

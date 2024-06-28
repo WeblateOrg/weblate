@@ -57,6 +57,9 @@ actions.
 
 .. code-block:: sh
 
+    # Open an existing checkout of the upstream repository or perform a fresh one:
+    git clone UPSTREAM_REPOSITORY_URL
+    cd REPO
     # Commit all pending changes in Weblate, you can do this in the UI as well:
     wlc commit
     # Lock the translation in Weblate, again this can be done in the UI as well:

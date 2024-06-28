@@ -21,17 +21,17 @@ TEST_URL = (
 
 
 class AvatarTest(FixtureTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user.email = "test@example.com"
         self.user.save()
 
-    def test_avatar_for_email(self):
+    def test_avatar_for_email(self) -> None:
         url = avatar.avatar_for_email(self.user.email, size=32)
         self.assertEqual(TEST_URL, url)
 
     @responses.activate
-    def test_avatar(self):
+    def test_avatar(self) -> None:
         image = Image.new("RGB", (32, 32))
         storage = BytesIO()
         image.save(storage, "PNG")
@@ -51,7 +51,7 @@ class AvatarTest(FixtureTestCase):
         self.assertEqual(response.content, imagedata)
 
     @responses.activate
-    def test_avatar_error(self):
+    def test_avatar_error(self) -> None:
         responses.add(responses.GET, TEST_URL, status=503)
         # Choose different username to avoid using cache
         self.user.username = "test2"
@@ -61,7 +61,7 @@ class AvatarTest(FixtureTestCase):
         )
         self.assert_png(response)
 
-    def test_anonymous_avatar(self):
+    def test_anonymous_avatar(self) -> None:
         anonymous = User.objects.get(username="anonymous")
         # Anonymous user
         response = self.client.get(
@@ -71,5 +71,5 @@ class AvatarTest(FixtureTestCase):
             response, "/static/weblate-32.png", fetch_redirect_response=False
         )
 
-    def test_fallback_avatar(self):
+    def test_fallback_avatar(self) -> None:
         self.assert_png_data(avatar.get_fallback_avatar(32))

@@ -129,42 +129,42 @@
   </div>
 </div>
 
+<div class="row">
+<div class="col-sm-6">
+
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'authentication' right=True %}{% trans "Current user identities" %}</h4></div>
-<table class="table table-auth">
-<thead>
-<tr>
-<th>{% trans "Identity" %}</th>
-<th>{% trans "User ID" %}</th>
-<th>{% trans "Action" %}</th>
-</tr>
-<tbody>
-{% if request.user.has_usable_password or has_email_auth %}
-<tr>
-<th>{% auth_name 'password' ' ' %}</th>
-<td>{{ request.user.username }}</td>
-<td>
-<a href="{% url 'password' %}" class="btn btn-primary">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
-</td>
-</tr>
-{% endif %}
-{% for assoc in associated %}
-<tr>
-<th>{% auth_name assoc.provider ' ' %}</th>
-<td>{{ assoc.uid }}</td>
-<td>
-{% if associated.count > 1 %}
-<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account" class="disconnect btn btn-danger">{% trans "Disconnect" %}</a>
-{% endif %}
-</td>
+  <ul class="list-group">
+    {% if request.user.has_usable_password or has_email_auth %}
+      <li class="list-group-item auth-list">
+        <a href="{% url 'password' %}" class="btn btn-primary pull-right flip">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
 
-</tr>
-{% endfor %}
-</tbody>
-</table>
+        {% auth_name 'password' only="icon" %}
+        <div class="auth-info">
+          <strong>{% auth_name 'password' only="name" %}</strong><br />
+          {{ request.user.username }}
+        </div>
+      </li>
+    {% endif %}
+    {% for assoc in associated %}
+      <li class="list-group-item auth-list">
+        {% if associated.count > 1 %}
+          <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account" class="disconnect btn btn-danger pull-right flip">{% trans "Disconnect" %}</a>
+        {% endif %}
+
+        {% auth_name assoc.provider only="icon" %}
+        <div class="auth-info">
+          <strong>{% auth_name assoc.provider only="name" %}</strong><br />
+          {{ assoc.uid }}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
 </div>
 
 {% if new_backends %}
+<div class="col-sm-6">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Add new user identity" %}</h4></div>
   <div class="panel-body">
@@ -173,8 +173,26 @@
 {% endfor %}
 </div>
 </div>
+</div>
 {% endif %}
+</div>
 
+<div class="row">
+
+<div class="col-sm-6">
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "User data" %}</h4></div>
+  <div class="panel-body">
+
+    <p>{% trans "You can download all your private data." %}</p>
+   </div>
+   <div class="panel-footer">
+    <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% trans "Download user data" %}</a>
+   </div>
+</div>
+</div>
+
+<div class="col-sm-6">
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Removal" %}</h4></div>
   <div class="panel-body">
@@ -185,16 +203,8 @@
     <a class="btn btn-danger" href="{% url 'remove' %}">{% trans "Remove my account" %}</a>
    </div>
 </div>
+</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "User data" %}</h4></div>
-  <div class="panel-body">
-
-    <p>{% trans "You can download all your private data." %}</p>
-   </div>
-   <div class="panel-footer">
-    <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% trans "Download user data" %}</a>
-   </div>
 </div>
 
 </div>

@@ -5,12 +5,12 @@
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD
+from weblate.addons.events import AddonEvent
 from weblate.addons.tasks import language_consistency
 
 
 class LangaugeConsistencyAddon(BaseAddon):
-    events = (EVENT_DAILY, EVENT_POST_ADD)
+    events = (AddonEvent.EVENT_DAILY, AddonEvent.EVENT_POST_ADD)
     name = "weblate.consistency.languages"
     verbose = gettext_lazy("Add missing languages")
     description = gettext_lazy(
@@ -22,14 +22,16 @@ class LangaugeConsistencyAddon(BaseAddon):
     user_name = "languages"
     user_verbose = "Languages add-on"
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         language_consistency.delay(
             self.instance.id,
             [language.id for language in component.project.languages],
+            component.project_id,
         )
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         language_consistency.delay(
             self.instance.id,
             [translation.language_id],
+            translation.component.project_id,
         )

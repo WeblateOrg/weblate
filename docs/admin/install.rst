@@ -123,6 +123,37 @@ Architecture overview
       wsgi -> fs;
    }
 
+Web server
+   Handling incoming HTTP requests, :ref:`static-files`.
+Celery workers
+   :ref:`celery` are executed here.
+
+   Depending on your workload, you might want to customize the number of workers.
+
+   Use dedicated node when scaling Weblate horizontally.
+WSGI server
+   A WSGI server serving web pages to users.
+
+   Use dedicated node when scaling Weblate horizontally.
+Database
+   PostgreSQL database server for storing all the content, see :ref:`database-setup`.
+
+   Use dedicated database node for sites with hundreds of millions of hosted words.
+Redis
+   Redis server for cache and tasks queue, see :ref:`celery`.
+
+   Use dedicated node when scaling Weblate horizontally.
+File system
+   File system storage for storing VCS repositories and uploaded user data. This is shared by all the processes.
+
+   Use networked storage when scaling Weblate horizontally.
+E-mail server
+   SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided externally.
+
+.. hint::
+
+   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+
 .. _requirements:
 
 Software requirements
@@ -137,16 +168,9 @@ will most likely work too.
 Weblate is not supported on Windows. But it may still work and patches are
 happily accepted.
 
-Other services
-++++++++++++++
+.. seealso::
 
-Weblate is using other services for its operation. You will need at least
-following services running:
-
-* PostgreSQL database server for storing all the content, see :ref:`database-setup`.
-* Redis server for cache and tasks queue, see :ref:`celery`.
-* SMTP server for outgoing e-mail, see :ref:`out-mail`.
-* Filesystem storage (networked if you plan to scale Weblate horizontally) for storing VCS repositories.
+   :ref:`architecture` describes overall Weblate architecture and required services.
 
 .. _python-deps:
 
@@ -154,14 +178,8 @@ Python dependencies
 +++++++++++++++++++
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
-3.9 or newer. You can install dependencies using pip or from your
+3.10 or newer. You can install dependencies using pip or from your
 distribution packages, full list is available in :file:`requirements.txt`.
-
-.. warning::
-
-   While there is nothing in Weblate itself blocking usage of Python 3.12, there are few outstanding issues:
-
-   * Python 3.12 performs slower than previous versions in some situations, see https://github.com/python/cpython/issues/109049.
 
 Most notable dependencies:
 
@@ -188,58 +206,63 @@ Django REST Framework
        - Weblate feature
 
 
-     * - ``Amazon``
+     * - ``alibaba``
+       - `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
+       - :ref:`mt-alibaba`
+
+     * - ``amazon``
        - `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
 
 
-     * - ``LDAP``
-       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
-       - :ref:`ldap-auth`
-
-
-     * - ``zxcvbn``
-       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
-       - :ref:`password-authentication`
-
-
-     * - ``Gerrit``
-       - `git-review <https://pypi.org/project/git-review>`_
-       - :ref:`vcs-gerrit`
-
-
-     * - ``Google``
-       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
-       - :ref:`mt-google-translate-api-v3`
-
-
-     * - ``Mercurial``
-       - `mercurial <https://pypi.org/project/mercurial>`_
-       - :ref:`vcs-mercurial`
-
-
-     * - ``MySQL``
-       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
-       - MySQL or MariaDB, see :ref:`database-setup`
-
-     * - ``OpenAI``
-       - `openai <https://pypi.org/project/openai>`_
-       - :ref:`mt-openai`
-
-     * - ``Postgres``
-       - `psycopg <https://pypi.org/project/psycopg>`_
-       - PostgreSQL, see :ref:`database-setup`
-
-
-     * - ``Antispam``
+     * - ``antispam``
        - `python-akismet <https://pypi.org/project/python-akismet>`_
        - :ref:`spam-protection`
 
 
-     * - ``SAML``
+     * - ``gerrit``
+       - `git-review <https://pypi.org/project/git-review>`_
+       - :ref:`vcs-gerrit`
+
+
+     * - ``google``
+       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+       - :ref:`mt-google-translate-api-v3`
+
+
+     * - ``ldap``
+       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - :ref:`ldap-auth`
+
+
+
+     * - ``mercurial``
+       - `mercurial <https://pypi.org/project/mercurial>`_
+       - :ref:`vcs-mercurial`
+
+
+     * - ``mysql``
+       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
+       - MySQL or MariaDB, see :ref:`database-setup`
+
+
+     * - ``openai``
+       - `openai <https://pypi.org/project/openai>`_
+       - :ref:`mt-openai`
+
+     * - ``postgres``
+       - `psycopg <https://pypi.org/project/psycopg>`_
+       - PostgreSQL, see :ref:`database-setup`
+
+
+
+     * - ``saml``
        - `python3-saml <https://pypi.org/project/python3-saml>`_
        - :ref:`saml-auth`
 
+     * - ``zxcvbn``
+       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
 
@@ -303,121 +326,27 @@ with development files and GObject introspection data.
   :doc:`install/venv-redhat`,
   :doc:`install/venv-macos`
 
+.. include:: install/steps/hw.rst
+
 .. _verify:
 
 Verifying release signatures
 ----------------------------
 
-Weblate release are cryptographically signed by the releasing developer.
-Currently this is Michal Čihař. Fingerprint of his PGP key is:
+Weblate release are cryptographically signed using `Sigstore signatures
+<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub
+release.
 
-.. code-block:: console
+The verification can be performed using `sigstore package
+<https://pypi.org/project/sigstore/>`_. The following example verifies
+signature of the 5.4 release:
 
-    63CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 42B7 511D
+.. code-block:: sh
 
-and you can get more identification information from <https://keybase.io/nijel>.
-
-You should verify that the signature matches the archive you have downloaded.
-This way you can be sure that you are using the same code that was released.
-You should also verify the date of the signature to ensure that you
-downloaded the latest version.
-
-Each archive is accompanied with ``.asc`` files which contain the PGP signature
-for it. Once you have both of them in the same folder, you can verify the signature:
-
-.. code-block:: console
-
-   $ gpg --verify Weblate-3.5.tar.xz.asc
-   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
-   gpg: Signature made Ne 3. března 2019, 16:43:15 CET
-   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
-   gpg: Can't check signature: public key not found
-
-As you can see GPG complains that it does not know the public key. At this
-point you should do one of the following steps:
-
-* Use `wkd` to download the key:
-
-.. code-block:: console
-
-   $ gpg --auto-key-locate wkd --locate-keys michal@cihar.com
-   pub   rsa4096 2009-06-17 [SC]
-         63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D
-   uid           [ultimate] Michal Čihař <michal@cihar.com>
-   uid           [ultimate] Michal Čihař <nijel@debian.org>
-   uid           [ultimate] [jpeg image of size 8848]
-   uid           [ultimate] Michal Čihař (Braiins) <michal.cihar@braiins.cz>
-   sub   rsa4096 2009-06-17 [E]
-   sub   rsa4096 2015-09-09 [S]
-
-
-* Download the keyring from `Michal's server <https://cihar.com/.well-known/openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:
-
-.. code-block:: console
-
-   $ gpg --import wmxth3chu9jfxdxywj1skpmhsj311mzm
-
-* Download and import the key from one of the key servers:
-
-.. code-block:: console
-
-   $ gpg --keyserver hkp://pgp.mit.edu --recv-keys 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
-   gpg: key 9C27B31342B7511D: "Michal Čihař <michal@cihar.com>" imported
-   gpg: Total number processed: 1
-   gpg:              unchanged: 1
-
-This will improve the situation a bit - at this point you can verify that the
-signature from the given key is correct but you still can not trust the name used
-in the key:
-
-.. code-block:: console
-
-   $ gpg --verify Weblate-3.5.tar.xz.asc
-   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
-   gpg: Signature made Ne 3. března 2019, 16:43:15 CET
-   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
-   gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
-   gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
-   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
-   gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
-   gpg: WARNING: This key is not certified with a trusted signature!
-   gpg:          There is no indication that the signature belongs to the owner.
-   Primary key fingerprint: 63CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D
-
-The problem here is that anybody could issue the key with this name.  You need to
-ensure that the key is actually owned by the mentioned person.  The GNU Privacy
-Handbook covers this topic in the chapter `Validating other keys on your public
-keyring`_. The most reliable method is to meet the developer in person and
-exchange key fingerprints, however you can also rely on the web of trust. This way
-you can trust the key transitively through signatures of others, who have met
-the developer in person.
-
-Once the key is trusted, the warning will not occur:
-
-.. code-block:: console
-
-   $ gpg --verify Weblate-3.5.tar.xz.asc
-   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
-   gpg: Signature made Sun Mar  3 16:43:15 2019 CET
-   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
-   gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
-   gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
-   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
-   gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
-
-
-Should the signature be invalid (the archive has been changed), you would get a
-clear error regardless of the fact that the key is trusted or not:
-
-.. code-block:: console
-
-   $ gpg --verify Weblate-3.5.tar.xz.asc
-   gpg: Signature made Sun Mar  3 16:43:15 2019 CET
-   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
-   gpg: BAD signature from "Michal Čihař <michal@cihar.com>" [ultimate]
-
-
-.. _Validating other keys on your public keyring: https://www.gnupg.org/gph/en/manual.html#AEN335
+   sigstore verify github  \
+      --cert-identity https://github.com/WeblateOrg/weblate/.github/workflows/setup.yml@refs/tags/weblate-5.4 \
+      --bundle Weblate-5.4-py3-none-any.whl.sigstore \
+      Weblate-5.4-py3-none-any.whl
 
 .. _file-permissions:
 
@@ -453,7 +382,16 @@ Database setup for Weblate
 
 It is recommended to run Weblate with a PostgreSQL database server.
 
-PostgreSQL 12 and higher is supported.
+PostgreSQL 12 and higher is supported. PostgreSQL 15 or newer is recommended.
+
+:ref:`mysql` is supported, but not recommended for new installs.
+
+
+
+.. note::
+
+   No other database servers are currently supported, but support for other
+   Django supported databases should be possible to implement.
 
 .. seealso::
 
@@ -781,7 +719,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env>`_
+   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
 .. _configuration:
 
@@ -803,9 +741,13 @@ options:
     List of site administrators to receive notifications when something goes
     wrong, for example notifications on failed merges, or Django errors.
 
+    Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT`
+    is configured.
+
     .. seealso::
 
         :setting:`django:ADMINS`,
+        :setting:`ADMINS_CONTACT`,
         :ref:`production-admins`
 
 .. setting:: ALLOWED_HOSTS
@@ -949,7 +891,7 @@ need to fix all of them):
 
     weblate check --deploy
 
-You can also review the very same checklist from the :ref:`management-interface`.
+You can also review the very same checklist at :ref:`manage-performance` in the :ref:`management-interface`.
 
 .. seealso::
 
@@ -1704,7 +1646,7 @@ and profiles for defined percentage of operations. This can be configured using
 .. seealso::
 
    `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
-   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+   `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 Rollbar
 +++++++

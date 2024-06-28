@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import datetime
+from datetime import timedelta
 from urllib.parse import urlparse
 
 from appconf import AppConf
@@ -13,12 +14,14 @@ from django.contrib import admin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models, transaction
+from django.db import models
 from django.db.models import F, Q
+from django.db.models.functions import Upper
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.timezone import now
 from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
@@ -30,13 +33,15 @@ from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
-from weblate.trans.models import ComponentList
+from weblate.trans.models import Change, ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.token import get_token
+from weblate.utils.validators import WeblateURLValidator
+from weblate.wladmin.models import get_support_status
 
 
 class WeblateAccountsConf(AppConf):
@@ -71,6 +76,9 @@ class WeblateAccountsConf(AppConf):
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
+
+    # Disable login support status check for superusers
+    SUPPORT_STATUS_CHECK = True
 
     # Auto-watch setting for new users
     DEFAULT_AUTO_WATCH = True
@@ -127,14 +135,8 @@ class Subscription(models.Model):
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
 
-    def __str__(self):
-        return "{}:{},{} ({},{})".format(
-            self.user.username,
-            self.get_scope_display(),
-            self.get_notification_display(),
-            self.project,
-            self.component,
-        )
+    def __str__(self) -> str:
+        return f"{self.user.username}:{self.get_scope_display()},{self.get_notification_display()} ({self.project},{self.component})"
 
 
 ACCOUNT_ACTIVITY = {
@@ -165,9 +167,12 @@ ACCOUNT_ACTIVITY = {
         "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
-    "blocked": gettext_lazy("Access to project {project} was blocked"),
-    "enabled": gettext_lazy("User was enabled by administrator"),
-    "disabled": gettext_lazy("User was disabled by administrator"),
+    "blocked": gettext_lazy("Access to project {project} was blocked."),
+    "enabled": gettext_lazy("User was enabled by administrator."),
+    "disabled": gettext_lazy("User was disabled by administrator."),
+    "donate": gettext_lazy("Semiannual support status review was displayed."),
+    "team-add": gettext_lazy("User was added to the {team} team by {username}."),
+    "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -179,6 +184,9 @@ ACCOUNT_ACTIVITY_METHOD = {
     },
     "project": {
         "invited": gettext_lazy("Invited to {project} by {username}."),
+    },
+    "configured": {
+        "password": gettext_lazy("Password configured."),
     },
 }
 
@@ -215,9 +223,9 @@ NOTIFY_ACTIVITY = {
 
 
 class AuditLogManager(models.Manager):
-    def is_new_login(self, user, address, user_agent):
+    def is_new_login(self, user, address, user_agent) -> bool:
         """
-        Checks whether this login is coming from a new device.
+        Check whether this login is coming from a new device.
 
         Currently based purely on the IP address.
         """
@@ -243,7 +251,7 @@ class AuditLogManager(models.Manager):
         )
 
 
-class AuditLogQuerySet(models.QuerySet):
+class AuditLogQuerySet(models.QuerySet["AuditLog"]):
     def get_after(self, user, after, activity):
         """
         Get user activities of given type after another activity.
@@ -289,14 +297,14 @@ class AuditLog(models.Model):
         verbose_name = "Audit log entry"
         verbose_name_plural = "Audit log entries"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.activity} for {self.user.username} from {self.address}"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
         if self.should_notify():
             email = self.user.email
-            transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))
+            notify_auditlog.delay_on_commit(self.pk, email)
 
     def get_params(self):
         from weblate.accounts.templatetags.authnames import get_auth_name
@@ -335,7 +343,7 @@ class AuditLog(models.Model):
             and not self.params.get("skip_notify")
         )
 
-    def check_rate_limit(self, request):
+    def check_rate_limit(self, request) -> bool:
         """Check whether the activity should be rate limited."""
         if self.activity == "failed-auth" and self.user.has_usable_password():
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
@@ -367,8 +375,14 @@ class VerifiedEmail(models.Model):
     class Meta:
         verbose_name = "Verified e-mail"
         verbose_name_plural = "Verified e-mails"
+        indexes = [
+            models.Index(
+                Upper("email"),
+                name="accounts_verifiedemail_email",
+            ),
+        ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.social.user.username} - {self.email}"
 
     @property
@@ -496,12 +510,14 @@ class Profile(models.Model):
     DASHBOARD_COMPONENT_LIST = 4
     DASHBOARD_SUGGESTIONS = 5
     DASHBOARD_COMPONENT_LISTS = 6
+    DASHBOARD_MANAGED = 7
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_WATCHED, gettext_lazy("Watched translations")),
         (DASHBOARD_COMPONENT_LISTS, gettext_lazy("Component lists")),
         (DASHBOARD_COMPONENT_LIST, gettext_lazy("Component list")),
         (DASHBOARD_SUGGESTIONS, gettext_lazy("Suggested translations")),
+        (DASHBOARD_MANAGED, gettext_lazy("Managed projects")),
     )
 
     DASHBOARD_SLUGS = {
@@ -509,6 +525,7 @@ class Profile(models.Model):
         DASHBOARD_COMPONENT_LIST: "list",
         DASHBOARD_SUGGESTIONS: "suggestions",
         DASHBOARD_COMPONENT_LISTS: "componentlists",
+        DASHBOARD_MANAGED: "managed",
     }
 
     dashboard_view = models.IntegerField(
@@ -539,6 +556,7 @@ class Profile(models.Model):
     website = models.URLField(
         verbose_name=gettext_lazy("Website URL"),
         blank=True,
+        validators=[WeblateURLValidator()],
     )
     liberapay = models.SlugField(
         verbose_name=gettext_lazy("Liberapay username"),
@@ -556,6 +574,7 @@ class Profile(models.Model):
             "Link to your Fediverse profile for federated services "
             "like Mastodon or diaspora*."
         ),
+        validators=[WeblateURLValidator()],
     )
     codesite = models.URLField(
         verbose_name=gettext_lazy("Code site URL"),
@@ -563,6 +582,7 @@ class Profile(models.Model):
         help_text=gettext_lazy(
             "Link to your code profile for services like Codeberg or GitLab."
         ),
+        validators=[WeblateURLValidator()],
     )
     github = models.SlugField(
         verbose_name=gettext_lazy("GitHub username"),
@@ -609,7 +629,7 @@ class Profile(models.Model):
         verbose_name = "User profile"
         verbose_name_plural = "User profiles"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.username
 
     def get_absolute_url(self):
@@ -632,8 +652,8 @@ class Profile(models.Model):
             return None
         return parsed._replace(path="/share", query="text=", fragment="").geturl()
 
-    def increase_count(self, item: str, increase: int = 1):
-        """Updates user actions counter."""
+    def increase_count(self, item: str, increase: int = 1) -> None:
+        """Update user actions counter."""
         # Update our copy
         setattr(self, item, getattr(self, item) + increase)
         # Update database
@@ -649,7 +669,7 @@ class Profile(models.Model):
         """Return user's full name."""
         return self.user.full_name
 
-    def clean(self):
+    def clean(self) -> None:
         """Check if component list is chosen when required."""
         # There is matching logic in ProfileBaseForm.add_error to ignore this
         # validation on partial forms
@@ -738,7 +758,7 @@ class Profile(models.Model):
         return set(self.secondary_languages.values_list("pk", flat=True))
 
     def get_translation_orderer(self, request):
-        """Returns function suitable for ordering languages based on user preferences."""
+        """Create a function suitable for ordering languages based on user preferences."""
 
         def get_translation_order(translation) -> str:
             from weblate.trans.models import Unit
@@ -764,7 +784,7 @@ class Profile(models.Model):
 
         return get_translation_order
 
-    def fixup_profile(self, request):
+    def fixup_profile(self, request) -> None:
         fields = set()
         if not self.language:
             self.language = get_language()
@@ -772,10 +792,10 @@ class Profile(models.Model):
 
         allowed = {clist.pk for clist in self.allowed_dashboard_component_lists}
 
-        if not allowed and self.dashboard_view in (
+        if not allowed and self.dashboard_view in {
             Profile.DASHBOARD_COMPONENT_LIST,
             Profile.DASHBOARD_COMPONENT_LISTS,
-        ):
+        }:
             self.dashboard_view = Profile.DASHBOARD_WATCHED
             fields.add("dashboard_view")
 
@@ -813,7 +833,11 @@ class Profile(models.Model):
 
     def get_commit_email(self) -> str:
         email = self.commit_email
-        if not email and not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+        if (
+            not email
+            and not settings.PRIVATE_COMMIT_EMAIL_OPT_IN
+            and not self.user.is_bot
+        ):
             email = self.get_site_commit_email()
         if not email:
             email = self.user.email
@@ -828,7 +852,7 @@ class Profile(models.Model):
         )
 
 
-def set_lang_cookie(response, profile):
+def set_lang_cookie(response, profile) -> None:
     """Set session language based on user preferences."""
     if profile.language:
         response.set_cookie(
@@ -844,7 +868,7 @@ def set_lang_cookie(response, profile):
 
 
 @receiver(user_logged_in)
-def post_login_handler(sender, request, user, **kwargs):
+def post_login_handler(sender, request, user, **kwargs) -> None:
     """
     Signal handler for post login.
 
@@ -856,6 +880,18 @@ def post_login_handler(sender, request, user, **kwargs):
     # Warning about setting password
     if is_email_auth and not user.has_usable_password():
         request.session["show_set_password"] = True
+
+    # Redirect superuser to donate page twice a year
+    if (
+        settings.SUPPORT_STATUS_CHECK
+        and user.is_superuser
+        and not get_support_status(request)["has_support"]
+        and not user.auditlog_set.filter(
+            timestamp__gt=now() - timedelta(days=180), activity="donate"
+        ).exists()
+        and Change.objects.filter(timestamp__lt=now() - timedelta(days=14)).exists()
+    ):
+        request.session["redirect_to_donate"] = True
 
     # Migrate django-registration based verification to python-social-auth
     # and handle external authentication such as LDAP
@@ -877,10 +913,7 @@ def post_login_handler(sender, request, user, **kwargs):
     if not user.email:
         messages.error(
             request,
-            gettext(
-                "You can not submit translations as "
-                "you do not have assigned any e-mail address."
-            ),
+            gettext("Please provide an e-mail address for submitting translations."),
         )
 
     # Sanitize profile
@@ -889,7 +922,7 @@ def post_login_handler(sender, request, user, **kwargs):
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
-def create_profile_callback(sender, instance, created=False, **kwargs):
+def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
     """Automatically create token and profile for user."""
     if created:
         # Create API token

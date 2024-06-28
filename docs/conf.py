@@ -30,7 +30,7 @@ sys.path.append(str(file_dir / "_ext"))
 sys.path.append(str(weblate_dir))
 
 
-def setup(app):
+def setup(app) -> None:
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",
@@ -55,12 +55,11 @@ def setup(app):
 # -- Project information -----------------------------------------------------
 
 project = "Weblate"
-copyright = "Michal Čihař"
+project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.4"
-
+release = "5.7"
 
 # -- General configuration ---------------------------------------------------
 
@@ -211,7 +210,7 @@ texinfo_documents = [
 epub_title = project
 epub_author = author
 epub_publisher = author
-epub_copyright = copyright
+epub_copyright = project_copyright
 
 # The unique identifier of the text. This can be a ISBN number
 # or the project homepage.
@@ -234,7 +233,7 @@ rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE")
 python_doc_url = "https://docs.python.org/3/"
 if rtd_lang == "pt_BR":
     python_doc_url = "https://docs.python.org/pt-br/3/"
-elif rtd_lang in ("es", "fr", "ja", "ko"):
+elif rtd_lang in {"es", "fr", "ja", "ko", "tr"}:
     python_doc_url = f"https://docs.python.org/{rtd_lang}/3/"
 elif rtd_lang == "zh_CN":
     python_doc_url = "https://docs.python.org/zh-cn/3/"
@@ -242,15 +241,15 @@ elif rtd_lang == "zh_TW":
     python_doc_url = "https://docs.python.org/zh-tw/3/"
 
 django_doc_url = "https://docs.djangoproject.com/en/stable/"
-if rtd_lang in ("el", "es", "fr", "id", "ja", "ko", "pl"):
+if rtd_lang in {"el", "es", "fr", "id", "ja", "ko", "pl"}:
     django_doc_url = f"https://docs.djangoproject.com/{rtd_lang}/stable/"
 elif rtd_lang == "pt_BR":
     django_doc_url = "https://docs.djangoproject.com/pt-br/stable/"
 elif rtd_lang == "zh_CN":
     django_doc_url = "https://docs.djangoproject.com/zh-hans/stable/"
 
-sphinx_doc_url = "https://www.sphinx-doc.org/en/stable/"
-if rtd_lang in (
+sphinx_doc_url = "https://www.sphinx-doc.org/en/master/"
+if rtd_lang in {
     "ar",
     "ca",
     "de",
@@ -264,8 +263,9 @@ if rtd_lang in (
     "pt_BR",
     "sr",
     "zh_CN",
-):
-    sphinx_doc_url = f"https://www.sphinx-doc.org/{rtd_lang}/stable/"
+    "zh_TW",
+}:
+    sphinx_doc_url = f"https://www.sphinx-doc.org/{rtd_lang}/master/"
 
 # Configuration for intersphinx
 intersphinx_mapping = {
@@ -323,11 +323,11 @@ linkcheck_ignore = [
     "http://ftp.pwg.org/",
     # Access to our service has been temporarily blocked
     "https://yandex.com/dev/translate/",
-    # TODO: Temporarily unavailable
-    "https://wiki.gnupg.org/",
     # 403
-    "https://platform.openai.com/account/api-keys",
+    "https://openai.com/",
+    "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
+    "https://translate.systran.net/en/account",
 ]
 
 # HTTP docs
@@ -361,6 +361,7 @@ autodoc_mock_imports = [
     "weblate.lang.models",
     "weblate.vcs.git",
     "weblate.utils.files",
+    "weblate.utils.validators",
 ]
 
 # Create single gettext PO file for while documentation,

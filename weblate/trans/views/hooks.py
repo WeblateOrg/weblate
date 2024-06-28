@@ -4,7 +4,7 @@
 
 import json
 import re
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 from django.conf import settings
 from django.db.models import Q
@@ -72,7 +72,7 @@ def hook_response(
     status: int = 200,
     **kwargs,
 ):
-    """Generic okay hook response."""
+    """Create a hook response."""
     data = {"status": message, "message": response}
     data.update(kwargs)
     return JsonResponse(data=data, status=status)
@@ -87,7 +87,7 @@ def register_hook(handler):
 
 @csrf_exempt
 def update(request, path):
-    """API hook for updating git repos."""
+    """Update git repository API hook."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = project = parse_path(request, path, (Component, Project), skip_acl=True)
@@ -202,9 +202,7 @@ def vcs_service_hook(request, service):
     for obj in enabled_components:
         updates += 1
         LOGGER.info("%s notification will update %s", service_long_name, obj)
-        Change.objects.create(
-            component=obj, action=Change.ACTION_HOOK, details=service_data
-        )
+        obj.change_set.create(action=Change.ACTION_HOOK, details=service_data)
         perform_update.delay("Component", obj.pk)
 
     match_status = {
@@ -282,14 +280,14 @@ def bitbucket_extract_repo_url(data, repository):
 
 @register_hook
 def bitbucket_hook_helper(data, request):
-    """API to handle service hooks from Bitbucket."""
+    """Parse service hook from Bitbucket."""
     # Bitbucket ping event
-    if request and request.headers.get("x-event-key") not in (
+    if request and request.headers.get("x-event-key") not in {
         "repo:push",
         "repo:refs_changed",
         "pullrequest:fulfilled",
         "pr:merged",
-    ):
+    }:
         return None
 
     if "pullRequest" in data:
@@ -306,6 +304,7 @@ def bitbucket_hook_helper(data, request):
     else:
         repo_servers = {"bitbucket.org", urlparse(repo_url).hostname}
         repos = []
+        templates: tuple[str, ...]
         if "scm" not in data["repository"]:
             templates = BITBUCKET_GIT_REPOS + BITBUCKET_HG_REPOS
         elif data["repository"]["scm"] == "hg":
@@ -334,7 +333,7 @@ def bitbucket_hook_helper(data, request):
 
 @register_hook
 def github_hook_helper(data, request):
-    """API to handle commit hooks from GitHub."""
+    """Parse hooks from GitHub."""
     # Ignore non push events
     if request and request.headers.get("x-github-event") != "push":
         return None
@@ -403,7 +402,7 @@ def gitee_hook_helper(data, request):
 
 @register_hook
 def gitlab_hook_helper(data, request):
-    """API to handle commit hooks from GitLab."""
+    """Parse hook from GitLab."""
     # Ignore non known events
     if "ref" not in data:
         return None
@@ -434,7 +433,7 @@ def gitlab_hook_helper(data, request):
 
 @register_hook
 def pagure_hook_helper(data, request):
-    """API to handle commit hooks from Pagure."""
+    """Parse hook from Pagure."""
     # Ignore non known events
     if "msg" not in data or data.get("topic") != "git.receive":
         return None
@@ -451,6 +450,13 @@ def pagure_hook_helper(data, request):
         "branch": data["msg"]["branch"],
         "full_name": project,
     }
+
+
+def expand_quoted(name: str):
+    yield name
+    quoted = quote(name)
+    if quoted != name:
+        yield quoted
 
 
 @register_hook
@@ -488,12 +494,14 @@ def azure_hook_helper(data, request):
         repos = [
             repo.format(
                 organization=organization,
-                project=project,
+                project=e_project,
                 projectId=projectid,
-                repository=repository,
+                repository=e_repository,
                 repositoryId=repositoryid,
             )
             for repo in AZURE_REPOS
+            for e_project in expand_quoted(project)
+            for e_repository in expand_quoted(repository)
         ]
     else:
         repos = [http_url]

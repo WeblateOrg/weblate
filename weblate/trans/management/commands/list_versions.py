@@ -16,10 +16,10 @@ from weblate.utils.requirements import get_versions_list
 class Command(BaseCommand):
     help = "lists versions of required software components"
 
-    def write_item(self, prefix, value):
+    def write_item(self, prefix, value) -> None:
         self.stdout.write(f" * {prefix}: {value}")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """Print versions of dependencies."""
         for version in get_versions_list():
             self.write_item(version[0], version[2])
@@ -50,9 +50,7 @@ class Command(BaseCommand):
         )
         self.write_item(
             "OS encoding",
-            "filesystem={}, default={}".format(
-                sys.getfilesystemencoding(), sys.getdefaultencoding()
-            ),
+            f"filesystem={sys.getfilesystemencoding()}, default={sys.getdefaultencoding()}",
         )
         self.write_item(
             "Celery",

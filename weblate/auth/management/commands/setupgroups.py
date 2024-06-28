@@ -10,7 +10,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "setups default user groups"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--no-privs-update",
             action="store_false",
@@ -26,7 +26,7 @@ class Command(BaseCommand):
             help="Prevents updates of groups for existing projects",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """
         Create or update default set of groups.
 

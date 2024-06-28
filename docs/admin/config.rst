@@ -18,6 +18,25 @@ All settings are stored in :file:`settings.py` (as is usual for Django).
     Please also check :doc:`Django's documentation <django:ref/settings>` for
     parameters configuring Django itself.
 
+.. setting:: ADMINS_CONTACT
+
+ADMINS_CONTACT
+--------------
+
+Configures where contact form sends e-mails. If not configured,
+e-mail addresses from :setting:`ADMINS` are used.
+
+Configure this as a list of e-mail addresses:
+
+.. code-block:: python
+
+   ADMINS_CONTACT = ["admin@example.com", "support@example.com"]
+
+.. seealso::
+
+   :setting:`CONTACT_FORM`,
+   :setting:`ADMINS`
+
 .. setting:: AKISMET_API_KEY
 
 AKISMET_API_KEY
@@ -390,6 +409,11 @@ Choose a configuration that matches the configuration of your mail server.
 ``"from"``
    The sender is used in as :mailheader:`From`. Your mail server needs to allow
    sending such e-mails.
+
+
+.. seealso::
+
+   :setting:`ADMINS_CONTACT`
 
 .. setting:: DATA_DIR
 
@@ -1190,19 +1214,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS
 List of exceptions for :setting:`LOGIN_REQUIRED_URLS`.
 If not specified, users are allowed to access the sign-in page.
 
-Some of exceptions you might want to include:
-
-.. code-block:: python
-
-    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r"/accounts/(.*)$",  # Required for sign-in
-        r"/static/(.*)$",  # Required for development mode
-        r"/widget/(.*)$",  # Allowing public access to widgets
-        r"/data/(.*)$",  # Allowing public access to data exports
-        r"/hooks/(.*)$",  # Allowing public access to notification hooks
-        r"/api/(.*)$",  # Allowing access to API
-        r"/js/i18n/$",  # JavaScript localization
-    )
+See the :ref:`sample-configuration` for recommended configuration of this setting.
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID
@@ -1657,7 +1669,7 @@ Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 
 
 .. seealso::
 
-   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+   `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
@@ -1800,6 +1812,20 @@ SUGGESTION_CLEANUP_DAYS
 
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
+
+.. setting:: SUPPORT_STATUS_CHECK
+
+SUPPORT_STATUS_CHECK
+--------------------
+
+.. versionadded:: 5.5
+
+Disables semiannual support status check and redirecting superusers upon login
+to the donation page in case there is no active support subscription.
+
+.. hint::
+
+   Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
 .. setting:: UNUSED_ALERT_DAYS
 
@@ -1976,7 +2002,17 @@ example:
 .. seealso::
 
     :ref:`addons`,
-    :setting:`DEFAULT_ADDONS`
+    :setting:`DEFAULT_ADDONS`,
+    :setting:`ADDON_ACTIVITY_LOG_EXPIRY`
+
+.. setting:: ADDON_ACTIVITY_LOG_EXPIRY
+
+ADDON_ACTIVITY_LOG_EXPIRY
+-------------------------
+
+.. versionadded:: 5.6
+
+Configures how long activity logs for add-ons are kept. Defaults to 180 days.
 
 .. setting:: WEBLATE_EXPORTERS
 

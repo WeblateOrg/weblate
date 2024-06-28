@@ -3,12 +3,13 @@
 {% load icons %}
 
 {% for item in glossary %}
+  <tbody class="glossary-embed {% if "forbidden" in item.all_flags %}unclickable-row danger{% elif "read-only" in item.all_flags %}clickable-row warning{% else %}clickable-row{% endif %}">
   {% if "forbidden" in item.all_flags %}
-    <tr class="glossary-embed danger" title="{% trans "This translation is forbidden." %}">
+    <tr title="{% trans "This translation is forbidden." %}">
   {% elif "read-only" in item.all_flags %}
-    <tr class="glossary-embed clickable-row warning" title="{% trans "This term should not be translated." %}">
+    <tr title="{% trans "This term should not be translated." %}">
   {% else %}
-    <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
+    <tr title="{% trans "Copy word into translation" %}">
   {% endif %}
     <td class="source">{{ item.source }}</td>
     <td class="target">
@@ -25,30 +26,31 @@
     {% if item.note %}
       <tr>
         <td colspan="4">
-          <em>
+          <div class="alert alert-info" title="{% trans "Source string description" %}">
           {{ item.note }}
-          </em>
+          </div>
         </td>
       </tr>
     {% endif %}
     {% if not item.is_source and item.explanation %}
       <tr>
         <td colspan="4">
-          <em>
+          <div class="alert alert-info" title="{% trans "Glossary translation explanation" %}">
           {{ item.explanation|markdown }}
-          </em>
+          </div>
         </td>
       </tr>
     {% endif %}
     {% if item.source_unit.explanation %}
       <tr>
         <td colspan="4">
-          <em>
+          <div class="alert alert-info" title="{% trans "Glossary string explanation" %}">
           {{ item.source_unit.explanation|markdown }}
-          </em>
+          </div>
         </td>
       </tr>
     {% endif %}
+  </tbody>
 {% empty %}
     <tr>
     <td colspan="4"><em>{% trans "No related strings found in the glossary." %}</em></td>

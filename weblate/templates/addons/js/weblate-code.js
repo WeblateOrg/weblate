@@ -1,18 +1,19 @@
-var ready = (callback) => {
-  if (document.readyState != "loading") {
+const ready = (callback) => {
+  if (document.readyState !== "loading") {
     callback();
   } else {
     document.addEventListener("DOMContentLoaded", callback);
   }
 };
 
-var getCookie = (name) => {
-  var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
 };
 
-var translateDocument = (data) => {
+const translateDocument = (data) => {
+  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll(weblate_selector).forEach((element) => {
     if (element.children.length === 0 && element.textContent in data) {
       element.textContent = data[element.textContent];
@@ -21,14 +22,14 @@ var translateDocument = (data) => {
 };
 
 ready(() => {
-  var languages = [getCookie(weblate_cookie_name)];
+  let languages = [getCookie(weblate_cookie_name)];
   languages = languages.concat(navigator.languages);
   languages = languages.concat(navigator.language);
   languages = languages.concat(navigator.userLanguage);
 
-  var language;
+  let language;
   for (const i in languages) {
-    let code = languages[i];
+    const code = languages[i];
     if (code && weblate_supported.includes(code)) {
       language = code;
       break;
@@ -40,10 +41,10 @@ ready(() => {
     if (stored !== null) {
       stored = JSON.parse(stored);
     }
-    if (stored !== null && stored.language == language) {
+    if (stored !== null && stored.language === language) {
       translateDocument(stored.data);
     } else {
-      fetch(weblate_url + "/" + language + ".json")
+      fetch(`${weblate_url}/${language}.json`)
         .then((response) => response.json())
         .then((data) => {
           sessionStorage.setItem(

@@ -12,7 +12,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
     :alt: Website
     :target: https://weblate.org/
 
-.. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
+.. image:: https://hosted.weblate.org/widget/weblate/svg-badge.svg
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/
 

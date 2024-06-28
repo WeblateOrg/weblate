@@ -41,7 +41,7 @@ class ProxyMiddleware:
     proxy setup.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -60,7 +60,7 @@ class ProxyMiddleware:
                 validate_ipv46_address(address)
                 request.META["REMOTE_ADDR"] = address
             except ValidationError:
-                report_error(cause="Invalid IP address")
+                report_error("Invalid IP address")
 
         return self.get_response(request)
 
@@ -73,7 +73,7 @@ class RedirectMiddleware:
     or after renaming.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -112,16 +112,8 @@ class RedirectMiddleware:
         except Project.MultipleObjectsReturned:
             return None
         except Project.DoesNotExist:
-            try:
-                project = (
-                    Change.objects.filter(
-                        action=Change.ACTION_RENAME_PROJECT,
-                        old=slug,
-                    )
-                    .order()[0]
-                    .project
-                )
-            except IndexError:
+            project = Change.objects.lookup_project_rename(slug)
+            if project is None:
                 return None
 
         request.user.check_access(project)
@@ -251,7 +243,7 @@ class RedirectMiddleware:
 class SecurityMiddleware:
     """Middleware that sets Content-Security-Policy."""
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     def __call__(self, request):
@@ -277,9 +269,9 @@ class SecurityMiddleware:
 
         # Rollbar client errors reporting
         if (
-            hasattr(settings, "ROLLBAR")
-            and "client_token" in settings.ROLLBAR
-            and "environment" in settings.ROLLBAR
+            (rollbar_settings := getattr(settings, "ROLLBAR", None)) is not None
+            and "client_token" in rollbar_settings
+            and "environment" in rollbar_settings
             and response.status_code == 500
         ):
             script.add("'unsafe-inline'")
@@ -341,11 +333,11 @@ class SecurityMiddleware:
             " ".join(font),
         )
         if settings.SENTRY_SECURITY:
-            response["Content-Security-Policy"] += " report-uri {}".format(
-                settings.SENTRY_SECURITY
+            response["Content-Security-Policy"] += (
+                f" report-uri {settings.SENTRY_SECURITY}"
             )
-            response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
-                settings.SENTRY_SECURITY
+            response["Expect-CT"] = (
+                f'max-age=86400, enforce, report-uri="{settings.SENTRY_SECURITY}"'
             )
 
         # Opt-out from Google FLoC

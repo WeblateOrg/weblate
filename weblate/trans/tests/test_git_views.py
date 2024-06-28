@@ -4,7 +4,6 @@
 
 """Test for Git manipulation views."""
 
-
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
@@ -15,7 +14,7 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     TEST_TYPE = "project"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # We need extra privileges for overwriting
         self.user.is_superuser = True
@@ -28,35 +27,35 @@ class GitNoChangeProjectTest(ViewTestCase):
     def get_expected_redirect(self):
         return getattr(self, f"{self.TEST_TYPE}_url") + "#repository"
 
-    def test_commit(self):
+    def test_commit(self) -> None:
         response = self.client.post(self.get_test_url("commit"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_update(self):
+    def test_update(self) -> None:
         response = self.client.post(self.get_test_url("update"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_push(self):
+    def test_push(self) -> None:
         response = self.client.post(self.get_test_url("push"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_reset(self):
+    def test_reset(self) -> None:
         response = self.client.post(self.get_test_url("reset"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_cleanup(self):
+    def test_cleanup(self) -> None:
         response = self.client.post(self.get_test_url("cleanup"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_file_sync(self):
+    def test_file_sync(self) -> None:
         response = self.client.post(self.get_test_url("file_sync"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_file_scan(self):
+    def test_file_scan(self) -> None:
         response = self.client.post(self.get_test_url("file_scan"))
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_status(self):
+    def test_status(self) -> None:
         response = self.client.get(self.get_test_url("git_status"))
         self.assertContains(response, "Repository status")
 
@@ -76,7 +75,7 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.change_unit("Ahoj světe!\n")
 
@@ -96,7 +95,7 @@ class GitChangeTranslationTest(GitChangeProjectTest):
 class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with committed change in repo."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.change_unit("Ahoj světe!\n")
         self.project.commit_pending("test", self.user)
@@ -117,7 +116,7 @@ class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):
 class GitBrokenProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with disappeared remote."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         repo = self.component.repository
         with repo.lock:

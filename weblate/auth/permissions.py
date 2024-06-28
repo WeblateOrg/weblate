@@ -21,7 +21,7 @@ SPECIALS = {}
 
 
 class PermissionResult:
-    def __init__(self, reason: str = ""):
+    def __init__(self, reason: str = "") -> None:
         self.reason = reason
 
     def __bool__(self) -> bool:
@@ -47,15 +47,15 @@ def register_perm(*perms):
     return wrap_perm
 
 
-def check_global_permission(user, permission):
-    """Generic permission check for base classes."""
+def check_global_permission(user, permission: str) -> bool:
+    """Check whether user has a global permission."""
     if user.is_superuser:
         return True
-    return user.groups.filter(roles__permissions__codename=permission).exists()
+    return permission in user.global_permissions
 
 
 def check_permission(user, permission, obj):
-    """Generic permission check for base classes."""
+    """Check whether user has a object-specific permission."""
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):
@@ -120,7 +120,7 @@ def check_ignore_check(user, permission, check):
     return check_permission(user, permission, check.unit.translation)
 
 
-def check_can_edit(user, permission, obj, is_vote=False):
+def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
     translation = component = None
 
     if isinstance(obj, Translation):
@@ -130,9 +130,11 @@ def check_can_edit(user, permission, obj, is_vote=False):
     elif isinstance(obj, Component):
         component = obj
         project = component.project
+    elif isinstance(obj, Category):
+        project = obj.project
     elif isinstance(obj, Project):
         project = obj
-    elif isinstance(obj, (ProjectLanguage, Category)):
+    elif isinstance(obj, ProjectLanguage):
         project = obj.project
     elif isinstance(obj, CategoryLanguage):
         project = obj.category.project
@@ -162,6 +164,13 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
     # Perform usual permission check
     if not check_permission(user, permission, obj):
+        if not user.is_authenticated:
+            # Signing in might help, but user still might need additional privileges
+            return Denied(gettext("Sign in to save the translation."))
+        if permission == "unit.review":
+            return Denied(
+                gettext("Insufficient privileges for approving translations.")
+            )
         return Denied(gettext("Insufficient privileges for saving translations."))
 
     # Special check for source strings (templates)
@@ -210,11 +219,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                 project = obj.category.project
             elif isinstance(
                 obj,
-                (
-                    Component,
-                    ProjectLanguage,
-                    Category,
-                ),
+                Component | ProjectLanguage | Category,
             ):
                 project = obj.project
             else:
@@ -429,9 +434,13 @@ def check_repository_status(user, permission, obj):
 
 @register_perm("meta:team.edit")
 def check_team_edit(user, permission, obj):
-    return check_global_permission(user, "group.edit") or (
-        obj.defining_project
-        and check_permission(user, "project.permissions", obj.defining_project)
+    return (
+        check_global_permission(user, "group.edit")
+        or (
+            obj.defining_project
+            and check_permission(user, "project.permissions", obj.defining_project)
+        )
+        or obj.admins.filter(pk=user.pk).exists()
     )
 
 
@@ -445,7 +454,7 @@ def check_team_edit_users(user, permission, obj):
 @register_perm("billing.view")
 def check_billing_view(user, permission, obj):
     if hasattr(obj, "all_projects"):
-        if user.is_superuser or obj.owners.filter(pk=user.pk).exists():
+        if user.has_perm("billing.manage") or obj.owners.filter(pk=user.pk).exists():
             return True
         # This is a billing object
         return any(check_permission(user, permission, prj) for prj in obj.all_projects)
@@ -490,9 +499,9 @@ def check_memory_perms(user, permission, memory):
     if isinstance(memory, Memory):
         if memory.user_id == user.id:
             return True
-        if memory.project is None:
-            return check_global_permission(user, "memory.manage")
         project = memory.project
     else:
         project = memory
+    if project is None:
+        return check_global_permission(user, "memory.manage")
     return check_permission(user, permission, project)

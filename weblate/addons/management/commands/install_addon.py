@@ -14,7 +14,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 class Command(WeblateComponentCommand):
     help = "installs add-on to all listed components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument("--addon", required=True, help="Add-on name")
         parser.add_argument(
@@ -26,7 +26,7 @@ class Command(WeblateComponentCommand):
             help="Update existing add-ons configuration",
         )
 
-    def validate_form(self, form):
+    def validate_form(self, form) -> None:
         if not form.is_valid():
             for error in form.non_field_errors():
                 self.stderr.write(error)
@@ -35,7 +35,7 @@ class Command(WeblateComponentCommand):
                     self.stderr.write(f"Error in {field.name}: {error}")
             raise CommandError("Invalid add-on configuration!")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         try:
             addon = ADDONS[options["addon"]]
         except KeyError:
@@ -50,7 +50,7 @@ class Command(WeblateComponentCommand):
             user = get_anonymous()
         for component in self.get_components(*args, **options):
             if addon.has_settings():
-                form = addon.get_add_form(None, component, data=configuration)
+                form = addon.get_add_form(None, component=component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons:
@@ -66,5 +66,5 @@ class Command(WeblateComponentCommand):
                 self.stderr.write(f"Can not install on {component}")
                 continue
 
-            addon.create(component, configuration=configuration)
+            addon.create(component=component, configuration=configuration)
             self.stdout.write(f"Successfully installed on {component}")

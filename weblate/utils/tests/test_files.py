@@ -13,7 +13,7 @@ from weblate.utils.unittest import tempdir_setting
 
 class FilesTestCase(SimpleTestCase):
     @tempdir_setting("DATA_DIR")
-    def test_remove(self, callback=None):
+    def test_remove(self, callback=None) -> None:
         target = os.path.join(settings.DATA_DIR, "test")
         nested = os.path.join(target, "nested")
         filename = os.path.join(target, "file")
@@ -26,14 +26,14 @@ class FilesTestCase(SimpleTestCase):
         remove_tree(target)
         self.assertFalse(os.path.exists(target))
 
-    def test_remove_readonly(self):
-        def callback_readonly(target, nested, filename):
+    def test_remove_readonly(self) -> None:
+        def callback_readonly(target, nested, filename) -> None:
             os.chmod(target, 0)
 
         self.test_remove(callback_readonly)
 
-    def test_remove_nested(self):
-        def callback_readonly(target, nested, filename):
+    def test_remove_nested(self) -> None:
+        def callback_readonly(target, nested, filename) -> None:
             os.chmod(nested, 0)
 
         self.test_remove(callback_readonly)

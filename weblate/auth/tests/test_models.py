@@ -12,7 +12,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class ModelTest(FixtureTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
@@ -20,11 +20,11 @@ class ModelTest(FixtureTestCase):
         self.group = Group.objects.create(name="Test", language_selection=SELECTION_ALL)
         self.group.projects.add(self.project)
 
-    def test_num_queries(self):
+    def test_num_queries(self) -> None:
         with self.assertNumQueries(8):
             self.user._fetch_permissions()
 
-    def test_project(self):
+    def test_project(self) -> None:
         # No permissions
         self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
@@ -41,7 +41,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_component(self):
+    def test_component(self) -> None:
         self.group.projects.remove(self.project)
 
         # Add user to group of power users
@@ -58,7 +58,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_componentlist(self):
+    def test_componentlist(self) -> None:
         # Add user to group of power users
         self.user.groups.add(self.group)
         self.group.roles.add(Role.objects.get(name="Power user"))
@@ -78,7 +78,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_languages(self):
+    def test_languages(self) -> None:
         # Add user to group with german language
         self.user.groups.add(self.group)
         self.group.language_selection = SELECTION_MANUAL
@@ -97,7 +97,7 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_groups(self):
+    def test_groups(self) -> None:
         # Add test group
         self.user.groups.add(self.group)
         self.assertEqual(self.user.groups.count(), 3)
@@ -126,7 +126,7 @@ class ModelTest(FixtureTestCase):
         self.user.groups.set(DjangoGroup.objects.filter(name="Second"))
         self.assertEqual(self.user.groups.count(), 1)
 
-    def test_user(self):
+    def test_user(self) -> None:
         # Create user with Django User fields
         user = User.objects.create(
             first_name="First", last_name="Last", is_staff=True, is_superuser=True
@@ -134,7 +134,7 @@ class ModelTest(FixtureTestCase):
         self.assertEqual(user.full_name, "First Last")
         self.assertTrue(user.is_superuser)
 
-    def test_projects(self):
+    def test_projects(self) -> None:
         public_project = Project.objects.create(
             slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
         )

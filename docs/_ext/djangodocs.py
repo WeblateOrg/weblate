@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Sphinx plugins for Weblate documentation."""
+
 import re
 
 from docutils.nodes import literal
@@ -14,13 +15,13 @@ simple_option_desc_re = re.compile(r"([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$
 
 
 class WeblateCommandLiteral(literal):
-    def __init__(self, rawsource="", text="", *children, **attributes):
+    def __init__(self, rawsource="", text="", *children, **attributes) -> None:
         if not text:
             text = "weblate "
         super().__init__(rawsource, text, *children, **attributes)
 
 
-def setup(app):
+def setup(app) -> None:
     app.add_crossref_type(
         directivename="setting", rolename="setting", indextemplate="pair: %s; setting"
     )
@@ -52,6 +53,6 @@ def parse_weblate_admin_node(env, sig, signode):
 def parse_django_admin_node(env, sig, signode):
     command = sig.split(" ")[0]
     env.ref_context["std:program"] = command
-    title = "django-admin %s" % sig
+    title = f"django-admin {sig}"
     signode += addnodes.desc_name(title, title)
     return command

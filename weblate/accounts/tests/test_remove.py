@@ -11,11 +11,11 @@ from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 
 class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
-    def test_page(self):
+    def test_page(self) -> None:
         response = self.client.get(reverse("remove"))
         self.assertContains(response, "Account removal deletes all your private data.")
 
-    def verify_removal(self, response):
+    def verify_removal(self, response) -> None:
         self.assertRedirects(response, reverse("email-sent"))
 
         # Get confirmation URL
@@ -30,20 +30,20 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         self.assertContains(response, "Your account has been removed.")
         self.assertFalse(User.objects.filter(username="testuser").exists())
 
-    def test_removal(self):
+    def test_removal(self) -> None:
         response = self.client.post(
             reverse("remove"), {"password": "testpassword"}, follow=True
         )
         self.verify_removal(response)
 
-    def test_removal_failed(self):
+    def test_removal_failed(self) -> None:
         response = self.client.post(
             reverse("remove"), {"password": "invalidpassword"}, follow=True
         )
         self.assertContains(response, "You have entered an invalid password.")
         self.assertTrue(User.objects.filter(username="testuser").exists())
 
-    def test_removal_nopass(self):
+    def test_removal_nopass(self) -> None:
         # Set unusable password for test user.
         self.user.set_unusable_password()
         self.user.save()
@@ -53,7 +53,7 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         response = self.client.post(reverse("remove"), {"password": ""}, follow=True)
         self.verify_removal(response)
 
-    def test_removal_change(self):
+    def test_removal_change(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         # We should have some change to commit
         self.assertTrue(self.component.needs_commit())

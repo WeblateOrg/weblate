@@ -9,5 +9,5 @@ from weblate.wladmin.models import ConfigurationError
 class Command(BaseCommand):
     help = "runs a configuration health check"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         ConfigurationError.objects.configuration_health_check()

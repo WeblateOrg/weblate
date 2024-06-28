@@ -4,7 +4,6 @@
 
 from textwrap import wrap
 
-from weblate.addons.events import EVENT_NAMES
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
@@ -19,16 +18,17 @@ class Command(BaseCommand):
         if field.help_text:
             result.append(str(field.help_text))
         choices = getattr(field, "choices", None)
-        if choices and name not in ("component", "engines", "file_format"):
+        if choices and name not in {"component", "engines", "file_format"}:
             if result:
                 result.append("")
             result.append("Available choices:")
             for value, description in choices:
-                result.append("")
-                result.append(f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                result.extend(
+                    ("", f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                )
         return result
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List installed add-ons."""
         fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
         for _unused, obj in sorted(ADDONS.items()):
@@ -76,7 +76,7 @@ class Command(BaseCommand):
                     )
             else:
                 self.stdout.write(":Configuration: `This add-on has no configuration.`")
-            events = ", ".join(EVENT_NAMES[event] for event in obj.events)
+            events = ", ".join(event.label for event in obj.events)
             self.stdout.write(f":Triggers: {events}")
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))

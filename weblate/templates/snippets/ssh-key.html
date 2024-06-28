@@ -28,3 +28,27 @@
     </div>
   {% endif %}
 {% endfor %}
+
+{% if ip_addresses %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+          {% translate "IP addresses" %}
+        </h4>
+      </div>
+      <div class="panel-body">
+        <p>{% translate "Weblate utilizes the IP addresses listed below to access repositories or initiate webhooks." %}</p>
+        <ul class="list-group">
+          {% for address in ip_addresses %}
+            <li class="list-group-item">
+              {{ address }}
+              <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ address }}" data-clipboard-message="{% trans "IP address copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+
+{% endif %}

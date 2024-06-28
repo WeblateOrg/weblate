@@ -42,9 +42,9 @@ def download_multi(request, translations, commit_objs, fmt=None, name="translati
             obj.commit_pending("download", None)
         except Exception:
             if isinstance(obj, Project):
-                report_error(cause="Download commit", project=obj)
+                report_error("Download commit", project=obj)
             else:
-                report_error(cause="Download commit", project=obj.project)
+                report_error("Download commit", project=obj.project)
 
     if fmt and fmt.startswith("zip:"):
         try:
@@ -56,9 +56,9 @@ def download_multi(request, translations, commit_objs, fmt=None, name="translati
             exporter = exporter_cls(translation=translation)
             filename = exporter.get_filename()
             if not exporter_cls.supports(translation):
-                extra[
-                    f"{filename}.skipped"
-                ] = "File format is not compatible with this translation"
+                extra[f"{filename}.skipped"] = (
+                    "File format is not compatible with this translation"
+                )
             else:
                 units = translation.unit_set.prefetch_full().order_by("position")
                 exporter.add_units(units)
@@ -100,7 +100,7 @@ def download_component_list(request, name):
 
 
 def download(request, path):
-    """Handling of translation uploads."""
+    """Download translation."""
     obj = parse_path(
         request,
         path,
@@ -175,7 +175,7 @@ def download(request, path):
 
 @require_POST
 def upload(request, path):
-    """Handling of translation uploads."""
+    """Handle translation upload."""
     obj = parse_path(request, path, (Translation,))
 
     if not request.user.has_perm("upload.perform", obj):
@@ -240,14 +240,14 @@ def upload(request, path):
             ),
         )
     except FailedCommitError as error:
-        messages.error(request, str(error))  # noqa: G200
-        report_error(cause="Upload error", project=obj.component.project)
+        messages.error(request, str(error))
+        report_error("Upload error", project=obj.component.project)
     except Exception as error:
         messages.error(
             request,
             gettext("File upload has failed: %s")
             % str(error).replace(obj.component.full_path, ""),
         )
-        report_error(cause="Upload error", project=obj.component.project)
+        report_error("Upload error", project=obj.component.project)
 
     return redirect(obj)

@@ -21,29 +21,29 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheckTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.check = PluralsCheck()
 
-    def test_none(self):
+    def test_none(self) -> None:
         self.assertFalse(
             self.check.check_target(["string"], ["string"], MockUnit("plural_none"))
         )
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         self.assertFalse(
             self.check.check_target(
                 ["string", "plural"], ["", ""], MockUnit("plural_empty")
             )
         )
 
-    def test_hit(self):
+    def test_hit(self) -> None:
         self.assertTrue(
             self.check.check_target(
                 ["string", "plural"], ["string", ""], MockUnit("plural_partial_empty")
             )
         )
 
-    def test_good(self):
+    def test_good(self) -> None:
         self.assertFalse(
             self.check.check_target(
                 ["string", "plural"],
@@ -54,10 +54,10 @@ class PluralsCheckTest(TestCase):
 
 
 class SamePluralsCheckTest(PluralsCheckTest):
-    def setUp(self):
+    def setUp(self) -> None:
         self.check = SamePluralsCheck()
 
-    def test_hit(self):
+    def test_hit(self) -> None:
         self.assertTrue(
             self.check.check_target(
                 ["string", "plural"],
@@ -68,7 +68,7 @@ class SamePluralsCheckTest(PluralsCheckTest):
 
 
 class TranslatedCheckTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.check = TranslatedCheck()
 
@@ -78,26 +78,26 @@ class TranslatedCheckTest(ViewTestCase):
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         )
 
-    def test_none(self):
+    def test_none(self) -> None:
         self.assertFalse(self.run_check())
 
-    def test_translated(self):
+    def test_translated(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.assertFalse(self.run_check())
 
-    def test_untranslated(self):
+    def test_untranslated(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.edit_unit("Hello, world!\n", "")
         self.assertTrue(self.run_check())
 
-    def test_source_change(self):
+    def test_source_change(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.edit_unit("Hello, world!\n", "")
         unit = self.get_unit()
         unit.change_set.create(action=Change.ACTION_SOURCE_CHANGE)
         self.assertFalse(self.run_check())
 
-    def test_get_description(self):
+    def test_get_description(self) -> None:
         self.test_untranslated()
         check = Check(unit=self.get_unit())
         self.assertEqual(
@@ -107,7 +107,7 @@ class TranslatedCheckTest(ViewTestCase):
 
 
 class ConsistencyCheckTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.other = self.create_link_existing()
         self.translation_1 = self.component.translation_set.get(language__code="cs")
@@ -142,7 +142,7 @@ class ConsistencyCheckTest(ViewTestCase):
             state=STATE_TRANSLATED,
         )
 
-    def test_reuse(self):
+    def test_reuse(self) -> None:
         check = ReusedCheck()
         self.assertEqual(check.check_component(self.component), [])
 
@@ -175,7 +175,7 @@ class ConsistencyCheckTest(ViewTestCase):
         # No units should be now failing
         self.assertEqual(Check.objects.filter(name="reused").count(), 0)
 
-    def test_reuse_nocontext(self):
+    def test_reuse_nocontext(self) -> None:
         check = ReusedCheck()
         self.assertEqual(check.check_component(self.component), [])
 
@@ -191,7 +191,7 @@ class ConsistencyCheckTest(ViewTestCase):
 
         self.assertNotEqual(check.check_component(self.component), [])
 
-    def test_consistency(self):
+    def test_consistency(self) -> None:
         check = ConsistencyCheck()
         self.assertEqual(check.check_component(self.component), [])
 

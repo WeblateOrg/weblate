@@ -4,9 +4,9 @@
 
 """Machine translation example."""
 
-import dictionary
+import dictionary  # type: ignore[import-not-found]
 
-from weblate.machinery.base import MachineTranslation
+from weblate.machinery.base import DownloadTranslations, MachineTranslation
 
 
 class SampleTranslation(MachineTranslation):
@@ -25,9 +25,8 @@ class SampleTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Return tuple with translations."""
         for t in dictionary.translate(text):
             yield {"text": t, "quality": 100, "service": self.name, "source": text}

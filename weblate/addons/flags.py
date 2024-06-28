@@ -5,7 +5,7 @@
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_UNIT_PRE_CREATE
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BulkEditAddonForm
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
@@ -13,7 +13,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class FlagBase(BaseAddon):
-    events = (EVENT_UNIT_PRE_CREATE,)
+    events = (AddonEvent.EVENT_UNIT_PRE_CREATE,)
     icon = "flag.svg"
 
     @classmethod
@@ -36,7 +36,7 @@ class SourceEditAddon(FlagBase):
         "edit_template": {True},
     }
 
-    def unit_pre_create(self, unit):
+    def unit_pre_create(self, unit) -> None:
         if (
             unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -54,7 +54,7 @@ class TargetEditAddon(FlagBase):
         "filter and edit translations created by the developers."
     )
 
-    def unit_pre_create(self, unit):
+    def unit_pre_create(self, unit) -> None:
         if (
             not unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -72,7 +72,7 @@ class SameEditAddon(FlagBase):
         "useful for file formats that include source strings for untranslated strings."
     )
 
-    def unit_pre_create(self, unit):
+    def unit_pre_create(self, unit) -> None:
         if (
             not unit.translation.is_template
             and unit.source == unit.target
@@ -84,14 +84,14 @@ class SameEditAddon(FlagBase):
 
 
 class BulkEditAddon(BaseAddon):
-    events = (EVENT_COMPONENT_UPDATE,)
+    events = (AddonEvent.EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
     verbose = gettext_lazy("Bulk edit")
     description = gettext_lazy("Bulk edit flags, labels, or states of strings.")
     settings_form = BulkEditAddonForm
     multiple = True
 
-    def component_update(self, component):
+    def component_update(self, component) -> None:
         label_set = component.project.label_set
         bulk_perform(
             None,

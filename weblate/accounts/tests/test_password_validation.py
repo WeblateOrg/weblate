@@ -16,13 +16,13 @@ class ValidationTest(TestCase):
         validator = CharsPasswordValidator()
         return validator.validate(password)
 
-    def test_chars_good(self):
+    def test_chars_good(self) -> None:
         self.assertIsNone(self.validate("123"))
 
-    def test_chars_whitespace(self):
+    def test_chars_whitespace(self) -> None:
         with self.assertRaises(ValidationError):
             self.validate(" \r\n\t")
 
-    def test_chars_same(self):
+    def test_chars_same(self) -> None:
         with self.assertRaises(ValidationError):
             self.validate("x" * 10)

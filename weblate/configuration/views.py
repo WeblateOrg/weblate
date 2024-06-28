@@ -42,7 +42,7 @@ class CustomCSSView(TemplateView):
         return HttpResponse(content_type="text/css", content=self.get_css(request))
 
     @classmethod
-    def drop_cache(cls):
+    def drop_cache(cls) -> None:
         cache.delete(cls.cache_key)
 
     @classmethod

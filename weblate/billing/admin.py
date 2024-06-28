@@ -8,26 +8,35 @@ from django.utils.translation import gettext_lazy
 
 from weblate.wladmin.models import WeblateModelAdmin
 
+from .models import Billing, Invoice, Plan
 
+
+@admin.register(Plan)
 class PlanAdmin(WeblateModelAdmin):
     list_display = (
         "name",
         "price",
+        "limit_hosted_strings",
         "limit_strings",
         "limit_languages",
         "limit_projects",
+        "display_limit_hosted_strings",
         "display_limit_strings",
         "display_limit_languages",
         "display_limit_projects",
+        "public",
+        "change_access_control",
     )
     ordering = ["price"]
     prepopulated_fields = {"slug": ("name",)}
+    list_filter = ["public", "change_access_control"]
 
 
-def format_user(obj):
+def format_user(obj) -> str:
     return f"{obj.username}: {obj.full_name} <{obj.email}>"
 
 
+@admin.register(Billing)
 class BillingAdmin(WeblateModelAdmin):
     list_display = (
         "list_projects",
@@ -50,7 +59,7 @@ class BillingAdmin(WeblateModelAdmin):
     )
     list_filter = ("plan", "state", "paid", "in_limits")
     search_fields = ("projects__name", "owners__email")
-    filter_horizontal = ("projects", "owners")
+    autocomplete_fields = ("projects", "owners")
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("projects", "owners")
@@ -70,16 +79,18 @@ class BillingAdmin(WeblateModelAdmin):
         form.base_fields["owners"].label_from_instance = format_user
         return form
 
-    def save_related(self, request, form, formsets, change):
+    def save_related(self, request, form, formsets, change) -> None:
         super().save_related(request, form, formsets, change)
         obj = form.instance
         # Add owners as admin if there is none
         for project in obj.projects.all():
             group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
-                group.user_set.add(*obj.owners.all())
+                for user in obj.owners.all():
+                    user.add_team(request, group)
 
 
+@admin.register(Invoice)
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")
     list_filter = (

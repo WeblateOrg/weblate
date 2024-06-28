@@ -11,7 +11,7 @@
             <div class="input-group">
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="source:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="search-label">{% trans "Source strings" %}</span>
+                  <span class="search-label search-label-auto">{% trans "Source strings" %}</span>
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
@@ -38,7 +38,7 @@
 
         <div class="btn-group search-group" role="group">
               <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% search_name "has:suggestion" %}</span> <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label search-label-auto">{% search_name "has:suggestion" %}</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="has:suggestion">{% search_name "has:suggestion" %}</a></li>
                   <li><a href="#" data-field="has:comment">{% search_name "has:comment" %}</a></li>
@@ -54,7 +54,7 @@
         <div class="btn-group search-group" role="group">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="changed:>=" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String changed after" %}</span> <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="changed:>=" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label search-label-auto">{% trans "String changed after" %}</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="changed:>=">{% trans "String changed after" %}</a></li>
                   <li><a href="#" data-field="changed:<=">{% trans "String changed before" %}</a></li>

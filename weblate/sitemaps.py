@@ -2,11 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from itertools import chain
+from typing import NoReturn
+
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 from weblate.trans.models import Change, Component, Project, Translation
-from weblate.utils.stats import ProjectLanguage, prefetch_stats
+from weblate.utils.stats import prefetch_stats
 
 
 class PagesSitemap(Sitemap):
@@ -37,13 +40,13 @@ class WeblateSitemap(Sitemap):
     priority = 0.0
     changefreq = None
 
-    def items(self):
+    def items(self) -> NoReturn:
         raise NotImplementedError
 
     def lastmod(self, item):
         return item.stats.last_changed
 
-    def get_latest_lastmod(self):
+    def get_latest_lastmod(self) -> None:
         # Finding latest lastmod is expensive as it needs fetching
         # stats for all objects
         return None
@@ -102,15 +105,15 @@ class EngageLangSitemap(EngageSitemap):
 
     def items(self):
         """Return list of existing project, language tuples."""
-        projects = Project.objects.filter(
-            access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by("id")
+        projects = (
+            Project.objects.filter(access_control__lt=Project.ACCESS_PRIVATE)
+            .order_by("id")
+            .prefetch_languages()
+        )
         return prefetch_stats(
-            [
-                ProjectLanguage(project=project, language=lang)
-                for project in projects
-                for lang in project.languages
-            ]
+            chain.from_iterable(
+                project.project_languages.preload() for project in projects
+            )
         )
 
 

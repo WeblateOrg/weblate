@@ -260,6 +260,7 @@ IGNORE_WORDS = {
     "freemind",
     "freeplane",
     "frequency",
+    "frontend",
     "full",
     "fulltext",
     "function",
@@ -552,7 +553,7 @@ IGNORE_WORDS = {
     "offset",
     "ogg",
     "online",
-    "ons",
+    "ons",  # codespell:ignore ons
     "opac",
     "open",
     "opendocument",
@@ -726,7 +727,7 @@ IGNORE_WORDS = {
     "selinux",
     "send",
     "sergeant",
-    "serie",
+    "serie",  # codespell:ignore serie
     "series",
     "server",
     "servers",

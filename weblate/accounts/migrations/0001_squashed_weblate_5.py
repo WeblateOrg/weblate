@@ -425,7 +425,7 @@ class Migration(migrations.Migration):
                             ),
                             ("LockNotification", "Component was locked or unlocked"),
                             ("LicenseNotification", "License was changed"),
-                            ("ParseErrorNotification", "Parse error occured"),
+                            ("ParseErrorNotification", "Parse error occurred"),
                             (
                                 "NewStringNotificaton",
                                 "New string is available for translation",

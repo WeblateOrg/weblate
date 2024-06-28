@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-# This file is maintained in https://github.com/WeblateOrg/meta/
 name: pylint check
 
 on:
@@ -22,21 +21,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/pip
-          ~/.cache/pre-commit
-        key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip wheel
-        pip install -r requirements-lint.txt
-
+        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        uv pip install --system $(sed -n 's/.*"\(pylint==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: Add pylint annotator
       uses: pr-annotators/pylint-pr-annotator@v0.0.1
 

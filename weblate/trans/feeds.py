@@ -32,7 +32,7 @@ class ChangesFeed(Feed):
         return reverse("home")
 
     def items(self, obj):
-        return Change.objects.last_changes(obj)[:10].preload()
+        return Change.objects.last_changes(obj).recent()
 
     def item_title(self, item):
         return item.get_action_display()
@@ -67,7 +67,7 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return obj.change_set.prefetch().order()[:10]
+        return obj.change_set.prefetch().recent(skip_preload="translation")
 
 
 class LanguageChangesFeed(TranslationChangesFeed):

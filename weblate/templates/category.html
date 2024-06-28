@@ -38,6 +38,9 @@
           {% if last_announcements %}
           <li><a href="#announcement-history" data-toggle="tab">{% trans "Announcements" %}</a></li>
           {% endif %}
+          {% if user.is_authenticated %}
+              <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
+          {% endif %}
         </ul>
     </li>
     <li class="dropdown">
@@ -75,7 +78,9 @@
             <li><a href="#add-category" data-toggle="tab">{% trans "Add new category" %}</a></li>
           {% endif %}
           <li><a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a></li>
-
+          {% if announcement_form %}
+            <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
+          {% endif %}
         {% if delete_form or rename_form %}
         <li role="separator" class="divider"></li>
         <li><a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a></li>
@@ -212,6 +217,77 @@
 {% include "trans/delete-form.html" %}
 {% endif %}
 
+</div>
+{% endif %}
+
+{% if announcement_form %}
+  <div class="tab-pane" id="announcement">
+    <form action="{% url 'announcement' path=object.get_url_path %}" method="post">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">
+          {% documentation_icon 'admin/announcements' right=True %}
+          {% trans "Post announcement" %}
+        </h4></div>
+        <div class="panel-body">
+          {% csrf_token %}
+          {{ announcement_form|crispy }}
+          <p
+            class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  </div>
+{% endif %}
+
+{% if user.is_authenticated %}
+<div class="tab-pane" id="reports">
+  {% if not user_can_view_reports %}
+    {% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+    {% show_message "warning" msg %}
+  {% endif %}
+  <div class="row">
+    <div class="col-lg-6">
+      <form action="{% url 'credits' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              {% documentation_icon 'devel/reporting' 'credits' right=True %}
+              {% trans "Credits" %}
+            </h4>
+          </div>
+          <div class="panel-body">
+            <p>{% trans "Lists all translators contributing to this project in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}</p>
+            {% crispy reports_form %}
+          </div>
+          <div class="panel-footer">
+            <input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-6">
+      <form action="{% url 'counts' path=object.get_url_path %}" method="post" enctype="multipart/form-data">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              {% documentation_icon 'devel/reporting' 'stats' right=True %}
+              {% trans "Contributor stats" %}
+            </h4>
+          </div>
+          <div class="panel-body">
+            <p>{% trans "Reports the number of strings and words translated by each translator." %}</p>
+            {% crispy reports_form %}
+          </div>
+          <div class="panel-footer">
+            <input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {% endif %}
 

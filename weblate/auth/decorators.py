@@ -8,7 +8,7 @@ from django.core.exceptions import PermissionDenied
 
 
 def management_access(view):
-    """Decorator that checks management access."""
+    """Check management access decorator."""
 
     @wraps(view)
     def wrapper(request, *args, **kwargs):

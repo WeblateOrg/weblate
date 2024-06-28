@@ -13,7 +13,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.lang.models import Language
 
 
-class AnnouncementManager(models.Manager):
+class AnnouncementManager(models.Manager["Announcement"]):
     def context_filter(self, project=None, component=None, language=None):
         """Filter announcements by context."""
         base = self.filter(
@@ -51,7 +51,9 @@ class AnnouncementManager(models.Manager):
         Change.objects.create(
             action=Change.ACTION_ANNOUNCEMENT,
             project=result.project,
+            category=result.category,
             component=result.component,
+            language=result.language,
             announcement=result,
             target=result.message,
             user=user,
@@ -70,14 +72,21 @@ class Announcement(models.Model):
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
     project = models.ForeignKey(
-        "Project",
+        "trans.Project",
         verbose_name=gettext_lazy("Project"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
+    category = models.ForeignKey(
+        "trans.Category",
+        verbose_name=gettext_lazy("Category"),
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
+    )
     component = models.ForeignKey(
-        "Component",
+        "trans.Component",
         verbose_name=gettext_lazy("Component"),
         null=True,
         blank=True,
@@ -90,10 +99,10 @@ class Announcement(models.Model):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    category = models.CharField(
+    severity = models.CharField(
         max_length=25,
-        verbose_name=gettext_lazy("Category"),
-        help_text=gettext_lazy("Category defines color used for the message."),
+        verbose_name=gettext_lazy("Severity"),
+        help_text=gettext_lazy("Severity defines color used for the message."),
         choices=(
             ("info", gettext_lazy("Info (light blue)")),
             ("warning", gettext_lazy("Warning (yellow)")),
@@ -117,6 +126,7 @@ class Announcement(models.Model):
         blank=True,
         default=True,
         verbose_name=gettext_lazy("Notify users"),
+        help_text=gettext_lazy("Send notification to subscribed users."),
     )
 
     objects = AnnouncementManager.from_queryset(AnnouncementQuerySet)()
@@ -126,10 +136,10 @@ class Announcement(models.Model):
         verbose_name = "Announcement"
         verbose_name_plural = "Announcements"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.message
 
-    def clean(self):
+    def clean(self) -> None:
         if self.project and self.component and self.component.project != self.project:
             raise ValidationError(gettext("Do not specify both component and project!"))
         if not self.project and self.component:

@@ -12,7 +12,7 @@ from weblate.utils.celery import app
 
 
 @app.task(trail=False)
-def cleanup_screenshot_files():
+def cleanup_screenshot_files() -> None:
     """Remove stale screenshots."""
     storage = DefaultStorage()
     try:
@@ -26,7 +26,7 @@ def cleanup_screenshot_files():
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
         crontab(hour=0, minute=35),
         cleanup_screenshot_files.s(),

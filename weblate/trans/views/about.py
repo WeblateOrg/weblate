@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import requests
+from django.core.cache import cache
 from django.db.models import Sum
 from django.utils.translation import gettext, gettext_lazy
 from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
 from weblate.metrics.models import Metric
+from weblate.utils.requests import request
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
@@ -17,13 +20,22 @@ MENU = (
     ("index", "about", gettext_lazy("About Weblate")),
     ("stats", "stats", gettext_lazy("Statistics")),
     ("keys", "keys", gettext_lazy("Keys")),
+    ("donate", "donate", gettext_lazy("Support Weblate")),
 )
+
+REPO_URL = "https://api.github.com/repos/WeblateOrg/weblate"
+ACTIVITY_URL = "https://api.github.com/repos/WeblateOrg/weblate/stats/commit_activity"
+FALLBACK_STATS = {
+    "stars": 4082,
+    "issues": 447,
+    "commits": 663,
+}
 
 
 class AboutView(TemplateView):
     page = "index"
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context.update(
             {
                 "title": gettext("About Weblate"),
@@ -49,7 +61,7 @@ class AboutView(TemplateView):
 class StatsView(AboutView):
     page = "stats"
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context["title"] = gettext("Weblate statistics")
 
         stats = GlobalStats()
@@ -77,7 +89,7 @@ class StatsView(AboutView):
 class KeysView(AboutView):
     page = "keys"
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context.update(
             {
                 "title": gettext("Weblate keys"),
@@ -87,3 +99,33 @@ class KeysView(AboutView):
                 "allow_index": True,
             }
         )
+
+
+class DonateView(AboutView):
+    page = "donate"
+    cache_key = "weblate-repo-stats"
+
+    def fetch_url(self, url: str):
+        response = request("get", url)
+        return response.json()
+
+    def get_stats(self) -> dict[str, int]:
+        result = cache.get(self.cache_key)
+        if result is None:
+            try:
+                repo = self.fetch_url(REPO_URL)
+                activity = self.fetch_url(ACTIVITY_URL)
+            except requests.exceptions.RequestException:
+                return FALLBACK_STATS
+            activity = sorted(activity, key=lambda item: -item["week"])
+            result = {
+                "stars": repo["stargazers_count"],
+                "issues": repo["open_issues_count"],
+                "commits": sum(item["total"] for item in activity[:8]),
+            }
+            cache.set(self.cache_key, result, 24 * 3600)
+        return result
+
+    def page_context(self, context):
+        context["title"] = gettext("Support Weblate")
+        context.update(self.get_stats())
