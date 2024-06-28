@@ -8,23 +8,18 @@ import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
-from weblate.addons.events import (
-    EVENT_COMPONENT_UPDATE,
-    EVENT_DAILY,
-    EVENT_POST_COMMIT,
-    EVENT_POST_PUSH,
-    EVENT_POST_UPDATE,
-    EVENT_STORE_POST_LOAD,
-)
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.addons.tasks import postconfigure_addon
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -32,30 +27,40 @@ from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
+    from weblate.addons.models import Addon
+    from weblate.auth.models import User
+    from weblate.formats.base import TranslationFormat
+    from weblate.trans.models import Project, Translation, Unit
+
 
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: tuple[int, ...] = ()
-    settings_form = None
+    events: tuple[AddonEvent, ...] = ()
+    settings_form: None | type[BaseAddonForm] = None
     name = ""
-    compat = {}
+    compat: dict[str, set[str | bool]] = {}
     multiple = False
-    verbose = "Base add-on"
-    description = "Base add-on"
+    verbose: StrOrPromise = "Base add-on"
+    description: StrOrPromise = "Base add-on"
     icon = "cog.svg"
     project_scope = False
     repo_scope = False
+    needs_component = False
     has_summary = False
-    alert: str | None = None
+    alert: str = ""
     trigger_update = False
     stay_on_create = False
     user_name = ""
     user_verbose = ""
 
-    def __init__(self, storage=None):
-        self.instance = storage
-        self.alerts = []
+    def __init__(self, storage: Addon) -> None:
+        self.instance: Addon = storage
+        self.alerts: list[dict[str, str]] = []
+        self.extra_files: list[str] = []
 
     @cached_property
     def doc_anchor(self):
@@ -74,31 +79,64 @@ class BaseAddon:
         return cls.name
 
     @classmethod
-    def create_object(cls, component, **kwargs):
+    def create_object(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        acting_user: User | None = None,
+        **kwargs,
+    ):
         from weblate.addons.models import Addon
 
-        result = Addon(component=component, name=cls.name, **kwargs)
+        result = Addon(
+            project=project,
+            component=component,
+            name=cls.name,
+            acting_user=acting_user,
+            **kwargs,
+        )
+
         result.addon_class = cls
         return result
 
     @classmethod
-    def create(cls, component, run: bool = True, **kwargs):
-        storage = cls.create_object(component, **kwargs)
+    def create(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        run: bool = True,
+        acting_user: User | None = None,
+        **kwargs,
+    ):
+        storage = cls.create_object(
+            component=component, project=project, acting_user=acting_user, **kwargs
+        )
         storage.save(force_insert=True)
         result = cls(storage)
         result.post_configure(run=run)
         return result
 
     @classmethod
-    def get_add_form(cls, user, component, **kwargs):
+    def get_add_form(
+        cls,
+        user: User | None,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        **kwargs,
+    ):
         """Return configuration form for adding new add-on."""
         if cls.settings_form is None:
             return None
-        storage = cls.create_object(component)
+        storage = cls.create_object(
+            component=component, project=project, acting_user=user
+        )
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
 
-    def get_settings_form(self, user, **kwargs):
+    def get_settings_form(self, user: User | None, **kwargs):
         """Return configuration form for this add-on."""
         if self.settings_form is None:
             return None
@@ -109,17 +147,16 @@ class BaseAddon:
     def get_ui_form(self):
         return self.get_settings_form(None)
 
-    def configure(self, configuration):
+    def configure(self, configuration) -> None:
         """Save configuration."""
         self.instance.configuration = configuration
         self.instance.save()
         self.post_configure()
 
-    def post_configure(self, run: bool = True):
-        component = self.instance.component
+    def post_configure(self, run: bool = True) -> None:
+        self.instance.log_debug("configuring events for %s add-on", self.name)
 
         # Configure events to current status
-        component.log_debug("configuring events for %s add-on", self.name)
         self.instance.configure_events(self.events)
 
         if run:
@@ -128,28 +165,35 @@ class BaseAddon:
             else:
                 postconfigure_addon.delay(self.instance.pk)
 
-    def post_configure_run(self):
+    def post_configure_run(self) -> None:
         # Trigger post events to ensure direct processing
-        component = self.instance.component
-        if self.repo_scope and component.linked_component:
-            component = component.linked_component
+        if component := self.instance.component:
+            if self.repo_scope and component.linked_component:
+                component = component.linked_component
+            self.post_configure_run_component(component)
 
+        if project := self.instance.project:
+            for component in project.component_set.iterator():
+                self.post_configure_run_component(component)
+
+    def post_configure_run_component(self, component) -> None:
+        # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
 
-        if EVENT_POST_COMMIT in self.events:
+        if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
             self.post_commit(component)
-        if EVENT_POST_UPDATE in self.events:
+        if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
-            self.post_update(component, "", False)
-        if EVENT_COMPONENT_UPDATE in self.events:
+            self.post_update(component, "", False, False)
+        if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
             self.component_update(component)
-        if EVENT_POST_PUSH in self.events:
+        if AddonEvent.EVENT_POST_PUSH in self.events:
             component.log_debug("running post_push add-on: %s", self.name)
             self.post_push(component)
-        if EVENT_DAILY in self.events:
+        if AddonEvent.EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
             self.daily(component)
 
@@ -160,35 +204,37 @@ class BaseAddon:
             )
             component.create_translations()
 
-    def post_uninstall(self):
+    def post_uninstall(self) -> None:
         pass
 
-    def save_state(self):
+    def save_state(self) -> None:
         """Save add-on state information."""
         self.instance.save(update_fields=["state"])
 
     @classmethod
-    def can_install(cls, component, user):  # noqa: ARG003
+    def can_install(cls, component: Component, user: User | None):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
             getattr(component, key) in values for key, values in cls.compat.items()
         )
 
-    def pre_push(self, component):
-        """Hook triggered before repository is pushed upstream."""
+    def pre_push(self, component: Component) -> None:
+        """Event handler before repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def post_push(self, component):
-        """Hook triggered after repository is pushed upstream."""
+    def post_push(self, component: Component) -> None:
+        """Event handler after repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def pre_update(self, component):
-        """Hook triggered before repository is updated from upstream."""
+    def pre_update(self, component: Component) -> None:
+        """Event handler before repository is updated from upstream."""
         # To be implemented in a subclass
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(
+        self, component: Component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         """
-        Hook triggered after repository is updated from upstream.
+        Event handler after repository is updated from upstream.
 
         :param str previous_head: HEAD of the repository prior to update, can
                                   be blank on initial clone.
@@ -199,25 +245,25 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def pre_commit(self, translation, author):
-        """Hook triggered before changes are committed to the repository."""
+    def pre_commit(self, translation: Translation, author: User) -> None:
+        """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_commit(self, component):
-        """Hook triggered after changes are committed to the repository."""
+    def post_commit(self, component: Component) -> None:
+        """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_add(self, translation):
-        """Hook triggered after new translation is added."""
+    def post_add(self, translation: Translation) -> None:
+        """Event handler after new translation is added."""
         # To be implemented in a subclass
 
-    def unit_pre_create(self, unit):
-        """Hook triggered before new unit is created."""
+    def unit_pre_create(self, unit: Unit) -> None:
+        """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def store_post_load(self, translation, store):
+    def store_post_load(self, translation: Unit, store: TranslationFormat) -> None:
         """
-        Hook triggered after a file is parsed.
+        Event handler after a file is parsed.
 
         It receives an instance of a file format class as a argument.
 
@@ -226,15 +272,17 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def daily(self, component):
-        """Hook triggered daily."""
+    def daily(self, component: Component) -> None:
+        """Event handler daily."""
         # To be implemented in a subclass
 
-    def component_update(self, component):
-        """Hook for component update."""
+    def component_update(self, component: Component) -> None:
+        """Event handler for component update."""
         # To be implemented in a subclass
 
-    def execute_process(self, component, cmd, env=None):
+    def execute_process(
+        self, component: Component, cmd: list[str], env: None | dict[str, str] = None
+    ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
             output = subprocess.check_output(
@@ -258,9 +306,9 @@ class BaseAddon:
                     "error": str(err),
                 }
             )
-            report_error(cause="Add-on script error", project=component.project)
+            report_error("Add-on script error", project=component.project)
 
-    def trigger_alerts(self, component):
+    def trigger_alerts(self, component: Component) -> None:
         if self.alerts:
             component.add_alert(self.alert, occurrences=self.alerts)
             self.alerts = []
@@ -268,7 +316,10 @@ class BaseAddon:
             component.delete_alert(self.alert)
 
     def commit_and_push(
-        self, component, files: list[str] | None = None, skip_push: bool = False
+        self,
+        component: Component,
+        files: list[str] | None = None,
+        skip_push: bool = False,
     ) -> bool:
         if files is None:
             files = list(
@@ -290,7 +341,7 @@ class BaseAddon:
             )
         return True
 
-    def render_repo_filename(self, template, translation):
+    def render_repo_filename(self, template: str, translation: Translation):
         component = translation.component
 
         # Render the template
@@ -322,10 +373,10 @@ class BaseAddon:
         return filename
 
     @classmethod
-    def pre_install(cls, component, request):
-        if cls.trigger_update:
-            perform_update.delay("Component", component.pk, auto=True)
-            if component.repo_needs_merge():
+    def pre_install(cls, obj: Component | Project | None, request) -> None:
+        if cls.trigger_update and isinstance(obj, Component):
+            perform_update.delay("Component", obj.pk, auto=True)
+            if obj.repo_needs_merge():
                 messages.warning(
                     request,
                     gettext(
@@ -365,22 +416,20 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events = (EVENT_POST_UPDATE,)
-
-    def __init__(self, storage=None):
-        super().__init__(storage)
-        self.extra_files = []
+    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_POST_UPDATE,)
 
     @staticmethod
-    def iterate_translations(component):
+    def iterate_translations(component: Component):
         for translation in component.translation_set.iterator():
             if not translation.is_source or component.intermediate:
                 yield translation
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component: Component, previous_head: str) -> None:
         raise NotImplementedError
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(
+        self, component: Component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with suppress(FileParseError):
             self.update_translations(component, previous_head)
@@ -398,17 +447,17 @@ class TestCrashAddon(UpdateBaseAddon):
     verbose = "Crash test add-on"
     description = "Crash test add-on"
 
-    def update_translations(self, component, previous_head):
+    def update_translations(self, component: Component, previous_head: str) -> None:
         if previous_head:
             raise TestError("Test error")
 
     @classmethod
-    def can_install(cls, component, user):  # noqa: ARG003
+    def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
         return False
 
 
 class StoreBaseAddon(BaseAddon):
     """Base class for add-ons tweaking store."""
 
-    events = (EVENT_STORE_POST_LOAD,)
+    events: tuple[AddonEvent, ...] = (AddonEvent.EVENT_STORE_POST_LOAD,)
     icon = "wrench.svg"

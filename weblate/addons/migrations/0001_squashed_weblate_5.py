@@ -73,16 +73,16 @@ class Migration(migrations.Migration):
                     "event",
                     models.IntegerField(
                         choices=[
-                            (10, "repository pre-push"),
                             (1, "repository post-push"),
-                            (9, "repository pre-update"),
                             (2, "repository post-update"),
                             (3, "repository pre-commit"),
                             (4, "repository post-commit"),
                             (5, "repository post-add"),
                             (6, "unit post-create"),
-                            (8, "unit post-save"),
                             (7, "storage post-load"),
+                            (8, "unit post-save"),
+                            (9, "repository pre-update"),
+                            (10, "repository pre-push"),
                             (11, "daily"),
                             (12, "component update"),
                         ]

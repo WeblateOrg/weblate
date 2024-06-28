@@ -39,7 +39,7 @@ def icon(name):
             with open(icon_file) as handle:
                 CACHE[name] = mark_safe(handle.read())  # noqa: S308
         except OSError:
-            report_error(cause="Could not load icon")
+            report_error("Could not load icon")
             return ""
 
     return CACHE[name]
@@ -50,6 +50,6 @@ def loading_icon(name=None, hidden=True):
     return format_html(
         SPIN,
         format_html('id="loading-{}"', name) if name else "",
-        format_html('style="display: none"') if hidden else "",
+        mark_safe('style="display: none"') if hidden else "",  # noqa: S308
         icon("loading.svg"),
     )

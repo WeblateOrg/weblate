@@ -7,8 +7,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.fluent.utils import (
@@ -109,8 +108,8 @@ class FluentPartsCheck(TargetCheck):
     """
 
     check_id = "fluent-parts"
-    name = _("Fluent parts")
-    description = _("Fluent parts should match")
+    name = gettext_lazy("Fluent parts")
+    description = gettext_lazy("Fluent parts should match")
     default_disabled = True
 
     @classmethod
@@ -145,9 +144,7 @@ class FluentPartsCheck(TargetCheck):
         target: str,
         unit: TransUnitModel,
     ) -> bool:
-        if self._compare_parts(unit, source, target):
-            return True
-        return False
+        return bool(self._compare_parts(unit, source, target))
 
     def check_highlight(
         self,

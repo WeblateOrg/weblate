@@ -8,8 +8,7 @@ import html
 import re
 from typing import TYPE_CHECKING
 
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
 from weblate.checks.fluent.utils import (
@@ -79,7 +78,7 @@ class _HTMLNode:
         return self.parent.matches(other.parent)
 
     def tags(self) -> tuple[str, str]:
-        """The start and end tags for this node."""
+        """Get the start and end tags for this node."""
         start = f"<{self.tag}"
         for attr, val in self.attributes.items():
             if '"' in val:
@@ -480,7 +479,7 @@ class _CountedNodes:
         return True
 
     def count(self, node: _HTMLNode) -> int:
-        """Returns how many nodes match the given node."""
+        """Count how many nodes match the given node."""
         for other_nodes in self.matching_nodes:
             if node.matches(other_nodes[0]):
                 return len(other_nodes)
@@ -515,7 +514,7 @@ class _VariantNodes:
         return self._counted_nodes
 
     def name(self) -> str:
-        """The name for this variant."""
+        """Generate name for this variant."""
         return variant_name(self.path)
 
 
@@ -621,7 +620,7 @@ class _FluentInnerHTMLCheck:
         """Parse an end tag, starting after the "</"."""
         end_tag_match = source.match(cls._END_TAG_REGEX)
         if not end_tag_match:
-            # May correspond to using a non-ASCII alpha-numeric value in the tag
+            # May correspond to using a non-ASCII alphanumeric value in the tag
             # name, which whilst technically allowed for HTML, is not allowed by
             # this check.
             #
@@ -940,8 +939,8 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     """
 
     check_id = "fluent-source-inner-html"
-    name = _("Fluent source inner HTML")
-    description = _("Fluent source should be valid inner HTML")
+    name = gettext_lazy("Fluent source inner HTML")
+    description = gettext_lazy("Fluent source should be valid inner HTML")
     default_disabled = True
 
     def check_source_unit(self, source: str, unit: TransUnitModel) -> bool:
@@ -952,7 +951,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
         return False
 
     def get_description(self, check_model: CheckModel) -> str:
-        unit, source, target = translation_from_check(check_model)
+        unit, source, _target = translation_from_check(check_model)
         try:
             self.get_fluent_inner_html(unit, source)
         except _HTMLParseError as err:
@@ -1157,7 +1156,7 @@ class _VariantNodesDifference:
             )
 
     def description(self) -> SafeString:
-        """A description of the differences between the source and target."""
+        """Generate a description of the differences between the source and target."""
         # We want to be able to compare each target variant against some common
         # set of expected nodes. This allows us to determine which specific
         # nodes are missing or extra.
@@ -1216,8 +1215,8 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
     # <a> element *including* the same "data-l10n-name" attribute and value.
 
     check_id = "fluent-target-inner-html"
-    name = _("Fluent translation inner HTML")
-    description = _("Fluent target should be valid inner HTML that matches")
+    name = gettext_lazy("Fluent translation inner HTML")
+    description = gettext_lazy("Fluent target should be valid inner HTML that matches")
     default_disabled = True
 
     @classmethod
@@ -1261,9 +1260,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
             difference = self._compare_inner_html(unit, source, target)
         except _HTMLParseError:
             return True
-        if difference:
-            return True
-        return False
+        return bool(difference)
 
     def get_description(self, check_model: CheckModel) -> str:
         unit, source, target = translation_from_check(check_model)

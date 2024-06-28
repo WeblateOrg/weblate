@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, PERMISSIONS, ROLES
+from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, GROUPS, PERMISSIONS, ROLES
 from weblate.utils.management.base import BaseCommand
 
-PERM_NAMES = {
+GROUP_NAMES = {
     "billing": "Billing (see :ref:`billing`)",
     "change": "Changes",
     "comment": "Comments",
@@ -24,11 +24,14 @@ PERM_NAMES = {
     "vcs": "VCS",
 }
 
+PERMISSION_NAMES = dict(GLOBAL_PERMISSIONS)
+PERMISSION_NAMES.update(PERMISSIONS)
+
 
 class Command(BaseCommand):
     help = "List permissions"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """List permissions."""
         self.stdout.write("Managing per-project access control\n\n")
 
@@ -46,7 +49,7 @@ class Command(BaseCommand):
             base = key.split(".")[0]
             if base != last:
                 if last:
-                    table.append((PERM_NAMES[last], rows))
+                    table.append((GROUP_NAMES[last], rows))
                 last = base
                 rows = []
 
@@ -54,11 +57,13 @@ class Command(BaseCommand):
                 (
                     name,
                     ", ".join(
-                        f"`{name}`" for name, permissions in ROLES if key in permissions
+                        f":guilabel:`{name}`"
+                        for name, permissions in ROLES
+                        if key in permissions
                     ),
                 )
             )
-        table.append((PERM_NAMES[last], rows))
+        table.append((GROUP_NAMES[last], rows))
 
         rows = [(name, "") for _key, name in GLOBAL_PERMISSIONS]
         table.append(("Site wide privileges", rows))
@@ -71,13 +76,29 @@ class Command(BaseCommand):
         blank_sep = f"+ {' ' * len_1} +-{'-' * len_2}-+-{'-' * len_3}-+"
         row = f"| {{:{len_1}}} | {{:{len_2}}} | {{:{len_3}}} |"
         self.stdout.write(sep)
-        self.stdout.write(row.format("Scope", "Permission", "Roles"))
+        self.stdout.write(row.format("Scope", "Permission", "Built-in roles"))
         self.stdout.write(sep.replace("-", "="))
         for scope, rows in table:
-            number = 0
-            for name, role in rows:
+            for number, (name, role) in enumerate(rows):
                 if number:
                     self.stdout.write(blank_sep)
                 self.stdout.write(row.format(scope if number == 0 else "", name, role))
-                number += 1
             self.stdout.write(sep)
+
+        for name, permissions in ROLES:
+            self.stdout.write(f"`{name}`")
+            self.stdout.write("    ", ending="")
+            self.stdout.write(
+                ", ".join(
+                    f":guilabel:`{PERMISSION_NAMES[perm]}`"
+                    for perm in sorted(permissions)
+                )
+            )
+
+        for name, roles, _selection in GROUPS:
+            self.stdout.write(f"`{name}`\n\n\n")
+            if not roles:
+                roles_str = "none"
+            else:
+                roles_str = ", ".join(f"`{role}`" for role in roles)
+            self.stdout.write(f"    Default roles: {roles_str}\n\n")

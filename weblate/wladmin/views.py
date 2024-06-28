@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import sys
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.conf import settings
@@ -32,8 +35,9 @@ from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
+from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
-from weblate.utils.checks import measure_cache_latency, measure_database_latency
+from weblate.utils.db import measure_database_latency
 from weblate.utils.errors import report_error
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
@@ -57,7 +61,10 @@ from weblate.wladmin.forms import (
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
 
-MENU = (
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
+MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),
     ("backups", "manage-backups", gettext_lazy("Backups")),
     ("memory", "manage-memory", gettext_lazy("Translation memory")),
@@ -70,6 +77,7 @@ MENU = (
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
     ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
+    ("addons", "manage-addons", gettext_lazy("Add-ons")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
@@ -96,9 +104,9 @@ def manage(request):
     )
 
 
-def send_test_mail(email):
+def send_test_mail(email) -> None:
     send_mail(
-        subject="Test e-mail from Weblate on %s" % timezone.now(),
+        subject=f"Test e-mail from Weblate on {timezone.now()}",
         message="It works.",
         recipient_list=[email],
         from_email=None,
@@ -125,7 +133,7 @@ def tools(request):
                 return redirect("manage-tools")
 
         if "sentry" in request.POST:
-            report_error(cause="Test message", message=True, level="info")
+            report_error("Test message", message=True, level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:
@@ -243,7 +251,7 @@ def backups(request):
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:  # noqa: R505
+        elif "remove" in request.POST:
             service = BackupService.objects.get(pk=request.POST["service"])
             service.delete()
             return redirect("manage-backups")
@@ -357,7 +365,7 @@ def ssh(request):
 
 @management_access
 def alerts(request):
-    """Shows component alerts."""
+    """Show component alerts."""
     context = {
         "alerts": Alert.objects.order_by(
             "name", "component__project__name", "component__name"

@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from operator import itemgetter
+from collections import defaultdict
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
-from weblate.trans.models import Change, Component, Project
+from weblate.trans.models import Category, Change, Component, Project
 from weblate.trans.util import count_words, redirect_param
 from weblate.utils.views import parse_path, show_form_errors
 
@@ -23,18 +23,26 @@ HTML_HEADING = "<table>\n<tr>{0}</tr>"
 
 
 def format_plaintext(format_string, *args, **kwargs):
-    """Same as `format_html` in syntax, but performs no escaping."""
+    """
+    Format a plain string.
+
+    Same as `format_html` in syntax, but performs no escaping.
+    """
     return format_string.format(*args, **kwargs)
 
 
 def format_plaintext_join(sep, format_string, args_generator):
-    """Same as `format_html_join` in syntax, but performs no escaping."""
+    """
+    Format a plain string with a list.
+
+    Same as `format_html_join` in syntax, but performs no escaping.
+    """
     return sep.join(format_plaintext(format_string, *args) for args in args_generator)
 
 
 def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
     """Generate credits data for given component."""
-    result = []
+    result = defaultdict(list)
 
     base = Change.objects.content()
     if user:
@@ -44,28 +52,30 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
     if language_code:
         languages = languages.filter(code=language_code)
 
-    for language in languages.distinct().iterator():
-        authors = base.filter(language=language, **kwargs).authors_list(
-            (start_date, end_date)
-        )
-        if not authors:
-            continue
-        result.append({language.name: sorted(authors, key=itemgetter(2))})
+    for *author, language in (
+        base.filter(language__in=languages, **kwargs)
+        .authors_list((start_date, end_date), values_list=("language__name",))
+        .order_by("language__name", "-change_count")
+    ):
+        result[language].append(tuple(author))
 
-    return result
+    return [{language: authors} for language, authors in result.items()]
 
 
 @login_required
 @require_POST
 def get_credits(request, path=None):
     """View for credits."""
-    obj = parse_path(request, path, (Component, Project, None))
+    obj = parse_path(request, path, (Component, Category, Project, None))
     if obj is None:
         kwargs = {"translation__isnull": False}
         scope = {}
     elif isinstance(obj, Project):
         kwargs = {"translation__component__project": obj}
         scope = {"project": obj}
+    elif isinstance(obj, Category):
+        kwargs = {"translation__component__category": obj}
+        scope = {"category": obj}
     else:
         kwargs = {"translation__component": obj}
         scope = {"component": obj}
@@ -78,8 +88,8 @@ def get_credits(request, path=None):
 
     data = generate_credits(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        form.cleaned_data["start_date"],
-        form.cleaned_data["end_date"],
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )
@@ -133,9 +143,8 @@ def get_credits(request, path=None):
     return HttpResponse(body, content_type=f"{mime}; charset=utf-8")
 
 
-COUNT_DEFAULTS = {
-    field: 0
-    for field in (
+COUNT_DEFAULTS = dict.fromkeys(
+    (
         "t_chars",
         "t_words",
         "chars",
@@ -160,8 +169,9 @@ COUNT_DEFAULTS = {
         "words_edit",
         "edits_edit",
         "count_edit",
-    )
-}
+    ),
+    0,
+)
 
 
 def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
@@ -189,7 +199,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
-        tgt_words = count_words(change.target)
+        tgt_words = count_words(change.target, change.language.base_code)
         edits = change.get_distance()
 
         current["chars"] += src_chars
@@ -215,11 +225,13 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
 @require_POST
 def get_counts(request, path=None):
     """View for work counts."""
-    obj = parse_path(request, path, (Component, Project, None))
+    obj = parse_path(request, path, (Component, Category, Project, None))
     if obj is None:
         kwargs = {}
     elif isinstance(obj, Project):
         kwargs = {"project": obj}
+    elif isinstance(obj, Category):
+        kwargs = {"category": obj}
     else:
         kwargs = {"component": obj}
 
@@ -231,8 +243,8 @@ def get_counts(request, path=None):
 
     data = generate_counts(
         None if request.user.has_perm("reports.view", obj) else request.user,
-        form.cleaned_data["start_date"],
-        form.cleaned_data["end_date"],
+        form.cleaned_data["period"]["start_date"],
+        form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
         **kwargs,
     )

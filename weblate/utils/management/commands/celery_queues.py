@@ -9,6 +9,6 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "display Celery queue status"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         for key, value in sorted(get_queue_stats().items()):
             self.stdout.write(f"{key}: {value}")

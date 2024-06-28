@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import Any
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
@@ -23,13 +23,37 @@ from weblate.utils.html import (
 )
 from weblate.utils.xml import parse_xml
 
+if TYPE_CHECKING:
+    from lxml.etree import _Element
+
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
 
 
 XML_MATCH = re.compile(r"<[^>]+>")
-XML_ENTITY_MATCH = re.compile(r"&#?\w+;")
+XML_ENTITY_MATCH = re.compile(
+    r"""
+    # Initial &
+    \&
+        (
+            # CharRef
+            \x23[0-9]+
+        |
+            # CharRef
+			\x23x[0-9a-fA-F]+
+        |
+            # EntityRef
+            # NameStartChar
+            [:A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u10000-\uEFFFF]
+            # NameChar
+            [0-9\xB7.:A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u10000-\uEFFFF\u0300-\u036F\u203F-\u2040-]*
+        )
+    # Closing ;
+    ;
+    """,
+    re.VERBOSE,
+)
 
 
 def strip_entities(text):
@@ -69,7 +93,7 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def detect_xml_wrapping(self, text: str) -> tuple[Any, bool]:
+    def detect_xml_wrapping(self, text: str) -> tuple[_Element, bool]:
         """Detect whether wrapping is desired."""
         try:
             return self.parse_xml(text, True), True
@@ -83,14 +107,14 @@ class BaseXMLCheck(TargetCheck):
             return False
         return True
 
-    def parse_xml(self, text: str, wrap: bool) -> Any:
-        """Wrapper for parsing XML."""
+    def parse_xml(self, text: str, wrap: bool) -> _Element:
+        """Parse XML."""
         text = strip_entities(text)
         if wrap:
             text = f"<weblate>{text}</weblate>"
         return parse_xml(text.encode() if "encoding" in text else text)
 
-    def should_skip(self, unit):
+    def should_skip(self, unit) -> bool:
         if super().should_skip(unit):
             return True
 
@@ -113,7 +137,7 @@ class BaseXMLCheck(TargetCheck):
         # Actually verify XML parsing
         return not all(self.can_parse_xml(source) for source in sources)
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
@@ -125,7 +149,7 @@ class XMLValidityCheck(BaseXMLCheck):
     name = gettext_lazy("XML syntax")
     description = gettext_lazy("The translation is not valid XML")
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         # Check if source is XML
         try:
             wrap = self.detect_xml_wrapping(source)[1]
@@ -199,7 +223,7 @@ class XMLTagsCheck(BaseXMLCheck):
 class MarkdownBaseCheck(TargetCheck):
     default_disabled = True
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.enable_string = "md-text"
 
@@ -293,7 +317,7 @@ class URLCheck(TargetCheck):
     def validator(self):
         return URLValidator()
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         if not source:
             return False
         try:

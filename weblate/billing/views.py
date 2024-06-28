@@ -7,7 +7,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import Http404, HttpResponse
+from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -44,22 +44,24 @@ def download_invoice(request, pk):
     if not invoice.filename_valid:
         raise Http404(f"File {invoice.filename} does not exist!")
 
-    with open(invoice.full_filename, "rb") as handle:
-        data = handle.read()
-
-    response = HttpResponse(data, content_type="application/pdf")
-    response["Content-Disposition"] = f"attachment; filename={invoice.filename}"
-    response["Content-Length"] = len(data)
-
-    return response
+    return FileResponse(
+        open(invoice.full_filename, "rb"),  # noqa: SIM115
+        as_attachment=True,
+        filename=invoice.filename,
+        content_type="application/pdf",
+    )
 
 
-def handle_post(request, billing):
-    if "extend" in request.POST and request.user.is_superuser:
-        billing.state = Billing.STATE_TRIAL
-        billing.expiry = timezone.now() + timedelta(days=14)
-        billing.removal = None
-        billing.save(update_fields=["expiry", "removal", "state"])
+def handle_post(request, billing) -> None:
+    if "extend" in request.POST and request.user.has_perm("billing.manage"):
+        if billing.is_trial:
+            billing.state = Billing.STATE_TRIAL
+            billing.expiry = timezone.now() + timedelta(days=14)
+            billing.removal = None
+            billing.save(update_fields=["expiry", "removal", "state"])
+        elif billing.removal:
+            billing.removal = timezone.now() + timedelta(days=14)
+            billing.save(update_fields=["removal"])
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
             del billing.payment["recurring"]
@@ -68,7 +70,7 @@ def handle_post(request, billing):
         billing.state = Billing.STATE_TERMINATED
         billing.save()
     elif billing.valid_libre:
-        if "approve" in request.POST and request.user.is_superuser:
+        if "approve" in request.POST and request.user.has_perm("billing.manage"):
             billing.state = Billing.STATE_ACTIVE
             billing.plan = Plan.objects.get(slug="libre")
             billing.removal = None
@@ -104,7 +106,7 @@ def overview(request):
     billings = Billing.objects.for_user(request.user).prefetch_related(
         "plan", "projects", "invoice_set"
     )
-    if not request.user.is_superuser and len(billings) == 1:
+    if not request.user.has_perm("billing.manage") and len(billings) == 1:
         return redirect(billings[0])
     return render(
         request,

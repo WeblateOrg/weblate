@@ -4,11 +4,16 @@
 
 """Celery integration helper tools."""
 
+from __future__ import annotations
+
 import os
+import time
+from collections import defaultdict
 
 from celery import Celery
 from celery.signals import after_setup_logger, task_failure
 from django.conf import settings
+from django.core.cache import cache
 from django.core.checks import run_checks
 
 # set the default Django settings module for the 'celery' program.
@@ -27,12 +32,12 @@ app.autodiscover_tasks()
 
 
 @task_failure.connect
-def handle_task_failure(exception=None, **kwargs):
+def handle_task_failure(exception=None, **kwargs) -> None:
     from weblate.utils.errors import report_error
 
     report_error(
+        "Failure while executing task",
         extra_log=repr(kwargs),
-        cause="Failure while executing task",
         skip_sentry=True,
         print_tb=True,
         level="error",
@@ -40,7 +45,7 @@ def handle_task_failure(exception=None, **kwargs):
 
 
 @app.on_after_configure.connect
-def configure_error_handling(sender, **kargs):
+def configure_error_handling(sender, **kargs) -> None:
     """Rollbar and Sentry integration."""
     from weblate.utils.errors import init_error_collection
 
@@ -48,7 +53,7 @@ def configure_error_handling(sender, **kargs):
 
 
 @after_setup_logger.connect
-def show_failing_system_check(sender, logger, **kwargs):
+def show_failing_system_check(sender, logger, **kwargs) -> None:
     if settings.DEBUG:
         for check in run_checks(include_deployment_checks=True):
             # Skip silenced checks and Celery one
@@ -59,7 +64,7 @@ def show_failing_system_check(sender, logger, **kwargs):
 
 
 def get_queue_length(queue="celery"):
-    with app.connection_or_acquire() as conn:
+    with app.connection_or_acquire() as conn:  # types: ignore[attr-defined]
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
         ).message_count
@@ -79,26 +84,10 @@ def get_queue_stats():
     return {queue: get_queue_length(queue) for queue in get_queue_list()}
 
 
-def is_task_ready(task):
-    """
-    Workaround broken ready() for failed Celery results.
-
-    In case the task ends with an exception, the result tries to reconstruct
-    that. It can fail in case the exception can not be reconstructed using
-    data in args attribute.
-
-    See https://github.com/celery/celery/issues/5057
-    """
-    try:
-        return task.ready()
-    except TypeError:
-        return True
-
-
 def get_task_progress(task):
     """Return progress of a Celery task."""
     # Completed task
-    if is_task_ready(task):
+    if task.ready():
         return 100
     # In progress
     result = task.result
@@ -107,3 +96,51 @@ def get_task_progress(task):
 
     # Not yet started
     return 0
+
+
+def is_celery_queue_long():
+    """
+    Check whether celery queue is too long.
+
+    It does trigger if it is too long for at least one hour. This way peaks are
+    filtered out, and no warning need be issued for big operations (for example
+    site-wide autotranslation).
+    """
+    from weblate.trans.models import Translation
+
+    cache_key = "celery_queue_stats"
+    queues_data = cache.get(cache_key, {})
+
+    # Hours since epoch
+    current_hour = int(time.time() / 3600)
+    test_hour = current_hour - 1
+
+    # Fetch current stats
+    stats = get_queue_stats()
+
+    # Update counters
+    if current_hour not in queues_data:
+        # Delete stale items
+        for key in list(queues_data.keys()):
+            if key < test_hour:
+                del queues_data[key]
+        # Add current one
+        queues_data[current_hour] = stats
+
+        # Store to cache
+        cache.set(cache_key, queues_data, 7200)
+
+    # Do not fire if we do not have counts for two hours ago
+    if test_hour not in queues_data:
+        return False
+
+    # Check if any queue got bigger
+    base = queues_data[test_hour]
+    thresholds: dict[str, int] = defaultdict(lambda: 50)
+    # Set the limit to avoid trigger on auto-translating all components
+    # nightly.
+    thresholds["translate"] = max(1000, Translation.objects.count() // 30)
+    return any(
+        stat > thresholds[key] and base.get(key, 0) > thresholds[key]
+        for key, stat in stats.items()
+    )

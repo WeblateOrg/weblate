@@ -4,7 +4,7 @@
 
 from django.urls import reverse
 
-from weblate.machinery.base import InternalMachineTranslation
+from weblate.machinery.base import DownloadTranslations, InternalMachineTranslation
 from weblate.memory.models import Memory
 
 
@@ -23,7 +23,7 @@ class WeblateMemory(InternalMachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         for result in Memory.objects.lookup(
             source,
@@ -32,6 +32,7 @@ class WeblateMemory(InternalMachineTranslation):
             user,
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,
+            threshold=threshold,
         ):
             quality = self.comparer.similarity(text, result.source)
             if quality < threshold:

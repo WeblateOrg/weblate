@@ -5,7 +5,7 @@
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.events import AddonEvent
 
 
 class ExampleAddon(BaseAddon):
@@ -13,7 +13,7 @@ class ExampleAddon(BaseAddon):
     # matched against property of component
     compat = {"file_format": {"po", "po-mono"}}
     # List of events add-on should receive
-    events = (EVENT_PRE_COMMIT,)
+    events = (AddonEvent.EVENT_PRE_COMMIT,)
     # Add-on unique identifier
     name = "weblate.example.example"
     # Verbose name shown in the user interface
@@ -22,5 +22,5 @@ class ExampleAddon(BaseAddon):
     description = gettext_lazy("This add-on does nothing it is just an example.")
 
     # Callback to implement custom behavior
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation, author) -> None:
         return

@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import time
 from math import ceil
+from typing import Any
 
 import sentry_sdk
 from django.conf import settings
@@ -12,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models import Count, Q, Value
 from django.db.models.functions import MD5, Lower
 from django.http import (
     HttpResponse,
@@ -67,7 +70,7 @@ from weblate.utils.views import (
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
-def display_fixups(request, fixups):
+def display_fixups(request, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
@@ -76,9 +79,9 @@ def display_fixups(request, fixups):
 
 
 def get_other_units(unit):
-    """Returns other units to show while translating."""
+    """Return other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", description=unit.pk):
-        result = {
+        result: dict[str, Any] = {
             "total": 0,
             "skipped": False,
             "same": [],
@@ -120,13 +123,7 @@ def get_other_units(unit):
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
-            .annotate(
-                matches_current=Case(
-                    When(condition=match, then=1),
-                    default=0,
-                    output_field=IntegerField(),
-                )
-            )
+            .annotate(matches_current=Count("id", filter=match))
             .prefetch()
             .select_related("source_unit")
             .order_by("-matches_current")
@@ -204,7 +201,7 @@ def get_other_units(unit):
         return result
 
 
-def cleanup_session(session, delete_all: bool = False):
+def cleanup_session(session, delete_all: bool = False) -> None:
     """Delete old search results from session storage."""
     now = int(time.time())
     keys = list(session.keys())
@@ -319,7 +316,7 @@ def perform_suggestion(unit, form, request):
     return result
 
 
-def perform_translation(unit, form, request):
+def perform_translation(unit, form, request) -> bool:
     """Handle translation and stores it to a backend."""
     user = request.user
     profile = user.profile
@@ -478,10 +475,10 @@ def handle_revert(unit, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggest_permissions(request, mode, unit, suggestion):
+def check_suggest_permissions(request, mode, unit, suggestion) -> bool:
     """Check permission for suggestion handling."""
     user = request.user
-    if mode in ("accept", "accept_edit", "accept_approve"):
+    if mode in {"accept", "accept_edit", "accept_approve"}:
         if not user.has_perm("suggestion.accept", unit) or (
             mode == "accept_approve" and not user.has_perm("unit.review", unit)
         ):
@@ -489,13 +486,13 @@ def check_suggest_permissions(request, mode, unit, suggestion):
                 request, gettext("You do not have privilege to accept suggestions!")
             )
             return False
-    elif mode in ("delete", "spam"):
+    elif mode in {"delete", "spam"}:
         if not user.has_perm("suggestion.delete", suggestion):
             messages.error(
                 request, gettext("You do not have privilege to delete suggestions!")
             )
             return False
-    elif mode in ("upvote", "downvote") and not user.has_perm("suggestion.vote", unit):
+    elif mode in {"upvote", "downvote"} and not user.has_perm("suggestion.vote", unit):
         messages.error(
             request, gettext("You do not have privilege to vote for suggestions!")
         )
@@ -566,8 +563,8 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 
 @transaction.atomic
-def translate(request, path):  # noqa: C901
-    """Generic entry point for translating, suggesting and searching."""
+def translate(request, path):
+    """Translate, suggest and search view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
@@ -691,7 +688,6 @@ def translate(request, path):  # noqa: C901
             "offset": offset,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
-            "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
@@ -703,9 +699,9 @@ def translate(request, path):  # noqa: C901
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": unit.translation.component.locked,
-            "glossary": get_glossary_terms(unit),
+            "glossary": get_glossary_terms(unit, full=True),
             "addterm_form": TermForm(unit, user),
-            "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
+            "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order(),
@@ -786,7 +782,7 @@ def comment(request, pk):
 
     if form.is_valid():
         # Is this source or target comment?
-        if form.cleaned_data["scope"] in ("global", "report"):
+        if form.cleaned_data["scope"] in {"global", "report"}:
             scope = unit.source_unit
         # Create comment object
         Comment.objects.add(scope, request, form.cleaned_data["comment"])
@@ -888,7 +884,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
 
 
 def zen(request, path):
-    """Generic entry point for translating, suggesting and searching."""
+    """Zen mode view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
@@ -911,7 +907,6 @@ def zen(request, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
-            "filter_name": search_result["name"],
             "filter_count": len(search_result["ids"]),
             "sort_name": sort["name"],
             "sort_query": sort["query"],
@@ -985,7 +980,7 @@ def save_zen(request, path):
 
         translationsum = hash_to_checksum(unit.get_target_hash())
 
-    response = {
+    response: dict[str, Any] = {
         "messages": [],
         "state": "success",
         "translationsum": translationsum,
@@ -1077,14 +1072,13 @@ def browse(request, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "component": getattr(obj, "component", None),
+            "component": obj.component if isinstance(obj, Translation) else None,
             "units": units,
             "search_query": search_result["query"],
             "search_url": search_result["url"],
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,
-            "filter_name": search_result["name"],
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": base_unit_url + str(offset + 1)

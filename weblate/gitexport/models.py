@@ -35,14 +35,14 @@ def get_export_url(component: Component) -> str:
 
 @receiver(pre_save, sender=Component)
 @disable_for_loaddata
-def update_component_git_export(sender, instance, **kwargs):
+def update_component_git_export(sender, instance, **kwargs) -> None:
     if not instance.is_repo_link and instance.vcs in SUPPORTED_VCS:
         instance.git_export = get_export_url(instance)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
-def update_project_git_export(sender, instance, **kwargs):
+def update_project_git_export(sender, instance, **kwargs) -> None:
     for component in instance.component_set.iterator():
         if not component.is_repo_link and component.vcs in SUPPORTED_VCS:
             new_url = get_export_url(component)
@@ -51,7 +51,7 @@ def update_project_git_export(sender, instance, **kwargs):
                 component.save(update_fields=["git_export"])
 
 
-def update_all_components():
+def update_all_components() -> None:
     """Update git export URL for all components."""
     matching = (
         Component.objects.filter(vcs__in=SUPPORTED_VCS)

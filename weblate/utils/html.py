@@ -2,11 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 import nh3
+from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
+
+if TYPE_CHECKING:
+    from lxml.etree import ParserTarget
+else:
+    ParserTarget = object
 
 MD_LINK = re.compile(
     r"""
@@ -60,30 +69,33 @@ IGNORE = {"body", "html"}
 SANE_CHARS = re.compile("[\xa0]")
 
 
-class MarkupExtractor:
-    def __init__(self):
-        self.found_tags = set()
-        self.found_attributes = defaultdict(set)
+class MarkupExtractor(ParserTarget):
+    def __init__(self) -> None:
+        self.found_tags: set[str] = set()
+        self.found_attributes: dict[str, set[str]] = defaultdict(set)
 
-    def start(self, tag, attrs):
+    def start(self, tag: str, attrs: dict[str, str]) -> None:  # type: ignore[override]
         if tag in IGNORE:
             return
         self.found_tags.add(tag)
         self.found_attributes[tag].update(attrs.keys())
 
+    def close(self) -> None:
+        pass
 
-def extract_html_tags(text):
+
+def extract_html_tags(text) -> tuple[set[str], dict[str, set[str]]]:
     """Extract tags from text in a form suitable for HTML sanitization."""
     extractor = MarkupExtractor()
     parser = HTMLParser(collect_ids=False, target=extractor)
     parser.feed(text)
-    return {"tags": extractor.found_tags, "attributes": extractor.found_attributes}
+    return (extractor.found_tags, extractor.found_attributes)
 
 
 class HTMLSanitizer:
-    def __init__(self):
+    def __init__(self) -> None:
         self.current = 0
-        self.replacements = {}
+        self.replacements: dict[str, str] = {}
 
     def clean(self, text: str, source: str, flags) -> str:
         self.current = 0
@@ -91,9 +103,9 @@ class HTMLSanitizer:
 
         text = self.remove_special(text, flags)
 
-        source_tags = extract_html_tags(source)
+        tags, attributes = extract_html_tags(source)
 
-        text = nh3.clean(text, link_rel=None, **source_tags)
+        text = nh3.clean(text, link_rel=None, tags=tags, attributes=attributes)
 
         return self.add_back_special(text)
 
@@ -113,3 +125,29 @@ class HTMLSanitizer:
         for replacement, original in self.replacements.items():
             text = text.replace(replacement, original)
         return text
+
+
+# Map tags to open and closing text
+WEBLATE_TAGS = {
+    # Word diff syntax for text changes
+    "ins": ("{+", "+}"),
+    "del": ("[-", "-]"),
+}
+
+
+class HTML2Text(_HTML2Text):
+    def __init__(self, bodywidth: int = 78) -> None:
+        super().__init__(bodywidth=bodywidth)
+        # Use Unicode characters instead of their ascii pseudo-replacements
+        self.unicode_snob = True
+        #  Do not include any formatting for images
+        self.ignore_images = True
+        # Pad the cells to equal column width in tables
+        self.pad_tables = True
+
+    def handle_tag(self, tag: str, attrs: dict[str, str | None], start: bool) -> None:
+        # Special handling for certain tags
+        if tag in WEBLATE_TAGS:
+            self.o(WEBLATE_TAGS[tag][not start])
+            return
+        super().handle_tag(tag, attrs, start)

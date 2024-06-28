@@ -9,14 +9,14 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import RemoveForm, RemoveSuggestionForm
 from weblate.trans.models import Comment, Suggestion
 
 
 class RemovalAddon(BaseAddon):
     project_scope = True
-    events = (EVENT_DAILY,)
+    events = (AddonEvent.EVENT_DAILY,)
     settings_form = RemoveForm
     icon = "delete.svg"
 
@@ -24,7 +24,7 @@ class RemovalAddon(BaseAddon):
         age = self.instance.configuration["age"]
         return timezone.now() - timedelta(days=age)
 
-    def delete_older(self, objects, component):
+    def delete_older(self, objects, component) -> None:
         count = objects.filter(timestamp__lt=self.get_cutoff()).delete()[0]
         if count:
             component.invalidate_cache()
@@ -35,7 +35,7 @@ class RemoveComments(RemovalAddon):
     verbose = gettext_lazy("Stale comment removal")
     description = gettext_lazy("Set a timeframe for removal of comments.")
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         self.delete_older(
             Comment.objects.filter(
                 unit__translation__component__project=component.project
@@ -50,7 +50,7 @@ class RemoveSuggestions(RemovalAddon):
     description = gettext_lazy("Set a timeframe for removal of suggestions.")
     settings_form = RemoveSuggestionForm
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         self.delete_older(
             Suggestion.objects.filter(
                 unit__translation__component__project=component.project

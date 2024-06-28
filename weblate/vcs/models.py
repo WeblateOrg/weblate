@@ -24,6 +24,7 @@ class VCSConf(AppConf):
     )
     VCS_CLONE_DEPTH = 1
     VCS_API_DELAY = 10
+    VCS_FILE_PROTOCOL = False
 
     # GitHub username for sending pull requests
     GITHUB_CREDENTIALS = {}
@@ -50,9 +51,8 @@ class VCSConf(AppConf):
 
 
 class VcsClassLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("VCS_BACKENDS", False)
-        self.errors = {}
 
     def load_data(self):
         result = super().load_data()

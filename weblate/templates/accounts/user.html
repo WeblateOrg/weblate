@@ -157,7 +157,7 @@
     <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
   {% endif %}
   <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
-  <li><a data-toggle="tab" href="#groups">{% trans "Groups" %}</a></li>
+  <li><a data-toggle="tab" href="#groups">{% trans "Teams" %}</a></li>
   <li><a data-toggle="tab" href="#edit">{% trans "Edit" %}</a></li>
 {% endif %}
 </ul>
@@ -262,7 +262,7 @@
       <thead>
         <tr>
           <th>{% trans "Project" %}</th>
-          <th>{% trans "Group" %}</th>
+          <th>{% trans "Team" %}</th>
           <th class="number">{% trans "Members" %}</th>
           <th></th>
         </tr>
@@ -278,7 +278,7 @@
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user__count }}</td>
             <td>
-              <a href="" class="btn btn-link btn-xs red link-post" data-href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
+              <a href="" class="btn btn-link btn-xs red link-post" data-href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this team" %}">
                 {% icon 'delete.svg' %}
               </a>
             </td>

@@ -17,7 +17,7 @@ whenever :wladmin:`migrate` is executed, see
 :ref:`generic-upgrade-instructions`) the database of languages is updated to
 include all language definitions shipped in Weblate.
 
-This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
+This feature can be disabled using :setting:`UPDATE_LANGUAGES`. You can also
 enforce updating the database to match Weblate built-in data using
 :wladmin:`setuplang`.
 

@@ -4,6 +4,6 @@
   <em>{% trans "All languages" %}</em>
 {% else %}
   {% for language in group.languages.all %}
-    <span class="badge">{{ language }}</span>
+    <span class="badge" title="{{ language.code }}">{{ language }}</span>
   {% endfor %}
 {% endif %}

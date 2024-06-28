@@ -2,19 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from sys import exc_info
 from unittest import mock
 
 
-def immediate_on_commit(cls):
+def immediate_on_commit(cls) -> None:
     """
-    Wrapper to make transaction.on_commit execute immediately.
+    Execute transaction.on_commit immediately.
 
     This is alternative approach to TestCase.captureOnCommitCallbacks() which
     was implemented Django Ticket https://code.djangoproject.com/ticket/30457
     """
 
-    def handle_immediate_on_commit(func, using=None):
+    def handle_immediate_on_commit(func, using=None) -> None:
         func()
 
     # Context manager executing transaction.on_commit() hooks immediately
@@ -23,8 +22,8 @@ def immediate_on_commit(cls):
     cls.on_commit_mgr = mock.patch(
         "django.db.transaction.on_commit", side_effect=handle_immediate_on_commit
     )
-    cls.on_commit_mgr.__enter__()
+    cls.on_commit_mgr.start()
 
 
-def immediate_on_commit_leave(cls):
-    cls.on_commit_mgr.__exit__(*exc_info())
+def immediate_on_commit_leave(cls) -> None:
+    cls.on_commit_mgr.stop()

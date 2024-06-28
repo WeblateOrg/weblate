@@ -24,7 +24,7 @@ def get_akismet():
 
 
 def is_spam(text, request):
-    """Generic spam checker interface."""
+    """Check whether text is considered spam."""
     if not text:
         return False
     akismet = get_akismet()
@@ -45,12 +45,12 @@ def is_spam(text, request):
             report_error()
             return True
         if result:
-            report_error(cause="Akismet reported spam", level="info", message=True)
+            report_error("Akismet reported spam", level="info", message=True)
         return result == SpamStatus.DefiniteSpam
     return False
 
 
-def report_spam(text, user_ip, user_agent):
+def report_spam(text, user_ip, user_agent) -> None:
     akismet = get_akismet()
     if akismet is None:
         return

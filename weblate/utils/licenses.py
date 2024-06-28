@@ -19,7 +19,7 @@ def is_libre(name):
 
 
 def get_license_url(name):
-    return LICENSE_URLS.get(name, None)
+    return LICENSE_URLS.get(name)
 
 
 def get_license_name(name):

@@ -2158,11 +2158,13 @@ ul.legend li {
   color: rgb(213, 208, 199);
 }
 ins,
+ins .hlcheck,
 span.replacement {
   background-color: rgb(44, 122, 19);
   color: rgb(217, 211, 204);
 }
 del,
+del .hlcheck,
 span.replaced {
   color: rgb(217, 211, 204);
   background-color: rgb(143, 3, 3);
@@ -2658,4 +2660,31 @@ a.language:hover {
 .editor-wrap > .highlighted-output.disabled,
 .editor-wrap > .highlighted-output.readonly {
   background-color: inherit;
+}
+tbody.danger {
+  background-color: rgb(62, 24, 24);
+}
+tbody.warning {
+  background-color: rgb(64, 54, 7);
+}
+
+.daterangepicker {
+  color: rgb(217, 211, 204);
+  background-color: rgb(26, 29, 30);
+}
+
+.daterangepicker:after {
+  border-bottom: 6px solid rgb(26, 29, 30);
+}
+
+.daterangepicker td.in-range {
+  background-color: rgb(40, 43, 44);
+  color: rgb(217, 211, 204);
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+  background-color: rgb(18, 68, 55);
+  border-color: transparent;
+  color: #fff;
 }

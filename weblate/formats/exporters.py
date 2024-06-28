@@ -4,8 +4,11 @@
 
 """Exporter using translate-toolkit."""
 
+from __future__ import annotations
+
 import re
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -29,11 +32,16 @@ from weblate.formats.ttkit import TTKitFormat
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.site import get_site_url
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+    from translate.storage.base import TranslationStore
+
+
 # Map to remove control characters except newlines and tabs
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
 XML_REPLACE_CHARMAP = dict.fromkeys(
     chain(
-        (x for x in range(32) if x not in (9, 10, 13)),
+        (x for x in range(32) if x not in {9, 10, 13}),
         [0xFFFE, 0xFFFF],
         range(0xD800, 0xDFFF + 1),
     )
@@ -46,8 +54,9 @@ class BaseExporter:
     content_type = "text/plain"
     extension = "txt"
     name = ""
-    verbose = ""
+    verbose: StrOrPromise = ""
     set_id = False
+    storage_class: TranslationStore
 
     def __init__(
         self,
@@ -57,7 +66,7 @@ class BaseExporter:
         url=None,
         translation=None,
         fieldnames=None,
-    ):
+    ) -> None:
         self.translation = translation
         if translation is not None:
             self.plural = translation.plural
@@ -74,7 +83,7 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    def supports(translation):  # noqa: ARG004
+    def supports(translation) -> bool:  # noqa: ARG004
         return True
 
     @cached_property
@@ -99,13 +108,13 @@ class BaseExporter:
     def get_storage(self):
         return self.storage_class()
 
-    def add(self, unit, word):
+    def add(self, unit, word) -> None:
         unit.target = word
 
     def create_unit(self, source):
         return self.storage.UnitClass(source)
 
-    def add_units(self, units):
+    def add_units(self, units) -> None:
         for unit in units:
             self.add_unit(unit)
 
@@ -117,10 +126,10 @@ class BaseExporter:
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
-    def add_note(self, output, note: str, origin: str):
+    def add_note(self, output, note: str, origin: str) -> None:
         output.addnote(note, origin=origin)
 
-    def add_unit(self, unit):
+    def add_unit(self, unit) -> None:
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
@@ -149,13 +158,17 @@ class BaseExporter:
             self.add_note(output, note, origin="developer")
         # Comments
         for comment in unit.unresolved_comments:
-            self.add_note(output, comment.comment, origin="translator")
+            self.add_note(
+                output, self.string_filter(comment.comment), origin="translator"
+            )
         # Suggestions
         for suggestion in unit.suggestions:
             self.add_note(
                 output,
-                "Suggested in Weblate: {}".format(
-                    ", ".join(split_plural(suggestion.target))
+                self.string_filter(
+                    "Suggested in Weblate: {}".format(
+                        ", ".join(split_plural(suggestion.target))
+                    )
                 ),
                 origin="translator",
             )
@@ -169,7 +182,7 @@ class BaseExporter:
 
         self.storage.addunit(output)
 
-    def store_unit_state(self, output, unit):
+    def store_unit_state(self, output, unit) -> None:
         if unit.fuzzy:
             output.markfuzzy(True)
         if hasattr(output, "markapproved"):
@@ -202,7 +215,7 @@ class BaseExporter:
         """Return storage content."""
         return TTKitFormat.serialize(self.storage)
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         return
 
 
@@ -213,7 +226,7 @@ class PoExporter(BaseExporter):
     verbose = gettext_lazy("gettext PO")
     storage_class = pofile
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         for flag in flags.items():
             output.settypecomment(flags.format_flag(flag))
 
@@ -233,7 +246,7 @@ class PoExporter(BaseExporter):
         return store
 
 
-class XMLFilterMixin:
+class XMLFilterMixin(BaseExporter):
     def string_filter(self, text):
         return super().string_filter(text).translate(XML_REPLACE_CHARMAP)
 
@@ -247,7 +260,7 @@ class XMLExporter(XMLFilterMixin, BaseExporter):
             targetlanguage=self.language.code,
         )
 
-    def add(self, unit, word):
+    def add(self, unit, word) -> None:
         unit.settarget(word, self.language.code)
 
 
@@ -259,7 +272,7 @@ class PoXliffExporter(XMLExporter):
     verbose = gettext_lazy("XLIFF 1.1 with gettext extensions")
     storage_class = PoXliffFile
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         if flags.has_value("max-length"):
             output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
@@ -322,7 +335,7 @@ class MoExporter(PoExporter):
         url=None,
         translation=None,
         fieldnames=None,
-    ):
+    ) -> None:
         super().__init__(
             project=project,
             source_language=source_language,
@@ -343,13 +356,10 @@ class MoExporter(PoExporter):
                 except IndexError:
                     pass
 
-    def store_flags(self, output, flags):
+    def store_flags(self, output, flags) -> None:
         return
 
-    def add_unit(self, unit):
-        # We do not store untranslated units
-        if not unit.translated:
-            return
+    def add_unit(self, unit) -> None:
         # Parse properties from unit
         if self.monolingual:
             if self.use_context:
@@ -371,14 +381,19 @@ class MoExporter(PoExporter):
 
     @staticmethod
     def supports(translation):
-        return translation.component.file_format == "po"
+        return translation.component.file_format in {"po", "po-mono"}
 
 
 class CVSBaseExporter(BaseExporter):
     storage_class = csvfile
 
     def get_storage(self):
-        return self.storage_class(fieldnames=self.fieldnames)
+        storage = self.storage_class(fieldnames=self.fieldnames)
+        # Use Excel dialect instead of translate-toolkit "default" to avoid
+        # unnecessary escaping with backslash which later confuses our importer
+        # at it is typically used occasionally.
+        storage.dialect = "excel"
+        return storage
 
 
 class CSVExporter(CVSBaseExporter):
@@ -398,7 +413,7 @@ class CSVExporter(CVSBaseExporter):
 
         Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
         """
-        if text and text[0] in ("=", "+", "-", "@", "|", "%"):
+        if text and text[0] in {"=", "+", "-", "@", "|", "%"}:
             return "'{}'".format(text.replace("|", "\\|"))
         return text
 
@@ -449,12 +464,12 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
     extension = "xml"
     verbose = gettext_lazy("Android String Resource")
 
-    def add(self, unit, word):
+    def add(self, unit, word) -> None:
         # Need to have storage to handle plurals
         unit._store = self.storage
         super().add(unit, word)
 
-    def add_note(self, output, note: str, origin: str):
+    def add_note(self, output, note: str, origin: str) -> None:
         # Remove -- from the comment or - at the end as that is not
         # allowed inside XML comment
         note = DASHES.sub("-", note)

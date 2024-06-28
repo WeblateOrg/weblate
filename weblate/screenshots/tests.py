@@ -25,7 +25,7 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
 class ViewTest(TransactionsTestMixin, FixtureTestCase):
-    def test_list_empty(self):
+    def test_list_empty(self) -> None:
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")
 
@@ -43,24 +43,24 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
                 follow=True,
             )
 
-    def test_upload_denied(self):
+    def test_upload_denied(self) -> None:
         response = self.do_upload()
         self.assertEqual(response.status_code, 403)
 
-    def test_upload(self):
+    def test_upload(self) -> None:
         self.make_manager()
         response = self.do_upload()
         self.assertContains(response, "Obrazek")
         self.assertEqual(Screenshot.objects.count(), 1)
 
-    def test_upload_fail(self):
+    def test_upload_fail(self) -> None:
         self.make_manager()
         response = self.do_upload(name="")
         self.assertContains(response, "Could not upload screenshot")
         response = self.do_upload(image="")
         self.assertContains(response, "Could not upload screenshot")
 
-    def test_upload_source(self):
+    def test_upload_source(self) -> None:
         self.make_manager()
         source = self.component.source_translation.unit_set.all()[0]
         response = self.do_upload(source=source.pk)
@@ -70,12 +70,12 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(screenshot.name, "Obrazek")
         self.assertEqual(screenshot.units.count(), 1)
 
-    def test_upload_source_invalid(self):
+    def test_upload_source_invalid(self) -> None:
         self.make_manager()
         response = self.do_upload(source="wrong")
         self.assertContains(response, "Obrazek")
 
-    def test_edit(self):
+    def test_edit(self) -> None:
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
@@ -85,7 +85,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertContains(response, "Picture")
         self.assertEqual(Screenshot.objects.all()[0].name, "Picture")
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
@@ -98,7 +98,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
     def extract_pk(self, data):
         return int(data.split('data-pk="')[1].split('"')[0])
 
-    def test_source_manipulations(self):
+    def test_source_manipulations(self) -> None:
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
@@ -142,7 +142,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         )
         self.assertEqual(screenshot.units.count(), 0)
 
-    def test_ocr_backend(self):
+    def test_ocr_backend(self) -> None:
         # Extract strings
         with get_tesseract(Language.objects.get(code="en")) as api:
             result = list(ocr_get_strings(api, TEST_SCREENSHOT, 72))
@@ -159,7 +159,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
             matches, f"Could not find string in tesseract results: {result}"
         )
 
-    def test_ocr(self):
+    def test_ocr(self) -> None:
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
@@ -178,7 +178,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
             "OCR recognition not working, no recognized strings found",
         )
 
-    def test_translation_manipulations(self):
+    def test_translation_manipulations(self) -> None:
         self.make_manager()
         translation = self.component.translation_set.get(language_code="cs")
         self.do_upload(translation=translation.pk)
@@ -223,7 +223,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
 class ScreenshotVCSTest(APITestCase, RepoTestCase):
     """Test class for syncing vcs screenshots in weblate."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user = create_test_user()
         self.user.is_superuser = True
@@ -252,7 +252,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
                 temp_file.seek(0)
                 shot.image.save("test-update", File(temp_file))
 
-    def test_update_screenshots_from_repo(self):
+    def test_update_screenshots_from_repo(self) -> None:
         repository = self.component.repository
         last_revision = repository.last_revision
         existing_ss_size = Screenshot.objects.filter(
@@ -283,7 +283,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
         )[0].image.size
         self.assertNotEqual(existing_ss_size, updated_ss_size)
 
-    def test_add_screenshots_from_repo(self):
+    def test_add_screenshots_from_repo(self) -> None:
         repository = self.component.repository
         last_revision = repository.last_revision
 

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.machinery.base import MachineTranslation
+from .base import DownloadTranslations, MachineTranslation
 
 
 class DummyTranslation(MachineTranslation):
@@ -11,7 +11,11 @@ class DummyTranslation(MachineTranslation):
     name = "Dummy"
 
     def download_languages(self):
-        """Dummy translation supports just Czech language."""
+        """
+        List supported languages.
+
+        Dummy translation supports just Czech language.
+        """
         return ("en", "cs")
 
     def download_translations(
@@ -22,8 +26,12 @@ class DummyTranslation(MachineTranslation):
         unit,
         user,
         threshold: int = 75,
-    ):
-        """Dummy translation supports just single phrase."""
+    ) -> DownloadTranslations:
+        """
+        Download translations.
+
+        Dummy translation supports just few phrases.
+        """
         if source == "en" and text.strip() == "Hello, world!":
             yield {
                 "text": "Nazdar světe!",

@@ -15,7 +15,7 @@ CI_DATABASE = os.environ.get("CI_DATABASE", "")
 
 default_user = "weblate"
 default_name = "weblate"
-if CI_DATABASE in ("mysql", "mariadb"):
+if CI_DATABASE in {"mysql", "mariadb"}:
     DATABASES["default"]["ENGINE"] = "django.db.backends.mysql"
     default_user = "root"
     DATABASES["default"]["OPTIONS"] = {
@@ -68,6 +68,7 @@ CELERY_RESULT_BACKEND = None
 STATS_LAZY = True
 
 VCS_API_DELAY = 0
+VCS_FILE_PROTOCOL = True
 
 # Localize CDN addon
 LOCALIZE_CDN_URL = "https://cdn.example.com/"

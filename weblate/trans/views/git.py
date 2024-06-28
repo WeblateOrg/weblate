@@ -16,7 +16,7 @@ from weblate.utils.views import parse_path
 
 
 def execute_locked(request, obj, message, call, *args, **kwargs):
-    """Helper function to catch possible lock exception."""
+    """Wrap function call and gracefully handle possible lock exception."""
     try:
         result = call(*args, **kwargs)
         # With False the call is supposed to show errors on its own

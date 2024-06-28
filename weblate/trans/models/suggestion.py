@@ -22,16 +22,10 @@ from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
 
 
-class SuggestionManager(models.Manager):
-    def add(
-        self, unit, target: str | list | tuple, request, vote: bool = False, user=None
-    ):
+class SuggestionManager(models.Manager["Suggestion"]):
+    def add(self, unit, target: list[str], request, vote: bool = False, user=None):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
-
-        # Consolidate type
-        if not isinstance(target, (list, tuple)):
-            target = [target]
 
         # Apply fixups
         fixups = []
@@ -129,17 +123,19 @@ class Suggestion(models.Model, UserDisplayMixin):
         verbose_name = "string suggestion"
         verbose_name_plural = "string suggestions"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "suggestion for {} by {}".format(
             self.unit, self.user.username if self.user else "unknown"
         )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fixups = []
 
     @transaction.atomic
-    def accept(self, request, permission="suggestion.accept", state=STATE_TRANSLATED):
+    def accept(
+        self, request, permission="suggestion.accept", state=STATE_TRANSLATED
+    ) -> None:
         if not request.user.has_perm(permission, self.unit):
             messages.error(request, gettext("Could not accept suggestion!"))
             return
@@ -167,14 +163,13 @@ class Suggestion(models.Model, UserDisplayMixin):
         change=Change.ACTION_SUGGESTION_DELETE,
         is_spam: bool = False,
         rejection_reason: str = "",
-    ):
+    ) -> None:
         """Delete with logging change."""
         if is_spam and self.userdetails:
             report_spam(
                 self.userdetails["address"], self.userdetails["agent"], self.target
             )
-        Change.objects.create(
-            unit=self.unit,
+        self.unit.change_set.create(
             action=change,
             user=user,
             target=self.target,
@@ -192,7 +187,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
-    def add_vote(self, request, value):
+    def add_vote(self, request, value) -> None:
         """Add (or updates) vote for a suggestion."""
         if request is None or not request.user.is_authenticated:
             return
@@ -246,5 +241,5 @@ class Vote(models.Model):
         verbose_name = "suggestion vote"
         verbose_name_plural = "suggestion votes"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.value:+d} for {self.suggestion} by {self.user.username}"

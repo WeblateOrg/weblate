@@ -39,6 +39,9 @@
         {% endif %}
         <h5 class="list-group-item-heading">
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
+          {% if has_push_branch %}
+            {% blocktranslate count units=push_branch_outgoing_commits with count=push_branch_outgoing_commits|intcomma %}({{ count }} missing in the push branch){% plural %}({{ count }} missing in the push branch){% endblocktranslate %}
+          {% endif %}
         </h5>
         <p class="list-group-item-text">
           {{ push_label }}
@@ -123,6 +126,7 @@
         </h5>
         <p class="list-group-item-text">
           {% trans "Cleanup removes all files which are not tracked by the version control from the repository." %}
+          {% trans "It also removes stale branches which are not used by Weblate." %}
           {% trans "Use when there is some garbage left in the Weblate repository." %}
         </p>
       </li>

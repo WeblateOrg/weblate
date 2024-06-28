@@ -13,14 +13,14 @@ from weblate.trans.tests.utils import create_test_billing
 
 
 class SettingsTest(ViewTestCase):
-    def test_project_denied(self):
+    def test_project_denied(self) -> None:
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
-    def test_project(self):
+    def test_project(self) -> None:
         self.project.add_user(self.user, "Administration")
         self.project.component_set.update(license="MIT")
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})
@@ -34,7 +34,7 @@ class SettingsTest(ViewTestCase):
             Project.objects.get(pk=self.project.pk).web, "https://example.com/test/"
         )
 
-    def test_project_language_denied(self):
+    def test_project_language_denied(self) -> None:
         projlang = self.project.project_languages[self.translation.language]
         url = reverse("settings", kwargs={"path": projlang.get_url_path()})
         response = self.client.get(url)
@@ -42,7 +42,7 @@ class SettingsTest(ViewTestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
-    def test_project_language(self):
+    def test_project_language(self) -> None:
         projlang = self.project.project_languages[self.translation.language]
         self.assertIsNone(projlang.workflow_settings)
         self.project.add_user(self.user, "Administration")
@@ -72,7 +72,7 @@ class SettingsTest(ViewTestCase):
         )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
-    def test_change_access(self):
+    def test_change_access(self) -> None:
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})
 
@@ -109,14 +109,14 @@ class SettingsTest(ViewTestCase):
             project.change_set.filter(action=Change.ACTION_ACCESS_EDIT).exists()
         )
 
-    def test_component_denied(self):
+    def test_component_denied(self) -> None:
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
-    def test_component(self):
+    def test_component(self) -> None:
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
@@ -131,7 +131,7 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(component.license, "MIT")
         self.assertEqual(component.enforced_checks, ["same", "duplicate"])
 
-    def test_shared_component(self):
+    def test_shared_component(self) -> None:
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs=self.kw_component)
 

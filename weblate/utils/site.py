@@ -13,7 +13,7 @@ def get_site_domain():
     return settings.SITE_DOMAIN
 
 
-def get_site_url(url=""):
+def get_site_url(url="") -> str:
     """Return root url of current site with domain."""
     protocol = "https" if settings.ENABLE_HTTPS else "http"
     return f"{protocol}://{get_site_domain()}{url}"

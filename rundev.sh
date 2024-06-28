@@ -24,7 +24,9 @@ cd dev-docker/
 build() {
     mkdir -p data
     # Build single requirements file
-    sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
+    sed -n 's/^  "\([][a-zA-Z._0-9-]\+[<>=].*\)".*/\1/p' ../pyproject.toml > weblate-dev/requirements.txt
+    # Fetch up-to-date base docker image
+    docker pull weblate/weblate:bleeding
     # Build the container
     docker compose build --build-arg USER_ID="$(id -u)" --build-arg GROUP_ID="$(id -g)"
 
@@ -42,7 +44,7 @@ case $1 in
         ;;
     test)
         shift
-        docker compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate test --noinput "$@"
+        docker compose exec -T -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal -e WEBLATE_VCS_FILE_PROTOCOL=1 -e WEBLATE_VCS_API_DELAY=0 weblate weblate test --noinput "$@"
         ;;
     check)
         shift

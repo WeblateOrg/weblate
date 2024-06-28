@@ -6,20 +6,10 @@ Access control
 Weblate comes with a fine-grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
 
-.. _access-simple:
-
-Simple access control
----------------------
-
-If you are not administrating the whole Weblate installation and just have
-access to manage certain projects (like on `Hosted Weblate <https://hosted.weblate.org/>`_),
-your access control management options are limited to following settings.
-If you don’t need any complex setup, those are sufficient for you.
-
 .. _acl:
 
 Project access control
-++++++++++++++++++++++
+----------------------
 
 .. note::
 
@@ -28,7 +18,7 @@ Project access control
     access to your project.
 
 You can limit user’s access to individual projects by selecting a different
-:guilabel:`Access control` setting. Available options are:
+:ref:`project-access_control` setting. Available options are:
 
 :guilabel:`Public`
    Visible to everybody.
@@ -95,7 +85,7 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 .. _manage-acl:
 
 Managing per-project access control
-+++++++++++++++++++++++++++++++++++
+-----------------------------------
 
 Users with the :guilabel:`Manage project access` privilege (see
 :ref:`privileges`) can manage users in projects via adding them to the teams.
@@ -150,7 +140,7 @@ These features are available on the :guilabel:`Access control` page, which can b
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
 Team administrators
-^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++
 
 .. versionadded:: 4.15
 
@@ -159,8 +149,8 @@ team. This is useful in case you want to build self-governed teams.
 
 .. _invite-user:
 
-New user invitation
-^^^^^^^^^^^^^^^^^^^
+Inviting new users
+++++++++++++++++++
 
 Adding existing users will send them invitation to confirm. With
 :setting:`REGISTRATION_OPEN` the administrator can also invite new users using
@@ -187,7 +177,7 @@ The same kind of invitations are available site-wide from the
 .. _block-user:
 
 Blocking users
-^^^^^^^^^^^^^^
+++++++++++++++
 
 .. versionadded:: 4.7
 
@@ -196,10 +186,11 @@ them from contributing. The blocked user still will be able to see the project
 if he has permissions for that, but he won't be able to contribute.
 
 Per-project permission management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++++++++++++++
 
-You can set your projects to `Protected` or `Private`, and
-:ref:`manage users <manage-acl>` per-project in the Weblate user interface.
+You can set your projects to :guilabel:`Protected` or :guilabel:`Private` (see
+:ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the Weblate
+user interface.
 
 By default this prevents Weblate from granting access provided by
 `Users` and `Viewers` :ref:`default teams <default-teams>` due to these teams’
@@ -214,8 +205,8 @@ team of the project.
 
 .. _custom-acl:
 
-Custom access control
----------------------
+Site-wide access control
+------------------------
 
 .. include:: /snippets/not-hosted.rst
 
@@ -223,25 +214,19 @@ The permission system is based on teams and roles, where roles define a set of
 permissions, and teams link them to users and translations, see
 :ref:`auth-model` for more details.
 
-The most powerful features of the Weblate’s access control system for now are
-available only through the :ref:`Django admin interface <admin-interface>`. You
-can use it to manage permissions of any project. You don’t necessarily have to
-switch it to `Custom` :ref:`access control <acl>` to utilize it. However
-you must have superuser privileges in order to use it.
+The most powerful features of the Weblate’s access control system can be configured
+in the :ref:`management-interface`. You can use it to manage permissions of any
+project. You don’t necessarily have to switch it to :guilabel:`Custom` :ref:`access
+control <acl>` to utilize it. However you must have superuser privileges in
+order to use it.
 
 If you are not interested in details of implementation, and just want to create a
 simple-enough configuration based on the defaults, or don’t have a site-wide access
 to the whole Weblate installation (like on `Hosted Weblate <https://hosted.weblate.org/>`_),
-please refer to the :ref:`access-simple` section.
-
-Common setups
-+++++++++++++
-
-This section contains an overview of some common configurations you may be
-interested in.
+please refer to the :ref:`manage-acl` section.
 
 Site-wide permission management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++++++++++++
 
 To manage permissions for a whole instance at once, add users to
 appropriate :ref:`default teams <default-teams>`:
@@ -267,7 +252,7 @@ appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
 Custom permissions for languages, components or projects
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 You can create your own dedicated teams to manage permissions for distinct
 objects such as languages, components, and projects. Although these teams can
@@ -319,7 +304,7 @@ delegate it to another user, unless granting superuser permissions.
 .. _auth-model:
 
 Users, roles, teams, and permissions
-++++++++++++++++++++++++++++++++++++
+------------------------------------
 
 The authentication models consist of several objects:
 
@@ -354,7 +339,7 @@ The authentication models consist of several objects:
   project by anyone is assumed (see below).
 
 Access for browse to a project
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++
 
 A user has to be a member of a team linked to the project, or any component
 inside that project. Having membership is enough, no specific permissions are
@@ -362,7 +347,7 @@ needed to browse the project (this is used in the default `Viewers` team, see
 :ref:`default-teams`).
 
 Access for browse to a component
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++++
 
 A user can access unrestricted components once able to access the components’
 project (and will have all the permissions the user was granted for the
@@ -372,7 +357,7 @@ requires explicit permissions for the component (or a component list the compone
 .. _perm-check:
 
 Scope of teams
-^^^^^^^^^^^^^^^
+++++++++++++++
 
 The scope of the permission assigned by the roles in the teams are applied by
 the following rules:
@@ -435,7 +420,7 @@ the following rules:
 .. _autoteam:
 
 Automatic team assignments
-+++++++++++++++++++++++++++
+--------------------------
 
 While editing the :guilabel:`Team`, you can specify
 :guilabel:`Automatic assignments`, which is a list of regular expressions
@@ -463,7 +448,7 @@ be accomplished with an expression like ``^.*@mycompany.com``.
     via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
 
 Default teams and roles
-++++++++++++++++++++++++
+-----------------------
 
 After installation, a default set of teams is created (see :ref:`default-teams`).
 
@@ -474,130 +459,131 @@ set of permissions.
 
 .. _privileges:
 
-List of privileges and built-in roles
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+List of privileges
+++++++++++++++++++
 
 ..
    Generated using ./manage.py list_permissions
 
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Scope                        | Permission                                | Roles                                                                                                                 |
-+==============================+===========================================+=======================================================================================================================+
-| Billing (see :ref:`billing`) | View billing info                         | `Administration`, `Billing`                                                                                           |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Changes                      | Download changes                          | `Administration`                                                                                                      |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Comments                     | Post comment                              | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Delete comment                            | `Administration`                                                                                                      |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Resolve comment                           | `Administration`, `Review strings`                                                                                    |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Component                    | Edit component settings                   | `Administration`                                                                                                      |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Lock component, preventing translations   | `Administration`                                                                                                      |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Glossary                     | Add glossary entry                        | `Administration`, `Manage glossary`, `Power user`                                                                     |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Edit glossary entry                       | `Administration`, `Manage glossary`, `Power user`                                                                     |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Delete glossary entry                     | `Administration`, `Manage glossary`, `Power user`                                                                     |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Upload glossary entries                   | `Administration`, `Manage glossary`, `Power user`                                                                     |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Automatic suggestions        | Use automatic suggestions                 | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Translation memory           | Edit translation memory                   | `Administration`, `Manage translation memory`                                                                         |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Delete translation memory                 | `Administration`, `Manage translation memory`                                                                         |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Projects                     | Edit project settings                     | `Administration`                                                                                                      |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage project access                     | `Administration`                                                                                                      |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Reports                      | Download reports                          | `Administration`                                                                                                      |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Screenshots                  | Add screenshot                            | `Administration`, `Manage screenshots`                                                                                |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Edit screenshot                           | `Administration`, `Manage screenshots`                                                                                |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Delete screenshot                         | `Administration`, `Manage screenshots`                                                                                |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Source strings               | Edit additional string info               | `Administration`, `Edit source`                                                                                       |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Strings                      | Add new string                            | `Administration`                                                                                                      |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Remove a string                           | `Administration`                                                                                                      |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Dismiss failing check                     | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Edit strings                              | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Review strings                            | `Administration`, `Review strings`                                                                                    |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Edit string when suggestions are enforced | `Administration`, `Review strings`                                                                                    |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Edit source strings                       | `Administration`, `Edit source`, `Power user`                                                                         |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Suggestions                  | Accept suggestion                         | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Add suggestion                            | `Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`                        |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Delete suggestion                         | `Administration`, `Power user`                                                                                        |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Vote on suggestion                        | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Translations                 | Add language for translation              | `Administration`, `Power user`, `Manage languages`                                                                    |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Perform automatic translation             | `Administration`, `Automatic translation`                                                                             |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Delete existing translation               | `Administration`, `Manage languages`                                                                                  |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Download translation file                 | `Administration`, `Edit source`, `Access repository`, `Power user`, `Review strings`, `Translate`, `Manage languages` |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Add several languages for translation     | `Administration`, `Manage languages`                                                                                  |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Uploads                      | Define author of uploaded translation     | `Administration`                                                                                                      |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Overwrite existing strings with upload    | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Upload translations                       | `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`                                          |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| VCS                          | Access the internal repository            | `Administration`, `Access repository`, `Power user`, `Manage repository`                                              |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Commit changes to the internal repository | `Administration`, `Manage repository`                                                                                 |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Push change from the internal repository  | `Administration`, `Manage repository`                                                                                 |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Reset changes in the internal repository  | `Administration`, `Manage repository`                                                                                 |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | View upstream repository location         | `Administration`, `Access repository`, `Power user`, `Manage repository`                                              |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Update the internal repository            | `Administration`, `Manage repository`                                                                                 |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-| Site wide privileges         | Use management interface                  |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Add new projects                          |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Add language definitions                  |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage language definitions               |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage teams                              |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage users                              |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage roles                              |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage announcements                      |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage translation memory                 |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage machinery                          |                                                                                                                       |
-+                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage component lists                    |                                                                                                                       |
-+------------------------------+-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Scope                        | Permission                                | Built-in roles                                                                                                                                                                              |
++==============================+===========================================+=============================================================================================================================================================================================+
+| Billing (see :ref:`billing`) | View billing info                         | :guilabel:`Administration`, :guilabel:`Billing`                                                                                                                                             |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Changes                      | Download changes                          | :guilabel:`Administration`                                                                                                                                                                  |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Comments                     | Post comment                              | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Delete comment                            | :guilabel:`Administration`                                                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Resolve comment                           | :guilabel:`Administration`, :guilabel:`Review strings`                                                                                                                                      |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Component                    | Edit component settings                   | :guilabel:`Administration`                                                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Lock component, preventing translations   | :guilabel:`Administration`, :guilabel:`Manage repository`                                                                                                                                   |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Glossary                     | Add glossary entry                        | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Edit glossary entry                       | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Delete glossary entry                     | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Upload glossary entries                   | :guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power user`                                                                                                             |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Automatic suggestions        | Use automatic suggestions                 | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Translation memory           | Edit translation memory                   | :guilabel:`Administration`, :guilabel:`Manage translation memory`                                                                                                                           |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Delete translation memory                 | :guilabel:`Administration`, :guilabel:`Manage translation memory`                                                                                                                           |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Projects                     | Edit project settings                     | :guilabel:`Administration`                                                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage project access                     | :guilabel:`Administration`                                                                                                                                                                  |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Reports                      | Download reports                          | :guilabel:`Administration`                                                                                                                                                                  |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Screenshots                  | Add screenshot                            | :guilabel:`Administration`, :guilabel:`Manage screenshots`                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Edit screenshot                           | :guilabel:`Administration`, :guilabel:`Manage screenshots`                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Delete screenshot                         | :guilabel:`Administration`, :guilabel:`Manage screenshots`                                                                                                                                  |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Source strings               | Edit additional string info               | :guilabel:`Administration`, :guilabel:`Edit source`                                                                                                                                         |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Strings                      | Add new string                            | :guilabel:`Administration`                                                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Remove a string                           | :guilabel:`Administration`                                                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Dismiss failing check                     | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Edit strings                              | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Review strings                            | :guilabel:`Administration`, :guilabel:`Review strings`                                                                                                                                      |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Edit string when suggestions are enforced | :guilabel:`Administration`, :guilabel:`Review strings`                                                                                                                                      |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Edit source strings                       | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`                                                                                                                 |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Suggestions                  | Accept suggestion                         | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Add suggestion                            | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Delete suggestion                         | :guilabel:`Administration`, :guilabel:`Power user`                                                                                                                                          |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Vote on suggestion                        | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Translations                 | Add language for translation              | :guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage languages`                                                                                                            |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Perform automatic translation             | :guilabel:`Administration`, :guilabel:`Automatic translation`                                                                                                                               |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Delete existing translation               | :guilabel:`Administration`, :guilabel:`Manage languages`                                                                                                                                    |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Download translation file                 | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`, :guilabel:`Manage languages` |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Add several languages for translation     | :guilabel:`Administration`, :guilabel:`Manage languages`                                                                                                                                    |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Uploads                      | Define author of uploaded translation     | :guilabel:`Administration`                                                                                                                                                                  |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Overwrite existing strings with upload    | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Upload translations                       | :guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:`Translate`                                                              |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| VCS                          | Access the internal repository            | :guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power user`, :guilabel:`Manage repository`                                                                            |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Commit changes to the internal repository | :guilabel:`Administration`, :guilabel:`Manage repository`                                                                                                                                   |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Push change from the internal repository  | :guilabel:`Administration`, :guilabel:`Manage repository`                                                                                                                                   |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Reset changes in the internal repository  | :guilabel:`Administration`, :guilabel:`Manage repository`                                                                                                                                   |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | View upstream repository location         | :guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power user`, :guilabel:`Manage repository`                                                                            |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Update the internal repository            | :guilabel:`Administration`, :guilabel:`Manage repository`                                                                                                                                   |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Site wide privileges         | Use management interface                  |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Add new projects                          |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Add language definitions                  |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage language definitions               |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage teams                              |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage users                              |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage roles                              |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage announcements                      |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage translation memory                 |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage machinery                          |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage component lists                    |                                                                                                                                                                                             |
++                              +-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                              | Manage billing                            |                                                                                                                                                                                             |
++------------------------------+-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 .. note::
 
@@ -605,10 +591,47 @@ List of privileges and built-in roles
    powerful and quite close to superuser status. Most of them affect all projects
    in your Weblate installation.
 
+List of built-in roles
+++++++++++++++++++++++
+
+..
+   Generated using ./manage.py list_permissions
+
+`Administration`
+    :guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :guilabel:`Edit component settings`, :guilabel:`Lock component, preventing translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit project settings`, :guilabel:`Manage project access`, :guilabel:`Download reports`, :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit screenshot`, :guilabel:`Edit additional string info`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, :guilabel:`Add several languages for translation`, :guilabel:`Perform automatic translation`, :guilabel:`Delete existing translation`, :guilabel:`Download translation file`, :guilabel:`Add new string`, :guilabel:`Dismiss failing check`, :guilabel:`Remove a string`, :guilabel:`Edit strings`, :guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Edit source strings`, :guilabel:`Define author of uploaded translation`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`, :guilabel:`Access the internal repository`, :guilabel:`Commit changes to the internal repository`, :guilabel:`Push change from the internal repository`, :guilabel:`Reset changes in the internal repository`, :guilabel:`Update the internal repository`, :guilabel:`View upstream repository location`
+`Edit source`
+    :guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`Edit additional string info`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`
+`Add suggestion`
+     :guilabel:`Add suggestion`
+`Access repository`
+    :guilabel:`Download translation file`, :guilabel:`Access the internal repository`, :guilabel:`View upstream repository location`
+`Manage glossary`
+    :guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`
+`Power user`
+    :guilabel:`Post comment`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add language for translation`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Edit source strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`, :guilabel:`Access the internal repository`, :guilabel:`View upstream repository location`
+`Review strings`
+    :guilabel:`Post comment`, :guilabel:`Resolve comment`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Edit string when suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`
+`Translate`
+    :guilabel:`Post comment`, :guilabel:`Use automatic suggestions`, :guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Download translation file`, :guilabel:`Dismiss failing check`, :guilabel:`Edit strings`, :guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload translations`
+`Manage languages`
+    :guilabel:`Add language for translation`, :guilabel:`Add several languages for translation`, :guilabel:`Delete existing translation`, :guilabel:`Download translation file`
+`Automatic translation`
+     :guilabel:`Perform automatic translation`
+`Manage translation memory`
+     :guilabel:`Delete translation memory`, :guilabel:`Edit translation memory`
+`Manage screenshots`
+    :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :guilabel:`Edit screenshot`
+`Manage repository`
+    :guilabel:`Lock component, preventing translations`, :guilabel:`Access the internal repository`, :guilabel:`Commit changes to the internal repository`, :guilabel:`Push change from the internal repository`, :guilabel:`Reset changes in the internal repository`, :guilabel:`Update the internal repository`, :guilabel:`View upstream repository location`
+`Billing`
+     :guilabel:`View billing info`
+`Add new projects`
+     :guilabel:`Add new projects`
+
 .. _default-teams:
 
 List of teams
-^^^^^^^^^^^^^^
++++++++++++++
 
 The following teams are created upon installation (or after executing
 :wladmin:`setupgroups`) and you are free to modify them. The migration will,
@@ -650,6 +673,13 @@ however, re-create them if you delete or rename them.
     Group for administrators.
 
     Default roles: `Administration`
+
+`Project creators`
+    .. versionadded:: 5.1
+
+    Users who can create new projects.
+
+    Default roles: `Add new projects`
 
 .. warning::
 

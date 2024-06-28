@@ -8,7 +8,7 @@ from importlib.metadata import PackageNotFoundError, metadata
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
-from django.db import connection
+from django.db import DatabaseError, connection
 
 import weblate.utils.version
 from weblate.utils.db import using_postgresql
@@ -50,7 +50,7 @@ REQUIRES = [
     "hiredis",
     "sentry_sdk",
     "Cython",
-    "misaka",
+    "mistletoe",
     "GitPython",
     "borgbackup",
     "pyparsing",
@@ -89,8 +89,8 @@ def get_version_module(name, optional=False):
             f"Missing dependency {name}, please install using: pip install {name}"
         ) from exc
     url = package.get("Home-page")
-    if url is None:
-        for project_url in package.get_all("Project-URL"):
+    if url is None and (project_urls := package.get_all("Project-URL")):
+        for project_url in project_urls:
             name, current_url = project_url.split(",", 1)
             if name.lower().strip() == "homepage":
                 url = current_url.strip()
@@ -159,8 +159,8 @@ def get_db_version():
             with connection.cursor() as cursor:
                 cursor.execute("SHOW server_version")
                 version = cursor.fetchone()
-        except RuntimeError:
-            report_error(cause="PostgreSQL version check")
+        except (RuntimeError, DatabaseError):
+            report_error("PostgreSQL version check")
             return None
 
         return (
@@ -171,8 +171,8 @@ def get_db_version():
     try:
         with connection.cursor() as cursor:
             version = cursor.connection.get_server_info()
-    except RuntimeError:
-        report_error(cause="MySQL version check")
+    except (RuntimeError, DatabaseError):
+        report_error("MySQL version check")
         return None
     return (
         f"{connection.display_name} sever",
@@ -188,7 +188,7 @@ def get_cache_version():
         try:
             version = cache.client.get_client().info()["redis_version"]
         except RuntimeError:
-            report_error(cause="Redis version check")
+            report_error("Redis version check")
             return None
 
         return ("Redis server", "https://redis.io/", version)
@@ -197,7 +197,7 @@ def get_cache_version():
 
 
 def get_db_cache_version():
-    """Returns the list of all the Database and Cache version."""
+    """Return the list of all the Database and Cache version."""
     result = []
     cache_version = get_cache_version()
     if cache_version:

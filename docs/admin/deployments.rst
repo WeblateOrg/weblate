@@ -17,16 +17,6 @@ Third-party deployments for Weblate
    Following deployments are not developed or supported by Weblate team. Parts
    of the setup might vary from what is described in this documentation.
 
-Bitnami Weblate stack
----------------------
-
-Bitnami provides a Weblate stack for many platforms at
-<https://bitnami.com/stack/weblate>.
-
-.. seealso::
-
-   `Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/>`_
-
 Weblate Cloudron Package
 ------------------------
 

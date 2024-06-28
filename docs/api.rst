@@ -31,6 +31,11 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
     :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
+    :query page_size: Return the given number of items per request.
+                      The default is 50 and the maximum is 1000.
+                      For the `units` endpoints the default is 100 with
+                      a maximum of 10000. The default value is also
+                      configurable using the `PAGE_SIZE` setting.
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
     :reqheader Authorization: optional token to authenticate as
@@ -607,6 +612,28 @@ Groups
     :param component_list_id: The unique componentlist ID
     :type component_list_id: int
 
+.. http:post:: /api/groups/(int:id)/admins/
+
+    .. versionadded:: 5.5
+
+    Add user to team admins.
+
+    :param id: Group's ID
+    :type id: int
+    :form string user_id: The user's ID
+
+.. http:delete:: /api/groups/(int:id)/admins/(int:user_id)
+
+    .. versionadded:: 5.5
+
+    Delete user from team admins.
+
+    :param id: Group's ID
+    :type id: int
+    :param user_id: The user's ID
+    :type user_id: integer
+
+
 
 Roles
 +++++
@@ -872,6 +899,18 @@ Projects
     :param project: Project URL slug
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
+
+.. http:get:: /api/projects/(string:project)/file/
+
+    .. versionadded:: 5.5
+
+    Downloads all available translations associated with the project as an archive file using the requested format and language.
+
+    :param project: Project URL slug
+    :type project: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
+    :query string language_code: The language code to download; If not specified, all languages are included.
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -1195,10 +1234,12 @@ Components
     :>json string name: :ref:`component-name`
     :>json string slug: :ref:`component-slug`
     :>json string vcs: :ref:`component-vcs`
-    :>json string repo: :ref:`component-repo`
+    :>json string linked_component: component whose repository is linked via :ref:`internal-urls`
+    :>json string repo: :ref:`component-repo`, this is the actual repository URL even when :ref:`internal-urls` are used, use ``linked_component`` to detect this situation
     :>json string git_export: :ref:`component-git_export`
-    :>json string branch: :ref:`component-branch`
-    :>json string push_branch: :ref:`component-push_branch`
+    :>json string branch: :ref:`component-branch`, this is the actual repository branch even when :ref:`internal-urls` are used
+    :>json string push: :ref:`component-push`, this is the actual repository URL even when :ref:`internal-urls` are used
+    :>json string push_branch: :ref:`component-push_branch`, this is the actual repository branch even when :ref:`internal-urls` are used
     :>json string filemask: :ref:`component-filemask`
     :>json string template: :ref:`component-template`
     :>json string edit_template: :ref:`component-edit_template`
@@ -1210,7 +1251,6 @@ Components
     :>json string new_lang: :ref:`component-new_lang`
     :>json string language_code_style: :ref:`component-language_code_style`
     :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
-    :>json string push: :ref:`component-push`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
     :>json string enforced_checks: :ref:`component-enforced_checks`
@@ -1895,8 +1935,11 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit (used as key or context)
-    :<json array value: Source strings (use single string if not creating plural)
+    :<json string key: *Monolingual translations:* Key of translation unit
+    :<json array value: *Monolingual translations:* Source strings (use single string if not creating plural)
+    :<json string context: *Bilingual translations:* Context of a translation unit
+    :<json array source: *Bilingual translations:* Source strings (use single string if not creating plural)
+    :<json array target: *Bilingual translations:* Target strings (use single string if not creating plural)
     :<json int state: String state; see :http:get:`/api/units/(int:id)/`
     :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
@@ -1933,6 +1976,9 @@ Translations
         it operates on whole file rather than on data. Set of accepted ``format``
         parameter differs and without such parameter you get translation file
         as stored in VCS.
+
+    :resheader Last-Modified: Timestamp of last change to this file.
+    :reqheader If-Modified-Since: Skips response if the file has not been modified since that time.
 
     :query format: File format to use; if not specified no format conversion happens; see :ref:`download` for supported formats
     :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
@@ -2090,6 +2136,7 @@ and XLIFF.
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
+    :>json timestamp last_updated: last string update
 
 .. http:patch::  /api/units/(int:id)/
 
@@ -2103,7 +2150,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
-    :>json array labels: labels, available on source units
+    :<json array labels: labels, available on source units
 
 .. http:put::  /api/units/(int:id)/
 
@@ -2117,7 +2164,7 @@ and XLIFF.
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
-    :>json array labels: labels, available on source units
+    :<json array labels: labels, available on source units
 
 .. http:delete::  /api/units/(int:id)/
 
@@ -2162,7 +2209,9 @@ Changes
     :>json timestamp timestamp: event timestamp
     :>json int action: numeric identification of action
     :>json string action_name: text description of action
-    :>json string target: event changed text or detail
+    :>json string target: event changed text
+    :>json string old: previous text
+    :>json object details: additional details about the change
     :>json int id: change identifier
 
 Screenshots
@@ -2438,7 +2487,7 @@ Tasks
 
 .. http:get:: /api/tasks/(str:uuid)/
 
-    Returns information about a task
+    Returns information about a task.
 
     :param uuid: Task UUID
     :type uuid: string
@@ -2500,6 +2549,7 @@ Statistics
 
       :http:get:`/api/languages/(string:language)/statistics/`,
       :http:get:`/api/projects/(string:project)/statistics/`,
+      :http:get:`/api/categories/(int:id)/statistics/`,
       :http:get:`/api/components/(string:project)/(string:component)/statistics/`,
       :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
@@ -2509,6 +2559,10 @@ Metrics
 .. http:get:: /api/metrics/
 
     Returns server metrics.
+
+    .. versionchanged:: 5.6.1
+
+       Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
 
     :>json int units: Number of units
     :>json int units_translated: Number of translated units
@@ -2592,6 +2646,19 @@ Categories
 
     :param id: Category ID
     :type id: int
+
+.. http:get:: /api/categories/(int:id)/statistics/
+
+    .. versionadded:: 5.5
+
+    Returns statistics for a category.
+
+    :param project: Category id
+    :type project: int
+
+    .. seealso::
+
+       Returned attributes are described in :ref:`api-statistics`.
 
 .. _hooks:
 

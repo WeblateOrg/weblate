@@ -369,8 +369,8 @@ You can have a number of fonts loaded into Weblate:
 To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:
 
-``max-size:500``
-   Defines maximal width in pixels.
+``max-size:500`` / ``max-size:300:5``
+   Defines maximal width in pixels and, optionally, the maximum number of lines (word wrapping is applied).
 ``font-family:ubuntu``
    Defines font group to use by specifying its identifier.
 ``font-size:22``

@@ -76,7 +76,9 @@ When translation files are separated from the code, the following ways can
 introduce new strings into Weblate.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
-  menu in the source language.
+  menu in the source language. You can choose between the radio buttons
+  :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select the
+  appropriate form of the new translation string to be added.
 * Programmatically, using the API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 * By uploading source file as :guilabel:`Replace existing translation file`
   (this overwrites existing strings, so please ensure the file includes both

@@ -8,7 +8,7 @@ from itertools import chain
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_COMMIT
+from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
@@ -32,12 +32,12 @@ class GitSquashAddon(BaseAddon):
             "azure_devops",
         }
     }
-    events = (EVENT_POST_COMMIT,)
+    events = (AddonEvent.EVENT_POST_COMMIT,)
     icon = "compress.svg"
     repo_scope = True
 
-    def squash_all(self, component, repository, base=None, author=None):
-        remote = base if base else repository.get_remote_branch_name()
+    def squash_all(self, component, repository, base=None, author=None) -> None:
+        remote = base or repository.get_remote_branch_name()
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
         # Can happen for added and removed translation
@@ -66,7 +66,13 @@ class GitSquashAddon(BaseAddon):
 
         return repository.execute(command)
 
-    def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
+    def get_squash_commit_message(
+        self,
+        repository,
+        log_format: str,
+        remote: str,
+        filenames: list[str] | None = None,
+    ) -> str:
         commit_message = self.instance.configuration.get("commit_message")
 
         if self.instance.configuration.get("append_trailers", True):
@@ -126,7 +132,7 @@ class GitSquashAddon(BaseAddon):
 
         return commit_message
 
-    def squash_language(self, component, repository):
+    def squash_language(self, component, repository) -> None:
         remote = repository.get_remote_branch_name()
         languages = self.get_filenames(component)
 
@@ -147,7 +153,7 @@ class GitSquashAddon(BaseAddon):
                 message=message, files=languages[code], signals=False, skip_push=True
             )
 
-    def squash_file(self, component, repository):
+    def squash_file(self, component, repository) -> None:
         remote = repository.get_remote_branch_name()
         languages = self.get_filenames(component)
 
@@ -167,7 +173,7 @@ class GitSquashAddon(BaseAddon):
                 message=message, files=[filename], signals=False, skip_push=True
             )
 
-    def squash_author(self, component, repository):
+    def squash_author(self, component, repository) -> None:
         remote = repository.get_remote_branch_name()
         # Get list of pending commits with authors
         commits = [
@@ -219,13 +225,13 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
         except Exception:
-            report_error(cause="Failed squash", project=component.project)
+            report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
             repository.execute(["reset", "--hard"])
             repository.execute(["checkout", repository.branch])
             repository.delete_branch(tmp)
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         repository = component.repository
         branch_updated = False
         with repository.lock:

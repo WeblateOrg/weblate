@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-(function () {
-  var EditorBase = WLT.Editor.Base;
+(() => {
+  const EditorBase = WLT.Editor.Base;
 
-  var $window = $(window);
-  var $document = $(document);
+  const $window = $(window);
+  const $document = $(document);
 
   function ZenEditor() {
     EditorBase.call(this);
 
     $window.scroll(() => {
-      var $loadingNext = $("#loading-next");
-      var loader = $("#zen-load");
+      const $loadingNext = $("#loading-next");
+      const loader = $("#zen-load");
 
       if ($window.scrollTop() >= $document.height() - 2 * $window.height()) {
         if (
@@ -24,10 +24,10 @@
         }
         $loadingNext.show();
 
-        loader.data("offset", 20 + parseInt(loader.data("offset"), 10));
+        loader.data("offset", 20 + Number.parseInt(loader.data("offset"), 10));
 
         $.get(
-          loader.attr("href") + "&offset=" + loader.data("offset"),
+          `${loader.attr("href")}&offset=${loader.data("offset")}`,
           (data) => {
             $loadingNext.hide();
 
@@ -46,8 +46,8 @@
      * - scroll down if in bottom half of the window
      */
     $document.on("focus", ".zen .translation-editor", function () {
-      var current = $window.scrollTop();
-      var rowOffset = $(this).closest("tbody").offset().top;
+      const current = $window.scrollTop();
+      const rowOffset = $(this).closest("tbody").offset().top;
       if (rowOffset < current || rowOffset - current > $window.height() / 2) {
         $([document.documentElement, document.body]).animate(
           {
@@ -62,16 +62,16 @@
     $document.on("change", ".fuzzy_checkbox", handleTranslationChange);
     $document.on("change", ".review_radio", handleTranslationChange);
 
-    Mousetrap.bindGlobal("mod+end", function (e) {
+    Mousetrap.bindGlobal("mod+end", (e) => {
       $(".zen-unit:last").find(".translation-editor:first").focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+home", function (e) {
+    Mousetrap.bindGlobal("mod+home", (e) => {
       $(".zen-unit:first").find(".translation-editor:first").focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+pagedown", function (e) {
-      var focus = $(":focus");
+    Mousetrap.bindGlobal("mod+pagedown", (e) => {
+      const focus = $(":focus");
 
       if (focus.length === 0) {
         $(".zen-unit:first").find(".translation-editor:first").focus();
@@ -84,8 +84,8 @@
       }
       return false;
     });
-    Mousetrap.bindGlobal("mod+pageup", function (e) {
-      var focus = $(":focus");
+    Mousetrap.bindGlobal("mod+pageup", (e) => {
+      const focus = $(":focus");
 
       if (focus.length === 0) {
         $(".zen-unit:last").find(".translation-editor:first").focus();
@@ -99,7 +99,7 @@
       return false;
     });
 
-    $window.on("beforeunload", function () {
+    $window.on("beforeunload", () => {
       if ($(".translation-modified").length > 0) {
         return gettext(
           "There are some unsaved changes, are you sure you want to leave?",
@@ -115,20 +115,21 @@
 
     /* Minimal height for side-by-side editor */
     $(".zen-horizontal .translator").each(function () {
-      var $this = $(this);
-      var tdHeight = $this.height();
-      var editorHeight = 0;
-      var contentHeight = $this.find("form").height();
-      var $editors = $this.find(".translation-editor");
+      const $this = $(this);
+      const tdHeight = $this.height();
+      let editorHeight = 0;
+      const contentHeight = $this.find("form").height();
+      const $editors = $this.find(".translation-editor");
       $editors.each(function () {
-        var $editor = $(this);
+        const $editor = $(this);
         editorHeight += $editor.height();
       });
       /* There is 10px padding */
       $editors.css(
         "min-height",
-        (tdHeight - (contentHeight - editorHeight - 10)) / $editors.length +
-          "px",
+        `${
+          (tdHeight - (contentHeight - editorHeight - 10)) / $editors.length
+        }px`,
       );
     });
   };
@@ -136,15 +137,15 @@
   /* Handlers */
 
   function handleTranslationChange() {
-    var $this = $(this);
-    var $row = $this.closest("tr");
-    var checksum = $row.find("[name=checksum]").val();
+    const $this = $(this);
+    const $row = $this.closest("tr");
+    const checksum = $row.find("[name=checksum]").val();
 
-    var statusdiv = $("#status-" + checksum);
+    const statusdiv = $(`#status-${checksum}`);
 
     /* Wait until previous operation on this field is completed */
     if (statusdiv.hasClass("unit-state-saving")) {
-      setTimeout(function () {
+      setTimeout(() => {
         $this.trigger("change");
       }, 100);
       return;
@@ -152,10 +153,10 @@
 
     $row.addClass("translation-modified");
 
-    var form = $row.find("form");
+    const form = $row.find("form");
     statusdiv.addClass("unit-state-saving");
-    var payload = form.serialize();
-    if (payload == statusdiv.data("last-payload")) {
+    const payload = form.serialize();
+    if (payload === statusdiv.data("last-payload")) {
       return;
     }
     statusdiv.data("last-payload", payload);
@@ -164,13 +165,13 @@
       url: form.attr("action"),
       data: payload,
       dataType: "json",
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         addAlert(errorThrown);
       },
-      success: function (data) {
-        statusdiv.attr("class", "unit-state-cell " + data.unit_state_class);
+      success: (data) => {
+        statusdiv.attr("class", `unit-state-cell ${data.unit_state_class}`);
         statusdiv.attr("title", data.unit_state_title);
-        $.each(data.messages, function (i, val) {
+        $.each(data.messages, (i, val) => {
           addAlert(val.text, val.kind);
         });
         $row.removeClass("translation-modified").addClass("translation-saved");
@@ -181,7 +182,7 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", () => {
     new ZenEditor();
   });
 })();

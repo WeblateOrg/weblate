@@ -30,16 +30,17 @@ except ImportError:
 
 
 def report_error(
-    level: str = "warning",
     cause: str = "Handled exception",
+    *,
+    level: str = "warning",
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str | None = None,
     project=None,
     message: bool = False,
-):
+) -> None:
     """
-    Wrapper for error reporting.
+    Report errors.
 
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.
@@ -49,16 +50,15 @@ def report_error(
         rollbar.report_exc_info(level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
-        with sentry_sdk.push_scope() as scope:
-            scope.set_tag("cause", cause)
-            if project is not None:
-                scope.set_tag("project", project.slug)
-            scope.set_tag("user.locale", get_language())
-            scope.level = level
-            if message:
-                sentry_sdk.capture_message(cause)
-            else:
-                sentry_sdk.capture_exception()
+        sentry_sdk.set_tag("cause", cause)
+        if project is not None:
+            sentry_sdk.set_tag("project", project.slug)
+        sentry_sdk.set_tag("user.locale", get_language())
+        sentry_sdk.set_level(level)
+        if message:
+            sentry_sdk.capture_message(cause)
+        else:
+            sentry_sdk.capture_exception()
 
     log = getattr(LOGGER, level)
 
@@ -80,7 +80,7 @@ def report_error(
         LOGGER.exception(cause)
 
 
-def add_breadcrumb(category: str, message: str, level: str = "info", **data):
+def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
     # Add breadcrumb only if settings are already loaded,
     # we do not want to force loading settings early
     if not settings.configured or not getattr(settings, "SENTRY_DSN", None):
@@ -90,16 +90,16 @@ def add_breadcrumb(category: str, message: str, level: str = "info", **data):
     )
 
 
-def celery_base_data_hook(request, data):
+def celery_base_data_hook(request, data) -> None:
     data["framework"] = "celery"
 
 
-def init_error_collection(celery=False):
+def init_error_collection(celery=False) -> None:
     if settings.SENTRY_DSN:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
             integrations=[
-                CeleryIntegration(),
+                CeleryIntegration(monitor_beat_tasks=True),
                 DjangoIntegration(),
                 RedisIntegration(),
             ],

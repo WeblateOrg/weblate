@@ -13,16 +13,16 @@ from weblate.auth.models import User, get_anonymous
 
 
 class MiddlewareTest(TestCase):
-    def view_method(self):
+    def view_method(self) -> str:
         return "VIEW"
 
-    def test_disabled(self):
+    def test_disabled(self) -> None:
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
 
     @override_settings(LOGIN_REQUIRED_URLS=(r"/project/(.*)$",))
-    def test_protect_project(self):
+    def test_protect_project(self) -> None:
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
         request.user = User()

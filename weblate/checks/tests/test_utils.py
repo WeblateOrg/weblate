@@ -9,7 +9,7 @@ from weblate.checks.utils import highlight_string
 
 
 class HightlightTestCase(SimpleTestCase):
-    def test_simple(self):
+    def test_simple(self) -> None:
         unit = MockUnit(
             source="simple {format} string",
             flags="python-brace-format",
@@ -19,7 +19,7 @@ class HightlightTestCase(SimpleTestCase):
             [(7, 15, "{format}")],
         )
 
-    def test_multi(self):
+    def test_multi(self) -> None:
         unit = MockUnit(
             source="simple {format} %d string",
             flags="python-brace-format, python-format",
@@ -29,7 +29,7 @@ class HightlightTestCase(SimpleTestCase):
             [(7, 15, "{format}"), (16, 18, "%d")],
         )
 
-    def test_overlap(self):
+    def test_overlap(self) -> None:
         unit = MockUnit(
             source='nested <a href="{format}">string</a>',
             flags="python-brace-format",
@@ -39,7 +39,7 @@ class HightlightTestCase(SimpleTestCase):
             [(7, 26, '<a href="{format}">'), (32, 36, "</a>")],
         )
 
-    def test_syntax(self):
+    def test_syntax(self) -> None:
         unit = MockUnit(
             source="Text with a `link <https://www.sphinx-doc.org>`_.",
             flags="rst-text",

@@ -8,9 +8,24 @@ Import all the autofixes defined in settings.
 Note, unlike checks, using a sortable data object so fixes are applied in desired order.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from weblate.utils.classloader import ClassLoader
 
-AUTOFIXES = ClassLoader("AUTOFIX_LIST")
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+
+class AutofixLoader(ClassLoader):
+    def get_ignore_strings(self) -> Iterator[str]:
+        for fix in self.values():
+            for check in fix.get_related_checks():
+                yield check.ignore_string
+
+
+AUTOFIXES = AutofixLoader("AUTOFIX_LIST")
 
 
 def fix_target(target, unit):

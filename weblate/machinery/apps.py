@@ -8,6 +8,7 @@ from django.core.checks import Warning, register
 from weblate.utils.checks import weblate_check
 
 
+@register
 def check_machinery(app_configs, **kwargs):
     from weblate.machinery.models import MACHINERY
 
@@ -27,7 +28,3 @@ class VCSConfig(AppConfig):
     name = "weblate.machinery"
     label = "machinery"
     verbose_name = "Machinery"
-
-    def ready(self):
-        super().ready()
-        register(check_machinery)

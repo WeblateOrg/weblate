@@ -109,7 +109,7 @@ Weblate and outside it. There are two approaches to deal with that - avoid
 edits outside Weblate or integrate Weblate into your updating process, so that
 it flushes changes prior to updating the files outside Weblate.
 
-The first approach is easy with monolingual files - you can add new strings
+The first approach is easy with monolingual files — you can add new strings
 within Weblate and leave whole editing of the files there. For bilingual files,
 there is usually some kind of message extraction process to generate
 translatable files from the source code. In some cases this can be split into
@@ -165,13 +165,13 @@ Avoiding merge conflicts on Weblate originated changes
 Even when Weblate is the single source of the changes in the translation files,
 conflicts can appear when using :ref:`addon-weblate.git.squash` add-on,
 :ref:`component-merge_style` is configured to :guilabel:`Rebase`, or you are
-squashing commits outside Weblate (for example when merging a pull request).
+squashing commits outside of Weblate (for example when merging a pull request).
 
 The reason for merge conflicts is different in this case - there are changes in
 Weblate which happened after you merged Weblate commits. This typically happens
 if merging is not automated and waits for days or weeks for a human to review
-them. Git is then sometimes no longer able to idetify upstream changes as
-matching to Weblate one and refuses to perform rebase.
+them. Git is then sometimes no longer able to identify upstream changes as
+matching the Weblate ones and refuses to perform a rebase.
 
 To approach this, you either need to minimize amount of pending changes in
 Weblate when you merge a pull request, or avoid the conflicts completely by not
@@ -266,7 +266,7 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 Automatically receiving changes from Azure Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
-Weblate has support for Azure Repos web hooks, add a webhook for
+Weblate has support for Azure Repos webhooks, add a webhook for
 :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL on your
 Weblate installation (for example ``https://hosted.weblate.org/hooks/azure/``).
 This can be done in :guilabel:`Service hooks` under :guilabel:`Project

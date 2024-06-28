@@ -16,7 +16,7 @@ class Command(WeblateTranslationCommand):
 
     help = "performs automatic translation based on other components"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--user", default="anonymous", help=("User performing the change")
@@ -57,7 +57,7 @@ class Command(WeblateTranslationCommand):
             help=("Translation mode; translate, fuzzy or suggest"),
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         # Get translation object
         translation = self.get_translation(**options)
 
@@ -69,11 +69,8 @@ class Command(WeblateTranslationCommand):
 
         source = None
         if options["source"]:
-            parts = options["source"].split("/")
-            if len(parts) != 2:
-                raise CommandError("Invalid source component specified!")
             try:
-                component = Component.objects.get(project__slug=parts[0], slug=parts[1])
+                component = Component.objects.get_by_path(options["source"])
             except Component.DoesNotExist:
                 raise CommandError("No matching source component found!")
             source = component.id
@@ -85,7 +82,7 @@ class Command(WeblateTranslationCommand):
                         f"Machine translation {translator} is not available"
                     )
 
-        if options["mode"] not in ("translate", "fuzzy", "suggest"):
+        if options["mode"] not in {"translate", "fuzzy", "suggest"}:
             raise CommandError("Invalid translation mode specified!")
 
         if options["inconsistent"]:

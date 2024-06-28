@@ -2,22 +2,28 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
 
 from weblate.addons.base import BaseAddon
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Component, Translation
 
 
 class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
     icon = "script.svg"
-    script = None
-    add_file = None
+    script: str
+    add_file: None | str = None
     alert = "AddonScriptError"
 
-    def run_script(self, component=None, translation=None, env=None):
+    def run_script(self, component=None, translation=None, env=None) -> None:
         command = [self.script]
         if translation:
             component = translation.component
@@ -46,24 +52,26 @@ class BaseScriptAddon(BaseAddon):
         self.execute_process(component, command, environment)
         self.trigger_alerts(component)
 
-    def post_push(self, component):
+    def post_push(self, component) -> None:
         self.run_script(component)
 
-    def post_update(self, component, previous_head: str, skip_push: bool):
+    def post_update(
+        self, component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
-    def post_commit(self, component):
+    def post_commit(self, component: Component) -> None:
         self.run_script(component=component)
 
-    def pre_commit(self, translation, author):
+    def pre_commit(self, translation: Translation, author) -> None:
         self.run_script(translation=translation)
 
         if self.add_file:
             filename = os.path.join(
-                self.instance.component.full_path,
+                translation.component.full_path,
                 render_template(self.add_file, translation=translation),
             )
             translation.addon_commit_files.append(filename)
 
-    def post_add(self, translation):
+    def post_add(self, translation) -> None:
         self.run_script(translation=translation)

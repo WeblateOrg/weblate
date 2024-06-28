@@ -36,7 +36,7 @@ FIELDS = (
 )
 
 
-def create_index(apps, schema_editor):
+def create_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         cur = schema_editor.connection.cursor()
@@ -67,13 +67,13 @@ def create_index(apps, schema_editor):
         raise ImproperlyConfigured(f"Unsupported database: {vendor}")
 
 
-def drop_index(apps, schema_editor):
+def drop_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        for table, field in FIELDS:
+        for table, field, _extra in FIELDS:
             schema_editor.execute(PG_DROP.format(table, field))
     elif vendor == "mysql":
-        for table, field in FIELDS:
+        for table, field, _extra in FIELDS:
             schema_editor.execute(MY_DROP.format(table, field))
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_index")
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_index")
@@ -1087,7 +1087,6 @@ class Migration(migrations.Migration):
                 "verbose_name": "string",
                 "verbose_name_plural": "strings",
                 "unique_together": {("translation", "id_hash")},
-                "index_together": set(),
             },
         ),
         migrations.CreateModel(

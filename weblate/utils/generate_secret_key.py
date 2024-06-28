@@ -7,7 +7,7 @@
 from django.utils.crypto import get_random_string
 
 
-def main(argv=None, developer_mode: bool = False):
+def main(argv=None, developer_mode: bool = False) -> None:
     chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
     print(get_random_string(50, chars))
 

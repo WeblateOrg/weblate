@@ -6,6 +6,9 @@ from django.apps import AppConfig
 from django.core.checks import Info, register
 
 from weblate.utils.checks import weblate_check
+from weblate.wladmin.sites import patch_admin_site
+
+patch_admin_site()
 
 
 class WLAdminConfig(AppConfig):
@@ -13,11 +16,8 @@ class WLAdminConfig(AppConfig):
     label = "wladmin"
     verbose_name = "Weblate Admin Extensions"
 
-    def ready(self):
-        super().ready()
-        register(check_backups, deploy=True)
 
-
+@register(deploy=True)
 def check_backups(app_configs, **kwargs):
     from weblate.wladmin.models import BackupService
 

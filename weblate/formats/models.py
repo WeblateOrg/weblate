@@ -9,7 +9,7 @@ from weblate.utils.classloader import ClassLoader
 
 
 class ExporterLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("WEBLATE_EXPORTERS", False)
 
     def list_exporters(self, translation):
@@ -31,7 +31,7 @@ EXPORTERS = ExporterLoader()
 
 
 class FileFormatLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("WEBLATE_FORMATS", False)
         self.errors = {}
 
@@ -99,6 +99,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.GoI18V2JSONFormat",
         "weblate.formats.ttkit.GoTextFormat",
         "weblate.formats.ttkit.ARBFormat",
+        "weblate.formats.ttkit.FormatJSFormat",
         "weblate.formats.ttkit.CSVFormat",
         "weblate.formats.ttkit.CSVUtf8Format",
         "weblate.formats.ttkit.CSVSimpleFormat",

@@ -100,12 +100,12 @@
                 <img src="{% if request %}{% static "email-logo-footer.png" %}{% else %}cid:email-logo-footer.png@cid.weblate.org{% endif %}" /><br />
                 <a href="https://weblate.org/">{% trans "Weblate, the libre continuous localization system." %}</a>
             </p>
-            {% if unsubscribe_nonce %}
+            {% if unsubscribe_url %}
             <p>
                 ▸ <a href="{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
             </p>
             <p>
-                ▸ <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
+                ▸ <a href="{{ unsubscribe_url }}">{% trans "Turn off this notification" %}</a>
             </p>
             {% elif unsubscribe_note %}
             <p>

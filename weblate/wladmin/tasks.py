@@ -13,7 +13,7 @@ from weblate.wladmin.models import BackupService, SupportStatus
 
 
 @app.task(trail=False)
-def support_status_update():
+def support_status_update() -> None:
     support = SupportStatus.objects.get_current()
     if support.secret:
         support.refresh()
@@ -21,13 +21,13 @@ def support_status_update():
 
 
 @app.task(trail=False)
-def backup():
+def backup() -> None:
     for service in BackupService.objects.filter(enabled=True):
         backup_service.delay(service.pk)
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
-def backup_service(pk):
+def backup_service(pk) -> None:
     service = BackupService.objects.get(pk=pk)
     service.ensure_init()
     service.backup()
@@ -38,7 +38,7 @@ def backup_service(pk):
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     # Randomize this per site to avoid all instances hitting server at the same time
     minute_to_run = hash(settings.SITE_DOMAIN) % 1440
     sender.add_periodic_task(

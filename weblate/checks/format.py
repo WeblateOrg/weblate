@@ -9,7 +9,8 @@ from collections import Counter, defaultdict
 from re import Pattern
 
 from django.utils.functional import SimpleLazyObject
-from django.utils.html import format_html, format_html_join
+from django.utils.html import format_html_join
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck, TargetCheck
@@ -160,7 +161,7 @@ JAVA_MATCH = re.compile(
         (?:\d+)?                       # width
         (?:\.\d+)?                     # precision
         (?P<type>
-            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %te, etc.)
+            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %td, etc.)
        )
     )
     """,
@@ -239,7 +240,7 @@ def python_format_is_position_based(string):
     return "(" not in string and string != "%"
 
 
-def name_format_is_position_based(string):
+def name_format_is_position_based(string) -> bool:  # noqa: FURB118
     return not string
 
 
@@ -262,10 +263,10 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Pattern[str] | None = None
+    regexp: Pattern[str]
     plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
-    normalize_remove = None
+    normalize_remove: str | None = None
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
@@ -327,62 +328,56 @@ class BaseFormatCheck(TargetCheck):
     def cleanup_string(self, text):
         return text
 
-    def normalize(self, matches):
+    def normalize(self, matches: list[str]) -> list[str]:
         if self.normalize_remove is None:
-            return matches
-        if isinstance(matches, Counter):
-            matches.pop(self.normalize_remove, None)
             return matches
         return [m for m in matches if m != self.normalize_remove]
 
-    def extract_matches(self, string):
+    def extract_matches(self, string: str) -> list[str]:
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
     def check_format(self, source, target, ignore_missing, unit):
-        """Generic checker for format strings."""
+        """Check for format strings."""
         if not target or not source:
             return False
 
         uses_position = True
 
-        # Calculate value
-        src_matches = self.extract_matches(source)
+        # Calculate value and ignore mismatch in percent position
+        src_matches = self.normalize(self.extract_matches(source))
         if src_matches:
             uses_position = any(self.is_position_based(x) for x in src_matches)
 
-        tgt_matches = self.extract_matches(target)
+        tgt_matches = self.normalize(self.extract_matches(target))
 
+        missing: list[str] = []
+        extra: list[str] = []
         if not uses_position:
-            src_matches = Counter(src_matches)
-            tgt_matches = Counter(tgt_matches)
+            src_counter = Counter(src_matches)
+            tgt_counter = Counter(tgt_matches)
 
-        if src_matches != tgt_matches:
-            # Ignore mismatch in percent position
-            if self.normalize(src_matches) == self.normalize(tgt_matches):
-                return False
-            if not uses_position:
-                missing = sorted(src_matches - tgt_matches)
-                extra = sorted(tgt_matches - src_matches)
-            else:
-                missing = []
-                extra = []
-                for i in range(min(len(src_matches), len(tgt_matches))):
-                    if src_matches[i] != tgt_matches[i]:
-                        missing.append(src_matches[i])
-                        extra.append(tgt_matches[i])
-                missing.extend(src_matches[len(tgt_matches) :])
-                extra.extend(tgt_matches[len(src_matches) :])
-            # We can ignore missing format strings
-            # for first of plurals
-            if ignore_missing and missing and not extra:
-                return False
+            if src_counter != tgt_counter:
+                missing = sorted(src_counter - tgt_counter)
+                extra = sorted(tgt_counter - src_counter)
+        elif src_matches != tgt_matches:
+            for i in range(min(len(src_matches), len(tgt_matches))):
+                if src_matches[i] != tgt_matches[i]:
+                    missing.append(src_matches[i])
+                    extra.append(tgt_matches[i])
+            missing.extend(src_matches[len(tgt_matches) :])
+            extra.extend(tgt_matches[len(src_matches) :])
+
+        # We can ignore missing format strings for first of plurals
+        if ignore_missing and missing and not extra:
+            return False
+        if missing or extra:
             return {"missing": missing, "extra": extra}
         return False
 
-    def is_position_based(self, string):
+    def is_position_based(self, string) -> bool:
         return False
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -429,7 +424,9 @@ class BaseFormatCheck(TargetCheck):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
-                format_html("<br />"), "{}", ((error,) for error in errors)
+                mark_safe("<br />"),  # noqa: S308
+                "{}",
+                ((error,) for error in errors),
             )
         return super().get_description(check_obj)
 
@@ -461,14 +458,14 @@ class BasePrintfCheck(BaseFormatCheck):
 
     normalize_remove = "%"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.regexp, self._is_position_based = FLAG_RULES[self.enable_string]
 
     def is_position_based(self, string):
         return self._is_position_based(string)
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return f"%{string}"
 
     def cleanup_string(self, text):
@@ -557,7 +554,7 @@ class SchemeFormatCheck(BasePrintfCheck):
     description = gettext_lazy("Scheme format string does not match source")
     normalize_remove = "~"
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return f"~{string}"
 
 
@@ -573,8 +570,8 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     def is_position_based(self, string):
         return name_format_is_position_based(string)
 
-    def format_string(self, string):
-        return "{%s}" % string
+    def format_string(self, string) -> str:
+        return f"{{{string}}}"
 
 
 class CSharpFormatCheck(BaseFormatCheck):
@@ -588,8 +585,8 @@ class CSharpFormatCheck(BaseFormatCheck):
     def is_position_based(self, string):
         return name_format_is_position_based(string)
 
-    def format_string(self, string):
-        return "{%s}" % string
+    def format_string(self, string) -> str:
+        return f"{{{string}}}"
 
 
 class JavaFormatCheck(BasePrintfCheck):
@@ -608,8 +605,8 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     description = gettext_lazy("Java MessageFormat string does not match source")
     regexp = JAVA_MESSAGE_MATCH
 
-    def format_string(self, string):
-        return "{%s}" % string
+    def format_string(self, string) -> str:
+        return f"{{{string}}}"
 
     def should_skip(self, unit):
         all_flags = unit.all_flags
@@ -622,7 +619,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         return super().should_skip(unit)
 
     def check_format(self, source, target, ignore_missing, unit):
-        """Generic checker for format strings."""
+        """Check for format strings."""
         if not target or not source:
             return False
 
@@ -670,7 +667,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
 
-    def format_string(self, string):
+    def format_string(self, string) -> str:
         return f"${{{string}}}"
 
 
@@ -699,7 +696,7 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         "making it impossible for translators to reorder them"
     )
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, source, unit) -> bool:
         """Check source string."""
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:

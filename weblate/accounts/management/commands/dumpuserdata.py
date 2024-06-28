@@ -14,12 +14,12 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "dumps user data to JSON file"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "json-file", type=argparse.FileType("w"), help="File where to export"
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         data = []
 
         profiles = Profile.objects.select_related("user").prefetch_related(

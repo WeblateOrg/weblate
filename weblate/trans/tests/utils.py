@@ -13,7 +13,7 @@ from tempfile import mkdtemp
 from unittest import SkipTest
 
 import social_core.backends.utils
-from celery.contrib.testing.tasks import ping
+from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -36,7 +36,7 @@ REPOWEB_URL = "https://nonexisting.weblate.org/blob/main/{{filename}}#L{{line}}"
 TESTPASSWORD = make_password("testpassword")
 
 
-def wait_for_celery(timeout=10):
+def wait_for_celery(timeout=10) -> None:
     with allow_join_result():
         ping.delay().get(timeout=timeout)
 
@@ -72,7 +72,7 @@ class RepoTestMixin:
 
     local_repo_path = "local:"
 
-    def optional_extract(self, output, tarname):
+    def optional_extract(self, output, tarname) -> None:
         """
         Extract test repository data if needed.
 
@@ -89,7 +89,7 @@ class RepoTestMixin:
 
             # Extract new content
             tar = TarFile(tarname)
-            tar.extractall(settings.DATA_DIR)
+            tar.extractall(settings.DATA_DIR)  # noqa: S202
             tar.close()
 
             # Update directory timestamp
@@ -139,7 +139,7 @@ class RepoTestMixin:
         shutil.copytree(self.subversion_base_repo_path, path)
         return path
 
-    def clone_test_repos(self):
+    def clone_test_repos(self) -> None:
         dirs = ["test-repo.git", "test-repo.hg", "test-repo.svn"]
         # Remove possibly existing directories
         for name in dirs:
@@ -229,7 +229,7 @@ class RepoTestMixin:
             )
 
     @staticmethod
-    def configure_mt():
+    def configure_mt() -> None:
         for engine in ["weblate", "weblate-translation-memory"]:
             Setting.objects.get_or_create(
                 category=Setting.CATEGORY_MT,
@@ -238,7 +238,7 @@ class RepoTestMixin:
             )
 
     def create_component(self):
-        """Wrapper method for providing test component."""
+        """Create test component."""
         return self.create_po()
 
     def create_po(self, **kwargs):
@@ -431,15 +431,21 @@ class RepoTestMixin:
 
 
 class TempDirMixin:
-    tempdir = None
+    _tempdir: str | None = None
 
-    def create_temp(self):
-        self.tempdir = mkdtemp(suffix="weblate")
+    @property
+    def tempdir(self) -> str:
+        if self._tempdir is None:
+            raise ValueError("tempdir not initialized")
+        return self._tempdir
 
-    def remove_temp(self):
-        if self.tempdir:
-            remove_tree(self.tempdir)
-            self.tempdir = None
+    def create_temp(self) -> None:
+        self._tempdir = mkdtemp(suffix="weblate")
+
+    def remove_temp(self) -> None:
+        if self._tempdir:
+            remove_tree(self._tempdir)
+            self._tempdir = None
 
 
 def create_test_billing(user, invoice=True):
@@ -472,11 +478,11 @@ class SocialCacheMixin:
     change to AUTHENTICATION_BACKENDS.
     """
 
-    def enable(self):
+    def enable(self) -> None:
         super().enable()
         social_core.backends.utils.BACKENDSCACHE = {}
 
-    def disable(self):
+    def disable(self) -> None:
         super().disable()
         social_core.backends.utils.BACKENDSCACHE = {}
 

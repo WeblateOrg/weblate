@@ -14,7 +14,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class CategoriesTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.project.add_user(self.user, "Administration")
 
@@ -51,7 +51,7 @@ class CategoriesTest(ViewTestCase):
         self.assertNotContains(response, "Nothing to list here.")
         return category
 
-    def test_add_move(self):
+    def test_add_move(self) -> None:
         category = self.add_and_organize()
 
         # Category/language view
@@ -117,7 +117,7 @@ class CategoriesTest(ViewTestCase):
         self.assertRedirects(response, self.project.get_absolute_url())
         self.assertEqual(Component.objects.count(), 0)
 
-    def test_move_project(self):
+    def test_move_project(self) -> None:
         project = Project.objects.create(name="other", slug="other")
         category = Category.objects.create(
             name="Test category", slug="oc", project=self.project
@@ -136,7 +136,7 @@ class CategoriesTest(ViewTestCase):
         self.assertContains(response, "Test category")
         self.assertContains(response, "Nothing to list here.")
 
-    def test_move_wrong(self):
+    def test_move_wrong(self) -> None:
         project = Project.objects.create(name="other", slug="other")
         category = Category.objects.create(name="other", slug="oc", project=project)
         response = self.client.post(
@@ -153,7 +153,7 @@ class CategoriesTest(ViewTestCase):
             response, "Error in parameter category: Select a valid choice."
         )
 
-    def test_paths(self):
+    def test_paths(self) -> None:
         old_path = self.component.full_path
         self.assertTrue(os.path.exists(old_path))
         self.assertTrue(
@@ -196,7 +196,7 @@ class CategoriesTest(ViewTestCase):
             )
         )
 
-    def test_create(self):
+    def test_create(self) -> None:
         # Make superuser, otherwise user can not create due to no valid billing
         self.user.is_superuser = True
         self.user.save()
@@ -223,7 +223,7 @@ class CategoriesTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 302)
 
-    def test_move_category(self):
+    def test_move_category(self) -> None:
         category = self.add_and_organize()
 
         project = Project.objects.create(name="other", slug="other")
@@ -249,7 +249,7 @@ class CategoriesTest(ViewTestCase):
         self.assertTrue(project.component_set.exists())
         self.assertFalse(category.component_set.filter(project=self.project).exists())
 
-    def test_move_linked_component(self):
+    def test_move_linked_component(self) -> None:
         project = Project.objects.create(name="other", slug="other")
         self.component.links.add(project)
 
@@ -276,7 +276,7 @@ class CategoriesTest(ViewTestCase):
         )
         self.assertContains(response, "Categorized component can not be shared.")
 
-    def test_move_category_linked_repo(self):
+    def test_move_category_linked_repo(self) -> None:
         component = self.create_link_existing()
         self.assertEqual(component.repo, "weblate://test/test")
 
