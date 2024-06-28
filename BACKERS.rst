@@ -21,5 +21,6 @@ List of Weblate supporters:
 * `Biblibre <https://www.biblibre.com/>`_
 * Koha community
 * 24eme.fr
+* David Bliss
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
