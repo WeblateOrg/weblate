@@ -71,7 +71,7 @@ class Font(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.field_errors = {}
+        self.field_errors: dict[str, list[ValidationError]] = {}
 
     def clean_fields(self, exclude=None) -> None:
         self.field_errors = {}

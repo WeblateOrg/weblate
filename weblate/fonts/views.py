@@ -2,12 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, View
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
@@ -16,7 +18,7 @@ from weblate.utils import messages
 from weblate.utils.views import parse_path
 
 
-class ProjectViewMixin:
+class ProjectViewMixin(View):
     def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [self.kwargs["project"]], (Project,))
@@ -46,6 +48,7 @@ class FontListView(ProjectViewMixin, ListView):
     def post(self, request, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
+        form: FontForm | FontGroupForm
         if request.FILES:
             form = self._font_form = FontForm(request.POST, request.FILES)
         else:
@@ -97,7 +100,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
 @method_decorator(login_required, name="dispatch")
 class FontGroupDetailView(ProjectViewMixin, DetailView):
     model = FontGroup
-    _form = None
+    _form: FontOverrideForm | FontGroupForm
     _override_form = None
 
     def get_queryset(self):
@@ -117,6 +120,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
 
+        form: FontOverrideForm | FontGroupForm
         if "name" in request.POST:
             form = self._form = FontGroupForm(
                 request.POST, instance=self.object, project=self.project
