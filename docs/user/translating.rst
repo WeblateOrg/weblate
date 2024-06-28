@@ -59,14 +59,14 @@ those matching current translations.
 Comments
 --------
 
-Three types of comments can be posted: 
+Three types of comments can be posted:
 * for translations
 * for source strings
 * for reporting source string bugs when this functionality is turned on using
 :ref:`project-source_review`.
 
 Choose the suitable type for the topic you want to discuss.
-Source string comments are in any event good for providing feedback on 
+Source string comments are in any event good for providing feedback on
 the original string, for example that it should be rephrased, or to ask
 questions about it.
 
@@ -321,7 +321,7 @@ translated string is not too long:
 
 * The default limitation for translation is ten times longer than the source
   string. This can be modified with :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
-  If you are hitting this, it can also be caused by a monolingual translation being 
+  If you are hitting this, it can also be caused by a monolingual translation being
   wrongly set up as a bilingual one, making Weblate mistaking the translation
   key for the actual source string. See :ref:`bimono` for more info.
 * Maximum length in characters defined by the translation file or flag, as per
