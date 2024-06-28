@@ -31,6 +31,8 @@ environment by running:
    ./rundev.sh
 ```
 
+For more, see: https://docs.weblate.org/en/latest/contributing/start.html#dev-docker
+
 ## More info
 
 To be found on the website:
