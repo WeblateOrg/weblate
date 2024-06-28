@@ -27,6 +27,26 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?closed=1>`__.
 
+Weblate 5.6.2
+-------------
+
+Not yet released.
+
+**Bug fixes**
+
+* Rendering of :ref:`labels` color selection widget.
+* Detection of pending outgoing commits.
+* :ref:`addons` button layout.
+* Crash when installing :ref:`addon-weblate.discovery.discovery` add-on.
+* Removal of source strings in :ref:`glossary`.
+* Validation of :ref:`projectbackup` ZIP file upon restoring.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?closed=1>`__.
+
 Weblate 5.6.1
 -------------
 
