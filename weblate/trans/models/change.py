@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
@@ -31,7 +32,10 @@ if TYPE_CHECKING:
     from weblate.trans.models import Translation
 
 
-class ChangeQuerySet(models.QuerySet):
+CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
+
+
+class ChangeQuerySet(models.QuerySet["Change"]):
     def content(self, prefetch=False):
         """Return queryset with content changes."""
         base = self
@@ -40,7 +44,9 @@ class ChangeQuerySet(models.QuerySet):
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
     def for_category(self, category):
-        return self.filter(component_id__in=category.all_component_ids)
+        return self.filter(
+            Q(component_id__in=category.all_component_ids) | Q(category=category)
+        )
 
     def filter_announcements(self):
         return self.filter(action=Change.ACTION_ANNOUNCEMENT)
@@ -161,7 +167,7 @@ class ChangeQuerySet(models.QuerySet):
         more effective here.
         """
         result = []
-        with transaction.atomic():
+        with transaction.atomic(), sentry_sdk.start_span(op="recent changes"):
             for change in self.order().iterator(chunk_size=count):
                 result.append(change)
                 if len(result) >= count:
@@ -169,17 +175,27 @@ class ChangeQuerySet(models.QuerySet):
             return self.preload_list(result, skip_preload)
 
     def bulk_create(self, *args, **kwargs):
-        """Adds processing to bulk creation."""
+        """
+        Bulk creation of changes.
+
+        Add processing to bulk creation.
+        """
         changes = super().bulk_create(*args, **kwargs)
         # Executes post save to ensure messages are sent as notifications
         # or to fedora messaging
         for change in changes:
             post_save.send(change.__class__, instance=change, created=True)
         # Store last content change in cache for improved performance
+        translations = set()
         for change in reversed(changes):
-            if change.is_last_content_change_storable():
+            # Process latest change on each translation (when invoked in
+            # Translation.add_unit, it spans multiple translations)
+            if (
+                change.translation_id not in translations
+                and change.is_last_content_change_storable()
+            ):
                 transaction.on_commit(change.update_cache_last_change)
-                break
+                translations.add(change.translation_id)
         return changes
 
     def filter_components(self, user):
@@ -196,10 +212,33 @@ class ChangeQuerySet(models.QuerySet):
             return self
         return self.filter(project__in=user.allowed_projects)
 
+    def lookup_project_rename(self, name: str) -> Project:
+        lookup = cache.get(CHANGE_PROJECT_LOOKUP_KEY)
+        if lookup is None:
+            lookup = self.generate_project_rename_lookup()
+        if name not in lookup:
+            return None
+        try:
+            return Project.objects.get(pk=lookup[name])
+        except Project.DoesNotExist:
+            return None
 
-class ChangeManager(models.Manager):
+    def generate_project_rename_lookup(self) -> dict[str, int]:
+        lookup = {}
+        for change in self.filter(action=Change.ACTION_RENAME_PROJECT).order():
+            if change.old not in lookup:
+                lookup[change.old] = change.project_id
+        cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
+        return lookup
+
+
+class ChangeManager(models.Manager["Change"]):
     def create(self, *, user=None, **kwargs):
-        """Wrapper to avoid using anonymous user as change owner."""
+        """
+        Create a change object.
+
+        Wrapper to avoid using anonymous user as change owner.
+        """
         if user is not None and not user.is_authenticated:
             user = None
         return super().create(user=user, **kwargs)
@@ -211,6 +250,7 @@ class ChangeManager(models.Manager):
         translation=None,
         component=None,
         project=None,
+        category=None,
         language=None,
     ):
         """
@@ -237,6 +277,8 @@ class ChangeManager(models.Manager):
             result = project.change_set.filter_components(user)
             if language is not None:
                 result = result.filter(language=language)
+            if category is not None:
+                result = result.filter(category=category)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
@@ -314,6 +356,10 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_CATEGORY = 69
     ACTION_SAVE_FAILED = 70
     ACTION_NEW_UNIT_REPO = 71
+    ACTION_STRING_UPLOAD_UPDATE = 72
+    ACTION_NEW_UNIT_UPLOAD = 73
+    ACTION_SOURCE_UPLOAD = 74
+    ACTION_COMPLETED_COMPONENT = 75
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -451,6 +497,14 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SAVE_FAILED, gettext_lazy("Saving string failed")),
         # Translators: Name of event in the history
         (ACTION_NEW_UNIT_REPO, gettext_lazy("String added in the repository")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_UPLOAD_UPDATE, gettext_lazy("String updated in the upload")),
+        # Translators: Name of event in the history
+        (ACTION_NEW_UNIT_UPLOAD, gettext_lazy("String added in the upload")),
+        # Translators: Name of event in the history
+        (ACTION_SOURCE_UPLOAD, gettext_lazy("Translation updated by source upload")),
+        # Translators: Name of event in the history
+        (ACTION_COMPLETED_COMPONENT, gettext_lazy("Component translation completed")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -470,6 +524,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
         ACTION_STRING_REPO_UPDATE,
+        ACTION_STRING_UPLOAD_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -501,6 +556,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
         ACTION_LOCK,
         ACTION_UNLOCK,
+        ACTION_HOOK,
     }
 
     # Actions where target is rendered as translation string
@@ -512,6 +568,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW_UNIT,
         ACTION_STRING_REPO_UPDATE,
         ACTION_NEW_UNIT_REPO,
+        ACTION_STRING_UPLOAD_UPDATE,
+        ACTION_NEW_UNIT_UPLOAD,
     }
 
     # Actions indicating a repository merge failure
@@ -519,6 +577,12 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_MERGE,
         ACTION_FAILED_REBASE,
         ACTION_FAILED_PUSH,
+    }
+
+    ACTIONS_ADDON = {
+        ACTION_ADDON_CREATE,
+        ACTION_ADDON_CHANGE,
+        ACTION_ADDON_REMOVE,
     }
 
     AUTO_ACTIONS = {
@@ -533,35 +597,43 @@ class Change(models.Model, UserDisplayMixin):
     }
 
     unit = models.ForeignKey(
-        "Unit", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Unit", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     language = models.ForeignKey(
         "lang.Language", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     project = models.ForeignKey(
-        "Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
+    )
+    category = models.ForeignKey(
+        "trans.Category", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     component = models.ForeignKey(
-        "Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.deletion.CASCADE, db_index=False
+        "trans.Translation",
+        null=True,
+        on_delete=models.deletion.CASCADE,
+        db_index=False,
     )
     comment = models.ForeignKey(
-        "Comment", null=True, on_delete=models.deletion.SET_NULL
+        "trans.Comment", null=True, on_delete=models.deletion.SET_NULL
     )
     suggestion = models.ForeignKey(
-        "Suggestion", null=True, on_delete=models.deletion.SET_NULL
+        "trans.Suggestion", null=True, on_delete=models.deletion.SET_NULL
     )
     announcement = models.ForeignKey(
-        "Announcement", null=True, on_delete=models.deletion.SET_NULL
+        "trans.Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
     screenshot = models.ForeignKey(
         "screenshots.Screenshot",
         null=True,
         on_delete=models.deletion.SET_NULL,
     )
-    alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
+    alert = models.ForeignKey(
+        "trans.Alert", null=True, on_delete=models.deletion.SET_NULL
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
@@ -595,7 +667,7 @@ class Change(models.Model, UserDisplayMixin):
         verbose_name = "history event"
         verbose_name_plural = "history events"
 
-    def __str__(self):
+    def __str__(self) -> str:
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
             "action": self.get_action_display(),
@@ -604,7 +676,7 @@ class Change(models.Model, UserDisplayMixin):
             "user": self.get_user_display(False),
         }
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         self.fixup_refereces()
 
         super().save(*args, **kwargs)
@@ -613,11 +685,16 @@ class Change(models.Model, UserDisplayMixin):
             # Update cache for stats so that it does not have to hit
             # the database again
             self.translation.stats.last_change_cache = self
+            # Update currently loaded
             if self.translation.stats.is_loaded:
                 self.translation.stats.fetch_last_change()
+            # Update stats at the end of transaction
+            transaction.on_commit(self.update_cache_last_change)
+            # Make sure stats is updated at the end of transaction
             self.translation.invalidate_cache()
 
-            transaction.on_commit(self.update_cache_last_change)
+        if self.action == Change.ACTION_RENAME_PROJECT:
+            Change.objects.generate_project_rename_lookup()
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""
@@ -629,6 +706,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
+        if self.category is not None:
+            return self.category.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
         return None
@@ -640,11 +719,13 @@ class Change(models.Model, UserDisplayMixin):
             return self.translation
         if self.component is not None:
             return self.component
+        if self.category is not None:
+            return self.category
         if self.project is not None:
             return self.project
         return None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         self.notify_state = {}
         for attr in ("user", "author"):
             user = kwargs.get(attr)
@@ -656,11 +737,11 @@ class Change(models.Model, UserDisplayMixin):
             self.fixup_refereces()
 
     @staticmethod
-    def get_last_change_cache_key(translation_id: int):
+    def get_last_change_cache_key(translation_id: int) -> str:
         return f"last-content-change-{translation_id}"
 
     @classmethod
-    def store_last_change(cls, translation: Translation, change: Change | None):
+    def store_last_change(cls, translation: Translation, change: Change | None) -> None:
         translation.stats.last_change_cache = change
         cache_key = cls.get_last_change_cache_key(translation.id)
         cache.set(cache_key, change.pk if change else 0, 180 * 86400)
@@ -668,11 +749,11 @@ class Change(models.Model, UserDisplayMixin):
     def is_last_content_change_storable(self):
         return self.translation_id
 
-    def update_cache_last_change(self):
+    def update_cache_last_change(self) -> None:
         self.store_last_change(self.translation, self)
 
-    def fixup_refereces(self):
-        """Updates references based to least specific one."""
+    def fixup_refereces(self) -> None:
+        """Update references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:
@@ -682,6 +763,7 @@ class Change(models.Model, UserDisplayMixin):
             self.language = self.translation.language
         if self.component:
             self.project = self.component.project
+            self.category = self.component.category
 
     @property
     def plural_count(self):
@@ -712,7 +794,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_source(self):
         """Whether to show content as source change."""
-        return self.action in (self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE)
+        return self.action in {self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE}
 
     def show_removed_string(self):
         """Whether to show content as source change."""
@@ -731,14 +813,14 @@ class Change(models.Model, UserDisplayMixin):
 
         details = self.details
 
-        if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
+        if self.action in {self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE}:
             return render_markdown(self.target)
 
-        if self.action in (
+        if self.action in {
             self.ACTION_ADDON_CREATE,
             self.ACTION_ADDON_CHANGE,
             self.ACTION_ADDON_REMOVE,
-        ):
+        }:
             try:
                 return ADDONS[self.target].name
             except KeyError:
@@ -757,16 +839,14 @@ class Change(models.Model, UserDisplayMixin):
                 ),
             )
             if reason == "content changed":
-                return format_html(
-                    escape(gettext('The "{}" file was changed.')), filename
-                )
-            if reason == "check forced":
-                return format_html(
-                    escape(gettext('Parsing of the "{}" file was enforced.')), filename
-                )
-            if reason == "new file":
-                return format_html(escape(gettext("File {} was added.")), filename)
-            raise ValueError(f"Unknown reason: {reason}")
+                message = gettext("The “{}” file was changed.")
+            elif reason == "check forced":
+                message = gettext("Parsing of the “{}” file was enforced.")
+            elif reason == "new file":
+                message = gettext("File “{}” was added.")
+            else:
+                raise ValueError(f"Unknown reason: {reason}")
+            return format_html(escape(message), filename)
 
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
@@ -798,12 +878,12 @@ class Change(models.Model, UserDisplayMixin):
             else:
                 result = mask_email(details["email"])
             if "group" in details:
-                result = "result ({details['group']})"
+                result = f"{result} ({details['group']})"
             return result
-        if self.action in (
+        if self.action in {
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
-        ):
+        }:
             try:
                 return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
@@ -819,7 +899,7 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**details)
         if self.action == self.ACTION_COMMENT and "comment" in details:
             return render_markdown(details["comment"])
-        if self.action in (self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE):
+        if self.action in {self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE}:
             return format_html(
                 "{}<br/><br/>{}<br/>{}",
                 self.get_action_display(),
@@ -849,16 +929,18 @@ class Change(models.Model, UserDisplayMixin):
         return None
 
     def show_unit_state(self):
-        return "state" in self.details and self.action not in (
+        return "state" in self.details and self.action not in {
             self.ACTION_SUGGESTION,
             self.ACTION_SUGGESTION_DELETE,
             self.ACTION_SUGGESTION_CLEANUP,
-        )
+        }
 
 
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
-def change_notify(sender, instance, created=False, **kwargs):
+def change_notify(sender, instance, created=False, **kwargs) -> None:
+    from weblate.accounts.notifications import is_notificable_action
     from weblate.accounts.tasks import notify_change
 
-    transaction.on_commit(lambda: notify_change.delay(instance.pk))
+    if is_notificable_action(instance.action):
+        notify_change.delay_on_commit(instance.pk)

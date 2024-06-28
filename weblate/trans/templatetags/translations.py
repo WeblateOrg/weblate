@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape, format_html, format_html_join, urlize
-from django.utils.safestring import mark_safe
+from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
 
@@ -50,6 +50,7 @@ from weblate.utils.stats import (
     GhostProjectLanguageStats,
     ProjectLanguage,
 )
+from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
@@ -101,7 +102,7 @@ class Formatter:
         search_match,
         match,
         whitespace: bool = True,
-    ):
+    ) -> None:
         # Inputs
         self.idx = idx
         self.cleaned_value = self.value = value
@@ -111,11 +112,11 @@ class Formatter:
         self.search_match = search_match
         self.match = match
         # Tags output
-        self.tags = [[] for i in range(len(value) + 1)]
+        self.tags: list[list[str]] = [[] for i in range(len(value) + 1)]
         self.differ = Differ()
         self.whitespace = whitespace
 
-    def parse(self):
+    def parse(self) -> None:
         if self.unit:
             self.parse_highlight()
         if self.glossary:
@@ -127,7 +128,7 @@ class Formatter:
         if self.diff:
             self.parse_diff()
 
-    def parse_diff(self):  # noqa: C901
+    def parse_diff(self) -> None:  # noqa: C901
         """Highlights diff, including extra whitespace."""
         diff = self.differ.compare(self.value, self.diff[self.idx])
         offset = 0
@@ -222,7 +223,7 @@ class Formatter:
             elif op == self.differ.DIFF_EQUAL:
                 offset += len(data)
 
-    def parse_highlight(self):
+    def parse_highlight(self) -> None:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
@@ -299,7 +300,7 @@ class Formatter:
             )
         return "\n\n".join(output)
 
-    def parse_glossary(self):
+    def parse_glossary(self) -> None:
         """Highlights glossary entries."""
         # Annotate string with glossary terms
         locations = defaultdict(list)
@@ -314,7 +315,7 @@ class Formatter:
                 locations[end].extend([])
 
         # Render span tags for each glossary term match
-        last_entries = []
+        last_entries: list[str] = []
         for position, entries in sorted(locations.items()):
             if last_entries and entries != last_entries:
                 self.tags[position].insert(0, "</span>")
@@ -325,7 +326,7 @@ class Formatter:
                 )
             last_entries = entries
 
-    def parse_search(self):
+    def parse_search(self) -> None:
         """Highlights search matches."""
         tag = self.match
         if self.match == "search":
@@ -340,7 +341,7 @@ class Formatter:
             self.tags[match.start()].append(start_tag)
             self.tags[match.end()].insert(0, end_tag)
 
-    def parse_whitespace(self):
+    def parse_whitespace(self) -> None:
         """Highlight whitespaces."""
         for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(SPACE_START)
@@ -396,6 +397,7 @@ class Formatter:
 @register.inclusion_tag("snippets/format-translation.html")
 def format_unit_target(
     unit,
+    *,
     value: str | None = None,
     diff=None,
     search_match: str | None = None,
@@ -421,6 +423,7 @@ def format_unit_target(
 @register.inclusion_tag("snippets/format-translation.html")
 def format_unit_source(
     unit,
+    *,
     value: str | None = None,
     diff=None,
     search_match: str | None = None,
@@ -450,6 +453,7 @@ def format_unit_source(
 def format_source_string(
     value: str,
     unit,
+    *,
     search_match: str | None = None,
     match: str = "search",
     simple: bool = False,
@@ -457,7 +461,7 @@ def format_source_string(
     wrap: bool = False,
     whitespace: bool = True,
 ):
-    """Formats simple string as in the unit source language."""
+    """Format simple string as in the unit source language."""
     return format_translation(
         plurals=[value],
         language=unit.translation.component.source_language,
@@ -473,9 +477,10 @@ def format_source_string(
 def format_language_string(
     value: str,
     translation,
+    *,
     diff=None,
 ):
-    """Formats simple string as in the language."""
+    """Format simple string as in the language."""
     return format_translation(
         plurals=split_plural(value),
         language=translation.language,
@@ -487,6 +492,7 @@ def format_language_string(
 def format_translation(
     plurals: list[str],
     language=None,
+    *,
     plural=None,
     diff=None,
     search_match: str | None = None,
@@ -550,7 +556,7 @@ def format_translation(
 
 @register.simple_tag
 def search_name(query):
-    """Returns name for a query string."""
+    """Return name for a query string."""
     return FILTERS.get_search_name(query)
 
 
@@ -583,19 +589,30 @@ def documentation(context, page, anchor=""):
     return get_doc_url(page, anchor, user=user)
 
 
-@register.inclusion_tag("documentation-icon.html", takes_context=True)
-def documentation_icon(context, page, anchor="", right=False):
-    return {"right": right, "doc_url": documentation(context, page, anchor)}
+def render_documentation_icon(doc_url: str, right: bool):
+    if not doc_url:
+        return ""
+    return format_html(
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener">{}</a>""",
+        "pull-right flip" if right else "",
+        doc_url,
+        gettext("Documentation"),
+        icon("info.svg"),
+    )
 
 
-@register.inclusion_tag("documentation-icon.html", takes_context=True)
+@register.simple_tag(takes_context=True)
+def documentation_icon(context, page: str, anchor: str = "", right: bool = False):
+    return render_documentation_icon(documentation(context, page, anchor), right)
+
+
+@register.simple_tag(takes_context=True)
 def form_field_doc_link(context, form, field):
     if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
-        return {
-            "right": False,
-            "doc_url": get_doc_url(*field_doc, user=context["user"]),
-        }
-    return {}
+        return render_documentation_icon(
+            get_doc_url(*field_doc, user=context["user"]), False
+        )
+    return ""
 
 
 @register.inclusion_tag("message.html")
@@ -612,7 +629,7 @@ def show_message(tags, message):
 
 
 def naturaltime_past(value, now):
-    """Handling of past dates for naturaltime."""
+    """Convert past dates to natural time."""
     delta = now - value
 
     if delta.days >= 365:
@@ -666,7 +683,7 @@ def naturaltime_past(value, now):
 
 
 def naturaltime_future(value, now):
-    """Handling of future dates for naturaltime."""
+    """Convert future dates to natural time."""
     delta = value - now
 
     if delta.days >= 365:
@@ -734,15 +751,20 @@ def naturaltime(value, now=None):
     if not isinstance(value, date):
         return value
 
+    # Default to current timestamp
     if now is None:
         now = timezone.now()
+
     if value < now:
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
-    return format_html(
-        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
-    )
+
+    # Strip microseconds
+    if isinstance(value, datetime):
+        value = value.replace(microsecond=0)
+
+    return format_html('<span title="{}">{}</span>', value.isoformat(), text)
 
 
 def get_stats(obj):
@@ -751,17 +773,16 @@ def get_stats(obj):
     return obj.stats
 
 
-@register.inclusion_tag("snippets/list-objects-percent.html")
+@register.simple_tag
 def review_percent(obj):
     stats = get_stats(obj)
-
-    return {
-        "value": stats.approved + stats.readonly,
-        "percent": stats.approved_percent + stats.readonly_percent,
-        "query": "q=state:>=approved",
-        "all": stats.all,
-        "class": "zero-width-540",
-    }
+    return list_objects_percent(
+        value=stats.approved + stats.readonly,
+        percent=stats.approved_percent + stats.readonly_percent,
+        query="q=state:>=approved",
+        total=stats.all,
+        css="zero-width-540",
+    )
 
 
 def translation_progress_data(
@@ -894,7 +915,7 @@ def get_location_links(user: User | None, unit):
 
     # Go through all locations separated by comma
     return format_html_join(
-        format_html('\n<span class="divisor">•</span>\n'),
+        mark_safe('\n<span class="divisor">•</span>\n'),  # noqa: S308
         "{}",
         (
             (
@@ -920,7 +941,7 @@ def announcements(context, project=None, component=None, language=None):
                 render_to_string(
                     "message.html",
                     {
-                        "tags": f"{announcement.category} announcement",
+                        "tags": f"{announcement.severity} announcement",
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
@@ -945,11 +966,11 @@ def active_tab(context, slug):
 @register.simple_tag(takes_context=True)
 def active_link(context, slug):
     if slug == context["active_tab_slug"]:
-        return format_html('class="active"')
+        return mark_safe('class="active"')  # noqa: S308
     return ""
 
 
-def _needs_agreement(component, user):
+def _needs_agreement(component, user) -> bool:
     if not component.agreement:
         return False
     return not ContributorAgreement.objects.has_agreed(user, component)
@@ -976,7 +997,7 @@ def show_contributor_agreement(context, component):
 
 
 @register.simple_tag(takes_context=True)
-def get_translate_url(context, obj, glossary_browse=True):
+def get_translate_url(context, obj, glossary_browse=True) -> str:
     """Get translate URL based on user preference."""
     if isinstance(obj, BaseStats) or not hasattr(obj, "get_translate_url"):
         return ""
@@ -987,6 +1008,15 @@ def get_translate_url(context, obj, glossary_browse=True):
     else:
         name = "translate"
     return reverse(name, kwargs={"path": obj.get_url_path()})
+
+
+@register.simple_tag
+def get_search_url(obj) -> str:
+    """Get translate URL based on user preference."""
+    if not hasattr(obj, "get_url_path"):
+        # Ghost translation
+        return ""
+    return reverse("search", kwargs={"path": obj.get_url_path()})
 
 
 @register.simple_tag(takes_context=True)
@@ -1001,7 +1031,7 @@ def get_browse_url(context, obj):
 
 
 @register.simple_tag(takes_context=True)
-def init_unique_row_id(context):
+def init_unique_row_id(context) -> str:
     context["row_uuid"] = get_random_identifier()
     return ""
 
@@ -1077,7 +1107,7 @@ def indicate_alerts(context, obj):
 
     global_base = context.get("global_base")
 
-    if isinstance(obj, (Translation, GhostTranslation)):
+    if isinstance(obj, Translation | GhostTranslation):
         translation = obj
         component = obj.component
         project = component.project
@@ -1200,11 +1230,11 @@ def percent_format(number):
 def number_format(number):
     format_string = "%s"
     if number > 99999999:
-        number = number // 1000000
+        number //= 1000000
         # Translators: Number format, in millions (mega)
         format_string = gettext("%s M")
     elif number > 99999:
-        number = number // 1000
+        number //= 1000
         # Translators: Number format, in thousands (kilo)
         format_string = gettext("%s k")
     return format_string % django_number_format(number, force_grouping=True)
@@ -1344,3 +1374,102 @@ def get_workflow_flags(translation, component):
         "enable_suggestions": component.enable_suggestions,
         "translation_review": component.project.translation_review,
     }
+
+
+@register.simple_tag
+def list_objects_number(
+    value: int,
+    search_url: str | None = None,
+    translate_url: str | None = None,
+    query: str = "",
+    css: str | None = None,
+    show_zero: bool = False,
+):
+    value_formatted: str | SafeString
+    url_start: str | SafeString
+    url_end: str | SafeString
+    url_start = url_end = ""
+    if value == 0 and not show_zero:
+        value_formatted = format_html("""<span class="sr-only">{}</span>""", value)
+    else:
+        if search_url or translate_url:
+            url_start = format_html(
+                '<a href="{url}?{query}">',
+                url=translate_url or search_url,
+                query=query,
+            )
+            url_end = mark_safe("</a>")  # noqa: S308
+        value_formatted = intcomma(value)
+    return format_html(
+        """
+        <td class="number {css}" data-value="{value}">
+            {url_start}
+            {value_formatted}
+            {url_end}
+        </td>
+        """,
+        url_start=url_start,
+        url_end=url_end,
+        css=css,
+        value=value,
+        value_formatted=value_formatted,
+    )
+
+
+@register.simple_tag
+def list_objects_percent(
+    percent: float,
+    value: int,
+    total: int,
+    search_url: str | None = None,
+    translate_url: str | None = None,
+    query: str = "",
+    css: str | None = None,
+):
+    url_start: str | SafeString
+    url_end: str | SafeString
+    if search_url or translate_url:
+        url_start = format_html(
+            '<a href="{url}?{query}">',
+            url=translate_url or search_url,
+            query=query,
+        )
+        url_end = mark_safe("</a>")  # noqa: S308
+    else:
+        url_start = url_end = ""
+
+    if value and value == total:
+        percent_formatted = format_html(
+            """<span class="green" title="{}">{}</span>""",
+            ngettext(
+                "Completed translation with %(count)s string",
+                "Completed translation with %(count)s strings",
+                total,
+            )
+            % {"count": intcomma(total)},
+            icon("check.svg"),
+        )
+    elif value == 0 and total == 0:
+        percent_formatted = format_html(
+            """<span class="green" title="{}">{}</span>""",
+            gettext("No strings to translate"),
+            icon("check.svg"),
+        )
+    else:
+        percent_formatted = percent_format(percent)
+    return format_html(
+        """
+        <td class="number {css}" data-value="{percent}" title="{value_formatted}">
+            {url_start}
+            {percent_formatted}
+            {url_end}
+        </td>
+        """,
+        url_start=url_start,
+        url_end=url_end,
+        css=css,
+        percent=f"{percent:f}",
+        percent_formatted=percent_formatted,
+        value_formatted=gettext("%(value)s of %(all)s")
+        % {"value": intcomma(value), "all": intcomma(total)},
+    )

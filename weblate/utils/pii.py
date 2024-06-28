@@ -14,8 +14,7 @@ def mask_string(string: str, include_first: bool = False, limit: int = 3) -> str
         string = string[1:]
         length -= 1
 
-    parts.append("*" * (length - 1))
-    parts.append(string[-1])
+    parts.extend(("*" * (length - 1), string[-1]))
     return "".join(parts)
 
 

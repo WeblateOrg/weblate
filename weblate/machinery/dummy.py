@@ -11,7 +11,11 @@ class DummyTranslation(MachineTranslation):
     name = "Dummy"
 
     def download_languages(self):
-        """Dummy translation supports just Czech language."""
+        """
+        List supported languages.
+
+        Dummy translation supports just Czech language.
+        """
         return ("en", "cs")
 
     def download_translations(
@@ -23,7 +27,11 @@ class DummyTranslation(MachineTranslation):
         user,
         threshold: int = 75,
     ) -> DownloadTranslations:
-        """Dummy translation supports just single phrase."""
+        """
+        Download translations.
+
+        Dummy translation supports just few phrases.
+        """
         if source == "en" and text.strip() == "Hello, world!":
             yield {
                 "text": "Nazdar světe!",

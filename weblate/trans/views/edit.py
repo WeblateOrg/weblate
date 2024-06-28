@@ -70,7 +70,7 @@ from weblate.utils.views import (
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
-def display_fixups(request, fixups):
+def display_fixups(request, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
@@ -79,7 +79,7 @@ def display_fixups(request, fixups):
 
 
 def get_other_units(unit):
-    """Returns other units to show while translating."""
+    """Return other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", description=unit.pk):
         result: dict[str, Any] = {
             "total": 0,
@@ -201,7 +201,7 @@ def get_other_units(unit):
         return result
 
 
-def cleanup_session(session, delete_all: bool = False):
+def cleanup_session(session, delete_all: bool = False) -> None:
     """Delete old search results from session storage."""
     now = int(time.time())
     keys = list(session.keys())
@@ -316,7 +316,7 @@ def perform_suggestion(unit, form, request):
     return result
 
 
-def perform_translation(unit, form, request):
+def perform_translation(unit, form, request) -> bool:
     """Handle translation and stores it to a backend."""
     user = request.user
     profile = user.profile
@@ -475,10 +475,10 @@ def handle_revert(unit, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggest_permissions(request, mode, unit, suggestion):
+def check_suggest_permissions(request, mode, unit, suggestion) -> bool:
     """Check permission for suggestion handling."""
     user = request.user
-    if mode in ("accept", "accept_edit", "accept_approve"):
+    if mode in {"accept", "accept_edit", "accept_approve"}:
         if not user.has_perm("suggestion.accept", unit) or (
             mode == "accept_approve" and not user.has_perm("unit.review", unit)
         ):
@@ -486,13 +486,13 @@ def check_suggest_permissions(request, mode, unit, suggestion):
                 request, gettext("You do not have privilege to accept suggestions!")
             )
             return False
-    elif mode in ("delete", "spam"):
+    elif mode in {"delete", "spam"}:
         if not user.has_perm("suggestion.delete", suggestion):
             messages.error(
                 request, gettext("You do not have privilege to delete suggestions!")
             )
             return False
-    elif mode in ("upvote", "downvote") and not user.has_perm("suggestion.vote", unit):
+    elif mode in {"upvote", "downvote"} and not user.has_perm("suggestion.vote", unit):
         messages.error(
             request, gettext("You do not have privilege to vote for suggestions!")
         )
@@ -563,8 +563,8 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 
 @transaction.atomic
-def translate(request, path):  # noqa: C901
-    """Generic entry point for translating, suggesting and searching."""
+def translate(request, path):
+    """Translate, suggest and search view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
@@ -688,7 +688,6 @@ def translate(request, path):  # noqa: C901
             "offset": offset,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
-            "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
@@ -700,7 +699,7 @@ def translate(request, path):  # noqa: C901
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": unit.translation.component.locked,
-            "glossary": get_glossary_terms(unit),
+            "glossary": get_glossary_terms(unit, full=True),
             "addterm_form": TermForm(unit, user),
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "screenshots": (
@@ -783,7 +782,7 @@ def comment(request, pk):
 
     if form.is_valid():
         # Is this source or target comment?
-        if form.cleaned_data["scope"] in ("global", "report"):
+        if form.cleaned_data["scope"] in {"global", "report"}:
             scope = unit.source_unit
         # Create comment object
         Comment.objects.add(scope, request, form.cleaned_data["comment"])
@@ -885,7 +884,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
 
 
 def zen(request, path):
-    """Generic entry point for translating, suggesting and searching."""
+    """Zen mode view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
@@ -908,7 +907,6 @@ def zen(request, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
-            "filter_name": search_result["name"],
             "filter_count": len(search_result["ids"]),
             "sort_name": sort["name"],
             "sort_query": sort["query"],
@@ -1081,7 +1079,6 @@ def browse(request, path):
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,
-            "filter_name": search_result["name"],
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": base_unit_url + str(offset + 1)

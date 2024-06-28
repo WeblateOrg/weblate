@@ -281,7 +281,8 @@ textarea#id_check_flags {
   background-color: #eb3;
 }
 
-.hlspace {
+.hlspace,
+.token.newline {
   outline: 1px dotted red;
   color: #bfc3c7;
   white-space: pre-wrap;
@@ -289,7 +290,8 @@ textarea#id_check_flags {
 
 .space-tab,
 .space-nl,
-.space-space {
+.space-space,
+.token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
@@ -299,7 +301,8 @@ textarea#id_check_flags {
   position: relative;
 }
 
-.space-nl::before {
+.space-nl::before,
+.token.newline::before {
   content: "↵";
   position: relative;
 }
@@ -311,12 +314,14 @@ textarea#id_check_flags {
 }
 
 ins,
+ins .hlcheck,
 span.replacement {
   background-color: lightgreen;
   color: #2a3744;
 }
 
 del,
+del .hlcheck,
 span.replaced {
   color: #2a3744;
   background-color: #fc7979;
@@ -418,6 +423,12 @@ th:hover .sort-icon.sort-up {
 
 .engage .buttons {
   padding: 3em;
+}
+
+@media (max-width: 768px) {
+  .engage .buttons {
+    padding: 3em 0;
+  }
 }
 
 .engage .buttons a {
@@ -711,6 +722,13 @@ legend {
   width: 400px;
   min-width: 30%;
   max-width: 100%;
+  height: 100%;
+}
+.query-field .input-group-btn {
+  height: 100%;
+}
+#query-dropdown {
+  height: 100%;
 }
 
 .forbidden-term svg,
@@ -790,6 +808,11 @@ legend {
 
 .bottom-button {
   vertical-align: bottom !important;
+  text-align: right;
+}
+
+.dir-rtl .bottom-button {
+  text-align: left;
 }
 
 .panel-footer-links {
@@ -928,6 +951,9 @@ th.number {
 
 .clickable-row {
   cursor: pointer;
+}
+.unclickable-row {
+  cursor: not-allowed;
 }
 
 .clickable-row:hover {
@@ -1685,6 +1711,7 @@ a.language:hover {
 .token.code {
   color: #009;
 }
+.token.newline,
 .token.hlspace {
   display: inline;
 }
@@ -1970,4 +1997,29 @@ label .text-muted {
 #workflow-enable-target {
   transition: all 300ms linear;
   -webkit-transition: all 300ms linear;
+}
+
+.img-check {
+  background-color: #ccc;
+  margin-bottom: 0;
+}
+
+tbody.danger {
+  background-color: #f2dede;
+}
+tbody.warning {
+  background-color: #fcf8e3;
+}
+
+.glossary-embed div.alert {
+  padding: 5px 10px;
+  margin: 0;
+}
+
+.auth-info {
+  display: inline-block;
+}
+.auth-list .auth-image {
+  vertical-align: top;
+  padding: 0 5px;
 }

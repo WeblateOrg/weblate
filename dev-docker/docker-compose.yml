@@ -33,7 +33,7 @@ services:
       # Local data directory
     - $PWD/data:/app/data
       # Override Weblate with local dir
-    - $PWD/../weblate:/usr/local/lib/python${DOCKER_PYTHON}/site-packages/weblate
+    - $PWD/../weblate:/app/venv/lib/python${DOCKER_PYTHON}/site-packages/weblate
     restart: always
     depends_on:
     - database
@@ -51,6 +51,8 @@ services:
     - postgres-data:/var/lib/postgresql/data
     - ./postgres-init:/docker-entrypoint-initdb.d
     restart: always
+    ports:
+    - 5433:5432
   cache:
     image: redis:7-alpine
     restart: always

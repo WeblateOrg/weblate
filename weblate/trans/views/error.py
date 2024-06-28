@@ -18,7 +18,7 @@ def bad_request(request, exception=None):
     if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.bad_request(request, exception)
     if exception:
-        report_error(cause="Bad request")
+        report_error("Bad request")
     return render(request, "400.html", {"title": gettext("Bad Request")}, status=400)
 
 
@@ -41,6 +41,7 @@ def csrf_failure(request, reason=""):
             "title": gettext("Permission Denied"),
             "no_referer": reason == REASON_NO_REFERER,
             "no_cookie": reason == REASON_NO_CSRF_COOKIE,
+            "reason": reason,
         },
         status=403,
     )

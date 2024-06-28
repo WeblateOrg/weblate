@@ -20,9 +20,7 @@ class _FluentSyntaxCheck:
     @staticmethod
     def check_fluent_syntax(source: str, unit: TransUnitModel) -> bool:
         syntax_error = FluentUnitConverter(unit, source).get_syntax_error()
-        if syntax_error:
-            return True
-        return False
+        return bool(syntax_error)
 
     @staticmethod
     def get_fluent_syntax_error_description(

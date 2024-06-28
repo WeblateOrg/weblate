@@ -53,6 +53,7 @@ class ComponentDiscovery:
     def __init__(
         self,
         component,
+        *,
         match: str,
         name_template: str,
         file_format: str,
@@ -62,7 +63,7 @@ class ComponentDiscovery:
         intermediate_template: str = "",
         path=None,
         copy_addons=True,
-    ):
+    ) -> None:
         self.component = component
         if path is None:
             self.path = self.component.full_path
@@ -180,7 +181,7 @@ class ComponentDiscovery:
                 result[mask]["files_langs"].add((path, groups["language"]))
         return result
 
-    def log(self, *args):
+    def log(self, *args) -> None:
         if self.component:
             self.component.log_info(*args)
         else:

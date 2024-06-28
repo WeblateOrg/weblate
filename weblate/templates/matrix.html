@@ -17,7 +17,7 @@
 <tr>
 <th><a href="{{ object.source_translation.get_absolute_url }}">{{ object.source_language }}</a></th>
 {% for translation in translations %}
-<th><a href="{{ translatin.get_absolute_url }}">{{ translation.language }}</a></th>
+<th><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></th>
 {% endfor %}
 </tr>
 </thead>

@@ -5,5 +5,5 @@
 from django.utils.crypto import get_random_string
 
 
-def get_token(scope: str):
+def get_token(scope: str) -> str:
     return f"{scope}_{get_random_string(36)}"

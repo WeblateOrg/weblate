@@ -85,7 +85,7 @@ class TeamUpdateView(UpdateView):
                 self.object.admins.add(form.cleaned_data["user"])
             else:
                 self.object.admins.remove(form.cleaned_data["user"])
-            form.cleaned_data["user"].groups.add(self.object)
+            form.cleaned_data["user"].add_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
@@ -93,7 +93,7 @@ class TeamUpdateView(UpdateView):
     def handle_remove_user(self, request):
         form = UserManageForm(request.POST)
         if form.is_valid():
-            form.cleaned_data["user"].groups.remove(self.object)
+            form.cleaned_data["user"].remove_team(request, self.object)
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
@@ -148,18 +148,8 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
-    def check_access(self):
-        invitation = self.object
-        user = self.request.user
-        if invitation.user:
-            if not user.is_authenticated:
-                raise PermissionDenied
-            if invitation.user != user:
-                raise Http404
-
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.check_access()
         if not self.object.user:
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)
@@ -169,13 +159,14 @@ class InvitationView(DetailView):
 
     def post(self, request, **kwargs):
         self.object = invitation = self.get_object()
+        user = request.user
 
         # Handle admin actions first
         action = request.POST.get("action", "")
-        if action in ("resend", "remove"):
+        if action in {"resend", "remove"}:
             project = invitation.group.defining_project
             # Permission check
-            if not request.user.has_perm(
+            if not user.has_perm(
                 "project.permissions" if project else "user.edit", project
             ):
                 raise PermissionDenied
@@ -193,23 +184,31 @@ class InvitationView(DetailView):
                 return redirect("manage-access", project=project.slug)
             return redirect("manage-users")
 
+        # Check if invitation can be accepted
+        if not invitation.user:
+            # This should go via registration path
+            raise Http404
+        if not user.is_authenticated:
+            raise PermissionDenied
+        if invitation.user != user:
+            raise Http404
+
         # Accept invitation
-        self.check_access()
-        invitation.accept(request, request.user)
+        invitation.accept(request, user)
 
         if invitation.group.defining_project:
             return redirect(invitation.group.defining_project)
         return redirect("home")
 
 
-def accept_invitation(request, invitation: Invitation, user: User | None):
+def accept_invitation(request, invitation: Invitation, user: User | None) -> None:
     if user is None:
         user = invitation.user
     if user is None:
         raise Http404
 
     # Add user to invited group
-    user.groups.add(invitation.group)
+    user.add_team(request, invitation.group)
     # Let him watch the project
     if invitation.group.defining_project:
         user.profile.watched.add(invitation.group.defining_project)

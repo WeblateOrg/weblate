@@ -6,6 +6,9 @@ from django.apps import AppConfig
 from django.core.checks import Info, register
 
 from weblate.utils.checks import weblate_check
+from weblate.wladmin.sites import patch_admin_site
+
+patch_admin_site()
 
 
 class WLAdminConfig(AppConfig):

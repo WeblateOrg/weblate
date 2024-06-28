@@ -12,6 +12,7 @@ from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
 if TYPE_CHECKING:
@@ -56,10 +57,10 @@ SOCIAL_TEMPLATE = """
 """
 
 
-def get_auth_params(auth: str):
-    """Returns authentication parameters."""
+def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
+    """Generate authentication parameters."""
     # Fallback values
-    params = {"name": auth.title(), "image": "password.svg"}
+    params: dict[str, StrOrPromise] = {"name": auth.title(), "image": "password.svg"}
 
     # Hardcoded names
     if auth in SOCIALS:
@@ -67,8 +68,8 @@ def get_auth_params(auth: str):
 
     # Settings override
     settings_params = {
-        "name": f"SOCIAL_AUTH_{auth.upper().replace('-','_')}_TITLE",
-        "image": f"SOCIAL_AUTH_{auth.upper().replace('-','_')}_IMAGE",
+        "name": f"SOCIAL_AUTH_{auth.upper().replace('-', '_')}_TITLE",
+        "image": f"SOCIAL_AUTH_{auth.upper().replace('-', '_')}_IMAGE",
     }
     for target, source in settings_params.items():
         value = getattr(settings, source, None)
@@ -78,17 +79,20 @@ def get_auth_params(auth: str):
     return params
 
 
-auth_name_default_separator = format_html("<br />")
+auth_name_default_separator = mark_safe("<br />")  # noqa: S308
 
 
 @register.simple_tag
-def auth_name(auth: str, separator: str = auth_name_default_separator):
+def auth_name(auth: str, separator: str = auth_name_default_separator, only: str = ""):
     """Create HTML markup for social authentication method."""
     params = get_auth_params(auth)
 
     if not params["image"].startswith("http"):
         params["image"] = staticfiles_storage.url("auth/" + params["image"])
     params["icon"] = format_html(IMAGE_SOCIAL_TEMPLATE, separator=separator, **params)
+
+    if only:
+        return params[only]
 
     return format_html(SOCIAL_TEMPLATE, separator=separator, **params)
 

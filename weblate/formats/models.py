@@ -9,7 +9,7 @@ from weblate.utils.classloader import ClassLoader
 
 
 class ExporterLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("WEBLATE_EXPORTERS", False)
 
     def list_exporters(self, translation):
@@ -31,7 +31,7 @@ EXPORTERS = ExporterLoader()
 
 
 class FileFormatLoader(ClassLoader):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("WEBLATE_FORMATS", False)
         self.errors = {}
 

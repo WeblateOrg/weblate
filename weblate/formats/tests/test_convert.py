@@ -40,7 +40,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_EXPECTED = ""
     CONVERT_EXISTING: list[MockUnit] = []
 
-    def test_convert(self):
+    def test_convert(self) -> None:
         if not self.CONVERT_TEMPLATE:
             raise SkipTest(f"Test template not provided for {self.FORMAT.format_id}")
         template = NamedTemporaryFile(delete=False, mode="w+")
@@ -131,7 +131,7 @@ Nazdar
 """
     CONVERT_EXISTING = [MockUnit(source="Hello", target="Ahoj")]
 
-    def test_existing_units(self):
+    def test_existing_units(self) -> None:
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
 
@@ -198,7 +198,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
             OpenDocumentFormat.convertfile(NamedBytesIO("test.odt", content), None)
         ).decode()
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
             self.extract_document(newdata),
             self.extract_document(testdata),
@@ -227,7 +227,7 @@ class IDMLFormatTest(ConvertFormatTest):
             IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
         ).decode()
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
             self.extract_document(newdata),
             self.extract_document(testdata),

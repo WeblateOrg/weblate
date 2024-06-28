@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import cast
+
 from django import forms
 
 from weblate.fonts.models import Font, FontGroup, FontOverride
@@ -18,11 +22,10 @@ class FontGroupForm(forms.ModelForm):
         model = FontGroup
         fields = ("name", "font")
 
-    def __init__(self, data=None, project=None, **kwargs):
+    def __init__(self, data=None, project=None, **kwargs) -> None:
         super().__init__(data, **kwargs)
-        self.fields["font"].queryset = self.fields["font"].queryset.filter(
-            project=project
-        )
+        field = cast(forms.ModelChoiceField, self.fields["font"])
+        field.queryset = field.queryset.filter(project=project)  # type: ignore[union-attr]
 
 
 class FontOverrideForm(forms.ModelForm):

@@ -71,10 +71,10 @@ def params_iter(
     template_store: TranslationFormat | None,
     is_template: bool = False,
 ) -> Generator[tuple[dict[str, Any], bool], None, None]:
-    if file_format.monolingual in (True, None) and (template_store or is_template):
+    if file_format.monolingual in {True, None} and (template_store or is_template):
         yield {"template_store": template_store, "is_template": is_template}, True
 
-    if file_format.monolingual in (False, None):
+    if file_format.monolingual in {False, None}:
         yield {}, False
 
 

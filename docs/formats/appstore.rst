@@ -25,11 +25,11 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
-| File mask                      | ``fastlane/android/metadata/*``     |
+| File mask                      | ``fastlane/metadata/android/*``     |
 +--------------------------------+-------------------------------------+
-| Monolingual base language file | ``fastlane/android/metadata/en-US`` |
+| Monolingual base language file | ``fastlane/metadata/android/en-US`` |
 +--------------------------------+-------------------------------------+
-| Template for new translations  | ``fastlane/android/metadata/en-US`` |
+| Template for new translations  | ``fastlane/metadata/android/en-US`` |
 +--------------------------------+-------------------------------------+
 | File format                    | `App store metadata files`          |
 +--------------------------------+-------------------------------------+

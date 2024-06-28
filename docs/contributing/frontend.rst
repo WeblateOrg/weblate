@@ -43,11 +43,10 @@ Adding new third-party library typically consists of:
 Coding style
 ------------
 
-Weblate relies on `Prettier`_ for the code formatting for both JavaScript and CSS files.
+Weblate relies on `Prettier`_ for the code formatting for CSS files and
+`Biome`_ for formatting and linting the JavaScript code.
 
-We also use `ESLint`_ to check the JavaScript code.
-
-.. _ESLint: https://eslint.org/
+.. _Biome: https://biomejs.dev/
 .. _Prettier: https://prettier.io/
 
 

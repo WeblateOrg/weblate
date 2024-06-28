@@ -24,7 +24,7 @@ class RemovalAddon(BaseAddon):
         age = self.instance.configuration["age"]
         return timezone.now() - timedelta(days=age)
 
-    def delete_older(self, objects, component):
+    def delete_older(self, objects, component) -> None:
         count = objects.filter(timestamp__lt=self.get_cutoff()).delete()[0]
         if count:
             component.invalidate_cache()
@@ -35,7 +35,7 @@ class RemoveComments(RemovalAddon):
     verbose = gettext_lazy("Stale comment removal")
     description = gettext_lazy("Set a timeframe for removal of comments.")
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         self.delete_older(
             Comment.objects.filter(
                 unit__translation__component__project=component.project
@@ -50,7 +50,7 @@ class RemoveSuggestions(RemovalAddon):
     description = gettext_lazy("Set a timeframe for removal of suggestions.")
     settings_form = RemoveSuggestionForm
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         self.delete_older(
             Suggestion.objects.filter(
                 unit__translation__component__project=component.project

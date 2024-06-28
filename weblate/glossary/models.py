@@ -28,9 +28,9 @@ NON_WORD_RE = re.compile(r"\W")
 CONTROLCHARS = [
     char
     for char in map(chr, range(sys.maxunicode + 1))
-    if unicodedata.category(char) in ("Zl", "Cc")
+    if unicodedata.category(char) in {"Zl", "Cc"}
 ]
-CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
+CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
 def get_glossary_sources(component):
@@ -71,8 +71,12 @@ def get_glossary_units(project, source_language, target_language):
     )
 
 
-def get_glossary_terms(unit: Unit) -> list[Unit]:
+def get_glossary_terms(
+    unit: Unit, *, full: bool = False, include_variants: bool = True
+) -> list[Unit]:
     """Return list of term pairs for an unit."""
+    from weblate.trans.models.component import Component
+
     if unit.glossary_terms is not None:
         return unit.glossary_terms
     translation = unit.translation
@@ -92,18 +96,23 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
             parts.append(text)
     source = PLURAL_SEPARATOR.join(parts)
 
-    uses_ngram = source_language.uses_ngram()
+    uses_whitespace = source_language.uses_whitespace()
+    boundaries: set[int] = set()
+    if uses_whitespace:
+        # Get list of word boundaries
+        boundaries = {match.span()[0] for match in NON_WORD_RE.finditer(source)}
+        boundaries.add(-1)
+        boundaries.add(len(source))
 
     automaton = project.glossary_automaton
-    positions = defaultdict(list[tuple[int, int]])
+    positions: dict[str, list[tuple[int, int]]] = defaultdict(list)
     # Extract terms present in the source
     with sentry_sdk.start_span(op="glossary.match", description=project.slug):
         for _termno, start, end in automaton.find_matches_as_indexes(
             source, overlapping=True
         ):
-            if uses_ngram or (
-                (start == 0 or NON_WORD_RE.match(source[start - 1]))
-                and (end >= len(source) or NON_WORD_RE.match(source[end]))
+            if not uses_whitespace or (
+                (start - 1 in boundaries) and (end in boundaries)
             ):
                 term = source[start:end].lower()
                 positions[term].append((start, end))
@@ -112,39 +121,56 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
             unit.glossary_terms = []
             return []
 
+        base_units = get_glossary_units(project, source_language, language)
+        # Variant is used for variant grouping below, source unit for flags
+        base_units = base_units.select_related("source_unit", "variant")
+
+        if full:
+            # Include full details needed for rendering
+            base_units = base_units.prefetch()
+        else:
+            # Component priority is needed for ordering, file format and flags for flags
+            base_units = base_units.prefetch_related(
+                Prefetch(
+                    "translation__component",
+                    queryset=Component.objects.only(
+                        "priority", "file_format", "check_flags"
+                    ),
+                ),
+            )
+
         units = list(
-            get_glossary_units(project, source_language, language)
-            .prefetch()
-            .filter(
+            base_units.filter(
                 Q(source__lower__md5__in=[MD5(Value(term)) for term in positions]),
             )
-            .select_related("source_unit", "variant")
         )
 
         # Add variants manually. This could be done by adding filtering on
         # variant__unit__source in the above query, but this slows down the query
         # considerably and variants are rarely used.
-        existing = {unit.pk for unit in units}
-        variants = set()
-        extra = []
-        for unit in units:
-            if not unit.variant or unit.variant.pk in variants:
-                continue
-            variants.add(unit.variant.pk)
-            for child in unit.variant.unit_set.filter(
-                translation__language=language
-            ).select_related("source_unit"):
-                if child.pk not in existing:
-                    existing.add(child.pk)
-                    extra.append(child)
+        if include_variants:
+            existing = {match.pk for match in units}
+            variants = set()
+            extra = []
 
-        units.extend(extra)
+            for match in units:
+                if not match.variant or match.variant.pk in variants:
+                    continue
+                variants.add(match.variant.pk)
+                for child in match.variant.unit_set.filter(
+                    translation__language=language
+                ).select_related("source_unit"):
+                    if child.pk not in existing:
+                        existing.add(child.pk)
+                        extra.append(child)
+
+            units.extend(extra)
 
         # Order results, this is Python reimplementation of:
         units.sort(key=lambda x: x.glossary_sort_key)
 
-        for unit in units:
-            unit.glossary_positions = tuple(positions[unit.source.lower()])
+        for match in units:
+            match.glossary_positions = tuple(positions[match.source.lower()])
 
     # Store in a unit cache
     unit.glossary_terms = units
@@ -154,7 +180,7 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
 
 def render_glossary_units_tsv(units) -> str:
     r"""
-    Builds a tab separated glossary.
+    Build a tab separated glossary.
 
     Based on the DeepL specification:
 

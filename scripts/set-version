@@ -19,7 +19,7 @@ if len(sys.argv) != 2:
 version = sys.argv[1]
 
 
-def replace_file(name, search, replace):
+def replace_file(name, search, replace) -> None:
     with open(name) as handle:
         content = handle.read()
 
@@ -28,7 +28,7 @@ def replace_file(name, search, replace):
         handle.write(content)
 
 
-def prepend_file(name, content):
+def prepend_file(name, content) -> None:
     with open(name) as handle:
         content += handle.read()
 

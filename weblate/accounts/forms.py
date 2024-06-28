@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Union, cast
+from typing import cast
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
@@ -85,11 +85,16 @@ class UniqueEmailMixin(forms.Form):
 class PasswordField(forms.CharField):
     """Password field."""
 
-    def __init__(self, *args, **kwargs):
-        kwargs["widget"] = forms.PasswordInput(render_value=False)
+    def __init__(self, new_password: bool = False, **kwargs) -> None:
+        kwargs["widget"] = forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password" if new_password else "current-password"
+            },
+            render_value=False,
+        )
         kwargs["max_length"] = 256
         kwargs["strip"] = False
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
 
 class UniqueUsernameField(UsernameField):
@@ -110,7 +115,7 @@ class UniqueUsernameField(UsernameField):
 class FullNameField(forms.CharField):
     default_validators = [validate_fullname]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs["max_length"] = FULLNAME_LENGTH
         kwargs["label"] = gettext_lazy("Full name")
         kwargs["help_text"] = gettext_lazy(
@@ -127,7 +132,7 @@ class ProfileBaseForm(forms.ModelForm):
             return cls(request.POST, instance=request.user.profile)
         return cls(instance=request.user.profile)
 
-    def add_error(self, field, error):
+    def add_error(self, field, error) -> None:
         if field is None and hasattr(error, "error_dict"):
             # Skip errors from model clean method on unknown fields as
             # this is partial form. This is really bound to how Profile.clean
@@ -151,7 +156,7 @@ class LanguagesForm(ProfileBaseForm):
             "secondary_languages": SortedSelectMultiple,
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         # Remove empty choice from the form. We need it at the database level
         # to initialize user profile, but it is filled in later based on
@@ -170,7 +175,7 @@ class LanguagesForm(ProfileBaseForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
 
-    def save(self, commit=True):
+    def save(self, commit=True) -> None:
         super().save(commit=commit)
         # Activate selected language
         activate(self.cleaned_data["language"])
@@ -181,7 +186,7 @@ class CommitForm(ProfileBaseForm):
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
         help_text=gettext_lazy(
-            "Used in version control commits. The address will stay in the repository forever once changes are commited by Weblate."
+            "Used in version control commits. The address will stay in the repository forever once changes are committed by Weblate."
         ),
         required=False,
         widget=forms.RadioSelect,
@@ -191,7 +196,7 @@ class CommitForm(ProfileBaseForm):
         model = Profile
         fields = ("commit_email",)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         commit_emails = get_all_user_mails(self.instance.user, filter_deliverable=False)
@@ -233,7 +238,7 @@ class ProfileForm(ProfileBaseForm):
             "company",
         )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         emails = get_all_user_mails(self.instance.user)
 
@@ -255,7 +260,7 @@ class SubscriptionForm(ProfileBaseForm):
         )
         widgets = {"watched": forms.SelectMultiple}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         user = kwargs["instance"].user
         self.fields["watched"].required = False
@@ -282,7 +287,7 @@ class UserSettingsForm(ProfileBaseForm):
             "special_chars",
         )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["special_chars"].strip = False
         self.helper = FormHelper(self)
@@ -301,7 +306,7 @@ class DashboardSettingsForm(ProfileBaseForm):
             "dashboard_component_list": forms.HiddenInput,
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
@@ -332,7 +337,7 @@ class DashboardSettingsForm(ProfileBaseForm):
                 100 + self.instance.dashboard_component_list_id
             )
 
-    def clean(self):
+    def clean(self) -> None:
         view = self.cleaned_data.get("dashboard_view")
         if view and view >= 100:
             self.cleaned_data["dashboard_view"] = Profile.DASHBOARD_COMPONENT_LIST
@@ -362,7 +367,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ("username", "full_name", "email")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         emails = get_all_user_mails(self.instance)
@@ -380,7 +385,7 @@ class UserForm(forms.ModelForm):
             return cls(request.POST, instance=request.user)
         return cls(instance=request.user)
 
-    def audit(self, request):
+    def audit(self, request) -> None:
         orig = User.objects.get(pk=self.instance.pk)
         for attr in ("username", "full_name", "email"):
             orig_attr = getattr(orig, attr)
@@ -435,7 +440,7 @@ class RegistrationForm(EmailForm):
     # This has to be without underscore for social-auth
     fullname = FullNameField()
 
-    def __init__(self, request=None, *args, **kwargs):
+    def __init__(self, request=None, *args, **kwargs) -> None:
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
@@ -465,11 +470,15 @@ class SetPasswordForm(DjangoSetPasswordForm):
     new_password1 = PasswordField(
         label=gettext_lazy("New password"),
         help_text=password_validation.password_validators_help_text_html(),
+        new_password=True,
     )
-    new_password2 = PasswordField(label=gettext_lazy("New password confirmation"))
+    new_password2 = PasswordField(
+        label=gettext_lazy("New password confirmation"),
+        new_password=True,
+    )
 
     @transaction.atomic
-    def save(self, request, delete_session=False):
+    def save(self, request, delete_session=False) -> None:
         AuditLog.objects.create(
             self.user,
             request,
@@ -498,7 +507,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
 class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
 
-    def __init__(self, request, form=None, data=None, *args, **kwargs):
+    def __init__(self, request, form=None, data=None, *args, **kwargs) -> None:
         super().__init__(data, *args, **kwargs)
         self.fresh = False
         self.request = request
@@ -511,7 +520,7 @@ class CaptchaForm(forms.Form):
             self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
             self.set_label()
 
-    def set_label(self):
+    def set_label(self) -> None:
         # Set correct label
         self.fields["captcha"].label = (
             pgettext(
@@ -524,13 +533,13 @@ class CaptchaForm(forms.Form):
         if self.is_bound:
             self["captcha"].label = cast(str, self.fields["captcha"].label)
 
-    def generate_captcha(self):
+    def generate_captcha(self) -> None:
         self.mathcaptcha = MathCaptcha()
         self.request.session["captcha"] = self.mathcaptcha.serialize()
         self.set_label()
 
-    def clean_captcha(self):
-        """Validation for CAPTCHA."""
+    def clean_captcha(self) -> None:
+        """Validate CAPTCHA."""
         if self.fresh or not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
             rotate_token(self.request)
@@ -548,12 +557,12 @@ class CaptchaForm(forms.Form):
             self.cleaned_data["captcha"],
         )
 
-    def cleanup_session(self, request):
+    def cleanup_session(self, request) -> None:
         del request.session["captcha"]
 
 
 class EmptyConfirmForm(forms.Form):
-    def __init__(self, request, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs) -> None:
         self.request = request
         self.user = request.user
         if "user" in kwargs:
@@ -568,7 +577,7 @@ class PasswordConfirmForm(EmptyConfirmForm):
         required=False,
     )
 
-    def clean_password(self):
+    def clean_password(self) -> None:
         cur_password = self.cleaned_data["password"]
         valid = False
         if self.user.has_usable_password():
@@ -602,7 +611,7 @@ class LoginForm(forms.Form):
         "inactive": gettext_lazy("This account is inactive."),
     }
 
-    def __init__(self, request=None, *args, **kwargs):
+    def __init__(self, request=None, *args, **kwargs) -> None:
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
@@ -631,7 +640,7 @@ class LoginForm(forms.Form):
                     % lockout_period
                 )
             self.user_cache = cast(
-                Union[User, None],
+                User | None,
                 authenticate(self.request, username=username, password=password),
             )
             if self.user_cache is None:
@@ -686,7 +695,7 @@ class NotificationForm(forms.Form):
 
     def __init__(
         self, *, user, show_default, removable, subscriptions, is_active, **kwargs
-    ):
+    ) -> None:
         super().__init__(**kwargs)
         self.user = user
         self.is_active = is_active
@@ -834,7 +843,7 @@ class NotificationForm(forms.Form):
             " translated languages in %(component)s."
         ) % {"component": self.form_component}
 
-    def save(self):
+    def save(self) -> None:
         # Lookup for this form
         lookup = {
             "scope": self.cleaned_data["scope"],
@@ -846,7 +855,7 @@ class NotificationForm(forms.Form):
             frequency = self.cleaned_data[field]
             # We do not store removed field, defaults or disabled default subscriptions
             if (
-                frequency == ""
+                frequency == ""  # noqa: PLC1901
                 or frequency == "-1"
                 or (frequency == "0" and not self.show_default)
             ):
@@ -879,7 +888,7 @@ class UserSearchForm(forms.Form):
     }
     sort_values = set(sort_choices) | {f"-{val}" for val in sort_choices}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
@@ -919,7 +928,7 @@ class GroupAddForm(forms.Form):
         required=True,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_class = "form-inline"

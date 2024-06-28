@@ -33,12 +33,12 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
-        cache-dependency-path: requirements*.txt
     - name: Used versions
       run: ./ci/print-versions
-    - name: Install pip dependencies
+    - name: Install Python dependencies
       run: ./ci/pip-install
+    - name: Install setuptools
+      run: uv pip install --system $(sed -n 's/.*"\(setuptools[<>=]=\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: Install Weblate
       run: coverage run ./setup.py install
     - name: Check difference
@@ -68,14 +68,12 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
-        cache-dependency-path: '**/requirements*.txt'
     - name: Used versions
       run: ./ci/print-versions
-    - name: Install pip dependencies
+    - name: Install Python dependencies
       run: ./ci/pip-install
     - name: Install Weblate
-      run: pip install '.[all]'
+      run: uv pip install --system '.[all]'
     - name: Check difference
       run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
 
@@ -94,10 +92,11 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
-        cache-dependency-path: requirements-ci.txt
-    - name: Install pip dependencies
-      run: pip install -r requirements-ci.txt
+    - name: Install Python dependencies
+      run: |
+        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        uv pip install --system $(sed -n 's/.*"\(twine==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        uv pip install --system $(sed -n 's/.*"\(build==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: build
       run: python -m build
     - name: Twine check
@@ -121,14 +120,14 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: pip
-        cache-dependency-path: docs/requirements.txt
     - name: Install apt dependencies
       run: |
         sudo apt update
         sudo apt install -y graphviz pandoc
-    - name: Install pip dependencies
-      run: pip install -r docs/requirements.txt
+    - name: Install Python dependencies
+      run: |
+        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
+        uv pip install --system -r docs/requirements.txt
     - name: Sphinx build
       run: ./ci/run-docs
     - name: Convert release notes

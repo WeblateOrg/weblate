@@ -35,12 +35,12 @@ class TransactionsTestMixin:
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
         if not using_postgresql():
             return False
-        return super()._databases_support_transactions()
+        return super()._databases_support_transactions()  # type: ignore[misc]
 
 
-def adjust_similarity_threshold(value: float):
+def adjust_similarity_threshold(value: float) -> None:
     """
-    Adjusts pg_trgm.similarity_threshold for the % operator.
+    Adjust pg_trgm.similarity_threshold for the % operator.
 
     Ideally we would use directly similarity() in the search, but that doesn't seem
     to use index, while using % does.
@@ -59,14 +59,14 @@ def adjust_similarity_threshold(value: float):
         return
 
     with connection.cursor() as cursor:
-        # The SELECT has to be executed first as othervise the trgm extension
+        # The SELECT has to be executed first as otherwise the trgm extension
         # might not yet be loaded and GUC setting not possible.
         if current_similarity == -1:
             cursor.execute("SELECT show_limit()")
 
         # Adjust threshold
         cursor.execute("SELECT set_limit(%s)", [value])
-        connection.weblate_similarity = value
+        connection.weblate_similarity = value  # type: ignore[attr-defined]
 
 
 def count_alnum(string):
@@ -78,27 +78,27 @@ class PostgreSQLFallbackLookupMixin:
     Mixin to block PostgreSQL from using trigram index.
 
     It is ineffective for very short strings as these produce a lot of matches
-    which need to be rechecked and full table scan is more effecive in that
+    which need to be rechecked and full table scan is more effective in that
     case.
 
     It is performed by concatenating empty string which will prevent index usage.
     """
 
     def process_lhs(self, compiler, connection, lhs=None):
-        if self._needs_fallback:
-            lhs_sql, params = super().process_lhs(compiler, connection, lhs)
+        if self._needs_fallback:  # type: ignore[attr-defined]
+            lhs_sql, params = super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]
             return f"{lhs_sql} || ''", params
-        return super().process_lhs(compiler, connection, lhs)
+        return super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]
 
 
 class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
-    def __init__(self, lhs, rhs):
+    def __init__(self, lhs, rhs) -> None:
         self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
         super().__init__(lhs, rhs)
 
 
 class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
-    def __init__(self, lhs, rhs):
+    def __init__(self, lhs, rhs) -> None:
         self._needs_fallback = isinstance(rhs, str) and (
             min((count_alnum(match) for match in invert_re(rhs)), default=0) < 3
         )
@@ -116,7 +116,7 @@ class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     def get_rhs_op(self, connection, rhs):
         if self._needs_fallback:
             return connection.operators["contains"] % rhs
-        return "%%%% %s = true" % rhs
+        return f"%% {rhs} = true"
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -142,7 +142,7 @@ class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
     def get_rhs_op(self, connection, rhs):
         if self._needs_fallback:
             return connection.operators["contains"] % rhs
-        return "ILIKE %s" % rhs
+        return f"ILIKE {rhs}"
 
 
 def re_escape(pattern: str) -> str:

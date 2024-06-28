@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Backup automation based on borg."""
+
 from __future__ import annotations
 
 import os
@@ -11,7 +12,6 @@ import subprocess
 from random import SystemRandom
 from urllib.parse import urlparse
 
-import borg
 from django.conf import settings
 
 from weblate.trans.util import get_clean_env
@@ -51,7 +51,7 @@ def make_password(length: int = 50):
     return "".join(generator.choice(chars) for i in range(length))
 
 
-def tag_cache_dirs():
+def tag_cache_dirs() -> None:
     """Create CACHEDIR.TAG in our cache dirs to exclude from backups."""
     dirs = [
         # Fontconfig cache
@@ -77,7 +77,7 @@ def tag_cache_dirs():
 
 
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
-    """Wrapper to execute borgbackup."""
+    """Execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
         try:
@@ -164,14 +164,7 @@ def prune(location: str, passphrase: str) -> str:
     )
 
 
-def supports_cleanup():
-    """Cleanup is supported since borg 1.2."""
-    return borg.__version_tuple__ >= (1, 2)
-
-
 def cleanup(location: str, passphrase: str, initial: bool) -> str:
-    if not supports_cleanup():
-        return ""
     cmd = ["compact"]
     if initial:
         cmd.append("--cleanup-commits")

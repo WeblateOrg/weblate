@@ -1,7 +1,7 @@
 .. _machine-translation-setup:
 
-Configuring automatic suggestions
-=================================
+Automatic suggestions
+=====================
 
 .. versionchanged:: 4.13
 
@@ -179,7 +179,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
     `DeepL translator <https://www.deepl.com/translator>`_,
     `DeepL pricing <https://www.deepl.com/pro>`_,
-    `DeepL API documentation <https://www.deepl.com/docs-api.html>`_
+    `DeepL API documentation <https://developers.deepl.com/docs>`_
 
 .. _mt-glosbe:
 
@@ -313,42 +313,44 @@ Azure AI Translator
 -------------------
 
 :Service ID: ``microsoft-translator``
-:Configuration: +------------------+-------------------------------+-----------------------------------------------------------------------+
-                | ``key``          | API key                       |                                                                       |
-                +------------------+-------------------------------+-----------------------------------------------------------------------+
-                | ``base_url``     | Application base URL          | Available choices:                                                    |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional)    |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific         |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api-eur.cognitive.microsofttranslator.com`` -- Europe               |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api-nam.cognitive.microsofttranslator.com`` -- North America        |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api.translator.azure.cn`` -- China                                  |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud |
-                +------------------+-------------------------------+-----------------------------------------------------------------------+
-                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be specified using region field below.  |
-                |                  |                               |                                                                       |
-                |                  |                               | Available choices:                                                    |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api.cognitive.microsoft.com`` -- Global                             |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api.cognitive.azure.cn`` -- China                                   |
-                |                  |                               |                                                                       |
-                |                  |                               | ``api.cognitive.microsoft.us`` -- Azure US Government cloud           |
-                +------------------+-------------------------------+-----------------------------------------------------------------------+
-                | ``region``       | Authentication service region |                                                                       |
-                +------------------+-------------------------------+-----------------------------------------------------------------------+
+:Configuration: +------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``key``          | API key                       |                                                                           |
+                +------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``base_url``     | Application base URL          | Available choices:                                                        |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional)        |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific             |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api-eur.cognitive.microsofttranslator.com`` -- Europe                   |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api-nam.cognitive.microsofttranslator.com`` -- North America            |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api.translator.azure.cn`` -- China                                      |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud     |
+                +------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be specified using region field below.      |
+                |                  |                               |                                                                           |
+                |                  |                               | Available choices:                                                        |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api.cognitive.microsoft.com`` -- Global                                 |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api.cognitive.azure.cn`` -- China                                       |
+                |                  |                               |                                                                           |
+                |                  |                               | ``api.cognitive.microsoft.us`` -- Azure US Government cloud               |
+                +------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``region``       | Authentication service region |                                                                           |
+                +------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``category``     | Category                      | Specify a customized system category ID to use it instead of general one. |
+                +------------------+-------------------------------+---------------------------------------------------------------------------+
 
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
 
 Weblate implements Translator API V3.
 
-The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+The service automatically uses :ref:`glossary` via `dynamic dictionary <https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-dictionary>`_, see :ref:`glossary-mt`.
 
 Translator Text API V2
 ``````````````````````
@@ -358,6 +360,8 @@ Translator Text API V3
 ``````````````````````
 You need to register at Azure portal and use the key you obtain there.
 With new Azure keys, you also need to set ``region`` to locale of your service.
+
+You can also specify a custom category to use `custom translator <https://learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/concepts/customization>`_.
 
 .. hint::
 
@@ -476,7 +480,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 .. seealso::
 
    `OpenAI models <https://platform.openai.com/docs/models>`_,
-   `OpenAI API keys <https://platform.openai.com/account/api-keys>`_
+   `OpenAI API keys <https://platform.openai.com/api-keys>`_
 
 .. _OpenAI: https://openai.com/
 
@@ -519,6 +523,21 @@ addition to the term database.
 
     `SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub>`_,
     `Building the Base URL of SAP Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_
+
+.. _mt-systran:
+
+Systran
+-------
+
+:Service ID: ``systran``
+:Configuration: +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+
+Machine translation service provided by Systran.
+
+This service uses an API, and you need to obtain API key at <https://translate.systran.net/en/account>.
 
 .. _mt-tmserver:
 
@@ -567,9 +586,10 @@ Weblate
 :Configuration: `This service has no configuration.`
 
 
-Weblate machine translation service can provide translations for strings that
-are already translated inside Weblate. It looks for exact matches in the
-existing strings.
+Weblate machine translation service can provide translations based
+on the exact matches of a string in the currently existing strings
+in a  :guilabel:`Translated`, :guilabel:`Approved`,
+or :guilabel:`Read-only` :ref:`states <states>` inside Weblate.
 
 .. _mt-weblate-translation-memory:
 
@@ -579,9 +599,14 @@ Weblate Translation Memory
 :Service ID: ``weblate-translation-memory``
 :Configuration: `This service has no configuration.`
 
-Use :ref:`translation-memory` as a machine translation service. Any string that
-has been translated in past (or uploaded to the translation memory) can be
-translated in this way.
+Use :ref:`translation-memory` as a machine translation service.
+Any string that has been translated before (or uploaded to the
+translation memory) can be translated in this way.
+This suggestion source works with fuzzy matching.
+
+.. note::
+
+   Recreating :ref:`translation-memory` reduces capabilities of this TM source.
 
 .. _mt-yandex:
 

@@ -46,7 +46,7 @@ The simple execution can look like:
 Local testing
 +++++++++++++
 
-Before running test, please ensure test dependencies are installed. This can be done by `pip install -r requirements-dev.txt` or `pip install -e .[test]`.
+Before running test, please ensure test dependencies are installed. This can be done by ``pip install -e .[test]``.
 
 To run a testsuite locally, use:
 
@@ -65,8 +65,14 @@ To run a testsuite locally, use:
 The :file:`weblate/settings_test.py` is used in CI environment as well (see
 :ref:`ci-tests`) and can be tuned using environment variables:
 
-.. literalinclude:: ../../scripts/test-database.sh
-   :language: sh
+.. code-block:: sh
+
+   export CI_DATABASE=postgresql
+   export CI_DB_USER=weblate
+   export CI_DB_PASSWORD=weblate
+   export CI_DB_HOST=127.0.0.1
+   export CI_DB_PORT=60000
+   export DJANGO_SETTINGS_MODULE=weblate.settings_test
 
 Prior to running tests you should collect static files as some tests rely on them being present:
 

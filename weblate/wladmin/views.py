@@ -77,6 +77,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
     ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
+    ("addons", "manage-addons", gettext_lazy("Add-ons")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
@@ -103,9 +104,9 @@ def manage(request):
     )
 
 
-def send_test_mail(email):
+def send_test_mail(email) -> None:
     send_mail(
-        subject="Test e-mail from Weblate on %s" % timezone.now(),
+        subject=f"Test e-mail from Weblate on {timezone.now()}",
         message="It works.",
         recipient_list=[email],
         from_email=None,
@@ -132,7 +133,7 @@ def tools(request):
                 return redirect("manage-tools")
 
         if "sentry" in request.POST:
-            report_error(cause="Test message", message=True, level="info")
+            report_error("Test message", message=True, level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:
@@ -250,7 +251,7 @@ def backups(request):
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:  # noqa: R505
+        elif "remove" in request.POST:
             service = BackupService.objects.get(pk=request.POST["service"])
             service.delete()
             return redirect("manage-backups")
@@ -364,7 +365,7 @@ def ssh(request):
 
 @management_access
 def alerts(request):
-    """Shows component alerts."""
+    """Show component alerts."""
     context = {
         "alerts": Alert.objects.order_by(
             "name", "component__project__name", "component__name"

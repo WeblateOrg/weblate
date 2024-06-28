@@ -31,7 +31,7 @@ MONTH_NAMES = [
 
 
 class MetricsWrapper:
-    def __init__(self, obj, scope: int, relation: int, secondary: int = 0):
+    def __init__(self, obj, scope: int, relation: int, secondary: int = 0) -> None:
         self.obj = obj
         self.scope = scope
         self.relation = relation
@@ -261,8 +261,12 @@ class MetricsWrapper:
         year = last_month_date.year
         for _dummy in range(12):
             months.append((year, month))
-            prefetch.append(self.get_month_cache_key(year, month))
-            prefetch.append(self.get_month_cache_key(year - 1, month))
+            prefetch.extend(
+                (
+                    self.get_month_cache_key(year, month),
+                    self.get_month_cache_key(year - 1, month),
+                )
+            )
             month -= 1
             if month < 1:
                 month = 12

@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from shutil import copyfileobj
-from typing import Any, BinaryIO, Callable, TypedDict
+from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -44,6 +44,9 @@ from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
 from weblate.vcs.models import VCS_REGISTRY
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
 PROJECTBACKUP_PREFIX = "projectbackups"
 
 
@@ -59,9 +62,12 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(self, filename: str | BinaryIO | None = None):
+    def __init__(
+        self, filename: str | None = None, *, fileio: BinaryIO | None = None
+    ) -> None:
         self.data: dict[str, Any] = {}
         self.filename = filename
+        self.fileio = fileio
         self.timestamp = timezone.now()
         self.project: Project | None = None
         self.project_schema = load_schema("weblate-backup.schema.json")
@@ -74,7 +80,7 @@ class ProjectBackup:
     def supports_restore(self):
         return connection.features.can_return_rows_from_bulk_insert
 
-    def validate_data(self):
+    def validate_data(self) -> None:
         validate_schema(self.data, "weblate-backup.schema.json")
 
     def backup_property(
@@ -107,7 +113,7 @@ class ProjectBackup:
     ):
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
-    def backup_data(self, project):
+    def backup_data(self, project) -> None:
         self.project = project
         self.data = {
             "metadata": {
@@ -128,7 +134,7 @@ class ProjectBackup:
         # Make sure generated backup data is correct
         self.validate_data()
 
-    def backup_dir(self, backupzip, directory: str, target: str):
+    def backup_dir(self, backupzip, directory: str, target: str) -> None:
         """Backup single directory to specified target in zip."""
         for folder, _subfolders, filenames in os.walk(directory):
             for filename in filenames:
@@ -140,11 +146,11 @@ class ProjectBackup:
                     path, os.path.join(target, os.path.relpath(path, directory))
                 )
 
-    def backup_json(self, backupzip, data, target: str):
+    def backup_json(self, backupzip, data, target: str) -> None:
         with backupzip.open(target, "w") as handle:
             handle.write(json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8"))
 
-    def generate_filename(self, project):
+    def generate_filename(self, project) -> None:
         backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{project.pk}")
         backup_info = os.path.join(backup_dir, "README.txt")
         timestamp = int(self.timestamp.timestamp())
@@ -163,7 +169,7 @@ class ProjectBackup:
             timestamp += 1
         self.filename = os.path.join(backup_dir, f"{timestamp}.zip")
 
-    def backup_component(self, backupzip, component):
+    def backup_component(self, backupzip, component) -> None:
         data = {
             "component": self.backup_object(
                 component, self.component_schema["properties"]["component"]["required"]
@@ -278,7 +284,7 @@ class ProjectBackup:
         )
 
     @transaction.atomic
-    def backup_project(self, project):
+    def backup_project(self, project) -> None:
         """Backup whole project."""
         # Generate data
         self.backup_data(project)
@@ -318,7 +324,7 @@ class ProjectBackup:
             if name.startswith(self.COMPONENTS_PREFIX)
         ]
 
-    def load_data(self, zipfile):
+    def load_data(self, zipfile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
             self.data = json.load(handle)
         self.validate_data()
@@ -330,7 +336,7 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
-    def load_components(self, zipfile, callback: Callable | None = None):
+    def load_components(self, zipfile, callback: Callable | None = None) -> None:
         for component in self.list_components(zipfile):
             with zipfile.open(component) as handle:
                 data = json.load(handle)
@@ -354,12 +360,13 @@ class ProjectBackup:
                 if callback is not None:
                     callback(zipfile, data)
 
-    def validate(self):
+    def validate(self) -> None:
         if not self.supports_restore:
             raise ValueError("Restore is not supported on this database.")
-        if self.filename is None:
+        input_file = self.filename or self.fileio
+        if input_file is None:
             raise TypeError("Can not validate None file.")
-        with ZipFile(self.filename, "r") as zipfile:
+        with ZipFile(input_file, "r") as zipfile:
             self.load_data(zipfile)
             self.load_memory(zipfile)
             self.load_components(zipfile)
@@ -399,7 +406,7 @@ class ProjectBackup:
         data[field] = self.restore_user(data[field])
         return data
 
-    def restore_component(self, zipfile, data):  # noqa: C901
+    def restore_component(self, zipfile, data) -> None:  # noqa: C901
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
@@ -427,10 +434,10 @@ class ProjectBackup:
             except IndexError:
                 if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
                     plural = language.plural
-                elif item["plural"]["source"] in (
+                elif item["plural"]["source"] in {
                     Plural.SOURCE_MANUAL,
                     Plural.SOURCE_GETTEXT,
-                ):
+                }:
                     plural = language.plural_set.create(**item["plural"])
                 else:
                     plural = language.plural_set.filter(
@@ -594,9 +601,11 @@ class ProjectBackup:
             # Extract VCS
             for name in zipfile.namelist():
                 if name.startswith(self.VCS_PREFIX):
-                    targetpath = os.path.join(
-                        project.full_path, name[self.VCS_PREFIX_LEN :]
-                    )
+                    path = name[self.VCS_PREFIX_LEN :]
+                    # Skip potentially dangerous paths
+                    if path != os.path.normpath(path):
+                        continue
+                    targetpath = os.path.join(project.full_path, path)
                     upperdirs = os.path.dirname(targetpath)
                     if upperdirs and not os.path.exists(upperdirs):
                         os.makedirs(upperdirs)
@@ -622,13 +631,13 @@ class ProjectBackup:
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
-        if self.filename is None or isinstance(self.filename, str):
+        if self.fileio is None or isinstance(self.fileio, str):
             raise TypeError("Need a file object.")
-        # self.filename is a file object from upload here
-        self.filename.seek(0)
+        # self.fileio is a file object from upload here
+        self.fileio.seek(0)
         while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):
             timestamp += 1
         filename = os.path.join(backup_dir, f"{timestamp}.zip")
         with open(filename, "xb") as target:
-            copyfileobj(self.filename, target)
+            copyfileobj(self.fileio, target)
         return filename

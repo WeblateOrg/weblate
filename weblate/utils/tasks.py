@@ -45,7 +45,7 @@ def ping():
 
 
 @app.task(trail=False)
-def heartbeat():
+def heartbeat() -> None:
     cache.set("celery_loaded", time.time())
     cache.set("celery_heartbeat", time.time())
     cache.set(
@@ -54,7 +54,7 @@ def heartbeat():
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
-def settings_backup():
+def settings_backup() -> None:
     with backup_lock():
         # Expand settings in case it contains non-trivial code
         command = diffsettings.Command()
@@ -75,19 +75,19 @@ def settings_backup():
 
 
 @app.task(trail=False)
-def update_translation_stats_parents(pk: int):
+def update_translation_stats_parents(pk: int) -> None:
     translation = Translation.objects.get(pk=pk)
     translation.stats.update_parents()
 
 
 @app.task(trail=False)
-def update_language_stats_parents(pk: int):
+def update_language_stats_parents(pk: int) -> None:
     component = Component.objects.get(pk=pk)
     component.stats.update_language_stats_parents()
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
-def database_backup():
+def database_backup() -> None:
     if settings.DATABASE_BACKUP == "none":
         return
     with backup_lock():
@@ -170,7 +170,7 @@ def database_backup():
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
+def setup_periodic_tasks(sender, **kwargs) -> None:
     cache.set("celery_loaded", time.time())
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"

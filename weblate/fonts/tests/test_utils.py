@@ -10,7 +10,7 @@ from weblate.fonts.utils import check_render_size, get_font_weight
 
 
 class RenderTest(SimpleTestCase):
-    def test_render(self):
+    def test_render(self) -> None:
         self.assertTrue(
             check_render_size(
                 font="sans",

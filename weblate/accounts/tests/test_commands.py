@@ -21,7 +21,7 @@ USERDATA_JSON = get_test_file("userdata.json")
 class CommandTest(TestCase, TempDirMixin):
     """Test for management commands."""
 
-    def test_userdata(self):
+    def test_userdata(self) -> None:
         # Create test user
         language = Language.objects.get(code="cs")
         user = User.objects.create_user("testuser", "test@example.com", "x")
@@ -49,7 +49,7 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertTrue(profile.secondary_languages.filter(code="cs").exists())
         self.assertTrue(profile.watched.exists())
 
-    def test_userdata_compat(self):
+    def test_userdata_compat(self) -> None:
         """Test importing user data from pre 3.6 release."""
         User.objects.create_user("test-3.6", "test36@example.com", "x")
         Project.objects.create(name="test", slug="test")

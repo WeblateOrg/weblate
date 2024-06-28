@@ -16,7 +16,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 class PlaceholdersTest(CheckTestCase):
     check = PlaceholderCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("string $URL$", "string $URL$", "placeholders:$URL$")
         self.test_good_none = ("string", "string", "placeholders:")
@@ -30,11 +30,11 @@ class PlaceholdersTest(CheckTestCase):
         )
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
-    def do_test(self, expected, data, lang=None):
+    def do_test(self, expected, data, lang=None) -> None:
         # Skip using check_single as the Check does not use that
         return
 
-    def test_description(self):
+    def test_description(self) -> None:
         unit = Unit(
             source="string $URL$",
             target="string",
@@ -61,7 +61,7 @@ class PlaceholdersTest(CheckTestCase):
             """,
         )
 
-    def test_regexp(self):
+    def test_regexp(self) -> None:
         unit = Unit(
             source="string $URL$",
             target="string $FOO$",
@@ -91,7 +91,7 @@ class PlaceholdersTest(CheckTestCase):
             """,
         )
 
-    def test_whitespace(self):
+    def test_whitespace(self) -> None:
         unit = Unit(
             source="string {URL} ",
             target="string {URL}",
@@ -131,7 +131,7 @@ class PlaceholdersTest(CheckTestCase):
             """,
         )
 
-    def test_case_insentivive(self):
+    def test_case_insentivive(self) -> None:
         self.assertTrue(
             self.check.check_target(
                 ["Hello %WORLD%"],
@@ -159,7 +159,7 @@ class PlaceholdersTest(CheckTestCase):
 
 
 class PluralPlaceholdersTest(FixtureTestCase):
-    def test_plural(self):
+    def test_plural(self) -> None:
         check = PlaceholderCheck()
         lang = "cs"
         unit = MockUnit(
@@ -198,7 +198,7 @@ class PluralPlaceholdersTest(FixtureTestCase):
 class RegexTest(CheckTestCase):
     check = RegexCheck()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("string URL", "string URL", "regex:URL")
         self.test_good_none = ("string", "string", "regex:")
@@ -207,11 +207,11 @@ class RegexTest(CheckTestCase):
         self.test_failure_3 = ("string URL", "string URL", "regex:^URL$")
         self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
 
-    def do_test(self, expected, data, lang=None):
+    def do_test(self, expected, data, lang=None) -> None:
         # Skip using check_single as the Check does not use that
         return
 
-    def test_description(self):
+    def test_description(self) -> None:
         unit = Unit(source="string URL", target="string")
         unit.__dict__["all_flags"] = Flags("regex:URL")
         check = Check(unit=unit)
@@ -220,7 +220,7 @@ class RegexTest(CheckTestCase):
             "Does not match regular expression <code>URL</code>.",
         )
 
-    def test_check_highlight_groups(self):
+    def test_check_highlight_groups(self) -> None:
         unit = MockUnit(
             None,
             r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"',

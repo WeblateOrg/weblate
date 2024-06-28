@@ -18,19 +18,19 @@ from weblate.trans.tests.utils import create_test_user
 
 
 class LegalTest(TestCase, RegistrationTestMixin):
-    def test_index(self):
+    def test_index(self) -> None:
         response = self.client.get(reverse("legal:index"))
         self.assertContains(response, "Legal Terms Overview")
 
-    def test_terms(self):
+    def test_terms(self) -> None:
         response = self.client.get(reverse("legal:terms"))
         self.assertContains(response, "Terms of Service")
 
-    def test_cookies(self):
+    def test_cookies(self) -> None:
         response = self.client.get(reverse("legal:cookies"))
         self.assertContains(response, "Cookies Policy")
 
-    def test_contracts(self):
+    def test_contracts(self) -> None:
         response = self.client.get(reverse("legal:contracts"))
         self.assertContains(response, "Subcontractors")
 
@@ -38,7 +38,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"}
     )
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
-    def test_confirm(self):
+    def test_confirm(self) -> None:
         """TOS confirmation on social auth."""
         response = self.client.post(reverse("register"), REGISTRATION_DATA, follow=True)
         # Check we did succeed
@@ -67,7 +67,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
     @modify_settings(
         MIDDLEWARE={"append": "weblate.legal.middleware.RequireTOSMiddleware"}
     )
-    def test_middleware(self):
+    def test_middleware(self) -> None:
         user = create_test_user()
         # Unauthenticated
         response = self.client.get(reverse("home"), follow=True)

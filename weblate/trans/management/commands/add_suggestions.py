@@ -15,7 +15,7 @@ class Command(WeblateTranslationCommand):
 
     help = "imports suggestions"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--author",
@@ -24,7 +24,7 @@ class Command(WeblateTranslationCommand):
         )
         parser.add_argument("file", type=argparse.FileType("rb"), help="File to import")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         # Get translation object
         translation = self.get_translation(**options)
 

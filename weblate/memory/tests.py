@@ -23,7 +23,7 @@ from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 
-def add_document():
+def add_document() -> None:
     Memory.objects.create(
         source_language=Language.objects.get(code="en"),
         target_language=Language.objects.get(code="cs"),
@@ -36,7 +36,7 @@ def add_document():
 
 
 class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
-    def test_machine(self):
+    def test_machine(self) -> None:
         add_document()
         unit = self.get_unit()
         machine_translation = WeblateMemory({})
@@ -74,7 +74,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             ],
         )
 
-    def test_machine_batch(self):
+    def test_machine_batch(self) -> None:
         add_document()
         unit = self.get_unit()
         machine_translation = WeblateMemory({})
@@ -84,21 +84,21 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         del machinery["origin"]
         self.assertEqual(machinery, {"quality": [100], "translation": ["Ahoj"]})
 
-    def test_import_tmx_command(self):
+    def test_import_tmx_command(self) -> None:
         call_command("import_memory", get_test_file("memory.tmx"))
         self.assertEqual(Memory.objects.count(), 2)
 
-    def test_import_tmx2_command(self):
+    def test_import_tmx2_command(self) -> None:
         call_command("import_memory", get_test_file("memory2.tmx"))
         self.assertEqual(Memory.objects.count(), 1)
 
-    def test_import_map(self):
+    def test_import_map(self) -> None:
         call_command(
             "import_memory", get_test_file("memory.tmx"), language_map="en_US:en"
         )
         self.assertEqual(Memory.objects.count(), 2)
 
-    def test_dump_command(self):
+    def test_dump_command(self) -> None:
         add_document()
         output = StringIO()
         call_command("dump_memory", stdout=output)
@@ -118,32 +118,32 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             ],
         )
 
-    def test_import_invalid_command(self):
+    def test_import_invalid_command(self) -> None:
         with self.assertRaises(CommandError):
             call_command("import_memory", get_test_file("cs.po"))
         self.assertEqual(Memory.objects.count(), 0)
 
-    def test_import_json_command(self):
+    def test_import_json_command(self) -> None:
         call_command("import_memory", get_test_file("memory.json"))
         self.assertEqual(Memory.objects.count(), 1)
 
-    def test_import_broken_json_command(self):
+    def test_import_broken_json_command(self) -> None:
         with self.assertRaises(CommandError):
             call_command("import_memory", get_test_file("memory-broken.json"))
         self.assertEqual(Memory.objects.count(), 0)
 
-    def test_import_empty_json_command(self):
+    def test_import_empty_json_command(self) -> None:
         with self.assertRaises(CommandError):
             call_command("import_memory", get_test_file("memory-empty.json"))
         self.assertEqual(Memory.objects.count(), 0)
 
-    def test_import_project(self):
+    def test_import_project(self) -> None:
         import_memory(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
         import_memory(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
 
-    def test_import_unit(self):
+    def test_import_unit(self) -> None:
         unit = self.get_unit()
         handle_unit_translation_change(unit.id, self.user.id)
         self.assertEqual(Memory.objects.count(), 0)
@@ -169,7 +169,7 @@ class MemoryViewTest(FixtureTestCase):
 
     def test_memory(
         self, match="Number of your entries", fail=False, prefix: str = "", **kwargs
-    ):
+    ) -> None:
         is_project_scoped = "kwargs" in kwargs and "project" in kwargs["kwargs"]
         # Test wipe without confirmation
         response = self.client.get(reverse(f"{prefix}memory-delete", **kwargs))
@@ -284,15 +284,15 @@ class MemoryViewTest(FixtureTestCase):
         else:
             self.assertContains(response, "Could not parse JSON file")
 
-    def test_memory_project(self):
+    def test_memory_project(self) -> None:
         self.test_memory("Number of entries for Test", True, kwargs=self.kw_project)
 
-    def test_memory_project_superuser(self):
+    def test_memory_project_superuser(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         self.test_memory("Number of entries for Test", False, kwargs=self.kw_project)
 
-    def test_global_memory_superuser(self):
+    def test_global_memory_superuser(self) -> None:
         self.user.is_superuser = True
         self.user.save()
         self.test_memory("Number of uploaded shared entries", False, prefix="manage-")
@@ -311,7 +311,7 @@ class MemoryViewTest(FixtureTestCase):
 
 
 class ThresholdTestCase(SimpleTestCase):
-    def test_search(self):
+    def test_search(self) -> None:
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x", 10), 0.66, delta=0.006
         )
@@ -322,7 +322,7 @@ class ThresholdTestCase(SimpleTestCase):
             Memory.objects.threshold_to_similarity("x" * 500, 10), 0.74, delta=0.006
         )
 
-    def test_auto(self):
+    def test_auto(self) -> None:
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x", 80), 0.97, delta=0.006
         )
@@ -333,7 +333,7 @@ class ThresholdTestCase(SimpleTestCase):
             Memory.objects.threshold_to_similarity("x" * 500, 80), 0.98, delta=0.006
         )
 
-    def test_machine(self):
+    def test_machine(self) -> None:
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x", 75), 0.96, delta=0.006
         )
@@ -344,7 +344,7 @@ class ThresholdTestCase(SimpleTestCase):
             Memory.objects.threshold_to_similarity("x" * 500, 75), 0.97, delta=0.006
         )
 
-    def test_machine_exact(self):
+    def test_machine_exact(self) -> None:
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x", 100), 1.0, delta=0.006
         )

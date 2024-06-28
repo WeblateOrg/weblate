@@ -3,9 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import template
-from django.utils.html import format_html
-from django.utils.translation import gettext
 
+from weblate.trans.templatetags.translations import render_documentation_icon
 from weblate.utils.checks import check_doc_link
 
 register = template.Library()
@@ -21,9 +20,4 @@ def check_link(check):
 
 @register.simple_tag
 def configuration_error_link(check, fallback=None):
-    url = check_doc_link(check) or fallback
-    if url:
-        return format_html(
-            '<a class="btn btn-info" href="{}">{}</a>', url, gettext("Documentation")
-        )
-    return ""
+    return render_documentation_icon(check_doc_link(check) or fallback, False)

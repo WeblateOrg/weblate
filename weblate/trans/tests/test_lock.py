@@ -11,14 +11,14 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class LockTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
 
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
 
-    def assert_component_locked(self):
+    def assert_component_locked(self) -> None:
         component = Component.objects.get(
             slug=self.component.slug, project__slug=self.project.slug
         )
@@ -30,7 +30,7 @@ class LockTest(ViewTestCase):
             "to maintenance, please come back later.",
         )
 
-    def assert_component_not_locked(self):
+    def assert_component_not_locked(self) -> None:
         component = Component.objects.get(
             slug=self.component.slug, project__slug=self.project.slug
         )
@@ -42,7 +42,7 @@ class LockTest(ViewTestCase):
             "to maintenance, please come back later.",
         )
 
-    def test_component(self):
+    def test_component(self) -> None:
         response = self.client.post(reverse("lock", kwargs=self.kw_component))
         redirect_url = f"{self.component.get_absolute_url()}#repository"
         self.assertRedirects(response, redirect_url)
@@ -52,7 +52,7 @@ class LockTest(ViewTestCase):
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
 
-    def test_project(self):
+    def test_project(self) -> None:
         response = self.client.post(
             reverse("lock", kwargs={"path": self.project.get_url_path()})
         )

@@ -41,7 +41,7 @@ class CDNJSAddon(BaseAddon):
         # Generate UUID for the CDN
         if "state" not in kwargs:
             kwargs["state"] = {"uuid": uuid4().hex}
-        return super().create_object(component, **kwargs)
+        return super().create_object(component=component, **kwargs)
 
     @classmethod
     def can_install(cls, component, user):
@@ -65,7 +65,7 @@ class CDNJSAddon(BaseAddon):
             settings.LOCALIZE_CDN_URL, self.instance.state["uuid"], "weblate.js"
         )
 
-    def post_commit(self, component):
+    def post_commit(self, component) -> None:
         # Get list of applicable translations
         threshold = self.instance.configuration["threshold"]
         translations = [
@@ -86,7 +86,7 @@ class CDNJSAddon(BaseAddon):
             # sure the template is valid JavaScript code as well
             handle.write(
                 render_to_string(
-                    "addons/js/weblate.js",
+                    "addons/js/weblate.js.template",
                     {
                         # `mark_safe(json.dumps(` is NOT safe in HTML files. Only JS.
                         # See `django.utils.html.json_script`
@@ -135,7 +135,7 @@ class CDNJSAddon(BaseAddon):
                     handle,
                 )
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
@@ -145,5 +145,7 @@ class CDNJSAddon(BaseAddon):
             component.id,
         )
 
-    def post_update(self, component, previous_head: str, skip_push: bool, child: bool):
+    def post_update(
+        self, component, previous_head: str, skip_push: bool, child: bool
+    ) -> None:
         self.daily(component)

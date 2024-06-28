@@ -11,7 +11,7 @@ class AuthConfig(AppConfig):
     label = "weblate_auth"
     verbose_name = "Authentication"
 
-    def ready(self):
+    def ready(self) -> None:
         from weblate.auth.models import sync_create_groups
 
         post_migrate.connect(sync_create_groups, sender=self)

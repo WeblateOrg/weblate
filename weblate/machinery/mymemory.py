@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .base import DownloadTranslations, MachineTranslation
+from .base import DownloadTranslations, ResponseStatusMachineTranslation
 from .forms import MyMemoryMachineryForm
 
 
-class MyMemoryTranslation(MachineTranslation):
+class MyMemoryTranslation(ResponseStatusMachineTranslation):
     """MyMemory machine translation support."""
 
     name = "MyMemory"
@@ -28,7 +28,7 @@ class MyMemoryTranslation(MachineTranslation):
     @staticmethod
     def lang_supported(language):
         """Almost any language without modifiers is supported."""
-        if language in ("ia", "tt", "ug"):
+        if language in {"ia", "tt", "ug"}:
             return False
         return "@" not in language
 
@@ -70,9 +70,9 @@ class MyMemoryTranslation(MachineTranslation):
         if self.settings["key"]:
             args["key"] = self.settings["key"]
 
-        response = self.request_status(
+        response = self.request(
             "get", "https://mymemory.translated.net/api/get", params=args
-        )
+        ).json()
         for match in response["matches"]:
             result = self.format_match(match)
             if result["quality"] > threshold:

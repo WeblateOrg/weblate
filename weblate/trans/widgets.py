@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os.path
+from io import StringIO
 from typing import TYPE_CHECKING
 
 import cairo
@@ -22,11 +23,17 @@ from django.utils.translation import (
 )
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.utils.stats import (
+    GlobalStats,
+    ProjectLanguage,
+    ProjectLanguageStats,
+    TranslationStats,
+)
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
@@ -34,8 +41,9 @@ if TYPE_CHECKING:
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+gi.require_version("Rsvg", "2.0")
 
-from gi.repository import Pango, PangoCairo  # noqa: E402
+from gi.repository import Pango, PangoCairo, Rsvg  # noqa: E402
 
 COLOR_DATA = {
     "grey": (0, 0, 0),
@@ -64,12 +72,20 @@ class Widget:
     content_type = "image/png"
     order = 100
 
-    def __init__(self, obj, color=None, lang=None):
+    def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
         # Get object and related params
         self.obj = obj
         self.color = self.get_color_name(color)
         self.lang = lang
+        if obj is None:
+            stats = GlobalStats()
+        elif lang:
+            stats = obj.stats.get_single_language_stats(lang)
+        else:
+            stats = obj.stats
+        self.stats = stats
+        self.percent = stats.translated_percent
 
     def get_color_name(self, color):
         """Return color name based on allowed ones."""
@@ -77,24 +93,13 @@ class Widget:
             return self.colors[0]
         return color
 
-
-class ContentWidget(Widget):
-    """Generic content widget class."""
-
-    def __init__(self, obj, color=None, lang=None):
-        """Create Widget object."""
-        super().__init__(obj, color, lang)
-        # Get translation status
-        stats = obj.stats.get_single_language_stats(lang) if lang else obj.stats
-        self.percent = stats.translated_percent
-
     def get_percent_text(self):
         return pgettext("Translated percents", "%(percent)s%%") % {
             "percent": int(self.percent)
         }
 
 
-class BitmapWidget(ContentWidget):
+class BitmapWidget(Widget):
     """Base class for bitmap rendering widgets."""
 
     colors: tuple[str, ...] = ("grey", "white", "black")
@@ -109,12 +114,15 @@ class BitmapWidget(ContentWidget):
     column_offset = 0
     lines = True
 
-    def __init__(self, obj, color=None, lang=None):
+    def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get object and related params
-        self.total = obj.stats.source_strings
-        self.languages = obj.stats.languages
+        if isinstance(self.stats, TranslationStats):
+            self.total = self.stats.all
+        else:
+            self.total = self.stats.source_strings
+        self.languages = self.stats.languages
         self.params = self.get_text_params()
 
         # Set rendering variables
@@ -124,7 +132,7 @@ class BitmapWidget(ContentWidget):
     def get_text_params(self):
         """Create dictionary used for text formatting."""
         return {
-            "name": self.obj.name,
+            "name": self.obj.name if self.obj else settings.SITE_TITLE,
             "count": self.total,
             "languages": self.languages,
             "percent": self.percent,
@@ -138,7 +146,7 @@ class BitmapWidget(ContentWidget):
             f"{self.name}-{self.color}.png",
         )
 
-    def get_columns(self):
+    def get_columns(self) -> list[list[str]]:
         raise NotImplementedError
 
     def get_column_width(self, surface, columns):
@@ -150,10 +158,10 @@ class BitmapWidget(ContentWidget):
             Pango.FontDescription(f"{WIDGET_FONT} {self.font_size}"),
         ]
 
-    def render_additional(self, ctx):
+    def render_additional(self, ctx) -> None:
         return
 
-    def render(self, response):
+    def render(self, response) -> None:
         """Render widget."""
         configure_fontconfig()
         surface = cairo.ImageSurface.create_from_png(self.get_filename())
@@ -199,16 +207,50 @@ class BitmapWidget(ContentWidget):
         surface.write_to_png(response)
 
 
-class SVGWidget(ContentWidget):
+class SVGWidget(Widget):
     """Base class for SVG rendering widgets."""
 
     extension = "svg"
     content_type = "image/svg+xml; charset=utf-8"
     template_name = ""
 
-    def render(self, response):
-        """Rendering method to be implemented."""
+    def render(self, response) -> None:
         raise NotImplementedError
+
+
+class PNGWidget(SVGWidget):
+    extension = "png"
+    content_type = "image/png"
+
+    def render(self, response) -> None:
+        with StringIO() as output:
+            super().render(output)
+            svgdata = output.getvalue()
+
+        handle = Rsvg.Handle.new_from_data(svgdata.encode())
+        if hasattr(handle, "get_intrinsic_size_in_pixels"):
+            # librsvg 2.52 and newer
+            out_dimensions = handle.get_intrinsic_size_in_pixels()
+            width = int(out_dimensions.out_width)
+            height = int(out_dimensions.out_height)
+        else:
+            dimensions = handle.get_dimensions()
+            width = int(dimensions.width)
+            height = int(dimensions.height)
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        context = cairo.Context(surface)
+        if hasattr(Rsvg, "Rectangle"):
+            # librsvg 2.46 and newer
+            viewport = Rsvg.Rectangle()
+            viewport.x = 0
+            viewport.y = 0
+            viewport.width = width
+            viewport.height = height
+            handle.render_document(context, viewport)
+        else:
+            # librsvg before 2.46, this method is now deprecated
+            handle.render_cairo(context)
+        surface.write_to_png(response)
 
 
 @register_widget
@@ -276,7 +318,7 @@ class OpenGraphWidget(NormalWidget):
     foot_template = '<span letter_spacing="2000">{}</span>'
     verbose = pgettext_lazy("Status widget name", "Panel")
 
-    def get_column_width(self, surface, columns):
+    def get_column_width(self, surface, columns) -> int:
         return 230
 
     def get_column_fonts(self):
@@ -286,18 +328,23 @@ class OpenGraphWidget(NormalWidget):
         ]
 
     def get_name(self) -> str:
+        if self.obj is None:
+            return settings.SITE_TITLE
         return str(self.obj)
 
     def get_title(self, name: str, suffix: str = "") -> str:
-        # Translators: Text on OpenGraph image
-        if isinstance(self.obj, Project):
+        if self.obj is None:
+            template = "{}"
+        elif isinstance(self.obj, Project):
+            # Translators: Text on OpenGraph image
             template = gettext("Project {}")
         else:
+            # Translators: Text on OpenGraph image
             template = gettext("Component {}")
 
         return format_html(template, format_html("<b>{}</b>{}", name, suffix))
 
-    def render_additional(self, ctx):
+    def render_additional(self, ctx) -> None:
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
         layout.set_font_description(Pango.FontDescription(f"{WIDGET_FONT} {52}"))
@@ -321,29 +368,15 @@ class OpenGraphWidget(NormalWidget):
         PangoCairo.show_layout(ctx, layout)
 
 
-class SiteOpenGraphWidget(OpenGraphWidget):
-    def __init__(self, obj=None, color=None, lang=None):
-        super().__init__(GlobalStats())
-
-    def get_name(self) -> str:
-        return settings.SITE_TITLE
-
-    def get_title(self, name: str, suffix: str = "") -> str:
-        return format_html("<b>{}</b>{}", name, suffix)
-
-    def get_text_params(self):
-        return {}
-
-
 @register_widget
 class SVGBadgeWidget(SVGWidget):
     name = "svg"
     colors: tuple[str, ...] = ("badge",)
     order = 80
     template_name = "svg/badge.svg"
-    verbose = gettext_lazy("Status badge")
+    verbose = gettext_lazy("SVG status badge")
 
-    def render(self, response):
+    def render(self, response) -> None:
         translated_text = gettext("translated")
         translated_width = render_size(f"   {translated_text}   ")[0].width
 
@@ -377,6 +410,12 @@ class SVGBadgeWidget(SVGWidget):
 
 
 @register_widget
+class PNGBadgeWidget(PNGWidget, SVGBadgeWidget):
+    name = "status"
+    verbose = gettext_lazy("PNG status badge")
+
+
+@register_widget
 class MultiLanguageWidget(SVGWidget):
     name = "multi"
     order = 81
@@ -386,12 +425,19 @@ class MultiLanguageWidget(SVGWidget):
 
     COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
 
-    def render(self, response):
+    def render(self, response) -> None:
         translations = []
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        languages = self.obj.stats.get_language_stats()
+        if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
+            languages = [self.stats]
+        elif isinstance(self.obj, ProjectLanguage):
+            languages = [self.obj]
+        elif isinstance(self.obj, Language):
+            languages = [self.obj.stats]
+        else:
+            languages = self.stats.get_language_stats()
         for stats in sort_unicode(languages, lambda x: str(x.language)):
             # Skip empty translations
             if stats.translated == 0:
@@ -406,7 +452,10 @@ class MultiLanguageWidget(SVGWidget):
                 language_width,
                 (render_size(text=language_name)[0].width + 10),
             )
-            project_language = ProjectLanguage(self.obj, language)
+            if self.obj is None:
+                project_language = language
+            else:
+                project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (
                     # Language name

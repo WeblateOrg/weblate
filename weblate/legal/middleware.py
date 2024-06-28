@@ -16,7 +16,7 @@ from weblate.utils import messages
 class RequireTOSMiddleware:
     """Middleware to enforce TOS confirmation on certain requests."""
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
         # Ignored paths regexp, mostly covers API and legal pages
         self.matcher = re.compile(
@@ -39,7 +39,7 @@ class RequireTOSMiddleware:
             messages.info(
                 request,
                 gettext(
-                    "We have new version of the Terms of Service document, "
+                    "We have a new version of the Terms of Service document, "
                     "please read it and confirm that you agree with it."
                 ),
             )

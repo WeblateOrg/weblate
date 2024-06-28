@@ -12,7 +12,7 @@ from weblate.utils.request import get_ip_address, get_user_agent_raw
 
 
 class CommentManager(models.Manager):
-    def add(self, unit, request, text):
+    def add(self, unit, request, text) -> None:
         """Add comment to this unit."""
         user = request.user
         new_comment = self.create(
@@ -59,17 +59,17 @@ class Comment(models.Model, UserDisplayMixin):
         verbose_name = "string comment"
         verbose_name_plural = "string comments"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "comment for {} by {}".format(
             self.unit, self.user.username if self.user else "unknown"
         )
 
-    def report_spam(self):
+    def report_spam(self) -> None:
         report_spam(
             self.userdetails["address"], self.userdetails["agent"], self.comment
         )
 
-    def resolve(self, user):
+    def resolve(self, user) -> None:
         self.unit.change_set.create(
             comment=self,
             action=Change.ACTION_COMMENT_RESOLVE,
@@ -80,7 +80,7 @@ class Comment(models.Model, UserDisplayMixin):
         self.resolved = True
         self.save(update_fields=["resolved"])
 
-    def delete(self, user=None, using=None, keep_parents=False):
+    def delete(self, user=None, using=None, keep_parents=False) -> None:
         self.unit.change_set.create(
             action=Change.ACTION_COMMENT_DELETE,
             user=user,

@@ -2,18 +2,33 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from typing import NoReturn
+
+from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.models import User
-from weblate.trans.models import AutoComponentList, Translation, Unit
+from weblate.trans.models import (
+    Announcement,
+    AutoComponentList,
+    Change,
+    Comment,
+    Component,
+    ComponentList,
+    ContributorAgreement,
+    Project,
+    Suggestion,
+    Translation,
+    Unit,
+)
 from weblate.trans.util import sort_choices
 from weblate.wladmin.models import WeblateModelAdmin
 
 
 class RepoAdminMixin:
     @admin.action(description=gettext_lazy("Commit pending changes"))
-    def force_commit(self, request, queryset):
+    def force_commit(self, request, queryset) -> None:
         """Commit pending changes for selected components."""
         for obj in queryset:
             obj.commit_pending("admin", request)
@@ -22,20 +37,20 @@ class RepoAdminMixin:
         )
 
     @admin.action(description=gettext_lazy("Update VCS repository"))
-    def update_from_git(self, request, queryset):
+    def update_from_git(self, request, queryset) -> None:
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
-    def get_qs_units(self, queryset):
+    def get_qs_units(self, queryset) -> NoReturn:
         raise NotImplementedError
 
-    def get_qs_translations(self, queryset):
+    def get_qs_translations(self, queryset) -> NoReturn:
         raise NotImplementedError
 
     @admin.action(description=gettext_lazy("Update quality checks"))
-    def update_checks(self, request, queryset):
+    def update_checks(self, request, queryset) -> None:
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
         for unit in units:
@@ -47,6 +62,7 @@ class RepoAdminMixin:
         self.message_user(request, f"Updated checks for {len(units):d} units.")
 
 
+@admin.register(Project)
 class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = (
         "name",
@@ -94,6 +110,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__project__in=queryset)
 
 
+@admin.register(Component)
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = ["name", "slug", "project", "repo", "branch", "vcs", "file_format"]
     prepopulated_fields = {"slug": ("name",)}
@@ -109,7 +126,7 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__in=queryset)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Wrapper to sort languages by localized names."""
+        """Sort languages by localized names."""
         result = super().formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "source_language":
             result.choices = sort_choices(result.choices)
@@ -145,6 +162,7 @@ class ChangeAdmin(WeblateModelAdmin):
     raw_id_fields = ("unit",)
 
 
+@admin.register(Announcement)
 class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ["message", "project", "component", "language"]
     search_fields = ["message"]
@@ -156,6 +174,7 @@ class AutoComponentListAdmin(admin.TabularInline):
     extra = 0
 
 
+@admin.register(ComponentList)
 class ComponentListAdmin(WeblateModelAdmin):
     list_display = ["name", "show_dashboard"]
     list_filter = ["show_dashboard"]
@@ -165,7 +184,17 @@ class ComponentListAdmin(WeblateModelAdmin):
     ordering = ["name"]
 
 
+@admin.register(ContributorAgreement)
 class ContributorAgreementAdmin(WeblateModelAdmin):
     list_display = ["user", "component", "timestamp"]
     date_hierarchy = "timestamp"
     ordering = ("user__username", "component__project__name", "component__name")
+
+
+# Show some controls only in debug mode
+if settings.DEBUG:
+    admin.site.register(Translation, TranslationAdmin)
+    admin.site.register(Unit, UnitAdmin)
+    admin.site.register(Suggestion, SuggestionAdmin)
+    admin.site.register(Comment, CommentAdmin)
+    admin.site.register(Change, ChangeAdmin)

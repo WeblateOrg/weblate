@@ -64,9 +64,9 @@ work, but is not as well tested as single version upgrades.
         # Update Weblate inside your virtualenv
         . ~/weblate-env/bin/pip install -e '.[all]'
         # Install dependencies directly when not using virtualenv
-        pip install --upgrade -r requirements.txt
+        pip install --upgrade -e .
         # Install optional dependencies directly when not using virtualenv
-        pip install --upgrade -r requirements-optional.txt
+        pip install --upgrade -e '.[all]'
 
 #. New Weblate release might have new :ref:`python-deps`, please check if they cover
    features you want.

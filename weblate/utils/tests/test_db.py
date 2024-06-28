@@ -12,17 +12,17 @@ BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
 
 class DbTest(TestCase):
-    def test_re_escape(self):
+    def test_re_escape(self) -> None:
         self.assertEqual(re_escape("[a-z]"), "\\[a\\-z\\]")
         self.assertEqual(re_escape("a{1,4}"), "a\\{1,4\\}")
 
 
 class PostgreSQLOperatorTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         if not using_postgresql():
             raise SkipTest("PostgreSQL only test.")
 
-    def test_search(self):
+    def test_search(self) -> None:
         queryset = Unit.objects.filter(source__search="test").only("id")
         self.assertEqual(
             str(queryset.query),
@@ -34,7 +34,7 @@ class PostgreSQLOperatorTest(TestCase):
             BASE_SQL + """"trans_unit"."source" || '' LIKE %'''%""",
         )
 
-    def test_substring(self):
+    def test_substring(self) -> None:
         queryset = Unit.objects.filter(source__substring="test").only("id")
         self.assertEqual(
             str(queryset.query),
@@ -48,7 +48,7 @@ class PostgreSQLOperatorTest(TestCase):
 
 
 class SearchSQLOperatorTest(FixtureTestCase):
-    def test_search(self):
+    def test_search(self) -> None:
         # Verifies that even complex query with a fallback is built properly
         # This is essentially what bulk edit does with such search
         from weblate.trans.models import Component, Project, Unit

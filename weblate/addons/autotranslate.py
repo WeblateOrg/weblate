@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
-from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
@@ -25,14 +24,12 @@ class AutoTranslateAddon(BaseAddon):
     multiple = True
     icon = "language.svg"
 
-    def component_update(self, component):
-        transaction.on_commit(
-            lambda: auto_translate_component.delay(
-                component.pk, **self.instance.configuration
-            )
+    def component_update(self, component) -> None:
+        auto_translate_component.delay_on_commit(
+            component.pk, **self.instance.configuration
         )
 
-    def daily(self, component):
+    def daily(self, component) -> None:
         # Translate every component less frequenctly to reduce load.
         # The translation is anyway triggered on update, so it should
         # not matter that much that we run this less often.

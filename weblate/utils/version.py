@@ -25,7 +25,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "5.5-dev"
+VERSION = "5.7-dev"
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
@@ -85,7 +85,7 @@ def download_version_info() -> list[Release]:
     return sorted(result, key=itemgetter(1), reverse=True)
 
 
-def flush_version_cache():
+def flush_version_cache() -> None:
     cache.delete(CACHE_KEY)
 
 

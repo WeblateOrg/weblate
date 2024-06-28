@@ -49,6 +49,14 @@ cp node_modules/slugify/slugify.js ../../weblate/static/vendor/slugify.js
 # Sentry
 ./node_modules/.bin/browserify node_modules/@sentry/browser/cjs/index.js --standalone Sentry > ../../weblate/static/vendor/sentry.js
 
+# Date Range Picker
+cp node_modules/daterangepicker/daterangepicker.js ../../weblate/static/vendor/
+# Skip the copying of the default CSS file to avoid the Weblate style customization being overwritten
+# cp node_modules/daterangepicker/daterangepicker.css ../../weblate/static/vendor/
+
+# Moment.js
+cp node_modules/moment/moment.js ../../weblate/static/vendor/
+
 # Source Sans/Code Pro fonts
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans/source-sans-3.css > ../../weblate/static/vendor/font-source/source-sans-3.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css

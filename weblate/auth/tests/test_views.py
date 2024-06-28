@@ -7,11 +7,11 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class TeamsTest(ViewTestCase):
-    def make_superuser(self, superuser: bool = True):
+    def make_superuser(self, superuser: bool = True) -> None:
         self.user.is_superuser = superuser
         self.user.save()
 
-    def test_sitewide(self):
+    def test_sitewide(self) -> None:
         group = Group.objects.create(name="Test group")
         edit_payload = {
             "name": "Other",
@@ -37,7 +37,7 @@ class TeamsTest(ViewTestCase):
         group.refresh_from_db()
         self.assertEqual(group.name, "Other")
 
-    def test_project(self):
+    def test_project(self) -> None:
         group = Group.objects.create(name="Test group", defining_project=self.project)
 
         edit_payload = {
@@ -63,7 +63,7 @@ class TeamsTest(ViewTestCase):
         group.refresh_from_db()
         self.assertEqual(group.name, "Other")
 
-    def test_add_users(self):
+    def test_add_users(self) -> None:
         group = Group.objects.create(name="Test group", defining_project=self.project)
 
         # Non-privileged

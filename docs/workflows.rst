@@ -76,6 +76,10 @@ Approved
     it.
 
     This state is only available when reviews are enabled.
+Read-only
+    String is read-only as a result of having ``read-only`` :ref:`flag
+    <custom-checks>`, being a non-editable source string, or marked such in the
+    translation file.
 Suggestions
     Suggestions are stored in Weblate only and not in the translation file.
 

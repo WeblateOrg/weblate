@@ -8,13 +8,8 @@ from itertools import chain
 from typing import TYPE_CHECKING, Literal
 
 from django.core.cache import cache
-from openai import OpenAI
 
-from weblate.glossary.models import (
-    get_glossary_terms,
-    render_glossary_units_tsv,
-)
-from weblate.utils.errors import report_error
+from weblate.glossary.models import get_glossary_terms, render_glossary_units_tsv
 
 from .base import (
     BatchMachineTranslation,
@@ -27,8 +22,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-SEPARATOR = "\n==WEBLATE_PART==\n"
-
 PROMPT = """
 You are a highly skilled translation assistant, adept at translating text
 from language '{source_language}'
@@ -38,13 +31,21 @@ with precision and nuance.
 {style}
 You always reply with translated string only.
 You do not include transliteration.
-You receive an input as strings separated by {separator} and your answer separates strings by {separator}.
-You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
+{separator}
+{placeables}
 {glossary}
+"""
+SEPARATOR = "\n==WEBLATE_PART==\n"
+SEPARATOR_PROMPT = f"""
+You receive an input as strings separated by {SEPARATOR} and
+your answer separates strings by {SEPARATOR}.
 """
 GLOSSARY_PROMPT = """
 Use the following glossary during the translation:
 {}
+"""
+PLACEABLES_PROMPT = """
+You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
 """
 
 
@@ -55,12 +56,14 @@ class OpenAITranslation(BatchMachineTranslation):
 
     settings_form = OpenAIMachineryForm
 
-    def __init__(self, settings=None):
+    def __init__(self, settings=None) -> None:
+        from openai import OpenAI
+
         super().__init__(settings)
         self.client = OpenAI(api_key=self.settings["key"], timeout=self.request_timeout)
-        self._models = None
+        self._models: None | set[str] = None
 
-    def is_supported(self, source, language):
+    def is_supported(self, source, language) -> bool:
         return True
 
     def get_model(self) -> str:
@@ -90,24 +93,33 @@ class OpenAITranslation(BatchMachineTranslation):
         return text
 
     def get_prompt(
-        self, source_language: str, target_language: str, units: list
+        self, source_language: str, target_language: str, texts: list[str], units: list
     ) -> str:
         glossary = ""
         if any(units):
             glossary = render_glossary_units_tsv(
-                chain.from_iterable(get_glossary_terms(unit) for unit in units)
+                chain.from_iterable(
+                    get_glossary_terms(unit, include_variants=False) for unit in units
+                )
             )
             if glossary:
                 glossary = GLOSSARY_PROMPT.format(glossary)
+        separator = SEPARATOR_PROMPT if len(units) > 1 else ""
+        placeables = ""
+        if any(self.replacement_start in text for text in texts):
+            placeables = PLACEABLES_PROMPT.format(
+                placeable_1=self.format_replacement(0, -1, "", None),
+                placeable_2=self.format_replacement(123, -1, "", None),
+            )
+
         return PROMPT.format(
             source_language=source_language,
             target_language=target_language,
             persona=self.format_prompt_part("persona"),
             style=self.format_prompt_part("style"),
             glossary=glossary,
-            separator=SEPARATOR,
-            placeable_1=self.format_replacement(0, -1, "", None),
-            placeable_2=self.format_replacement(123, -1, "", None),
+            separator=separator,
+            placeables=placeables,
         )
 
     def download_multiple_translations(
@@ -118,12 +130,17 @@ class OpenAITranslation(BatchMachineTranslation):
         user=None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
+        from openai.types.chat import (
+            ChatCompletionSystemMessageParam,
+            ChatCompletionUserMessageParam,
+        )
+
         texts = [text for text, _unit in sources]
         units = [unit for _text, unit in sources]
-        prompt = self.get_prompt(source, language, units)
+        prompt = self.get_prompt(source, language, texts, units)
         messages = [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": SEPARATOR.join(texts)},
+            ChatCompletionSystemMessageParam(role="system", content=prompt),
+            ChatCompletionUserMessageParam(role="user", content=SEPARATOR.join(texts)),
         ]
 
         response = self.client.chat.completions.create(
@@ -138,22 +155,30 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations_string = response.choices[0].message.content
         if translations_string is None:
-            report_error(cause="Blank assistant reply", extra_log=translations_string)
+            self.report_error(
+                "Blank assistant reply",
+                extra_log=translations_string,
+                message=True,
+            )
             raise MachineTranslationError("Blank assistant reply")
 
         translations = translations_string.split(SEPARATOR)
         if len(translations) != len(texts):
-            report_error(
-                cause="Failed to parse assistant reply", extra_log=translations_string
+            self.report_error(
+                "Failed to parse assistant reply",
+                extra_log=translations_string,
+                message=True,
             )
-            raise MachineTranslationError("Could not parse assistant reply")
+            raise MachineTranslationError(
+                f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
+            )
 
         for index, text in enumerate(texts):
             # Extract the assistant's reply from the response
             try:
                 translation = translations[index]
             except IndexError:
-                report_error(cause="Missing assistant reply")
+                self.report_error("Missing assistant reply")
                 continue
 
             result[text] = [

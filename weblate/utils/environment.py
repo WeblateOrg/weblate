@@ -36,7 +36,7 @@ def get_env_str(
 
 
 def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
-    """Helper to get list from environment."""
+    """Get list from environment."""
     if name not in os.environ:
         return default or []
     return os.environ[name].split(",")
@@ -44,7 +44,7 @@ def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
 
 def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, str]:
     """
-    Helper to get mapping from environment.
+    Get mapping from environment.
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
@@ -54,7 +54,7 @@ def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, s
 
 
 def get_env_int(name: str, default: int = 0) -> int:
-    """Helper to get integer value from environment."""
+    """Get integer value from environment."""
     if name not in os.environ:
         return default
     try:
@@ -64,7 +64,7 @@ def get_env_int(name: str, default: int = 0) -> int:
 
 
 def get_env_float(name: str, default: float = 0.0) -> float:
-    """Helper to get float value from environment."""
+    """Get float value from environment."""
     if name not in os.environ:
         return default
     try:
@@ -74,7 +74,7 @@ def get_env_float(name: str, default: float = 0.0) -> float:
 
 
 def get_env_bool(name: str, default: bool = False) -> bool:
-    """Helper to get boolean value from environment."""
+    """Get boolean value from environment."""
     if name not in os.environ:
         return default
     true_values = {"true", "yes", "1"}
@@ -82,7 +82,7 @@ def get_env_bool(name: str, default: bool = False) -> bool:
 
 
 def modify_env_list(current: list[str], name: str) -> list[str]:
-    """Helper to modify list (for example checks)."""
+    """Modify list based on environment (for example checks)."""
     for item in reversed(get_env_list(f"WEBLATE_ADD_{name}")):
         current.insert(0, item)
     for item in get_env_list(f"WEBLATE_REMOVE_{name}"):
@@ -93,7 +93,7 @@ def modify_env_list(current: list[str], name: str) -> list[str]:
 def get_env_credentials(
     name: str,
 ) -> dict[str, dict[str, str]]:
-    """Parses VCS integration credentials."""
+    """Get VCS integration credentials from environment."""
     if found_env_credentials := get_env_str(f"WEBLATE_{name}_CREDENTIALS"):
         return ast.literal_eval(found_env_credentials)
     username = os.environ.get(f"WEBLATE_{name}_USERNAME", "")
@@ -129,7 +129,7 @@ def get_env_ratelimit(name: str, default: str) -> str:
         raise ValueError(f"Could not parse {name}: {error}") from error
     if not num.isdigit():
         raise ValueError(f"Could not parse {name}: rate is not numeric: {num}")
-    if period[0] not in ("s", "m", "h", "d"):
+    if period[0] not in {"s", "m", "h", "d"}:
         raise ValueError(f"Could not parse {name}: unknown period: {period}")
 
     return value

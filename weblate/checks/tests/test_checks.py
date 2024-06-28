@@ -25,7 +25,7 @@ class MockLanguage(Language):
     class Meta:
         proxy = True
 
-    def __init__(self, code="cs"):
+    def __init__(self, code="cs") -> None:
         super().__init__(code=code)
         # We need different language codes to have different pk
         self.pk = -abs(hash(code))
@@ -40,13 +40,13 @@ class MockLanguage(Language):
 class MockProject:
     """Mock project object."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.id = 1
         self.use_shared_tm = True
         self.name = "MockProject"
         self.slug = "mock"
 
-    def get_glossary_tsv_cache_key(self, source_language, language):
+    def get_glossary_tsv_cache_key(self, source_language, language) -> str:
         return f"project-glossary-tsv-test-{source_language.code}-{language.code}"
 
     @property
@@ -63,7 +63,7 @@ class MockProject:
 class MockComponent:
     """Mock component object."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.id = 1
         self.source_language = MockLanguage("en")
         self.project = MockProject()
@@ -75,7 +75,7 @@ class MockComponent:
 class MockTranslation:
     """Mock translation object."""
 
-    def __init__(self, code="cs"):
+    def __init__(self, code="cs") -> None:
         self.language = MockLanguage(code)
         self.component = MockComponent()
         self.is_template = False
@@ -100,7 +100,7 @@ class MockUnit:
         is_source=None,
         target="",
         context="",
-    ):
+    ) -> None:
         if id_hash is None:
             id_hash = random.randint(0, 65536)  # noqa: S311
         self.id_hash = id_hash
@@ -150,7 +150,7 @@ class CheckTestCase(SimpleTestCase):
     check: None | Check = None
     default_lang = "cs"
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.test_empty: tuple[str, str, str] = ("", "", "")
         self.test_good_matching: tuple[str, str, str] = ("string", "string", "")
         self.test_good_none: tuple[str, str, str] = ("string", "string", "")
@@ -166,7 +166,7 @@ class CheckTestCase(SimpleTestCase):
         )
         self.test_highlight: None | tuple[str, str, list[tuple[int, int, str]]] = None
 
-    def do_test(self, expected, data, lang=None):
+    def do_test(self, expected, data, lang=None) -> None:
         """Perform single check if we have data to test."""
         if lang is None:
             lang = self.default_lang
@@ -193,28 +193,28 @@ class CheckTestCase(SimpleTestCase):
         else:
             self.assertFalse(result, msg=f"Check did fire for {params}")
 
-    def test_single_good_matching(self):
+    def test_single_good_matching(self) -> None:
         self.do_test(False, self.test_good_matching)
 
-    def test_single_good_none(self):
+    def test_single_good_none(self) -> None:
         self.do_test(False, self.test_good_none)
 
-    def test_single_good_ignore(self):
+    def test_single_good_ignore(self) -> None:
         self.do_test(False, self.test_good_ignore)
 
-    def test_single_empty(self):
+    def test_single_empty(self) -> None:
         self.do_test(False, self.test_empty)
 
-    def test_single_failure_1(self):
+    def test_single_failure_1(self) -> None:
         self.do_test(True, self.test_failure_1)
 
-    def test_single_failure_2(self):
+    def test_single_failure_2(self) -> None:
         self.do_test(True, self.test_failure_2)
 
-    def test_single_failure_3(self):
+    def test_single_failure_3(self) -> None:
         self.do_test(True, self.test_failure_3)
 
-    def test_check_good_flag(self):
+    def test_check_good_flag(self) -> None:
         if self.check is None or self.test_good_flag is None:
             return
         self.assertFalse(
@@ -230,7 +230,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_good_matching_singular(self):
+    def test_check_good_matching_singular(self) -> None:
         if self.check is None:
             return
         self.assertFalse(
@@ -246,7 +246,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_good_none_singular(self):
+    def test_check_good_none_singular(self) -> None:
         if self.check is None:
             return
         self.assertFalse(
@@ -262,7 +262,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_good_ignore_singular(self):
+    def test_check_good_ignore_singular(self) -> None:
         if self.check is None or self.test_good_ignore is None:
             return
         self.assertFalse(
@@ -278,7 +278,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_good_matching_plural(self):
+    def test_check_good_matching_plural(self) -> None:
         if self.check is None:
             return
         self.assertFalse(
@@ -294,7 +294,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_failure_1_singular(self):
+    def test_check_failure_1_singular(self) -> None:
         if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
@@ -310,7 +310,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_failure_1_plural(self):
+    def test_check_failure_1_plural(self) -> None:
         if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
@@ -326,7 +326,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_failure_2_singular(self):
+    def test_check_failure_2_singular(self) -> None:
         if self.test_failure_2 is None or self.check is None:
             return
         self.assertTrue(
@@ -342,7 +342,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_failure_3_singular(self):
+    def test_check_failure_3_singular(self) -> None:
         if self.test_failure_3 is None or self.check is None:
             return
         self.assertTrue(
@@ -358,7 +358,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_ignore_check(self):
+    def test_check_ignore_check(self) -> None:
         if self.check is None:
             return
         self.assertFalse(
@@ -374,7 +374,7 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
-    def test_check_highlight(self):
+    def test_check_highlight(self) -> None:
         if self.check is None or self.test_highlight is None:
             return
         unit = MockUnit(

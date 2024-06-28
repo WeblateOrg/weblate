@@ -9,7 +9,7 @@ from rest_framework.throttling import UserRateThrottle as DRFUserRateThrottle
 
 
 def patch_throttle_request(func):
-    """Stores throttling state in request to be picked up by ThrottlingMiddleware."""
+    """Store throttling state in request to be picked up by ThrottlingMiddleware."""
 
     @wraps(func)
     def patched(self, request, view):

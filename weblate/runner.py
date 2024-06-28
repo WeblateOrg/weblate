@@ -6,7 +6,7 @@ import os
 import sys
 
 
-def main(argv=None, developer_mode: bool = False):
+def main(argv=None, developer_mode: bool = False) -> None:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
     from weblate.utils.management import WeblateManagementUtility

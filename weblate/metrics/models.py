@@ -89,7 +89,7 @@ METRIC_ORDER = [
 ]
 
 
-class MetricQuerySet(models.QuerySet):
+class MetricQuerySet(models.QuerySet["Metric"]):
     def filter_metric(
         self, scope: int, relation: int, secondary: int = 0
     ) -> MetricQuerySet:
@@ -123,7 +123,7 @@ class MetricQuerySet(models.QuerySet):
         return metric
 
 
-class MetricManager(models.Manager):
+class MetricManager(models.Manager["Metric"]):
     def create_metrics(
         self,
         data: dict,
@@ -163,7 +163,7 @@ class MetricManager(models.Manager):
             metric.save(update_fields=["data"])
         return metric
 
-    def initialize_metrics(self, scope: int, relation: int, secondary: int = 0):
+    def initialize_metrics(self, scope: int, relation: int, secondary: int = 0) -> None:
         today = timezone.now().date()
         # 2 years + one day for leap years
         self.bulk_create(
@@ -192,15 +192,13 @@ class MetricManager(models.Manager):
             changes = Change.objects.all()
         elif isinstance(
             obj,
-            (
-                Translation,
-                Component,
-                Project,
-                User,
-                Language,
-                ProjectLanguage,
-                CategoryLanguage,
-            ),
+            Translation
+            | Component
+            | Project
+            | User
+            | Language
+            | ProjectLanguage
+            | CategoryLanguage,
         ):
             changes = obj.change_set.all()
         elif isinstance(obj, ComponentList):
@@ -511,7 +509,7 @@ class Metric(models.Model):
     SCOPE_CATEGORY = 8
     SCOPE_CATEGORY_LANGUAGE = 9
 
-    id = models.BigAutoField(primary_key=True)  # noqa: A003
+    id = models.BigAutoField(primary_key=True)
     date = models.DateField(default=datetime.date.today)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
@@ -526,7 +524,7 @@ class Metric(models.Model):
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.changes} {self.data}"
 
     @cached_property
@@ -542,7 +540,7 @@ class Metric(models.Model):
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
-def create_metrics_project(sender, instance, created=False, **kwargs):
+def create_metrics_project(sender, instance, created=False, **kwargs) -> None:
     if created:
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_PROJECT, relation=instance.pk
@@ -551,7 +549,7 @@ def create_metrics_project(sender, instance, created=False, **kwargs):
 
 @receiver(post_save, sender=Category)
 @disable_for_loaddata
-def create_metrics_category(sender, instance, created=False, **kwargs):
+def create_metrics_category(sender, instance, created=False, **kwargs) -> None:
     if created:
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_CATEGORY, relation=instance.pk
@@ -560,7 +558,7 @@ def create_metrics_category(sender, instance, created=False, **kwargs):
 
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
-def create_metrics_component(sender, instance, created=False, **kwargs):
+def create_metrics_component(sender, instance, created=False, **kwargs) -> None:
     if created:
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_COMPONENT, relation=instance.pk
@@ -569,7 +567,7 @@ def create_metrics_component(sender, instance, created=False, **kwargs):
 
 @receiver(post_save, sender=Translation)
 @disable_for_loaddata
-def create_metrics_translation(sender, instance, created=False, **kwargs):
+def create_metrics_translation(sender, instance, created=False, **kwargs) -> None:
     if created:
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_TRANSLATION, relation=instance.pk
@@ -578,14 +576,14 @@ def create_metrics_translation(sender, instance, created=False, **kwargs):
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
-def create_metrics_user(sender, instance, created=False, **kwargs):
+def create_metrics_user(sender, instance, created=False, **kwargs) -> None:
     if created:
         Metric.objects.initialize_metrics(scope=Metric.SCOPE_USER, relation=instance.pk)
 
 
 @receiver(post_delete, sender=Category)
 @disable_for_loaddata
-def delete_metrics_category(sender, instance, **kwargs):
+def delete_metrics_category(sender, instance, **kwargs) -> None:
     Metric.objects.filter(
         scope__in=(Metric.SCOPE_CATEGORY_LANGUAGE, Metric.SCOPE_CATEGORY),
         relation=instance.pk,
@@ -594,7 +592,7 @@ def delete_metrics_category(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Project)
 @disable_for_loaddata
-def delete_metrics_project(sender, instance, **kwargs):
+def delete_metrics_project(sender, instance, **kwargs) -> None:
     Metric.objects.filter(
         scope__in=(Metric.SCOPE_PROJECT_LANGUAGE, Metric.SCOPE_PROJECT),
         relation=instance.pk,
@@ -603,13 +601,13 @@ def delete_metrics_project(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
-def delete_metrics_component(sender, instance, **kwargs):
+def delete_metrics_component(sender, instance, **kwargs) -> None:
     Metric.objects.filter(scope=Metric.SCOPE_COMPONENT, relation=instance.pk).delete()
 
 
 @receiver(post_delete, sender=ComponentList)
 @disable_for_loaddata
-def delete_metrics_component_list(sender, instance, **kwargs):
+def delete_metrics_component_list(sender, instance, **kwargs) -> None:
     Metric.objects.filter(
         scope=Metric.SCOPE_COMPONENT_LIST, relation=instance.pk
     ).delete()
@@ -617,17 +615,17 @@ def delete_metrics_component_list(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Translation)
 @disable_for_loaddata
-def delete_metrics_translation(sender, instance, **kwargs):
+def delete_metrics_translation(sender, instance, **kwargs) -> None:
     Metric.objects.filter(scope=Metric.SCOPE_TRANSLATION, relation=instance.pk).delete()
 
 
 @receiver(post_delete, sender=User)
 @disable_for_loaddata
-def delete_metrics_user(sender, instance, **kwargs):
+def delete_metrics_user(sender, instance, **kwargs) -> None:
     Metric.objects.filter(scope=Metric.SCOPE_USER, relation=instance.pk).delete()
 
 
 @receiver(post_delete, sender=Language)
 @disable_for_loaddata
-def delete_metrics_language(sender, instance, **kwargs):
+def delete_metrics_language(sender, instance, **kwargs) -> None:
     Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE, relation=instance.pk).delete()

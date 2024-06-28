@@ -35,7 +35,7 @@ def response_authenticate():
     return response
 
 
-def authenticate(request, auth):
+def authenticate(request, auth) -> bool:
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)
@@ -69,7 +69,7 @@ def git_export(request, path, git_request):
     Performs permission checks and hands over execution to the wrapper.
     """
     # Reject non pull access early
-    if request.GET.get("service", "") not in ("", "git-upload-pack"):
+    if request.GET.get("service", "") not in {"", "git-upload-pack"}:
         raise PermissionDenied("Only pull is supported")
 
     # HTTP authentication
@@ -96,7 +96,7 @@ def git_export(request, path, git_request):
         raise Http404("Not a git repository")
     if obj.is_repo_link:
         return redirect(
-            "{}?{}".format(
+            "{}{}".format(
                 reverse(
                     "git-export",
                     kwargs={
@@ -114,8 +114,20 @@ def git_export(request, path, git_request):
     return wrapper.get_response()
 
 
+class GitStreamingHttpResponse(StreamingHttpResponse):
+    def __init__(self, streaming_content, *args, **kwargs):
+        super().__init__(streaming_content.stream(), *args, **kwargs)
+        self.wrapper = streaming_content
+
+    def close(self):
+        if self.wrapper.process.poll() is None:
+            self.wrapper.process.kill()
+        self.wrapper.process.wait()
+        super().close()
+
+
 class GitHTTPBackendWrapper:
-    def __init__(self, obj, request, git_request: str):
+    def __init__(self, obj, request, git_request: str) -> None:
         self.path = os.path.join(obj.full_path, git_request)
         self.obj = obj
         self.request = request
@@ -154,11 +166,11 @@ class GitHTTPBackendWrapper:
             del result["GIT_HTTP_EXPORT_ALL"]
         return result
 
-    def send_body(self):
+    def send_body(self) -> None:
         self.process.stdin.write(self.request.body)  # type: ignore[union-attr]
         self.process.stdin.close()  # type: ignore[union-attr]
 
-    def fetch_headers(self):
+    def fetch_headers(self) -> None:
         """Fetch initial chunk of response to parse headers."""
         while True:
             for key, _mask in self.selector.select(timeout=1):
@@ -209,7 +221,7 @@ class GitHTTPBackendWrapper:
         # Log error
         if output_err:
             report_error(
-                cause="Git backend failure",
+                "Git backend failure",
                 extra_log=output_err,
                 project=self.obj.project,
                 level="error",
@@ -217,16 +229,17 @@ class GitHTTPBackendWrapper:
             )
 
         # Handle failure
-        if retcode:
+        if retcode is not None and retcode != 0:
             return HttpResponseServerError(output_err)
 
         message = message_from_string(self._headers.decode())
 
         # Handle status in response
         if "status" in message:
+            self.process.wait()
             return HttpResponse(status=int(message["status"].split()[0]))
 
-        # Send streaming content as reponse
-        return StreamingHttpResponse(
-            streaming_content=self.stream(), content_type=message["content-type"]
+        # Send streaming content as response
+        return GitStreamingHttpResponse(
+            streaming_content=self, content_type=message["content-type"]
         )

@@ -85,9 +85,7 @@ class RebuildView(MemoryFormView):
         component_id = None
         if origin:
             try:
-                component_id = project.component_set.get(
-                    slug=origin.split("/", 1)[-1]
-                ).id
+                component_id = project.component_set.get_by_path(origin).id
             except ObjectDoesNotExist:
                 raise PermissionDenied
         # Delete private entries
@@ -130,7 +128,7 @@ class UploadView(MemoryFormView):
                 gettext("File processed, the entries will appear shortly."),
             )
         except MemoryImportError as error:
-            messages.error(self.request, str(error))  # noqa: G200
+            messages.error(self.request, str(error))
         return super().form_valid(form)
 
 

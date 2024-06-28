@@ -71,7 +71,7 @@ class DevanagariDanda(AutoFix):
         if (
             unit.translation.language.is_base(("hi", "bn", "or"))
             and source.endswith(".")
-            and target.endswith((".", "\u09F7", "|"))
+            and target.endswith((".", "\u09f7", "|"))
         ):
             return f"{target[:-1]}\u0964", True
         return target, False
@@ -94,7 +94,7 @@ class PunctuationSpacing(AutoFix):
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
             # Fix existing
-            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE, "\u202F\\2", target)
+            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE, "\u202f\\2", target)
             # Do not add missing as that is likely to trigger issues with other content
             # such as URLs or Markdown syntax.
             return new_target, new_target != target

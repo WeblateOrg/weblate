@@ -19,7 +19,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class CleanupTest(ViewTestCase):
-    def test_cleanup_suggestions_case_sensitive(self):
+    def test_cleanup_suggestions_case_sensitive(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
 
@@ -41,7 +41,7 @@ class CleanupTest(ViewTestCase):
         cleanup_suggestions()
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_cleanup_suggestions_duplicate(self):
+    def test_cleanup_suggestions_duplicate(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
 
@@ -61,7 +61,7 @@ class CleanupTest(ViewTestCase):
         cleanup_suggestions()
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_cleanup_old_suggestions(self, expected=2):
+    def test_cleanup_old_suggestions(self, expected=2) -> None:
         request = self.get_request()
         unit = self.get_unit()
         Suggestion.objects.add(unit, ["Zkouška"], request)
@@ -71,10 +71,10 @@ class CleanupTest(ViewTestCase):
         self.assertEqual(Suggestion.objects.count(), expected)
 
     @override_settings(SUGGESTION_CLEANUP_DAYS=15)
-    def test_cleanup_old_suggestions_enabled(self):
+    def test_cleanup_old_suggestions_enabled(self) -> None:
         self.test_cleanup_old_suggestions(1)
 
-    def test_cleanup_old_comments(self, expected=2):
+    def test_cleanup_old_comments(self, expected=2) -> None:
         request = self.get_request()
         unit = self.get_unit()
         Comment.objects.add(unit.source_unit, request, "Zkouška")
@@ -84,10 +84,10 @@ class CleanupTest(ViewTestCase):
         self.assertEqual(Comment.objects.count(), expected)
 
     @override_settings(COMMENT_CLEANUP_DAYS=15)
-    def test_cleanup_old_comments_enabled(self):
+    def test_cleanup_old_comments_enabled(self) -> None:
         self.test_cleanup_old_comments(1)
 
 
 class TasksTest(ViewTestCase):
-    def test_daily_update_checks(self):
+    def test_daily_update_checks(self) -> None:
         daily_update_checks()

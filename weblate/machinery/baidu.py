@@ -38,7 +38,7 @@ class BaiduTranslation(MachineTranslation):
         "sl": "slo",
         "sw": "swe",
         "zh_Hant": "cht",
-        "vi": "vie",
+        "vi": "vie",  # codespell:ignore vie
     }
     settings_form = KeySecretMachineryForm
 
@@ -72,8 +72,24 @@ class BaiduTranslation(MachineTranslation):
             "swe",
             "hu",
             "cht",
-            "vie",
+            "vie",  # codespell:ignore vie
         ]
+
+    def check_failure(self, response) -> None:
+        payload = response.json()
+
+        if "error_code" in payload:
+            try:
+                error_code = int(payload["error_code"])
+            except ValueError:
+                pass
+            else:
+                if error_code == 54003:
+                    raise MachineryRateLimitError(payload["error_msg"])
+            raise MachineTranslationError(
+                "Error {error_code}: {error_msg}".format(**payload)
+            )
+        super().check_failure(response)
 
     def download_translations(
         self,
@@ -99,18 +115,6 @@ class BaiduTranslation(MachineTranslation):
 
         response = self.request("get", BAIDU_API, params=args)
         payload = response.json()
-
-        if "error_code" in payload:
-            try:
-                error_code = int(payload["error_code"])
-            except ValueError:
-                pass
-            else:
-                if error_code == 54003:
-                    raise MachineryRateLimitError(payload["error_msg"])
-            raise MachineTranslationError(
-                "Error {error_code}: {error_msg}".format(**payload)
-            )
 
         for item in payload["trans_result"]:
             yield {

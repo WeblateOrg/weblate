@@ -4,6 +4,8 @@
 
 """Helper classes for management commands."""
 
+from __future__ import annotations
+
 from django.core.management.base import CommandError
 from django.db import transaction
 
@@ -17,7 +19,7 @@ class WeblateComponentCommand(BaseCommand):
 
     needs_repo = False
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--all",
             action="store_true",
@@ -90,15 +92,12 @@ class WeblateComponentCommand(BaseCommand):
 
             # process arguments
             for arg in options["component"]:
-                # do we have also component?
-                parts = arg.split("/")
-
-                # filter by project
-                found = base.filter(project__slug=parts[0])
-
-                # filter by component if available
-                if len(parts) == 2:
-                    found = found.filter(slug=parts[1])
+                if "/" in arg:
+                    # filter by component
+                    found = base.filter_by_path(arg)
+                else:
+                    # filter by project
+                    found = base.filter(project__slug=arg)
 
                 # warn on no match
                 if not found.exists():
@@ -117,12 +116,7 @@ class WeblateComponentCommand(BaseCommand):
 
         return result
 
-    def handle(self, *args, **options):
-        """
-        The actual logic of the command.
-
-        Subclasses must implement this method.
-        """
+    def handle(self, *args, **options) -> None:
         raise NotImplementedError
 
 
@@ -133,7 +127,7 @@ class WeblateLangCommand(WeblateComponentCommand):
     It can filter list of languages to process.
     """
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--lang",
@@ -162,19 +156,14 @@ class WeblateLangCommand(WeblateComponentCommand):
 
         return result
 
-    def handle(self, *args, **options):
-        """
-        The actual logic of the command.
-
-        Subclasses must implement this method.
-        """
+    def handle(self, *args, **options) -> None:
         raise NotImplementedError
 
 
 class WeblateTranslationCommand(BaseCommand):
     """Command with target of one translation."""
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument("project", help="Slug of project")
         parser.add_argument("component", help="Slug of component")
         parser.add_argument("language", help="Slug of language")
@@ -200,10 +189,5 @@ class WeblateTranslationCommand(BaseCommand):
                     )
             raise CommandError("No matching translation project found!")
 
-    def handle(self, *args, **options):
-        """
-        The actual logic of the command.
-
-        Subclasses must implement this method.
-        """
+    def handle(self, *args, **options) -> None:
         raise NotImplementedError

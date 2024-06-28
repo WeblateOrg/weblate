@@ -4,7 +4,6 @@
 
 """Example pre commit script."""
 
-
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.events import AddonEvent

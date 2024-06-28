@@ -9,7 +9,10 @@ from threading import Thread
 
 from django.conf import settings
 from django.core.cache import cache
+from django.shortcuts import redirect
+from django.urls import reverse
 
+from weblate.accounts.models import AuditLog
 from weblate.runner import main
 
 CHECK_CACHE_KEY = "weblate-health-check"
@@ -23,11 +26,11 @@ class ManageMiddleware:
     between Celery and UWSGI environments.
     """
 
-    def __init__(self, get_response=None):
+    def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
     @staticmethod
-    def trigger_check():
+    def trigger_check() -> None:
         if not settings.BACKGROUND_ADMIN_CHECKS:
             return
         # Update last execution timestamp
@@ -51,6 +54,9 @@ class ManageMiddleware:
         thread.start()
 
     def __call__(self, request):
+        if request.session.pop("redirect_to_donate", False):
+            AuditLog.objects.create(request.user, request, "donate")
+            return redirect(reverse("donate"))
         response = self.get_response(request)
         if (
             request.resolver_match

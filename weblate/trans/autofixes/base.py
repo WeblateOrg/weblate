@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 
 class AutoFix:
@@ -15,7 +16,7 @@ class AutoFix:
     def get_related_checks():
         return []
 
-    def fix_single_target(self, target, source, unit):
+    def fix_single_target(self, target, source, unit) -> tuple[str, bool]:
         """Fix a single target, implement this method in subclasses."""
         raise NotImplementedError
 
