@@ -10,7 +10,7 @@ glossaries, and so on.
 
 .. _acl:
 
-Project access-control
+Project access control
 ----------------------
 
 .. note::
