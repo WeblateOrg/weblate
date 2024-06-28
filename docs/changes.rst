@@ -14,6 +14,7 @@ Not yet released.
 * :ref:`addon-weblate.properties.sort` can now do case-sensitive sorting.
 * The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
 * :ref:`reports` are now available for categories.
+* Highlight newlines in the editor.
 
 **Bug fixes**
 

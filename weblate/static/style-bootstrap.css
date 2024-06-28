@@ -281,7 +281,8 @@ textarea#id_check_flags {
   background-color: #eb3;
 }
 
-.hlspace {
+.hlspace,
+.token.newline {
   outline: 1px dotted red;
   color: #bfc3c7;
   white-space: pre-wrap;
@@ -289,7 +290,8 @@ textarea#id_check_flags {
 
 .space-tab,
 .space-nl,
-.space-space {
+.space-space,
+.token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
@@ -299,7 +301,8 @@ textarea#id_check_flags {
   position: relative;
 }
 
-.space-nl::before {
+.space-nl::before,
+.token.newline::before {
   content: "↵";
   position: relative;
 }
@@ -1708,6 +1711,7 @@ a.language:hover {
 .token.code {
   color: #009;
 }
+.token.newline,
 .token.hlspace {
   display: inline;
 }

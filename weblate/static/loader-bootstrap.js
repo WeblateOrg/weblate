@@ -490,6 +490,9 @@ function initHighlight(root) {
           pattern: whitespace_regex,
           lookbehind: true,
         },
+        newline: {
+          pattern: /\n/,
+        },
       };
       if (placeables) {
         extension.placeable = RegExp(placeables);
