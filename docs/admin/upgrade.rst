@@ -140,7 +140,7 @@ supported and will break.
 Migrating from other databases to PostgreSQL
 --------------------------------------------
 
-If you are not running Weblate with a different databse than PostgreSQL,
+If you are not running Weblate with a different database than PostgreSQL,
 consider migrating to PostgreSQL for better performance by doing the following steps.
 Remember to stop both, the web and Celery servers beforehand,
 otherwise you might end up with inconsistent data.
