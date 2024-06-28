@@ -128,8 +128,8 @@ on, but it is usually better to introduce new strings together with the code
 changes that introduced them.
 
 Monolingual formats need to be configured so that new strings are added to
-:ref:`component-template`. This is typically done by developers as they
-write the code. You might want to use a review proccess of those strings using
+:ref:`component-template`. This is typically done by developers, as they
+write the code. You might want to use a review process of those strings using
 :ref:`source-quality-gateway`.
 
 Bilingual formats typically extract strings from the source code using some
