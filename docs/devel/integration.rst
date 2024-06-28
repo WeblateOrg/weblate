@@ -3,16 +3,16 @@ Integrating with Weblate
 
 .. include:: /snippets/basics.rst
 
-Importing localization projects into Weblate
-++++++++++++++++++++++++++++++++++++++++++++
+Importing a localization project into Weblate
++++++++++++++++++++++++++++++++++++++++++++++
 
-The most automated of maintaining integration with a remote
-version-control repository is to grant Weblate access to it.
-The import process guides you through configuring and splitting up your
-translation effort into Weblate components.
+Weblate has been developed with VCS integration in mind as it’s core feature,
+so the easiest way is to grant Weblate the access to your repository.
+The import process will guide you through configuring your translations
+into Weblate components.
 
-Alternatively, you can use Weblate without any integration, where
-a local repository contains all translations.
+Alternatively, you can let Weblate set up a local-only repository
+containing all the translations without integration.
 
 .. seealso::
 
@@ -35,7 +35,7 @@ Pushing changes can be automated if you grant Weblate push access to your reposi
 configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
 
 Alternatively, use :doc:`/api` to update translations
-so that they match the latest version from upstream in your remote VCS repository.
+so that they match the latest version from the upstream in your remote VCS repository.
 
 .. seealso::
 
@@ -47,7 +47,7 @@ Fetching remote changes into Weblate
 ++++++++++++++++++++++++++++++++++++
 
 To fetch any strings recently updated in your remote VCS repository into Weblate,
-allow Weblate pull from the upstream repository.
+allow Weblate to pull from the upstream repository.
 This can be achieved in the user interface (in the :guilabel:`Repository maintenance`),
 or from the command-line using :ref:`wlc`.
 
@@ -91,17 +91,21 @@ introduce new strings into Weblate.
 Updating target-language files
 ++++++++++++++++++++++++++++++
 
-For monolingual files (see :ref:`formats`) Weblate might add new translation
-strings not present in the :ref:`component-template`, or other translations.
+For monolingual files (see :ref:`formats`), Weblate might add new translation
+strings present in the :ref:`component-template`, and not in actual translations.
 It does not however perform any automatic cleanup of stale strings, as that
 might have unexpected results. If you still want to do this, please install
 the :ref:`addon-weblate.cleanup.generic` add-on, which handles
 cleanup according to your requirements.
 
-Weblate will also not try to update bilingual files in any way, so if you need
-:file:`po` files to be updated from :file:`pot`, do it yourself by
+Weblate will also not try to update bilingual files when the source changes,
+so if you need :file:`po` files to be updated from :file:`pot`, do it yourself by
 using :guilabel:`Update source strings` :ref:`upload-method`, or by using
 the :ref:`addon-weblate.gettext.msgmerge` add-on.
+
+.. hint::
+
+   Source string extraction tools, such as :program:`xgettext` or :program:`lupdate`, need to be executed outside of Weblate.
 
 .. seealso::
 
@@ -123,7 +127,7 @@ changes that introduced them.
 
 Monolingual formats need to be configured so that new strings are added to
 :ref:`component-template`. This is typically done by developers as they
-develop the code. You might want to introduce review of those strings using
+write the code. You might want to use a review proccess of those strings using
 :ref:`source-quality-gateway`.
 
 Bilingual formats typically extract strings from the source code using some
@@ -153,14 +157,15 @@ existing translations, see :ref:`updating-target-files`.
 Managing the local VCS repository
 +++++++++++++++++++++++++++++++++
 
-Weblate stores all translations a version control repository of its own.
-It can either be connected to a remote one, or it can remain internal only.
-The :guilabel:`Repository maintenance` allows manipulating the repository.
+Weblate stores all translations in its underlying version control repository.
+It is suggested to be connected to a remote one, but internal-only setup is
+also possible. The :guilabel:`Repository maintenance` allows
+controlling this repository.
 
 .. hint::
 
-   With :doc:`/admin/continuous` any changes are auto-pushed from the
-   repository, and there is usually no need to manually manipulate it.
+   With :doc:`/admin/continuous`, any changes are automatically pushed from the
+   repository, so there is usually no need to manually manage it manually.
 
 .. image:: /screenshots/component-repository.webp
 
