@@ -49,13 +49,19 @@ def update(request, path):
     result = execute_locked(
         request,
         obj,
-        gettext("All repositories have been updated, updates of the translations are in progress."),
+        gettext(
+            "All repositories have been updated, updates of the translations are in progress."
+        ),
         obj.do_update,
         request,
         method=request.GET.get("method"),
     )
     if result:
-        return redirect("{}?info=1".format(reverse("component_progress", kwargs={"path": obj.get_url_path()})))
+        return redirect(
+            "{}?info=1".format(
+                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            )
+        )
     return result
 
 
@@ -81,12 +87,18 @@ def reset(request, path):
     result = execute_locked(
         request,
         obj,
-        gettext("All repositories have been reset, updates of translations are in progress."),
+        gettext(
+            "All repositories have been reset, updates of translations are in progress."
+        ),
         obj.do_reset,
         request,
     )
     if result:
-        return redirect("{}?info=1".format(reverse("component_progress", kwargs={"path": obj.get_url_path()})))
+        return redirect(
+            "{}?info=1".format(
+                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            )
+        )
     return result
 
 
@@ -137,7 +149,11 @@ def file_scan(request, path):
         request,
     )
     if result:
-        return redirect("{}?info=1".format(reverse("component_progress", kwargs={"path": obj.get_url_path()})))
+        return redirect(
+            "{}?info=1".format(
+                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            )
+        )
     return result
 
 
