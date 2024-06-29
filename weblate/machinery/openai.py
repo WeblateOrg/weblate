@@ -9,11 +9,7 @@ from typing import TYPE_CHECKING, Literal
 
 from django.core.cache import cache
 
-from weblate.glossary.models import (
-    get_glossary_terms,
-    render_glossary_units_tsv,
-)
-from weblate.utils.errors import report_error
+from weblate.glossary.models import get_glossary_terms, render_glossary_units_tsv
 
 from .base import (
     BatchMachineTranslation,
@@ -102,7 +98,9 @@ class OpenAITranslation(BatchMachineTranslation):
         glossary = ""
         if any(units):
             glossary = render_glossary_units_tsv(
-                chain.from_iterable(get_glossary_terms(unit) for unit in units)
+                chain.from_iterable(
+                    get_glossary_terms(unit, include_variants=False) for unit in units
+                )
             )
             if glossary:
                 glossary = GLOSSARY_PROMPT.format(glossary)
@@ -157,8 +155,8 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations_string = response.choices[0].message.content
         if translations_string is None:
-            report_error(
-                cause="Blank assistant reply",
+            self.report_error(
+                "Blank assistant reply",
                 extra_log=translations_string,
                 message=True,
             )
@@ -166,19 +164,21 @@ class OpenAITranslation(BatchMachineTranslation):
 
         translations = translations_string.split(SEPARATOR)
         if len(translations) != len(texts):
-            report_error(
-                cause="Failed to parse assistant reply",
+            self.report_error(
+                "Failed to parse assistant reply",
                 extra_log=translations_string,
                 message=True,
             )
-            raise MachineTranslationError("Could not parse assistant reply")
+            raise MachineTranslationError(
+                f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
+            )
 
         for index, text in enumerate(texts):
             # Extract the assistant's reply from the response
             try:
                 translation = translations[index]
             except IndexError:
-                report_error(cause="Missing assistant reply")
+                self.report_error("Missing assistant reply")
                 continue
 
             result[text] = [

@@ -171,13 +171,13 @@ class AdminTest(ViewTestCase):
         ConfigurationError.objects.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 
-    def test_post_announcenement(self) -> None:
+    def test_post_announcement(self) -> None:
         response = self.client.get(reverse("manage-tools"))
         self.assertContains(response, "announcement")
         self.assertFalse(Announcement.objects.exists())
         response = self.client.post(
             reverse("manage-tools"),
-            {"message": "Test message", "category": "info"},
+            {"message": "Test message", "severity": "info"},
             follow=True,
         )
         self.assertTrue(Announcement.objects.exists())

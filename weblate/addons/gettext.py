@@ -305,9 +305,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
     def commit_and_push(
         self, component, files: list[str] | None = None, skip_push: bool = False
-    ) -> None:
+    ) -> bool:
         if super().commit_and_push(component, files=files, skip_push=skip_push):
             component.create_translations()
+            return True
+        return False
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):

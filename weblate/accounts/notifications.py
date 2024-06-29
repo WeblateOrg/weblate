@@ -500,6 +500,7 @@ class NewStringNotificaton(Notification):
     actions = (
         Change.ACTION_NEW_UNIT,
         Change.ACTION_NEW_UNIT_REPO,
+        Change.ACTION_NEW_UNIT_UPLOAD,
         Change.ACTION_MARKED_EDIT,
         Change.ACTION_SOURCE_CHANGE,
     )
@@ -526,6 +527,22 @@ class NewSuggestionNotificaton(Notification):
     template_name = "new_suggestion"
     filter_languages = True
     required_attr = "suggestion"
+
+
+@register_notification
+class LanguageTranslatedNotificaton(Notification):
+    actions = (Change.ACTION_COMPLETE,)
+    verbose = pgettext_lazy("Notification name", "Language was translated")
+    template_name = "translated_language"
+    required_attr = "translation"
+
+
+@register_notification
+class ComponentTranslatedNotificaton(Notification):
+    actions = (Change.ACTION_COMPLETED_COMPONENT,)
+    verbose = pgettext_lazy("Notification name", "Component was translated")
+    template_name = "translated_component"
+    required_attr = "component"
 
 
 @register_notification

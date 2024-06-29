@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -69,6 +70,9 @@ from weblate.utils.views import (
     show_form_errors,
     try_set_language,
 )
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 @never_cache
@@ -194,7 +198,7 @@ def show_engage(request, path):
 
 
 @never_cache
-def show(request, path):
+def show(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,
         path,
@@ -222,7 +226,7 @@ def show(request, path):
     raise TypeError(f"Not supported show: {obj}")
 
 
-def show_project_language(request, obj):
+def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguage):
     language_object = obj.language
     project_object = obj.project
     user = request.user
@@ -246,7 +250,11 @@ def show_project_language(request, obj):
         existing = {translation.component.slug for translation in translations}
         missing = project_object.get_child_components_filter(
             lambda qs: qs.exclude(slug__in=existing)
+            .prefetch()
+            .prefetch_related("source_language")
         )
+        for item in missing:
+            item.project = project_object
         translations.extend(
             GhostTranslation(component, language_object)
             for component in missing
@@ -455,6 +463,7 @@ def show_category(request, obj):
     all_changes = (
         Change.objects.for_category(obj).filter_components(request.user).prefetch()
     )
+
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
@@ -494,8 +503,12 @@ def show_category(request, obj):
             "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
+            "reports_form": ReportsForm({"category": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(user, initial=SearchForm.get_initial(request)),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
+            ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj
             ),
@@ -660,6 +673,7 @@ def show_translation(request, obj):
                 project=project,
             ),
             "new_unit_form": get_new_unit_form(obj, user),
+            "new_unit_plural_form": get_new_unit_form(obj, user, is_source_plural=True),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
             ),

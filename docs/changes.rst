@@ -1,20 +1,104 @@
-Weblate 5.6
+Weblate 5.7
 -----------
 
 Not yet released.
 
 **New features**
 
+* :ref:`adding-new-strings` can now create plural strings in the user interface.
+* :ref:`labels` now include description to explain them.
+* New :ref:`subscriptions` for completed translation and component.
+
+**Improvements**
+
+* :ref:`addon-weblate.properties.sort` can now do case-sensitive sorting.
+* The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
+* :ref:`reports` are now available for categories.
+* Highlight newlines in the editor.
+
+**Bug fixes**
+
+**Compatibility**
+
+* Weblate now uses mistletoe instead of misaka as a Markdown renderer.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?closed=1>`__.
+
+Weblate 5.6.2
+-------------
+
+Not yet released.
+
+**Bug fixes**
+
+* Rendering of :ref:`labels` color selection widget.
+* Detection of pending outgoing commits.
+* :ref:`addons` button layout.
+* Crash when installing :ref:`addon-weblate.discovery.discovery` add-on.
+* Removal of source strings in :ref:`glossary`.
+* Validation of :ref:`projectbackup` ZIP file upon restoring.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?closed=1>`__.
+
+Weblate 5.6.1
+-------------
+
+Released on June 24th 2024.
+
+**Improvements**
+
+* Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API.
+* Added OpenMetrics compatibility for :http:get:`/api/metrics/`.
+
+**Bug fixes**
+
+* Language aliases in :doc:`/admin/machine`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?closed=1>`__.
+
+Weblate 5.6
+-----------
+
+Released on June 19th 2024.
+
+**New features**
+
+* :ref:`addons` activity log for tracking add-on activity.
+* Improved date range selection in :ref:`reports`.
+
 **Improvements**
 
 * :ref:`subscriptions` now include strings which need updating.
 * Improved compatibility with password managers.
+* Improved tracking of uploaded changes.
+* Gracefully handle temporary machine translation errors in automatic suggestions.
+* :http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp.
+* :http:get:`/api/changes/(int:id)/` now includes `old` and `details`.
+* Reduced memory usage and increased performance of some views.
 
 **Bug fixes**
 
 * Loading of strings with many glossary matches.
+* Fixed behavior of some site-wide :ref:`addons`.
+* Saving strings needing editing to :doc:`/formats/winrc`.
+* :ref:`check-xml-tags` better handle XML entities.
+* Automatic suggestions could mix up replacements between translated strings.
 
 **Compatibility**
+
+* Compatibility with Django 5.1.
 
 **Upgrading**
 

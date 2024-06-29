@@ -87,7 +87,7 @@ class GitRepository(Repository):
         try:
             result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
         except RepositoryError:
-            report_error(cause="Listing remote branch")
+            report_error("Listing remote branch")
             return super().get_remote_branch(repo)
         for line in result.splitlines():
             if not line.startswith("ref: "):
@@ -922,6 +922,13 @@ class GitMergeRequestBase(GitForcePushRepository):
             (f'remote "{remote_name}"', "pushurl", push_url),
         )
 
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        remote = "origin"
+        if branch is not None:
+            credentials = self.get_credentials()
+            remote = credentials["username"]
+        return f"{remote}/{self.branch if branch is None else branch}"
+
     def fork(self, credentials: dict) -> None:
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
@@ -1083,9 +1090,10 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                         auth=self.get_auth(credentials),
+                        timeout=5,
                     )
                 except (OSError, HTTPError) as error:
-                    report_error(cause="request")
+                    report_error("Git API request")
                     raise RepositoryError(0, str(error)) from error
 
                 # GitHub recommends a delay between 2 requests of at least 1s,
@@ -1096,7 +1104,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 try:
                     response_data = response.json()
                 except JSONDecodeError as error:
-                    report_error(cause="request json decoding")
+                    report_error("GIT API request json decoding")
                     self.raise_for_response(response)
                     raise RepositoryError(0, str(error)) from error
 

@@ -242,24 +242,6 @@ class TTKitFormat(TranslationFormat):
     units: list[TranslateToolkitUnit]
     store: TranslationStore
 
-    def __init__(
-        self,
-        storefile,
-        template_store=None,
-        language_code: str | None = None,
-        source_language: str | None = None,
-        is_template: bool = False,
-        existing_units: list[Any] | None = None,
-    ) -> None:
-        super().__init__(
-            storefile,
-            template_store=template_store,
-            language_code=language_code,
-            is_template=is_template,
-            source_language=source_language,
-            existing_units=existing_units,
-        )
-
     @staticmethod
     def serialize(store):
         """Serialize given Translate Toolkit store."""
@@ -329,13 +311,13 @@ class TTKitFormat(TranslationFormat):
 
         return store
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TranslationUnit) -> None:
         """Add new unit to underlying store."""
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
-            self.store.addunit(ttkit_unit, new=True)
+            self.store.addunit(unit.unit, new=True)
         else:
-            self.store.addunit(ttkit_unit)
+            self.store.addunit(unit.unit)
 
     def save_content(self, handle) -> None:
         """Store content to file."""
@@ -491,7 +473,7 @@ class TTKitFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File-parsing error")
+            report_error("File-parsing error")
             return False
         return os.path.exists(base)
 
@@ -1070,7 +1052,7 @@ class INIUnit(TTKitUnit):
         return False
 
 
-class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
+class BasePoFormat(TTKitFormat):
     loader = pofile
     plural_preference = None
     supports_plural: bool = True
@@ -1125,6 +1107,27 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
         self.store.updateheader(**kwargs)
 
+    def add_unit(self, unit: TranslationUnit) -> None:
+        self.store.require_index()
+        # Check if there is matching obsolete unit
+        old_unit = self.store.id_index.get(unit.unit.getid())
+        if old_unit and old_unit.isobsolete():
+            self.store.removeunit(old_unit)
+        super().add_unit(unit)
+
+
+class PoFormat(BasePoFormat, BilingualUpdateMixin):
+    name = gettext_lazy("gettext PO file")
+    format_id = "po"
+    monolingual = False
+    autoload: tuple[str, ...] = ("*.po", "*.pot")
+    unit_class = PoUnit
+
+    @classmethod
+    def get_new_file_content(cls) -> bytes:
+        """Empty PO file content."""
+        return b""
+
     @classmethod
     def do_bilingual_update(
         cls, in_file: str, out_file: str, template: str, **kwargs
@@ -1155,15 +1158,15 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 text=True,
             )
         except FileNotFoundError as error:
-            report_error(cause="Failed msgmerge")
+            report_error("Failed msgmerge")
             raise UpdateError(
                 "msgmerge not found, please install gettext", error
             ) from error
         except OSError as error:
-            report_error(cause="Failed msgmerge")
+            report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
-            report_error(cause="Failed msgmerge")
+            report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error.output + error.stderr) from error
         else:
             # The warnings can cause corruption (for example in case
@@ -1178,27 +1181,6 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 errors.append(line)
             if errors:
                 raise UpdateError(" ".join(cmd), "\n".join(errors))
-
-    def add_unit(self, ttkit_unit) -> None:
-        self.store.require_index()
-        # Check if there is matching obsolete unit
-        old_unit = self.store.id_index.get(ttkit_unit.getid())
-        if old_unit and old_unit.isobsolete():
-            self.store.removeunit(old_unit)
-        super().add_unit(ttkit_unit)
-
-
-class PoFormat(BasePoFormat):
-    name = gettext_lazy("gettext PO file")
-    format_id = "po"
-    monolingual = False
-    autoload: tuple[str, ...] = ("*.po", "*.pot")
-    unit_class = PoUnit
-
-    @classmethod
-    def get_new_file_content(cls) -> bytes:
-        """Empty PO file content."""
-        return b""
 
 
 class PoMonoFormat(BasePoFormat):
@@ -1604,13 +1586,17 @@ class CSVFormat(TTKitFormat):
                 content = handle.read()
         return content, filename
 
-    def parse_store(self, storefile):
+    def parse_store(self, storefile, *, dialect: None | str = None):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
 
         # Parse file
         store = self.get_store_instance()
-        store.parse(content, sample_length=40000)
+        store.parse(
+            content,
+            sample_length=40000 if dialect is None else None,
+            dialect=dialect,
+        )
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
             return store
@@ -1900,7 +1886,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     name = "XWiki Java Properties"
     format_id = "xwiki-java-properties"
     loader = ("properties", "xwikifile")
-    language_format = "bcp_legacy"
+    language_format = "linux"
     autoload: tuple[str, ...] = ("*.properties",)
     new_translation = "\n"
     can_add_unit: bool = False
@@ -1940,7 +1926,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
             # to avoid any change.
             elif not unit.has_content():
                 unit.unit = unit.mainunit
-            self.add_unit(unit.unit)
+            self.add_unit(unit)
 
         self.store.serialize(handle)
 

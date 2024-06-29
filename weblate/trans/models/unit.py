@@ -770,7 +770,7 @@ class Unit(models.Model, LoggerMixin):
         except DjangoDatabaseError:
             raise
         except Exception as error:
-            report_error(cause="Unit update error", project=component.project)
+            report_error("Unit update error", project=component.project)
             translation.component.handle_parse_error(error, translation)
 
         pending = False
@@ -913,9 +913,9 @@ class Unit(models.Model, LoggerMixin):
                 self.generate_change(
                     user=None,
                     author=None,
-                    change_action=Change.ACTION_NEW_UNIT_REPO
+                    change_action=translation.create_unit_change_action
                     if created
-                    else Change.ACTION_STRING_REPO_UPDATE,
+                    else translation.update_unit_change_action,
                     check_new=False,
                     save=False,
                 )

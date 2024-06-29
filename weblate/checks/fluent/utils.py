@@ -45,7 +45,9 @@ def format_html_code(
         key: format_html("<code>{value}</code>", value=value)
         for key, value in kwargs.items()
     }
-    return format_html(escape(format_string), **safe_kwargs)
+    if safe_kwargs:
+        return format_html(escape(format_string), **safe_kwargs)
+    return mark_safe(escape(format_string))  # noqa: S308
 
 
 def format_html_error_list(errors: Iterable[str]) -> SafeString:

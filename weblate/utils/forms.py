@@ -42,7 +42,7 @@ class QueryField(forms.CharField):
                 gettext("Could not parse query string: {}").format(error)
             ) from error
         except Exception as error:
-            report_error(cause="Error parsing search query")
+            report_error("Error parsing search query")
             raise ValidationError(
                 gettext("Could not parse query string: {}").format(error)
             ) from error

@@ -58,7 +58,12 @@ class Font(models.Model, UserDisplayMixin):
         from weblate.fonts.tasks import update_fonts_cache
 
         self.clean()
-        super().save(force_insert, force_update, using, update_fields)
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
         update_fonts_cache.delay()
 
     def get_absolute_url(self):
@@ -66,7 +71,7 @@ class Font(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.field_errors = {}
+        self.field_errors: dict[str, list[ValidationError]] = {}
 
     def clean_fields(self, exclude=None) -> None:
         self.field_errors = {}

@@ -162,7 +162,7 @@ def send_mails(mails) -> None:
             connection.open()
         except Exception:
             LOGGER.exception("Could not initialize e-mail backend")
-            report_error(cause="Could not send notifications")
+            report_error("Could not send notifications")
             connection.close()
             return
         connection = monkey_patch_smtp_logging(connection)

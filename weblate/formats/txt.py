@@ -223,9 +223,9 @@ class AppStoreFormat(TranslationFormat):
         """Handle creation of new translation file."""
         os.makedirs(filename)
 
-    def add_unit(self, ttkit_unit) -> None:
+    def add_unit(self, unit: TextUnit) -> None:  # type: ignore[override]
         """Add new unit to underlying store."""
-        self.store.units.append(ttkit_unit)
+        self.store.units.append(unit.unit)
 
     def save(self) -> None:
         """Save underlying store to disk."""
@@ -264,7 +264,7 @@ class AppStoreFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File parse error")
+            report_error("File-parsing error")
             return False
         return True
 

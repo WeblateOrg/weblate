@@ -2136,6 +2136,7 @@ and XLIFF.
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
+    :>json timestamp last_updated: last string update
 
 .. http:patch::  /api/units/(int:id)/
 
@@ -2208,7 +2209,9 @@ Changes
     :>json timestamp timestamp: event timestamp
     :>json int action: numeric identification of action
     :>json string action_name: text description of action
-    :>json string target: event changed text or detail
+    :>json string target: event changed text
+    :>json string old: previous text
+    :>json object details: additional details about the change
     :>json int id: change identifier
 
 Screenshots
@@ -2556,6 +2559,10 @@ Metrics
 .. http:get:: /api/metrics/
 
     Returns server metrics.
+
+    .. versionchanged:: 5.6.1
+
+       Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
 
     :>json int units: Number of units
     :>json int units_translated: Number of translated units

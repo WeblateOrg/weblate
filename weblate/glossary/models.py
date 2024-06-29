@@ -71,7 +71,9 @@ def get_glossary_units(project, source_language, target_language):
     )
 
 
-def get_glossary_terms(unit: Unit, *, full: bool = False) -> list[Unit]:
+def get_glossary_terms(
+    unit: Unit, *, full: bool = False, include_variants: bool = True
+) -> list[Unit]:
     """Return list of term pairs for an unit."""
     from weblate.trans.models.component import Component
 
@@ -146,21 +148,23 @@ def get_glossary_terms(unit: Unit, *, full: bool = False) -> list[Unit]:
         # Add variants manually. This could be done by adding filtering on
         # variant__unit__source in the above query, but this slows down the query
         # considerably and variants are rarely used.
-        existing = {match.pk for match in units}
-        variants = set()
-        extra = []
-        for match in units:
-            if not match.variant or match.variant.pk in variants:
-                continue
-            variants.add(match.variant.pk)
-            for child in match.variant.unit_set.filter(
-                translation__language=language
-            ).select_related("source_unit"):
-                if child.pk not in existing:
-                    existing.add(child.pk)
-                    extra.append(child)
+        if include_variants:
+            existing = {match.pk for match in units}
+            variants = set()
+            extra = []
 
-        units.extend(extra)
+            for match in units:
+                if not match.variant or match.variant.pk in variants:
+                    continue
+                variants.add(match.variant.pk)
+                for child in match.variant.unit_set.filter(
+                    translation__language=language
+                ).select_related("source_unit"):
+                    if child.pk not in existing:
+                        existing.add(child.pk)
+                        extra.append(child)
+
+            units.extend(extra)
 
         # Order results, this is Python reimplementation of:
         units.sort(key=lambda x: x.glossary_sort_key)

@@ -41,9 +41,8 @@
   {% include 'addons/addon_head.html' with addon=addon.addon %}
   </td>
   <td class="bottom-button">
-    <form method="POST" action="{{ addon.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="delete" value="{{ addon.name }}" /><button type="submit" class="btn btn-danger">{% trans "Uninstall" %}</button></form>
-  </td>
-  <td class="bottom-button">
+    <form method="POST" action="{{ addon.get_absolute_url }}" class="inlineform">{% csrf_token %}<input type="hidden" name="delete" value="{{ addon.name }}" /><button type="submit" class="btn btn-danger">{% trans "Uninstall" %}</button></form>
+    <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% trans "View Logs" %}</a>
   {% if addon.addon.has_settings %}
   <a class="btn btn-primary" href="{{ addon.get_absolute_url }}">{% trans "Configure" %}</a>
   {% endif %}
@@ -83,7 +82,11 @@
   {% include 'addons/addon_head.html' with addon=addon %}
   </td>
   <td class="bottom-button">
-    <form method="POST">{% csrf_token %}<input type="hidden" name="name" value="{{ addon.name }}" /><button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% trans "Install" %}</button></form>
+    {% if scope != "component" and addon.needs_component %}
+      <button class="btn btn-primary" disabled title="{% trans "The add-on can only be installed on the component." %}">{% trans "Install" %}</button>
+    {% else %}
+      <form method="POST" class="inlineform">{% csrf_token %}<input type="hidden" name="name" value="{{ addon.name }}" /><button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% trans "Install" %}</button></form>
+    {% endif %}
   </td>
   </tr>
 {% endfor %}

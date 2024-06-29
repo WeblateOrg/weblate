@@ -5,16 +5,20 @@
 from __future__ import annotations
 
 import os
+from datetime import timedelta
 
 from celery.schedules import crontab
+from django.conf import settings
 from django.db.models import F, Q
 from django.http import HttpRequest
 from django.utils import timezone
+from django.utils.timezone import now
 from lxml import html
 
 from weblate.addons.events import AddonEvent
 from weblate.addons.models import Addon, handle_addon_event
 from weblate.lang.models import Language
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
@@ -105,7 +109,10 @@ def language_consistency(
                 )
             else:
                 new_lang.log_info("added for language consistency")
-        component.create_translations()
+        try:
+            component.create_translations()
+        except FileParseError as error:
+            component.log_error("could not parse translation files: %s", error)
 
 
 @app.task(trail=False)
@@ -125,6 +132,16 @@ def daily_addons(modulo: bool = True) -> None:
     )
 
 
+@app.task(trail=False)
+def cleanup_addon_activity_log() -> None:
+    """Cleanup old add-on activity log entries."""
+    from weblate.addons.models import AddonActivityLog
+
+    AddonActivityLog.objects.filter(
+        created__lt=now() - timedelta(days=settings.ADDON_ACTIVITY_LOG_EXPIRY)
+    ).delete()
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -139,3 +156,8 @@ def postconfigure_addon(addon_id: int, addon=None) -> None:
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(crontab(minute=45), daily_addons.s(), name="daily-addons")
+    sender.add_periodic_task(
+        crontab(hour=0, minute=40),  # Not to run on minute 0 to spread the load
+        cleanup_addon_activity_log.s(),
+        name="cleanup-addon-activity-log",
+    )

@@ -32,7 +32,28 @@ BBCODE_MATCH = re.compile(
 
 
 XML_MATCH = re.compile(r"<[^>]+>")
-XML_ENTITY_MATCH = re.compile(r"&#?\w+;")
+XML_ENTITY_MATCH = re.compile(
+    r"""
+    # Initial &
+    \&
+        (
+            # CharRef
+            \x23[0-9]+
+        |
+            # CharRef
+			\x23x[0-9a-fA-F]+
+        |
+            # EntityRef
+            # NameStartChar
+            [:A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u10000-\uEFFFF]
+            # NameChar
+            [0-9\xB7.:A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u10000-\uEFFFF\u0300-\u036F\u203F-\u2040-]*
+        )
+    # Closing ;
+    ;
+    """,
+    re.VERBOSE,
+)
 
 
 def strip_entities(text):

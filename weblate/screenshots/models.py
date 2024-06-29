@@ -125,7 +125,7 @@ def validate_screenshot_image(component, filename) -> bool:
             validate_bitmap(image_file)
     except ValidationError as error:
         component.log_error("failed to validate screenshot %s: %s", filename, error)
-        report_error(cause="Could not validate image from repository")
+        report_error("Could not validate image from repository")
         return False
     return True
 

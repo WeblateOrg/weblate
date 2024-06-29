@@ -1006,7 +1006,7 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
 class LabelSerializer(serializers.ModelSerializer[Label]):
     class Meta:
         model = Label
-        fields = ("id", "name", "color")
+        fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
 
 
@@ -1059,6 +1059,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     source = PluralField()
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
+    last_updated = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
     labels = UnitLabelsSerializer(many=True)
 
@@ -1094,6 +1095,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "extra_flags",
             "pending",
             "timestamp",
+            "last_updated",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
@@ -1333,6 +1335,8 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "timestamp",
             "action",
             "target",
+            "old",
+            "details",
             "id",
             "action_name",
             "url",
@@ -1438,6 +1442,10 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
         # Don't allow duplicate add-ons
         addon = addon_class(Addon())
+        if not component and addon_class.needs_component:
+            raise serializers.ValidationError(
+                {"component": "This add-on can only be installed on the component."}
+            )
         if not instance:
             if component:
                 self.check_addon(name, Addon.objects.filter_component(component))

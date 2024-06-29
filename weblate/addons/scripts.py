@@ -5,10 +5,14 @@
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from weblate.addons.base import BaseAddon
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Component, Translation
 
 
 class BaseScriptAddon(BaseAddon):
@@ -56,15 +60,15 @@ class BaseScriptAddon(BaseAddon):
     ) -> None:
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
-    def post_commit(self, component) -> None:
+    def post_commit(self, component: Component) -> None:
         self.run_script(component=component)
 
-    def pre_commit(self, translation, author) -> None:
+    def pre_commit(self, translation: Translation, author) -> None:
         self.run_script(translation=translation)
 
         if self.add_file:
             filename = os.path.join(
-                self.instance.component.full_path,
+                translation.component.full_path,
                 render_template(self.add_file, translation=translation),
             )
             translation.addon_commit_files.append(filename)

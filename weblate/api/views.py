@@ -24,6 +24,7 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
@@ -100,7 +101,7 @@ from weblate.trans.tasks import (
     project_removal,
 )
 from weblate.trans.views.files import download_multi
-from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
+from weblate.utils.celery import get_queue_stats, get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -114,6 +115,8 @@ from weblate.utils.state import (
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.wladmin.models import ConfigurationError
+
+from .renderers import OpenMetricsRenderer
 
 REPO_OPERATIONS = {
     "push": ("vcs.push", "do_push", (), True),
@@ -1247,9 +1250,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 data["fuzzy"],
             )
         except Exception as error:
-            report_error(
-                cause="Upload error", print_tb=True, project=obj.component.project
-            )
+            report_error("Upload error", print_tb=True, project=obj.component.project)
             raise ValidationError({"file": str(error)})
 
         return Response(
@@ -1410,14 +1411,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
     queryset = Unit.objects.none()
 
-    def get_serializer(self, instance, *args, **kwargs):
-        # Get correct serializer based on action and instance
+    def get_serializer_class(self):
+        """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
-            serializer_class = UnitSerializer
-        else:
-            serializer_class = UnitWriteSerializer
-        kwargs["context"] = self.get_serializer_context()
-        return serializer_class(instance, *args, **kwargs)
+            return UnitSerializer
+        return UnitWriteSerializer
 
     def get_queryset(self):
         return (
@@ -1817,6 +1815,7 @@ class Metrics(APIView):
     """Metrics view for monitoring."""
 
     permission_classes = (IsAuthenticated,)
+    renderer_classes = (JSONRenderer, BrowsableAPIRenderer, OpenMetricsRenderer)
 
     def get(self, request, format=None):  # noqa: A002
         stats = GlobalStats()
@@ -1933,7 +1932,7 @@ class TasksViewSet(ViewSet):
         result = task.result
         return Response(
             {
-                "completed": is_task_ready(task),
+                "completed": task.ready(),
                 "progress": get_task_progress(task),
                 "result": str(result) if isinstance(result, Exception) else result,
                 "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
@@ -1942,7 +1941,7 @@ class TasksViewSet(ViewSet):
 
     def destroy(self, request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
-        if not is_task_ready(task) and component is not None:
+        if not task.ready() and component is not None:
             task.revoke(terminate=True)
             # Unlink task from component
             if component.background_task_id == pk:

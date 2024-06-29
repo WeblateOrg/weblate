@@ -10,20 +10,25 @@ https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
 src/main/java/org/freeplane/ant/FormatTranslation.java
 """
 
+from __future__ import annotations
+
 import re
 
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
+from weblate.addons.forms import PropertiesSortAddonForm
 
 SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
 
 
-def sort_key(line):
+def sort_key(line: str, case_sensitive: bool) -> str:
     """Sort key for properties."""
     prefix = SPLITTER.split(line, 1)[0]
+    if case_sensitive:
+        return prefix
     return prefix.lower()
 
 
@@ -66,7 +71,7 @@ def value_quality(value) -> int:
 
 def filter_lines(lines):
     """Filter comments, empty lines and duplicate strings."""
-    result = []
+    result: list[str] = []
     lastkey = None
     lastvalue = None
 
@@ -111,12 +116,12 @@ def filter_lines(lines):
     return result
 
 
-def format_file(filename) -> None:
+def format_file(filename: str, case_sensitive: bool) -> None:
     """Format single properties file."""
     with open(filename) as handle:
         lines = handle.readlines()
 
-    result = sorted(lines, key=sort_key)
+    result = sorted(lines, key=lambda line: sort_key(line, case_sensitive))
 
     fix_newlines(result)
     format_unicode(result)
@@ -134,6 +139,8 @@ class PropertiesSortAddon(BaseAddon):
     description = gettext_lazy("Formats and sorts the Java properties file.")
     compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
     icon = "sort-alphabetical.svg"
+    settings_form = PropertiesSortAddonForm
 
     def pre_commit(self, translation, author) -> None:
-        format_file(translation.get_filename())
+        case_sensitive = self.instance.configuration.get("case_sensitive", False)
+        format_file(translation.get_filename(), case_sensitive)

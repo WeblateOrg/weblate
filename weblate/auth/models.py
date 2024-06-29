@@ -58,6 +58,10 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
+    from social_core.backends.base import BaseAuth
+    from social_django.models import DjangoStorage
+    from social_django.strategy import DjangoStrategy
+
     from weblate.auth.permissions import PermissionResult
 
     PermissionCacheType = dict[int, list[tuple[set[str] | None, set[Language] | None]]]
@@ -399,6 +403,9 @@ class User(AbstractBaseUser):
 
     objects = UserManager.from_queryset(UserQuerySet)()
 
+    # social_auth integration
+    social_auth: DjangoStorage
+
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "full_name"]
@@ -739,6 +746,14 @@ class User(AbstractBaseUser):
         if not self._permissions:
             self._fetch_permissions()
         return self._permissions["components"]
+
+    @cached_property
+    def global_permissions(self) -> set[str]:
+        return set(
+            Permission.objects.filter(
+                role__group__user=self, codename__in=GLOBAL_PERM_NAMES
+            ).values_list("codename", flat=True)
+        )
 
     def projects_with_perm(self, perm: str, explicit: bool = False):
         if not explicit and self.is_superuser:
@@ -1111,3 +1126,9 @@ class AuthenticatedHttpRequest(HttpRequest):
     user: User
     # Added by weblate.accounts.AuthenticationMiddleware
     accepted_language: Language
+
+    # type hint for social_auth
+    social_strategy: DjangoStrategy
+
+    # type hint for auth
+    backend: BaseAuth | None

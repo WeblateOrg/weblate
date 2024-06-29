@@ -187,12 +187,12 @@ class ConvertFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File parse error")
+            report_error("File-parsing error")
             return False
         return True
 
-    def add_unit(self, ttkit_unit) -> None:
-        self.store.addunit(ttkit_unit)
+    def add_unit(self, unit: TranslationUnit) -> None:
+        self.store.addunit(unit.unit)
 
     @classmethod
     def get_class(cls):
@@ -522,7 +522,7 @@ class WindowsRCFormat(ConvertFormat):
                 sublang=sublang,
                 charset=encoding,
             )
-            outputrclines = converter.convertstore(self.store)
+            outputrclines = converter.convertstore(self.store, includefuzzy=True)
             try:
                 handle.write(outputrclines.encode(encoding))
             except UnicodeEncodeError:

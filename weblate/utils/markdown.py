@@ -5,9 +5,10 @@
 import re
 from functools import reduce
 
-import misaka
+import mistletoe
 from django.db.models import Q
 from django.utils.safestring import mark_safe
+from mistletoe import span_token
 
 from weblate.auth.models import User
 
@@ -24,29 +25,96 @@ def get_mention_users(text):
     )
 
 
-class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
-    def link(self, content, raw_url, title=""):
-        result = super().link(content, raw_url, title)
-        return result.replace(' href="', ' rel="ugc" target="_blank" href="')
+class SkipHtmlSpan(span_token.HtmlSpan):
+    """A token that strips HTML tags from the content."""
 
-    def check_url(self, url, is_image_src=False):
+    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")
+    parse_inner = False
+    content: str
+
+    def __init__(self, match):
+        self.content = ""
+
+
+class PlainAutoLink(span_token.AutoLink):
+    pattern = re.compile(r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+)\b")
+
+
+class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
+    """
+    A renderer which adds a layer of protection against malicious input.
+
+    1. Check if the URL is valid based on scheme and content
+    2. Strip HTML tags from the content.
+    """
+
+    _allowed_url_re = re.compile(r"^https?://", re.IGNORECASE)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(SkipHtmlSpan, PlainAutoLink, process_html_tokens=False)
+
+    def render_skip_html_span(self, token: SkipHtmlSpan) -> str:
+        """
+        Render a skip HTML span token.
+
+        Return the content of the token, without any HTML tags.
+        """
+        return token.content
+
+    def render_plain_auto_link(self, token: PlainAutoLink) -> str:
+        """
+        Render a skip HTML span token.
+
+        Return the content of the token, without any HTML tags.
+        """
+        return self.render_auto_link(token)
+
+    def render_link(self, token: span_token.Link) -> str:
+        """
+        Render a link token.
+
+        If the URL is valid, add the necessary attributes to make it open in a new tab.
+        """
+        if self.check_url(token.target):
+            result = super().render_link(token)
+            return result.replace(' href="', ' rel="ugc" target="_blank" href="')
+        return self.escape_html_text(f"[{token.title}]({token.target})")
+
+    def render_auto_link(self, token: span_token.AutoLink | PlainAutoLink) -> str:
+        """
+        Render an auto link token.
+
+        If the URL is valid, render the auto link as usual.
+        Otherwise, escape the URL.
+        """
+
+        def valid_email(email: str) -> bool:
+            """Check if an email address is valid."""
+            pattern = re.compile(
+                r"(mailto:)?[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+            )
+            return bool(pattern.match(email))
+
+        if self.check_url(token.target) or valid_email(token.target):
+            return super().render_auto_link(token)
+        return self.escape_html_text(f"<{token.target}>")
+
+    def render_image(self, token: span_token.Image) -> str:
+        """
+        Render an image token.
+
+        If the URL is valid, add the necessary attributes to the image tag.
+        Otherwise, escape the URL.
+        """
+        if self.check_url(token.src):
+            return super().render_image(token)
+        return self.escape_html_text(f"![{token.title}]({token.src})")
+
+    def check_url(self, url: str) -> bool:
+        """Check if an url is valid or not  the scheme."""
         if url.startswith("/user/"):
             return True
-        return super().check_url(url, is_image_src)
-
-
-RENDERER = WeblateHtmlRenderer()
-MARKDOWN = misaka.Markdown(
-    RENDERER,
-    extensions=(
-        "fenced-code",
-        "tables",
-        "autolink",
-        "space-headers",
-        "strikethrough",
-        "superscript",
-    ),
-)
+        return bool(self._allowed_url_re.match(url))
 
 
 def render_markdown(text):
@@ -62,4 +130,5 @@ def render_markdown(text):
                 f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
             )
     text = "".join(parts)
-    return mark_safe(MARKDOWN(text))  # noqa: S308
+    with SaferWeblateHtmlRenderer() as renderer:
+        return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308

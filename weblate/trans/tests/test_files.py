@@ -581,7 +581,7 @@ class ImportSourceTest(ImportBaseTest):
         """Test importing normally."""
         translation = self.get_translation()
         self.assertFalse(
-            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).exists()
+            translation.change_set.filter(action=Change.ACTION_SOURCE_UPLOAD).exists()
         )
         response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
@@ -599,7 +599,7 @@ class ImportSourceTest(ImportBaseTest):
         self.assertEqual(unit.target, "")
 
         self.assertEqual(
-            translation.change_set.filter(action=Change.ACTION_REPLACE_UPLOAD).count(),
+            translation.change_set.filter(action=Change.ACTION_SOURCE_UPLOAD).count(),
             self.expected_uploads,
         )
 

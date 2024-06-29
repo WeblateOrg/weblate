@@ -179,6 +179,75 @@ class EditTest(ViewTestCase):
         # Make sure writing out pending units works
         self.component.commit_pending("test", None)
 
+    def add_plural_unit(self, args=None, language="en"):
+        if args is None:
+            args = {
+                "context": "test-plural",
+                "source_0": "%(count)s test",
+                "source_1": "%(count)s tests",
+            }
+
+        return self.client.post(
+            reverse(
+                "new-unit",
+                kwargs={
+                    "path": [self.component.project.slug, self.component.slug, language]
+                },
+            ),
+            args,
+            follow=True,
+        )
+
+    def test_new_plural_unit(self, args=None, language="en"):
+        """Test the implementation of adding a new plural unit."""
+        response = self.add_plural_unit(args, language)
+        self.assertEqual(response.status_code, 403)
+
+        self.make_manager()
+
+        self.component.manage_units = False
+        self.component.save()
+        response = self.add_plural_unit(args, language)
+        self.assertEqual(response.status_code, 403)
+
+        self.component.manage_units = True
+        self.component.save()
+        response = self.add_plural_unit(args, language)
+        if not self.component.file_format_cls.can_add_unit:
+            self.assertEqual(response.status_code, 403)
+            return
+        if not self.component.file_format_cls.supports_plural:
+            self.assertContains(
+                response, "Plurals are not supported by the file format"
+            )
+            return
+        self.assertContains(response, "New string has been added")
+
+        # Duplicate string
+        response = self.add_plural_unit(args)
+        self.assertContains(response, "This string seems to already exist.")
+
+        self.component.commit_pending("test", None)
+
+    def test_bilingual_new_plural_unit(self):
+        """Test the implementation of adding a bilingual new plural unit."""
+        if (
+            not self.component.has_template()
+            and self.component.file_format_cls.can_add_unit
+        ):
+            args = {
+                "context": "new-bilingual-plural-unit",
+                "source_0": "%(count)s word",
+                "source_1": "%(count)s words",
+                "target_0": "%(count)s slovo",
+                "target_1": "%(count)s slova",
+                "target_2": "%(count)s slov",
+            }
+
+            self.test_new_plural_unit(args, language="cs")
+        else:
+            raise SkipTest("Not supported")
+
 
 class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):

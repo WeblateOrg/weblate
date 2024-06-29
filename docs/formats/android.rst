@@ -9,6 +9,8 @@ Android string resources
 
 Android specific file format for translating applications.
 
+The same file format is also used by JetBrains Compose Multiplatform Kotlin Resources.
+
 Android string resources are monolingual, the :ref:`component-template` is
 stored in a different location from the other files -- :file:`res/values/strings.xml`.
 
@@ -58,10 +60,11 @@ Weblate does following escaping of strings:
 .. seealso::
 
     `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource>`_,
+    `JetBrains Compose Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html>`_,
     :doc:`tt:formats/android`
 
-Weblate configuration
-+++++++++++++++++++++
+Weblate configuration for Android resource strings
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -74,3 +77,18 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `Android String Resource`        |
 +--------------------------------+----------------------------------+
+
+Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++-------------------------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                                          |
++================================+==========================================================+
+| File mask                      | ``commonMain/composeResources/values-*/strings.xml``     |
++--------------------------------+----------------------------------------------------------+
+| Monolingual base language file | ``commonMain/composeResources/values/strings.xml``       |
++--------------------------------+----------------------------------------------------------+
+| Template for new translations  | `Empty`                                                  |
++--------------------------------+----------------------------------------------------------+
+| File format                    | `Android String Resource`                                |
++--------------------------------+----------------------------------------------------------+

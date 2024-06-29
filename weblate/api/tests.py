@@ -446,7 +446,7 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(group.defining_project, self.component.project)
 
     def test_add_role(self) -> None:
-        role = Role.objects.get(pk=1)
+        role = Role.objects.get(name="Administration")
         self.do_request(
             "api:group-roles",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -3908,6 +3908,11 @@ class MetricsAPITest(APIBaseTest):
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["projects"], 1)
 
+    def test_metrics_openmetrics(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertContains(response, "# EOF")
+
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["detail"].code, "not_authenticated")
@@ -4378,7 +4383,9 @@ class CategoryAPITest(APIBaseTest):
 
 class LabelAPITest(APIBaseTest):
     def test_get_label(self) -> None:
-        label = self.component.project.label_set.create(name="test", color="navy")
+        label = self.component.project.label_set.create(
+            name="test", description="test description", color="navy"
+        )
 
         response = self.do_request(
             "api:project-labels",
@@ -4393,6 +4400,7 @@ class LabelAPITest(APIBaseTest):
 
         self.assertEqual(response_label["id"], label.id)
         self.assertEqual(response_label["name"], label.name)
+        self.assertEqual(response_label["description"], label.description)
         self.assertEqual(response_label["color"], label.color)
 
     def test_create_label(self) -> None:
@@ -4403,6 +4411,7 @@ class LabelAPITest(APIBaseTest):
             superuser=True,
             request={
                 "name": "Test Label",
+                "description": "Test description for Test Label",
                 "color": "green",
             },
             code=201,
@@ -4415,6 +4424,7 @@ class LabelAPITest(APIBaseTest):
             superuser=False,
             request={
                 "name": "Test Label 2",
+                "description": "Test description for Test Label 2",
                 "color": "red",
             },
             code=403,

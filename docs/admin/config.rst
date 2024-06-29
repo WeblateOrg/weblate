@@ -1669,7 +1669,7 @@ Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 
 
 .. seealso::
 
-   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+   `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
@@ -2002,7 +2002,17 @@ example:
 .. seealso::
 
     :ref:`addons`,
-    :setting:`DEFAULT_ADDONS`
+    :setting:`DEFAULT_ADDONS`,
+    :setting:`ADDON_ACTIVITY_LOG_EXPIRY`
+
+.. setting:: ADDON_ACTIVITY_LOG_EXPIRY
+
+ADDON_ACTIVITY_LOG_EXPIRY
+-------------------------
+
+.. versionadded:: 5.6
+
+Configures how long activity logs for add-ons are kept. Defaults to 180 days.
 
 .. setting:: WEBLATE_EXPORTERS
 

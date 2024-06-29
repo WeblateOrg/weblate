@@ -488,10 +488,10 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             if Plural.SOURCE_DEFAULT in plurals[code]:
                 plural = plurals[code][Plural.SOURCE_DEFAULT][0]
                 modified = False
-                for item in plural_data:
-                    if getattr(plural, item) != plural_data[item]:
+                for item, value in plural_data.items():
+                    if getattr(plural, item) != value:
                         modified = True
-                        setattr(plural, item, plural_data[item])
+                        setattr(plural, item, value)
                 if modified:
                     logger(
                         f"Updated default plural {plural_formula} for language {code}"

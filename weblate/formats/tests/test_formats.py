@@ -196,11 +196,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         super().tearDown()
         self.remove_temp()
 
-    def parse_file(self, filename):
+    def parse_file(self, filename: str, template: str | None = None):
         if self.MONOLINGUAL:
             return self.FORMAT(
                 filename,
-                template_store=self.FORMAT(self.TEMPLATE or filename, is_template=True),
+                template_store=self.FORMAT(
+                    template or self.TEMPLATE or filename, is_template=True
+                ),
             )
         return self.FORMAT(filename)
 
@@ -305,10 +307,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             handle.write(testdata)
 
         # Parse test file
-        storage = self.parse_file(testfile)
+        storage = self.parse_file(testfile, template=testfile)
+        if self.MONOLINGUAL:
+            # Add to template for monolingual (it is the same file, just different object)
+            storage = storage.template_store
 
         # Add new unit
-        storage.new_unit(self.NEW_UNIT_KEY, "Source string", skip_build=True)
+        storage.new_unit(self.NEW_UNIT_KEY, "Source string")
         storage.save()
 
         # Read new content
@@ -410,7 +415,7 @@ class PoFormatTest(BaseFormatTest):
         self.assertNotIn('\nmsgid "Hello, world!\\n"', content)
 
         # Add unit back, it should now overwrite obsolete one
-        storage.add_unit(unit.unit)
+        storage.add_unit(unit)
 
         # Verify it is properly added
         handle = BytesIO()
@@ -954,7 +959,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     COUNT_CONTENT = 8
     EXT = "properties"
     MASK = "java/xwiki_*.properties"
-    EXPECTED_PATH = "java/xwiki_cs-CZ.properties"
+    EXPECTED_PATH = "java/xwiki_cs_CZ.properties"
     FIND = "job.question.button.confirm"
     FIND_CONTEXT = "job.question.button.confirm"
     FIND_MATCH = "Confirm the operation {0}"
@@ -974,7 +979,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         unit, add = new_language.find_unit("job.status.success", "")
         self.assertTrue(add)
         unit.set_target("Fait")
-        new_language.add_unit(unit.unit)
+        new_language.add_unit(unit)
         new_language.save()
 
         # Read new content
@@ -987,7 +992,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         self.assertEqual(expected + "\n", newdata)
 
 
-class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
+class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     FORMAT = XWikiPagePropertiesFormat
     FILE = TEST_XWIKI_PAGE_PROPERTIES
     SOURCE_FILE = TEST_XWIKI_PAGE_PROPERTIES_SOURCE
@@ -1046,7 +1051,7 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             units[index].context, units[index].source
         )
         self.assertTrue(create)
-        translation_data.add_unit(unit_to_translate.unit)
+        translation_data.add_unit(unit_to_translate)
         translation_data.all_units[index].unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
@@ -1098,7 +1103,7 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
         self.assert_same(testdata, newdata)
 
 
-class XWikiFullPageFormatTest(BaseFormatTest):
+class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
     FORMAT = XWikiFullPageFormat
     FILE = TEST_XWIKI_FULL_PAGE
     SOURCE_FILE = TEST_XWIKI_FULL_PAGE_SOURCE
@@ -1170,7 +1175,7 @@ class XWikiFullPageFormatTest(BaseFormatTest):
             units[index].context, units[index].source
         )
         self.assertTrue(create)
-        translation_data.add_unit(unit_to_translate.unit)
+        translation_data.add_unit(unit_to_translate)
         translation_data.all_units[index].unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 

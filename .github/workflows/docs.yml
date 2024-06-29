@@ -55,6 +55,10 @@ jobs:
       with:
         python-version: '3.11'
         cache-dependency-path: docs/requirements.txt
+    - name: Install apt dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y graphviz
     - name: Install Python dependencies
       run: |
         pip install uv
