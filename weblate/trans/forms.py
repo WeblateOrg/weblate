@@ -2757,9 +2757,11 @@ class ChangesForm(forms.Form):
             # We don't care about empty values
             if not value:
                 continue
-            if isinstance(value, datetime):
+            if isinstance(value, dict) and "start_date" in value.keys() and "end_date" in value.keys():
                 # Convert date to string
-                items.append((param, value.date().isoformat()))
+                start_date = value["start_date"].strftime("%m/%d/%Y")
+                end_date = value["end_date"].strftime("%m/%d/%Y")
+                items.append((param, f"{start_date} - {end_date}"))
             elif isinstance(value, User):
                 items.append((param, value.username))
             elif isinstance(value, list):
