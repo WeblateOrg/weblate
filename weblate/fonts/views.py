@@ -100,7 +100,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
 @method_decorator(login_required, name="dispatch")
 class FontGroupDetailView(ProjectViewMixin, DetailView):
     model = FontGroup
-    _form: FontOverrideForm | FontGroupForm
+    _form: FontOverrideForm | FontGroupForm | None = None
     _override_form = None
 
     def get_queryset(self):
