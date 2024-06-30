@@ -46,7 +46,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # to the `component_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
             # the current componenet, or not.
-            fetch_redirect_response=False
+            fetch_redirect_response=False,
         )
 
     def test_push(self) -> None:
@@ -62,7 +62,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # to the `component_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
             # the current componenet, or not.
-            fetch_redirect_response=False
+            fetch_redirect_response=False,
         )
 
     def test_cleanup(self) -> None:
@@ -82,7 +82,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # to the `component_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
             # the current componenet, or not.
-            fetch_redirect_response=False
+            fetch_redirect_response=False,
         )
 
     def test_status(self) -> None:
