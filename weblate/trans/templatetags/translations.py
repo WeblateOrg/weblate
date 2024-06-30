@@ -593,7 +593,7 @@ def render_documentation_icon(doc_url: str, right: bool):
     if not doc_url:
         return ""
     return format_html(
-        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener">{}</a>""",
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener" tabindex="-1">{}</a>""",
         "pull-right flip" if right else "",
         doc_url,
         gettext("Documentation"),
