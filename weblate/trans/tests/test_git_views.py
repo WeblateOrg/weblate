@@ -27,13 +27,27 @@ class GitNoChangeProjectTest(ViewTestCase):
     def get_expected_redirect(self):
         return getattr(self, f"{self.TEST_TYPE}_url") + "#repository"
 
+    def get_expected_redirect_progress(self):
+        obj = getattr(self, self.TEST_TYPE)
+        return "{}?info=1".format(
+            reverse("component_progress", kwargs={"path": obj.get_url_path()})
+        )
+
     def test_commit(self) -> None:
         response = self.client.post(self.get_test_url("commit"))
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_update(self) -> None:
         response = self.client.post(self.get_test_url("update"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        self.assertRedirects(
+            response,
+            self.get_expected_redirect_progress(),
+            # Do not attempt to retrieve the redirected URL, the answer
+            # to the `component_progress` view can differ depending on whether
+            # there is actually (still) some on-going background processing for
+            # the current componenet, or not.
+            fetch_redirect_response=False
+        )
 
     def test_push(self) -> None:
         response = self.client.post(self.get_test_url("push"))
@@ -41,7 +55,15 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     def test_reset(self) -> None:
         response = self.client.post(self.get_test_url("reset"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        self.assertRedirects(
+            response,
+            self.get_expected_redirect_progress(),
+            # Do not attempt to retrieve the redirected URL, the answer
+            # to the `component_progress` view can differ depending on whether
+            # there is actually (still) some on-going background processing for
+            # the current componenet, or not.
+            fetch_redirect_response=False
+        )
 
     def test_cleanup(self) -> None:
         response = self.client.post(self.get_test_url("cleanup"))
@@ -53,7 +75,15 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     def test_file_scan(self) -> None:
         response = self.client.post(self.get_test_url("file_scan"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        self.assertRedirects(
+            response,
+            self.get_expected_redirect_progress(),
+            # Do not attempt to retrieve the redirected URL, the answer
+            # to the `component_progress` view can differ depending on whether
+            # there is actually (still) some on-going background processing for
+            # the current componenet, or not.
+            fetch_redirect_response=False
+        )
 
     def test_status(self) -> None:
         response = self.client.get(self.get_test_url("git_status"))
