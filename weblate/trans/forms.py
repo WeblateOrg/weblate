@@ -2757,7 +2757,11 @@ class ChangesForm(forms.Form):
             # We don't care about empty values
             if not value:
                 continue
-            if isinstance(value, dict) and "start_date" in value.keys() and "end_date" in value.keys():
+            if (
+                isinstance(value, dict)
+                and "start_date" in value
+                and "end_date" in value
+            ):
                 # Convert date to string
                 start_date = value["start_date"].strftime("%m/%d/%Y")
                 end_date = value["end_date"].strftime("%m/%d/%Y")
