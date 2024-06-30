@@ -310,7 +310,7 @@ class PluralTextarea(forms.Textarea):
             values = unit.get_target_plurals()
         if "zen-mode" in self.attrs:
             lang_label = format_html(
-                '<a class="language" href="{}">{}</a>',
+                '<a class="language" href="{}" tabindex="-1">{}</a>',
                 unit.get_absolute_url(),
                 lang_label,
             )
