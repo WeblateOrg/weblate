@@ -45,7 +45,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # Do not attempt to retrieve the redirected URL, the answer
             # to the `component_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
-            # the current componenet, or not.
+            # the current component, or not.
             fetch_redirect_response=False,
         )
 
@@ -61,7 +61,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # Do not attempt to retrieve the redirected URL, the answer
             # to the `component_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
-            # the current componenet, or not.
+            # the current component, or not.
             fetch_redirect_response=False,
         )
 
@@ -81,7 +81,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # Do not attempt to retrieve the redirected URL, the answer
             # to the `component_progress` view can differ depending on whether
             # there is actually (still) some on-going background processing for
-            # the current componenet, or not.
+            # the current component, or not.
             fetch_redirect_response=False,
         )
 
