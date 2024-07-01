@@ -6,6 +6,8 @@ from appconf import AppConf
 
 from weblate.utils.classloader import ClassLoader
 
+from .base import Repository
+
 
 class VCSConf(AppConf):
     VCS_BACKENDS = (
@@ -52,7 +54,7 @@ class VCSConf(AppConf):
 
 class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("VCS_BACKENDS", False)
+        super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
 
     def load_data(self):
         result = super().load_data()

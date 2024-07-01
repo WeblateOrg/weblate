@@ -7,6 +7,7 @@ from unittest import TestCase
 from django.core.exceptions import ImproperlyConfigured
 from django.test.utils import override_settings
 
+from weblate.addons.base import BaseAddon
 from weblate.utils.classloader import ClassLoader, load_class
 
 
@@ -40,20 +41,36 @@ class LoadClassTest(TestCase):
 class ClassLoaderTestCase(TestCase):
     @override_settings(TEST_SERVICES=("weblate.addons.cleanup.CleanupAddon",))
     def test_load(self) -> None:
-        loader = ClassLoader("TEST_SERVICES", construct=False)
+        loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
         loader.load_data()
         self.assertEqual(len(list(loader.keys())), 1)
 
     @override_settings(TEST_SERVICES=("weblate.addons.cleanup.CleanupAddon"))
     def test_invalid(self) -> None:
-        loader = ClassLoader("TEST_SERVICES", construct=False)
+        loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
         with self.assertRaisesRegex(
             ImproperlyConfigured, "Setting TEST_SERVICES must be list or tuple!"
         ):
             loader.load_data()
 
+    @override_settings(TEST_SERVICES=("weblate.addons.cleanup",))
+    def test_module(self) -> None:
+        loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
+        with self.assertRaisesRegex(
+            ImproperlyConfigured, "Setting TEST_SERVICES must be a BaseAddon subclass"
+        ):
+            loader.load_data()
+
+    @override_settings(TEST_SERVICES=("weblate.accounts.auth.WeblateUserBackend",))
+    def test_other_class(self) -> None:
+        loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
+        with self.assertRaisesRegex(
+            ImproperlyConfigured, "Setting TEST_SERVICES must be a BaseAddon subclass"
+        ):
+            loader.load_data()
+
     @override_settings(TEST_SERVICES=None)
     def test_none(self) -> None:
-        loader = ClassLoader("TEST_SERVICES", construct=False)
+        loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
         loader.load_data()
         self.assertEqual(len(list(loader.keys())), 0)

@@ -11,8 +11,13 @@ from django.utils.functional import cached_property
 
 from weblate.utils.classloader import ClassLoader
 
+from .base import BaseCheck
+
 
 class ChecksLoader(ClassLoader):
+    def __init__(self) -> None:
+        super().__init__("CHECK_LIST", base_class=BaseCheck)
+
     @cached_property
     def source(self):
         return {k: v for k, v in self.items() if v.source}
@@ -23,7 +28,7 @@ class ChecksLoader(ClassLoader):
 
 
 # Initialize checks list
-CHECKS = ChecksLoader("CHECK_LIST")
+CHECKS = ChecksLoader()
 
 
 class WeblateChecksConf(AppConf):

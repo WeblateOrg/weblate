@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-class Check:
+class BaseCheck:
     """Basic class for checks."""
 
     check_id = ""
@@ -199,7 +199,7 @@ class Check:
         )
 
 
-class BatchCheckMixin(Check):
+class BatchCheckMixin(BaseCheck):
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)
         return self.check_id in unit.all_checks_names
@@ -261,7 +261,7 @@ class BatchCheckMixin(Check):
             current.invalidate_cache()
 
 
-class TargetCheck(Check):
+class TargetCheck(BaseCheck):
     """Basic class for target checks."""
 
     target = True
@@ -301,7 +301,7 @@ class TargetCheck(Check):
         )
 
 
-class SourceCheck(Check):
+class SourceCheck(BaseCheck):
     """Basic class for source checks."""
 
     source = True

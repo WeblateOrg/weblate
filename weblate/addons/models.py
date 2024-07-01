@@ -17,7 +17,6 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
-from weblate.addons.events import AddonEvent
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
     component_post_update,
@@ -35,13 +34,16 @@ from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
+from .base import BaseAddon
+from .events import AddonEvent
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
     from weblate.auth.models import User
 
 # Initialize addons registry
-ADDONS = ClassLoader("WEBLATE_ADDONS", False)
+ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
 
 
 class AddonQuerySet(models.QuerySet):
