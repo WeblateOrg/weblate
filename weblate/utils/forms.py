@@ -52,7 +52,15 @@ class QueryField(forms.CharField):
 class UsernameField(forms.CharField):
     default_validators = [validate_username]
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        max_length: int | None = None,
+        min_length: int | None = None,
+        strip: bool = True,
+        empty_value: str = "",
+        **kwargs,
+    ) -> None:
         params = {
             "max_length": USERNAME_LENGTH,
             "help_text": gettext_lazy(
@@ -65,7 +73,13 @@ class UsernameField(forms.CharField):
         params.update(kwargs)
         self.valid = None
 
-        super().__init__(*args, **params)
+        super().__init__(
+            max_length=max_length,
+            min_length=min_length,
+            strip=strip,
+            empty_value=empty_value,
+            **kwargs,
+        )
 
 
 class UserField(forms.CharField):
@@ -120,8 +134,8 @@ class EmailField(forms.EmailField):
         super().__init__(*args, **kwargs)
 
 
-class SortedSelectMixin:
-    """Mixin for Select widgets to sort choices alphabetically."""
+class SortedSelect(forms.Select):
+    """Wrapper class to sort choices alphabetically."""
 
     def optgroups(self, name, value, attrs=None):
         groups = super().optgroups(name, value, attrs)
@@ -134,11 +148,7 @@ class ColorWidget(forms.RadioSelect):
         super().__init__(attrs, choices)
 
 
-class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
-    """Wrapper class to sort choices alphabetically."""
-
-
-class SortedSelect(SortedSelectMixin, forms.Select):
+class SortedSelectMultiple(SortedSelect, forms.SelectMultiple):
     """Wrapper class to sort choices alphabetically."""
 
 
@@ -205,7 +215,7 @@ class CachedQueryIterator(ModelChoiceIterator):
         return self.field.empty_label is not None or bool(self.queryset)
 
 
-class NonCopyingSetQuerysetMixin:
+class CachedModelChoiceField(forms.ModelChoiceField):
     iterator = CachedQueryIterator
 
     def _get_queryset(self):
@@ -218,11 +228,7 @@ class NonCopyingSetQuerysetMixin:
     queryset = property(_get_queryset, _set_queryset)
 
 
-class CachedModelChoiceField(NonCopyingSetQuerysetMixin, forms.ModelChoiceField):
-    pass
-
-
 class CachedModelMultipleChoiceField(
-    NonCopyingSetQuerysetMixin, forms.ModelMultipleChoiceField
+    CachedModelChoiceField, forms.ModelMultipleChoiceField
 ):
     pass
