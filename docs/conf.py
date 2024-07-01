@@ -328,6 +328,8 @@ linkcheck_ignore = [
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
+    # Seems unstable
+    "https://pagure.io/",
 ]
 
 # HTTP docs
