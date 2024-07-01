@@ -36,6 +36,11 @@ USER_AGENT = f"Weblate/{VERSION}"
 # Git tag name for this release
 TAG_NAME = f"weblate-{VERSION_BASE}"
 
+# Type annotations
+GIT_VERSION: str
+GIT_REVISION: str | None
+GIT_LINK: str | None
+
 # Grab some information from git
 try:
     # Describe current checkout
