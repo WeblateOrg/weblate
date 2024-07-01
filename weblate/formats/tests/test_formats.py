@@ -577,7 +577,8 @@ class PhpFormatTest(BaseFormatTest):
     FIND_CONTEXT = "$LANG['foo']"
     FIND_MATCH = "bar"
     BASE = ""
-    NEW_UNIT_MATCH = b"\n$key = 'Source string';\n"
+    NEW_UNIT_KEY = "$LANG['key']"
+    NEW_UNIT_MATCH = b"\n$LANG['key'] = 'Source string';\n"
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
 
