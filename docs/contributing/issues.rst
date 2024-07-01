@@ -5,7 +5,7 @@ Reporting issues in Weblate
 
 Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is hosted at GitHub.
 
-Feel welcome to report any issues you have, or suggest improvement for Weblate there.
+Feel welcome to report any issues you have or suggest improvements for Weblate there.
 There are various templates prepared to comfortably guide you through the issue report.
 
 If what you have found is a security issue in Weblate, please consult
@@ -27,7 +27,7 @@ Most normal bugs in Weblate are reported to our public `GitHub issues tracker
 nature of security issues, we ask that they not be publicly reported in this
 fashion.
 
-Instead, if you believe you’ve found something in Weblate which has security
+Instead, if you believe you’ve found something in Weblate that has security
 implications, please submit a description of the issue to security@weblate.org
 or using `HackerOne <https://hackerone.com/weblate>`_.
 
@@ -40,7 +40,7 @@ depending on what action is taken, you may get more follow-up emails.
 
    If you want to send an encrypted email (*optional*), please use the public
    key  for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313
-   42B7 511D``. This public key is available from most commonly used key servers
+   42B7 511D``. This public key is available on the most commonly used key servers,
    and from  `Keybase <https://keybase.io/nijel>`_.
 
 .. hint::
