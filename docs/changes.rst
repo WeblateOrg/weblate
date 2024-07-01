@@ -18,6 +18,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Accessibility of keyboard navigation.
+
 **Compatibility**
 
 * Weblate now uses mistletoe instead of misaka as a Markdown renderer.
