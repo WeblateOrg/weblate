@@ -14,7 +14,7 @@ from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Model, Q
-from django.http import Http404, HttpResponse
+from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.html import format_html
 from django.utils.translation import gettext
@@ -194,8 +194,10 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             filename = f"{basename}.zip"
         else:
             try:
-                with open(filename, "rb") as handle:
-                    response = HttpResponse(handle.read(), content_type=content_type)
+                response = FileResponse(
+                    open(filename, "rb"),  # noqa: SIM115
+                    content_type=content_type,
+                )
             except FileNotFoundError as error:
                 raise Http404("File not found") from error
             filename = os.path.basename(filename)
