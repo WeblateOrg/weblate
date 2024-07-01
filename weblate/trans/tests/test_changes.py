@@ -5,9 +5,11 @@
 """Tests for changes browsing."""
 
 from datetime import timedelta
+from html import escape
 
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
 
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -67,3 +69,15 @@ class ChangesTest(ViewTestCase):
         period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
         response = self.client.get(reverse("changes"), {"period": period})
         self.assertContains(response, "Resource update")
+
+    def test_pagination(self) -> None:
+        end = timezone.now()
+        start = end - timedelta(days=1)
+        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        response = self.client.get(reverse("changes"), {"period": period})
+        query_string = urlencode({"page": 2, "limit": 20, "period": period})
+        self.assertContains(response, escape(query_string))
+        response = self.client.get(
+            reverse("changes"), {"page": 2, "limit": 20, "period": period}
+        )
+        self.assertContains(response, "String added in the upload")
