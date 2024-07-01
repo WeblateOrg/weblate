@@ -1,7 +1,7 @@
 Weblate 5.6.2
 -------------
 
-Not yet released.
+Released on July 1st 2024.
 
 **Bug fixes**
 
