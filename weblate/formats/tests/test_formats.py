@@ -327,6 +327,37 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         else:
             self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
+    def test_do_not_clone_notes(self) -> None:
+        """
+        Test that we do not copy the notes from the template unit.
+
+        Note: This is for monolingual formats only.
+        """
+        if not self.MONOLINGUAL or not self.FORMAT.can_add_unit:
+            raise SkipTest("Not supported")
+
+        storage = self.parse_file(self.FILE)
+
+        template_unit = storage.template_store.new_unit(
+            self.NEW_UNIT_KEY, "Source string"
+        )
+        template_unit.unit.addnote("template note for test")
+
+        # find_unit will add the underlying storage unit if it does not exist.
+        target_unit, added = storage.find_unit(self.NEW_UNIT_KEY, self.NEW_UNIT_KEY)
+        self.assertTrue(added)
+
+        # Check we get the aggregated notes through the wrapper.
+        self.assertEqual(target_unit.notes, "template note for test\n")
+
+        # Check there are no notes on the underlying unit.
+        if target_unit.unit:
+            self.assertEqual(target_unit.unit.getnotes(), "")
+        else:
+            # Assume this is a multi-unit. Will fail otherwise.
+            for unit in target_unit.units:
+                self.assertEqual(unit.unit.getnotes(), "")
+
     def test_flags(self) -> None:
         """
         Check flags on corresponding translatable units.
