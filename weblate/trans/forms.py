@@ -271,7 +271,7 @@ class PluralTextarea(forms.Textarea):
                     "specialchar",
                     name,
                     format_html(
-                        'data-value="{}"',
+                        'data-value="{}" tabindex="-1"',
                         mark_safe(  # noqa: S308
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
@@ -310,12 +310,11 @@ class PluralTextarea(forms.Textarea):
             values = unit.get_target_plurals()
         if "zen-mode" in self.attrs:
             lang_label = format_html(
-                '<a class="language" href="{}">{}</a>',
+                '<a class="language" href="{}" tabindex="-1">{}</a>',
                 unit.get_absolute_url(),
                 lang_label,
             )
         plural = translation.plural
-        tabindex = self.attrs["tabindex"]
         placeables = set()
         for text in plurals:
             placeables.update(hl[2] for hl in highlight_string(text, unit))
@@ -324,7 +323,6 @@ class PluralTextarea(forms.Textarea):
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control highlight-editor"
-        attrs["tabindex"] = tabindex
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
@@ -342,7 +340,6 @@ class PluralTextarea(forms.Textarea):
             fieldname = f"{name}_{idx}"
             fieldid = f"{base_id}_{idx}"
             attrs["id"] = fieldid
-            attrs["tabindex"] = tabindex + idx
             source = plurals[1] if idx and len(plurals) > 1 else plurals[0]
 
             # Render textare
@@ -515,7 +512,6 @@ class TranslationForm(UnitForm):
                 "explanation": unit.explanation,
             }
             kwargs["auto_id"] = f"id_{unit.checksum}_%s"
-        tabindex = kwargs.pop("tabindex", 100)
         super().__init__(unit, *args, **kwargs)
         if unit.readonly:
             for field in ["target", "fuzzy", "review"]:
@@ -526,7 +522,6 @@ class TranslationForm(UnitForm):
                 if state == STATE_READONLY
             ]
         self.user = user
-        self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
         self.fields["review"].widget.attrs["class"] = "review_radio"
         # Avoid failing validation on untranslated string
@@ -2333,11 +2328,8 @@ class NewUnitBaseForm(forms.Form):
         required=False,
     )
 
-    def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
-    ) -> None:
+    def __init__(self, translation, user, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.tabindex = tabindex or 200
         self.translation = translation
         self.fields["variant"].queryset = translation.unit_set.all()
         self.user = user
@@ -2391,14 +2383,11 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         self,
         translation,
         user,
-        tabindex: int | None = None,
         is_source_plural: bool | None = None,
         *args,
         **kwargs,
     ) -> None:
-        super().__init__(translation, user, tabindex, *args, **kwargs)
-        self.fields["context"].widget.attrs["tabindex"] = self.tabindex
-        self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
+        super().__init__(translation, user, *args, **kwargs)
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].widget.is_source_plural = is_source_plural
         self.fields["source"].initial = Unit(translation=translation, id_hash=0)
@@ -2426,15 +2415,12 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         self,
         translation,
         user,
-        tabindex: int | None = None,
         is_source_plural: bool | None = None,
         *args,
         **kwargs,
     ) -> None:
-        super().__init__(translation, user, tabindex, *args, **kwargs)
-        self.fields["context"].widget.attrs["tabindex"] = self.tabindex
+        super().__init__(translation, user, *args, **kwargs)
         self.fields["context"].label = translation.component.context_label
-        self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].widget.is_source_plural = is_source_plural
         self.fields["source"].initial = Unit(
@@ -2455,13 +2441,11 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self,
         translation,
         user,
-        tabindex: int | None = None,
         is_source_plural: bool | None = None,
         *args,
         **kwargs,
     ) -> None:
-        super().__init__(translation, user, tabindex, is_source_plural, *args, **kwargs)
-        self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
+        super().__init__(translation, user, is_source_plural, *args, **kwargs)
         self.fields["target"].widget.profile = user.profile
         self.fields["target"].widget.is_source_plural = is_source_plural
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
@@ -2494,13 +2478,11 @@ class GlossaryAddMixin(forms.Form):
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
-    def __init__(
-        self, translation, user, tabindex: int | None = None, *args, **kwargs
-    ) -> None:
+    def __init__(self, translation, user, *args, **kwargs) -> None:
         if kwargs["initial"] is None:
             kwargs["initial"] = {}
         kwargs["initial"]["terminology"] = True
-        super().__init__(translation, user, tabindex, *args, **kwargs)
+        super().__init__(translation, user, *args, **kwargs)
 
 
 class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):

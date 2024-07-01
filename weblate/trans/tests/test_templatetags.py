@@ -125,13 +125,13 @@ class LocationLinksTest(TestCase):
             get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
-                href="http://example.net/foo.bar#L123" target="_blank"
+                href="http://example.net/foo.bar#L123" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
             <span class="divisor">•</span>
             <a class="wrap-text"
-                href="http://example.net/bar.foo#L321" target="_blank"
+                href="http://example.net/bar.foo#L321" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             bar.foo:321
             </a>
@@ -147,7 +147,7 @@ class LocationLinksTest(TestCase):
             get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
-                href="http://example.net/foo.bar#L123" target="_blank"
+                href="http://example.net/foo.bar#L123" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
@@ -164,7 +164,7 @@ class LocationLinksTest(TestCase):
             get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
-                href="editor://open/?file=foo.bar&amp;line=123" target="_blank"
+                href="editor://open/?file=foo.bar&amp;line=123" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
@@ -180,7 +180,7 @@ class LocationLinksTest(TestCase):
             get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
-                href="http://example.net/foo%2Bbar#L321" target="_blank"
+                href="http://example.net/foo%2Bbar#L321" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo+bar:321
             </a>
@@ -198,25 +198,25 @@ class LocationLinksTest(TestCase):
             get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
-                href="http://example.net/foo.bar#L123" target="_blank"
+                href="http://example.net/foo.bar#L123" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
             <span class="divisor">•</span>
             <a class="wrap-text"
-                href="http://example.net/bar.foo#L321" target="_blank"
+                href="http://example.net/bar.foo#L321" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             bar.foo:321
             </a>
             <span class="divisor">•</span>
             <a class="wrap-text"
-                href="https://example.com/foo" target="_blank"
+                href="https://example.com/foo" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             https://example.com/foo
             </a>
             <span class="divisor">•</span>
             <a class="wrap-text"
-                href="http://example.org/bar" target="_blank"
+                href="http://example.org/bar" tabindex="-1" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             http://example.org/bar
             </a>

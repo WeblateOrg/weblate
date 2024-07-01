@@ -86,7 +86,7 @@ FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 
 SOURCE_LINK = (
     '<a href="{0}" target="_blank" rel="noopener noreferrer"'
-    ' class="{2}" dir="ltr">{1}</a>'
+    ' class="{2}" dir="ltr" tabindex="-1">{1}</a>'
 )
 HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
@@ -593,7 +593,7 @@ def render_documentation_icon(doc_url: str, right: bool):
     if not doc_url:
         return ""
     return format_html(
-        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener">{}</a>""",
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener" tabindex="-1">{}</a>""",
         "pull-right flip" if right else "",
         doc_url,
         gettext("Documentation"),
