@@ -152,7 +152,7 @@ Released on May 3rd 2024.
 **Improvements**
 
 * Improved performance of rendering large lists of objects.
-* Added links to manage other scope :ref:`addons`.
+* Component management: added links to manage project/site-wide :ref:`addons`.
 
 **Bug fixes**
 
