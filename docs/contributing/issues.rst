@@ -28,7 +28,8 @@ nature of security issues, we ask that they not be publicly reported in this
 fashion.
 
 Instead, if you believe you’ve found something in Weblate that has security
-implications, please submit a description of the issue to security@weblate.org
+implications, please submit a description of the issue to security@weblate.org,
+`GitHub <https://github.com/WeblateOrg/weblate/security/advisories/new>`_,
 or using `HackerOne <https://hackerone.com/weblate>`_.
 
 A member of the security team will respond to you within 48 hours, and
