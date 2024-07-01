@@ -7,10 +7,12 @@ from django.utils.functional import cached_property
 
 from weblate.utils.classloader import ClassLoader
 
+from .base import BaseExporter, TranslationFormat
+
 
 class ExporterLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("WEBLATE_EXPORTERS", False)
+        super().__init__("WEBLATE_EXPORTERS", construct=False, base_class=BaseExporter)
 
     def list_exporters(self, translation):
         return [
@@ -32,7 +34,9 @@ EXPORTERS = ExporterLoader()
 
 class FileFormatLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("WEBLATE_FORMATS", False)
+        super().__init__(
+            "WEBLATE_FORMATS", construct=False, base_class=TranslationFormat
+        )
         self.errors = {}
 
     @cached_property
