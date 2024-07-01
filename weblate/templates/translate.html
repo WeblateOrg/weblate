@@ -201,7 +201,7 @@
         </div>
       {% endif %}
     {% endwith %}
-    <button class="btn btn-primary" type="submit" name="save" tabindex="150"
+    <button class="btn btn-primary" type="submit" name="save"
     {% if locked %}
         disabled="disabled"
     {% elif not user_can_translate and not user_can_edit_flags %}
@@ -211,7 +211,7 @@
     {% endif %}
     >{% trans "Save and continue" %}</button>
 
-    <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151"
+    <button class="btn btn-warning btn-spaced" type="submit" name="save-stay"
     {% if locked %}
         disabled="disabled"
     {% elif not user_can_translate and not user_can_edit_flags %}
@@ -222,7 +222,7 @@
     >{% trans "Save and stay" %}</button>
 
     {% if unit.translation.enable_suggestions %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
+    <button class="btn btn-warning btn-spaced" type="submit" name="suggest"
     {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
       {% if not user_can_suggest %}
         title="{% trans "Insufficient privileges for adding suggestions." %}"
@@ -233,7 +233,7 @@
       {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
-    <a class="btn btn-warning btn-spaced" href="{{ next_unit_url }}" rel="next" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
+    <a class="btn btn-warning btn-spaced" href="{{ next_unit_url }}" rel="next">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
     </div>
   </div>
 </div>
@@ -789,7 +789,7 @@
             {{ new_unit_form|crispy }}
           </div>
           <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" tabindex="210" />
+            <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
