@@ -770,6 +770,15 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
 
+    key_filter = RegexField(
+        verbose_name=gettext_lazy("Key filter"),
+        max_length=500,
+        default=None,
+        help_text=gettext_lazy("Regular expression used to filter keys."),
+        null=True,
+        blank=True,
+    )
+
     objects = ComponentQuerySet.as_manager()
 
     is_lockable = True
