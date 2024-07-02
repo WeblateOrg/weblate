@@ -9,6 +9,7 @@ import json
 import re
 from datetime import datetime, timedelta
 from secrets import token_hex
+from typing import TYPE_CHECKING
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -86,6 +87,9 @@ from weblate.utils.state import (
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
 
+if TYPE_CHECKING:
+    from weblate.accounts.models import Profile
+
 BUTTON_TEMPLATE = """
 <button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
 """
@@ -101,6 +105,11 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 """
+
+
+class FieldDocsMixin(forms.Form):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        raise NotImplementedError
 
 
 class MarkdownTextarea(forms.Textarea):
@@ -184,8 +193,9 @@ class FlagField(forms.CharField):
 class PluralTextarea(forms.Textarea):
     """Text-area extension which possibly handles plurals."""
 
+    profile: Profile
+
     def __init__(self, *args, **kwargs) -> None:
-        self.profile = None
         self.is_source_plural = None
         super().__init__(*args, **kwargs)
 
@@ -315,10 +325,10 @@ class PluralTextarea(forms.Textarea):
                 lang_label,
             )
         plural = translation.plural
-        placeables = set()
+        placeables_set = set()
         for text in plurals:
-            placeables.update(hl[2] for hl in highlight_string(text, unit))
-        placeables = list(placeables)
+            placeables_set.update(hl[2] for hl in highlight_string(text, unit))
+        placeables = list(placeables_set)
         show_plural_labels = len(values) > 1 and not translation.component.is_multivalue
 
         # Need to add extra class
@@ -637,7 +647,7 @@ class DownloadForm(forms.Form):
         )
 
 
-class SimpleUploadForm(forms.Form):
+class SimpleUploadForm(FieldDocsMixin, forms.Form):
     """Base form for uploading a file."""
 
     file = forms.FileField(
@@ -672,8 +682,7 @@ class SimpleUploadForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
-    @staticmethod
-    def get_field_doc(field):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return ("user/files", f"upload-{field.name}")
 
     def remove_translation_choice(self, value) -> None:
@@ -1180,7 +1189,7 @@ def get_new_language_form(request, component):
     return NewLanguageForm
 
 
-class ContextForm(forms.ModelForm):
+class ContextForm(FieldDocsMixin, forms.ModelForm):
     class Meta:
         model = Unit
         fields = ("explanation", "labels", "extra_flags")
@@ -1195,7 +1204,7 @@ class ContextForm(forms.ModelForm):
         "extra_flags": ("admin/translating", "additional-flags"),
     }
 
-    def get_field_doc(self, field):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return self.doc_links[field.name]
 
     def __init__(self, data=None, instance=None, user=None, **kwargs) -> None:
@@ -1387,19 +1396,17 @@ class SelectChecksField(forms.JSONField):
         return super().bound_data(data, initial)
 
 
-class ComponentDocsMixin:
-    @staticmethod
-    def get_field_doc(field):
+class ComponentDocsMixin(FieldDocsMixin):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return ("admin/projects", f"component-{field.name}")
 
 
-class ProjectDocsMixin:
-    @staticmethod
-    def get_field_doc(field):
+class ProjectDocsMixin(FieldDocsMixin):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return ("admin/projects", f"project-{field.name}")
 
 
-class SpamCheckMixin:
+class SpamCheckMixin(forms.Form):
     def spam_check(self, value) -> None:
         if is_spam(value, self.request):
             raise ValidationError(gettext("This field has been identified as spam!"))
@@ -1604,7 +1611,7 @@ class ComponentSettingsForm(
                 template="layout/pills.html",
             )
         )
-        vcses = (
+        vcses: tuple[str, ...] = (
             "git",
             "gerrit",
             "gitea",
@@ -1674,7 +1681,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         }
 
 
-class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
+class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
     name = forms.CharField(
         label=Component.name.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
@@ -1747,7 +1754,7 @@ class ComponentBranchForm(ComponentSelectForm):
         except ValidationError as error:
             # Can not raise directly, as this will contain errors
             # from fields not present here
-            result = {NON_FIELD_ERRORS: []}
+            result: dict[str, list[str]] = {NON_FIELD_ERRORS: []}
             for key, value in error.message_dict.items():
                 if key in self.fields:
                     result[key] = value
@@ -1773,6 +1780,7 @@ class ComponentProjectForm(ComponentNameForm):
         help_text=Component.source_language.field.help_text,
         queryset=Language.objects.all(),
     )
+    instance: Project
 
     def __init__(self, request, *args, **kwargs) -> None:
         if "instance" in kwargs:
@@ -1783,7 +1791,6 @@ class ComponentProjectForm(ComponentNameForm):
         self.request = request
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.instance = None
 
     def clean(self) -> None:
         if "project" not in self.cleaned_data:
@@ -1861,6 +1868,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         help_text=Component.branch.field.help_text,
         required=False,
     )
+    instance: Component  # type: ignore[assignment]
 
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
@@ -2839,7 +2847,7 @@ class ProjectFilterForm(forms.Form):
     watched = UserField(required=False)
 
 
-class WorkflowSettingForm(forms.ModelForm):
+class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
     enable = forms.BooleanField(
         label=gettext_lazy("Customize translation workflow for this language"),
         help_text=gettext_lazy(
@@ -2911,7 +2919,7 @@ class WorkflowSettingForm(forms.ModelForm):
             self.instance = None
         return self.instance
 
-    def get_field_doc(self, field):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         if field.name == "enable":
             return ("workflows", "workflow-customization")
         return None
