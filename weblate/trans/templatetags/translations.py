@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
 from django import forms, template
 from django.contrib.humanize.templatetags.humanize import intcomma
@@ -53,6 +54,11 @@ from weblate.utils.stats import (
 )
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from django_stubs_ext import StrOrPromise
 
 register = template.Library()
 
@@ -1044,12 +1050,14 @@ def get_unique_row_id(context, obj):
 
 
 @register.simple_tag
-def get_filter_name(name):
+def get_filter_name(name: str) -> str:
     names = dict(get_filter_choice())
     return names[name]
 
 
-def translation_alerts(translation):
+def translation_alerts(
+    translation: Translation | ProjectLanguage | GhostTranslation,
+) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     if translation.is_source:
         yield (
             "state/source.svg",
@@ -1058,7 +1066,9 @@ def translation_alerts(translation):
         )
 
 
-def component_alerts(component):
+def component_alerts(
+    component: Component,
+) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     if component.is_repo_link:
         yield (
             "state/link.svg",
@@ -1086,7 +1096,7 @@ def component_alerts(component):
         )
 
 
-def project_alerts(project):
+def project_alerts(project: Project) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     if project.has_alerts:
         yield (
             "state/alert.svg",
@@ -1099,12 +1109,19 @@ def project_alerts(project):
 
 
 @register.inclusion_tag("trans/embed-alert.html", takes_context=True)
-def indicate_alerts(context, obj):
-    result = []
+def indicate_alerts(
+    context,
+    obj: Translation
+    | Component
+    | ProjectLanguage
+    | Project
+    | GhostProjectLanguageStats,
+):
+    result: list[tuple[str, StrOrPromise, str | None]] = []
 
-    translation = None
-    component = None
-    project = None
+    translation: None | Translation | GhostTranslation = None
+    component: None | Component = None
+    project: None | Project = None
 
     global_base = context.get("global_base")
 
@@ -1162,11 +1179,11 @@ def indicate_alerts(context, obj):
                 )
             )
 
-    if getattr(obj, "is_shared", False):
+    if is_shared := getattr(obj, "is_shared", False):
         result.append(
             (
                 "state/share.svg",
-                gettext("Shared from the %s project.") % obj.is_shared,
+                gettext("Shared from the %s project.") % is_shared,
                 None,
             )
         )
