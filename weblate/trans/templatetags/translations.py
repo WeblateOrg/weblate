@@ -8,7 +8,7 @@ import re
 from collections import defaultdict
 from datetime import date, datetime
 
-from django import template
+from django import forms, template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -26,6 +26,7 @@ from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -607,8 +608,8 @@ def documentation_icon(context, page: str, anchor: str = "", right: bool = False
 
 
 @register.simple_tag(takes_context=True)
-def form_field_doc_link(context, form, field):
-    if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
+def form_field_doc_link(context, form: forms.Form, field: forms.Field) -> str:
+    if isinstance(form, FieldDocsMixin) and (field_doc := form.get_field_doc(field)):
         return render_documentation_icon(
             get_doc_url(*field_doc, user=context["user"]), False
         )
