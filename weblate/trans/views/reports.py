@@ -3,7 +3,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
+from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -15,6 +18,10 @@ from weblate.trans.forms import ReportsForm
 from weblate.trans.models import Category, Change, Component, Project
 from weblate.trans.util import count_words, redirect_param
 from weblate.utils.views import parse_path, show_form_errors
+
+if TYPE_CHECKING:
+    from django.db.models import Model
+    from django.utils.safestring import SafeString
 
 # Header, two longer fields for name and email, shorter fields for numbers
 RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)
@@ -67,6 +74,8 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
 def get_credits(request, path=None):
     """View for credits."""
     obj = parse_path(request, path, (Component, Category, Project, None))
+    kwargs: dict[str, Any]
+    scope: dict[str, Model]
     if obj is None:
         kwargs = {"translation__isnull": False}
         scope = {}
@@ -226,6 +235,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
 def get_counts(request, path=None):
     """View for work counts."""
     obj = parse_path(request, path, (Component, Category, Project, None))
+    kwargs: dict[str, Model]
     if obj is None:
         kwargs = {}
     elif isinstance(obj, Project):
@@ -280,6 +290,8 @@ def get_counts(request, path=None):
         "Target words edited",
         "Target chars edited",
     )
+
+    start: str | SafeString
 
     if form.cleaned_data["style"] == "html":
         start = format_html(
