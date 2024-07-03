@@ -1646,6 +1646,27 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
             )
         )
 
+    @responses.activate
+    @respx.mock
+    def test_clean_custom(self):
+        self.mock_response()
+        settings = self.CONFIGURATION.copy()
+        machine = self.MACHINE_CLS
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["model"] = "custom"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        settings["custom_model"] = "custom"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["model"] = "auto"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
 
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
     def test_empty(self) -> None:
