@@ -447,23 +447,33 @@ OpenAI
 .. versionadded:: 5.3
 
 :Service ID: ``openai``
-:Configuration: +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``     | API key            |                                                                                                                           |
-                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``model``   | OpenAI model       | Available choices:                                                                                                        |
-                |             |                    |                                                                                                                           |
-                |             |                    | ``auto`` -- Automatic selection                                                                                           |
-                |             |                    |                                                                                                                           |
-                |             |                    | ``gpt-4-1106-preview`` -- GPT-4 Turbo                                                                                     |
-                |             |                    |                                                                                                                           |
-                |             |                    | ``gpt-4`` -- GPT-4                                                                                                        |
-                |             |                    |                                                                                                                           |
-                |             |                    | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
-                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona`` | Translator persona | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``   | Translator style   | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``          | API key             |                                                                                                                           |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``     | OpenAI API base URL | Base URL of the OpenAI API, if it differs from the OpenAI default URL                                                     |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``        | OpenAI model        | Available choices:                                                                                                        |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``auto`` -- Automatic selection                                                                                           |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-4o`` -- GPT-4o                                                                                                      |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-4-1106-preview`` -- GPT-4 Turbo                                                                                     |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-4`` -- GPT-4                                                                                                        |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-3.5-turbo-1106`` -- Updated GPT 3.5 Turbo                                                                           |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``custom`` -- Custom model                                                                                                |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``custom_model`` | Custom model name   | Only needed when model is set to 'Custom model'                                                                           |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``      | Translator persona  | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``        | Translator style    | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 Performs translation using `OpenAI`_.
 
@@ -476,6 +486,10 @@ used in a prompt for OpenAI and allow you to change the style of the
 translations.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
+.. versionchanged:: 5.7
+
+   Support for custom model and base URL was added.
 
 .. seealso::
 
