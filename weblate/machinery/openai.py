@@ -60,7 +60,11 @@ class OpenAITranslation(BatchMachineTranslation):
         from openai import OpenAI
 
         super().__init__(settings)
-        self.client = OpenAI(api_key=self.settings["key"], timeout=self.request_timeout)
+        self.client = OpenAI(
+            api_key=self.settings["key"],
+            timeout=self.request_timeout,
+            base_url=self.settings.get("base_url") or None,
+        )
         self._models: None | set[str] = None
 
     def is_supported(self, source, language) -> bool:
@@ -82,6 +86,8 @@ class OpenAITranslation(BatchMachineTranslation):
                     continue
                 if model in self._models:
                     return model
+        if self.settings["model"] == "custom":
+            return self.settings["custom_model"]
 
         raise MachineTranslationError(f"Unsupported model: {self.settings['model']}")
 

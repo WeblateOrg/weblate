@@ -288,8 +288,19 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ("gpt-4", "GPT-4"),
         ("gpt-3.5-turbo-1106", "Updated GPT 3.5 Turbo"),
         ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
+        ("custom", pgettext_lazy("OpenAI model selection", "Custom model")),
     )
-
+    base_url = forms.URLField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "OpenAI API base URL",
+        ),
+        widget=forms.TextInput,
+        help_text=gettext_lazy(
+            "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
+        ),
+        required=False,
+    )
     model = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -297,6 +308,14 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ),
         initial="auto",
         choices=MODEL_CHOICES,
+    )
+    custom_model = forms.CharField(
+        label=pgettext_lazy(
+            "OpenAI model selection",
+            "Custom model name",
+        ),
+        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        required=False,
     )
     persona = forms.CharField(
         label=pgettext_lazy(
@@ -320,3 +339,16 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ),
         required=False,
     )
+
+    def clean(self) -> None:
+        has_custom_model = bool(self.cleaned_data.get("custom_model"))
+        model = self.cleaned_data.get("model")
+        if model == "custom" and not has_custom_model:
+            raise ValidationError(
+                {"custom_model": gettext("Missing custom model name.")}
+            )
+        if model != "custom" and has_custom_model:
+            raise ValidationError(
+                {"model": gettext("Choose custom model here to enable it.")}
+            )
+        super().clean()
