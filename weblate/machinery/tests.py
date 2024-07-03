@@ -1590,6 +1590,63 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
 
+class OpenAICustomTranslationTest(OpenAITranslationTest):
+    CONFIGURATION = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+        "base_url": "https://custom.example.com/",
+    }
+
+    def mock_response(self) -> None:
+        respx.get("https://custom.example.com/models").mock(
+            httpx.Response(
+                200,
+                json={
+                    "object": "list",
+                    "data": [
+                        {
+                            "id": "gpt-3.5-turbo",
+                            "object": "model",
+                            "created": 1686935002,
+                            "owned_by": "openai",
+                        }
+                    ],
+                },
+            )
+        )
+        respx.post(
+            "https://custom.example.com/chat/completions",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "id": "chatcmpl-123",
+                    "object": "chat.completion",
+                    "created": 1677652288,
+                    "model": "gpt-3.5-turbo",
+                    "system_fingerprint": "fp_44709d6fcb",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ahoj světe",
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {
+                        "prompt_tokens": 9,
+                        "completion_tokens": 12,
+                        "total_tokens": 21,
+                    },
+                },
+            )
+        )
+
+
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
