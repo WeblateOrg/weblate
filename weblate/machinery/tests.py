@@ -215,7 +215,9 @@ LIBRETRANSLATE_LANG_RESPONSE = [
 
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
-MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "data"}}
+MS_SUPPORTED_LANG_RESP = {
+    "translation": {"cs": "data", "en": "data", "es": "data", "de": "data"}
+}
 
 
 class BaseMachineTranslationTest(TestCase):
@@ -225,7 +227,7 @@ class BaseMachineTranslationTest(TestCase):
     ENGLISH = "en"
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
-    NOTSUPPORTED: str | None = "de"
+    NOTSUPPORTED: str | None = "tg"
     NOTSUPPORTED_VARIANT = "de_CZ"
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
@@ -328,6 +330,16 @@ class BaseMachineTranslationTest(TestCase):
         self.mock_error()
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+    @responses.activate
+    @respx.mock
+    def test_clean(self):
+        if not self.CONFIGURATION or self.MACHINE_CLS.settings_form is None:
+            return
+        self.mock_response()
+        form = self.MACHINE_CLS.settings_form(self.MACHINE_CLS, self.CONFIGURATION)
+        if not form.is_valid():
+            self.assertDictEqual(form.errors, {})
 
 
 class MachineTranslationTest(BaseMachineTranslationTest):
@@ -550,6 +562,12 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             "translate?api-version=3.0&from=en&to=de&category=general&textType=html",
             json=MICROSOFT_RESPONSE,
         )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=&textType=html",
+            json=MICROSOFT_RESPONSE,
+        )
 
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
@@ -583,6 +601,12 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
             "translate?api-version=3.0&from=en&to=de&category=general&textType=html",
+            json=MICROSOFT_RESPONSE,
+        )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=&textType=html",
             json=MICROSOFT_RESPONSE,
         )
 
@@ -983,7 +1007,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
     MACHINE_CLS = SAPTranslationHub
     EXPECTED_LEN = 1
     CONFIGURATION = {
-        "key": "",
+        "key": "x",
         "username": "",
         "password": "",
         "enable_mt": False,
@@ -1009,6 +1033,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
                 "languages": [
                     {"id": "en", "name": "English", "bcp-47-code": "en"},
                     {"id": "cs", "name": "Czech", "bcp-47-code": "cs"},
+                    {"id": "de", "name": "German", "bcp-47-code": "de"},
                 ]
             },
             status=200,
@@ -1417,6 +1442,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             )
             super().test_batch(machine=machine)
 
+    def test_clean(self):
+        # Stubbing here is tricky
+        raise SkipTest("Not tested")
+
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = AlibabaTranslation
@@ -1460,7 +1489,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     CONFIGURATION = {
         "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
         "instances/id",
-        "key": "",
+        "key": "x",
     }
 
     def mock_empty(self) -> NoReturn:
@@ -1474,7 +1503,13 @@ class IBMTranslationTest(BaseMachineTranslationTest):
             responses.GET,
             "https://api.region.language-translator.watson.cloud.ibm.com/"
             "instances/id/v3/languages?version=2018-05-01",
-            json={"languages": [{"language": "en"}, {"language": "zh-TW"}]},
+            json={
+                "languages": [
+                    {"language": "en"},
+                    {"language": "zh-TW"},
+                    {"language": "de"},
+                ]
+            },
         )
         responses.add(
             responses.POST,
