@@ -35,18 +35,10 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     settings_form = MicrosoftMachineryForm
 
     language_map = {
-        "zh_Hant": "zh-Hant",
-        "zh_Hans": "zh-Hans",
-        "zh_TW": "zh-Hant",
-        "zh_CN": "zh-Hans",
-        "tlh": "tlh-Latn",
-        "tlh-qaak": "tlh-Piqd",
-        "nb": "no",
-        "bs_Latn": "bs-Latn",
-        "sr": "sr-Latn",
-        "sr_Latn": "sr-Latn",
-        "sr_Cyrl": "sr-Cyrl",
-        "mn": "mn-Mong",
+        "zh_Hant": "zh-hant",
+        "zh_Hans": "zh-hans",
+        "zh_TW": "zh-hant",
+        "zh_CN": "zh-hans",
     }
 
     @classmethod
