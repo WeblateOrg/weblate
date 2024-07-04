@@ -41,6 +41,9 @@ RUN apt-get update && apt-get install -y \
     make \
     libsasl2-dev \
     libacl1-dev \
+    liblz4-dev \
+    libzstd-dev \
+    libxxhash-dev \
     libldap2-dev \
     libssl-dev \
     libz-dev   \
