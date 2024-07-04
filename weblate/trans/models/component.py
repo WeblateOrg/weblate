@@ -3237,7 +3237,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.repository.count_outgoing(self.push_branch)
         except RepositoryError:
-            report_error("Counting outgoing commits", project=self.project)
             # We silently ignore this error as push branch might not be existing if not needed
             return self.count_repo_outgoing
 
