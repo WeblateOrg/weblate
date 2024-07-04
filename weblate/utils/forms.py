@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.forms.models import ModelChoiceIterator
 from django.template.loader import render_to_string
 from django.utils.translation import gettext, gettext_lazy
+from pyparsing import ParseException
 
 from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
@@ -37,7 +38,7 @@ class QueryField(forms.CharField):
             return ""
         try:
             parse_query(value, parser=self.parser)
-        except ValueError as error:
+        except (ValueError, ParseException) as error:
             raise ValidationError(
                 gettext("Could not parse query string: {}").format(error)
             ) from error
