@@ -92,6 +92,13 @@ class ChangesView(PathViewMixin, ListView):
         if self.changes_form.is_valid():
             context["query_string"] = self.changes_form.urlencode()
             context["search_items"] = self.changes_form.items()
+            if period := self.changes_form.cleaned_data.get("period"):
+                self.changes_form.fields["period"].widget.attrs["data-start-date"] = (
+                    period["start_date"].strftime("%m/%d/%Y")
+                )
+                self.changes_form.fields["period"].widget.attrs["data-end-date"] = (
+                    period["end_date"].strftime("%m/%d/%Y")
+                )
 
         context["form"] = self.changes_form
 
