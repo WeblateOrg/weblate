@@ -176,6 +176,9 @@ class TTKitUnit(TranslationUnit):
             flags.merge(self.template.xmlelement)
         return flags.format()
 
+    def clone_template(self) -> None:
+        self.mainunit = self.unit = TranslateToolkitUnit.buildfromunit(self.template)
+
     def untranslate(self, language) -> None:
         target: str | list[str]
         target = [""] * language.plural.number if self.mainunit.hasplural() else ""
