@@ -20,6 +20,7 @@ Not yet released.
 **Bug fixes**
 
 * Accessibility of keyboard navigation.
+* :ref:`git-exporter` now works with all Git based :ref:`vcs`.
 
 **Compatibility**
 
