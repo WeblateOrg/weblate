@@ -12,6 +12,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class GitSquashAddon(BaseAddon):
@@ -20,17 +21,7 @@ class GitSquashAddon(BaseAddon):
     description = gettext_lazy("Squash Git commits prior to pushing changes.")
     settings_form = GitSquashForm
     compat = {
-        "vcs": {
-            "git",
-            "gerrit",
-            "subversion",
-            "github",
-            "pagure",
-            "gitlab",
-            "git-force-push",
-            "gitea",
-            "azure_devops",
-        }
+        "vcs": VCS_REGISTRY.git_based,
     }
     events = (AddonEvent.EVENT_POST_COMMIT,)
     icon = "compress.svg"

@@ -6,12 +6,13 @@
 
 from django.db import migrations
 
-from weblate.gitexport.models import SUPPORTED_VCS, get_export_url
+from weblate.gitexport.models import get_export_url
+from weblate.vcs.models import VCS_REGISTRY
 
 
 def set_export_url(apps, schema_editor) -> None:
     Component = apps.get_model("trans", "Component")
-    matching = Component.objects.filter(vcs__in=SUPPORTED_VCS).exclude(
+    matching = Component.objects.filter(vcs__in=VCS_REGISTRY.git_based).exclude(
         repo__startswith="weblate:/"
     )
     for component in matching:

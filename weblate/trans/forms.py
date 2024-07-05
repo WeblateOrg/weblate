@@ -1611,17 +1611,7 @@ class ComponentSettingsForm(
                 template="layout/pills.html",
             )
         )
-        vcses: tuple[str, ...] = (
-            "git",
-            "gerrit",
-            "gitea",
-            "github",
-            "gitlab",
-            "pagure",
-            "local",
-            "git-force-push",
-            "azure_devops",
-        )
+        vcses: set[str] = VCS_REGISTRY.git_based
         if self.instance.vcs not in vcses:
             vcses = (self.instance.vcs,)
         self.fields["vcs"].choices = [
