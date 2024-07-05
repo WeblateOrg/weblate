@@ -24,6 +24,7 @@ Not yet released.
 **Compatibility**
 
 * Weblate now uses mistletoe instead of misaka as a Markdown renderer.
+* :ref:`csp` is now stricter what might block third-party customizations.
 
 **Upgrading**
 
