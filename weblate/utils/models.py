@@ -71,6 +71,7 @@ class WeblateConf(AppConf):
     CSP_CONNECT_SRC = []
     CSP_STYLE_SRC = []
     CSP_FONT_SRC = []
+    CSP_FORM_SRC = []
 
     INTERLEDGER_PAYMENT_POINTERS = ["$ilp.uphold.com/ENU7fREdeZi9"]
 

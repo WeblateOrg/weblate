@@ -27,7 +27,7 @@ CSP_TEMPLATE = (
     "default-src 'none'; style-src {0}; img-src {1}; script-src {2}; "
     "connect-src {3}; object-src 'none'; font-src {4};"
     "frame-src 'none'; frame-ancestors 'none';"
-    "base-uri 'none';  form-action 'self';"
+    "base-uri 'none';  form-action {5};"
 )
 
 # URLs requiring inline javascript
@@ -258,6 +258,7 @@ class SecurityMiddleware:
         image = {"'self'"} | set(settings.CSP_IMG_SRC)
         connect = {"'self'"} | set(settings.CSP_CONNECT_SRC)
         font = {"'self'"} | set(settings.CSP_FONT_SRC)
+        form = {"'self'"} | set(settings.CSP_FORM_SRC)
 
         if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
             script.add("'unsafe-inline'")
@@ -332,6 +333,7 @@ class SecurityMiddleware:
             " ".join(script),
             " ".join(connect),
             " ".join(font),
+            " ".join(form),
         )
         if settings.SENTRY_SECURITY:
             response["Content-Security-Policy"] += (

@@ -820,6 +820,7 @@ Generic settings
 .. envvar:: WEBLATE_CSP_CONNECT_SRC
 .. envvar:: WEBLATE_CSP_STYLE_SRC
 .. envvar:: WEBLATE_CSP_FONT_SRC
+.. envvar:: WEBLATE_CSP_FORM_SRC
 
     Allows to customize ``Content-Security-Policy`` HTTP header.
 
@@ -831,6 +832,7 @@ Generic settings
         :setting:`CSP_CONNECT_SRC`,
         :setting:`CSP_STYLE_SRC`,
         :setting:`CSP_FONT_SRC`
+        :setting:`CSP_FORM_SRC`
 
 .. envvar:: WEBLATE_LICENSE_FILTER
 

@@ -657,6 +657,7 @@ CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
 CSP_CONNECT_SRC = get_env_list("WEBLATE_CSP_CONNECT_SRC")
 CSP_STYLE_SRC = get_env_list("WEBLATE_CSP_STYLE_SRC")
 CSP_FONT_SRC = get_env_list("WEBLATE_CSP_FONT_SRC")
+CSP_FORM_SRC = get_env_list("WEBLATE_CSP_FORM_SRC")
 
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
