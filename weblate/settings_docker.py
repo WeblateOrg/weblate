@@ -747,7 +747,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
-    "django.contrib.admindocs",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
     # Third party Django modules
