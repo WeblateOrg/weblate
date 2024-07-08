@@ -68,7 +68,7 @@ def revert_rate_limit(scope, request: AuthenticatedHttpRequest) -> None:
     key = get_cache_key(scope, request)
 
     with suppress(ValueError):
-        # Try to decrease cache key
+        # Try to increase bucket if it exists
         cache.incr(key)
 
 
