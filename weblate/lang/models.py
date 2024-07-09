@@ -179,7 +179,9 @@ class LanguageQuerySet(models.QuerySet):
         # Strip leading and trailing .
         return code.strip(".")
 
-    def aliases_get(self, code, expanded_code=None):
+    def aliases_get(
+        self, code: str, expanded_code: str | None = None
+    ) -> Language | None:
         code = code.lower()
         # Normalize script suffix
         code = code.replace("_latin", "@latin").replace("_cyrillic", "@cyrillic")
@@ -210,13 +212,19 @@ class LanguageQuerySet(models.QuerySet):
                 and "_" not in ALIASES[language]
             ):
                 testcode = f"{ALIASES[language]}_{country}"
-                ret = self.fuzzy_get(code=testcode, strict=True)
+                ret = self.fuzzy_get_strict(code=testcode)
                 if ret is not None:
                     return ret
 
         return None
 
-    def fuzzy_get(self, code, strict=False):
+    def fuzzy_get_strict(self, code: str) -> Language | None:
+        result = self.fuzzy_get(code)
+        if isinstance(result, str):
+            return None
+        return result
+
+    def fuzzy_get(self, code: str) -> Language | str:
         """
         Get matching language for code.
 
@@ -293,18 +301,31 @@ class LanguageQuerySet(models.QuerySet):
             if ret is not None:
                 return ret
 
-        return None if strict else newcode
+        return newcode
 
-    def auto_get_or_create(self, code, create=True):
+    def auto_get_or_create(
+        self,
+        code: str,
+        create: bool = True,
+        languages_cache: dict[str, Language] | None = None,
+    ) -> Language:
         """Try to get language using fuzzy_get and create it if that fails."""
+        if languages_cache is not None and code in languages_cache:
+            return languages_cache[code]
+
         ret = self.fuzzy_get(code)
         if isinstance(ret, Language):
+            if languages_cache is not None:
+                languages_cache[code] = ret
             return ret
 
         # Create new one
-        return self.auto_create(ret, create)
+        language = self.auto_create(ret, create)
+        if languages_cache is not None:
+            languages_cache[code] = language
+        return language
 
-    def auto_create(self, code, create=True):
+    def auto_create(self, code: str, create: bool = True) -> Language:
         """
         Automatically create new language.
 
@@ -322,12 +343,12 @@ class LanguageQuerySet(models.QuerySet):
         # Check for different variant
         if baselang is None and "@" in code:
             parts = code.split("@")
-            baselang = self.fuzzy_get(code=parts[0], strict=True)
+            baselang = self.fuzzy_get_strict(code=parts[0])
 
         # Check for different country
         if baselang is None and ("_" in code or "-" in code):
             parts = code.replace("-", "_").split("_")
-            baselang = self.fuzzy_get(code=parts[0], strict=True)
+            baselang = self.fuzzy_get_strict(code=parts[0])
 
         if baselang is not None:
             lang.name = baselang.name
@@ -368,9 +389,9 @@ class LanguageQuerySet(models.QuerySet):
         if code in cache:
             return cache[code]
         if langmap and code in langmap:
-            language = self.fuzzy_get(code=langmap[code], strict=True)
+            language = self.fuzzy_get_strict(code=langmap[code])
         else:
-            language = self.fuzzy_get(code=code, strict=True)
+            language = self.fuzzy_get_strict(code=code)
         if language is None:
             raise Language.DoesNotExist(code)
         cache[code] = language
@@ -839,8 +860,8 @@ class Plural(models.Model):
             raise ValueError(f"Could not compile formula {self.formula!r}: {error}")
 
     @cached_property
-    def examples(self):
-        result = defaultdict(list)
+    def examples(self) -> dict[int, list[str]]:
+        result: dict[int, list[str]] = defaultdict(list)
         func = self.plural_function
         for i in chain(range(10000), range(10000, 2000001, 1000)):
             ret = func(i)  # pylint: disable=too-many-function-args

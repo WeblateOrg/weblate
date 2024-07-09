@@ -283,6 +283,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         self.acting_user = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: None | TranslationQuerySet = None
+        self.languages_cache: dict[str, Language] = {}
 
     def generate_changes(self, old) -> None:
         from weblate.trans.models.change import Change
