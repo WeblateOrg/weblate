@@ -766,6 +766,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     )
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
+    processed_revision = models.CharField(max_length=200, default="", blank=True)
 
     objects = ComponentQuerySet.as_manager()
 
@@ -2382,6 +2383,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ):
         """Load translations from VCS."""
         self.store_background_task()
+
+        if (
+            self.processed_revision == self.local_revision
+            and self.local_revision
+            and not force
+        ):
+            self.log_info("this revision has been already parsed, skipping update")
+            self.progress_step(100)
+            return None
+
         # Ensure we start from fresh template
         self.drop_template_store_cache()
         self.unload_sources()
@@ -2538,6 +2549,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         self.unload_sources()
         self.run_batched_checks()
+
+        # Update last processed revision
+        self.processed_revision = self.local_revision
+        Component.objects.filter(pk=self.pk).update(
+            processed_revision=self.processed_revision
+        )
 
         self.log_info("updating completed")
         return was_change
