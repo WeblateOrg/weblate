@@ -1491,6 +1491,7 @@ class ComponentSettingsForm(
             "template",
             "intermediate",
             "language_regex",
+            "key_filter",
             "variant_regex",
             "restricted",
             "auto_lock_error",
@@ -1603,6 +1604,7 @@ class ComponentSettingsForm(
                         "file_format",
                         "filemask",
                         "language_regex",
+                        "key_filter",
                         "source_language",
                     ),
                     Fieldset(
@@ -1677,6 +1679,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "license",
             "language_code_style",
             "language_regex",
+            "key_filter",
             "source_language",
             "is_glossary",
         ]

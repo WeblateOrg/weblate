@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import codecs
 import os
+import re
 import tempfile
 from itertools import chain
 from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict
@@ -437,6 +438,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                                 unit.source = translated_unit.source
                         except UnitNotFoundError:
                             pass
+                    if (
+                        self.component.key_filter is not None
+                        and re.match(self.component.key_filter, unit.context) is None
+                    ):
+                        continue
 
                     try:
                         id_hash = unit.id_hash
