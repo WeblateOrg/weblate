@@ -107,8 +107,8 @@ class RedirectMiddleware:
         slash_path = f"{path}/"
         return not is_valid_path(path, urlconf) and is_valid_path(slash_path, urlconf)
 
-    def fixup_language(self, lang):
-        return Language.objects.fuzzy_get(code=lang, strict=True)
+    def fixup_language(self, lang: str) -> Language | None:
+        return Language.objects.fuzzy_get_strict(code=lang)
 
     def fixup_project(self, slug, request):
         try:

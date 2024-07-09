@@ -2438,7 +2438,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     "checking %s (%s) [%d/%d]", path, code, pos + 1, len(matches)
                 )
                 lang = Language.objects.auto_get_or_create(
-                    code=self.get_language_alias(code)
+                    code=self.get_language_alias(code),
+                    languages_cache=self.project.languages_cache,
                 )
                 if lang.code in languages:
                     codes = f"{code}, {languages[lang.code].language_code}"
@@ -3432,9 +3433,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         code = self.format_new_language_code(language)
 
         # Check if resulting language is not present
-        new_lang = Language.objects.fuzzy_get(
-            code=self.get_language_alias(code), strict=True
-        )
+        new_lang = Language.objects.fuzzy_get_strict(code=self.get_language_alias(code))
         if new_lang is not None:
             if new_lang == self.source_language:
                 messages.error(
