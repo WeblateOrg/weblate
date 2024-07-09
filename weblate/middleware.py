@@ -30,7 +30,7 @@ CSP_TEMPLATE = (
     "default-src 'none'; style-src {0}; img-src {1}; script-src {2}; "
     "connect-src {3}; object-src 'none'; font-src {4};"
     "frame-src 'none'; frame-ancestors 'none';"
-    "base-uri 'none';  form-action {5};"
+    "base-uri 'none';  form-action {5}; manifest-src 'self'"
 )
 
 # URLs requiring inline javascript
