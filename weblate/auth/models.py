@@ -1118,8 +1118,12 @@ class WeblateAuthConf(AppConf):
         prefix = ""
 
 
+def get_auth_backends():
+    return load_backends(settings.AUTHENTICATION_BACKENDS)
+
+
 def get_auth_keys():
-    return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())
+    return set(get_auth_backends().keys())
 
 
 class AuthenticatedHttpRequest(HttpRequest):

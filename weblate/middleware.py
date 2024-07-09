@@ -16,7 +16,10 @@ from django.urls import is_valid_path, reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils.http import escape_leading_slashes
 from django.utils.translation import gettext_lazy
+from social_core.backends.oauth import OAuthAuth
+from social_core.backends.open_id import OpenIdAuth
 
+from weblate.auth.models import get_auth_backends
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
@@ -249,9 +252,6 @@ class SecurityMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        # No CSP for debug mode (to allow djdt or error pages)
-        if settings.DEBUG:
-            return response
 
         style = {"'self'", "'unsafe-inline'"} | set(settings.CSP_STYLE_SRC)
         script = {"'self'"} | set(settings.CSP_SCRIPT_SRC)
@@ -268,6 +268,7 @@ class SecurityMiddleware:
             script.add("care.weblate.org")
             connect.add("care.weblate.org")
             style.add("care.weblate.org")
+            form.add("care.weblate.org")
 
         # Rollbar client errors reporting
         if (
@@ -326,6 +327,19 @@ class SecurityMiddleware:
         if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
             domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
             image.add(domain)
+
+        # Third-party login flow extensions
+        if request.resolver_match and (
+            request.resolver_match.view_name.startswith("social:")
+            or request.resolver_match.view_name in {"login", "profile"}
+        ):
+            for backend in get_auth_backends().values():
+                # Handle OpenId redirect flow
+                if issubclass(backend, OpenIdAuth) and backend.URL:
+                    form.add(urlparse(backend.URL).hostname)
+                # Handle OAuth redirect flow
+                if issubclass(backend, OAuthAuth) and backend.AUTHORIZATION_URL:
+                    form.add(urlparse(backend.AUTHORIZATION_URL).hostname)
 
         response["Content-Security-Policy"] = CSP_TEMPLATE.format(
             " ".join(style),
