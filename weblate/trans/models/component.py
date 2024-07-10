@@ -2331,7 +2331,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
-    ):
+    ) -> bool:
         """Load translations from VCS."""
         try:
             with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
@@ -2380,7 +2380,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
-    ):
+    ) -> bool:
         """Load translations from VCS."""
         self.store_background_task()
 
@@ -2391,7 +2391,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ):
             self.log_info("this revision has been already parsed, skipping update")
             self.progress_step(100)
-            return None
+            return False
 
         # Ensure we start from fresh template
         self.drop_template_store_cache()
