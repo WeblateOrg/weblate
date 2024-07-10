@@ -110,6 +110,8 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.addons.models import Addon
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -206,7 +208,7 @@ def prefetch_tasks(components):
     lookup = {component.update_key: component for component in components}
     if lookup:
         results_dict = cache.get_many(lookup.keys())
-        results = {
+        results: dict[str, AsyncResult] = {
             value: AsyncResult(value) for value in results_dict.values() if value
         }
 
@@ -236,6 +238,7 @@ def prefetch_glossary_terms(components) -> None:
 class ComponentQuerySet(models.QuerySet):
     def prefetch(self, alerts: bool = True, defer: bool = True):
         result = self
+        linked_component: str | models.Prefetch
         if defer:
             result = result.defer_huge()
             linked_component = models.Prefetch(
@@ -280,7 +283,7 @@ class ComponentQuerySet(models.QuerySet):
             project, *categories, component = path.split("/")
         except ValueError:
             raise Component.DoesNotExist
-        kwargs = {}
+        kwargs: dict[str, str | None] = {}
         prefix = ""
         for category in reversed(categories):
             kwargs[f"{prefix}category__slug"] = category
@@ -879,18 +882,25 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # the newly created component
         bool(self.source_translation)
 
-        args = {
-            "changed_git": changed_git,
-            "changed_setup": changed_setup,
-            "changed_template": changed_template,
-            "changed_variant": changed_variant,
-            "skip_push": kwargs.get("force_insert", False),
-            "create": create,
-        }
         if settings.CELERY_TASK_ALWAYS_EAGER:
-            self.after_save(**args)
+            self.after_save(
+                changed_git=changed_git,
+                changed_setup=changed_setup,
+                changed_template=changed_template,
+                changed_variant=changed_variant,
+                skip_push=kwargs.get("force_insert", False),
+                create=create,
+            )
         else:
-            task = component_after_save.delay(self.pk, **args)
+            task = component_after_save.delay(
+                self.pk,
+                changed_git=changed_git,
+                changed_setup=changed_setup,
+                changed_template=changed_template,
+                changed_variant=changed_variant,
+                skip_push=kwargs.get("force_insert", False),
+                create=create,
+            )
             self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
@@ -909,21 +919,21 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self._file_format = None
         self.stats = ComponentStats(self)
         self.needs_cleanup = False
-        self.alerts_trigger = {}
-        self.updated_sources = {}
+        self.alerts_trigger: dict[str, list[dict]] = {}
+        self.updated_sources: dict[int, Unit] = {}
         self.old_component = copy(self)
-        self._sources = {}
+        self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
-        self.logs = []
-        self.translations_count = None
+        self.logs: list[str] = []
+        self.translations_count: int | None = None
         self.translations_progress = 0
-        self.acting_user = None
+        self.acting_user: None | User = None
         self.batch_checks = False
-        self.batched_checks = set()
+        self.batched_checks: set[str] = set()
         self.needs_variants_update = False
         self._invalidate_scheduled = False
         self._template_check_done = False
-        self.new_lang_error_message = None
+        self.new_lang_error_message: str | None = None
 
     def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
@@ -1221,8 +1231,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # We used to rely on fnmask.translate here, but since Python 3.9
         # it became super optimized beast producing regexp with possibly
         # several groups making it hard to modify later for our needs.
-        result = []
-        raw = []
+        result: list[str] = []
+        raw: list[str] = []
 
         def append(text: str | None) -> None:
             if raw:
@@ -1280,7 +1290,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @cached_property
     def repository(self):
         """Get VCS repository object."""
-        if self.is_repo_link:
+        if self.linked_component is not None:
             return self.linked_component.repository
         return self.repository_class(self.full_path, self.branch, self)
 
@@ -1346,7 +1356,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     f"get_{self.vcs}_repoweb_template",
                     self.get_git_repoweb_template,
                 )()
-        if self.is_repo_link:
+        if self.linked_component is not None:
             return self.linked_component.get_repoweb_link(
                 filename, line, template, user=self.acting_user
             )
@@ -2043,6 +2053,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         with self.start_sentry_span("commit_files"):
             if message is None:
+                if template is None:
+                    raise ValueError("Missing template when message is not specified")
                 # Handle context
                 context = {"component": component or self, "author": author}
                 if extra_context:
