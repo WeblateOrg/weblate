@@ -439,9 +439,14 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                         except UnitNotFoundError:
                             pass
                     if (
-                        self.component.key_filter is not None
-                        and re.match(self.component.key_filter, unit.context) is None
+                        self.component.key_filter_re
+                        and re.match(self.component.key_filter_re, unit.context) is None
                     ):
+                        self.log_info(
+                            "Doesn't match with key_filter, skipping: %s (%s)",
+                            unit,
+                            repr(unit.source),
+                        )
                         continue
 
                     try:

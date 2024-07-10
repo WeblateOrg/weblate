@@ -773,7 +773,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     key_filter = RegexField(
         verbose_name=gettext_lazy("Key filter"),
         max_length=500,
-        default=None,
+        default="",
         help_text=gettext_lazy("Regular expression used to filter keys."),
         null=True,
         blank=True,
@@ -3801,6 +3801,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def start_sentry_span(self, op: str):
         return sentry_sdk.start_span(op=op, description=self.full_slug)
+
+    @cached_property
+    def key_filter_re(self) -> re.Pattern:
+        return re.compile(self.key_filter)
 
 
 @receiver(m2m_changed, sender=Component.links.through)
