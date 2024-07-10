@@ -1410,10 +1410,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_bitbucket_git_repoweb_template(self) -> str | None:
         owner, slug, matches = None, None, None
         domain = "bitbucket.org"
-        if re.match(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo):
-            matches = re.search(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo)
-        elif re.match(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo):
-            matches = re.search(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo)
+        matches = re.match(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo)
+        if matches is None:
+            matches = re.match(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo)
         if matches:
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
@@ -1427,10 +1426,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_github_repoweb_template(self) -> str | None:
         owner, slug, matches = None, None, None
         domain = "github.com"
-        if re.match(GITHUB_REPOS_REGEXP[0], self.repo):
-            matches = re.search(GITHUB_REPOS_REGEXP[0], self.repo)
-        elif re.match(GITHUB_REPOS_REGEXP[1], self.repo):
-            matches = re.search(GITHUB_REPOS_REGEXP[1], self.repo)
+        matches = re.match(GITHUB_REPOS_REGEXP[0], self.repo)
+        if matches is None:
+            matches = re.match(GITHUB_REPOS_REGEXP[1], self.repo)
         if matches:
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
@@ -1442,8 +1440,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_pagure_repoweb_template(self) -> str | None:
         owner, slug = None, None
         domain = "pagure.io"
-        if re.match(PAGURE_REPOS_REGEXP[0], self.repo):
-            matches = re.search(PAGURE_REPOS_REGEXP[0], self.repo)
+        if matches := re.match(PAGURE_REPOS_REGEXP[0], self.repo):
             owner = matches.group(1)
             slug = matches.group(2)
 
@@ -1455,14 +1452,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_azure_repoweb_template(self) -> str | None:
         organization, project, repository, matches = None, None, None, None
         domain = "dev.azure.com"
-        if re.match(AZURE_REPOS_REGEXP[0], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[0], self.repo)
-        elif re.match(AZURE_REPOS_REGEXP[1], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[1], self.repo)
-        elif re.match(AZURE_REPOS_REGEXP[2], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[2], self.repo)
-        elif re.match(AZURE_REPOS_REGEXP[3], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[3], self.repo)
+        matches = re.match(AZURE_REPOS_REGEXP[0], self.repo)
+        if matches is None:
+            matches = re.match(AZURE_REPOS_REGEXP[1], self.repo)
+        if matches is None:
+            matches = re.match(AZURE_REPOS_REGEXP[2], self.repo)
+        if matches is None:
+            matches = re.match(AZURE_REPOS_REGEXP[3], self.repo)
 
         if matches:
             organization = matches.group(1)
