@@ -1546,7 +1546,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
         except RepositoryError as error:
-            report_error("Could not update the repository", project=self.project)
+            report_error(
+                "Could not update the repository",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
             error_text = self.error_text(error)
             if validate:
                 self.handle_update_error(error_text, retry)
@@ -1743,7 +1747,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.repository.push(self.push_branch)
             except RepositoryError as error:
                 error_text = self.error_text(error)
-                report_error("Could not push the repo", project=self.project)
+                report_error(
+                    "Could not push the repo",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
                 self.change_set.create(
                     action=Change.ACTION_FAILED_PUSH,
                     target=error_text,
@@ -1765,7 +1773,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             self.repository.unshallow()
                         except RepositoryError:
                             report_error(
-                                "Could not unshallow the repo", project=self.project
+                                "Could not unshallow the repo",
+                                project=self.project,
+                                skip_sentry=not settings.DEBUG,
                             )
                         else:
                             return self.push_repo(request, retry=False)
@@ -1853,7 +1863,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_info("resetting to remote repo")
                 self.repository.reset()
             except RepositoryError:
-                report_error("Could not reset the repository", project=self.project)
+                report_error(
+                    "Could not reset the repository",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
                 messages.error(
                     request,
                     gettext("Could not reset to remote branch on %s.") % self,
@@ -1889,7 +1903,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryError:
-                report_error("Could not clean the repository", project=self.project)
+                report_error(
+                    "Could not clean the repository",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
                 messages.error(
                     request,
                     gettext("Could not clean the repository on %s.") % self,
@@ -2153,7 +2171,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
             except RepositoryError as error:
                 # Report error
-                report_error(f"Failed {method}", project=self.project)
+                report_error(
+                    f"Failed {method}",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
 
                 # In case merge has failure recover
                 error = self.error_text(error)
@@ -3238,7 +3260,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.repository.count_missing()
         except RepositoryError as error:
-            report_error("Could check merge needed", project=self.project)
+            report_error(
+                "Could check merge needed",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
             self.add_alert("MergeFailure", error=self.error_text(error))
             return 0
 
@@ -3250,7 +3276,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if retry and "Host key verification failed" in error_text:
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
-            report_error("Could check push needed", project=self.project)
+            report_error(
+                "Could check push needed",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
             self.add_alert("PushFailure", error=error_text)
             return 0
 
