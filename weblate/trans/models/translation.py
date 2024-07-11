@@ -334,6 +334,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Check if we're not already up to date
             try:
                 new_revision = self.get_git_blob_hash()
+            except FileNotFoundError:
+                self.reason = ""
+                return
             except Exception as exc:
                 report_error("Translation parse error", project=self.component.project)
                 self.component.handle_parse_error(exc, self)
