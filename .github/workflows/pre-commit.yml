@@ -41,6 +41,8 @@ jobs:
         fi
     - name: pre-commit
       run: pre-commit run --all
+      env:
+        RUFF_OUTPUT_FORMAT: github
     - name: diff
       run: git diff
       if: always()
