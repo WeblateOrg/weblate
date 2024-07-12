@@ -1999,10 +1999,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                         try:
                             component.template_store  # noqa: B018
                         except FileParseError as error:
-                            report_error(
-                                "Could not parse template file on commit",
-                                project=self.project,
-                            )
+                            if not isinstance(error.__cause__, FileNotFoundError):
+                                report_error(
+                                    "Could not parse template file on commit",
+                                    project=self.project,
+                                )
                             component.log_error(
                                 "skipping commit due to error: %s", error
                             )
@@ -2120,7 +2121,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 user=self.acting_user,
             )
         if reraise:
-            raise FileParseError(error_message)
+            raise FileParseError(error_message) from error
 
     def store_local_revision(self) -> None:
         """Store current revision in the database."""
@@ -2553,8 +2554,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 was_change |= component.create_translations(
                     force, langs, request=request, from_link=True
                 )
-            except FileParseError:
-                report_error("Failed linked component update", project=self.project)
+            except FileParseError as error:
+                if not isinstance(error.__cause__, FileNotFoundError):
+                    report_error("Failed linked component update", project=self.project)
                 continue
 
         # Run source checks on updated source strings
