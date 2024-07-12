@@ -250,7 +250,7 @@ class SecurityMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request):  # noqa: C901
         response = self.get_response(request)
 
         style = {"'self'", "'unsafe-inline'"} | set(settings.CSP_STYLE_SRC)
@@ -285,9 +285,14 @@ class SecurityMiddleware:
         if settings.SENTRY_DSN and response.status_code == 500:
             domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
-            script.add("sentry.io")
             connect.add(domain)
-            connect.add("sentry.io")
+            # Add appropriate frontend servers for sentry.io
+            if domain.endswith("de.sentry.io"):
+                connect.add("de.sentry.io")
+                script.add("de.sentry.io")
+            elif domain.endswith("sentry.io"):
+                script.add("sentry.io")
+                connect.add("sentry.io")
             script.add("'unsafe-inline'")
             image.add("data:")
 
