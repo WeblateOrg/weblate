@@ -1219,7 +1219,6 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             try:
                 parse_query(query_string)
             except Exception as error:
-                report_error(project=obj.component.project)
                 raise ValidationError({"q": f"Could not parse query string: {error}"})
             try:
                 return download_translation_file(request, obj, fmt, query_string)
@@ -1316,7 +1315,6 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         try:
             parse_query(query_string)
         except Exception as error:
-            report_error()
             raise ValidationError(f"Could not parse query string: {error}")
 
         queryset = obj.unit_set.search(query_string).order_by("id").prefetch_full()
