@@ -112,7 +112,7 @@ def validate_render(value: str, **kwargs) -> str:
         ) from err
 
 
-def validate_render_component(value: str, translation: bool = False, **kwargs) -> str:
+def validate_render_mock(value: str, *, translation: bool = False, **kwargs) -> str:
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
     from weblate.utils.stats import DummyTranslationStats
@@ -142,12 +142,20 @@ def validate_render_component(value: str, translation: bool = False, **kwargs) -
     return validate_render(value, **kwargs)
 
 
+def validate_render_translation(value: str) -> None:
+    validate_render_mock(value, translation=True)
+
+
+def validate_render_component(value: str) -> None:
+    validate_render_mock(value)
+
+
 def validate_render_addon(value: str) -> None:
-    validate_render_component(value, hook_name="addon", addon_name="addon")
+    validate_render_mock(value, hook_name="addon", addon_name="addon")
 
 
 def validate_render_commit(value: str) -> None:
-    validate_render_component(value, translation=True, author="author")
+    validate_render_mock(value, translation=True, author="author")
 
 
 def validate_repoweb(val: str, allow_editor: bool = False) -> None:
@@ -163,7 +171,7 @@ def validate_repoweb(val: str, allow_editor: bool = False) -> None:
                 "please use the template language instead."
             )
         )
-    url = validate_render_component(val, filename="file.po", line=9, branch="main")
+    url = validate_render_mock(val, filename="file.po", line=9, branch="main")
 
     validator: URLValidator
     if (
