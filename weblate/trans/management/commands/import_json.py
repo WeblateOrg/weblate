@@ -73,7 +73,7 @@ class Command(BaseCommand):
 
         allfields = {
             field.name
-            for field in Component._meta.get_fields()
+            for field in Component._meta.get_fields()  # noqa: SLF001
             if field.editable and not field.is_relation
         }
 

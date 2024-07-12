@@ -22,7 +22,7 @@ def get_user(request):
 
     Adds handling of anonymous user which is stored in database.
     """
-    if not hasattr(request, "_cached_user"):
+    if not hasattr(request, "weblate_cached_user"):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
@@ -30,8 +30,8 @@ def get_user(request):
             # get_anonymous() is reusing same instance.
             user.clear_cache()
 
-        request._cached_user = user
-    return request._cached_user
+        request.weblate_cached_user = user
+    return request.weblate_cached_user
 
 
 class AuthenticationMiddleware:

@@ -2013,7 +2013,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
                     components[component.pk] = component
                 with self.start_sentry_span("commit_pending"):
-                    translation._commit_pending(reason, user)
+                    translation._commit_pending(reason, user)  # noqa: SLF001
                 if component.has_template():
                     translation_pks[component.pk].append(translation.pk)
                     if translation.is_source:

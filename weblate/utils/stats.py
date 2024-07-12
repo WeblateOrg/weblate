@@ -849,7 +849,7 @@ class AggregatingStats(BaseStats):
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
-            if "all" not in stats_obj._data:
+            if "all" not in stats_obj._data:  # noqa: SLF001
                 stats_obj.calculate_basic()
                 stats_obj.save()
 

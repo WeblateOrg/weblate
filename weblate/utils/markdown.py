@@ -28,7 +28,7 @@ def get_mention_users(text):
 class SkipHtmlSpan(span_token.HtmlSpan):
     """A token that strips HTML tags from the content."""
 
-    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")
+    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")  # noqa: SLF001
     parse_inner = False
     content: str
 

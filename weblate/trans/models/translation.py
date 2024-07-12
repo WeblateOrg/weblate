@@ -306,7 +306,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Avoid fetching empty list of checks from the database
             newunit.all_checks = []
             # Avoid fetching empty list of variants
-            newunit._prefetched_objects_cache = {
+            newunit._prefetched_objects_cache = {  # noqa: SLF001
                 "defined_variants": Variant.objects.none()
             }
             is_new = True
@@ -1512,7 +1512,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
-                component._sources[id_hash] = unit
+                component._sources[id_hash] = unit  # noqa: SLF001
             if translation == self:
                 result = unit
             unit_ids.append(unit.pk)

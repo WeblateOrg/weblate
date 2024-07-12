@@ -685,7 +685,7 @@ class PluralMapperTestCase(FixtureTestCase):
         english = Language.objects.get(code="en")
         czech = Language.objects.get(code="cs")
         mapper = PluralMapper(english.plural, czech.plural)
-        self.assertEqual(mapper._target_map, ((0, None), (None, None), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, None), (None, None), (-1, None)))
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
         )
@@ -698,7 +698,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper._target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
         # Use English here to test incomplete plural set in the source string
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
@@ -712,7 +712,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper._target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
         # Use English here to test incomplete plural set in the source string
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
@@ -728,7 +728,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper._target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
         # Use English here to test incomplete plural set in the source string
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
@@ -747,7 +747,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper._target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
         )

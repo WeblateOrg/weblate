@@ -671,7 +671,8 @@ class Language(models.Model, CacheKeyMixin):
 
     @cached_property
     def plural(self):
-        if self.plural_set.all()._result_cache is not None:
+        # Filter in Python if query is cached
+        if self.plural_set.all()._result_cache is not None:  # noqa: SLF001
             for plural in self.plural_set.all():
                 if plural.source == Plural.SOURCE_DEFAULT:
                     return plural
@@ -956,7 +957,7 @@ class PluralMapper:
         self.same_plurals = source_plural.same_as(target_plural)
 
     @cached_property
-    def _target_map(self):
+    def target_map(self):
         exact_source_map = {}
         all_source_map = {}
         for i, examples in self.source_plural.examples.items():
@@ -967,23 +968,23 @@ class PluralMapper:
                     all_source_map[example] = i
 
         target_plural = self.target_plural
-        target_map = []
+        result = []
         last = target_plural.number - 1
         for i in range(target_plural.number):
             examples = target_plural.examples.get(i, ())
             if len(examples) == 1:
                 number = examples[0]
                 if number in exact_source_map:
-                    target_map.append((exact_source_map[number], None))
+                    result.append((exact_source_map[number], None))
                 elif number in all_source_map:
-                    target_map.append((all_source_map[number], number))
+                    result.append((all_source_map[number], number))
                 else:
-                    target_map.append((-1, number))
+                    result.append((-1, number))
             elif i == last:
-                target_map.append((-1, None))
+                result.append((-1, None))
             else:
-                target_map.append((None, None))
-        return tuple(target_map)
+                result.append((None, None))
+        return tuple(result)
 
     def map(self, unit):
         source_strings = unit.get_source_plurals()
@@ -1005,7 +1006,7 @@ class PluralMapper:
                 ),
                 None,
             )
-            for source_index, number_to_interpolate in self._target_map:
+            for source_index, number_to_interpolate in self.target_map:
                 s = "" if source_index is None else source_strings[source_index]
                 if s and number_to_interpolate is not None and format_check:
                     s = format_check.interpolate_number(s, number_to_interpolate)
@@ -1029,7 +1030,7 @@ class PluralMapper:
             return zip(sources, targets, strict=True)
         return [
             (sources[-1 if i is None else i], targets[j])
-            for (i, _), j in zip(self._target_map, range(len(targets)), strict=True)
+            for (i, _), j in zip(self.target_map, range(len(targets)), strict=True)
         ]
 
 

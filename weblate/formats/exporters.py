@@ -289,7 +289,7 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
     def add(self, unit, word) -> None:
         # Need to have storage to handle plurals
-        unit._store = self.storage
+        unit._store = self.storage  # noqa: SLF001
         super().add(unit, word)
 
     def add_note(self, output, note: str, origin: str) -> None:

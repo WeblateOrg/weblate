@@ -51,7 +51,7 @@ class ProxyMiddleware:
     def __call__(self, request):
         # Fake HttpRequest attribute to inject configured
         # site name into build_absolute_uri
-        request._current_scheme_host = get_site_url()
+        request._current_scheme_host = get_site_url()  # noqa: SLF001
 
         # Actual proxy handling
         proxy = None

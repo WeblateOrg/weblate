@@ -359,7 +359,7 @@ class TTKitFormat(TranslationFormat):
         else:
             unit = self.store.UnitClass(source)
         # Needed by some formats (Android) to set target
-        unit._store = self.store
+        unit._store = self.store  # noqa: SLF001
         return unit
 
     def create_unit_key(
