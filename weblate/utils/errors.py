@@ -121,8 +121,8 @@ def init_error_collection(celery=False) -> None:
             _experiments={"max_spans": 2000},
             **settings.SENTRY_EXTRA_ARGS,
         )
-        # Ignore Weblate logging, those are reported using capture_exception
-        ignore_logger(ERROR_LOGGER)
+        # Ignore Weblate logging, those should trigger proper errors
+        ignore_logger("weblate")
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)
