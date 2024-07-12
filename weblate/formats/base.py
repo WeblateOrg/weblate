@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
-from typing import TYPE_CHECKING, BinaryIO, TypeAlias
+from typing import TYPE_CHECKING, BinaryIO, NoReturn, TypeAlias
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -736,7 +736,7 @@ class TranslationFormat:
         return result
 
     @classmethod
-    def get_class(cls):
+    def get_class(cls) -> NoReturn:
         raise NotImplementedError
 
     @classmethod

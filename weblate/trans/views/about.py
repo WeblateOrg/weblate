@@ -126,6 +126,6 @@ class DonateView(AboutView):
             cache.set(self.cache_key, result, 24 * 3600)
         return result
 
-    def page_context(self, context):
+    def page_context(self, context) -> None:
         context["title"] = gettext("Support Weblate")
         context.update(self.get_stats())

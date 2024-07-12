@@ -1678,28 +1678,28 @@ class VCSGerritTest(VCSGitUpstreamTest):
             handle.write("#!/bin/sh\nexit 0\n")
         os.chmod(hook, 0o755)  # noqa: S103, nosec
 
-    def test_set_gitreview_username_git(self):
+    def test_set_gitreview_username_git(self) -> None:
         with self.repo.lock:
             self.repo.configure_remote(
                 "pullurl", "git@domain.com:gituser/repo.git", "branch"
             )
             self.assertEqual(self.repo.get_config("gitreview.username"), "gituser")
 
-    def test_set_gitreview_username_ssh(self):
+    def test_set_gitreview_username_ssh(self) -> None:
         with self.repo.lock:
             self.repo.configure_remote(
                 "pullurl", "ssh://sshuser@domain.com:29418/repo.git", "branch"
             )
             self.assertEqual(self.repo.get_config("gitreview.username"), "sshuser")
 
-    def test_set_gitreview_username_https(self):
+    def test_set_gitreview_username_https(self) -> None:
         with self.repo.lock:
             self.repo.configure_remote(
                 "pullurl", "https://httpsuser@domain.com/user/repo.git", "branch"
             )
             self.assertEqual(self.repo.get_config("gitreview.username"), "httpsuser")
 
-    def test_set_gitreview_username_https_pathuser(self):
+    def test_set_gitreview_username_https_pathuser(self) -> None:
         with self.repo.lock:
             self.repo.configure_remote(
                 "pullurl", "https://domain.com/httpspathuser/repo.git", "branch"

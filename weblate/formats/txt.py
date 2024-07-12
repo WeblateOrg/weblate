@@ -244,7 +244,7 @@ class AppStoreFormat(TranslationFormat):
         return [self.store.get_filename(unit.filename) for unit in self.store.units]
 
     @classmethod
-    def get_class(cls):
+    def get_class(cls) -> None:
         return None
 
     @classmethod

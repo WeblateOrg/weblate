@@ -152,7 +152,7 @@ class DateRangeField(forms.CharField):
         except ValueError:
             raise ValidationError(gettext("Invalid date!"))
 
-    def validate(self, value):
+    def validate(self, value) -> None:
         """Validate the date range values."""
         if self.required:
             super().validate(value)

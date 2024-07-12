@@ -1955,7 +1955,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 
-    def perm_check(self, request, instance: Addon):
+    def perm_check(self, request, instance: Addon) -> None:
         if instance.component and not request.user.has_perm(
             "component.edit", instance.component
         ):

@@ -632,7 +632,7 @@ class JsonAddonTest(ViewTestCase):
             ).exists()
         )
 
-    def asset_customize(self, expected: str):
+    def asset_customize(self, expected: str) -> None:
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
@@ -1245,7 +1245,7 @@ class GitSquashAddonTest(ViewTestCase):
         self.edit()
         self.assertEqual(repo.count_outgoing(), expected)
 
-    def test_squash_sitewide(self):
+    def test_squash_sitewide(self) -> None:
         self.test_squash(sitewide=True)
 
     def test_languages(self) -> None:
@@ -1542,7 +1542,7 @@ class SiteWideAddonsTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
 
-    def test_json(self):
+    def test_json(self) -> None:
         JSONCustomizeAddon.create(
             configuration={"indent": 8, "sort": 1, "style": "spaces"},
         )

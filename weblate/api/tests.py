@@ -775,7 +775,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
 
-    def test_grant_admin(self):
+    def test_grant_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
         response = self.do_request(
             "api:group-grant-admin",
@@ -805,7 +805,7 @@ class GroupAPITest(APIBaseTest):
             code=400,
         )
 
-    def test_group_admin_edit(self):
+    def test_group_admin_edit(self) -> None:
         user = User.objects.create_user(username="testuser", password="12345")
         group = Group.objects.create(name="Test Group")
         response = self.do_request(
@@ -826,7 +826,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertIn("Administration rights granted.", response.data)
 
-    def test_revoke_admin(self):
+    def test_revoke_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
         user = User.objects.create_user(username="testuser", password="12345")
         group.admins.add(user)
@@ -4215,7 +4215,7 @@ class AddonAPITest(APIBaseTest):
             request=request,
         )
 
-    def test_create_project_addon(self):
+    def test_create_project_addon(self) -> None:
         # Not authenticated user
         response = self.create_project_addon(code=403, superuser=False)
         self.assertFalse(self.component.project.addon_set.exists())
@@ -4230,7 +4230,7 @@ class AddonAPITest(APIBaseTest):
         # Existing
         response = self.create_project_addon(code=400)
 
-    def test_delete_project_addon(self):
+    def test_delete_project_addon(self) -> None:
         response = self.create_project_addon()
         self.do_request(
             "api:addon-detail",
@@ -4372,7 +4372,7 @@ class CategoryAPITest(APIBaseTest):
         for translation in response.data["results"]:
             self.do_request(translation["url"])
 
-    def test_statistics(self):
+    def test_statistics(self) -> None:
         # Create a category to get the statistics from
         response = self.create_category()
         category_kwargs = {"pk": response.data["id"]}

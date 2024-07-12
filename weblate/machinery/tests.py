@@ -333,7 +333,7 @@ class BaseMachineTranslationTest(TestCase):
 
     @responses.activate
     @respx.mock
-    def test_clean(self):
+    def test_clean(self) -> None:
         if not self.CONFIGURATION or self.MACHINE_CLS.settings_form is None:
             return
         self.mock_response()
@@ -385,7 +385,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
-    def test_batch(self):
+    def test_batch(self) -> None:
         machine_translation = self.get_machine()
         units = [
             MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
@@ -977,13 +977,13 @@ class SystranTranslationTest(BaseMachineTranslationTest):
         "key": "key",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://api-translate.systran.net/translation/apiVersion",
@@ -1442,7 +1442,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             )
             super().test_batch(machine=machine)
 
-    def test_clean(self):
+    def test_clean(self) -> NoReturn:
         # Stubbing here is tricky
         raise SkipTest("Not tested")
 
@@ -1648,7 +1648,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
 
     @responses.activate
     @respx.mock
-    def test_clean_custom(self):
+    def test_clean_custom(self) -> None:
         self.mock_response()
         settings = self.CONFIGURATION.copy()
         machine = self.MACHINE_CLS

@@ -1022,7 +1022,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if self.is_source:
             self.component.drop_template_store_cache()
 
-    def handle_upload_store_change(self, request, change_action: int):
+    def handle_upload_store_change(self, request, change_action: int) -> None:
         component = self.component
         if not component.repository.needs_commit(self.filenames):
             return

@@ -115,11 +115,11 @@ def git_export(request, path, git_request):
 
 
 class GitStreamingHttpResponse(StreamingHttpResponse):
-    def __init__(self, streaming_content, *args, **kwargs):
+    def __init__(self, streaming_content, *args, **kwargs) -> None:
         super().__init__(streaming_content.stream(), *args, **kwargs)
         self.wrapper = streaming_content
 
-    def close(self):
+    def close(self) -> None:
         if self.wrapper.process.poll() is None:
             self.wrapper.process.kill()
         self.wrapper.process.wait()

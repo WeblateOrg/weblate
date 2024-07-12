@@ -15,10 +15,10 @@ class HTMLSanitizerTestCase(SimpleTestCase):
         sanitizer = HTMLSanitizer()
         return sanitizer.clean(source, translation, Flags(flags))
 
-    def test_clean(self):
+    def test_clean(self) -> None:
         self.assertEqual(self.sanitize("<b>translation</b>", "text"), "translation")
 
-    def test_clean_style(self):
+    def test_clean_style(self) -> None:
         self.assertEqual(
             self.sanitize("<style>translation</style>", "<style>text</style>"),
             "<style>translation</style>",

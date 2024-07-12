@@ -42,5 +42,5 @@ class WeblateAdminSite(AdminSite):
 SITE = WeblateAdminSite()
 
 
-def patch_admin_site():
+def patch_admin_site() -> None:
     sites.site = admin.site = SITE

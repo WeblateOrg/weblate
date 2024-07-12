@@ -977,7 +977,7 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
-    def __init__(self, child_allow_blank=False, **kwargs):
+    def __init__(self, child_allow_blank=False, **kwargs) -> None:
         kwargs["child"] = serializers.CharField(
             trim_whitespace=False, allow_blank=child_allow_blank
         )
@@ -1407,7 +1407,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
 
     @staticmethod
-    def check_addon(name, queryset):
+    def check_addon(name, queryset) -> None:
         installed = set(queryset.values_list("name", flat=True))
         available = {
             x.name for x in ADDONS.values() if x.multiple or x.name not in installed

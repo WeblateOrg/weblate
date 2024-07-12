@@ -32,7 +32,7 @@ class SkipHtmlSpan(span_token.HtmlSpan):
     parse_inner = False
     content: str
 
-    def __init__(self, match):
+    def __init__(self, match) -> None:
         self.content = ""
 
 
@@ -50,7 +50,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
 
     _allowed_url_re = re.compile(r"^https?://", re.IGNORECASE)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(SkipHtmlSpan, PlainAutoLink, process_html_tokens=False)
 
     def render_skip_html_span(self, token: SkipHtmlSpan) -> str:
