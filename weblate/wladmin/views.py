@@ -13,7 +13,7 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -318,6 +318,9 @@ def ssh_key(request):
     filename, data = get_key_data_raw(
         key_type=request.GET.get("type", "rsa"), kind="private"
     )
+    if data is None:
+        raise Http404
+
     response = HttpResponse(data, content_type="text/plain")
     response["Content-Disposition"] = f"attachment; filename={filename}"
     response["Content-Length"] = len(data)
