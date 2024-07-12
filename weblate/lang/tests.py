@@ -622,7 +622,7 @@ class PluralTest(BaseTestCase):
         plural = Plural(number=2, formula="n!=1")
         self.assertEqual(
             plural.examples,
-            {0: ["1"], 1: ["0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "…"]},
+            {0: ("1"), 1: ("0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "…")},
         )
 
     def test_plurals(self) -> None:
@@ -698,7 +698,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, 1), (-1, None)))
         # Use English here to test incomplete plural set in the source string
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
@@ -712,7 +712,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, 1), (-1, None)))
         # Use English here to test incomplete plural set in the source string
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
@@ -728,7 +728,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, 1), (-1, None)))
         # Use English here to test incomplete plural set in the source string
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
@@ -747,7 +747,7 @@ class PluralMapperTestCase(FixtureTestCase):
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
         mapper = PluralMapper(russian.plural, english.plural)
-        self.assertEqual(mapper.target_map, ((0, "1"), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, 1), (-1, None)))
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
         )
