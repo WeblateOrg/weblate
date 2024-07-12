@@ -20,4 +20,4 @@ def check_link(check):
 
 @register.simple_tag
 def configuration_error_link(check, fallback=None):
-    return render_documentation_icon(check_doc_link(check) or fallback, False)
+    return render_documentation_icon(check_doc_link(check) or fallback)

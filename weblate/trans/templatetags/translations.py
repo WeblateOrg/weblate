@@ -596,7 +596,7 @@ def documentation(context, page, anchor=""):
     return get_doc_url(page, anchor, user=user)
 
 
-def render_documentation_icon(doc_url: str, right: bool):
+def render_documentation_icon(doc_url: str, *, right: bool = False):
     if not doc_url:
         return ""
     return format_html(
@@ -610,15 +610,13 @@ def render_documentation_icon(doc_url: str, right: bool):
 
 @register.simple_tag(takes_context=True)
 def documentation_icon(context, page: str, anchor: str = "", right: bool = False):
-    return render_documentation_icon(documentation(context, page, anchor), right)
+    return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
 @register.simple_tag(takes_context=True)
 def form_field_doc_link(context, form: forms.Form, field: forms.Field) -> str:
     if isinstance(form, FieldDocsMixin) and (field_doc := form.get_field_doc(field)):
-        return render_documentation_icon(
-            get_doc_url(*field_doc, user=context["user"]), False
-        )
+        return render_documentation_icon(get_doc_url(*field_doc, user=context["user"]))
     return ""
 
 
