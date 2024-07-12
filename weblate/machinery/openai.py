@@ -151,7 +151,7 @@ class OpenAITranslation(BatchMachineTranslation):
 
         response = self.client.chat.completions.create(
             model=self.get_model(),
-            messages=messages,
+            messages=messages,  # type: ignore[arg-type]
             temperature=0,
             frequency_penalty=0,
             presence_penalty=0,
