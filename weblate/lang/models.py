@@ -448,7 +448,7 @@ class LanguageQuerySet(models.QuerySet):
         return self.prefetch_related("plural_set")
 
 
-class LanguageManager(models.Manager):
+class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
 
     def flush_object_cache(self) -> None:
@@ -609,7 +609,7 @@ class Language(models.Model, CacheKeyMixin):
         default=0,
     )
 
-    objects = LanguageManager.from_queryset(LanguageQuerySet)
+    objects = LanguageManager()
 
     class Meta:
         verbose_name = "Language"
