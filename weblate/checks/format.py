@@ -305,7 +305,7 @@ class BaseFormatCheck(TargetCheck):
             and (
                 len(plural_examples[0]) == 1
                 or (
-                    plural_examples[0] == ("0", "1")
+                    plural_examples[0] == ["0", "1"]
                     and not unit.translation.component.file_format_cls.strict_format_plurals
                 )
             ),

@@ -622,7 +622,7 @@ class PluralTest(BaseTestCase):
         plural = Plural(number=2, formula="n!=1")
         self.assertEqual(
             plural.examples,
-            {0: ("1",), 1: ("0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "…")},
+            {0: ["1"], 1: ["0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "…"]},
         )
 
     def test_plurals(self) -> None:
