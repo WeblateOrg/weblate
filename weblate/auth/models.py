@@ -579,26 +579,20 @@ class User(AbstractBaseUser):
         # Build a fresh list as we need to merge them
         result: SimplePermissionList = []
         # This relies on project_permission being defaultdict(list)
-        result.extend(cast(SimplePermissionList, self.project_permissions[project.pk]))
+        result.extend(self.project_permissions[project.pk])  # type: ignore[arg-type]
         # Apply blocking
         if result == [(None, None)]:
             return []
         if project.access_control == Project.ACCESS_PUBLIC:
             result.extend(
-                cast(
-                    SimplePermissionList,
-                    self.project_permissions[-SELECTION_ALL_PUBLIC],
-                )
+                self.project_permissions[-SELECTION_ALL_PUBLIC]  # type: ignore[arg-type]
             )
         elif project.access_control == Project.ACCESS_PROTECTED:
             result.extend(
-                cast(
-                    SimplePermissionList,
-                    self.project_permissions[-SELECTION_ALL_PROTECTED],
-                )
+                self.project_permissions[-SELECTION_ALL_PROTECTED]  # type: ignore[arg-type]
             )
         result.extend(
-            cast(SimplePermissionList, self.project_permissions[-SELECTION_ALL])
+            self.project_permissions[-SELECTION_ALL]  # type: ignore[arg-type]
         )
         return result
 
