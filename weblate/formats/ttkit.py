@@ -1496,6 +1496,7 @@ class GoI18JSONFormat(JSONFormat):
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
     autoload: tuple[str, ...] = ()
+    new_translation = "[]\n"
     supports_plural: bool = True
 
 
