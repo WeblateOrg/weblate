@@ -75,6 +75,7 @@ class SettingsDict(TypedDict, total=False):
     model: str
     persona: str
     style: str
+    custom_model: str
 
 
 class TranslationResultDict(TypedDict, total=False):
