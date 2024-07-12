@@ -86,8 +86,8 @@ class RebuildView(MemoryFormView):
         if origin:
             try:
                 component_id = project.component_set.get_by_path(origin).id
-            except ObjectDoesNotExist:
-                raise PermissionDenied
+            except ObjectDoesNotExist as error:
+                raise PermissionDenied from error
         # Delete private entries
         entries = Memory.objects.filter_type(**self.objects)
         if origin:

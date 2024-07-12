@@ -17,8 +17,8 @@ class CommaSeparatedIntegerField(forms.Field):
 
         try:
             return [int(item.strip()) for item in value.split(",") if item.strip()]
-        except (ValueError, TypeError):
-            raise ValidationError(gettext("Invalid integer list!"))
+        except (ValueError, TypeError) as error:
+            raise ValidationError(gettext("Invalid integer list!")) from error
 
 
 class GlossaryModelChoiceField(forms.ModelChoiceField):

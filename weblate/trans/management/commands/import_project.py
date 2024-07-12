@@ -139,7 +139,7 @@ class Command(BaseCommand):
         try:
             gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir, branch)
         except RepositoryError as error:
-            raise CommandError(f"Failed clone: {error}")
+            raise CommandError(f"Failed clone: {error}") from error
         self.logger.info("Updating working copy in git repository...")
         with gitrepo.lock:
             gitrepo.configure_branch(branch)
@@ -195,7 +195,7 @@ class Command(BaseCommand):
             except re.error as error:
                 raise CommandError(
                     f"Could not compile regular expression {self.filemask!r}: {error}"
-                )
+                ) from error
             if (
                 "component" not in compiled.groupindex
                 or "language" not in compiled.groupindex
@@ -215,12 +215,12 @@ class Command(BaseCommand):
         # Try to get project
         try:
             project = Project.objects.get(slug=options["project"])
-        except Project.DoesNotExist:
+        except Project.DoesNotExist as error:
             raise CommandError(
                 'Project "{}" not found, please create it first!'.format(
                     options["project"]
                 )
-            )
+            ) from error
 
         # Get or create main component
         if is_repo_link(repo):
@@ -229,10 +229,10 @@ class Command(BaseCommand):
                 # Avoid operating on link
                 if component.is_repo_link:
                     component = component.linked_component
-            except Component.DoesNotExist:
+            except Component.DoesNotExist as error:
                 raise CommandError(
                     f"Component {repo!r} not found, please create it first!"
-                )
+                ) from error
         else:
             component = self.import_initial(project, repo, branch)
 

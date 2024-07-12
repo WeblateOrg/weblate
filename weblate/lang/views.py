@@ -52,11 +52,11 @@ def show_languages(request):
 def show_language(request, lang):
     try:
         obj = Language.objects.get(code=lang)
-    except Language.DoesNotExist:
+    except Language.DoesNotExist as error:
         obj = Language.objects.fuzzy_get(lang)
         if isinstance(obj, Language):
             return redirect(obj)
-        raise Http404("No Language matches the given query.")
+        raise Http404("No Language matches the given query.") from error
 
     user = request.user
 

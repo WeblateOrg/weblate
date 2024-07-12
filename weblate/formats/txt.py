@@ -110,7 +110,7 @@ class MultiParser(BaseStore):
                         match, os.path.relpath(match, self.base), flags
                     )
                 except Exception as error:
-                    raise MultiparserError(match, error)
+                    raise MultiparserError(match, error) from error
         return result
 
     def get_filename(self, name):

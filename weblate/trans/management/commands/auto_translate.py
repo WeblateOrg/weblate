@@ -64,15 +64,15 @@ class Command(WeblateTranslationCommand):
         # Get user
         try:
             user = User.objects.get(username=options["user"])
-        except User.DoesNotExist:
-            raise CommandError("User does not exist!")
+        except User.DoesNotExist as error:
+            raise CommandError("User does not exist!") from error
 
         source = None
         if options["source"]:
             try:
                 component = Component.objects.get_by_path(options["source"])
-            except Component.DoesNotExist:
-                raise CommandError("No matching source component found!")
+            except Component.DoesNotExist as error:
+                raise CommandError("No matching source component found!") from error
             source = component.id
 
         if options["mt"]:

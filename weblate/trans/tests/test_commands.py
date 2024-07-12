@@ -418,7 +418,7 @@ class ImportDemoTestCase(TestCase):
         try:
             requests.get("https://github.com/", timeout=1)
         except requests.exceptions.ConnectionError as error:
-            raise SkipTest(f"GitHub not reachable: {error}")
+            raise SkipTest(f"GitHub not reachable: {error}") from error
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")

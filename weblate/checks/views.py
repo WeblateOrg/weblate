@@ -242,8 +242,8 @@ class CheckList(PathViewMixin, ListView):
         if name and name != "-":
             try:
                 self.check_obj = CHECKS[name]
-            except KeyError:
-                raise Http404("No check matches the given query.")
+            except KeyError as error:
+                raise Http404("No check matches the given query.") from error
 
     def get(self, request, *args, **kwargs):
         if isinstance(self.path_object, Translation) and self.check_obj:

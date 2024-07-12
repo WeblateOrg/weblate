@@ -417,8 +417,8 @@ class TranslationFormat:
         id_hash = self._calculate_string_hash(context, source)
         try:
             result = self._unit_index[id_hash]
-        except KeyError:
-            raise UnitNotFoundError(context, source)
+        except KeyError as error:
+            raise UnitNotFoundError(context, source) from error
 
         add = False
         if not result.has_unit():
@@ -444,8 +444,8 @@ class TranslationFormat:
         id_hash = self._calculate_string_hash(context, source)
         try:
             return (self._unit_index[id_hash], False)
-        except KeyError:
-            raise UnitNotFoundError(context, source)
+        except KeyError as error:
+            raise UnitNotFoundError(context, source) from error
 
     def find_unit(self, context: str, source: str) -> tuple[TranslationUnit, bool]:
         """

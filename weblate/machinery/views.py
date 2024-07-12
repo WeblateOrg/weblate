@@ -370,8 +370,8 @@ def handle_machinery(request, service, unit, search=None):
 
     try:
         translation_service_class = MACHINERY[service]
-    except KeyError:
-        raise Http404("Invalid service specified")
+    except KeyError as error:
+        raise Http404("Invalid service specified") from error
 
     # Error response
     response = {

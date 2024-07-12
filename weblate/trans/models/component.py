@@ -281,8 +281,8 @@ class ComponentQuerySet(models.QuerySet):
     def filter_by_path(self, path: str) -> ComponentQuerySet:
         try:
             project, *categories, component = path.split("/")
-        except ValueError:
-            raise Component.DoesNotExist
+        except ValueError as error:
+            raise Component.DoesNotExist from error
         kwargs: dict[str, str | None] = {}
         prefix = ""
         for category in reversed(categories):
@@ -1221,7 +1221,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.updated_sources[source.id] = source
             else:
                 # We are not supposed to create new one
-                raise Unit.DoesNotExist("Could not find source unit")
+                raise Unit.DoesNotExist("Could not find source unit") from None
 
             self._sources[id_hash] = source
             return source
@@ -2510,7 +2510,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     )
                     self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.nested
+                    raise error.__cause__ from error
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
@@ -2703,7 +2703,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.is_repo_link:
             try:
                 repo = Component.objects.get_linked(self.repo)
-            except (Component.DoesNotExist, ValueError):
+            except (Component.DoesNotExist, ValueError) as error:
                 raise ValidationError(
                     {
                         "repo": gettext(
@@ -2711,7 +2711,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             "use weblate://project/component."
                         )
                     }
-                )
+                ) from error
             else:
                 if repo is not None and repo.is_repo_link:
                     raise ValidationError(
@@ -2899,9 +2899,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             try:
                 self.template_store.check_valid()
-            except (FileParseError, ValueError) as exc:
-                msg = gettext("Could not parse translation base file: %s") % str(exc)
-                raise ValidationError({"template": msg})
+            except (FileParseError, ValueError) as error:
+                msg = gettext("Could not parse translation base file: %s") % str(error)
+                raise ValidationError({"template": msg}) from error
 
             code = self.get_lang_code(self.template, validate=True)
             lang = validate_language_code(
@@ -2943,8 +2943,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.set_default_branch()
 
             self.sync_git_repo(validate=True, skip_push=True)
-        except RepositoryError as exc:
-            text = self.error_text(exc)
+        except RepositoryError as error:
+            text = self.error_text(error)
             if "terminal prompts disabled" in text:
                 raise ValidationError(
                     {
@@ -2953,9 +2953,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             "them in the URL or use SSH with key based authentication."
                         )
                     }
-                )
+                ) from error
             msg = gettext("Could not update repository: %s") % text
-            raise ValidationError({"repo": msg})
+            raise ValidationError({"repo": msg}) from error
 
     def clean(self) -> None:
         """
@@ -3026,12 +3026,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             # Try parsing files
             self.clean_files(matches)
-        except re.error:
+        except re.error as error:
             raise ValidationError(
                 gettext(
                     "Can not validate file matches due to invalid regular expression."
                 )
-            )
+            ) from error
 
         # Suggestions
         if (

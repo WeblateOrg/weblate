@@ -1433,7 +1433,9 @@ class DictStoreFormat(TTKitFormat):
         try:
             id_class.from_string(context)
         except Exception as error:
-            raise ValidationError(gettext("Could not parse the key: %s") % error)
+            raise ValidationError(
+                gettext("Could not parse the key: %s") % error
+            ) from error
 
 
 class JSONFormat(DictStoreFormat):

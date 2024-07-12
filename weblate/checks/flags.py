@@ -299,10 +299,10 @@ class Flags:
                     )
                 try:
                     self.get_value(name)
-                except Exception:
+                except Exception as error:
                     raise ValidationError(
                         gettext('Wrong parameters for translation flag: "%s"') % name
-                    )
+                    ) from error
             elif is_typed:
                 raise ValidationError(
                     gettext('Missing parameters for translation flag: "%s"') % name

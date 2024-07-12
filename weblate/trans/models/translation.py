@@ -226,7 +226,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             raise ValidationError(
                 gettext("Could not parse file %(file)s: %(error)s")
                 % {"file": self.filename, "error": str(error)}
-            )
+            ) from error
 
     def get_url_path(self):
         return (*self.component.get_url_path(), self.language.code)
@@ -376,7 +376,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 try:
                     store_units = store.content_units
                 except ValueError as error:
-                    raise FileParseError(str(error))
+                    raise FileParseError(str(error)) from error
 
                 self.log_info(
                     "processing %s, %s, %d strings",
@@ -404,7 +404,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     try:
                         store_units = store.content_units
                     except ValueError as error:
-                        raise FileParseError(str(error))
+                        raise FileParseError(str(error)) from error
 
                 for pos, unit in enumerate(store_units):
                     # Use translation store if exists and if it contains the string
@@ -1064,7 +1064,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
                     % str(error).replace(self.component.full_path, "")
-                )
+                ) from error
 
             # Create actual file with the uploaded content
             temp = tempfile.NamedTemporaryFile(
@@ -1121,7 +1121,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
                     % str(error).replace(self.component.full_path, "")
-                )
+                ) from error
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
             store2.check_valid()
@@ -1229,7 +1229,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     raise FailedCommitError(
                         gettext("Could not commit pending changes: %s")
                         % str(error).replace(self.component.full_path, "")
-                    )
+                    ) from error
 
             # Load backend file
             if method == "add" and self.is_template:
@@ -1666,10 +1666,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if not self.filename:
             try:
                 translation = component.translation_set.exclude(pk=self.pk)[0]
-            except IndexError:
+            except IndexError as error:
                 raise ValidationError(
                     gettext("Failed adding string, no translation found.")
-                )
+                ) from error
             translation.validate_new_unit_data(
                 context,
                 source,

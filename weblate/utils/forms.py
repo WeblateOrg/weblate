@@ -115,10 +115,10 @@ class UserField(forms.CharField):
             return None
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
-        except User.DoesNotExist:
-            raise ValidationError(gettext("Could not find any such user."))
-        except User.MultipleObjectsReturned:
-            raise ValidationError(gettext("More possible users were found."))
+        except User.DoesNotExist as error:
+            raise ValidationError(gettext("Could not find any such user.")) from error
+        except User.MultipleObjectsReturned as error:
+            raise ValidationError(gettext("More possible users were found.")) from error
 
 
 class EmailField(forms.EmailField):

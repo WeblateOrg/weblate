@@ -149,8 +149,8 @@ class DateRangeField(forms.CharField):
                 "start_date": from_current_timezone(start_date),
                 "end_date": from_current_timezone(end_date),
             }
-        except ValueError:
-            raise ValidationError(gettext("Invalid date!"))
+        except ValueError as error:
+            raise ValidationError(gettext("Invalid date!")) from error
 
     def validate(self, value) -> None:
         """Validate the date range values."""
@@ -182,8 +182,8 @@ class ChecksumField(forms.CharField):
             return None
         try:
             return checksum_to_hash(value)
-        except ValueError:
-            raise ValidationError(gettext("Invalid checksum specified!"))
+        except ValueError as error:
+            raise ValidationError(gettext("Invalid checksum specified!")) from error
 
 
 class FlagField(forms.CharField):
@@ -458,10 +458,10 @@ class ChecksumForm(forms.Form):
             self.cleaned_data["unit"] = unit_set.filter(
                 id_hash=self.cleaned_data["checksum"]
             )[0]
-        except (Unit.DoesNotExist, IndexError):
+        except (Unit.DoesNotExist, IndexError) as error:
             raise ValidationError(
                 gettext("The string you wanted to translate is no longer available.")
-            )
+            ) from error
 
 
 class UnitForm(forms.Form):
@@ -873,8 +873,10 @@ class MergeForm(UnitForm):
                 translation__component__project=project,
                 translation__language=translation.language,
             )
-        except Unit.DoesNotExist:
-            raise ValidationError(gettext("Could not find the merged string."))
+        except Unit.DoesNotExist as error:
+            raise ValidationError(
+                gettext("Could not find the merged string.")
+            ) from error
         else:
             # Compare in Python to ensure case sensitiveness on MySQL
             if not translation.is_source and unit.source != merge_unit.source:
@@ -895,8 +897,10 @@ class RevertForm(UnitForm):
             self.cleaned_data["revert_change"] = Change.objects.get(
                 pk=self.cleaned_data["revert"], unit=self.unit
             )
-        except Change.DoesNotExist:
-            raise ValidationError(gettext("Could not find the reverted change."))
+        except Change.DoesNotExist as error:
+            raise ValidationError(
+                gettext("Could not find the reverted change.")
+            ) from error
         return self.cleaned_data
 
 
@@ -1041,18 +1045,18 @@ class AutoForm(forms.Form):
         if component.isdigit():
             try:
                 result = self.components.get(pk=component)
-            except Component.DoesNotExist:
-                raise ValidationError(gettext("Component not found!"))
+            except Component.DoesNotExist as error:
+                raise ValidationError(gettext("Component not found!")) from error
         elif "/" not in component:
             try:
                 result = self.components.get(slug=component, project=self.obj.project)
-            except Component.DoesNotExist:
-                raise ValidationError(gettext("Component not found!"))
+            except Component.DoesNotExist as error:
+                raise ValidationError(gettext("Component not found!")) from error
         else:
             try:
                 result = self.components.get_by_path(component)
-            except Component.DoesNotExist:
-                raise ValidationError(gettext("Component not found!"))
+            except Component.DoesNotExist as error:
+                raise ValidationError(gettext("Component not found!")) from error
         if result.source_language != self.obj.source_language:
             raise ValidationError(
                 gettext(
@@ -1750,7 +1754,7 @@ class ComponentBranchForm(ComponentSelectForm):
                     result[key] = value
                 else:
                     result[NON_FIELD_ERRORS].extend(value)
-            raise ValidationError(error.messages)
+            raise ValidationError(error.messages) from error
 
 
 class ComponentProjectForm(ComponentNameForm):
@@ -2258,7 +2262,9 @@ class ProjectImportForm(BillingMixin, forms.Form):
         try:
             backup.validate()
         except Exception as error:
-            raise ValidationError(gettext("Could not load project backup: %s") % error)
+            raise ValidationError(
+                gettext("Could not load project backup: %s") % error
+            ) from error
         self.cleaned_data["projectbackup"] = backup
         return zipfile
 
@@ -2727,8 +2733,10 @@ class ChangesForm(forms.Form):
             return None
         try:
             return User.objects.get(username=username)
-        except User.DoesNotExist:
-            raise forms.ValidationError(gettext("Could not find matching user!"))
+        except User.DoesNotExist as error:
+            raise forms.ValidationError(
+                gettext("Could not find matching user!")
+            ) from error
 
     def items(self):
         items = []

@@ -137,11 +137,13 @@ class BatchMachineTranslation:
         except Exception as error:
             raise ValidationError(
                 gettext("Could not fetch supported languages: %s") % error
-            )
+            ) from error
         try:
             self.download_multiple_translations("en", "de", [("test", None)], None, 75)
         except Exception as error:
-            raise ValidationError(gettext("Could not fetch translation: %s") % error)
+            raise ValidationError(
+                gettext("Could not fetch translation: %s") % error
+            ) from error
 
     @property
     def api_base_url(self):

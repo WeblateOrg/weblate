@@ -1219,7 +1219,7 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     try:
         request.backend = load_backend(request.social_strategy, backend, uri)
     except MissingBackend:
-        raise Http404("Backend not found")
+        raise Http404("Backend not found") from None
     # Store session ID for OpenID based auth. The session cookies will not be sent
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):

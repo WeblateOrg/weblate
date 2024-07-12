@@ -38,12 +38,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
         try:
             service = MACHINERY[options["service"]]
-        except KeyError:
-            raise CommandError("Service not found: {}".format(options["service"]))
+        except KeyError as error:
+            raise CommandError(
+                "Service not found: {}".format(options["service"])
+            ) from error
         try:
             configuration = json.loads(options["configuration"])
         except ValueError as error:
-            raise CommandError(f"Invalid service configuration: {error}")
+            raise CommandError(f"Invalid service configuration: {error}") from error
         if service.settings_form is not None:
             form = service.settings_form(service, data=configuration)
             self.validate_form(form)

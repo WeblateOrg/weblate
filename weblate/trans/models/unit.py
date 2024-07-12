@@ -299,7 +299,7 @@ class UnitQuerySet(models.QuerySet):
         try:
             return self.source_lookup[source]
         except KeyError:
-            raise Unit.DoesNotExist("No matching unit found!")
+            raise Unit.DoesNotExist("No matching unit found!") from None
 
     def order(self):
         return self.order_by("-priority", "position")

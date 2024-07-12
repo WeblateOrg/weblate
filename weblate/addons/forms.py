@@ -539,7 +539,7 @@ class CDNJSForm(BaseAddonForm):
         except Exception as error:
             raise forms.ValidationError(
                 gettext("Could not parse CSS selector: %s") % error
-            )
+            ) from error
         return self.cleaned_data["css_selector"]
 
 

@@ -857,7 +857,9 @@ class Plural(models.Model):
         try:
             return c2py(self.formula or "0")
         except ValueError as error:
-            raise ValueError(f"Could not compile formula {self.formula!r}: {error}")
+            raise ValueError(
+                f"Could not compile formula {self.formula!r}: {error}"
+            ) from error
 
     @cached_property
     def examples(self) -> dict[int, list[str]]:
