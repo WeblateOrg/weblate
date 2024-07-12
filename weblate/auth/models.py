@@ -9,7 +9,7 @@ import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -64,7 +64,18 @@ if TYPE_CHECKING:
 
     from weblate.auth.permissions import PermissionResult
 
-    PermissionCacheType = dict[int, list[tuple[set[str] | None, set[Language] | None]]]
+    SimplePermissionList = list[tuple[set[str], set[Language] | None]]
+
+    # This is SimplePermissionList with additional None instead of permissions
+    # to indicate user block
+    PermissionList = list[tuple[set[str] | None, set[Language] | None]]
+
+    PermissionCacheType = dict[int, PermissionList]
+    SimplePermissionCacheType = dict[int, SimplePermissionList]
+
+    class PermissionsDictType(TypedDict, total=False):
+        projects: PermissionCacheType
+        components: SimplePermissionCacheType
 
 
 class Permission(models.Model):
@@ -461,9 +472,7 @@ class User(AbstractBaseUser):
     def __init__(self, *args, **kwargs) -> None:
         self.extra_data = {}
         self.cla_cache = {}
-        self._permissions: dict[
-            Literal["projects", "components"], PermissionCacheType
-        ] = {}
+        self._permissions: PermissionsDictType = {}
         self.current_subscription = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -566,19 +575,31 @@ class User(AbstractBaseUser):
             return True
         return self.get_project_permissions(project) != []
 
-    def get_project_permissions(self, project):
+    def get_project_permissions(self, project: Project) -> SimplePermissionList:
         # Build a fresh list as we need to merge them
-        result = []
+        result: SimplePermissionList = []
         # This relies on project_permission being defaultdict(list)
-        result.extend(self.project_permissions[project.pk])
+        result.extend(cast(SimplePermissionList, self.project_permissions[project.pk]))
         # Apply blocking
         if result == [(None, None)]:
             return []
         if project.access_control == Project.ACCESS_PUBLIC:
-            result.extend(self.project_permissions[-SELECTION_ALL_PUBLIC])
+            result.extend(
+                cast(
+                    SimplePermissionList,
+                    self.project_permissions[-SELECTION_ALL_PUBLIC],
+                )
+            )
         elif project.access_control == Project.ACCESS_PROTECTED:
-            result.extend(self.project_permissions[-SELECTION_ALL_PROTECTED])
-        result.extend(self.project_permissions[-SELECTION_ALL])
+            result.extend(
+                cast(
+                    SimplePermissionList,
+                    self.project_permissions[-SELECTION_ALL_PROTECTED],
+                )
+            )
+        result.extend(
+            cast(SimplePermissionList, self.project_permissions[-SELECTION_ALL])
+        )
         return result
 
     def check_access(self, project) -> None:
@@ -656,7 +677,7 @@ class User(AbstractBaseUser):
     def _fetch_permissions(self) -> None:
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
-        components: PermissionCacheType = defaultdict(list)
+        components: SimplePermissionCacheType = defaultdict(list)
         with sentry_sdk.start_span(op="permissions", description=self.username):
             for group in self.groups.prefetch_related(
                 "roles__permissions",
@@ -741,7 +762,7 @@ class User(AbstractBaseUser):
         return self._permissions["projects"]
 
     @cached_property
-    def component_permissions(self) -> PermissionCacheType:
+    def component_permissions(self) -> SimplePermissionCacheType:
         """List all project permissions."""
         if not self._permissions:
             self._fetch_permissions()
@@ -770,7 +791,9 @@ class User(AbstractBaseUser):
             ):
                 if any(
                     perm in permissions
-                    for permissions, _langs in self.project_permissions[selection]
+                    for permissions, _langs in cast(
+                        SimplePermissionList, self.project_permissions[selection]
+                    )
                 ):
                     if access is None:
                         condition = Q()
@@ -1075,9 +1098,17 @@ class Invitation(models.Model):
     def send_email(self) -> None:
         from weblate.accounts.notifications import send_notification_email
 
+        email: str
+        if self.email:
+            email = self.email
+        elif self.user is not None:
+            email = self.user.email
+        else:
+            raise ValueError("Intiviation without an e-mail!")
+
         send_notification_email(
             None,
-            [self.email] if self.email else [self.user.email],
+            [email],
             "invite",
             info=f"{self}",
             context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
