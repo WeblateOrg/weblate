@@ -2397,10 +2397,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Avoid parsing if template is invalid
             try:
                 self.template_store.check_valid()
-            except ValueError as exc:
-                raise InvalidTemplateError(FileParseError(str(exc)))
-            except FileParseError as exc:
-                raise InvalidTemplateError(exc)
+            except (ValueError, FileParseError) as exc:
+                raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
     def _create_translations(  # noqa: C901
@@ -2508,9 +2506,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 except InvalidTemplateError as error:
                     self.log_warning(
                         "skipping update due to error in parsing template: %s",
-                        error.nested,
+                        error.__cause__,
                     )
-                    self.handle_parse_error(error.nested, filename=self.template)
+                    self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
                     raise error.nested
                 was_change |= bool(translation.reason)
