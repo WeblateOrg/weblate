@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import sys
 from json import JSONDecodeError
+from typing import Literal
 
 import sentry_sdk
 from django.conf import settings
@@ -32,7 +33,9 @@ except ImportError:
 def report_error(
     cause: str = "Handled exception",
     *,
-    level: str = "warning",
+    level: Literal[
+        "fatal", "critical", "error", "warning", "info", "debug"
+    ] = "warning",
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str | None = None,

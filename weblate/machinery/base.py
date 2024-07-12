@@ -90,6 +90,12 @@ class TranslationResultDict(TypedDict, total=False):
     origin_url: str
 
 
+class UnitMemoryResultDict(TypedDict, total=False):
+    quality: list[int]
+    translation: list[str]
+    origin: list[None | BatchMachineTranslation]
+
+
 DownloadTranslations = Iterable[TranslationResultDict]
 DownloadMultipleTranslations = dict[str, list[TranslationResultDict]]
 
@@ -582,7 +588,7 @@ class BatchMachineTranslation:
         translations = self._translate(source, language, sources, user, threshold)
 
         for unit in units:
-            result = unit.machinery
+            result: UnitMemoryResultDict = unit.machinery
             if min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
             translation_lists = [translations[text] for text in unit.plural_map]

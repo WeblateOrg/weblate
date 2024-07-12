@@ -29,8 +29,8 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component, Translation
 
-ALERTS = {}
-ALERTS_IMPORT = set()
+ALERTS: dict[str, type[BaseAlert]] = {}
+ALERTS_IMPORT: set[str] = set()
 
 
 def register(cls):

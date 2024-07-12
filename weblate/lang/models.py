@@ -37,7 +37,9 @@ from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
+
+    from weblate.trans.models import Unit
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
@@ -296,7 +298,7 @@ class LanguageQuerySet(models.QuerySet):
         if settings.SIMPLIFY_LANGUAGES:
             if newcode.lower() in DEFAULT_LANGS:
                 ret = self.try_get(code=lang.lower())
-            elif expanded_code in DEFAULT_LANGS:
+            elif expanded_code is not None and expanded_code in DEFAULT_LANGS:
                 ret = self.try_get(code=expanded_code[:2])
             if ret is not None:
                 return ret
@@ -446,7 +448,7 @@ class LanguageQuerySet(models.QuerySet):
         return self.prefetch_related("plural_set")
 
 
-class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
+class LanguageManager(models.Manager):
     use_in_migrations = True
 
     def flush_object_cache(self) -> None:
@@ -470,7 +472,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         # Invalidate cache, we might change languages
         self.flush_object_cache()
         languages = {language.code: language for language in self.prefetch()}
-        plurals = {}
+        plurals: dict[str, dict[int, list[str]]] = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
             population = POPULATION[code]
@@ -607,7 +609,7 @@ class Language(models.Model, CacheKeyMixin):
         default=0,
     )
 
-    objects = LanguageManager()
+    objects = LanguageManager.from_queryset(LanguageQuerySet)
 
     class Meta:
         verbose_name = "Language"
@@ -636,7 +638,6 @@ class Language(models.Model, CacheKeyMixin):
         from weblate.utils.stats import LanguageStats
 
         super().__init__(*args, **kwargs)
-        self._plural_examples = {}
         self.stats = LanguageStats(self)
 
     def get_name(self):
@@ -863,7 +864,7 @@ class Plural(models.Model):
             ) from error
 
     @cached_property
-    def examples(self) -> dict[int, list[str]]:
+    def examples(self) -> dict[int, tuple[str, ...]]:
         result: dict[int, list[str]] = defaultdict(list)
         func = self.plural_function
         for i in chain(range(10000), range(10000, 2000001, 1000)):
@@ -874,7 +875,7 @@ class Plural(models.Model):
         for example in result.values():
             if len(example) >= 10:
                 example.append("…")
-        return result
+        return {key: tuple(value) for key, value in result.items()}
 
     @staticmethod
     def parse_plural_forms(plurals):
@@ -942,38 +943,44 @@ class Plural(models.Model):
 
 
 class PluralMapper:
-    instances = WeakValueDictionary()
+    instances: WeakValueDictionary[tuple[str, str], PluralMapper] = (
+        WeakValueDictionary()
+    )
 
-    def __new__(cls, source_plural, target_plural):
+    def __new__(cls, source_plural: Plural, target_plural: Plural):
         key = (source_plural.formula, target_plural.formula)
         obj = cls.instances.get(key)
         if obj is None:
             obj = cls.instances[key] = super().__new__(cls)
         return obj
 
-    def __init__(self, source_plural, target_plural) -> None:
+    def __init__(self, source_plural: Plural, target_plural: Plural) -> None:
         self.source_plural = source_plural
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
 
     @cached_property
-    def target_map(self):
-        exact_source_map = {}
-        all_source_map = {}
+    def target_map(self) -> tuple[tuple[int | None, int | None], ...]:
+        exact_source_map: dict[int, int] = {}
+        all_source_map: dict[int, int] = {}
         for i, examples in self.source_plural.examples.items():
             if len(examples) == 1:
-                exact_source_map[examples[0]] = i
+                exact_source_map[int(examples[0])] = i
             else:
                 for example in examples:
-                    all_source_map[example] = i
+                    try:
+                        value = int(example)
+                    except ValueError:
+                        continue
+                    all_source_map[value] = i
 
         target_plural = self.target_plural
-        result = []
+        result: list[tuple[int | None, int | None]] = []
         last = target_plural.number - 1
         for i in range(target_plural.number):
             examples = target_plural.examples.get(i, ())
             if len(examples) == 1:
-                number = examples[0]
+                number = int(examples[0])
                 if number in exact_source_map:
                     result.append((exact_source_map[number], None))
                 elif number in all_source_map:
@@ -986,7 +993,7 @@ class PluralMapper:
                 result.append((None, None))
         return tuple(result)
 
-    def map(self, unit):
+    def map(self, unit: Unit) -> list[str]:
         source_strings = unit.get_source_plurals()
         if self.same_plurals or len(source_strings) == 1:
             strings_to_translate = source_strings
@@ -1013,11 +1020,11 @@ class PluralMapper:
                 strings_to_translate.append(s)
         return strings_to_translate
 
-    def map_units(self, units) -> None:
+    def map_units(self, units: Iterable[Unit]) -> None:
         for unit in units:
             unit.plural_map = self.map(unit)
 
-    def zip(self, sources, targets, unit):
+    def zip(self, sources: list[str], targets: list[str], unit: Unit):
         if len(sources) != self.source_plural.number:
             raise ValueError(
                 "length of `sources` doesn't match the number of source plurals"

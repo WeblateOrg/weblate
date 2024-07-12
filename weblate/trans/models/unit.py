@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 
 import sentry_sdk
 from django.conf import settings
@@ -55,11 +55,12 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Generator, Iterable
 
-    from weblate.auth import User
+    from weblate.auth.models import User
+    from weblate.machinery.base import UnitMemoryResultDict
 
-SIMPLE_FILTERS = {
+SIMPLE_FILTERS: dict[str, dict[str, Any]] = {
     "fuzzy": {"state": STATE_FUZZY},
     "approved": {"state": STATE_APPROVED},
     "approved_suggestions": {"state": STATE_APPROVED, "suggestion__isnull": False},
@@ -221,7 +222,7 @@ class UnitQuerySet(models.QuerySet):
             "target",
             "location",
         ]
-        countable_sort_choices = {
+        countable_sort_choices: dict[str, dict[str, Any]] = {
             "num_comments": {"order_by": "comment__count", "filter": None},
             "num_failing_checks": {
                 "order_by": "check__count",
@@ -344,6 +345,15 @@ class LabelsField(models.ManyToManyField):
                 through.filter(unit__source_unit=instance, label__name=label).delete()
 
 
+class OldUnit(TypedDict):
+    state: StringState
+    source: str
+    target: str
+    context: str
+    extra_flags: str
+    explanation: str
+
+
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey(
         "trans.Translation", on_delete=models.deletion.CASCADE, db_index=False
@@ -402,7 +412,7 @@ class Unit(models.Model, LoggerMixin):
     # save() updates it to non-None immediately.
     source_unit: Unit = models.ForeignKey(
         "trans.Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
-    )
+    )  # type: ignore[assignment]
 
     objects = UnitQuerySet.as_manager()
 
@@ -518,20 +528,20 @@ class Unit(models.Model, LoggerMixin):
         super().__init__(*args, **kwargs)
         self.is_batch_update = False
         self.source_updated = False
-        self.check_cache = {}
+        self.check_cache: dict[str, Any] = {}
         self.trigger_update_variants = True
-        self.fixups = []
+        self.fixups: list[str] = []
         # Data for machinery integration
-        self.machinery = {}
+        self.machinery: UnitMemoryResultDict = {}
         # PluralMapper integration
-        self.plural_map = None
+        self.plural_map: None | list[str] = None
         # Data for glossary integration
-        self.glossary_terms = None
+        self.glossary_terms: None | list[Unit] = None
         self.glossary_positions: tuple[tuple[int, int], ...] = ()
         # Project backup integration
         self.import_data: dict[str, Any] = {}
         # Store original attributes for change tracking
-        self.old_unit = None
+        self.old_unit: OldUnit
         if "state" in self.__dict__ and "source" in self.__dict__:
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
@@ -654,7 +664,7 @@ class Unit(models.Model, LoggerMixin):
             else:
                 component.needs_variants_update = True
 
-    def get_unit_state(self, unit, flags: str, string_changed: bool = False):
+    def get_unit_state(self, unit, flags: str | None, string_changed: bool = False):
         """Calculate translated and fuzzy status."""
         # Read-only from the file format
         if unit.is_readonly():
@@ -1780,6 +1790,7 @@ class Unit(models.Model, LoggerMixin):
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
         )
+        units: Iterable[Unit]
         if file_format_support:
             if self.is_source:
                 units = self.unit_set.exclude(id=self.id)

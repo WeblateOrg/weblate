@@ -29,6 +29,7 @@ from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
+    BaseStats,
     GlobalStats,
     ProjectLanguage,
     ProjectLanguageStats,
@@ -52,7 +53,7 @@ COLOR_DATA = {
     "graph": (255, 255, 255),
 }
 
-WIDGETS = {}
+WIDGETS: dict[str, type[Widget]] = {}
 WIDGET_FONT = "Source Sans 3"
 
 
@@ -430,6 +431,7 @@ class MultiLanguageWidget(SVGWidget):
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
+        languages: list[BaseStats | ProjectLanguage]
         if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
             languages = [self.stats]
         elif isinstance(self.obj, ProjectLanguage):

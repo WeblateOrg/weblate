@@ -22,7 +22,6 @@ if TYPE_CHECKING:
 class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
     """Google Translate API v3 machine translation support."""
 
-    setup = None
     name = "Google Cloud Translation Advanced"
     max_score = 90
     settings_form = GoogleV3MachineryForm
