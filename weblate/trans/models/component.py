@@ -3400,7 +3400,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.load_template_store()
         except Exception as error:
-            report_error("Template parse error", project=self.project)
+            if not isinstance(error, FileNotFoundError):
+                report_error("Template parse error", project=self.project)
             self.handle_parse_error(error, filename=self.template)
 
     @cached_property
