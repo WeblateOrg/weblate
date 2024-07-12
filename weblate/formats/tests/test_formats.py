@@ -548,6 +548,7 @@ class GoI18NV1JSONFormatTest(JSONFormatTest):
     MASK = "go-i18n-json/*.json"
     EXPECTED_PATH = "go-i18n-json/cs_CZ.json"
     FIND_CONTEXT = "hello"
+    MATCH = "[]\n"
     NEW_UNIT_MATCH = (
         b'{\n        "id": "key",\n        "translation": "Source string"\n    }\n'
     )
