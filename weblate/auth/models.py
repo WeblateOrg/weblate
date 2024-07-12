@@ -470,8 +470,8 @@ class User(AbstractBaseUser):
         return reverse("user_page", kwargs={"user": self.username})
 
     def __init__(self, *args, **kwargs) -> None:
-        self.extra_data = {}
-        self.cla_cache = {}
+        self.extra_data: dict[str, str] = {}
+        self.cla_cache: dict[tuple[int, int], bool] = {}
         self._permissions: PermissionsDictType = {}
         self.current_subscription = None
         for name in self.DUMMY_FIELDS:
@@ -784,10 +784,8 @@ class User(AbstractBaseUser):
                 (None, -SELECTION_ALL),
             ):
                 if any(
-                    perm in permissions
-                    for permissions, _langs in cast(
-                        SimplePermissionList, self.project_permissions[selection]
-                    )
+                    perm in cast(set[str], permissions)
+                    for permissions, _langs in self.project_permissions[selection]
                 ):
                     if access is None:
                         condition = Q()
