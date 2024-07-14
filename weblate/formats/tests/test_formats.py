@@ -276,6 +276,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
         out = os.path.join(self.tempdir, f"test.{self.EXT}")
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), self.BASE)
+        self.parse_file(out)  # check the parser agrees that the new file is valid.
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
         else:
