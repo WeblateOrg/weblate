@@ -14,6 +14,8 @@ from lxml.etree import HTMLParser
 
 if TYPE_CHECKING:
     from lxml.etree import ParserTarget
+
+    from weblate.checks.flags import Flags
 else:
     ParserTarget = object
 
@@ -63,6 +65,7 @@ MD_SYNTAX = re.compile(
 MD_SYNTAX_GROUPS = 8
 
 IGNORE = {"body", "html"}
+CLEAN_CONTENT_TAGS = {"script", "style"}
 
 # Allow some chars:
 # - non breakable space
@@ -84,9 +87,13 @@ class MarkupExtractor(ParserTarget):
         pass
 
 
-def extract_html_tags(text) -> tuple[set[str], dict[str, set[str]]]:
+def extract_html_tags(text: str) -> tuple[set[str], dict[str, set[str]]]:
     """Extract tags from text in a form suitable for HTML sanitization."""
     extractor = MarkupExtractor()
+    if "<body" not in text.lower():
+        # Make sure we are in body, otherwise HTML parser migght halluciate we
+        # are in <head>
+        text = f"<body>{text}</body>"
     parser = HTMLParser(collect_ids=False, target=extractor)
     parser.feed(text)
     return (extractor.found_tags, extractor.found_attributes)
@@ -97,7 +104,7 @@ class HTMLSanitizer:
         self.current = 0
         self.replacements: dict[str, str] = {}
 
-    def clean(self, text: str, source: str, flags) -> str:
+    def clean(self, text: str, source: str, flags: Flags) -> str:
         self.current = 0
         self.replacements = {}
 
@@ -105,17 +112,23 @@ class HTMLSanitizer:
 
         tags, attributes = extract_html_tags(source)
 
-        text = nh3.clean(text, link_rel=None, tags=tags, attributes=attributes)
+        text = nh3.clean(
+            text,
+            link_rel=None,
+            tags=tags,
+            attributes=attributes,
+            clean_content_tags=CLEAN_CONTENT_TAGS - tags,
+        )
 
         return self.add_back_special(text)
 
-    def handle_replace(self, match):
+    def handle_replace(self, match: re.Match) -> str:
         self.current += 1
         replacement = f"@@@@@weblate:{self.current}@@@@@"
         self.replacements[replacement] = match.group(0)
         return replacement
 
-    def remove_special(self, text: str, flags) -> str:
+    def remove_special(self, text: str, flags: Flags) -> str:
         if "md-text" in flags:
             text = MD_LINK.sub(self.handle_replace, text)
 

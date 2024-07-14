@@ -24,8 +24,8 @@ class CustomCSSView(TemplateView):
     @classmethod
     def get_css(cls, request):
         # Request level caching
-        if hasattr(request, "_weblate_custom_css"):
-            return request._weblate_custom_css
+        if hasattr(request, "weblate_custom_css"):
+            return request.weblate_custom_css
 
         # Site level caching
         css = cache.get(cls.cache_key)
@@ -35,7 +35,7 @@ class CustomCSSView(TemplateView):
                 Setting.objects.get_settings_dict(Setting.CATEGORY_UI),
             ).strip()
             cache.set(cls.cache_key, css, 24 * 3600)
-        request._weblate_custom_css = css
+        request.weblate_custom_css = css
         return css
 
     def get(self, request, *args, **kwargs):

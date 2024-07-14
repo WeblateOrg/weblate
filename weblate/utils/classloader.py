@@ -35,12 +35,18 @@ class ClassLoader:
     """Dict like object to lazy load list of classes."""
 
     def __init__(
-        self, name: str, construct: bool = True, collect_errors: bool = False
+        self,
+        name: str,
+        *,
+        base_class: type,
+        construct: bool = True,
+        collect_errors: bool = False,
     ) -> None:
         self.name = name
         self.construct = construct
         self.collect_errors = collect_errors
         self.errors: dict[str, str | Exception] = {}
+        self.base_class: type = base_class
 
     def get_settings(self):
         result = getattr(settings, self.name)
@@ -62,6 +68,15 @@ class ClassLoader:
                 if self.collect_errors:
                     continue
                 raise
+            try:
+                if not issubclass(obj, self.base_class):
+                    raise ImproperlyConfigured(
+                        f"Setting {self.name} must be a {self.base_class.__name__} subclass, but {path} is {obj!r}"
+                    )
+            except TypeError as error:
+                raise ImproperlyConfigured(
+                    f"Setting {self.name} must be a {self.base_class.__name__} subclass, but {path} is {obj!r}"
+                ) from error
             if self.construct:
                 obj = obj()
             result[obj.get_identifier()] = obj

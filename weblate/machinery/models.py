@@ -6,7 +6,14 @@ from appconf import AppConf
 
 from weblate.utils.classloader import ClassLoader
 
-MACHINERY = ClassLoader("WEBLATE_MACHINERY", construct=False, collect_errors=True)
+from .base import BatchMachineTranslation
+
+MACHINERY = ClassLoader(
+    "WEBLATE_MACHINERY",
+    construct=False,
+    collect_errors=True,
+    base_class=BatchMachineTranslation,
+)
 
 
 class WeblateConf(AppConf):

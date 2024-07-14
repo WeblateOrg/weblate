@@ -13,7 +13,7 @@ class SystranTranslation(MachineTranslation):
     max_score = 90
     settings_form = KeyMachineryForm
 
-    def check_failure(self, response):
+    def check_failure(self, response) -> None:
         if "error" not in response:
             return
         raise MachineTranslationError(response["error"]["message"])

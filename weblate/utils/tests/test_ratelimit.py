@@ -26,7 +26,7 @@ class RateLimitTest(SimpleTestCase):
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         request.method = "POST"
         request.session = SessionStore()
-        request._messages = default_storage(request)
+        request._messages = default_storage(request)  # noqa: SLF001
         request.user = AnonymousUser()
         return request
 

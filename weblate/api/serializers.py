@@ -697,10 +697,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
             if zipfile is not None:
                 try:
                     create_component_from_zip(attrs, zipfile)
-                except BadZipfile:
+                except BadZipfile as error:
                     raise serializers.ValidationError(
                         {"zipfile": "Could not parse uploaded ZIP file."}
-                    )
+                    ) from error
 
         # Call model validation here, DRF does not do that
         instance.clean()
@@ -977,7 +977,7 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
-    def __init__(self, child_allow_blank=False, **kwargs):
+    def __init__(self, child_allow_blank=False, **kwargs) -> None:
         kwargs["child"] = serializers.CharField(
             trim_whitespace=False, allow_blank=child_allow_blank
         )
@@ -1407,7 +1407,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
 
     @staticmethod
-    def check_addon(name, queryset):
+    def check_addon(name, queryset) -> None:
         installed = set(queryset.values_list("name", flat=True))
         available = {
             x.name for x in ADDONS.values() if x.multiple or x.name not in installed
@@ -1421,13 +1421,13 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         instance = self.instance
         try:
             name = attrs["name"]
-        except KeyError:
+        except KeyError as error:
             if self.partial and instance:
                 name = instance.name
             else:
                 raise serializers.ValidationError(
                     {"name": "Can not change add-on name"}
-                )
+                ) from error
         # Update or create
         component = instance.component if instance else self._context.get("component")
         project = instance.project if instance else self._context.get("project")
@@ -1437,8 +1437,10 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             raise serializers.ValidationError({"name": "Can not change add-on name"})
         try:
             addon_class = ADDONS[name]
-        except KeyError:
-            raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
+        except KeyError as error:
+            raise serializers.ValidationError(
+                {"name": f"Add-on not found: {name}"}
+            ) from error
 
         # Don't allow duplicate add-ons
         addon = addon_class(Addon())

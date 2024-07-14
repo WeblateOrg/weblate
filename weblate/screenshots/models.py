@@ -108,7 +108,7 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
 
 
 @receiver(post_delete, sender=Screenshot)
-def update_alerts_on_screenshot_delete(sender, instance, **kwargs):
+def update_alerts_on_screenshot_delete(sender, instance, **kwargs) -> None:
     # Update the unused screenshot alert if screenshot is deleted
     if instance.translation.component.alert_set.filter(
         name="UnusedScreenshot"

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from urllib.parse import quote
 
 from django.conf import settings
@@ -13,7 +13,7 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -28,7 +28,7 @@ from weblate.accounts.forms import AdminUserSearchForm
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
-from weblate.auth.models import Group, Invitation, User
+from weblate.auth.models import Group, GroupQuerySet, Invitation, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
@@ -318,6 +318,9 @@ def ssh_key(request):
     filename, data = get_key_data_raw(
         key_type=request.GET.get("type", "rsa"), kind="private"
     )
+    if data is None:
+        raise Http404
+
     response = HttpResponse(data, content_type="text/plain")
     response["Content-Disposition"] = f"attachment; filename={filename}"
     response["Content-Length"] = len(data)
@@ -541,8 +544,7 @@ class TeamListView(FormMixin, ListView):
 
     def get_queryset(self):
         return (
-            super()
-            .get_queryset()
+            cast(GroupQuerySet, super().get_queryset())
             .prefetch_related("languages", "projects", "components")
             .filter(defining_project=None)
             .annotate(Count("user"), Count("autogroup"))

@@ -165,14 +165,14 @@ class ReportsComponentTest(BaseReportsTest):
             "</tbody></table>",
         )
 
-    def test_credits_blank_period(self):
+    def test_credits_blank_period(self) -> None:
         period = ""
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(
             response, "Error in parameter period: This field is required."
         )
 
-    def test_credits_invalid_start(self):
+    def test_credits_invalid_start(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
         period = "{}invalid - {}".format(
@@ -181,7 +181,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
-    def test_credits_invalid_end(self):
+    def test_credits_invalid_end(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
         period = "{} - {}invalid".format(
@@ -190,7 +190,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
-    def test_credits_inverse_daterange(self):
+    def test_credits_inverse_daterange(self) -> None:
         start = timezone.now()
         end = start - timedelta(days=1)
         period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
@@ -330,14 +330,14 @@ class ReportsComponentTest(BaseReportsTest):
 """,
         )
 
-    def test_counts_blank_period(self):
+    def test_counts_blank_period(self) -> None:
         period = ""
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(
             response, "Error in parameter period: This field is required."
         )
 
-    def test_counts_invalid_start(self):
+    def test_counts_invalid_start(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
         period = "{}invalid - {}".format(
@@ -346,7 +346,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
-    def test_counts_invalid_end(self):
+    def test_counts_invalid_end(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
         period = "{} - {}invalid".format(
@@ -355,7 +355,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
-    def test_counts_inverse_daterange(self):
+    def test_counts_inverse_daterange(self) -> None:
         start = timezone.now()
         end = start - timedelta(days=1)
         period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))

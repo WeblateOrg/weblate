@@ -215,7 +215,9 @@ LIBRETRANSLATE_LANG_RESPONSE = [
 
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
-MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "data"}}
+MS_SUPPORTED_LANG_RESP = {
+    "translation": {"cs": "data", "en": "data", "es": "data", "de": "data"}
+}
 
 
 class BaseMachineTranslationTest(TestCase):
@@ -225,7 +227,7 @@ class BaseMachineTranslationTest(TestCase):
     ENGLISH = "en"
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
-    NOTSUPPORTED: str | None = "de"
+    NOTSUPPORTED: str | None = "tg"
     NOTSUPPORTED_VARIANT = "de_CZ"
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
@@ -329,6 +331,16 @@ class BaseMachineTranslationTest(TestCase):
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
+    @responses.activate
+    @respx.mock
+    def test_clean(self) -> None:
+        if not self.CONFIGURATION or self.MACHINE_CLS.settings_form is None:
+            return
+        self.mock_response()
+        form = self.MACHINE_CLS.settings_form(self.MACHINE_CLS, self.CONFIGURATION)
+        if not form.is_valid():
+            self.assertDictEqual(form.errors, {})
+
 
 class MachineTranslationTest(BaseMachineTranslationTest):
     def test_translate_fallback(self) -> None:
@@ -373,7 +385,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
-    def test_batch(self):
+    def test_batch(self) -> None:
         machine_translation = self.get_machine()
         units = [
             MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
@@ -550,6 +562,12 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             "translate?api-version=3.0&from=en&to=de&category=general&textType=html",
             json=MICROSOFT_RESPONSE,
         )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=&textType=html",
+            json=MICROSOFT_RESPONSE,
+        )
 
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
@@ -583,6 +601,12 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
             "translate?api-version=3.0&from=en&to=de&category=general&textType=html",
+            json=MICROSOFT_RESPONSE,
+        )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=&textType=html",
             json=MICROSOFT_RESPONSE,
         )
 
@@ -953,13 +977,13 @@ class SystranTranslationTest(BaseMachineTranslationTest):
         "key": "key",
     }
 
-    def mock_empty(self):
+    def mock_empty(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_error(self):
+    def mock_error(self) -> NoReturn:
         raise SkipTest("Not tested")
 
-    def mock_response(self):
+    def mock_response(self) -> None:
         responses.add(
             responses.GET,
             "https://api-translate.systran.net/translation/apiVersion",
@@ -983,7 +1007,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
     MACHINE_CLS = SAPTranslationHub
     EXPECTED_LEN = 1
     CONFIGURATION = {
-        "key": "",
+        "key": "x",
         "username": "",
         "password": "",
         "enable_mt": False,
@@ -1009,6 +1033,7 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
                 "languages": [
                     {"id": "en", "name": "English", "bcp-47-code": "en"},
                     {"id": "cs", "name": "Czech", "bcp-47-code": "cs"},
+                    {"id": "de", "name": "German", "bcp-47-code": "de"},
                 ]
             },
             status=200,
@@ -1417,6 +1442,10 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             )
             super().test_batch(machine=machine)
 
+    def test_clean(self) -> NoReturn:
+        # Stubbing here is tricky
+        raise SkipTest("Not tested")
+
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = AlibabaTranslation
@@ -1460,7 +1489,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
     CONFIGURATION = {
         "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
         "instances/id",
-        "key": "",
+        "key": "x",
     }
 
     def mock_empty(self) -> NoReturn:
@@ -1474,7 +1503,13 @@ class IBMTranslationTest(BaseMachineTranslationTest):
             responses.GET,
             "https://api.region.language-translator.watson.cloud.ibm.com/"
             "instances/id/v3/languages?version=2018-05-01",
-            json={"languages": [{"language": "en"}, {"language": "zh-TW"}]},
+            json={
+                "languages": [
+                    {"language": "en"},
+                    {"language": "zh-TW"},
+                    {"language": "de"},
+                ]
+            },
         )
         responses.add(
             responses.POST,
@@ -1553,6 +1588,84 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 },
             )
         )
+
+
+class OpenAICustomTranslationTest(OpenAITranslationTest):
+    CONFIGURATION = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+        "base_url": "https://custom.example.com/",
+    }
+
+    def mock_response(self) -> None:
+        respx.get("https://custom.example.com/models").mock(
+            httpx.Response(
+                200,
+                json={
+                    "object": "list",
+                    "data": [
+                        {
+                            "id": "gpt-3.5-turbo",
+                            "object": "model",
+                            "created": 1686935002,
+                            "owned_by": "openai",
+                        }
+                    ],
+                },
+            )
+        )
+        respx.post(
+            "https://custom.example.com/chat/completions",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "id": "chatcmpl-123",
+                    "object": "chat.completion",
+                    "created": 1677652288,
+                    "model": "gpt-3.5-turbo",
+                    "system_fingerprint": "fp_44709d6fcb",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ahoj světe",
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {
+                        "prompt_tokens": 9,
+                        "completion_tokens": 12,
+                        "total_tokens": 21,
+                    },
+                },
+            )
+        )
+
+    @responses.activate
+    @respx.mock
+    def test_clean_custom(self) -> None:
+        self.mock_response()
+        settings = self.CONFIGURATION.copy()
+        machine = self.MACHINE_CLS
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["model"] = "custom"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        settings["custom_model"] = "custom"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["model"] = "auto"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
 
 
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):

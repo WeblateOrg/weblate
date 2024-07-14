@@ -21,11 +21,11 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
 from weblate.auth.models import User
-from weblate.gitexport.models import SUPPORTED_VCS
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.trans.models import Component
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
+from weblate.vcs.models import VCS_REGISTRY
 
 
 def response_authenticate():
@@ -92,7 +92,7 @@ def git_export(request, path, git_request):
         if not request.user.is_authenticated:
             return response_authenticate()
         raise PermissionDenied("No VCS permissions")
-    if obj.vcs not in SUPPORTED_VCS:
+    if obj.vcs not in VCS_REGISTRY.git_based:
         raise Http404("Not a git repository")
     if obj.is_repo_link:
         return redirect(
@@ -115,11 +115,11 @@ def git_export(request, path, git_request):
 
 
 class GitStreamingHttpResponse(StreamingHttpResponse):
-    def __init__(self, streaming_content, *args, **kwargs):
+    def __init__(self, streaming_content, *args, **kwargs) -> None:
         super().__init__(streaming_content.stream(), *args, **kwargs)
         self.wrapper = streaming_content
 
-    def close(self):
+    def close(self) -> None:
         if self.wrapper.process.poll() is None:
             self.wrapper.process.kill()
         self.wrapper.process.wait()

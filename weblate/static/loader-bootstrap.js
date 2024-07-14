@@ -1393,8 +1393,10 @@ $(function () {
   $("input[name='period']").daterangepicker(
     {
       autoApply: true,
-      startDate: moment(),
-      endDate: moment(),
+      startDate:
+        $("input[name='period']#id_period").attr("data-start-date") || moment(),
+      endDate:
+        $("input[name='period']#id_period").attr("data-end-date") || moment(),
       alwaysShowCalendars: true,
       opens: "left",
       locale: {

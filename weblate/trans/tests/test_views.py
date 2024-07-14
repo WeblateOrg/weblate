@@ -144,7 +144,7 @@ class ViewTestCase(RepoTestCase):
         request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
-        request._messages = messages
+        request._messages = messages  # noqa: SLF001
         return request
 
     def get_translation(self, language="cs"):

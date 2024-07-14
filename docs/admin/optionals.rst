@@ -15,15 +15,23 @@ Installation
 
 1. Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:
 
-.. code-block:: python
+   .. code-block:: python
 
-    INSTALLED_APPS += ("weblate.gitexport",)
+       INSTALLED_APPS += ("weblate.gitexport",)
 
 2. Export existing repositories by migrating your database after installation:
 
-.. code-block:: sh
+   .. code-block:: sh
 
-    weblate migrate
+       weblate migrate
+
+.. hint::
+
+   Git exporter is turned on in our official Docker image. To turn it of, use:
+
+   .. code-block:: sh
+
+      WEBLATE_REMOVE_APPS=weblate.gitexport
 
 Usage
 +++++

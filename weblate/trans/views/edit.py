@@ -871,9 +871,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
                 and request.user.profile.secondary_in_zen
                 else None
             ),
-            "form": ZenTranslationForm(
-                request.user, unit, tabindex=100 + (unit.position * 10)
-            ),
+            "form": ZenTranslationForm(request.user, unit),
             "offset": offset + pos + 1,
             "glossary": get_glossary_terms(unit),
         }

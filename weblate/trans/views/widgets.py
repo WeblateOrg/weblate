@@ -159,8 +159,8 @@ def render_widget(request, path: list[str], widget: str, color: str, extension: 
     # Get widget class
     try:
         widget_class = WIDGETS[widget]
-    except KeyError:
-        raise Http404
+    except KeyError as error:
+        raise Http404 from error
 
     # Construct object
     widget_obj = widget_class(obj, color, lang)

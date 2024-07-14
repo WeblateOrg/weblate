@@ -16,7 +16,10 @@ from django.urls import is_valid_path, reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils.http import escape_leading_slashes
 from django.utils.translation import gettext_lazy
+from social_core.backends.oauth import OAuthAuth
+from social_core.backends.open_id import OpenIdAuth
 
+from weblate.auth.models import get_auth_backends
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
@@ -24,9 +27,10 @@ from weblate.utils.site import get_site_url
 from weblate.utils.views import parse_path
 
 CSP_TEMPLATE = (
-    "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
+    "default-src 'none'; style-src {0}; img-src {1}; script-src {2}; "
     "connect-src {3}; object-src 'none'; font-src {4};"
     "frame-src 'none'; frame-ancestors 'none';"
+    "base-uri 'none';  form-action {5}; manifest-src 'self'"
 )
 
 # URLs requiring inline javascript
@@ -47,7 +51,7 @@ class ProxyMiddleware:
     def __call__(self, request):
         # Fake HttpRequest attribute to inject configured
         # site name into build_absolute_uri
-        request._current_scheme_host = get_site_url()
+        request._current_scheme_host = get_site_url()  # noqa: SLF001
 
         # Actual proxy handling
         proxy = None
@@ -103,8 +107,8 @@ class RedirectMiddleware:
         slash_path = f"{path}/"
         return not is_valid_path(path, urlconf) and is_valid_path(slash_path, urlconf)
 
-    def fixup_language(self, lang):
-        return Language.objects.fuzzy_get(code=lang, strict=True)
+    def fixup_language(self, lang: str) -> Language | None:
+        return Language.objects.fuzzy_get_strict(code=lang)
 
     def fixup_project(self, slug, request):
         try:
@@ -246,17 +250,15 @@ class SecurityMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request):  # noqa: C901
         response = self.get_response(request)
-        # No CSP for debug mode (to allow djdt or error pages)
-        if settings.DEBUG:
-            return response
 
         style = {"'self'", "'unsafe-inline'"} | set(settings.CSP_STYLE_SRC)
         script = {"'self'"} | set(settings.CSP_SCRIPT_SRC)
         image = {"'self'"} | set(settings.CSP_IMG_SRC)
         connect = {"'self'"} | set(settings.CSP_CONNECT_SRC)
         font = {"'self'"} | set(settings.CSP_FONT_SRC)
+        form = {"'self'"} | set(settings.CSP_FORM_SRC)
 
         if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
             script.add("'unsafe-inline'")
@@ -266,6 +268,7 @@ class SecurityMiddleware:
             script.add("care.weblate.org")
             connect.add("care.weblate.org")
             style.add("care.weblate.org")
+            form.add("care.weblate.org")
 
         # Rollbar client errors reporting
         if (
@@ -282,9 +285,14 @@ class SecurityMiddleware:
         if settings.SENTRY_DSN and response.status_code == 500:
             domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
-            script.add("sentry.io")
             connect.add(domain)
-            connect.add("sentry.io")
+            # Add appropriate frontend servers for sentry.io
+            if domain.endswith("de.sentry.io"):
+                connect.add("de.sentry.io")
+                script.add("de.sentry.io")
+            elif domain.endswith("sentry.io"):
+                script.add("sentry.io")
+                connect.add("sentry.io")
             script.add("'unsafe-inline'")
             image.add("data:")
 
@@ -325,12 +333,26 @@ class SecurityMiddleware:
             domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
             image.add(domain)
 
+        # Third-party login flow extensions
+        if request.resolver_match and (
+            request.resolver_match.view_name.startswith("social:")
+            or request.resolver_match.view_name in {"login", "profile"}
+        ):
+            for backend in get_auth_backends().values():
+                # Handle OpenId redirect flow
+                if issubclass(backend, OpenIdAuth) and backend.URL:
+                    form.add(urlparse(backend.URL).hostname)
+                # Handle OAuth redirect flow
+                if issubclass(backend, OAuthAuth) and backend.AUTHORIZATION_URL:
+                    form.add(urlparse(backend.AUTHORIZATION_URL).hostname)
+
         response["Content-Security-Policy"] = CSP_TEMPLATE.format(
             " ".join(style),
             " ".join(image),
             " ".join(script),
             " ".join(connect),
             " ".join(font),
+            " ".join(form),
         )
         if settings.SENTRY_SECURITY:
             response["Content-Security-Policy"] += (

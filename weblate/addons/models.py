@@ -17,7 +17,6 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
-from weblate.addons.events import AddonEvent
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
     component_post_update,
@@ -35,13 +34,16 @@ from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
+from .base import BaseAddon
+from .events import AddonEvent
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
     from weblate.auth.models import User
 
 # Initialize addons registry
-ADDONS = ClassLoader("WEBLATE_ADDONS", False)
+ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
 
 
 class AddonQuerySet(models.QuerySet):
@@ -136,7 +138,7 @@ class Addon(models.Model):
         super().__init__(*args, **kwargs)
         self.acting_user = acting_user
 
-    def store_change(self, action):
+    def store_change(self, action) -> None:
         Change.objects.create(
             action=action,
             user=self.acting_user,
@@ -187,7 +189,7 @@ class Addon(models.Model):
     def logger(self) -> logging.Logger:
         return logging.getLogger("weblate.addons")
 
-    def log_warning(self, message: str, *args):
+    def log_warning(self, message: str, *args) -> None:
         if self.project:
             self.project.log_warning(message, *args)
         elif self.component:
@@ -195,7 +197,7 @@ class Addon(models.Model):
         else:
             self.logger.warning(message, *args)
 
-    def log_debug(self, message: str, *args):
+    def log_debug(self, message: str, *args) -> None:
         if self.project:
             self.project.log_debug(message, *args)
         elif self.component:
@@ -270,7 +272,7 @@ def execute_addon_event(
     event: AddonEvent,
     method: str | Callable,
     args: tuple | None = None,
-):
+) -> None:
     # Log logging result and error flag for add-on activity log
     log_result = None
     error_occurred = False
@@ -540,5 +542,5 @@ class AddonActivityLog(models.Model):
         verbose_name_plural = "add-on activity logs"
         ordering = ["-created"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"

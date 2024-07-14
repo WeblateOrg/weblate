@@ -127,7 +127,10 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def _get_childs_depth(self):
         return 1 + max(
-            (child._get_childs_depth() for child in self.category_set.all()),
+            (
+                child._get_childs_depth()  # noqa: SLF001
+                for child in self.category_set.all()
+            ),
             default=0,
         )
 

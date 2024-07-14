@@ -11,7 +11,7 @@ from weblate.utils import forms
 from weblate.utils.validators import validate_email
 
 
-class CaseInsensitiveFieldMixin:
+class CaseInsensitiveField(models.CharField):
     """Field mixin that uses case-insensitive lookup alternatives if they exist."""
 
     LOOKUP_CONVERSIONS = {
@@ -27,11 +27,11 @@ class CaseInsensitiveFieldMixin:
         return super().get_lookup(converted)
 
 
-class UsernameField(CaseInsensitiveFieldMixin, models.CharField):
+class UsernameField(CaseInsensitiveField):
     pass
 
 
-class EmailField(CaseInsensitiveFieldMixin, models.CharField):
+class EmailField(CaseInsensitiveField):
     default_validators = [validate_email]
     description = gettext_lazy("E-mail")
     default_error_messages = {

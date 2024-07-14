@@ -14,18 +14,23 @@ from typing import TYPE_CHECKING
 
 from weblate.utils.classloader import ClassLoader
 
+from .base import AutoFix
+
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
 
 class AutofixLoader(ClassLoader):
+    def __init__(self) -> None:
+        super().__init__("AUTOFIX_LIST", base_class=AutoFix)
+
     def get_ignore_strings(self) -> Iterator[str]:
         for fix in self.values():
             for check in fix.get_related_checks():
                 yield check.ignore_string
 
 
-AUTOFIXES = AutofixLoader("AUTOFIX_LIST")
+AUTOFIXES = AutofixLoader()
 
 
 def fix_target(target, unit):

@@ -75,6 +75,7 @@ class SettingsDict(TypedDict, total=False):
     model: str
     persona: str
     style: str
+    custom_model: str
 
 
 class TranslationResultDict(TypedDict, total=False):
@@ -87,6 +88,12 @@ class TranslationResultDict(TypedDict, total=False):
     show_quality: bool
     origin: str
     origin_url: str
+
+
+class UnitMemoryResultDict(TypedDict, total=False):
+    quality: list[int]
+    translation: list[str]
+    origin: list[None | BatchMachineTranslation]
 
 
 DownloadTranslations = Iterable[TranslationResultDict]
@@ -137,11 +144,13 @@ class BatchMachineTranslation:
         except Exception as error:
             raise ValidationError(
                 gettext("Could not fetch supported languages: %s") % error
-            )
+            ) from error
         try:
             self.download_multiple_translations("en", "de", [("test", None)], None, 75)
         except Exception as error:
-            raise ValidationError(gettext("Could not fetch translation: %s") % error)
+            raise ValidationError(
+                gettext("Could not fetch translation: %s") % error
+            ) from error
 
     @property
     def api_base_url(self):
@@ -579,7 +588,7 @@ class BatchMachineTranslation:
         translations = self._translate(source, language, sources, user, threshold)
 
         for unit in units:
-            result = unit.machinery
+            result: UnitMemoryResultDict = unit.machinery
             if min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
             translation_lists = [translations[text] for text in unit.plural_map]

@@ -23,7 +23,11 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from weblate.configuration.models import Setting
-from weblate.machinery.base import MachineTranslationError, SettingsDict
+from weblate.machinery.base import (
+    BatchMachineTranslation,
+    MachineTranslationError,
+    SettingsDict,
+)
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Project, Translation, Unit
 from weblate.trans.templatetags.translations import format_language_string
@@ -59,13 +63,16 @@ class MachineryGlobalMixin(MachineryMixin):
 
 class DeprecatedMachinery:
     is_available = False
-    settings_form = None
+    settings_form: None = None
 
     def __init__(self, identifier: str) -> None:
         self.identifier = self.name = identifier
 
     def get_identifier(self) -> str:
         return self.identifier
+
+    def get_doc_anchor(self) -> str:
+        return f"mt-{self.get_identifier()}"
 
 
 class MachineryConfiguration:
@@ -201,6 +208,8 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 
 class EditMachineryView(FormView):
     template_name = "machinery/edit.html"
+
+    machinery: DeprecatedMachinery | BatchMachineTranslation
 
     def setup(self, request, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
@@ -370,8 +379,8 @@ def handle_machinery(request, service, unit, search=None):
 
     try:
         translation_service_class = MACHINERY[service]
-    except KeyError:
-        raise Http404("Invalid service specified")
+    except KeyError as error:
+        raise Http404("Invalid service specified") from error
 
     # Error response
     response = {

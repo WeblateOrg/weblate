@@ -431,7 +431,7 @@ class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
     components: ComponentQuerySet
-    origin = None
+    origin: None | str = None
 
     @cached_property
     def branch_data(self):

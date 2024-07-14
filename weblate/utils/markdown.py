@@ -28,11 +28,11 @@ def get_mention_users(text):
 class SkipHtmlSpan(span_token.HtmlSpan):
     """A token that strips HTML tags from the content."""
 
-    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")
+    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")  # noqa: SLF001
     parse_inner = False
     content: str
 
-    def __init__(self, match):
+    def __init__(self, match) -> None:
         self.content = ""
 
 
@@ -50,7 +50,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
 
     _allowed_url_re = re.compile(r"^https?://", re.IGNORECASE)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(SkipHtmlSpan, PlainAutoLink, process_html_tokens=False)
 
     def render_skip_html_span(self, token: SkipHtmlSpan) -> str:

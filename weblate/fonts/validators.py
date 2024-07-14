@@ -17,6 +17,6 @@ def validate_font(value):
         raise ValidationError(gettext("Unsupported file format."))
     try:
         get_font_name(value)
-    except OSError:
-        raise ValidationError(gettext("Unsupported file format."))
+    except OSError as error:
+        raise ValidationError(gettext("Unsupported file format.")) from error
     return value

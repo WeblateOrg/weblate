@@ -1374,6 +1374,7 @@ configuration, but this might need customization for your environment.
     :setting:`CSP_CONNECT_SRC`,
     :setting:`CSP_STYLE_SRC`,
     :setting:`CSP_FONT_SRC`
+    :setting:`CSP_FORM_SRC`
 
 .. _uwsgi:
 

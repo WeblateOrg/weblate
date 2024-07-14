@@ -226,7 +226,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             raise ValidationError(
                 gettext("Could not parse file %(file)s: %(error)s")
                 % {"file": self.filename, "error": str(error)}
-            )
+            ) from error
 
     def get_url_path(self):
         return (*self.component.get_url_path(), self.language.code)
@@ -306,7 +306,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Avoid fetching empty list of checks from the database
             newunit.all_checks = []
             # Avoid fetching empty list of variants
-            newunit._prefetched_objects_cache = {
+            newunit._prefetched_objects_cache = {  # noqa: SLF001
                 "defined_variants": Variant.objects.none()
             }
             is_new = True
@@ -334,6 +334,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Check if we're not already up to date
             try:
                 new_revision = self.get_git_blob_hash()
+            except FileNotFoundError:
+                self.reason = ""
+                return
             except Exception as exc:
                 report_error("Translation parse error", project=self.component.project)
                 self.component.handle_parse_error(exc, self)
@@ -373,7 +376,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 try:
                     store_units = store.content_units
                 except ValueError as error:
-                    raise FileParseError(str(error))
+                    raise FileParseError(str(error)) from error
 
                 self.log_info(
                     "processing %s, %s, %d strings",
@@ -401,7 +404,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     try:
                         store_units = store.content_units
                     except ValueError as error:
-                        raise FileParseError(str(error))
+                        raise FileParseError(str(error)) from error
 
                 for pos, unit in enumerate(store_units):
                     # Use translation store if exists and if it contains the string
@@ -1019,7 +1022,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if self.is_source:
             self.component.drop_template_store_cache()
 
-    def handle_upload_store_change(self, request, change_action: int):
+    def handle_upload_store_change(self, request, change_action: int) -> None:
         component = self.component
         if not component.repository.needs_commit(self.filenames):
             return
@@ -1061,7 +1064,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
                     % str(error).replace(self.component.full_path, "")
-                )
+                ) from error
 
             # Create actual file with the uploaded content
             temp = tempfile.NamedTemporaryFile(
@@ -1118,7 +1121,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
                     % str(error).replace(self.component.full_path, "")
-                )
+                ) from error
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
             store2.check_valid()
@@ -1226,7 +1229,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     raise FailedCommitError(
                         gettext("Could not commit pending changes: %s")
                         % str(error).replace(self.component.full_path, "")
-                    )
+                    ) from error
 
             # Load backend file
             if method == "add" and self.is_template:
@@ -1509,7 +1512,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
-                component._sources[id_hash] = unit
+                component._sources[id_hash] = unit  # noqa: SLF001
             if translation == self:
                 result = unit
             unit_ids.append(unit.pk)
@@ -1663,10 +1666,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if not self.filename:
             try:
                 translation = component.translation_set.exclude(pk=self.pk)[0]
-            except IndexError:
+            except IndexError as error:
                 raise ValidationError(
                     gettext("Failed adding string, no translation found.")
-                )
+                ) from error
             translation.validate_new_unit_data(
                 context,
                 source,

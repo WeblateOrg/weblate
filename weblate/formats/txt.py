@@ -12,7 +12,7 @@ from itertools import chain
 from typing import TYPE_CHECKING, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.formats.base import (
     BaseItem,
@@ -85,6 +85,9 @@ class MultiParser(BaseStore):
         if not isinstance(storefile, str):
             raise TypeError("Needs string as a storefile!")
 
+        if not os.path.isdir(storefile):
+            raise ValueError(gettext("Should be a directory with metadata files!"))
+
         self.base = storefile
         self.parsers = self.load_parser()
         self.units = list(
@@ -107,7 +110,7 @@ class MultiParser(BaseStore):
                         match, os.path.relpath(match, self.base), flags
                     )
                 except Exception as error:
-                    raise MultiparserError(match, error)
+                    raise MultiparserError(match, error) from error
         return result
 
     def get_filename(self, name):
@@ -244,7 +247,7 @@ class AppStoreFormat(TranslationFormat):
         return [self.store.get_filename(unit.filename) for unit in self.store.units]
 
     @classmethod
-    def get_class(cls):
+    def get_class(cls) -> None:
         return None
 
     @classmethod

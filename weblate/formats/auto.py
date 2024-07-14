@@ -121,5 +121,5 @@ class AutodetectFormat(TTKitFormat):
         return factory.getobject(storefile)
 
     @classmethod
-    def get_class(cls):
+    def get_class(cls) -> None:
         return None

@@ -174,20 +174,20 @@ class WeblateTranslationCommand(BaseCommand):
             component = Component.objects.get(
                 project__slug=options["project"], slug=options["component"]
             )
-        except Component.DoesNotExist:
-            raise CommandError("No matching translation component found!")
+        except Component.DoesNotExist as error:
+            raise CommandError("No matching translation component found!") from error
         try:
             return Translation.objects.get(
                 component=component, language__code=options["language"]
             )
-        except Translation.DoesNotExist:
+        except Translation.DoesNotExist as error:
             if options.get("add"):
                 language = Language.objects.fuzzy_get(options["language"])
                 if component.add_new_language(language, None):
                     return Translation.objects.get(
                         component=component, language=language
                     )
-            raise CommandError("No matching translation project found!")
+            raise CommandError("No matching translation project found!") from error
 
     def handle(self, *args, **options) -> None:
         raise NotImplementedError

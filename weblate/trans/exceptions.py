@@ -21,9 +21,8 @@ class PluralFormsMismatchError(WeblateError):
 class InvalidTemplateError(WeblateError):
     """Template file can not be parsed."""
 
-    def __init__(self, nested, message=None) -> None:
-        super().__init__(message or f"Template file can not be parsed: {nested}")
-        self.nested = nested
+    def __init__(self, message: str | None = None, info: str = "") -> None:
+        super().__init__(message or f"Template file can not be parsed: {info}")
 
 
 class FailedCommitError(WeblateError):

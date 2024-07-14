@@ -7,8 +7,9 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
-from django import template
+from django import forms, template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -26,6 +27,7 @@ from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -52,6 +54,11 @@ from weblate.utils.stats import (
 )
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from django_stubs_ext import StrOrPromise
 
 register = template.Library()
 
@@ -86,7 +93,7 @@ FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 
 SOURCE_LINK = (
     '<a href="{0}" target="_blank" rel="noopener noreferrer"'
-    ' class="{2}" dir="ltr">{1}</a>'
+    ' class="{2}" dir="ltr" tabindex="-1">{1}</a>'
 )
 HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
@@ -589,11 +596,11 @@ def documentation(context, page, anchor=""):
     return get_doc_url(page, anchor, user=user)
 
 
-def render_documentation_icon(doc_url: str, right: bool):
+def render_documentation_icon(doc_url: str, *, right: bool = False):
     if not doc_url:
         return ""
     return format_html(
-        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener">{}</a>""",
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener" tabindex="-1">{}</a>""",
         "pull-right flip" if right else "",
         doc_url,
         gettext("Documentation"),
@@ -603,15 +610,13 @@ def render_documentation_icon(doc_url: str, right: bool):
 
 @register.simple_tag(takes_context=True)
 def documentation_icon(context, page: str, anchor: str = "", right: bool = False):
-    return render_documentation_icon(documentation(context, page, anchor), right)
+    return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
 @register.simple_tag(takes_context=True)
-def form_field_doc_link(context, form, field):
-    if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
-        return render_documentation_icon(
-            get_doc_url(*field_doc, user=context["user"]), False
-        )
+def form_field_doc_link(context, form: forms.Form, field: forms.Field) -> str:
+    if isinstance(form, FieldDocsMixin) and (field_doc := form.get_field_doc(field)):
+        return render_documentation_icon(get_doc_url(*field_doc, user=context["user"]))
     return ""
 
 
@@ -1043,12 +1048,14 @@ def get_unique_row_id(context, obj):
 
 
 @register.simple_tag
-def get_filter_name(name):
+def get_filter_name(name: str) -> str:
     names = dict(get_filter_choice())
     return names[name]
 
 
-def translation_alerts(translation):
+def translation_alerts(
+    translation: Translation | ProjectLanguage | GhostTranslation,
+) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     if translation.is_source:
         yield (
             "state/source.svg",
@@ -1057,7 +1064,9 @@ def translation_alerts(translation):
         )
 
 
-def component_alerts(component):
+def component_alerts(
+    component: Component,
+) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     if component.is_repo_link:
         yield (
             "state/link.svg",
@@ -1085,7 +1094,7 @@ def component_alerts(component):
         )
 
 
-def project_alerts(project):
+def project_alerts(project: Project) -> Iterable[tuple[str, StrOrPromise, str | None]]:
     if project.has_alerts:
         yield (
             "state/alert.svg",
@@ -1098,12 +1107,19 @@ def project_alerts(project):
 
 
 @register.inclusion_tag("trans/embed-alert.html", takes_context=True)
-def indicate_alerts(context, obj):
-    result = []
+def indicate_alerts(
+    context,
+    obj: Translation
+    | Component
+    | ProjectLanguage
+    | Project
+    | GhostProjectLanguageStats,
+):
+    result: list[tuple[str, StrOrPromise, str | None]] = []
 
-    translation = None
-    component = None
-    project = None
+    translation: None | Translation | GhostTranslation = None
+    component: None | Component = None
+    project: None | Project = None
 
     global_base = context.get("global_base")
 
@@ -1161,11 +1177,11 @@ def indicate_alerts(context, obj):
                 )
             )
 
-    if getattr(obj, "is_shared", False):
+    if is_shared := getattr(obj, "is_shared", False):
         result.append(
             (
                 "state/share.svg",
-                gettext("Shared from the %s project.") % obj.is_shared,
+                gettext("Shared from the %s project.") % is_shared,
                 None,
             )
         )

@@ -2,10 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import os
 from datetime import timedelta
 from io import StringIO
+from typing import TYPE_CHECKING
 from unittest import SkipTest
 
 from django.core.management import call_command
@@ -15,27 +18,34 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.addons.autotranslate import AutoTranslateAddon
-from weblate.addons.base import TestAddon, TestCrashAddon, TestError
-from weblate.addons.cdn import CDNJSAddon
-from weblate.addons.cleanup import CleanupAddon, RemoveBlankAddon
-from weblate.addons.consistency import LangaugeConsistencyAddon
-from weblate.addons.discovery import DiscoveryAddon
-from weblate.addons.example import ExampleAddon
-from weblate.addons.example_pre import ExamplePreAddon
-from weblate.addons.flags import (
+from weblate.lang.models import Language
+from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
+from weblate.utils.unittest import tempdir_setting
+
+from .autotranslate import AutoTranslateAddon
+from .base import BaseAddon, UpdateBaseAddon
+from .cdn import CDNJSAddon
+from .cleanup import CleanupAddon, RemoveBlankAddon
+from .consistency import LangaugeConsistencyAddon
+from .discovery import DiscoveryAddon
+from .example import ExampleAddon
+from .example_pre import ExamplePreAddon
+from .flags import (
     BulkEditAddon,
     SameEditAddon,
     SourceEditAddon,
     TargetEditAddon,
 )
-from weblate.addons.generate import (
+from .forms import BaseAddonForm
+from .generate import (
     FillReadOnlyAddon,
     GenerateFileAddon,
     PrefillAddon,
     PseudolocaleAddon,
 )
-from weblate.addons.gettext import (
+from .gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
     GettextCustomizeAddon,
@@ -43,20 +53,47 @@ from weblate.addons.gettext import (
     UpdateConfigureAddon,
     UpdateLinguasAddon,
 )
-from weblate.addons.git import GitSquashAddon
-from weblate.addons.json import JSONCustomizeAddon
-from weblate.addons.models import ADDONS, Addon
-from weblate.addons.properties import PropertiesSortAddon
-from weblate.addons.removal import RemoveComments, RemoveSuggestions
-from weblate.addons.resx import ResxUpdateAddon
-from weblate.addons.tasks import cleanup_addon_activity_log, daily_addons
-from weblate.addons.xml import XMLCustomizeAddon
-from weblate.addons.yaml import YAMLCustomizeAddon
-from weblate.lang.models import Language
-from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
-from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
-from weblate.utils.unittest import tempdir_setting
+from .git import GitSquashAddon
+from .json import JSONCustomizeAddon
+from .models import ADDONS, Addon
+from .properties import PropertiesSortAddon
+from .removal import RemoveComments, RemoveSuggestions
+from .resx import ResxUpdateAddon
+from .tasks import cleanup_addon_activity_log, daily_addons
+from .xml import XMLCustomizeAddon
+from .yaml import YAMLCustomizeAddon
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
+
+class TestAddon(BaseAddon):
+    """Testing add-on doing nothing."""
+
+    settings_form = BaseAddonForm
+    name = "weblate.base.test"
+    verbose = "Test add-on"
+    description = "Test add-on"
+
+
+class TestError(Exception):
+    pass
+
+
+class TestCrashAddon(UpdateBaseAddon):
+    """Testing add-on doing nothing."""
+
+    name = "weblate.base.crash"
+    verbose = "Crash test add-on"
+    description = "Crash test add-on"
+
+    def update_translations(self, component: Component, previous_head: str) -> None:
+        if previous_head:
+            raise TestError("Test error")
+
+    @classmethod
+    def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
+        return False
 
 
 class TestAddonMixin:
@@ -595,7 +632,7 @@ class JsonAddonTest(ViewTestCase):
             ).exists()
         )
 
-    def asset_customize(self, expected: str):
+    def asset_customize(self, expected: str) -> None:
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
@@ -1208,7 +1245,7 @@ class GitSquashAddonTest(ViewTestCase):
         self.edit()
         self.assertEqual(repo.count_outgoing(), expected)
 
-    def test_squash_sitewide(self):
+    def test_squash_sitewide(self) -> None:
         self.test_squash(sitewide=True)
 
     def test_languages(self) -> None:
@@ -1505,7 +1542,7 @@ class SiteWideAddonsTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
 
-    def test_json(self):
+    def test_json(self) -> None:
         JSONCustomizeAddon.create(
             configuration={"indent": 8, "sort": 1, "style": "spaces"},
         )

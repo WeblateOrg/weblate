@@ -110,6 +110,8 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.addons.models import Addon
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -206,7 +208,7 @@ def prefetch_tasks(components):
     lookup = {component.update_key: component for component in components}
     if lookup:
         results_dict = cache.get_many(lookup.keys())
-        results = {
+        results: dict[str, AsyncResult] = {
             value: AsyncResult(value) for value in results_dict.values() if value
         }
 
@@ -236,6 +238,7 @@ def prefetch_glossary_terms(components) -> None:
 class ComponentQuerySet(models.QuerySet):
     def prefetch(self, alerts: bool = True, defer: bool = True):
         result = self
+        linked_component: str | models.Prefetch
         if defer:
             result = result.defer_huge()
             linked_component = models.Prefetch(
@@ -278,9 +281,9 @@ class ComponentQuerySet(models.QuerySet):
     def filter_by_path(self, path: str) -> ComponentQuerySet:
         try:
             project, *categories, component = path.split("/")
-        except ValueError:
-            raise Component.DoesNotExist
-        kwargs = {}
+        except ValueError as error:
+            raise Component.DoesNotExist from error
+        kwargs: dict[str, str | None] = {}
         prefix = ""
         for category in reversed(categories):
             kwargs[f"{prefix}category__slug"] = category
@@ -766,6 +769,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     )
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
+    processed_revision = models.CharField(max_length=200, default="", blank=True)
 
     objects = ComponentQuerySet.as_manager()
 
@@ -878,18 +882,25 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # the newly created component
         bool(self.source_translation)
 
-        args = {
-            "changed_git": changed_git,
-            "changed_setup": changed_setup,
-            "changed_template": changed_template,
-            "changed_variant": changed_variant,
-            "skip_push": kwargs.get("force_insert", False),
-            "create": create,
-        }
         if settings.CELERY_TASK_ALWAYS_EAGER:
-            self.after_save(**args)
+            self.after_save(
+                changed_git=changed_git,
+                changed_setup=changed_setup,
+                changed_template=changed_template,
+                changed_variant=changed_variant,
+                skip_push=kwargs.get("force_insert", False),
+                create=create,
+            )
         else:
-            task = component_after_save.delay(self.pk, **args)
+            task = component_after_save.delay(
+                self.pk,
+                changed_git=changed_git,
+                changed_setup=changed_setup,
+                changed_template=changed_template,
+                changed_variant=changed_variant,
+                skip_push=kwargs.get("force_insert", False),
+                create=create,
+            )
             self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
@@ -908,21 +919,21 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self._file_format = None
         self.stats = ComponentStats(self)
         self.needs_cleanup = False
-        self.alerts_trigger = {}
-        self.updated_sources = {}
+        self.alerts_trigger: dict[str, list[dict]] = {}
+        self.updated_sources: dict[int, Unit] = {}
         self.old_component = copy(self)
-        self._sources = {}
+        self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
-        self.logs = []
-        self.translations_count = None
+        self.logs: list[str] = []
+        self.translations_count: int | None = None
         self.translations_progress = 0
-        self.acting_user = None
+        self.acting_user: None | User = None
         self.batch_checks = False
-        self.batched_checks = set()
+        self.batched_checks: set[str] = set()
         self.needs_variants_update = False
         self._invalidate_scheduled = False
         self._template_check_done = False
-        self.new_lang_error_message = None
+        self.new_lang_error_message: str | None = None
 
     def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
@@ -1210,7 +1221,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.updated_sources[source.id] = source
             else:
                 # We are not supposed to create new one
-                raise Unit.DoesNotExist("Could not find source unit")
+                raise Unit.DoesNotExist("Could not find source unit") from None
 
             self._sources[id_hash] = source
             return source
@@ -1220,8 +1231,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # We used to rely on fnmask.translate here, but since Python 3.9
         # it became super optimized beast producing regexp with possibly
         # several groups making it hard to modify later for our needs.
-        result = []
-        raw = []
+        result: list[str] = []
+        raw: list[str] = []
 
         def append(text: str | None) -> None:
             if raw:
@@ -1279,7 +1290,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @cached_property
     def repository(self):
         """Get VCS repository object."""
-        if self.is_repo_link:
+        if self.linked_component is not None:
             return self.linked_component.repository
         return self.repository_class(self.full_path, self.branch, self)
 
@@ -1345,7 +1356,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     f"get_{self.vcs}_repoweb_template",
                     self.get_git_repoweb_template,
                 )()
-        if self.is_repo_link:
+        if self.linked_component is not None:
             return self.linked_component.get_repoweb_link(
                 filename, line, template, user=self.acting_user
             )
@@ -1399,10 +1410,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_bitbucket_git_repoweb_template(self) -> str | None:
         owner, slug, matches = None, None, None
         domain = "bitbucket.org"
-        if re.match(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo):
-            matches = re.search(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo)
-        elif re.match(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo):
-            matches = re.search(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo)
+        matches = re.match(BITBUCKET_GIT_REPOS_REGEXP[0], self.repo)
+        if matches is None:
+            matches = re.match(BITBUCKET_GIT_REPOS_REGEXP[1], self.repo)
         if matches:
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
@@ -1416,10 +1426,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_github_repoweb_template(self) -> str | None:
         owner, slug, matches = None, None, None
         domain = "github.com"
-        if re.match(GITHUB_REPOS_REGEXP[0], self.repo):
-            matches = re.search(GITHUB_REPOS_REGEXP[0], self.repo)
-        elif re.match(GITHUB_REPOS_REGEXP[1], self.repo):
-            matches = re.search(GITHUB_REPOS_REGEXP[1], self.repo)
+        matches = re.match(GITHUB_REPOS_REGEXP[0], self.repo)
+        if matches is None:
+            matches = re.match(GITHUB_REPOS_REGEXP[1], self.repo)
         if matches:
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
@@ -1431,8 +1440,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_pagure_repoweb_template(self) -> str | None:
         owner, slug = None, None
         domain = "pagure.io"
-        if re.match(PAGURE_REPOS_REGEXP[0], self.repo):
-            matches = re.search(PAGURE_REPOS_REGEXP[0], self.repo)
+        if matches := re.match(PAGURE_REPOS_REGEXP[0], self.repo):
             owner = matches.group(1)
             slug = matches.group(2)
 
@@ -1444,14 +1452,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def get_azure_repoweb_template(self) -> str | None:
         organization, project, repository, matches = None, None, None, None
         domain = "dev.azure.com"
-        if re.match(AZURE_REPOS_REGEXP[0], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[0], self.repo)
-        elif re.match(AZURE_REPOS_REGEXP[1], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[1], self.repo)
-        elif re.match(AZURE_REPOS_REGEXP[2], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[2], self.repo)
-        elif re.match(AZURE_REPOS_REGEXP[3], self.repo):
-            matches = re.search(AZURE_REPOS_REGEXP[3], self.repo)
+        matches = re.match(AZURE_REPOS_REGEXP[0], self.repo)
+        if matches is None:
+            matches = re.match(AZURE_REPOS_REGEXP[1], self.repo)
+        if matches is None:
+            matches = re.match(AZURE_REPOS_REGEXP[2], self.repo)
+        if matches is None:
+            matches = re.match(AZURE_REPOS_REGEXP[3], self.repo)
 
         if matches:
             organization = matches.group(1)
@@ -1539,7 +1546,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
         except RepositoryError as error:
-            report_error("Could not update the repository", project=self.project)
+            report_error(
+                "Could not update the repository",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
             error_text = self.error_text(error)
             if validate:
                 self.handle_update_error(error_text, retry)
@@ -1736,7 +1747,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.repository.push(self.push_branch)
             except RepositoryError as error:
                 error_text = self.error_text(error)
-                report_error("Could not push the repo", project=self.project)
+                report_error(
+                    "Could not push the repo",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
                 self.change_set.create(
                     action=Change.ACTION_FAILED_PUSH,
                     target=error_text,
@@ -1758,7 +1773,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             self.repository.unshallow()
                         except RepositoryError:
                             report_error(
-                                "Could not unshallow the repo", project=self.project
+                                "Could not unshallow the repo",
+                                project=self.project,
+                                skip_sentry=not settings.DEBUG,
                             )
                         else:
                             return self.push_repo(request, retry=False)
@@ -1846,7 +1863,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_info("resetting to remote repo")
                 self.repository.reset()
             except RepositoryError:
-                report_error("Could not reset the repository", project=self.project)
+                report_error(
+                    "Could not reset the repository",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
                 messages.error(
                     request,
                     gettext("Could not reset to remote branch on %s.") % self,
@@ -1882,7 +1903,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryError:
-                report_error("Could not clean the repository", project=self.project)
+                report_error(
+                    "Could not clean the repository",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
                 messages.error(
                     request,
                     gettext("Could not clean the repository on %s.") % self,
@@ -1974,10 +1999,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                         try:
                             component.template_store  # noqa: B018
                         except FileParseError as error:
-                            report_error(
-                                "Could not parse template file on commit",
-                                project=self.project,
-                            )
+                            if not isinstance(error.__cause__, FileNotFoundError):
+                                report_error(
+                                    "Could not parse template file on commit",
+                                    project=self.project,
+                                )
                             component.log_error(
                                 "skipping commit due to error: %s", error
                             )
@@ -1987,7 +2013,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
                     components[component.pk] = component
                 with self.start_sentry_span("commit_pending"):
-                    translation._commit_pending(reason, user)
+                    translation._commit_pending(reason, user)  # noqa: SLF001
                 if component.has_template():
                     translation_pks[component.pk].append(translation.pk)
                     if translation.is_source:
@@ -2042,6 +2068,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         with self.start_sentry_span("commit_files"):
             if message is None:
+                if template is None:
+                    raise ValueError("Missing template when message is not specified")
                 # Handle context
                 context = {"component": component or self, "author": author}
                 if extra_context:
@@ -2093,7 +2121,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 user=self.acting_user,
             )
         if reraise:
-            raise FileParseError(error_message)
+            raise FileParseError(error_message) from error
 
     def store_local_revision(self) -> None:
         """Store current revision in the database."""
@@ -2144,7 +2172,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
             except RepositoryError as error:
                 # Report error
-                report_error(f"Failed {method}", project=self.project)
+                report_error(
+                    f"Failed {method}",
+                    project=self.project,
+                    skip_sentry=not settings.DEBUG,
+                )
 
                 # In case merge has failure recover
                 error = self.error_text(error)
@@ -2331,7 +2363,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         from_link: bool = False,
         change: int | None = None,
         run_async: bool = False,
-    ):
+    ) -> bool:
         """Load translations from VCS."""
         if not run_async or settings.CELERY_TASK_ALWAYS_EAGER:
             # Asynchronous processing not requested or not available, run the update
@@ -2365,10 +2397,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Avoid parsing if template is invalid
             try:
                 self.template_store.check_valid()
-            except ValueError as exc:
-                raise InvalidTemplateError(FileParseError(str(exc)))
-            except FileParseError as exc:
-                raise InvalidTemplateError(exc)
+            except (ValueError, FileParseError) as exc:
+                raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
     def _create_translations(  # noqa: C901
@@ -2379,9 +2409,19 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
-    ):
+    ) -> bool:
         """Load translations from VCS."""
         self.store_background_task()
+
+        if (
+            self.processed_revision == self.local_revision
+            and self.local_revision
+            and not force
+        ):
+            self.log_info("this revision has been already parsed, skipping update")
+            self.progress_step(100)
+            return False
+
         # Ensure we start from fresh template
         self.drop_template_store_cache()
         self.unload_sources()
@@ -2438,7 +2478,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     "checking %s (%s) [%d/%d]", path, code, pos + 1, len(matches)
                 )
                 lang = Language.objects.auto_get_or_create(
-                    code=self.get_language_alias(code)
+                    code=self.get_language_alias(code),
+                    languages_cache=self.project.languages_cache,
                 )
                 if lang.code in languages:
                     codes = f"{code}, {languages[lang.code].language_code}"
@@ -2465,11 +2506,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 except InvalidTemplateError as error:
                     self.log_warning(
                         "skipping update due to error in parsing template: %s",
-                        error.nested,
+                        error.__cause__,
                     )
-                    self.handle_parse_error(error.nested, filename=self.template)
+                    self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.nested
+                    raise error.__cause__ from error
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
@@ -2512,8 +2553,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 was_change |= component.create_translations(
                     force, langs, request=request, from_link=True, run_async=False
                 )
-            except FileParseError:
-                report_error("Failed linked component update", project=self.project)
+            except FileParseError as error:
+                if not isinstance(error.__cause__, FileNotFoundError):
+                    report_error("Failed linked component update", project=self.project)
                 continue
 
         # Run source checks on updated source strings
@@ -2538,6 +2580,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         self.unload_sources()
         self.run_batched_checks()
+
+        # Update last processed revision
+        self.processed_revision = self.local_revision
+        Component.objects.filter(pk=self.pk).update(
+            processed_revision=self.processed_revision
+        )
 
         self.log_info("updating completed")
         return was_change
@@ -2656,7 +2704,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if self.is_repo_link:
             try:
                 repo = Component.objects.get_linked(self.repo)
-            except (Component.DoesNotExist, ValueError):
+            except (Component.DoesNotExist, ValueError) as error:
                 raise ValidationError(
                     {
                         "repo": gettext(
@@ -2664,7 +2712,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             "use weblate://project/component."
                         )
                     }
-                )
+                ) from error
             else:
                 if repo is not None and repo.is_repo_link:
                     raise ValidationError(
@@ -2852,9 +2900,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             try:
                 self.template_store.check_valid()
-            except (FileParseError, ValueError) as exc:
-                msg = gettext("Could not parse translation base file: %s") % str(exc)
-                raise ValidationError({"template": msg})
+            except (FileParseError, ValueError) as error:
+                msg = gettext("Could not parse translation base file: %s") % str(error)
+                raise ValidationError({"template": msg}) from error
 
             code = self.get_lang_code(self.template, validate=True)
             lang = validate_language_code(
@@ -2896,8 +2944,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.set_default_branch()
 
             self.sync_git_repo(validate=True, skip_push=True)
-        except RepositoryError as exc:
-            text = self.error_text(exc)
+        except RepositoryError as error:
+            text = self.error_text(error)
             if "terminal prompts disabled" in text:
                 raise ValidationError(
                     {
@@ -2906,9 +2954,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             "them in the URL or use SSH with key based authentication."
                         )
                     }
-                )
+                ) from error
             msg = gettext("Could not update repository: %s") % text
-            raise ValidationError({"repo": msg})
+            raise ValidationError({"repo": msg}) from error
 
     def clean(self) -> None:
         """
@@ -2979,12 +3027,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             # Try parsing files
             self.clean_files(matches)
-        except re.error:
+        except re.error as error:
             raise ValidationError(
                 gettext(
                     "Can not validate file matches due to invalid regular expression."
                 )
-            )
+            ) from error
 
         # Suggestions
         if (
@@ -3213,7 +3261,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.repository.count_missing()
         except RepositoryError as error:
-            report_error("Could check merge needed", project=self.project)
+            report_error(
+                "Could check merge needed",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
             self.add_alert("MergeFailure", error=self.error_text(error))
             return 0
 
@@ -3225,7 +3277,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             if retry and "Host key verification failed" in error_text:
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
-            report_error("Could check push needed", project=self.project)
+            report_error(
+                "Could check push needed",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
             self.add_alert("PushFailure", error=error_text)
             return 0
 
@@ -3238,7 +3294,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.repository.count_outgoing(self.push_branch)
         except RepositoryError:
-            report_error("Counting outgoing commits", project=self.project)
             # We silently ignore this error as push branch might not be existing if not needed
             return self.count_repo_outgoing
 
@@ -3346,7 +3401,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         try:
             return self.load_template_store()
         except Exception as error:
-            report_error("Template parse error", project=self.project)
+            if not isinstance(error, FileNotFoundError):
+                report_error("Template parse error", project=self.project)
             self.handle_parse_error(error, filename=self.template)
 
     @cached_property
@@ -3434,9 +3490,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         code = self.format_new_language_code(language)
 
         # Check if resulting language is not present
-        new_lang = Language.objects.fuzzy_get(
-            code=self.get_language_alias(code), strict=True
-        )
+        new_lang = Language.objects.fuzzy_get_strict(code=self.get_language_alias(code))
         if new_lang is not None:
             if new_lang == self.source_language:
                 messages.error(

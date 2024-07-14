@@ -2,9 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from appconf import AppConf
+from django.utils.functional import cached_property
 
 from weblate.utils.classloader import ClassLoader
+
+from .base import Repository
 
 
 class VCSConf(AppConf):
@@ -52,7 +57,7 @@ class VCSConf(AppConf):
 
 class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("VCS_BACKENDS", False)
+        super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
 
     def load_data(self):
         result = super().load_data()
@@ -72,6 +77,16 @@ class VcsClassLoader(ClassLoader):
                 result.pop(key)
 
         return result
+
+    @cached_property
+    def git_based(self) -> set[str]:
+        from weblate.vcs.git import GitRepository
+
+        return {
+            vcs.get_identifier()
+            for vcs in self.values()
+            if issubclass(vcs, GitRepository)
+        }
 
 
 # Initialize VCS list

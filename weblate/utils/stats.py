@@ -39,6 +39,8 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.trans.models import Component, Project
+
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
 
@@ -847,7 +849,7 @@ class AggregatingStats(BaseStats):
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
-            if "all" not in stats_obj._data:
+            if "all" not in stats_obj._data:  # noqa: SLF001
                 stats_obj.calculate_basic()
                 stats_obj.save()
 
@@ -1331,7 +1333,13 @@ class GhostStats(BaseStats):
 
 
 class GhostProjectLanguageStats(GhostStats):
-    def __init__(self, component, language, is_shared=None) -> None:
+    language: Language
+    component: Component
+    is_shared: Project | None
+
+    def __init__(
+        self, component: Component, language: Language, is_shared: Project | None = None
+    ) -> None:
         super().__init__(component.stats)
         self.language = language
         self.component = component

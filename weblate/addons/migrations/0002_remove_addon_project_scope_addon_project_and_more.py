@@ -6,7 +6,7 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-def populate_project_from_component(apps, schema_editor):
+def populate_project_from_component(apps, schema_editor) -> None:
     """Migrate Addons with project_scope from using component to using project."""
     Addon = apps.get_model("addons", "Addon")
     updates = []

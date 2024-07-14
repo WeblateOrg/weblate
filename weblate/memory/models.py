@@ -165,7 +165,9 @@ class MemoryManager(models.Manager):
             data = json.loads(force_str(content))
         except ValueError as error:
             report_error("Could not parse memory")
-            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
+            raise MemoryImportError(
+                gettext("Could not parse JSON file: %s") % error
+            ) from error
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
@@ -215,8 +217,10 @@ class MemoryManager(models.Manager):
             )
         try:
             source_language = Language.objects.get_by_code(srclang, lang_cache, langmap)
-        except Language.DoesNotExist:
-            raise MemoryImportError(gettext("Could not find language %s!") % srclang)
+        except Language.DoesNotExist as error:
+            raise MemoryImportError(
+                gettext("Could not find language %s!") % srclang
+            ) from error
 
         found = 0
         for unit in storage.units:
@@ -231,10 +235,10 @@ class MemoryManager(models.Manager):
                     language = Language.objects.get_by_code(
                         lang_code, lang_cache, langmap
                     )
-                except Language.DoesNotExist:
+                except Language.DoesNotExist as error:
                     raise MemoryImportError(
                         gettext("Could not find language %s!") % header.get("srclang")
-                    )
+                    ) from error
                 translations[language.code] = text
 
             try:

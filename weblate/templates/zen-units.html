@@ -16,8 +16,8 @@
   {{ item.unit.position }}
 {% endif %}
 <div class="pull-right flip btn-padded">
-  <a class="btn btn-link btn-xs" href="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-message="{% trans "Permalink copied to clipboard." %}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
-  <a class="btn btn-link btn-xs" href="{% url 'translate' path=object.get_url_path  %}?{{ search_url }}&amp;offset={{ item.offset }}" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
+  <a class="btn btn-link btn-xs" href="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-message="{% trans "Permalink copied to clipboard." %}" title="{% trans "Copy permalink" %}" tabindex="-1">{% icon "link.svg" %}</a>
+  <a class="btn btn-link btn-xs" href="{% url 'translate' path=object.get_url_path  %}?{{ search_url }}&amp;offset={{ item.offset }}" title="{% trans "Open in full editor" %}" tabindex="-1">{% icon "pencil-mini.svg" %}</a>
 </div>
 {% get_location_links user item.unit %}
 </td>
@@ -53,7 +53,7 @@
 {% if item.secondary %}
 {% for unit in item.secondary %}
 <div class="form-group">
-  <a href="{{ unit.get_absolute_url }}" class="language">{{ unit.translation.language }}</a>
+  <a href="{{ unit.get_absolute_url }}" class="language" tabindex="-1">{{ unit.translation.language }}</a>
   {% if user.profile.hide_source_secondary %}
     {% include "snippets/note-badge.html" with unit=item.unit %}
   {% endif %}
@@ -71,7 +71,7 @@
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
-  <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
+  <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language" tabindex="-1">{{ item.unit.translation.component.source_language }}</a>
   {% include "snippets/note-badge.html" with unit=item.unit %}
   {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
 </div>

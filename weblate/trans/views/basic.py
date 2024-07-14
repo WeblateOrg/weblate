@@ -726,6 +726,7 @@ def new_language(request, path):
                 "details": {},
             }
             with obj.repository.lock:
+                obj.commit_pending("add language", None)
                 for language in Language.objects.filter(code__in=langs):
                     kwargs["details"]["language"] = language.code
                     if can_add:

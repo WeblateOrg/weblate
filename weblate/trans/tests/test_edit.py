@@ -198,7 +198,7 @@ class EditTest(ViewTestCase):
             follow=True,
         )
 
-    def test_new_plural_unit(self, args=None, language="en"):
+    def test_new_plural_unit(self, args=None, language="en") -> None:
         """Test the implementation of adding a new plural unit."""
         response = self.add_plural_unit(args, language)
         self.assertEqual(response.status_code, 403)
@@ -229,7 +229,7 @@ class EditTest(ViewTestCase):
 
         self.component.commit_pending("test", None)
 
-    def test_bilingual_new_plural_unit(self):
+    def test_bilingual_new_plural_unit(self) -> None:
         """Test the implementation of adding a bilingual new plural unit."""
         if (
             not self.component.has_template()

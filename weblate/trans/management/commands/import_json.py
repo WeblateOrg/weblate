@@ -51,8 +51,8 @@ class Command(BaseCommand):
         # Get project
         try:
             project = Project.objects.get(slug=options["project"])
-        except Project.DoesNotExist:
-            raise CommandError("Project does not exist!")
+        except Project.DoesNotExist as error:
+            raise CommandError("Project does not exist!") from error
 
         # Get main component
         main_component = None
@@ -61,19 +61,19 @@ class Command(BaseCommand):
                 main_component = Component.objects.get(
                     project=project, slug=options["main_component"]
                 )
-            except Component.DoesNotExist:
-                raise CommandError("Main component does not exist!")
+            except Component.DoesNotExist as error:
+                raise CommandError("Main component does not exist!") from error
 
         try:
             data = json.load(options["json-file"])
-        except ValueError:
-            raise CommandError("Could not parse JSON file!")
+        except ValueError as error:
+            raise CommandError("Could not parse JSON file!") from error
         finally:
             options["json-file"].close()
 
         allfields = {
             field.name
-            for field in Component._meta.get_fields()
+            for field in Component._meta.get_fields()  # noqa: SLF001
             if field.editable and not field.is_relation
         }
 
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                         self.stderr.write(
                             "Error in {}: {}".format(key, ", ".join(value))
                         )
-                    raise CommandError("Component failed validation!")
+                    raise CommandError("Component failed validation!") from error
                 component.save(force_insert=True)
                 self.stdout.write(
                     f"Imported {component} with {component.translation_set.count()} translations"

@@ -657,6 +657,7 @@ CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
 CSP_CONNECT_SRC = get_env_list("WEBLATE_CSP_CONNECT_SRC")
 CSP_STYLE_SRC = get_env_list("WEBLATE_CSP_STYLE_SRC")
 CSP_FONT_SRC = get_env_list("WEBLATE_CSP_FONT_SRC")
+CSP_FORM_SRC = get_env_list("WEBLATE_CSP_FORM_SRC")
 
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
@@ -746,7 +747,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
-    "django.contrib.admindocs",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
     # Third party Django modules
@@ -1383,7 +1383,7 @@ GOOGLE_ANALYTICS_ID = get_env_str("WEBLATE_GOOGLE_ANALYTICS_ID")
 SENTRY_DSN = get_env_str("SENTRY_DSN")
 SENTRY_ENVIRONMENT = get_env_str("SENTRY_ENVIRONMENT", SITE_DOMAIN)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
-SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE")
+SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE", 1.0)
 SENTRY_TOKEN = get_env_str("SENTRY_TOKEN")
 SENTRY_SEND_PII = get_env_bool("SENTRY_SEND_PII", True)
 AKISMET_API_KEY = get_env_str("WEBLATE_AKISMET_API_KEY")

@@ -9,7 +9,6 @@ from django.core.cache import cache
 from requests import Response
 
 from weblate.logger import LOGGER
-from weblate.utils.errors import report_error
 from weblate.utils.version import USER_AGENT
 
 
@@ -49,7 +48,6 @@ def get_uri_error(uri: str) -> None | str:
             LOGGER.debug("URL check for %s, tested success", uri)
             return None
     except requests.exceptions.RequestException as error:
-        report_error("URL check failed")
         if getattr(error.response, "status_code", 0) == 429:
             # Silently ignore rate limiting issues
             return None

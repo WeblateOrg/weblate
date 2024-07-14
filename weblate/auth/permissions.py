@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.utils.translation import gettext
 
@@ -17,7 +21,14 @@ from weblate.trans.models import (
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
-SPECIALS = {}
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from django.db.models import Model
+
+    from weblate.auth.models import User
+
+SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 
 
 class PermissionResult:
@@ -54,7 +65,7 @@ def check_global_permission(user, permission: str) -> bool:
     return permission in user.global_permissions
 
 
-def check_permission(user, permission, obj):
+def check_permission(user: User, permission: str, obj: Model):
     """Check whether user has a object-specific permission."""
     if user.is_superuser:
         return True
@@ -107,7 +118,7 @@ def check_permission(user, permission, obj):
 
 
 @register_perm("comment.resolve", "comment.delete", "suggestion.delete")
-def check_delete_own(user, permission, obj):
+def check_delete_own(user: User, permission: str, obj: Model):
     if user.is_authenticated and obj.user == user:
         return True
     return check_permission(user, permission, obj.unit.translation)
@@ -120,7 +131,7 @@ def check_ignore_check(user, permission, check):
     return check_permission(user, permission, check.unit.translation)
 
 
-def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
+def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # noqa: C901
     translation = component = None
 
     if isinstance(obj, Translation):
@@ -205,7 +216,7 @@ def check_can_edit(user, permission, obj, is_vote=False):  # noqa: C901
 
 
 @register_perm("unit.review")
-def check_unit_review(user, permission, obj, skip_enabled=False):
+def check_unit_review(user: User, permission: str, obj: Model, skip_enabled=False):
     if not skip_enabled:
         if isinstance(obj, Unit):
             obj = obj.translation
@@ -230,7 +241,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
 
 
 @register_perm("unit.edit", "suggestion.accept")
-def check_edit_approved(user, permission, obj):
+def check_edit_approved(user: User, permission: str, obj: Model):
     component = None
     if isinstance(obj, Unit):
         unit = obj
@@ -279,7 +290,7 @@ def check_manage_units(
 
 
 @register_perm("unit.delete")
-def check_unit_delete(user, permission, obj):
+def check_unit_delete(user: User, permission: str, obj: Model):
     if isinstance(obj, Unit):
         if (
             obj.translation.component.is_glossary
@@ -347,14 +358,14 @@ def check_autotranslate(user, permission, translation):
 
 
 @register_perm("suggestion.vote")
-def check_suggestion_vote(user, permission, obj):
+def check_suggestion_vote(user: User, permission: str, obj: Model):
     if isinstance(obj, Unit):
         obj = obj.translation
     return check_can_edit(user, permission, obj, is_vote=True)
 
 
 @register_perm("suggestion.add")
-def check_suggestion_add(user, permission, obj):
+def check_suggestion_add(user: User, permission: str, obj: Model):
     if isinstance(obj, Unit):
         obj = obj.translation
     if not obj.enable_suggestions or obj.is_readonly:
@@ -389,7 +400,7 @@ def check_contribute(user, permission, translation):
 
 
 @register_perm("machinery.view")
-def check_machinery(user, permission, obj):
+def check_machinery(user: User, permission: str, obj: Model):
     # No machinery for source without intermediate language
     if (
         isinstance(obj, Translation)
@@ -409,21 +420,21 @@ def check_machinery(user, permission, obj):
 
 
 @register_perm("translation.delete")
-def check_translation_delete(user, permission, obj):
+def check_translation_delete(user: User, permission: str, obj: Model):
     if obj.is_source:
         return False
     return check_permission(user, permission, obj)
 
 
 @register_perm("reports.view", "change.download")
-def check_possibly_global(user, permission, obj):
+def check_possibly_global(user: User, permission: str, obj: Model):
     if obj is None or isinstance(obj, Language):
         return user.is_superuser
     return check_permission(user, permission, obj)
 
 
 @register_perm("meta:vcs.status")
-def check_repository_status(user, permission, obj):
+def check_repository_status(user: User, permission: str, obj: Model):
     return (
         check_permission(user, "vcs.push", obj)
         or check_permission(user, "vcs.commit", obj)
@@ -433,7 +444,7 @@ def check_repository_status(user, permission, obj):
 
 
 @register_perm("meta:team.edit")
-def check_team_edit(user, permission, obj):
+def check_team_edit(user: User, permission: str, obj: Model):
     return (
         check_global_permission(user, "group.edit")
         or (
@@ -445,14 +456,14 @@ def check_team_edit(user, permission, obj):
 
 
 @register_perm("meta:team.users")
-def check_team_edit_users(user, permission, obj):
+def check_team_edit_users(user: User, permission: str, obj: Model):
     return (
         check_team_edit(user, permission, obj) or obj.pk in user.administered_group_ids
     )
 
 
 @register_perm("billing.view")
-def check_billing_view(user, permission, obj):
+def check_billing_view(user: User, permission: str, obj: Model):
     if hasattr(obj, "all_projects"):
         if user.has_perm("billing.manage") or obj.owners.filter(pk=user.pk).exists():
             return True
@@ -462,7 +473,7 @@ def check_billing_view(user, permission, obj):
 
 
 @register_perm("billing:project.permissions")
-def check_billing(user, permission, obj):
+def check_billing(user: User, permission: str, obj: Model):
     if "weblate.billing" in settings.INSTALLED_APPS and not any(
         billing.plan.change_access_control for billing in obj.billings
     ):
@@ -473,7 +484,7 @@ def check_billing(user, permission, obj):
 
 # This does not exist for real
 @register_perm("announcement.delete")
-def check_announcement_delete(user, permission, obj):
+def check_announcement_delete(user: User, permission: str, obj: Model):
     return (
         user.is_superuser
         or (obj.component and check_permission(user, "component.edit", obj.component))
@@ -483,7 +494,7 @@ def check_announcement_delete(user, permission, obj):
 
 # This does not exist for real
 @register_perm("unit.flag")
-def check_unit_flag(user, permission, obj):
+def check_unit_flag(user: User, permission: str, obj: Model):
     if isinstance(obj, Unit):
         obj = obj.translation
     if not obj.component.is_glossary:

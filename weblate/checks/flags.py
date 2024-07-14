@@ -191,7 +191,7 @@ class Flags:
             return ()
         if isinstance(flags, str):
             return parse_flags_text(flags)
-        if isinstance(flags, etree._Element):
+        if isinstance(flags, etree._Element):  # noqa: SLF001
             return tuple(parse_flags_xml(flags))
         if isinstance(flags, Flags):
             return flags.items()
@@ -299,10 +299,10 @@ class Flags:
                     )
                 try:
                     self.get_value(name)
-                except Exception:
+                except Exception as error:
                     raise ValidationError(
                         gettext('Wrong parameters for translation flag: "%s"') % name
-                    )
+                    ) from error
             elif is_typed:
                 raise ValidationError(
                     gettext('Missing parameters for translation flag: "%s"') % name

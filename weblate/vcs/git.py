@@ -1378,17 +1378,17 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             "dataProviderContext": {"properties": {}},
         }
 
-        response_data, response, error = self.request(
+        response_data, response, error_message = self.request(
             "post", credentials, url, json=request
         )
 
         try:
             data_providers = response_data["dataProviders"]
             return data_providers[org_property]["organizations"][0]["id"]
-        except (KeyError, IndexError):
+        except (KeyError, IndexError) as error:
             raise RepositoryError(
-                0, self.get_fork_failed_message(error, credentials, response)
-            )
+                0, self.get_fork_failed_message(error_message, credentials, response)
+            ) from error
 
 
 class GithubRepository(GitMergeRequestBase):

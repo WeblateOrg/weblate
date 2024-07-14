@@ -242,7 +242,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     )
     list_display = ("name", "defining_project")
 
-    new_obj = None
+    new_obj: Group
 
     def action_checkbox(self, obj):
         if obj.internal:

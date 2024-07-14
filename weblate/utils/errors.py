@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import sys
 from json import JSONDecodeError
+from typing import Literal
 
 import sentry_sdk
 from django.conf import settings
@@ -32,7 +33,9 @@ except ImportError:
 def report_error(
     cause: str = "Handled exception",
     *,
-    level: str = "warning",
+    level: Literal[
+        "fatal", "critical", "error", "warning", "info", "debug"
+    ] = "warning",
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str | None = None,
@@ -121,8 +124,8 @@ def init_error_collection(celery=False) -> None:
             _experiments={"max_spans": 2000},
             **settings.SENTRY_EXTRA_ARGS,
         )
-        # Ignore Weblate logging, those are reported using capture_exception
-        ignore_logger(ERROR_LOGGER)
+        # Ignore Weblate logging, those should trigger proper errors
+        ignore_logger("weblate")
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)

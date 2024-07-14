@@ -16,13 +16,14 @@
 # Alexander Ivanov <saiv46.dev@gmail.com>, 2024.
 # Michael Rusakov <mrusakov@gmail.com>, 2024.
 # Алексей Колчанов <lilkong6@gmail.com>, 2024.
+# Artemka <anonymous58630@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-06-20 23:20+0000\n"
-"Last-Translator: Алексей Колчанов <lilkong6@gmail.com>\n"
+"PO-Revision-Date: 2024-07-03 07:46+0000\n"
+"Last-Translator: Artemka <anonymous58630@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.6-rc\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -343,10 +344,8 @@ msgid "Chosen sorting is not supported."
 msgstr "Выбранная сортировка не поддерживается."
 
 #: weblate/accounts/forms.py:926
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Добавить пользователя в группу"
+msgstr "Добавить пользователя в команду"
 
 #: weblate/accounts/forms.py:938
 msgid "Add team"
@@ -459,22 +458,17 @@ msgstr ""
 "загруженных другим пользователем."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Доступ к проекту {project} был заблокирован"
+msgstr "Доступ к проекту {project} был заблокирован."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Пользователь был включён администратором"
+msgstr "Пользователь был включён администратором."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Пользователь был отключён администратором"
+msgstr "Пользователь был отключён администратором."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
@@ -833,12 +827,9 @@ msgid "Parse error occurred"
 msgstr "Произошла ошибка разбора"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Новая строка доступна для перевода"
+msgstr "Cтрока доступна для перевода"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
@@ -2428,10 +2419,8 @@ msgid "Roles"
 msgstr "Роли"
 
 #: weblate/auth/models.py:112
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
-msgstr "Выберите роли, предоставляемые этой группе."
+msgstr "Выберите роли, предоставляемые этой команде."
 
 #: weblate/auth/models.py:124
 msgid "Project selection"
@@ -2589,7 +2578,7 @@ msgstr "Регулярное выражение, для адресов элек�
 #| "Users with e-mail addresses found to match will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
-"В эту группу будут добавляться пользователи, чьи адреса электронной почты "
+"В эту команду будут добавляться пользователи, чьи адреса электронной почты "
 "соответствуют данному выражению."
 
 #: weblate/auth/models.py:828
@@ -5387,16 +5376,12 @@ msgid "Help <strong>Weblate</strong> keep thriving"
 msgstr "Помогите <strong>Weblate</strong> развиваться"
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Благодарим за использование Weblate."
+msgstr "Добро пожаловать и благодарим за поддержку Weblate."
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Благодарим за использование Weblate."
+msgstr "Добро пожаловать и благодарим за выбор Weblate."
 
 #: weblate/templates/about/donate.html:23
 msgid ""
@@ -6365,10 +6350,8 @@ msgid "None"
 msgstr "Никак"
 
 #: weblate/templates/accounts/user.html:281
-#, fuzzy
-#| msgid "Remove user from this group"
 msgid "Remove user from this team"
-msgstr "Удалить пользователя из этой группы"
+msgstr "Удалить пользователя из этой команды"
 
 #: weblate/templates/accounts/user.html:292
 #: weblate/templates/trans/project-access.html:65
@@ -10235,10 +10218,8 @@ msgid "Non-code projects are welcome as well."
 msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:15
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project approval"
-msgstr "Проект удалён"
+msgstr "Проект одобрен"
 
 #: weblate/templates/snippets/libre-basic.html:17
 msgid "Using Weblate has been approved by the upstream project."
@@ -10672,10 +10653,8 @@ msgstr ""
 "инициирования веб-хуков."
 
 #: weblate/templates/snippets/ssh-key.html:46
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "IP address copied to clipboard."
-msgstr "API ключ скопирован в буфер обмена."
+msgstr "IP адрес скопирован в буфер обмена."
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -12153,10 +12132,8 @@ msgid "Invitation to Weblate"
 msgstr "Приглашение на Weblate"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:21
-#, fuzzy
-#| msgid "Please sign in to see the alerts."
 msgid "Please sign-in to view this invitation."
-msgstr "Войдите в систему, чтобы посмотреть предупреждения."
+msgstr "Войдите в систему, чтобы посмотреть приглашение."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:23
 msgid "This invitation belongs to a different user."
