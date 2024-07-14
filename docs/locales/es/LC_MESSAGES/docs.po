@@ -9,13 +9,14 @@
 # Moises Bajish Julian Camacho <bajishdahud93@outlook.com>, 2024.
 # Eduardo Malaspina <vaio0@swismail.com>, 2024.
 # Franco Ezequiel Ibañez <francoibanez.dev@gmail.com>, 2024.
+# Marino Díaz <marinomdfk97@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
 "PO-Revision-Date: 2024-07-14 16:21+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Last-Translator: Marino Díaz <marinomdfk97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -2138,12 +2139,20 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"Este complemento requiere una configuración adicional en el servidor "
+"Weblate. :setting:`LOCALIZE_CDN_PATH` configura dónde se escribirán los "
+"archivos generados (en un “filesystem”), y :setting:`LOCALIZE_CDN_URL` "
+"define dónde se servirán (URL). Weblate no se encarga de servir los "
+"archivos, sino que debe configurarse externamente (normalmente mediante un "
+"servicio CDN)."
 
 #: ../../admin/addons.rst:112
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"Este complemento se configura en :guilabel:`Weblate alojado` y sirve los "
+"archivos a través de ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -2437,46 +2446,34 @@ msgstr ""
 "campos de plantilla."
 
 #: ../../admin/addons.rst:223
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
-"Por ejemplo, puede utilizar el marcado de plantillas de Django tanto en el "
-"nombre de archivo como en el contenido:"
+"Puedes utilizar la plantilla de lenguaje de marcado Django en todos los "
+"campos de nombre de archivo, por ejemplo:"
 
 #: ../../admin/addons.rst:225
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
 msgstr "Nombre de componente emparejado"
 
 #: ../../admin/addons.rst:227
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component|title }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:228
 msgid "Component filename with upper case first letter"
 msgstr "Nombre de archivo del componente con la primera letra mayúscula"
 
 #: ../../admin/addons.rst:229
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:230
-#, fuzzy
-#| msgid "Component regular expression"
 msgid "Custom match group from the regular expression"
-msgstr "Expresión regular del componente"
+msgstr "Grupo de concordancia personalizado a partir de la expresión regular"
 
 #: ../../admin/addons.rst:232
 msgid ""
@@ -2492,7 +2489,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Component discovery"
 msgid "Component discovery examples"
-msgstr "Detección de componentes"
+msgstr "Ejemplos de descubrimiento de componentes"
 
 #: ../../admin/addons.rst:241
 msgid "One folder per language"
@@ -2524,13 +2521,13 @@ msgstr "Archivos coincidentes:"
 #, fuzzy
 #| msgid ":file:`static`"
 msgid ":file:`cs/application.po`"
-msgstr ":file:`static`"
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:249
 #, fuzzy
 #| msgid ":file:`/etc/xdg/weblate`"
 msgid ":file:`cs/website.po`"
-msgstr ":file:`/etc/xdg/weblate`"
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:250
 msgid ":file:`de/application.po`"
