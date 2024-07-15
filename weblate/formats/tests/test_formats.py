@@ -266,9 +266,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
 
     def assert_no_notes(self, unit) -> None:
-        """
-        Assert that the underlying unit(s) do not have any notes.
-        """
+        """Assert that the underlying unit(s) do not have any notes."""
         if unit.unit:
             self.assertEqual(unit.unit.getnotes().strip(), "")
         else:
