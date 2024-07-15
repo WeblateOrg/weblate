@@ -24,7 +24,7 @@
     <p>
         <span class="middle-dot-divider">@{{ page_user.username }}</span>
         <span class="middle-dot-divider">{% blocktrans with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
-        {% if can_edit_user %}
+        {% if can_edit_user or page_user == user %}
           <span class="middle-dot-divider">
             {% if page_user.last_login %}
               {% blocktrans with date=page_user.last_login|date:"DATE_FORMAT" %}Last sign-in on {{ date }}{% endblocktrans %}
