@@ -328,6 +328,45 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         else:
             self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
+    def test_add_unit(self):
+        if not self.MONOLINGUAL or not self.FORMAT.can_add_unit:
+            raise SkipTest("Not supported")
+
+        template_file = os.path.join(self.tempdir, f"test.tmpl.{self.EXT}")
+        main_file = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Create the template under test
+        # Add a new string with a note to the template file and save it.
+        shutil.copy(self.FILE, template_file)
+        template_storage = self.FORMAT(template_file, is_template=True)
+        template_unit = template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        template_storage.save()
+
+        # Add a new language and translate the new string.
+        self.FORMAT.add_language(main_file, Language.objects.get(code="cs"), self.BASE)
+        target_storage = self.parse_file(main_file, template=template_file)
+        target_unit, add = target_storage.find_unit(
+            self.NEW_UNIT_KEY, self.NEW_UNIT_KEY
+        )
+        self.assertTrue(add)
+        target_storage.add_unit(target_unit)
+
+        target_storage.save()
+        target_storage.template_store.save()
+
+        with open(template_file, "rb") as handle:
+            print(handle.read())
+
+        with open(main_file, "rb") as handle:
+            print(handle.read())
+
+        # Reload the storage to check notes were correctly written.
+        template_storage = self.FORMAT(template_file)
+        template_storage.find_unit(
+            self.NEW_UNIT_KEY, self.NEW_UNIT_KEY
+        )
+
+
     def test_flags(self) -> None:
         """
         Check flags on corresponding translatable units.
