@@ -265,6 +265,17 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         self.maxDiff = None
         self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
 
+    def assert_no_notes(self, unit) -> None:
+        """
+        Assert that the underlying unit(s) do not have any notes.
+        """
+        if unit.unit:
+            self.assertEqual(unit.unit.getnotes().strip(), "")
+        else:
+            # Assume this is a multi-unit. Will fail otherwise.
+            for unit in unit.units:
+                self.assertEqual(unit.unit.getnotes(), "")
+
     def test_find(self) -> None:
         storage = self.parse_file(self.FILE)
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
@@ -378,7 +389,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         template_storage.save()
 
         # Add a new language and translate the new string.
-        self.FORMAT.add_language(main_file, Language.objects.get(code="cs"), "")
+        self.FORMAT.add_language(main_file, Language.objects.get(code="cs"), self.BASE)
         target_storage = self.parse_file(main_file, template=template_file)
         target_unit, add = target_storage.find_unit(
             self.NEW_UNIT_KEY, self.NEW_UNIT_KEY
@@ -389,7 +400,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         # Eagerly check that the target unit does not have notes.
         # This is the point where checking that the template unit still has the
         # notes would potentially fail (depending on the exact format).
-        self.assertEqual(target_unit.unit.getnotes(), "")
+        self.assert_no_notes(target_unit)
 
         target_unit.set_target("Translated string (CS)")
         target_storage.save()
@@ -407,12 +418,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         self.assertEqual(target_unit.notes.strip(), self.NOTE_FOR_TEST)
 
         # Check there are no notes on the underlying unit.
-        if target_unit.unit:
-            self.assertEqual(target_unit.unit.getnotes().strip(), "")
-        else:
-            # Assume this is a multi-unit. Will fail otherwise.
-            for unit in target_unit.units:
-                self.assertEqual(unit.unit.getnotes(), "")
+        self.assert_no_notes(target_unit)
 
     def test_flags(self) -> None:
         """
