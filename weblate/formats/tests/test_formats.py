@@ -271,8 +271,8 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
             self.assertEqual(unit.unit.getnotes().strip(), "")
         else:
             # Assume this is a multi-unit. Will fail otherwise.
-            for unit in unit.units:
-                self.assertEqual(unit.unit.getnotes(), "")
+            for subunit in unit.units:
+                self.assertEqual(subunit.unit.getnotes(), "")
 
     def test_find(self) -> None:
         storage = self.parse_file(self.FILE)
