@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import tempfile
-from copy import copy
+from copy import copy, deepcopy
 from typing import TYPE_CHECKING, BinaryIO, NoReturn, TypeAlias
 
 from django.http import HttpResponse
@@ -276,7 +276,7 @@ class TranslationUnit:
         return self.unit is not None
 
     def clone_template(self) -> None:
-        self.mainunit = self.unit = copy(self.template)
+        self.mainunit = self.unit = deepcopy(self.template)
         self._invalidate_target()
 
     def untranslate(self, language) -> None:
