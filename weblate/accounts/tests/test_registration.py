@@ -297,7 +297,7 @@ class RegistrationTest(BaseRegistrationTest):
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_twice(self) -> None:
-        """Test for password reset."""
+        """Test for password reset for different users."""
         User.objects.create_user("testuser", "test@example.com", "x")
         User.objects.create_user("testuser2", "test2@example.com", "x")
 
@@ -306,27 +306,31 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertRedirects(response, reverse("email-sent"))
         self.assert_registration(reset=True)
-        # Pop notifications (new association + reset + password change)
-        sent_mail = mail.outbox.pop()
-        sent_mail = mail.outbox.pop()
-        sent_mail = mail.outbox.pop()
-        self.assertEqual(["test@example.com"], sent_mail.to)
-        self.assert_notify_mailbox(sent_mail)
-        # Pop password change
-        sent_mail = mail.outbox.pop()
+
+        self.assertEqual({"test@example.com"}, {i.to[0] for i in mail.outbox})
+        self.assertEqual(
+            {
+                "[Weblate] Activity on your account at Weblate",
+                "[Weblate] Password reset on Weblate",
+            },
+            {i.subject for i in mail.outbox},
+        )
+        mail.outbox.clear()
 
         response = self.client.post(
             reverse("password_reset"), {"email": "test2@example.com"}
         )
         self.assertRedirects(response, reverse("email-sent"))
         self.assert_registration(reset=True)
-        # Pop notifications (new association + reset + password change)
-        sent_mail = mail.outbox.pop()
-        sent_mail = mail.outbox.pop()
-        sent_mail = mail.outbox.pop()
-        self.assertEqual(["test2@example.com"], sent_mail.to)
-        # Pop password change
-        sent_mail = mail.outbox.pop()
+        self.assertEqual({"test2@example.com"}, {i.to[0] for i in mail.outbox})
+        self.assertEqual(
+            {
+                "[Weblate] Activity on your account at Weblate",
+                "[Weblate] Password reset on Weblate",
+            },
+            {i.subject for i in mail.outbox},
+        )
+        mail.outbox.clear()
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_paralel(self) -> None:

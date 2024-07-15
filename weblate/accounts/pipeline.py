@@ -426,6 +426,7 @@ def notify_connect(
     backend,
     user,
     social,
+    weblate_action,
     new_association=False,
     is_new=False,
     **kwargs,
@@ -437,7 +438,7 @@ def notify_connect(
         activity="sent-email",
         params={"email": details["email"]},
     ).update(user=user)
-    if user and not is_new:
+    if user and not is_new and weblate_action != "reset":
         if new_association:
             action = "auth-connect"
         else:
