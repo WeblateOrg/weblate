@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import tempfile
-from copy import copy, deepcopy
+from copy import deepcopy
 from typing import TYPE_CHECKING, BinaryIO, NoReturn, TypeAlias
 
 from django.http import HttpResponse

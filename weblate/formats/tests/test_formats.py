@@ -362,10 +362,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
 
         # Reload the storage to check notes were correctly written.
         template_storage = self.FORMAT(template_file)
-        template_storage.find_unit(
-            self.NEW_UNIT_KEY, self.NEW_UNIT_KEY
-        )
-
+        template_storage.find_unit(self.NEW_UNIT_KEY, self.NEW_UNIT_KEY)
 
     def test_flags(self) -> None:
         """
