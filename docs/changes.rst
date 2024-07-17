@@ -16,6 +16,7 @@ Not yet released.
 * The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
 * :ref:`reports` are now available for categories.
 * Highlight newlines in the editor.
+* :doc:`/formats/csv` better handle with with two fields only.
 
 **Bug fixes**
 
