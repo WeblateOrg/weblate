@@ -89,14 +89,14 @@ class MonoMultiCSVUtf8FormatTest(MultiCSVUtf8FormatTest):
     BASE = TEST_MONO_BASE_CSV
     TEMPLATE = TEST_MONO_BASE_CSV
     EXPECTED_EDIT = [
-        '"source","target"',
+        '"context","target"',
         '"22298006","Infarctus myocardique"',
         '"22298006","Infarctus du myocarde"',
         '"271681002","douleur à l\'estomac"',
         '"271681002","douleur gastrique"',
     ]
     EXPECTED_ADD = [
-        '"source","target"',
+        '"context","target"',
         '"22298006","Infarctus myocardique"',
         '"22298006","Infarctus du myocarde"',
         '"22298006","Infarctus myocardique"',
