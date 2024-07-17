@@ -11,6 +11,7 @@ from django.test.utils import override_settings
 
 from weblate.utils.render import validate_editor
 from weblate.utils.validators import (
+    EmailValidator,
     WeblateServiceURLValidator,
     WeblateURLValidator,
     clean_fullname,
@@ -70,6 +71,20 @@ class FullNameCleanTest(SimpleTestCase):
     def test_crud(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname(".")
+
+
+class EmailValidatorTestCase(SimpleTestCase):
+    def test_valid(self) -> None:
+        validator = EmailValidator()
+        self.assertIsNone(validator("noreply@example.com"))
+        with self.assertRaises(ValidationError):
+            validator(None)
+        with self.assertRaises(ValidationError):
+            validator("")
+        with self.assertRaises(ValidationError):
+            self.assertIsNone(validator("@example.com"))
+        with self.assertRaises(ValidationError):
+            self.assertIsNone(validator(".@example.com"))
 
 
 class FilenameTest(SimpleTestCase):
