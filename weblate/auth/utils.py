@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from email.errors import HeaderDefect
 from email.headerregistry import Address
 from typing import TYPE_CHECKING
 
@@ -131,12 +132,15 @@ def create_anonymous(model, group_model, update=True) -> None:
         )
 
 
-def format_address(display_name, email):
+def format_address(display_name: str, email: str) -> str:
     """Format e-mail address with display name."""
     # While Address does quote the name following RFC 5322,
     # git still doesn't like <> being used in the string
-    return str(
-        Address(
-            display_name=display_name.replace("<", "").replace(">", ""), addr_spec=email
+    try:
+        address = Address(
+            display_name=display_name.replace("<", "").replace(">", ""),
+            addr_spec=email,
         )
-    )
+    except HeaderDefect as error:
+        raise ValueError(f"Invalid e-mail address '{email}': {error}") from error
+    return str(address)
