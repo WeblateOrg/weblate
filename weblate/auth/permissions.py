@@ -252,8 +252,12 @@ def check_edit_approved(user: User, permission: str, obj: Model):
             if not unit.source_unit.translated:
                 return Denied(gettext("The source string needs review."))
             return Denied(gettext("The string is read only."))
-        if unit.approved and not check_unit_review(
-            user, "unit.review", obj, skip_enabled=True
+        # Ignore approved state if review is not disabled. This might
+        # happen after disabling them.
+        if (
+            unit.approved
+            and obj.enable_review
+            and not check_unit_review(user, "unit.review", obj, skip_enabled=True)
         ):
             return Denied(
                 gettext(
