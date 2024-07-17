@@ -10,6 +10,7 @@ from __future__ import annotations
 import os.path
 import shutil
 from io import BytesIO
+from pathlib import Path
 from typing import NoReturn
 from unittest import SkipTest, TestCase
 
@@ -56,7 +57,7 @@ from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
@@ -342,6 +343,54 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         for i, expected_flag in enumerate(expected_list):
             unit = units[i]
             self.assertEqual(unit.flags, expected_flag)
+
+    def test_add_monolingual(self) -> None:
+        """
+        Test for adding monolingual based on the template.
+
+        This is used when Weblate is translating string not present in the translation
+        in Translation.update_units().
+        """
+        if not self.MONOLINGUAL or not self.FORMAT.can_add_unit:
+            raise SkipTest("Not supported")
+
+        temp_dir = Path(self.tempdir)
+        template_file = temp_dir / f"test.tmpl.{self.EXT}"
+        main_file = temp_dir / f"test.{self.EXT}"
+
+        # Create the template under test with a single string
+        shutil.copy(self.FILE, template_file)
+        template_storage = self.FORMAT(template_file, is_template=True)
+        template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        template_storage.save()
+
+        template_content = template_file.read_text()
+
+        # Add a new language and translate the new string.
+        self.FORMAT.add_language(main_file, Language.objects.get(code="cs"), self.BASE)
+        target_storage = self.parse_file(main_file, template=template_file)
+        target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
+        self.assertTrue(add)
+
+        # This is what Translation.update_units() does
+        target_storage.add_unit(target_unit)
+        target_unit.set_target("Translated string (CS)")
+        # Note: Explanations are currently ignored by most of the formats
+        target_unit.set_explanation("Explanation")
+        target_unit.set_source_explanation("Source explanation")
+        # The approved state is saved by a few formats
+        target_unit.set_state(STATE_APPROVED)
+        target_storage.save()
+
+        # Template should not change now
+        template_storage.save()
+        self.assertEqual(template_file.read_text(), template_content)
+
+        # Reload the storage to check notes were correctly written.
+        target_storage = self.parse_file(main_file, template=template_file)
+        target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
+        self.assertFalse(add)
+        self.assertEqual(target_unit.target, "Translated string (CS)")
 
 
 class XMLMixin:
