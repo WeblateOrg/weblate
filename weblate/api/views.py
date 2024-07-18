@@ -101,6 +101,7 @@ from weblate.trans.tasks import (
     project_removal,
 )
 from weblate.trans.views.files import download_multi
+from weblate.trans.views.reports import generate_credits
 from weblate.utils.celery import get_queue_stats, get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
@@ -928,6 +929,23 @@ class ProjectViewSet(
             requested_format,
             name=instance.slug,
         )
+
+    @action(detail=True, methods=["get"])
+    def credits(self, request, **kwargs):
+        """"""
+        project = self.get_object()
+
+        data = generate_credits(
+            None
+            if request.user.has_perm("reports.view", project)
+            or request.user.is_anonymous
+            else request.user,
+            None,
+            None,
+            None,
+            translation__component__project=project,
+        )
+        return Response(data=data)
 
 
 class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin):
