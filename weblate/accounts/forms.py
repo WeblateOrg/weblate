@@ -854,11 +854,7 @@ class NotificationForm(forms.Form):
         for field, notification_cls in self.notification_fields():
             frequency = self.cleaned_data[field]
             # We do not store removed field, defaults or disabled default subscriptions
-            if (
-                frequency == ""  # noqa: PLC1901
-                or frequency == "-1"
-                or (frequency == "0" and not self.show_default)
-            ):
+            if frequency in {"", "-1"} or (frequency == "0" and not self.show_default):
                 continue
             # Create/Get from database
             subscription, _created = self.user.subscription_set.update_or_create(
