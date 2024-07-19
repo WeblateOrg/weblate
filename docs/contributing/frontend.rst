@@ -43,11 +43,9 @@ Adding new third-party library typically consists of:
 Coding style
 ------------
 
-Weblate relies on `Prettier`_ for the code formatting for CSS files and
-`Biome`_ for formatting and linting the JavaScript code.
+Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS code.
 
 .. _Biome: https://biomejs.dev/
-.. _Prettier: https://prettier.io/
 
 
 Localization
