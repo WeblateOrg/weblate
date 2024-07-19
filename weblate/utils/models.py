@@ -46,7 +46,7 @@ class WeblateConf(AppConf):
     SENTRY_SECURITY = None
     SENTRY_ENVIRONMENT = "devel"
     SENTRY_TOKEN = None
-    SENTRY_SEND_PII = True
+    SENTRY_SEND_PII = False
     SENTRY_PROJECTS = ["weblate"]
     SENTRY_RELEASES_API_URL = (
         "https://sentry.io/api/0/organizations/4507304895905792/releases/"
