@@ -8,7 +8,7 @@ Not yet released.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
 * New :ref:`subscriptions` for completed translation and component.
-* :ref:`mt-openai` now supports custom models and URLs.
+* :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
 
 **Improvements**
 
