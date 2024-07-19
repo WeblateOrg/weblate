@@ -171,6 +171,8 @@ string. You can add more alternative translations using the :guilabel:`Tools`
 menu. Any blank alternative translations will be automatically removed upon
 saving.
 
+.. _keyboard:
+
 Keyboard shortcuts
 ++++++++++++++++++
 

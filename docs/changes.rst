@@ -17,6 +17,7 @@ Not yet released.
 * :ref:`reports` are now available for categories.
 * Highlight newlines in the editor.
 * :doc:`/formats/csv` better handle with with two fields only.
+* Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
 
 **Bug fixes**
 
