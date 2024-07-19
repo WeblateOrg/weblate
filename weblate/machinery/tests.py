@@ -54,7 +54,7 @@ from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
 from weblate.machinery.openai import OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
-from weblate.machinery.tmserver import AMAGAMA_LIVE, AmagamaTranslation
+from weblate.machinery.tmserver import TMServerTranslation
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -65,6 +65,8 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
+
+AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
 GLOSBE_JSON = {
     "result": "ok",
@@ -738,10 +740,13 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         )
 
 
-class AmagamaTranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS = AmagamaTranslation
+class TMServerTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = TMServerTranslation
     EXPECTED_LEN = 1
     SOURCE_TRANSLATED = "Hello"
+    CONFIGURATION = {
+        "url": AMAGAMA_LIVE,
+    }
 
     def mock_empty(self) -> None:
         responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)

@@ -27,6 +27,7 @@ Not yet released.
 
 * Weblate now uses mistletoe instead of misaka as a Markdown renderer.
 * :ref:`csp` is now stricter what might block third-party customizations.
+* Dropped support for Amagama in :ref:`machine-translation-setup` as the service is no longer maintained.
 
 **Upgrading**
 

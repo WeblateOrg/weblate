@@ -49,23 +49,6 @@ and it supports up to 214 language pairs.
 
     `Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/machine-translation>`_
 
-.. _mt-amagama:
-
-Amagama
--------
-
-:Service ID: ``amagama``
-:Configuration: `This service has no configuration.`
-
-Special installation of :ref:`mt-tmserver` run by the authors of Virtaal.
-
-.. seealso::
-
-    :ref:`amagama:installation`,
-    :doc:`virtaal:amagama`,
-    `amaGama Translation Memory <https://amagama.translatehouse.org/>`_
-
-
 .. _mt-apertium-apy:
 
 Apertium APy
