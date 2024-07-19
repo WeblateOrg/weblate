@@ -15,8 +15,8 @@ If you are not sure about your bug report or feature request, you can try :ref:`
 
 .. _security:
 
-Security issues
----------------
+Reporting security issues
+-------------------------
 
 Weblate’s development team is strongly committed to responsible reporting and
 disclosure of security-related issues. We have adopted and follow policies that
