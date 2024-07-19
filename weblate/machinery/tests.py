@@ -321,10 +321,16 @@ class BaseMachineTranslationTest(TestCase):
         self.mock_response()
         if machine is None:
             machine = self.get_machine()
-        unit = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
-        machine.batch_translate([unit])
-        self.assertGreater(unit.machinery["quality"][0], -1)
-        self.assertIn("translation", unit.machinery)
+        unit1 = MockUnit(
+            code=self.SUPPORTED, source=self.SOURCE_TRANSLATED, target="target"
+        )
+        unit2 = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
+        unit2.translated = False
+        machine.batch_translate([unit1, unit2])
+        self.assertGreater(unit1.machinery["quality"][0], -1)
+        self.assertIn("translation", unit1.machinery)
+        self.assertGreater(unit2.machinery["quality"][0], -1)
+        self.assertIn("translation", unit2.machinery)
 
     @responses.activate
     @respx.mock
