@@ -285,6 +285,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
+        ("gpt-4o-mini", "GPT-4o mini"),
         ("gpt-4o", "GPT-4o"),
         ("gpt-4-1106-preview", "GPT-4 Turbo"),
         ("gpt-4", "GPT-4"),
