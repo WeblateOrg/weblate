@@ -151,7 +151,7 @@ function screenshotAddString() {
         list.find("table").replaceWith(data);
       });
     },
-    error: (jqXHR, textStatus, errorThrown) => {
+    error: (jqXhr, textStatus, errorThrown) => {
       addAlert(errorThrown);
     },
   });
@@ -216,10 +216,10 @@ function compareCells(a, b) {
       Number.parseFloat(b.replace(",", ".")),
     );
   }
-  const parsed_a = getNumber(a);
-  const parsed_b = getNumber(b);
-  if (parsed_a !== null && parsed_b !== null) {
-    return _compareValues(parsed_a, parsed_b);
+  const parsedA = getNumber(a);
+  const parsedB = getNumber(b);
+  if (parsedA !== null && parsedB !== null) {
+    return _compareValues(parsedA, parsedB);
   }
   if (typeof a === "string" && typeof b === "string") {
     return _compareValues(a.toLowerCase(), b.toLowerCase());
@@ -268,13 +268,13 @@ function loadTableSorting() {
               .sort((a, b) => {
                 let $a = $(a);
                 let $b = $(b);
-                const a_parent = $a.data("parent");
-                const b_parent = $b.data("parent");
-                if (a_parent) {
-                  $a = tbody.find(`#${a_parent}`);
+                const parentA = $a.data("parent");
+                const parentB = $b.data("parent");
+                if (parentA) {
+                  $a = tbody.find(`#${parentA}`);
                 }
-                if (b_parent) {
-                  $b = tbody.find(`#${b_parent}`);
+                if (parentB) {
+                  $b = tbody.find(`#${parentB}`);
                 }
                 return (
                   inverse *
@@ -321,7 +321,7 @@ function interpolate(fmt, obj, named) {
   return fmt.replace(/%s/g, () => String(obj.shift()));
 }
 
-function load_matrix() {
+function loadMatrix() {
   const $loadingNext = $("#loading-next");
   const $loader = $("#matrix-load");
   const offset = Number.parseInt($loader.data("offset"));
@@ -476,7 +476,7 @@ function initHighlight(root) {
     if (editor.classList.contains("translation-editor")) {
       const placeables = editor.getAttribute("data-placeables");
       /* This should match WHITESPACE_REGEX in weblate/trans/templatetags/translations.py */
-      const whitespace_regex = new RegExp(
+      const whitespaceRegex = new RegExp(
         [
           "  +|(^) +| +(?=$)| +\n|\n +|\t|",
           "\u00A0|\u00AD|\u1680|\u2000|\u2001|",
@@ -487,7 +487,7 @@ function initHighlight(root) {
       );
       const extension = {
         hlspace: {
-          pattern: whitespace_regex,
+          pattern: whitespaceRegex,
           lookbehind: true,
         },
         newline: {
@@ -666,7 +666,7 @@ $(function () {
           csrfmiddlewaretoken: $form.find("input").val(),
           id: this.getAttribute("data-id"),
         },
-        error: (jqXHR, textStatus, errorThrown) => {
+        error: (jqXhr, textStatus, errorThrown) => {
           addAlert(errorThrown);
         },
       });
@@ -689,10 +689,10 @@ $(function () {
 
   /* Matrix mode handling */
   if ($(".matrix").length > 0) {
-    load_matrix();
+    loadMatrix();
     $window.scroll(() => {
       if ($window.scrollTop() >= $document.height() - 2 * $window.height()) {
-        load_matrix();
+        loadMatrix();
       }
     });
   }
@@ -841,9 +841,9 @@ $(function () {
   });
 
   /* Auto translate source select */
-  const select_auto_source = $('input[name="auto_source"]');
-  if (select_auto_source.length > 0) {
-    select_auto_source.on("change", () => {
+  const selectAutoSource = $('input[name="auto_source"]');
+  if (selectAutoSource.length > 0) {
+    selectAutoSource.on("change", () => {
       if ($('input[name="auto_source"]:checked').val() === "others") {
         $("#auto_source_others").show();
         $("#auto_source_mt").hide();
@@ -852,7 +852,7 @@ $(function () {
         $("#auto_source_mt").show();
       }
     });
-    select_auto_source.trigger("change");
+    selectAutoSource.trigger("change");
   }
 
   /* Override all multiple selects */
@@ -887,21 +887,21 @@ $(function () {
 
     $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
 
-    const progress_completed = () => {
+    const progressCompleted = () => {
       $bar.width("100%");
       if ($("#progress-redirect").prop("checked")) {
         window.location = $("#progress-return").attr("href");
       }
     };
 
-    const progress_interval = setInterval(() => {
+    const progressInterval = setInterval(() => {
       $.ajax({
         url: url,
         type: "get",
-        error: (XMLHttpRequest, textStatus, errorThrown) => {
-          if (XMLHttpRequest.status === 404) {
-            clearInterval(progress_interval);
-            progress_completed();
+        error: (xmlHttpRequest, textStatus, errorThrown) => {
+          if (xmlHttpRequest.status === 404) {
+            clearInterval(progressInterval);
+            progressCompleted();
           }
         },
         success: (data) => {
@@ -909,8 +909,8 @@ $(function () {
           $pre.text(data.log);
           $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
           if (data.completed) {
-            clearInterval(progress_interval);
-            progress_completed();
+            clearInterval(progressInterval);
+            progressCompleted();
           }
         },
       });
@@ -935,11 +935,11 @@ $(function () {
     const $message = $(this);
     const $bar = $message.find(".progress-bar");
 
-    const task_interval = setInterval(() => {
+    const taskInterval = setInterval(() => {
       $.get($message.data("task"), (data) => {
         $bar.width(`${data.progress}%`);
         if (data.completed) {
-          clearInterval(task_interval);
+          clearInterval(taskInterval);
           $message.text(data.result.message);
         }
       });
@@ -953,18 +953,18 @@ $(function () {
 
   // Show the correct toggle button
   if ($(".sort-field").length) {
-    const sort_name = $("#query-sort-dropdown span.search-label").text();
-    const sort_dropdown_value = $(".sort-field li a")
+    const sortName = $("#query-sort-dropdown span.search-label").text();
+    const sortDropdownValue = $(".sort-field li a")
       .filter(function () {
-        return $(this).text() === sort_name;
+        return $(this).text() === sortName;
       })
       .data("sort");
-    const sort_value = $("#id_sort_by").val();
+    const sortValue = $("#id_sort_by").val();
     const $label = $(this).find("span.search-icon");
-    if (sort_dropdown_value) {
+    if (sortDropdownValue) {
       if (
-        sort_value.replace("-", "") === sort_dropdown_value.replace("-", "") &&
-        sort_value !== sort_dropdown_value
+        sortValue.replace("-", "") === sortDropdownValue.replace("-", "") &&
+        sortValue !== sortDropdownValue
       ) {
         $label.toggle();
       }
@@ -1060,15 +1060,15 @@ $(function () {
   $(".query-sort-toggle").click(function () {
     const $this = $(this);
     const $input = $this.closest(".search-group").find("input[name=sort_by]");
-    const sort_params = $input.val().split(",");
-    sort_params.forEach((param, index) => {
+    const sortParams = $input.val().split(",");
+    sortParams.forEach((param, index) => {
       if (param.indexOf("-") !== -1) {
-        sort_params[index] = param.replace("-", "");
+        sortParams[index] = param.replace("-", "");
       } else {
-        sort_params[index] = `-${param}`;
+        sortParams[index] = `-${param}`;
       }
     });
-    $input.val(sort_params.join(","));
+    $input.val(sortParams.join(","));
     if ($this.closest(".result-page-form").length) {
       $this.closest("form").submit();
     }
@@ -1161,7 +1161,7 @@ $(function () {
           }));
           callback(userMentionList);
         },
-        error: (jqXHR, textStatus, errorThrown) => {
+        error: (jqXhr, textStatus, errorThrown) => {
           console.error(errorThrown);
         },
       });
@@ -1179,16 +1179,16 @@ $(function () {
   /* forset fields adding */
   $(".add-multifield").on("click", function () {
     const updateElementIndex = (el, prefix, ndx) => {
-      const id_regex = new RegExp(`(${prefix}-(\\d+|__prefix__))`);
+      const idRegex = new RegExp(`(${prefix}-(\\d+|__prefix__))`);
       const replacement = `${prefix}-${ndx}`;
       if ($(el).prop("for")) {
-        $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
+        $(el).prop("for", $(el).prop("for").replace(idRegex, replacement));
       }
       if (el.id) {
-        el.id = el.id.replace(id_regex, replacement);
+        el.id = el.id.replace(idRegex, replacement);
       }
       if (el.name) {
-        el.name = el.name.replace(id_regex, replacement);
+        el.name = el.name.replace(idRegex, replacement);
       }
     };
     const $this = $(this);
@@ -1254,7 +1254,7 @@ $(function () {
   document
     .querySelectorAll(".user-autocomplete")
     .forEach((autoCompleteInput) => {
-      const autoCompleteJS = new autoComplete({
+      const autoCompleteJs = new autoComplete({
         selector: () => {
           return autoCompleteInput;
         },
@@ -1294,7 +1294,7 @@ $(function () {
         events: {
           input: {
             focus() {
-              if (autoCompleteInput.value.length) autoCompleteJS.start();
+              if (autoCompleteInput.value.length) autoCompleteJs.start();
             },
             selection(event) {
               const feedback = event.detail;
@@ -1356,14 +1356,14 @@ $(function () {
   // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
     enableInput.addEventListener("click", () => {
-      if (!enableInput.checked) {
-        document.getElementById("workflow-enable-target").style.visibility =
-          "hidden";
-        document.getElementById("workflow-enable-target").style.opacity = 0;
-      } else {
+      if (enableInput.checked) {
         document.getElementById("workflow-enable-target").style.visibility =
           "visible";
         document.getElementById("workflow-enable-target").style.opacity = 1;
+      } else {
+        document.getElementById("workflow-enable-target").style.visibility =
+          "hidden";
+        document.getElementById("workflow-enable-target").style.opacity = 0;
       }
     });
     enableInput.dispatchEvent(new Event("click"));

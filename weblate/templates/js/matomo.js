@@ -1,13 +1,13 @@
 // biome-ignore lint/style/noVar: keep upstream compatibility
 // biome-ignore lint/suspicious/noAssignInExpressions: keep upstream compatibility
 var _paq = (window._paq = window._paq || []);
-let _track_id = 1;
-const _track_params = JSON.parse(
+let _trackId = 1;
+const _trackParams = JSON.parse(
   document.getElementById("matomo-tracker").dataset.params,
 );
-for (const [key, value] of Object.entries(_track_params)) {
-  _paq.push(["setCustomVariable", _track_id, key, value, "page"]);
-  _track_id++;
+for (const [key, value] of Object.entries(_trackParams)) {
+  _paq.push(["setCustomVariable", _trackId, key, value, "page"]);
+  _trackId++;
 }
 _paq.push(["disableCookies"]);
 _paq.push(["trackPageView"]);
