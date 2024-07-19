@@ -255,6 +255,10 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+Y`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`→` and                              | Browse the next translation strings.                                  |
+|                                           |                                                                       |
+| :kbd:`←`                                  | Browse the previous translation strings.                              |
++-------------------------------------------+-----------------------------------------------------------------------+
 
 .. _visual-keyboard:
 
