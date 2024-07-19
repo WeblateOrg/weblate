@@ -293,8 +293,11 @@ def dashboard_user(request: AuthenticatedHttpRequest):
 
 def dashboard_anonymous(request: AuthenticatedHttpRequest):
     """Home page of Weblate showing list of projects for anonymous user."""
-    top_project_ids = cache.get("dashboard-anonymous-projects")
-    if top_project_ids is None:
+    top_project_ids_cache = cache.get("dashboard-anonymous-projects")
+    if top_project_ids_cache is not None:
+        # hiredis-py 3 makes list from set
+        top_project_ids = set(top_project_ids_cache)
+    else:
         top_projects = sorted(
             prefetch_stats(request.user.allowed_projects),
             key=lambda prj: -prj.stats.monthly_changes,

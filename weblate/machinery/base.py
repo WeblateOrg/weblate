@@ -243,9 +243,10 @@ class BatchMachineTranslation:
     def supported_languages(self):
         """Return list of supported languages."""
         # Try using list from cache
-        languages = cache.get(self.languages_cache)
-        if languages is not None:
-            return languages
+        languages_cache = cache.get(self.languages_cache)
+        if languages_cache is not None:
+            # hiredis-py 3 makes list from set
+            return set(languages_cache)
 
         if self.is_rate_limited():
             return set()

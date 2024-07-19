@@ -79,8 +79,11 @@ class OpenAITranslation(BatchMachineTranslation):
     def get_model(self) -> str:
         if self._models is None:
             cache_key = self.get_cache_key("models")
-            self._models = cache.get(cache_key)
-            if self._models is None:
+            models_cache = cache.get(cache_key)
+            if models_cache is not None:
+                # hiredis-py 3 makes list from set
+                self._models = set(models_cache)
+            else:
                 self._models = {model.id for model in self.client.models.list()}
                 cache.set(cache_key, self._models, 3600)
 
