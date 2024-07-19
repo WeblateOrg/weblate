@@ -148,13 +148,16 @@ class DeepLTranslation(
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         cache_key = self.get_cache_key("glossary_languages")
-        languages = cache.get(cache_key)
-        if languages is None:
+        languages_cache = cache.get(cache_key)
+        if languages_cache is not None:
+            # hiredis-py 3 makes list from set
+            languages = set(languages_cache)
+        else:
             response = self.request("get", self.get_api_url("glossary-language-pairs"))
-            languages = [
+            languages = {
                 (support["source_lang"].upper(), support["target_lang"].upper())
                 for support in response.json()["supported_languages"]
-            ]
+            }
 
             cache.set(cache_key, languages, 24 * 3600)
 
