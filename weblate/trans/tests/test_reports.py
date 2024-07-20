@@ -69,7 +69,7 @@ class ReportsTest(BaseReportsTest):
     def test_credits_one(self, expected_count=1) -> None:
         self.add_change()
         expected = [
-            {"Czech": [("weblate@example.org", "Weblate <b>Test</b>", expected_count)]}
+            {"Czech": [{"email": "weblate@example.org", "full_name": "Weblate <b>Test</b>", "change_count": expected_count}]}
         ]
         data = generate_credits(
             None,
