@@ -932,7 +932,6 @@ class ProjectViewSet(
 
     @action(detail=True, methods=["get"])
     def credits(self, request, **kwargs):
-        """"""
         project = self.get_object()
 
         data = generate_credits(
