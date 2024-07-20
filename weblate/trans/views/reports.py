@@ -141,7 +141,7 @@ def get_credits(request, path=None):
                 translators=format_html_or_plain_join(
                     "\n",
                     translator_format,
-                    ((t[0], t[1], t[2]) for t in translators),
+                    ((t["email"], t["full_name"], t["change_count"]) for t in translators),
                 ),
             )
         )
