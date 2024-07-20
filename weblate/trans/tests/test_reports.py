@@ -137,7 +137,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content.decode(),
-            [{"Czech": [["weblate@example.org", "Weblate <b>Test</b>", 1]]}],
+            [{"Czech": [{"email": "weblate@example.org", "full_name": "Weblate <b>Test</b>", "change_count": 1}]}],
         )
 
     def test_credits_view_rst(self) -> None:
