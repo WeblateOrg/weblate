@@ -730,8 +730,43 @@ class RoleViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
+class CreditsMixin():
+    @action(detail=True, methods=["get"])
+    def credits(self, request, **kwargs):
+        obj = self.get_object()
+
+        try:
+            start_date = from_current_timezone(datetime.fromisoformat(request.query_params["start"]))
+        except (ValueError, MultiValueDictKeyError):
+            raise BadRequest("Invalid format for `start`")
+
+        try:
+            end_date = from_current_timezone(datetime.fromisoformat(request.query_params["end"]))
+        except (ValueError, MultiValueDictKeyError):
+            raise BadRequest("Invalid format for `end`")
+
+        kwargs: dict[str, Any]
+        if isinstance(obj, Project):
+            kwargs = {"translation__component__project": obj}
+        elif isinstance(obj, Component):
+            kwargs = {"translation__component": obj}
+        else:
+            raise TypeError("Expected project or component")
+
+        data = generate_credits(
+            None
+            if request.user.has_perm("reports.view", obj)
+            or request.user.is_anonymous
+            else request.user,
+            start_date,
+            end_date,
+            None,
+            **kwargs,
+        )
+        return Response(data=data)
+
 class ProjectViewSet(
-    WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin
+    WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin, CreditsMixin
 ):
     """Translation projects API."""
 
@@ -933,34 +968,8 @@ class ProjectViewSet(
             name=instance.slug,
         )
 
-    @action(detail=True, methods=["get"])
-    def credits(self, request, **kwargs):
-        project = self.get_object()
 
-        try:
-            start_date = from_current_timezone(datetime.fromisoformat(request.query_params["start"]))
-        except (ValueError, MultiValueDictKeyError):
-            raise BadRequest("Invalid format for `start`")
-
-        try:
-            end_date = from_current_timezone(datetime.fromisoformat(request.query_params["end"]))
-        except (ValueError, MultiValueDictKeyError):
-            raise BadRequest("Invalid format for `end`")
-
-        data = generate_credits(
-            None
-            if request.user.has_perm("reports.view", project)
-            or request.user.is_anonymous
-            else request.user,
-            start_date,
-            end_date,
-            None,
-            translation__component__project=project,
-        )
-        return Response(data=data)
-
-
-class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin):
+class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin, CreditsMixin):
     """Translation components API."""
 
     raw_urls: tuple[str, ...] = ("component-file",)
