@@ -749,6 +749,11 @@ class CreditsMixin:
         except (ValueError, MultiValueDictKeyError):
             raise BadRequest("Invalid format for `end`")
 
+        language = None
+
+        if "lang" in request.query_params:
+            language = request.query_params["lang"]
+
         kwargs: dict[str, Any]
         if isinstance(obj, Project):
             kwargs = {"translation__component__project": obj}
@@ -763,7 +768,7 @@ class CreditsMixin:
             else request.user,
             start_date,
             end_date,
-            None,
+            language,
             **kwargs,
         )
         return Response(data=data)
