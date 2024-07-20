@@ -67,7 +67,9 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
         )
         .order_by("language__name", "-change_count")
     ):
-        result[language].append({ 'email': author[0], 'full_name': author[1], 'change_count': author[2] })
+        result[language].append(
+            {"email": author[0], "full_name": author[1], "change_count": author[2]}
+        )
 
     return [{language: authors} for language, authors in result.items()]
 

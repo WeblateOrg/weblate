@@ -5,22 +5,22 @@
 from __future__ import annotations
 
 import os.path
+from datetime import datetime
 from urllib.parse import unquote
 
-from datetime import datetime
 from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied, BadRequest
+from django.core.exceptions import BadRequest, PermissionDenied
 from django.db import transaction
 from django.db.models import Model, Q
+from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext
-from django.utils.datastructures import MultiValueDictKeyError
-from django.forms.utils import from_current_timezone
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
@@ -730,18 +730,22 @@ class RoleViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-class CreditsMixin():
+class CreditsMixin:
     @action(detail=True, methods=["get"])
     def credits(self, request, **kwargs):
         obj = self.get_object()
 
         try:
-            start_date = from_current_timezone(datetime.fromisoformat(request.query_params["start"]))
+            start_date = from_current_timezone(
+                datetime.fromisoformat(request.query_params["start"])
+            )
         except (ValueError, MultiValueDictKeyError):
             raise BadRequest("Invalid format for `start`")
 
         try:
-            end_date = from_current_timezone(datetime.fromisoformat(request.query_params["end"]))
+            end_date = from_current_timezone(
+                datetime.fromisoformat(request.query_params["end"])
+            )
         except (ValueError, MultiValueDictKeyError):
             raise BadRequest("Invalid format for `end`")
 
@@ -755,8 +759,7 @@ class CreditsMixin():
 
         data = generate_credits(
             None
-            if request.user.has_perm("reports.view", obj)
-            or request.user.is_anonymous
+            if request.user.has_perm("reports.view", obj) or request.user.is_anonymous
             else request.user,
             start_date,
             end_date,
@@ -764,6 +767,7 @@ class CreditsMixin():
             **kwargs,
         )
         return Response(data=data)
+
 
 class ProjectViewSet(
     WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin, CreditsMixin
@@ -969,7 +973,9 @@ class ProjectViewSet(
         )
 
 
-class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin, CreditsMixin):
+class ComponentViewSet(
+    MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin, CreditsMixin
+):
     """Translation components API."""
 
     raw_urls: tuple[str, ...] = ("component-file",)
