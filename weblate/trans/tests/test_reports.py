@@ -69,7 +69,15 @@ class ReportsTest(BaseReportsTest):
     def test_credits_one(self, expected_count=1) -> None:
         self.add_change()
         expected = [
-            {"Czech": [{"email": "weblate@example.org", "full_name": "Weblate <b>Test</b>", "change_count": expected_count}]}
+            {
+                "Czech": [
+                    {
+                        "email": "weblate@example.org",
+                        "full_name": "Weblate <b>Test</b>",
+                        "change_count": expected_count,
+                    }
+                ]
+            }
         ]
         data = generate_credits(
             None,
@@ -137,7 +145,17 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content.decode(),
-            [{"Czech": [{"email": "weblate@example.org", "full_name": "Weblate <b>Test</b>", "change_count": 1}]}],
+            [
+                {
+                    "Czech": [
+                        {
+                            "email": "weblate@example.org",
+                            "full_name": "Weblate <b>Test</b>",
+                            "change_count": 1,
+                        }
+                    ]
+                }
+            ],
         )
 
     def test_credits_view_rst(self) -> None:
