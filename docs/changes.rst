@@ -18,7 +18,7 @@ Not yet released.
 * Highlight newlines in the editor.
 * :doc:`/formats/csv` better handle with with two fields only.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
-* :http:get: `/credits/` API endpoints for components and projects.
+* :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
 
 **Bug fixes**
 
