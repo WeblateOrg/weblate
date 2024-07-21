@@ -18,6 +18,7 @@ Not yet released.
 * Highlight newlines in the editor.
 * :doc:`/formats/csv` better handle with with two fields only.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
+* :http:get: `/credits/` API endpoints for components and projects.
 
 **Bug fixes**
 
@@ -30,6 +31,7 @@ Not yet released.
 * :ref:`csp` is now stricter what might block third-party customizations.
 * Dropped support for Amagama in :ref:`machine-translation-setup` as the service is no longer maintained.
 * Default value for :setting:`SENTRY_SEND_PII` was changed.
+* Translation credit reports in the JSON format now follows a different format for entries.
 
 **Upgrading**
 
