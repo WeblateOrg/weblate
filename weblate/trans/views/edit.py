@@ -32,7 +32,7 @@ from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.exceptions import FileParseError
+from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.forms import (
     AutoForm,
     ChecksumForm,
@@ -303,16 +303,23 @@ def perform_suggestion(unit, form, request):
         return False
 
     # Create the suggestion
-    result = Suggestion.objects.add(
-        unit,
-        form.cleaned_data["target"],
-        request,
-        request.user.has_perm("suggestion.vote", unit),
-    )
-    if not result:
-        messages.error(request, gettext("Your suggestion already exists!"))
-    elif result.fixups:
-        display_fixups(request, result.fixups)
+    try:
+        result = Suggestion.objects.add(
+            unit,
+            form.cleaned_data["target"],
+            request,
+            request.user.has_perm("suggestion.vote", unit),
+        )
+    except SuggestionSimilarToTranslationError:
+        messages.error(
+            request, gettext("Your suggestion is similar to the current translation!")
+        )
+        result = False
+    else:
+        if not result:
+            messages.error(request, gettext("Your suggestion already exists!"))
+        elif result.fixups:
+            display_fixups(request, result.fixups)
     return result
 
 

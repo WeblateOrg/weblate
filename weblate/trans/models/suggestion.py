@@ -13,6 +13,7 @@ from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.autofixes import fix_target
+from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.trans.util import join_plural, split_plural
@@ -38,7 +39,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
             user = request.user if request else get_anonymous()
 
         if unit.translated and unit.target == target:
-            return False
+            raise SuggestionSimilarToTranslationError
 
         same_suggestions = self.filter(target=target, unit=unit)
         # Do not rely on the SQL as MySQL compares strings case insensitive

@@ -32,6 +32,7 @@ from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
     PluralFormsMismatchError,
+    SuggestionSimilarToTranslationError,
 )
 from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
@@ -1003,9 +1004,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if isinstance(new_target, str):
                 new_target = [new_target]
             if current_target != new_target and not dbunit.readonly:
-                if Suggestion.objects.add(dbunit, new_target, request):
-                    accepted += 1
-                else:
+                try:
+                    if Suggestion.objects.add(dbunit, new_target, request):
+                        accepted += 1
+                    else:
+                        skipped += 1
+                except SuggestionSimilarToTranslationError:
                     skipped += 1
             else:
                 skipped += 1

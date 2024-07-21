@@ -12,6 +12,7 @@ from django.db.models.functions import MD5, Lower
 
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
+from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.trans.util import split_plural
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
@@ -62,9 +63,13 @@ class AutoTranslate:
         if self.mode == "suggest" or any(
             len(item) > unit.get_max_length() for item in target
         ):
-            suggestion = Suggestion.objects.add(
-                unit, target, request=None, vote=False, user=user
-            )
+            try:
+                suggestion = Suggestion.objects.add(
+                    unit, target, request=None, vote=False, user=user
+                )
+            except SuggestionSimilarToTranslationError:
+                suggestion = False
+
             if suggestion:
                 self.updated += 1
         else:
