@@ -1947,8 +1947,8 @@ class ProjectAPITest(APIBaseTest):
             "api:component-credits", self.component_kwargs, method="get", code=400
         )
 
-        start = datetime.today() - timedelta(days=1)
-        end = datetime.today() + timedelta(days=1)
+        start = datetime.now(tz=datetime.timezone.utc) - timedelta(days=1)
+        end = datetime.now(tz=datetime.timezone.utc) + timedelta(days=1)
 
         response = self.do_request(
             "api:component-credits",
@@ -2265,8 +2265,8 @@ class ComponentAPITest(APIBaseTest):
             "api:component-credits", self.component_kwargs, method="get", code=400
         )
 
-        start = datetime.today() - timedelta(days=1)
-        end = datetime.today() + timedelta(days=1)
+        start = datetime.now(tz=datetime.timezone.utc) - timedelta(days=1)
+        end = datetime.now(tz=datetime.timezone.utc) + timedelta(days=1)
 
         response = self.do_request(
             "api:component-credits",

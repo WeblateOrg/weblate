@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os.path
 from datetime import datetime
+from typing import Any
 from urllib.parse import unquote
 
 from celery.result import AsyncResult
@@ -739,15 +740,15 @@ class CreditsMixin:
             start_date = from_current_timezone(
                 datetime.fromisoformat(request.query_params["start"])
             )
-        except (ValueError, MultiValueDictKeyError):
-            raise BadRequest("Invalid format for `start`")
+        except (ValueError, MultiValueDictKeyError) as err:
+            raise BadRequest("Invalid format for `start`") from err
 
         try:
             end_date = from_current_timezone(
                 datetime.fromisoformat(request.query_params["end"])
             )
-        except (ValueError, MultiValueDictKeyError):
-            raise BadRequest("Invalid format for `end`")
+        except (ValueError, MultiValueDictKeyError) as err:
+            raise BadRequest("Invalid format for `end`") from err
 
         language = None
 
