@@ -4,9 +4,8 @@
 
 import os
 from copy import copy
-from datetime import timedelta
-from io import BytesIO
 from datetime import datetime, timedelta
+from io import BytesIO
 
 from django.core.files import File
 from django.urls import reverse
@@ -1944,15 +1943,29 @@ class ProjectAPITest(APIBaseTest):
 
     def test_credits(self) -> None:
         # mandatory date parameters
-        self.do_request("api:component-credits", self.component_kwargs, method="get", code=400)
+        self.do_request(
+            "api:component-credits", self.component_kwargs, method="get", code=400
+        )
 
         start = datetime.today() - timedelta(days=1)
-        end = datetime.today() + timedelta(days = 1)
+        end = datetime.today() + timedelta(days=1)
 
-        response = self.do_request("api:component-credits", self.component_kwargs, method="get", code=200, request={"start": start.isoformat(), "end": end.isoformat()})
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat()},
+        )
         self.assertEqual(response.data, [])
 
-        response = self.do_request("api:component-credits", self.component_kwargs, method="get", code=200, request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"})
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
+        )
         self.assertEqual(response.data, [])
 
 
@@ -2248,15 +2261,29 @@ class ComponentAPITest(APIBaseTest):
 
     def test_credits(self) -> None:
         # mandatory date parameters
-        self.do_request("api:component-credits", self.component_kwargs, method="get", code=400)
+        self.do_request(
+            "api:component-credits", self.component_kwargs, method="get", code=400
+        )
 
         start = datetime.today() - timedelta(days=1)
-        end = datetime.today() + timedelta(days = 1)
+        end = datetime.today() + timedelta(days=1)
 
-        response = self.do_request("api:component-credits", self.component_kwargs, method="get", code=200, request={"start": start.isoformat(), "end": end.isoformat()})
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat()},
+        )
         self.assertEqual(response.data, [])
 
-        response = self.do_request("api:component-credits", self.component_kwargs, method="get", code=200, request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"})
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
+        )
         self.assertEqual(response.data, [])
 
 
