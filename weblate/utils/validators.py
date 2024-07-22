@@ -181,6 +181,8 @@ class EmailValidator(EmailValidatorDjango):
 
     def __call__(self, value: str | None):
         super().__call__(value)
+        if value is None:
+            return
         user_part = value.rsplit("@", 1)[0]
         if EMAIL_BLACKLIST.match(user_part):
             raise ValidationError(gettext("Enter a valid e-mail address."))
