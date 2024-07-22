@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Michal Čihař <michal@weblate.org>, 2023, 2024.
 # inson1 <vaclav.svarc01@seznam.cz>, 2023.
+# Fjuro <fjuro@alius.cz>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-05-06 12:46+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2024-07-22 20:50+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5.3\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -798,12 +799,9 @@ msgid "Parse error occurred"
 msgstr "Došlo k chybě při zpracování"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Nový řetězec je dostupný k překladu"
+msgstr "Řetězec je dostupný k překladu"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
@@ -823,7 +821,7 @@ msgstr "Komentář byl přidán"
 #: weblate/accounts/notifications.py:557
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Byl jste zmíněn v komentáři"
+msgstr "Byli jste zmíněni v komentáři"
 
 #: weblate/accounts/notifications.py:589
 msgctxt "Notification name"
@@ -2178,10 +2176,8 @@ msgstr "Spravovat předplatné"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Nainstalované doplňky"
+msgstr "Spravovat doplňky celého webu"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -3166,6 +3162,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Reference Fluent v {sequence} může být rozšířena do značky HTML. Možná "
+"použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:142
 #, python-brace-format
@@ -3173,6 +3171,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Reference Fluent v {sequence} může být rozšířena do reference značky HTML. "
+"Možná použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:170
 #, python-brace-format
@@ -3180,6 +3180,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná zavírací značkou HTML, ale název nebo syntaxe "
+"není správná. Pokud nechcete zavírací značku, použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:183
 #, python-brace-format
@@ -3187,6 +3189,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná značkou HTML, ale název není správný. Pokud "
+"nechcete začít značku HTML, použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:196
 #, python-brace-format
@@ -3194,12 +3198,16 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná značkou HTML, ale ta není nikde uzavřena značkou "
+"{close}. Pokud začít značku HTML, použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:210
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Vnitřní HTML Fluent by nemělo obsahovat {sequence}. Možná použijte "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:226
 #, python-brace-format
@@ -3208,6 +3216,9 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná značkou HTML, ale atribut {attribute} sekvence "
+"není správný atribut s hodnotou. Pokud nechcete začít značku HTML, použijte "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:244
 #, python-brace-format
@@ -7129,7 +7140,7 @@ msgstr "Procházet"
 #: weblate/templates/browse.html:46 weblate/trans/views/edit.py:266
 #: weblate/trans/views/edit.py:600
 msgid "No strings found!"
-msgstr "Nebyly žádné řetězce!"
+msgstr "Nebyly nalezeny žádné řetězce!"
 
 #: weblate/templates/category-project.html:15
 #: weblate/templates/category.html:30 weblate/templates/component.html:34
