@@ -1005,7 +1005,11 @@ class CSVUnit(MonolingualSimpleUnit):
 
     def set_target(self, target: str | list[str]) -> None:
         super().set_target(target)
-        if self.template is not None and not self.parent.is_template:
+        if (
+            self.template is not None
+            and not self.parent.is_template
+            and "target" not in self.parent.store.fieldnames
+        ):
             # Update source for bilingual as CSV fields can contain just source
             self.unit.source = self.unit.target
 
