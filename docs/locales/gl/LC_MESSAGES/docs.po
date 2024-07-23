@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-07-22 20:50+0000\n"
+"PO-Revision-Date: 2024-07-23 21:40+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "documentation/gl/>\n"
@@ -427,6 +427,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"De xeito predeterminado, isto impide que Weblate conceda o acceso fornecido "
+"polos :ref:`equipos predeterminados <default-teams>` `Usuarios` e `Lectores` "
+"por mor da propia configuración destes equipos. Isto non lle impide conceder "
+"permisos a eses proxectos en todo o sitio modificando os equipos "
+"predeterminados, creando un novo ou creando axustes personalizados "
+"adicionais para cada compoñente como se describe en :ref:`custom-acl` a "
+"continuación."
 
 #: ../../admin/access.rst:201
 msgid ""
@@ -435,6 +442,10 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
+"Un dos principais beneficios de xestionar permisos a través da interface de "
+"usuario de Weblate é que pode delegar noutros usuarios sen darlle o "
+"privilexio de superusuario. Para facelo, engádaos ao equipo de "
+"`Administración` do proxecto."
 
 #: ../../admin/access.rst:209
 msgid "Site-wide access control"
@@ -450,6 +461,9 @@ msgid ""
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"O sistema de permisos baséase en equipos e roles, onde os roles definen un "
+"conxunto de permisos, e os equipos os vinculan a usuarios e traducións, "
+"consulte :ref:`auth-model` para ver máis detalles."
 
 #: ../../admin/access.rst:217
 msgid ""
@@ -473,6 +487,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
+"Se non está interesado nos detalles da implementación e só quere crear unha "
+"configuración bastante sinxela baseada nos valores predeterminados, ou non "
+"ten acceso a toda a instalación de Weblate en todo o sitio (como en `Hosted "
+"Weblate https:// hosted.weblate.org/`_), consulte a sección :ref:`manage-"
+"acl`."
 
 #: ../../admin/access.rst:229
 msgid "Site-wide permission management"
@@ -483,12 +502,16 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
+"Para xestionar os permisos de toda unha instancia á vez, engada usuarios aos "
+":ref:`equipos predeterminados <default-teams>` axeitados:"
 
 #: ../../admin/access.rst:234
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
+"`Usuarios` (isto faise de xeito predeterminado mediante a :ref:`asignación "
+"automática do equipo <autoteam»`)."
 
 #: ../../admin/access.rst:236
 msgid ""
@@ -503,6 +526,8 @@ msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Xestores` (se quere delegar a maior parte das operacións de xestión a outra "
+"persoa)."
 
 #: ../../admin/access.rst:241
 msgid ""
@@ -510,6 +535,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
+"Debería manter todos os proxectos configurados como `Públicos` (consulte "
+":ref:`acl`), se non, os permisos de todo o sitio fornecidos pola pertenza "
+"aos equipos de `Usuarios` e `Revisores` non terán ningún efecto."
 
 #: ../../admin/access.rst:245
 msgid ""
@@ -517,6 +545,9 @@ msgid ""
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Tamén pode conceder algúns permisos adicionais da súa elección aos equipos "
+"predeterminados. Por exemplo, pode querer dar permiso para xestionar "
+"capturas de pantalla a todos os `Usuarios`."
 
 #: ../../admin/access.rst:249
 msgid ""
@@ -541,6 +572,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
+"Pode crear os seus propios equipos dedicados para xestionar os permisos de "
+"distintos obxectos, como idiomas, compoñentes e proxectos. Aínda que estes "
+"equipos só poden outorgar privilexios adicionais, non pode revogar ningún "
+"permiso concedido por equipos de todo o sitio ou por proxecto engadindo "
+"outro equipo personalizado."
 
 #: ../../admin/access.rst:262 ../../admin/access.rst:395
 #: ../../admin/config.rst:247 ../../admin/config.rst:266
@@ -554,7 +590,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:1695 ../../admin/install/docker.rst:1754
 #: ../../admin/install/docker.rst:1799 ../../admin/install/docker.rst:1817
 msgid "**Example:**"
-msgstr "**Ejemplo:**"
+msgstr "**Exemplo:**"
 
 #: ../../admin/access.rst:264
 msgid ""
@@ -562,6 +598,9 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Se quere (por calquera motivo) permitir a tradución a un idioma específico ("
+"digamos `checo`) só a un conxunto pechado de tradutores fiábeis mantendo as "
+"traducións a outros idiomas públicas, terá que:"
 
 #: ../../admin/access.rst:268
 msgid ""
@@ -569,6 +608,9 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "team <default-teams>`."
 msgstr ""
+"Retirar o permiso para traducir `checo` a todos os usuarios. Na "
+"configuración predeterminada, isto pódese facer modificando o :ref:`equipo "
+"predeterminado <default-teams>` `Usuarios`."
 
 #: ../../admin/access.rst:272
 msgid "Group `Users`"
@@ -616,7 +658,7 @@ msgstr "`Checo`"
 
 #: ../../admin/access.rst:298
 msgid "Add users you wish to give the permissions to into this team."
-msgstr ""
+msgstr "Engada a este equipo aos usuarios aos que quere outorgar permisos."
 
 #: ../../admin/access.rst:300
 msgid ""
@@ -624,6 +666,9 @@ msgid ""
 "quite a tedious job. You can’t delegate it to another user, unless granting "
 "superuser permissions."
 msgstr ""
+"Como pode ver, a xestión de permisos deste xeito é moi potente, mais pode "
+"ser un traballo bastante árido. Non pode delegalo noutro usuario, a non ser "
+"que lle conceda permisos de superusuario."
 
 #: ../../admin/access.rst:307
 msgid "Users, roles, teams, and permissions"
@@ -696,6 +741,10 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
+"Un usuario ten que ser membro dun equipo vinculado ao proxecto, ou calquera "
+"compoñente dentro dese proxecto. Abonda coa pertenza, non se precisa de "
+"permisos específicos para navegar polo proxecto (iso úsase no equipo "
+"`Lectores` predeterminado, consulte :ref:`default-teams`)."
 
 #: ../../admin/access.rst:350
 msgid "Access for browse to a component"
@@ -709,6 +758,11 @@ msgid ""
 "component requires explicit permissions for the component (or a component "
 "list the component is in)."
 msgstr ""
+"Un usuario pode acceder a compoñentes sen restricións unha vez que poida "
+"acceder ao proxecto do compoñente (e terá todos os permisos concedidos ao "
+"usuario para o proxecto). Con :ref:`component-restricted` activado, o acceso "
+"ao compoñente require permisos explícitos para o compoñente (ou unha lista "
+"de compoñentes na que estea o compoñente)."
 
 #: ../../admin/access.rst:360
 msgid "Scope of teams"
@@ -719,6 +773,8 @@ msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
+"O ámbito do permiso asignado polos roles nos equipos aplícase coas seguintes "
+"regras:"
 
 #: ../../admin/access.rst:365
 msgid ""
@@ -728,18 +784,20 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Se o equipo especifica calquera :guilabel:`lista de compoñentes`, todos os "
+"Se o equipo especifica calquera :guilabel:`Lista de compoñentes`, todos os "
 "permisos concedidos aos membros dese equipo son outorgados para todos os "
 "compoñentes nas listas de compoñentes unidas ao equipo, e outórgase un "
 "acceso sen permisos adicionais para todos os proxectos nos que se atopan "
-"estes compoñentes. Ignóranse os :guilabel:`Compoñentes` e os :guilabel:"
-"`Proxectos`."
+"estes compoñentes. Ignóranse os :guilabel:`Compoñentes` e os "
+":guilabel:`Proxectos`."
 
 #: ../../admin/access.rst:371
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"O uso de grandes listas de compoñentes pode afectar ao rendemento, considere "
+"dar acceso a través de proxectos."
 
 #: ../../admin/access.rst:374
 msgid ""
@@ -748,6 +806,11 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Se o equipo especifica algún :guilabel:`Compoñente`, todos os permisos "
+"outorgados aos membros dese equipo concédense para todos os compoñentes "
+"adscritos ao equipo, e concédese un acceso sen permisos adicionais para "
+"todos os proxectos nos que se atopen estes compoñentes. Ignóranse os "
+":guilabel:`Proxectos`."
 
 #: ../../admin/access.rst:379
 msgid ""
@@ -757,6 +820,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"En caso contrario, se o equipo especifica algún :guilabel:`Proxecto`, ben "
+"enumerándoo directamente ou tendo a :guilabel:`Selección de proxectos` "
+"definida cun valor como :guilabel:`Todos os proxectos públicos`, todos eses "
+"permisos aplícanse a todos os proxectos, o que efectivamente outorga os "
+"mesmos permisos para acceder a todos os:ref:`compoñentes sen restricións "
+"<component-restricted>` dos proxectos."
 
 #: ../../admin/access.rst:385
 msgid ""
@@ -766,18 +835,27 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"As restricións impostas polos :guilabel:`Idiomas` dun equipo aplícanse por "
+"separado, cando se verifica se un usuario ten acceso para realizar "
+"determinadas accións. É dicir, só se aplica a accións directamente "
+"relacionadas co propio proceso de tradución, como revisar, gardar "
+"traducións, engadir suxestións, etc."
 
 #: ../../admin/access.rst:392
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
+"Use :guilabel:`Selección de idiomas` ou :guilabel:`Selección de proxectos` "
+"para automatizar a inclusión de todos os idiomas ou proxectos."
 
 #: ../../admin/access.rst:397
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
 msgstr ""
+"Digamos que hai un proxecto ``foo`` cos compoñentes: ``foo/bar`` e ``foo/"
+"baz`` e o seguinte equipo:"
 
 #: ../../admin/access.rst:400
 msgid "Group `Spanish Admin-Reviewers`"
@@ -804,22 +882,30 @@ msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
+"Os membros dese equipo terán os seguintes permisos (asumindo a configuración "
+"predeterminada do rol):"
 
 #: ../../admin/access.rst:414
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Acceso xeral (navegación) a todo o proxecto ``foo`` incluíndo os dous "
+"compoñentes: ``foo/bar`` e ``foo/baz``."
 
 #: ../../admin/access.rst:416
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Revisar as cadeas na tradución ao español de ``foo/bar`` (non noutro lugar)."
 
 #: ../../admin/access.rst:417
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Xestionar o SCV (VCS) para todo o repositorio ``foo/bar``, p. ex. facer "
+"«commit» dos cambios pendentes realizados polos tradutores para todos os "
+"idiomas."
 
 #: ../../admin/access.rst:423
 msgid "Automatic team assignments"
@@ -855,6 +941,10 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"A asignación automática de equipos a `Usuarios` e `Lectores` volve crearse "
+"sempre que se actualiza dunha versión de Weblate a outra. Se quere "
+"desactivalo, defina a expresión regular como ``^$`` (que non coincidirá con "
+"nada)."
 
 #: ../../admin/access.rst:447
 msgid ""
@@ -1537,7 +1627,7 @@ msgstr ""
 
 #: ../../admin/access.rst:650
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Lectores`"
 
 #: ../../admin/access.rst:651
 msgid ""
@@ -1570,7 +1660,7 @@ msgstr ""
 
 #: ../../admin/access.rst:667 ../../workflows.rst:186
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Revisores`"
 
 #: ../../admin/access.rst:668
 msgid "Group for reviewers (see :ref:`workflows`)."
@@ -47342,11 +47432,11 @@ msgstr ""
 
 #: ../../wlc.rst:291
 msgid "Configuration files"
-msgstr ""
+msgstr "Ficheiros de configuración"
 
 #: ../../wlc.rst:293
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:294
 msgid "Per project configuration file"
@@ -47354,7 +47444,7 @@ msgstr ""
 
 #: ../../wlc.rst:295
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NOME\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:296
 msgid "User configuration file on Windows."
@@ -47362,11 +47452,11 @@ msgstr ""
 
 #: ../../wlc.rst:297
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:298
 msgid "User configuration file"
-msgstr ""
+msgstr "Ficheiro de configuración do usuario"
 
 #: ../../wlc.rst:299
 msgid ":file:`/etc/xdg/weblate`"
@@ -47419,7 +47509,7 @@ msgstr ""
 
 #: ../../wlc.rst:342
 msgid "Examples"
-msgstr ""
+msgstr "Exemplos"
 
 #: ../../wlc.rst:344
 msgid "Print current program version:"
@@ -47427,7 +47517,7 @@ msgstr ""
 
 #: ../../wlc.rst:351
 msgid "List all projects:"
-msgstr ""
+msgstr "Listar todos os proxectos:"
 
 #: ../../wlc.rst:362
 #, fuzzy
@@ -47446,7 +47536,7 @@ msgstr ""
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr ""
+msgstr "Fluxos de traballo de tradución"
 
 #: ../../workflows.rst:6
 msgid ""
@@ -47495,16 +47585,12 @@ msgid "The first existing setting applies:"
 msgstr ""
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid "Project name"
 msgid "Project-language customization"
-msgstr "Nome do proxecto"
+msgstr "Personalización do idioma do proxecto"
 
 #: ../../workflows.rst:35
-#, fuzzy
-#| msgid "Administration"
 msgid "Language customization"
-msgstr "Administración"
+msgstr "Personalización do idioma"
 
 #: ../../workflows.rst:36
 msgid "The project/component settings"
@@ -47609,11 +47695,11 @@ msgstr ""
 
 #: ../../workflows.rst:92
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ""
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:97
 msgid "Direct translation"
-msgstr ""
+msgstr "Tradución directa"
 
 #: ../../workflows.rst:98
 msgid ""
@@ -47633,7 +47719,7 @@ msgstr ""
 
 #: ../../workflows.rst:106 ../../workflows.rst:138 ../../workflows.rst:171
 msgid "Setting"
-msgstr ""
+msgstr "Axuste"
 
 #: ../../workflows.rst:106 ../../workflows.rst:138 ../../workflows.rst:171
 msgid "Note"
@@ -47650,7 +47736,7 @@ msgstr ""
 
 #: ../../workflows.rst:110 ../../workflows.rst:142 ../../workflows.rst:173
 msgid "on"
-msgstr "activada"
+msgstr "activado"
 
 #: ../../workflows.rst:110 ../../workflows.rst:175
 msgid "Useful for users to be able to suggest when they are not sure."
@@ -47658,7 +47744,7 @@ msgstr ""
 
 #: ../../workflows.rst:117 ../../workflows.rst:149 ../../workflows.rst:182
 msgid "Translators group"
-msgstr ""
+msgstr "Grupo de tradutores"
 
 #: ../../workflows.rst:117 ../../workflows.rst:149 ../../workflows.rst:182
 #, fuzzy
@@ -47680,7 +47766,7 @@ msgstr ""
 
 #: ../../workflows.rst:128
 msgid "Peer review"
-msgstr ""
+msgstr "Revisión por pares"
 
 #: ../../workflows.rst:130
 msgid ""
@@ -47719,6 +47805,9 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Con revisores dedicados ten dous grupos de usuarios, un que é quen de enviar "
+"traducións e outro que é quen de revisalas para garantir que as traducións "
+"sexan consistentes e que a calidade sexa boa."
 
 #: ../../workflows.rst:165
 msgid "*Any user* can edit unapproved translations."
