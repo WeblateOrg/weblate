@@ -13,6 +13,7 @@ from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.autofixes import fix_target
+from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.trans.util import join_plural, split_plural
@@ -23,7 +24,15 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager["Suggestion"]):
-    def add(self, unit, target: list[str], request, vote: bool = False, user=None):
+    def add(
+        self,
+        unit,
+        target: list[str],
+        request,
+        vote: bool = False,
+        user=None,
+        raise_exception: bool = True,
+    ):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
 
@@ -38,6 +47,8 @@ class SuggestionManager(models.Manager["Suggestion"]):
             user = request.user if request else get_anonymous()
 
         if unit.translated and unit.target == target:
+            if raise_exception:
+                raise SuggestionSimilarToTranslationError
             return False
 
         same_suggestions = self.filter(target=target, unit=unit)

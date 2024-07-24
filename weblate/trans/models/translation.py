@@ -1003,7 +1003,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if isinstance(new_target, str):
                 new_target = [new_target]
             if current_target != new_target and not dbunit.readonly:
-                if Suggestion.objects.add(dbunit, new_target, request):
+                if Suggestion.objects.add(
+                    dbunit, new_target, request, raise_exception=False
+                ):
                     accepted += 1
                 else:
                     skipped += 1

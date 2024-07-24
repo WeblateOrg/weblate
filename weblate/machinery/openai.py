@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Literal, overload
 from django.core.cache import cache
 
 from weblate.glossary.models import get_glossary_terms, render_glossary_units_tsv
+from weblate.utils.errors import add_breadcrumb
 
 from .base import (
     BatchMachineTranslation,
@@ -224,13 +225,15 @@ class OpenAITranslation(BatchMachineTranslation):
         )
 
         prompt = self._get_prompt(source, language, texts, units, rephrase=rephrase)
+        content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
+        add_breadcrumb("openai", "prompt", prompt=prompt)
+        add_breadcrumb("openai", "chat", content=content)
+
         messages = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
             ChatCompletionUserMessageParam(
                 role="user",
-                content=SEPARATOR.join(
-                    texts if not rephrase else [*texts, units[0].target]
-                ),
+                content=content,
             ),
         ]
 
@@ -243,6 +246,7 @@ class OpenAITranslation(BatchMachineTranslation):
         )
 
         translations_string = response.choices[0].message.content
+        add_breadcrumb("openai", "response", translations_string=translations_string)
         if translations_string is None:
             self.report_error(
                 "Blank assistant reply",

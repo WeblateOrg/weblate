@@ -15,6 +15,7 @@ from django.utils.translation import get_language
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
+from sentry_sdk.integrations.openai import OpenAIIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate.utils.version
@@ -105,6 +106,7 @@ def init_error_collection(celery=False) -> None:
                 CeleryIntegration(monitor_beat_tasks=True),
                 DjangoIntegration(),
                 RedisIntegration(),
+                OpenAIIntegration(include_prompts=True),
             ],
             send_default_pii=settings.SENTRY_SEND_PII,
             release=weblate.utils.version.GIT_REVISION
@@ -122,6 +124,7 @@ def init_error_collection(celery=False) -> None:
             ],
             attach_stacktrace=True,
             _experiments={"max_spans": 2000},
+            keep_alive=True,
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those should trigger proper errors

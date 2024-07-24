@@ -2422,6 +2422,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.progress_step(100)
             return False
 
+        # Store the revision as add-ons might update it later
+        parsed_revision = self.local_revision
+
         # Ensure we start from fresh template
         self.drop_template_store_cache()
         self.unload_sources()
@@ -2581,7 +2584,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.run_batched_checks()
 
         # Update last processed revision
-        self.processed_revision = self.local_revision
+        self.processed_revision = parsed_revision
         Component.objects.filter(pk=self.pk).update(
             processed_revision=self.processed_revision
         )
