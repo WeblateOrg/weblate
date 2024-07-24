@@ -225,13 +225,15 @@ class OpenAITranslation(BatchMachineTranslation):
         )
 
         prompt = self._get_prompt(source, language, texts, units, rephrase=rephrase)
+        content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
+        add_breadcrumb("openai", "prompt", prompt=prompt)
+        add_breadcrumb("openai", "chat", content=content)
+
         messages = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
             ChatCompletionUserMessageParam(
                 role="user",
-                content=SEPARATOR.join(
-                    texts if not rephrase else [*texts, units[0].target]
-                ),
+                content=content,
             ),
         ]
 
