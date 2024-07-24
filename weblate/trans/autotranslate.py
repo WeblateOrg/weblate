@@ -63,7 +63,7 @@ class AutoTranslate:
             len(item) > unit.get_max_length() for item in target
         ):
             suggestion = Suggestion.objects.add(
-                unit, target, request=None, vote=False, user=user
+                unit, target, request=None, vote=False, user=user, raise_exception=False
             )
             if suggestion:
                 self.updated += 1

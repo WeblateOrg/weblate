@@ -27,3 +27,7 @@ class InvalidTemplateError(WeblateError):
 
 class FailedCommitError(WeblateError):
     """Could not commit file."""
+
+
+class SuggestionSimilarToTranslationError(WeblateError):
+    """Target of the Suggestion is similar to source."""
