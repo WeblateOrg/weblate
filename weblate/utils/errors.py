@@ -122,6 +122,7 @@ def init_error_collection(celery=False) -> None:
             ],
             attach_stacktrace=True,
             _experiments={"max_spans": 2000},
+            keep_alive=True,
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those should trigger proper errors
