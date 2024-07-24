@@ -14,6 +14,13 @@
   {% endif %}
 
   <div class="btn-group pull-right flip btn-group-settings" role="group">
+    {% if debug %}
+      {% if path_object %}
+        <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}&amp;digest=1" title="{% trans "View notification" %}" class="btn btn-link">{% icon "bell.svg" %}</a>
+      {% else %}
+        <a href="{% url 'changes' %}?{{ query_string }}&amp;digest=1" title="{% trans "View notification" %}" class="btn btn-link">{% icon "bell.svg" %}</a>
+      {% endif %}
+    {% endif %}
     {% perm 'change.download' path_object as user_can_download_changes %}
     {% if user_can_download_changes %}
       {% if path_object %}
