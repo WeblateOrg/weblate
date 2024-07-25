@@ -602,20 +602,26 @@ form + .login-label {
   color: #bfc3c7;
 }
 
-.btn-float {
-  background-color: #fff;
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  position: relative;
-  top: -5px;
-  z-index: 10;
-  padding: 0 2px;
+#suggestions {
+  margin-top: 55px;
 }
 
-.btn-float .btn,
-.btn-padded .btn {
-  padding: 2px 4px !important;
-  line-height: 0;
+.btn-float {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  position: relative;
+  transform: translateY(-100%);
+  z-index: 10;
+}
+
+@media only screen and (max-width: 600px) {
+  .btn-float {
+    left: 20px;
+  }
 }
 
 kbd {
@@ -1099,10 +1105,6 @@ thead th {
 
 .btn-info {
   border: 1px solid #2eccaa;
-}
-
-.btn-link {
-  padding: 6px;
 }
 
 .btn-link.btn-xs {
