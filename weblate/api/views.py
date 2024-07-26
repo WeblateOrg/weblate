@@ -734,6 +734,9 @@ class RoleViewSet(viewsets.ModelViewSet):
 class CreditsMixin:
     @action(detail=True, methods=["get"])
     def credits(self, request, **kwargs):
+        if request.user.is_anonymous:
+            self.permission_denied(request, "Must be authenticated to get credits")
+
         obj = self.get_object()
 
         try:
@@ -764,9 +767,7 @@ class CreditsMixin:
             raise TypeError("Expected project or component")
 
         data = generate_credits(
-            None
-            if request.user.has_perm("reports.view", obj) or request.user.is_anonymous
-            else request.user,
+            None if request.user.has_perm("reports.view", obj) else request.user,
             start_date,
             end_date,
             language,
