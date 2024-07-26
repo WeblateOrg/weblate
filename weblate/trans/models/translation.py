@@ -212,7 +212,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def clean(self) -> None:
         """Validate that filename exists and can be opened using translate-toolkit."""
-        if not os.path.exists(self.get_filename()):
+        filename = self.get_filename()
+        if filename is None:
+            # Should not actually happen
+            raise ValidationError("Translation without a filename!")
+        if not os.path.exists(filename):
             raise ValidationError(
                 gettext(
                     "Filename %s not found in repository! To add new "
@@ -247,7 +251,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def get_translate_url(self):
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
-    def get_filename(self):
+    def get_filename(self) -> None | str:
         """Return absolute filename."""
         if not self.filename:
             return None
@@ -263,6 +267,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 template = self.component.template_store
             if fileobj is None:
                 fileobj = self.get_filename()
+                if fileobj is None:
+                    raise ValueError("Attempt to parse store without a filename.")
             elif self.is_template:
                 template = self.component.load_template_store(
                     NamedBytesIO(fileobj.name, fileobj.read())

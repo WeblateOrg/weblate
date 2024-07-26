@@ -1011,10 +1011,11 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
             translation = obj.add_new_language(language, request)
             if translation is None:
                 storage = get_messages(request)
-                error = f"Could not add {language_code!r}!"
                 if storage:
-                    error = "\n".join(m.message for m in storage)
-                raise ValidationError(error)
+                    message = "\n".join(m.message for m in storage)
+                else:
+                    message = f"Could not add {language_code!r}!"
+                raise ValidationError(message)
 
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
@@ -1214,6 +1215,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         if request.method == "GET":
             if not user.has_perm("translation.download", obj):
                 raise PermissionDenied
+            if obj.get_filename() is None:
+                raise Http404("No translation file!")
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
             if query_string and not fmt:
