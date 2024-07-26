@@ -24,7 +24,7 @@ def insert_public_project_data_in_latest_metric(apps, schema_editor) -> None:
         .last()
     ) and len(latest_global_metric.data) == 27:
         latest_global_metric.data.append(public_projects_count)
-        latest_global_metric.save(updated_fields=["data"])
+        latest_global_metric.save()
 
 
 class Migration(migrations.Migration):
