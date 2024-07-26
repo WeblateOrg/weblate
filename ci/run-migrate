@@ -53,7 +53,7 @@ check
 ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
 check
 
-# Load basic project fixture
+# Load basic project fixture from the older version
 ./manage.py loaddata simple-project.json
 check
 
