@@ -48,11 +48,15 @@ if [ -n "$CI_DB_PORT" ] ; then
 fi
 ./manage.py migrate
 check
+
+# Delete automatically created languages to be able to load fixture
 ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
 check
+
 # Load basic project fixture
 ./manage.py loaddata simple-project.json
 check
+
 # Force creating project groups
 ./manage.py shell -c 'from weblate.trans.models import Project; [project.save() for project in Project.objects.iterator()]'
 check
@@ -66,14 +70,13 @@ check
 ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
 check
 # Load translation memory
-if [ -f ./weblate/trans/tests/data/memory.json ] ; then
-    # Import some data
-    ./manage.py import_memory ./weblate/trans/tests/data/memory.json
-    check
-    # Create huge entry
-    ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
-    check
-fi
+./manage.py import_memory ./weblate/trans/tests/data/memory.json
+check
+# Create huge translation memory entry
+./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
+check
+
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
