@@ -69,6 +69,9 @@ check
 # Add vote for suggestion
 ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
 check
+# Add a global metric
+./manage.py shell -c 'from weblate.metrics.models import METRIC_ORDER, Metric; Metric.objects.create(scope=Metric.SCOPE_GLOBAL, data=[1] * len(METRIC_ORDER), relation=0, changes=1)'
+check
 # Load translation memory
 ./manage.py import_memory ./weblate/trans/tests/data/memory.json
 check
