@@ -62,7 +62,7 @@ class ReportsTest(BaseReportsTest):
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             "",
-            translation__component=self.component,
+            self.component,
         )
         self.assertEqual(data, [])
 
@@ -84,7 +84,7 @@ class ReportsTest(BaseReportsTest):
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             "",
-            translation__component=self.component,
+            self.component,
         )
         self.assertEqual(data, expected)
         data = generate_credits(
@@ -92,7 +92,7 @@ class ReportsTest(BaseReportsTest):
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             "cs",
-            translation__component=self.component,
+            self.component,
         )
         self.assertEqual(data, expected)
         data = generate_credits(
@@ -100,7 +100,7 @@ class ReportsTest(BaseReportsTest):
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             "de",
-            translation__component=self.component,
+            self.component,
         )
         self.assertEqual(data, [])
 

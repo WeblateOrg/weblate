@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import os.path
 from datetime import datetime
-from typing import Any
 from urllib.parse import unquote
 
 from celery.result import AsyncResult
@@ -758,20 +757,12 @@ class CreditsMixin:
         if "lang" in request.query_params:
             language = request.query_params["lang"]
 
-        kwargs: dict[str, Any]
-        if isinstance(obj, Project):
-            kwargs = {"translation__component__project": obj}
-        elif isinstance(obj, Component):
-            kwargs = {"translation__component": obj}
-        else:
-            raise TypeError("Expected project or component")
-
         data = generate_credits(
             None if request.user.has_perm("reports.view", obj) else request.user,
             start_date,
             end_date,
             language,
-            **kwargs,
+            obj,
         )
         return Response(data=data)
 

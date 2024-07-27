@@ -47,13 +47,29 @@ def format_plaintext_join(sep, format_string, args_generator):
     return sep.join(format_plaintext(format_string, *args) for args in args_generator)
 
 
-def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
+def generate_credits(
+    user,
+    start_date,
+    end_date,
+    language_code: str,
+    entity: Project | Component | Category,
+):
     """Generate credits data for given component."""
     result = defaultdict(list)
 
     base = Change.objects.content()
     if user:
         base = base.filter(author=user)
+
+    kwargs: dict[str, Any]
+    if entity is None:
+        kwargs = {"translation__isnull": False}
+    elif isinstance(entity, Project):
+        kwargs = {"translation__component__project": entity}
+    elif isinstance(entity, Category):
+        kwargs = {"translation__component__category": entity}
+    else:
+        kwargs = {"translation__component": entity}
 
     languages = Language.objects.filter(**kwargs)
     if language_code:
@@ -79,19 +95,14 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
 def get_credits(request, path=None):
     """View for credits."""
     obj = parse_path(request, path, (Component, Category, Project, None))
-    kwargs: dict[str, Any]
     scope: dict[str, Model]
     if obj is None:
-        kwargs = {"translation__isnull": False}
         scope = {}
     elif isinstance(obj, Project):
-        kwargs = {"translation__component__project": obj}
         scope = {"project": obj}
     elif isinstance(obj, Category):
-        kwargs = {"translation__component__category": obj}
         scope = {"category": obj}
     else:
-        kwargs = {"translation__component": obj}
         scope = {"component": obj}
 
     form = ReportsForm(scope, request.POST)
@@ -105,7 +116,7 @@ def get_credits(request, path=None):
         form.cleaned_data["period"]["start_date"],
         form.cleaned_data["period"]["end_date"],
         form.cleaned_data["language"],
-        **kwargs,
+        obj,
     )
 
     if form.cleaned_data["style"] == "json":
