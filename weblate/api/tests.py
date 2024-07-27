@@ -95,6 +95,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         *,
         data=None,
         code=200,
+        authenticated: bool = True,
         superuser: bool = False,
         method="get",
         request=None,
@@ -102,7 +103,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         skip=(),
         format: str = "multipart",  # noqa: A002
     ):
-        self.authenticate(superuser)
+        if authenticated:
+            self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request, format, headers=headers)
         content = response.content if hasattr(response, "content") else "<stream>"
@@ -1942,6 +1944,14 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.headers["content-type"], "application/zip")
 
     def test_credits(self) -> None:
+        self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=401,
+            authenticated=False,
+        )
+
         # mandatory date parameters
         self.do_request(
             "api:component-credits", self.component_kwargs, method="get", code=400
@@ -2260,6 +2270,14 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_credits(self) -> None:
+        self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=401,
+            authenticated=False,
+        )
+
         # mandatory date parameters
         self.do_request(
             "api:component-credits", self.component_kwargs, method="get", code=400
