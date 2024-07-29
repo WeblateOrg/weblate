@@ -152,9 +152,9 @@ def send_validation(strategy, backend, code, partial_token) -> None:
     elif session.get("account_remove"):
         template = "remove"
 
-    # Create audit log, it might be for anonymous at this point for new registrations
+    # Use None for user to enable linking by e-mail later for the registration
     AuditLog.objects.create(
-        strategy.request.user,
+        strategy.request.user if strategy.request.user.is_authenticated else None,
         strategy.request,
         "sent-email",
         email=code.email,
