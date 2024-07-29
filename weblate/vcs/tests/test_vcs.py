@@ -222,7 +222,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.update_remote()
 
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         with self.repo.lock:
             self.repo.push(branch)
 
@@ -618,7 +618,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             )
 
     @responses.activate
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -636,7 +636,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_pull_request_error(self, branch="") -> None:
+    def test_pull_request_error(self, branch: str = "") -> None:
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -655,7 +655,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_pull_request_exists(self, branch="") -> None:
+    def test_pull_request_exists(self, branch: str = "") -> None:
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -818,7 +818,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         )
 
     @responses.activate
-    def test_pull_request_error(self, branch="") -> None:
+    def test_pull_request_error(self, branch: str = "") -> None:
         # Mock PR to return error
         self.mock_responses(pr_status=403, pr_response={"message": "Some error"})
 
@@ -826,7 +826,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             super().test_push(branch)
 
     @responses.activate
-    def test_pull_request_exists(self, branch="") -> None:
+    def test_pull_request_exists(self, branch: str = "") -> None:
         # Check that it doesn't raise error when pull request already exists
         self.mock_responses(
             pr_status=409,
@@ -848,7 +848,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         }
     )
     @responses.activate
-    def test_pull_request_work_item_refs(self, branch="") -> None:
+    def test_pull_request_work_item_refs(self, branch: str = "") -> None:
         # Mock PR to return success
         response = {"url": "https://example.com"}
         self.mock_responses(response)
@@ -871,7 +871,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         super().test_push(branch)
 
     @responses.activate
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
                 "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
@@ -880,7 +880,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         super().test_push(branch)
 
     @responses.activate
-    def test_fork_repository_already_exists(self, branch="") -> None:
+    def test_fork_repository_already_exists(self, branch: str = "") -> None:
         # Mock PR to return success
         repositories_url = (
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories"
@@ -900,7 +900,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         responses.assert_call_count(repositories_url, 2)
 
     @responses.activate
-    def test_push_where_finds_existing_fork(self, branch="") -> None:
+    def test_push_where_finds_existing_fork(self, branch: str = "") -> None:
         repositories_url = (
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories"
         )
@@ -928,7 +928,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         responses.assert_call_count(repositories_url, 0)
 
     @responses.activate
-    def test_push_when_remote_fork_is_deleted(self, branch="") -> None:
+    def test_push_when_remote_fork_is_deleted(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
                 "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
@@ -954,7 +954,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         super().test_push(branch)
 
     @responses.activate
-    def test_fork_parent_repo_not_found(self, branch="") -> None:
+    def test_fork_parent_repo_not_found(self, branch: str = "") -> None:
         self.mock_responses(pr_response={})
 
         responses.replace(
@@ -967,7 +967,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             super().test_push(branch)
 
     @responses.activate
-    def test_creating_fork_fails(self, branch="") -> None:
+    def test_creating_fork_fails(self, branch: str = "") -> None:
         self.mock_responses(pr_response={})
 
         responses.replace(
@@ -980,7 +980,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             super().test_push(branch)
 
     @responses.activate
-    def test_getting_organization_id_fails(self, branch="") -> None:
+    def test_getting_organization_id_fails(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
                 "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
@@ -997,7 +997,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             super().test_push(branch)
 
     @responses.activate
-    def test_getting_existing_forks_fails(self, branch="") -> None:
+    def test_getting_existing_forks_fails(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
                 "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
@@ -1015,7 +1015,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             super().test_push(branch)
 
     @responses.activate
-    def test_fails_when_token_is_considered_invalid(self, branch="") -> None:
+    def test_fails_when_token_is_considered_invalid(self, branch: str = "") -> None:
         responses.add(
             method=responses.GET,
             url=re.compile(".*"),
@@ -1133,7 +1133,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         )
 
     @responses.activate
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1151,7 +1151,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_pull_request_error(self, branch="") -> None:
+    def test_pull_request_error(self, branch: str = "") -> None:
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1170,7 +1170,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_pull_request_exists(self, branch="") -> None:
+    def test_pull_request_exists(self, branch: str = "") -> None:
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1398,7 +1398,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
 
     @responses.activate
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1419,7 +1419,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push_with_existing_fork(self, branch="") -> None:
+    def test_push_with_existing_fork(self, branch: str = "") -> None:
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1453,7 +1453,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertEqual(call_count, 1)
 
     @responses.activate
-    def test_push_duplicate_repo_name(self, branch="") -> None:
+    def test_push_duplicate_repo_name(self, branch: str = "") -> None:
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1482,7 +1482,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertEqual(call_count, 3)
 
     @responses.activate
-    def test_push_rejected(self, branch="") -> None:
+    def test_push_rejected(self, branch: str = "") -> None:
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1512,7 +1512,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertEqual(call_count, 1)
 
     @responses.activate
-    def test_pull_request_error(self, branch="") -> None:
+    def test_pull_request_error(self, branch: str = "") -> None:
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1530,7 +1530,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_pull_request_exists(self, branch="") -> None:
+    def test_pull_request_exists(self, branch: str = "") -> None:
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1586,7 +1586,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         )
 
     @responses.activate
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         self.repo.component.repo = "https://pagure.io/testrepo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1606,7 +1606,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push_with_existing_fork(self, branch="") -> None:
+    def test_push_with_existing_fork(self, branch: str = "") -> None:
         self.repo.component.repo = "https://pagure.io/testrepo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1635,7 +1635,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         self.assertEqual(call_count, 2)
 
     @responses.activate
-    def test_push_with_existing_request(self, branch="") -> None:
+    def test_push_with_existing_request(self, branch: str = "") -> None:
         self.repo.component.repo = "https://pagure.io/testrepo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -1945,7 +1945,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             status=status,
         )
 
-    def mock_reviewer_reponse(self, status, branch="") -> None:
+    def mock_reviewer_reponse(self, status, branch: str = "") -> None:
         path = "rest/default-reviewers/1.0/projects/bb_pk/repos/bb_repo/reviewers"
         body: dict[str, Any] | list = []
         if status == 200:
@@ -2069,7 +2069,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push(self, branch="") -> None:
+    def test_push(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -2088,7 +2088,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push_with_existing_pr(self, branch="") -> None:
+    def test_push_with_existing_pr(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -2107,7 +2107,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push_pr_error_reponse(self, branch="") -> None:
+    def test_push_pr_error_reponse(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -2127,7 +2127,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push_with_existing_fork(self, branch="") -> None:
+    def test_push_with_existing_fork(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -2147,7 +2147,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_create_fork_unexpected_fail(self, branch="") -> None:
+    def test_create_fork_unexpected_fail(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -2164,7 +2164,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_existing_fork_not_found(self, branch="") -> None:
+    def test_existing_fork_not_found(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
