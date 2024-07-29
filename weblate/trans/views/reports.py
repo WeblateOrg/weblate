@@ -50,7 +50,7 @@ def format_plaintext_join(sep, format_string, args_generator):
 
 
 def generate_credits(
-    user:User,
+    user: User,
     start_date,
     end_date,
     language_code: str,
