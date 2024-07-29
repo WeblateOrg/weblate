@@ -366,31 +366,31 @@ def component_after_save(
 
 @app.task(trail=False)
 @transaction.atomic
-def component_removal(pk, uid) -> None:
+def component_removal(pk: int, uid: int) -> None:
     user = User.objects.get(pk=uid)
     try:
         component = Component.objects.get(pk=pk)
-        component.acting_user = user
-        component.project.change_set.create(
-            action=Change.ACTION_REMOVE_COMPONENT,
-            target=component.slug,
-            user=user,
-            author=user,
-        )
-        component.delete()
-        if component.allow_translation_propagation:
-            components = component.project.component_set.filter(
-                allow_translation_propagation=True
-            ).exclude(pk=component.pk)
-            for component in components.iterator():
-                component.schedule_update_checks()
     except Component.DoesNotExist:
         return
+    component.acting_user = user
+    component.project.change_set.create(
+        action=Change.ACTION_REMOVE_COMPONENT,
+        target=component.slug,
+        user=user,
+        author=user,
+    )
+    component.delete()
+    if component.allow_translation_propagation:
+        components = component.project.component_set.filter(
+            allow_translation_propagation=True
+        ).exclude(pk=component.pk)
+        for component in components.iterator():
+            component.schedule_update_checks()
 
 
 @app.task(trail=False)
 @transaction.atomic
-def category_removal(pk, uid) -> None:
+def category_removal(pk: int, uid: int) -> None:
     user = User.objects.get(pk=uid)
     try:
         category = Category.objects.get(pk=pk)
