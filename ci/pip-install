@@ -10,12 +10,6 @@ set -e -x
 # shellcheck disable=SC2046
 python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
 
-# TODO: temporary workaround
-# Add constraints for https://github.com/celery/django-celery-beat/issues/772
-# Disable build isolation as workaround for https://github.com/astral-sh/uv/issues/5551
-export UV_NO_BUILD_ISOLATION=1
-export UV_CONSTRAINT=ci/constraint.txt
-
 # Workaround for
 # SystemError: ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)
 uv pip install --system --no-binary :all: cffi
