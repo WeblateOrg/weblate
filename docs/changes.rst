@@ -23,6 +23,7 @@ Not yet released.
 
 * Accessibility of keyboard navigation.
 * :ref:`git-exporter` now works with all Git based :ref:`vcs`.
+* :ref:`check-max-size` sometimes failed to render screenshot.
 
 **Compatibility**
 
