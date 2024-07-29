@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os.path
+from datetime import datetime
 from typing import TYPE_CHECKING, cast
 from urllib.parse import unquote
 
@@ -12,11 +13,13 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import BadRequest, PermissionDenied
 from django.db import transaction
 from django.db.models import Model, Q
+from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext
 from django_filters import rest_framework as filters
@@ -102,6 +105,7 @@ from weblate.trans.tasks import (
     project_removal,
 )
 from weblate.trans.views.files import download_multi
+from weblate.trans.views.reports import generate_credits
 from weblate.utils.celery import get_queue_stats, get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
@@ -738,8 +742,45 @@ class RoleViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
+class CreditsMixin:
+    @action(detail=True, methods=["get"])
+    def credits(self, request, **kwargs):
+        if request.user.is_anonymous:
+            self.permission_denied(request, "Must be authenticated to get credits")
+
+        obj = self.get_object()
+
+        try:
+            start_date = from_current_timezone(
+                datetime.fromisoformat(request.query_params["start"])
+            )
+        except (ValueError, MultiValueDictKeyError) as err:
+            raise BadRequest("Invalid format for `start`") from err
+
+        try:
+            end_date = from_current_timezone(
+                datetime.fromisoformat(request.query_params["end"])
+            )
+        except (ValueError, MultiValueDictKeyError) as err:
+            raise BadRequest("Invalid format for `end`") from err
+
+        language = None
+
+        if "lang" in request.query_params:
+            language = request.query_params["lang"]
+
+        data = generate_credits(
+            None if request.user.has_perm("reports.view", obj) else request.user,
+            start_date,
+            end_date,
+            language,
+            obj,
+        )
+        return Response(data=data)
+
+
 class ProjectViewSet(
-    WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin
+    WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin, CreditsMixin
 ):
     """Translation projects API."""
 
@@ -942,7 +983,9 @@ class ProjectViewSet(
         )
 
 
-class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin):
+class ComponentViewSet(
+    MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin, CreditsMixin
+):
     """Translation components API."""
 
     raw_urls: tuple[str, ...] = ("component-file",)

@@ -392,6 +392,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     labels_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-labels", lookup_field="slug"
     )
+    credits_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-credits", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -409,6 +412,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "changes_list_url",
             "languages_url",
             "labels_url",
+            "credits_url",
             "translation_review",
             "source_review",
             "set_language_team",
@@ -475,6 +479,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
     )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
+    )
+    credits_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-credits", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
     source_language = LanguageSerializer(required=False)
@@ -549,6 +556,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "links_url",
             "changes_list_url",
             "task_url",
+            "credits_url",
             "new_lang",
             "language_code_style",
             "push",

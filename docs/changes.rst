@@ -18,6 +18,7 @@ Not yet released.
 * Highlight newlines in the editor.
 * :doc:`/formats/csv` better handle with with two fields only.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
+* :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
 
 **Bug fixes**
 
@@ -32,6 +33,7 @@ Not yet released.
 * Monolingual formats no longer copy comments from :ref:`component-template` when adding strings to translation.
 * Dropped support for Amagama in :ref:`machine-translation-setup` as the service is no longer maintained.
 * Default value for :setting:`SENTRY_SEND_PII` was changed.
+* Translation credit reports in the JSON format now follows a different format for entries.
 
 **Upgrading**
 
