@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models import Unit
 
 
@@ -154,7 +155,7 @@ class BaseCheck:
     def get_fixup(self, unit) -> None:
         return None
 
-    def render(self, request, unit) -> StrOrPromise:
+    def render(self, request: AuthenticatedHttpRequest, unit) -> StrOrPromise:
         raise Http404("Not supported")
 
     def get_cache_key(self, unit, pos: int):

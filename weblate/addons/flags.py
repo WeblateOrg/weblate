@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
@@ -11,13 +15,16 @@ from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 class FlagBase(BaseAddon):
     events = (AddonEvent.EVENT_UNIT_PRE_CREATE,)
     icon = "flag.svg"
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user: User):
         # Following formats support fuzzy flag, so avoid messing up with them
         if component.file_format in {"ts", "po", "po-mono"}:
             return False

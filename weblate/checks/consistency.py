@@ -26,7 +26,7 @@ class PluralsCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def check_target_unit(self, sources, targets, unit):
+    def check_target_unit(self, sources: list[str], targets, unit):
         # Is this plural?
         if len(sources) == 1:
             return False
@@ -48,7 +48,7 @@ class SamePluralsCheck(TargetCheck):
     name = gettext_lazy("Same plurals")
     description = gettext_lazy("Some plural forms are translated in the same way")
 
-    def check_target_unit(self, sources, targets, unit):
+    def check_target_unit(self, sources: list[str], targets, unit):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
@@ -81,7 +81,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     def get_propagated_units(self, unit, target: str | None = None):
         return unit.same_source_units
 
-    def check_target_unit(self, sources, targets, unit):
+    def check_target_unit(self, sources: list[str], targets, unit):
         component = unit.translation.component
         if not component.allow_translation_propagation:
             return False
@@ -169,7 +169,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             return True
         return super().should_skip(unit)
 
-    def check_target_unit(self, sources, targets, unit):
+    def check_target_unit(self, sources: list[str], targets, unit):
         translation = unit.translation
         component = translation.component
 
@@ -268,7 +268,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         # intentional marking as needing edit
         return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
 
-    def check_target_unit(self, sources, targets, unit):
+    def check_target_unit(self, sources: list[str], targets, unit):
         if unit.translated:
             return False
 

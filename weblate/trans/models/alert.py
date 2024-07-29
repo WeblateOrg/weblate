@@ -27,6 +27,7 @@ from weblate.vcs.models import VCS_REGISTRY
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.auth.models import User
     from weblate.trans.models import Component, Translation
 
 ALERTS: dict[str, type[BaseAlert]] = {}
@@ -90,7 +91,7 @@ class Alert(models.Model):
     def obj(self):
         return ALERTS[self.name](self, **self.details)
 
-    def render(self, user):
+    def render(self, user: User):
         return self.obj.render(user)
 
 
@@ -109,7 +110,7 @@ class BaseAlert:
     def get_analysis(self):
         return {}
 
-    def get_context(self, user):
+    def get_context(self, user: User):
         result = {
             "alert": self.instance,
             "component": self.instance.component,
@@ -121,7 +122,7 @@ class BaseAlert:
         result.update(self.instance.details)
         return result
 
-    def render(self, user):
+    def render(self, user: User):
         return render_to_string(
             f"trans/alert/{self.__class__.__name__.lower()}.html",
             self.get_context(user),
@@ -149,7 +150,7 @@ class MultiAlert(BaseAlert):
         self.total_occurrences = len(occurrences)
         self.missed_occurrences = self.total_occurrences > self.occurrences_limit
 
-    def get_context(self, user):
+    def get_context(self, user: User):
         result = super().get_context(user)
         result["occurrences"] = self.occurrences
         result["total_occurrences"] = self.total_occurrences
@@ -550,7 +551,7 @@ class AmbiguousLanguage(BaseAlert):
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
 
-    def get_context(self, user):
+    def get_context(self, user: User):
         result = super().get_context(user)
         ambgiuous = self.instance.component.get_ambiguous_translations().values_list(
             "language__code", flat=True

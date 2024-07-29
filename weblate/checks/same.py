@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy
@@ -13,6 +16,9 @@ from weblate.checks.data import IGNORE_WORDS
 from weblate.checks.format import FLAG_RULES, PERCENT_MATCH
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 # Email address to ignore
 EMAIL_RE = re.compile(r"[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}", re.IGNORECASE)
@@ -116,7 +122,7 @@ def test_word(word, extra_ignore):
     )
 
 
-def strip_placeholders(msg, unit):
+def strip_placeholders(msg, unit: Unit):
     return re.sub(
         "|".join(
             re.escape(param) if isinstance(param, str) else param.pattern

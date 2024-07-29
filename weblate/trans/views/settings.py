@@ -359,7 +359,7 @@ def component_progress(request: AuthenticatedHttpRequest, path):
 
 
 class BackupsMixin:
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.obj = parse_path(request, [kwargs["project"]], (Project,))
         if not request.user.has_perm("project.edit", self.obj):
@@ -370,7 +370,7 @@ class BackupsMixin:
 class BackupsView(BackupsMixin, TemplateView):
     template_name = "trans/backups.html"
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         create_project_backup.delay(self.obj.pk)
         messages.success(
             request, gettext("Backup scheduled. It will be available soon.")
@@ -388,7 +388,7 @@ class BackupsView(BackupsMixin, TemplateView):
 
 @method_decorator(login_required, name="dispatch")
 class BackupsDownloadView(BackupsMixin, View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         for backup in self.obj.list_backups():
             if backup["name"] != kwargs["backup"]:
                 continue

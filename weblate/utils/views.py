@@ -165,7 +165,7 @@ class PathViewMixin:
             self.request, self.kwargs.get("path", ""), self.supported_path_types
         )
 
-    def setup(self, request, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.path_object = self.get_path_object()
 
@@ -586,6 +586,6 @@ class ErrorFormView(FormView):
         show_form_errors(self.request, form)
         return HttpResponseRedirect(self.get_success_url())
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         """There is no GET view here."""
         return HttpResponseRedirect(self.get_success_url())

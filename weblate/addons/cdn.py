@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import os
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
 from django.conf import settings
@@ -16,6 +19,9 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 class CDNJSAddon(BaseAddon):
@@ -43,7 +49,7 @@ class CDNJSAddon(BaseAddon):
         return super().create_object(component=component, **kwargs)
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user: User):
         if (
             not settings.LOCALIZE_CDN_URL
             or not settings.LOCALIZE_CDN_PATH

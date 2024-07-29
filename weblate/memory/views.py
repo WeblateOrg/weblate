@@ -59,7 +59,7 @@ class MemoryFormView(ErrorFormView):
             return reverse("manage-memory")
         return reverse("memory", kwargs=self.kwargs)
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
 
@@ -147,7 +147,7 @@ class MemoryView(TemplateView):
     template_name = "memory/index.html"
     request: AuthenticatedHttpRequest
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
 
@@ -254,7 +254,7 @@ class MemoryView(TemplateView):
 
 
 class DownloadView(MemoryView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         fmt = request.GET.get("format", "json")
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
         if "origin" in request.GET:

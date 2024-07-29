@@ -305,7 +305,7 @@ class UnitQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("-priority", "position")
 
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(
@@ -1030,7 +1030,7 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, user, change_action=None, author=None, request=None):
+    def propagate(self, user: User, change_action=None, author=None, request=None):
         """Propagate current translation to all others."""
         from weblate.trans.models import ContributorAgreement
 
@@ -1167,7 +1167,7 @@ class Unit(models.Model, LoggerMixin):
 
         return True
 
-    def update_source_units(self, previous_source, user, author) -> None:
+    def update_source_units(self, previous_source, user: User, author) -> None:
         """
         Update source for units within same component.
 
@@ -1593,7 +1593,7 @@ class Unit(models.Model, LoggerMixin):
             return "html"
         return "none"
 
-    def get_secondary_units(self, user):
+    def get_secondary_units(self, user: User):
         """Return list of secondary units."""
         secondary_langs = user.profile.secondary_languages.exclude(
             id__in=[
@@ -1784,7 +1784,9 @@ class Unit(models.Model, LoggerMixin):
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def update_explanation(self, explanation: str, user, save: bool = True) -> None:
+    def update_explanation(
+        self, explanation: str, user: User, save: bool = True
+    ) -> None:
         """Update glossary explanation."""
         self.explanation = explanation
         file_format_support = (

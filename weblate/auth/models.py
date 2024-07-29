@@ -1106,7 +1106,7 @@ class Invitation(models.Model):
             context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
         )
 
-    def accept(self, request, user: User) -> None:
+    def accept(self, request: AuthenticatedHttpRequest, user: User) -> None:
         from weblate.accounts.models import AuditLog
 
         if self.user and self.user != user:

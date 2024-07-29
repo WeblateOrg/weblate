@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os.path
+from typing import TYPE_CHECKING, cast
 from urllib.parse import unquote
 
 from celery.result import AsyncResult
@@ -118,6 +119,9 @@ from weblate.wladmin.models import ConfigurationError
 
 from .renderers import OpenMetricsRenderer
 
+if TYPE_CHECKING:
+    from rest_framework.request import Request
+
 REPO_OPERATIONS = {
     "push": ("vcs.push", "do_push", (), True),
     "pull": ("vcs.update", "do_update", (), True),
@@ -176,9 +180,12 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: tuple[str, ...] = ()
     raw_formats: tuple[str, ...] = tuple(EXPORTERS)
 
-    def perform_content_negotiation(self, request, force=False):
+    def perform_content_negotiation(self, request: Request, force=False):
         """Perform custom content negotiation."""
-        if request.resolver_match.url_name in self.raw_urls:
+        if (
+            request.resolver_match is not None
+            and request.resolver_match.url_name in self.raw_urls
+        ):
             fmt = self.format_kwarg
             if fmt is None or fmt in self.raw_formats:
                 renderers = self.get_renderers()
@@ -208,7 +215,9 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
-    def repository_operation(self, request, obj, project, operation):
+    def repository_operation(
+        self, request: Request, obj, project: Project, operation: str
+    ):
         permission, method, args, takes_request = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
@@ -216,14 +225,14 @@ class WeblateViewSet(DownloadViewSet):
 
         obj.acting_user = request.user
 
-        args = (*args, request) if takes_request else (*args, request.user)
-
-        return getattr(obj, method)(*args)
+        if takes_request:
+            return getattr(obj, method)(*args, request)
+        return getattr(obj, method)(*args, request.user)
 
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
     )
-    def repository(self, request, **kwargs):
+    def repository(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if isinstance(obj, Translation):
@@ -366,26 +375,26 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.order_by("id")
 
-    def perm_check(self, request) -> None:
+    def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         instance = self.get_object()
-        remove_user(instance, request)
+        remove_user(instance, cast(AuthenticatedHttpRequest, request))
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post", "delete"])
-    def groups(self, request, **kwargs):
+    def groups(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -408,7 +417,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["get", "post"], serializer_class=NotificationSerializer
     )
-    def notifications(self, request, **kwargs):
+    def notifications(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method == "POST":
             self.perm_check(request)
@@ -434,7 +443,7 @@ class UserViewSet(viewsets.ModelViewSet):
         url_path="notifications/(?P<subscription_id>[0-9]+)",
         serializer_class=NotificationSerializer,
     )
-    def notifications_details(self, request, username, subscription_id):
+    def notifications_details(self, request: Request, username, subscription_id):
         obj = self.get_object()
 
         try:
@@ -465,7 +474,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["get"])
-    def statistics(self, request, **kwargs):
+    def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer = UserStatisticsSerializer(obj, context={"request": request})
@@ -487,28 +496,26 @@ class GroupViewSet(viewsets.ModelViewSet):
             "id"
         ) | self.request.user.administered_group_set.order_by("id")
 
-    def perm_check(
-        self, request: AuthenticatedHttpRequest, group: Group | None = None
-    ) -> None:
+    def perm_check(self, request: Request, group: Group | None = None) -> None:
         if (group is None and not self.request.user.has_perm("group.edit")) or (
             group is not None and not request.user.has_perm("meta:team.edit", group)
         ):
             self.permission_denied(request, "Can not manage groups")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
     @action(detail=True, methods=["post"])
-    def roles(self, request, **kwargs):
+    def roles(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -529,7 +536,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True,
         methods=["post"],
     )
-    def languages(self, request, **kwargs):
+    def languages(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -549,7 +556,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
-    def delete_languages(self, request, id, language_code):  # noqa: A002
+    def delete_languages(self, request: Request, id, language_code):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -564,7 +571,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True,
         methods=["post"],
     )
-    def projects(self, request, **kwargs):
+    def projects(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -583,7 +590,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
-    def delete_projects(self, request, id, project_id):  # noqa: A002
+    def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -595,7 +602,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post"])
-    def componentlists(self, request, **kwargs):
+    def componentlists(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -618,7 +625,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         methods=["delete"],
         url_path="componentlists/(?P<component_list_id>[0-9]+)",
     )
-    def delete_componentlists(self, request, id, component_list_id):  # noqa: A002
+    def delete_componentlists(
+        self,
+        request: Request,
+        id,  # noqa: A002
+        component_list_id,
+    ):
         obj = self.get_object()
         self.perm_check(request)
         try:
@@ -632,7 +644,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True,
         methods=["post"],
     )
-    def components(self, request, **kwargs):
+    def components(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
         if "component_id" not in request.data:
@@ -652,7 +664,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
-    def delete_components(self, request, id, component_id):  # noqa: A002
+    def delete_components(self, request: Request, id, component_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
 
@@ -664,7 +676,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post"], url_path="admins")
-    def grant_admin(self, request, id):  # noqa: A002
+    def grant_admin(self, request: Request, id):  # noqa: A002
         group = self.get_object()
         self.perm_check(request, group)
         user_id = request.data.get("user_id")
@@ -676,11 +688,11 @@ class GroupViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist as error:
             raise ValidationError("User not found") from error
         group.admins.add(user)
-        user.add_team(request, group)
+        user.add_team(cast(AuthenticatedHttpRequest, request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
-    def revoke_admin(self, request, id, user_pk):  # noqa: A002
+    def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
         group = self.get_object()
         self.perm_check(request, group)
         try:
@@ -709,19 +721,19 @@ class RoleViewSet(viewsets.ModelViewSet):
             .distinct()
         )
 
-    def perm_check(self, request) -> None:
+    def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("role.edit"):
             self.permission_denied(request, "Can not manage roles")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
@@ -737,7 +749,7 @@ class ProjectViewSet(
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = "slug"
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: Request  # type: ignore[assignment]
 
     def get_queryset(self):
         return self.request.user.allowed_projects.prefetch_related(
@@ -755,7 +767,7 @@ class ProjectViewSet(
         ),
         serializer_class=ComponentSerializer,
     )
-    def components(self, request, **kwargs):
+    def components(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method == "POST":
             if not request.user.has_perm("project.edit", obj):
@@ -785,7 +797,7 @@ class ProjectViewSet(
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def categories(self, request, **kwargs):
+    def categories(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = obj.category_set.order_by("id")
@@ -796,7 +808,7 @@ class ProjectViewSet(
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def statistics(self, request, **kwargs):
+    def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer = StatisticsSerializer(obj, context={"request": request})
@@ -804,7 +816,7 @@ class ProjectViewSet(
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def languages(self, request, **kwargs):
+    def languages(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer = StatisticsSerializer(
@@ -814,7 +826,7 @@ class ProjectViewSet(
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def changes(self, request, **kwargs):
+    def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = obj.change_set.prefetch().order()
@@ -826,7 +838,7 @@ class ProjectViewSet(
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get", "post"])
-    def labels(self, request, **kwargs):
+    def labels(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if request.method == "POST":
@@ -851,7 +863,7 @@ class ProjectViewSet(
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["post"])
-    def addons(self, request, **kwargs):
+    def addons(self, request: Request, **kwargs):
         obj = self.get_object()
         obj.acting_user = request.user
 
@@ -865,7 +877,7 @@ class ProjectViewSet(
         serializer.save(project=obj)
         return Response(serializer.data, status=HTTP_201_CREATED)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         if not request.user.has_perm("project.add"):
             self.permission_denied(request, "Can not create projects")
         self.request = request
@@ -888,14 +900,14 @@ class ProjectViewSet(
                 billing = None
             serializer.instance.post_create(self.request.user, billing)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not edit project")
         instance.acting_user = request.user
         return super().update(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
@@ -904,7 +916,7 @@ class ProjectViewSet(
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["get"])
-    def file(self, request, **kwargs):
+    def file(self, request: Request, **kwargs):
         instance = self.get_object()
 
         if not request.user.has_perm("translation.download", instance):
@@ -922,7 +934,7 @@ class ProjectViewSet(
             translations = Translation.objects.filter(component__in=components)
 
         return download_multi(
-            request,
+            cast(AuthenticatedHttpRequest, request),
             translations,
             [instance],
             requested_format,
@@ -951,7 +963,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
     @action(
         detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
     )
-    def lock(self, request, **kwargs):
+    def lock(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if request.method == "POST":
@@ -966,7 +978,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return Response(data=LockSerializer(obj).data)
 
     @action(detail=True, methods=["get"])
-    def monolingual_base(self, request, **kwargs):
+    def monolingual_base(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if not obj.has_template():
@@ -977,7 +989,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         )
 
     @action(detail=True, methods=["get"])
-    def new_template(self, request, **kwargs):
+    def new_template(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if not obj.new_base:
@@ -986,7 +998,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return self.download_file(obj.get_new_base_filename(), "application/binary")
 
     @action(detail=True, methods=["get", "post"])
-    def translations(self, request, **kwargs):
+    def translations(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if request.method == "POST":
@@ -1033,7 +1045,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["post"])
-    def addons(self, request, **kwargs):
+    def addons(self, request: Request, **kwargs):
         obj = self.get_object()
         obj.acting_user = request.user
 
@@ -1048,7 +1060,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return Response(serializer.data, status=HTTP_201_CREATED)
 
     @action(detail=True, methods=["get"])
-    def statistics(self, request, **kwargs):
+    def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = obj.translation_set.all().order_by("id")
@@ -1059,7 +1071,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def changes(self, request, **kwargs):
+    def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = obj.change_set.prefetch().order()
@@ -1071,7 +1083,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def screenshots(self, request, **kwargs):
+    def screenshots(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = Screenshot.objects.filter(translation__component=obj).order_by("id")
@@ -1081,14 +1093,14 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
 
         return self.get_paginated_response(serializer.data)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
         instance.acting_user = request.user
         return super().update(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
@@ -1096,7 +1108,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         component_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    def add_link(self, request, instance: Component):
+    def add_link(self, request: Request, instance: Component):
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
         if "project_slug" not in request.data:
@@ -1117,7 +1129,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
 
     @action(detail=True, methods=["get", "post"])
-    def links(self, request, **kwargs):
+    def links(self, request: Request, **kwargs):
         instance = self.get_object()
         if request.method == "POST":
             return self.add_link(request, instance)
@@ -1130,7 +1142,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["delete"], url_path="links/(?P<project_slug>[^/.]+)")
-    def delete_links(self, request, project__slug, slug, project_slug):
+    def delete_links(self, request: Request, project__slug, slug, project_slug):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
@@ -1143,7 +1155,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["get"])
-    def file(self, request, **kwargs):
+    def file(self, request: Request, **kwargs):
         # Implementation is analogous to files#download_component, but we can't reuse
         #  that here because the lookup for the component is different
         instance = self.get_object()
@@ -1154,7 +1166,7 @@ class ComponentViewSet(MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin
 
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
-            request,
+            cast(AuthenticatedHttpRequest, request),
             instance.translation_set.all(),
             [instance],
             requested_format,
@@ -1173,11 +1185,11 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
             self.permission_denied(self.request, "Access not allowed")
         return Memory.objects.order_by("id")
 
-    def perm_check(self, request, instance) -> None:
+    def perm_check(self, request: Request, instance) -> None:
         if not request.user.has_perm("memory.delete", instance):
             self.permission_denied(request, "Can not delete memory entry")
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)
@@ -1209,7 +1221,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         ),
         serializer_class=UploadRequestSerializer,
     )
-    def file(self, request, **kwargs):
+    def file(self, request: Request, **kwargs):
         obj = self.get_object()
         user = request.user
         if request.method == "GET":
@@ -1274,7 +1286,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         )
 
     @action(detail=True, methods=["get"])
-    def statistics(self, request, **kwargs):
+    def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer = StatisticsSerializer(obj, context={"request": request})
@@ -1282,7 +1294,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def changes(self, request, **kwargs):
+    def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = obj.change_set.prefetch().order()
@@ -1294,7 +1306,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["get", "post"])
-    def units(self, request, **kwargs):
+    def units(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer_class: type[NewUnitSerializer]
@@ -1332,7 +1344,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["post"])
-    def autotranslate(self, request, **kwargs):
+    def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()
         if not request.user.has_perm("translation.auto", translation):
             self.permission_denied(request, "Can not auto translate")
@@ -1366,7 +1378,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             status=HTTP_200_OK,
         )
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("translation.delete", instance):
             self.permission_denied(request, "Can not delete translation")
@@ -1386,24 +1398,24 @@ class LanguageViewSet(viewsets.ModelViewSet):
             return Language.objects.order_by("id").prefetch()
         return Language.objects.have_translation().order_by("id").prefetch()
 
-    def perm_check(self, request) -> None:
+    def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("language.edit"):
             self.permission_denied(request, "Can not manage languages")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
     @action(detail=True, methods=["get"])
-    def statistics(self, request, **kwargs):
+    def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer = StatisticsSerializer(obj, context={"request": request})
@@ -1518,7 +1530,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if do_translate:
             unit.translate(user, new_target, new_state)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         obj = self.get_object()
         can_delete = request.user.has_perm("unit.delete", obj)
         if not can_delete:
@@ -1555,7 +1567,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         ),
         serializer_class=ScreenshotFileSerializer,
     )
-    def file(self, request, **kwargs):
+    def file(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method == "GET":
             return self.download_file(obj.image.path, "application/binary")
@@ -1573,7 +1585,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         return Response(data={"result": True})
 
     @action(detail=True, methods=["post"])
-    def units(self, request, **kwargs):
+    def units(self, request: Request, **kwargs):
         obj = self.get_object()
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
@@ -1593,7 +1605,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
-    def delete_units(self, request, pk, unit_id):
+    def delete_units(self, request: Request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied
@@ -1605,7 +1617,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         obj.units.remove(unit)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
@@ -1638,13 +1650,13 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
             return Response(serializer.data, status=HTTP_201_CREATED)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("screenshot.edit", instance.translation):
             self.permission_denied(request, "Can not edit screenshot.")
         return super().update(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("screenshot.delete", instance.translation):
             self.permission_denied(request, "Can not delete screenshot.")
@@ -1687,7 +1699,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     queryset = ComponentList.objects.none()
     serializer_class = ComponentListSerializer
     lookup_field = "slug"
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: Request  # type: ignore[assignment]
 
     def get_queryset(self):
         return (
@@ -1700,24 +1712,24 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             .distinct()
         )
 
-    def perm_check(self, request) -> None:
+    def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("componentlist.edit"):
             self.permission_denied(request, "Can not manage component lists")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
     @action(detail=True, methods=["post", "get"])
-    def components(self, request, **kwargs):
+    def components(self, request: Request, **kwargs):
         obj = self.get_object()
         if request.method == "POST":
             self.perm_check(request)
@@ -1751,7 +1763,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         methods=["delete"],
         url_path="components/(?P<component_slug>[^/.]+)",
     )
-    def delete_components(self, request, slug, component_slug):
+    def delete_components(self, request: Request, slug, component_slug):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -1769,22 +1781,22 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.none()
     serializer_class = CategorySerializer
     lookup_field = "pk"
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: Request  # type: ignore[assignment]
 
     def get_queryset(self):
         return Category.objects.filter(
             project__in=self.request.user.allowed_projects
         ).order_by("id")
 
-    def perm_check(self, request, instance) -> None:
+    def perm_check(self, request: Request, instance) -> None:
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not manage categories")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         self.perm_check(request, self.get_object())
         return super().update(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         self.perm_check(request, instance)
         category_removal.delay(instance.pk, request.user.pk)
@@ -1811,7 +1823,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         serializer.save()
 
     @action(detail=True, methods=["get"])
-    def statistics(self, request, **kwargs):
+    def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         serializer = StatisticsSerializer(obj, context={"request": request})
@@ -1825,7 +1837,7 @@ class Metrics(APIView):
     permission_classes = (IsAuthenticated,)
     renderer_classes = (JSONRenderer, BrowsableAPIRenderer, OpenMetricsRenderer)
 
-    def get(self, request, format=None):  # noqa: A002
+    def get(self, request: Request, format=None):  # noqa: A002
         stats = GlobalStats()
         return Response(
             {
@@ -1851,7 +1863,7 @@ class Metrics(APIView):
 class Search(APIView):
     """Site-wide search endpoint."""
 
-    def get(self, request, format=None):  # noqa: A002
+    def get(self, request: Request, format=None):  # noqa: A002
         user = request.user
         projects = user.allowed_projects
         components = Component.objects.filter(project__in=projects)
@@ -1935,7 +1947,7 @@ class TasksViewSet(ViewSet):
 
         return task, component
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request: Request, pk=None):
         task, _component = self.get_task(request, pk)
         result = task.result
         return Response(
@@ -1947,7 +1959,7 @@ class TasksViewSet(ViewSet):
             }
         )
 
-    def destroy(self, request, pk=None):
+    def destroy(self, request: Request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
         if not task.ready() and component is not None:
             task.revoke(terminate=True)
@@ -1961,7 +1973,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 
-    def perm_check(self, request, instance: Addon) -> None:
+    def perm_check(self, request: Request, instance: Addon) -> None:
         if instance.component and not request.user.has_perm(
             "component.edit", instance.component
         ):
@@ -1971,7 +1983,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         ):
             self.permission_denied(request, "Can not manage addons")
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if instance.component:
             instance.component.acting_user = request.user
@@ -1980,7 +1992,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         self.perm_check(request, instance)
         return super().update(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args, **kwargs):
         instance = self.get_object()
         if instance.component:
             instance.component.acting_user = request.user

@@ -105,7 +105,7 @@ class AddonList(PathViewMixin, ListView):
 
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         obj = self.path_object
         obj_component, obj_project = None, None
 
@@ -211,7 +211,7 @@ class AddonDetail(BaseAddonView, UpdateView):
             return reverse("manage-addons")
         return reverse("addons", kwargs={"path": target.get_url_path()})
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         obj = self.get_object()
         obj.acting_user = request.user
         if "delete" in request.POST:

@@ -220,7 +220,7 @@ class ScreenshotList(PathViewMixin, ListView):
                 result["add_form"] = ScreenshotForm(self.path_object)
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         component = self.path_object
         if not request.user.has_perm("screenshot.add", component):
             raise PermissionDenied
@@ -271,7 +271,7 @@ class ScreenshotDetail(DetailView):
                 result["edit_form"] = ScreenshotEditForm(instance=result["object"])
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         obj = self.get_object()
         if request.user.has_perm("screenshot.edit", obj.translation):
             self._edit_form = ScreenshotEditForm(

@@ -2,10 +2,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.contrib import admin
 
 from weblate.lang.models import Language, Plural
 from weblate.wladmin.models import WeblateModelAdmin
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class PluralAdmin(admin.TabularInline):
@@ -22,7 +29,9 @@ class LanguageAdmin(WeblateModelAdmin):
     inlines = [PluralAdmin]
     ordering = ["name"]
 
-    def save_related(self, request, form, formsets, change) -> None:
+    def save_related(
+        self, request: AuthenticatedHttpRequest, form, formsets, change
+    ) -> None:
         super().save_related(request, form, formsets, change)
         lang = form.instance
 

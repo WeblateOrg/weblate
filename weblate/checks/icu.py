@@ -121,7 +121,7 @@ def update_maybe_value(value, old):
     return 0
 
 
-def extract_highlights(token, source):
+def extract_highlights(token, source: str):
     """Extract all placeholders from an AST selected for highlighting."""
     if isinstance(token, str):
         return

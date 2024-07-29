@@ -4,13 +4,20 @@
 
 """Wrapper to include useful information in error mails."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.views.debug import SafeExceptionReporterFilter
 
 from weblate.utils.requirements import get_versions_list
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
-    def get_post_parameters(self, request):
+    def get_post_parameters(self, request: AuthenticatedHttpRequest):
         if hasattr(request, "META"):
             meta = request.META
             if hasattr(request, "user"):

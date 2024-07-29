@@ -1,12 +1,18 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib import admin
 
 from weblate.wladmin.models import WeblateModelAdmin
 
 from .models import AuditLog, Profile, VerifiedEmail
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 @admin.register(AuditLog)
@@ -16,10 +22,12 @@ class AuditLogAdmin(WeblateModelAdmin):
     date_hierarchy = "timestamp"
     ordering = ("-timestamp",)
 
-    def has_delete_permission(self, request, obj=None) -> bool:
+    def has_delete_permission(
+        self, request: AuthenticatedHttpRequest, obj=None
+    ) -> bool:
         return False
 
-    def has_add_permission(self, request, obj=None) -> bool:
+    def has_add_permission(self, request: AuthenticatedHttpRequest, obj=None) -> bool:
         return False
 
 
@@ -30,10 +38,12 @@ class ProfileAdmin(WeblateModelAdmin):
     list_filter = ["language"]
     filter_horizontal = ("languages", "secondary_languages", "watched")
 
-    def has_delete_permission(self, request, obj=None) -> bool:
+    def has_delete_permission(
+        self, request: AuthenticatedHttpRequest, obj=None
+    ) -> bool:
         return False
 
-    def has_add_permission(self, request, obj=None) -> bool:
+    def has_add_permission(self, request: AuthenticatedHttpRequest, obj=None) -> bool:
         return False
 
 
@@ -44,5 +54,7 @@ class VerifiedEmailAdmin(WeblateModelAdmin):
     raw_id_fields = ("social",)
     ordering = ("email",)
 
-    def has_delete_permission(self, request, obj=None) -> bool:
+    def has_delete_permission(
+        self, request: AuthenticatedHttpRequest, obj=None
+    ) -> bool:
         return False

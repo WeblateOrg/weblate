@@ -126,7 +126,9 @@ class GitStreamingHttpResponse(StreamingHttpResponse):
 
 
 class GitHTTPBackendWrapper:
-    def __init__(self, obj, request, git_request: str) -> None:
+    def __init__(
+        self, obj, request: AuthenticatedHttpRequest, git_request: str
+    ) -> None:
         self.path = os.path.join(obj.full_path, git_request)
         self.obj = obj
         self.request = request

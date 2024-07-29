@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
@@ -20,9 +23,12 @@ from weblate.utils.forms import CachedModelChoiceField, ContextDiv
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import validate_filename, validate_re
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 class BaseAddonForm(forms.Form):
-    def __init__(self, user, addon, instance=None, *args, **kwargs) -> None:
+    def __init__(self, user: User, addon, instance=None, *args, **kwargs) -> None:
         self._addon = addon
         self.user = user
         forms.Form.__init__(self, *args, **kwargs)
@@ -454,7 +460,7 @@ class DiscoveryForm(BaseAddonForm):
 
 
 class AutoAddonForm(BaseAddonForm, AutoForm):
-    def __init__(self, user, addon, instance=None, **kwargs) -> None:
+    def __init__(self, user: User, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         AutoForm.__init__(
             self, obj=addon.instance.component or addon.instance.project, **kwargs
@@ -462,7 +468,7 @@ class AutoAddonForm(BaseAddonForm, AutoForm):
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
-    def __init__(self, user, addon, instance=None, **kwargs) -> None:
+    def __init__(self, user: User, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         component = addon.instance.component
         BulkEditForm.__init__(

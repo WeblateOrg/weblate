@@ -5,12 +5,14 @@
 from __future__ import annotations
 
 from copy import copy
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q, Sum
 from django.utils.translation import gettext
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.autofixes import fix_target
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
@@ -21,6 +23,9 @@ from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 class SuggestionManager(models.Manager["Suggestion"]):
@@ -97,7 +102,7 @@ class SuggestionQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("-timestamp")
 
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(
@@ -198,7 +203,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
-    def add_vote(self, request, value) -> None:
+    def add_vote(self, request: AuthenticatedHttpRequest, value) -> None:
         """Add (or updates) vote for a suggestion."""
         if request is None or not request.user.is_authenticated:
             return

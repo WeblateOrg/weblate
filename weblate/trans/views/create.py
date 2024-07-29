@@ -100,7 +100,7 @@ class CreateProject(BaseCreateView):
             "project.add"
         )
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if not self.can_create():
             return redirect("create-project")
         return super().post(request, *args, **kwargs)
@@ -117,7 +117,7 @@ class CreateProject(BaseCreateView):
             ).exists()
         return kwargs
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if self.has_billing:
             from weblate.billing.models import Billing
 
@@ -135,7 +135,7 @@ class ImportProject(CreateProject):
     form_class = ProjectImportForm
     template_name = "trans/project_import.html"
 
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
@@ -177,7 +177,7 @@ class ImportProject(CreateProject):
             kwargs["projectbackup"] = self.projectbackup
         return kwargs
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if "zipfile" in request.FILES and self.projectbackup:
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
@@ -335,7 +335,7 @@ class CreateComponent(BaseCreateView):
         kwargs["stage"] = self.stage
         return kwargs
 
-    def fetch_params(self, request) -> None:
+    def fetch_params(self, request: AuthenticatedHttpRequest) -> None:
         try:
             self.selected_project = int(
                 request.POST.get("project", request.GET.get("project", ""))
@@ -368,7 +368,7 @@ class CreateComponent(BaseCreateView):
             field in self.request.GET for field in self.basic_fields
         )
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if "new_base" in request.POST:
             self.stage = "create"
         elif "discovery" in request.POST:
@@ -456,7 +456,7 @@ class CreateComponentSelection(CreateComponent):
                 result[component.pk] = branches
         return result
 
-    def fetch_params(self, request) -> None:
+    def fetch_params(self, request: AuthenticatedHttpRequest) -> None:
         super().fetch_params(request)
         self.components = (
             Component.objects.filter_access(request.user)
@@ -541,7 +541,7 @@ class CreateComponentSelection(CreateComponent):
 
         return redirect("create-component")
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if self.origin == "vcs":
             kwargs = {}
             if self.selected_project:

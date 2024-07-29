@@ -240,7 +240,7 @@ class CheckList(PathViewMixin, ListView):
             raise TypeError(f"Type not supported: {self.path_object}")
         return context
 
-    def setup(self, request, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.check_obj = None
         name = kwargs.get("name")
@@ -250,7 +250,7 @@ class CheckList(PathViewMixin, ListView):
             except KeyError as error:
                 raise Http404("No check matches the given query.") from error
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if isinstance(self.path_object, Translation) and self.check_obj:
             return redirect(
                 f"{self.path_object.get_translate_url()}?q={self.check_obj.url_id} OR dismissed_{self.check_obj.url_id}"

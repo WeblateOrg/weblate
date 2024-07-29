@@ -182,7 +182,7 @@ class Notification:
         except ObjectDoesNotExist:
             return False
 
-    def is_admin(self, user, project):
+    def is_admin(self, user: User, project):
         if project is None:
             return False
 
@@ -358,7 +358,7 @@ class Notification:
     def _convert_change_skip(self, change):
         return change
 
-    def should_skip(self, user, change):
+    def should_skip(self, user: User, change):
         if not self.skip_when_notify:
             return False
         if self.child_notify is None:
@@ -682,7 +682,7 @@ class NewAnnouncementNotificaton(Notification):
     required_attr = "announcement"
     any_watched: bool = True
 
-    def should_skip(self, user, change) -> bool:
+    def should_skip(self, user: User, change) -> bool:
         return not change.announcement.notify
 
     def get_language_filter(self, change, translation):
@@ -696,7 +696,7 @@ class NewAlertNotificaton(Notification):
     template_name = "new_alert"
     required_attr = "alert"
 
-    def should_skip(self, user, change):
+    def should_skip(self, user: User, change):
         if change.alert.obj.link_wide:
             # Notify for main component
             if not change.component.linked_component:
