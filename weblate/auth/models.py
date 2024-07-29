@@ -63,6 +63,7 @@ if TYPE_CHECKING:
     from social_django.strategy import DjangoStrategy
 
     from weblate.auth.permissions import PermissionResult
+    from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], set[Language] | None]]
 
@@ -1162,3 +1163,6 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # type hint for accounts middleware
     weblate_cached_user: User
+
+    # type hint for wladmin
+    weblate_support_status: SupportStatusDict

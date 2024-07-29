@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING
+from typing import TypedDict
 
 import dateutil.parser
 from appconf import AppConf
@@ -17,7 +17,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.trans.models import Component, Project
 from weblate.utils.backup import (
     BackupError,
@@ -34,9 +34,6 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
 from weblate.vcs.ssh import ensure_ssh_key
-
-if TYPE_CHECKING:
-    from django.http import HttpRequest
 
 
 class WeblateConf(AppConf):
@@ -320,14 +317,19 @@ class BackupLog(models.Model):
         return f"{self.service}:{self.event}"
 
 
-def get_support_status(request: HttpRequest) -> SupportStatus:
+class SupportStatusDict(TypedDict):
+    has_support: bool
+    in_limits: bool
+
+
+def get_support_status(request: AuthenticatedHttpRequest) -> SupportStatusDict:
     if hasattr(request, "weblate_support_status"):
         support_status = request.weblate_support_status
     else:
         support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
         if support_status is None:
             support_status_instance = SupportStatus.objects.get_current()
-            support_status = {
+            support_status: SupportStatusDict = {
                 "has_support": support_status_instance.name != "community",
                 "in_limits": support_status_instance.in_limits,
             }
