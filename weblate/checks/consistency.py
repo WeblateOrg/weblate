@@ -16,6 +16,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.trans.models import Component, Unit
+    from weblate.trans.models.unit import UnitQuerySet
 
 
 class PluralsCheck(TargetCheck):
@@ -79,13 +80,17 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     batch_project_wide = True
     skip_suggestions = True
 
-    def get_propagated_value(self, unit: Unit):
+    def get_propagated_value(self, unit: Unit) -> None | str:
         return unit.target
 
-    def get_propagated_units(self, unit: Unit, target: str | None = None):
+    def get_propagated_units(
+        self, unit: Unit, target: str | None = None
+    ) -> UnitQuerySet:
         return unit.same_source_units
 
-    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
+    def check_target_unit(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> bool:
         component = unit.translation.component
         if not component.allow_translation_propagation:
             return False
@@ -271,6 +276,10 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         # Stop changes processing on source string change or on
         # intentional marking as needing edit
         return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
+
+    def handle_batch(self, unit: Unit, component: Component) -> Literal[False] | str:  # type: ignore[override]
+        # TODO: this is type annotation hack, instead the check should have a proper return type
+        return super().handle_batch(unit, component)  # type: ignore[return-value]
 
     def check_target_unit(  # type: ignore[override]
         self, sources: list[str], targets: list[str], unit: Unit

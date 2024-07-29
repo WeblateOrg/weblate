@@ -39,7 +39,7 @@ class BeginNewlineCheck(TargetCheck):
     )
 
     def check_single(self, source: str, target: str, unit: Unit):
-        return self.check_chars(source, target, 0, ["\n"])
+        return self.check_chars(source, target, 0, {"\n"})
 
 
 class EndNewlineCheck(TargetCheck):
@@ -50,7 +50,7 @@ class EndNewlineCheck(TargetCheck):
     description = gettext_lazy("Source and translation do not both end with a newline")
 
     def check_single(self, source: str, target: str, unit: Unit):
-        return self.check_chars(source, target, -1, ["\n"])
+        return self.check_chars(source, target, -1, {"\n"})
 
 
 class BeginSpaceCheck(TargetCheck):
@@ -160,7 +160,7 @@ class EndStopCheck(TargetCheck):
         if target.endswith(MY_QUESTION_MARK):
             # Laeave this on the question mark check
             return False
-        return self.check_chars(source, target, -1, (".", "။"))
+        return self.check_chars(source, target, -1, {".", "။"})
 
     def check_single(self, source: str, target: str, unit: Unit):
         if len(source) <= 4:
@@ -177,26 +177,26 @@ class EndStopCheck(TargetCheck):
         if unit.translation.language.is_base(("ja",)) and source[-1] in {":", ";"}:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
-            return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
+            return self.check_chars(source, target, -1, {";", ":", "：", ".", "。"})
         if unit.translation.language.is_base(("hy",)):
             return self.check_chars(
                 source,
                 target,
                 -1,
-                (".", "。", "।", "۔", "։", "·", "෴", "។", ":", "՝", "?", "!", "`"),
+                {".", "。", "।", "۔", "։", "·", "෴", "។", ":", "՝", "?", "!", "`"},
             )
         if unit.translation.language.is_base(("hi", "bn", "or")):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual. \u0964 is correct, but \u09F7
             # is also sometimes used instead in some popular editors.
-            return self.check_chars(source, target, -1, (".", "\u0964", "\u09f7", "|"))
+            return self.check_chars(source, target, -1, {".", "\u0964", "\u09f7", "|"})
         if unit.translation.language.is_base(("sat",)):
             # Santali uses "᱾" as full stop
-            return self.check_chars(source, target, -1, (".", "᱾"))
+            return self.check_chars(source, target, -1, {".", "᱾"})
         if unit.translation.language.is_base(("my",)):
             return self._check_my(source, target)
         return self.check_chars(
-            source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។", "።")
+            source, target, -1, {".", "。", "।", "۔", "։", "·", "෴", "។", "።"}
         )
 
 
@@ -209,14 +209,14 @@ class EndColonCheck(TargetCheck):
 
     def _check_hy(self, source: str, target: str):
         if source[-1] == ":":
-            return self.check_chars(source, target, -1, (":", "՝", "`"))
+            return self.check_chars(source, target, -1, {":", "՝", "`"})
         return False
 
     def _check_ja(self, source: str, target: str):
         # Japanese sentence might need to end with full stop
         # in case it's used before list.
         if source[-1] in {":", ";"}:
-            return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
+            return self.check_chars(source, target, -1, {";", ":", "：", ".", "。"})
         return False
 
     def check_single(self, source: str, target: str, unit: Unit):
@@ -228,7 +228,7 @@ class EndColonCheck(TargetCheck):
             return self._check_hy(source, target)
         if unit.translation.language.is_base(("ja",)):
             return self._check_ja(source, target)
-        return self.check_chars(source, target, -1, (":", "：", "៖"))
+        return self.check_chars(source, target, -1, {":", "：", "៖"})
 
 
 class EndQuestionCheck(TargetCheck):
@@ -243,7 +243,7 @@ class EndQuestionCheck(TargetCheck):
 
     def _check_hy(self, source: str, target: str):
         if source[-1] == "?":
-            return self.check_chars(source, target, -1, ("?", "՞", "։"))
+            return self.check_chars(source, target, -1, {"?", "՞", "։"})
         return False
 
     def _check_el(self, source: str, target: str):
@@ -269,7 +269,7 @@ class EndQuestionCheck(TargetCheck):
             return self._check_my(source, target)
 
         return self.check_chars(
-            source, target, -1, ("?", "՞", "؟", "⸮", "？", "፧", "꘏", "⳺")
+            source, target, -1, {"?", "՞", "؟", "⸮", "？", "፧", "꘏", "⳺"}
         )
 
 
@@ -297,10 +297,10 @@ class EndExclamationCheck(TargetCheck):
         if unit.translation.language.is_base(("hy", "jbo")):
             return False
         if unit.translation.language.is_base(("my",)):
-            return self.check_chars(source, target, -1, ("!", "႟"))
+            return self.check_chars(source, target, -1, {"!", "႟"})
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
-        return self.check_chars(source, target, -1, ("!", "！", "՜", "᥄", "႟", "߹"))
+        return self.check_chars(source, target, -1, {"!", "！", "՜", "᥄", "႟", "߹"})
 
 
 class EndInterrobangCheck(TargetCheck):
@@ -336,7 +336,7 @@ class EndEllipsisCheck(TargetCheck):
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
             return False
-        return self.check_chars(source, target, -1, ("…",))
+        return self.check_chars(source, target, -1, {"…"})
 
 
 class EscapedNewlineCountingCheck(CountingCheck):
@@ -422,7 +422,7 @@ class EndSemicolonCheck(TargetCheck):
             # Complement to question mark check
             return False
         return self.check_chars(
-            strip_entities(source), strip_entities(target), -1, [";"]
+            strip_entities(source), strip_entities(target), -1, {";"}
         )
 
 

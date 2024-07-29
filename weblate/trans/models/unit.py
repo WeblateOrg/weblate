@@ -1628,7 +1628,7 @@ class Unit(models.Model, LoggerMixin):
         return hash_to_checksum(self.id_hash)
 
     @cached_property
-    def same_source_units(self):
+    def same_source_units(self) -> UnitQuerySet:
         return (
             Unit.objects.same(self)
             .prefetch_full()

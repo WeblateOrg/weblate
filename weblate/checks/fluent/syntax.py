@@ -13,6 +13,8 @@ from weblate.checks.base import SourceCheck, TargetCheck
 from weblate.checks.fluent.utils import FluentUnitConverter, translation_from_check
 
 if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
     from weblate.checks.fluent.utils import CheckModel, TransUnitModel
 
 
@@ -48,7 +50,7 @@ class FluentSourceSyntaxCheck(_FluentSyntaxCheck, SourceCheck):
     def check_source_unit(self, source: list[str], unit: TransUnitModel) -> bool:
         return self.check_fluent_syntax(source[0], unit)
 
-    def get_description(self, check_model: CheckModel) -> str:
+    def get_description(self, check_model: CheckModel) -> StrOrPromise:
         return self.get_fluent_syntax_error_description(
             check_model, True
         ) or super().get_description(check_model)
@@ -70,7 +72,7 @@ class FluentTargetSyntaxCheck(_FluentSyntaxCheck, TargetCheck):
     ) -> bool:
         return self.check_fluent_syntax(target, unit)
 
-    def get_description(self, check_model: CheckModel) -> str:
+    def get_description(self, check_model: CheckModel) -> StrOrPromise:
         return self.get_fluent_syntax_error_description(
             check_model, False
         ) or super().get_description(check_model)

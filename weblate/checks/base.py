@@ -48,7 +48,7 @@ class BaseCheck:
     def get_identifier(self) -> str:
         return self.check_id
 
-    def get_propagated_value(self, unit: Unit) -> None:
+    def get_propagated_value(self, unit: Unit) -> None | str:
         return None
 
     def get_propagated_units(
@@ -123,11 +123,11 @@ class BaseCheck:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
-    def check_source(self, source: str, unit: Unit) -> bool:
+    def check_source(self, sources: list[str], unit: Unit) -> bool:
         """Check source strings."""
         if self.should_skip(unit):
             return False
-        return self.check_source_unit(source, unit)
+        return self.check_source_unit(sources, unit)
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""

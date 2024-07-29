@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
     from django.utils.safestring import SafeString
+    from django_stubs_ext import StrOrPromise
     from translate.storage.fluent import FluentSelectorBranch
 
     from weblate.checks.fluent.utils import CheckModel, HighlightsType, TransUnitModel
@@ -950,7 +951,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
             return True
         return False
 
-    def get_description(self, check_model: CheckModel) -> str:
+    def get_description(self, check_model: CheckModel) -> StrOrPromise:
         unit, source, _target = translation_from_check(check_model)
         try:
             self.get_fluent_inner_html(unit, source)
@@ -1262,7 +1263,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
             return True
         return bool(difference)
 
-    def get_description(self, check_model: CheckModel) -> str:
+    def get_description(self, check_model: CheckModel) -> StrOrPromise:
         unit, source, target = translation_from_check(check_model)
         try:
             difference = self._compare_inner_html(unit, source, target)
