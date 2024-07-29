@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from django.utils import timezone
 from django.utils.html import format_html_join
@@ -13,6 +16,9 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import SourceCheck
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r"\w\(s\)(\W|\Z)")
@@ -27,10 +33,10 @@ class OptionalPluralCheck(SourceCheck):
         "The string is used as plural, but not using plural forms"
     )
 
-    def check_source_unit(self, source, unit):
-        if len(source) > 1:
+    def check_source_unit(self, sources: list[str], unit: Unit):
+        if len(sources) > 1:
             return False
-        return len(PLURAL_MATCH.findall(source[0])) > 0
+        return len(PLURAL_MATCH.findall(sources[0])) > 0
 
 
 class EllipsisCheck(SourceCheck):
@@ -42,8 +48,8 @@ class EllipsisCheck(SourceCheck):
         "The string uses three dots (...) instead of an ellipsis character (…)"
     )
 
-    def check_source_unit(self, source, unit):
-        return "..." in source[0]
+    def check_source_unit(self, sources: list[str], unit: Unit):
+        return "..." in sources[0]
 
 
 class MultipleFailingCheck(SourceCheck):
@@ -55,12 +61,12 @@ class MultipleFailingCheck(SourceCheck):
         "The translations in several languages have failing checks"
     )
 
-    def get_related_checks(self, unit):
+    def get_related_checks(self, unit: Unit):
         from weblate.checks.models import Check
 
         return Check.objects.filter(unit__in=unit.unit_set.exclude(pk=unit.id))
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, sources: list[str], unit: Unit):
         related = self.get_related_checks(unit)
         return related.count() >= 2
 
@@ -101,7 +107,7 @@ class LongUntranslatedCheck(SourceCheck):
     name = gettext_lazy("Long untranslated")
     description = gettext_lazy("The string has not been translated for a long time")
 
-    def check_source_unit(self, source, unit):
+    def check_source_unit(self, sources: list[str], unit: Unit):
         if unit.timestamp > timezone.now() - timedelta(days=90):
             return False
         states = list(unit.unit_set.values_list("state", flat=True))

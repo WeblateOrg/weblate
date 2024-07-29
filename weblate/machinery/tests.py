@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 from copy import copy
 from io import StringIO
-from typing import NoReturn
+from typing import TYPE_CHECKING, NoReturn
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 
@@ -65,6 +65,9 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -1177,7 +1180,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_formality(self) -> None:
-        def request_callback(request):
+        def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
             self.assertIn("formality", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
@@ -1201,7 +1204,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self) -> None:
-        def request_callback(request):
+        def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
             self.assertIn("glossary_id", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
@@ -1245,7 +1248,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_replacements(self) -> None:
-        def request_callback(request):
+        def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']

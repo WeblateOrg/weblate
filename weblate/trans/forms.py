@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import copy
@@ -31,7 +30,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
-from weblate.auth.models import Group, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -510,7 +509,7 @@ class TranslationForm(UnitForm):
         required=False,
     )
 
-    def __init__(self, user, unit: Unit, *args, **kwargs) -> None:
+    def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
         if unit is not None:
             kwargs["initial"] = {
                 "checksum": unit.checksum,
@@ -610,7 +609,7 @@ class TranslationForm(UnitForm):
 class ZenTranslationForm(TranslationForm):
     checksum = ChecksumField(required=True)
 
-    def __init__(self, user, unit, *args, **kwargs) -> None:
+    def __init__(self, user: User, unit, *args, **kwargs) -> None:
         super().__init__(user, unit, *args, **kwargs)
         self.helper.form_action = reverse(
             "save_zen", kwargs={"path": unit.translation.get_url_path()}
@@ -722,7 +721,7 @@ class ExtraUploadForm(UploadForm):
     author_email = EmailField(label=gettext_lazy("Author e-mail"))
 
 
-def get_upload_form(user, translation, *args, **kwargs):
+def get_upload_form(user: User, translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
     if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
@@ -755,12 +754,12 @@ class SearchForm(forms.Form):
     offset_kwargs = {}
 
     @staticmethod
-    def get_initial(request):
+    def get_initial(request: AuthenticatedHttpRequest):
         if "q" in request.GET:
             return {"q": request.GET["q"]}
         return None
 
-    def __init__(self, user, language=None, show_builder=True, **kwargs) -> None:
+    def __init__(self, user: User, language=None, show_builder=True, **kwargs) -> None:
         """Generate choices for other components in the same project."""
         self.user = user
         self.language = language
@@ -1057,7 +1056,10 @@ class AutoForm(forms.Form):
                 result = self.components.get_by_path(component)
             except Component.DoesNotExist as error:
                 raise ValidationError(gettext("Component not found!")) from error
-        if result.source_language != self.obj.source_language:
+        if (
+            isinstance(self.obj, Component)
+            and result.source_language != self.obj.source_language
+        ):
             raise ValidationError(
                 gettext(
                     "Source component needs to have same source language as target one."
@@ -1130,7 +1132,7 @@ class EngageForm(forms.Form):
         empty_label=gettext_lazy("All components"),
     )
 
-    def __init__(self, user, project, *args, **kwargs) -> None:
+    def __init__(self, user: User, project, *args, **kwargs) -> None:
         """Dynamically generate choices for used languages in the project."""
         super().__init__(*args, **kwargs)
 
@@ -1184,7 +1186,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return [self.cleaned_data["lang"]]
 
 
-def get_new_language_form(request, component):
+def get_new_language_form(request: AuthenticatedHttpRequest, component):
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
         raise PermissionDenied
@@ -1361,7 +1363,7 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         model = Component
         fields = []
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.request = request
         self.helper = FormHelper()
@@ -1495,7 +1497,7 @@ class ComponentSettingsForm(
         }
         field_classes = {"enforced_checks": SelectChecksField}
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
@@ -1692,7 +1694,7 @@ class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
         required=False,
     )
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -1706,7 +1708,7 @@ class ComponentSelectForm(ComponentNameForm):
         help_text=gettext_lazy("Select an existing component configuration to copy."),
     )
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         if "instance" in kwargs:
             kwargs.pop("instance")
         if "auto_id" not in kwargs:
@@ -1776,7 +1778,7 @@ class ComponentProjectForm(ComponentNameForm):
     )
     instance: Project
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         if "instance" in kwargs:
             kwargs.pop("instance")
         super().__init__(request, *args, **kwargs)
@@ -1928,7 +1930,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         context["origin"] = value.meta["origin"]
         return render_to_string("trans/discover-choice.html", context)
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         # Hide all fields with exception of discovery
         for field, value in self.fields.items():
@@ -1942,7 +1944,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             (i, self.render_choice(value)) for i, value in enumerate(self.discovered)
         )
 
-    def perform_discovery(self, request, kwargs):
+    def perform_discovery(self, request: AuthenticatedHttpRequest, kwargs):
         if "data" in kwargs and "create_discovery" in request.session:
             discovered = []
             for i, data in enumerate(request.session["create_discovery"]):
@@ -1983,7 +1985,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         model = Component
         fields = ["name", "slug", "project", "category"]
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         self.fields["project"].queryset = request.user.managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.all()
@@ -1996,7 +1998,7 @@ class CategoryRenameForm(SettingsBaseForm):
         model = Category
         fields = ["name", "slug", "project", "category"]
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         self.fields["project"].queryset = request.user.managed_projects
         self.fields["category"].queryset = self.instance.project.category_set.exclude(
@@ -2009,7 +2011,9 @@ class AddCategoryForm(SettingsBaseForm):
         model = Category
         fields = ["name", "slug"]
 
-    def __init__(self, request, parent, *args, **kwargs) -> None:
+    def __init__(
+        self, request: AuthenticatedHttpRequest, parent, *args, **kwargs
+    ) -> None:
         self.parent = parent
         super().__init__(request, *args, **kwargs)
 
@@ -2095,7 +2099,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 details={"access_control": self.instance.access_control},
             )
 
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         self.user = request.user
         self.user_can_change_access = request.user.has_perm(
@@ -2218,7 +2222,9 @@ class ProjectImportCreateForm(ProjectCreateForm):
         model = Project
         fields = ("name", "slug")
 
-    def __init__(self, request, projectbackup, *args, **kwargs) -> None:
+    def __init__(
+        self, request: AuthenticatedHttpRequest, projectbackup, *args, **kwargs
+    ) -> None:
         kwargs["initial"] = {
             "name": projectbackup.data["project"]["name"],
             "slug": projectbackup.data["project"]["slug"],
@@ -2245,7 +2251,9 @@ class ProjectImportForm(BillingMixin, forms.Form):
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
 
-    def __init__(self, request, projectbackup=None, *args, **kwargs) -> None:
+    def __init__(
+        self, request: AuthenticatedHttpRequest, projectbackup=None, *args, **kwargs
+    ) -> None:
         kwargs.pop("instance", None)
         super().__init__(*args, **kwargs)
         self.request = request
@@ -2332,7 +2340,7 @@ class NewUnitBaseForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, translation, user, *args, **kwargs) -> None:
+    def __init__(self, translation, user: User, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.translation = translation
         self.fields["variant"].queryset = translation.unit_set.all()
@@ -2482,7 +2490,7 @@ class GlossaryAddMixin(forms.Form):
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
-    def __init__(self, translation, user, *args, **kwargs) -> None:
+    def __init__(self, translation, user: User, *args, **kwargs) -> None:
         if kwargs["initial"] is None:
             kwargs["initial"] = {}
         kwargs["initial"]["terminology"] = True
@@ -2550,7 +2558,7 @@ class BulkEditForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, user, obj, *args, **kwargs) -> None:
+    def __init__(self, user: User, obj, *args, **kwargs) -> None:
         project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)

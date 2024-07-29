@@ -5,14 +5,14 @@
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import quote
 
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
-from django.db.models import Count
+from django.db.models import Count, QuerySet
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -28,7 +28,13 @@ from weblate.accounts.forms import AdminUserSearchForm
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
-from weblate.auth.models import Group, GroupQuerySet, Invitation, User
+from weblate.auth.models import (
+    AuthenticatedHttpRequest,
+    Group,
+    GroupQuerySet,
+    Invitation,
+    User,
+)
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
@@ -62,6 +68,7 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.wladmin.tasks import backup_service, support_status_update
 
 if TYPE_CHECKING:
+    from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
 
 MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
@@ -84,7 +91,7 @@ if "weblate.billing" in settings.INSTALLED_APPS:
 
 
 @management_access
-def manage(request):
+def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
     support = SupportStatus.objects.get_current()
     initial = None
     activation_code = request.GET.get("activation")
@@ -104,7 +111,7 @@ def manage(request):
     )
 
 
-def send_test_mail(email) -> None:
+def send_test_mail(email: str) -> None:
     send_mail(
         subject=f"Test e-mail from Weblate on {timezone.now()}",
         message="It works.",
@@ -114,7 +121,7 @@ def send_test_mail(email) -> None:
 
 
 @management_access
-def tools(request):
+def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
     email_form = TestMailForm(initial={"email": request.user.email})
     announce_form = AnnouncementForm()
 
@@ -157,7 +164,7 @@ def tools(request):
 
 @management_access
 @require_POST
-def discovery(request):
+def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
     support = SupportStatus.objects.get_current()
 
     if not support.discoverable and settings.SITE_TITLE == "Weblate":
@@ -177,7 +184,7 @@ def discovery(request):
 
 @management_access
 @require_POST
-def activate(request):
+def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
     support = None
     if "refresh" in request.POST:
         support = SupportStatus.objects.get_current()
@@ -229,7 +236,7 @@ def activate(request):
 
 
 @management_access
-def repos(request):
+def repos(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Provide report about Git status of all repos."""
     return render(
         request,
@@ -243,7 +250,7 @@ def repos(request):
 
 
 @management_access
-def backups(request):
+def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     form = BackupForm()
     if request.method == "POST":
         if "repository" in request.POST:
@@ -277,7 +284,7 @@ def backups(request):
     return render(request, "manage/backups.html", context)
 
 
-def handle_dismiss(request):
+def handle_dismiss(request: AuthenticatedHttpRequest) -> HttpResponse:
     try:
         error = ConfigurationError.objects.get(pk=int(request.POST["pk"]))
         if "ignore" in request.POST:
@@ -291,7 +298,7 @@ def handle_dismiss(request):
 
 
 @management_access
-def performance(request):
+def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show performance tuning tips."""
     if request.method == "POST":
         return handle_dismiss(request)
@@ -314,7 +321,7 @@ def performance(request):
 
 
 @management_access
-def ssh_key(request):
+def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
     filename, data = get_key_data_raw(
         key_type=request.GET.get("type", "rsa"), kind="private"
     )
@@ -328,7 +335,7 @@ def ssh_key(request):
 
 
 @management_access
-def ssh(request):
+def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show information and manipulate with SSH key."""
     # Check whether we can generate SSH key
     can_generate = can_generate_key()
@@ -367,7 +374,7 @@ def ssh(request):
 
 
 @management_access
-def alerts(request):
+def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show component alerts."""
     context = {
         "alerts": Alert.objects.order_by(
@@ -388,10 +395,10 @@ class AdminUserList(UserList):
     template_name = "manage/users.html"
     form_class = AdminUserSearchForm
 
-    def get_base_queryset(self):
+    def get_base_queryset(self) -> QuerySet[User]:
         return User.objects.all()
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
         if "email" in request.POST:
             invite_form = AdminInviteUserForm(request.POST)
             if invite_form.is_valid():
@@ -399,7 +406,7 @@ class AdminUserList(UserList):
                 return redirect("manage-users")
         return super().get(request, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
 
         if self.request.method == "POST":
@@ -417,8 +424,8 @@ class AdminUserList(UserList):
 
 
 @management_access
-def users_check(request):
-    data = request.GET
+def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
+    data: QueryDict = request.GET
     # Legacy links for care.weblate.org integration
     if "email" in data and "q" not in data:
         data = data.copy()
@@ -439,7 +446,7 @@ def users_check(request):
 
 
 @management_access
-def appearance(request):
+def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
     current = Setting.objects.get_settings_dict(Setting.CATEGORY_UI)
     form = AppearanceForm(initial=current)
 
@@ -485,7 +492,7 @@ def appearance(request):
 
 
 @management_access
-def billing(request):
+def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
     from weblate.billing.models import Billing
 
     trial = []
@@ -542,7 +549,7 @@ class TeamListView(FormMixin, ListView):
     model = Group
     form_class = SitewideTeamForm
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Group]:
         return (
             cast(GroupQuerySet, super().get_queryset())
             .prefetch_related("languages", "projects", "components")
@@ -551,21 +558,21 @@ class TeamListView(FormMixin, ListView):
             .order()
         )
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
         result["menu_items"] = MENU
         result["menu_page"] = "teams"
         return result
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse("manage-teams")
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form: SitewideTeamForm) -> HttpResponse:
         form.save()
         return super().form_valid(form)

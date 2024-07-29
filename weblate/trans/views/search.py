@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -31,10 +34,13 @@ from weblate.utils.views import (
     show_form_errors,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @login_required
 @require_POST
-def search_replace(request, path):
+def search_replace(request: AuthenticatedHttpRequest, path):
     obj, unit_set, context = parse_path_units(
         request,
         path,
@@ -118,7 +124,7 @@ def search_replace(request, path):
 
 
 @never_cache
-def search(request, path=None):
+def search(request: AuthenticatedHttpRequest, path=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
     search_form = SearchForm(user=request.user, data=request.GET)
@@ -184,7 +190,7 @@ def search(request, path=None):
 @login_required
 @require_POST
 @never_cache
-def bulk_edit(request, path):
+def bulk_edit(request: AuthenticatedHttpRequest, path):
     obj, unit_set, context = parse_path_units(
         request,
         path,

@@ -10,13 +10,13 @@ import sys
 import time
 from datetime import timedelta
 from itertools import chain
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from celery.exceptions import TimeoutError
 from django.apps import AppConfig
 from django.conf import settings
 from django.core.cache import cache
-from django.core.checks import Error, Info, register
+from django.core.checks import CheckMessage, Error, Info, register
 from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
@@ -42,6 +42,10 @@ from .errors import init_error_collection
 from .site import check_domain, get_site_domain
 from .version import VERSION_BASE, get_latest_version
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Sequence
+
+
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
     "root@localhost",
@@ -56,7 +60,12 @@ DEFAULT_SECRET_KEYS = {
 
 
 @register(deploy=True)
-def check_mail_connection(app_configs, **kwargs):
+def check_mail_connection(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     errors = []
     try:
         connection = get_connection(timeout=5)
@@ -70,7 +79,12 @@ def check_mail_connection(app_configs, **kwargs):
 
 
 @register(deploy=True)
-def check_celery(app_configs, **kwargs):
+def check_celery(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
     from weblate.utils.tasks import ping
 
@@ -154,7 +168,12 @@ def check_celery(app_configs, **kwargs):
 
 
 @register(deploy=True)
-def check_database(app_configs, **kwargs):
+def check_database(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     errors = []
     if not using_postgresql():
         errors.append(
@@ -187,7 +206,12 @@ def check_database(app_configs, **kwargs):
 
 
 @register(deploy=True)
-def check_cache(app_configs, **kwargs):
+def check_cache(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check for sane caching."""
     errors = []
 
@@ -215,7 +239,12 @@ def check_cache(app_configs, **kwargs):
 
 
 @register(deploy=True)
-def check_settings(app_configs, **kwargs):
+def check_settings(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check for sane settings."""
     errors = []
 
@@ -257,7 +286,12 @@ def check_settings(app_configs, **kwargs):
 
 
 @register
-def check_data_writable(app_configs=None, **kwargs):
+def check_data_writable(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check we can write to data dir."""
     errors = []
     if not settings.DATA_DIR:
@@ -287,7 +321,12 @@ def check_data_writable(app_configs=None, **kwargs):
 
 
 @register
-def check_site(app_configs, **kwargs):
+def check_site(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     errors = []
     if not check_domain(get_site_domain()):
         errors.append(weblate_check("weblate.E017", "Correct the site domain"))
@@ -295,7 +334,12 @@ def check_site(app_configs, **kwargs):
 
 
 @register(deploy=True)
-def check_perms(app_configs=None, **kwargs):
+def check_perms(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check that the data dir can be written to."""
     if not settings.DATA_DIR:
         return []
@@ -332,7 +376,12 @@ def check_perms(app_configs=None, **kwargs):
 
 
 @register(deploy=True)
-def check_errors(app_configs=None, **kwargs):
+def check_errors(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check that error collection is configured."""
     if hasattr(settings, "ROLLBAR") or settings.SENTRY_DSN:
         return []
@@ -347,7 +396,12 @@ def check_errors(app_configs=None, **kwargs):
 
 
 @register
-def check_encoding(app_configs=None, **kwargs):
+def check_encoding(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check that the encoding is UTF-8."""
     if sys.getfilesystemencoding() == "utf-8" and sys.getdefaultencoding() == "utf-8":
         return []
@@ -360,7 +414,12 @@ def check_encoding(app_configs=None, **kwargs):
 
 
 @register(deploy=True)
-def check_diskspace(app_configs=None, **kwargs):
+def check_diskspace(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     """Check free disk space."""
     if settings.DATA_DIR:
         stat = os.statvfs(settings.DATA_DIR)
@@ -370,7 +429,12 @@ def check_diskspace(app_configs=None, **kwargs):
 
 
 @register(deploy=True)
-def check_version(app_configs=None, **kwargs):
+def check_version(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     try:
         latest = get_latest_version()
     except (ValueError, OSError):

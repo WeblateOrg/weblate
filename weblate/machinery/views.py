@@ -1,11 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 from itertools import chain
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -36,6 +35,9 @@ from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class MachineryMixin:
     @cached_property
@@ -47,7 +49,7 @@ class MachineryMixin:
 
 
 class MachineryProjectMixin(MachineryMixin):
-    def post_setup(self, request, kwargs) -> None:
+    def post_setup(self, request: AuthenticatedHttpRequest, kwargs) -> None:
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
     @cached_property
@@ -124,7 +126,7 @@ class MachineryConfiguration:
 class ListMachineryView(TemplateView):
     template_name = "machinery/list.html"
 
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = None
         self.post_setup(request, kwargs)
@@ -147,7 +149,7 @@ class ListMachineryView(TemplateView):
     def settings_dict(self) -> dict[str, SettingsDict]:
         raise NotImplementedError
 
-    def post_setup(self, request, kwargs) -> None:
+    def post_setup(self, request: AuthenticatedHttpRequest, kwargs) -> None:
         return
 
     def get_configured_services(self):
@@ -195,7 +197,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
                     machinery, configuration, sitewide=True, project=self.project
                 )
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -211,7 +213,7 @@ class EditMachineryView(FormView):
 
     machinery: DeprecatedMachinery | BatchMachineTranslation
 
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.machinery_id = kwargs["machinery"]
         try:
@@ -233,7 +235,7 @@ class EditMachineryView(FormView):
     def settings_dict(self) -> dict[str, SettingsDict]:
         raise NotImplementedError
 
-    def post_setup(self, request, kwargs) -> None:
+    def post_setup(self, request: AuthenticatedHttpRequest, kwargs) -> None:
         return
 
     def get_initial(self):
@@ -267,7 +269,7 @@ class EditMachineryView(FormView):
             return reverse("machinery-list", kwargs={"project": self.project.slug})
         return reverse("manage-machinery")
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if "delete" in request.POST:
             self.delete_service()
             return HttpResponseRedirect(self.get_success_url())
@@ -286,7 +288,7 @@ class EditMachineryView(FormView):
             return HttpResponseRedirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if not self.machinery.is_available:
             raise Http404("Invalid service specified")
         return super().get(request, *args, **kwargs)
@@ -313,7 +315,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
         self.save_settings(form.cleaned_data)
         return super().form_valid(form)
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if not request.user.has_perm("machinery.edit"):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -334,11 +336,11 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
         del self.project.machinery_settings[self.machinery_id]
         self.project.save(update_fields=["machinery_settings"])
 
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -370,7 +372,7 @@ def format_results_helper(
     item["html"] = format_string_helper(item["text"], translation)
 
 
-def handle_machinery(request, service, unit, search=None):
+def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=None):
     translation = unit.translation
     component = translation.component
     source_translation = component.source_translation
@@ -431,14 +433,14 @@ def handle_machinery(request, service, unit, search=None):
 
 
 @require_POST
-def translate(request, unit_id: int, service: str):
+def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=unit_id)
     return handle_machinery(request, service, unit)
 
 
 @require_POST
-def memory(request, unit_id: int):
+def memory(request: AuthenticatedHttpRequest, unit_id: int):
     """AJAX handler for translation memory."""
     unit = get_object_or_404(Unit, pk=unit_id)
     query = request.POST.get("q")

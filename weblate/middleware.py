@@ -19,7 +19,7 @@ from django.utils.translation import gettext_lazy
 from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
 
-from weblate.auth.models import get_auth_backends
+from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
@@ -48,7 +48,7 @@ class ProxyMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         # Fake HttpRequest attribute to inject configured
         # site name into build_absolute_uri
         request._current_scheme_host = get_site_url()  # noqa: SLF001
@@ -80,7 +80,7 @@ class RedirectMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         response = self.get_response(request)
         # This is based on APPEND_SLASH handling in Django
         if response.status_code == 404 and self.should_redirect_with_slash(request):
@@ -90,7 +90,7 @@ class RedirectMiddleware:
             return HttpResponsePermanentRedirect(new_path)
         return response
 
-    def should_redirect_with_slash(self, request):
+    def should_redirect_with_slash(self, request: AuthenticatedHttpRequest):
         path = request.path_info
         # Avoid redirecting non GET requests, these would fail anyway due to
         # missing parameters.
@@ -110,7 +110,7 @@ class RedirectMiddleware:
     def fixup_language(self, lang: str) -> Language | None:
         return Language.objects.fuzzy_get_strict(code=lang)
 
-    def fixup_project(self, slug, request):
+    def fixup_project(self, slug, request: AuthenticatedHttpRequest):
         try:
             project = Project.objects.get(slug__iexact=slug)
         except Project.MultipleObjectsReturned:
@@ -123,7 +123,7 @@ class RedirectMiddleware:
         request.user.check_access(project)
         return project
 
-    def fixup_component(self, slug, request, project):
+    def fixup_component(self, slug, request: AuthenticatedHttpRequest, project):
         try:
             # Try uncategorized component first
             component = project.component_set.get(category=None, slug__iexact=slug)
@@ -155,7 +155,7 @@ class RedirectMiddleware:
         """
         return any(lang.name == name for lang in project.languages)
 
-    def process_exception(self, request, exception):  # noqa: C901
+    def process_exception(self, request: AuthenticatedHttpRequest, exception):  # noqa: C901
         from weblate.utils.views import UnsupportedPathObjectError
 
         if not isinstance(exception, Http404):
@@ -250,7 +250,7 @@ class SecurityMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):  # noqa: C901
+    def __call__(self, request: AuthenticatedHttpRequest):  # noqa: C901
         response = self.get_response(request)
 
         style = {"'self'", "'unsafe-inline'"} | set(settings.CSP_STYLE_SRC)

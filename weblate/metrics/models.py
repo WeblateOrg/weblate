@@ -86,6 +86,7 @@ METRIC_ORDER = [
     "translations",
     "machinery:internal",
     "machinery:external",
+    "public_projects",
 ]
 
 
@@ -242,6 +243,9 @@ class MetricManager(models.Manager["Metric"]):
         stats = GlobalStats()
         data = {
             "projects": Project.objects.count(),
+            "public_projects": Project.objects.filter(
+                access_control__in={Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
+            ).count(),
             "components": Component.objects.count(),
             "translations": Translation.objects.count(),
             "memory": Memory.objects.count(),

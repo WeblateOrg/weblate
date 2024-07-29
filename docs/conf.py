@@ -367,6 +367,7 @@ autodoc_mock_imports = [
     "git",
     "PIL",
     "borg",
+    "appconf",
     "weblate.addons.models",
     "weblate.trans.models",
     "weblate.lang.models",

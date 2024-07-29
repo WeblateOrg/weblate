@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import os
@@ -770,6 +769,8 @@ class WeblateLoginView(LoginView):
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
 
+    request: AuthenticatedHttpRequest
+
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
@@ -1093,7 +1094,7 @@ def unwatch(request: AuthenticatedHttpRequest, path):
     return redirect_next(request.GET.get("next"), obj)
 
 
-def mute_real(user, **kwargs) -> None:
+def mute_real(user: User, **kwargs) -> None:
     for notification_cls in NOTIFICATIONS:
         if notification_cls.ignore_watched:
             continue
@@ -1157,7 +1158,9 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, *, reset: bool = False, remove: bool = False) -> None:
+def store_userid(
+    request: AuthenticatedHttpRequest, *, reset: bool = False, remove: bool = False
+) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset

@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -12,10 +15,13 @@ from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.views import parse_path
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @require_POST
 @login_required
-def lock(request, path):
+def lock(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component))
 
     if not request.user.has_perm("component.lock", obj):
@@ -37,7 +43,7 @@ def lock(request, path):
 
 @require_POST
 @login_required
-def unlock(request, path):
+def unlock(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component))
 
     if not request.user.has_perm("component.lock", obj):

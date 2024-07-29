@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 
@@ -8,6 +11,9 @@ from weblate.utils.errors import report_error
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 def get_akismet():
@@ -23,7 +29,7 @@ def get_akismet():
     )
 
 
-def is_spam(text, request):
+def is_spam(text, request: AuthenticatedHttpRequest):
     """Check whether text is considered spam."""
     if not text:
         return False

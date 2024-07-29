@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 
     from weblate.addons.forms import BaseAddonForm
     from weblate.addons.models import Addon
-    from weblate.auth.models import User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationFormat
     from weblate.trans.models import Project, Translation, Unit
 
@@ -373,7 +373,9 @@ class BaseAddon:
         return filename
 
     @classmethod
-    def pre_install(cls, obj: Component | Project | None, request) -> None:
+    def pre_install(
+        cls, obj: Component | Project | None, request: AuthenticatedHttpRequest
+    ) -> None:
         from weblate.trans.tasks import perform_update
 
         if cls.trigger_update and isinstance(obj, Component):

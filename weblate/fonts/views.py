@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
@@ -17,9 +19,12 @@ from weblate.trans.models import Project
 from weblate.utils import messages
 from weblate.utils.views import parse_path
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class ProjectViewMixin(View):
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [self.kwargs["project"]], (Project,))
 
@@ -45,7 +50,7 @@ class FontListView(ProjectViewMixin, ListView):
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
         form: FontForm | FontGroupForm
@@ -87,7 +92,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
@@ -115,7 +120,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied

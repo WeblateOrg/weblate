@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import datetime
@@ -30,7 +29,7 @@ from weblate.accounts.avatar import get_user_display
 from weblate.accounts.data import create_default_notifications
 from weblate.accounts.notifications import FREQ_CHOICES, NOTIFICATIONS, SCOPE_CHOICES
 from weblate.accounts.tasks import notify_auditlog
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Change, ComponentList
@@ -223,7 +222,7 @@ NOTIFY_ACTIVITY = {
 
 
 class AuditLogManager(models.Manager):
-    def is_new_login(self, user, address, user_agent) -> bool:
+    def is_new_login(self, user: User, address, user_agent) -> bool:
         """
         Check whether this login is coming from a new device.
 
@@ -237,7 +236,7 @@ class AuditLogManager(models.Manager):
 
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
-    def create(self, user, request, activity, **params):
+    def create(self, user: User, request: AuthenticatedHttpRequest, activity, **params):
         address = get_ip_address(request)
         user_agent = get_user_agent(request)
         if activity == "login" and self.is_new_login(user, address, user_agent):
@@ -252,7 +251,7 @@ class AuditLogManager(models.Manager):
 
 
 class AuditLogQuerySet(models.QuerySet["AuditLog"]):
-    def get_after(self, user, after, activity):
+    def get_after(self, user: User, after, activity):
         """
         Get user activities of given type after another activity.
 
@@ -266,7 +265,7 @@ class AuditLogQuerySet(models.QuerySet["AuditLog"]):
             kwargs = {}
         return self.filter(user=user, activity=activity, **kwargs)
 
-    def get_past_passwords(self, user):
+    def get_past_passwords(self, user: User):
         """Get user activities with password change."""
         start = timezone.now() - datetime.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
@@ -343,7 +342,7 @@ class AuditLog(models.Model):
             and not self.params.get("skip_notify")
         )
 
-    def check_rate_limit(self, request) -> bool:
+    def check_rate_limit(self, request: AuthenticatedHttpRequest) -> bool:
         """Check whether the activity should be rate limited."""
         if self.activity == "failed-auth" and self.user.has_usable_password():
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
@@ -757,7 +756,7 @@ class Profile(models.Model):
     def secondary_language_ids(self) -> set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_translation_orderer(self, request):
+    def get_translation_orderer(self, request: AuthenticatedHttpRequest):
         """Create a function suitable for ordering languages based on user preferences."""
 
         def get_translation_order(translation) -> str:
@@ -784,7 +783,7 @@ class Profile(models.Model):
 
         return get_translation_order
 
-    def fixup_profile(self, request) -> None:
+    def fixup_profile(self, request: AuthenticatedHttpRequest) -> None:
         fields = set()
         if not self.language:
             self.language = get_language()
@@ -868,7 +867,9 @@ def set_lang_cookie(response, profile) -> None:
 
 
 @receiver(user_logged_in)
-def post_login_handler(sender, request, user, **kwargs) -> None:
+def post_login_handler(
+    sender, request: AuthenticatedHttpRequest, user: User, **kwargs
+) -> None:
     """
     Signal handler for post login.
 

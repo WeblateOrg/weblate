@@ -39,6 +39,7 @@ from weblate.utils.validators import validate_plural_formula
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models import Unit
 
 PLURAL_RE = re.compile(
@@ -423,7 +424,7 @@ class LanguageQuerySet(models.QuerySet):
                 return default
         return super().get(*args, **kwargs)
 
-    def get_request_language(self, request):
+    def get_request_language(self, request: AuthenticatedHttpRequest):
         """
         Guess user language from a HTTP request.
 

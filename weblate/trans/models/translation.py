@@ -58,7 +58,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from datetime import datetime
 
-    from weblate.auth.models import User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 class TranslationManager(models.Manager):
@@ -113,7 +113,7 @@ class TranslationQuerySet(models.QuerySet):
             ),
         )
 
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(component__project__in=user.allowed_projects)
@@ -558,7 +558,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
     @transaction.atomic
-    def commit_pending(self, reason: str, user, skip_push: bool = False):
+    def commit_pending(self, reason: str, user: User, skip_push: bool = False):
         """Commit any pending changes."""
         if not self.needs_commit():
             return False
@@ -987,7 +987,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         return (not_found, skipped, accepted, len(store2.content_units))
 
-    def merge_suggestions(self, request, store, fuzzy):
+    def merge_suggestions(self, request: AuthenticatedHttpRequest, store, fuzzy):
         """Merge content of translate-toolkit store as a suggestions."""
         not_found = 0
         skipped = 0
@@ -1030,7 +1030,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         if self.is_source:
             self.component.drop_template_store_cache()
 
-    def handle_upload_store_change(self, request, change_action: int) -> None:
+    def handle_upload_store_change(
+        self, request: AuthenticatedHttpRequest, change_action: int
+    ) -> None:
         component = self.component
         if not component.repository.needs_commit(self.filenames):
             return
@@ -1058,7 +1060,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self.create_unit_change_action = Change.ACTION_NEW_UNIT_REPO
         self.update_unit_change_action = Change.ACTION_STRING_REPO_UPDATE
 
-    def handle_source(self, request, fileobj):
+    def handle_source(self, request: AuthenticatedHttpRequest, fileobj):
         """Replace source translations with uploaded one."""
         from weblate.addons.gettext import GettextCustomizeAddon, MsgmergeAddon
 
@@ -1114,7 +1116,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             )
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
-    def handle_replace(self, request, fileobj):
+    def handle_replace(self, request: AuthenticatedHttpRequest, fileobj):
         """Replace file content with uploaded one."""
         filecopy = fileobj.read()
         fileobj.close()
@@ -1146,7 +1148,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         return (0, 0, self.unit_set.count(), len(store2.content_units))
 
-    def handle_add_upload(self, request, store, fuzzy: str = ""):
+    def handle_add_upload(
+        self, request: AuthenticatedHttpRequest, store, fuzzy: str = ""
+    ):
         component = self.component
         has_template = component.has_template()
         skipped = 0
@@ -1314,7 +1318,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         """Return URL of exported git repository."""
         return self.component.get_export_url()
 
-    def remove(self, user) -> None:
+    def remove(self, user: User) -> None:
         """Remove translation from the VCS."""
         author = user.get_author_name()
         # Log
@@ -1537,7 +1541,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             component_post_update.send(sender=self.__class__, component=component)
         return result
 
-    def notify_deletion(self, unit, user) -> None:
+    def notify_deletion(self, unit, user: User) -> None:
         self.change_set.create(
             action=Change.ACTION_STRING_REMOVE,
             user=user,
@@ -1549,7 +1553,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         )
 
     @transaction.atomic
-    def delete_unit(self, request, unit) -> None:
+    def delete_unit(self, request: AuthenticatedHttpRequest, unit) -> None:
         from weblate.auth.models import get_anonymous
 
         component = self.component

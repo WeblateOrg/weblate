@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from copy import copy
-from typing import TypeVar, cast
+from typing import TYPE_CHECKING, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -14,7 +14,7 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, Permission, Role, User
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
@@ -41,6 +41,9 @@ from weblate.utils.views import (
     get_form_errors,
     guess_filemask_from_doc,
 )
+
+if TYPE_CHECKING:
+    from rest_framework.request import Request
 
 _MT = TypeVar("_MT", bound=Model)  # Model Type
 
@@ -78,7 +81,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         super().__init__(**kwargs)
         self.lookup_field = lookup_field
 
-    def get_url(self, obj, view_name, request, format):  # noqa: A002
+    def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # noqa: A002
         """
         Given an object, return the URL that hyperlinks to the object.
 
@@ -450,7 +453,7 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
     def get_attribute(self, instance):
         return instance
 
-    def get_url(self, obj, view_name, request, format):  # noqa: A002
+    def get_url(self, obj, view_name, request: Request, format):  # noqa: A002
         if not obj.in_progress():
             return None
         return super().get_url(obj, view_name, request, format)
@@ -891,7 +894,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
             return ""
         return value
 
-    def check_perms(self, user, obj) -> None:
+    def check_perms(self, user: User, obj) -> None:
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
             raise serializers.ValidationError(

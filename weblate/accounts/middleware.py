@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import re
 
@@ -13,10 +14,10 @@ from django.utils.translation import activate, get_language, get_language_from_r
 
 from weblate.accounts.models import set_lang_cookie
 from weblate.accounts.utils import adjust_session_expiry
-from weblate.auth.models import get_anonymous
+from weblate.auth.models import AuthenticatedHttpRequest, get_anonymous
 
 
-def get_user(request):
+def get_user(request: AuthenticatedHttpRequest):
     """
     Based on django.contrib.auth.middleware.get_user.
 
@@ -40,7 +41,7 @@ class AuthenticationMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         from weblate.lang.models import Language
 
         # Django uses lazy object here, but we need the user in pretty
@@ -112,7 +113,9 @@ class RequireLoginMiddleware:
             for url in setting
         )
 
-    def process_view(self, request, view_func, view_args, view_kwargs):
+    def process_view(
+        self, request: AuthenticatedHttpRequest, view_func, view_args, view_kwargs
+    ):
         """Check request whether it needs to enforce login for this URL."""
         # No need to process URLs if not configured
         if not self.required:
@@ -147,5 +150,5 @@ class RequireLoginMiddleware:
         # Explicitly return None for all non-matching requests
         return None
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         return self.get_response(request)

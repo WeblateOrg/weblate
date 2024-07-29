@@ -2,10 +2,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import AdminSite, sites
 from django.utils.translation import gettext, gettext_lazy
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class WeblateAdminSite(AdminSite):
@@ -26,7 +33,7 @@ class WeblateAdminSite(AdminSite):
             return settings.URL_PREFIX
         return "/"
 
-    def each_context(self, request):
+    def each_context(self, request: AuthenticatedHttpRequest):
         from weblate.wladmin.models import ConfigurationError
 
         result = super().each_context(request)

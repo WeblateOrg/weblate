@@ -22,14 +22,14 @@ class SSHTest(TestCase):
 
     @tempdir_setting("DATA_DIR")
     def test_parse(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, "ssh"))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
 
     @tempdir_setting("DATA_DIR")
     def test_create_ssh_wrapper(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         wrapper = SSHWrapper()
         filename = wrapper.filename
         wrapper.create()

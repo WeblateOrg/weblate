@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import permission_required
 from django.http import Http404
@@ -23,8 +26,11 @@ from weblate.utils.stats import (
     prefetch_stats,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def show_languages(request):
+
+def show_languages(request: AuthenticatedHttpRequest):
     custom_workflows = set()
     if request.user.has_perm("language.edit"):
         languages = Language.objects.all()
@@ -49,7 +55,7 @@ def show_languages(request):
     )
 
 
-def show_language(request, lang):
+def show_language(request: AuthenticatedHttpRequest, lang):
     try:
         obj = Language.objects.get(code=lang)
     except Language.DoesNotExist as error:
@@ -100,7 +106,7 @@ class CreateLanguageView(CreateView):
         kwargs = self.get_form_kwargs()
         return (LanguageForm(**kwargs), PluralForm(**kwargs))
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.object = None
         forms = self.get_form()
         if all(form.is_valid() for form in forms):
@@ -135,7 +141,7 @@ class EditLanguageView(UpdateView):
             kwargs["instance"] = self.workflow_object
         return WorkflowSettingForm(**kwargs)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.object = self.get_object()
         try:
             self.workflow_object = self.object.workflowsetting_set.get(project=None)
@@ -143,7 +149,7 @@ class EditLanguageView(UpdateView):
             self.workflow_object = None
         return super().get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.object = self.get_object()
         try:
             self.workflow_object = self.object.workflowsetting_set.get(project=None)

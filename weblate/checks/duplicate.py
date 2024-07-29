@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
@@ -10,6 +13,9 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
 from weblate.checks.same import strip_format
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 # Regexp for non word chars
 NON_WORD = re.compile("[{}\\]]+".format("".join(NON_WORD_CHARS)))
@@ -54,7 +60,7 @@ class DuplicateCheck(TargetCheck):
             words.append(previous)
         return groups, words
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         source_code = unit.translation.component.source_language.base_code
         lang_code = unit.translation.language.base_code
 
