@@ -16,7 +16,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
 from weblate.addons.events import AddonEvent
-from weblate.auth.models import User
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.util import get_clean_env
