@@ -176,6 +176,12 @@ class TTKitUnit(TranslationUnit):
             flags.merge(self.template.xmlelement)
         return flags.format()
 
+    def clone_template(self) -> None:
+        super().clone_template()
+
+        # do not copy notes from the template (#11133)
+        self.unit.removenotes()
+
     def untranslate(self, language) -> None:
         target: str | list[str]
         target = [""] * language.plural.number if self.mainunit.hasplural() else ""

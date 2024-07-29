@@ -88,6 +88,7 @@ class MonoMultiCSVUtf8FormatTest(MultiCSVUtf8FormatTest):
     FILE = TEST_MONO_CSV
     BASE = TEST_MONO_BASE_CSV
     TEMPLATE = TEST_MONO_BASE_CSV
+    SUPPORTS_NOTES = False
     EXPECTED_EDIT = [
         '"context","target"',
         '"22298006","Infarctus myocardique"',
