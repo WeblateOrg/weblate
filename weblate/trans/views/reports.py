@@ -12,6 +12,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
 from django.views.decorators.http import require_POST
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
 from weblate.trans.models import Category, Change, Component, Project
@@ -22,7 +23,7 @@ if TYPE_CHECKING:
     from django.db.models import Model
     from django.utils.safestring import SafeString
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 # Header, two longer fields for name and email, shorter fields for numbers
 RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)
@@ -48,7 +49,7 @@ def format_plaintext_join(sep, format_string, args_generator):
     return sep.join(format_plaintext(format_string, *args) for args in args_generator)
 
 
-def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
+def generate_credits(user: User, start_date, end_date, language_code: str, **kwargs):
     """Generate credits data for given component."""
     result = defaultdict(list)
 
@@ -184,7 +185,7 @@ COUNT_DEFAULTS = dict.fromkeys(
 )
 
 
-def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
+def generate_counts(user: User, start_date, end_date, language_code: str, **kwargs):
     """Generate credits data for given component."""
     result = {}
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}

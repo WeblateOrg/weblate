@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import re
@@ -975,7 +974,7 @@ def active_link(context, slug):
     return ""
 
 
-def _needs_agreement(component, user) -> bool:
+def _needs_agreement(component, user: User) -> bool:
     if not component.agreement:
         return False
     return not ContributorAgreement.objects.has_agreed(user, component)

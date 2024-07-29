@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import datetime
@@ -30,7 +29,7 @@ from weblate.accounts.avatar import get_user_display
 from weblate.accounts.data import create_default_notifications
 from weblate.accounts.notifications import FREQ_CHOICES, NOTIFICATIONS, SCOPE_CHOICES
 from weblate.accounts.tasks import notify_auditlog
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Change, ComponentList
@@ -868,7 +867,9 @@ def set_lang_cookie(response, profile) -> None:
 
 
 @receiver(user_logged_in)
-def post_login_handler(sender, request, user, **kwargs) -> None:
+def post_login_handler(
+    sender, request: AuthenticatedHttpRequest, user: User, **kwargs
+) -> None:
     """
     Signal handler for post login.
 

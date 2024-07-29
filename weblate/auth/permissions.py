@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -9,6 +8,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.utils.translation import gettext
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -58,7 +58,7 @@ def register_perm(*perms):
     return wrap_perm
 
 
-def check_global_permission(user, permission: str) -> bool:
+def check_global_permission(user: User, permission: str) -> bool:
     """Check whether user has a global permission."""
     if user.is_superuser:
         return True
@@ -125,7 +125,7 @@ def check_delete_own(user: User, permission: str, obj: Model):
 
 
 @register_perm("unit.check")
-def check_ignore_check(user, permission, check):
+def check_ignore_check(user: User, permission, check):
     if check.is_enforced():
         return False
     return check_permission(user, permission, check.unit.translation)
@@ -323,7 +323,7 @@ def check_unit_delete(user: User, permission: str, obj: Model):
 
 
 @register_perm("unit.add")
-def check_unit_add(user, permission, translation):
+def check_unit_add(user: User, permission, translation):
     component = translation.component
     # Check if adding is generally allowed
     can_manage = check_manage_units(translation, component)
@@ -341,7 +341,7 @@ def check_unit_add(user, permission, translation):
 
 
 @register_perm("translation.add")
-def check_translation_add(user, permission, component):
+def check_translation_add(user: User, permission, component):
     if component.new_lang == "none" and not component.can_add_new_language(
         user, fast=True
     ):
@@ -352,7 +352,7 @@ def check_translation_add(user, permission, component):
 
 
 @register_perm("translation.auto")
-def check_autotranslate(user, permission, translation):
+def check_autotranslate(user: User, permission, translation):
     if isinstance(translation, Translation) and (
         (translation.is_source and not translation.component.intermediate)
         or translation.is_readonly
@@ -383,7 +383,7 @@ def check_suggestion_add(user: User, permission: str, obj: Model):
 
 
 @register_perm("upload.perform")
-def check_contribute(user, permission, translation):
+def check_contribute(user: User, permission, translation):
     # Bilingual source translations
     if translation.is_source and not translation.is_template:
         return hasattr(
@@ -508,7 +508,7 @@ def check_unit_flag(user: User, permission: str, obj: Model):
 
 
 @register_perm("memory.edit", "memory.delete")
-def check_memory_perms(user, permission, memory):
+def check_memory_perms(user: User, permission, memory):
     from weblate.memory.models import Memory
 
     if isinstance(memory, Memory):

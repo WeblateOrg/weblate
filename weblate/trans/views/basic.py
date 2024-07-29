@@ -72,7 +72,7 @@ from weblate.utils.views import (
 )
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 @never_cache
@@ -109,7 +109,9 @@ def list_projects(request: AuthenticatedHttpRequest):
     )
 
 
-def add_ghost_translations(component, user, translations, generator, **kwargs) -> None:
+def add_ghost_translations(
+    component, user: User, translations, generator, **kwargs
+) -> None:
     """Add ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
         existing = {translation.language.code for translation in translations}

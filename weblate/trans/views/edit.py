@@ -27,6 +27,7 @@ from django.urls import reverse
 from django.utils.translation import gettext, gettext_noop
 from django.views.decorators.http import require_POST
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
@@ -284,7 +285,7 @@ def search(
         return search_result
 
 
-def perform_suggestion(unit, form, request):
+def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
     """Handle suggesion saving."""
     if not form.cleaned_data["target"][0]:
         messages.error(request, gettext("Your suggestion is empty!"))
@@ -326,7 +327,7 @@ def perform_suggestion(unit, form, request):
     return result
 
 
-def perform_translation(unit, form, request) -> bool:
+def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
     """Handle translation and stores it to a backend."""
     user = request.user
     profile = user.profile
@@ -438,7 +439,7 @@ def handle_translate(
     return HttpResponseRedirect(this_unit_url)
 
 
-def handle_merge(unit, request, next_unit_url):
+def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
     """Handle unit merging."""
     mergeform = MergeForm(unit, request.POST)
     if not mergeform.is_valid():
@@ -459,7 +460,7 @@ def handle_merge(unit, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def handle_revert(unit, request, next_unit_url):
+def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     revertform = RevertForm(unit, request.GET)
     if not revertform.is_valid():
         messages.error(request, gettext("Invalid revert request!"))
@@ -862,7 +863,7 @@ def resolve_comment(request: AuthenticatedHttpRequest, pk):
     return redirect_next(request.POST.get("next"), fallback_url)
 
 
-def get_zen_unitdata(obj, project, unit_set, request):
+def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
     """Load unit data for zen mode."""
     # Search results
     search_result = search(obj, project, unit_set, request)

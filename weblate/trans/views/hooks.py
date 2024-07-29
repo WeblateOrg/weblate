@@ -19,6 +19,7 @@ from django.http import (
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project
 from weblate.trans.tasks import perform_update
@@ -284,7 +285,7 @@ def bitbucket_extract_repo_url(data, repository):
 
 
 @register_hook
-def bitbucket_hook_helper(data, request):
+def bitbucket_hook_helper(data, request: AuthenticatedHttpRequest):
     """Parse service hook from Bitbucket."""
     # Bitbucket ping event
     if request and request.headers.get("x-event-key") not in {
@@ -337,7 +338,7 @@ def bitbucket_hook_helper(data, request):
 
 
 @register_hook
-def github_hook_helper(data, request):
+def github_hook_helper(data, request: AuthenticatedHttpRequest):
     """Parse hooks from GitHub."""
     # Ignore non push events
     if request and request.headers.get("x-github-event") != "push":
@@ -374,7 +375,7 @@ def github_hook_helper(data, request):
 
 
 @register_hook
-def gitea_hook_helper(data, request):
+def gitea_hook_helper(data, request: AuthenticatedHttpRequest):
     return {
         "service_long_name": "Gitea",
         "repo_url": data["repository"]["html_url"],
@@ -389,7 +390,7 @@ def gitea_hook_helper(data, request):
 
 
 @register_hook
-def gitee_hook_helper(data, request):
+def gitee_hook_helper(data, request: AuthenticatedHttpRequest):
     return {
         "service_long_name": "Gitee",
         "repo_url": data["repository"]["html_url"],
@@ -406,7 +407,7 @@ def gitee_hook_helper(data, request):
 
 
 @register_hook
-def gitlab_hook_helper(data, request):
+def gitlab_hook_helper(data, request: AuthenticatedHttpRequest):
     """Parse hook from GitLab."""
     # Ignore non known events
     if "ref" not in data:
@@ -437,7 +438,7 @@ def gitlab_hook_helper(data, request):
 
 
 @register_hook
-def pagure_hook_helper(data, request):
+def pagure_hook_helper(data, request: AuthenticatedHttpRequest):
     """Parse hook from Pagure."""
     # Ignore non known events
     if "msg" not in data or data.get("topic") != "git.receive":
@@ -465,7 +466,7 @@ def expand_quoted(name: str):
 
 
 @register_hook
-def azure_hook_helper(data, request):
+def azure_hook_helper(data, request: AuthenticatedHttpRequest):
     if data.get("eventType") != "git.push":
         return None
 

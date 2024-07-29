@@ -721,7 +721,7 @@ class ExtraUploadForm(UploadForm):
     author_email = EmailField(label=gettext_lazy("Author e-mail"))
 
 
-def get_upload_form(user, translation, *args, **kwargs):
+def get_upload_form(user: User, translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
     if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm

@@ -16,6 +16,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.views.generic.base import TemplateView
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
@@ -27,7 +28,7 @@ from weblate.utils.views import ErrorFormView, parse_path
 from weblate.wladmin.views import MENU
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
@@ -40,7 +41,7 @@ def get_objects(request: AuthenticatedHttpRequest, kwargs):
     return {"user": request.user}
 
 
-def check_perm(user, permission, objects):
+def check_perm(user: User, permission, objects):
     if "project" in objects:
         return user.has_perm(permission, objects["project"])
     if "user" in objects:

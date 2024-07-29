@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import re
@@ -910,7 +909,7 @@ def sync_create_groups(sender, **kwargs) -> None:
     create_groups(False)
 
 
-def auto_assign_group(user) -> None:
+def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
     if user.username == settings.ANONYMOUS_USER_NAME:
         return

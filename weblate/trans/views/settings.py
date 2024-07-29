@@ -19,6 +19,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
 from weblate.trans.forms import (
     AddCategoryForm,
@@ -225,7 +226,7 @@ def remove(request: AuthenticatedHttpRequest, path):
     return redirect(parent)
 
 
-def perform_rename(form_cls, request, obj, perm: str):
+def perform_rename(form_cls, request: AuthenticatedHttpRequest, obj, perm: str):
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied
 

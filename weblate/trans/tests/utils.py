@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import os.path
@@ -448,7 +447,7 @@ class TempDirMixin:
             self._tempdir = None
 
 
-def create_test_billing(user, invoice=True):
+def create_test_billing(user: User, invoice=True):
     from weblate.billing.models import Billing, Invoice, Plan
 
     plan = Plan.objects.create(

@@ -1094,7 +1094,7 @@ def unwatch(request: AuthenticatedHttpRequest, path):
     return redirect_next(request.GET.get("next"), obj)
 
 
-def mute_real(user, **kwargs) -> None:
+def mute_real(user: User, **kwargs) -> None:
     for notification_cls in NOTIFICATIONS:
         if notification_cls.ignore_watched:
             continue
