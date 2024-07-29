@@ -24,7 +24,7 @@ class GlossaryCheckTest(ViewTestCase):
             language=self.unit.translation.language
         )
 
-    def add_glossary(self, target, context="") -> None:
+    def add_glossary(self, target: str, context="") -> None:
         self.glossary.add_unit(None, context, "hello", target)
 
     def test_missing(self) -> None:

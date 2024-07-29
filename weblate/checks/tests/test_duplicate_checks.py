@@ -14,7 +14,7 @@ from weblate.trans.models import Component, Translation, Unit
 class DuplicateCheckTest(CheckTestCase):
     check = DuplicateCheck()
 
-    def _run_check(self, target, source="", lang="cs"):
+    def _run_check(self, target: str, source="", lang="cs"):
         return self.check.check_single(source, target, MockUnit(code=lang, note=""))
 
     def test_no_duplicated_token(self) -> None:

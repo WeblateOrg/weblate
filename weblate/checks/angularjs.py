@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 
 from django.utils.translation import gettext_lazy
@@ -31,5 +33,5 @@ class AngularJSInterpolationCheck(BaseFormatCheck):
     description = gettext_lazy("AngularJS interpolation strings do not match source")
     regexp = ANGULARJS_INTERPOLATION_MATCH
 
-    def cleanup_string(self, text):
+    def cleanup_string(self, text: str) -> str:
         return WHITESPACE.sub("", text)

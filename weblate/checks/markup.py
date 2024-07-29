@@ -26,6 +26,8 @@ from weblate.utils.xml import parse_xml
 if TYPE_CHECKING:
     from lxml.etree import _Element
 
+    from weblate.trans.models import Unit
+
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
@@ -68,7 +70,7 @@ class BBCodeCheck(TargetCheck):
     name = gettext_lazy("BBCode markup")
     description = gettext_lazy("BBCode in translation does not match source")
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         # Parse source
         src_match = BBCODE_MATCH.findall(source)
         # Any BBCode in source?
@@ -84,7 +86,7 @@ class BBCodeCheck(TargetCheck):
 
         return src_tags != tgt_tags
 
-    def check_highlight(self, source, unit):
+    def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
         for match in BBCODE_MATCH.finditer(source):
@@ -114,7 +116,7 @@ class BaseXMLCheck(TargetCheck):
             text = f"<weblate>{text}</weblate>"
         return parse_xml(text.encode() if "encoding" in text else text)
 
-    def should_skip(self, unit) -> bool:
+    def should_skip(self, unit: Unit) -> bool:
         if super().should_skip(unit):
             return True
 
@@ -137,7 +139,7 @@ class BaseXMLCheck(TargetCheck):
         # Actually verify XML parsing
         return not all(self.can_parse_xml(source) for source in sources)
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError
 
@@ -149,7 +151,7 @@ class XMLValidityCheck(BaseXMLCheck):
     name = gettext_lazy("XML syntax")
     description = gettext_lazy("The translation is not valid XML")
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Check if source is XML
         try:
             wrap = self.detect_xml_wrapping(source)[1]
@@ -174,7 +176,7 @@ class XMLTagsCheck(BaseXMLCheck):
     name = gettext_lazy("XML markup")
     description = gettext_lazy("XML tags in translation do not match source")
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         # Check if source is XML
         try:
             source_tree, wrap = self.detect_xml_wrapping(source)
@@ -194,7 +196,7 @@ class XMLTagsCheck(BaseXMLCheck):
         # Compare tags
         return source_tags != target_tags
 
-    def check_highlight(self, source, unit):
+    def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return []
         if not self.can_parse_xml(source):
@@ -233,7 +235,7 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown references")
     description = gettext_lazy("Markdown link references do not match source")
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         src_match = MD_REFLINK.findall(source)
         if not src_match:
             return False
@@ -250,7 +252,7 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown links")
     description = gettext_lazy("Markdown links do not match source")
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         src_match = MD_LINK.findall(source)
         if not src_match:
             return False
@@ -268,7 +270,7 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         src_anchors = {x[2] for x in src_match if x[2] and x[2][0] in link_start}
         return tgt_anchors != src_anchors
 
-    def get_fixup(self, unit):
+    def get_fixup(self, unit: Unit):
         if MD_BROKEN_LINK.findall(unit.target):
             return [(MD_BROKEN_LINK.pattern, "](")]
         return None
@@ -286,13 +288,13 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
                 return match[i]
         return None
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         src_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(source)}
         tgt_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(target)}
 
         return src_tags != tgt_tags
 
-    def check_highlight(self, source, unit):
+    def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
         for match in MD_SYNTAX.finditer(source):
@@ -317,7 +319,7 @@ class URLCheck(TargetCheck):
     def validator(self):
         return URLValidator()
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not source:
             return False
         try:
@@ -333,7 +335,7 @@ class SafeHTMLCheck(TargetCheck):
     description = gettext_lazy("The translation uses unsafe HTML markup")
     default_disabled = True
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         # Strip MarkDown links
         if "md-text" in unit.all_flags:
             target = MD_LINK.sub("", target)

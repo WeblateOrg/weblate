@@ -140,7 +140,7 @@ class SameCheck(TargetCheck):
     name = gettext_lazy("Unchanged translation")
     description = gettext_lazy("Source and translation are identical")
 
-    def should_ignore(self, source, unit) -> bool:
+    def should_ignore(self, source: str, unit: Unit) -> bool:
         """Check whether given unit should be ignored."""
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
@@ -206,7 +206,7 @@ class SameCheck(TargetCheck):
 
         return True
 
-    def should_skip(self, unit) -> bool:
+    def should_skip(self, unit: Unit) -> bool:
         # Skip read-only units and ignored check
         if unit.readonly or super().should_skip(unit):
             return True
@@ -217,14 +217,14 @@ class SameCheck(TargetCheck):
         # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
         return bool(
-            unit.translation.language.is_base(source_language)
+            unit.translation.language.is_base((source_language,))
             or (
                 source_language == "en"
                 and unit.translation.language.is_base(("en", "ia"))
             )
         )
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         # One letter things are usually labels or decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False

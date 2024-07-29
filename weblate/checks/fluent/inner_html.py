@@ -943,9 +943,9 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     description = gettext_lazy("Fluent source should be valid inner HTML")
     default_disabled = True
 
-    def check_source_unit(self, source: str, unit: TransUnitModel) -> bool:
+    def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
         try:
-            self.get_fluent_inner_html(unit, source[0])
+            self.get_fluent_inner_html(unit, sources[0])
         except _HTMLParseError:
             return True
         return False

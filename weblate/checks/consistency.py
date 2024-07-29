@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from functools import reduce
+from typing import TYPE_CHECKING, Literal
 
 from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
@@ -12,6 +13,9 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Component, Unit
 
 
 class PluralsCheck(TargetCheck):
@@ -21,12 +25,12 @@ class PluralsCheck(TargetCheck):
     name = gettext_lazy("Missing plurals")
     description = gettext_lazy("Some plural forms are untranslated")
 
-    def should_skip(self, unit):
+    def should_skip(self, unit: Unit):
         if unit.translation.component.is_multivalue:
             return True
         return super().should_skip(unit)
 
-    def check_target_unit(self, sources: list[str], targets, unit):
+    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
         # Is this plural?
         if len(sources) == 1:
             return False
@@ -36,7 +40,7 @@ class PluralsCheck(TargetCheck):
         # Check for empty translation
         return "" in targets
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -48,7 +52,7 @@ class SamePluralsCheck(TargetCheck):
     name = gettext_lazy("Same plurals")
     description = gettext_lazy("Some plural forms are translated in the same way")
 
-    def check_target_unit(self, sources: list[str], targets, unit):
+    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
@@ -56,7 +60,7 @@ class SamePluralsCheck(TargetCheck):
             return False
         return len(set(targets)) == 1
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
@@ -75,13 +79,13 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     batch_project_wide = True
     skip_suggestions = True
 
-    def get_propagated_value(self, unit):
+    def get_propagated_value(self, unit: Unit):
         return unit.target
 
-    def get_propagated_units(self, unit, target: str | None = None):
+    def get_propagated_units(self, unit: Unit, target: str | None = None):
         return unit.same_source_units
 
-    def check_target_unit(self, sources: list[str], targets, unit):
+    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
         component = unit.translation.component
         if not component.allow_translation_propagation:
             return False
@@ -97,11 +101,11 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
                 return True
         return False
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
-    def check_component(self, component):
+    def check_component(self, component: Component):
         from weblate.trans.models import Unit
 
         units = Unit.objects.filter(
@@ -154,22 +158,22 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
     batch_project_wide = True
     skip_suggestions = True
 
-    def get_propagated_value(self, unit):
+    def get_propagated_value(self, unit: Unit):
         return unit.source
 
-    def get_propagated_units(self, unit, target: str | None = None):
+    def get_propagated_units(self, unit: Unit, target: str | None = None):
         from weblate.trans.models import Unit
 
         if target is None:
             return unit.same_target_units
         return Unit.objects.same_target(unit, target)
 
-    def should_skip(self, unit):
+    def should_skip(self, unit: Unit):
         if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):
             return True
         return super().should_skip(unit)
 
-    def check_target_unit(self, sources: list[str], targets, unit):
+    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
         translation = unit.translation
         component = translation.component
 
@@ -190,11 +194,11 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             "Other source string: %s", "Other source strings: %s", len(other_sources)
         ) % ", ".join(gettext("“%s”") % source for source in other_sources)
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
-    def check_component(self, component):
+    def check_component(self, component: Component):
         from weblate.trans.models import Unit
 
         units = Unit.objects.filter(
@@ -251,7 +255,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
             return super().get_description(check_obj)
         return gettext('Previous translation was "%s".') % target
 
-    def should_skip_change(self, change, unit):
+    def should_skip_change(self, change, unit: Unit):
         from weblate.trans.models import Change
 
         # Skip automatic translation entries adding needs editing string
@@ -268,7 +272,10 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         # intentional marking as needing edit
         return change.action in {Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT}
 
-    def check_target_unit(self, sources: list[str], targets, unit):
+    def check_target_unit(  # type: ignore[override]
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> Literal[False] | str:
+        # TODO: this is type annotation hack, instead the check should have a proper return type
         if unit.translated:
             return False
 
@@ -291,17 +298,19 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
         return False
 
-    def check_single(self, source, target, unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Target strings are checked in check_target_unit."""
         return False
 
-    def get_fixup(self, unit):
-        target = self.check_target_unit(unit.source, unit.target, unit)
+    def get_fixup(self, unit: Unit):
+        target = self.check_target_unit(
+            unit.get_source_plurals(), unit.get_target_plurals(), unit
+        )
         if not target:
             return None
         return [(".*", target, "u")]
 
-    def check_component(self, component):
+    def check_component(self, component: Component):
         from weblate.trans.models import Change, Unit
 
         units = (
