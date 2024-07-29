@@ -89,6 +89,17 @@
 {% endif %}
 <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translator">
 {% crispy item.form %}
+
+{% perm 'suggestion.add' item.unit as user_can_suggest %}
+{% perm 'suggestion.accept' item.unit as user_can_accept_suggestion %}
+{% perm 'suggestion.vote' item.unit.translation as user_can_vote_suggestion %}
+
+<form action="{{ this_unit_url }}" method="post">
+    {% csrf_token %}
+  <input type="hidden" name="checksum" value="{{ item.unit.checksum }}" />
+
+  {% include "snippets/suggestions.html" with suggestions=item.unit.suggestions %}
+</form>
 </td>
 </tr>
 
