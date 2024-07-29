@@ -67,7 +67,7 @@ def perform_update(cls, pk, auto=False, obj=None) -> None:
             obj.do_update()
         else:
             obj.update_remote_branch()
-    except (FileParseError, RepositoryError):
+    except (FileParseError, RepositoryError, FileNotFoundError):
         # This is stored as alert, so we can silently ignore here
         return
 
