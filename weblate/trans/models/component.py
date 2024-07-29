@@ -30,7 +30,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
-from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS

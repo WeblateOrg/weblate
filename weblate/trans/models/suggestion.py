@@ -12,7 +12,6 @@ from django.db import models, transaction
 from django.db.models import Q, Sum
 from django.utils.translation import gettext
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.autofixes import fix_target
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError

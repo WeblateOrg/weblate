@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.utils.translation import gettext
 
-from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
