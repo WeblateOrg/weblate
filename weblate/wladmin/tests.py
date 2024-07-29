@@ -50,7 +50,7 @@ class AdminTest(ViewTestCase):
 
     @tempdir_setting("DATA_DIR")
     def test_ssh_generate(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         response = self.client.get(reverse("manage-ssh"))
         self.assertContains(response, "Generate RSA SSH key")
         self.assertContains(response, "Generate Ed25519 SSH key")
@@ -75,7 +75,7 @@ class AdminTest(ViewTestCase):
 
     @tempdir_setting("DATA_DIR")
     def test_ssh_add(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]
         try:
             os.environ["PATH"] = ":".join((get_test_file(""), os.environ["PATH"]))
