@@ -1113,6 +1113,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.openai.OpenAITranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
+    "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
 ]
 modify_env_list(WEBLATE_MACHINERY, "MACHINERY")
 
