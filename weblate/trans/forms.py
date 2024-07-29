@@ -1056,7 +1056,10 @@ class AutoForm(forms.Form):
                 result = self.components.get_by_path(component)
             except Component.DoesNotExist as error:
                 raise ValidationError(gettext("Component not found!")) from error
-        if result.source_language != self.obj.source_language:
+        if (
+            isinstance(self.obj, Component)
+            and result.source_language != self.obj.source_language
+        ):
             raise ValidationError(
                 gettext(
                     "Source component needs to have same source language as target one."
