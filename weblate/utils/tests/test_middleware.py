@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -10,9 +13,12 @@ from django.test.utils import override_settings
 
 from weblate.middleware import ProxyMiddleware
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class ProxyTest(TestCase):
-    def get_response(self, request) -> str:
+    def get_response(self, request: AuthenticatedHttpRequest) -> str:
         self.assertEqual(request.META["REMOTE_ADDR"], "1.2.3.4")
         return "response"
 

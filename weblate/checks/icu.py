@@ -5,12 +5,16 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext, gettext_lazy
 from pyicumessageformat import Parser
 
 from weblate.checks.base import SourceCheck
 from weblate.checks.format import BaseFormatCheck
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 # Unique value for checking tags. Since types are
 # always strings, this will never be encountered.
@@ -121,7 +125,7 @@ def update_maybe_value(value, old):
     return 0
 
 
-def extract_highlights(token, source):
+def extract_highlights(token, source: str):
     """Extract all placeholders from an AST selected for highlighting."""
     if isinstance(token, str):
         return
@@ -231,12 +235,12 @@ def extract_placeholders(token, variables=None):
 
 
 class ICUCheckMixin:
-    def get_flags(self, unit):
+    def get_flags(self, unit: Unit):
         if unit and unit.all_flags.has_value("icu-flags"):
             return unit.all_flags.get_value("icu-flags")
         return []
 
-    def get_tag_prefix(self, unit):
+    def get_tag_prefix(self, unit: Unit):
         if unit and unit.all_flags.has_value("icu-tag-prefix"):
             return unit.all_flags.get_value("icu-tag-prefix")
         return None
@@ -255,9 +259,9 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
         self.enable_string = "icu-message-format"
         self.ignore_string = f"ignore-{self.enable_string}"
 
-    def check_source_unit(self, source, unit) -> bool:
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Checker for source strings. Only check for syntax issues."""
-        if not source or not source[0]:
+        if not sources or not sources[0]:
             return False
 
         flags = self.get_flags(unit)
@@ -266,7 +270,7 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
         tag_prefix = self.get_tag_prefix(unit)
 
         _ast, src_err, _tokens = parse_icu(
-            source[0], allow_tags, strict_tags, tag_prefix
+            sources[0], allow_tags, strict_tags, tag_prefix
         )
         return bool(src_err)
 
@@ -280,7 +284,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
     )
 
-    def check_format(self, source, target, ignore_missing, unit):
+    def check_format(self, source: str, target: str, ignore_missing, unit: Unit):
         """Checker for ICU MessageFormat strings."""
         if not target or not source:
             return False
@@ -504,7 +508,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                 "One or more XML tags missing content in the translation: %s"
             ) % ", ".join(result["tag_empty"])
 
-    def check_highlight(self, source, unit):
+    def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
 

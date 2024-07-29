@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.db import models
 
@@ -10,9 +14,12 @@ from weblate.trans.models.change import Change
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
 
 class CommentManager(models.Manager):
-    def add(self, unit, request, text) -> None:
+    def add(self, unit, request: AuthenticatedHttpRequest, text) -> None:
         """Add comment to this unit."""
         user = request.user
         new_comment = self.create(
@@ -69,7 +76,7 @@ class Comment(models.Model, UserDisplayMixin):
             self.userdetails["address"], self.userdetails["agent"], self.comment
         )
 
-    def resolve(self, user) -> None:
+    def resolve(self, user: User) -> None:
         self.unit.change_set.create(
             comment=self,
             action=Change.ACTION_COMMENT_RESOLVE,

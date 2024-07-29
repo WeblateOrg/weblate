@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -14,8 +17,13 @@ from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.views import parse_path
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def execute_locked(request, obj, message, call, *args, **kwargs):
+
+def execute_locked(
+    request: AuthenticatedHttpRequest, obj, message, call, *args, **kwargs
+):
     """Wrap function call and gracefully handle possible lock exception."""
     try:
         result = call(*args, **kwargs)
@@ -39,7 +47,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
 
 @login_required
 @require_POST
-def update(request, path):
+def update(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.update", obj):
         raise PermissionDenied
@@ -56,7 +64,7 @@ def update(request, path):
 
 @login_required
 @require_POST
-def push(request, path):
+def push(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.push", obj):
         raise PermissionDenied
@@ -68,7 +76,7 @@ def push(request, path):
 
 @login_required
 @require_POST
-def reset(request, path):
+def reset(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.reset", obj):
         raise PermissionDenied
@@ -84,7 +92,7 @@ def reset(request, path):
 
 @login_required
 @require_POST
-def cleanup(request, path):
+def cleanup(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.reset", obj):
         raise PermissionDenied
@@ -100,7 +108,7 @@ def cleanup(request, path):
 
 @login_required
 @require_POST
-def file_sync(request, path):
+def file_sync(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.reset", obj):
         raise PermissionDenied
@@ -116,7 +124,7 @@ def file_sync(request, path):
 
 @login_required
 @require_POST
-def file_scan(request, path):
+def file_scan(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.reset", obj):
         raise PermissionDenied
@@ -132,7 +140,7 @@ def file_scan(request, path):
 
 @login_required
 @require_POST
-def commit(request, path):
+def commit(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.commit", obj):
         raise PermissionDenied

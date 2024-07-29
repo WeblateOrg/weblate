@@ -23,11 +23,13 @@ Not yet released.
 
 * Accessibility of keyboard navigation.
 * :ref:`git-exporter` now works with all Git based :ref:`vcs`.
+* :ref:`check-max-size` sometimes failed to render screenshot.
 
 **Compatibility**
 
 * Weblate now uses mistletoe instead of misaka as a Markdown renderer.
 * :ref:`csp` is now stricter what might block third-party customizations.
+* Monolingual formats no longer copy comments from :ref:`component-template` when adding strings to translation.
 * Dropped support for Amagama in :ref:`machine-translation-setup` as the service is no longer maintained.
 * Default value for :setting:`SENTRY_SEND_PII` was changed.
 

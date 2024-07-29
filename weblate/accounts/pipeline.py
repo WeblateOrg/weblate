@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import re
@@ -85,7 +84,9 @@ def get_github_emails(access_token):
 
 
 @partial
-def reauthenticate(strategy, backend, user, social, uid, weblate_action, **kwargs):
+def reauthenticate(
+    strategy, backend, user: User, social, uid, weblate_action, **kwargs
+):
     """Force authentication when adding new association."""
     session = strategy.request.session
     if session.pop("reauthenticate_done", False):
@@ -146,15 +147,14 @@ def send_validation(strategy, backend, code, partial_token) -> None:
     context = {"url": url, "validity": settings.AUTH_TOKEN_VALID // 3600}
 
     template = "activation"
-    user = None
     if session.get("password_reset"):
         template = "reset"
     elif session.get("account_remove"):
         template = "remove"
 
-    # Create audit log, it might be for anonymous at this point for new registrations
+    # Use None for user to enable linking by e-mail later for the registration
     AuditLog.objects.create(
-        user,
+        strategy.request.user if strategy.request.user.is_authenticated else None,
         strategy.request,
         "sent-email",
         email=code.email,
@@ -166,7 +166,14 @@ def send_validation(strategy, backend, code, partial_token) -> None:
 
 @partial
 def password_reset(
-    strategy, backend, user, social, details, weblate_action, current_partial, **kwargs
+    strategy,
+    backend,
+    user: User,
+    social,
+    details,
+    weblate_action,
+    current_partial,
+    **kwargs,
 ):
     """Set unusable password on reset."""
     if strategy.request is not None and user is not None and weblate_action == "reset":
@@ -196,7 +203,7 @@ def password_reset(
 def remove_account(
     strategy,
     backend,
-    user,
+    user: User,
     social,
     details,
     weblate_action: str,
@@ -257,7 +264,7 @@ def cleanup_next(strategy, **kwargs):
     return {"next": None}
 
 
-def store_params(strategy, user, **kwargs):
+def store_params(strategy, user: User, **kwargs):
     """Store Weblate specific parameters in the pipeline."""
     # Registering user
     registering_user = user.pk if user and user.is_authenticated else None
@@ -322,7 +329,7 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
 def ensure_valid(
     strategy,
     backend,
-    user,
+    user: User,
     registering_user,
     weblate_action,
     weblate_expires,
@@ -385,7 +392,7 @@ def ensure_valid(
         validator(details["email"])
 
 
-def store_email(strategy, backend, user, social, details, **kwargs) -> None:
+def store_email(strategy, backend, user: User, social, details, **kwargs) -> None:
     """Store verified e-mail."""
     # The email can be empty for some services
     if details.get("verified_emails"):
@@ -424,7 +431,7 @@ def notify_connect(
     strategy,
     details,
     backend,
-    user,
+    user: User,
     social,
     weblate_action,
     new_association=False,
@@ -516,12 +523,12 @@ def slugify_username(value):
     return CLEANUP_MATCHER.sub("-", value)
 
 
-def cycle_session(strategy, user, *args, **kwargs) -> None:
+def cycle_session(strategy, user: User, *args, **kwargs) -> None:
     # Change key for current session and invalidate others
     cycle_session_keys(strategy.request, user)
 
 
-def adjust_primary_mail(strategy, entries, user, *args, **kwargs) -> None:
+def adjust_primary_mail(strategy, entries, user: User, *args, **kwargs) -> None:
     """Fix primary mail on disconnect."""
     # Remove pending verification codes
     invalidate_reset_codes(user=user, entries=entries)
@@ -544,7 +551,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs) -> None:
     )
 
 
-def notify_disconnect(strategy, backend, entries, user, **kwargs) -> None:
+def notify_disconnect(strategy, backend, entries, user: User, **kwargs) -> None:
     """Store verified e-mail."""
     for social in entries:
         AuditLog.objects.create(

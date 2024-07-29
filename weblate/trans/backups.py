@@ -561,7 +561,7 @@ class ProjectBackup:
             return language
 
     @transaction.atomic
-    def restore(self, project_name: str, project_slug: str, user, billing=None):
+    def restore(self, project_name: str, project_slug: str, user: User, billing=None):
         if not isinstance(self.filename, str):
             raise TypeError("Need a filename string.")
         with ZipFile(self.filename, "r") as zipfile:

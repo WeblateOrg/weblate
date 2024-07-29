@@ -34,6 +34,7 @@ from weblate.utils.site import get_site_url
 if TYPE_CHECKING:
     from requests.auth import AuthBase
 
+    from weblate.auth.models import User
     from weblate.machinery.forms import BaseMachineryForm
     from weblate.trans.models import Unit
 
@@ -415,7 +416,7 @@ class BatchMachineTranslation:
             self.uncleanup_results(replacements, result)
         return cache_key, result
 
-    def search(self, unit, text, user):
+    def search(self, unit, text, user: User):
         """Search for known translations of `text`."""
         translation = unit.translation
         try:

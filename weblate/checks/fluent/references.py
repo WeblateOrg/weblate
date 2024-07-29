@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
     from django.utils.safestring import SafeString
+    from django_stubs_ext import StrOrPromise
     from translate.storage.fluent import (
         FluentPart,
         FluentReference,
@@ -739,7 +740,7 @@ class FluentReferencesCheck(TargetCheck):
             )
         return FluentPatterns.highlight_source(source, highlight_patterns)
 
-    def get_description(self, check_model: CheckModel) -> str:
+    def get_description(self, check_model: CheckModel) -> StrOrPromise:
         (unit, source, target) = translation_from_check(check_model)
         differences = self._compare_references(unit, source, target)
         if not differences:

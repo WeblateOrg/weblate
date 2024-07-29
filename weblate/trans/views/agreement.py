@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -11,10 +14,13 @@ from weblate.trans.models import Component, ContributorAgreement
 from weblate.trans.util import redirect_next
 from weblate.utils.views import parse_path
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @never_cache
 @login_required
-def agreement_confirm(request, path):
+def agreement_confirm(request: AuthenticatedHttpRequest, path):
     component = parse_path(request, path, (Component,))
 
     has_agreed = ContributorAgreement.objects.has_agreed(request.user, component)

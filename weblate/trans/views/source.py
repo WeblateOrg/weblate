@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -17,10 +20,13 @@ from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @require_POST
 @login_required
-def edit_context(request, pk):
+def edit_context(request: AuthenticatedHttpRequest, pk):
     unit = get_object_or_404(Unit, pk=pk)
     if not unit.is_source and not unit.translation.component.is_glossary:
         raise Http404("Non source unit!")
@@ -62,7 +68,7 @@ def edit_context(request, pk):
 
 
 @login_required
-def matrix(request, path):
+def matrix(request: AuthenticatedHttpRequest, path):
     """Matrix view of all strings."""
     obj = parse_path(request, path, (Component,))
 
@@ -101,7 +107,7 @@ def matrix(request, path):
 
 
 @login_required
-def matrix_load(request, path):
+def matrix_load(request: AuthenticatedHttpRequest, path):
     """Backend for matrix view of all strings."""
     obj = parse_path(request, path, (Component,))
 

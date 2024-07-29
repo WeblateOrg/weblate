@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
@@ -13,11 +17,14 @@ from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
 
 class ChangesFeed(Feed):
     """Generic RSS feed for Weblate changes."""
 
-    def get_object(self, request, *args, **kwargs):
+    def get_object(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> User:
         return request.user
 
     def title(self):
@@ -50,7 +57,7 @@ class ChangesFeed(Feed):
 class TranslationChangesFeed(ChangesFeed):
     """RSS feed for changes in translation."""
 
-    def get_object(self, request, path):
+    def get_object(self, request: AuthenticatedHttpRequest, path):
         return parse_path(
             request,
             path,
@@ -73,5 +80,5 @@ class TranslationChangesFeed(ChangesFeed):
 class LanguageChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in language."""
 
-    def get_object(self, request, lang):
+    def get_object(self, request: AuthenticatedHttpRequest, lang):
         return get_object_or_404(Language, code=lang)

@@ -178,6 +178,8 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
     )
     NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
+    SUPPORTS_NOTES = True
+    NOTE_FOR_TEST = "template note for test"
     EXPECTED_FLAGS: str | list[str] = "c-format, max-length:100"
     EDIT_OFFSET = 0
     EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
@@ -262,6 +264,15 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         """
         self.maxDiff = None
         self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
+
+    def assert_no_notes(self, unit) -> None:
+        """Assert that the underlying unit(s) do not have any notes."""
+        if unit.unit:
+            self.assertEqual(unit.unit.getnotes().strip(), "")
+        else:
+            # Assume this is a multi-unit. Will fail otherwise.
+            for subunit in unit.units:
+                self.assertEqual(subunit.unit.getnotes(), "")
 
     def test_find(self) -> None:
         storage = self.parse_file(self.FILE)
@@ -358,10 +369,34 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         template_file = temp_dir / f"test.tmpl.{self.EXT}"
         main_file = temp_dir / f"test.{self.EXT}"
 
+        # Monolingual formats copy() template units when adding a translation.
+        #
+        # The use of copy() (instead of deepcopy()) can result in unintended
+        # structural sharing for some formats (notably XML based formats that
+        # store a DOM tree internally, e.g. AndroidFormat).
+        #
+        # This structural sharing can lead to mutations leaking back to the
+        # template unit. In the context of this test, `removenotes()` leaks back
+        # to the template.
+        #
+        # Unfortunately, we must accept this structural sharing for performance
+        # reasons, see:
+        # https://github.com/WeblateOrg/weblate/pull/11937#discussion_r1662166224
+        # (a probably better alternative would be to fix and use
+        # `buildFromUnit` in ttkit).
+        #
+        # It turns out, that in practice, the modifications from the structural
+        # sharing do not actually impact Weblate's observable behavior.
+        # This is likely because it round trips through files.
+        #
+        # We mimic the file round-tripping behavior in this test.
+
         # Create the template under test with a single string
         shutil.copy(self.FILE, template_file)
         template_storage = self.FORMAT(template_file, is_template=True)
-        template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        template_unit = template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        if self.SUPPORTS_NOTES:
+            template_unit.unit.addnote(self.NOTE_FOR_TEST)
         template_storage.save()
 
         template_content = template_file.read_text()
@@ -382,6 +417,11 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         target_unit.set_state(STATE_APPROVED)
         target_storage.save()
 
+        # Eagerly check that the target unit does not have notes.
+        # This is the point where checking that the template unit still has the
+        # notes would potentially fail (depending on the exact format).
+        self.assert_no_notes(target_unit)
+
         # Template should not change now
         template_storage.save()
         self.assertEqual(template_file.read_text(), template_content)
@@ -391,6 +431,15 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertFalse(add)
         self.assertEqual(target_unit.target, "Translated string (CS)")
+
+        if self.SUPPORTS_NOTES:
+            # Check we get the aggregated notes through the unit wrapper:
+            # We always (additionally) display the template notes to the user
+            # (if they are different from the target unit notes).
+            self.assertEqual(target_unit.notes.strip(), self.NOTE_FOR_TEST)
+
+        # Check there are no notes on the underlying unit.
+        self.assert_no_notes(target_unit)
 
 
 class XMLMixin:
@@ -522,6 +571,11 @@ class GWTFormatTest(BaseFormatTest):
     BASE = ""
     MONOLINGUAL = True
 
+    # GWTFormat uses a proppluralunit under the hood which does not support
+    # `removenotes()`.
+    # https://github.com/translate/translate/blob/7ecba141b535572de75616ddb5f78afb41c2b7b2/translate/storage/properties.py#L578
+    SUPPORTS_NOTES = False
+
     def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
@@ -573,6 +627,7 @@ class JSONNestedFormatTest(JSONFormatTest):
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
     NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
+    SUPPORTS_NOTES = False
 
 
 class WebExtesionJSONFormatTest(JSONFormatTest):
@@ -632,6 +687,7 @@ class PhpFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b"\n$LANG['key'] = 'Source string';\n"
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+    NOTE_FOR_TEST = "// template note for test"
 
 
 class LaravelPhpFormatTest(PhpFormatTest):
@@ -853,6 +909,7 @@ class YAMLFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b"\nkey: Source string\n"
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+    SUPPORTS_NOTES = False
 
     def assert_same(self, newdata, testdata) -> None:
         # Fixup quotes as different translate toolkit versions behave
@@ -907,6 +964,7 @@ class DTDFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+    SUPPORTS_NOTES = False
 
 
 class CSVFormatTest(BaseFormatTest):
@@ -958,6 +1016,7 @@ class FlatXMLFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+    SUPPORTS_NOTES = False
 
 
 class ResourceDictionaryFormatTest(BaseFormatTest):
@@ -976,6 +1035,7 @@ class ResourceDictionaryFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'<system:String x:Key="key">Source string</system:String>\n'
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+    SUPPORTS_NOTES = False
 
 
 class INIFormatTest(BaseFormatTest):
@@ -995,6 +1055,7 @@ class INIFormatTest(BaseFormatTest):
     NEW_UNIT_KEY = "[test]key"
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
+    SUPPORTS_NOTES = False
 
 
 class InnoSetupINIFormatTest(INIFormatTest):
@@ -1307,6 +1368,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     NEW_UNIT_MATCH = b"<string>Source string</string>"
     MONOLINGUAL = True
     EXPECTED_FLAGS = ""
+    SUPPORTS_NOTES = False
 
     def test_get_plural(self) -> None:
         # Use up-to-date languages database and not the one from fixture

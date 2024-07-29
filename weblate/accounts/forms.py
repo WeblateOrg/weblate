@@ -35,7 +35,7 @@ from weblate.accounts.utils import (
     get_all_user_mails,
     invalidate_reset_codes,
 )
-from weblate.auth.models import Group, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
@@ -127,7 +127,7 @@ class FullNameField(forms.CharField):
 
 class ProfileBaseForm(forms.ModelForm):
     @classmethod
-    def from_request(cls, request):
+    def from_request(cls, request: AuthenticatedHttpRequest):
         if request.method == "POST":
             return cls(request.POST, instance=request.user.profile)
         return cls(instance=request.user.profile)
@@ -380,12 +380,12 @@ class UserForm(forms.ModelForm):
         self.helper.form_tag = False
 
     @classmethod
-    def from_request(cls, request):
+    def from_request(cls, request: AuthenticatedHttpRequest):
         if request.method == "POST":
             return cls(request.POST, instance=request.user)
         return cls(instance=request.user)
 
-    def audit(self, request) -> None:
+    def audit(self, request: AuthenticatedHttpRequest) -> None:
         orig = User.objects.get(pk=self.instance.pk)
         for attr in ("username", "full_name", "email"):
             orig_attr = getattr(orig, attr)
@@ -478,7 +478,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
 
     @transaction.atomic
-    def save(self, request, delete_session=False) -> None:
+    def save(self, request: AuthenticatedHttpRequest, delete_session=False) -> None:
         AuditLog.objects.create(
             self.user,
             request,
@@ -507,7 +507,9 @@ class SetPasswordForm(DjangoSetPasswordForm):
 class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
 
-    def __init__(self, request, form=None, data=None, *args, **kwargs) -> None:
+    def __init__(
+        self, request: AuthenticatedHttpRequest, form=None, data=None, *args, **kwargs
+    ) -> None:
         super().__init__(data, *args, **kwargs)
         self.fresh = False
         self.request = request
@@ -557,12 +559,12 @@ class CaptchaForm(forms.Form):
             self.cleaned_data["captcha"],
         )
 
-    def cleanup_session(self, request) -> None:
+    def cleanup_session(self, request: AuthenticatedHttpRequest) -> None:
         del request.session["captcha"]
 
 
 class EmptyConfirmForm(forms.Form):
-    def __init__(self, request, *args, **kwargs) -> None:
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         self.request = request
         self.user = request.user
         if "user" in kwargs:

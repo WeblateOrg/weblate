@@ -19,7 +19,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import get_anonymous
+from weblate.auth.models import User, get_anonymous
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
@@ -35,7 +35,7 @@ class ScreenshotQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("name")
 
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(

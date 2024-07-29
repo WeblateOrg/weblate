@@ -1,8 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -31,8 +33,17 @@ from weblate.utils.views import (
     zip_download,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def download_multi(request, translations, commit_objs, fmt=None, name="translations"):
+
+def download_multi(
+    request: AuthenticatedHttpRequest,
+    translations,
+    commit_objs,
+    fmt=None,
+    name="translations",
+):
     filenames = set()
     components = set()
     extra = {}
@@ -85,7 +96,7 @@ def download_multi(request, translations, commit_objs, fmt=None, name="translati
     return zip_download(data_dir("vcs"), sorted(filenames), name, extra=extra)
 
 
-def download_component_list(request, name):
+def download_component_list(request: AuthenticatedHttpRequest, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied
@@ -99,7 +110,7 @@ def download_component_list(request, name):
     )
 
 
-def download(request, path):
+def download(request: AuthenticatedHttpRequest, path):
     """Download translation."""
     obj = parse_path(
         request,
@@ -174,7 +185,7 @@ def download(request, path):
 
 
 @require_POST
-def upload(request, path):
+def upload(request: AuthenticatedHttpRequest, path):
     """Handle translation upload."""
     obj = parse_path(request, path, (Translation,))
 

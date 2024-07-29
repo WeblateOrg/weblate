@@ -8,15 +8,27 @@ Wrapper around django.contrib.messages to work with Django REST Framework.
 It also ignories messages without request object (for example from CLI).
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.contrib.messages import add_message, constants
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def get_request(request):
+
+def get_request(request: AuthenticatedHttpRequest):
     """Return Django request object even for DRF requests."""
     return getattr(request, "_request", request)
 
 
-def debug(request, message, extra_tags="", fail_silently=False) -> None:
+def debug(
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
+) -> None:
     """Add a message with the ``DEBUG`` level."""
     if request is not None:
         add_message(
@@ -28,7 +40,12 @@ def debug(request, message, extra_tags="", fail_silently=False) -> None:
         )
 
 
-def info(request, message, extra_tags="", fail_silently=False) -> None:
+def info(
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
+) -> None:
     """Add a message with the ``INFO`` level."""
     if request is not None:
         add_message(
@@ -40,7 +57,12 @@ def info(request, message, extra_tags="", fail_silently=False) -> None:
         )
 
 
-def success(request, message, extra_tags="", fail_silently=False) -> None:
+def success(
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
+) -> None:
     """Add a message with the ``SUCCESS`` level."""
     if request is not None:
         add_message(
@@ -52,7 +74,12 @@ def success(request, message, extra_tags="", fail_silently=False) -> None:
         )
 
 
-def warning(request, message, extra_tags="", fail_silently=False) -> None:
+def warning(
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
+) -> None:
     """Add a message with the ``WARNING`` level."""
     if request is not None:
         add_message(
@@ -64,7 +91,12 @@ def warning(request, message, extra_tags="", fail_silently=False) -> None:
         )
 
 
-def error(request, message, extra_tags="", fail_silently=False) -> None:
+def error(
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
+) -> None:
     """Add a message with the ``ERROR`` level."""
     if request is not None:
         add_message(

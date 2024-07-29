@@ -3,11 +3,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext_lazy
 from translate.storage.lisa import LISAfile
 
 from weblate.addons.base import StoreBaseAddon
 from weblate.addons.forms import XMLCustomizeForm
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.formats.base import TranslationFormat
+    from weblate.trans.forms import Component, Translation
 
 
 class XMLCustomizeAddon(StoreBaseAddon):
@@ -21,7 +30,7 @@ class XMLCustomizeAddon(StoreBaseAddon):
     settings_form = XMLCustomizeForm
 
     @classmethod
-    def can_install(cls, component, user):  # noqa: ARG003
+    def can_install(cls, component: Component, user: User):  # noqa: ARG003
         """Event handler to determine if add-on is compatible with component."""
         # component are attached to a file format which is defined by a loader
         # we want to provide this package only for component using LISAfile as loader
@@ -31,7 +40,9 @@ class XMLCustomizeAddon(StoreBaseAddon):
         format_class = component.file_format_cls.get_class()
         return format_class is not None and issubclass(format_class, LISAfile)
 
-    def store_post_load(self, translation, store) -> None:
+    def store_post_load(
+        self, translation: Translation, store: TranslationFormat
+    ) -> None:
         """Event handler once component formatter has been loaded."""
         config = self.instance.configuration
         store.store.XMLSelfClosingTags = not config.get("closing_tags", True)

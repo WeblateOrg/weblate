@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -13,6 +16,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.views.generic.base import TemplateView
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
@@ -23,10 +27,13 @@ from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, parse_path
 from weblate.wladmin.views import MENU
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
 CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 
-def get_objects(request, kwargs):
+def get_objects(request: AuthenticatedHttpRequest, kwargs):
     if "project" in kwargs:
         return {"project": parse_path(request, [kwargs["project"]], (Project,))}
     if "manage" in kwargs:
@@ -34,7 +41,7 @@ def get_objects(request, kwargs):
     return {"user": request.user}
 
 
-def check_perm(user, permission, objects):
+def check_perm(user: User, permission, objects):
     if "project" in objects:
         return user.has_perm(permission, objects["project"])
     if "user" in objects:
@@ -52,13 +59,14 @@ class MemoryFormView(ErrorFormView):
             return reverse("manage-memory")
         return reverse("memory", kwargs=self.kwargs)
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
 
 
 class DeleteView(MemoryFormView):
     form_class = DeleteForm
+    request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.delete", self.objects):
@@ -73,6 +81,7 @@ class DeleteView(MemoryFormView):
 
 class RebuildView(MemoryFormView):
     form_class = DeleteForm
+    request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
         if (
@@ -115,6 +124,7 @@ class RebuildView(MemoryFormView):
 
 class UploadView(MemoryFormView):
     form_class = UploadForm
+    request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.edit", self.objects):
@@ -135,8 +145,9 @@ class UploadView(MemoryFormView):
 @method_decorator(login_required, name="dispatch")
 class MemoryView(TemplateView):
     template_name = "memory/index.html"
+    request: AuthenticatedHttpRequest
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
 
@@ -243,7 +254,7 @@ class MemoryView(TemplateView):
 
 
 class DownloadView(MemoryView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         fmt = request.GET.get("format", "json")
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
         if "origin" in request.GET:

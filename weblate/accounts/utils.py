@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
 
@@ -11,11 +12,11 @@ from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.trans.signals import user_pre_delete
 
 
-def remove_user(user, request, **params) -> None:
+def remove_user(user: User, request: AuthenticatedHttpRequest, **params) -> None:
     """Remove user account."""
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
@@ -78,7 +79,7 @@ def remove_user(user, request, **params) -> None:
     Token.objects.filter(user=user).delete()
 
 
-def get_all_user_mails(user, entries=None, filter_deliverable=True):
+def get_all_user_mails(user: User, entries=None, filter_deliverable=True):
     """Return all verified mails for user."""
     kwargs = {"social__user": user}
     if entries:
@@ -108,7 +109,7 @@ def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
     Code.objects.filter(email__in=emails).delete()
 
 
-def cycle_session_keys(request, user) -> None:
+def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:
     """
     Cycle session keys.
 
@@ -122,7 +123,7 @@ def cycle_session_keys(request, user) -> None:
     update_session_auth_hash(request, user)
 
 
-def adjust_session_expiry(request) -> None:
+def adjust_session_expiry(request: AuthenticatedHttpRequest) -> None:
     """
     Adjust session expiry based on scope.
 

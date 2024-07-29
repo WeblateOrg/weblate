@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.core.management.utils import find_command
 from django.utils.translation import gettext_lazy
@@ -15,6 +16,9 @@ from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeF
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 class GettextBaseAddon(BaseAddon):
@@ -72,7 +76,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user: User):
         if not super().can_install(component, user):
             return False
         path = cls.get_linguas_path(component)
@@ -165,7 +169,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 yield path
 
     @classmethod
-    def can_install(cls, component, user) -> bool:
+    def can_install(cls, component, user: User) -> bool:
         if not super().can_install(component, user):
             return False
         for name in cls.get_configure_paths(component):
@@ -230,7 +234,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     settings_form = MsgmergeForm
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user: User):
         if find_command("msgmerge") is None:
             return False
         return super().can_install(component, user)

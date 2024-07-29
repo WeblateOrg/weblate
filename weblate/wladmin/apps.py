@@ -2,11 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.apps import AppConfig
-from django.core.checks import Info, register
+from django.core.checks import CheckMessage, Info, register
 
 from weblate.utils.checks import weblate_check
 from weblate.wladmin.sites import patch_admin_site
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Sequence
 
 patch_admin_site()
 
@@ -18,7 +25,12 @@ class WLAdminConfig(AppConfig):
 
 
 @register(deploy=True)
-def check_backups(app_configs, **kwargs):
+def check_backups(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     from weblate.wladmin.models import BackupService
 
     errors = []
