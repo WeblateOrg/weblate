@@ -1,11 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import json
 import os
 import subprocess
 from contextlib import suppress
+from typing import TYPE_CHECKING
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -35,7 +37,6 @@ from weblate.trans.forms import (
     ProjectImportForm,
 )
 from weblate.trans.models import Category, Component, Project
-from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -44,6 +45,10 @@ from weblate.utils.licenses import LICENSE_URLS
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.models.component import ComponentQuerySet
 
 
 class BaseCreateView(CreateView):
@@ -211,6 +216,7 @@ class CreateComponent(BaseCreateView):
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
     form_class: type[ComponentProjectForm] = ComponentInitCreateForm
+    request: AuthenticatedHttpRequest
 
     def get_form_class(self):
         """Return the form class to use."""

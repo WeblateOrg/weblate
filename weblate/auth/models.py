@@ -1159,3 +1159,6 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # type hint for auth
     backend: BaseAuth | None
+
+    # type hint for accounts middleware
+    weblate_cached_user: User

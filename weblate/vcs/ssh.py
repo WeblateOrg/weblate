@@ -153,7 +153,7 @@ def ensure_ssh_key():
 
 
 def generate_ssh_key(
-    request: AuthenticatedHttpRequest, key_type: KeyType = "rsa"
+    request: AuthenticatedHttpRequest | None, key_type: KeyType = "rsa"
 ) -> None:
     """Generate SSH key."""
     key_info = KEYS[key_type]
@@ -192,7 +192,7 @@ def generate_ssh_key(
     messages.success(request, gettext("Created new SSH key."))
 
 
-def add_host_key(request: AuthenticatedHttpRequest, host, port="") -> None:
+def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))

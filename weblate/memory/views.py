@@ -65,6 +65,7 @@ class MemoryFormView(ErrorFormView):
 
 class DeleteView(MemoryFormView):
     form_class = DeleteForm
+    request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.delete", self.objects):
@@ -79,6 +80,7 @@ class DeleteView(MemoryFormView):
 
 class RebuildView(MemoryFormView):
     form_class = DeleteForm
+    request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
         if (
@@ -121,6 +123,7 @@ class RebuildView(MemoryFormView):
 
 class UploadView(MemoryFormView):
     form_class = UploadForm
+    request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.edit", self.objects):
@@ -141,6 +144,7 @@ class UploadView(MemoryFormView):
 @method_decorator(login_required, name="dispatch")
 class MemoryView(TemplateView):
     template_name = "memory/index.html"
+    request: AuthenticatedHttpRequest
 
     def dispatch(self, request, *args, **kwargs):
         self.objects = get_objects(request, kwargs)

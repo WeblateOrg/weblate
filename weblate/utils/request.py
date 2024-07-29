@@ -11,14 +11,14 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
-def get_request_meta(request: AuthenticatedHttpRequest, name: str) -> str:
+def get_request_meta(request: AuthenticatedHttpRequest | None, name: str) -> str:
     """Return request meta if request is set and meta available."""
-    if not request:
+    if request is None:
         return ""
     return request.META.get(name, "")
 
 
-def get_ip_address(request: AuthenticatedHttpRequest) -> str:
+def get_ip_address(request: AuthenticatedHttpRequest | None) -> str:
     """Return IP address for request."""
     return get_request_meta(request, "REMOTE_ADDR")
 

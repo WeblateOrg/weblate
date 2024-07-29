@@ -19,6 +19,7 @@ from weblate.utils.views import PathViewMixin, get_paginator
 
 if TYPE_CHECKING:
     from weblate.addons.base import BaseAddon
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class AddonList(PathViewMixin, ListView):
@@ -26,6 +27,7 @@ class AddonList(PathViewMixin, ListView):
     model = Addon
     supported_path_types = (None, Component, Project)
     path_object: None | Component | Project
+    request: AuthenticatedHttpRequest
 
     def get_queryset(self):
         if isinstance(self.path_object, Component):
@@ -165,6 +167,7 @@ class AddonList(PathViewMixin, ListView):
 
 class BaseAddonView(DetailView):
     model = Addon
+    request: AuthenticatedHttpRequest
 
     def get_object(self):
         obj = super().get_object()

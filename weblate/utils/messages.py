@@ -24,7 +24,10 @@ def get_request(request: AuthenticatedHttpRequest):
 
 
 def debug(
-    request: AuthenticatedHttpRequest, message, extra_tags="", fail_silently=False
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
 ) -> None:
     """Add a message with the ``DEBUG`` level."""
     if request is not None:
@@ -38,7 +41,10 @@ def debug(
 
 
 def info(
-    request: AuthenticatedHttpRequest, message, extra_tags="", fail_silently=False
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
 ) -> None:
     """Add a message with the ``INFO`` level."""
     if request is not None:
@@ -52,7 +58,10 @@ def info(
 
 
 def success(
-    request: AuthenticatedHttpRequest, message, extra_tags="", fail_silently=False
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
 ) -> None:
     """Add a message with the ``SUCCESS`` level."""
     if request is not None:
@@ -66,7 +75,10 @@ def success(
 
 
 def warning(
-    request: AuthenticatedHttpRequest, message, extra_tags="", fail_silently=False
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
 ) -> None:
     """Add a message with the ``WARNING`` level."""
     if request is not None:
@@ -80,7 +92,10 @@ def warning(
 
 
 def error(
-    request: AuthenticatedHttpRequest, message, extra_tags="", fail_silently=False
+    request: AuthenticatedHttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+    fail_silently=False,
 ) -> None:
     """Add a message with the ``ERROR`` level."""
     if request is not None:

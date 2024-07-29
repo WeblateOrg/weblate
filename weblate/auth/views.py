@@ -29,6 +29,7 @@ from weblate.wladmin.forms import ChangedCharField
 class TeamUpdateView(UpdateView):
     model = Group
     template_name = "auth/team.html"
+    request: AuthenticatedHttpRequest
 
     auto_formset = inlineformset_factory(
         Group,

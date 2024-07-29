@@ -579,6 +579,8 @@ def show_form_errors(request: AuthenticatedHttpRequest, form) -> None:
 
 
 class ErrorFormView(FormView):
+    request: AuthenticatedHttpRequest
+
     def form_invalid(self, form):
         """If the form is invalid, redirect to the supplied URL."""
         show_form_errors(self.request, form)
