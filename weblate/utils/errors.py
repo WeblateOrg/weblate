@@ -1,13 +1,12 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import logging
 import sys
 from json import JSONDecodeError
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 import sentry_sdk
 from django.conf import settings
@@ -19,6 +18,9 @@ from sentry_sdk.integrations.openai import OpenAIIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate.utils.version
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 ERROR_LOGGER = "weblate.errors"
 LOGGER = logging.getLogger(ERROR_LOGGER)
@@ -94,7 +96,7 @@ def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> 
     )
 
 
-def celery_base_data_hook(request, data) -> None:
+def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
     data["framework"] = "celery"
 
 

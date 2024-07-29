@@ -40,6 +40,7 @@ from weblate.vcs.git import LocalRepository
 if TYPE_CHECKING:
     from django.db.models import Model
 
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
 
 
@@ -110,7 +111,7 @@ def get_percent_color(percent) -> str:
     return "#f6664c"
 
 
-def get_page_limit(request, default):
+def get_page_limit(request: AuthenticatedHttpRequest, default):
     """Return page and limit as integers."""
     try:
         limit = int(request.GET.get("limit", default))
@@ -140,7 +141,7 @@ def sort_objects(object_list, sort_by: str):
     return sorted(object_list, key=key, reverse=reverse), sort_by
 
 
-def get_paginator(request, object_list, page_limit=None):
+def get_paginator(request: AuthenticatedHttpRequest, object_list, page_limit=None):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, page_limit or settings.DEFAULT_PAGE_LIMIT)
     sort_by = request.GET.get("sort_by")
@@ -188,7 +189,7 @@ SORT_CHOICES = {
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
 
 
-def get_sort_name(request, obj=None):
+def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
     """Get sort name."""
     if hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
@@ -429,7 +430,9 @@ def try_set_language(lang) -> None:
         activate("en")
 
 
-def import_message(request, count, message_none, message_ok) -> None:
+def import_message(
+    request: AuthenticatedHttpRequest, count, message_none, message_ok
+) -> None:
     if count == 0:
         messages.warning(request, message_none)
     else:
@@ -569,7 +572,7 @@ def get_form_errors(form):
             }
 
 
-def show_form_errors(request, form) -> None:
+def show_form_errors(request: AuthenticatedHttpRequest, form) -> None:
     """Show all form errors as a message."""
     for error in get_form_errors(form):
         messages.error(request, error)

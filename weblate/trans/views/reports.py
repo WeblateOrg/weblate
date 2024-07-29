@@ -2,7 +2,6 @@
 # Copyright © WofWca <wofwca@protonmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 from collections import defaultdict
@@ -22,6 +21,8 @@ from weblate.utils.views import parse_path, show_form_errors
 if TYPE_CHECKING:
     from django.db.models import Model
     from django.utils.safestring import SafeString
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 # Header, two longer fields for name and email, shorter fields for numbers
 RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)
@@ -71,7 +72,7 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
 
 @login_required
 @require_POST
-def get_credits(request, path=None):
+def get_credits(request: AuthenticatedHttpRequest, path=None):
     """View for credits."""
     obj = parse_path(request, path, (Component, Category, Project, None))
     kwargs: dict[str, Any]
@@ -232,7 +233,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
 
 @login_required
 @require_POST
-def get_counts(request, path=None):
+def get_counts(request: AuthenticatedHttpRequest, path=None):
     """View for work counts."""
     obj = parse_path(request, path, (Component, Category, Project, None))
     kwargs: dict[str, Model]

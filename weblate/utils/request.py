@@ -1,28 +1,34 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import user_agents
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def get_request_meta(request, name: str) -> str:
+
+def get_request_meta(request: AuthenticatedHttpRequest, name: str) -> str:
     """Return request meta if request is set and meta available."""
     if not request:
         return ""
     return request.META.get(name, "")
 
 
-def get_ip_address(request) -> str:
+def get_ip_address(request: AuthenticatedHttpRequest) -> str:
     """Return IP address for request."""
     return get_request_meta(request, "REMOTE_ADDR")
 
 
-def get_user_agent_raw(request) -> str:
+def get_user_agent_raw(request: AuthenticatedHttpRequest) -> str:
     """Return raw user agent string."""
     return get_request_meta(request, "HTTP_USER_AGENT")
 
 
-def get_user_agent(request, max_length: int = 200) -> str:
+def get_user_agent(request: AuthenticatedHttpRequest, max_length: int = 200) -> str:
     """Return formatted user agent for request."""
     raw = get_user_agent_raw(request)
     if not raw:

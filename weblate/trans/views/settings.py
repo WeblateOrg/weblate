@@ -1,10 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -52,10 +52,13 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import parse_path, show_form_errors
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @never_cache
 @login_required
-def change(request, path):
+def change(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project, ProjectLanguage))
     if not request.user.has_perm(obj.settings_permission, obj):
         raise Http404
@@ -67,7 +70,7 @@ def change(request, path):
     return change_project(request, obj)
 
 
-def change_project(request, obj):
+def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
@@ -87,7 +90,7 @@ def change_project(request, obj):
     )
 
 
-def change_project_language(request, obj):
+def change_project_language(request: AuthenticatedHttpRequest, obj):
     try:
         instance = obj.project.workflowsetting_set.get(language=obj.language)
     except WorkflowSetting.DoesNotExist:
@@ -116,7 +119,7 @@ def change_project_language(request, obj):
     )
 
 
-def change_component(request, obj):
+def change_component(request: AuthenticatedHttpRequest, obj):
     if not request.user.has_perm("component.edit", obj):
         raise Http404
 
@@ -154,7 +157,7 @@ def change_component(request, obj):
 @never_cache
 @login_required
 @require_POST
-def dismiss_alert(request, path):
+def dismiss_alert(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
 
     if not request.user.has_perm("component.edit", obj):
@@ -173,7 +176,7 @@ def dismiss_alert(request, path):
 
 @login_required
 @require_POST
-def remove(request, path):
+def remove(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,
         path,
@@ -257,7 +260,7 @@ def perform_rename(form_cls, request, obj, perm: str):
 
 @login_required
 @require_POST
-def rename(request, path):
+def rename(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project, Category))
     if isinstance(obj, Component):
         return perform_rename(ComponentRenameForm, request, obj, "component.edit")
@@ -268,7 +271,7 @@ def rename(request, path):
 
 @login_required
 @require_POST
-def add_category(request, path):
+def add_category(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Category))
     if not request.user.has_perm("project.edit", obj) or not obj.can_add_category:
         raise PermissionDenied
@@ -282,7 +285,7 @@ def add_category(request, path):
 
 @login_required
 @require_POST
-def announcement(request, path):
+def announcement(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request, path, (ProjectLanguage, Translation, Component, Project, Category)
     )
@@ -324,7 +327,7 @@ def announcement(request, path):
 
 @login_required
 @require_POST
-def announcement_delete(request, pk):
+def announcement_delete(request: AuthenticatedHttpRequest, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
 
     if request.user.has_perm("announcement.delete", announcement):
@@ -334,7 +337,7 @@ def announcement_delete(request, pk):
 
 
 @login_required
-def component_progress(request, path):
+def component_progress(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
     return_url = "show" if "info" in request.GET else "guide"
     if not obj.in_progress():

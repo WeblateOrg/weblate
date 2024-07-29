@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import django.views.defaults
 import rest_framework.exceptions
@@ -12,8 +15,11 @@ from sentry_sdk import last_event_id
 from weblate.trans.util import render
 from weblate.utils.errors import report_error
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def bad_request(request, exception=None):
+
+def bad_request(request: AuthenticatedHttpRequest, exception=None):
     """Error handler for bad request."""
     if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.bad_request(request, exception)
@@ -22,18 +28,18 @@ def bad_request(request, exception=None):
     return render(request, "400.html", {"title": gettext("Bad Request")}, status=400)
 
 
-def not_found(request, exception=None):
+def not_found(request: AuthenticatedHttpRequest, exception=None):
     """Error handler showing list of available projects."""
     return render(request, "404.html", {"title": gettext("Page Not Found")}, status=404)
 
 
-def denied(request, exception=None):
+def denied(request: AuthenticatedHttpRequest, exception=None):
     return render(
         request, "403.html", {"title": gettext("Permission Denied")}, status=403
     )
 
 
-def csrf_failure(request, reason=""):
+def csrf_failure(request: AuthenticatedHttpRequest, reason=""):
     response = render(
         request,
         "403_csrf.html",
@@ -55,7 +61,7 @@ def csrf_failure(request, reason=""):
     return response
 
 
-def server_error(request):
+def server_error(request: AuthenticatedHttpRequest):
     """Error handler for server errors."""
     if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.server_error(request)

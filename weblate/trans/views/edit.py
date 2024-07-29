@@ -1,13 +1,12 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import json
 import time
 from math import ceil
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
@@ -67,10 +66,13 @@ from weblate.utils.views import (
     show_form_errors,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
-def display_fixups(request, fixups) -> None:
+def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
@@ -407,7 +409,9 @@ def perform_translation(unit, form, request) -> bool:
 
 
 @session_ratelimit_post("translate", logout_user=False)
-def handle_translate(request, unit, this_unit_url, next_unit_url):
+def handle_translate(
+    request: AuthenticatedHttpRequest, unit, this_unit_url, next_unit_url
+):
     """Save translation or suggestion to database and backend."""
     form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
@@ -483,7 +487,9 @@ def handle_revert(unit, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggest_permissions(request, mode, unit, suggestion) -> bool:
+def check_suggest_permissions(
+    request: AuthenticatedHttpRequest, mode, unit, suggestion
+) -> bool:
     """Check permission for suggestion handling."""
     user = request.user
     if mode in {"accept", "accept_edit", "accept_approve"}:
@@ -508,7 +514,9 @@ def check_suggest_permissions(request, mode, unit, suggestion) -> bool:
     return True
 
 
-def handle_suggestions(request, unit, this_unit_url, next_unit_url):
+def handle_suggestions(
+    request: AuthenticatedHttpRequest, unit, this_unit_url, next_unit_url
+):
     """Handle suggestion deleting/accepting."""
     sugid = ""
     params = (
@@ -571,7 +579,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 
 @transaction.atomic
-def translate(request, path):
+def translate(request: AuthenticatedHttpRequest, path):
     """Translate, suggest and search view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
@@ -738,7 +746,7 @@ def translate(request, path):
 
 @require_POST
 @login_required
-def auto_translation(request, path):
+def auto_translation(request: AuthenticatedHttpRequest, path):
     translation = parse_path(request, path, (Translation,))
     project = translation.component.project
     if not request.user.has_perm("translation.auto", project):
@@ -778,7 +786,7 @@ def auto_translation(request, path):
 @login_required
 @session_ratelimit_post("comment", logout_user=False)
 @transaction.atomic
-def comment(request, pk):
+def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
     component = unit.translation.component
@@ -819,7 +827,7 @@ def comment(request, pk):
 @login_required
 @require_POST
 @transaction.atomic
-def delete_comment(request, pk):
+def delete_comment(request: AuthenticatedHttpRequest, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
 
@@ -839,7 +847,7 @@ def delete_comment(request, pk):
 @login_required
 @require_POST
 @transaction.atomic
-def resolve_comment(request, pk):
+def resolve_comment(request: AuthenticatedHttpRequest, pk):
     """Resolve comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
 
@@ -889,7 +897,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
     return search_result, unitdata
 
 
-def zen(request, path):
+def zen(request: AuthenticatedHttpRequest, path):
     """Zen mode view."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
@@ -925,7 +933,7 @@ def zen(request, path):
     )
 
 
-def load_zen(request, path):
+def load_zen(request: AuthenticatedHttpRequest, path):
     """Load additional units for zen editor."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
@@ -957,7 +965,7 @@ def load_zen(request, path):
 @login_required
 @require_POST
 @transaction.atomic
-def save_zen(request, path):
+def save_zen(request: AuthenticatedHttpRequest, path):
     """Save handler for zen mode."""
     _obj, unit_set, _context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
@@ -1014,7 +1022,7 @@ def save_zen(request, path):
 @require_POST
 @login_required
 @transaction.atomic
-def new_unit(request, path):
+def new_unit(request: AuthenticatedHttpRequest, path):
     translation = parse_path(request, path, (Translation,))
     if not request.user.has_perm("unit.add", translation):
         raise PermissionDenied
@@ -1033,7 +1041,7 @@ def new_unit(request, path):
 @login_required
 @require_POST
 @transaction.atomic
-def delete_unit(request, unit_id):
+def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     """Delete unit."""
     unit = get_object_or_404(Unit, pk=unit_id)
 
@@ -1051,7 +1059,7 @@ def delete_unit(request, unit_id):
     return redirect(unit.translation)
 
 
-def browse(request, path):
+def browse(request: AuthenticatedHttpRequest, path):
     """Strings browsing."""
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage)

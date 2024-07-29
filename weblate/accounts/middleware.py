@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import re
 
@@ -13,10 +14,10 @@ from django.utils.translation import activate, get_language, get_language_from_r
 
 from weblate.accounts.models import set_lang_cookie
 from weblate.accounts.utils import adjust_session_expiry
-from weblate.auth.models import get_anonymous
+from weblate.auth.models import AuthenticatedHttpRequest, get_anonymous
 
 
-def get_user(request):
+def get_user(request: AuthenticatedHttpRequest):
     """
     Based on django.contrib.auth.middleware.get_user.
 

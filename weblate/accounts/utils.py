@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
 
@@ -11,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.trans.signals import user_pre_delete
 
 
@@ -108,7 +109,7 @@ def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
     Code.objects.filter(email__in=emails).delete()
 
 
-def cycle_session_keys(request, user) -> None:
+def cycle_session_keys(request: AuthenticatedHttpRequest, user) -> None:
     """
     Cycle session keys.
 
@@ -122,7 +123,7 @@ def cycle_session_keys(request, user) -> None:
     update_session_auth_hash(request, user)
 
 
-def adjust_session_expiry(request) -> None:
+def adjust_session_expiry(request: AuthenticatedHttpRequest) -> None:
     """
     Adjust session expiry based on scope.
 

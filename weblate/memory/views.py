@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -23,10 +26,13 @@ from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, parse_path
 from weblate.wladmin.views import MENU
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 
-def get_objects(request, kwargs):
+def get_objects(request: AuthenticatedHttpRequest, kwargs):
     if "project" in kwargs:
         return {"project": parse_path(request, [kwargs["project"]], (Project,))}
     if "manage" in kwargs:

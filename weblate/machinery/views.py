@@ -1,11 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 from itertools import chain
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -35,6 +34,9 @@ from weblate.utils.diff import Differ
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class MachineryMixin:
@@ -370,7 +372,7 @@ def format_results_helper(
     item["html"] = format_string_helper(item["text"], translation)
 
 
-def handle_machinery(request, service, unit, search=None):
+def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=None):
     translation = unit.translation
     component = translation.component
     source_translation = component.source_translation
@@ -431,14 +433,14 @@ def handle_machinery(request, service, unit, search=None):
 
 
 @require_POST
-def translate(request, unit_id: int, service: str):
+def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=unit_id)
     return handle_machinery(request, service, unit)
 
 
 @require_POST
-def memory(request, unit_id: int):
+def memory(request: AuthenticatedHttpRequest, unit_id: int):
     """AJAX handler for translation memory."""
     unit = get_object_or_404(Unit, pk=unit_id)
     query = request.POST.get("q")

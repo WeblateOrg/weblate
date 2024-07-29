@@ -1,9 +1,11 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import json
 import re
+from typing import TYPE_CHECKING
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
@@ -22,6 +24,9 @@ from weblate.trans.models import Change, Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 BITBUCKET_GIT_REPOS = (
     "ssh://git@{server}/{full_name}.git",
@@ -86,7 +91,7 @@ def register_hook(handler):
 
 
 @csrf_exempt
-def update(request, path):
+def update(request: AuthenticatedHttpRequest, path):
     """Update git repository API hook."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
@@ -99,7 +104,7 @@ def update(request, path):
     return hook_response()
 
 
-def parse_hook_payload(request):
+def parse_hook_payload(request: AuthenticatedHttpRequest):
     """
     Parse hook payload.
 
@@ -112,7 +117,7 @@ def parse_hook_payload(request):
 
 @require_POST
 @csrf_exempt
-def vcs_service_hook(request, service):
+def vcs_service_hook(request: AuthenticatedHttpRequest, service):
     """
     Shared code between VCS service hooks.
 

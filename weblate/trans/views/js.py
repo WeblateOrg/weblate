@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -15,8 +18,11 @@ from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.util import sort_unicode
 from weblate.utils.views import parse_path
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
-def get_unit_translations(request, unit_id):
+
+def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
     """Return unit's other translations."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
     user = request.user
@@ -39,7 +45,7 @@ def get_unit_translations(request, unit_id):
 
 @require_POST
 @login_required
-def ignore_check(request, check_id):
+def ignore_check(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
 
     if not request.user.has_perm("unit.check", obj):
@@ -53,7 +59,7 @@ def ignore_check(request, check_id):
 
 @require_POST
 @login_required
-def ignore_check_source(request, check_id):
+def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     unit = obj.unit.source_unit
 
@@ -81,7 +87,7 @@ def ignore_check_source(request, check_id):
 
 
 @login_required
-def git_status(request, path):
+def git_status(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("meta:vcs.status", obj):
         raise PermissionDenied
@@ -130,7 +136,7 @@ def git_status(request, path):
 
 
 @cache_control(max_age=3600)
-def matomo(request):
+def matomo(request: AuthenticatedHttpRequest):
     return render(
         request, "js/matomo.js", content_type='text/javascript; charset="utf-8"'
     )

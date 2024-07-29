@@ -1,8 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
@@ -21,13 +22,16 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path, show_form_errors, try_set_language
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 def widgets_sorter(widget):
     """Provide better ordering of widgets."""
     return WIDGETS[widget].order
 
 
-def widgets(request, path: list[str]):
+def widgets(request: AuthenticatedHttpRequest, path: list[str]):
     engage_obj = project = parse_path(request, path, (Project,))
 
     # Parse possible language selection
@@ -132,7 +136,13 @@ class WidgetRedirectView(RedirectView):
 
 @vary_on_cookie
 @cache_control(max_age=3600)
-def render_widget(request, path: list[str], widget: str, color: str, extension: str):
+def render_widget(
+    request: AuthenticatedHttpRequest,
+    path: list[str],
+    widget: str,
+    color: str,
+    extension: str,
+):
     # We intentionally skip ACL here to allow widget sharing
     obj = parse_path(
         request,
@@ -183,7 +193,7 @@ def render_widget(request, path: list[str], widget: str, color: str, extension: 
 
 @vary_on_cookie
 @cache_control(max_age=3600)
-def render_og(request):
+def render_og(request: AuthenticatedHttpRequest):
     # Construct object
     widget_obj = OpenGraphWidget(None)
 

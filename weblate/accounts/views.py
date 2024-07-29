@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import os
@@ -1157,7 +1156,9 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, *, reset: bool = False, remove: bool = False) -> None:
+def store_userid(
+    request: AuthenticatedHttpRequest, *, reset: bool = False, remove: bool = False
+) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset

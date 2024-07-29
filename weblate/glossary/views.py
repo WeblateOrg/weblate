@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -14,11 +17,14 @@ from weblate.trans.models import Unit
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import get_form_errors
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @require_POST
 @login_required
 @session_ratelimit_post("glossary")
-def add_glossary_term(request, unit_id):
+def add_glossary_term(request: AuthenticatedHttpRequest, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     component = unit.translation.component
     user = request.user

@@ -1,7 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
+from typing import TYPE_CHECKING
 
 from django.db.models import Count, Q
 from django.http import Http404
@@ -18,6 +20,9 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import PathViewMixin
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class CheckWrapper:
@@ -253,7 +258,7 @@ class CheckList(PathViewMixin, ListView):
         return super().get(request, *args, **kwargs)
 
 
-def render_check(request, unit_id, check_id):
+def render_check(request: AuthenticatedHttpRequest, unit_id, check_id):
     """Render endpoint for checks."""
     try:
         obj = Check.objects.get(unit_id=unit_id, name=check_id)

@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import copy
@@ -31,7 +30,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
-from weblate.auth.models import Group, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -1184,7 +1183,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return [self.cleaned_data["lang"]]
 
 
-def get_new_language_form(request, component):
+def get_new_language_form(request: AuthenticatedHttpRequest, component):
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
         raise PermissionDenied

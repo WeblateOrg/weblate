@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 from django.core.exceptions import PermissionDenied
@@ -13,7 +12,13 @@ from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm
-from weblate.auth.models import AutoGroup, Group, Invitation, User
+from weblate.auth.models import (
+    AuthenticatedHttpRequest,
+    AutoGroup,
+    Group,
+    Invitation,
+    User,
+)
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
@@ -201,7 +206,9 @@ class InvitationView(DetailView):
         return redirect("home")
 
 
-def accept_invitation(request, invitation: Invitation, user: User | None) -> None:
+def accept_invitation(
+    request: AuthenticatedHttpRequest, invitation: Invitation, user: User | None
+) -> None:
     if user is None:
         user = invitation.user
     if user is None:
