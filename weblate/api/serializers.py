@@ -31,6 +31,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
@@ -1142,7 +1143,7 @@ class NewUnitSerializer(serializers.Serializer):
         required=False,
     )
 
-    def as_kwargs(self, data=None) -> dict[str, str | None]:
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         raise NotImplementedError
 
     def validate(self, attrs):
@@ -1159,15 +1160,15 @@ class MonolingualUnitSerializer(NewUnitSerializer):
     key = serializers.CharField()
     value = PluralField()
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         if data is None:
             data = self.validated_data
-        return {
-            "context": data["key"],
-            "source": data["value"],
-            "target": None,
-            "state": data.get("state", None),
-        }
+        return NewUnitParams(
+            context=data["key"],
+            source=data["value"],
+            target=None,
+            state=data.get("state", None),
+        )
 
 
 class BilingualUnitSerializer(NewUnitSerializer):
@@ -1175,15 +1176,15 @@ class BilingualUnitSerializer(NewUnitSerializer):
     source = PluralField()
     target = PluralField()
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         if data is None:
             data = self.validated_data
-        return {
-            "context": data.get("context", ""),
-            "source": data["source"],
-            "target": data.get("target", ""),
-            "state": data.get("state", None),
-        }
+        return NewUnitParams(
+            context=data.get("context", ""),
+            source=data["source"],
+            target=data.get("target", ""),
+            state=data.get("state", None),
+        )
 
 
 class BilingualSourceUnitSerializer(BilingualUnitSerializer):

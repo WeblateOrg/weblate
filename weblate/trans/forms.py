@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
 from __future__ import annotations
 
 import copy
@@ -89,6 +90,7 @@ from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from weblate.accounts.models import Profile
+    from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
 <button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
@@ -2358,7 +2360,7 @@ class NewUnitBaseForm(forms.Form):
     def get_glossary_flags(self) -> str:
         return ""
 
-    def as_kwargs(self):
+    def as_kwargs(self) -> NewUnitParams:
         flags = Flags()
         flags.merge(self.get_glossary_flags())
         variant = self.cleaned_data.get("variant")

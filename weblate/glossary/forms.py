@@ -2,12 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
 
 from weblate.trans.forms import NewBilingualGlossaryUnitForm
 from weblate.trans.models import Translation, Unit
+
+if TYPE_CHECKING:
+    from weblate.trans.models.translation import NewUnitParams
 
 
 class CommaSeparatedIntegerField(forms.Field):
@@ -94,7 +101,7 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
             return
         translation.validate_new_unit_data(**data)
 
-    def as_kwargs(self):
+    def as_kwargs(self) -> NewUnitParams:
         result = super().as_kwargs()
         if self.cleaned_data["translation"].is_source:
             result["target"] = result["source"]

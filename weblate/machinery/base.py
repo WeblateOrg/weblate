@@ -84,8 +84,8 @@ class TranslationResultDict(TypedDict, total=False):
     quality: int
     service: str
     source: str
-    # TODO: only following are actually optional, byt this can be specified
-    # in Python 3.11+
+    # TODO: only following are actually optional, but this can be specified
+    # in Python 3.11+, mark these by NotRequired
     show_quality: bool
     origin: str
     origin_url: str
