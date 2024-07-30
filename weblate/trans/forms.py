@@ -2490,11 +2490,13 @@ class GlossaryAddMixin(forms.Form):
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
-    def __init__(self, translation, user: User, *args, **kwargs) -> None:
-        if kwargs["initial"] is None:
-            kwargs["initial"] = {}
-        kwargs["initial"]["terminology"] = True
-        super().__init__(translation, user, *args, **kwargs)
+    def __init__(
+        self, translation, user: User, *args, initial: dict | None = None, **kwargs
+    ) -> None:
+        if initial is None:
+            initial = {}
+        initial["terminology"] = True
+        super().__init__(translation, user, *args, initial=initial, **kwargs)
 
 
 class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
