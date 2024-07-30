@@ -2457,7 +2457,7 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self.fields["target"].initial = Unit(translation=self.translation, id_hash=0)
 
 
-class GlossaryAddMixin(forms.Form):
+class GlossaryAddMixin(NewUnitBaseForm):
     terminology = forms.BooleanField(
         label=gettext_lazy("Terminology"),
         help_text=gettext_lazy("String will be part of the glossary in all languages"),
@@ -2472,7 +2472,7 @@ class GlossaryAddMixin(forms.Form):
         required=False,
     )
 
-    def get_glossary_flags(self):
+    def get_glossary_flags(self) -> str:
         result = []
         if self.cleaned_data.get("terminology"):
             result.append("terminology")
