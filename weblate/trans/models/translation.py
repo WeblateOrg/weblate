@@ -444,7 +444,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     ):
                         self.log_info(
                             "Doesn't match with key_filter, skipping: %s (%s)",
-                            unit,
+                            unit.context,
                             repr(unit.source),
                         )
                         continue

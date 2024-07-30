@@ -775,7 +775,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         max_length=500,
         default="",
         help_text=gettext_lazy("Regular expression used to filter keys."),
-        null=True,
         blank=True,
     )
 
@@ -889,6 +888,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # be hitting race conditions between background update and frontend displaying
         # the newly created component
         bool(self.source_translation)
+
+        with transaction.atomic():
+            translations = Translation.objects.filter(component=self)
+            for translation in translations:
+                translation.check_sync(force=True)
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.after_save(
