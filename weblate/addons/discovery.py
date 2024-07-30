@@ -42,7 +42,7 @@ class DiscoveryAddon(BaseAddon):
             remove=self.instance.configuration.get("remove"), background=True
         )
 
-    def get_settings_form(self, user: User, **kwargs):
+    def get_settings_form(self, user: User | None, **kwargs):
         """Return configuration form for this addon."""
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration

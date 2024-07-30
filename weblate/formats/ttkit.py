@@ -1084,6 +1084,7 @@ class BasePoFormat(TTKitFormat):
     loader = pofile
     plural_preference = None
     supports_plural: bool = True
+    store: pofile
 
     @classmethod
     def get_plural(cls, language, store=None):

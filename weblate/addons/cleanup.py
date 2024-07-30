@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 class BaseCleanupAddon(UpdateBaseAddon):
     @classmethod
-    def can_install(cls, component, user: User):
+    def can_install(cls, component, user: User | None):
         if not component.has_template():
             return False
         return super().can_install(component, user)

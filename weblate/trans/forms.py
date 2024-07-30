@@ -2568,7 +2568,7 @@ class BulkEditForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, user: User, obj, *args, **kwargs) -> None:
+    def __init__(self, user: User | None, obj, *args, **kwargs) -> None:
         project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)

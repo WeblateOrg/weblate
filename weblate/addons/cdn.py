@@ -49,7 +49,7 @@ class CDNJSAddon(BaseAddon):
         return super().create_object(component=component, **kwargs)
 
     @classmethod
-    def can_install(cls, component, user: User):
+    def can_install(cls, component, user: User | None):
         if (
             not settings.LOCALIZE_CDN_URL
             or not settings.LOCALIZE_CDN_PATH

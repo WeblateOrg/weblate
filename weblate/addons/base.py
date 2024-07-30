@@ -8,7 +8,7 @@ import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -34,13 +34,19 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project, Translation, Unit
 
 
+class CompatDict(TypedDict, total=False):
+    vcs: set[str]
+    file_format: set[str]
+    edit_template: set[bool]
+
+
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
     events: tuple[AddonEvent, ...] = ()
     settings_form: None | type[BaseAddonForm] = None
     name = ""
-    compat: dict[str, set[str | bool]] = {}
+    compat: CompatDict = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
     description: StrOrPromise = "Base add-on"
@@ -215,7 +221,8 @@ class BaseAddon:
     def can_install(cls, component: Component, user: User | None):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
-            getattr(component, key) in values for key, values in cls.compat.items()
+            getattr(component, key) in cast(set, values)
+            for key, values in cls.compat.items()
         )
 
     def pre_push(self, component: Component) -> None:
@@ -245,7 +252,7 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def pre_commit(self, translation: Translation, author: User) -> None:
+    def pre_commit(self, translation: Translation, author: str) -> None:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
@@ -261,7 +268,9 @@ class BaseAddon:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def store_post_load(self, translation: Unit, store: TranslationFormat) -> None:
+    def store_post_load(
+        self, translation: Translation, store: TranslationFormat
+    ) -> None:
         """
         Event handler after a file is parsed.
 

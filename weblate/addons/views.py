@@ -169,7 +169,7 @@ class BaseAddonView(DetailView):
     model = Addon
     request: AuthenticatedHttpRequest
 
-    def get_object(self):
+    def get_object(self):  # type: ignore[override]
         obj = super().get_object()
         if obj.component and not self.request.user.has_perm(
             "component.edit", obj.component
@@ -211,7 +211,7 @@ class AddonDetail(BaseAddonView, UpdateView):
             return reverse("manage-addons")
         return reverse("addons", kwargs={"path": target.get_url_path()})
 
-    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
         obj.acting_user = request.user
         if "delete" in request.POST:

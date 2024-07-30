@@ -39,7 +39,7 @@ class GenerateFileAddon(BaseAddon):
     icon = "poll.svg"
 
     @classmethod
-    def can_install(cls, component, user: User):
+    def can_install(cls, component, user: User | None):
         if not component.translation_set.exists():
             return False
         return super().can_install(component, user)
