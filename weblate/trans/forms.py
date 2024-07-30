@@ -54,6 +54,7 @@ from weblate.trans.models import (
     Component,
     Label,
     Project,
+    Translation,
     Unit,
     WorkflowSetting,
 )
@@ -633,7 +634,7 @@ class DownloadForm(forms.Form):
         widget=forms.RadioSelect,
     )
 
-    def __init__(self, translation, *args, **kwargs) -> None:
+    def __init__(self, translation: Translation, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["format"].choices = [
             (x.name, x.verbose) for x in EXPORTERS.values() if x.supports(translation)
@@ -721,7 +722,7 @@ class ExtraUploadForm(UploadForm):
     author_email = EmailField(label=gettext_lazy("Author e-mail"))
 
 
-def get_upload_form(user: User, translation, *args, **kwargs):
+def get_upload_form(user: User, translation: Translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
     if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
@@ -2340,7 +2341,7 @@ class NewUnitBaseForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, translation, user: User, *args, **kwargs) -> None:
+    def __init__(self, translation: Translation, user: User, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.translation = translation
         self.fields["variant"].queryset = translation.unit_set.all()
@@ -2491,7 +2492,12 @@ class GlossaryAddMixin(forms.Form):
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
     def __init__(
-        self, translation, user: User, *args, initial: dict | None = None, **kwargs
+        self,
+        translation: Translation,
+        user: User,
+        *args,
+        initial: dict | None = None,
+        **kwargs,
     ) -> None:
         if initial is None:
             initial = {}
