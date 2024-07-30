@@ -322,7 +322,9 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             unit_sources_and_positions(get_glossary_terms(unit)), {("thank", ((0, 5),))}
         )
 
-    def do_add_unit(self, language="cs", **kwargs) -> None:
+    def do_add_unit(
+        self, language: str = "cs", expected_status: int = 200, **kwargs
+    ) -> None:
         unit = self.get_unit("Thank you for using Weblate.", language=language)
         glossary = self.glossary_component.translation_set.get(
             language=unit.translation.language
@@ -339,8 +341,8 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
                 **kwargs,
             },
         )
-        content = json.loads(response.content.decode())
-        self.assertEqual(content["responseCode"], 200)
+        content = response.json()
+        self.assertEqual(content["responseCode"], expected_status)
 
     def test_add(self) -> None:
         """Test for adding term from translate page."""
@@ -351,6 +353,8 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
     def test_add_terminology(self) -> None:
         start = Unit.objects.count()
+        self.do_add_unit(expected_status=403, terminology=1)
+        self.make_manager()
         self.do_add_unit(terminology=1)
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
@@ -399,6 +403,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertEqual(unit.unit_set.count(), 4)
 
     def test_terminology_explanation_sync(self) -> None:
+        self.make_manager()
         unit = self.get_unit("Thank you for using Weblate.")
         # Add terms
         response = self.client.post(
