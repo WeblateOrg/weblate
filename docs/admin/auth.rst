@@ -737,3 +737,38 @@ there is any) into :setting:`django:INSTALLED_APPS`:
     INSTALLED_APPS += (
         # Install authentication app here
     )
+
+
+.. _2fa:
+
+Two-factor authentication
+=========================
+
+.. versionadded:: 5.7
+
+.. hint::
+
+   Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to sign in.
+
+Weblate supports the following second factors:
+
+Security keys (WebAuthn)
+   Both Passkeys and security keys are supported.
+
+   Passkeys validate your identity using touch, facial recognition, a device password, or a PIN as they include user verification.
+
+   Security keys are webauthn credentials that can only be used as a second factor of authentication and these only validate user presence.
+
+Authenticator app (TOTP)
+   Authenticator apps and browser extensions like Aegis, Bitwarden, Google Authenticator,
+   1Password, Authy, Microsoft Authenticator, etc. generate one-time passwords
+   that are used as a second factor to verify your identity when prompted
+   during sign-in.
+
+Recovery codes
+   Recovery codes can be used to access your account in the event you lose access to your device and cannot receive two-factor authentication codes.
+
+   Keep your recovery codes as safe as your password. We recommend saving them with a password manager such as Bitwarden, 1Password, Authy, or Keeper.
+
+Each user can configure this in :ref:`profile-account` and second factor will
+be required to sign in addition to the existing authentication method.

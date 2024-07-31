@@ -1,20 +1,28 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
 from __future__ import annotations
 
 import os
 import re
+from base64 import b32encode
+from binascii import unhexlify
 from collections import defaultdict
 from datetime import timedelta
 from importlib import import_module
 from typing import TYPE_CHECKING, Any
+from urllib.parse import quote
 
+import qrcode
+import qrcode.image.svg
 import social_django.utils
 from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME, logout
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
@@ -35,13 +43,34 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.utils.http import urlencode
-from django.utils.translation import gettext
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, TemplateView, UpdateView
+from django.views.generic import (
+    DetailView,
+    FormView,
+    ListView,
+    TemplateView,
+    UpdateView,
+    View,
+)
+from django_otp import DEVICE_ID_SESSION_KEY
+from django_otp import login as otp_login
+from django_otp.models import Device
+from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
+from django_otp.plugins.otp_totp.models import TOTPDevice
+from django_otp.util import random_hex
+from django_otp_webauthn.models import WebAuthnCredential
+from django_otp_webauthn.views import (
+    BeginCredentialAuthenticationView,
+    CompleteCredentialAuthenticationView,
+)
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 from social_core.actions import do_auth
 from social_core.backends.open_id import OpenIdAuth
 from social_core.exceptions import (
@@ -71,6 +100,7 @@ from weblate.accounts.forms import (
     LanguagesForm,
     LoginForm,
     NotificationForm,
+    OTPTokenForm,
     PasswordConfirmForm,
     ProfileBaseForm,
     ProfileForm,
@@ -78,9 +108,12 @@ from weblate.accounts.forms import (
     ResetForm,
     SetPasswordForm,
     SubscriptionForm,
+    TOTPDeviceForm,
+    TOTPTokenForm,
     UserForm,
     UserSearchForm,
     UserSettingsForm,
+    WebAuthnTokenForm,
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
@@ -95,7 +128,15 @@ from weblate.accounts.notifications import (
     send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
-from weblate.accounts.utils import remove_user
+from weblate.accounts.utils import (
+    SESSION_SECOND_FACTOR_SOCIAL,
+    SESSION_SECOND_FACTOR_TOTP,
+    SESSION_SECOND_FACTOR_USER,
+    SESSION_WEBAUTHN_AUDIT,
+    DeviceType,
+    get_key_name,
+    remove_user,
+)
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import (
     AuthenticatedHttpRequest,
@@ -400,6 +441,11 @@ def user_profile(request: AuthenticatedHttpRequest):
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
             "auditlog": user.auditlog_set.order()[:20],
+            "totp_keys": user.totpdevice_set.all(),
+            "webauthn_keys": user.webauthncredential_set.all(),
+            "recovery_keys_count": StaticToken.objects.filter(
+                device__user=user
+            ).count(),
         },
     )
 
@@ -413,7 +459,7 @@ def user_remove(request: AuthenticatedHttpRequest):
         if request.method == "POST":
             remove_user(request.user, request)
             rotate_token(request)
-            logout(request)
+            auth_logout(request)
             messages.success(request, gettext("Your account has been removed."))
             return redirect("home")
         confirm_form = EmptyConfirmForm(request)
@@ -764,6 +810,26 @@ class WeblateLoginView(LoginView):
     def form_invalid(self, form):
         rotate_token(self.request)
         return super().form_invalid(form)
+
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        user = form.get_user()
+        if user.profile.has_2fa:
+            # Store session indication for second factor
+            self.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, user.backend)
+            # Redirect to second factor login
+            redirect_to = self.request.POST.get(
+                self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
+            )
+            login_params: dict[str, str] = {}
+            if redirect_to:
+                login_params[self.redirect_field_name] = redirect_to
+            login_url = reverse(
+                "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}
+            )
+            return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
+        auth_login(self.request, user)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class WeblateLogoutView(LogoutView):
@@ -1291,7 +1357,7 @@ def handle_missing_parameter(
 
 @csrf_exempt
 @never_cache
-def social_complete(request: AuthenticatedHttpRequest, backend: str):
+def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C901
     """
     Social authentication completion endpoint.
 
@@ -1329,7 +1395,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
             },
         )
     try:
-        return complete(request, backend)
+        response = complete(request, backend)
     except InvalidEmail:
         report_error()
         return auth_redirect_token(request)
@@ -1379,6 +1445,13 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     except ValidationError as error:
         report_error()
         return registration_fail(request, str(error))
+
+    # Finish second factor authentication
+    if persistent_id := request.session.pop(DEVICE_ID_SESSION_KEY, None):
+        device = Device.from_persistent_id(persistent_id)
+        otp_login(request, device)
+
+    return response
 
 
 @login_required
@@ -1492,3 +1565,248 @@ class UserList(ListView):
         )
         context["query_string"] = urlencode(context["search_items"])
         return context
+
+
+@method_decorator(login_required, name="dispatch")
+class RecoveryCodesView(TemplateView):
+    template_name = "accounts/recovery-codes.html"
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # Delete all existing tokens
+        StaticToken.objects.filter(device__user=user).delete()
+
+        # Get device
+        device = StaticDevice.objects.filter(user=user).first()
+        if device is None:
+            device = StaticDevice.objects.create(user=user, name="Backup Code")
+
+        # Generate tokens
+        for _i in range(16):
+            token = StaticToken.random_token()
+            device.token_set.create(token=token)
+
+        AuditLog.objects.create(user, request, "recovery-generate")
+
+        return redirect("recovery-codes")
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        AuditLog.objects.create(user, request, "recovery-show")
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        user = self.request.user
+        recovery_codes = StaticToken.objects.filter(device__user=user).values_list(
+            "token", flat=True
+        )
+        result["recovery_codes"] = recovery_codes
+        result["recovery_codes_str"] = "\n".join(recovery_codes)
+        return result
+
+
+@method_decorator(login_required, name="dispatch")
+class WebAuthnCredentialView(DetailView):
+    model = WebAuthnCredential
+
+    message_remove = gettext_lazy("The security key was removed.")
+    message_add = gettext_lazy("The security key %s was registered.")
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        return redirect_profile("#account")
+
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if "delete" in request.POST:
+            key_name = get_key_name(obj)
+            obj.delete()
+            AuditLog.objects.create(
+                request.user, request, "twofactor-remove", device=key_name
+            )
+            messages.success(request, self.message_remove)
+        elif "name" in request.POST:
+            obj.name = request.POST["name"]
+            obj.save(update_fields=["name"])
+            key_name = get_key_name(obj)
+            audit_pk = request.session.pop(SESSION_WEBAUTHN_AUDIT, None)
+            if isinstance(obj, WebAuthnCredential) and audit_pk is not None:
+                audit = AuditLog.objects.get(pk=audit_pk)
+                audit.params = {"device": key_name}
+                audit.save(update_fields=["params"])
+            messages.success(
+                request,
+                self.message_add % key_name,
+            )
+        return redirect_profile("#account")
+
+
+@method_decorator(login_required, name="dispatch")
+class TOTPDetailView(WebAuthnCredentialView):
+    model = TOTPDevice
+
+    message_remove = gettext_lazy("The authentication app was removed.")
+    message_add = gettext_lazy("The authentication app %s was registered.")
+
+
+@method_decorator(login_required, name="dispatch")
+class TOTPView(FormView):
+    template_name = "accounts/totp.html"
+    form_class = TOTPDeviceForm
+    session_key = SESSION_SECOND_FACTOR_TOTP
+
+    @cached_property
+    def totp_key(self) -> str:
+        key = self.request.session.get(self.session_key, None)
+        if key is None:
+            key = random_hex(20)
+            self.request.session[self.session_key] = key
+        return key
+
+    @cached_property
+    def totp_key_b32(self) -> str:
+        key = self.totp_key
+        rawkey = unhexlify(key.encode("ascii"))
+        return b32encode(rawkey).decode("utf-8")
+
+    @cached_property
+    def totp_url(self) -> str:
+        # For a complete run-through of all the parameters, have a look at the
+        # specs at:
+        # https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+
+        accountname = self.request.user.username
+        issuer = settings.SITE_TITLE
+        label = f"{issuer}: {accountname}"
+
+        # Ensure that the secret parameter is the FIRST parameter of the URI, this
+        # allows Microsoft Authenticator to work.
+        query = (
+            ("secret", self.totp_key_b32),
+            ("digits", "6"),
+            ("issuer", issuer),
+        )
+
+        return f"otpauth://totp/{quote(label)}?{urlencode(query)}"
+
+    @property
+    def totp_svg(self):
+        image = qrcode.make(self.totp_url, image_factory=qrcode.image.svg.SvgPathImage)
+        return mark_safe(image.to_string(encoding="unicode"))  # noqa: S308
+
+    def get_context_data(self, **kwargs):
+        """Create context for rendering page."""
+        context = super().get_context_data(**kwargs)
+        context["totp_key_b32"] = self.totp_key_b32
+        context["totp_url"] = self.totp_url
+        context["totp_svg"] = self.totp_svg
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["key"] = self.totp_key
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form: TOTPDeviceForm):
+        device = form.save()
+        AuditLog.objects.create(
+            self.request.user,
+            self.request,
+            "twofactor-add",
+            device=get_key_name(device),
+        )
+        return redirect_profile("#account")
+
+
+class SecondFactorMixin(View):
+    def second_factor_completed(self, device: Device):
+        # Store audit log entry aboute used device and update last used device type
+        user = self.get_user()
+        user.profile.log_2fa(self.request, device)
+        del self.request.session[SESSION_SECOND_FACTOR_USER]
+
+        if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
+            # Keep login on social pipeline if we got here from it
+            auth_login(self.request, user)
+            # Perform OTP login
+            otp_login(self.request, device)
+        else:
+            self.request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
+            # This is completed in social_complete after completing social login
+
+    def get_user(self) -> User:
+        try:
+            user_id, backend = self.request.session[SESSION_SECOND_FACTOR_USER]
+        except KeyError as error:
+            raise Http404 from error
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist as error:
+            raise Http404 from error
+        user.backend = backend
+        return user
+
+
+class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
+    template_name = "accounts/2fa.html"
+    next_page = settings.LOGIN_REDIRECT_URL
+    forms = {
+        "totp": TOTPTokenForm,
+        "webauthn": WebAuthnTokenForm,
+        "recovery": OTPTokenForm,
+    }
+
+    def get_backend(self) -> DeviceType:
+        backend = self.kwargs["backend"]
+        if backend not in self.forms:
+            raise Http404
+        return backend
+
+    def get_form_class(self):
+        return self.forms[self.get_backend()]
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.user
+        kwargs["request"] = self.request
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        """Create context for rendering page."""
+        context = super().get_context_data(**kwargs)
+        context["second_factor_types"] = self.user.profile.second_factor_types - {
+            self.get_backend()
+        }
+        context["next"] = self.request.GET.get("next", "")
+        context["title"] = gettext("Second factor sign in")
+        return context
+
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        self.user = self.get_user()
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.second_factor_completed(form.user.otp_device)
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class WeblateBeginCredentialAuthenticationView(
+    SecondFactorMixin, BeginCredentialAuthenticationView
+):
+    # TODO: https://github.com/Stormbase/django-otp-webauthn/pull/19
+    permission_classes = [AllowAny]
+
+
+class WeblateCompleteCredentialAuthenticationView(
+    SecondFactorMixin, CompleteCredentialAuthenticationView
+):
+    # TODO: https://github.com/Stormbase/django-otp-webauthn/pull/19
+    permission_classes = [AllowAny]
+
+    def complete_auth(self, device: WebAuthnCredential) -> User:
+        return self.second_factor_completed(device)

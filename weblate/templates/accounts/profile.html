@@ -4,6 +4,7 @@
 {% load authnames %}
 {% load crispy_forms_tags %}
 {% load icons %}
+{% load otp_webauthn %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -115,6 +116,9 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
+
+
+
 {% crispy userform %}
 {% crispy commitform %}
   <p class="help-block">
@@ -176,6 +180,87 @@
 </div>
 {% endif %}
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      {% documentation_icon 'admin/auth' '2fa' right=True %}
+      {% trans "Two-factor authentication" %}
+    </h4>
+  </div>
+  <div class="panel-body second-factor">
+    <p class="help-block">{% trans "Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to sign in." %}</p>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>{% trans "Security keys (WebAuthn)" %}</h5>
+        {% if not webauthn_keys %}
+          <p><em>{% trans "There are currently no WebAuthn keys registered." %}</em></p>
+        {% else %}
+          <ul class="list-group">
+          {% for key in webauthn_keys %}
+            <li class="list-group-item">
+              <a href="" class="btn btn-danger pull-right flip link-post" data-href="{% url "webauthn-detail" pk=key.id %}" data-params='{"delete": 1}'>{% trans "Remove" %}</a>
+              {% key_name key %}
+              <div class="clearfix"></div>
+            </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+
+        <template id="passkey-registration-available-template">
+          <div class="form-inline">
+            <input type="text" class="textinput form-control" name="passkey-device-name" maxlength="64" data-href="{% url "webauthn-detail" pk="000000" %}" placeholder="{% trans "Name your security key" %}" />
+            <button type="button" class="btn btn-primary" id="passkey-register-button">{% trans "Register new security key" %}</button>
+            <div id="passkey-register-status-message"></div>
+          </div>
+        </template>
+
+        <template id="passkey-registration-unavailable-template">
+          <p>{% trans "Unfortunately your browser has no WebAuthn support." %}</p>
+        </template>
+
+        <span id="passkey-registration-placeholder"></span>
+
+        {% render_otp_webauthn_register_scripts %}
+      </div>
+      <div class="col-sm-4">
+        <h5>{% trans "Authentication apps (TOTP)" %}</h5>
+        {% if not totp_keys %}
+          <p><em>{% trans "There are currently no authentication apps registered." %}</em></p>
+        {% else %}
+          <ul class="list-group">
+          {% for key in totp_keys %}
+            <li class="list-group-item">
+              <a href="" class="btn btn-danger pull-right flip link-post" data-href="{% url "totp-detail" pk=key.id %}" data-params='{"delete": 1}'>{% trans "Remove" %}</a>
+              {% key_name key %}
+              <div class="clearfix"></div>
+            </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+        <a href="{% url 'totp' %}" class="btn btn-primary">{% trans "Register new authentication app" %}</a>
+      </div>
+      <div class="col-sm-4">
+        <h5>{% trans "Recovery codes" %}</h5>
+        {% if recovery_keys_count == 0 %}
+          <p><em>{% trans "There are currently no recovery codes generated." %}</em></p>
+          <a href="" data-href="{% url "recovery-codes" %}" class="btn btn-primary link-post">{% trans "Generate new recovery codes" %}</a>
+        {% else %}
+          <p>
+            {% blocktranslate count count=recovery_keys_count trimmed %}
+              {{ count }} recovery code is available.
+            {% plural %}
+              {{ count }} recovery codes are available.
+            {% endblocktranslate %}
+          </p>
+          <a href="{% url "recovery-codes" %}" class="btn btn-primary">{% trans "View recovery codes" %}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="row">
 

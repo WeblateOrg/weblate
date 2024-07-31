@@ -2,8 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import django_otp_webauthn.views
 from django.conf import settings
 from django.urls import include, path
+from django.views.i18n import JavaScriptCatalog
 
 import weblate.accounts.views
 import weblate.auth.views
@@ -37,6 +39,35 @@ social_urls = [
     path("metadata/saml/", weblate.accounts.views.saml_metadata, name="saml-metadata"),
 ]
 
+# WebAuthn views, this is modified django_otp_webauth.urls
+webauthn_urls = [
+    path(
+        "registration/begin/",
+        django_otp_webauthn.views.BeginCredentialRegistrationView.as_view(),
+        name="credential-registration-begin",
+    ),
+    path(
+        "registration/complete/",
+        django_otp_webauthn.views.CompleteCredentialRegistrationView.as_view(),
+        name="credential-registration-complete",
+    ),
+    path(
+        "authentication/begin/",
+        weblate.accounts.views.WeblateBeginCredentialAuthenticationView.as_view(),
+        name="credential-authentication-begin",
+    ),
+    path(
+        "authentication/complete/",
+        weblate.accounts.views.WeblateCompleteCredentialAuthenticationView.as_view(),
+        name="credential-authentication-complete",
+    ),
+    path(
+        "jsi18n/",
+        JavaScriptCatalog.as_view(packages=["django_otp_webauthn"]),
+        name="js-i18n-catalog",
+    ),
+]
+
 urlpatterns = [
     path(
         "email-sent/",
@@ -64,7 +95,36 @@ urlpatterns = [
         weblate.auth.views.InvitationView.as_view(),
         name="invitation",
     ),
+    path(
+        "auth/second-factor/<slug:backend>/",
+        weblate.accounts.views.SecondFactorLoginView.as_view(),
+        name="2fa-login",
+    ),
+    path(
+        "auth/tokens/webauthn/<int:pk>/",
+        weblate.accounts.views.WebAuthnCredentialView.as_view(),
+        name="webauthn-detail",
+    ),
+    path(
+        "auth/tokens/totp/",
+        weblate.accounts.views.TOTPView.as_view(),
+        name="totp",
+    ),
+    path(
+        "auth/tokens/totp/<int:pk>/",
+        weblate.accounts.views.TOTPDetailView.as_view(),
+        name="totp-detail",
+    ),
+    path(
+        "auth/tokens/recovery-codes/",
+        weblate.accounts.views.RecoveryCodesView.as_view(),
+        name="recovery-codes",
+    ),
     path("", include((social_urls, "social_auth"), namespace="social")),
+    path(
+        "auth/webauthn/",
+        include((webauthn_urls, "django_otp_webauthn"), namespace="otp_webauthn"),
+    ),
 ]
 
 if "simple_sso.sso_server" in settings.INSTALLED_APPS:

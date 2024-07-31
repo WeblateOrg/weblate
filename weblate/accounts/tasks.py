@@ -40,9 +40,26 @@ def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
     from weblate.accounts.models import AuditLog
 
+    timestamp = now()
+
+    # Cleanup old entries
     AuditLog.objects.filter(
-        timestamp__lt=now() - timedelta(days=settings.AUDITLOG_EXPIRY)
+        timestamp__lt=timestamp - timedelta(days=settings.AUDITLOG_EXPIRY)
     ).delete()
+
+    # Finalize pending two factor entries, these happen due to
+    # WebAuthn keys being added in two stages. Mature entries older than 5 minutes
+    # but look only two hours into past for performance reasons
+    for audit in AuditLog.objects.filter(
+        timestamp__range=(
+            timestamp - timedelta(hours=2),
+            timestamp - timedelta(minutes=5),
+        ),
+        activity="twofactor-add",
+    ):
+        if "skip_notify" in audit.params:
+            del audit.params["skip_notify"]
+            audit.save(update_fields=["params"])
 
 
 @app.task(trail=False)

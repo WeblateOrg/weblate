@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load authnames %}
+{% load crispy_forms_tags %}
+{% load icons %}
+{% load otp_webauthn %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
+<li><a href="{% url 'totp' %}">{% trans "Register new authentication app" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/auth' '2fa' right=True %}
+        {% trans "Register new authentication app" %}
+      </h4>
+    </div>
+    <div class="panel-body second-factor">
+      <p class="help-block">
+        {% trans "Authenticator apps generate one-time passwords that are used as a second factor to verify your identity when prompted during sign-in. " %}
+      </p>
+
+      <h5>{% trans "Scan the QR code" %}</h5>
+
+      {{ totp_svg }}
+
+      <p>
+        {% trans "You can also enter the secret key manually:" %}
+      </p>
+
+      <pre dir="ltr"><button type="button" class="btn btn-link btn-xs pull-right" data-clipboard-text="{{ totp_key_b32 }}" data-clipboard-message="{% trans "Secret key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>{{ totp_key_b32 }}</pre>
+
+      {{ form|crispy }}
+
+      <p>
+        <input type="submit" class="btn btn-primary" value="{% trans "Confirm registration" %}" />
+      </p>
+
+      <p>
+        <a class="btn btn-link" href="{% url "profile" %}#account">{% trans "Back to account settings" %}</a>
+      </p>
+
+    </div>
+  </div>
+</form>
+{% endblock %}
