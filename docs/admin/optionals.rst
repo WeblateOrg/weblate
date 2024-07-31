@@ -90,9 +90,9 @@ Installation
 Billing plan creation and assignment
 ++++++++++++++++++++++++++++++++++++
 
-To activate billing, you must first create a billing plan. To do this, navigate to the `Administration` section (represented by the wrench icon) and open the `tool` screen. From there, proceed to the `Django admin interface`.
+You first need to create a billing plan to activate billing. Navigate to the `Administration` section (represented by the wrench icon) and open the `Tools` screen. From there, proceed to the `Django admin interface`.
 
-Within the Django admin interface, locate the `BILLING` section and add a billing plan. For instance, you could add a `Free` plan with no cost.
+In the Django admin interface, locate the `BILLING` section and add a billing plan. For instance, you can add a `Free` plan with no cost.
 
 If you wish to assign a billing plan to an existing project, this can also be done within the `Django admin interface` using the `Customer billings` option.
 
