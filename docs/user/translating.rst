@@ -171,6 +171,8 @@ string. You can add more alternative translations using the :guilabel:`Tools`
 menu. Any blank alternative translations will be automatically removed upon
 saving.
 
+.. _keyboard:
+
 Keyboard shortcuts
 ++++++++++++++++++
 
@@ -254,6 +256,10 @@ The following keyboard shortcuts can be utilized during translation:
 | :kbd:`Ctrl+Y` or                          | Toggle the :guilabel:`Needs editing` checkbox.                        |
 |                                           |                                                                       |
 | :kbd:`Cmd+Y`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`→` and                              | Browse the next translation strings.                                  |
+|                                           |                                                                       |
+| :kbd:`←`                                  | Browse the previous translation strings.                              |
 +-------------------------------------------+-----------------------------------------------------------------------+
 
 .. _visual-keyboard:

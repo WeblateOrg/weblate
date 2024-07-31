@@ -1,10 +1,12 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import hashlib
 import os.path
 from ssl import CertificateError
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.conf import settings
@@ -16,6 +18,9 @@ from django.utils.translation import gettext, pgettext
 
 from weblate.utils.errors import report_error
 from weblate.utils.requests import request
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 def avatar_for_email(email, size=80) -> str:
@@ -41,7 +46,7 @@ def get_fallback_avatar(size: int):
         return handle.read()
 
 
-def get_avatar_image(user, size: int):
+def get_avatar_image(user: User, size: int):
     """Return avatar image from cache (if available) or download it."""
     username = user.username
     cache_key = "-".join(("avatar-img", username, str(size)))
@@ -71,7 +76,7 @@ def download_avatar_image(email: str, size: int):
     return response.content
 
 
-def get_user_display(user, icon: bool = True, link: bool = False):
+def get_user_display(user: User, icon: bool = True, link: bool = False):
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:

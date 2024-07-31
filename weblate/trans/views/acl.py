@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 from datetime import timedelta
 from itertools import chain
@@ -19,7 +20,7 @@ from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
-from weblate.auth.models import Invitation, User
+from weblate.auth.models import AuthenticatedHttpRequest, Invitation, User
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
@@ -60,7 +61,7 @@ def check_user_form(
 
 @require_POST
 @login_required
-def set_groups(request, project):
+def set_groups(request: AuthenticatedHttpRequest, project):
     """Change group assignment for a user."""
     obj, form = check_user_form(
         request, project, form_class=ProjectUserGroupForm, pass_project=True
@@ -100,7 +101,7 @@ def set_groups(request, project):
 
 @require_POST
 @login_required
-def add_user(request, project):
+def add_user(request: AuthenticatedHttpRequest, project):
     """Add user to a project."""
     obj, form = check_user_form(
         request, project, form_class=InviteUserForm, pass_project=True
@@ -114,7 +115,7 @@ def add_user(request, project):
 
 @require_POST
 @login_required
-def block_user(request, project):
+def block_user(request: AuthenticatedHttpRequest, project):
     """Block user from a project."""
     obj, form = check_user_form(request, project, form_class=UserBlockForm)
 
@@ -148,7 +149,7 @@ def block_user(request, project):
 
 @require_POST
 @login_required
-def unblock_user(request, project):
+def unblock_user(request: AuthenticatedHttpRequest, project):
     """Block user from a project."""
     obj, form = check_user_form(
         request,
@@ -164,7 +165,7 @@ def unblock_user(request, project):
 
 @require_POST
 @login_required
-def invite_user(request, project):
+def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
     obj, form = check_user_form(
         request, project, form_class=InviteEmailForm, pass_project=True
@@ -178,7 +179,7 @@ def invite_user(request, project):
 
 @require_POST
 @login_required
-def delete_user(request, project):
+def delete_user(request: AuthenticatedHttpRequest, project):
     """Remove user from a project."""
     obj, form = check_user_form(
         request,
@@ -214,7 +215,7 @@ def delete_user(request, project):
 
 
 @login_required
-def manage_access(request, project):
+def manage_access(request: AuthenticatedHttpRequest, project):
     """User management view."""
     obj = parse_path(request, [project], (Project,))
 
@@ -289,7 +290,7 @@ def manage_access(request, project):
 
 @require_POST
 @login_required
-def create_token(request, project):
+def create_token(request: AuthenticatedHttpRequest, project):
     """Create project token."""
     obj = parse_path(request, [project], (Project,))
 
@@ -314,7 +315,7 @@ def create_token(request, project):
 
 @require_POST
 @login_required
-def create_group(request, project):
+def create_group(request: AuthenticatedHttpRequest, project):
     """Delete project group."""
     obj = parse_path(request, [project], (Project,))
 

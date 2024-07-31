@@ -2,16 +2,23 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import UpdateBaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.trans.exceptions import FileParseError
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 class BaseCleanupAddon(UpdateBaseAddon):
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user: User | None):
         if not component.has_template():
             return False
         return super().can_install(component, user)

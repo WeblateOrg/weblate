@@ -110,7 +110,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.addons.models import Addon
-    from weblate.auth.models import User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Unit
 
 NEW_LANG_CHOICES = (
@@ -314,7 +314,7 @@ class ComponentQuerySet(models.QuerySet):
     def with_repo(self):
         return self.exclude(repo__startswith="weblate:")
 
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(project__in=user.allowed_projects)
@@ -1739,7 +1739,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
 
     @perform_on_link
-    def push_repo(self, request, retry: bool = True):
+    def push_repo(self, request: AuthenticatedHttpRequest, retry: bool = True):
         """Push repository changes upstream."""
         with self.repository.lock:
             self.log_info("pushing to remote repo")
@@ -1957,7 +1957,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ]
 
     @perform_on_link
-    def commit_pending(self, reason: str, user, skip_push: bool = False) -> bool:  # noqa: C901
+    def commit_pending(self, reason: str, user: User, skip_push: bool = False) -> bool:  # noqa: C901
         """Check whether there is any translation to be committed."""
 
         def reuse_self(translation):
@@ -2422,6 +2422,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.progress_step(100)
             return False
 
+        # Store the revision as add-ons might update it later
+        parsed_revision = self.local_revision
+
         # Ensure we start from fresh template
         self.drop_template_store_cache()
         self.unload_sources()
@@ -2581,7 +2584,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.run_batched_checks()
 
         # Update last processed revision
-        self.processed_revision = self.local_revision
+        self.processed_revision = parsed_revision
         Component.objects.filter(pk=self.pk).update(
             processed_revision=self.processed_revision
         )
@@ -3413,7 +3416,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def is_multivalue(self):
         return self.file_format_cls.has_multiple_strings
 
-    def can_add_new_language(self, user, fast: bool = False):
+    def can_add_new_language(self, user: User, fast: bool = False):
         """
         Check if a new language can be added.
 
@@ -3579,7 +3582,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         return translation
 
-    def do_lock(self, user, lock: bool = True, auto: bool = False) -> None:
+    def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""
         from weblate.trans.tasks import perform_commit
 
@@ -3614,7 +3617,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """Simplified license short name to be used in badge."""
         return self.license.replace("-or-later", "").replace("-only", "")
 
-    def post_create(self, user) -> None:
+    def post_create(self, user: User) -> None:
         self.change_set.create(
             action=Change.ACTION_CREATE_COMPONENT,
             user=user,

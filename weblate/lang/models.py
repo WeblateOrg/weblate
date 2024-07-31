@@ -39,6 +39,7 @@ from weblate.utils.validators import validate_plural_formula
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models import Unit
 
 PLURAL_RE = re.compile(
@@ -423,7 +424,7 @@ class LanguageQuerySet(models.QuerySet):
                 return default
         return super().get(*args, **kwargs)
 
-    def get_request_language(self, request):
+    def get_request_language(self, request: AuthenticatedHttpRequest):
         """
         Guess user language from a HTTP request.
 
@@ -864,7 +865,7 @@ class Plural(models.Model):
             ) from error
 
     @cached_property
-    def examples(self) -> dict[int, tuple[str, ...]]:
+    def examples(self) -> dict[int, list[str]]:
         result: dict[int, list[str]] = defaultdict(list)
         func = self.plural_function
         for i in chain(range(10000), range(10000, 2000001, 1000)):
@@ -875,7 +876,7 @@ class Plural(models.Model):
         for example in result.values():
             if len(example) >= 10:
                 example.append("…")
-        return {key: tuple(value) for key, value in result.items()}
+        return result
 
     @staticmethod
     def parse_plural_forms(plurals):
@@ -978,7 +979,7 @@ class PluralMapper:
         result: list[tuple[int | None, int | None]] = []
         last = target_plural.number - 1
         for i in range(target_plural.number):
-            examples = target_plural.examples.get(i, ())
+            examples = target_plural.examples.get(i, [])
             if len(examples) == 1:
                 number = int(examples[0])
                 if number in exact_source_map:

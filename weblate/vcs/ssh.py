@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import hashlib
@@ -23,6 +22,8 @@ from weblate.utils.hash import calculate_checksum
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 # SSH key files
 KNOWN_HOSTS = "known_hosts"
@@ -151,7 +152,9 @@ def ensure_ssh_key():
     return result
 
 
-def generate_ssh_key(request, key_type: KeyType = "rsa") -> None:
+def generate_ssh_key(
+    request: AuthenticatedHttpRequest | None, key_type: KeyType = "rsa"
+) -> None:
     """Generate SSH key."""
     key_info = KEYS[key_type]
     keyfile = ssh_file(key_info["private"])
@@ -189,7 +192,7 @@ def generate_ssh_key(request, key_type: KeyType = "rsa") -> None:
     messages.success(request, gettext("Created new SSH key."))
 
 
-def add_host_key(request, host, port="") -> None:
+def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))

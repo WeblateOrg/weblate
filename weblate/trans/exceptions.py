@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 
 class WeblateError(Exception):
@@ -27,3 +28,7 @@ class InvalidTemplateError(WeblateError):
 
 class FailedCommitError(WeblateError):
     """Could not commit file."""
+
+
+class SuggestionSimilarToTranslationError(WeblateError):
+    """Target of the Suggestion is similar to source."""

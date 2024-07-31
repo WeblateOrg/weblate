@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
+from typing import TYPE_CHECKING
 
 from appconf import AppConf
 from django.db import models
@@ -12,6 +15,10 @@ from django.utils.functional import cached_property
 from weblate.utils.classloader import ClassLoader
 
 from .base import BaseCheck
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
 
 
 class ChecksLoader(ClassLoader):
@@ -112,7 +119,7 @@ class WeblateChecksConf(AppConf):
 
 
 class CheckQuerySet(models.QuerySet):
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(
@@ -186,7 +193,7 @@ class Check(models.Model):
         self.unit.translation.invalidate_cache()
 
 
-def get_display_checks(unit):
+def get_display_checks(unit: Unit):
     check_objects = {check.name: check for check in unit.all_checks}
     for check, check_obj in CHECKS.target.items():
         if check_obj.should_display(unit):

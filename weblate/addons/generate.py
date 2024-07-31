@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db.models import F, Q
 from django.utils.translation import gettext_lazy
 
@@ -21,6 +23,9 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 class GenerateFileAddon(BaseAddon):
     events = (AddonEvent.EVENT_PRE_COMMIT,)
@@ -34,7 +39,7 @@ class GenerateFileAddon(BaseAddon):
     icon = "poll.svg"
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user: User | None):
         if not component.translation_set.exists():
             return False
         return super().can_install(component, user)

@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-06-19 08:11+0000\n"
-"Last-Translator: Aputsiak Niels Janussen <aputtu@gmail.com>\n"
+"PO-Revision-Date: 2024-07-23 21:40+0000\n"
+"Last-Translator: Luna <social.pvxuu@slmail.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
 "Language: da\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-rc\n"
+"X-Generator: Weblate 5.7-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -50,16 +50,12 @@ msgstr ""
 "adgangen til dit projekt."
 
 #: ../../admin/access.rst:20
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :guilabel:`Access control` setting. Available options are:"
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "ref:`project-access_control` setting. Available options are:"
 msgstr ""
 "Du kan begrænse brugerens adgang til individuelle projekter ved at vælge en "
-"anden indstilling for :guilabel:`Adgangskontrol`. Tilgængelige valg er:"
+"anden :ref:`project-access_control` indstilling. Tilgængelige valg er:"
 
 #: ../../admin/access.rst:23 ../../admin/config.rst:488
 msgid ":guilabel:`Public`"
@@ -161,10 +157,10 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
-"Selv for `Privat` projekter vil nogle oplysninger om dit projekt blive "
-"afsløret: statistik- og sprogoversigt for hele instansen vil indeholde tal "
-"for alle projekter på trods af indstillingen for adgangskontrol. Dit "
-"projektnavn og andre oplysninger kan ikke afsløres gennem dette."
+"Selv for `Privat` projekter vises nogle oplysninger om dit projekt: "
+"statistik og sprogoversigt for hele instansen inkluderer tal for alle "
+"projekter på trods af indstillingen for adgangskontrol. Dit projektnavn og "
+"andre oplysninger kan ikke afsløres gennem dette."
 
 #: ../../admin/access.rst:77
 msgid ""
@@ -173,9 +169,8 @@ msgid ""
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
 "Det faktiske sæt af tilladelser, der som standard er tilgængelige for "
-"brugere i `Offentlig`, `Beskyttet` og `Private` projekter, kan omdefineres "
-"af Weblate-instansadministratoren ved hjælp af :ref:`custom settings <custom-"
-"acl>`."
+"brugere i `Offentlig`, `Beskyttet` og `Privat` projekter, kan omdefineres af "
+"Weblate-instansadministratoren med :ref:`custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -246,6 +241,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
+"Kan redigere kildestrenge (hvis tilladt i :ref:`project settings <component-"
+"manage_units>`) og info om kildestreng."
 
 #: ../../admin/access.rst:115 ../../admin/access.rst:277
 #: ../../admin/access.rst:293 ../../admin/access.rst:407 ../../api.rst:708
@@ -302,7 +299,7 @@ msgstr "VCS"
 
 #: ../../admin/access.rst:132
 msgid "Can manage VCS and access the exported repository."
-msgstr "Kan administrere VCS og få adgang til det eksporterede repository."
+msgstr "Kan administrere VCS og tilgå det eksporterede repository."
 
 #: ../../admin/access.rst:134 ../../admin/optionals.rst:61
 msgid "Billing"
@@ -311,8 +308,7 @@ msgstr "Fakturering"
 #: ../../admin/access.rst:135
 msgid "Can access billing info and settings (see :ref:`billing`)."
 msgstr ""
-"Kan få adgang til faktureringsoplysninger og -indstillinger (se :ref:"
-"`billing`)."
+"Kan tilgå faktureringsoplysninger og -indstillinger (se :ref:`billing`)."
 
 #: ../../admin/access.rst:139
 msgid ""
@@ -562,10 +558,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid "Groups"
 msgid "Group `Users`"
-msgstr "Grupper"
+msgstr "Gruppe `Brugere`"
 
 #: ../../admin/access.rst:275 ../../admin/access.rst:291
 msgid "Language selection"
@@ -577,17 +571,15 @@ msgstr "`Som defineret`"
 
 #: ../../admin/access.rst:278
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Alle undtagen `Tjekkisk`"
 
 #: ../../admin/access.rst:282
 msgid "Add a dedicated team for `Czech` translators."
 msgstr ""
 
 #: ../../admin/access.rst:284
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "Mest aktive oversættere"
+msgstr "Gruppe `Tjekkiske oversættere`"
 
 #: ../../admin/access.rst:287 ../../admin/access.rst:403 ../../api.rst:639
 msgid "Roles"
@@ -673,10 +665,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:342
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Access for browse to a project"
-msgstr "Gennemse alle projekter"
+msgstr "Adgang til at gennemse et projekt"
 
 #: ../../admin/access.rst:344
 msgid ""
@@ -687,10 +677,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:350
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Access for browse to a component"
-msgstr "Projekt/komponent"
+msgstr "Adgang til at gennemse en komponent"
 
 #: ../../admin/access.rst:352
 msgid ""
@@ -887,7 +875,7 @@ msgstr "Indbyggede roller"
 
 #: ../../admin/access.rst:471
 msgid "Billing (see :ref:`billing`)"
-msgstr "Fakturering (se :ref:`fakturering`)"
+msgstr "Fakturering (se :ref:`billing`)"
 
 #: ../../admin/access.rst:471
 msgid "View billing info"
@@ -1237,7 +1225,7 @@ msgstr "Opdatere det interne repository"
 
 #: ../../admin/access.rst:563
 msgid "Site wide privileges"
-msgstr ""
+msgstr "Privilegier for hele webstedet"
 
 #: ../../admin/access.rst:563
 msgid "Use management interface"
@@ -1293,6 +1281,9 @@ msgid ""
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Privilegier for hele webstedet gives ikke til nogen standardrolle. Disse er "
+"magtfulde og ret tæt på superbrugerstatus. De fleste af dem påvirker alle "
+"projekter i din Weblate-installation."
 
 #: ../../admin/access.rst:595
 msgid "List of built-in roles"
@@ -1504,7 +1495,7 @@ msgstr "`Gæster`"
 
 #: ../../admin/access.rst:641
 msgid "Defines permissions for non-authenticated users."
-msgstr ""
+msgstr "Definerer tilladelser for ikke-godkendte brugere."
 
 #: ../../admin/access.rst:643
 msgid ""
@@ -1519,7 +1510,7 @@ msgstr ""
 
 #: ../../admin/access.rst:648
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "Standardroller: `Tilføj forslag`, `Tilgå repository`"
 
 #: ../../admin/access.rst:650
 msgid "`Viewers`"
@@ -1585,16 +1576,12 @@ msgid "`Project creators`"
 msgstr "Information om projektet"
 
 #: ../../admin/access.rst:680
-#, fuzzy
-#| msgid "Additionally, email is used for notification of watched events"
 msgid "Users who can create new projects."
-msgstr "E-mail bruges desuden til notifikation om overvågede hændelser"
+msgstr "Brugere, der kan oprette nye projekter."
 
 #: ../../admin/access.rst:682
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid "Default roles: `Add new projects`"
-msgstr ":guilabel:`Tilføj nye projekter`"
+msgstr "Standardroller: `Tilføj nye projekter`"
 
 #: ../../admin/access.rst:686
 msgid ""
@@ -1677,16 +1664,12 @@ msgid "Available choices:"
 msgstr "Tilgængelige valg:"
 
 #: ../../admin/addons.rst:30
-#, fuzzy
-#| msgid "Add as suggestion"
 msgid "``suggest`` -- Add as suggestion"
-msgstr "Tilføj som forslag"
+msgstr "``suggest`` -- Tilføj som forslag"
 
 #: ../../admin/addons.rst:32
-#, fuzzy
-#| msgid "Add as translation"
 msgid "``translate`` -- Add as translation"
-msgstr "Tilføj som oversættelse"
+msgstr "``translate`` -- Tilføj som oversættelse"
 
 #: ../../admin/addons.rst:34
 msgid "``fuzzy`` -- Add as \"Needing edit\""
@@ -1709,22 +1692,16 @@ msgstr ""
 "oversættelser."
 
 #: ../../admin/addons.rst:40
-#, fuzzy
-#| msgid "All strings"
 msgid "``all`` -- All strings"
-msgstr "Alle strenge"
+msgstr "``all`` -- Alle strenge"
 
 #: ../../admin/addons.rst:42
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "``nottranslated`` -- Untranslated strings"
-msgstr "Ikke oversatte strenge"
+msgstr "``nottranslated`` -- Uoversatte strenge"
 
 #: ../../admin/addons.rst:44
-#, fuzzy
-#| msgid "Translated strings"
 msgid "``todo`` -- Unfinished strings"
-msgstr "Oversatte strenge"
+msgstr "``todo`` -- Ufærdige strenge"
 
 #: ../../admin/addons.rst:46
 msgid "``fuzzy`` -- Strings marked for edit"
@@ -1743,16 +1720,12 @@ msgid "Source of automated translations"
 msgstr "Kilde til automatiserede oversættelser"
 
 #: ../../admin/addons.rst:52
-#, fuzzy
-#| msgid "Other translation components"
 msgid "``others`` -- Other translation components"
-msgstr "Andre oversættelseskomponenter"
+msgstr "``others`` -- Andre oversættelseskomponenter"
 
 #: ../../admin/addons.rst:54
-#, fuzzy
-#| msgid "Machine translation"
 msgid "``mt`` -- Machine translation"
-msgstr "Maskinoversættelse"
+msgstr "``mt`` -- Maskinoversættelse"
 
 #: ../../admin/addons.rst:56
 msgid "``component``"
@@ -1986,10 +1959,8 @@ msgid "Add missing languages"
 msgstr "Tilføj manglende sprog"
 
 #: ../../admin/addons.rst:165
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.consistency.languages``"
-msgstr "Weblate-sprog"
+msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:167
 msgid "daily, repository post-add"
@@ -2025,10 +1996,8 @@ msgid "Component discovery"
 msgstr "Komponentopdagelse"
 
 #: ../../admin/addons.rst:187
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "``weblate.discovery.discovery``"
-msgstr "Weblate-nøgler"
+msgstr "``weblate.discovery.discovery``"
 
 #: ../../admin/addons.rst:189
 msgid "``match``"
@@ -2202,20 +2171,16 @@ msgstr ""
 "Du kan bruge Django-skabelonsopmærkning i både filnavn og indhold, f.eks.:"
 
 #: ../../admin/addons.rst:225
-#, fuzzy
-#| msgid "Component"
 msgid "``{{ component }}``"
-msgstr "Komponent"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
 msgstr "Komponent filnavn match"
 
 #: ../../admin/addons.rst:227
-#, fuzzy
-#| msgid "Component"
 msgid "``{{ component|title }}``"
-msgstr "Komponent"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:228
 msgid "Component filename with upper case first letter"
@@ -2275,19 +2240,19 @@ msgstr "Matchende filer:"
 
 #: ../../admin/addons.rst:248
 msgid ":file:`cs/application.po`"
-msgstr ""
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:249
 msgid ":file:`cs/website.po`"
-msgstr ""
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:250
 msgid ":file:`de/application.po`"
-msgstr ""
+msgstr ":file:`de/application.po`"
 
 #: ../../admin/addons.rst:251
 msgid ":file:`de/website.po`"
-msgstr ""
+msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:254
 msgid "Gettext locales layout"
@@ -2333,19 +2298,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:274
 msgid ":file:`src/locale/application.cs.po`"
-msgstr ""
+msgstr ":file:`src/locale/application.cs.po`"
 
 #: ../../admin/addons.rst:275
 msgid ":file:`src/locale/website.cs.po`"
-msgstr ""
+msgstr ":file:`src/locale/website.cs.po`"
 
 #: ../../admin/addons.rst:276
 msgid ":file:`src/locale/application.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/application.de.po`"
 
 #: ../../admin/addons.rst:277
 msgid ":file:`src/locale/website.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:280
 #, fuzzy
@@ -2363,19 +2328,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
-msgstr ""
+msgstr ":file:`locale/cs/application/cs.po`"
 
 #: ../../admin/addons.rst:288
 msgid ":file:`locale/cs/website/cs.po`"
-msgstr ""
+msgstr ":file:`locale/cs/website/cs.po`"
 
 #: ../../admin/addons.rst:289
 msgid ":file:`locale/de/application/de.po`"
-msgstr ""
+msgstr ":file:`locale/de/application/de.po`"
 
 #: ../../admin/addons.rst:290
 msgid ":file:`locale/de/website/de.po`"
-msgstr ""
+msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:294
 #, fuzzy
@@ -2393,19 +2358,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:301
 msgid ":file:`res/values-cs/strings-about.xml`"
-msgstr ""
+msgstr ":file:`res/values-cs/strings-about.xml`"
 
 #: ../../admin/addons.rst:302
 msgid ":file:`res/values-cs/strings-help.xml`"
-msgstr ""
+msgstr ":file:`res/values-cs/strings-help.xml`"
 
 #: ../../admin/addons.rst:303
 msgid ":file:`res/values-de/strings-about.xml`"
-msgstr ""
+msgstr ":file:`res/values-de/strings-about.xml`"
 
 #: ../../admin/addons.rst:304
 msgid ":file:`res/values-de/strings-help.xml`"
-msgstr ""
+msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:307
 #, fuzzy
@@ -2493,38 +2458,28 @@ msgid "State to set"
 msgstr "Tilstand som skal sættes"
 
 #: ../../admin/addons.rst:347
-#, fuzzy
-#| msgid "Download changes"
 msgid "``-1`` -- Do not change"
-msgstr "Download ændringer"
+msgstr "``-1`` -- Ændr ikke"
 
 #: ../../admin/addons.rst:349
-#, fuzzy
-#| msgid "Needs editing"
 msgid "``10`` -- Needs editing"
-msgstr "Kræver redigering"
+msgstr "``10`` -- Skal redigeres"
 
 #: ../../admin/addons.rst:351
-#, fuzzy
-#| msgid "Translated"
 msgid "``20`` -- Translated"
-msgstr "Oversat"
+msgstr "``20`` -- Oversat"
 
 #: ../../admin/addons.rst:353
-#, fuzzy
-#| msgid "Approved"
 msgid "``30`` -- Approved"
-msgstr "Godkendt"
+msgstr "``30`` -- Godkendt"
 
 #: ../../admin/addons.rst:355
 msgid "``add_flags``"
 msgstr "``add_flags``"
 
 #: ../../admin/addons.rst:355 ../../admin/addons.rst:386
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "Oversættelsesflag"
+msgstr "Oversættelsesflag at tilføje"
 
 #: ../../admin/addons.rst:357
 msgid "``remove_flags``"
@@ -2551,10 +2506,8 @@ msgid "Labels to remove"
 msgstr "Etiketter som skal fjernes"
 
 #: ../../admin/addons.rst:363
-#, fuzzy
-#| msgid "Component name"
 msgid "component update"
-msgstr "Komponent navn"
+msgstr "komponentopdatering"
 
 #: ../../admin/addons.rst:365
 msgid "Bulk edit flags, labels, or states of strings."
@@ -2586,10 +2539,8 @@ msgid "``NOT has:label``"
 msgstr ""
 
 #: ../../admin/addons.rst:379
-#, fuzzy
-#| msgid "Percent"
 msgid "*recent*"
-msgstr "Procent"
+msgstr "*seneste*"
 
 #: ../../admin/addons.rst:381
 msgid "Marking all :ref:`appstore` changelog strings read-only"
@@ -2604,10 +2555,8 @@ msgid "``read-only``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:392
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
-msgstr "Komponent navn"
+msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 
 #: ../../admin/addons.rst:400
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -2992,10 +2941,8 @@ msgid "``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr "Ombryd kun linjer ved linjeskift"
 
 #: ../../admin/addons.rst:639
-#, fuzzy
-#| msgid "No line wrapping"
 msgid "``-1`` -- No line wrapping"
-msgstr "Ingen linjeombrydning"
+msgstr "``-1`` -- Ingen linjeombrydning"
 
 #: ../../admin/addons.rst:641 ../../admin/addons.rst:778
 #: ../../admin/addons.rst:867 ../../admin/addons.rst:900
@@ -3563,7 +3510,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:923
 msgid ":doc:`../contributing/addons`"
-msgstr ""
+msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:928
 #, fuzzy
@@ -7972,7 +7919,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1181
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:1186
 msgid "LOGIN_REQUIRED_URLS"
@@ -8852,7 +8799,7 @@ msgstr ""
 
 #: ../../admin/config.rst:2058
 msgid ":doc:`/admin/machine`"
-msgstr ""
+msgstr ":doc:`/admin/machine`"
 
 #: ../../admin/config.rst:2063
 msgid "WEBLATE_GPG_IDENTITY"
@@ -9763,7 +9710,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:95
 msgid ":file:`icons/weblate.svg`"
-msgstr ""
+msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:96
 msgid "Logo shown in the navigation bar."
@@ -9779,7 +9726,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:99
 msgid ":file:`favicon.ico`"
-msgstr ""
+msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
@@ -9797,7 +9744,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:103
 msgid ":file:`email-logo.png`"
-msgstr ""
+msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:104
 msgid "Used in notifications e-mails."
@@ -9857,15 +9804,15 @@ msgstr ""
 
 #: ../../admin/deployments.rst:8
 msgid ":doc:`install/docker`"
-msgstr ""
+msgstr ":doc:`install/docker`"
 
 #: ../../admin/deployments.rst:9 ../../admin/install.rst:36
 msgid ":doc:`install/openshift`"
-msgstr ""
+msgstr ":doc:`install/openshift`"
 
 #: ../../admin/deployments.rst:10 ../../admin/install.rst:37
 msgid ":doc:`install/kubernetes`"
-msgstr ""
+msgstr ":doc:`install/kubernetes`"
 
 #: ../../admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
@@ -9952,19 +9899,19 @@ msgstr ""
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
-msgstr ""
+msgstr ":doc:`install/venv-debian`"
 
 #: ../../admin/install.rst:30
 msgid ":doc:`install/venv-suse`"
-msgstr ""
+msgstr ":doc:`install/venv-suse`"
 
 #: ../../admin/install.rst:31
 msgid ":doc:`install/venv-redhat`"
-msgstr ""
+msgstr ":doc:`install/venv-redhat`"
 
 #: ../../admin/install.rst:32
 msgid ":doc:`install/venv-macos`"
-msgstr ""
+msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
@@ -11638,7 +11585,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1343
 msgid ":file:`/static/`"
-msgstr ""
+msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1344
 msgid ""
@@ -11648,7 +11595,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1346
 msgid ":file:`/media/`"
-msgstr ""
+msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1347
 msgid "Used for user media uploads (e.g. screenshots)."
@@ -11656,7 +11603,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1348
 msgid ":file:`/favicon.ico`"
-msgstr ""
+msgstr ":file:`/favicon.ico`"
 
 #: ../../admin/install.rst:1349
 msgid ""
@@ -13955,7 +13902,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1906
 msgid ":doc:`../customize`"
-msgstr ""
+msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1911
 msgid "Overriding settings from the data volume"
@@ -17162,7 +17109,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:112
 msgid ":file:`legal/documents/tos.html`"
-msgstr ""
+msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:113
 msgid "Terms of service document"
@@ -17170,7 +17117,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:114
 msgid ":file:`legal/documents/privacy.html`"
-msgstr ""
+msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:115
 msgid "Privacy policy document"
@@ -17178,7 +17125,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:116
 msgid ":file:`legal/documents/summary.html`"
-msgstr ""
+msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:117
 msgid "Short overview of the terms of service and privacy policy"
@@ -17727,7 +17674,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:279
 msgid ":doc:`/devel/integration`"
-msgstr ""
+msgstr ":doc:`/devel/integration`"
 
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
@@ -19114,11 +19061,11 @@ msgstr "Tilgængelige tilføjelser"
 
 #: ../../admin/projects.rst:1017
 msgid ":ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/projects.rst:1018
 msgid ":ref:`addon-weblate.generate.generate`"
-msgstr ""
+msgstr ":ref:`addon-weblate.generate.generate`"
 
 #: ../../admin/projects.rst:1019
 msgid ":ref:`addon-script`"
@@ -22276,7 +22223,7 @@ msgstr "Dårlig konfiguration"
 
 #: ../../api.rst:2354
 msgid ":doc:`/admin/addons`"
-msgstr ""
+msgstr ":doc:`/admin/addons`"
 
 #: ../../api.rst:2358
 #, fuzzy
@@ -34383,7 +34330,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:17
 msgid ":doc:`../admin/upgrade`"
-msgstr ""
+msgstr ":doc:`../admin/upgrade`"
 
 #: ../../contributing/release.rst:20
 msgid "Release planning"
@@ -35310,7 +35257,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:64
 msgid ":doc:`../admin/install/source`"
-msgstr ""
+msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:69
 msgid "Running Weblate locally in Docker"
@@ -41042,7 +40989,7 @@ msgstr ""
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
-msgstr ""
+msgstr ":mod:`wlc.config`"
 
 #: ../../python.rst:71
 msgid ":class:`WeblateConfig`"
@@ -41069,7 +41016,7 @@ msgstr ""
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
-msgstr ""
+msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
@@ -47304,7 +47251,7 @@ msgstr ""
 
 #: ../../wlc.rst:299
 msgid ":file:`/etc/xdg/weblate`"
-msgstr ""
+msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:300
 msgid "System wide configuration file"

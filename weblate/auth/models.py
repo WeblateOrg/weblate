@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import re
@@ -63,6 +62,7 @@ if TYPE_CHECKING:
     from social_django.strategy import DjangoStrategy
 
     from weblate.auth.permissions import PermissionResult
+    from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], set[Language] | None]]
 
@@ -909,7 +909,7 @@ def sync_create_groups(sender, **kwargs) -> None:
     create_groups(False)
 
 
-def auto_assign_group(user) -> None:
+def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
     if user.username == settings.ANONYMOUS_USER_NAME:
         return
@@ -1106,7 +1106,7 @@ class Invitation(models.Model):
             context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
         )
 
-    def accept(self, request, user: User) -> None:
+    def accept(self, request: AuthenticatedHttpRequest, user: User) -> None:
         from weblate.accounts.models import AuditLog
 
         if self.user and self.user != user:
@@ -1159,3 +1159,9 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # type hint for auth
     backend: BaseAuth | None
+
+    # type hint for accounts middleware
+    weblate_cached_user: User
+
+    # type hint for wladmin
+    weblate_support_status: SupportStatusDict

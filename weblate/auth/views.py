@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 from django.core.exceptions import PermissionDenied
@@ -13,7 +12,13 @@ from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm
-from weblate.auth.models import AutoGroup, Group, Invitation, User
+from weblate.auth.models import (
+    AuthenticatedHttpRequest,
+    AutoGroup,
+    Group,
+    Invitation,
+    User,
+)
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
@@ -24,6 +29,7 @@ from weblate.wladmin.forms import ChangedCharField
 class TeamUpdateView(UpdateView):
     model = Group
     template_name = "auth/team.html"
+    request: AuthenticatedHttpRequest
 
     auto_formset = inlineformset_factory(
         Group,
@@ -78,7 +84,7 @@ class TeamUpdateView(UpdateView):
 
         return result
 
-    def handle_add_user(self, request):
+    def handle_add_user(self, request: AuthenticatedHttpRequest):
         form = UserAddTeamForm(request.POST)
         if form.is_valid():
             if form.cleaned_data["make_admin"]:
@@ -90,7 +96,7 @@ class TeamUpdateView(UpdateView):
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
 
-    def handle_remove_user(self, request):
+    def handle_remove_user(self, request: AuthenticatedHttpRequest):
         form = UserManageForm(request.POST)
         if form.is_valid():
             form.cleaned_data["user"].remove_team(request, self.object)
@@ -98,7 +104,7 @@ class TeamUpdateView(UpdateView):
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
 
-    def handle_delete(self, request):
+    def handle_delete(self, request: AuthenticatedHttpRequest):
         if self.object.defining_project:
             fallback = (
                 reverse(
@@ -117,7 +123,7 @@ class TeamUpdateView(UpdateView):
             self.object.delete()
         return redirect_next(request.POST.get("next"), fallback)
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
         if self.request.user.has_perm("meta:team.users", self.object):
             if "add_user" in request.POST:
@@ -148,7 +154,7 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.object = self.get_object()
         if not self.object.user:
             # When inviting new user go through registration
@@ -157,7 +163,7 @@ class InvitationView(DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
-    def post(self, request, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = invitation = self.get_object()
         user = request.user
 
@@ -201,7 +207,9 @@ class InvitationView(DetailView):
         return redirect("home")
 
 
-def accept_invitation(request, invitation: Invitation, user: User | None) -> None:
+def accept_invitation(
+    request: AuthenticatedHttpRequest, invitation: Invitation, user: User | None
+) -> None:
     if user is None:
         user = invitation.user
     if user is None:

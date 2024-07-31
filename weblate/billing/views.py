@@ -1,8 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -15,6 +17,9 @@ from weblate.accounts.views import mail_admins_contact
 from weblate.billing.forms import HostingForm
 from weblate.billing.models import Billing, Invoice, Plan
 from weblate.utils.views import show_form_errors
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 HOSTING_TEMPLATE = """
 %(name)s <%(email)s> wants to host %(project)s
@@ -31,7 +36,7 @@ Please review at https://hosted.weblate.org%(billing_url)s
 
 
 @login_required
-def download_invoice(request, pk):
+def download_invoice(request: AuthenticatedHttpRequest, pk):
     """Download invoice PDF."""
     invoice = get_object_or_404(Invoice, pk=pk)
 
@@ -52,7 +57,7 @@ def download_invoice(request, pk):
     )
 
 
-def handle_post(request, billing) -> None:
+def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
     if "extend" in request.POST and request.user.has_perm("billing.manage"):
         if billing.is_trial:
             billing.state = Billing.STATE_TRIAL
@@ -102,7 +107,7 @@ def handle_post(request, billing) -> None:
 
 
 @login_required
-def overview(request):
+def overview(request: AuthenticatedHttpRequest):
     billings = Billing.objects.for_user(request.user).prefetch_related(
         "plan", "projects", "invoice_set"
     )
@@ -121,7 +126,7 @@ def overview(request):
 
 
 @login_required
-def detail(request, pk):
+def detail(request: AuthenticatedHttpRequest, pk):
     billing = get_object_or_404(Billing, pk=pk)
 
     if not request.user.has_perm("billing.view", billing):

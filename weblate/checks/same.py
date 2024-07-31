@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy
@@ -13,6 +16,9 @@ from weblate.checks.data import IGNORE_WORDS
 from weblate.checks.format import FLAG_RULES, PERCENT_MATCH
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 # Email address to ignore
 EMAIL_RE = re.compile(r"[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}", re.IGNORECASE)
@@ -116,7 +122,7 @@ def test_word(word, extra_ignore):
     )
 
 
-def strip_placeholders(msg, unit):
+def strip_placeholders(msg, unit: Unit):
     return re.sub(
         "|".join(
             re.escape(param) if isinstance(param, str) else param.pattern
@@ -134,7 +140,7 @@ class SameCheck(TargetCheck):
     name = gettext_lazy("Unchanged translation")
     description = gettext_lazy("Source and translation are identical")
 
-    def should_ignore(self, source, unit) -> bool:
+    def should_ignore(self, source: str, unit: Unit) -> bool:
         """Check whether given unit should be ignored."""
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
@@ -200,7 +206,7 @@ class SameCheck(TargetCheck):
 
         return True
 
-    def should_skip(self, unit) -> bool:
+    def should_skip(self, unit: Unit) -> bool:
         # Skip read-only units and ignored check
         if unit.readonly or super().should_skip(unit):
             return True
@@ -211,14 +217,14 @@ class SameCheck(TargetCheck):
         # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
         return bool(
-            unit.translation.language.is_base(source_language)
+            unit.translation.language.is_base((source_language,))
             or (
                 source_language == "en"
                 and unit.translation.language.is_base(("en", "ia"))
             )
         )
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         # One letter things are usually labels or decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False

@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.contrib import admin
 from django.contrib.admin import RelatedOnlyFieldListFilter
 from django.utils.translation import gettext_lazy
@@ -9,6 +13,9 @@ from django.utils.translation import gettext_lazy
 from weblate.wladmin.models import WeblateModelAdmin
 
 from .models import Billing, Invoice, Plan
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 @admin.register(Plan)
@@ -61,7 +68,7 @@ class BillingAdmin(WeblateModelAdmin):
     search_fields = ("projects__name", "owners__email")
     autocomplete_fields = ("projects", "owners")
 
-    def get_queryset(self, request):
+    def get_queryset(self, request: AuthenticatedHttpRequest):
         return super().get_queryset(request).prefetch_related("projects", "owners")
 
     @admin.display(description=gettext_lazy("Projects"))
@@ -74,12 +81,14 @@ class BillingAdmin(WeblateModelAdmin):
     def list_owners(self, obj):
         return ",".join(owner.full_name for owner in obj.owners.all())
 
-    def get_form(self, request, obj=None, **kwargs):
+    def get_form(self, request: AuthenticatedHttpRequest, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields["owners"].label_from_instance = format_user
         return form
 
-    def save_related(self, request, form, formsets, change) -> None:
+    def save_related(
+        self, request: AuthenticatedHttpRequest, form, formsets, change
+    ) -> None:
         super().save_related(request, form, formsets, change)
         obj = form.instance
         # Add owners as admin if there is none

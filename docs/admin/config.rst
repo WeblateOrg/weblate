@@ -1659,7 +1659,11 @@ Configure sampling rate for performance monitoring. Set to 1 to trace all events
 SENTRY_SEND_PII
 ---------------
 
-Allow Sentry to collect certain personally identifiable information. Turned on by default.
+Allow Sentry to collect certain personally identifiable information. Turned off by default.
+
+.. versionchanged:: 5.7
+
+   This is turned off by default now, used to be turned on by default.
 
 .. setting:: SENTRY_TRACES_SAMPLE_RATE
 

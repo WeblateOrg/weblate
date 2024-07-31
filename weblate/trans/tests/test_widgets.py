@@ -4,11 +4,18 @@
 
 """Test for widgets."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 from django.urls import reverse
 
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
+
+if TYPE_CHECKING:
+    from django.http import HttpResponse
 
 
 class WidgetsTest(FixtureTestCase):
@@ -47,9 +54,9 @@ class WidgetsTest(FixtureTestCase):
 
 
 class WidgetsMeta(type):
-    def __new__(mcs, name, bases, attrs):  # noqa: N804
-        def gen_test(widget, color):
-            def test(self) -> None:
+    def __new__(mcs, name: str, bases: tuple[type], attrs: dict[str, Any]):  # noqa: N804
+        def gen_test(widget: str, color: str):
+            def test(self: WidgetsRenderTest) -> None:
                 self.perform_test(widget, color)
 
             return test
@@ -62,13 +69,13 @@ class WidgetsMeta(type):
 
 
 class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
-    def assert_widget(self, widget, response) -> None:
+    def assert_widget(self, widget: str, response: HttpResponse) -> None:
         if "svg" in WIDGETS[widget].content_type:
             self.assert_svg(response)
         else:
             self.assert_png(response)
 
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -85,7 +92,7 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
 
 
 class WidgetsPercentRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         for translated in (0, 3, 4):
             # Fake translated stats
             for translation in Translation.objects.iterator():
@@ -108,7 +115,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
 
 
 class WidgetsTranslationRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -125,7 +132,7 @@ class WidgetsTranslationRenderTest(WidgetsRenderTest):
 
 
 class WidgetsComponentRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -142,7 +149,7 @@ class WidgetsComponentRenderTest(WidgetsRenderTest):
 
 
 class WidgetsProjectLanguageRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -159,7 +166,7 @@ class WidgetsProjectLanguageRenderTest(WidgetsRenderTest):
 
 
 class WidgetsLanguageRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -176,7 +183,7 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
 
 
 class WidgetsGlobalRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -193,7 +200,7 @@ class WidgetsGlobalRenderTest(WidgetsRenderTest):
 
 
 class WidgetsRedirectRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",
@@ -211,7 +218,7 @@ class WidgetsRedirectRenderTest(WidgetsRenderTest):
 
 
 class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
-    def perform_test(self, widget, color) -> None:
+    def perform_test(self, widget: str, color: str) -> None:
         response = self.client.get(
             reverse(
                 "widget-image",

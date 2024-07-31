@@ -1,10 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
 from weblate.trans.forms import (
     AddCategoryForm,
@@ -52,10 +53,13 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import parse_path, show_form_errors
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @never_cache
 @login_required
-def change(request, path):
+def change(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project, ProjectLanguage))
     if not request.user.has_perm(obj.settings_permission, obj):
         raise Http404
@@ -67,7 +71,7 @@ def change(request, path):
     return change_project(request, obj)
 
 
-def change_project(request, obj):
+def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
@@ -87,7 +91,7 @@ def change_project(request, obj):
     )
 
 
-def change_project_language(request, obj):
+def change_project_language(request: AuthenticatedHttpRequest, obj):
     try:
         instance = obj.project.workflowsetting_set.get(language=obj.language)
     except WorkflowSetting.DoesNotExist:
@@ -116,7 +120,7 @@ def change_project_language(request, obj):
     )
 
 
-def change_component(request, obj):
+def change_component(request: AuthenticatedHttpRequest, obj):
     if not request.user.has_perm("component.edit", obj):
         raise Http404
 
@@ -154,7 +158,7 @@ def change_component(request, obj):
 @never_cache
 @login_required
 @require_POST
-def dismiss_alert(request, path):
+def dismiss_alert(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
 
     if not request.user.has_perm("component.edit", obj):
@@ -173,7 +177,7 @@ def dismiss_alert(request, path):
 
 @login_required
 @require_POST
-def remove(request, path):
+def remove(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,
         path,
@@ -222,7 +226,7 @@ def remove(request, path):
     return redirect(parent)
 
 
-def perform_rename(form_cls, request, obj, perm: str):
+def perform_rename(form_cls, request: AuthenticatedHttpRequest, obj, perm: str):
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied
 
@@ -257,7 +261,7 @@ def perform_rename(form_cls, request, obj, perm: str):
 
 @login_required
 @require_POST
-def rename(request, path):
+def rename(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project, Category))
     if isinstance(obj, Component):
         return perform_rename(ComponentRenameForm, request, obj, "component.edit")
@@ -268,7 +272,7 @@ def rename(request, path):
 
 @login_required
 @require_POST
-def add_category(request, path):
+def add_category(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Category))
     if not request.user.has_perm("project.edit", obj) or not obj.can_add_category:
         raise PermissionDenied
@@ -282,7 +286,7 @@ def add_category(request, path):
 
 @login_required
 @require_POST
-def announcement(request, path):
+def announcement(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request, path, (ProjectLanguage, Translation, Component, Project, Category)
     )
@@ -324,7 +328,7 @@ def announcement(request, path):
 
 @login_required
 @require_POST
-def announcement_delete(request, pk):
+def announcement_delete(request: AuthenticatedHttpRequest, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
 
     if request.user.has_perm("announcement.delete", announcement):
@@ -334,7 +338,7 @@ def announcement_delete(request, pk):
 
 
 @login_required
-def component_progress(request, path):
+def component_progress(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
     return_url = "show" if "info" in request.GET else "guide"
     if not obj.in_progress():
@@ -355,7 +359,7 @@ def component_progress(request, path):
 
 
 class BackupsMixin:
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().setup(request, *args, **kwargs)
         self.obj = parse_path(request, [kwargs["project"]], (Project,))
         if not request.user.has_perm("project.edit", self.obj):
@@ -366,7 +370,7 @@ class BackupsMixin:
 class BackupsView(BackupsMixin, TemplateView):
     template_name = "trans/backups.html"
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         create_project_backup.delay(self.obj.pk)
         messages.success(
             request, gettext("Backup scheduled. It will be available soon.")
@@ -384,7 +388,7 @@ class BackupsView(BackupsMixin, TemplateView):
 
 @method_decorator(login_required, name="dispatch")
 class BackupsDownloadView(BackupsMixin, View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         for backup in self.obj.list_backups():
             if backup["name"] != kwargs["backup"]:
                 continue

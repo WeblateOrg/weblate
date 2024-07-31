@@ -2,12 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from weblate.checks.format import BaseFormatCheck
 from weblate.checks.models import CHECKS
 from weblate.utils.management.base import BaseCommand
 
+if TYPE_CHECKING:
+    from weblate.checks.base import BaseCheck
 
-def sorter(check):
+
+def sorter(check: BaseCheck):
     if isinstance(check, BaseFormatCheck):
         pos = 1
     elif check.name < "Formatted strings":
@@ -17,22 +24,22 @@ def sorter(check):
     return (check.source, pos, check.name.lower())
 
 
-def escape(text):
+def escape(text: str):
     return text.replace("\\", "\\\\")
 
 
 class Command(BaseCommand):
     help = "List installed checks"
 
-    def flush_lines(self, lines) -> None:
+    def flush_lines(self, lines: list[str]) -> None:
         self.stdout.writelines(lines)
         lines.clear()
 
     def handle(self, *args, **options) -> None:
         """List installed checks."""
-        ignores = []
-        enables = []
-        lines = []
+        ignores: list[str] = []
+        enables: list[str] = []
+        lines: list[str] = []
         for check in sorted(CHECKS.values(), key=sorter):
             check_class = check.__class__
             is_format = isinstance(check, BaseFormatCheck)

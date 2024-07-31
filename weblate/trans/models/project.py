@@ -39,6 +39,7 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
     from weblate.trans.backups import BackupListDict
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
@@ -306,7 +307,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user, group: str | None = None) -> None:
+    def add_user(self, user: User, group: str | None = None) -> None:
         """Add user based on username or email address."""
         implicit_group = False
         if group is None:
@@ -328,7 +329,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             user.add_team(None, team)
         user.profile.watched.add(self)
 
-    def remove_user(self, user) -> None:
+    def remove_user(self, user: User) -> None:
         """Add user based on username or email address."""
         for group in self.defined_groups.iterator():
             user.remove_team(None, group)
@@ -385,7 +386,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         # This is status checking, call only needed methods
         return any(generator)
 
-    def commit_pending(self, reason, user):
+    def commit_pending(self, reason, user: User):
         """Commit any pending changes."""
         return self.on_repo_components(True, "commit_pending", reason, user)
 
@@ -464,7 +465,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def is_libre_trial(self):
         return any(billing.is_libre_trial for billing in self.billings)
 
-    def post_create(self, user, billing=None) -> None:
+    def post_create(self, user: User, billing=None) -> None:
         from weblate.trans.models import Change
 
         if billing:
@@ -498,7 +499,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
         return User.objects.all_admins(self).select_related("profile")
 
-    def get_child_components_access(self, user, filter_callback=None):
+    def get_child_components_access(self, user: User, filter_callback=None):
         """
         List child components.
 
@@ -648,7 +649,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def enable_review(self):
         return self.translation_review or self.source_review
 
-    def do_lock(self, user, lock: bool = True, auto: bool = False) -> None:
+    def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
         for component in self.component_set.iterator():
             component.do_lock(user, lock=lock, auto=auto)
 

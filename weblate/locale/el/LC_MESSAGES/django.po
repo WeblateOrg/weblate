@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Michalis <michalisntovas@yahoo.gr>, 2023, 2024.
+# "mpt.c" <open.alat4@slmail.me>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-04-25 11:24+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-07-19 03:09+0000\n"
+"Last-Translator: \"mpt.c\" <open.alat4@slmail.me>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
 "Language: el\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.1-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -48,7 +49,7 @@ msgstr "Πλήρες όνομα"
 
 #: weblate/accounts/forms.py:122
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Το όνομα χρησιμοποιείται επίσης στις αλλαγές ελέγχου εκδόσεων."
 
 #: weblate/accounts/forms.py:186 weblate/accounts/models.py:623
 msgid "Commit e-mail"
@@ -86,6 +87,8 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Χρησιμοποιείται για ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου και ως "
+"ηλεκτρονικού ταχυδρομείου αλλαγών, εάν δεν έχει ρυθμιστεί παρακάτω."
 
 #: weblate/accounts/forms.py:403
 msgid "Subject"
@@ -318,16 +321,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Η επιλεγμένη ταξινόμηση δεν υποστηρίζεται."
 
 #: weblate/accounts/forms.py:926
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
 msgstr "Προσθήκη χρήστη σε ομάδα"
 
 #: weblate/accounts/forms.py:938
-#, fuzzy
-#| msgid "Edit label"
 msgid "Add team"
-msgstr "Επεξεργασία ετικέτας"
+msgstr "Προσθήκη ομάδας"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -440,37 +439,31 @@ msgstr ""
 "μεταφράσεων που αποστέλλονται από άλλο χρήστη."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Η πρόσβαση στο έργο {project} μπλοκαρίστηκε"
+msgstr "Η πρόσβαση στο έργο {project} αποκλείστηκε."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Ο χρήστης ενεργοποιήθηκε από το διαχειριστή"
+msgstr "Ο χρήστης ενεργοποιήθηκε από το διαχειριστή."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Ο χρήστης απενεργοποιήθηκε από το διαχειριστή"
+msgstr "Ο χρήστης απενεργοποιήθηκε από το διαχειριστή."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Η ημιετής αναθεώρηση της κατάστασης υποστήριξης εμφανίστηκε."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Προσκλήθηκε στο {site_title} από τον {username}."
+msgstr "Ο χρήστης προστέθηκε στην ομάδα {team} από τον/την {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Ο χρήστης αφαιρέθηκε από την ομάδα {team} από τον/την {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -494,10 +487,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Πρόσκληση στο {project} από τον/την {username}."
 
 #: weblate/accounts/models.py:189
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Ο κωδικός πρόσβασης άλλαξε."
+msgstr "Ο κωδικός πρόσβασης διαμορφώθηκε."
 
 #: weblate/accounts/models.py:195
 msgid "To restore access to your account, please reset your password."
@@ -775,10 +766,10 @@ msgstr ""
 "προσαρμόσετε στις ρυθμίσεις."
 
 #: weblate/accounts/models.py:916
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Ανεπαρκή δικαιώματα για την αποθήκευση μεταφράσεων."
+msgstr ""
+"Παρακαλώ δώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για την υποβολή "
+"μεταφράσεων."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -816,20 +807,14 @@ msgid "License was changed"
 msgstr "Η άδεια άλλαξε"
 
 #: weblate/accounts/notifications.py:484
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occured"
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "Παρουσιάστηκε σφάλμα ανάλυσης"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Νέο κείμενο είναι διαθέσιμο για μετάφραση"
+msgstr "Υπάρχει κείμενο διαθέσιμο για μετάφραση"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"

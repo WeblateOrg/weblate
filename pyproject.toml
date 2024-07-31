@@ -41,7 +41,7 @@ dependencies = [
   "django-celery-beat>=2.6.0,<2.7",
   "django-compressor>=4.4,<5",
   "django-cors-headers>=4.3.0,<4.5",
-  "django-crispy-forms>=2.1,<2.3",
+  "django-crispy-forms>=2.1,<2.4",
   "django-filter>=23.4,<24.3",
   "django-redis>=5.4.0,<6.0",
   "Django[argon2]>=5.0,<5.1",
@@ -49,12 +49,12 @@ dependencies = [
   "filelock<4,>=3.12.2",
   "fluent.syntax>=0.18.1,<0.20",
   "GitPython>=3.1.0,<3.2",
-  "hiredis>=2.2.1,<2.4",
+  "hiredis>=2.2.1,<3.1",
   "html2text>=2024.2.25,<2024.2.27",
   "iniparse==0.5",
   "jsonschema>=4.5,<5",
   "lxml>=5.2.0,<5.3",
-  "mistletoe>=1.3.0,<1.4",
+  "mistletoe>=1.3.0,<1.5",
   "nh3>=0.2.14,<0.3",
   "openpyxl>=3.1.0,<3.2",
   "packaging>=22,<24.2",
@@ -112,7 +112,7 @@ antispam = [
 ci = [
   "build==1.2.1",
   "coverage==7.6.0",
-  "uv==0.2.24",
+  "uv==0.2.32",
   "twine==5.1.1"
 ]
 dev = [
@@ -134,22 +134,22 @@ ldap = [
   "django-auth-ldap>=4.6.0,<5.0.0"
 ]
 lint = [
-  "pre-commit==3.7.1",
-  "pylint==3.2.5"
+  "pre-commit==3.8.0",
+  "pylint==3.2.6"
 ]
 mercurial = [
   "mercurial>=6.2,<7.0"
 ]
 mypy = [
-  "boto3-stubs==1.34.143",
+  "boto3-stubs==1.34.151",
   "celery-types==0.22.0",
-  "django-stubs-ext==5.0.2",
-  "django-stubs==5.0.2",
+  "django-stubs-ext==5.0.4",
+  "django-stubs==5.0.4",
   "djangorestframework-stubs==3.15.0",
   "types-lxml==2024.4.14",
-  "mypy==1.10.1",
+  "mypy==1.11.1",
   "types-jsonschema==4.23.0.20240712",
-  "types-openpyxl==3.1.5.20240630",
+  "types-openpyxl==3.1.5.20240719",
   "types-Pillow==10.2.0.20240520",
   "types-python-dateutil==2.9.0.20240316",
   "types-requests==2.32.0.20240712"
@@ -169,7 +169,7 @@ saml = [
 test = [
   "responses==0.25.3",
   "respx==0.21.1",
-  "selenium==4.22.0"
+  "selenium==4.23.1"
 ]
 zxcvbn = ["django-zxcvbn-password==2.1.1"]
 
@@ -190,9 +190,6 @@ Homepage = "https://weblate.org/"
 "Release Notes" = "https://docs.weblate.org/en/latest/changes.html"
 "Source Code" = "https://github.com/WeblateOrg/weblate"
 Twitter = "https://twitter.com/WeblateOrg"
-
-[tool.black]
-target-version = ['py310']
 
 [tool.codespell]
 count = true
@@ -290,9 +287,6 @@ ignore = [
   ".venv"
 ]
 
-[tool.ruff]
-target-version = "py310"
-
 [tool.ruff.lint]
 extend-safe-fixes = [
   "D",
@@ -347,6 +341,7 @@ ignore = [
   "D105",  # TODO: Missing docstring in magic method
   "D106",  # TODO: Missing docstring in public nested class
   "D107",  # TODO: Missing docstring in `__init__`
+  "DOC501",  # TODO: Raised exception missing from docstring
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
   "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.11
   "PLR6301",  # TODO: Method could be a function, class method, or static method

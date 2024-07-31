@@ -165,7 +165,7 @@
       url: form.attr("action"),
       data: payload,
       dataType: "json",
-      error: (jqXHR, textStatus, errorThrown) => {
+      error: (jqXhr, textStatus, errorThrown) => {
         addAlert(errorThrown);
       },
       success: (data) => {

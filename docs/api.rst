@@ -845,6 +845,7 @@ Projects
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
+    :>json string credits_url: URL to list contributor credits; see :http:get:`/api/projects/(string:project)/credits/`
     :>json boolean translation_review: :ref:`project-translation_review`
     :>json boolean source_review: :ref:`project-source_review`
     :>json boolean set_language_team: :ref:`project-set_language_team`
@@ -1207,6 +1208,24 @@ Projects
     :<json string name: name of the label
     :<json string color: color of the label
 
+.. http:get:: /api/projects/(string:project)/credits/
+
+    Returns contributor credits for a project.
+
+    .. versionadded:: 5.7
+
+    :param project: Project URL slug
+    :type project: string
+    :param start: Lower-bound ISO 8601 timestamp (mandatory)
+    :type start: date
+    :param end: Upper-bound ISO 8601 timestamp (mandatory)
+    :type end: date
+    :param lang: Language code to search for
+    :type lang: source_language
+    :>json string email: Email of the contributor
+    :>json string full_name: Full name of the contributor
+    :>json string change_count: Number of changes done in the time range
+
 Components
 ++++++++++
 
@@ -1280,6 +1299,7 @@ Components
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
+    :>json string credits_url: URL to to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
 
     **Example JSON data:**
 
@@ -1766,6 +1786,23 @@ Components
     :param project_slug: Slug of the project to remove
     :type project_slug: string
 
+.. http:get:: /api/components/(string:project)/(string:component)/credits/
+
+    Returns contributor credits for a project.
+
+    .. versionadded:: 5.7
+
+    :param project: Project URL slug
+    :type project: string
+    :param start: Lower-bound ISO 8601 timestamp (mandatory)
+    :type start: date
+    :param end: Upper-bound ISO 8601 timestamp (mandatory)
+    :type end: date
+    :param lang: Language code to search for
+    :type lang: source_language
+    :>json string email: Email of the contributor
+    :>json string full_name: Full name of the contributor
+    :>json string change_count: Number of changes done in the time range
 
 Translations
 ++++++++++++

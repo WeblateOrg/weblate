@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -11,6 +14,9 @@ from django.utils.translation import gettext
 
 from weblate.legal.models import Agreement
 from weblate.utils import messages
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class RequireTOSMiddleware:
@@ -23,7 +29,9 @@ class RequireTOSMiddleware:
             r"^/(legal|about|contact|api|static|widgets|data|hooks)/"
         )
 
-    def process_view(self, request, view_func, view_args, view_kwargs):
+    def process_view(
+        self, request: AuthenticatedHttpRequest, view_func, view_args, view_kwargs
+    ):
         """Check request whether user has agreed to TOS."""
         # We intercept only GET requests for authenticated users
         if request.method != "GET" or not request.user.is_authenticated:
@@ -53,5 +61,5 @@ class RequireTOSMiddleware:
         # Explicitly return None for all non-matching requests
         return None
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         return self.get_response(request)

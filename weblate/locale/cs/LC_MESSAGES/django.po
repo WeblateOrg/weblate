@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Michal Čihař <michal@weblate.org>, 2023, 2024.
 # inson1 <vaclav.svarc01@seznam.cz>, 2023.
+# Fjuro <fjuro@alius.cz>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-05-06 12:46+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2024-07-24 22:37+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5.3\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -798,12 +799,9 @@ msgid "Parse error occurred"
 msgstr "Došlo k chybě při zpracování"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Nový řetězec je dostupný k překladu"
+msgstr "Řetězec je dostupný k překladu"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
@@ -823,7 +821,7 @@ msgstr "Komentář byl přidán"
 #: weblate/accounts/notifications.py:557
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Byl jste zmíněn v komentáři"
+msgstr "Byli jste zmíněni v komentáři"
 
 #: weblate/accounts/notifications.py:589
 msgctxt "Notification name"
@@ -2178,10 +2176,8 @@ msgstr "Spravovat předplatné"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Nainstalované doplňky"
+msgstr "Spravovat doplňky celého webu"
 
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
@@ -3166,6 +3162,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Reference Fluent v {sequence} může být rozšířena do značky HTML. Možná "
+"použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:142
 #, python-brace-format
@@ -3173,6 +3171,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Reference Fluent v {sequence} může být rozšířena do reference značky HTML. "
+"Možná použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:170
 #, python-brace-format
@@ -3180,6 +3180,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná zavírací značkou HTML, ale název nebo syntaxe "
+"není správná. Pokud nechcete zavírací značku, použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:183
 #, python-brace-format
@@ -3187,6 +3189,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná značkou HTML, ale název není správný. Pokud "
+"nechcete začít značku HTML, použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:196
 #, python-brace-format
@@ -3194,12 +3198,16 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná značkou HTML, ale ta není nikde uzavřena značkou "
+"{close}. Pokud začít značku HTML, použijte {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:210
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Vnitřní HTML Fluent by nemělo obsahovat {sequence}. Možná použijte "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:226
 #, python-brace-format
@@ -3208,6 +3216,9 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Sekvence {sequence} začíná značkou HTML, ale atribut {attribute} sekvence "
+"není správný atribut s hodnotou. Pokud nechcete začít značku HTML, použijte "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:244
 #, python-brace-format
@@ -3315,10 +3326,8 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:1218
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Stávající překlad"
+msgstr "Překlad Fluent vnitřní HTML"
 
 #: weblate/checks/fluent/inner_html.py:1219
 msgid "Fluent target should be valid inner HTML that matches"
@@ -3343,10 +3352,8 @@ msgid "Unexpected Fluent attribute: {hint}"
 msgstr ""
 
 #: weblate/checks/fluent/parts.py:111
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Soubor Fluent"
+msgstr "Části Fluent"
 
 #: weblate/checks/fluent/parts.py:112
 msgid "Fluent parts should match"
@@ -3461,26 +3468,20 @@ msgid "Fluent syntax error: {error}."
 msgstr ""
 
 #: weblate/checks/fluent/syntax.py:44
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Přepsat zdrojovým řetězcem"
+msgstr "Syntaxe zdroje Fluent"
 
 #: weblate/checks/fluent/syntax.py:45
 msgid "Fluent syntax error in source"
 msgstr ""
 
 #: weblate/checks/fluent/syntax.py:61
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Stávající překlad"
+msgstr "Sytnaxe překladun Fluent"
 
 #: weblate/checks/fluent/syntax.py:62
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Komentář k vašemu překladu"
+msgstr "Chyba syntaxe Fluent v překladu"
 
 #: weblate/checks/format.py:398
 #, python-format
@@ -5088,10 +5089,8 @@ msgid "Screenshot name"
 msgstr "Název snímku obrazovky"
 
 #: weblate/screenshots/models.py:57
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Větev repozitáře k překladu"
+msgstr "Cesta repozitáře ke snímku obrazovky"
 
 #: weblate/screenshots/models.py:58
 msgid "Scan for screenshot file change on repository update."
@@ -5246,16 +5245,12 @@ msgid "Help <strong>Weblate</strong> keep thriving"
 msgstr ""
 
 #: weblate/templates/about/donate.html:18
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "Děkujeme vám za použití Weblate."
+msgstr "Vítejte a děkujeme vám za podporu Weblate"
 
 #: weblate/templates/about/donate.html:20
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Děkujeme vám za použití Weblate."
+msgstr "Vítejte a děkujeme vám, že jste si vybrali Weblate"
 
 #: weblate/templates/about/donate.html:23
 msgid ""
@@ -5263,14 +5258,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Uživatelské jméno na GitHubu"
-msgstr[1] "Uživatelské jméno na GitHubu"
-msgstr[2] "Uživatelské jméno na GitHubu"
+msgstr[0] "hvězdička na GitHubu"
+msgstr[1] "hvězdičky na GitHubu"
+msgstr[2] "hvězdiček na GitHubu"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
@@ -5281,14 +5274,12 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
 msgstr[0] "Nedávné změny"
 msgstr[1] "Nedávné změny"
-msgstr[2] "Nedávné změny"
+msgstr[2] "Nedávných změn"
 
 #: weblate/templates/about/donate.html:43
 msgid ""
@@ -5311,16 +5302,12 @@ msgid "Join us in shaping the future of localization and contribute today!"
 msgstr ""
 
 #: weblate/templates/about/donate.html:51
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase a support package"
 msgstr "Koupit balíček podpory"
 
 #: weblate/templates/about/donate.html:53
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "Obdarujte Weblate"
+msgstr "Přispět Weblate"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -5609,10 +5596,8 @@ msgid "Set up your libre project"
 msgstr "Nastavte váš svobodný projekt"
 
 #: weblate/templates/accounts/hosting.html:35
-#, fuzzy
-#| msgid "Your trial offer"
 msgid "Your trial"
-msgstr "Vaše zkušební nabídka"
+msgstr "Vaše zkušební období"
 
 #: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
@@ -6353,19 +6338,16 @@ msgid "History"
 msgstr "Historie"
 
 #: weblate/templates/addons/addon_list.html:31
-#, fuzzy
-#| msgid "There are no add-ons currently installed."
 msgid "No add-ons currently installed"
-msgstr "Momentálně nejsou nainstalovány žádné doplňky."
+msgstr "Nejsou nainstalovány žádné doplňky"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Nainstalované doplňky"
-msgstr[1] "Nainstalované doplňky"
-msgstr[2] "Nainstalované doplňky"
+msgstr[0] "Nainstalován %(count)s doplněk"
+msgstr[1] "Nainstalovány %(count)s doplňky"
+msgstr[2] "Nainstalováno %(count)s doplňků"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6389,13 +6371,12 @@ msgid "Add-ons can be installed on project and component scope as well."
 msgstr ""
 
 #: weblate/templates/addons/addon_list.html:64
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Momentálně nejsou nainstalovány žádné doplňky."
-msgstr[1] "Momentálně nejsou nainstalovány žádné doplňky."
-msgstr[2] "Momentálně nejsou nainstalovány žádné doplňky."
+msgstr[0] "Spravovat celoprojektové doplňky (nainstalován %(count)s)"
+msgstr[1] "Spravovat celoprojektové doplňky (nainstalovány %(count)s)"
+msgstr[2] "Spravovat celoprojektové doplňky (nainstalováno %(count)s)"
 
 #: weblate/templates/addons/addon_list.html:70
 #, python-format
@@ -7129,7 +7110,7 @@ msgstr "Procházet"
 #: weblate/templates/browse.html:46 weblate/trans/views/edit.py:266
 #: weblate/trans/views/edit.py:600
 msgid "No strings found!"
-msgstr "Nebyly žádné řetězce!"
+msgstr "Nebyly nalezeny žádné řetězce!"
 
 #: weblate/templates/category-project.html:15
 #: weblate/templates/category.html:30 weblate/templates/component.html:34
@@ -14226,10 +14207,8 @@ msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Jazyk šablony ({0}) neodpovídá zdrojovému jazyku ({1})!"
 
 #: weblate/trans/models/component.py:2881
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "Bez vzdáleného repozitáře"
+msgstr "Vyberte Žádný vzdálený repozitář pro lokální: URL."
 
 #: weblate/trans/models/component.py:2886
 #, fuzzy

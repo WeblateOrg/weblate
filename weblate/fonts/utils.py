@@ -123,7 +123,7 @@ def get_font_weight(weight: str) -> int:
 
 
 @lru_cache(maxsize=512)
-def render_size(
+def _render_size(
     text: str,
     *,
     font: str = "Kurinto Sans",
@@ -135,7 +135,7 @@ def render_size(
     cache_key: str | None = None,
     surface_height: int | None = None,
     surface_width: int | None = None,
-) -> tuple[Dimensions, int]:
+) -> tuple[Dimensions, int, bytes]:
     """Check whether rendered text fits."""
     configure_fontconfig()
 
@@ -174,10 +174,12 @@ def render_size(
     line_count = layout.get_line_count()
     pixel_size = layout.get_pixel_size()
 
+    buffer = b""
+
     if cache_key:
         # Adjust surface dimensions if we're actually rendering
         if pixel_size.height > surface_height or pixel_size.width > surface_width:
-            return render_size(
+            return _render_size(
                 text,
                 font=font,
                 weight=weight,
@@ -226,8 +228,37 @@ def render_size(
 
         with BytesIO() as buff:
             surface.write_to_png(buff)
-            django_cache.set(cache_key, buff.getvalue())
+            buffer = buff.getvalue()
 
+    return pixel_size, line_count, buffer
+
+
+def render_size(
+    text: str,
+    *,
+    font: str = "Kurinto Sans",
+    weight: int | None = Pango.Weight.NORMAL,
+    size: int = 11,
+    spacing: int = 0,
+    width: int = 1000,
+    lines: int = 1,
+    cache_key: str | None = None,
+    surface_height: int | None = None,
+    surface_width: int | None = None,
+) -> tuple[Dimensions, int]:
+    pixel_size, line_count, buffer = _render_size(
+        text,
+        font=font,
+        size=size,
+        spacing=spacing,
+        width=width,
+        lines=lines,
+        cache_key=cache_key,
+        surface_height=surface_height,
+        surface_width=surface_width,
+    )
+    if cache_key:
+        django_cache.set(cache_key, buffer)
     return pixel_size, line_count
 
 

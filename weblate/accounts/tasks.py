@@ -104,7 +104,7 @@ def notify_auditlog(log_id, email) -> None:
 
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(
-        audit.user.profile.language,
+        audit.user.profile.language if audit.user else "en",
         [email],
         "account_activity",
         context={

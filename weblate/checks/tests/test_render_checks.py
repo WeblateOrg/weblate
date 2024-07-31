@@ -15,7 +15,7 @@ class MaxSizeCheckTest(FontTestCase):
         super().setUp()
         self.check = MaxSizeCheck()
 
-    def perform_check(self, target, flags):
+    def perform_check(self, target: str, flags):
         unit = self.get_unit()
         unit.flags = flags
         unit.target = target

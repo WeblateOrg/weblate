@@ -114,7 +114,7 @@ class BillingQuerySet(models.QuerySet["Billing"]):
             )
         )
 
-    def for_user(self, user):
+    def for_user(self, user: User):
         if user.has_perm("billing.manage"):
             return self.all().order_by("state")
         return (

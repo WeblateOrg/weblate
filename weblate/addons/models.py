@@ -470,7 +470,7 @@ def pre_update(sender, component: Component, **kwargs) -> None:
 
 
 @receiver(vcs_pre_commit)
-def pre_commit(sender, translation: Translation, author, **kwargs) -> None:
+def pre_commit(sender, translation: Translation, author: str, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_PRE_COMMIT,
         "pre_commit",

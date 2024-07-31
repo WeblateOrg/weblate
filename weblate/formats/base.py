@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import tempfile
 from copy import copy
+from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, NoReturn, TypeAlias
 
 from django.http import HttpResponse
@@ -316,16 +317,19 @@ class TranslationFormat:
 
     def __init__(
         self,
-        storefile,
-        template_store=None,
+        storefile: Path | str | BinaryIO,
+        template_store: TranslationFormat | None = None,
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
+        if isinstance(storefile, Path):
+            storefile = str(storefile.as_posix())
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
-            storefile.mode = "r"
+            # This is BinaryIO like but without a mode
+            storefile.mode = "r"  # type: ignore[misc]
 
         self.storefile = storefile
         self.language_code = language_code
@@ -638,18 +642,20 @@ class TranslationFormat:
     @classmethod
     def add_language(
         cls,
-        filename: str,
+        filename: str | Path,
         language: str,
         base: str,
         callback: Callable | None = None,
     ) -> None:
         """Add new language file."""
         # Create directory for a translation
-        dirname = os.path.dirname(filename)
-        if not os.path.exists(dirname):
-            os.makedirs(dirname)
+        if not isinstance(filename, Path):
+            filename = Path(filename)
+        dirname = filename.parent
+        if not dirname.exists():
+            dirname.mkdir(parents=True)
 
-        cls.create_new_file(filename, language, base, callback)
+        cls.create_new_file(str(filename.as_posix()), language, base, callback)
 
     @classmethod
     def get_new_file_content(cls) -> bytes:

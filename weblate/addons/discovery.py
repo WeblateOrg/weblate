@@ -2,12 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import DiscoveryForm
 from weblate.trans.discovery import ComponentDiscovery
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 class DiscoveryAddon(BaseAddon):
@@ -35,7 +42,7 @@ class DiscoveryAddon(BaseAddon):
             remove=self.instance.configuration.get("remove"), background=True
         )
 
-    def get_settings_form(self, user, **kwargs):
+    def get_settings_form(self, user: User | None, **kwargs):
         """Return configuration form for this addon."""
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration

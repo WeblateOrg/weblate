@@ -29,6 +29,7 @@ from weblate.utils.state import StringState
 if TYPE_CHECKING:
     from datetime import datetime
 
+    from weblate.auth.models import User
     from weblate.trans.models import Translation
 
 
@@ -198,7 +199,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
                 translations.add(change.translation_id)
         return changes
 
-    def filter_components(self, user):
+    def filter_components(self, user: User):
         if not user.needs_component_restrictions_filter:
             return self
         return self.filter(
@@ -207,7 +208,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             | Q(component_id__in=user.component_permissions)
         )
 
-    def filter_projects(self, user):
+    def filter_projects(self, user: User):
         if not user.needs_project_filter:
             return self
         return self.filter(project__in=user.allowed_projects)

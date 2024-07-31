@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING, cast
 
 from django.core.management.utils import find_command
 from django.utils.translation import gettext_lazy
@@ -12,9 +13,14 @@ from django.utils.translation import gettext_lazy
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
-from weblate.formats.base import UpdateError
+from weblate.formats.base import TranslationFormat, UpdateError
 from weblate.formats.exporters import MoExporter
+from weblate.formats.ttkit import BasePoFormat
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Component, Translation
 
 
 class GettextBaseAddon(BaseAddon):
@@ -63,7 +69,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
     )
 
     @staticmethod
-    def get_linguas_path(component):
+    def get_linguas_path(component: Component):
         base = component.get_new_base_filename()
         if not base:
             base = os.path.join(
@@ -72,14 +78,14 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component: Component, user: User | None):
         if not super().can_install(component, user):
             return False
         path = cls.get_linguas_path(component)
         return path and os.path.exists(path)
 
     @staticmethod
-    def update_linguas(lines, codes):
+    def update_linguas(lines: list[str], codes: set[str]):
         changed = False
         remove = []
 
@@ -165,7 +171,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 yield path
 
     @classmethod
-    def can_install(cls, component, user) -> bool:
+    def can_install(cls, component, user: User | None) -> bool:
         if not super().can_install(component, user):
             return False
         for name in cls.get_configure_paths(component):
@@ -230,12 +236,12 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     settings_form = MsgmergeForm
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component: Component, user: User | None):
         if find_command("msgmerge") is None:
             return False
         return super().can_install(component, user)
 
-    def get_msgmerge_args(self, component):
+    def get_msgmerge_args(self, component: Component):
         args = []
         if not self.instance.configuration.get("fuzzy", True):
             args.append("--no-fuzzy-matching")
@@ -249,7 +255,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             args.extend(customize_addon.addon.get_msgmerge_args(component))
         return args
 
-    def update_translations(self, component, previous_head) -> None:
+    def update_translations(self, component: Component, previous_head: str) -> None:
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
         repository = component.repository
@@ -304,7 +310,10 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         self.trigger_alerts(component)
 
     def commit_and_push(
-        self, component, files: list[str] | None = None, skip_push: bool = False
+        self,
+        component: Component,
+        files: list[str] | None = None,
+        skip_push: bool = False,
     ) -> bool:
         if super().commit_and_push(component, files=files, skip_push=skip_push):
             component.create_translations()
@@ -320,10 +329,14 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
     )
     settings_form = GettextCustomizeForm
 
-    def store_post_load(self, translation, store) -> None:
-        store.store.wrapper.width = int(self.instance.configuration.get("width", 77))
+    def store_post_load(
+        self, translation: Translation, store: TranslationFormat
+    ) -> None:
+        cast(BasePoFormat, store).store.wrapper.width = int(
+            self.instance.configuration.get("width", 77)
+        )
 
-    def get_msgmerge_args(self, component):
+    def get_msgmerge_args(self, component: Component):
         if int(self.instance.configuration.get("width", 77)) != 77:
             return ["--no-wrap"]
         return []
@@ -338,7 +351,7 @@ class GettextAuthorComments(GettextBaseAddon):
         "and years of contributions."
     )
 
-    def pre_commit(self, translation, author) -> None:
+    def pre_commit(self, translation: Translation, author: str) -> None:
         if "noreply@weblate.org" in author:
             return
         if "<" in author:

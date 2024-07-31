@@ -515,9 +515,9 @@ class UserTermExpr(BaseTermExpr):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def field_extra(self, field, query, match):
-        if field in {"translates", "contributes"}:
+        if field == "translates":
             return query & Q(
-                change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+                change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
             )
 
         return super().field_extra(field, query, match)
@@ -534,7 +534,7 @@ class UserTermExpr(BaseTermExpr):
         else:
             query = Q(change__project__slug__iexact=text)
         return query & Q(
-            change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+            change__timestamp__date__gte=timezone.now().date() - timedelta(days=90)
         )
 
 
