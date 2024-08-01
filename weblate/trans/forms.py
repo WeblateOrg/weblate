@@ -2472,6 +2472,17 @@ class GlossaryAddMixin(NewUnitBaseForm):
         required=False,
     )
 
+    def can_edit_terminology(self) -> bool:
+        return (
+            self.user.has_perm("glossary.terminology", self.translation)
+            or self.translation.is_source
+        )
+
+    def patch_fields(self) -> None:
+        super().patch_fields()
+        if not self.can_edit_terminology():
+            self.fields["terminology"].widget = forms.HiddenInput()
+
     def get_glossary_flags(self) -> str:
         result = []
         if self.cleaned_data.get("terminology"):
@@ -2481,6 +2492,13 @@ class GlossaryAddMixin(NewUnitBaseForm):
         if self.cleaned_data.get("read_only"):
             result.append("read-only")
         return ", ".join(result)
+
+    def clean(self) -> None:
+        if not self.can_edit_terminology() and self.cleaned_data.get("terminology"):
+            raise ValidationError(
+                gettext("You do not have permission to create terminology.")
+            )
+        super().clean()
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):

@@ -19,6 +19,7 @@ Not yet released.
 * :doc:`/formats/csv` better handle with with two fields only.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
 * :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
+* :ref:`glossary-terminology` entries in Glossary can now only be created by users with :guilabel:`Add glossary terminology` permission.
 
 **Bug fixes**
 

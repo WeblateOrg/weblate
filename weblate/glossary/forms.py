@@ -90,15 +90,8 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
             self.fields["target"].widget = forms.HiddenInput()
 
     def clean(self) -> None:
-        translation = self.cleaned_data.get("translation")
-        if not translation:
-            return
-        try:
-            data = self.as_kwargs()
-        except KeyError:
-            # Probably some fields validation has failed
-            return
-        translation.validate_new_unit_data(**data)
+        self.translation = self.cleaned_data.get("translation")
+        super().clean()
 
     def as_kwargs(self) -> NewUnitParams:
         result = super().as_kwargs()

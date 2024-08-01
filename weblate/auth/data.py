@@ -34,6 +34,8 @@ PERMISSIONS = (
     # Translators: Permission name
     ("glossary.add", gettext_noop("Add glossary entry")),
     # Translators: Permission name
+    ("glossary.terminology", gettext_noop("Add glossary terminology")),
+    # Translators: Permission name
     ("glossary.edit", gettext_noop("Edit glossary entry")),
     # Translators: Permission name
     ("glossary.delete", gettext_noop("Delete glossary entry")),
@@ -197,7 +199,7 @@ ROLES = (
             "vcs.access",
             "vcs.view",
         }
-        | filter_perms("glossary."),
+        | filter_perms("glossary.", {"glossary.terminology"}),
     ),
     (
         pgettext_noop("Access-control role", "Review strings"),
