@@ -183,7 +183,7 @@ class ComponentListAdmin(WeblateModelAdmin):
     list_display = ["name", "show_dashboard"]
     list_filter = ["show_dashboard"]
     prepopulated_fields = {"slug": ("name",)}
-    filter_horizontal = ("components",)
+    autocomplete_fields = ("components",)
     inlines = [AutoComponentListAdmin]
     ordering = ["name"]
 
