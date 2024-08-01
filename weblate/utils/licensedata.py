@@ -1526,6 +1526,7 @@ LICENSES = (
         "https://spdx.org/licenses/BSD-3-Clause-HP.html",
         False,
     ),
+    ("HIDAPI", "HIDAPI License", "https://spdx.org/licenses/HIDAPI.html", False),
     (
         "Hippocratic-2.1",
         "Hippocratic License 2.1",
@@ -1590,6 +1591,12 @@ LICENSES = (
         "HPND-merchantability-variant",
         "Historical Permission Notice and Disclaimer - merchantability variant",
         "https://spdx.org/licenses/HPND-merchantability-variant.html",
+        False,
+    ),
+    (
+        "HPND-Netrek",
+        "Historical Permission Notice and Disclaimer - Netrek variant",
+        "https://spdx.org/licenses/HPND-Netrek.html",
         False,
     ),
     (
@@ -2566,6 +2573,12 @@ LICENSES = (
     ),
     ("Ruby", "Ruby License", "https://spdx.org/licenses/Ruby.html", True),
     (
+        "Ruby-pty",
+        "Ruby pty extension license",
+        "https://spdx.org/licenses/Ruby-pty.html",
+        False,
+    ),
+    (
         "SAX-PD",
         "Sax Public Domain Notice",
         "https://spdx.org/licenses/SAX-PD.html",
@@ -3008,6 +3021,12 @@ LICENSES = (
         "X11-distribute-modifications-variant",
         "X11 License Distribution Modification Variant",
         "https://spdx.org/licenses/X11-distribute-modifications-variant.html",
+        False,
+    ),
+    (
+        "X11-swapped",
+        "X11 swapped final paragraphs",
+        "https://spdx.org/licenses/X11-swapped.html",
         False,
     ),
     (
