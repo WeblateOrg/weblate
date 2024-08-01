@@ -987,8 +987,6 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
 
 # Legal integartion
 if "weblate.legal" in settings.INSTALLED_APPS:
-    import weblate.legal.views
-
     real_patterns.extend(
         (
             path(
@@ -1016,10 +1014,8 @@ if settings.DEBUG:
 
 # Django debug toolbar integration
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
-    import debug_toolbar
-
     real_patterns.append(
-        path("__debug__/", include(debug_toolbar.urls)),
+        path("__debug__/", include("debug_toolbar.urls")),
     )
 
 # Hosted Weblate integration
