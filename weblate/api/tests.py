@@ -4,7 +4,7 @@
 
 import os
 from copy import copy
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
 
 from django.core.files import File
@@ -95,6 +95,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         *,
         data=None,
         code=200,
+        authenticated: bool = True,
         superuser: bool = False,
         method="get",
         request=None,
@@ -102,7 +103,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         skip=(),
         format: str = "multipart",  # noqa: A002
     ):
-        self.authenticate(superuser)
+        if authenticated:
+            self.authenticate(superuser)
         url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request, format, headers=headers)
         content = response.content if hasattr(response, "content") else "<stream>"
@@ -1941,6 +1943,41 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def test_credits(self) -> None:
+        self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=401,
+            authenticated=False,
+        )
+
+        # mandatory date parameters
+        self.do_request(
+            "api:component-credits", self.component_kwargs, method="get", code=400
+        )
+
+        start = datetime.now(tz=timezone.utc) - timedelta(days=1)
+        end = datetime.now(tz=timezone.utc) + timedelta(days=1)
+
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat()},
+        )
+        self.assertEqual(response.data, [])
+
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
+        )
+        self.assertEqual(response.data, [])
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self) -> None:
@@ -2231,6 +2268,41 @@ class ComponentAPITest(APIBaseTest):
             code=204,
             superuser=True,
         )
+
+    def test_credits(self) -> None:
+        self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=401,
+            authenticated=False,
+        )
+
+        # mandatory date parameters
+        self.do_request(
+            "api:component-credits", self.component_kwargs, method="get", code=400
+        )
+
+        start = datetime.now(tz=timezone.utc) - timedelta(days=1)
+        end = datetime.now(tz=timezone.utc) + timedelta(days=1)
+
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat()},
+        )
+        self.assertEqual(response.data, [])
+
+        response = self.do_request(
+            "api:component-credits",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
+        )
+        self.assertEqual(response.data, [])
 
 
 class LanguageAPITest(APIBaseTest):

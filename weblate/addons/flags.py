@@ -24,7 +24,7 @@ class FlagBase(BaseAddon):
     icon = "flag.svg"
 
     @classmethod
-    def can_install(cls, component, user: User):
+    def can_install(cls, component, user: User | None):
         # Following formats support fuzzy flag, so avoid messing up with them
         if component.file_format in {"ts", "po", "po-mono"}:
             return False

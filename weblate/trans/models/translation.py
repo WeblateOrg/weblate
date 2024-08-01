@@ -8,7 +8,7 @@ import codecs
 import os
 import tempfile
 from itertools import chain
-from typing import TYPE_CHECKING, BinaryIO
+from typing import TYPE_CHECKING, BinaryIO, TypedDict
 
 import sentry_sdk
 from django.core.cache import cache
@@ -59,6 +59,19 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+class NewUnitParams(TypedDict, total=False):
+    # TODO: only some are actually optional, mark these by NotRequired
+    # in Python 3.11+
+    context: str
+    source: str | list[str]
+    target: str | list[str] | None
+    auto_context: bool = False
+    extra_flags: str | None
+    explanation: str
+    state: int | None
+    skip_existing: bool
 
 
 class TranslationManager(models.Manager):

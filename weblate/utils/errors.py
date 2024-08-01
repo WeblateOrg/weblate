@@ -11,10 +11,10 @@ from typing import TYPE_CHECKING, Literal
 import sentry_sdk
 from django.conf import settings
 from django.utils.translation import get_language
+from sentry_sdk.integrations import DidNotEnable
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
-from sentry_sdk.integrations.openai import OpenAIIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate.utils.version
@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 ERROR_LOGGER = "weblate.errors"
+
 LOGGER = logging.getLogger(ERROR_LOGGER)
 
 try:
@@ -100,39 +101,53 @@ def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
     data["framework"] = "celery"
 
 
+def init_sentry() -> None:
+    integrations = [
+        CeleryIntegration(monitor_beat_tasks=True),
+        DjangoIntegration(),
+        RedisIntegration(),
+    ]
+    try:
+        from sentry_sdk.integrations.openai import OpenAIIntegration
+
+        integrations.append(OpenAIIntegration(include_prompts=True))
+    except DidNotEnable:
+        pass
+
+    sentry_sdk.init(
+        dsn=settings.SENTRY_DSN,
+        integrations=integrations,
+        send_default_pii=settings.SENTRY_SEND_PII,
+        release=weblate.utils.version.GIT_REVISION or weblate.utils.version.TAG_NAME,
+        environment=settings.SENTRY_ENVIRONMENT,
+        traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+        profiles_sample_rate=settings.SENTRY_PROFILES_SAMPLE_RATE,
+        in_app_include=[
+            "weblate",
+            "wlhosted",
+            "wllegal",
+            "weblate_fedora_messaging",
+            "weblate_language_data",
+            "translate",
+        ],
+        attach_stacktrace=True,
+        _experiments={"max_spans": 2000},
+        keep_alive=True,
+        **settings.SENTRY_EXTRA_ARGS,
+    )
+    # Ignore Weblate logging, those should trigger proper errors
+    ignore_logger("weblate")
+
+
+def init_rollbar() -> None:
+    rollbar.init(**settings.ROLLBAR)
+    rollbar.BASE_DATA_HOOK = celery_base_data_hook
+    LOGGER.info("configured Rollbar error collection")
+
+
 def init_error_collection(celery=False) -> None:
     if settings.SENTRY_DSN:
-        sentry_sdk.init(
-            dsn=settings.SENTRY_DSN,
-            integrations=[
-                CeleryIntegration(monitor_beat_tasks=True),
-                DjangoIntegration(),
-                RedisIntegration(),
-                OpenAIIntegration(include_prompts=True),
-            ],
-            send_default_pii=settings.SENTRY_SEND_PII,
-            release=weblate.utils.version.GIT_REVISION
-            or weblate.utils.version.TAG_NAME,
-            environment=settings.SENTRY_ENVIRONMENT,
-            traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
-            profiles_sample_rate=settings.SENTRY_PROFILES_SAMPLE_RATE,
-            in_app_include=[
-                "weblate",
-                "wlhosted",
-                "wllegal",
-                "weblate_fedora_messaging",
-                "weblate_language_data",
-                "translate",
-            ],
-            attach_stacktrace=True,
-            _experiments={"max_spans": 2000},
-            keep_alive=True,
-            **settings.SENTRY_EXTRA_ARGS,
-        )
-        # Ignore Weblate logging, those should trigger proper errors
-        ignore_logger("weblate")
+        init_sentry()
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
-        rollbar.init(**settings.ROLLBAR)
-        rollbar.BASE_DATA_HOOK = celery_base_data_hook
-        LOGGER.info("configured Rollbar error collection")
+        init_rollbar()

@@ -27,6 +27,7 @@ from django.utils.cache import get_conditional_response
 from django.utils.http import http_date
 from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
+from django.views.generic.base import View
 from django.views.generic.edit import FormView
 
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
@@ -155,7 +156,7 @@ def get_paginator(request: AuthenticatedHttpRequest, object_list, page_limit=Non
         return paginator.page(paginator.num_pages)
 
 
-class PathViewMixin:
+class PathViewMixin(View):
     supported_path_types: tuple[type[Model | BaseURLMixin] | None, ...] = ()
 
     def get_path_object(self):
@@ -165,8 +166,8 @@ class PathViewMixin:
             self.request, self.kwargs.get("path", ""), self.supported_path_types
         )
 
-    def setup(self, request: AuthenticatedHttpRequest, **kwargs) -> None:
-        super().setup(request, **kwargs)
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
+        super().setup(request, *args, **kwargs)
         self.path_object = self.get_path_object()
 
 

@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.utils.translation import gettext_lazy
 from translate.storage.lisa import LISAfile
@@ -30,7 +30,7 @@ class XMLCustomizeAddon(StoreBaseAddon):
     settings_form = XMLCustomizeForm
 
     @classmethod
-    def can_install(cls, component: Component, user: User):  # noqa: ARG003
+    def can_install(cls, component: Component, user: User | None):  # noqa: ARG003
         """Event handler to determine if add-on is compatible with component."""
         # component are attached to a file format which is defined by a loader
         # we want to provide this package only for component using LISAfile as loader
@@ -45,4 +45,6 @@ class XMLCustomizeAddon(StoreBaseAddon):
     ) -> None:
         """Event handler once component formatter has been loaded."""
         config = self.instance.configuration
-        store.store.XMLSelfClosingTags = not config.get("closing_tags", True)
+        cast(LISAfile, store.store).XMLSelfClosingTags = not config.get(
+            "closing_tags", True
+        )

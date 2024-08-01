@@ -31,6 +31,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
@@ -392,6 +393,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     labels_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-labels", lookup_field="slug"
     )
+    credits_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-credits", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -409,6 +413,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "changes_list_url",
             "languages_url",
             "labels_url",
+            "credits_url",
             "translation_review",
             "source_review",
             "set_language_team",
@@ -475,6 +480,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
     )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
+    )
+    credits_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-credits", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
     source_language = LanguageSerializer(required=False)
@@ -549,6 +557,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "links_url",
             "changes_list_url",
             "task_url",
+            "credits_url",
             "new_lang",
             "language_code_style",
             "push",
@@ -1134,7 +1143,7 @@ class NewUnitSerializer(serializers.Serializer):
         required=False,
     )
 
-    def as_kwargs(self, data=None) -> dict[str, str | None]:
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         raise NotImplementedError
 
     def validate(self, attrs):
@@ -1151,15 +1160,15 @@ class MonolingualUnitSerializer(NewUnitSerializer):
     key = serializers.CharField()
     value = PluralField()
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         if data is None:
             data = self.validated_data
-        return {
-            "context": data["key"],
-            "source": data["value"],
-            "target": None,
-            "state": data.get("state", None),
-        }
+        return NewUnitParams(
+            context=data["key"],
+            source=data["value"],
+            target=None,
+            state=data.get("state", None),
+        )
 
 
 class BilingualUnitSerializer(NewUnitSerializer):
@@ -1167,15 +1176,15 @@ class BilingualUnitSerializer(NewUnitSerializer):
     source = PluralField()
     target = PluralField()
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         if data is None:
             data = self.validated_data
-        return {
-            "context": data.get("context", ""),
-            "source": data["source"],
-            "target": data.get("target", ""),
-            "state": data.get("state", None),
-        }
+        return NewUnitParams(
+            context=data.get("context", ""),
+            source=data["source"],
+            target=data.get("target", ""),
+            state=data.get("state", None),
+        )
 
 
 class BilingualSourceUnitSerializer(BilingualUnitSerializer):

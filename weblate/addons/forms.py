@@ -28,7 +28,9 @@ if TYPE_CHECKING:
 
 
 class BaseAddonForm(forms.Form):
-    def __init__(self, user: User, addon, instance=None, *args, **kwargs) -> None:
+    def __init__(
+        self, user: User | None, addon, instance=None, *args, **kwargs
+    ) -> None:
         self._addon = addon
         self.user = user
         forms.Form.__init__(self, *args, **kwargs)
@@ -468,7 +470,7 @@ class AutoAddonForm(BaseAddonForm, AutoForm):
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
-    def __init__(self, user: User, addon, instance=None, **kwargs) -> None:
+    def __init__(self, user: User | None, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         component = addon.instance.component
         BulkEditForm.__init__(

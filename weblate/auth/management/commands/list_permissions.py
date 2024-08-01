@@ -65,7 +65,17 @@ class Command(BaseCommand):
             )
         table.append((GROUP_NAMES[last], rows))
 
-        rows = [(name, "") for _key, name in GLOBAL_PERMISSIONS]
+        rows = [
+            (
+                name,
+                ", ".join(
+                    f":guilabel:`{name}`"
+                    for name, permissions in ROLES
+                    if key in permissions
+                ),
+            )
+            for key, name in GLOBAL_PERMISSIONS
+        ]
         table.append(("Site wide privileges", rows))
 
         len_1 = max(len(group) for group, _rows in table)
