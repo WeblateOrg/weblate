@@ -10,7 +10,7 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 # Used by docker-compose-plugin
-WEBLATE_HOST=127.0.0.1:8080
+WEBLATE_HOST=localhost:8080
 export WEBLATE_HOST
 # Used by docker on start
 USER_ID=$(id -u)
