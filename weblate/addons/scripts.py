@@ -60,10 +60,12 @@ class BaseScriptAddon(BaseAddon):
     ) -> None:
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
-    def post_commit(self, component: Component) -> None:
+    def post_commit(self, component: Component, store_hash: bool) -> None:
         self.run_script(component=component)
 
-    def pre_commit(self, translation: Translation, author) -> None:
+    def pre_commit(
+        self, translation: Translation, author: str, store_hash: bool
+    ) -> None:
         self.run_script(translation=translation)
 
         if self.add_file:

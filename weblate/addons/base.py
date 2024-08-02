@@ -188,7 +188,7 @@ class BaseAddon:
 
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
-            self.post_commit(component)
+            self.post_commit(component, True)
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
@@ -252,11 +252,13 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def pre_commit(self, translation: Translation, author: str) -> None:
+    def pre_commit(
+        self, translation: Translation, author: str, store_hash: bool
+    ) -> None:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_commit(self, component: Component) -> None:
+    def post_commit(self, component: Component, store_hash: bool) -> None:
         """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 

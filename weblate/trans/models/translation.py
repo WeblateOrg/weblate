@@ -681,7 +681,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             template = self.component.commit_message
         with repository.lock:
             # Pre commit hook
-            vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
+            vcs_pre_commit.send(
+                sender=self.__class__,
+                translation=self,
+                author=author,
+                store_hash=store_hash,
+            )
 
             # Do actual commit with git lock
             if self.component.commit_files(
@@ -692,6 +697,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 signals=signals,
                 files=self.filenames + self.addon_commit_files,
                 extra_context={"translation": self},
+                store_hash=store_hash,
             ):
                 self.log_info("committed %s as %s", self.filenames, author)
                 self.change_set.create(action=Change.ACTION_COMMIT, user=user)
