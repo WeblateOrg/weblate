@@ -365,6 +365,13 @@ You can also fine-tune individual worker categories:
       CELERY_NOTIFY_OPTIONS: --concurrency 1
       CELERY_TRANSLATE_OPTIONS: --concurrency 1
 
+Memory usage can be further reduced by running only a single Celery process:
+
+.. code-block:: yaml
+
+    environment:
+      CELERY_SINGLE_PROCESS: 1
+
 .. seealso::
 
    :envvar:`WEBLATE_WORKERS`
@@ -374,6 +381,7 @@ You can also fine-tune individual worker categories:
    :envvar:`CELERY_TRANSLATE_OPTIONS`,
    :envvar:`CELERY_BACKUP_OPTIONS`,
    :envvar:`CELERY_BEAT_OPTIONS`,
+   :envvar:`CELERY_SINGLE_PROCESS`,
    :envvar:`WEB_WORKERS`
 
 .. _docker-scaling:
@@ -1823,6 +1831,19 @@ Container settings
 
         :doc:`Celery worker options <celery:reference/celery.bin.worker>`,
         :ref:`celery`
+
+.. envvar:: CELERY_SINGLE_PROCESS
+
+    This variable can be set to ``1`` to run only one celery process. This reduces memory usage but may impact Weblate performance.
+
+    .. code-block:: yaml
+
+        environment:
+          CELERY_SINGLE_PROCESS: 1
+
+    .. seealso::
+
+        :ref:`minimal-celery`
 
 .. envvar:: WEB_WORKERS
 
