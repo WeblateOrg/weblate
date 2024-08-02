@@ -22,6 +22,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.trans.models import Component
 
 
 class CDNJSAddon(BaseAddon):
@@ -70,7 +71,7 @@ class CDNJSAddon(BaseAddon):
             settings.LOCALIZE_CDN_URL, self.instance.state["uuid"], "weblate.js"
         )
 
-    def post_commit(self, component) -> None:
+    def post_commit(self, component: Component, store_hash: bool) -> None:
         # Get list of applicable translations
         threshold = self.instance.configuration["threshold"]
         translations = [

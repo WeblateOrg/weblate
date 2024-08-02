@@ -2050,6 +2050,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         extra_context: dict[str, Any] | None = None,
         message: str | None = None,
         component: models.Model | None = None,
+        store_hash: bool = True,
     ):
         """Commit files to the repository."""
         linked = self.linked_component
@@ -2084,7 +2085,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             # Send post commit signal
             if signals:
-                self.send_post_commit_signal()
+                self.send_post_commit_signal(store_hash=store_hash)
 
             self.store_local_revision()
 
@@ -2094,8 +2095,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             return True
 
-    def send_post_commit_signal(self) -> None:
-        vcs_post_commit.send(sender=self.__class__, component=self)
+    def send_post_commit_signal(self, store_hash: bool = True) -> None:
+        vcs_post_commit.send(
+            sender=self.__class__, component=self, store_hash=store_hash
+        )
 
     def get_parse_error_message(self, error) -> str:
         error_message = getattr(error, "strerror", "")

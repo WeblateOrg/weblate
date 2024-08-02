@@ -116,7 +116,7 @@ def filter_lines(lines):
     return result
 
 
-def format_file(filename: str, case_sensitive: bool) -> None:
+def format_file(filename: str, case_sensitive: bool) -> bool:
     """Format single properties file."""
     with open(filename) as handle:
         lines = handle.readlines()
@@ -130,6 +130,8 @@ def format_file(filename: str, case_sensitive: bool) -> None:
     if lines != result:
         with open(filename, "w") as handle:
             handle.writelines(result)
+        return True
+    return False
 
 
 class PropertiesSortAddon(BaseAddon):
@@ -141,6 +143,8 @@ class PropertiesSortAddon(BaseAddon):
     icon = "sort-alphabetical.svg"
     settings_form = PropertiesSortAddonForm
 
-    def pre_commit(self, translation, author) -> None:
+    def pre_commit(self, translation, author: str, store_hash: bool) -> None:
         case_sensitive = self.instance.configuration.get("case_sensitive", False)
-        format_file(translation.get_filename(), case_sensitive)
+        changed = format_file(translation.get_filename(), case_sensitive)
+        if changed and store_hash:
+            translation.store_hash()
