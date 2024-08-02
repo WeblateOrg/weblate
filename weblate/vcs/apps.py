@@ -7,7 +7,8 @@ import os
 from typing import TYPE_CHECKING
 
 from django.apps import AppConfig
-from django.core.checks import CheckMessage, Warning, register
+from django.core.checks import CheckMessage, register
+from django.core.checks import Warning as DjangoWarning
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
@@ -53,7 +54,9 @@ def check_vcs(
     message = "Failure in loading VCS module for {}: {}"
     return [
         weblate_check(
-            f"weblate.W033.{key}", message.format(key, str(value).strip()), Warning
+            f"weblate.W033.{key}",
+            message.format(key, str(value).strip()),
+            DjangoWarning,
         )
         for key, value in VCS_REGISTRY.errors.items()
     ]

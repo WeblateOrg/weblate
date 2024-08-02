@@ -12,7 +12,7 @@ from datetime import timedelta
 from itertools import chain
 from typing import TYPE_CHECKING, cast
 
-from celery.exceptions import TimeoutError
+from celery.exceptions import TimeoutError as CeleryTimeoutError
 from django.apps import AppConfig
 from django.conf import settings
 from django.core.cache import cache
@@ -135,7 +135,7 @@ def check_celery(
                         " Following items differ: {}".format(", ".join(differing)),
                     )
                 )
-        except TimeoutError:
+        except CeleryTimeoutError:
             errors.append(
                 weblate_check(
                     "weblate.E019",
