@@ -1514,6 +1514,10 @@ class ComponentSettingsForm(
         self.fields["links"].queryset = request.user.managed_projects.exclude(
             pk=self.instance.project.pk
         )
+
+        if self.instance and not self.instance.file_format_cls.monolingual:
+            self.fields["key_filter"].widget.attrs["disabled"] = ""
+
         self.helper.layout = Layout(
             TabHolder(
                 Tab(

@@ -889,10 +889,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # the newly created component
         bool(self.source_translation)
 
-        with transaction.atomic():
-            translations = Translation.objects.filter(component=self)
-            for translation in translations:
-                translation.check_sync(force=True)
+        if self.key_filter_re.pattern:
+            with transaction.atomic():
+                translations = Translation.objects.filter(component=self)
+                for translation in translations:
+                    translation.check_sync(force=True)
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.after_save(
