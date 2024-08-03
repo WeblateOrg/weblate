@@ -1065,7 +1065,9 @@ class RubyFormatCheckTest(CheckTestCase):
 class PluralTest(FixtureTestCase):
     check = PythonFormatCheck()
 
-    def do_check(self, sources, targets, translation, flags: str = ""):
+    def do_check(
+        self, sources: list[str], targets: list[str], translation, flags: str = ""
+    ):
         return self.check.check_target_unit(
             sources,
             targets,

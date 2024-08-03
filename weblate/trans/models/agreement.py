@@ -1,13 +1,20 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Component
+
 
 class ContributorAgreementManager(models.Manager):
-    def has_agreed(self, user, component):
+    def has_agreed(self, user: User, component: Component):
         cache_key = (user.pk, component.pk)
         if cache_key not in user.cla_cache:
             user.cla_cache[cache_key] = self.filter(
@@ -15,7 +22,7 @@ class ContributorAgreementManager(models.Manager):
             ).exists()
         return user.cla_cache[cache_key]
 
-    def create(self, user, component, **kwargs):
+    def create(self, user: User, component: Component, **kwargs):
         user.cla_cache[(user.pk, component.pk)] = True
         return super().create(user=user, component=component, **kwargs)
 

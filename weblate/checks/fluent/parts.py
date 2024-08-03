@@ -20,6 +20,7 @@ from weblate.checks.fluent.utils import (
 
 if TYPE_CHECKING:
     from django.utils.safestring import SafeString
+    from django_stubs_ext import StrOrPromise
     from translate.storage.fluent import FluentPart
 
     from weblate.checks.fluent.utils import CheckModel, HighlightsType, TransUnitModel
@@ -173,7 +174,7 @@ class FluentPartsCheck(TargetCheck):
             highlight_patterns.append(r"^ *\." + re.escape(part.name) + r" *=")
         return FluentPatterns.highlight_source(source, highlight_patterns)
 
-    def get_description(self, check_model: CheckModel) -> str:
+    def get_description(self, check_model: CheckModel) -> StrOrPromise:
         (unit, source, target) = translation_from_check(check_model)
         difference = self._compare_parts(unit, source, target)
         if not difference:

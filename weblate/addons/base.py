@@ -8,7 +8,7 @@ import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -29,9 +29,15 @@ if TYPE_CHECKING:
 
     from weblate.addons.forms import BaseAddonForm
     from weblate.addons.models import Addon
-    from weblate.auth.models import User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationFormat
     from weblate.trans.models import Project, Translation, Unit
+
+
+class CompatDict(TypedDict, total=False):
+    vcs: set[str]
+    file_format: set[str]
+    edit_template: set[bool]
 
 
 class BaseAddon:
@@ -40,7 +46,7 @@ class BaseAddon:
     events: tuple[AddonEvent, ...] = ()
     settings_form: None | type[BaseAddonForm] = None
     name = ""
-    compat: dict[str, set[str | bool]] = {}
+    compat: CompatDict = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
     description: StrOrPromise = "Base add-on"
@@ -182,7 +188,7 @@ class BaseAddon:
 
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
-            self.post_commit(component)
+            self.post_commit(component, True)
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
@@ -215,7 +221,8 @@ class BaseAddon:
     def can_install(cls, component: Component, user: User | None):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
-            getattr(component, key) in values for key, values in cls.compat.items()
+            getattr(component, key) in cast(set, values)
+            for key, values in cls.compat.items()
         )
 
     def pre_push(self, component: Component) -> None:
@@ -245,11 +252,13 @@ class BaseAddon:
         """
         # To be implemented in a subclass
 
-    def pre_commit(self, translation: Translation, author: User) -> None:
+    def pre_commit(
+        self, translation: Translation, author: str, store_hash: bool
+    ) -> None:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_commit(self, component: Component) -> None:
+    def post_commit(self, component: Component, store_hash: bool) -> None:
         """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
@@ -261,7 +270,9 @@ class BaseAddon:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def store_post_load(self, translation: Unit, store: TranslationFormat) -> None:
+    def store_post_load(
+        self, translation: Translation, store: TranslationFormat
+    ) -> None:
         """
         Event handler after a file is parsed.
 
@@ -373,7 +384,9 @@ class BaseAddon:
         return filename
 
     @classmethod
-    def pre_install(cls, obj: Component | Project | None, request) -> None:
+    def pre_install(
+        cls, obj: Component | Project | None, request: AuthenticatedHttpRequest
+    ) -> None:
         from weblate.trans.tasks import perform_update
 
         if cls.trigger_update and isinstance(obj, Component):

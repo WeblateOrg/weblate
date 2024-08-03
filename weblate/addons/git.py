@@ -1,9 +1,11 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 from collections import defaultdict
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
 
@@ -13,6 +15,9 @@ from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Component
 
 
 class GitSquashAddon(BaseAddon):
@@ -222,7 +227,7 @@ class GitSquashAddon(BaseAddon):
             repository.execute(["checkout", repository.branch])
             repository.delete_branch(tmp)
 
-    def post_commit(self, component) -> None:
+    def post_commit(self, component: Component, store_hash: bool) -> None:
         repository = component.repository
         branch_updated = False
         with repository.lock:

@@ -53,7 +53,7 @@ class GPGTest(TestCase):
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
     def test_generate(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         self.assertIsNone(get_gpg_key(silent=True))
         key = generate_gpg_key()
         self.check_errors()
@@ -65,7 +65,7 @@ class GPGTest(TestCase):
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
     def test_get(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         # This will generate new key
         key = get_gpg_sign_key()
         self.check_errors()
@@ -81,7 +81,7 @@ class GPGTest(TestCase):
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
     def test_public(self) -> None:
-        self.assertEqual(check_data_writable(), [])
+        self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         # This will generate new key
         key = get_gpg_public_key()
         self.check_errors()

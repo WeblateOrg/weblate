@@ -2,12 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 def try_get_user(username, list_all=False):
@@ -21,7 +23,9 @@ def try_get_user(username, list_all=False):
 class WeblateUserBackend(ModelBackend):
     """Weblate authentication backend."""
 
-    def authenticate(self, request, username=None, password=None, **kwargs):
+    def authenticate(
+        self, request: AuthenticatedHttpRequest, username=None, password=None, **kwargs
+    ):
         """Prohibit login for anonymous user and allows to login by e-mail."""
         if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None

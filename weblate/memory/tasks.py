@@ -1,8 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.db import transaction
 
@@ -11,6 +12,9 @@ from weblate.memory.models import Memory
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 @app.task(trail=False)
@@ -51,7 +55,7 @@ def handle_unit_translation_change(unit_id, user_id=None) -> None:
     update_memory(user, unit)
 
 
-def update_memory(user, unit, component=None, project=None) -> None:
+def update_memory(user: User, unit, component=None, project=None) -> None:
     component = component or unit.translation.component
     project = project or component.project
     params = {

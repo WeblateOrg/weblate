@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import django.contrib.sitemaps.views
 import django.views.i18n
 import django.views.static
@@ -985,50 +987,50 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
 
 # Legal integartion
 if "weblate.legal" in settings.INSTALLED_APPS:
-    import weblate.legal.views
-
-    real_patterns += [
-        path(
-            "legal/",
-            include(("weblate.legal.urls", "weblate.legal"), namespace="legal"),
-        ),
-        path(
-            "security.txt",
-            TemplateView.as_view(
-                template_name="security.txt", content_type="text/plain"
+    real_patterns.extend(
+        (
+            path(
+                "legal/",
+                include(("weblate.legal.urls", "weblate.legal"), namespace="legal"),
             ),
-        ),
-    ]
+            path(
+                "security.txt",
+                TemplateView.as_view(
+                    template_name="security.txt", content_type="text/plain"
+                ),
+            ),
+        )
+    )
 
 # Serving media files in DEBUG mode
 if settings.DEBUG:
-    real_patterns += [
+    real_patterns.append(
         path(
             "media/<path:path>",
             django.views.static.serve,
             {"document_root": settings.MEDIA_ROOT},
         )
-    ]
+    )
 
 # Django debug toolbar integration
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
-    import debug_toolbar
-
-    real_patterns += [path("__debug__/", include(debug_toolbar.urls))]
+    real_patterns.append(
+        path("__debug__/", include("debug_toolbar.urls")),
+    )
 
 # Hosted Weblate integration
 if "wlhosted.integrations" in settings.INSTALLED_APPS:
     from wlhosted.integrations.views import CreateBillingView
 
-    real_patterns += [
-        path("create/billing/", CreateBillingView.as_view(), name="create-billing")
-    ]
+    real_patterns.append(
+        path("create/billing/", CreateBillingView.as_view(), name="create-billing"),
+    )
 
 # Django SAML2 Identity Provider
 if "djangosaml2idp" in settings.INSTALLED_APPS:
-    real_patterns += [
+    real_patterns.append(
         path("idp/", include("djangosaml2idp.urls")),
-    ]
+    )
 
 # Handle URL prefix configuration
 if not URL_PREFIX:

@@ -1,15 +1,51 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "files": {
+    "ignore": [
+      "weblate/trans/tests/data/*.ts",
+      "weblate/static/vendor/**"
+    ]
+  },
   "organizeImports": {
     "enabled": true
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "all": true
     }
   },
   "formatter": {
     "indentStyle": "space"
+  },
+  "javascript": {
+    "globals": [
+      "$",
+      "Mousetrap",
+      "gettext",
+      "Cookies",
+      "submitForm",
+      "autosize",
+      "WLT",
+      "addAlert",
+      "increaseLoading",
+      "decreaseLoading",
+      "initHighlight",
+      "Prism",
+      "interpolate"
+    ]
+  },
+  "json": {
+    "formatter": {
+      "enabled": false
+    }
+  },
+  "css": {
+    "linter": {
+      "enabled": true
+    },
+    "formatter": {
+      "enabled": true
+    }
   }
 }

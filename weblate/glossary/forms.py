@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -9,9 +13,13 @@ from django.utils.translation import gettext
 from weblate.trans.forms import NewBilingualGlossaryUnitForm
 from weblate.trans.models import Translation, Unit
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models.translation import NewUnitParams
+
 
 class CommaSeparatedIntegerField(forms.Field):
-    def to_python(self, value):
+    def to_python(self, value) -> list[int]:
         if not value:
             return []
 
@@ -22,7 +30,7 @@ class CommaSeparatedIntegerField(forms.Field):
 
 
 class GlossaryModelChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
+    def label_from_instance(self, obj) -> str:
         return obj.component.name
 
 
@@ -44,57 +52,48 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
             "translation": GlossaryModelChoiceField,
         }
 
-    def __init__(
-        self, unit, user, data=None, instance=None, initial=None, **kwargs
-    ) -> None:
+    def __init__(self, unit: Unit, user: User, data: dict | None = None) -> None:
+        self.unit = unit
         translation = unit.translation
-        component = translation.component
-        glossaries = Translation.objects.filter(
+        self.glossaries = Translation.objects.filter(
             language=translation.language,
-            component__in=component.project.glossaries,
+            component__in=translation.component.project.glossaries,
             component__manage_units=True,
         )
         exclude = [
             glossary.pk
-            for glossary in glossaries
+            for glossary in self.glossaries
             if not user.has_perm("unit.add", glossary)
         ]
         if exclude:
-            glossaries = glossaries.exclude(pk__in=exclude)
+            self.glossaries = self.glossaries.exclude(pk__in=exclude)
 
-        if not instance and not initial:
-            initial = {}
-        if initial is not None and unit.is_source:
-            initial["terminology"] = True
-        if initial is not None and "glossary" not in initial and len(glossaries) == 1:
-            initial["translation"] = glossaries[0]
-        kwargs["auto_id"] = "id_add_term_%s"
         super().__init__(
             translation=translation,
             user=user,
             data=data,
-            instance=instance,
-            initial=initial,
-            **kwargs,
+            auto_id="id_add_term_%s",
         )
-        self.fields["translation"].queryset = glossaries
+
+    def patch_fields(self) -> None:
+        super().patch_fields()
+        self.fields["translation"].queryset = self.glossaries
         self.fields["translation"].label = gettext("Glossary")
-        if translation.is_source:
+        if len(self.glossaries) == 1:
+            self.fields["translation"].initial = self.glossaries[0]
+
+        if self.unit.is_source:
+            self.fields["terminology"].initial = True
+
+        if self.unit.translation.is_source:
             self.fields["target"].required = False
             self.fields["target"].widget = forms.HiddenInput()
 
     def clean(self) -> None:
-        translation = self.cleaned_data.get("translation")
-        if not translation:
-            return
-        try:
-            data = self.as_kwargs()
-        except KeyError:
-            # Probably some fields validation has failed
-            return
-        translation.validate_new_unit_data(**data)
+        self.translation = self.cleaned_data.get("translation")
+        super().clean()
 
-    def as_kwargs(self):
+    def as_kwargs(self) -> NewUnitParams:
         result = super().as_kwargs()
         if self.cleaned_data["translation"].is_source:
             result["target"] = result["source"]

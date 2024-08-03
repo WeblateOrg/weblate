@@ -2,12 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.utils.html import escape, format_html, format_html_join
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 class GlossaryCheck(TargetCheck):
@@ -18,7 +24,7 @@ class GlossaryCheck(TargetCheck):
         "The translation does not follow terms defined in a glossary."
     )
 
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit):
         from weblate.glossary.models import get_glossary_terms
 
         forbidden = set()

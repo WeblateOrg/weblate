@@ -2,10 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import multiprocessing
 import time
 from random import randint
 from threading import Thread
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -14,6 +17,9 @@ from django.urls import reverse
 
 from weblate.accounts.models import AuditLog
 from weblate.runner import main
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 CHECK_CACHE_KEY = "weblate-health-check"
 
@@ -53,7 +59,7 @@ class ManageMiddleware:
         thread = Thread(target=process.join)
         thread.start()
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         if request.session.pop("redirect_to_donate", False):
             AuditLog.objects.create(request.user, request, "donate")
             return redirect(reverse("donate"))

@@ -176,6 +176,12 @@ class TTKitUnit(TranslationUnit):
             flags.merge(self.template.xmlelement)
         return flags.format()
 
+    def clone_template(self) -> None:
+        super().clone_template()
+
+        # do not copy notes from the template (#11133)
+        self.unit.removenotes()
+
     def untranslate(self, language) -> None:
         target: str | list[str]
         target = [""] * language.plural.number if self.mainunit.hasplural() else ""
@@ -395,6 +401,8 @@ class TTKitFormat(TranslationFormat):
         # Monolingual translation
         if self.is_template or self.template_store:
             unit.setid(key)
+            if isinstance(unit, csvunit):
+                unit.setcontext(key)
             target = source
             source = self.create_unit_key(key, source)
         # Bilingual translation
@@ -751,7 +759,7 @@ class XliffUnit(TTKitUnit):
 
         # Use source for monolingual base if target is not set
         if self.unit.target is None:
-            if self.parent.is_template:
+            if self.parent.is_template or isinstance(self.unit, csvunit):
                 return get_string(self.unit.source)
             return ""
 
@@ -989,7 +997,27 @@ class CSVUnit(MonolingualSimpleUnit):
 
     @cached_property
     def target(self):
-        return self.unescape_csv(super().target)
+        if (
+            not self.parent.is_template
+            and self.template is not None
+            and self.unit is not None
+            and "target" not in self.parent.store.fieldnames
+        ):
+            # Use source if target is not stored
+            target = get_string(self.unit.source)
+        else:
+            target = super().target
+        return self.unescape_csv(target)
+
+    def set_target(self, target: str | list[str]) -> None:
+        super().set_target(target)
+        if (
+            self.template is not None
+            and not self.parent.is_template
+            and "target" not in self.parent.store.fieldnames
+        ):
+            # Update source for bilingual as CSV fields can contain just source
+            self.unit.source = self.unit.target
 
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
@@ -1056,6 +1084,7 @@ class BasePoFormat(TTKitFormat):
     loader = pofile
     plural_preference = None
     supports_plural: bool = True
+    store: pofile
 
     @classmethod
     def get_plural(cls, language, store=None):
@@ -1496,6 +1525,7 @@ class GoI18JSONFormat(JSONFormat):
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
     autoload: tuple[str, ...] = ()
+    new_translation = "[]\n"
     supports_plural: bool = True
 
 
@@ -1612,14 +1642,22 @@ class CSVFormat(TTKitFormat):
         header = next(reader)
         fileobj.close()
 
-        # Check if the file is not two column only
+        # Check if the file is not two column only, in that case translate-toolkit detection
+        # wrongly assumes three column files
         if len(header) != 2:
             return store
 
-        return self.parse_simple_csv(content, filename)
+        return self.parse_simple_csv(content, filename, header=header)
 
-    def parse_simple_csv(self, content, filename):
-        result = self.get_store_instance(fieldnames=["source", "target"])
+    def parse_simple_csv(self, content, filename, header: None | list[str] = None):
+        fieldnames = ["source", "target"]
+        if header and all(
+            field in {"source", "target", "context", "id"} for field in header
+        ):
+            fieldnames = header
+        elif self.is_template or self.template_store:
+            fieldnames = ["context", "target"]
+        result = self.get_store_instance(fieldnames=fieldnames)
         result.parse(content, sample_length=None)
         result.filename = filename
         return result

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from appconf import AppConf
 from django.conf import settings
@@ -13,6 +13,9 @@ from django.db import models
 
 from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 if "wllegal" in settings.INSTALLED_APPS:
     import wllegal.models
@@ -56,7 +59,7 @@ class Agreement(models.Model):
     def is_current(self):
         return self.tos == self.current_tos_date()
 
-    def make_current(self, request) -> None:
+    def make_current(self, request: AuthenticatedHttpRequest) -> None:
         if not self.is_current():
             AuditLog.objects.create(
                 self.user, request, "tos", date=self.current_tos_date().isoformat()

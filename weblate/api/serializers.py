@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from copy import copy
-from typing import TypeVar, cast
+from typing import TYPE_CHECKING, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -14,7 +14,7 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.auth.models import AuthenticatedHttpRequest, Group, Permission, Role, User
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
@@ -31,6 +31,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
@@ -41,6 +42,9 @@ from weblate.utils.views import (
     get_form_errors,
     guess_filemask_from_doc,
 )
+
+if TYPE_CHECKING:
+    from rest_framework.request import Request
 
 _MT = TypeVar("_MT", bound=Model)  # Model Type
 
@@ -78,7 +82,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         super().__init__(**kwargs)
         self.lookup_field = lookup_field
 
-    def get_url(self, obj, view_name, request, format):  # noqa: A002
+    def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # noqa: A002
         """
         Given an object, return the URL that hyperlinks to the object.
 
@@ -389,6 +393,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     labels_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-labels", lookup_field="slug"
     )
+    credits_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-credits", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -406,6 +413,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "changes_list_url",
             "languages_url",
             "labels_url",
+            "credits_url",
             "translation_review",
             "source_review",
             "set_language_team",
@@ -446,7 +454,7 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
     def get_attribute(self, instance):
         return instance
 
-    def get_url(self, obj, view_name, request, format):  # noqa: A002
+    def get_url(self, obj, view_name, request: Request, format):  # noqa: A002
         if not obj.in_progress():
             return None
         return super().get_url(obj, view_name, request, format)
@@ -472,6 +480,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
     )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
+    )
+    credits_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-credits", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
     source_language = LanguageSerializer(required=False)
@@ -546,6 +557,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "links_url",
             "changes_list_url",
             "task_url",
+            "credits_url",
             "new_lang",
             "language_code_style",
             "push",
@@ -883,7 +895,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
             return ""
         return value
 
-    def check_perms(self, user, obj) -> None:
+    def check_perms(self, user: User, obj) -> None:
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
             raise serializers.ValidationError(
@@ -1131,7 +1143,7 @@ class NewUnitSerializer(serializers.Serializer):
         required=False,
     )
 
-    def as_kwargs(self, data=None) -> dict[str, str | None]:
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         raise NotImplementedError
 
     def validate(self, attrs):
@@ -1148,15 +1160,15 @@ class MonolingualUnitSerializer(NewUnitSerializer):
     key = serializers.CharField()
     value = PluralField()
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         if data is None:
             data = self.validated_data
-        return {
-            "context": data["key"],
-            "source": data["value"],
-            "target": None,
-            "state": data.get("state", None),
-        }
+        return NewUnitParams(
+            context=data["key"],
+            source=data["value"],
+            target=None,
+            state=data.get("state", None),
+        )
 
 
 class BilingualUnitSerializer(NewUnitSerializer):
@@ -1164,15 +1176,15 @@ class BilingualUnitSerializer(NewUnitSerializer):
     source = PluralField()
     target = PluralField()
 
-    def as_kwargs(self, data=None):
+    def as_kwargs(self, data: dict | None = None) -> NewUnitParams:
         if data is None:
             data = self.validated_data
-        return {
-            "context": data.get("context", ""),
-            "source": data["source"],
-            "target": data.get("target", ""),
-            "state": data.get("state", None),
-        }
+        return NewUnitParams(
+            context=data.get("context", ""),
+            source=data["source"],
+            target=data.get("target", ""),
+            state=data.get("state", None),
+        )
 
 
 class BilingualSourceUnitSerializer(BilingualUnitSerializer):

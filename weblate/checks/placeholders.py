@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING, Any, Literal
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
@@ -11,6 +14,9 @@ from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag, single_value_flag
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 def parse_regex(val):
@@ -29,7 +35,7 @@ class PlaceholderCheck(TargetCheckParametrized):
     def param_type(self):
         return multi_value_flag(lambda x: x)
 
-    def get_value(self, unit):
+    def get_value(self, unit: Unit):
         return re.compile(
             "|".join(
                 re.escape(param) if isinstance(param, str) else param.pattern
@@ -58,7 +64,15 @@ class PlaceholderCheck(TargetCheckParametrized):
             {found_fold[v] for v in found_set - expected_set},
         )
 
-    def check_target_params(self, sources, targets, unit, value):
+    def check_target_unit(  # type: ignore[override]
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> Literal[False] | dict[str, Any]:
+        # TODO: this is type annotation hack, instead the check should have a proper return type
+        return super().check_target_unit(sources, targets, unit)  # type: ignore[return-value]
+
+    def check_target_params(  # type: ignore[override]
+        self, sources: list[str], targets: list[str], unit: Unit, value
+    ) -> Literal[False] | dict[str, Any]:
         expected = set(self.get_matches(value, sources[0]))
         if not expected and len(sources) > 1:
             expected = set(self.get_matches(value, sources[-1]))
@@ -89,7 +103,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             return {"missing": missing, "extra": extra}
         return False
 
-    def check_highlight(self, source, unit):
+    def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
 
@@ -129,15 +143,17 @@ class RegexCheck(TargetCheckParametrized):
     def param_type(self):
         return single_value_flag(parse_regex)
 
-    def check_target_params(self, sources, targets, unit, value):
+    def check_target_params(
+        self, sources: list[str], targets: list[str], unit: Unit, value
+    ):
         return any(not value.findall(target) for target in targets)
 
-    def should_skip(self, unit) -> bool:
+    def should_skip(self, unit: Unit) -> bool:
         if super().should_skip(unit):
             return True
         return not self.get_value(unit).pattern
 
-    def check_highlight(self, source, unit):
+    def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
 

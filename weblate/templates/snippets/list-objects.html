@@ -272,7 +272,15 @@
 </tbody>
 </table>
 {% else %}
-<p><em>{% trans "Nothing to list here." %}</em></p>
+<p>
+  <em>
+    {% if empty_message %}
+      {{ empty_message }}
+    {% else %}
+      {% trans "Nothing to list here." %}
+    {% endif %}
+  </em>
+</p>
 
 <p>
   {% if add_link == "translation" %}

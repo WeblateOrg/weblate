@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from copy import copy
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models, transaction
@@ -13,6 +14,7 @@ from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.autofixes import fix_target
+from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.trans.util import join_plural, split_plural
@@ -21,9 +23,20 @@ from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
 
 class SuggestionManager(models.Manager["Suggestion"]):
-    def add(self, unit, target: list[str], request, vote: bool = False, user=None):
+    def add(
+        self,
+        unit,
+        target: list[str],
+        request,
+        vote: bool = False,
+        user=None,
+        raise_exception: bool = True,
+    ):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
 
@@ -38,6 +51,8 @@ class SuggestionManager(models.Manager["Suggestion"]):
             user = request.user if request else get_anonymous()
 
         if unit.translated and unit.target == target:
+            if raise_exception:
+                raise SuggestionSimilarToTranslationError
             return False
 
         same_suggestions = self.filter(target=target, unit=unit)
@@ -86,7 +101,7 @@ class SuggestionQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("-timestamp")
 
-    def filter_access(self, user):
+    def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(
@@ -187,7 +202,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
-    def add_vote(self, request, value) -> None:
+    def add_vote(self, request: AuthenticatedHttpRequest, value) -> None:
         """Add (or updates) vote for a suggestion."""
         if request is None or not request.user.is_authenticated:
             return

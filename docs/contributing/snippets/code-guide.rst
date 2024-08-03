@@ -11,3 +11,6 @@ documenting methods, complex code blocks, or user visible features.
 
 Any new code should utilize :pep:`484` type hints. We're not checking this in
 our CI yet as existing code does not yet include them.
+
+Git commits should follow `Conventional Commits
+<https://www.conventionalcommits.org/>`_ specification.

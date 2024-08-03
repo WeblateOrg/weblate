@@ -497,7 +497,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             Q(change__language__code__iexact="cs")
             & Q(
                 change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
-                - timedelta(days=30)
+                - timedelta(days=90)
             ),
         )
 
@@ -507,7 +507,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             Q(change__project__slug__iexact="test")
             & Q(
                 change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
-                - timedelta(days=30)
+                - timedelta(days=90)
             ),
         )
         self.assert_query(
@@ -515,7 +515,7 @@ class UserQueryParserTest(TestCase, SearchMixin):
             Q(change__component_id__in=[])
             & Q(
                 change__timestamp__date__gte=datetime.now(tz=timezone.utc).date()
-                - timedelta(days=30)
+                - timedelta(days=90)
             ),
         )
 

@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -16,6 +18,9 @@ from weblate.trans.mixins import CacheKeyMixin, ComponentCategoryMixin, PathMixi
 from weblate.trans.models.change import Change
 from weblate.utils.stats import CategoryStats
 from weblate.utils.validators import validate_slug
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 class CategoryQuerySet(models.QuerySet):
@@ -175,7 +180,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             old = Category.objects.get(pk=self.id)
             self.check_rename(old, validate=True)
 
-    def get_child_components_access(self, user):
+    def get_child_components_access(self, user: User):
         """List child components."""
         return self.component_set.filter_access(user).prefetch().order()
 

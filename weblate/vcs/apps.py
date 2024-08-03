@@ -1,11 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.apps import AppConfig
-from django.core.checks import Warning, register
+from django.core.checks import CheckMessage, register
+from django.core.checks import Warning as DjangoWarning
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
@@ -16,11 +19,19 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.ssh import ensure_ssh_key
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Sequence
+
 GIT_ERRORS: list[str] = []
 
 
 @register(deploy=True)
-def check_gpg(app_configs, **kwargs):
+def check_gpg(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     from weblate.vcs.gpg import get_gpg_public_key
 
     get_gpg_public_key()
@@ -32,20 +43,32 @@ def check_gpg(app_configs, **kwargs):
 
 
 @register
-def check_vcs(app_configs, **kwargs):
+def check_vcs(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     from weblate.vcs.models import VCS_REGISTRY
 
     message = "Failure in loading VCS module for {}: {}"
     return [
         weblate_check(
-            f"weblate.W033.{key}", message.format(key, value.strip()), Warning
+            f"weblate.W033.{key}",
+            message.format(key, str(value).strip()),
+            DjangoWarning,
         )
         for key, value in VCS_REGISTRY.errors.items()
     ]
 
 
 @register(deploy=True)
-def check_git(app_configs, **kwargs):
+def check_git(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     template = "Failure in configuring Git: {}"
     return [
         weblate_check("weblate.C035", template.format(message))
@@ -54,7 +77,12 @@ def check_git(app_configs, **kwargs):
 
 
 @register
-def check_vcs_credentials(app_configs, **kwargs):
+def check_vcs_credentials(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
     from weblate.vcs.models import VCS_REGISTRY
 
     return [
@@ -73,7 +101,7 @@ class VCSConfig(AppConfig):
         super().ready()
         post_migrate.connect(self.post_migrate, sender=self)
 
-    def post_migrate(self, sender, **kwargs) -> None:
+    def post_migrate(self, sender: AppConfig, **kwargs) -> None:
         ensure_ssh_key()
         home = data_dir("home")
 

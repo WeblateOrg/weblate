@@ -2,12 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from operator import itemgetter
+from typing import TYPE_CHECKING
 
 from weblate.checks.models import CHECKS
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
-def highlight_pygments(source: str, unit):
+
+def highlight_pygments(source: str, unit: Unit):
     """
     Highlight syntax characters using pygments.
 

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-06-18 12:40+0000\n"
+"PO-Revision-Date: 2024-08-02 22:58+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -877,7 +877,7 @@ msgstr "Postoje nedovršeni izrazi"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
-msgstr "Ova lozinka sadrži samo razmakne znakove."
+msgstr "Ova lozinka sadrži samo razmake."
 
 #: weblate/accounts/password_validation.py:26
 msgid "This password is only a single character."
@@ -885,9 +885,7 @@ msgstr "Ova lozinka sadrži samo jedan znak."
 
 #: weblate/accounts/password_validation.py:32
 msgid "Your password can't consist of a single character or only whitespace."
-msgstr ""
-"Tvoja lozinka ne smije biti samo jedan znak ili sadržati samo razmakne "
-"znakove."
+msgstr "Tvoja lozinka ne smije sadržati samo jedan znak ili samo razmak."
 
 #: weblate/accounts/password_validation.py:55
 msgid "Can not reuse previously used password."
@@ -1687,7 +1685,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:224
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Aktualiziraj PO datoteke za izjednačavanje s POT datotekom (msgmerge)"
+msgstr "Aktualiziraj PO datoteke za poklapanje s POT datotekom (msgmerge)"
 
 #: weblate/addons/gettext.py:226
 msgid ""
@@ -2165,7 +2163,7 @@ msgstr "Upravljaj popisima komponenti"
 #: weblate/auth/data.py:141
 #: weblate/templates/snippets/project/billing-trial.html:7
 msgid "Manage billing"
-msgstr "Upravljaj naplatom"
+msgstr "Upravljaj naplatama"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
@@ -3061,7 +3059,7 @@ msgstr "Automatski prepoznaj Java MessageFormat"
 #: weblate/templates/snippets/unit-readonly-badge.html:12
 #: weblate/templates/translate.html:232
 msgid "Read only"
-msgstr "Samo za čitanje"
+msgstr "Samo-za-čitanje"
 
 #: weblate/checks/flags.py:45
 msgid "Strict unchanged check"
@@ -3133,22 +3131,22 @@ msgstr "Fluent vrsta"
 #: weblate/checks/flags.py:275
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Oznaka za neispravan prijevod: „%s”"
+msgstr "Neispravna prevodilačka oznaka: „%s”"
 
 #: weblate/checks/flags.py:279
 #, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "Oznaka prijevoda nema parametre: „%s”"
+msgstr "Prevodilačka oznaka nema nijedan parametar: „%s”"
 
 #: weblate/checks/flags.py:285
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Krivi parametri za oznaku za prijevod: „%s”"
+msgstr "Krivi parametri za prevodilačku oznaku: „%s”"
 
 #: weblate/checks/flags.py:289
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Nedostaju parametri za oznaku za prijevod: „%s”"
+msgstr "Nedostaju parametri za prevodilačku oznaku: „%s”"
 
 #: weblate/checks/fluent/inner_html.py:127
 #, python-brace-format
@@ -3984,8 +3982,8 @@ msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"Identifikator u provjerama za biranje ove grupe fontova. Nemoj koristiti "
-"razmakne znakove i posebne znakove."
+"Identifikator koji ćeš koristiti u provjerama za biranje ove grupe fontova. "
+"Nemoj koristiti razmake i posebne znakove."
 
 #: weblate/fonts/models.py:112 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -4410,7 +4408,7 @@ msgstr "Tri"
 #: weblate/templates/snippets/info.html:17
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Language code"
-msgstr "Kôd jezika"
+msgstr "Kod jezika"
 
 #: weblate/lang/models.py:571 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
@@ -4964,7 +4962,7 @@ msgstr "OpenAI model"
 #: weblate/machinery/forms.py:304
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Uloga prevodioca"
+msgstr "Prevodilac"
 
 #: weblate/machinery/forms.py:308
 msgid ""
@@ -4982,7 +4980,7 @@ msgstr "Stil prevodioca"
 #: weblate/machinery/forms.py:319
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr "Opiši stil prijevoda. Na primjer: „Koristi neformalan jezik.”"
+msgstr "Opiši stil prijevoda. Na primjer: „Koristi neformalni jezik.”"
 
 #: weblate/machinery/views.py:393
 msgid "Service is currently not available."
@@ -8433,11 +8431,11 @@ msgstr "Izrađeno %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
-msgstr "Tvoja tarifa je istekla i svi projekti u njoj su uklonjeni."
+msgstr "Tvoja je tarifa istekla i svi projekti u njoj su uklonjeni."
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid "Your trial period is going to expire in less than a week."
-msgstr "Probno razdoblje isteći će za manje od tjedan dana."
+msgstr "Tvoje probno razdoblje će isteči za manje od tjedan dana."
 
 #: weblate/templates/mail/billing_expired.html:12
 msgid ""
@@ -8458,7 +8456,7 @@ msgstr ""
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
-msgstr "Tvoja tarifa je istekla. Obnovi je ako i dalje želiš koristiti uslugu."
+msgstr "Tvoja je tarifa istekla. Obnovi je ako i dalje želiš koristiti uslugu."
 
 #: weblate/templates/mail/billing_expired.html:23
 msgid "This billing plan covers the following projects:"
@@ -8485,7 +8483,7 @@ msgstr "Svi projekti koji su pokriveni ovom tarifom su uklonjeni."
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
-msgstr "Ako ne platiš, svi projekti unutar ove tarife uklonit će se %(date)s."
+msgstr "Ako ne platiš, svi projekti unutar ove tarife će se ukloniti %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
 #, python-format
@@ -8510,7 +8508,7 @@ msgstr "Tvoje probno razdoblje će uskoro isteći"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
-msgstr "Tvoja tarifa je istekla"
+msgstr "Tvoja je tarifa istekla"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -8657,8 +8655,7 @@ msgstr "Jezik je dodan"
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
-msgstr ""
-"%(user)s je zatražio/la novi jezik za %(component)s pri %(site_title)s."
+msgstr "%(user)s je zatražio/la novi jezik za %(component)s na %(site_title)su."
 
 #: weblate/templates/mail/new_language.html:16
 msgid ""
@@ -8800,7 +8797,7 @@ msgstr ""
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid "Report"
-msgstr "Izvještaj"
+msgstr "Prijavi"
 
 #: weblate/templates/mail/shared-registration.html:3
 msgid ""
@@ -10066,7 +10063,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid "Libre project with open-source code"
-msgstr "Libre projekt s otvorenim kodom"
+msgstr "Slobodan projekt s otvorenim kodom"
 
 #: weblate/templates/snippets/libre-basic.html:9
 #, python-format
@@ -10075,10 +10072,9 @@ msgid ""
 "%(link_osi_start)sapproved by OSI%(link_end)s or "
 "%(link_fsf_start)srecognized as libre by FSF%(link_end)s."
 msgstr ""
-"Prevedeni sadržaj mora biti objavljen pod licencom koji je odobren na osnovi "
-"%(link_osi_start)sinicijative otvorenog koda (OSI) %(link_end)s ili koji "
-"%(link_fsf_start)szaklada slobodnog softvera (FSF) tumač kao "
-"slobodni%(link_end)s."
+"Prevedeni sadržaj mora biti objavljen pod licencom %(link_osi_start)s koju "
+"odobrava inicijativa otvorenog koda (OSI) %(link_end)s ili %(link_fsf_start)"
+"s koju FSF%(link_end)s priznaje kao slobodnu licencu."
 
 #: weblate/templates/snippets/libre-basic.html:10
 msgid ""
@@ -10098,7 +10094,8 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:12
 msgid "Non-code projects are welcome as well."
-msgstr "Projekti bez koda su također dobrodošli."
+msgstr ""
+"Projekti bez koda (npr. dokumentacija, slike itd.) su također dobrodošli."
 
 #: weblate/templates/snippets/libre-basic.html:15
 msgid "Project approval"
@@ -12145,7 +12142,7 @@ msgstr "Izostavnici u Java MessageFormatu"
 
 #: weblate/trans/autofixes/whitespace.py:21
 msgid "Trailing and leading whitespace"
-msgstr "Završni i početni razmakni znakovi"
+msgstr "Završni i početni razmaci"
 
 #: weblate/trans/context_processors.py:132
 msgid "Hosted Weblate, the place to localize your software project."
@@ -12720,7 +12717,7 @@ msgstr "Neprevodiv pojam"
 
 #: weblate/trans/forms.py:2508
 msgid "State to set"
-msgstr "Postavi stanje"
+msgstr "Postavljanje stanja"
 
 #: weblate/trans/forms.py:2509
 msgid "Do not change"
@@ -12728,19 +12725,19 @@ msgstr "Ne mijenjaj"
 
 #: weblate/trans/forms.py:2512
 msgid "Translation flags to add"
-msgstr "Dodaj prevodilačke oznake"
+msgstr "Dodavanje prevodilačkih oznaka"
 
 #: weblate/trans/forms.py:2515
 msgid "Translation flags to remove"
-msgstr "Ukloni prevodilačke oznake"
+msgstr "Uklanjanje prevodilačkih oznaka"
 
 #: weblate/trans/forms.py:2519
 msgid "Labels to add"
-msgstr "Dodaj etikete"
+msgstr "Dodavanje etiketa"
 
 #: weblate/trans/forms.py:2525
 msgid "Labels to remove"
-msgstr "Ukloni etikete"
+msgstr "Uklanjanje etiketa"
 
 #: weblate/trans/forms.py:2570
 msgid "I accept the contributor agreement"
@@ -13305,7 +13302,7 @@ msgstr "Dodavanje jezika"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:451
 msgid "Language requested"
-msgstr "Zahtijevanje jezika"
+msgstr "Zatražen jezik"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:453
@@ -15433,7 +15430,7 @@ msgstr "Odobreno"
 #: weblate/utils/state.py:21
 msgctxt "String state"
 msgid "Read only"
-msgstr "Samo za čitanje"
+msgstr "Samo-za-čitanje"
 
 #: weblate/utils/state.py:47
 msgctxt "String state"

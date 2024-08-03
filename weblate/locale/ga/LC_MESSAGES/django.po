@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-07-13 21:09+0000\n"
-"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
+"PO-Revision-Date: 2024-08-02 16:26+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
@@ -54,11 +54,11 @@ msgstr "Ainm iomlán"
 
 #: weblate/accounts/forms.py:122
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Úsáidtear ainm freisin i gceangaltas rialaithe leagan."
 
 #: weblate/accounts/forms.py:186 weblate/accounts/models.py:623
 msgid "Commit e-mail"
-msgstr ""
+msgstr "Tiomantas r-phost"
 
 #: weblate/accounts/forms.py:187
 msgid "Use account e-mail address"
@@ -69,6 +69,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are committed by Weblate."
 msgstr ""
+"Úsáidtear i gceangaltas rialaithe leagan. Fanfaidh an seoladh sa stór go deo "
+"nuair a bheidh athruithe geallta ag Weblate."
 
 #: weblate/accounts/forms.py:221 weblate/accounts/models.py:617
 msgid "Public e-mail"
@@ -84,16 +86,16 @@ msgid "Component list: %s"
 msgstr "Liosta na ngnéithe: %s"
 
 #: weblate/accounts/forms.py:356
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Account e-mail"
-msgstr "Do r-phost"
+msgstr "Ríomhphost cuntais"
 
 #: weblate/accounts/forms.py:358
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
+"Úsáidtear é le haghaidh fógraí ríomhphoist agus mar r-phost geallta mura "
+"bhfuil sé cumraithe thíos."
 
 #: weblate/accounts/forms.py:403
 msgid "Subject"
@@ -188,7 +190,7 @@ msgstr "Tá an cuntas seo neamhghníomhach."
 
 #: weblate/accounts/forms.py:729
 msgid "Component wide notifications"
-msgstr ""
+msgstr "Fógraí ar fud na Comhpháirte"
 
 #: weblate/accounts/forms.py:734
 msgid "Translation notifications"
@@ -196,7 +198,7 @@ msgstr "Fógraí aistriúcháin"
 
 #: weblate/accounts/forms.py:753
 msgid "Use default setting"
-msgstr ""
+msgstr "Úsáid an socrú réamhshocraithe"
 
 #: weblate/accounts/forms.py:785
 msgid "Other projects"
@@ -206,13 +208,13 @@ msgstr "Tionscadail eile"
 #: weblate/templates/accounts/profile.html:68
 #: weblate/templates/accounts/user.html:151
 msgid "Watched projects"
-msgstr ""
+msgstr "Féachadh ar thionscadail"
 
 #: weblate/accounts/forms.py:789 weblate/accounts/models.py:520
 #: weblate/templates/accounts/user.html:150
 #: weblate/templates/dashboard/user.html:27
 msgid "Managed projects"
-msgstr ""
+msgstr "Tionscadail bainistithe"
 
 #: weblate/accounts/forms.py:791
 msgid "Project: {}"
@@ -330,17 +332,15 @@ msgstr "Gabhálacha scáileáin uaslódáilte"
 
 #: weblate/accounts/forms.py:910
 msgid "Chosen sorting is not supported."
-msgstr ""
+msgstr "Ní thacaítear leis an sórtáil roghnaithe."
 
 #: weblate/accounts/forms.py:926
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
-msgstr "Cuir úsáideoir i ngrúpa"
+msgstr "Cuir úsáideoir le foireann"
 
 #: weblate/accounts/forms.py:938
 msgid "Add team"
-msgstr ""
+msgstr "Cuir foireann leis"
 
 #: weblate/accounts/models.py:143
 msgid "Password changed."
@@ -372,7 +372,7 @@ msgstr "Deimhníodh athshocrú an phasfhocail agus díchumasaíodh an pasfhocal.
 #: weblate/accounts/models.py:149
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr ""
+msgstr "Síniú isteach cumraithe ag úsáid {method} ({name})."
 
 #: weblate/accounts/models.py:150
 #, python-brace-format
@@ -447,39 +447,35 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Chruthaigh an córas úsáideoir chun údar na n-aistriúchán arna uaslódáil ag "
+"úsáideoir eile a rianú."
 
 #: weblate/accounts/models.py:170
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Bacadh an rochtain ar an tionscadal {project}"
+msgstr "Cuireadh bac ar rochtain ar thionscadal {project}."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "Chumasaigh riarthóir an úsáideoir"
+msgstr "Chuir an riarthóir ar chumas an úsáideora."
 
 #: weblate/accounts/models.py:172
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "Díchumasaigh riarthóir an úsáideoir"
+msgstr "Dhíchumasaigh an riarthóir an t-úsáideoir."
 
 #: weblate/accounts/models.py:173
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Taispeánadh athbhreithniú stádais tacaíochta leathbhliantúil."
 
 #: weblate/accounts/models.py:174
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Fuair tú cuireadh ó {username} chuig {site_title}."
+msgstr "Cuireadh úsáideoir leis an bhfoireann {team} trí {username}."
 
 #: weblate/accounts/models.py:175
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Baineadh an t-úsáideoir den fhoireann {team} le {username}."
 
 #: weblate/accounts/models.py:180
 msgid "Configured password to sign in."
@@ -503,10 +499,8 @@ msgid "Invited to {project} by {username}."
 msgstr "Tugadh cuireadh go {project} ag {username}."
 
 #: weblate/accounts/models.py:189
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Athraíodh an pasfhocal."
+msgstr "Pasfhocal cumraithe."
 
 #: weblate/accounts/models.py:195
 msgid "To restore access to your account, please reset your password."
@@ -515,11 +509,15 @@ msgstr "Le rochtain ar do chuntas a fháil ar ais, athshocraigh do phasfhocal."
 #: weblate/accounts/models.py:198
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Déan teagmháil le cothaitheoirí tionscadail le do thoil má bhraitheann tú go "
+"bhfuil sé seo míchuí."
 
 #: weblate/accounts/models.py:201 weblate/accounts/models.py:204
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
+"Más tusa a bhí ann, bain úsáid as athshocrú pasfhocail chun rochtain a fháil "
+"ar do chuntas arís."
 
 #: weblate/accounts/models.py:321 weblate/templates/accounts/profile.html:314
 #: weblate/templates/accounts/user.html:242
@@ -579,7 +577,7 @@ msgstr "Folaigh aistriúcháin déanta ar an deais"
 
 #: weblate/accounts/models.py:443
 msgid "Show secondary translations in the Zen mode"
-msgstr ""
+msgstr "Taispeáin aistriúcháin tánaisteacha sa mhód Zen"
 
 #: weblate/accounts/models.py:447
 msgid "Hide source if a secondary translation exists"
@@ -595,10 +593,13 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
+"Cuir isteach URL saincheaptha le húsáid mar nasc leis an gcód foinse. Is "
+"féidir leat {{branch}} a úsáid le haghaidh brainse, {{filename}} agus "
+"{{line}} mar chomhadainm agus áitshealbhóirí líne."
 
 #: weblate/accounts/models.py:465
 msgid "Translation editor mode"
-msgstr ""
+msgstr "Modh eagarthóir aistriúcháin"
 
 #: weblate/accounts/models.py:467
 msgid "Full editor"
@@ -610,7 +611,7 @@ msgstr "Modh zen"
 
 #: weblate/accounts/models.py:475
 msgid "Zen editor mode"
-msgstr ""
+msgstr "Zen mód eagarthóir"
 
 #: weblate/accounts/models.py:477
 msgid "Top to bottom"
@@ -630,18 +631,24 @@ msgid ""
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
+"Is féidir leat carachtair mhéarchláir amhairc speisialta breise a shonrú a "
+"thaispeánfar agus tú ag aistriú. Féadfaidh sé a bheith úsáideach do "
+"charachtair a úsáideann tú go minic, ach is deacair iad a chlóscríobh ar do "
+"mhéarchlár."
 
 #: weblate/accounts/models.py:494
 msgid "Number of nearby strings"
-msgstr ""
+msgstr "Líon teaghráin in aice láimhe"
 
 #: weblate/accounts/models.py:498
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
+"Líon na teaghráin in aice láimhe le taispeáint i ngach treo san eagarthóir "
+"iomlán."
 
 #: weblate/accounts/models.py:502
 msgid "Automatically watch projects on contribution"
-msgstr ""
+msgstr "Féach go huathoibríoch ar thionscadail ar ranníocaíocht"
 
 #: weblate/accounts/models.py:505
 msgid ""
@@ -667,7 +674,7 @@ msgstr "Aistriúcháin molta"
 
 #: weblate/accounts/models.py:533
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Amharc painéal réamhshocraithe"
 
 #: weblate/accounts/models.py:539
 msgid "Default component list"
@@ -696,6 +703,8 @@ msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
+"Is ardán é Liberapay chun airgead a bhronnadh ar fhoirne, eagraíochtaí agus "
+"daoine aonair."
 
 #: weblate/accounts/models.py:571
 msgid "Fediverse URL"
@@ -706,14 +715,17 @@ msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
+"Nasc le do phróifíl Fediverse le haghaidh seirbhísí cónasctha ar nós "
+"Mastodon nó diaspóra*."
 
 #: weblate/accounts/models.py:580
 msgid "Code site URL"
-msgstr ""
+msgstr "Cód URL an tsuímh"
 
 #: weblate/accounts/models.py:583
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
+"Nasc le do phróifíl cód le haghaidh seirbhísí ar nós Codeberg nó GitLab."
 
 #: weblate/accounts/models.py:588
 msgid "GitHub username"
@@ -744,10 +756,13 @@ msgstr "Comhlacht"
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr ""
+"Roghnaigh liosta na gcomhpháirteanna is mian leat a thaispeáint ar an deais."
 
 #: weblate/accounts/models.py:692
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
+"Níl aon éifeacht ag roghnú liosta na gcomhpháirteanna nuair nach "
+"dtaispeántar é ar an deais."
 
 #: weblate/accounts/models.py:825 weblate/trans/views/edit.py:362
 #, python-format
@@ -760,7 +775,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:916
 msgid "Please provide an e-mail address for submitting translations."
-msgstr ""
+msgstr "Tabhair seoladh r-phoist le do thoil chun aistriúcháin a chur isteach."
 
 #: weblate/accounts/notifications.py:52
 msgid "No notification"
@@ -768,57 +783,54 @@ msgstr "Fógra ar bith"
 
 #: weblate/accounts/notifications.py:53
 msgid "Instant notification"
-msgstr ""
+msgstr "Fógra ar an toirt"
 
 #: weblate/accounts/notifications.py:54
 msgid "Daily digest"
-msgstr ""
+msgstr "Achoimre laethúil"
 
 #: weblate/accounts/notifications.py:55
 msgid "Weekly digest"
-msgstr ""
+msgstr "Achoimre na seachtaine"
 
 #: weblate/accounts/notifications.py:56
 msgid "Monthly digest"
-msgstr ""
+msgstr "Achoimre míosúil"
 
 #: weblate/accounts/notifications.py:459
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr ""
+msgstr "Rinneadh oibríocht sa stór"
 
 #: weblate/accounts/notifications.py:470
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr ""
+msgstr "Glasáladh nó díghlasáladh an chomhpháirt"
 
 #: weblate/accounts/notifications.py:477
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr ""
+msgstr "Athraíodh an ceadúnas"
 
 #: weblate/accounts/notifications.py:484
 msgctxt "Notification name"
 msgid "Parse error occurred"
-msgstr ""
+msgstr "Tharla earráid pharsála"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Tá teaghrán nua ar fáil le haistriú"
+msgstr "Tá teaghrán ar fáil le haistriú"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr ""
+msgstr "Rinne an rannpháirtí a chéad aistriúchán"
 
 #: weblate/accounts/notifications.py:526
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr ""
+msgstr "Cuireadh moladh leis"
 
 #: weblate/accounts/notifications.py:535
 msgctxt "Notification name"
@@ -4568,14 +4580,14 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:18
 #: weblate/templates/snippets/login-info.html:12
 msgid "Terms of Service"
-msgstr ""
+msgstr "Tearmaí Seirbhís"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:24
 #: weblate/legal/templates/legal/privacy.html:15
 #: weblate/templates/snippets/login-info.html:15
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Beartas Príobháideachais"
 
 #: weblate/legal/templates/legal/cookies.html:27
 msgid "Cookies are used on this site for the following:"
@@ -6859,10 +6871,8 @@ msgid "Yearly price"
 msgstr ""
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgid "Hosting"
 msgid "Hosted strings limit"
-msgstr "Óstáil"
+msgstr "Teorainn teaghráin óstáilte"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
@@ -10138,7 +10148,7 @@ msgstr ""
 
 #: weblate/templates/snippets/suggestions.html:34
 msgid "Accept"
-msgstr "Glac leis"
+msgstr "Glac"
 
 #: weblate/templates/snippets/suggestions.html:36
 msgid "Accept and approve"
@@ -11011,7 +11021,7 @@ msgstr ""
 #: weblate/templates/translate.html:50 weblate/templates/translation.html:204
 #: weblate/templates/zen.html:22
 msgid "Zen"
-msgstr ""
+msgstr "Zen"
 
 #: weblate/templates/translate.html:52 weblate/templates/zen.html:44
 msgid "Configure editor"
@@ -14551,7 +14561,7 @@ msgstr ""
 
 #: weblate/trans/widgets.py:383
 msgid "translated"
-msgstr ""
+msgstr "aistrithe"
 
 #: weblate/trans/widgets.py:418
 msgid "PNG status badge"

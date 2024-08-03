@@ -2,12 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 class ThrottlingMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request: AuthenticatedHttpRequest):
         response = self.get_response(request)
         throttling = request.META.get("throttling_state", None)
         if throttling is not None:

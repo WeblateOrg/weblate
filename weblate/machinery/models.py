@@ -34,7 +34,6 @@ class WeblateConf(AppConf):
         "weblate.machinery.modernmt.ModernMTTranslation",
         "weblate.machinery.mymemory.MyMemoryTranslation",
         "weblate.machinery.netease.NeteaseSightTranslation",
-        "weblate.machinery.tmserver.AmagamaTranslation",
         "weblate.machinery.tmserver.TMServerTranslation",
         "weblate.machinery.yandex.YandexTranslation",
         "weblate.machinery.yandexv2.YandexV2Translation",

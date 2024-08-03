@@ -1,11 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import json
 import os
 import subprocess
 from contextlib import suppress
+from typing import TYPE_CHECKING
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -35,7 +37,6 @@ from weblate.trans.forms import (
     ProjectImportForm,
 )
 from weblate.trans.models import Category, Component, Project
-from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -44,6 +45,10 @@ from weblate.utils.licenses import LICENSE_URLS
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.models.component import ComponentQuerySet
 
 
 class BaseCreateView(CreateView):
@@ -95,7 +100,7 @@ class CreateProject(BaseCreateView):
             "project.add"
         )
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if not self.can_create():
             return redirect("create-project")
         return super().post(request, *args, **kwargs)
@@ -112,7 +117,7 @@ class CreateProject(BaseCreateView):
             ).exists()
         return kwargs
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if self.has_billing:
             from weblate.billing.models import Billing
 
@@ -130,7 +135,7 @@ class ImportProject(CreateProject):
     form_class = ProjectImportForm
     template_name = "trans/project_import.html"
 
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
@@ -172,7 +177,7 @@ class ImportProject(CreateProject):
             kwargs["projectbackup"] = self.projectbackup
         return kwargs
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if "zipfile" in request.FILES and self.projectbackup:
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
@@ -211,6 +216,7 @@ class CreateComponent(BaseCreateView):
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
     form_class: type[ComponentProjectForm] = ComponentInitCreateForm
+    request: AuthenticatedHttpRequest
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -329,7 +335,7 @@ class CreateComponent(BaseCreateView):
         kwargs["stage"] = self.stage
         return kwargs
 
-    def fetch_params(self, request) -> None:
+    def fetch_params(self, request: AuthenticatedHttpRequest) -> None:
         try:
             self.selected_project = int(
                 request.POST.get("project", request.GET.get("project", ""))
@@ -362,7 +368,7 @@ class CreateComponent(BaseCreateView):
             field in self.request.GET for field in self.basic_fields
         )
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if "new_base" in request.POST:
             self.stage = "create"
         elif "discovery" in request.POST:
@@ -450,7 +456,7 @@ class CreateComponentSelection(CreateComponent):
                 result[component.pk] = branches
         return result
 
-    def fetch_params(self, request) -> None:
+    def fetch_params(self, request: AuthenticatedHttpRequest) -> None:
         super().fetch_params(request)
         self.components = (
             Component.objects.filter_access(request.user)
@@ -535,7 +541,7 @@ class CreateComponentSelection(CreateComponent):
 
         return redirect("create-component")
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         if self.origin == "vcs":
             kwargs = {}
             if self.selected_project:

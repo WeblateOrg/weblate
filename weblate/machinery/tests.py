@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 from copy import copy
 from io import StringIO
-from typing import NoReturn
+from typing import TYPE_CHECKING, NoReturn
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 
@@ -54,7 +54,7 @@ from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
 from weblate.machinery.openai import OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
-from weblate.machinery.tmserver import AMAGAMA_LIVE, AmagamaTranslation
+from weblate.machinery.tmserver import TMServerTranslation
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -65,6 +65,11 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
+AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
 GLOSBE_JSON = {
     "result": "ok",
@@ -319,10 +324,16 @@ class BaseMachineTranslationTest(TestCase):
         self.mock_response()
         if machine is None:
             machine = self.get_machine()
-        unit = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
-        machine.batch_translate([unit])
-        self.assertGreater(unit.machinery["quality"][0], -1)
-        self.assertIn("translation", unit.machinery)
+        unit1 = MockUnit(
+            code=self.SUPPORTED, source=self.SOURCE_TRANSLATED, target="target"
+        )
+        unit2 = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
+        unit2.translated = False
+        machine.batch_translate([unit1, unit2])
+        self.assertGreater(unit1.machinery["quality"][0], -1)
+        self.assertIn("translation", unit1.machinery)
+        self.assertGreater(unit2.machinery["quality"][0], -1)
+        self.assertIn("translation", unit2.machinery)
 
     @responses.activate
     @respx.mock
@@ -738,10 +749,13 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         )
 
 
-class AmagamaTranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS = AmagamaTranslation
+class TMServerTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = TMServerTranslation
     EXPECTED_LEN = 1
     SOURCE_TRANSLATED = "Hello"
+    CONFIGURATION = {
+        "url": AMAGAMA_LIVE,
+    }
 
     def mock_empty(self) -> None:
         responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
@@ -1166,7 +1180,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_formality(self) -> None:
-        def request_callback(request):
+        def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
             self.assertIn("formality", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
@@ -1190,7 +1204,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self) -> None:
-        def request_callback(request):
+        def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
             self.assertIn("glossary_id", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
@@ -1234,7 +1248,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_replacements(self) -> None:
-        def request_callback(request):
+        def request_callback(request: AuthenticatedHttpRequest):
             payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']

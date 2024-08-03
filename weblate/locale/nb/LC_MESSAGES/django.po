@@ -3,13 +3,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Allan Nordhøy <epost@anotheragency.no>, 2023, 2024.
+# ovl-1 <ovl-002@mailinator.com>, 2024.
+# Petter Reinholdtsen <pere-weblate@hungry.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 12:41+0000\n"
-"PO-Revision-Date: 2024-05-26 23:23+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2024-07-28 18:18+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -17,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: weblate/accounts/avatar.py:79
 msgctxt "No known user"
@@ -814,11 +816,9 @@ msgid "Monthly digest"
 msgstr "Månedlig føljetong"
 
 #: weblate/accounts/notifications.py:459
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Streng oppdatert i kodelageret"
+msgstr "Operasjonen ble utført i kodelageret"
 
 #: weblate/accounts/notifications.py:470
 #, fuzzy
@@ -934,11 +934,9 @@ msgid "New alert emerged in a component"
 msgstr "Nytt varsel i %(component)s"
 
 #: weblate/accounts/notifications.py:715
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Kodelageroperasjon"
+msgstr "Kodelageroperasjon feilet"
 
 #: weblate/accounts/notifications.py:782
 #, fuzzy
@@ -1393,8 +1391,8 @@ msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"I utgangspunktet deler gettext lenker på 77 tegn og ved linjeskift. Med "
-"parameteret --no-wrap, deles det kun ved linjeskift."
+"Som standard bryter gettext linjer ved 77 tegn og ved linjeskift. Med "
+"parameteren --no-wrap brytes det bare ved linjeskift."
 
 #: weblate/addons/forms.py:136
 msgid "Keep previous msgids of translated strings"
@@ -7426,11 +7424,8 @@ msgid "Yearly price"
 msgstr "Årspris"
 
 #: weblate/templates/billing/status.html:80
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings limit"
-msgstr "Vertslagrede strenger"
+msgstr "Vertskapsstrengebegrensning"
 
 #: weblate/templates/billing/status.html:85
 msgid "Strings limit"
@@ -10276,7 +10271,7 @@ msgstr "Siste eksterne innsendelse"
 #: weblate/templates/snippets/git-info.html:59
 #, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "%(author)s forfattet %(date)s"
+msgstr "%(author)s forfattet for %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
 #, fuzzy
@@ -12525,10 +12520,8 @@ msgstr "Ord"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Tegnprosent"
+msgstr "Tegn"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -12910,10 +12903,8 @@ msgid "Labeled: {}"
 msgstr "Etikettmerket: {}"
 
 #: weblate/trans/forms.py:157
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid date!"
-msgstr "Ugyldig bilde!"
+msgstr "Ugyldig dato!"
 
 #: weblate/trans/forms.py:163
 #, fuzzy
@@ -14224,66 +14215,48 @@ msgstr "Oversettelseskommentar løst."
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:488
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Forklaring"
+msgstr "Forklaring oppdatert"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:490
-#, fuzzy
-#| msgid "Category"
 msgid "Category removed"
-msgstr "Kategori"
+msgstr "Kategori fjernet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:492
-#, fuzzy
-#| msgid "Category"
 msgid "Category renamed"
-msgstr "Kategori"
+msgstr "Kategori endret navn"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:494
-#, fuzzy
-#| msgid "Category"
 msgid "Category moved"
-msgstr "Kategori"
+msgstr "Kategori flyttet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:496
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Feilaktig fil"
+msgstr "Lagre streng feilet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:498
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the repository"
-msgstr "Streng oppdatert i kodelageret"
+msgstr "Streng lagt til i kodelageret"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:500
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String updated in the upload"
-msgstr "Streng oppdatert i kodelageret"
+msgstr "Streng oppdatert i opplastingen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:502
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "String added in the upload"
-msgstr "Streng oppdatert i kodelageret"
+msgstr "Streng lagt til i opplastingen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:504
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation updated by source upload"
-msgstr "Erstattet fil ved opplasting"
+msgstr "Oversettelse oppdatert gjennom kildeopplasting"
 
 #: weblate/trans/models/change.py:588
 msgid "The component was automatically locked because of an alert."

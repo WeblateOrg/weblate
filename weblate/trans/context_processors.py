@@ -1,8 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import random
+from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -14,6 +16,9 @@ import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError, get_support_status
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 WEBLATE_URL = "https://weblate.org/"
 DONATE_URL = "https://weblate.org/donate/"
@@ -112,7 +117,7 @@ def get_interledger_payment_pointer():
     return random.choice(interledger_payment_pointers)  # noqa: S311
 
 
-def weblate_context(request):
+def weblate_context(request: AuthenticatedHttpRequest):
     """Context processor to inject various useful variables into context."""
     if url_has_allowed_host_and_scheme(request.GET.get("next", ""), allowed_hosts=None):
         login_redirect_url = request.GET["next"]

@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.core.cache import cache
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -15,6 +17,9 @@ from weblate.utils.hash import calculate_checksum
 
 from .models import Setting
 
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
+
 
 @method_decorator(cache_control(max_age=7200), name="get")
 class CustomCSSView(TemplateView):
@@ -22,7 +27,7 @@ class CustomCSSView(TemplateView):
     cache_key = "css:custom"
 
     @classmethod
-    def get_css(cls, request):
+    def get_css(cls, request: AuthenticatedHttpRequest):
         # Request level caching
         if hasattr(request, "weblate_custom_css"):
             return request.weblate_custom_css
@@ -38,7 +43,7 @@ class CustomCSSView(TemplateView):
         request.weblate_custom_css = css
         return css
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         return HttpResponse(content_type="text/css", content=self.get_css(request))
 
     @classmethod
@@ -46,7 +51,7 @@ class CustomCSSView(TemplateView):
         cache.delete(cls.cache_key)
 
     @classmethod
-    def get_hash(cls, request) -> str | None:
+    def get_hash(cls, request: AuthenticatedHttpRequest) -> str | None:
         css = cls.get_css(request)
         if not css:
             return None

@@ -18,7 +18,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.19.0
+  rev: 1.20.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.0']
@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.5.1
+  rev: v0.5.6
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -40,14 +40,8 @@ repos:
   hooks:
   - id: check-hooks-apply
   - id: check-useless-excludes
-- repo: https://github.com/pre-commit/mirrors-prettier
-  rev: v3.1.0
-  hooks:
-  - id: prettier
-    types_or:
-    - css
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.13.0
+  rev: v2.14.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
@@ -67,9 +61,9 @@ repos:
   - id: stylelint
     args: [--formatter=compact]
     additional_dependencies:
-    - stylelint@16.7.0
+    - stylelint@16.8.1
 - repo: https://github.com/fsfe/reuse-tool
-  rev: v4.0.3
+  rev: v3.0.2
   hooks:
   - id: reuse
 - repo: https://github.com/shellcheck-py/shellcheck-py
@@ -77,13 +71,13 @@ repos:
   hooks:
   - id: shellcheck
     require_serial: true
+    args: [-x]
 - repo: https://github.com/biomejs/pre-commit
   rev: v0.4.0
   hooks:
   - id: biome-check
     additional_dependencies:
     - '@biomejs/biome@1.8.3'
-    files: \.js$
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.18
   hooks:

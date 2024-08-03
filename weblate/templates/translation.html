@@ -309,10 +309,11 @@
           <label class="radio-inline">
             <input type="radio" name="new-unit-form-type" id="show-singular" value="singular" checked> {% trans "Singular" %}
           </label>
-          <label class="radio-inline">
-            <input type="radio" name="new-unit-form-type" id="show-plural" value="plural"
-              {% if object.plural.number < 2 %} disabled{% endif %}> {% trans "Plural" %}
-          </label>
+          {% if supports_plural and object.plural.number > 1 %}
+            <label class="radio-inline">
+              <input type="radio" name="new-unit-form-type" id="show-plural" value="plural"> {% trans "Plural" %}
+            </label>
+          {% endif %}
         </div>
         <div class="panel-footer">
           <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
@@ -320,7 +321,7 @@
       </div>
     </form>
     </div>
-    {% if object.plural.number > 1 %}
+    {% if supports_plural and object.plural.number > 1 %}
     <div id="new-plural" class="hidden">
       <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
         <div class="panel panel-default">

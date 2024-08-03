@@ -45,6 +45,13 @@ class ChangesView(PathViewMixin, ListView):
         Unit,
     )
 
+    def get_template_names(self):
+        if digest := self.request.GET.get("digest"):
+            if digest in {"pending_suggestions", "todo_strings"}:
+                return [f"mail/{digest}.html"]
+            return ["mail/digest.html"]
+        return super().get_template_names()
+
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
@@ -101,6 +108,10 @@ class ChangesView(PathViewMixin, ListView):
                 )
 
         context["form"] = self.changes_form
+
+        # Compatibility with digest templates
+        context["changes"] = context["object_list"]
+        context["subject"] = "Digest preview"
 
         return context
 

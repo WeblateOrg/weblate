@@ -9,7 +9,7 @@ Development of Weblate adheres to the `Best Practices of the Linux Foundation's 
 
 .. seealso::
 
-   :ref:`security`
+   Discovered a security issue in Weblate? Please read :ref:`security`.
 
 Security updates
 ----------------

@@ -2,13 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from typing import NoReturn
 
 from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
@@ -28,7 +30,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 class RepoAdminMixin:
     @admin.action(description=gettext_lazy("Commit pending changes"))
-    def force_commit(self, request, queryset) -> None:
+    def force_commit(self, request: AuthenticatedHttpRequest, queryset) -> None:
         """Commit pending changes for selected components."""
         for obj in queryset:
             obj.commit_pending("admin", request)
@@ -37,7 +39,7 @@ class RepoAdminMixin:
         )
 
     @admin.action(description=gettext_lazy("Update VCS repository"))
-    def update_from_git(self, request, queryset) -> None:
+    def update_from_git(self, request: AuthenticatedHttpRequest, queryset) -> None:
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
@@ -50,7 +52,7 @@ class RepoAdminMixin:
         raise NotImplementedError
 
     @admin.action(description=gettext_lazy("Update quality checks"))
-    def update_checks(self, request, queryset) -> None:
+    def update_checks(self, request: AuthenticatedHttpRequest, queryset) -> None:
         """Recalculate checks for selected components."""
         units = self.get_qs_units(queryset)
         for unit in units:
@@ -125,7 +127,9 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(component__in=queryset)
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    def formfield_for_foreignkey(
+        self, db_field, request: AuthenticatedHttpRequest, **kwargs
+    ):
         """Sort languages by localized names."""
         result = super().formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "source_language":
@@ -179,7 +183,7 @@ class ComponentListAdmin(WeblateModelAdmin):
     list_display = ["name", "show_dashboard"]
     list_filter = ["show_dashboard"]
     prepopulated_fields = {"slug": ("name",)}
-    filter_horizontal = ("components",)
+    autocomplete_fields = ("components",)
     inlines = [AutoComponentListAdmin]
     ordering = ["name"]
 

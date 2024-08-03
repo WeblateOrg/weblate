@@ -694,6 +694,7 @@ MIDDLEWARE = [
     "weblate.accounts.middleware.RequireLoginMiddleware",
     "weblate.api.middleware.ThrottlingMiddleware",
     "weblate.middleware.SecurityMiddleware",
+    "weblate.wladmin.middleware.ManageMiddleware",
 ]
 
 # Rollbar integration
@@ -1103,7 +1104,6 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.modernmt.ModernMTTranslation",
     "weblate.machinery.mymemory.MyMemoryTranslation",
     "weblate.machinery.netease.NeteaseSightTranslation",
-    "weblate.machinery.tmserver.AmagamaTranslation",
     "weblate.machinery.tmserver.TMServerTranslation",
     "weblate.machinery.yandex.YandexTranslation",
     "weblate.machinery.yandexv2.YandexV2Translation",
@@ -1240,7 +1240,12 @@ EMAIL_HOST_USER = get_env_str(
 EMAIL_HOST_PASSWORD = get_env_str(
     "WEBLATE_EMAIL_HOST_PASSWORD", get_env_str("WEBLATE_EMAIL_PASSWORD")
 )
-EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", 25)
+DEFAULT_EMAIL_PORT = 25
+if "WEBLATE_EMAIL_USE_TLS" in os.environ:
+    DEFAULT_EMAIL_PORT = 587
+elif "WEBLATE_EMAIL_USE_SSL" in os.environ:
+    DEFAULT_EMAIL_PORT = 465
+EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", DEFAULT_EMAIL_PORT)
 
 # Detect SSL/TLS setup
 if "WEBLATE_EMAIL_USE_TLS" in os.environ or "WEBLATE_EMAIL_USE_SSL" in os.environ:
@@ -1385,7 +1390,7 @@ SENTRY_ENVIRONMENT = get_env_str("SENTRY_ENVIRONMENT", SITE_DOMAIN)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
 SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE", 1.0)
 SENTRY_TOKEN = get_env_str("SENTRY_TOKEN")
-SENTRY_SEND_PII = get_env_bool("SENTRY_SEND_PII", True)
+SENTRY_SEND_PII = get_env_bool("SENTRY_SEND_PII", False)
 AKISMET_API_KEY = get_env_str("WEBLATE_AKISMET_API_KEY")
 
 # Web Monetization

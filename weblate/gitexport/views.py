@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from __future__ import annotations
 
 import os.path
@@ -20,7 +19,7 @@ from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
-from weblate.auth.models import User
+from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.trans.models import Component
 from weblate.utils.errors import report_error
@@ -35,7 +34,7 @@ def response_authenticate():
     return response
 
 
-def authenticate(request, auth) -> bool:
+def authenticate(request: AuthenticatedHttpRequest, auth) -> bool:
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)
@@ -61,7 +60,7 @@ def authenticate(request, auth) -> bool:
 
 @never_cache
 @csrf_exempt
-def git_export(request, path, git_request):
+def git_export(request: AuthenticatedHttpRequest, path, git_request):
     """
     Git HTTP server view.
 
@@ -127,7 +126,9 @@ class GitStreamingHttpResponse(StreamingHttpResponse):
 
 
 class GitHTTPBackendWrapper:
-    def __init__(self, obj, request, git_request: str) -> None:
+    def __init__(
+        self, obj, request: AuthenticatedHttpRequest, git_request: str
+    ) -> None:
         self.path = os.path.join(obj.full_path, git_request)
         self.obj = obj
         self.request = request

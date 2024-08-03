@@ -5,7 +5,7 @@
 (() => {
   const EditorBase = WLT.Editor.Base;
 
-  const TM_SERVICE_NAME = "weblate-translation-memory";
+  const tmServiceName = "weblate-translation-memory";
 
   const $window = $(window);
 
@@ -25,8 +25,8 @@
       const raw = $el.parent().parent().data("raw");
 
       // biome-ignore lint/complexity/noForEach: TODO
-      raw.plural_forms.forEach((plural_form) => {
-        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      raw.plural_forms.forEach((pluralForm) => {
+        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
@@ -38,8 +38,8 @@
       const raw = $el.parent().parent().data("raw");
 
       // biome-ignore lint/complexity/noForEach: TODO
-      raw.plural_forms.forEach((plural_form) => {
-        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      raw.plural_forms.forEach((pluralForm) => {
+        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
@@ -248,23 +248,23 @@
         success: (data) => {
           this.processMachineryResults(data);
         },
-        error: (jqXHR, textStatus, errorThrown) => {
-          this.processMachineryError(jqXHR, textStatus, errorThrown);
+        error: (jqXhr, textStatus, errorThrown) => {
+          this.processMachineryError(jqXhr, textStatus, errorThrown);
         },
       });
       return false;
     });
   };
 
-  FullEditor.prototype.removeTranslationEntry = function (delete_url) {
+  FullEditor.prototype.removeTranslationEntry = function (deleteUrl) {
     $.ajax({
       type: "DELETE",
-      url: delete_url,
+      url: deleteUrl,
       headers: { "X-CSRFToken": this.csrfToken },
       success: () => {
         addAlert(gettext("Translation memory entry removed."));
       },
-      error: (jqXHR, textStatus, errorThrown) => {
+      error: (jqXhr, textStatus, errorThrown) => {
         addAlert(errorThrown);
       },
     });
@@ -277,8 +277,8 @@
       success: (data) => {
         this.processMachineryResults(data);
       },
-      error: (jqXHR, textStatus, errorThrown) => {
-        this.processMachineryError(jqXHR, textStatus, errorThrown);
+      error: (jqXhr, textStatus, errorThrown) => {
+        this.processMachineryError(jqXhr, textStatus, errorThrown);
       },
       dataType: "json",
       data: {
@@ -288,12 +288,12 @@
   };
 
   FullEditor.prototype.processMachineryError = (
-    jqXHR,
+    jqXhr,
     textStatus,
     errorThrown,
   ) => {
     decreaseLoading("machinery");
-    if (jqXHR.state() !== "rejected") {
+    if (jqXhr.state() !== "rejected") {
       addAlert(
         `${gettext(
           "The request for machine translation has failed:",
@@ -379,8 +379,8 @@
       const $el = $(e.currentTarget);
       let url = $el.attr("href");
       const $check = $el.closest(".check");
-      const dismiss_all = $check.find("input").prop("checked");
-      if (dismiss_all) {
+      const dismissAll = $check.find("input").prop("checked");
+      if (dismissAll) {
         url = $el.data("dismiss-all");
       }
 
@@ -390,18 +390,18 @@
         data: {
           csrfmiddlewaretoken: this.csrfToken,
         },
-        error: (jqXHR, textStatus, errorThrown) => {
+        error: (jqXhr, textStatus, errorThrown) => {
           addAlert(errorThrown);
         },
         success: (data) => {
-          if (dismiss_all) {
+          if (dismissAll) {
             const { extra_flags, all_flags } = data;
             $("#id_extra_flags").val(extra_flags);
             $("#unit_all_flags").html(all_flags).addClass("flags-updated");
           }
         },
       });
-      if (dismiss_all) {
+      if (dismissAll) {
         $check.remove();
       } else {
         $check.toggleClass("check-dismissed");
@@ -499,20 +499,20 @@
       );
       if (cloneElement !== null) {
         const source = cloneElement.getAttribute("data-clone-text");
-        const term_source = document
+        const termSource = document
           .getElementById("div_id_add_term_source")
           .querySelector("textarea");
-        const term_target = document
+        const termTarget = document
           .getElementById("div_id_add_term_target")
           .querySelector("textarea");
         if (source.length < 200) {
-          term_source.value = source;
-          term_target.value = document.querySelector(
+          termSource.value = source;
+          termTarget.value = document.querySelector(
             ".translation-editor",
           ).value;
         }
-        term_source.dispatchEvent(new Event("input"));
-        term_target.dispatchEvent(new Event("input"));
+        termSource.dispatchEvent(new Event("input"));
+        termTarget.dispatchEvent(new Event("input"));
       }
       e.target.setAttribute("data-shown", true);
     });
@@ -585,11 +585,11 @@
       row.append(service);
 
       /* Quality score as bar with the text */
-      const quality_cell = $("<td class='number'></td>");
+      const qualityCell = $("<td class='number'></td>");
       if (el.show_quality) {
-        quality_cell.html(`<strong>${el.quality}</strong> %`);
+        qualityCell.html(`<strong>${el.quality}</strong> %`);
       }
-      row.append(quality_cell);
+      row.append(qualityCell);
       /* Translators: Verb for copy operation */
       row.append(
         $(

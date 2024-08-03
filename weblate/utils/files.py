@@ -1,14 +1,18 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
 import shutil
 import stat
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from translation_finder.finder import EXCLUDES
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DEFAULT_DATA_DIR = os.path.join(BASE_DIR, "data")

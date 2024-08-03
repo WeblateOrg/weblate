@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import math
 import os
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
@@ -28,6 +31,9 @@ from weblate.memory.utils import (
 )
 from weblate.utils.db import adjust_similarity_threshold, using_postgresql
 from weblate.utils.errors import report_error
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class MemoryImportError(Exception):
@@ -141,7 +147,9 @@ class MemoryQuerySet(models.QuerySet):
 
 
 class MemoryManager(models.Manager):
-    def import_file(self, request, fileobj, langmap=None, **kwargs):
+    def import_file(
+        self, request: AuthenticatedHttpRequest, fileobj, langmap=None, **kwargs
+    ):
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
@@ -159,7 +167,9 @@ class MemoryManager(models.Manager):
             )
         return result
 
-    def import_json(self, request, fileobj, origin=None, **kwargs):
+    def import_json(
+        self, request: AuthenticatedHttpRequest, fileobj, origin=None, **kwargs
+    ):
         content = fileobj.read()
         try:
             data = json.loads(force_str(content))
@@ -196,7 +206,14 @@ class MemoryManager(models.Manager):
                 continue
         return found
 
-    def import_tmx(self, request, fileobj, origin=None, langmap=None, **kwargs):
+    def import_tmx(
+        self,
+        request: AuthenticatedHttpRequest,
+        fileobj,
+        origin=None,
+        langmap=None,
+        **kwargs,
+    ):
         if not kwargs:
             kwargs = {"from_file": True}
         try:

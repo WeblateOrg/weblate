@@ -8,7 +8,7 @@ Not yet released.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
 * New :ref:`subscriptions` for completed translation and component.
-* :ref:`mt-openai` now supports custom models and URLs.
+* :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
 
 **Improvements**
 
@@ -16,16 +16,25 @@ Not yet released.
 * The status widgets are now supported site-wide and language-wide, see :ref:`promotion`.
 * :ref:`reports` are now available for categories.
 * Highlight newlines in the editor.
+* :doc:`/formats/csv` better handle with with two fields only.
+* Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
+* :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
+* :ref:`glossary-terminology` entries in Glossary can now only be created by users with :guilabel:`Add glossary terminology` permission.
 
 **Bug fixes**
 
 * Accessibility of keyboard navigation.
 * :ref:`git-exporter` now works with all Git based :ref:`vcs`.
+* :ref:`check-max-size` sometimes failed to render screenshot.
 
 **Compatibility**
 
 * Weblate now uses mistletoe instead of misaka as a Markdown renderer.
 * :ref:`csp` is now stricter what might block third-party customizations.
+* Monolingual formats no longer copy comments from :ref:`component-template` when adding strings to translation.
+* Dropped support for Amagama in :ref:`machine-translation-setup` as the service is no longer maintained.
+* Default value for :setting:`SENTRY_SEND_PII` was changed.
+* Translation credit reports in the JSON format now follows a different format for entries.
 
 **Upgrading**
 
