@@ -757,7 +757,9 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             ),
                         )
                 try:
-                    if added and not obj.create_translations(request=request, run_async=True):
+                    if added and not obj.create_translations(
+                        request=request, run_async=True
+                    ):
                         messages.success(
                             request,
                             gettext(
@@ -765,7 +767,10 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             ),
                         )
                         result = "{}?info=1".format(
-                            reverse("component_progress", kwargs={"path": result.get_url_path()})
+                            reverse(
+                                "component_progress",
+                                kwargs={"path": result.get_url_path()},
+                            )
                         )
                 except FileParseError:
                     pass
