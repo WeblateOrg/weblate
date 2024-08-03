@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.translation import gettext
@@ -756,12 +757,15 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             ),
                         )
                 try:
-                    if added and not obj.create_translations(request=request):
-                        messages.warning(
+                    if added and not obj.create_translations(request=request, run_async=True):
+                        messages.success(
                             request,
                             gettext(
-                                "The translation will be updated in the background."
+                                "All languages have been added, updates of translations are in progress."
                             ),
+                        )
+                        result = "{}?info=1".format(
+                            reverse("component_progress", kwargs={"path": result.get_url_path()})
                         )
                 except FileParseError:
                     pass

@@ -339,18 +339,26 @@ def announcement_delete(request: AuthenticatedHttpRequest, pk):
 
 @login_required
 def component_progress(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component,))
+    """
+    Shows component update progress.
+    The target 'return to' URL can be either the component itself, or one of its languages.
+    """
+    obj = parse_path(request, path, (Component, Translation))
+    component = obj if isinstance(obj, Component) else obj.component
+    return_target = obj
     return_url = "show" if "info" in request.GET else "guide"
-    if not obj.in_progress():
-        return redirect(return_url, path=obj.get_url_path())
 
-    progress, log = obj.get_progress()
+    if not component.in_progress():
+        return redirect(return_url, path=return_target.get_url_path())
+
+    progress, log = component.get_progress()
 
     return render(
         request,
         "component-progress.html",
         {
-            "object": obj,
+            "object": component,
+            "return_target": return_target,
             "progress": progress,
             "log": "\n".join(log),
             "return_url": return_url,

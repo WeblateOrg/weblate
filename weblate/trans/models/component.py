@@ -2407,7 +2407,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         from_link: bool = False,
         change: int | None = None,
     ) -> bool:
-        """Load synchronously translations from VCS. Should not be called directly, except by Celery tasks."""
+        """
+        Load synchronously translations from VCS.
+        Should not be called directly, except by Celery tasks.
+        """
         # In case the lock cannot be acquired, an error will be raised.
         with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
             return self._create_translations(
@@ -3149,10 +3152,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         was_change = False
         if changed_setup:
             was_change = self.create_translations(
-                force=True, changed_template=changed_template
+                force=True, changed_template=changed_template, run_async=True
             )
         elif changed_git:
-            was_change = self.create_translations()
+            was_change = self.create_translations(run_async=True)
 
         # Update variants (create_translation does this on change)
         if changed_variant and not was_change:
