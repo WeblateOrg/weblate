@@ -84,7 +84,7 @@ from weblate.utils.licenses import (
     get_license_url,
     is_libre,
 )
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.random import get_random_identifier
 from weblate.utils.render import (
     render_template,
@@ -2407,7 +2407,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         from_link: bool = False,
         change: int | None = None,
     ) -> bool:
-        """Synchronously load translations from VCS. Should not be called directly, except by Celery tasks."""
+        """Load synchronously translations from VCS. Should not be called directly, except by Celery tasks."""
         # In case the lock cannot be acquired, an error will be raised.
         with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
             return self._create_translations(
