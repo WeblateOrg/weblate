@@ -2409,6 +2409,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ) -> bool:
         """
         Load synchronously translations from VCS.
+
         Should not be called directly, except by Celery tasks.
         """
         # In case the lock cannot be acquired, an error will be raised.

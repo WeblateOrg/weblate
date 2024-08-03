@@ -340,7 +340,8 @@ def announcement_delete(request: AuthenticatedHttpRequest, pk):
 @login_required
 def component_progress(request: AuthenticatedHttpRequest, path):
     """
-    Shows component update progress.
+    Show component update progress.
+
     The target 'return to' URL can be either the component itself, or one of its languages.
     """
     obj = parse_path(request, path, (Component, Translation))
