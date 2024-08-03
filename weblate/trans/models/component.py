@@ -2369,13 +2369,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     ) -> bool:
         """Load translations from VCS."""
         if not run_async or settings.CELERY_TASK_ALWAYS_EAGER:
-            # Asynchronous processing not requested or not available, run the update
-            # directly from the request processing.
-            # NOTE: In case the lock cannot be acquired, an error will be raised.
-            with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
-                return self._create_translations(
+            try:
+                # Asynchronous processing not requested or not available, run the update
+                # directly from the request processing.
+                # NOTE: In case the lock cannot be acquired, an error will be raised.
+                return self.create_translations_task(
                     force, langs, request, changed_template, from_link, change
                 )
+            except WeblateLockTimeoutError:
+                if settings.CELERY_TASK_ALWAYS_EAGER:
+                    # Retry will not address anything
+                    raise
+                # Else, fall back to asynchronous process.
 
         from weblate.trans.tasks import perform_load
 
@@ -2392,6 +2397,22 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             },
         )
         return False
+
+    def create_translations_task(
+        self,
+        force: bool = False,
+        langs: list[str] | None = None,
+        request=None,
+        changed_template: bool = False,
+        from_link: bool = False,
+        change: int | None = None,
+    ) -> bool:
+        """Synchronously load translations from VCS. Should not be called directly, except by Celery tasks."""
+        # In case the lock cannot be acquired, an error will be raised.
+        with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
+            return self._create_translations(
+                force, langs, request, changed_template, from_link, change
+            )
 
     def check_template_valid(self) -> None:
         if self._template_check_done:
@@ -2556,8 +2577,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             component.translations_count = -1
             try:
                 # Do not run these linked repos update as other background tasks.
-                was_change |= component.create_translations(
-                    force, langs, request=request, from_link=True, run_async=False
+                was_change |= component.create_translations_task(
+                    force, langs, request=request, from_link=True
                 )
             except FileParseError as error:
                 if not isinstance(error.__cause__, FileNotFoundError):

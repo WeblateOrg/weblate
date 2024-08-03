@@ -87,13 +87,12 @@ def perform_load(
     change: int | None = None,
 ) -> None:
     component = Component.objects.get(pk=pk)
-    component.create_translations(
+    component.create_translations_task(
         force=force,
         langs=langs,
         changed_template=changed_template,
         from_link=from_link,
         change=change,
-        run_async=False,
     )
 
 
