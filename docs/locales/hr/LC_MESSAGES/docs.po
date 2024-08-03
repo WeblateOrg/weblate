@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-08-03 18:02+0000\n"
+"PO-Revision-Date: 2024-08-03 18:31+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -21553,14 +21553,16 @@ msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
 msgstr ""
+"jezični kod koji se koristi u repozitoriju; može se razlikovati od jezičnog "
+"koda u jezičnom objektu"
 
 #: ../../api.rst:1804
 msgid "name of last author"
-msgstr ""
+msgstr "ime zadnjeg autora"
 
 #: ../../api.rst:1805
 msgid "last change timestamp"
-msgstr ""
+msgstr "vremenska oznaka zadnje promjene"
 
 #: ../../api.rst:1806
 msgid "revision hash for the file"
@@ -21572,35 +21574,43 @@ msgstr ""
 
 #: ../../api.rst:1810
 msgid "URL for translating"
-msgstr ""
+msgstr "URL za prevođenje"
 
 #: ../../api.rst:1814
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"URL za stanje repozitorija; pogledaj :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1815
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"URL za datotečni objekt; pogledaj :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1816
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"URL za popis promjena; pogledaj :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1817
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"URL za popis izraza; pogledaj :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1891
 msgid "Deletes a translation."
-msgstr ""
+msgstr "Briše prijevod."
 
 #: ../../api.rst:1902
 msgid ""
@@ -21614,27 +21624,27 @@ msgstr ""
 
 #: ../../api.rst:1924 ../../api.rst:2093
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr ""
+msgstr "Izraz upita za pretraživanje :ref:`Searching` (opcionalno)"
 
 #: ../../api.rst:1926
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "niz objekata komponente; pogledaj :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1930
 msgid "Add new unit."
 msgstr "Dodaj novu jedinicu."
 
 #: ../../api.rst:1938
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "*Monolingual translations:* Key of translation unit"
-msgstr "Jednojezični prijevodi"
+msgstr "*Jednojezični prijevodi:* Ključ prevoditeljske jedinice"
 
 #: ../../api.rst:1939
 msgid ""
 "*Monolingual translations:* Source strings (use single string if not "
 "creating plural)"
 msgstr ""
+"*Jednojezični prijevodi:* Izvorni izrazi (koristi jedan izraz ako se ne "
+"stvara množina)"
 
 #: ../../api.rst:1940
 msgid "*Bilingual translations:* Context of a translation unit"
@@ -21645,40 +21655,40 @@ msgid ""
 "*Bilingual translations:* Source strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Dvojezični prijevodi:* Izrazi izvornog jezika (koristi jedan izraz ako se "
+"ne stvara množina)"
 
 #: ../../api.rst:1942
 msgid ""
 "*Bilingual translations:* Target strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Dvojezični prijevodi:* Izrazi ciljanog jezika (koristi jedan izraz ako se "
+"ne stvara množina)"
 
 #: ../../api.rst:1943
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "Stanje izraza; pogledaj :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1944
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "novo stvorena jedinica; pogledaj :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1948
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr "Ime komponente"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1953
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "Pokreni automatski prijevod."
 
 #: ../../api.rst:1962
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "Vrsta filtra za automatski prijevod"
 
 #: ../../api.rst:1963
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation source - ``mt`` or ``others``"
-msgstr "Izvor za automatsko prevođenje"
+msgstr "Izvor automatskog prevođenja – ``mt`` ili ``others``"
 
 #: ../../api.rst:1964
 msgid ""
@@ -21704,7 +21714,7 @@ msgstr ""
 
 #: ../../api.rst:1980
 msgid "Timestamp of last change to this file."
-msgstr ""
+msgstr "Vremenska oznaka zadnje promjene u ovoj datoteci."
 
 #: ../../api.rst:1981
 msgid "Skips response if the file has not been modified since that time."
@@ -21715,16 +21725,20 @@ msgid ""
 "File format to use; if not specified no format conversion happens; see :ref:"
 "`download` for supported formats"
 msgstr ""
+"Korišteni datotečni format; ako nije navedeno, format se ne konvertira; "
+"pogledaj :ref:`download` za podržane formate"
 
 #: ../../api.rst:1984
 msgid ""
 "Filter downloaded strings, see :ref:`search`, only applicable when "
 "conversion is in place (``format`` is specified)."
 msgstr ""
+"Filtriraj preuzete izraze, pogledaj :ref:`search`, primjenjivo samo pri "
+"konverziji (``format`` je određen)."
 
 #: ../../api.rst:1995
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Prenesi novu datoteku s prijevodima."
 
 #: ../../api.rst:2003
 msgid ""
