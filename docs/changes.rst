@@ -9,6 +9,7 @@ Not yet released.
 * :ref:`labels` now include description to explain them.
 * New :ref:`subscriptions` for completed translation and component.
 * :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
+* :ref:`mt-cyrtranslit` automatic suggestion service.
 
 **Improvements**
 
