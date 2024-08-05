@@ -812,7 +812,7 @@ LOGGING: dict = {
     },
     "loggers": {
         "django.request": {
-            "handlers": ["mail_admins", DEFAULT_LOG],
+            "handlers": [DEFAULT_LOG],
             "level": "ERROR",
             "propagate": True,
         },
@@ -838,6 +838,9 @@ LOGGING: dict = {
         "djangosaml2idp": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
+
+if get_env_bool("WEBLATE_ADMIN_NOTIFY_ERROR", True):
+    LOGGING["loggers"]["django.request"]["handlers"].append("mail_admins")
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:

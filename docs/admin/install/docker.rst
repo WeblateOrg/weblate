@@ -533,6 +533,18 @@ Generic settings
             :envvar:`WEBLATE_ADMIN_NAME`,
             :envvar:`WEBLATE_ADMIN_EMAIL`
 
+.. envvar:: WEBLATE_ADMIN_NOTIFY_ERROR
+
+   Whether to sent e-mail to admins upon server error. Turned on by default.
+
+   You might want to use other error collection like Sentry or Rollbar and turn this off.
+
+   .. seealso::
+
+      :ref:`django:logging-security-implications`,
+      :envvar:`ROLLBAR_KEY`,
+      :envvar:`SENTRY_DSN`
+
 .. envvar:: WEBLATE_SERVER_EMAIL
 
     The email address that error messages are sent from.
