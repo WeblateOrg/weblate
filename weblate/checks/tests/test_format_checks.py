@@ -574,6 +574,9 @@ class PythonBraceFormatCheckTest(CheckTestCase):
 
     def test_escaping(self) -> None:
         self.assertFalse(self.check.check_format("{{ string }}", "string", False, None))
+        self.assertFalse(
+            self.check.check_format("{{ string }}", "{{ string }}", False, None)
+        )
 
     def test_attribute_format(self) -> None:
         self.assertFalse(
@@ -597,6 +600,9 @@ class PythonBraceFormatCheckTest(CheckTestCase):
 
     def test_extra_open_bracket_extra(self) -> None:
         self.assertTrue(self.check.check_format("string", "{ {s} string", False, None))
+
+    def test_wrong_order(self) -> None:
+        self.assertTrue(self.check.check_format("string", "}s{ string", False, None))
 
     def test_escape_bracket(self) -> None:
         self.assertFalse(

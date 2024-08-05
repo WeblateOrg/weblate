@@ -104,6 +104,8 @@ PASCAL_FORMAT_MATCH = re.compile(
 
 PYTHON_BRACE_MATCH = re.compile(
     r"""
+    }(})|                                 # escaped {
+    {({)|                                 # escaped }
     {(                                  # initial {
         |                               # blank for position based
         (?P<field>
@@ -243,7 +245,7 @@ def scheme_format_is_position_based(string: str):
 
 
 def python_format_is_position_based(string: str):
-    return "(" not in string and string != "%"
+    return "(" not in string and string not in {"{", "}"}
 
 
 def name_format_is_position_based(string: str) -> bool:  # noqa: FURB118
@@ -272,7 +274,7 @@ class BaseFormatCheck(TargetCheck):
     regexp: Pattern[str]
     plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
-    normalize_remove: str | None = None
+    normalize_remove: set[str] = set()
 
     def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
         """Check single unit, handling plurals."""
@@ -337,12 +339,18 @@ class BaseFormatCheck(TargetCheck):
         return text
 
     def normalize(self, matches: list[str]) -> list[str]:
-        if self.normalize_remove is None:
+        if not self.normalize_remove:
             return matches
-        return [m for m in matches if m != self.normalize_remove]
+        return [m for m in matches if m not in self.normalize_remove]
+
+    def extract_string(self, match: re.Match) -> str:
+        return match[0]
 
     def extract_matches(self, string: str) -> list[str]:
-        return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
+        return [
+            self.cleanup_string(self.extract_string(x))
+            for x in self.regexp.findall(string)
+        ]
 
     def check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit
@@ -466,7 +474,7 @@ class BaseFormatCheck(TargetCheck):
 class BasePrintfCheck(BaseFormatCheck):
     """Base class for printf based format checks."""
 
-    normalize_remove = "%"
+    normalize_remove = {"%"}
 
     def __init__(self) -> None:
         super().__init__()
@@ -562,7 +570,7 @@ class SchemeFormatCheck(BasePrintfCheck):
     check_id = "scheme_format"
     name = gettext_lazy("Scheme format")
     description = gettext_lazy("Scheme format string does not match source")
-    normalize_remove = "~"
+    normalize_remove = {"~"}
 
     def format_string(self, string: str) -> str:
         return f"~{string}"
@@ -576,31 +584,35 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     description = gettext_lazy("Python brace format string does not match source")
     regexp = PYTHON_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
+    normalize_remove: set[str] = {"{", "}"}
+
+    def extract_string(self, match: re.Match) -> str:
+        # 0 and 1 are escaped braces and 2 is the actual match
+        return match[0] or match[1] or match[2]
 
     def is_position_based(self, string: str):
         return name_format_is_position_based(string)
 
     def format_string(self, string: str) -> str:
+        if string in {"{", "}"}:
+            # Escaped braces
+            return string * 2
         return f"{{{string}}}"
 
     def check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit
     ) -> Literal[False] | dict[Literal["missing", "extra"], list[str]]:
         result = super().check_format(source, target, ignore_missing, unit)
-        noquoted = target.replace("{{", "").replace("}}", "")
 
-        opening = noquoted.count("{")
-        closing = noquoted.count("}")
+        noformat = PYTHON_BRACE_MATCH.sub("", target)
 
-        add_extra: str | None = None
-        if opening > closing or closing > opening:
-            add_extra = "{"
+        add_extra: list[str] = [char for char in ("{", "}") if char in noformat]
 
-        if add_extra is not None:
+        if add_extra:
             if isinstance(result, dict):
-                result["extra"].append(add_extra)
+                result["extra"].extend(add_extra)
             else:
-                result = {"missing": [], "extra": [add_extra]}
+                result = {"missing": [], "extra": add_extra}
 
         return result
 
