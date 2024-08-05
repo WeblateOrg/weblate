@@ -115,7 +115,9 @@ This service uses an API and you need to obtain an ID and API key from Baidu to 
 .. _mt-cyrtranslit:
 
 Cyrtranslit
------
+-----------
+
+.. versionadded:: 5.7
 
 :Service ID: ``cyrtranslit``
 :Configuration: `This service has no configuration.`
