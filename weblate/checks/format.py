@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 from re import Pattern
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import format_html_join
@@ -17,6 +17,8 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.checks.base import SourceCheck, TargetCheck
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.trans.models import Unit
 
 PYTHON_PRINTF_MATCH = re.compile(
@@ -276,7 +278,9 @@ class BaseFormatCheck(TargetCheck):
         """Check single unit, handling plurals."""
         return any(self.check_generator(sources, targets, unit))
 
-    def check_generator(self, sources: list[str], targets: list[str], unit: Unit):
+    def check_generator(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> Iterable[Literal[False] | dict[Literal["missing", "extra"], list[str]]]:
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
             yield self.check_format(sources[1], targets[0], False, unit)
@@ -340,7 +344,9 @@ class BaseFormatCheck(TargetCheck):
     def extract_matches(self, string: str) -> list[str]:
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
-    def check_format(self, source: str, target: str, ignore_missing, unit: Unit):
+    def check_format(
+        self, source: str, target: str, ignore_missing: bool, unit: Unit
+    ) -> Literal[False] | dict[Literal["missing", "extra"], list[str]]:
         """Check for format strings."""
         if not target or not source:
             return False
@@ -577,6 +583,27 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"
 
+    def check_format(
+        self, source: str, target: str, ignore_missing: bool, unit: Unit
+    ) -> Literal[False] | dict[Literal["missing", "extra"], list[str]]:
+        result = super().check_format(source, target, ignore_missing, unit)
+        noquoted = target.replace("{{", "").replace("}}", "")
+
+        opening = noquoted.count("{")
+        closing = noquoted.count("}")
+
+        add_extra: str | None = None
+        if opening > closing or closing > opening:
+            add_extra = "{"
+
+        if add_extra is not None:
+            if isinstance(result, dict):
+                result["extra"].append(add_extra)
+            else:
+                result = {"missing": [], "extra": [add_extra]}
+
+        return result
+
 
 class CSharpFormatCheck(BaseFormatCheck):
     """Check for C# format string."""
@@ -622,7 +649,9 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
         return super().should_skip(unit)
 
-    def check_format(self, source: str, target: str, ignore_missing, unit: Unit):
+    def check_format(
+        self, source: str, target: str, ignore_missing: bool, unit: Unit
+    ) -> Literal[False] | dict[Literal["missing", "extra"], list[str]]:
         """Check for format strings."""
         if not target or not source:
             return False
