@@ -221,7 +221,7 @@ exclude_also = [
 
 [tool.coverage.run]
 branch = true
-concurrency = "multiprocessing"
+concurrency = ["thread", "multiprocessing"]
 omit = [
   "weblate/settings_*.py",
   "weblate/settings.py",
