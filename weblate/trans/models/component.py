@@ -2410,7 +2410,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """
         Load synchronously translations from VCS.
 
-        Should not be called directly, except by Celery tasks.
+        Should not be called directly, except from Celery tasks.
         """
         # In case the lock cannot be acquired, an error will be raised.
         with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
