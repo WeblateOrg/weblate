@@ -585,6 +585,24 @@ class PythonBraceFormatCheckTest(CheckTestCase):
             self.check.check_format("{s.foo} string", "{s.bar} string", False, None)
         )
 
+    def test_extra_close_bracket(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{s} string", "{s}} string", False, None)
+        )
+
+    def test_extra_open_bracket(self) -> None:
+        self.assertTrue(
+            self.check.check_format("{s} string", "{ {s} string", False, None)
+        )
+
+    def test_extra_open_bracket_extra(self) -> None:
+        self.assertTrue(self.check.check_format("string", "{ {s} string", False, None))
+
+    def test_escape_bracket(self) -> None:
+        self.assertFalse(
+            self.check.check_format("{{ {{ {s} }}", "{{ {{ {s} }}", False, None)
+        )
+
 
 class CSharpFormatCheckTest(CheckTestCase):
     check = CSharpFormatCheck()
