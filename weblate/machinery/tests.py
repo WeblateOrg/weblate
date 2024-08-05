@@ -1720,19 +1720,32 @@ class CyrTranslitTranslationTest(TransactionsTestMixin, FixtureTestCase):
         unit = MockUnit(code="cnr_Cyrl", source="something else")
         unit.translation = MockTranslation(code="cnr_Cyrl", source_language="sr_Latn")
         results = machine.translate(unit, self.user)
-        self.assertEqual(results, [[]])
-
-        # check cyrillic to latin
-        unit = MockUnit(code="sr_Latn", source="Мој ховеркрафт је пун јегуља")
-        unit.translation = MockTranslation(code="sr_Latn", source_language="sr")
-        results = machine.translate(unit, self.user)
-        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja")
+        self.assertEqual(results, [])
 
         # check latin to cyrillic
         unit = MockUnit(code="sr_Cyrl", source="Moj hoverkraft je pun jegulja")
         unit.translation = MockTranslation(code="sr_Cyrl", source_language="sr_Latn")
         results = machine.translate(unit, self.user)
-        self.assertEqual(results[0][0]["text"], "Мој ховеркрафт је пун јегуља")
+        self.assertEqual(
+            results,
+            [
+                [
+                    {
+                        "text": "Мој ховеркрафт је пун јегуља",
+                        "quality": 100,
+                        "service": "CyrTranslit",
+                        "source": "Moj hoverkraft je pun jegulja",
+                        "original_source": "Moj hoverkraft je pun jegulja",
+                    }
+                ]
+            ],
+        )
+
+        # check cyrillic to latin
+        unit = MockUnit(code="sr_Latn", source="Мој ховеркрафт је пун јегуља")
+        unit.translation = MockTranslation(code="sr_Latn", source_language="sr_Cyrl")
+        results = machine.translate(unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja")
 
 
 class ViewsTest(FixtureTestCase):
