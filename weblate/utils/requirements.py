@@ -57,6 +57,7 @@ REQUIRES = [
     "ahocorasick_rs",
     "python-redis-lock",
     "charset-normalizer",
+    "cyrtranslit",
 ]
 
 OPTIONAL = [
