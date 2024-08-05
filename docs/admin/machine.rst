@@ -112,6 +112,22 @@ This service uses an API and you need to obtain an ID and API key from Baidu to 
 
     `Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_
 
+.. _mt-cyrtranslit:
+
+Cyrtranslit
+-----
+
+:Service ID: ``cyrtranslit``
+:Configuration: `This service has no configuration.`
+
+Machine translation service using the Cyrtranslit library.
+
+This service converts text between Cyrillic and Latin scripts for languages that have both scripts.
+
+.. seealso::
+
+    `Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-transliteration>`_
+
 .. _mt-deepl:
 
 DeepL
