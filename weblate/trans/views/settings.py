@@ -342,7 +342,8 @@ def component_progress(request: AuthenticatedHttpRequest, path):
     """
     Show component update progress.
 
-    The target 'return to' URL can be either the component itself, or one of its languages.
+    The target 'return to' URL can be either the component itself,
+    or one of its languages.
     """
     obj = parse_path(request, path, (Component, Translation))
     component = obj if isinstance(obj, Component) else obj.component
