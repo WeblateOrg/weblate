@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps (TOTP), and recovery codes.
+* :ref:`2fa` can be enforced at team or project level.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
 * New :ref:`subscriptions` for completed translation and component.

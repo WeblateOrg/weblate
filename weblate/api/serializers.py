@@ -361,6 +361,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "projects",
             "componentlists",
             "components",
+            "enforced_2fa",
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
@@ -420,6 +421,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "instructions",
             "enable_hooks",
             "language_aliases",
+            "enforced_2fa",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}

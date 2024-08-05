@@ -186,6 +186,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             "in the documentation."
         ),
     )
+    enforced_2fa = models.BooleanField(
+        verbose_name=gettext_lazy("Enforced two factor authentication"),
+        default=False,
+        help_text=gettext_lazy(
+            "Requires contributors to have configured two factor authentication before being able to contribute."
+        ),
+    )
     # This should match definition in WorkflowSetting
     translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),

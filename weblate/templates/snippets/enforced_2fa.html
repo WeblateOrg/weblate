@@ -1,0 +1,13 @@
+{% extends "message.html" %}
+{% load i18n %}
+
+{% block tags %}warning{% endblock %}
+
+{% block message %}
+  <a href="{% url 'profile' %}#account" class="btn btn-primary pull-right flip">{% trans "Configure two factor authentication" %}</a>
+  {% if project %}
+    {% trans "This project is requiring two factor authentication from all contributors. You will not be able to contribute until your configure it." %}
+  {% else %}
+    {% trans "You are member of a team that requires two factor authentication. You will not be able to use any of its privileges until you configure it." %}
+  {% endif %}
+{% endblock %}

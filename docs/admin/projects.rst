@@ -200,6 +200,16 @@ Configure per project access control, see :ref:`acl` for more details.
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _project-enforced_2fa:
+
+Enforced two factor authentication
+++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 5.7
+
+Enforce :ref:`2fa` for all contributors. Users without it will not be allowed
+to perform any operations within the project.
+
 .. _project-translation_review:
 
 Enable reviews

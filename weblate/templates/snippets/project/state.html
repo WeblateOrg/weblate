@@ -14,3 +14,7 @@
 {% elif object.is_trial and user_can_view_billing %}
   {% include "snippets/project/billing-trial.html" %}
 {% endif %}
+
+{% if object.enforced_2fa and not user.is_verified %}
+  {% include "snippets/enforced_2fa.html" with project=1 %}
+{% endif %}
