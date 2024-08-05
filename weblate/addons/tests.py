@@ -119,7 +119,7 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_example(self) -> None:
         self.assertTrue(ExampleAddon.can_install(self.component, None))
         addon = ExampleAddon.create(component=self.component)
-        addon.pre_commit(None, "")
+        addon.pre_commit(None, "", True)
 
     def test_create(self) -> None:
         addon = TestAddon.create(component=self.component)
@@ -254,7 +254,7 @@ class GettextAddonTest(ViewTestCase):
         translation = self.get_translation()
         self.assertTrue(GenerateMoAddon.can_install(translation.component, None))
         addon = GenerateMoAddon.create(component=translation.component)
-        addon.pre_commit(translation, "")
+        addon.pre_commit(translation, "", True)
         self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
 
     def test_update_linguas(self) -> None:
@@ -362,7 +362,7 @@ class GettextAddonTest(ViewTestCase):
         translation = self.get_translation()
         self.assertTrue(GettextAuthorComments.can_install(translation.component, None))
         addon = GettextAuthorComments.create(component=translation.component)
-        addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>")
+        addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
         with open(translation.get_filename()) as handle:
             content = handle.read()
         self.assertIn("Stojan Jakotyc", content)
@@ -1166,7 +1166,7 @@ class ScriptsTest(TestAddonMixin, ViewTestCase):
         self.assertTrue(ExamplePreAddon.can_install(self.component, None))
         translation = self.get_translation()
         addon = ExamplePreAddon.create(component=self.component)
-        addon.pre_commit(translation, "")
+        addon.pre_commit(translation, "", True)
         self.assertIn(
             os.path.join(
                 self.component.full_path, f"po/{translation.language_code}.po"
@@ -1240,7 +1240,7 @@ class GitSquashAddonTest(ViewTestCase):
         repo = self.component.repository
         self.assertEqual(repo.count_outgoing(), 0)
         # Test no-op behavior
-        addon.post_commit(self.component)
+        addon.post_commit(self.component, True)
         # Make some changes
         self.edit()
         self.assertEqual(repo.count_outgoing(), expected)

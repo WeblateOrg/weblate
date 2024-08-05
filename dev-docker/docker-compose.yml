@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-version: '3'
-
 ##########
 # WARNING!
 # This docker-compose file is meant to be used in the development process
@@ -22,7 +20,7 @@ services:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
     ports:
-    - ${WEBLATE_HOST}:8080
+    - ${WEBLATE_PORT}:8080
     user: $USER_ID:$GROUP_ID
     userns_mode: host
     tmpfs:

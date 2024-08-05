@@ -44,7 +44,7 @@ class GenerateFileAddon(BaseAddon):
             return False
         return super().can_install(component, user)
 
-    def pre_commit(self, translation, author) -> None:
+    def pre_commit(self, translation, author: str, store_hash: bool) -> None:
         filename = self.render_repo_filename(
             self.instance.configuration["filename"], translation
         )

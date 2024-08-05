@@ -36,7 +36,7 @@ class GenerateMoAddon(GettextBaseAddon):
     )
     settings_form = GenerateMoForm
 
-    def pre_commit(self, translation, author) -> None:
+    def pre_commit(self, translation, author: str, store_hash: bool) -> None:
         exporter = MoExporter(translation=translation)
 
         if self.instance.configuration.get("fuzzy"):
@@ -351,7 +351,9 @@ class GettextAuthorComments(GettextBaseAddon):
         "and years of contributions."
     )
 
-    def pre_commit(self, translation: Translation, author: str) -> None:
+    def pre_commit(
+        self, translation: Translation, author: str, store_hash: bool
+    ) -> None:
         if "noreply@weblate.org" in author:
             return
         if "<" in author:
@@ -364,3 +366,5 @@ class GettextAuthorComments(GettextBaseAddon):
 
         translation.store.store.updatecontributor(name, email)
         translation.store.save()
+        if store_hash:
+            translation.store_hash()

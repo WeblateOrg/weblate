@@ -847,7 +847,7 @@ class Profile(models.Model):
             return ""
         return settings.PRIVATE_COMMIT_EMAIL_TEMPLATE.format(
             username=self.user.username,
-            site_domain=settings.SITE_DOMAIN,
+            site_domain=settings.SITE_DOMAIN.rsplit(":", 1)[0],
         )
 
 
