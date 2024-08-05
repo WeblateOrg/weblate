@@ -196,6 +196,38 @@ count = true
 ignore-words-list = "assertIn"
 skip = '*.po,*.pot,*.json,*.tmx,*.tbx,*.csv,*/vendor/*,weblate/trans/specialchars.py,scripts/yarn/yarn.lock,weblate/trans/tests/data/known_hosts,docs/user/checks.rst,docs/toc-devel.rst'
 
+[tool.coverage.paths]
+source = [
+  "."
+]
+
+[tool.coverage.report]
+exclude_also = [
+  "@(abc\\.)?abstractmethod",
+  # Have to re-enable the standard pragma
+  "pragma: no cover",
+  # Don't complain about missing debug-only code:
+  "def __repr__",
+  "if self\\.debug",
+  # Don't complain if tests don't hit defensive assertion code:
+  "raise AssertionError",
+  "raise NotImplementedError",
+  # Don't complain if non-runnable code isn't run:
+  "if 0:",
+  "if __name__ == .__main__.:",
+  # Type checking
+  "if TYPE_CHECKING:"
+]
+
+[tool.coverage.run]
+branch = true
+concurrency = "multiprocessing"
+omit = [
+  "weblate/settings_*.py",
+  "weblate/settings.py",
+  ".venv*/*"
+]
+
 [tool.django-stubs]
 django_settings_module = "weblate.settings_example"
 strict_settings = false
