@@ -234,6 +234,14 @@ def verify_open(
     **kwargs,
 ) -> None:
     """Check whether it is possible to create new user."""
+    # Ensure it's still same user (if sessions was kept as this is to avoid
+    # completing authentication under different user than initiated it, with
+    # new session, it will complete as new user)
+    current_user = strategy.request.user.pk
+    init_user = strategy.request.session.get("social_auth_user")
+    if strategy.request.session.session_key and current_user != init_user:
+        raise AuthMissingParameter(backend, "user")
+
     # Check whether registration is open
     if (
         not user
@@ -243,14 +251,6 @@ def verify_open(
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
         raise AuthMissingParameter(backend, "disabled")
-
-    # Ensure it's still same user (if sessions was kept as this is to avoid
-    # completing authentication under different user than initiated it, with
-    # new session, it will complete as new user)
-    current_user = strategy.request.user.pk
-    init_user = strategy.request.session.get("social_auth_user")
-    if strategy.request.session.session_key and current_user != init_user:
-        raise AuthMissingParameter(backend, "user")
 
 
 def cleanup_next(strategy, **kwargs):
