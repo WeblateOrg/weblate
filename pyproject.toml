@@ -168,6 +168,9 @@ saml = [
   "python3-saml>=1.2.1"
 ]
 test = [
+  "pytest==8.3.2",
+  "pytest-cov==5.0.0",
+  "pytest-django==4.8.0",
   "responses==0.25.3",
   "respx==0.21.1",
   "selenium==4.23.1"
@@ -320,6 +323,12 @@ ignore = [
   "build",
   ".venv"
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "weblate.settings_test"
+# TODO: enable FAIL_INVALID_TEMPLATE_VARS = true
+addopts = "--reuse-db --cov=weblate --cov-report="
+python_files = ["test_*.py", "tests.py"]
 
 [tool.ruff.lint]
 extend-safe-fixes = [

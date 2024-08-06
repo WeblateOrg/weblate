@@ -48,7 +48,30 @@ Local testing
 
 Before running test, please ensure test dependencies are installed. This can be done by ``pip install -e .[test]``.
 
-To run a testsuite locally, use:
+Testing using pytest
+~~~~~~~~~~~~~~~~~~~~
+Prior to running tests you should collect static files as some tests rely on them being present:
+
+.. code-block:: sh
+
+    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py collectstatic
+
+You can use `pytest` to run a testsuite locally:
+
+.. code-block:: sh
+
+   pytest weblate
+
+Running an individual test file:
+
+.. code-block:: sh
+
+   pytest weblate/utils/tests/test_search.py
+
+Testing using Django
+~~~~~~~~~~~~~~~~~~~~
+
+Alternatively, Django built-in tests should also work:
 
 .. code-block:: sh
 
