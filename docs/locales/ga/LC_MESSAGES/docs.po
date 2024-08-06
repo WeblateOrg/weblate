@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-07-24 22:37+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-08-06 11:14+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -24,17 +24,19 @@ msgstr ""
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
-msgstr ""
+msgstr "Rialú rochtana"
 
 #: ../../admin/access.rst:6
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"Tagann Weblate le córas pribhléide míne chun ceadanna úsáideora a shannadh "
+"don ásc iomlán, nó i raon feidhme teoranta."
 
 #: ../../admin/access.rst:12
 msgid "Project access control"
-msgstr ""
+msgstr "Rialú rochtana tionscadail"
 
 #: ../../admin/access.rst:16
 msgid ""
@@ -42,85 +44,99 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"Is iad na tionscadail a ritheann an plean Libre saor in aisce ar Hosted "
+"Weblate i gcónaí :guilabel:`Poiblí`. Is féidir leat aistriú go dtí an plean "
+"íoctha más mian leat rochtain ar do thionscadal a shrianadh."
 
 #: ../../admin/access.rst:20
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "ref:`project-access_control` setting. Available options are:"
 msgstr ""
+"Is féidir leat rochtain úsáideora ar thionscadail aonair a theorannú ach "
+"socrú difriúil :ref:`project-access_control` a roghnú. Is iad na roghanna "
+"atá ar fáil:"
 
 #: ../../admin/access.rst:23 ../../admin/config.rst:488
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Poiblí`"
 
 #: ../../admin/access.rst:24 ../../admin/access.rst:32
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Infheicthe do chách."
 
 #: ../../admin/access.rst:26
 msgid "Any authenticated user can contribute."
-msgstr ""
+msgstr "Is féidir le haon úsáideoir fíordheimhnithe rannchuidiú."
 
 #: ../../admin/access.rst:28
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "D'fhéadfadh stór VCS a bheith faoi lé gach duine."
 
 #: ../../admin/access.rst:30
 msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Roghnaigh é seo le haghaidh tionscadal foinse oscailte, nó nuair atá do "
+"chás Weblate príobháideach nó faoi ghlas.**"
 
 #: ../../admin/access.rst:31 ../../admin/config.rst:490
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Cosanta`"
 
 #: ../../admin/access.rst:34 ../../admin/access.rst:42
 #: ../../admin/access.rst:50
 msgid "Only chosen users can contribute."
-msgstr ""
+msgstr "Ní féidir ach le húsáideoirí roghnaithe rannchuidiú."
 
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
 msgid "Only chosen users can access VCS repository."
-msgstr ""
+msgstr "Ní féidir ach le húsáideoirí roghnaithe rochtain a fháil ar stór VCS."
 
 #: ../../admin/access.rst:38
 msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Roghnaigh é seo chun infheictheacht a fháil, ach fós tá smacht agat ar cé "
+"atá in ann rannchuidiú.**"
 
 #: ../../admin/access.rst:39 ../../admin/config.rst:492
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Private`"
 
 #: ../../admin/access.rst:40 ../../admin/access.rst:48
 msgid "Visible only to chosen users."
-msgstr ""
+msgstr "Le feiceáil ag úsáideoirí roghnaithe amháin."
 
 #: ../../admin/access.rst:46
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
+"**Roghnaigh é seo do thionscadail nár cheart a nochtadh go poiblí ar chor ar "
+"bith.**"
 
 #: ../../admin/access.rst:47 ../../admin/config.rst:494
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:54
 msgid "Not available on Hosted Weblate."
-msgstr ""
+msgstr "Níl sé ar fáil ar Hosted Weblate."
 
 #: ../../admin/access.rst:56
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Beidh ort na ceadanna go léir a shocrú le :ref:`custom-acl`."
 
 #: ../../admin/access.rst:58
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
+"**Roghnaigh é seo ar do shampla Weblate féin más mian leat rochtain a "
+"shainiú ar bhealach sonrach inoiriúnaithe.**"
 
 #: ../../admin/access.rst:60
 msgid ""
@@ -128,10 +144,15 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel: Is féidir `rialú rochtana` a athrú sa chluaisín :guilabel:`Access`"
+" den chumraíocht (:guilabel:`Bainistigh` ↓ :guilabel:`Settings`) de gach "
+"tionscadal faoi seach."
 
 #: ../../admin/access.rst:66 ../../admin/projects.rst:201
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Is féidir an luach réamhshocraithe a athrú trí :a "
+"shocrú:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:70
 msgid ""
@@ -140,6 +161,11 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"Fiú i gcás tionscadail `Príobháideacha`, nochtfar roinnt eolais faoi do "
+"thionscadal: áireofar sna staitisticí agus san achoimre teanga don ásc "
+"iomlán comhaireamh na dtionscadal go léir in ainneoin an tsocraithe "
+"rialaithe rochtana. Ní féidir ainm do thionscadail agus faisnéis eile a "
+"nochtadh tríd seo."
 
 #: ../../admin/access.rst:77
 msgid ""
@@ -147,6 +173,10 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"Is féidir le riarthóir ásc Weblate an tacar ceadanna atá ar fáil "
+"d'úsáideoirí de réir réamhshocraithe i dtionscadail `Poiblí`, `Cosanta` agus "
+"`Príobháideach` a ath-shainmhíniú trí úsáid a bhaint as :ref:`socruithe "
+"saincheaptha <custom-acl>`."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -154,7 +184,7 @@ msgstr ":ref:`project-access_control`"
 
 #: ../../admin/access.rst:88
 msgid "Managing per-project access control"
-msgstr ""
+msgstr "Rialú rochtana in aghaidh an tionscadail a bhainistiú"
 
 #: ../../admin/access.rst:90
 msgid ""
@@ -164,52 +194,66 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
+"Is féidir le húsáideoirí ag a bhfuil an phribhléid :guilabel:`Bainistigh "
+"rochtain ar thionscadail (féach :tag:`pribhléid`) úsáideoirí i dtionscadail "
+"a bhainistiú trí iad a chur leis na foirne. Is é Weblate a sholáthraíonn "
+"bailiúchán tosaigh na bhfoirne, ach is féidir cinn bhreise a shainiú chun "
+"rialú rochtana níos míne a sholáthar. Is féidir leat foirne a theorannú go "
+"teangacha agus róil rochtana sainithe a shannadh dóibh (féach "
+":tag:`pribhléidí`)."
 
 #: ../../admin/access.rst:96
 msgid "The following teams are automatically created for every project:"
-msgstr ""
+msgstr "Cruthaítear na foirne seo a leanas go huathoibríoch do gach tionscadal:"
 
 #: ../../admin/access.rst:98
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Do thionscadail ‘Poiblí’, ‘Cosanta’ agus ‘Príobháideacha’:"
 
 #: ../../admin/access.rst:100
 msgid "Administration"
-msgstr ""
+msgstr "Riarachán"
 
 #: ../../admin/access.rst:101
 msgid "Includes all permissions available for the project."
-msgstr ""
+msgstr "Áirítear gach cead atá ar fáil don tionscadal."
 
 #: ../../admin/access.rst:103
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgstr ""
+"Léirmheas (ach amháin má tá :ref:`sreabhadh oibre athbhreithnithe "
+"<léirmheasanna>` ar siúl)"
 
 #: ../../admin/access.rst:104
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Is féidir aistriúcháin a cheadú le linn athbhreithnithe."
 
 #: ../../admin/access.rst:106
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Do thionscadail ‘Cosanta’ agus ‘Príobháideacha’ amháin:"
 
 #: ../../admin/access.rst:108
 msgid "Translate"
-msgstr ""
+msgstr "Aistrigh"
 
 #: ../../admin/access.rst:109
 msgid "Can translate the project and upload translations made offline."
 msgstr ""
+"Is féidir leis an tionscadal a aistriú agus aistriúcháin a rinneadh as líne "
+"a uaslódáil."
 
 #: ../../admin/access.rst:111 ../../devel/community.rst:48
 msgid "Sources"
-msgstr ""
+msgstr "Foinsí"
 
 #: ../../admin/access.rst:112
 msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
+"Is féidir teaghráin foinse a chur in eagar (má cheadaítear é sa :ref:`"
+"socruithe an tionscadail <component-manage_units>`) agus faisnéis faoin "
+"teaghrán foinse."
 
 #: ../../admin/access.rst:115 ../../admin/access.rst:277
 #: ../../admin/access.rst:293 ../../admin/access.rst:407 ../../api.rst:708
@@ -220,23 +264,27 @@ msgstr "Teangacha"
 #: ../../admin/access.rst:116
 msgid "Can manage translated languages (add or remove translations)."
 msgstr ""
+"Is féidir leis na teangacha aistrithe a bhainistiú (aistriúcháin a chur leis "
+"nó a bhaint)."
 
 #: ../../admin/access.rst:118 ../../admin/access.rst:485 ../../api.rst:2472
 #: ../../user/glossary.rst:4 ../../user/translating.rst:294
 msgid "Glossary"
-msgstr ""
+msgstr "Gluais"
 
 #: ../../admin/access.rst:119
 msgid "Can manage glossary (add or remove entries, also upload)."
 msgstr ""
+"Is féidir leis an ngluais a bhainistiú (cuir iontrálacha leis nó iad a "
+"bhaint, uaslódáil freisin)."
 
 #: ../../admin/access.rst:121 ../../api.rst:2064
 msgid "Memory"
-msgstr ""
+msgstr "Cuimhne"
 
 #: ../../admin/access.rst:122
 msgid "Can manage translation memory."
-msgstr ""
+msgstr "Is féidir cuimhne aistriúcháin a bhainistiú."
 
 #: ../../admin/access.rst:124 ../../admin/access.rst:505 ../../api.rst:2218
 #: ../../user/translating.rst:282
@@ -248,6 +296,8 @@ msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
+"Is féidir scáileáin scáileáin a bhainistiú (cuir leis nó bain iad, agus iad "
+"a nascadh le teaghráin foinse)."
 
 #: ../../admin/access.rst:128 ../../admin/addons.rst:24
 #: ../../admin/continuous.rst:484 ../../user/translating.rst:345
@@ -256,15 +306,15 @@ msgstr "Aistriúchán uathoibríoch"
 
 #: ../../admin/access.rst:129
 msgid "Can use automatic translation."
-msgstr ""
+msgstr "Is féidir aistriúchán uathoibríoch a úsáid."
 
 #: ../../admin/access.rst:131 ../../admin/access.rst:551
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: ../../admin/access.rst:132
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Is féidir VCS a bhainistiú agus rochtain a fháil ar an stór easpórtála."
 
 #: ../../admin/access.rst:134 ../../admin/optionals.rst:61
 msgid "Billing"
@@ -273,6 +323,8 @@ msgstr "Billeáil"
 #: ../../admin/access.rst:135
 msgid "Can access billing info and settings (see :ref:`billing`)."
 msgstr ""
+"Is féidir rochtain a fháil ar fhaisnéis agus ar shocruithe billeála (féach "
+":tag:`billeáil`)."
 
 #: ../../admin/access.rst:139
 msgid ""
@@ -280,10 +332,13 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Tá na gnéithe seo ar fáil ar an leathanach :guilabel:`Rialú rochtana`, ar "
+"féidir rochtain a fháil air ó roghchlár an tionscadail :guilabel:`Bainistigh`"
+" ↓ :guilabel:`Users`."
 
 #: ../../admin/access.rst:143
 msgid "Team administrators"
-msgstr ""
+msgstr "Riarthóirí foirne"
 
 #: ../../admin/access.rst:147
 msgid ""
@@ -919,7 +974,7 @@ msgstr "Úsáid na moltaí déanta go huathoibríoch"
 
 #: ../../admin/access.rst:495 ../../user/translating.rst:292
 msgid "Translation memory"
-msgstr ""
+msgstr "Cuimhne aistriúcháin"
 
 #: ../../admin/access.rst:495
 msgid "Edit translation memory"
@@ -1053,7 +1108,7 @@ msgstr ""
 
 #: ../../admin/access.rst:535 ../../api.rst:1771
 msgid "Translations"
-msgstr ""
+msgstr "Aistriúcháin"
 
 #: ../../admin/access.rst:535
 msgid "Add language for translation"
@@ -8597,7 +8652,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr ""
+msgstr "Logánú leanúnach"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -16312,7 +16367,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
-msgstr ""
+msgstr "Cuimhne Aistriúcháin"
 
 #: ../../admin/memory.rst:7
 msgid "Weblate comes with a built-in translation memory consisting of:"
@@ -16395,7 +16450,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:51
 msgid "Shared translation memory"
-msgstr ""
+msgstr "Cuimhne aistriúcháin roinnte"
 
 #: ../../admin/memory.rst:53
 msgid ""
@@ -16999,7 +17054,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
-msgstr ""
+msgstr "Tionscadail aistriúcháin"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
@@ -32404,7 +32459,7 @@ msgstr ""
 
 #: ../../contributing/issues.rst:19
 msgid "Security issues"
-msgstr ""
+msgstr "Saincheisteanna slándála"
 
 #: ../../contributing/issues.rst:21
 msgid ""
@@ -32456,7 +32511,7 @@ msgstr ""
 #: ../../../README.rst:33 ../../../README.rst:70
 #: ../../contributing/license.rst:2
 msgid "License"
-msgstr ""
+msgstr "Ceadúnas"
 
 #: ../../contributing/license.rst:4
 msgid ""
@@ -36647,7 +36702,7 @@ msgstr ""
 
 #: ../../formats/android.rst:4
 msgid "Android string resources"
-msgstr ""
+msgstr "Acmhainní sreang Android"
 
 #: ../../formats/android.rst:10
 msgid "Android specific file format for translating applications."
@@ -36794,7 +36849,7 @@ msgstr ""
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
-msgstr ""
+msgstr "Teaghráin Apple iOS"
 
 #: ../../formats/apple.rst:9
 msgid ""
@@ -36833,7 +36888,7 @@ msgstr ""
 
 #: ../../formats/appstore.rst:4
 msgid "App store metadata files"
-msgstr ""
+msgstr "Comhaid meiteashonraí ó App Store"
 
 #: ../../formats/appstore.rst:6
 msgid ""
@@ -36915,7 +36970,7 @@ msgstr ""
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
-msgstr ""
+msgstr "Comhaid CSV"
 
 #: ../../formats/csv.rst:10
 msgid ""
@@ -37026,7 +37081,7 @@ msgstr ""
 
 #: ../../formats/dtd.rst:4
 msgid "DTD files"
-msgstr ""
+msgstr "Comhaid DTD"
 
 #: ../../formats/dtd.rst:9
 msgid ":doc:`tt:formats/dtd`"
@@ -37050,7 +37105,7 @@ msgstr ""
 
 #: ../../formats/excel.rst:4
 msgid "Excel Open XML"
-msgstr ""
+msgstr "Excel Oscailte XML"
 
 #: ../../formats/excel.rst:6
 msgid "Excel Open XML (.xlsx) files can be imported and exported."
@@ -37081,7 +37136,7 @@ msgstr ""
 
 #: ../../formats/flatxml.rst:4
 msgid "Flat XML files"
-msgstr ""
+msgstr "Comhaid XML cothrom"
 
 #: ../../formats/flatxml.rst:9
 msgid ":doc:`tt:formats/flatxml`"
@@ -37105,7 +37160,7 @@ msgstr ""
 
 #: ../../formats/fluent.rst:4
 msgid "Fluent format"
-msgstr ""
+msgstr "Formáid líofa"
 
 #: ../../snippets/format-in-development.rst:3
 msgid ""
@@ -37248,7 +37303,7 @@ msgstr ""
 
 #: ../../formats/go-i18n.rst:4
 msgid "go-i18n JSON files"
-msgstr ""
+msgstr "go-i18n comhaid JSON"
 
 #: ../../formats/go-i18n.rst:13
 msgid "Support for v2 variant of this format was added."
@@ -37309,7 +37364,7 @@ msgstr ""
 
 #: ../../formats/gotext.rst:4
 msgid "gotext JSON files"
-msgstr ""
+msgstr "comhaid JSON gotext"
 
 #: ../../formats/gotext.rst:11
 msgid ""
@@ -37339,7 +37394,7 @@ msgstr ""
 
 #: ../../formats/gwt.rst:4
 msgid "GWT properties"
-msgstr ""
+msgstr "airíonna GWT"
 
 #: ../../formats/gwt.rst:9
 msgid "Native GWT format for translations."
@@ -37372,7 +37427,7 @@ msgstr ""
 
 #: ../../formats/html.rst:4
 msgid "HTML files"
-msgstr ""
+msgstr "Comhaid HTML"
 
 #: ../../formats/html.rst:8
 msgid ""
@@ -37405,7 +37460,7 @@ msgstr ""
 
 #: ../../formats/i18next.rst:4
 msgid "i18next JSON files"
-msgstr ""
+msgstr "i18 seo chugainn comhaid JSON"
 
 #: ../../formats/i18next.rst:11
 msgid "Support for v4 variant of this format was added."
@@ -37456,7 +37511,7 @@ msgstr ""
 
 #: ../../formats/idml.rst:4
 msgid "IDML Format"
-msgstr ""
+msgstr "Formáid IDML"
 
 #: ../../formats/idml.rst:10
 msgid ""
@@ -37478,7 +37533,7 @@ msgstr ""
 
 #: ../../formats/ini.rst:4
 msgid "INI translations"
-msgstr ""
+msgstr "Aistriúcháin INI"
 
 #: ../../formats/ini.rst:11
 msgid ""
@@ -37519,7 +37574,7 @@ msgstr ""
 
 #: ../../formats/innosetup.rst:4
 msgid "Inno Setup INI translations"
-msgstr ""
+msgstr "Aistriúcháin INI Inno Setup"
 
 #: ../../formats/innosetup.rst:11
 msgid "Inno Setup INI file format for translations."
@@ -37560,7 +37615,7 @@ msgstr ""
 
 #: ../../formats/java.rst:5
 msgid "Java properties"
-msgstr ""
+msgstr "Java airíonna"
 
 #: ../../formats/java.rst:10
 msgid "Native Java format for translations."
@@ -37599,7 +37654,7 @@ msgstr ""
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
-msgstr ""
+msgstr "Aistriúcháin do Joomla"
 
 #: ../../formats/joomla.rst:9
 msgid "Native Joomla format for translations."
@@ -37627,7 +37682,7 @@ msgstr ""
 
 #: ../../formats/json.rst:4
 msgid "JSON files"
-msgstr ""
+msgstr "Comhaid JSON"
 
 #: ../../formats/json.rst:11
 msgid ""
@@ -37701,7 +37756,7 @@ msgstr ""
 
 #: ../../formats/laravel.rst:4
 msgid "Laravel PHP strings"
-msgstr ""
+msgstr "Teaghráin php Laravel"
 
 #: ../../formats/laravel.rst:8
 msgid "The Laravel PHP localization files are supported as well with plurals:"
@@ -37726,7 +37781,7 @@ msgstr ""
 
 #: ../../formats/markdown.rst:4
 msgid "Markdown files"
-msgstr ""
+msgstr "Comhaid marcáilte"
 
 #: ../../formats/markdown.rst:10
 msgid ""
@@ -37752,7 +37807,7 @@ msgstr ""
 
 #: ../../formats/mi18n.rst:4
 msgid "mi18n lang files"
-msgstr ""
+msgstr "mi18n comhaid lang"
 
 #: ../../formats/mi18n.rst:11
 msgid ""
@@ -37781,7 +37836,7 @@ msgstr ""
 
 #: ../../formats/moko.rst:2
 msgid "Mobile Kotlin resources"
-msgstr ""
+msgstr "Soghluaiste acmhainní Kotlin"
 
 #: ../../formats/moko.rst:9
 msgid ""
@@ -37803,7 +37858,7 @@ msgstr ""
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
-msgstr ""
+msgstr "Formáid OpenDocument"
 
 #: ../../formats/odf.rst:8
 msgid ""
@@ -37829,7 +37884,7 @@ msgstr ""
 
 #: ../../formats/php.rst:4
 msgid "PHP strings"
-msgstr ""
+msgstr "Teaghráin PHP"
 
 #: ../../formats/php.rst:10
 msgid ""
@@ -37855,7 +37910,7 @@ msgstr ""
 
 #: ../../formats/qt.rst:4
 msgid "Qt Linguist .ts"
-msgstr ""
+msgstr "Qt Teangeolaí .ts"
 
 #: ../../formats/qt.rst:10
 msgid "Translation format used in Qt based applications."
@@ -37898,7 +37953,7 @@ msgstr ""
 
 #: ../../formats/resourcedict.rst:4
 msgid "ResourceDictionary files"
-msgstr ""
+msgstr "Comhaid ResourceDictionary"
 
 #: ../../formats/resourcedict.rst:12
 msgid ""
@@ -37927,7 +37982,7 @@ msgstr ""
 
 #: ../../formats/resx.rst:4
 msgid ".NET resource files (RESX, RESW)"
-msgstr ""
+msgstr "Comhaid acmhainne .NET (RESX, RESW)"
 
 #: ../../formats/resx.rst:11
 msgid ""
@@ -37962,7 +38017,7 @@ msgstr ""
 
 #: ../../formats/ruby.rst:4
 msgid "Ruby YAML files"
-msgstr ""
+msgstr "Comhaid YAML Ruby"
 
 #: ../../formats/ruby.rst:10
 msgid "Ruby i18n YAML files with language as root node."
@@ -37990,7 +38045,7 @@ msgstr ""
 
 #: ../../formats/stringsdict.rst:4
 msgid "Stringsdict format"
-msgstr ""
+msgstr "Formáid stringsdict"
 
 #: ../../formats/stringsdict.rst:8
 msgid ""
@@ -38020,7 +38075,7 @@ msgstr ""
 
 #: ../../formats/subtitles.rst:4
 msgid "Subtitle files"
-msgstr ""
+msgstr "Comhaid fotheideal"
 
 #: ../../formats/subtitles.rst:6
 msgid "Weblate can translate various subtitle files:"
@@ -38060,7 +38115,7 @@ msgstr ""
 
 #: ../../formats/tbx.rst:4
 msgid "TermBase eXchange format"
-msgstr ""
+msgstr "Formáid eXchange TermBase"
 
 #: ../../formats/tbx.rst:6
 msgid "Supported features"
@@ -38158,7 +38213,7 @@ msgstr ""
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
-msgstr ""
+msgstr "Síneadh Gréasáin JSON"
 
 #: ../../formats/webextension.rst:6
 msgid ""
@@ -38195,7 +38250,7 @@ msgstr ""
 
 #: ../../formats/winrc.rst:4
 msgid "Windows RC files"
-msgstr ""
+msgstr "Comhaid RC Windows"
 
 #: ../../formats/winrc.rst:8
 msgid "Support for Windows RC files has been rewritten."
@@ -38433,7 +38488,7 @@ msgstr ""
 
 #: ../../formats/yaml.rst:4
 msgid "YAML files"
-msgstr ""
+msgstr "Comhaid YAML"
 
 #: ../../formats/yaml.rst:10
 msgid ""
