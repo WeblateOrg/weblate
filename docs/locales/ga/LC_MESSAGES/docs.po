@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-08-06 11:14+0000\n"
+"PO-Revision-Date: 2024-08-06 13:02+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -1760,6 +1760,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+"Aistrítear teaghráin go huathoibríoch ag baint úsáide as aistriúchán meaisín "
+"nó comhpháirteanna eile."
 
 #: ../../admin/addons.rst:66
 msgid "It is triggered:"
@@ -1781,7 +1783,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:79
 msgid "JavaScript localization CDN"
-msgstr ""
+msgstr "Logánú JavaScript CDN"
 
 #: ../../admin/addons.rst:83
 msgid "``weblate.cdn.cdnjs``"
@@ -1842,6 +1844,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"Foilsíonn sé aistriúcháin go líonra seachadta inneachair le húsáid i logánú "
+"JavaScript nó HTML."
 
 #: ../../admin/addons.rst:98
 msgid ""
@@ -1878,7 +1882,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:125
 msgid "Remove blank strings"
-msgstr ""
+msgstr "Bain teaghráin bhána"
 
 #: ../../admin/addons.rst:129
 msgid "``weblate.cleanup.blank``"
@@ -1900,7 +1904,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:133
 msgid "Removes strings without a translation from translation files."
-msgstr ""
+msgstr "Bain teaghráin gan aistriú ó chomhaid aistriúcháin."
 
 #: ../../admin/addons.rst:135
 msgid ""
@@ -1916,7 +1920,7 @@ msgstr ":ref:`faq-cleanup`"
 
 #: ../../admin/addons.rst:146
 msgid "Cleanup translation files"
-msgstr ""
+msgstr "Glanadh comhaid aistriúcháin"
 
 #: ../../admin/addons.rst:148
 msgid "``weblate.cleanup.generic``"
@@ -1932,10 +1936,13 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"Nuashonraigh gach comhad aistriúcháin chun teacht leis an mbunchomhad "
+"aonteangach. Don chuid is mó de na formáidí comhaid, ciallaíonn sé seo go "
+"mbaintear seaneochracha aistriúcháin nach bhfuil sa bhunchomhad a thuilleadh."
 
 #: ../../admin/addons.rst:163
 msgid "Add missing languages"
-msgstr ""
+msgstr "Cuir teangacha atá in easnamh leis"
 
 #: ../../admin/addons.rst:165
 msgid "``weblate.consistency.languages``"
@@ -1950,6 +1957,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Cinntíonn sé go mbaintear úsáid as tacar comhsheasmhach teangacha do gach "
+"comhpháirt de thionscadal."
 
 #: ../../admin/addons.rst:172
 msgid ""
@@ -1969,7 +1978,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:185
 msgid "Component discovery"
-msgstr ""
+msgstr "Fionnachtain Comhpháirte"
 
 #: ../../admin/addons.rst:187
 msgid "``weblate.discovery.discovery``"
@@ -2110,6 +2119,8 @@ msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
+"Cuireann nó baintear comhpháirteanna tionscadail go huathoibríoch bunaithe "
+"ar athruithe comhaid sa chóras rialaithe leagain."
 
 #: ../../admin/addons.rst:214
 msgid ""
@@ -2500,7 +2511,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:400
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr ""
+msgstr "Bratach aistriúcháin gan athrú mar \"Tá eagarthóireacht de dhíth\""
 
 #: ../../admin/addons.rst:402
 msgid "``weblate.flags.same_edit``"
@@ -2517,6 +2528,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
+"Aon uair a allmhairítear teaghrán nua inaistrithe ón VCS agus a "
+"mheaitseálann sí le teaghrán foinse, cuirtear in iúl go bhfuil gá le heagrú "
+"in Weblate. Úsáideach go háirithe le haghaidh formáidí comhaid lena n-"
+"áirítear teaghráin foinse do teaghráin neamhaistrithe."
 
 #: ../../admin/addons.rst:412
 msgid ""
@@ -2531,7 +2546,7 @@ msgstr ":ref:`states`"
 
 #: ../../admin/addons.rst:422
 msgid "Flag new source strings as \"Needs editing\""
-msgstr ""
+msgstr "Bratach teaghráin foinse nua mar \"Tá eagarthóireacht de dhíth\""
 
 #: ../../admin/addons.rst:424
 msgid "``weblate.flags.source_edit``"
@@ -2543,10 +2558,14 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Aon uair a allmhairítear teaghrán foinse nua ón VCS, cuirtear in iúl go "
+"dteastaíonn eagarthóireacht air in Weblate. Ar an mbealach seo is féidir "
+"leat teaghráin foinse scríofa ag na forbróirí a scagadh agus a chur in eagar "
+"go héasca."
 
 #: ../../admin/addons.rst:439
 msgid "Flag new translations as \"Needs editing\""
-msgstr ""
+msgstr "Cuir aistriúcháin nua in iúl mar \"Tá eagarthóireacht de dhíth\""
 
 #: ../../admin/addons.rst:441
 msgid "``weblate.flags.target_edit``"
@@ -2558,6 +2577,10 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Aon uair a allmhairítear teaghrán nua inaistrithe ón VCS, cuirtear in iúl go "
+"bhfuil gá le heagrú in Weblate. Ar an mbealach seo is féidir leat "
+"aistriúcháin atá cruthaithe ag na forbróirí a scagadh agus a chur in eagar "
+"go héasca."
 
 #: ../../admin/addons.rst:456
 msgid "Fill read-only strings with source"
@@ -17917,10 +17940,8 @@ msgstr ""
 
 #: ../../admin/projects.rst:606 ../../workflows.rst:115 ../../workflows.rst:146
 #: ../../workflows.rst:180
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Automatically accept suggestions"
-msgstr "Úsáid na moltaí déanta go huathoibríoch"
+msgstr "Glac le moltaí go huathoibríoch"
 
 #: ../../admin/projects.rst:608
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
