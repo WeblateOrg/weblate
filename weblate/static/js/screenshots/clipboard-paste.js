@@ -8,6 +8,11 @@ $(document).ready(() => {
   // The file input to store the screenshot file
   const $screenshotFileInput = $("#screenshot-form-container input#id_image");
 
+  // Check if the browser supports the Clipboard API
+  if (!navigator.clipboard || !navigator.clipboard.read) {
+    $pasteScreenshotBtn.remove();
+  }
+
   $pasteScreenshotBtn.on("click", async (e) => {
     e.preventDefault();
     try {
