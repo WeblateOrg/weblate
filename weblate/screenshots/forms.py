@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import forms
+from django.utils.translation import gettext_lazy
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
@@ -51,6 +52,29 @@ class ScreenshotForm(forms.ModelForm):
         self.fields["translation"].initial = component.source_translation
         self.fields["translation"].empty_label = None
 
+        self.fields["paste_button"] = forms.CharField(
+            widget=PasteButtonWidget(), required=False, label=""
+        )
+
+        self.order_fields(
+            ["name", "repository_filename", "paste_button", "image", "translation"]
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        # Remove the paste_button from cleaned data
+        if "paste_button" in cleaned_data:
+            del cleaned_data["paste_button"]
+        return cleaned_data
+
 
 class SearchForm(forms.Form):
     q = QueryField(required=False)
+
+
+class PasteButtonWidget(forms.Widget):
+    def render(self, name, value, attrs=None, renderer=None):
+        info_label = '<p id="paste-screenshot-info-label" class="text-center"></p>'
+        btn_text = gettext_lazy("Paste from clipboard")
+        btn_template = f'<button id="paste-screenshot-btn" class="btn" type="button">{btn_text}</button>'
+        return info_label + btn_template
