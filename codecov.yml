@@ -8,6 +8,16 @@ coverage:
   - .*/wsgi.py
   status:
     project:
+      auth:
+        paths:
+        - weblate/auth
+        - weblate/accounts
+      formats:
+        paths:
+        - weblate/formats
+      checks:
+        paths:
+        - weblate/checks
       default:
         target: 90
     patch:
