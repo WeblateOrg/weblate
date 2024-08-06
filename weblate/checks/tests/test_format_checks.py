@@ -609,6 +609,49 @@ class PythonBraceFormatCheckTest(CheckTestCase):
             self.check.check_format("{{ {{ {s} }}", "{{ {{ {s} }}", False, None)
         )
 
+    def test_description(self) -> None:
+        unit = Unit(
+            source="{s} {a}",
+            target="a a",
+            extra_flags="python-brace-format",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language("en"),
+                )
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="{a}">{a}</span>,
+            <span class="hlcheck" data-value="{s}">{s}</span>
+            """,
+        )
+
+    def test_description_braces(self) -> None:
+        unit = Unit(
+            source="{s}",
+            target="{ {s} }",
+            extra_flags="python-brace-format",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language("en"),
+                )
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            Single <span class="hlcheck" data-value="{">{</span> encountered in the format string.<br>
+            Single <span class="hlcheck" data-value="}">}</span> encountered in the format string.
+            """,
+        )
+
 
 class CSharpFormatCheckTest(CheckTestCase):
     check = CSharpFormatCheck()
