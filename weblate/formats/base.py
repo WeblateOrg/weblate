@@ -754,7 +754,7 @@ class TranslationFormat:
 
     def cleanup_unused(self) -> list[str] | None:
         """Remove unused strings, returning list of additional changed files."""
-        if not self.template_store:
+        if not self.template_store or not self.can_delete_unit:
             return None
         existing = {template.context for template in self.template_store.template_units}
 
@@ -786,6 +786,8 @@ class TranslationFormat:
 
         Returning list of additional changed files.
         """
+        if not self.can_delete_unit:
+            return None
         changed = False
         needs_save = False
         result = []
