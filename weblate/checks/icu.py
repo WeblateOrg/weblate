@@ -453,7 +453,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
     def format_result(self, result):
         if result.get("syntax"):
             yield gettext("Syntax error: %s") % ", ".join(
-                err.msg for err in result["syntax"]
+                err.msg or "unknown error" for err in result["syntax"]
             )
 
         if result.get("extra"):
