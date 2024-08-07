@@ -157,7 +157,12 @@ class PythonFormatCheckTest(CheckTestCase):
             source="%(count)d",
             target="%(languages)d",
             extra_flags="python-format",
-            translation=Translation(component=Component(file_format="po")),
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language("en"),
+                )
+            ),
         )
         check = Check(unit=unit)
         self.assertHTMLEqual(
@@ -176,7 +181,12 @@ class PythonFormatCheckTest(CheckTestCase):
             source="%d %s",
             target="%s %d",
             extra_flags="python-format",
-            translation=Translation(component=Component(file_format="po")),
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language("en"),
+                )
+            ),
         )
         check = Check(unit=unit)
         self.assertEqual(
@@ -514,7 +524,12 @@ class PerlBraceFormatCheckTest(CheckTestCase):
             source="{foo}",
             target="{bar}",
             extra_flags="es-format",
-            translation=Translation(component=Component(file_format="po")),
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language("en"),
+                )
+            ),
         )
         check = Check(unit=unit)
         self.assertHTMLEqual(
@@ -1149,7 +1164,12 @@ class PluralTest(FixtureTestCase):
     def test_arabic(self) -> None:
         arabic = Language.objects.get(code="ar")
         translation = Translation(
-            language=arabic, plural=arabic.plural, component=Component(file_format="po")
+            language=arabic,
+            plural=arabic.plural,
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         # Singular, correct format string
         self.assertFalse(self.do_check(["hello %s"], ["hell %s"], translation))
@@ -1175,7 +1195,12 @@ class PluralTest(FixtureTestCase):
     def test_arabic_strict(self) -> None:
         arabic = Language.objects.get(code="ar")
         translation = Translation(
-            language=arabic, plural=arabic.plural, component=Component(file_format="po")
+            language=arabic,
+            plural=arabic.plural,
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertTrue(
             self.do_check(
@@ -1194,7 +1219,12 @@ class PluralTest(FixtureTestCase):
     def test_non_format_singular_fa(self) -> None:
         czech = Language.objects.get(code="fa")
         translation = Translation(
-            language=czech, plural=czech.plural, component=Component(file_format="po")
+            language=czech,
+            plural=czech.plural,
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertFalse(
             self.do_check(
@@ -1206,7 +1236,10 @@ class PluralTest(FixtureTestCase):
         translation = Translation(
             language=czech,
             plural=czech.plural,
-            component=Component(file_format="aresource"),
+            component=Component(
+                file_format="aresource",
+                source_language=Language("en"),
+            ),
         )
         self.assertTrue(
             self.do_check(
@@ -1219,7 +1252,12 @@ class PluralTest(FixtureTestCase):
     def test_non_format_singular(self) -> None:
         czech = Language.objects.get(code="cs")
         translation = Translation(
-            language=czech, plural=czech.plural, component=Component(file_format="po")
+            language=czech,
+            plural=czech.plural,
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertFalse(
             self.do_check(
@@ -1248,7 +1286,10 @@ class PluralTest(FixtureTestCase):
         translation = Translation(
             language=language,
             plural=language.plural,
-            component=Component(file_format="po"),
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertFalse(
             self.do_check(
@@ -1277,7 +1318,10 @@ class PluralTest(FixtureTestCase):
         translation = Translation(
             language=language,
             plural=language.plural,
-            component=Component(file_format="po"),
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertTrue(
             self.do_check(
@@ -1292,7 +1336,10 @@ class PluralTest(FixtureTestCase):
         translation = Translation(
             language=language,
             plural=language.plural,
-            component=Component(file_format="po"),
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertFalse(
             self.do_check(
@@ -1307,7 +1354,10 @@ class PluralTest(FixtureTestCase):
         translation = Translation(
             language=language,
             plural=language.plural,
-            component=Component(file_format="po"),
+            component=Component(
+                file_format="po",
+                source_language=Language("en"),
+            ),
         )
         self.assertFalse(
             self.do_check(
@@ -1427,7 +1477,12 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             source="${foo}",
             target="${bar}",
             extra_flags="es-format",
-            translation=Translation(component=Component(file_format="po")),
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language("en"),
+                )
+            ),
         )
         check = Check(unit=unit)
         self.assertHTMLEqual(

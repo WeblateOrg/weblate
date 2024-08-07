@@ -93,7 +93,7 @@ jobs:
     - name: Test with Django
       run: |
         pytest --junitxml=junit.xml --cov=weblate weblate
-        cp .coverage .coverage_pytest
+        cp .coverage .coverage.pytest
     - name: Test wsgi startup
       env:
         PYTHONPATH: .
