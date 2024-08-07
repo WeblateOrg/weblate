@@ -22,6 +22,7 @@ Not yet released.
 * :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
 * :ref:`glossary-terminology` entries in Glossary can now only be created by users with :guilabel:`Add glossary terminology` permission.
 * :ref:`check-python-brace-format` detects extra curly braces.
+* Screenshots now can be pasted from the clipboard in :ref:`screenshots`.
 
 **Bug fixes**
 
