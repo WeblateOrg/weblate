@@ -3,11 +3,19 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import forms
-from django.utils.translation import gettext_lazy
+from django.template.loader import render_to_string
+from django.utils.html import format_html
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import SortedSelect
+
+
+class ScreenshotInput(forms.FileInput):
+    def render(self, name, value, attrs=None, renderer=None, **kwargs):
+        rendered_input = super().render(name, value, attrs, renderer, **kwargs)
+        paste_button = render_to_string("screenshots/snippets/paste-button.html")
+        return format_html("{}{}", rendered_input, paste_button)
 
 
 class ScreenshotEditForm(forms.ModelForm):
@@ -16,6 +24,9 @@ class ScreenshotEditForm(forms.ModelForm):
     class Meta:
         model = Screenshot
         fields = ("name", "image", "repository_filename")
+        widgets = {
+            "image": ScreenshotInput,
+        }
 
 
 class LanguageChoiceField(forms.ModelChoiceField):
@@ -31,6 +42,7 @@ class ScreenshotForm(forms.ModelForm):
         fields = ("name", "repository_filename", "image", "translation")
         widgets = {
             "translation": SortedSelect,
+            "image": ScreenshotInput,
         }
         field_classes = {
             "translation": LanguageChoiceField,
@@ -52,29 +64,6 @@ class ScreenshotForm(forms.ModelForm):
         self.fields["translation"].initial = component.source_translation
         self.fields["translation"].empty_label = None
 
-        self.fields["paste_button"] = forms.CharField(
-            widget=PasteButtonWidget(), required=False, label=""
-        )
-
-        self.order_fields(
-            ["name", "repository_filename", "paste_button", "image", "translation"]
-        )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        # Remove the paste_button from cleaned data
-        if "paste_button" in cleaned_data:
-            del cleaned_data["paste_button"]
-        return cleaned_data
-
 
 class SearchForm(forms.Form):
     q = QueryField(required=False)
-
-
-class PasteButtonWidget(forms.Widget):
-    def render(self, name, value, attrs=None, renderer=None):
-        info_label = '<p id="paste-screenshot-info-label" class="text-center"></p>'
-        btn_text = gettext_lazy("Paste from clipboard")
-        btn_template = f'<button id="paste-screenshot-btn" class="btn" type="button">{btn_text}</button>'
-        return info_label + btn_template
