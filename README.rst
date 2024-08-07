@@ -16,9 +16,9 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/
 
-.. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
+.. image:: https://www.bestpractices.dev/projects/552/badge
     :alt: CII Best Practices
-    :target: https://bestpractices.coreinfrastructure.org/projects/552
+    :target: https://www.bestpractices.dev/en/projects/552
 
 .. image:: https://api.reuse.software/badge/github.com/WeblateOrg/weblate
     :alt: REUSE status

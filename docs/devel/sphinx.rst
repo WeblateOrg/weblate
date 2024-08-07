@@ -67,4 +67,4 @@ You can find several documentation projects being translated using this approach
 * `phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_
 
 .. _Sphinx: https://www.sphinx-doc.org/
-.. _Read the Docs: https://readthedocs.org/
+.. _Read the Docs: https://about.readthedocs.com/
