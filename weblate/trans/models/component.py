@@ -878,6 +878,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
+        if self.key_filter_re != self.key_filter:
+            self.drop_key_filter_cache()
+
         # Save/Create object
         super().save(*args, **kwargs)
 
@@ -3400,6 +3403,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if "addons_cache" in self.__dict__:
             del self.__dict__["addons_cache"]
 
+    def drop_key_filter_cache(self) -> None:
+        """Invalidate the cached value of key_filter."""
+        if "key_filter_re" in self.__dict__:
+            del self.__dict__["key_filter_re"]
+
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
         store = self.file_format_cls(
@@ -3809,6 +3817,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     @cached_property
     def key_filter_re(self) -> re.Pattern:
+        """Provide the cached version of key_filter."""
         return re.compile(self.key_filter)
 
 

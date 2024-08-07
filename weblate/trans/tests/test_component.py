@@ -1058,3 +1058,29 @@ class ComponentEditMonoTest(ComponentEditTest):
 
         # It should be now read only
         self.assertEqual(source.unit_set.all()[0].state, STATE_READONLY)
+
+
+class ComponentKeyFilterTest(ViewTestCase):
+    """Test the key filtering implementation in Component."""
+
+    def create_component(self):
+        return self.create_android(key_filter=r"^tr")
+
+    def test_get_key_filter_re(self) -> None:
+        self.assertEqual(self.component.key_filter_re.pattern, "^tr")
+
+    def test_get_filtered_result(self) -> None:
+        translation = self.component.translation_set.get(language_code="en")
+        units = translation.unit_set.all()
+        self.assertEqual(units.count(), 1)
+        self.assertEqual(units.all()[0].context, "try")
+
+    def test_change_key_filter(self) -> None:
+        self.component.key_filter = r"^th"
+        self.component.save()
+        self.assertEqual(self.component.key_filter_re.pattern, "^th")
+        translations = self.component.translation_set.all()
+        for translation in translations:
+            units = translation.unit_set.all()
+            self.assertEqual(units.count(), 1)
+            self.assertEqual(units.all()[0].context, "thanks")
