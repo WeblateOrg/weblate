@@ -11,6 +11,8 @@ on:
     - renovate/**
     - weblate
   pull_request:
+  schedule:
+  - cron: 30 5 * * *
 
 permissions:
   contents: read
