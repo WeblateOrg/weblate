@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load permissions %}
+{% load compress %}
 {% load crispy_forms_tags %}
 {% load translations %}
 {% load icons %}
+{% load static %}
+
+{% block extra_script %}
+{% compress js %}
+<script defer data-cfasync="false" src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
+{% endcompress %}
+{% endblock %}
 
 {% block breadcrumbs %}
 {% path_object_breadcrumbs object.translation.component %}
@@ -61,7 +69,7 @@
 </div>
 
 {% if user_can_edit_screenshot %}
-<form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
+<form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data" id="screenshot-form-container">
 {% csrf_token %}
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Edit screenshot" %}</h4></div>

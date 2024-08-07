@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load permissions %}
+{% load compress %}
 {% load crispy_forms_tags %}
 {% load humanize %}
 {% load icons %}
+{% load static %}
 {% load translations %}
+
+{% block extra_script %}
+{% compress js %}
+<script defer data-cfasync="false" src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
+{% endcompress %}
+{% endblock %}
 
 {% block breadcrumbs %}
 {% path_object_breadcrumbs object %}
@@ -22,7 +30,9 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
   <div class="panel-body">
-  {{ add_form|crispy }}
+    <div id="screenshot-form-container">
+      {{ add_form|crispy }}
+    </div>
   </div>
   <div class="panel-footer">
   <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
