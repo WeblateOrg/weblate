@@ -30,11 +30,9 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
   <div class="panel-body">
-    {% trans "Paste from clipboard" %}
-  </button>
-  <div id="screenshot-form-container">
-    {{ add_form|crispy }}
-  </div>
+    <div id="screenshot-form-container">
+      {{ add_form|crispy }}
+    </div>
   </div>
   <div class="panel-footer">
   <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
