@@ -283,6 +283,46 @@ ensure you mark the `read_user` scope.
 
    :doc:`psa:backends/gitlab`
 
+.. _gitea_auth:
+
+Gitea OAuth 2
+~~~~~~~~~~~~~~
+
+For using Gitea OAuth 2, you need to register an application on
+<https://gitea.com/user/settings/applications>.
+
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/`` and
+ensure you mark the `read_user` scope.
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.gitea.GiteaOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    
+    SOCIAL_AUTH_GITEA_KEY = ''
+    SOCIAL_AUTH_GITEA_SECRET = ''
+
+    # If you are using your own Gitea
+    SOCIAL_AUTH_GITEA_API_URL = 'https://gitea.example.com/'
+
+.. include:: /snippets/oauth-site.rst
+
+.. note::
+
+   Configuration above also works with Forgejo,
+   for production deployment with Forgejo, see
+   `Codeberg Translate <http://translate.codeberg.org>`_
+
+.. seealso::
+
+   :doc:`psa:backends/gitlab`
+
 .. _azure-auth:
 
 Microsoft Azure Active Directory
