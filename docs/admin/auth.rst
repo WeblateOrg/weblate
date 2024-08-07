@@ -303,11 +303,11 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_GITEA_KEY = ''
-    SOCIAL_AUTH_GITEA_SECRET = ''
+    SOCIAL_AUTH_GITEA_KEY = ""
+    SOCIAL_AUTH_GITEA_SECRET = ""
 
     # If you are using your own Gitea
-    SOCIAL_AUTH_GITEA_API_URL = 'https://gitea.example.com/'
+    SOCIAL_AUTH_GITEA_API_URL = "https://gitea.example.com/"
 
 .. include:: /snippets/oauth-site.rst
 
