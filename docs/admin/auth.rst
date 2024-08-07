@@ -291,8 +291,7 @@ Gitea OAuth 2
 For using Gitea OAuth 2, you need to register an application on
 <https://gitea.com/user/settings/applications>.
 
-The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/`` and
-ensure you mark the `read_user` scope.
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
 
 .. code-block:: python
 
@@ -304,7 +303,6 @@ ensure you mark the `read_user` scope.
     )
 
     # Social auth backends setup
-    
     SOCIAL_AUTH_GITEA_KEY = ''
     SOCIAL_AUTH_GITEA_SECRET = ''
 
@@ -321,7 +319,7 @@ ensure you mark the `read_user` scope.
 
 .. seealso::
 
-   :doc:`psa:backends/gitlab`
+   :doc:`psa:backends/gitea`
 
 .. _azure-auth:
 
