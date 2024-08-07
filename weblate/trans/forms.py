@@ -1516,7 +1516,7 @@ class ComponentSettingsForm(
         )
 
         if self.instance and not self.instance.file_format_cls.monolingual:
-            self.fields["key_filter"].widget.attrs["disabled"] = ""
+            self.fields["key_filter"].disabled = True
 
         self.helper.layout = Layout(
             TabHolder(

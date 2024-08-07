@@ -439,9 +439,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                         except UnitNotFoundError:
                             pass
                     if (
-                        self.component.key_filter_re
+                        self.component.file_format_cls.monolingual
+                        and self.component.key_filter_re
                         and re.match(self.component.key_filter_re, unit.context) is None
                     ):
+                        # This is where the key filtering take place
                         self.log_info(
                             "Doesn't match with key_filter, skipping: %s (%s)",
                             unit.context,
