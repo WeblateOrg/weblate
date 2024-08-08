@@ -58,7 +58,7 @@ def update(request: AuthenticatedHttpRequest, path):
         request,
         obj,
         gettext(
-            "All repositories have been updated, updates of the translations are in progress."
+            "All repositories have been updated, updates of translations are in progress."
         ),
         obj.do_update,
         request,
