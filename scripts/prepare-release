@@ -30,6 +30,10 @@ today=$(./manage.py shell -c 'from django.utils.dateformat import format; import
 sed -i "s/^VERSION =.*/VERSION = \"$version$suffix\"/" weblate/utils/version.py
 sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
 
+if [ -z "$suffix" ] ; then
+    ./scripts/list-contributors --update
+fi
+
 if ! git diff --exit-code --quiet ; then
     git commit -m "Releasing $version$suffix" -- weblate/utils/version.py docs/changes.rst
 fi

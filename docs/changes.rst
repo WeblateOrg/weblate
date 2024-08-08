@@ -43,6 +43,11 @@ Not yet released.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+**Contributors**
+
+..
+   scripts/prepare-release fills this
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?closed=1>`__.
 
 Weblate 5.6.2
