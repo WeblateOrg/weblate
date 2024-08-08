@@ -187,10 +187,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         ),
     )
     enforced_2fa = models.BooleanField(
-        verbose_name=gettext_lazy("Enforced two factor authentication"),
+        verbose_name=gettext_lazy("Enforced two-factor authentication"),
         default=False,
         help_text=gettext_lazy(
-            "Requires contributors to have configured two factor authentication before being able to contribute."
+            "Requires contributors to have two-factor authentication configured before being able to contribute."
         ),
     )
     # This should match definition in WorkflowSetting
