@@ -65,7 +65,7 @@ def check_global_permission(user: User, permission: str) -> bool:
 
 
 def check_enforced_2fa(user: User, project: Project) -> bool:
-    """Check whether user has 2fa in case it is enforced by the project."""
+    """Check whether the user has 2FA configured, in case it is enforced by the project."""
     return not project.enforced_2fa or user.is_verified()
 
 
@@ -174,7 +174,7 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
         # message here when checking this specifically.
         return Denied(
             gettext(
-                "This project requires two factor authentication, please configure it."
+                "This project requires two-factor authentication; configure it in your profile."
             )
         )
 
