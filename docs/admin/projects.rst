@@ -207,8 +207,8 @@ Enforced two factor authentication
 
 .. versionadded:: 5.7
 
-Enforce :ref:`2fa` for all contributors. Users without it will not be allowed
-to perform any operations within the project.
+Enforce :ref:`2fa` for all contributors. Users won’t be allowed
+to perform any operations within the project without having it configured.
 
 .. _project-translation_review:
 
