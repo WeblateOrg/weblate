@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name="enforced_2fa",
             field=models.BooleanField(
                 default=False,
-                help_text="Requires contributors to have configured two factor authentication before being able to contribute.",
+                help_text="Requires contributors to have the two-factor authentication configured before being able to contribute.",
                 verbose_name="Enforced two factor authentication",
             ),
         ),
