@@ -191,10 +191,10 @@ class Group(models.Model):
         related_name="administered_group_set",
     )
     enforced_2fa = models.BooleanField(
-        verbose_name=gettext_lazy("Enforced two factor authentication"),
+        verbose_name=gettext_lazy("Enforced two-factor authentication"),
         default=False,
         help_text=gettext_lazy(
-            "Requires users to have configured two factor authentication."
+            "Requires users to have two-factor authentication configured."
         ),
     )
 
