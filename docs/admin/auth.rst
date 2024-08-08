@@ -773,6 +773,6 @@ Recovery codes
 Each user can configure this in :ref:`profile-account` and second factor will
 be required to sign in addition to the existing authentication method.
 
-This can be enforced for users at project (see :ref:`project-enforced_2fa`) or team level.
+This can be enforced for users at the project (see :ref:`project-enforced_2fa`) or team level.
 
-The permissions of a team with enforced two factor authentication won't be applied to users not having it configured.
+The permissions of a team with enforced two-factor authentication won't be applied to users who do not have it configured.
