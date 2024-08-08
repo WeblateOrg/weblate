@@ -518,7 +518,6 @@ function initHighlight(root) {
 
     /* Handle scrolling */
     editor.addEventListener("scroll", (event) => {
-      console.log(event);
       highlight.scrollTop = editor.scrollTop;
       highlight.scrollLeft = editor.scrollLeft;
     });
@@ -1489,6 +1488,27 @@ $(function () {
       $("#new-singular").addClass("hidden");
       $("#new-plural").removeClass("hidden");
     }
+  });
+
+  /* WebAuthn registration completion in profile */
+  document.addEventListener("otp_webauthn.register_complete", (event) => {
+    const id = event.detail.id;
+    const deviceInput = document.querySelector(
+      "input[name=passkey-device-name]",
+    );
+    const csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]");
+
+    const action = deviceInput.getAttribute("data-href").replace("000000", id);
+
+    const form = document.getElementById("link-post");
+
+    form.setAttribute("action", action);
+    const elm = document.createElement("input");
+    elm.setAttribute("type", "hidden");
+    elm.setAttribute("name", "name");
+    elm.setAttribute("value", deviceInput.value);
+    form.appendChild(elm);
+    form.submit();
   });
 
   /* Warn users that they do not want to use developer console in most cases */

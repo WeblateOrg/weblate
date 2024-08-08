@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from binascii import unhexlify
+from time import time
 from typing import cast
 
 from crispy_forms.helper import FormHelper
@@ -17,6 +19,9 @@ from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
 from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
+from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
+from django_otp.oath import totp
+from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
@@ -42,6 +47,7 @@ from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.forms import (
+    ContextDiv,
     EmailField,
     QueryField,
     SortedSelect,
@@ -939,3 +945,140 @@ class GroupAddForm(forms.Form):
 
 class GroupRemoveForm(forms.Form):
     remove_group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+
+
+class TOTPDeviceForm(forms.Form):
+    """Based on two_factor.forms.TOTPDeviceForm."""
+
+    name = forms.CharField(
+        # Must match django_otp.models.Device.name
+        max_length=64,
+        label=gettext_lazy("Name your authentication app"),
+    )
+    token = forms.IntegerField(
+        label=gettext_lazy("Verify the code from the app"),
+        min_value=0,
+        max_value=999999,
+    )
+
+    token.widget.attrs.update(
+        {
+            "autofocus": "autofocus",
+            "inputmode": "numeric",
+            "autocomplete": "one-time-code",
+        }
+    )
+
+    error_messages = {
+        "invalid_token": gettext_lazy("Entered token is not valid."),
+    }
+
+    def __init__(self, key, user, metadata=None, **kwargs):
+        super().__init__(**kwargs)
+        self.key = key
+        self.tolerance = 1
+        self.t0 = 0
+        self.step = 30
+        self.drift = 0
+        self.digits = 6
+        self.user = user
+        self.metadata = metadata or {}
+
+    @property
+    def bin_key(self):
+        """The secret key as a binary string."""
+        return unhexlify(self.key.encode())
+
+    def clean_token(self):
+        token = self.cleaned_data.get("token")
+        validated = False
+        t0s = [self.t0]
+        key = self.bin_key
+        if "valid_t0" in self.metadata:
+            t0s.append(int(time()) - self.metadata["valid_t0"])
+        for t0 in t0s:
+            for offset in range(-self.tolerance, self.tolerance + 1):
+                if totp(key, self.step, t0, self.digits, self.drift + offset) == token:
+                    self.drift = offset
+                    self.metadata["valid_t0"] = int(time()) - t0
+                    validated = True
+        if not validated:
+            raise forms.ValidationError(self.error_messages["invalid_token"])
+        return token
+
+    def save(self):
+        return TOTPDevice.objects.create(
+            user=self.user,
+            key=self.key,
+            tolerance=self.tolerance,
+            t0=self.t0,
+            step=self.step,
+            drift=self.drift,
+            digits=self.digits,
+            name=self.cleaned_data["name"],
+        )
+
+
+class WebAuthnTokenForm(forms.Form):
+    show_submit = False
+
+    def __init__(self, user, request=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.user = user
+        self.request = request
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            ContextDiv(template="accounts/webauthn.html", context={"request": request}),
+        )
+
+
+class OTPTokenForm(DjangoOTPTokenForm):
+    show_submit = True
+    otp_token = forms.CharField(
+        label=gettext("Recovery token"),
+        help_text=gettext(
+            "Recovery token can be used just once, mark your token as used after using it."
+        ),
+    )
+
+    def __init__(self, user, request=None, *args, **kwargs):
+        super().__init__(user, request, *args, **kwargs)
+        self.request = request
+        self.fields["otp_device"].widget = forms.HiddenInput()
+        self.fields["otp_device"].required = False
+        self.fields["otp_challenge"].widget = forms.HiddenInput()
+        self.fields["otp_token"].required = True
+        self.fields["otp_token"].widget.attrs["autofocus"] = "autofocus"
+        self.fields["otp_token"].widget.attrs["autocomplete"] = "off"
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+    def _chosen_device(self, user):
+        return None
+
+    @staticmethod
+    def device_choices(user):  # noqa: ARG004
+        # Not needed as we do not support challenge/response devices
+        # Also this is incompatible with WebAuthn
+        return []
+
+
+class TOTPTokenForm(OTPTokenForm):
+    otp_token = forms.IntegerField(
+        label=gettext_lazy("Enter the code from the app"),
+        min_value=0,
+        max_value=999999,
+    )
+
+    def __init__(self, user, request=None, *args, **kwargs):
+        super().__init__(user, request, *args, **kwargs)
+        self.fields["otp_token"].widget.attrs.update(
+            {
+                "inputmode": "numeric",
+                "autocomplete": "one-time-code",
+            }
+        )
