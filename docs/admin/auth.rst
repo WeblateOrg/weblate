@@ -748,7 +748,7 @@ Two-factor authentication
 
 .. hint::
 
-   Two-factor authentication adds another layer of security to your account by requiring one more factor to sign in.
+   Two-factor authentication adds another layer of security to your account by requiring more than just a password to sign in.
 
 Weblate supports the following second factors:
 
