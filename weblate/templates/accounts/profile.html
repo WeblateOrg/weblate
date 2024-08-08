@@ -225,9 +225,9 @@
         {% render_otp_webauthn_register_scripts %}
       </div>
       <div class="col-sm-4">
-        <h5>{% trans "Authentication apps (TOTP)" %}</h5>
+        <h5>{% trans "Authenticator apps (TOTP)" %}</h5>
         {% if not totp_keys %}
-          <p><em>{% trans "There are currently no authentication apps registered." %}</em></p>
+          <p><em>{% trans "There are currently no authenticator apps registered." %}</em></p>
         {% else %}
           <ul class="list-group">
           {% for key in totp_keys %}
@@ -239,7 +239,7 @@
           {% endfor %}
           </ul>
         {% endif %}
-        <a href="{% url 'totp' %}" class="btn btn-primary">{% trans "Register new authentication app" %}</a>
+        <a href="{% url 'totp' %}" class="btn btn-primary">{% trans "Register new authenticator app" %}</a>
       </div>
       <div class="col-sm-4">
         <h5>{% trans "Recovery codes" %}</h5>
