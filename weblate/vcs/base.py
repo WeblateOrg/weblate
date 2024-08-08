@@ -191,18 +191,26 @@ class Repository:
         if not fullcmd:
             args = [cls._cmd, *list(args)]
         text_cmd = " ".join(args)
-        process = subprocess.run(
-            args,
-            cwd=cwd,
-            env={} if local else cls._getenv(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
-            text=not raw,
-            check=False,
-            # These are mutually exclusive
-            input=stdin,
-            stdin=subprocess.PIPE if stdin is None else None,
-        )
+        try:
+            process = subprocess.run(
+                args,
+                cwd=cwd,
+                env={} if local else cls._getenv(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
+                text=not raw,
+                check=False,
+                # These are mutually exclusive
+                input=stdin,
+                stdin=subprocess.PIPE if stdin is None else None,
+                # Excessively long timeout to catch misbehaving processes
+                timeout=3600,
+            )
+        except subprocess.TimeoutExpired as error:
+            raise RepositoryError(
+                0,
+                f"Subprocess didn't complete before {error.timeout} seconds\n{error.stdout}{error.stderr or ''}",
+            ) from error
         cls.add_breadcrumb(
             text_cmd,
             retcode=process.returncode,
