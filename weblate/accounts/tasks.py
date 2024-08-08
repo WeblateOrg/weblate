@@ -47,7 +47,7 @@ def cleanup_auditlog() -> None:
         timestamp__lt=timestamp - timedelta(days=settings.AUDITLOG_EXPIRY)
     ).delete()
 
-    # Finalize pending two factor entries, these happen due to
+    # Finalize pending two-factor entries, these happen due to
     # WebAuthn keys being added in two stages. Mature entries older than 5 minutes
     # but look only two hours into past for performance reasons
     for audit in AuditLog.objects.filter(
