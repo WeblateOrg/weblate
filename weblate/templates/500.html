@@ -17,7 +17,7 @@
   </p>
 
   {% if sentry_dsn %}
-    <script src="{% static "vendor/sentry.js" %}"></script>
+    <script src="{% static "js/vendor/sentry.js" %}"></script>
 
     <script>
       Sentry.init({ dsn: '{{ sentry_dsn|escapejs }}' });
