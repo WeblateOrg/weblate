@@ -28,14 +28,14 @@
 <div class="panel-footer">
 <form class="form-inline">
   <div class="form-group">
-<a href="{% url return_url path=return_target.get_url_path %}" class="btn btn-primary" id="progress-return">{% trans "Return to the target" %}</a>
+<a href="{% url return_url path=return_target.get_url_path %}" class="btn btn-primary" id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
 {% if user_can_edit_component %}
 <a href="#" class="btn btn-danger" id="terminate-task-button">{% trans "Abort the update" %}</a>
 {% endif %}
   </div>
   <div class="form-group">
     <input type="checkbox" id="progress-redirect" checked="checked">
-    <label for="progress-redirect">{% trans "Return to the target after completion" %}</label>
+    <label for="progress-redirect">{% trans "Continue after completion" %}</label>
   </div>
 </form>
 </div>
