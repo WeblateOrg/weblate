@@ -292,7 +292,7 @@ class UnitQuerySet(models.QuerySet):
         # Lookups based on context
         for match in contexts:
             try:
-                return self.source_context_lookup[(match, source)]
+                return self.source_context_lookup[match, source]
             except KeyError:
                 continue
 
