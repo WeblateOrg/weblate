@@ -8,7 +8,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
-<li><a href="{% url 'totp' %}">{% trans "Register new authentication app" %}</a></li>
+<li><a href="{% url 'totp' %}">{% trans "Register new authenticator app" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -19,12 +19,12 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         {% documentation_icon 'admin/auth' '2fa' right=True %}
-        {% trans "Register new authentication app" %}
+        {% trans "Register new authenticator app" %}
       </h4>
     </div>
     <div class="panel-body second-factor">
       <p class="help-block">
-        {% trans "Authenticator apps generate one-time passwords that are used as a second factor to verify your identity when prompted during sign-in. " %}
+        {% trans "Authenticator apps generate one-time passwords that are used as a second factor to verify your identity when prompted during sign-in." %}
       </p>
 
       <h5>{% trans "Scan the QR code" %}</h5>
