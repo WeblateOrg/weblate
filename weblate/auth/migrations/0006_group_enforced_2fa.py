@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
             name="enforced_2fa",
             field=models.BooleanField(
                 default=False,
-                help_text="Requires users to have configured two factor authentication.",
-                verbose_name="Enforced two factor authentication",
+                help_text="Requires users to have two-factor authentication configured.",
+                verbose_name="Enforced two-factor authentication",
             ),
         ),
     ]
