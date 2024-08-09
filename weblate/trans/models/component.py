@@ -2244,7 +2244,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 sender=component.__class__,
                 component=component,
                 previous_head=previous_head,
-                child=True,
                 skip_push=skip_push,
             )
 

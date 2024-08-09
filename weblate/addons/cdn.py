@@ -132,7 +132,5 @@ class CDNJSAddon(BaseAddon):
             component.id,
         )
 
-    def post_update(
-        self, component, previous_head: str, skip_push: bool, child: bool
-    ) -> None:
+    def post_update(self, component, previous_head: str, skip_push: bool) -> None:
         self.daily(component)

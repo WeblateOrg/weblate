@@ -437,14 +437,13 @@ def post_update(
     sender,
     component: Component,
     previous_head: str,
-    child: bool = False,
     skip_push: bool = False,
     **kwargs,
 ) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
-        (component, previous_head, skip_push, child),
+        (component, previous_head, skip_push),
         component=component,
     )
 
