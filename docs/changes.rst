@@ -5,10 +5,12 @@ Not yet released.
 
 **New features**
 
+* :ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps (TOTP), and recovery codes.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
 * New :ref:`subscriptions` for completed translation and component.
 * :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
+* :ref:`mt-cyrtranslit` automatic suggestion service.
 
 **Improvements**
 
@@ -20,6 +22,8 @@ Not yet released.
 * Browse mode can now be navigated using keyboard, see :ref:`keyboard`.
 * :http:get:`/api/components/(string:project)/(string:component)/credits/` and :http:get:`/api/projects/(string:project)/credits/` API endpoints for components and projects.
 * :ref:`glossary-terminology` entries in Glossary can now only be created by users with :guilabel:`Add glossary terminology` permission.
+* :ref:`check-python-brace-format` detects extra curly braces.
+* Screenshots now can be pasted from the clipboard in :ref:`screenshots`.
 
 **Bug fixes**
 
@@ -39,6 +43,13 @@ Not yet released.
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings accordingly.
+
+**Contributors**
+
+..
+   scripts/prepare-release fills this
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?closed=1>`__.
 

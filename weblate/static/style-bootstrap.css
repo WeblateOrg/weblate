@@ -583,6 +583,12 @@ form + .login-label {
   padding: 0;
 }
 
+.container-gapped {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .comment-content {
   border-radius: 0 5px 5px 5px;
   background-color: #e5f0f2;
@@ -602,14 +608,27 @@ form + .login-label {
   color: #bfc3c7;
 }
 
+#suggestions {
+  margin-top: 55px;
+}
+
 .btn-float {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
   background-color: #fff;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  position: relative;
-  top: -5px;
+  border-radius: 5px;
+  position: absolute;
+  right: 15px;
+  transform: translateY(-100%);
   z-index: 10;
-  padding: 0 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .btn-float {
+    left: 20px;
+  }
 }
 
 .btn-float .btn,
@@ -1928,6 +1947,7 @@ a.language:hover {
   animation: flags-updated ease-out 3000ms;
 }
 
+.second-factor h5,
 h5.list-group-item-heading {
   font-weight: bolder;
 }
@@ -2022,4 +2042,10 @@ tbody.warning {
 .auth-list .auth-image {
   vertical-align: top;
   padding: 0 5px;
+}
+.recovery-codes {
+  columns: 2;
+}
+.recovery-codes li {
+  font-family: monospace;
 }

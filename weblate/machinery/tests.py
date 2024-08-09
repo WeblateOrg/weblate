@@ -27,7 +27,7 @@ from google.cloud.translate import (
 )
 
 import weblate.machinery.models
-from weblate.checks.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockTranslation, MockUnit
 from weblate.configuration.models import Setting
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
@@ -40,6 +40,7 @@ from weblate.machinery.base import (
     MachineTranslationError,
     SettingsDict,
 )
+from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
@@ -1700,6 +1701,51 @@ class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
         machine = WeblateTranslation({})
         results = machine.translate(unit, self.user)
         self.assertNotEqual(results, [])
+
+
+class CyrTranslitTranslationTest(TransactionsTestMixin, FixtureTestCase):
+    def get_machine(self):
+        return CyrTranslitTranslation({})
+
+    def test_transliterate(self):
+        machine = self.get_machine()
+
+        # check empty result when source or translation language isn't supported
+        unit = MockUnit(code="cs", source="Ahoj světe!")
+        unit.translation = MockTranslation(code="cs", source_language="en")
+        results = machine.translate(unit, self.user)
+        self.assertEqual(results, [])
+
+        # check empty result when source and translation aren't from same language
+        unit = MockUnit(code="cnr_Cyrl", source="something else")
+        unit.translation = MockTranslation(code="cnr_Cyrl", source_language="sr_Latn")
+        results = machine.translate(unit, self.user)
+        self.assertEqual(results, [])
+
+        # check latin to cyrillic
+        unit = MockUnit(code="sr_Cyrl", source="Moj hoverkraft je pun jegulja")
+        unit.translation = MockTranslation(code="sr_Cyrl", source_language="sr_Latn")
+        results = machine.translate(unit, self.user)
+        self.assertEqual(
+            results,
+            [
+                [
+                    {
+                        "text": "Мој ховеркрафт је пун јегуља",
+                        "quality": 100,
+                        "service": "CyrTranslit",
+                        "source": "Moj hoverkraft je pun jegulja",
+                        "original_source": "Moj hoverkraft je pun jegulja",
+                    }
+                ]
+            ],
+        )
+
+        # check cyrillic to latin
+        unit = MockUnit(code="sr_Latn", source="Мој ховеркрафт је пун јегуља")
+        unit.translation = MockTranslation(code="sr_Latn", source_language="sr_Cyrl")
+        results = machine.translate(unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja")
 
 
 class ViewsTest(FixtureTestCase):

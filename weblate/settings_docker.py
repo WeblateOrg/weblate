@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-from logging.handlers import SysLogHandler
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -29,6 +28,7 @@ SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
+# Site URL
 SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
 
 #
@@ -249,6 +249,13 @@ AUTHENTICATION_BACKENDS: tuple[str, ...] = ()
 
 # Custom user model
 AUTH_USER_MODEL = "weblate_auth.User"
+
+# WebAuthn
+OTP_WEBAUTHN_RP_NAME = SITE_TITLE
+OTP_WEBAUTHN_RP_ID = SITE_DOMAIN.split(":")[0]
+OTP_WEBAUTHN_ALLOWED_ORIGINS = [SITE_URL]
+OTP_WEBAUTHN_ALLOW_PASSWORDLESS_LOGIN = False
+OTP_WEBAUTHN_HELPER_CLASS = "weblate.accounts.utils.WeblateWebAuthnHelper"
 
 if "WEBLATE_NO_EMAIL_AUTH" not in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.email.EmailAuth",)
@@ -583,6 +590,7 @@ SOCIAL_AUTH_PIPELINE = [
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
+    "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
@@ -688,6 +696,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
+    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
@@ -760,6 +769,10 @@ INSTALLED_APPS = [
     "django_filters",
     "django_celery_beat",
     "corsheaders",
+    "django_otp",
+    "django_otp.plugins.otp_static",
+    "django_otp.plugins.otp_totp",
+    "django_otp_webauthn",
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")
@@ -773,10 +786,7 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporte
 # - you can also choose "logfile" to log into separate file
 #   after configuring it below
 
-# Detect if we can connect to syslog
-HAVE_SYSLOG = False
-
-DEFAULT_LOG = "console" if DEBUG or not HAVE_SYSLOG else "syslog"
+DEFAULT_LOG = "console"
 DEFAULT_LOGLEVEL = get_env_str("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
 
 # A sample logging configuration. The only tangible logging
@@ -789,7 +799,6 @@ LOGGING: dict = {
     "disable_existing_loggers": True,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
     "formatters": {
-        "syslog": {"format": "weblate[%(process)d]: %(levelname)s %(message)s"},
         "simple": {"format": "[%(asctime)s: %(levelname)s/%(process)s] %(message)s"},
         "logfile": {"format": "%(asctime)s %(levelname)s %(message)s"},
         "django.server": {
@@ -814,17 +823,10 @@ LOGGING: dict = {
             "class": "logging.StreamHandler",
             "formatter": "django.server",
         },
-        "syslog": {
-            "level": "DEBUG",
-            "class": "logging.handlers.SysLogHandler",
-            "formatter": "syslog",
-            "address": "/dev/log",
-            "facility": SysLogHandler.LOG_LOCAL2,
-        },
     },
     "loggers": {
         "django.request": {
-            "handlers": ["mail_admins", DEFAULT_LOG],
+            "handlers": [DEFAULT_LOG],
             "level": "ERROR",
             "propagate": True,
         },
@@ -851,9 +853,8 @@ LOGGING: dict = {
     },
 }
 
-# Remove syslog setup if it's not present
-if not HAVE_SYSLOG:
-    del LOGGING["handlers"]["syslog"]
+if get_env_bool("WEBLATE_ADMIN_NOTIFY_ERROR", True):
+    LOGGING["loggers"]["django.request"]["handlers"].append("mail_admins")
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
@@ -1114,6 +1115,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.openai.OpenAITranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
+    "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
 ]
 modify_env_list(WEBLATE_MACHINERY, "MACHINERY")
 
@@ -1413,7 +1415,7 @@ if LEGAL_INTEGRATION:
         # Social auth pipeline to confirm TOS upon registration/subsequent sign in
         SOCIAL_AUTH_PIPELINE.insert(
             SOCIAL_AUTH_PIPELINE.index(
-                "social_core.pipeline.social_auth.load_extra_data"
+                "weblate.accounts.pipeline.second_factor",
             )
             + 1,
             "weblate.legal.pipeline.tos_confirm",

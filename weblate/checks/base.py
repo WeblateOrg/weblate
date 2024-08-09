@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.http import Http404
-from django.utils.html import conditional_escape, format_html, format_html_join
+from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext
 from lxml import etree
 from siphashc import siphash
@@ -292,10 +292,13 @@ class TargetCheck(BaseCheck):
         )
 
     def get_values_text(self, message: str, values: Iterable[str]) -> StrOrPromise:
-        return format_html_join(
-            ", ",
-            conditional_escape(message),
-            ((self.format_value(value),) for value in sorted(values)),
+        return format_html(
+            message,
+            format_html_join(
+                ", ",
+                "{}",
+                ((self.format_value(value),) for value in sorted(values)),
+            ),
         )
 
     def get_missing_text(self, values: Iterable[str]) -> StrOrPromise:

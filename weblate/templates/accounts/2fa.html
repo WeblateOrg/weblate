@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load authnames %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'login' %}">{% trans "Sign in" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+<h2>{{ site_title }}</h2>
+<div class="row">
+
+<div class="col-sm-7">
+{% include "snippets/login-info.html" %}
+</div>
+
+<div class="col-sm-5">
+
+<h4>{% trans "Second factor sign-in" %}</h4>
+<div class="panel panel-default">
+  <div class="panel-body">
+<form method="post">
+
+<p class="help-block">
+  {% trans "Please complete your sign-in using second factor credential." %}
+</p>
+
+{% crispy form %}
+
+<input type="hidden" name="next" value="{{ next }}" />
+
+{% if form.show_submit %}
+  <input type="submit" value="{% trans "Sign in" %}" class="btn btn-primary btn-full" />
+{% endif %}
+</form>
+
+{% if second_factor_types %}
+<div class="clearfix"></div>
+<ul class="login-links">
+  {% for second_factor in second_factor_types %}
+    <li><a href="{% url "2fa-login" backend=second_factor %}?next={{ next }}">{% second_factor_name second_factor %}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

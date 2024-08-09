@@ -5,7 +5,7 @@ Security and privacy
 
    At Weblate, security maintains an environment that values the privacy of our users.
 
-Development of Weblate adheres to the `Best Practices of the Linux Foundation's Core Infrastructure Initiative <https://bestpractices.coreinfrastructure.org/projects/552>`_.
+Development of Weblate adheres to the `Best Practices of the Linux Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/en/projects/552>`_.
 
 .. seealso::
 

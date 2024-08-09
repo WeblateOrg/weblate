@@ -1,0 +1,15 @@
+{% load otp_webauthn %}
+{% load i18n %}
+
+<span id="passkey-verification-placeholder"></span>
+
+<template id="passkey-verification-available-template">
+  <button type="button" class="btn btn-primary" id="passkey-verification-button">{% trans "Sign in using the security key" %}</button>
+  <div id="passkey-verification-status-message"></div>
+</template>
+
+<template id="passkey-verification-unavailable-template">
+  <p>{% trans "Unfortunately, your browser has no WebAuthn support." %}</p>
+</template>
+
+{% render_otp_webauthn_auth_scripts %}

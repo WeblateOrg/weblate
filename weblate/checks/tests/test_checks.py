@@ -63,9 +63,9 @@ class MockProject:
 class MockComponent:
     """Mock component object."""
 
-    def __init__(self) -> None:
+    def __init__(self, source_language: str = "en") -> None:
         self.id = 1
-        self.source_language = MockLanguage("en")
+        self.source_language = MockLanguage(source_language)
         self.project = MockProject()
         self.name = "MockComponent"
         self.file_format = "auto"
@@ -75,9 +75,9 @@ class MockComponent:
 class MockTranslation:
     """Mock translation object."""
 
-    def __init__(self, code="cs") -> None:
+    def __init__(self, code: str = "cs", source_language: str = "en") -> None:
         self.language = MockLanguage(code)
-        self.component = MockComponent()
+        self.component = MockComponent(source_language)
         self.is_template = False
         self.is_source = False
         self.plural = self.language.plural

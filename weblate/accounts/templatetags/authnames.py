@@ -15,7 +15,10 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
+from weblate.accounts.utils import DeviceType, get_key_name
+
 if TYPE_CHECKING:
+    from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
 
 register = template.Library()
@@ -44,6 +47,12 @@ SOCIALS: dict[str, dict[str, StrOrPromise]] = {
     "twitter": {"name": "Twitter", "image": "twitter.svg"},
     "stackoverflow": {"name": "Stack Overflow", "image": "stackoverflow.svg"},
     "musicbrainz": {"name": "MusicBrainz", "image": "musicbrainz.svg"},
+}
+
+SECOND_FACTORS: dict[DeviceType, StrOrPromise] = {
+    "webauthn": gettext_lazy("Use security key (WebAuthn)"),
+    "totp": gettext_lazy("Use authentication app (TOTP)"),
+    "recovery": gettext_lazy("Use recovery codes"),
 }
 
 IMAGE_SOCIAL_TEMPLATE = """
@@ -100,3 +109,13 @@ def auth_name(auth: str, separator: str = auth_name_default_separator, only: str
 def get_auth_name(auth: str):
     """Get nice name for authentication backend."""
     return get_auth_params(auth)["name"]
+
+
+@register.simple_tag
+def key_name(device: Device) -> str:
+    return get_key_name(device)
+
+
+@register.simple_tag
+def second_factor_name(name: DeviceType) -> str:
+    return SECOND_FACTORS[name]

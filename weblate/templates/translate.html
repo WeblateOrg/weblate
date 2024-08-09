@@ -11,6 +11,7 @@
 {% compress js %}
 <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
 <script defer data-cfasync="false" src="{% static 'editor/full.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 {% endblock %}
 
@@ -807,8 +808,10 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
             <h4 class="panel-title">{% trans "Add new screenshot" %}</h4>
           </div>
-          <div class="modal-body">
-            {{ screenshot_form|crispy }}
+          <div class="panel-body">
+            <div id="screenshot-form-container">
+              {{ screenshot_form|crispy }}
+            </div>
             <input type="hidden" name="source" value="{{ unit.pk }}" />
           </div>
           <div class="modal-footer">

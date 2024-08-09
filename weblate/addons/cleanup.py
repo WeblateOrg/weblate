@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import UpdateBaseAddon
 from weblate.addons.events import AddonEvent
+from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
 
 if TYPE_CHECKING:
@@ -18,9 +19,13 @@ if TYPE_CHECKING:
 
 
 class BaseCleanupAddon(UpdateBaseAddon):
+    @staticmethod
+    def can_install_format(component: Component) -> bool:
+        return component.file_format_cls.can_delete_unit
+
     @classmethod
-    def can_install(cls, component, user: User | None):
-        if not component.has_template():
+    def can_install(cls, component: Component, user: User | None) -> bool:
+        if not component.has_template() or not cls.can_install_format(component):
             return False
         return super().can_install(component, user)
 
@@ -35,6 +40,14 @@ class CleanupAddon(BaseCleanupAddon):
     )
     icon = "eraser.svg"
     events = (AddonEvent.EVENT_PRE_COMMIT, AddonEvent.EVENT_POST_UPDATE)
+
+    @classmethod
+    def can_install_format(cls, component: Component) -> bool:
+        return (
+            super().can_install_format(component)
+            or component.file_format_cls.cleanup_unused
+            != TranslationFormat.cleanup_unused
+        )
 
     def update_translations(self, component, previous_head) -> None:
         for translation in self.iterate_translations(component):

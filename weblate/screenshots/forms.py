@@ -3,10 +3,19 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django import forms
+from django.template.loader import render_to_string
+from django.utils.html import format_html
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import SortedSelect
+
+
+class ScreenshotInput(forms.FileInput):
+    def render(self, name, value, attrs=None, renderer=None, **kwargs):
+        rendered_input = super().render(name, value, attrs, renderer, **kwargs)
+        paste_button = render_to_string("screenshots/snippets/paste-button.html")
+        return format_html("{}{}", rendered_input, paste_button)
 
 
 class ScreenshotEditForm(forms.ModelForm):
@@ -15,6 +24,9 @@ class ScreenshotEditForm(forms.ModelForm):
     class Meta:
         model = Screenshot
         fields = ("name", "image", "repository_filename")
+        widgets = {
+            "image": ScreenshotInput,
+        }
 
 
 class LanguageChoiceField(forms.ModelChoiceField):
@@ -30,6 +42,7 @@ class ScreenshotForm(forms.ModelForm):
         fields = ("name", "repository_filename", "image", "translation")
         widgets = {
             "translation": SortedSelect,
+            "image": ScreenshotInput,
         }
         field_classes = {
             "translation": LanguageChoiceField,

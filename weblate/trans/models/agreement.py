@@ -23,7 +23,7 @@ class ContributorAgreementManager(models.Manager):
         return user.cla_cache[cache_key]
 
     def create(self, user: User, component: Component, **kwargs):
-        user.cla_cache[(user.pk, component.pk)] = True
+        user.cla_cache[user.pk, component.pk] = True
         return super().create(user=user, component=component, **kwargs)
 
     def order(self):
