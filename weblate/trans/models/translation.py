@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import codecs
 import os
+import re
 import tempfile
 from itertools import chain
 from typing import TYPE_CHECKING, BinaryIO, TypedDict
@@ -439,6 +440,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                                 unit.source = translated_unit.source
                         except UnitNotFoundError:
                             pass
+                    if (
+                        self.component.file_format_cls.monolingual
+                        and self.component.key_filter_re
+                        and re.match(self.component.key_filter_re, unit.context) is None
+                    ):
+                        # This is where the key filtering take place
+                        self.log_info(
+                            "Doesn't match with key_filter, skipping: %s (%s)",
+                            unit.context,
+                            repr(unit.source),
+                        )
+                        continue
 
                     try:
                         id_hash = unit.id_hash

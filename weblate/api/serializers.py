@@ -585,6 +585,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "commit_pending_age",
             "auto_lock_error",
             "language_regex",
+            "key_filter",
             "variant_regex",
             "zipfile",
             "docfile",

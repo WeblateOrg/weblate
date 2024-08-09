@@ -771,6 +771,14 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
 
+    key_filter = RegexField(
+        verbose_name=gettext_lazy("Key filter"),
+        max_length=500,
+        default="",
+        help_text=gettext_lazy("Regular expression used to filter keys."),
+        blank=True,
+    )
+
     objects = ComponentQuerySet.as_manager()
 
     is_lockable = True
@@ -871,6 +879,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
+        if self.key_filter_re != self.key_filter:
+            self.drop_key_filter_cache()
+
         # Save/Create object
         super().save(*args, **kwargs)
 
@@ -881,6 +892,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # be hitting race conditions between background update and frontend displaying
         # the newly created component
         bool(self.source_translation)
+
+        if self.key_filter_re.pattern:
+            with transaction.atomic():
+                translations = Translation.objects.filter(component=self)
+                for translation in translations:
+                    translation.check_sync(force=True)
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.after_save(
@@ -3377,6 +3394,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if "addons_cache" in self.__dict__:
             del self.__dict__["addons_cache"]
 
+    def drop_key_filter_cache(self) -> None:
+        """Invalidate the cached value of key_filter."""
+        if "key_filter_re" in self.__dict__:
+            del self.__dict__["key_filter_re"]
+
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
         store = self.file_format_cls(
@@ -3783,6 +3805,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def start_sentry_span(self, op: str):
         return sentry_sdk.start_span(op=op, description=self.full_slug)
+
+    @cached_property
+    def key_filter_re(self) -> re.Pattern:
+        """Provide the cached version of key_filter."""
+        return re.compile(self.key_filter)
 
 
 @receiver(m2m_changed, sender=Component.links.through)
