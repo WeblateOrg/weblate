@@ -273,6 +273,10 @@ def execute_addon_event(
     method: str | Callable,
     args: tuple | None = None,
 ) -> None:
+    # Trigger repository scoped add-ons only on the main component
+    if addon.repo_scope and component.linked_component:
+        return
+
     # Log logging result and error flag for add-on activity log
     log_result = None
     error_occurred = False
