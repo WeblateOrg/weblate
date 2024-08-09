@@ -1689,7 +1689,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if result:
             # create translation objects for all files
             try:
-                self.create_translations(request=request)
+                self.create_translations(request=request, run_async=True)
             except FileParseError:
                 result = False
 
@@ -1890,7 +1890,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             # create translation objects for all files
             try:
-                self.create_translations(request=request, force=True)
+                self.create_translations(request=request, force=True, run_async=True)
             except FileParseError:
                 return False
             return True
@@ -1931,7 +1931,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def do_file_scan(self, request=None):
         self.commit_pending("file-scan", request.user if request else None)
         try:
-            return self.create_translations(request=request, force=True)
+            return self.create_translations(request=request, force=True, run_async=True)
         except FileParseError:
             return False
 
@@ -2365,33 +2365,58 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        run_async: bool = False,
     ) -> bool:
         """Load translations from VCS."""
-        try:
-            with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
-                return self._create_translations(
+        if not run_async or settings.CELERY_TASK_ALWAYS_EAGER:
+            try:
+                # Asynchronous processing not requested or not available, run the update
+                # directly from the request processing.
+                # NOTE: In case the lock cannot be acquired, an error will be raised.
+                return self.create_translations_task(
                     force, langs, request, changed_template, from_link, change
                 )
-        except WeblateLockTimeoutError:
-            if settings.CELERY_TASK_ALWAYS_EAGER:
-                # Retry will not address anything
-                raise
-            from weblate.trans.tasks import perform_load
+            except WeblateLockTimeoutError:
+                if settings.CELERY_TASK_ALWAYS_EAGER:
+                    # Retry will not address anything
+                    raise
+                # Else, fall back to asynchronous process.
 
-            self.log_info("scheduling update in background, another update in progress")
-            # We skip request here as it is not serializable
-            perform_load.apply_async(
-                args=(self.pk,),
-                kwargs={
-                    "force": force,
-                    "langs": langs,
-                    "changed_template": changed_template,
-                    "from_link": from_link,
-                    "change": change,
-                },
-                countdown=60,
+        from weblate.trans.tasks import perform_load
+
+        self.log_info("scheduling update in background")
+        # We skip request here as it is not serializable
+        perform_load.apply_async(
+            args=(self.pk,),
+            kwargs={
+                "force": force,
+                "langs": langs,
+                "changed_template": changed_template,
+                "from_link": from_link,
+                "change": change,
+            },
+        )
+        return False
+
+    def create_translations_task(
+        self,
+        force: bool = False,
+        langs: list[str] | None = None,
+        request=None,
+        changed_template: bool = False,
+        from_link: bool = False,
+        change: int | None = None,
+    ) -> bool:
+        """
+        Load translations from VCS synchronously.
+
+        Should not be called directly, except from Celery tasks.
+        """
+        # In case the lock cannot be acquired, an error will be raised.
+        with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
+            return self._create_translations(
+                force, langs, request, changed_template, from_link, change
             )
-            return False
 
     def check_template_valid(self) -> None:
         if self._template_check_done:
@@ -2555,7 +2580,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             )
             component.translations_count = -1
             try:
-                was_change |= component.create_translations(
+                # Do not run these linked repos update as other background tasks.
+                was_change |= component.create_translations_task(
                     force, langs, request=request, from_link=True
                 )
             except FileParseError as error:
@@ -3127,10 +3153,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         was_change = False
         if changed_setup:
             was_change = self.create_translations(
-                force=True, changed_template=changed_template
+                force=True, changed_template=changed_template, run_async=True
             )
         elif changed_git:
-            was_change = self.create_translations()
+            was_change = self.create_translations(run_async=True)
 
         # Update variants (create_translation does this on change)
         if changed_variant and not was_change:
@@ -3573,7 +3599,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 )
 
         # Trigger parsing of the newly added file
-        if create_translations and not self.create_translations(request=request):
+        if create_translations and not self.create_translations(
+            request=request, run_async=True
+        ):
             messages.warning(
                 request,
                 gettext("The translation will be updated in the background."),

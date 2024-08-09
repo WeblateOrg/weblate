@@ -37,7 +37,7 @@ def sync_glossary_languages(pk: int, component: Component | None = None) -> None
             needs_create = True
 
     if needs_create:
-        component.create_translations(request=None)
+        component.create_translations_task()
 
 
 @app.task(
