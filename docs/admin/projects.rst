@@ -202,7 +202,7 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. _project-enforced_2fa:
 
-Enforced two factor authentication
+Enforced two-factor authentication
 ++++++++++++++++++++++++++++++++++
 
 .. versionadded:: 5.7
