@@ -64,6 +64,11 @@ def check_global_permission(user: User, permission: str) -> bool:
     return permission in user.global_permissions
 
 
+def check_enforced_2fa(user: User, project: Project) -> bool:
+    """Check whether the user has 2FA configured, in case it is enforced by the project."""
+    return not project.enforced_2fa or user.is_verified()
+
+
 def check_permission(user: User, permission: str, obj: Model):
     """Check whether user has a object-specific permission."""
     if user.is_superuser:
@@ -78,39 +83,46 @@ def check_permission(user: User, permission: str, obj: Model):
         return any(
             permission in permissions
             for permissions, _langs in user.get_project_permissions(obj)
-        )
+        ) and check_enforced_2fa(user, obj)
     if isinstance(obj, ComponentList):
         return all(
             check_permission(user, permission, component)
+            and check_enforced_2fa(user, component.project)
             for component in obj.components.iterator()
         )
     if isinstance(obj, Component):
         return (
-            not obj.restricted
-            and any(
-                permission in permissions
-                for permissions, _langs in user.get_project_permissions(obj.project)
+            (
+                not obj.restricted
+                and any(
+                    permission in permissions
+                    for permissions, _langs in user.get_project_permissions(obj.project)
+                )
             )
-        ) or any(
-            permission in permissions
-            for permissions, _langs in user.component_permissions[obj.pk]
-        )
+            or any(
+                permission in permissions
+                for permissions, _langs in user.component_permissions[obj.pk]
+            )
+        ) and check_enforced_2fa(user, obj.project)
     if isinstance(obj, Unit):
         obj = obj.translation
     if isinstance(obj, Translation):
         lang = obj.language_id
         return (
-            not obj.component.restricted
-            and any(
-                permission in permissions and (langs is None or lang in langs)
-                for permissions, langs in user.get_project_permissions(
-                    obj.component.project
+            (
+                not obj.component.restricted
+                and any(
+                    permission in permissions and (langs is None or lang in langs)
+                    for permissions, langs in user.get_project_permissions(
+                        obj.component.project
+                    )
                 )
             )
-        ) or any(
-            permission in permissions and (langs is None or lang in langs)
-            for permissions, langs in user.component_permissions[obj.component_id]
-        )
+            or any(
+                permission in permissions and (langs is None or lang in langs)
+                for permissions, langs in user.component_permissions[obj.component_id]
+            )
+        ) and check_enforced_2fa(user, obj.component.project)
     raise TypeError(
         f"Permission {permission} does not support: {obj.__class__}: {obj!r}"
     )
@@ -155,6 +167,15 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
     if user.is_authenticated and not user.email:
         return Denied(
             gettext("Can not perform this operation without an e-mail address.")
+        )
+
+    if project and not check_enforced_2fa(user, project):
+        # This would later fail in check_permission, but we can give a nicer error
+        # message here when checking this specifically.
+        return Denied(
+            gettext(
+                "This project requires two-factor authentication; configure it in your profile."
+            )
         )
 
     if component:

@@ -35,7 +35,7 @@
         {% for group in object_list %}
         <tr>
           <td>
-            {{ group.name }}
+            {% include "auth/teams-name.html" %}
           </td>
           <td>
             {% include "auth/teams-roles.html" %}

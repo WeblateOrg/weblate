@@ -172,3 +172,36 @@ class TwoFactorTestCase(FixtureTestCase):
             expected_url, {"otp_token": totp_response}, follow=True
         )
         self.assertEqual(response.context["user"], self.user)
+
+    def test_team_enforced_2fa(self):
+        # Turn on enforcement on all user teams
+        self.user.groups.update(enforced_2fa=True)
+        url = self.project.get_absolute_url()
+
+        # Access without second factor
+        response = self.client.get(url)
+        # Not found because user doesn't have access to the project
+        self.assertEqual(response.status_code, 404)
+
+        # Configure second factor
+        self.test_login_totp()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_project_enforced_2fa(self):
+        # Turn on enforcement on project and make user an admin
+        self.project.add_user(self.user, "Administration")
+        self.project.enforced_2fa = True
+        self.project.save()
+
+        url = reverse("git_status", kwargs={"path": self.project.get_url_path()})
+
+        # Access without second factor
+        response = self.client.get(url)
+        # Permission denied because user still has access to the project
+        self.assertEqual(response.status_code, 403)
+
+        # Configure second factor
+        self.test_login_totp()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
