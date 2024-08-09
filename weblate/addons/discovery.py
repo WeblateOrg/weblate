@@ -32,11 +32,7 @@ class DiscoveryAddon(BaseAddon):
     needs_component = True
     trigger_update = True
 
-    def post_update(
-        self, component, previous_head: str, skip_push: bool, child: bool
-    ) -> None:
-        if child:
-            return
+    def post_update(self, component, previous_head: str, skip_push: bool) -> None:
         discovery = self.get_discovery(component)
         discovery.perform(
             remove=self.instance.configuration.get("remove"), background=True
