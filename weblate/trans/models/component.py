@@ -2408,7 +2408,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         change: int | None = None,
     ) -> bool:
         """
-        Load synchronously translations from VCS.
+        Load translations from VCS synchronously.
 
         Should not be called directly, except from Celery tasks.
         """
