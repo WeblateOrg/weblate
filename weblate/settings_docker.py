@@ -1270,6 +1270,11 @@ SILENCED_SYSTEM_CHECKS = [
     # as weblate.accounts.middleware.AuthenticationMiddleware
     "admin.E408"
 ]
+
+# Silence WebAuthn origin error
+if not ENABLE_HTTPS:
+    SILENCED_SYSTEM_CHECKS.append("otp_webauthn.E031")
+
 SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
 # Celery worker configuration for production
