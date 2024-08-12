@@ -194,7 +194,7 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 Google OAuth 2
 ~~~~~~~~~~~~~~
 
-To use Google OAuth 2, you need to register an application on
+To use Google OAuth 2, you need to register an application at
 <https://console.developers.google.com/> and enable the Google+ API.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
@@ -254,7 +254,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
 GitLab OAuth 2
 ~~~~~~~~~~~~~~
 
-For using GitLab OAuth 2, you need to register an application on
+For using GitLab OAuth 2, you need to register an application at
 <https://gitlab.com/profile/applications>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and
@@ -282,6 +282,44 @@ ensure you mark the `read_user` scope.
 .. seealso::
 
    :doc:`psa:backends/gitlab`
+
+.. _gitea_auth:
+
+Gitea OAuth 2
+~~~~~~~~~~~~~~
+
+For using Gitea OAuth 2, you need to register an application at
+``https://GITEA SERVER/user/settings/applications``.
+
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.gitea.GiteaOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_GITEA_KEY = ""
+    SOCIAL_AUTH_GITEA_SECRET = ""
+
+    # If you are using your own Gitea
+    SOCIAL_AUTH_GITEA_API_URL = "https://gitea.example.com/"
+
+.. include:: /snippets/oauth-site.rst
+
+.. note::
+
+   The configuration above also works with Forgejo;
+   for an example of production deployment with Forgejo,
+   see `Codeberg Translate <http://translate.codeberg.org>`_
+
+.. seealso::
+
+   :doc:`psa:backends/gitea`
 
 .. _azure-auth:
 
@@ -344,7 +382,7 @@ You will need following:
 Slack
 ~~~~~
 
-For using Slack OAuth 2, you need to register an application on
+For using Slack OAuth 2, you need to register an application at
 <https://api.slack.com/apps>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
