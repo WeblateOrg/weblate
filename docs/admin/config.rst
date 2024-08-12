@@ -697,6 +697,10 @@ Whether to turn on anonymous remote hooks.
 ENABLE_HTTPS
 ------------
 
+.. versionchanged:: 5.7
+
+   Weblate now requires https for WebAuthn support.
+
 Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent
 e-mails and generated absolute URLs.
 
@@ -710,6 +714,11 @@ an SSL termination which does not correctly pass protocol headers to Django.
 Please tweak your reverse proxy configuration to emit :http:header:`X-Forwarded-Proto` or
 :http:header:`Forwarded` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
 let Django correctly detect the SSL status.
+
+In case this is disabled, Weblate will fail to start with an
+``otp_webauthn.E031`` error.  You can silence this error by adding it to
+:setting:`django:SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for
+sites without HTTPS.
 
 .. seealso::
 

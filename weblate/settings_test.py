@@ -49,6 +49,9 @@ ADMINS = (("Weblate test", "noreply@weblate.org"),)
 SECRET_KEY = "secret key used for tests only"  # noqa: S105
 
 SITE_DOMAIN = "example.com"
+OTP_WEBAUTHN_RP_NAME = SITE_DOMAIN
+OTP_WEBAUTHN_RP_ID = SITE_DOMAIN
+OTP_WEBAUTHN_ALLOWED_ORIGINS = [f"https://{SITE_DOMAIN}"]
 
 # Different root for test repos
 if "CI_BASE_DIR" in os.environ:

@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps (TOTP), and recovery codes.
+* :ref:`2fa` can be enforced at the team or project level.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
 * New :ref:`subscriptions` for completed translation and component.
@@ -42,6 +44,14 @@ Not yet released.
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable are the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings accordingly.
+* :setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot use HTTPS, please silence related check as described in :setting:`ENABLE_HTTPS` documentation.
+
+**Contributors**
+
+..
+   scripts/prepare-release fills this
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?closed=1>`__.
 

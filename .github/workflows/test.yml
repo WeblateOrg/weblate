@@ -91,7 +91,9 @@ jobs:
     - name: Demo import
       run: coverage run ./manage.py import_demo
     - name: Test with Django
-      run: coverage run ./manage.py test -v2
+      run: |
+        pytest --junitxml=junit.xml --cov=weblate weblate
+        cp .coverage .coverage.pytest
     - name: Test wsgi startup
       env:
         PYTHONPATH: .
@@ -105,6 +107,11 @@ jobs:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
         name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
     - name: DeepSource
       uses: deepsourcelabs/test-coverage-action@v1.1.2
       if: ${{ github.event_name == 'push' }}

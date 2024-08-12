@@ -27,7 +27,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.5.6
+  rev: v0.5.7
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -88,7 +88,7 @@ repos:
   - id: codespell
     additional_dependencies:
     - tomli
-
-exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js$
+    exclude: client/yarn.lock
+exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js$
 ci:
   autoupdate_schedule: quarterly

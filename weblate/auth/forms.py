@@ -111,7 +111,14 @@ class UserEditForm(forms.ModelForm):
 class BaseTeamForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ["name", "roles", "language_selection", "languages", "components"]
+        fields = [
+            "name",
+            "roles",
+            "language_selection",
+            "languages",
+            "components",
+            "enforced_2fa",
+        ]
 
     internal_fields = [
         "name",
@@ -177,4 +184,5 @@ class SitewideTeamForm(BaseTeamForm):
             "componentlists",
             "language_selection",
             "languages",
+            "enforced_2fa",
         ]

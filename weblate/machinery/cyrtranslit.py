@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import cyrtranslit
 
 from .base import MachineTranslation, TranslationResultDict
 
@@ -49,6 +48,8 @@ class CyrTranslitTranslation(MachineTranslation):
         self, source, language, text: str, unit, user, threshold: int = 75
     ):
         """Download list of possible translations from a service."""
+        import cyrtranslit
+
         language, script = language.split("@")
 
         translated_text = (

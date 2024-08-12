@@ -6,6 +6,7 @@
 {% load metrics %}
 {% load permissions %}
 {% load authnames %}
+{% load translations %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
@@ -309,9 +310,44 @@
   <div class="tab-pane" id="edit">
     <form method="post">
       {% csrf_token %}
-      {{ form|crispy }}
-      <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-      <input type="button" name="remove_user" value="{% trans "Delete" %}" class="btn-danger red" data-toggle="modal" data-target="#delete_user_{{ page_user.id }}">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">{% trans "Edit user" %}</h4></div>
+        <div class="panel-body">
+          {{ form|crispy }}
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/auth' '2fa' right=True %}
+            {% trans "Two-factor authentication" %}
+          </h4>
+        </div>
+        <div class="panel-body">
+          {% if page_user.profile.has_2fa %}
+            {% trans "User has two-factor authentication configured." %}
+          {% else %}
+            {% trans "User doesn't have two-factor authentication configured." %}
+          {% endif %}
+        </div>
+        {% if page_user.profile.has_2fa %}
+          <div class="panel-footer">
+            <input type="submit" name="remove_2fa" value="{% trans "Disable two-factor authentication" %}" class="btn-danger red">
+          </div>
+        {% endif %}
+      </div>
+      <div class="panel panel-danger">
+        <div class="panel-heading"><h4 class="panel-title">{% trans "Removal" %}</h4></div>
+        <div class="panel-body">
+          {% trans "Account removal deletes all user private data." %}
+        </div>
+        <div class="panel-footer">
+          <input type="button" name="remove_user" value="{% trans "Delete" %}" class="btn-danger red" data-toggle="modal" data-target="#delete_user_{{ page_user.id }}">
+        </div>
+      </div>
       <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ page_user.id }}">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

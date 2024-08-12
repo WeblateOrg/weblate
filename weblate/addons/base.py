@@ -192,7 +192,7 @@ class BaseAddon:
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             component.commit_pending("add-on", None)
-            self.post_update(component, "", False, False)
+            self.post_update(component, "", False)
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
             self.component_update(component)
@@ -238,7 +238,7 @@ class BaseAddon:
         # To be implemented in a subclass
 
     def post_update(
-        self, component: Component, previous_head: str, skip_push: bool, child: bool
+        self, component: Component, previous_head: str, skip_push: bool
     ) -> None:
         """
         Event handler after repository is updated from upstream.
@@ -434,7 +434,7 @@ class UpdateBaseAddon(BaseAddon):
         raise NotImplementedError
 
     def post_update(
-        self, component: Component, previous_head: str, skip_push: bool, child: bool
+        self, component: Component, previous_head: str, skip_push: bool
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with suppress(FileParseError):

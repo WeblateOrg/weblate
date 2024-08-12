@@ -9,11 +9,11 @@
     <td class="history-event">
         <strong>{{ change.get_user_display }}</strong>
         <p class="text-muted">{{ change.get_action_display }}</p>
-        <ol class="breadcrumb">
+        <ul class="breadcrumb">
           {% if change.path_object %}
             {% path_object_breadcrumbs change.path_object flags=False %}
           {% endif %}
-        </ol>
+        </ul>
         {% if user.is_superuser %}
           {% with ip_address=change.get_ip_address %}
             {% if ip_address %}

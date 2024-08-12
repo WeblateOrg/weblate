@@ -2044,6 +2044,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "enable_hooks",
             "language_aliases",
             "access_control",
+            "enforced_2fa",
             "translation_review",
             "source_review",
         )
@@ -2141,6 +2142,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                         template="%s/layout/radioselect_access.html",
                         **disabled,
                     ),
+                    "enforced_2fa",
                     css_id="access",
                 ),
                 Tab(

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-06-18 14:42+0200\n"
-"PO-Revision-Date: 2024-07-28 21:59+0000\n"
+"PO-Revision-Date: 2024-08-10 18:16+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -5059,15 +5059,6 @@ msgstr ""
 "autenticación de Django:"
 
 #: ../../admin/auth.rst:589
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
-#| "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
-#| "able to set their password in Weblate, and authenticate using that. "
-#| "Keeping ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in "
-#| "order to make permissions and facilitate anonymous users. It will also "
-#| "allow you to sign in using a local admin account, if you have created it "
-#| "(e.g. by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -5077,14 +5068,13 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
-"Debes eliminar ``'social_core.backends.email.EmailAuth'`` de la "
+"Deberías eliminar ``'social_core.backends.email.EmailAuth'`` de la "
 "configuración :setting:`django:AUTHENTICATION_BACKENDS`, de lo contrario los "
-"usuarios podrán establecer su contraseña en Weblate, y autenticarse usando "
-"eso. Sigue siendo necesario mantener ``'weblate.accounts.auth."
-"WeblateUserBackend'`` para hacer los permisos y facilitar los usuarios "
-"anónimos. También te permitirá iniciar sesión con una cuenta de "
-"administrador local, si la has creado (por ejemplo, usando :djadmin:"
-"`createadmin`)."
+"usuarios podrán establecer tu contraseña en Weblate, y autenticarse usando "
+"eto. Mantener ``'weblate.accounts.auth.WeblateUserBackend'`` todavía es "
+"necesario para hacer permisos y permitir a los usuarios anónimos. También te "
+"permitirá iniciar sesión usando una cuenta de administrador local, si la has "
+"creado (por ejemplo, usando :wladmin:`createadmin`)."
 
 #: ../../admin/auth.rst:598
 msgid "Using bind password"
@@ -5723,21 +5713,15 @@ msgstr ""
 "restaura tablas completas con todos sus datos."
 
 #: ../../admin/backup.rst:252
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in a newer Weblate release, it will perform "
-#| "all the necessary migrations when running in :djadmin:`django:migrate`. "
-#| "Please consult :doc:`upgrade` on more detailed info on how to upgrade "
-#| "between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
-"Puede restaurar esta copia de seguridad en una versión más reciente de "
-"Weblate, que realizará todas las migraciones necesarias cuando se ejecute "
-"en :djadmin:`django:migrate`. Por favor, consulte :doc:`upgrade` para "
-"obtener información más detallada sobre cómo actualizar entre versiones."
+"Puedes restaurar esta copia de seguridad en una versión más reciente de "
+"Weblate, realizará todas las migraciones necesarias cuando se ejecute en "
+":wladmin:`migrate`. Por favor, consulta :doc:`upgrade` para más información "
+"detallada sobre cómo actualizar entre versiones."
 
 #: ../../admin/backup.rst:257
 msgid "Django database backup"
@@ -5755,13 +5739,6 @@ msgstr ""
 "en caso de que quieras cambiar el backend de la base de datos."
 
 #: ../../admin/backup.rst:263
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring the database you need to be running exactly the same "
-#| "Weblate version the backup was made on. This is necessary as the database "
-#| "structure does change between releases and you would end up corrupting "
-#| "the data in some way. After installing the same version, run all database "
-#| "migrations using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -5769,12 +5746,12 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
-"Antes de restaurar la base de datos, debe ejecutar exactamente la misma "
-"versión de Weblate en la que se hizo la copia de seguridad. Esto es "
-"necesario, ya que la estructura de la base de datos cambia entre las "
-"distintas versiones y podría acabar corrompiendo los datos de alguna manera. "
-"Después de instalar la misma versión, ejecute todas las migraciones de la "
-"base de datos utilizando :djadmin:`django:migrate`."
+"Antes de restaurar la base de datos, debes ejecutar exactamente la misma "
+"versión de Weblate en la que hiciste la copia de seguridad. Esto es "
+"necesario ya que la estructura de la base de datos cambia entre versiones y "
+"podría corromper los datos de alguna manera. Después de instalar la misma "
+"versión, ejecuta todas las migraciones de las bases de datos utilizando "
+":wladmin:`migrate`."
 
 #: ../../admin/backup.rst:269
 msgid ""
@@ -5976,10 +5953,8 @@ msgid "Restore all data you have backed up."
 msgstr "Restaure todos los datos de los que ha hecho copia de respaldo."
 
 #: ../../admin/backup.rst:375
-#, fuzzy
-#| msgid "Update all repositories using :djadmin:`updategit`."
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr "Actualice todos los repositorios mediante :djadmin:`updategit`."
+msgstr "Actualiza todos los repositorios usando :wladmin:`updategit`."
 
 #: ../../admin/backup.rst:382
 msgid "Moving a Weblate installation"
@@ -5999,6 +5974,9 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
+"`Actualizando de Python 2 a Python 3 en la documentación de Weblate 3.11.1 "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
@@ -6063,34 +6041,33 @@ msgstr "Cadena de origen, véase :ref:`additional`."
 #: ../../admin/checks.rst:34
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
 msgstr ""
+"Marcadores por cadena extraídos del formato de archivo, consulta "
+":ref:`formats`."
 
 #: ../../admin/checks.rst:35
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
 msgstr ""
+"Indicadores de traducción (actualmente solo indicadores ``de sólo lectura``` "
+"para cadenas de origen bilingües)."
 
 #: ../../admin/checks.rst:36
 msgid "File-format specific flags."
-msgstr ""
+msgstr "Indicadores específicos del formato del archivo."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`component` (:ref:`component-check_flags`)."
 msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:39
-#, fuzzy
-#| msgid ""
-#| "The flags are comma-separated, the parameters are separated with colon. "
-#| "You can use quotes to include whitespace or special chars in the string. "
-#| "For example:"
 msgid ""
 "The flags are comma-separated; if they have parameters, they are separated "
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
-"Las banderas están separadas por comas, los parámetros están separados por "
-"dos puntos. Puede utilizar comillas para incluir espacios en blanco o "
+"Los indicadores se separan con comas; si tienen parámetros, se separan con "
+"dos puntos. Puedes utilizar comillas para incluir espacios en blanco o "
 "caracteres especiales en la cadena. Por ejemplo:"
 
 #: ../../admin/checks.rst:47
@@ -6116,6 +6093,8 @@ msgid ""
 "To ensure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"Para garantizar que los enlaces internos no se traduzcan (es decir, que "
+"`[test](../checks)` no se convierta en `[test](../chequeos)`."
 
 #: ../../admin/checks.rst:69
 msgid "Here is a list of flags currently accepted:"

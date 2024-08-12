@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
@@ -52,14 +54,23 @@ def update(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm("vcs.update", obj):
         raise PermissionDenied
 
-    return execute_locked(
+    result = execute_locked(
         request,
         obj,
-        gettext("All repositories were updated."),
+        gettext(
+            "All repositories have been updated, updates of translations are in progress."
+        ),
         obj.do_update,
         request,
         method=request.GET.get("method"),
     )
+    if result:
+        return redirect(
+            "{}?info=1".format(
+                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            )
+        )
+    return result
 
 
 @login_required
@@ -81,13 +92,22 @@ def reset(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm("vcs.reset", obj):
         raise PermissionDenied
 
-    return execute_locked(
+    result = execute_locked(
         request,
         obj,
-        gettext("All repositories have been reset."),
+        gettext(
+            "All repositories have been reset, updates of translations are in progress."
+        ),
         obj.do_reset,
         request,
     )
+    if result:
+        return redirect(
+            "{}?info=1".format(
+                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            )
+        )
+    return result
 
 
 @login_required
@@ -129,13 +149,20 @@ def file_scan(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm("vcs.reset", obj):
         raise PermissionDenied
 
-    return execute_locked(
+    result = execute_locked(
         request,
         obj,
-        gettext("Translations have been updated."),
+        gettext("Updates of translations are in progress."),
         obj.do_file_scan,
         request,
     )
+    if result:
+        return redirect(
+            "{}?info=1".format(
+                reverse("component_progress", kwargs={"path": obj.get_url_path()})
+            )
+        )
+    return result
 
 
 @login_required

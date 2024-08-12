@@ -94,5 +94,4 @@ class RemoveBlankAddon(BaseCleanupAddon):
             component,
             "weblate:post-commit" if store_hash else "weblate:post-commit-no-store",
             skip_push=True,
-            child=False,
         )

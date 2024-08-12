@@ -18,27 +18,67 @@ Older browsers might work, but some features might be limited.
 
 Dependency management
 ---------------------
+Installing and managing `3rd party` libraries in the `client` of a django project
+can be a bit tricky. This document provides a step-by-step guide on how to install
+and manage 3rd party libraries used by the `client side` of Weblate using `Webpack`.
 
-The yarn package manager is used to update third party libraries. The
-configuration lives in :file:`scripts/yarn` and there is a wrapper script
-:file:`scripts/yarn-update` to upgrade the libraries, build them and copy to
-correct locations in :file:`weblate/static/vendor`, where all third partly
-frontend code is located. The Weblate specific code should be placed directly
-in :file:`weblate/static` or feature specific subdirectories (for example
-:file:`weblate/static/editor`).
+Prerequisites
+~~~~~~~~~~~~~
 
-Adding new third-party library typically consists of:
+Before proceeding with an installation, make sure you have the following prerequisites:
 
-.. code-block:: sh
+- Node.js.
+- Yarn package manager installed on your system.
+- Run ``cd client``.
+- Run ``yarn install``
 
-   # Add a yarn package
-   yarn --cwd scripts/yarn add PACKAGE
-   # Edit the script to copy package to the static folder
-   edit scripts/yarn-update
-   # Run the update script
-   ./scripts/yarn-update
-   # Add files to git
-   git add .
+1- Installation
+~~~~~~~~~~~~~~~
+
+To install a library, 1st run the following command:
+
+.. code-block:: bash
+
+    yarn add lib
+
+2- Importing the Library
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Then, there are two ways to import the library:
+
+1. If it is a project-wide library (it is used/needed in all/most pages):
+    - Import the library in ``src/main.js``.
+
+2. If it is page-specific library (library is used in a specific page or template):
+    - Create a new file named ``src/<lib-name>.js``.
+    - Import the library in it.
+    - Add an entry in ``webpack.config.js``:
+      ``<lib-name>: "src/<lib-name>.js"``.
+
+   Note: Replace ``<lib-name>`` with the actual name of the 3rd party library.
+
+3- Building the Library
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build the libraries used by the project, run the following command:
+
+.. code-block:: bash
+
+    yarn build
+
+4- Including the Library
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now the library is built and ready for use. To include it follow these steps:
+
+1. If the library was imported in ``src/main.js``, no further steps are required (as it is already included in ``base.html``).
+
+2. If the library was imported in its specific file ``src/<lib-name>.js``, in ``weblate/templates``` use the include tags to link to the built static JavaScript file:
+
+.. code-block:: django
+
+    {% load static %}
+    <script src="{% static 'js/vendor/<lib-name>.js' %}"></script>
 
 Coding style
 ------------

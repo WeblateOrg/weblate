@@ -77,6 +77,7 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/moment.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/daterangepicker.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
 {% block extra_script %}
@@ -335,6 +336,10 @@ var _rollbarConfig = {
 {% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
   {% trans 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}
   {% show_message 'warning' msg %}
+{% endif %}
+
+{% if user.is_authenticated and not user.is_verified and user.group_enforces_2fa %}
+  {% include "snippets/enforced_2fa.html" %}
 {% endif %}
 
 {% if messages %}

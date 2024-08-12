@@ -57,6 +57,8 @@ from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
     from social_django.strategy import DjangoStrategy
@@ -187,6 +189,13 @@ class Group(models.Model):
             "The administrator can add or remove users from a team."
         ),
         related_name="administered_group_set",
+    )
+    enforced_2fa = models.BooleanField(
+        verbose_name=gettext_lazy("Enforced two-factor authentication"),
+        default=False,
+        help_text=gettext_lazy(
+            "Requires users to have two-factor authentication configured."
+        ),
     )
 
     objects = GroupQuerySet.as_manager()
@@ -491,6 +500,7 @@ class User(AbstractBaseUser):
             "watched_projects",
             "owned_projects",
             "managed_projects",
+            "cached_groups",
         )
         for name in perm_caches:
             if name in self.__dict__:
@@ -507,6 +517,10 @@ class User(AbstractBaseUser):
     @cached_property
     def is_authenticated(self) -> bool:  # type: ignore[override]
         return not self.is_anonymous
+
+    # django_otp integration, this is overridden in OTPMiddleware
+    def is_verified(self) -> bool:
+        return False
 
     def get_full_name(self):
         return self.full_name
@@ -668,26 +682,34 @@ class User(AbstractBaseUser):
     def administered_group_ids(self):
         return set(self.administered_group_set.values_list("id", flat=True))
 
+    @cached_property
+    def cached_groups(self) -> Iterable[Group]:
+        return self.groups.prefetch_related(
+            "roles__permissions",
+            Prefetch(
+                "componentlists__components",
+                queryset=Component.objects.only("id", "project_id"),
+            ),
+            Prefetch(
+                "components",
+                queryset=Component.objects.all().only("id", "project_id"),
+            ),
+            Prefetch("projects", queryset=Project.objects.only("id", "access_control")),
+            Prefetch("languages", queryset=Language.objects.only("id")),
+        )
+
+    def group_enforces_2fa(self) -> bool:
+        return any(group.enforced_2fa for group in self.cached_groups)
+
     def _fetch_permissions(self) -> None:
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
         with sentry_sdk.start_span(op="permissions", description=self.username):
-            for group in self.groups.prefetch_related(
-                "roles__permissions",
-                Prefetch(
-                    "componentlists__components",
-                    queryset=Component.objects.only("id", "project_id"),
-                ),
-                Prefetch(
-                    "components",
-                    queryset=Component.objects.all().only("id", "project_id"),
-                ),
-                Prefetch(
-                    "projects", queryset=Project.objects.only("id", "access_control")
-                ),
-                Prefetch("languages", queryset=Language.objects.only("id")),
-            ):
+            for group in self.cached_groups:
+                # Skip permissions for not verified users
+                if group.enforced_2fa and not self.is_verified():
+                    continue
                 if group.language_selection == SELECTION_ALL:
                     languages = None
                 else:
