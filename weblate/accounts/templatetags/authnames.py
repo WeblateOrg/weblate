@@ -113,7 +113,7 @@ def get_auth_name(auth: str):
 
 @register.simple_tag
 def key_name(device: Device) -> str:
-    return get_key_name(device)
+    return format_html('<span class="auth-name">{}</span>', get_key_name(device))
 
 
 @register.simple_tag
