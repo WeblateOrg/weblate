@@ -289,7 +289,7 @@ Gitea OAuth 2
 ~~~~~~~~~~~~~~
 
 For using Gitea OAuth 2, you need to register an application on
-<https://gitea.com/user/settings/applications>.
+``https://GITEA SERVER/user/settings/applications``.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
 
