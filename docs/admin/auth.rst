@@ -194,7 +194,7 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 Google OAuth 2
 ~~~~~~~~~~~~~~
 
-To use Google OAuth 2, you need to register an application on
+To use Google OAuth 2, you need to register an application at
 <https://console.developers.google.com/> and enable the Google+ API.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
@@ -254,7 +254,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
 GitLab OAuth 2
 ~~~~~~~~~~~~~~
 
-For using GitLab OAuth 2, you need to register an application on
+For using GitLab OAuth 2, you need to register an application at
 <https://gitlab.com/profile/applications>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and
@@ -288,7 +288,7 @@ ensure you mark the `read_user` scope.
 Gitea OAuth 2
 ~~~~~~~~~~~~~~
 
-For using Gitea OAuth 2, you need to register an application on
+For using Gitea OAuth 2, you need to register an application at
 ``https://GITEA SERVER/user/settings/applications``.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
@@ -313,9 +313,9 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
 
 .. note::
 
-   Configuration above also works with Forgejo,
-   for example of production deployment with Forgejo, see
-   `Codeberg Translate <http://translate.codeberg.org>`_
+   The configuration above also works with Forgejo;
+   for an example of production deployment with Forgejo,
+   see `Codeberg Translate <http://translate.codeberg.org>`_
 
 .. seealso::
 
@@ -382,7 +382,7 @@ You will need following:
 Slack
 ~~~~~
 
-For using Slack OAuth 2, you need to register an application on
+For using Slack OAuth 2, you need to register an application at
 <https://api.slack.com/apps>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
