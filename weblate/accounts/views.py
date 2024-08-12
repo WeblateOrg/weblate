@@ -653,6 +653,13 @@ class UserPage(UpdateView):
             remove_user(user, request, skip_notify=True)
             return HttpResponseRedirect(self.get_success_url() + "#groups")
 
+        if "remove_2fa" in request.POST:
+            for device in user.profile.second_factors:
+                key_name = get_key_name(device)
+                device.delete()
+                AuditLog.objects.create(user, None, "twofactor-remove", device=key_name)
+            return HttpResponseRedirect(self.get_success_url() + "#edit")
+
         return super().post(request, *args, **kwargs)
 
     def get_queryset(self):
