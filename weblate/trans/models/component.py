@@ -774,7 +774,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         verbose_name=gettext_lazy("Key filter"),
         max_length=500,
         default="",
-        help_text=gettext_lazy("Regular expression used to filter keys."),
+        help_text=gettext_lazy(
+            "Regular expression used to filter keys. This is only available for monolingual formats."
+        ),
         blank=True,
     )
 
@@ -822,10 +824,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
+        changed_key_filter = False
         changed_setup = False
         changed_template = False
         changed_variant = False
         create = True
+
+        # Sets the key_filter to blank if the file format is bilingual
+        if self.key_filter and not self.file_format_cls.monolingual:
+            self.key_filter = ""
+
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -860,6 +868,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
+
+            changed_key_filter = old.key_filter != self.key_filter
+            if changed_key_filter:
+                # This drops the cached key_filter value if a new value is detected
+                self.drop_key_filter_cache()
+
             create = False
         elif self.is_glossary:
             # Creating new glossary
@@ -878,9 +892,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
-        if self.key_filter_re != self.key_filter:
-            self.drop_key_filter_cache()
-
         # Save/Create object
         super().save(*args, **kwargs)
 
@@ -892,15 +903,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # the newly created component
         bool(self.source_translation)
 
-        if self.key_filter_re.pattern:
-            with transaction.atomic():
-                translations = Translation.objects.filter(component=self)
-                for translation in translations:
-                    translation.check_sync(force=True)
-
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.after_save(
                 changed_git=changed_git,
+                changed_key_filter=changed_key_filter,
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
@@ -911,6 +917,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             task = component_after_save.delay(
                 self.pk,
                 changed_git=changed_git,
+                changed_key_filter=changed_key_filter,
                 changed_setup=changed_setup,
                 changed_template=changed_template,
                 changed_variant=changed_variant,
@@ -3155,6 +3162,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self,
         *,
         changed_git: bool,
+        changed_key_filter: bool,
         changed_setup: bool,
         changed_template: bool,
         changed_variant: bool,
@@ -3194,6 +3202,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Invalidate stats on template change
         if changed_template:
             self.invalidate_cache()
+
+        if (
+            changed_key_filter
+            and self.key_filter_re.pattern
+            and self.file_format_cls.monolingual
+        ):
+            # This fires if a pattern exist and the file format is monolingual
+            with transaction.atomic():
+                translations = Translation.objects.filter(component=self)
+                for translation in translations:
+                    translation.check_sync(force=True)
 
         # Make sure we create glossary
         if create and settings.CREATE_GLOSSARIES:

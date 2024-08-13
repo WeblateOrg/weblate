@@ -1084,3 +1084,11 @@ class ComponentKeyFilterTest(ViewTestCase):
             units = translation.unit_set.all()
             self.assertEqual(units.count(), 1)
             self.assertEqual(units.all()[0].context, "thanks")
+
+    def test_bilingual_component(self):
+        project = self.component.project
+        component = self.create_po(
+            name="Bilingual Test", project=project, key_filter=r"^tr"
+        )
+        self.assertEqual(component.key_filter, "")
+        self.assertEqual(component.key_filter_re.pattern, "")

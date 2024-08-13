@@ -346,6 +346,7 @@ def component_alerts(component_ids=None) -> None:
 def component_after_save(
     pk: int,
     changed_git: bool,
+    change_key_filter: bool,
     changed_setup: bool,
     changed_template: bool,
     changed_variant: bool,
@@ -355,6 +356,7 @@ def component_after_save(
     component = Component.objects.get(pk=pk)
     component.after_save(
         changed_git=changed_git,
+        change_key_filter=change_key_filter,
         changed_setup=changed_setup,
         changed_template=changed_template,
         changed_variant=changed_variant,

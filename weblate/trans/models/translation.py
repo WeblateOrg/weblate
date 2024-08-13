@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import codecs
 import os
-import re
 import tempfile
 from itertools import chain
 from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict
@@ -441,7 +440,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     if (
                         self.component.file_format_cls.monolingual
                         and self.component.key_filter_re
-                        and re.match(self.component.key_filter_re, unit.context) is None
+                        and self.component.key_filter_re.match(unit.context) is None
                     ):
                         # This is where the key filtering take place
                         self.log_info(
