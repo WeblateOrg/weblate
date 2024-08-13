@@ -394,7 +394,7 @@
     </table>
   </div>
 
-  <form action="{% url 'download' path=object.get_url_path %}" method="get" data-persist="download-translation">
+  <form class="double-submission" action="{% url 'download' path=object.get_url_path %}" method="get" data-persist="download-translation">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
