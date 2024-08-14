@@ -916,13 +916,13 @@ Some examples of filtering:
 Key filter
 ++++++++++
 
-A regular expression that is used to filter units by its keys. Displays only
-those units whose keys are matching to the regular expression that was set
-as the value to this field.
+A regular expression that is used to filter units by their keys. It displays only
+those units whose keys match the regular expression that was set
+as the value of this field.
 
 .. note::
 
-    This filter is only available for components with monolingual file format.
+    This filter is only available for components with monolingual file formats.
 
 
 .. _component-variant_regex:
