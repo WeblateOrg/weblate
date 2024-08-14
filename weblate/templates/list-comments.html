@@ -6,7 +6,7 @@
 <div class="container-fluid container-gapped">
 {% for comment in comments %}
 <div class="row history-row" id="comments__{{ comment.pk }}">
-    <div class="col-xs-2 history-event">
+    <div id="comment-section" class="col-xs-2 history-event">
         <strong>{{ comment.get_user_display }}</strong>
         <p class="text-muted">
         {% if comment.resolved %}
@@ -18,30 +18,30 @@
         {% endif %}
         </p>
     </div>
-    <div class="col-xs-10 history-data">
-        {% perm 'comment.delete' comment as user_can_delete_comment %}
-        {% perm 'comment.resolve' comment as user_can_resolve_comment %}
-        {% if user_can_delete_comment or user_can_resolve_comment %}
-        <div class="btn-float pull-right flip">
-          {% if user_can_resolve_comment and not comment.resolved %}
-            <form method="POST" action="{% url 'resolve-comment' pk=comment.pk %}" class="auto-save-translation inlineform">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
-            <button class="btn btn-link green" title="{% trans "Resolve" %}">{% icon "check.svg" %}</button>
-            </form>
-          {% endif %}
-          {% if user_can_delete_comment %}
-            <form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation inlineform">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next_url }}" />
-            {% if has_antispam and comment.user != user %}
-            <button type="submit" class="btn btn-link red" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}">{% icon "spam.svg" %}</button>
-            {% endif %}
-            <button class="btn btn-link red" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
-            </form>
-          {% endif %}
-        </div>
+    {% perm 'comment.delete' comment as user_can_delete_comment %}
+    {% perm 'comment.resolve' comment as user_can_resolve_comment %}
+    {% if user_can_delete_comment or user_can_resolve_comment %}
+    <div class="btn-float pull-right flip">
+      {% if user_can_resolve_comment and not comment.resolved %}
+        <form method="POST" action="{% url 'resolve-comment' pk=comment.pk %}" class="auto-save-translation inlineform">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
+        <button class="btn btn-link green" title="{% trans "Resolve" %}">{% icon "check.svg" %}</button>
+        </form>
+      {% endif %}
+      {% if user_can_delete_comment %}
+        <form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation inlineform">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next_url }}" />
+        {% if has_antispam and comment.user != user %}
+        <button type="submit" class="btn btn-link red" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}">{% icon "spam.svg" %}</button>
         {% endif %}
+        <button class="btn btn-link red" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
+        </form>
+      {% endif %}
+    </div>
+    {% endif %}
+    <div id="comment-section" class="col-xs-10 history-data">
         <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}" lang="{{ comment.unit.translation.language.code }}" dir="{{ comment.unit.translation.language.direction }}">
             {{ comment.comment|markdown }}
             <span class="pull-right flip text-muted">{{ comment.timestamp|naturaltime }}</span>
