@@ -617,6 +617,12 @@ form + .login-label {
   width: 100%;
 }
 
+#changes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .btn-float {
   display: flex;
   gap: 5px;
@@ -632,18 +638,27 @@ form + .login-label {
 
 @media only screen and (max-width: 600px) {
   .btn-float {
-    left: 20px;
+    box-shadow: none;
+    transform: none;
   }
 
-  #latest-changes {
+  #changes-table {
+    margin-top: 20px;
+  }
+
+  #changes-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
   }
 
   #changes-item {
     display: flex;
     flex-direction: column;
+  }
+
+  #changes-item .full-cell {
+    border-top: none;
   }
 }
 
