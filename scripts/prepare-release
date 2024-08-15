@@ -35,5 +35,5 @@ if [ -z "$suffix" ] ; then
 fi
 
 if ! git diff --exit-code --quiet ; then
-    git commit -m "Releasing $version$suffix" -- weblate/utils/version.py docs/changes.rst
+    git commit -m "Releasing $version$suffix" -- weblate/utils/version.py docs/changes.rst "docs/changes/contributors/$version.rst"
 fi

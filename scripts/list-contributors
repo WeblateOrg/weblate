@@ -12,6 +12,9 @@ from typing import Literal
 from git import Repo
 from git.diff import Diff
 
+import weblate.utils.version
+
+VERSION = weblate.utils.version.VERSION_BASE
 ROOT_DIR = Path(__file__).parent.parent
 
 CategoryType = Literal["code", "translations", "docs"]
@@ -24,9 +27,6 @@ CATEGORIES: dict[CategoryType, str] = {
 TEMPLATE = """
 {label}
     {contributors}"""
-
-PLACEHOLDER = """..
-   scripts/prepare-release fills this"""
 
 
 def get_file_category(filename: str) -> CategoryType:
@@ -92,10 +92,10 @@ def main() -> None:
 
     text = get_contributors_text()
     if args.update:
-        changelog_file = ROOT_DIR / "docs" / "changes.rst"
-        changelog = changelog_file.read_text()
-        changelog = changelog.replace(PLACEHOLDER, text)
-        changelog_file.write_text(changelog)
+        changelog_file = (
+            ROOT_DIR / "docs" / "changes" / "contributors" / f"{VERSION}.rst"
+        )
+        changelog_file.write_text(f"{text}\n")
     else:
         print(text)
 

@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import sys
+from pathlib import Path
 
 import requests
 from ruamel.yaml import YAML
@@ -66,8 +67,8 @@ if milestone_url is None:
 
 # Set version in the files
 replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
-replace_file("docs/conf.py", "release =.*", f"release = {version!r}")
-replace_file("setup.py", "version=.*", f"version={version!r},")
+replace_file("docs/conf.py", "release =.*", f'release = "{version}"')
+replace_file("setup.py", "version=.*", f'version="{version}",')
 
 # Update changelog
 title = f"Weblate {version}"
@@ -91,20 +92,25 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 **Contributors**
 
-..
-   scripts/prepare-release fills this
+.. include:: changes/contributors/{version}.rst
 
 `All changes in detail <{milestone_url}?closed=1>`__.
 
 """
 prepend_file("docs/changes.rst", header)
+version_contributors = Path("docs") / "changes" / "contributors" / f"{version}.rst"
+version_contributors.write_text("""..
+   scripts/prepare-release fills this
+""")
 
 files = [
     "weblate/utils/version.py",
     "docs/conf.py",
     "docs/changes.rst",
     "setup.py",
+    version_contributors.as_posix(),
 ]
+subprocess.run(["git", "add", version_contributors.as_posix()], check=True)
 subprocess.run(["pre-commit", "run", "--files", *files], check=False)
 subprocess.run(
     ["git", "commit", "-m", f"Setting version to {version}", *files], check=True

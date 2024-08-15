@@ -50,8 +50,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 **Contributors**
 
-..
-   scripts/prepare-release fills this
+.. include:: changes/contributors/5.7.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?closed=1>`__.
 
