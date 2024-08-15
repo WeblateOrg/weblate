@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-14 00:48+0000\n"
-"Last-Translator: Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-08-15 22:35+0000\n"
+"Last-Translator: Alefsander Ribeiro Nascimento <alefsander.pvh14@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.7\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -24050,6 +24050,9 @@ msgid ""
 "of 10000. The default value is also configurable using the `PAGE_SIZE` "
 "setting."
 msgstr ""
+"Retorne o número dado de itens por solicitação. O padrão é 50 e o máximo é "
+"1000. Para os endpoints de `units`, o padrão é 100 com um máximo de 10000. O "
+"valor padrão também é configurável usando a configuração `PAGE_SIZE`."
 
 #: ../../api.rst:0
 msgid "Request Headers"
@@ -24229,6 +24232,12 @@ msgid ""
 "``docs%252Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
+"Para acessar um componente aninhado em uma :ref:`category`, é necessário "
+"codificar o nome da categoria no URL em um nome de componente separado por "
+"uma barra. Por exemplo, ``usage`` colocado em uma categoria ``docs`` precisa "
+"ser usado como ``docs%252Fusage``. O URL completo nesse caso seria, por "
+"exemplo, ``https://example.com/api/components/hello/docs%252Fusage/"
+"repository/``."
 
 #: ../../api.rst:178
 msgid "API rate limiting"
@@ -24964,6 +24973,8 @@ msgstr ""
 msgid ""
 "The language code to download; If not specified, all languages are included."
 msgstr ""
+"O código do idioma a ser baixado; se não for especificado, todos os idiomas "
+"serão incluídos."
 
 #: ../../api.rst:918
 msgid ""
@@ -25168,6 +25179,8 @@ msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"Retorna as categorias de um projeto. Consulte :http:get:`/api/categories/"
+"(int:id)/` para obter as definições de campo."
 
 #: ../../api.rst:0
 #, fuzzy
@@ -25326,6 +25339,9 @@ msgid ""
 ":ref:`component-repo`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used, use ``linked_component`` to detect this situation"
 msgstr ""
+":ref:`component-repo`, esta é a URL real do repositório, mesmo quando :ref"
+":`internal-urls` são usados, use ``linked_component`` para detectar esta "
+"situação"
 
 #: ../../api.rst:1258
 msgid ":ref:`component-git_export`"
@@ -25336,18 +25352,24 @@ msgid ""
 ":ref:`component-branch`, this is the actual repository branch even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-branch`, este é o ramo do repositório atual mesmo quando :ref"
+":`internal-urls` são usados"
 
 #: ../../api.rst:1260
 msgid ""
 ":ref:`component-push`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-push`, esse é o URL real do repositório, mesmo quando :ref"
+":`internal-urls` é usado"
 
 #: ../../api.rst:1261
 msgid ""
 ":ref:`component-push_branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push_branch`, este é o ramo do repositório atual mesmo "
+"quando :ref:`internal-urls` são usados"
 
 #: ../../api.rst:1262 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
@@ -26001,11 +26023,11 @@ msgstr ""
 
 #: ../../api.rst:2017
 msgid "Timestamp of last change to this file."
-msgstr ""
+msgstr "Registro de data e hora da última alteração nesse arquivo."
 
 #: ../../api.rst:2018
 msgid "Skips response if the file has not been modified since that time."
-msgstr ""
+msgstr "Ignora a resposta se o arquivo não tiver sido modificado desde então."
 
 #: ../../api.rst:2020
 msgid ""
@@ -26371,7 +26393,7 @@ msgstr "Anterior"
 
 #: ../../api.rst:2251
 msgid "additional details about the change"
-msgstr ""
+msgstr "detalhes adicionais sobre a alteração"
 
 #: ../../api.rst:2252
 msgid "change identifier"
