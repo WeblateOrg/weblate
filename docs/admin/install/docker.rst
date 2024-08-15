@@ -1834,6 +1834,8 @@ Container settings
 
 .. envvar:: CELERY_SINGLE_PROCESS
 
+   .. versionadded:: 5.7.1
+
     This variable can be set to ``1`` to run only one celery process. This reduces memory usage but may impact Weblate performance.
 
     .. code-block:: yaml
