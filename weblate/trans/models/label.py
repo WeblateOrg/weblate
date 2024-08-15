@@ -25,7 +25,10 @@ class Label(models.Model):
         default=None,
     )
     description = models.CharField(
-        verbose_name=gettext_lazy("Label description"), default="", max_length=250
+        verbose_name=gettext_lazy("Label description"),
+        default="",
+        max_length=250,
+        blank=True,
     )
 
     class Meta:
