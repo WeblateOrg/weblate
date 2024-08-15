@@ -114,6 +114,7 @@ LANGUAGES = (
     ("es", "Español"),
     ("fi", "Suomi"),
     ("fr", "Français"),
+    ("ga", "Gaeilge"),
     ("gl", "Galego"),
     ("he", "עברית"),
     ("hu", "Magyar"),
