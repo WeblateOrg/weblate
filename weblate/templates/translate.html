@@ -430,7 +430,12 @@
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      {% documentation_icon 'user/translating' 'comments' right=True %}
+      {% trans "New comment" %}
+    </h4>
+  </div>
   <div class="panel-body">
   <p class="help-block">{% trans "Comment on this string for fellow translators and developers to read." %}</p>
 {{ comment_form|crispy }}
