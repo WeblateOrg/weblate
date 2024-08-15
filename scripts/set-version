@@ -113,5 +113,5 @@ files = [
 subprocess.run(["git", "add", version_contributors.as_posix()], check=True)
 subprocess.run(["pre-commit", "run", "--files", *files], check=False)
 subprocess.run(
-    ["git", "commit", "-m", f"Setting version to {version}", *files], check=True
+    ["git", "commit", "-m", f"chore: setting version to {version}", *files], check=True
 )
