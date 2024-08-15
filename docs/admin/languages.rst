@@ -91,8 +91,7 @@ only and avoid macrolanguages.
 
 .. seealso::
 
-   `Macrolanguages definition <https://iso639-3.sil.org/about/scope#Macrolanguages>`_,
-   `List of macrolanguages <https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`_
+   `Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/ISO_639_macrolanguage>`_
 
 Language definitions
 --------------------
