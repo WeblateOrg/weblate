@@ -9,13 +9,14 @@
 # Francielle Souza <fransoonerorlater@gmail.com>, 2024.
 # Euclides Paulo de Siqueira Junior <euclidespsjunior@gmail.com>, 2024.
 # Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>, 2024.
+# Alefsander Ribeiro Nascimento <alefsander.pvh14@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-14 00:48+0000\n"
-"Last-Translator: Jose Delvani <jsdelvani@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-08-15 20:36+0000\n"
+"Last-Translator: Alefsander Ribeiro Nascimento <alefsander.pvh14@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.7\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -341,33 +342,31 @@ msgid "Add team"
 msgstr "Adicionar equipe"
 
 #: weblate/accounts/forms.py:956
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "Nome da tradução"
+msgstr "Nomeie o aplicativo de autenticação"
 
 #: weblate/accounts/forms.py:959
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Verifique o código do aplicativo"
 
 #: weblate/accounts/forms.py:973
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "A tradução não é um XML válido"
+msgstr "O token inserido não é válido."
 
 #: weblate/accounts/forms.py:1041
 msgid "Recovery token"
-msgstr ""
+msgstr "Token de recuperação"
 
 #: weblate/accounts/forms.py:1043
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"O token de recuperação pode ser usado apenas uma vez, marque seu token como "
+"usado após utilizá-lo."
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Insira o código do aplicativo"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -503,26 +502,27 @@ msgstr "O usuário foi removido da equipe {team} por {username}."
 
 #: weblate/accounts/models.py:186
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Foram gerados códigos de recuperação de autenticação de dois fatores"
 
 #: weblate/accounts/models.py:189
 msgid "Two-factor authentication recovery codes were viewed"
 msgstr ""
+"Os códigos de recuperação da autenticação de dois fatores foram visualizados"
 
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Autenticação de dois fatores adicionada: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "A autenticação de dois fatores foi removida: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Login com autenticação de dois fatores usando {device}"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -879,18 +879,14 @@ msgid "Suggestion was added"
 msgstr "Sugestão foi adicionada"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "A mensagem está traduzida"
+msgstr "Idioma foi traduzido"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Importar como traduzido"
+msgstr "Componente foi traduzido"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -1005,29 +1001,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Use a chave de segurança (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Autenticação"
+msgstr "Use o aplicativo de autenticação (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Use códigos de recuperação"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Política de segurança"
+msgstr "Chave de segurança (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Autenticação"
+msgstr "Aplicativo de autenticação (%s)"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1034
 #: weblate/accounts/views.py:1100 weblate/templates/accounts/reset.html:7
@@ -1219,32 +1211,26 @@ msgstr ""
 "configurar as notificações."
 
 #: weblate/accounts/views.py:1620
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "O convite do usuário foi removido."
+msgstr "A chave de segurança foi removida."
 
 #: weblate/accounts/views.py:1621
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "A chave de segurança %s foi registrada."
 
 #: weblate/accounts/views.py:1658
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "O convite do usuário foi removido."
+msgstr "O aplicativo de autenticação foi removido."
 
 #: weblate/accounts/views.py:1659
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "O aplicativo de autenticação %s foi registrado."
 
 #: weblate/accounts/views.py:1792
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Último login"
+msgstr "Login de segundo fator"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1768,7 +1754,7 @@ msgstr "A fonte e o destino devem ser idiomas diferentes."
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "Habilitar a ordenação de chaves sensível a maiúsculas e minúsculas"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
