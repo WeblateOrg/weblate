@@ -1599,6 +1599,8 @@ Weblate processes. All Celery tasks can be executed in a single process using:
 
    celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup --pool=solo
 
+An installation using Docker can be configured to use a single-process Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`.
+
 .. warning::
 
    This will have a noticeable performance impact on Weblate.
