@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-15 18:16+0000\n"
+"PO-Revision-Date: 2024-08-16 13:11+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -322,20 +322,16 @@ msgid "Add team"
 msgstr "הוספת צוות"
 
 #: weblate/accounts/forms.py:956
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "שם התרגום"
+msgstr "מתן שם ליישומון האימות שלך"
 
 #: weblate/accounts/forms.py:959
 msgid "Verify the code from the app"
 msgstr "אימות הקוד מהיישומון"
 
 #: weblate/accounts/forms.py:973
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "התרגום אינו XML תקני"
+msgstr "האסימון שסופק לא תקף."
 
 #: weblate/accounts/forms.py:1041
 msgid "Recovery token"
@@ -348,7 +344,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "נא למלא קוד מהיישומון"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -978,16 +974,14 @@ msgid "Use recovery codes"
 msgstr ""
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "מדיניות אבטחה"
+msgstr "מפתח אבטחה (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "אימות"
+msgstr "יישומון אימות (%s)"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1034
 #: weblate/accounts/views.py:1100 weblate/templates/accounts/reset.html:7
@@ -5976,37 +5970,31 @@ msgid "Authenticator apps (TOTP)"
 msgstr "אימות"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "אין גיבויים כרגע."
+msgstr "אין יישומי אימות רשומים כרגע."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "רישום חשבון חדש"
+msgstr "רישום יישומון אימות חדש"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "קודים לשחזור"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "אין גיבויים כרגע."
+msgstr "לא נוצרו קודים לשחזור נכון לעכשיו."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "יצירת קודים חדשים לשחזור"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
@@ -6454,10 +6442,8 @@ msgid "Edit"
 msgstr "עריכה"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "לא נרשמו פעילויות לאחרונה!"
+msgstr "לא נמצאו תרומות לאחרונה."
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -6523,16 +6509,12 @@ msgid "Edit user"
 msgstr "עריכת מקור"
 
 #: weblate/templates/accounts/user.html:331
-#, fuzzy
-#| msgid "Used to authenticate user if configured"
 msgid "User has two-factor authentication configured."
-msgstr "משמש לאימות משתמש אם כך הוגדר"
+msgstr "למשתמש מוגדר אימות דו־שלבי."
 
 #: weblate/templates/accounts/user.html:333
-#, fuzzy
-#| msgid "Used to authenticate user if configured"
 msgid "User doesn't have two-factor authentication configured."
-msgstr "משמש לאימות משתמש אם כך הוגדר"
+msgstr "למשתמש לא מוגדר אימות דו־שלבי."
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
@@ -7005,10 +6987,8 @@ msgid "Automatic assignment"
 msgstr "הקצאה אוטומטית"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "השרת לא מאפשר אימות."
+msgstr "דורש אימות דו־שלבי"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7683,10 +7663,9 @@ msgid "Component is being updated…"
 msgstr "רכיב מעודכן…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "הזמנה אל %(project_name)s"
+msgstr "המשך אל %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -9134,16 +9113,14 @@ msgstr[2] "%(count)s מחרוזות שטרם הושלמו"
 msgstr[3] "%(count)s מחרוזות שטרם הושלמו"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "לתרגומים במספר שפות יש בדיקות שנכשלו"
+msgstr "התרגומים של %(component)s לכל השפות הושלמו"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "תרגומים עודכנו."
+msgstr "התרגום ל%(translation)s הושלם"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -13622,10 +13599,9 @@ msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
+msgstr "%(action)s ב־%(time)s בתרגום %(translation)s"
 
 #: weblate/trans/models/change.py:850
 msgid "The “{}” file was changed."
@@ -15122,10 +15098,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "ההצעה שלך זוהתה כזבל!"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Comments about this translation"
 msgid "Your suggestion is similar to the current translation!"
-msgstr "הערות על התרגום הזה"
+msgstr "ההצעה זהה לתרגום הנוכחי!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -15286,10 +15260,8 @@ msgid "Translation files have been synchronized."
 msgstr "קובצי התרגום סונכרנו."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "תרגום אוטומטי מתבצע"
+msgstr "מתבצעים עדכונים לתרגומים."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -15656,10 +15628,8 @@ msgid "This e-mail address is disallowed."
 msgstr "כתובת דוא״ל זו אינה מורשית."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "נא להקליד כתובת דוא״ל תקנית."
+msgstr "כתובת דוא״ל שגויה: {}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
