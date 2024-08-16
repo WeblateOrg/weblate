@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-16 07:05+0000\n"
+"PO-Revision-Date: 2024-08-16 08:59+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -1212,7 +1212,7 @@ msgstr "La chiave di sicurezza è stata rimossa."
 #: weblate/accounts/views.py:1621
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "La chiave di sicurezza %s è stata registrata."
 
 #: weblate/accounts/views.py:1658
 msgid "The authentication app was removed."
@@ -1221,13 +1221,11 @@ msgstr "L'app di autenticazione è stata rimossa."
 #: weblate/accounts/views.py:1659
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "L'app di autenticazione %s è stata registrata."
 
 #: weblate/accounts/views.py:1792
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Ultimo accesso"
+msgstr "Accesso con secondo fattore"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -2065,10 +2063,8 @@ msgstr "Aggiungi voce di glossario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Aggiungi voce di glossario"
+msgstr "Aggiungi terminologia al glossario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2626,10 +2622,9 @@ msgid "Enforced two-factor authentication"
 msgstr ""
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "Ti stiamo reindirizzando al provider di autenticazione."
+msgstr ""
+"Richiede agli utenti di avere configurata l'autenticazione a due fattori."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -5170,11 +5165,9 @@ msgid "Automatic selection"
 msgstr "Selezione automatica"
 
 #: weblate/machinery/forms.py:293
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Personalizzato"
+msgstr "Modello personalizzato"
 
 #: weblate/machinery/forms.py:298
 msgctxt "Automatic suggestion service configuration"
@@ -5191,11 +5184,9 @@ msgid "OpenAI model"
 msgstr "Modello OpenAI"
 
 #: weblate/machinery/forms.py:317
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Personalizza il nome del componente"
+msgstr "Nome del modello personalizzato"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
@@ -5227,10 +5218,8 @@ msgstr ""
 "informale.”"
 
 #: weblate/machinery/forms.py:350
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Nome utente o e-mail mancanti."
+msgstr "Manca il nome del modello personalizzato."
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
@@ -5881,7 +5870,7 @@ msgstr "Se scade richiedi un nuovo collegamento per la conferma."
 
 #: weblate/templates/accounts/email-sent.html:43
 msgid "Register again if the confirmation link expires."
-msgstr "Se il collegamento per la conferma scade registrati di nuovo."
+msgstr "Registrati nuovamente se il link di conferma scade."
 
 #: weblate/templates/accounts/email-sent.html:48
 msgid ""
@@ -6119,10 +6108,8 @@ msgstr "Aggiungi nuova identità utente"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:326
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Autenticazione"
+msgstr "Autenticazione a due fattori"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
@@ -6135,10 +6122,8 @@ msgid "Security keys (WebAuthn)"
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "Attualmente non ci sono backup."
+msgstr "Al momento non sono registrate chiavi WebAuthn."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6157,10 +6142,8 @@ msgid "Name your security key"
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Registra un nuovo account"
+msgstr "Registra una nuova chiave di sicurezza"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
@@ -6168,24 +6151,18 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Autenticazione"
+msgstr "App di autenticazione (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "Attualmente non ci sono backup."
+msgstr "Al momento non sono registrate app di autenticazione."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Registra un nuovo account"
+msgstr "Registra una nuova app di autenticazione"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
