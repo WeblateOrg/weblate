@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-13 13:00+0000\n"
+"PO-Revision-Date: 2024-08-16 13:11+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.7\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -332,20 +332,16 @@ msgid "Add team"
 msgstr "Dodaj tim"
 
 #: weblate/accounts/forms.py:956
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "Ime prijevoda"
+msgstr "Zadaj ime za tvoju aplikaciju za autentifikaciju"
 
 #: weblate/accounts/forms.py:959
 msgid "Verify the code from the app"
 msgstr ""
 
 #: weblate/accounts/forms.py:973
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "Prijevod nije ispravan XML"
+msgstr "Upisani token nije ispravan."
 
 #: weblate/accounts/forms.py:1041
 msgid "Recovery token"
@@ -863,18 +859,14 @@ msgid "Suggestion was added"
 msgstr "Dodan je prijedlog"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Long untranslated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Dugo neprevedeno"
+msgstr "Preveden je jezik"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Uvezi kao prevedeno"
+msgstr "Prevedena je komponenta"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -987,29 +979,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Koristi sigurnosni ključ (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Autentifikacija"
+msgstr "Koristi aplikaciju za autentifikaciju (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
 msgstr ""
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Politika sigurnosti"
+msgstr "Sigurnosni ključ (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Autentifikacija"
+msgstr "Aplikacija za autentifikaciju (%s)"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1034
 #: weblate/accounts/views.py:1100 weblate/templates/accounts/reset.html:7
@@ -1199,32 +1187,26 @@ msgstr ""
 "konfiguriranje obavijesti."
 
 #: weblate/accounts/views.py:1620
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "Pozivnica korisniku je uklonjena."
+msgstr "Sigurnosni ključ je uklonjen."
 
 #: weblate/accounts/views.py:1621
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "Sigurnosni ključ %s je registriran."
 
 #: weblate/accounts/views.py:1658
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "Pozivnica korisniku je uklonjena."
+msgstr "Aplikacija za autentifikaciju je uklonjena."
 
 #: weblate/accounts/views.py:1659
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "Aplikacija za autentifikaciju %s je registrirana."
 
 #: weblate/accounts/views.py:1792
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "Zadnja prijava"
+msgstr "Drugi faktor prijave"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -2040,10 +2022,8 @@ msgstr "Dodaj zapis u glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Dodaj zapis u glosar"
+msgstr "Dodaj pojam u glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2599,10 +2579,8 @@ msgid "Enforced two-factor authentication"
 msgstr ""
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "Preusmjeravamo te na davatelja usluge autentifikacije."
+msgstr "Korisnici moraju imati konfiguriranu dvofaktorsku autentikaciju."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -5114,11 +5092,9 @@ msgid "Automatic selection"
 msgstr "Automatski odabir"
 
 #: weblate/machinery/forms.py:293
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Prilagođeno"
+msgstr "Prilagođeni model"
 
 #: weblate/machinery/forms.py:298
 msgctxt "Automatic suggestion service configuration"
@@ -5135,11 +5111,9 @@ msgid "OpenAI model"
 msgstr "OpenAI model"
 
 #: weblate/machinery/forms.py:317
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Prilagodi ime komponente"
+msgstr "Ime prilagođenog modela"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
@@ -5169,10 +5143,8 @@ msgid ""
 msgstr "Opiši stil prijevoda. Na primjer: „Koristi neformalni jezik.”"
 
 #: weblate/machinery/forms.py:350
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Nedostje korisničko ime ili e-mail adresa."
+msgstr "Nedostaje ime prilagođenog modela."
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
@@ -6058,10 +6030,8 @@ msgstr "Dodaj novi identitet korisnika"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:326
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Autentifikacija"
+msgstr "Dvofaktorska autentifikacija"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
@@ -6071,13 +6041,11 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Sigurnosni ključevi (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "Trenutačno nema sigurnosnih kopija."
+msgstr "Trenutačno nema registriranih WebAuthn ključeva."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6093,18 +6061,16 @@ msgstr "Ukloni"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Zadaj ime za tvoj sigurnosni ključ"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Otvori novi račun"
+msgstr "Registriraj novi sigurnosni ključ"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "Nažalost tvoj preglednik ne podržava WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
 #, fuzzy
@@ -6596,10 +6562,8 @@ msgid "Edit"
 msgstr "Uredi"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Nema nedavnih radnji!"
+msgstr "Nema nedavnih doprinosa."
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -7150,10 +7114,8 @@ msgid "Automatic assignment"
 msgstr "Automatsko dodjeljivanje"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Poslužitelj ne dozvoljava autentifikaciju."
+msgstr "Zahtijeva dvofaktorsku autentifikaciju"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7839,10 +7801,9 @@ msgid "Component is being updated…"
 msgstr "Komponenta se aktualizira …"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Pozivnica za %(project_name)s"
+msgstr "Nastavi sa %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -9303,16 +9264,14 @@ msgstr[1] "%(count)s nedovršena izraza"
 msgstr[2] "%(count)s nedovršenih izraza"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "Prijevodi u više jezika sadrže neuspjele provjere"
+msgstr "Prijevodi u svim jezicima su završeni u %(component)s"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "Prijevodi su aktualizirani."
+msgstr "%(translation)s je završen"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -13648,22 +13607,22 @@ msgstr "Repozitorij premješten"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:403
 msgid "Repository merge failed"
-msgstr "Neuspjelo sjedinjavanje repozitorija"
+msgstr "Sjedinjavanje repozitorija neuspjelo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:405
 msgid "Repository rebase failed"
-msgstr "Neuspjelo premještanje repozitorija"
+msgstr "Premještanje repozitorija neuspjelo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:407
 msgid "Repository push failed"
-msgstr "Neuspjelo slanje u repozitorij"
+msgstr "Slanje u repozitorij neuspjelo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:409
 msgid "Parsing failed"
-msgstr "Neuspjela obrada"
+msgstr "Obrada neuspjela"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:411
@@ -13708,12 +13667,12 @@ msgstr "Vidljivost promijenjena"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
 msgid "User added"
-msgstr "Dodavanje korisnika"
+msgstr "Korisnik dodan"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:429
 msgid "User removed"
-msgstr "Uklanjanje korisnika"
+msgstr "Korisnik uklonjen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:431
@@ -13728,37 +13687,37 @@ msgstr "Označeno za uređivanje"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:435
 msgid "Component removed"
-msgstr "Uklanjanje komponente"
+msgstr "Komponenta uklonjena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:437
 msgid "Project removed"
-msgstr "Uklanjanje projekta"
+msgstr "Projekt uklonjen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:439
 msgid "Project renamed"
-msgstr "Preimenovanje projekta"
+msgstr "Projekt preimenovan"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:441
 msgid "Component renamed"
-msgstr "Preimenovanje komponente"
+msgstr "Komponenta preimenovana"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:443
 msgid "Moved component"
-msgstr "Premještanje komponente"
+msgstr "Komponenta premještena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:445
 msgid "Contributor joined"
-msgstr "Pridruživanje doprinositelja"
+msgstr "Doprinositelj se pridružio"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:447
 msgid "Announcement posted"
-msgstr "Objavljena objava"
+msgstr "Objava objavljena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:449
@@ -13768,12 +13727,12 @@ msgstr "Upozorenje aktivirano"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:451
 msgid "Language added"
-msgstr "Dodavanje jezika"
+msgstr "Jezik dodan"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:453
 msgid "Language requested"
-msgstr "Zatražen jezik"
+msgstr "Jezik zatražen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:455
@@ -13793,12 +13752,12 @@ msgstr "Korisnik pozvan"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:461
 msgid "Repository notification received"
-msgstr "Primljena obavijest repozitorija"
+msgstr "Obavijest repozitorija primljena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:463
 msgid "Translation replaced file by upload"
-msgstr "Zamijenjena prevodilačka datoteka putem prijenosa"
+msgstr "Datoteka zamijenjena prenesenim prijevodom"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:465
@@ -13888,7 +13847,7 @@ msgstr "Izraz dodan u repozitorij"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:502
 msgid "String updated in the upload"
-msgstr "Izraz aktualiziran u prijenosu"
+msgstr "Izraz aktualiziran u prijenos"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:504
@@ -13902,10 +13861,8 @@ msgstr "Prijevod aktualiziran prijenosom izvora"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:508
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "Prijevod završen"
+msgstr "Prijevod komponente završen"
 
 #: weblate/trans/models/change.py:592
 msgid "The component was automatically locked because of an alert."
@@ -13923,10 +13880,9 @@ msgstr "%(action)s u %(time)s za %(translation)s od %(user)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s u %(time)s za %(translation)s od %(user)s"
+msgstr "%(action)s u %(time)s za %(translation)s"
 
 #: weblate/trans/models/change.py:850
 msgid "The “{}” file was changed."
@@ -15462,10 +15418,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "Tvoj prijedlog je identificiran kao neželjeni!"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Memory will be then populated with the current translations."
 msgid "Your suggestion is similar to the current translation!"
-msgstr "Memorija će se tada popuniti s trenutačnim prijevodom."
+msgstr "Tvoj je prijedlog sličan trenutačnom prijevodom!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -15628,10 +15582,8 @@ msgid "Translation files have been synchronized."
 msgstr "Prevodilačke datoteke su sinkronizirane."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "Automatsko prevođenje u tijeku"
+msgstr "Aktualziranja prijevoda su u tijeku."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -16004,10 +15956,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Ova e-mail adresa nije dozvoljena."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "Upiši ispravnu e-mail adresu."
+msgstr "Neispravna e-mail adresa: {}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
