@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-16 02:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-08-16 08:59+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -27,10 +27,6 @@ msgid "Access control"
 msgstr "Rialú rochtana"
 
 #: ../../admin/access.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine-grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance with predefined roles, or by assigning "
@@ -38,7 +34,9 @@ msgid ""
 "projects, components, glossaries, and so on."
 msgstr ""
 "Tagann Weblate le córas pribhléide míne chun ceadanna úsáideora a shannadh "
-"don ásc iomlán, nó i raon feidhme teoranta."
+"don chás iomlán le róil réamhshainithe, nó trí ghrúpa ceadanna amháin nó "
+"níos mó a shannadh d’úsáideoirí le haghaidh gach rud, nó tionscadail aonair, "
+"comhpháirteanna, gluaiseanna, agus mar sin de."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -55,17 +53,13 @@ msgstr ""
 "íoctha más mian leat rochtain ar do thionscadal a shrianadh."
 
 #: ../../admin/access.rst:22
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :ref:`project-access_control` setting. Available options are:"
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
-"Is féidir leat rochtain úsáideora ar thionscadail aonair a theorannú ach "
-"socrú difriúil :ref:`project-access_control` a roghnú. Is iad na roghanna "
-"atá ar fáil:"
+"Teorainn a chur le rochtain úsáideoirí ar thionscadail aonair trí shocrú "
+"difriúil :ref:`project-access_control` a roghnú. Is iad na roghanna atá ar "
+"fáil:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
@@ -159,36 +153,30 @@ msgstr ""
 "gach tionscadal faoi seach."
 
 #: ../../admin/access.rst:68
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Is féidir an luach réamhshocraithe a athrú trí :a shocrú:"
-"`DEFAULT_ACCESS_CONTROL`."
+"Is féidir an réamhshocrú a athrú freisin trí : socrú:`DEFAULT_ACCESS_CONTROL`"
+" a shocrú."
 
 #: ../../admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
+"Déantar fiú staitisticí tionscadail `Príobháideacha` a áireamh sna "
+"staitisticí ar fud an tsuímh agus sa achoimre teanga. Ní nochtann sé seo "
+"ainmneacha tionscadail nó aon fhaisnéis eile."
 
 #: ../../admin/access.rst:78
-#, fuzzy
-#| msgid ""
-#| "The actual set of permissions available for users by default in `Public`, "
-#| "`Protected`, and `Private` projects can be redefined by Weblate instance "
-#| "administrator using :ref:`custom settings <custom-acl>`."
 msgid ""
 "Instance administraotrs can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"Is féidir le riarthóir ásc Weblate an tacar ceadanna atá ar fáil "
-"d'úsáideoirí de réir réamhshocraithe i dtionscadail `Poiblí`, `Cosanta` agus "
-"`Príobháideach` a ath-shainmhíniú trí úsáid a bhaint as :ref:`socruithe "
-"saincheaptha <custom-acl>`."
+"Is féidir le riarthóirí cásanna na tacair réamhshocraithe ceadanna atá ar "
+"fáil d'úsáideoirí i dtionscadail `Poiblí`, `Cosanta` agus `Príobháideacha` a "
+"mhodhnú trí :ref:`socruithe saincheaptha <custom-acl>` a úsáid."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -208,40 +196,41 @@ msgid ""
 "allows them to assign other users in Public`, `Protected` and `Private` (but "
 "not `Custom`) projects via adding them to teams."
 msgstr ""
+"Trí rochtain a thabhairt d’úsáideoirí :guilabel: Ligeann `Bainistigh "
+"rochtain ar thionscadail ` (féach :tag:`pribhléidí`) dóibh úsáideoirí eile a "
+"shannadh i dtionscadail Poiblí`, `Cosanta` agus `Príobháideach` (ach ní "
+"`Custom`) trí iad a chur le foirne."
 
 #: ../../admin/access.rst:96
 msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
 msgstr ""
+"Is iad seo na foirne réamhshocraithe a chuirtear ar fáil le Weblate; is "
+"féidir le húsáideoirí a bhfuil dóthain pribhléidí acu foirne a chur leis nó "
+"a mhodhnú:"
 
 #: ../../admin/access.rst:99
 msgid "Administration"
 msgstr "Riarachán"
 
 #: ../../admin/access.rst:100
-#, fuzzy
-#| msgid "Includes all permissions available for the project."
 msgid "All available permissions for the project."
-msgstr "Áirítear gach cead atá ar fáil don tionscadal."
+msgstr "Gach cead atá ar fáil don tionscadal."
 
 #: ../../admin/access.rst:102
 msgid "Review"
 msgstr "Léirmheas"
 
 #: ../../admin/access.rst:103
-#, fuzzy
-#| msgid "Can approve translations during review."
 msgid "Approve translations in a review."
-msgstr "Is féidir aistriúcháin a cheadú le linn athbhreithnithe."
+msgstr "Aistriúcháin a cheadú i léirmheas."
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
-"Léirmheas (ach amháin má tá :ref:`sreabhadh oibre athbhreithnithe "
-"<léirmheasanna>` ar siúl)"
+"Ar fáil ach amháin má tá :ref:`sreabhadh oibre athbhreithnithe "
+"<léirmheasanna>` ar siúl."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -252,29 +241,20 @@ msgid "Translate"
 msgstr "Aistrigh"
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid "Can translate the project and upload translations made offline."
 msgid "Translate the project and upload translations made offline."
-msgstr ""
-"Is féidir leis an tionscadal a aistriú agus aistriúcháin a rinneadh as líne "
-"a uaslódáil."
+msgstr "Aistrigh an tionscadal agus uaslódáil aistriúcháin atá déanta as líne."
 
 #: ../../admin/access.rst:112 ../../devel/community.rst:48
 msgid "Sources"
 msgstr "Foinsí"
 
 #: ../../admin/access.rst:113
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings (if allowed in the :ref:`project settings "
-#| "<component-manage_units>`) and source string info."
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"Is féidir teaghráin foinse a chur in eagar (má cheadaítear é sa :ref:"
-"`socruithe an tionscadail <component-manage_units>`) agus faisnéis faoin "
-"teaghrán foinse."
+"Cuir teaghráin foinse in eagar (má cheadaítear é sa :ref:`socruithe an "
+"tionscadail <component-manage_units>`) agus an fhaisnéis foinse-teaghrán."
 
 #: ../../admin/access.rst:116 ../../admin/access.rst:283
 #: ../../admin/access.rst:299 ../../admin/access.rst:413 ../../api.rst:708
@@ -283,12 +263,8 @@ msgid "Languages"
 msgstr "Teangacha"
 
 #: ../../admin/access.rst:117
-#, fuzzy
-#| msgid "Can manage translated languages (add or remove translations)."
 msgid "Manage translated languages (add or remove translations)."
-msgstr ""
-"Is féidir leis na teangacha aistrithe a bhainistiú (aistriúcháin a chur leis "
-"nó a bhaint)."
+msgstr "Bainistigh teangacha aistrithe (cuir aistriúcháin leis nó bain as)."
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:491 ../../api.rst:2509
 #: ../../user/glossary.rst:4 ../../user/translating.rst:304
@@ -296,22 +272,16 @@ msgid "Glossary"
 msgstr "Gluais"
 
 #: ../../admin/access.rst:120
-#, fuzzy
-#| msgid "Can manage glossary (add or remove entries, also upload)."
 msgid "Manage glossary (add, remove, and upload entries)."
-msgstr ""
-"Is féidir leis an ngluais a bhainistiú (cuir iontrálacha leis nó iad a "
-"bhaint, uaslódáil freisin)."
+msgstr "Bainistigh gluais (iontrálacha a chur leis, a bhaint agus a uaslódáil)."
 
 #: ../../admin/access.rst:122 ../../api.rst:2101
 msgid "Memory"
 msgstr "Cuimhne"
 
 #: ../../admin/access.rst:123
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Manage translation memory."
-msgstr "Bainistigh cuimhne aistriúcháin"
+msgstr "Bainistigh cuimhne aistriúcháin."
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:513 ../../api.rst:2255
 #: ../../user/translating.rst:291
@@ -319,14 +289,10 @@ msgid "Screenshots"
 msgstr "Gabhálacha scáileáin"
 
 #: ../../admin/access.rst:126
-#, fuzzy
-#| msgid ""
-#| "Can manage screenshots (add or remove them, and associate them to source "
-#| "strings)."
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
 msgstr ""
-"Is féidir scáileáin scáileáin a bhainistiú (cuir leis nó bain iad, agus iad "
-"a nascadh le teaghráin foinse)."
+"Bainistigh scáileáin (cuir leis, bain iad, agus ceangail iad le teaghráin "
+"foinse)."
 
 #: ../../admin/access.rst:129 ../../admin/addons.rst:24
 #: ../../admin/continuous.rst:484 ../../user/translating.rst:355
@@ -342,43 +308,33 @@ msgid "VCS"
 msgstr "VCS"
 
 #: ../../admin/access.rst:133
-#, fuzzy
-#| msgid "Can manage VCS and access the exported repository."
 msgid "Manage VCS and access the exported repository."
-msgstr ""
-"Is féidir VCS a bhainistiú agus rochtain a fháil ar an stór easpórtála."
+msgstr "Bainistigh VCS agus faigh rochtain ar an stór easpórtála."
 
 #: ../../admin/access.rst:135 ../../admin/optionals.rst:69
 msgid "Billing"
 msgstr "Billeáil"
 
 #: ../../admin/access.rst:136
-#, fuzzy
-#| msgid "Can access billing info and settings (see :ref:`billing`)."
 msgid "Access billing info and settings (see :ref:`billing`)."
 msgstr ""
-"Is féidir rochtain a fháil ar fhaisnéis agus ar shocruithe billeála (féach :"
-"tag:`billeáil`)."
+"Faigh rochtain ar fhaisnéis agus socruithe billeála (féach :tag:`billeáil`)."
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "These features are available on the :guilabel:`Access control` page, "
-#| "which can be accessed from the project’s menu :guilabel:`Manage` ↓ :"
-#| "guilabel:`Users`."
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`."
 msgstr ""
-"Tá na gnéithe seo ar fáil ar an leathanach :guilabel:`Rialú rochtana`, ar "
-"féidir rochtain a fháil air ó roghchlár an tionscadail :guilabel:"
-"`Bainistigh` ↓ :guilabel:`Users`."
+"Tá na gnéithe seo ar fáil ar an leathanach :guilabel:`Rialú rochtana` i "
+"roghchlár an tionscadail :guilabel:`Bainistigh` ↓ :guilabel:`Users`."
 
 #: ../../admin/access.rst:145
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
+"Is féidir leat foirne a theorannú go teangacha nó comhpháirteanna, agus róil "
+"rochtana sainithe a shannadh dóibh (féach :tag:`pribhléidí`)."
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -450,39 +406,28 @@ msgid "Blocking users"
 msgstr "Úsáideoirí a bhlocáil"
 
 #: ../../admin/access.rst:192
-#, fuzzy
-#| msgid ""
-#| "In case some users behave badly in your project, you have an option to "
-#| "block them from contributing. The blocked user still will be able to see "
-#| "the project if he has permissions for that, but he won't be able to "
-#| "contribute."
 msgid ""
 "If users misbehave in your project, you can block them from contributing. "
 "With the relevant permissions blocked, users can still see the project, but "
 "won't be able to contribute."
 msgstr ""
-"Ar eagla go n-iompraíonn roinnt úsáideoirí go holc i do thionscadal, tá an "
-"rogha agat bac a chur orthu ranníocaíocht a dhéanamh. Beidh an t-úsáideoir "
-"blocáilte fós in ann an tionscadal a fheiceáil má tá cead aige chuige sin, "
-"ach ní bheidh sé in ann cur leis."
+"Má dhéanann úsáideoirí mí-iompar i do thionscadal, is féidir leat iad a bhac "
+"ó ranníocaíocht a dhéanamh. Agus na ceadanna ábhartha bactha, is féidir le "
+"húsáideoirí an tionscadal a fheiceáil go fóill, ach ní bheidh siad in ann "
+"rannchuidiú leis."
 
 #: ../../admin/access.rst:197
 msgid "Per-project permission management"
 msgstr "Bainistíocht ceada in aghaidh an tionscadail"
 
 #: ../../admin/access.rst:199
-#, fuzzy
-#| msgid ""
-#| "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
-#| "(see :ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the "
-#| "Weblate user interface."
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Is féidir leat do thionscadail a shocrú mar :guilabel:`Protected` nó :"
-"guilabel:`Private` (féach :tag:`acl`), agus :tag:` bainistigh úsáideoirí "
-"<manage-acl>` in aghaidh an tionscadail sa chomhéadan úsáideora Weblate ."
+"Is féidir leat do thionscadail a shocrú mar :guilabel:`Protected` nó "
+":guilabel:`Private` (féach :tag:`acl`), agus :tag:`rochtain úsáideoirí "
+"<manage-acl>` in aghaidh an tionscadail a bhainistiú."
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -522,19 +467,14 @@ msgid "This feature is unavailable on Hosted Weblate."
 msgstr "Níl an ghné seo ar fáil ar Hosted Weblate."
 
 #: ../../admin/access.rst:220
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on teams and roles, where roles define a "
-#| "set of permissions, and teams link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on roles defining a set of permissions, and "
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"Tá an córas ceadanna bunaithe ar fhoirne agus ar róil, ina sainíonn róil "
-"sraith ceadanna, agus nascann foirne iad le húsáideoirí agus aistriúcháin, "
-"féach :tag:`auth-model` le haghaidh tuilleadh sonraí."
+"Tá an córas ceadanna bunaithe ar róil a shainíonn sraith ceadanna, agus "
+"foirne a nascann róil le húsáideoirí agus aistriúcháin, léigh :ref:`auth-"
+"model` le haghaidh tuilleadh sonraí."
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -666,31 +606,20 @@ msgid "**Example:**"
 msgstr "**Sampla:**"
 
 #: ../../admin/access.rst:271
-#, fuzzy
-#| msgid ""
-#| "If you want (for whatever reason) to allow translation to a specific "
-#| "language (lets say `Czech`) only to a closed set of reliable translators "
-#| "while keeping translations to other languages public, you will have to:"
 msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
-"Más mian leat (ar chúis ar bith) aistriúchán go teanga ar leith a cheadú "
-"(‘Seice’ a rá) ach do shraith dhúnta aistritheoirí iontaofa agus "
-"aistriúcháin go teangacha eile á gcoinneáil go poiblí, beidh ort:"
+"Aistriúchán go `Seicis` a shrianadh chuig tacar roghnaithe aistritheoirí, ("
+"agus aistriúcháin go teangacha eile á gcoinneáil go poiblí):"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default team <default-teams>`."
 msgid ""
 "Remove the permission to translate `Czech` from all users. In the default "
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
-"Bain an cead `Seicis` a aistriú ó na húsáideoirí go léir. Sa chumraíocht "
+"Bain an cead `Seicis` a aistriú ó gach úsáideoir. Sa chumraíocht "
 "réamhshocraithe is féidir é seo a dhéanamh ach an `Users` :ref:`foireann "
 "réamhshocraithe <default-teams>` a athrú."
 
@@ -745,19 +674,13 @@ msgstr ""
 "fhoireann seo."
 
 #: ../../admin/access.rst:306
-#, fuzzy
-#| msgid ""
-#| "As you can see, permissions management this way is powerful, but can be "
-#| "quite a tedious job. You can’t delegate it to another user, unless "
-#| "granting superuser permissions."
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
-"Mar is féidir leat a fheiceáil, tá bainistíocht ceadanna ar an mbealach seo "
-"cumhachtach, ach is féidir leis a bheith ina phost an-dian. Ní féidir leat é "
-"a tharmligean chuig úsáideoir eile, ach amháin má bhronnann tú ceadanna "
-"sárúsáideoirí."
+"Tá ceadanna bainistíochta ar an mbealach seo cumhachtach, ach is féidir leis "
+"a bheith ina jab tedious. Ní féidir leat é a tharmligean d’úsáideoirí eile "
+"ach trí stádas Superuser a dheonú dóibh."
 
 #: ../../admin/access.rst:312
 msgid "Users, roles, teams, and permissions"
@@ -772,57 +695,43 @@ msgid "`Permission`"
 msgstr "`cead`"
 
 #: ../../admin/access.rst:317
-#, fuzzy
-#| msgid ""
-#| "Individual permission defined by Weblate. Permissions cannot be assigned "
-#| "to users. This can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
 "Cead aonair arna shainiú ag Weblate. Ní féidir ceadanna a thabhairt "
-"d'úsáideoirí. Ní féidir é seo a dhéanamh ach trí róil a shannadh."
+"d'úsáideoirí, ach amháin trí róil a shannadh."
 
 #: ../../admin/access.rst:319
 msgid "`Role`"
 msgstr "`Ról`"
 
 #: ../../admin/access.rst:320
-#, fuzzy
-#| msgid ""
-#| "A role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, making the administration easier."
 msgid ""
 "A role defines a set of permissions (and can be reused in several places)."
 msgstr ""
-"Sainmhíníonn ról sraith ceadanna. Ligeann sé seo na tacair seo a athúsáid in "
-"áiteanna éagsúla, rud a fhágann gur fusa an riarachán."
+"Sainmhíníonn ról sraith ceadanna (agus is féidir iad a athúsáid in áiteanna "
+"éagsúla)."
 
 #: ../../admin/access.rst:322
 msgid "`User`"
 msgstr "`Úsáideoir`"
 
 #: ../../admin/access.rst:323
-#, fuzzy
-#| msgid "User can belong to several teams."
 msgid "A user can belong to several teams."
-msgstr "Is féidir le húsáideoir a bhaineann le roinnt foirne."
+msgstr "Is féidir le húsáideoir a bheith ina bhall de roinnt foirne."
 
 #: ../../admin/access.rst:324
 msgid "`Group`"
 msgstr "`Grúpa`"
 
 #: ../../admin/access.rst:325
-#, fuzzy
-#| msgid ""
-#| "Group connect roles, users, and authentication objects (projects, "
-#| "languages, and component lists)."
 msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
 msgstr ""
-"Ceanglaíonn grúpa róil, úsáideoirí, agus réada fíordheimhnithe (tionscadail, "
-"teangacha, agus liostaí comhpháirteanna)."
+"Nascann grúpaí róil agus úsáideoirí le réada fíordheimhnithe (tionscadail, "
+"teangacha, comhpháirteanna, agus liostaí comhpháirteanna)."
 
 #: ../../admin/access.rst:343
 msgid ""
@@ -834,10 +743,8 @@ msgstr ""
 "thíos)."
 
 #: ../../admin/access.rst:347
-#, fuzzy
-#| msgid "Project access control"
 msgid "Project-browsing access"
-msgstr "Rialú rochtana tionscadail"
+msgstr "Rochtain brabhsála tionscadail"
 
 #: ../../admin/access.rst:349
 msgid ""
@@ -853,10 +760,8 @@ msgstr ""
 "`Viewers`, féach :ref:`default-teams`)."
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component-browsing access"
-msgstr "Foláirimh Comhpháirte"
+msgstr "Comhpháirt-rochtain brabhsála"
 
 #: ../../admin/access.rst:357
 msgid ""
@@ -865,6 +770,10 @@ msgid ""
 "restricted` on, access to components (or component lists) are granted "
 "explicitly."
 msgstr ""
+"Trí rochtain bhrabhsála a dheonú d'úsáideoir i dtionscadal amháin, tugtar "
+"rochtain dó ar aon chomhpháirt a bhfuil ceadanna brabhsála díorthaithe aige. "
+"Le :ref:`component-restricted` ar, deonaítear rochtain ar chomhpháirteanna ("
+"nó liostaí comhpháirteanna) go sainráite."
 
 #: ../../admin/access.rst:365
 msgid "Scope of teams"
@@ -954,16 +863,12 @@ msgstr ""
 "cuimsiú na dteangacha nó na dtionscadal go léir a uathoibriú."
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following team:"
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
-"Ligean le rá go bhfuil tionscadal `` foo`` leis na comhpháirteanna: ``foo/"
-"bar`` agus `` foo/baz`` agus an fhoireann seo a leanas:"
+"Tionscadal ``foo`` leis na comhpháirteanna: ``foo/bar`` agus ``foo/baz``, le "
+"cearta athbhreithnithe agus bainistíochta, san fhoireann seo a leanas:"
 
 #: ../../admin/access.rst:406
 msgid "Group `Spanish Admin-Reviewers`"
@@ -986,15 +891,11 @@ msgid "`Spanish`"
 msgstr "`Spáinnis`"
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "Members of that team will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have these permissions (assuming the default role "
 "settings):"
 msgstr ""
-"Beidh na ceadanna seo a leanas ag baill na foirne sin (ag glacadh leis na "
+"Beidh na ceadanna seo ag baill na foirne sin (ag glacadh leis na "
 "réamhshocruithe róil):"
 
 #: ../../admin/access.rst:420
@@ -1538,19 +1439,14 @@ msgid "Manage site-wide add-ons"
 msgstr "Bainistigh breiseáin ar fud an tsuímh"
 
 #: ../../admin/access.rst:600
-#, fuzzy
-#| msgid ""
-#| "Site-wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to superuser status. Most of them affect all "
-#| "projects in your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 "Ní thugtar pribhléidí ar fud an tsuímh d'aon ról réamhshocraithe. Tá siad "
-"seo cumhachtach agus gar go leor do stádas sár-úsáideoir. Bíonn tionchar ag "
-"an gcuid is mó acu ar gach tionscadal i do shuiteáil Weblate."
+"seo cumhachtach agus gar go leor do stádas Superuser. Bíonn tionchar ag an "
+"gcuid is mó acu ar gach tionscadal i do shuiteáil Weblate."
 
 #: ../../admin/access.rst:605
 msgid "List of built-in roles"
@@ -1561,33 +1457,6 @@ msgid "`Administration`"
 msgstr "`Riarachán`"
 
 #: ../../admin/access.rst:611
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:"
-#| "`Post comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :"
-#| "guilabel:`Edit component settings`, :guilabel:`Lock component, preventing "
-#| "translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary "
-#| "entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary "
-#| "entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Delete "
-#| "translation memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit "
-#| "project settings`, :guilabel:`Manage project access`, :guilabel:`Download "
-#| "reports`, :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :"
-#| "guilabel:`Edit screenshot`, :guilabel:`Edit additional string info`, :"
-#| "guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:"
-#| "`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add "
-#| "language for translation`, :guilabel:`Add several languages for "
-#| "translation`, :guilabel:`Perform automatic translation`, :guilabel:"
-#| "`Delete existing translation`, :guilabel:`Download translation file`, :"
-#| "guilabel:`Add new string`, :guilabel:`Dismiss failing check`, :guilabel:"
-#| "`Remove a string`, :guilabel:`Edit strings`, :guilabel:`Edit string when "
-#| "suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Edit "
-#| "source strings`, :guilabel:`Define author of uploaded translation`, :"
-#| "guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload "
-#| "translations`, :guilabel:`Access the internal repository`, :guilabel:"
-#| "`Commit changes to the internal repository`, :guilabel:`Push change from "
-#| "the internal repository`, :guilabel:`Reset changes in the internal "
-#| "repository`, :guilabel:`Update the internal repository`, :guilabel:`View "
-#| "upstream repository location`"
 msgid ""
 ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post "
 "comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :guilabel:"
@@ -1615,33 +1484,30 @@ msgid ""
 "guilabel:`Update the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
-":guilabel:`Féach ar eolas billeála`, :guilabel:`Íoslódáil na hathruithe`, :"
-"guilabel:`Postáil nóta tráchta`, :guilabel:`Scrios trácht`, :guilabel:"
-"`Réitigh an nóta tráchta`, :guilabel:`Cuir socruithe comhpháirte in eagar`, :"
-"guilabel:`Comhpháirt glasála, cosc ar aistriúcháin`, :guilabel:`Cuir "
-"iontráil gluais leis`, :guilabel:`Scrios iontráil gluaise`, :guilabel:`Cuir "
-"iontráil gluaise in eagar`, :guilabel:`Uaslódáil iontrálacha gluaise`, :"
-"guilabel: `Úsáid moltaí uathoibríocha`, :guilabel:`Scrios cuimhne "
-"aistriúcháin`, :guilabel:`Cuir cuimhne aistriúcháin in eagar`, :guilabel:"
-"`Cuir socruithe an tionscadail in eagar`, :guilabel:`Bainistigh rochtain "
-"tionscadail`, :guilabel:`Íoslódáil tuarascálacha`, :guilabel:`Cuir "
-"screenshot leis`, :guilabel:`Scrios an seat scáileáin`, :guilabel:`Cuir an "
-"scáileán in eagar`, :guilabel:`Cuir eolas teaghrán breise in eagar`, :"
-"guilabel:`Glac leis an moladh`, :guilabel:`Cuir moladh leis`, :guilabel:"
-"`Scrios moladh`, :guilabel:`Vóta ar mholadh`, :guilabel:`Cuir teanga leis an "
-"aistriúchán`, :guilabel:`Cuir roinnt teangacha leis le haistriú`, :guilabel:"
-"`Déan aistriúchán uathoibríoch`, :guilabel: `Scrios an t-aistriúchán atá ann "
-"cheana`, :guilabel:`Íoslódáil an comhad aistriúcháin`, :guilabel:`Cuir "
-"teaghrán nua leis`, :guilabel:`Déan seiceáil ar theip ar a dhiúltú`, :"
-"guilabel:`Bain teaghrán`, :guilabel:`Cuir teaghráin in eagar`, :guilabel:"
-"`Cuir teaghrán in eagar nuair a chuirtear moltaí i bhfeidhm`, :guilabel:"
-"`Teaghráin athbhreithnithe`, :guilabel:`Cuir teaghráin foinse in eagar`, :"
-"guilabel:`Sainmhínigh údar an aistriúcháin uaslódáilte`, :guilabel:"
-"`Forscríobh teaghráin atá ann cheana le huaslódáil` , :guilabel:`Uaslódáil "
-"aistriúcháin`, :guilabel:`Faigh rochtain ar an stór inmheánach`, :guilabel:"
-"`Tiomnaigh athruithe ar an stór inmheánach`, :guilabel:`Brúigh athrú ón stór "
-"inmheánach`, :guilabel:`Athshocraigh athruithe i an stór inmheánach`, :"
-"guilabel:`Nuashonraigh an stór inmheánach`, :guilabel:`Féach ar shuíomh an "
+":guilabel:`Féach ar eolas billeála`, :guilabel:`Íoslódáil na hathruithe`, "
+":guilabel:`Postáil nóta tráchta`, :guilabel:`Scrios trácht`, :guilabel:`"
+"Réitigh an nóta tráchta`, :guilabel:`Cuir socruithe comhpháirte in eagar`, "
+":guilabel:`Comhpháirt ghlas, aistriúcháin a chosc`, :guilabel:`Cuir iontráil "
+"gluais leis`, :guilabel:`Scrios iontráil gluaise`, :guilabel:`Cuir iontráil "
+"gluaise in eagar`, :guilabel:`Cuir téarmaíocht gluais leis`, :guilabel: `"
+"Uaslódáil iontrálacha gluaise`, :guilabel:`Úsáid moltaí uathoibríocha`, "
+":guilabel:`Scrios cuimhne aistriúcháin`, :guilabel:`Cuir cuimhne "
+"aistriúcháin in eagar`, :guilabel:`Cuir socruithe an tionscadail in eagar`, "
+":guilabel:`Bainistigh rochtain an tionscadail` ! , :guilabel:`Cuir moladh "
+"leis`, :guilabel:`Scrios moladh`, :guilabel:`Vóta ar mholadh`, :guilabel:`"
+"Cuir teanga leis an aistriúchán`, :guilabel:`Cuir roinnt teangacha leis le "
+"haistriú`, :guilabel: `Déan aistriúchán uathoibríoch`, :guilabel:`Scrios an "
+"t-aistriúchán atá ann cheana`, :guilabel:`Íoslódáil an comhad aistriúcháin`, "
+":guilabel:`Cuir teaghrán nua leis`, :guilabel:`Díbhe an seiceáil theipeann`, "
+":guilabel:`Bain teaghrán` , :guilabel:`Cuir teaghráin in eagar`, :guilabel:`"
+"Cuir teaghrán in eagar nuair a chuirtear moltaí i bhfeidhm`, :guilabel:`"
+"Téada athbhreithnithe`, :guilabel:`Cuir teaghráin foinse in eagar`, "
+":guilabel:`Sainmhínigh údar an aistriúcháin uaslódáilte`, : guilabel:`"
+"Forscríobh teaghráin atá ann cheana le huaslódáil`, :guilabel:`Uaslódáil "
+"aistriúcháin`, :guilabel:`Faigh rochtain ar an stór inmheánach`, :guilabel:`"
+"Déan athruithe ar an stór inmheánach`, :guilabel:`Brúigh athrú ón stór "
+"inmheánach `, :guilabel:`Athshocraigh athruithe sa stór inmheánach`, "
+":guilabel:`Nuashonraigh an stór inmheánach`, :guilabel:`Féach ar shuíomh an "
 "taisclainne in aghaidh an tsrutha`"
 
 #: ../../admin/access.rst:612
@@ -1691,18 +1557,14 @@ msgid "`Manage glossary`"
 msgstr "`Bainistigh gluais`"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :"
-#| "guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:"
 "`Upload glossary entries`"
 msgstr ""
 ":guilabel:`Cuir isteach iontráil gluaise`, :guilabel:`Scrios iontráil "
-"ghluais`, :guilabel:`Cuir iontráil gluaise in eagar`, :guilabel:`Uaslódáil "
-"iontrálacha gluaise`"
+"gluaise`, :guilabel:`Cuir iontráil gluaise in eagar`, :guilabel:`Cuir "
+"téarmaíocht gluais leis`, :guilabel:`Uaslódáil iontrálacha gluaise`"
 
 #: ../../admin/access.rst:620
 msgid "`Power user`"
@@ -1881,15 +1743,11 @@ msgstr ""
 "`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:655
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this team to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "Remove roles from this team to limit permissions for non-authenticated users."
 msgstr ""
-"Is féidir leat róil a bhaint den fhoireann seo chun teorainn a chur le "
-"ceadanna d’úsáideoirí neamhfhíordheimhnithe."
+"Bain róil den fhoireann seo chun teorainn a chur le ceadanna d'úsáideoirí "
+"neamhfhíordheimhnithe."
 
 #: ../../admin/access.rst:658
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1900,16 +1758,12 @@ msgid "`Viewers`"
 msgstr "`Breathnóirí`"
 
 #: ../../admin/access.rst:661
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By "
-#| "default, all users are members of this team."
 msgid ""
 "This role ensures the visibility of public projects to all users. By "
 "default, all users are members of this team."
 msgstr ""
-"Cinntíonn an ról seo infheictheacht tionscadal poiblí do gach úsáideoir. De "
-"réir réamhshocraithe, is baill den fhoireann seo gach úsáideoir."
+"Cinntíonn an ról seo infheictheacht na dtionscadal poiblí do gach úsáideoir. "
+"De réir réamhshocraithe, is baill den fhoireann seo gach úsáideoir."
 
 #: ../../admin/access.rst:664 ../../admin/access.rst:672
 msgid ""
@@ -1973,20 +1827,14 @@ msgid "Default roles: `Add new projects`"
 msgstr "Róil réamhshocraithe: `Cuir tionscadail nua leis`"
 
 #: ../../admin/access.rst:696
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate teams and users as this can lead to "
-#| "unexpected problems! If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate teams and users, as that can lead to "
 "unexpected problems! If you have no use for them, simply remove all their "
 "privileges instead."
 msgstr ""
-"Ná bain amach na foirne ná na húsáideoirí Weblate réamhshainithe mar "
-"d'fhéadfadh fadhbanna gan choinne a bheith mar thoradh air seo! Mura bhfuil "
-"aon úsáid agat dóibh, is féidir leat a gcuid pribhléidí go léir a bhaint ina "
-"ionad."
+"Ná bain amach na foirne ná na húsáideoirí Weblate réamhshainithe, mar is "
+"féidir fadhbanna gan choinne a bheith mar thoradh air sin! Mura bhfuil aon "
+"úsáid agat dóibh, bain amach a gcuid pribhléidí go léir ina áit."
 
 #: ../../admin/access.rst:701
 msgid "Additional access restrictions"
@@ -4812,16 +4660,12 @@ msgid "Google OAuth 2"
 msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:197
-#, fuzzy
-#| msgid ""
-#| "To use Google OAuth 2, you need to register an application on <https://"
-#| "console.developers.google.com/> and enable the Google+ API."
 msgid ""
 "To use Google OAuth 2, you need to register an application at <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
-"Chun Google OAuth 2 a úsáid, ní mór duit feidhmchlár a chlárú ar <https://"
-"console.developers.google.com/> agus an API Google+ a chumasú."
+"Chun Google OAuth 2 a úsáid, ní mór duit feidhmchlár a chlárú ag "
+"<https://console.developers.google.com/> agus an API Google+ a chumasú."
 
 #: ../../admin/auth.rst:200
 msgid ""
@@ -4864,16 +4708,12 @@ msgid "GitLab OAuth 2"
 msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:257
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
-"Chun GitLab OAuth 2 a úsáid, ní mór duit iarratas a chlárú ar <https://"
-"gitlab.com/profile/applications>."
+"Chun GitLab OAuth 2 a úsáid, ní mór duit iarratas a chlárú ag <https://gitlab"
+".com/profile/applications>."
 
 #: ../../admin/auth.rst:260
 msgid ""
@@ -4888,31 +4728,22 @@ msgid ":doc:`psa:backends/gitlab`"
 msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:289
-#, fuzzy
-#| msgid "GitLab OAuth 2"
 msgid "Gitea OAuth 2"
-msgstr "GitLab OAuth 2"
+msgstr "Gitea OAuth 2"
 
 #: ../../admin/auth.rst:291
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
-"Chun GitLab OAuth 2 a úsáid, ní mór duit iarratas a chlárú ar <https://"
-"gitlab.com/profile/applications>."
+"Chun Gitea OAuth 2 a úsáid, ní mór duit iarratas a chlárú ag `` https://"
+"GITEA SERVER/user/settings/applications``."
 
 #: ../../admin/auth.rst:294
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 msgstr ""
-"Is é an URL atreoraithe ná `` https://WEBLATE SERVER/accounts/complete/slack/"
+"Is é an URL atreoraithe ná `` https://WEBLATE SERVER/accounts/complete/gitea/"
 "``."
 
 #: ../../admin/auth.rst:316
@@ -4921,12 +4752,13 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <http://"
 "translate.codeberg.org>`_"
 msgstr ""
+"Oibríonn an chumraíocht thuas le Forgejo freisin; le haghaidh sampla d’"
+"imscaradh táirgeachta le Forgejo, féach `Codeberg Translate <http://translate"
+".codeberg.org>`_"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid ":doc:`psa:backends/gitlab`"
 msgid ":doc:`psa:backends/gitea`"
-msgstr ":doc:`psa:backends/gitlab`"
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
@@ -4988,15 +4820,11 @@ msgid "Slack"
 msgstr "Leac"
 
 #: ../../admin/auth.rst:385
-#, fuzzy
-#| msgid ""
-#| "For using Slack OAuth 2, you need to register an application on <https://"
-#| "api.slack.com/apps>."
 msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://api."
 "slack.com/apps>."
 msgstr ""
-"Chun Slack OAuth 2 a úsáid, ní mór duit iarratas a chlárú ar <https://api."
+"Chun Slack OAuth 2 a úsáid, ní mór duit iarratas a chlárú ag <https://api."
 "slack.com/apps>."
 
 #: ../../admin/auth.rst:388
@@ -5425,38 +5253,38 @@ msgstr ""
 "níos mó ná pasfhocal amháin a éileamh chun síniú isteach."
 
 #: ../../admin/auth.rst:791
-#, fuzzy
-#| msgid "Weblate does following escaping of strings:"
 msgid "Weblate supports the following second factors:"
-msgstr "Déanann Weblate seo a leanas éalú ó na teaghráin:"
+msgstr "Tacaíonn Weblate leis na dara fachtóirí seo a leanas:"
 
 #: ../../admin/auth.rst:793
 msgid "Security keys (WebAuthn)"
 msgstr "Eochracha slándála (WebAuthn)"
 
 #: ../../admin/auth.rst:794
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "Both, Passkeys and security keys are supported."
-msgstr "Baineadh cuireadh úsáideora."
+msgstr "Tacaítear le Pasfhocail agus eochracha slándála araon."
 
 #: ../../admin/auth.rst:796
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Déanann pasfhocail d'aitheantas a bhailíochtú trí úsáid a bhaint as tadhall, "
+"aithint aghaidhe, pasfhocal gléis, nó UAP mar go n-áirítear leo fíorú "
+"úsáideora."
 
 #: ../../admin/auth.rst:798
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Is dintiúir WebAuthn iad eochracha slándála nach féidir a úsáid ach mar an "
+"dara fachtóir fíordheimhnithe, agus ní dhéanann siad seo ach láithreacht "
+"úsáideoirí a bhailíochtú."
 
 #: ../../admin/auth.rst:800
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator app (TOTP)"
-msgstr "Fíordheimhniú"
+msgstr "Aip Authenticator (TOTP)"
 
 #: ../../admin/auth.rst:801
 msgid ""
@@ -5465,6 +5293,10 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"Gineann aipeanna Authenticator agus síntí brabhsálaí ar nós Aegis, "
+"Bitwarden, Google Authenticator, 1Password, Authy, Microsoft Authenticator, "
+"etc. pasfhocail aonuaire a úsáidtear mar dhara fachtóir chun d’aitheantas a "
+"fhíorú nuair a iarrtar ort le linn síniú isteach."
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -5484,24 +5316,34 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Coinnigh do chóid athshlánaithe chomh sábháilte le do phasfhocal. Molaimid "
+"iad a shábháil le bainisteoir pasfhocail mar Bitwarden, 1Password, Authy, nó "
+"Coimeádaí."
 
 #: ../../admin/auth.rst:811
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Is féidir le gach úsáideoir é seo a chumrú i :ref:`profile-account` agus "
+"beidh an dara fachtóir ag teastáil chun síniú chomh maith leis an modh "
+"fíordheimhnithe reatha."
 
 #: ../../admin/auth.rst:814
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
+"Is féidir é seo a fhorfheidhmiú d’úsáideoirí ag an tionscadal (féach :ref"
+":`project-enforced_2fa`) nó ag leibhéal na foirne."
 
 #: ../../admin/auth.rst:816
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Ní chuirfear ceadanna foirne le fíordheimhniú dhá fhachtóir forfheidhmithe i "
+"bhfeidhm ar úsáideoirí nach bhfuil sé cumraithe acu."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -8245,14 +8087,12 @@ msgid "OCR trained data for :ref:`screenshots`."
 msgstr "Sonraí oilte OCR le haghaidh :tag: `scáileán`."
 
 #: ../../admin/config.rst:311
-#, fuzzy
-#| msgid ""
-#| "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
 "CSP_FORM_SRC"
 msgstr ""
-"CSP_SCRIPT_SRC , CSP_IMG_SRC , CSP_CONNECT_SRC , CSP_STYLE_SRC , CSP_FONT_SRC"
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
+"CSP_FORM_SRC"
 
 #: ../../admin/config.rst:313
 msgid ""
@@ -8788,10 +8628,8 @@ msgid "ENABLE_HTTPS"
 msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:702
-#, fuzzy
-#| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires https for WebAuthn support."
-msgstr "Tá Python 3.7 nó níos nuaí ag teastáil ó Weblate anois."
+msgstr "Tá https ag teastáil ó Weblate anois le haghaidh tacaíochta WebAuthn."
 
 #: ../../admin/config.rst:704
 msgid ""
@@ -8838,6 +8676,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"Sa chás go bhfuil sé seo díchumasaithe, ní thosóidh Weblate le hearráid "
+"``otp_webauthn.E031``. Is féidir leat an earráid seo a chur ina thost ach é "
+"a chur le :setting:`django:SILENCED_SYSTEM_CHECKS`, ach fós ní oibreoidh "
+"WebAuthn do shuíomhanna gan HTTPS."
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -10006,22 +9848,18 @@ msgid "SENTRY_SEND_PII"
 msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1671
-#, fuzzy
-#| msgid ""
-#| "Allow Sentry to collect certain personally identifiable information. "
-#| "Turned on by default."
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr ""
-"Lig do Sentry faisnéis áirithe inaitheanta phearsanta a bhailiú. Curtha ar "
-"siúl de réir réamhshocraithe."
+"Lig do Sentry faisnéis áirithe inaitheanta phearsanta a bhailiú. Múchta de "
+"réir réamhshocraithe."
 
 #: ../../admin/config.rst:1675
-#, fuzzy
-#| msgid "This is turned off by default."
 msgid "This is turned off by default now, used to be turned on by default."
-msgstr "Tá sé seo múchta de réir réamhshocraithe."
+msgstr ""
+"Tá sé seo múchta de réir réamhshocraithe anois, a úsáidtear chun é a chur ar "
+"siúl de réir réamhshocraithe."
 
 #: ../../admin/config.rst:1680
 msgid "SENTRY_TRACES_SAMPLE_RATE"
@@ -11426,7 +11264,7 @@ msgid ""
 "scripts through add-ons."
 msgstr ""
 "Is é an bealach chun an chaoi a n-idirghníomhaíonn Weblate leis an stór a "
-"shaincheapadh ná :tag:`addons`. Téigh i gcomhairle le :ref:`addon-script` le "
+"shaincheapadh ná :tag:`addons`. Téigh i gcomhairle :ref:`addon-script` le "
 "haghaidh faisnéise ar conas scripteanna seachtracha a rith trí bhreiseáin."
 
 #: ../../admin/continuous.rst:456
@@ -14002,17 +13840,13 @@ msgstr ""
 "ach d'fhéadfadh go mbeadh gá le saincheaptha a dhéanamh le do thimpeallacht."
 
 #: ../../admin/install.rst:1372
-#, fuzzy
-#| msgid ""
-#| ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-#| "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-": socrú:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-"`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
+": socrú:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`"
+", :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1382
 msgid "Sample configuration for NGINX and uWSGI"
@@ -15298,18 +15132,24 @@ msgstr ""
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgstr ""
+"Cibé ar cheart ríomhphost a sheoladh chuig riarthóirí ar earráid "
+"fhreastalaí. Curtha ar siúl de réir réamhshocraithe."
 
 #: ../../admin/install/docker.rst:540
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
+"Seans gur mhaith leat úsáid a bhaint as bailiúchán earráidí eile ar nós "
+"Sentry nó Barra Rolla agus é seo a mhúchadh."
 
 #: ../../admin/install/docker.rst:544
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
+":ref:`django: logáil-slándáil-impleachtaí`, :envvar: `ROLLBAR_KEY`, "
+":envvar:`SENTRY_DSN`"
 
 #: ../../admin/install/docker.rst:550
 msgid "The email address that error messages are sent from."
@@ -15638,17 +15478,14 @@ msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr "Is féidir ceanntásc HTTP ``Content-Slándáil-Polasaí`` a shaincheapadh."
 
 #: ../../admin/install/docker.rst:841
-#, fuzzy
-#| msgid ""
-#| ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-#| "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-"`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
+":tag:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
+" :setting:`CSP_FONT_SRC` :setting:"
 
 #: ../../admin/install/docker.rst:851
 msgid "Configures :setting:`LICENSE_FILTER`."
@@ -15758,16 +15595,12 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Cumraíonn : socrú: `UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:989
-#, fuzzy
-#| msgid "Allow CORS requests from given origins."
 msgid "Allow CORS requests to API from given origins."
-msgstr "Ceadaigh iarratais CORS ó bhunús ar leith."
+msgstr "Ceadaigh iarratais CORS chuig API ó bhunús ar leith."
 
 #: ../../admin/install/docker.rst:1002
-#, fuzzy
-#| msgid "Allow CORS requests from given origins."
 msgid "Allows CORS requests to API from all origins."
-msgstr "Ceadaigh iarratais CORS ó bhunús ar leith."
+msgstr "Ceadaíonn sé iarratais CORS chuig API ó gach bunús."
 
 #: ../../admin/install/docker.rst:1009
 msgid "Configures maximal body size accepted by the built-in web server."
@@ -16503,12 +16336,11 @@ msgstr ""
 ":ref: `weblate-cdn`, : socrú: `LOCALIZE_CDN_URL`, : socrú:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1760
-#, fuzzy
-#| msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr ""
-"Aipeanna cumasaithe a athrú, seiceálacha, breiseáin nó uathcheartúcháin"
+"Aipeanna cumasaithe a athrú, seiceálacha, breiseáin, aistriúchán meaisín nó "
+"uathshocrú"
 
 #: ../../admin/install/docker.rst:1762
 msgid ""
@@ -16519,16 +16351,12 @@ msgstr ""
 "socruithe uathoibríocha a choigeartú leis na hathróga seo a leanas:"
 
 #: ../../admin/install/docker.rst:1791
-#, fuzzy
-#| msgid ""
-#| ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:"
-#| "`WEBLATE_ADDONS`, :setting:`django:INSTALLED_APPS`"
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 msgstr ""
-": socrú:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
-"setting:`django:INSTALLED_APPS`"
+": socrú:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, "
+":setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 
 #: ../../admin/install/docker.rst:1798
 msgid "Container settings"
@@ -16674,42 +16502,28 @@ msgid "Docker container volumes"
 msgstr "Toirteanna coimeádán docker"
 
 #: ../../admin/install/docker.rst:1881
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (data and cache) exported by the Weblate container. "
-#| "The other service containers (PostgreSQL or Redis) have their data "
-#| "volumes as well, but those are not covered by this document."
 msgid ""
 "There are two volumes (``data`` and ``cache``) exported by the Weblate "
 "container. The other service containers (PostgreSQL or Redis) have their "
 "data volumes as well, but those are not covered by this document."
 msgstr ""
-"Tá dhá imleabhar (sonraí agus taisce) easpórtáilte ag an gcoimeádán Weblate. "
-"Tá a méideanna sonraí ag na coimeádáin seirbhíse eile (PostgreSQL nó Redis) "
-"freisin, ach níl siad sin clúdaithe sa doiciméad seo."
+"Tá dhá imleabhar (``sonraí`` agus `taisce``) easpórtáilte ag an gcoimeádán "
+"Weblate. Tá a méideanna sonraí ag na coimeádáin seirbhíse eile (PostgreSQL "
+"nó Redis) freisin, ach níl siad sin clúdaithe sa doiciméad seo."
 
 #: ../../admin/install/docker.rst:1885
-#, fuzzy
-#| msgid ""
-#| "The data volume is used to store Weblate persistent data such as cloned "
-#| "repositories or to customize Weblate installation."
 msgid ""
 "The ``data`` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"Úsáidtear toirt na sonraí chun sonraí marthanacha Weblate a stóráil ar nós "
-"stórtha clónáilte nó chun suiteáil Weblate a shaincheapadh."
+"Tá an toirt ``sonraí`` gléasta mar :comhad:`/app/data` agus úsáidtear é chun "
+"sonraí marthanacha Weblate a stóráil ar nós stórtha clónáilte nó chun "
+"suiteáil Weblate a shaincheapadh. :setting: Déanann `DATA_DIR` cur síos níos "
+"mine ar a bhfuil stóráilte anseo."
 
 #: ../../admin/install/docker.rst:1889
-#, fuzzy
-#| msgid ""
-#| "The placement of the Docker volume on host system depends on your Docker "
-#| "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
-#| "weblate-docker_weblate-data/_data/` (the path consist of name of your "
-#| "docker-compose directory, container, and volume names). In the container "
-#| "it is mounted as :file:`/app/data`."
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -16717,27 +16531,20 @@ msgid ""
 "compose directory, container, and volume names)."
 msgstr ""
 "Braitheann socrú toirte an Docker ar an gcóras óstaigh ar do chumraíocht "
-"Docker, ach de ghnáth stóráiltear é i : comhad:`/var/lib/docker/volumes/"
-"weblate-docker_weblate-data/_data/` (is éard atá sa chonair ainm do eolaire "
-"cumadóireachta docker, coimeádán, agus ainmneacha toirt). Sa choimeádán tá "
-"sé suite mar:comhad:`/app/data`."
+"Docker, ach de ghnáth déantar é a stóráil i : comhad:`/var/lib/docker/"
+"volumes/weblate-docker_weblate-data/_data/` (is éard atá sa chonair ainm do "
+"eolaire cumadóireachta docker, coimeádán, agus ainmneacha toirt)."
 
 #: ../../admin/install/docker.rst:1894
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The ``cache`` volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
 "startup and the volume can be mounted using ephemeral filesystem such as "
 "`tmpfs`."
 msgstr ""
-"Tá an toirt taisce gléasta mar :comhad:`/app/taisce` agus úsáidtear é chun "
-"comhaid statacha agus : socrú:`CACHE_DIR` a stóráil. Déantar an t-ábhar a "
-"athchruthú ar tosaithe coimeádáin agus is féidir an toirt a fheistiú trí "
+"Tá an toirt `` taisce`` gléasta mar: comhad:`/ app/taisce` agus úsáidtear é "
+"chun comhaid statacha agus : socrú:`CACHE_DIR` a stóráil. Déantar an t-ábhar "
+"a athchruthú ar tosaithe coimeádáin agus is féidir an toirt a fheistiú trí "
 "úsáid a bhaint as córas comhaid gearrthéarmach mar `tmpfs`."
 
 #: ../../admin/install/docker.rst:1898
@@ -16750,14 +16557,12 @@ msgstr ""
 "taobh istigh den choimeádán."
 
 #: ../../admin/install/docker.rst:1903
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 msgstr ""
-"`Docker toirteanna doiciméad <https://docs.docker.com/storage/volumes/>`_"
+"`Docker toirteanna doiciméad < https://docs.docker.com/engine/storage/"
+"volumes/> `_, :setting:`DATA_DIR`, :setting:`CACHE_DIR`"
 
 #: ../../admin/install/docker.rst:1908
 msgid "Read-only root filesystem"
@@ -17790,12 +17595,12 @@ msgstr ""
 "aonair a úsáid amháin agus macratheangacha a sheachaint."
 
 #: ../../admin/languages.rst:94
-#, fuzzy
-#| msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
-msgstr "`Semicolon ar Vicipéid <https://ga.wikipedia.org/wiki/Semicolon>`_"
+msgstr ""
+"`Macrotheangacha ag Vicipéid <https://ga.wikipedia.org/wiki/"
+"ISO_639_macrolanguage>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
@@ -18202,10 +18007,8 @@ msgstr ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:118
-#, fuzzy
-#| msgid "Untranslated"
 msgid "Cyrtranslit"
-msgstr "Neamhaistrithe"
+msgstr "Ciortraslit"
 
 #: ../../admin/machine.rst:122
 msgid "``cyrtranslit``"
@@ -18217,22 +18020,25 @@ msgid "`This service has no configuration.`"
 msgstr "`Níl aon chumraíocht ag an tseirbhís seo.`"
 
 #: ../../admin/machine.rst:125
-#, fuzzy
-#| msgid "Machine translation service provided by Systran."
 msgid "Machine translation service using the Cyrtranslit library."
-msgstr "Seirbhís aistriúcháin meaisín curtha ar fáil ag Systran."
+msgstr ""
+"Seirbhís aistriúcháin meaisín ag baint úsáide as leabharlann Cyrtranslit."
 
 #: ../../admin/machine.rst:127
 msgid ""
 "This service converts text between Cyrillic and Latin scripts for languages "
 "that have both scripts."
 msgstr ""
+"Tiontaíonn an tseirbhís seo téacs idir scripteanna Coireallacha agus Laidine "
+"do theangacha a bhfuil an dá script acu."
 
 #: ../../admin/machine.rst:131
 msgid ""
 "`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
 "transliteration>`_"
 msgstr ""
+"`Stór Cyrtranslit < https://github.com/opendatakosovo/cyrillic-"
+"transliteration>`_"
 
 #: ../../admin/machine.rst:136
 msgid "DeepL"
@@ -18620,7 +18426,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:324
 msgid "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific"
-msgstr "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific"
+msgstr "``api-apc.cognitive.microsofttranslator.com`` -- Áise an Aigéin Chiúin"
 
 #: ../../admin/machine.rst:326
 msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
@@ -18701,6 +18507,9 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
+"Úsáideann an tseirbhís go huathoibríoch :ref:`glossary` trí `foclóir "
+"dinimiciúil < https://learn.microsoft.com/en-us/azure/ai-services/translator/"
+"dynamic-dictionary>`_, féach :ref:`glossary -mt`."
 
 #: ../../admin/machine.rst:357
 msgid "Translator Text API V2"
@@ -18855,10 +18664,8 @@ msgid "``auto`` -- Automatic selection"
 msgstr "``auto`` -- Roghnú uathoibríoch"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4o`` -- GPT-4o"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:462
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
@@ -18869,20 +18676,16 @@ msgid "``gpt-4`` -- GPT-4"
 msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:466
-#, fuzzy
-#| msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgid "``gpt-3.5-turbo-1106`` -- Updated GPT 3.5 Turbo"
-msgstr "`` gpt-3.5-turbo`` -- GPT-3.5 Turbo"
+msgstr "`` gpt-3.5-turbo-1106`` -- Nuashonraithe GPT 3.5 Turbo"
 
 #: ../../admin/machine.rst:468
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr "`` gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:470
-#, fuzzy
-#| msgid "``auto`` -- Automatic selection"
 msgid "``custom`` -- Custom model"
-msgstr "``auto`` -- Roghnú uathoibríoch"
+msgstr "`` saincheaptha`` -- Múnla saincheaptha"
 
 #: ../../admin/machine.rst:472
 msgid "``custom_model``"
@@ -18951,10 +18754,8 @@ msgstr ""
 "stíl na n-aistriúchán a athrú."
 
 #: ../../admin/machine.rst:493
-#, fuzzy
-#| msgid "Support for v2 variant of this format was added."
 msgid "Support for custom model and base URL was added."
-msgstr "Cuireadh tacaíocht le haghaidh leagan v2 den fhormáid seo leis."
+msgstr "Cuireadh tacaíocht le haghaidh múnla saincheaptha agus bunUR leis."
 
 #: ../../admin/machine.rst:497
 msgid ""
@@ -19135,6 +18936,10 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
+"Is féidir le seirbhís aistriúcháin meaisín Weblate aistriúcháin a sholáthar "
+"bunaithe ar mheaitseálacha cruinne teaghrán sna teaghráin reatha i "
+":guilabel:`Aistrithe`, :guilabel:`Ceadaithe`, nó :guilabel:`Inléite amháin` "
+":ref:`stáit <states>` taobh istigh de Weblate."
 
 #: ../../admin/machine.rst:612
 msgid "Weblate Translation Memory"
@@ -19145,24 +18950,21 @@ msgid "``weblate-translation-memory``"
 msgstr "``weblate-translation-memory``"
 
 #: ../../admin/machine.rst:617
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`translation-memory` as a machine translation service. Any "
-#| "string that has been translated in past (or uploaded to the translation "
-#| "memory) can be translated in this way."
 msgid ""
 "Use :ref:`translation-memory` as a machine translation service. Any string "
 "that has been translated before (or uploaded to the translation memory) can "
 "be translated in this way. This suggestion source works with fuzzy matching."
 msgstr ""
 "Úsáid :ref:`translation-memory` mar sheirbhís aistriúcháin meaisín. Is "
-"féidir teaghrán ar bith a aistríodh san am atá caite (nó a uaslódáil chuig "
-"an gcuimhne aistriúcháin) a aistriú ar an mbealach seo."
+"féidir teaghrán ar bith a aistríodh roimhe seo (nó a uaslódáil chuig an "
+"gcuimhne aistriúcháin) a aistriú ar an mbealach seo. Oibríonn an fhoinse "
+"molta seo le meaitseáil doiléir."
 
 #: ../../admin/machine.rst:624
 msgid ""
 "Recreating :ref:`translation-memory` reduces capabilities of this TM source."
 msgstr ""
+"Laghdaíonn athchruthú :ref:`translation-memory` cumais na foinse TM seo."
 
 #: ../../admin/machine.rst:629
 msgid "Yandex"
@@ -20599,6 +20401,8 @@ msgstr ""
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it of, use:"
 msgstr ""
+"Tá onnmhaireoir Git ar siúl inár n-íomhá oifigiúil Docker. Chun é a chasadh "
+"as, úsáid:"
 
 #: ../../admin/optionals.rst:37 ../../admin/optionals.rst:102
 #: ../../admin/optionals.rst:179 ../../faq.rst:299
@@ -20670,7 +20474,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:91
 msgid "Billing plan creation and assignment"
-msgstr ""
+msgstr "Cruthú agus sannadh plean billeála"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -20678,12 +20482,19 @@ msgid ""
 "`Administration` section (represented by the wrench icon) and open the "
 "`Tools` screen. From there, proceed to the `Django admin interface`."
 msgstr ""
+"Ní mór duit plean billeála a chruthú ar dtús chun an bhilleáil a "
+"ghníomhachtú. Déan nascleanúint go dtí an rannán `Riarachán` (arna léiriú ag "
+"an deilbhín eochair) agus oscail an scáileán `Tools`. Ón áit sin, téigh ar "
+"aghaidh chuig `comhéadan riaracháin Django`."
 
 #: ../../admin/optionals.rst:95
 msgid ""
 "In the Django admin interface, locate the `BILLING` section and add a "
 "billing plan. For instance, you can add a `Free` plan with no cost."
 msgstr ""
+"I gcomhéadan riaracháin Django, aimsigh an rannán `BILLING` agus cuir plean "
+"billeála leis. Mar shampla, is féidir leat plean `Saor in Aisce` a chur leis "
+"gan aon chostas."
 
 #: ../../admin/optionals.rst:97
 msgid ""
@@ -20691,12 +20502,17 @@ msgid ""
 "be done within the `Django admin interface` using the `Customer billings` "
 "option."
 msgstr ""
+"Más mian leat plean billeála a shannadh do thionscadal atá ann cheana féin, "
+"is féidir é seo a dhéanamh freisin laistigh den `chomhéadan riaracháin "
+"Django` ag baint úsáide as an rogha `Billeálacha do chustaiméirí`."
 
 #: ../../admin/optionals.rst:99
 msgid ""
 "Lastly, the `Django admin interface` provides an `Invoice` option for "
 "logging your customer payments."
 msgstr ""
+"Ar deireadh, soláthraíonn an `comhéadan riaracháin Django` rogha `Sonrasc` "
+"chun d'íocaíochtaí custaiméara a logáil."
 
 #: ../../admin/optionals.rst:104
 msgid ""
@@ -20838,7 +20654,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:186
 msgid "Avatars"
-msgstr "Avatars"
+msgstr "Abhatáir"
 
 #: ../../admin/optionals.rst:188
 msgid ""
@@ -21592,6 +21408,8 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
+"Forfheidhmigh :tag:`2fa` do gach rannpháirtí. Ní bheidh cead ag úsáideoirí "
+"aon oibríochtaí a dhéanamh laistigh den tionscadal gan é a bheith cumraithe."
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -23909,19 +23727,14 @@ msgid "Docker image upgrades"
 msgstr "Uasghrádú ar íomhánna docker"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :doc:`install/docker`) has all Weblate "
-#| "upgrade steps integrated. There are typically no manual steps needed "
-#| "besides pulling latest version."
 msgid ""
 "The official Weblate Docker image (see :doc:`install/docker`) integrates all "
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
-"Tá gach céim uasghrádú Weblate comhtháite san íomhá oifigiúil Docker "
-"(féach : doc: `install/docker`). De ghnáth ní bhíonn aon chéimeanna láimhe "
-"ag teastáil seachas an leagan is déanaí a tharraingt."
+"Comhtháthaíonn íomhá oifigiúil Weblate Docker (féach : doc: `install/docker`)"
+" gach céim uasghrádaithe. De ghnáth, ní bhíonn aon idirghníomhaíocht láimhe "
+"ag teastáil ach amháin an leagan is déanaí (nó ar a laghad) a tharraingt."
 
 #: ../../admin/upgrade.rst:13
 msgid ":ref:`upgrading-docker`"
@@ -23932,33 +23745,18 @@ msgid "Generic upgrade instructions"
 msgstr "Treoracha ginearálta uasghrádú"
 
 #: ../../admin/upgrade.rst:20
-#, fuzzy
-#| msgid ""
-#| "Before upgrading, please check the current :ref:`requirements` as they "
-#| "might have changed. Once all requirements are installed or updated, "
-#| "please adjust your :file:`settings.py` to match changes in the "
-#| "configuration (consult :file:`settings_example.py` for correct values)."
 msgid ""
 "Always look for new changes to :ref:`requirements` before upgrading. Once "
 "all requirements are installed or upgraded, ensure your :file:`settings.py` "
 "matches the changes in the configuration (consult :file:`settings_example."
 "py` for correct values)."
 msgstr ""
-"Sula n-uasghrádaíonn tú, seiceáil na ceanglais reatha :ref:`mar go "
-"bhféadfadh siad a bheith athraithe. Nuair a bheidh na ceanglais go léir "
-"suiteáilte nó nuashonraithe, coigeartaigh do :comhad:`settings.py` le do "
-"thoil chun athruithe sa chumraíocht a mheaitseáil (féach :comhad:"
-"`settings_example.py` le haghaidh luachanna cearta)."
+"Cuardaigh i gcónaí athruithe nua ar :tag:`riachtanais` roimh uasghrádú. "
+"Nuair a bheidh na ceanglais go léir suiteáilte nó uasghrádaithe, cinntigh go "
+"bhfuil do :comhad:`settings.py` ag teacht leis na hathruithe sa chumraíocht ("
+"féach :comhad:`settings_example.py` le haghaidh luachanna cearta)."
 
 #: ../../admin/upgrade.rst:25
-#, fuzzy
-#| msgid ""
-#| "Always check :ref:`version-specific-instructions` before upgrade. In case "
-#| "you are skipping some versions, please follow instructions for all "
-#| "versions you are skipping in the upgrade. Sometimes it's better to "
-#| "upgrade to some intermediate version to ensure a smooth migration. "
-#| "Upgrading across multiple releases should work, but is not as well tested "
-#| "as single version upgrades."
 msgid ""
 "Always check :ref:`version-specific-instructions` before upgrading. If you "
 "are skipping any version(s), be sure to follow instructions for all versions "
@@ -23967,38 +23765,34 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
-"Seiceáil i gcónaí :tag:`treoracha leagan-shonracha` roimh uasghrádú. I gcás "
-"go bhfuil tú ag scipeáil ar roinnt leaganacha, lean na treoracha maidir le "
-"gach leagan atá á scipeáil agat san uasghrádú. Uaireanta tá sé níos fearr a "
-"uasghrádú go dtí leagan idirmheánach éigin chun aistriú rianúil a chinntiú. "
-"Ba cheart go n-oibreodh uasghrádú thar eisiúintí iolracha, ach ní dhéantar é "
-"a thástáil chomh maith agus a dhéantar uasghrádú ar leagan aonair."
+"Seiceáil i gcónaí :tag:`treoracha leagan-shonracha` roimh uasghrádú. Má tá "
+"tú ag scipeáil aon leagan, bí cinnte go lean tú na treoracha maidir le gach "
+"leagan atá á scipeáil agat le linn uasghrádaithe den sórt sin. Is fearr "
+"uaireanta uasghrádú de réir a chéile go leagan idirmheánach chun ascnamh "
+"réidh a chinntiú. Ba cheart go n-oibreodh uasghrádú thar eisiúintí iolracha, "
+"ach ní dhéantar é a thástáil chomh maith le huasghráduithe aonleagan!"
 
 #: ../../admin/upgrade.rst:33
-#, fuzzy
-#| msgid ""
-#| "It is recommended to perform a full database backup prior to upgrade so "
-#| "that you can roll back the database in case upgrade fails, see :doc:"
-#| "`backup`."
 msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"Moltar cúltaca iomlán den bhunachar sonraí a dhéanamh roimh uasghrádú ionas "
-"gur féidir leat an bunachar sonraí a rolladh siar ar eagla go dteipeann ar "
-"an uasghrádú, féach :doc:`cúltaca`."
+"Cúltaca an bunachar sonraí iomlán i gcónaí roimh uasghrádú, ionas gur féidir "
+"leat an bunachar sonraí a rolladh siar má theipeann ar an uasghrádú, féach "
+":doc:`cúltaca`."
 
 #: ../../admin/upgrade.rst:36
 msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
+"Cuir stop leis na próisis WSGI agus Soilire chun seanphróisis a sheachaint "
+"agus iad á n-uasghrádú. Seachas sin d'fhéadfadh athruithe neamh-"
+"chomhoiriúnacha tarlú sa bhunachar sonraí."
 
 #: ../../admin/upgrade.rst:39
-#, fuzzy
-#| msgid "Upgrading Weblate"
 msgid "Upgrade Weblate"
-msgstr "Weblate a uasghrádú"
+msgstr "Uasghrádú Weblate"
 
 #: ../../admin/upgrade.rst:41
 msgid "For pip installs it can be achieved by:"
@@ -24014,47 +23808,32 @@ msgstr ""
 "Mura dteastaíonn uait na spleáchais roghnacha go léir a shuiteáil déan:"
 
 #: ../../admin/upgrade.rst:59
-#, fuzzy
-#| msgid ""
-#| "With Git checkout you need to fetch new source code and update your "
-#| "installation:"
 msgid ""
 "Using Git checkout, you need to fetch new source code and update your "
 "installation:"
 msgstr ""
-"Le seiceáil amach Git ní mór duit cód foinse nua a fháil agus do shuiteáil a "
-"nuashonrú:"
+"Ag baint úsáide as Git Seiceáil, ní mór duit cód foinse nua a fháil agus do "
+"shuiteáil a nuashonrú:"
 
 #: ../../admin/upgrade.rst:72
-#, fuzzy
-#| msgid ""
-#| "New Weblate release might have new :ref:`python-deps`, please check if "
-#| "they cover features you want."
 msgid ""
 "New Weblate releases might have new :ref:`python-deps`, check if they cover "
 "the features you want."
 msgstr ""
-"Seans go mbeidh :ref:`python-deps` nua ag eisiúint Weblate nua, seiceáil le "
-"do thoil an gclúdaíonn siad na gnéithe atá uait."
+"Seans go mbeidh :ref:`python-deps` ag eisiúintí nua Weblate, seiceáil an "
+"gclúdaíonn siad na gnéithe atá uait."
 
 #: ../../admin/upgrade.rst:75
-#, fuzzy
-#| msgid ""
-#| "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
-#| "`version-specific-instructions` for needed steps."
 msgid ""
 "Upgrade the configuration file by following either :file:`settings_example."
 "py`, or :ref:`version-specific-instructions`."
 msgstr ""
-"Uasghrádaigh an comhad cumraíochta, déan tagairt do :comhad: "
-"`settings_example.py` nó :tag:`treoracha leagan-sonrach` le haghaidh na "
-"gcéimeanna is gá."
+"Uasghrádaigh an comhad cumraíochta trí :comhad: `settings_example.py` a "
+"leanúint, nó :tag:`treoracha-leagan-sonrach`."
 
 #: ../../admin/upgrade.rst:78
-#, fuzzy
-#| msgid "Backup the database:"
 msgid "Upgrade the database:"
-msgstr "Cúltaca an bunachar sonraí:"
+msgstr "Uasghrádaigh an bunachar sonraí:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
@@ -24071,33 +23850,25 @@ msgstr ""
 "compress`):"
 
 #: ../../admin/upgrade.rst:96
-#, fuzzy
-#| msgid ""
-#| "If you are running version from Git, you should also regenerate locale "
-#| "files every time you are upgrading. You can do this by invoking:"
 msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
 msgstr ""
-"Má tá leagan ó Git á rith agat, ba cheart duit comhaid locale a athghiniúint "
-"gach uair a bhíonn tú ag uasghrádú. Is féidir leat é seo a dhéanamh trí "
-"agairt a dhéanamh:"
+"Má tá suiteáil á rith agat ó Git, ba cheart duit comhaid locale a "
+"athghiniúint gach uair a uasghrádaíonn tú. Is féidir leat é seo a dhéanamh "
+"trí agairt a dhéanamh:"
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr "Deimhnigh go bhfuil do shocrú slán (féach freisin :tag:`production`):"
 
 #: ../../admin/upgrade.rst:109
-#, fuzzy
-#| msgid "Restart Celery worker (see :ref:`celery`)."
 msgid "Restart the Celery worker (see :ref:`celery`)."
-msgstr "Atosaigh Oibrí Soilire (féach :tag:` soilire`)."
+msgstr "Atosaigh an t-oibrí Soilire (féach :tag:` soilire`)."
 
 #: ../../admin/upgrade.rst:114
-#, fuzzy
-#| msgid "Version specific instructions"
 msgid "Version-specific instructions"
-msgstr "Treoracha sonracha leagan"
+msgstr "Treoracha leagan ar leith"
 
 #: ../../admin/upgrade.rst:118
 msgid ""
@@ -24163,31 +23934,19 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Aistriú ó bhunachair shonraí eile go PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate on other dabatase than PostgreSQL, you should "
-#| "consider migrating to PostgreSQL as Weblate performs best with it. The "
-#| "following steps will guide you in migrating your data between the "
-#| "databases. Please remember to stop both web and Celery servers prior to "
-#| "the migration, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are not running Weblate with a different database than PostgreSQL, "
 "consider migrating to PostgreSQL for better performance by doing the "
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Má tá Weblate á rith agat ar dabatase eile seachas PostgreSQL, ba cheart "
-"duit smaoineamh ar aistriú go PostgreSQL mar is fearr a fheidhmíonn Weblate "
-"leis. Tabharfaidh na céimeanna seo a leanas treoir duit chun do shonraí a "
-"aistriú idir na bunachair shonraí. Cuimhnigh le do thoil stop a chur le "
-"freastalaithe Gréasáin agus Soilire sula n-aistrítear iad, nó d’fhéadfadh "
-"sonraí neamhréireacha a bheith agat."
+"Mura bhfuil Weblate á rith agat le bunachar sonraí eile seachas PostgreSQL, "
+"smaoinigh ar aistriú go PostgreSQL le haghaidh feidhmíocht níos fearr trí na "
+"céimeanna seo a leanas a dhéanamh. Ná déan dearmad an dá fhreastalaithe "
+"gréasáin agus Soilire a stopadh roimh ré, nó d'fhéadfadh sonraí "
+"neamhréireacha a bheith agat."
 
 #: ../../admin/upgrade.rst:151
-#, fuzzy
-#| msgid ""
-#| "It is usually a good idea to run Weblate in a separate database, and "
-#| "separate user account:"
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and a "
 "separate user account:"
@@ -24200,20 +23959,15 @@ msgid "Migrating to PostgreSQL using pgloader"
 msgstr "Aistriú go PostgreSQL le pgloader"
 
 #: ../../admin/upgrade.rst:169
-#, fuzzy
-#| msgid ""
-#| "The `pgloader`_ is a generic migration tool to migrate data to "
-#| "PostgreSQL. You can use it to migrate Weblate database."
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate your Weblate database."
 msgstr ""
 "Is uirlis chineálach imirce é an `pgloader`_ chun sonraí a aistriú go "
-"PostgreSQL. Is féidir leat é a úsáid chun bunachar sonraí Weblate a aistriú."
+"PostgreSQL. Is féidir leat é a úsáid chun do bhunachar sonraí Weblate a "
+"aistriú."
 
 #: ../../admin/upgrade.rst:172
-#, fuzzy
-#| msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
 msgstr ""
 "Coigeartaigh do :comhad:`settings.py` chun PostgreSQL a úsáid mar bhunachar "
@@ -24224,40 +23978,29 @@ msgid "Migrate the schema in the PostgreSQL database:"
 msgstr "Aistrigh an scéimre sa bhunachar sonraí PostgreSQL:"
 
 #: ../../admin/upgrade.rst:181
-#, fuzzy
-#| msgid ""
-#| "Run the pgloader to transfer the data. The following script can be used "
-#| "to migrate the database, but you might want to learn more about "
-#| "`pgloader`_ to understand what it does and tweak it to match your setup:"
 msgid ""
 "3. Run the pgloader to transfer the data. The following script can be used "
 "to migrate the database, but you might want to learn more about `pgloader`_ "
 "to better understand what it does, and tweak it to match your setup:"
 msgstr ""
-"Rith an pgloader chun na sonraí a aistriú. Is féidir an script seo a leanas "
-"a úsáid chun an bunachar sonraí a aistriú, ach b'fhéidir gur mhaith leat "
-"níos mó a fhoghlaim faoi `pgloader`_ le tuiscint a fháil ar cad a dhéanann "
-"sé agus é a athrú chun do shocrú a mheaitseáil:"
+"3. Rith an pgloader chun na sonraí a aistriú. Is féidir an script seo a "
+"leanas a úsáid chun an bunachar sonraí a aistriú, ach b'fhéidir gur mhaith "
+"leat níos mó a fhoghlaim faoi `pgloader`_ chun tuiscint níos fearr a fháil "
+"ar a ndéanann sé, agus é a athrú chun do shocrú a mheaitseáil:"
 
 #: ../../admin/upgrade.rst:203
 msgid "Migrating from Pootle"
 msgstr "Imirce ó Pootle"
 
 #: ../../admin/upgrade.rst:205
-#, fuzzy
-#| msgid ""
-#| "As Weblate was originally written as replacement from Pootle, it is "
-#| "supported to migrate user accounts from Pootle. You can dump the users "
-#| "from Pootle and import them using :wladmin:`importusers`."
 msgid ""
 "As Weblate was originally written as a replacement for Pootle, it is "
 "supported to migrate the user accounts from it. You can dump the users from "
 "Pootle and import them using :wladmin:`importusers`."
 msgstr ""
-"Toisc gur scríobhadh Weblate ar dtús mar ionadaí ó Pootle, tacaítear leis "
-"chun cuntais úsáideora a aistriú ó Pootle. Is féidir leat na húsáideoirí a "
-"dhumpáil ó Pootle agus iad a allmhairiú ag baint úsáide as :wladmin:"
-"`importusers`."
+"Toisc gur scríobhadh Weblate ar dtús in ionad Pootle, tacaítear leis na "
+"cuntais úsáideora a aistriú uaidh. Is féidir leat na húsáideoirí a dhumpáil "
+"ó Pootle agus iad a allmhairiú ag baint úsáide as :wladmin:`importusers`."
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
@@ -25143,16 +24886,12 @@ msgstr ""
 "project)/changes/`"
 
 #: ../../api.rst:848
-#, fuzzy
-#| msgid ""
-#| "URL to repository status; see :http:get:`/api/projects/(string:project)/"
-#| "repository/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
 msgstr ""
-"URL go stádas stór; féach :http:faigh:`/api/projects/(string:project)/"
-"repository/`"
+"URL chun creidmheasanna ranníocóra a liostú; féach :http:faigh:`/api/"
+"projects/(string:project)/credits/`"
 
 #: ../../api.rst:849
 msgid ":ref:`project-translation_review`"
@@ -25498,42 +25237,32 @@ msgid "<json string color"
 msgstr "< json dath teaghrán"
 
 #: ../../api.rst:1213 ../../api.rst:1791
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns contributor credits for a project."
-msgstr "Tuairisceáin staitisticí le haghaidh tionscadail."
+msgstr "Tuairisceáin creidmheasanna ranníocóra le haghaidh tionscadail."
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Stampa ama ISO 8601 le teorainn níos ísle (éigeantach)"
 
 #: ../../api.rst:1221 ../../api.rst:1799
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Stampa ama ISO 8601 ag teorainn uachtarach (éigeantach)"
 
 #: ../../api.rst:1223 ../../api.rst:1801
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language code to search for"
-msgstr "Stíl cód teanga"
+msgstr "Cód teanga chun cuardach a dhéanamh"
 
 #: ../../api.rst:1225 ../../api.rst:1803
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Email of the contributor"
-msgstr "Aistriúcháin le ranníocaíocht"
+msgstr "Ríomhphost an rannchuiditheora"
 
 #: ../../api.rst:1226 ../../api.rst:1804
-#, fuzzy
-#| msgid "full name of a user"
 msgid "Full name of the contributor"
-msgstr "ainm iomlán úsáideora"
+msgstr "Ainm iomlán an rannchuiditheora"
 
 #: ../../api.rst:1227 ../../api.rst:1805
-#, fuzzy
-#| msgid "Number of plurals used in the language."
 msgid "Number of changes done in the time range"
-msgstr "Líon na n-iolra a úsáidtear sa teanga."
+msgstr "Líon na n-athruithe a rinneadh sa raon ama"
 
 #: ../../api.rst:1234
 msgid ""
@@ -25796,16 +25525,12 @@ msgstr ""
 "URL chuig tasc cúlra (más ann dó); féach :http:faigh:`/api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1302
-#, fuzzy
-#| msgid ""
-#| "URL to lock status; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/lock/`"
 msgid ""
 "URL to to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"URL chun an stádas a ghlasáil; féach :http:faigh:`/api/components/(string:"
-"project)/(teaghrán:component)/glas/`"
+"URL chun creidmheasanna ranníocóra a liostú; féach :http:faigh:`/api/"
+"components/(string:project)/(teaghrán:component)/credits/`"
 
 #: ../../api.rst:1350
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -27037,6 +26762,8 @@ msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Is féidir méadracht a nochtadh anois i bhformáid atá comhoiriúnach le "
+"OpenMetrics le ``?format=openmetrics``."
 
 #: ../../api.rst:2604
 msgid "Number of units"
@@ -27494,16 +27221,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.7.1"
-msgstr "Gréasán 5.5.1"
+msgstr "Gréasán 5.7.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not yet released."
-msgstr "Gan tomhas fós"
+msgstr "Gan scaoileadh go fóill."
 
 #: ../../changes.rst:6 ../../changes.rst:29 ../../changes.rst:125
 #: ../../changes.rst:237 ../../changes.rst:274 ../../changes.rst:385
@@ -27579,206 +27302,191 @@ msgstr ""
 "dhéanamh."
 
 #: ../../changes.rst:18 ../../changes.rst:74
-#, fuzzy
-#| msgid "Contributors"
 msgid "**Contributors**"
-msgstr "Rannpháirtithe"
+msgstr "**Ranníocóirí**"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/121?"
-"closed=1>`__."
+"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/"
+"125?closed=1>`__."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Weblate 5.6"
 msgid "Weblate 5.7"
-msgstr "Gréasán 5.6"
+msgstr "Gréasán 5.7"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Released on August 15th 2019."
 msgid "Released on August 15th 2024."
-msgstr "Foilsithe ar 15 Lúnasa 2019."
+msgstr "Foilsithe ar 15 Lúnasa 2024."
 
 #: ../../changes.rst:31
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
+":ref: Tacaítear le `2fa` anois trí úsáid a bhaint as Passkeys, WebAuthn, "
+"aipeanna fíordheimhnithe (TOTP), agus cóid athshlánaithe."
 
 #: ../../changes.rst:32
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr ""
+":ref: Is féidir `2fa` a fhorfheidhmiú ag leibhéal na foirne nó an "
+"tionscadail."
 
 #: ../../changes.rst:33
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
 msgstr ""
+":ref: is féidir le `adding-new-strings` teaghráin iolra a chruthú sa "
+"chomhéadan úsáideora anois."
 
 #: ../../changes.rst:34
 msgid ":ref:`labels` now include description to explain them."
-msgstr ""
+msgstr ":ref: `lipéid` cuir síos anois chun iad a mhíniú."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Prevents further translation of a component."
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr "Cosc ar aistriúchán breise ar chomhpháirt."
+msgstr "Nua :tag:`síntiúis` don aistriúchán críochnaithe agus don chomhpháirt."
 
 #: ../../changes.rst:36
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
 msgstr ""
+": ref: tacaíonn `mt-openai` anois le samhlacha saincheaptha agus URLanna "
+"agus cuireann sé athfhrású ar na teaghráin atá ann cheana féin."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
-msgstr ":ref:`mt-alibaba` seirbhís moltaí uathoibríoch."
+msgstr ":ref:`mt-cyrtranslit` seirbhís moltaí uathoibríoch."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ""
-":ref:`addon-weblate.discovery.discovery` tuairiscíonn anois iontrálacha nár "
-"baineadh amach."
+":ref: Is féidir le `addon-weblate.properties.sort` sórtáil cás-íogair a "
+"dhéanamh anois."
 
 #: ../../changes.rst:42
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr ""
+"Tacaítear leis na giuirléidí stádais anois ar fud an tsuímh agus ar fud na "
+"teanga, féach :tag:`promotion`."
 
 #: ../../changes.rst:43
 msgid ":ref:`reports` are now available for categories."
-msgstr ""
+msgstr ":ref:Tá `tuarascálacha` ar fáil anois do chatagóirí."
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Highlight placeables in translation editor."
 msgid "Highlight newlines in the editor."
-msgstr "Cuir béim ar shuímh in eagar san eagarthóir aistriúcháin."
+msgstr "Aibhsigh línte nua san eagarthóir."
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid ":doc:`/formats/excel` better handles blank cells."
 msgid ":doc:`/formats/csv` better handle with with two fields only."
-msgstr "Láimhseálann :doc:`/formats/excel` cealla bána níos fearr."
+msgstr ":doc:`/formats/csv` láimhseáil níos fearr le dhá réimse amháin."
 
 #: ../../changes.rst:46
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
+"Is féidir modh brabhsála a nascleanúint anois le méarchlár, féach "
+":tag:`méarchlár`."
 
 #: ../../changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
-#| "statistics/` and :http:get:`/api/translations/(string:project)/(string:"
-#| "component)/(string:language)/statistics/` instead; it allows access to "
-#| "ACL controlled projects as well."
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
-"Bain úsáid as :http:get:`/api/components/(string:project)/(string:component)/"
-"statistics/` agus :http:get:`/api/translations/(string:project)/(string:"
-"component )/(teaghrán:teanga)/staitisticí/` ina ionad sin; ceadaíonn sé "
-"rochtain ar thionscadail rialaithe ACL chomh maith."
+":http: faigh:`/api/components/(string:project)/(string:component)/credits/` "
+"agus :http:get:`/api/projects/(string:project)/credits/` críochphointí API "
+"do comhpháirteanna agus tionscadail."
 
 #: ../../changes.rst:48
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
+":ref: `gluais-téarmaíocht` is féidir le hiontrálacha sa Ghluais a chruthú "
+"anois ach amháin ag úsáideoirí a bhfuil cead :guilabel:`Cuir téarmaíocht "
+"gluais leis`."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Skip the :ref:`check-python-brace-format` quality check."
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
-msgstr ""
-"Scipeáil ar an :tag:`seiceáil-seiceáil-python-brace-format` seiceáil "
-"cáilíochta."
+msgstr ":ref:`seiceáil-python-brace-format` braite braces chatach breise."
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "WebP is now supported for :ref:`screenshots`."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "Tacaítear le WebP anois le haghaidh :ref:`screenshots`."
+msgstr ""
+"Is féidir scáileáin a ghreamú anois ón ngearrthaisce i :ref:`screenshots`."
 
 #: ../../changes.rst:54
 msgid "Accessibility of keyboard navigation."
-msgstr ""
+msgstr "Inrochtaineacht loingseoireachta méarchláir."
 
 #: ../../changes.rst:55
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
-msgstr ""
+msgstr ":ref:`git-exporter` ag obair anois le gach bunaithe ar Git :ref:`vcs`."
 
 #: ../../changes.rst:56
-#, fuzzy
-#| msgid ":ref:`check-max-size` better displays rendered text."
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
-msgstr ":ref:`check-max-size` is fearr a thaispeánann téacs rindreáilte."
+msgstr ""
+":ref: uaireanta theip ar `check-max-size` gabháil scáileáin a thabhairt."
 
 #: ../../changes.rst:60
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr ""
+"Úsáideann Weblate anois drualus in ionad misaka mar rindreálaí Markdown."
 
 #: ../../changes.rst:61
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ""
+":ref: Tá `csp` anois níos déine mar a d'fhéadfadh bac a chur ar "
+"shaincheapadh tríú páirtí."
 
 #: ../../changes.rst:62
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
 msgstr ""
+"Ní dhéanann formáidí aonteangacha tráchtanna a chóipeáil ó :ref:`component-"
+"template` a thuilleadh agus teaghráin á gcur leis an aistriúchán."
 
 #: ../../changes.rst:63
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
+"Tacaíocht d’Amagama laghdaithe i :ref:`machine-translation-setup` toisc nach "
+"bhfuil an tseirbhís á chothabháil a thuilleadh."
 
 #: ../../changes.rst:64
-#, fuzzy
-#| msgid "Default value of BASE_DIR has been changed."
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
-msgstr "Athraíodh luach réamhshocraithe BASE_DIR."
+msgstr ""
+"Athraíodh an luach réamhshocraithe le haghaidh : socrú: `SENTRY_SEND_PII`."
 
 #: ../../changes.rst:65
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr ""
+"Leanann tuarascálacha creidmheasa aistriúcháin i bhformáid JSON formáid eile "
+"le haghaidh iontrálacha anois."
 
 #: ../../changes.rst:71
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
 "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
 "accordingly."
 msgstr ""
-"Tá roinnt athruithe ar :comhad:`settings_example.py`, is suntasaí na "
-"hathruithe ar ``CACHES`` agus ``SOCIAL_AUTH_PIPELINE``, coigeartaigh do "
-"shocruithe dá réir."
+"Tá roinnt athruithe ar :comhad:`settings_example.py`, is suntasaí iad na "
+"socruithe nua do :ref:`2fa` agus athruithe ar ``INSTALLED_APPS``, `` "
+"SOCIAL_AUTH_PIPELINE`` agus `MIDDLEWARE``; cuir do shocruithe in oiriúint dá "
+"réir."
 
 #: ../../changes.rst:72
 msgid ""
@@ -27786,12 +27494,13 @@ msgid ""
 "use HTTPS, please silence related check as described in :setting:"
 "`ENABLE_HTTPS` documentation."
 msgstr ""
+":setting: Tá `ENABLE_HTTPS` ag teastáil anois le haghaidh tacaíochta "
+"WebAuthn. Mura bhfuil tú in ann HTTPS a úsáid, cuir an seiceáil a bhaineann "
+"le do thost mar a thuairiscítear i :setting:`ENABLE_HTTPS` doiciméadú."
 
 #: ../../changes/contributors/5.7.rst:2
-#, fuzzy
-#| msgid "Contributors"
 msgid "Code contributions"
-msgstr "Rannpháirtithe"
+msgstr "Ranníocaíochtaí cód"
 
 #: ../../changes/contributors/5.7.rst:3
 msgid ""
@@ -27799,12 +27508,13 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
+"Michal Čihař, João Ferreira, Paul Harriet Asiñero, gers, Benjamin Alan "
+"Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
+"michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey agus Bastien Montagne"
 
 #: ../../changes/contributors/5.7.rst:5
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Translations contributions"
-msgstr "Aistriúcháin le ranníocaíocht"
+msgstr "Ranníocaíochtaí aistriúcháin"
 
 #: ../../changes/contributors/5.7.rst:6
 msgid ""
@@ -27819,100 +27529,90 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
+"Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
+"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
+"Ó Hong Cong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan Nordhøan "
+"Slimwoany, Besnik Bleta, Nathan, yangyangdaji, Priit Jõerüüt, Aindriú Mac "
+"Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز قادر, Horus68, ssantos, M. "
+"D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, A. , Fjuro, Luna, Antônio "
+"Breno, alefsanderribeiro, Alefsander Ribeiro Nascimento, Ian Perdiansah, "
+"amano, Petter Reinholdtsen, Malik Shoaib, Emin Tufan Çetin, John kh, Сергей, "
+"tygyh, Semih, Balázs Shahemi, Yaby, Balázs Shahemi, Yaby, Balázs Shahemi, "
+"Yaby, Semih, Balázs Shahemi, Yaby, Balázsah"
 
 #: ../../changes/contributors/5.7.rst:8
-#, fuzzy
-#| msgid "Documentation updates."
 msgid "Documentation contributions"
-msgstr "Nuashonruithe doiciméad."
+msgstr "Ranníocaíochtaí doiciméadaithe"
 
 #: ../../changes/contributors/5.7.rst:9
 msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
+"Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
+"Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers agus lotigara"
 
 #: ../../changes.rst:78
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/114?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/114?"
-"closed=1>`__."
+"`Gach athrú go mion < https://github.com/WebateOrg/weblate/milestone/"
+"116?closed=1>`__."
 
 #: ../../changes.rst:81
-#, fuzzy
-#| msgid "Weblate 5.5.2"
 msgid "Weblate 5.6.2"
-msgstr "Gréasán 5.5.2"
+msgstr "Gréasán 5.6.2"
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid "Released on July 1st 2022."
 msgid "Released on July 1st 2024."
-msgstr "Foilsithe ar 1 Iúil 2022."
+msgstr "Foilsithe ar 1 Iúil 2024."
 
 #: ../../changes.rst:87
-#, fuzzy
-#| msgid "Rendering of release notes on GitHub."
 msgid "Rendering of :ref:`labels` color selection widget."
-msgstr "Rindreáil nótaí scaoilte ar GitHub."
+msgstr "Rindreáil :tag: `lipéid` ghiuirléid roghnúcháin dathanna."
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid "More detailed status of outgoing commits."
 msgid "Detection of pending outgoing commits."
-msgstr "Stádas níos mionsonraithe maidir le gealltanais atá ag dul as oifig."
+msgstr "Ceangaltais atá ar feitheamh a bhrath."
 
 #: ../../changes.rst:89
 msgid ":ref:`addons` button layout."
-msgstr ""
+msgstr ":tag: leagan amach na gcnaipe `addons`."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
-msgstr ":tag:`bainistigh`, :tag:`addon-weblate.discovery.discovery`"
+msgstr ""
+"Tuairteála nuair a shuiteáiltear :ref:`addon-weblate.discovery.discovery` "
+"breiseán."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Fixed removal of stale source strings when removing translations."
 msgid "Removal of source strings in :ref:`glossary`."
-msgstr "Baint seasta de sheanteaghráin foinse agus aistriúcháin á mbaint."
+msgstr "Teaghráin foinse a bhaint in :tag:`gluais`."
 
 #: ../../changes.rst:92
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
 msgstr ""
+"Comhad ZIP :ref:`projectbackup` a bhailíochtú agus é á athchóiriú (CVE-2024-"
+"39303 / GHSA-jfgp-674x-6q4p)."
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/114?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/114?"
-"closed=1>`__."
+"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/"
+"124?closed=1>`__."
 
 #: ../../changes.rst:101
-#, fuzzy
-#| msgid "Weblate 5.5.1"
 msgid "Weblate 5.6.1"
-msgstr "Gréasán 5.5.1"
+msgstr "Gréasán 5.6.1"
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid "Released on June 19th 2024."
 msgid "Released on June 24th 2024."
-msgstr "Foilsithe ar 19 Meitheamh 2024."
+msgstr "Foilsithe ar 24 Meitheamh 2024."
 
 #: ../../changes.rst:107
 msgid ""
@@ -27920,28 +27620,27 @@ msgid ""
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
+"Glacann coimeádán docker le :envvar:`WEBLATE_REMOVE_ADDONS` agus "
+":envvar:`WEBLATE_ADD_MACHINERY` chun seirbhísí moltaí uathoibríocha a "
+"shaincheapadh agus :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` le haghaidh "
+"láimhseáil CORS in API."
 
 #: ../../changes.rst:108
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
+"Comhoiriúnacht OpenMetrics curtha leis le haghaidh :http:get:`/api/metrics/`."
 
 #: ../../changes.rst:112
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr ":doc:`/admin/machine`"
+msgstr "Ailiasanna teanga in :doc:`/admin/machine`."
 
 #: ../../changes.rst:118
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/121?"
-"closed=1>`__."
+"`Gach athrú go mion < https://github.com/WeblateOrg/weblate/milestone/"
+"123?closed=1>`__."
 
 #: ../../changes.rst:121
 msgid "Weblate 5.6"
@@ -28013,12 +27712,11 @@ msgid ":ref:`check-xml-tags` better handle XML entities."
 msgstr ":ref:`seiceáil-xml-clibeanna` láimhseáil níos fearr aonáin XML."
 
 #: ../../changes.rst:146
-#, fuzzy
-#| msgid "Automatic translation using already translated strings."
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr ""
-"Aistriúchán uathoibríoch ag baint úsáide as teaghráin aistrithe cheana féin."
+"D’fhéadfadh moltaí uathoibríocha athchur a mheascadh idir teaghráin "
+"aistrithe."
 
 #: ../../changes.rst:150
 msgid "Compatibility with Django 5.1."
@@ -28108,11 +27806,11 @@ msgid "Improved performance of rendering large lists of objects."
 msgstr "Feidhmíocht fheabhsaithe maidir le rindreáil liostaí móra réad."
 
 #: ../../changes.rst:204
-#, fuzzy
-#| msgid "Added links to manage other scope :ref:`addons`."
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
-msgstr "Naisc curtha leis chun raon feidhme eile a bhainistiú :tag:`addons`."
+msgstr ""
+"Bainistíocht Comhpháirte: naisc curtha leis chun an tionscadal/ar fud an "
+"láithreáin a bhainistiú :tag:`addons`."
 
 #: ../../changes.rst:208
 msgid "Fixed crashes with librsvg older than 2.46."
@@ -38322,6 +38020,8 @@ msgid ""
 "Git commits should follow `Conventional Commits <https://www."
 "conventionalcommits.org/>`_ specification."
 msgstr ""
+"Ba cheart go leanfadh gealltanais Git `Tiomantas Coinbhinsiúin < https://www."
+"conventionalcommits.org/> `_ sonraíocht."
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
@@ -38729,111 +38429,123 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Is féidir le leabharlanna `3ú páirtí` a shuiteáil agus a bhainistiú sa "
+"`chliant` de thionscadal django a bheith beagán deacair. Soláthraíonn an "
+"doiciméad seo treoir céim ar chéim ar conas leabharlanna 3ú páirtí a "
+"shuiteáil agus a bhainistiú a úsáideann an `taobh cliaint` de Weblate ag "
+"baint úsáide as `Webpack`."
 
 #: ../../contributing/frontend.rst:26
 msgid "Prerequisites"
-msgstr ""
+msgstr "Réamhriachtanais"
 
 #: ../../contributing/frontend.rst:28
 msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
 msgstr ""
+"Sula dtéann tú ar aghaidh le suiteáil, déan cinnte go bhfuil na "
+"réamhriachtanais seo a leanas agat:"
 
 #: ../../contributing/frontend.rst:30
-#, fuzzy
-#| msgid "Nodes"
 msgid "Node.js."
-msgstr "Nóid"
+msgstr "Nód.js."
 
 #: ../../contributing/frontend.rst:31
 msgid "Yarn package manager installed on your system."
-msgstr ""
+msgstr "Bainisteoir pacáiste snáth suiteáilte ar do chóras."
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "Rith ``cliant cd``."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``yarn install``"
-msgstr ""
+msgstr "Rith `` suiteáil snáth``"
 
 #: ../../contributing/frontend.rst:36
-#, fuzzy
-#| msgid "Installation"
 msgid "1- Installation"
-msgstr "Suiteáil"
+msgstr "1- Suiteáil"
 
 #: ../../contributing/frontend.rst:38
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid "To install a library, 1st run the following command:"
-msgstr "Chun tacaíocht do Rollbar a chumasú, socraigh an méid seo a leanas:"
+msgstr "Chun leabharlann a shuiteáil, rith 1ú an t-ordú seo a leanas:"
 
 #: ../../contributing/frontend.rst:45
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "2- Importing the Library"
-msgstr "Iompórtáil chuig Weblate"
+msgstr "2- An Leabharlann a Iompórtáil"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "Ansin, tá dhá bhealach ann chun an leabharlann a allmhairiú:"
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"Más leabharlann ar fud an tionscadail í (tá sé in úsáid/ag teastáil i ngach "
+"leathanach/formhór na leathanach):"
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Iompórtáil an leabharlann i ``src/main.js``."
 
 #: ../../contributing/frontend.rst:52
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Más leabharlann leathanach ar leith í (úsáidtear leabharlann i leathanach nó "
+"i dteimpléad ar leith):"
 
 #: ../../contributing/frontend.rst:53
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Cruthaigh comhad nua darb ainm ``src/<lib-name>.js``."
 
 #: ../../contributing/frontend.rst:54
 msgid "Import the library in it."
-msgstr ""
+msgstr "Iompórtáil an leabharlann ann."
 
 #: ../../contributing/frontend.rst:55
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"Cuir iontráil isteach i ``webpack.config.js``: `` <lib-name>: \"src/<lib-"
+"name>.js\"``."
 
 #: ../../contributing/frontend.rst:58
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Nóta: Cuir ainm iarbhír na leabharlainne 3ú páirtí in ionad `` <lib-name>``."
 
 #: ../../contributing/frontend.rst:61
 msgid "3- Building the Library"
-msgstr ""
+msgstr "3- Tógáil na Leabharlainne"
 
 #: ../../contributing/frontend.rst:63
 msgid "Build the libraries used by the project, run the following command:"
 msgstr ""
+"Tóg na leabharlanna a úsáideann an tionscadal, reáchtáil an t-ordú seo a "
+"leanas:"
 
 #: ../../contributing/frontend.rst:70
 msgid "4- Including the Library"
-msgstr ""
+msgstr "4- An Leabharlann san áireamh"
 
 #: ../../contributing/frontend.rst:72
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
 msgstr ""
+"Anois tá an leabharlann tógtha agus réidh le húsáid. Chun é a chur san "
+"áireamh lean na céimeanna seo:"
 
 #: ../../contributing/frontend.rst:74
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"Má iompórtáladh an leabharlann in ``src/main.js``, níl aon chéimeanna breise "
+"ag teastáil (toisc go bhfuil sé san áireamh cheana féin i ``base.html``)."
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -38841,22 +38553,21 @@ msgid ""
 "``weblate/templates``` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"Má iompórtáladh an leabharlann ina sainchomhad ``src/<lib-name>.js``, in ``"
+"weblate/templates`` bain úsáid as na clibeanna san áireamh chun nascadh leis "
+"an gcomhad JavaScript statach tógtha:"
 
 #: ../../contributing/frontend.rst:84
 msgid "Coding style"
 msgstr "Stíl códaithe"
 
 #: ../../contributing/frontend.rst:86
-#, fuzzy
-#| msgid ""
-#| "Weblate relies on `Prettier`_ for the code formatting for CSS files and "
-#| "`Biome`_ for formatting and linting the JavaScript code."
 msgid ""
 "Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS "
 "code."
 msgstr ""
-"Braitheann Weblate ar `Prettier`_ chun an cód a fhormáidiú do chomhaid CSS "
-"agus `Biome`_ chun an cód JavaScript a fhormáidiú agus a líneáil."
+"Braitheann Weblate ar `Biome`_ chun an cód JavaScript agus CSS a fhormáidiú "
+"agus a líneáil."
 
 #: ../../contributing/frontend.rst:92
 msgid "Localization"
@@ -39061,6 +38772,9 @@ msgid ""
 "are in `docs/requirements.txt`. You will also need :program:`graphviz` to "
 "build the documentation."
 msgstr ""
+"Is féidir doiciméid a chur in eagar agus a thógáil go háitiúil freisin, tá "
+"na ceanglais Python in `docs/requirements.txt`. Beidh :clár:`graphviz` uait "
+"freisin chun an doiciméadú a thógáil."
 
 #: ../../contributing/index.rst:61
 msgid ""
@@ -39190,10 +38904,8 @@ msgid "`Scenari (Kelis) <https://scenari.software/>`_"
 msgstr "`Scenari (Conair) < https://scenari.software/> `_"
 
 #: ../../../BACKERS.rst:21
-#, fuzzy
-#| msgid "`Biblibre <https://www.biblibre.com/>`_"
 msgid "`BibLibre (Koha community) <https://www.biblibre.com/>`_"
-msgstr "`Biobla < https://www.biblibre.com/>`_"
+msgstr "`BibLibre (pobal Koha) < https://www.biblibre.com/>`_"
 
 #: ../../../BACKERS.rst:22
 msgid "Koha community"
@@ -39205,11 +38917,11 @@ msgstr "24eme.fr"
 
 #: ../../../BACKERS.rst:24
 msgid "Fotema Gallery App"
-msgstr ""
+msgstr "Aip Ghailearaí Fotema"
 
 #: ../../../BACKERS.rst:25
 msgid "`Newpipe e.V. <https://newpipe-ev.de>`_"
-msgstr ""
+msgstr "`Nua-phíb e.V. < https://newpipe-ev.de> `_"
 
 #: ../../../BACKERS.rst:27
 msgid ""
@@ -39450,17 +39162,12 @@ msgstr ""
 "issues>`_ á óstáil ag GitHub."
 
 #: ../../contributing/issues.rst:8
-#, fuzzy
-#| msgid ""
-#| "Feel welcome to report any issues you have, or suggest improvement for "
-#| "Weblate there. There are various templates prepared to comfortably guide "
-#| "you through the issue report."
 msgid ""
 "Feel welcome to report any issues you have or suggest improvements for "
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
 msgstr ""
-"Tá fáilte romhat aon cheisteanna atá agat a thuairisciú, nó feabhsú a "
+"Tá fáilte romhat aon cheisteanna atá agat a thuairisciú nó feabhsuithe a "
 "mholadh do Weblate ansin. Tá teimpléid éagsúla ullmhaithe chun tú a threorú "
 "go compordach tríd an tuarascáil eisiúint."
 
@@ -39481,10 +39188,8 @@ msgstr ""
 "leat triail a bhaint as :tag:`pléití`."
 
 #: ../../contributing/issues.rst:19
-#, fuzzy
-#| msgid "Security issues"
 msgid "Reporting security issues"
-msgstr "Saincheisteanna slándála"
+msgstr "Ceisteanna slándála a thuairisciú"
 
 #: ../../contributing/issues.rst:21
 msgid ""
@@ -39493,6 +39198,10 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"Tá foireann forbartha Weblate tiomanta go láidir do thuairisciú freagrach "
+"agus nochtadh saincheisteanna a bhaineann le slándáil. Ghlacamar le beartais "
+"atá dírithe ar nuashonruithe slándála tráthúla a sheachadadh do Weblate agus "
+"leanaimid iad."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -39501,6 +39210,10 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"Tuairiscítear an chuid is mó de na gnáthfhabhtanna in Weblate dár n-riantóir "
+"saincheisteanna GitHub <https://github.com/WeblateOrg/weblate/issues>`_, ach "
+"mar gheall ar nádúr íogair na saincheisteanna slándála, iarraimid gan iad a "
+"thuairisciú go poiblí ar an mbealach seo."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -39509,35 +39222,37 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"Ina áit sin, má chreideann tú go bhfuil rud éigin aimsithe agat in Weblate a "
+"bhfuil impleachtaí slándála aige, seol tuairisc ar an gceist chuig security@"
+"weblate.org, `GitHub < https://github.com/WeblateOrg/weblate/security/"
+"advisories/ nua>`_, nó ag baint úsáide as `HackerOne < https://hackerone.com/"
+"weblate>`_."
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Freagróidh ball den fhoireann slándála tú laistigh de 48 uair an chloig, "
+"agus ag brath ar an ngníomh a dhéantar, is féidir go bhfaighidh tú tuilleadh "
+"ríomhphoist leantacha."
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**Tuairiscí criptithe á seoladh**"
 
 #: ../../contributing/issues.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you don't want to use HackerOne, for whatever reason, you can send the "
-#| "report by e-mail to michal@weblate.org. You can choose to encrypt it "
-#| "using this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. "
-#| "You can also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgid ""
 "If you want to send an encrypted email (*optional*), please use the public "
 "key  for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 "
 "B313 42B7 511D``. This public key is available on the most commonly used key "
 "servers, and from  `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
-"Mura dteastaíonn uait HackerOne a úsáid, ar chúis ar bith, is féidir leat an "
-"tuairisc a sheoladh trí ríomhphost chuig michal@weblate.org. Is féidir leat "
-"an rogha a chriptiú leis an eochair PGP seo `3CB 1DF1 EF12 CF2A C0EE 5A32 "
-"9C27 B313 42B7 511D`. Is féidir leat an eochair PGP a fháil freisin ó "
-"`Keybase <https://keybase.io/nijel>`_."
+"Más mian leat ríomhphost criptithe a sheoladh (*roghnach*), bain úsáid as an "
+"eochair phoiblí le haghaidh michal@weblate.org le ID ``3CB 1DF1 EF12 CF2A "
+"C0EE 5A32 9C27 B313 42B7 511D``. Tá an eochair phoiblí seo ar fáil ar na "
+"príomhfhreastalaithe is coitianta a úsáidtear, agus ó `Keybase "
+"<https://keybase.io/nijel>`_."
 
 #: ../../contributing/issues.rst:49
 msgid ""
@@ -40366,29 +40081,20 @@ msgstr ""
 "phríobháideachas ár n-úsáideoirí."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://bestpractices."
-#| "coreinfrastructure.org/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/"
 "en/projects/552>`_."
 msgstr ""
 "Cloíonn Forbairt Weblate leis na `Chleachtais is Fearr de Thionscnamh Croí-"
-"Bhonneagar Fhondúireacht Linux < https://bestpractices.coreinfrastructure."
-"org/projects/552>`_."
+"Bhonneagar an Fhorais Linux < https://www.bestpractices.dev/ga/projects/"
+"552>`_."
 
 #: ../../contributing/security.rst:12
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
 msgstr ""
-"Más saincheist slándála é an rud a d’aimsigh tú in Weblate, féach ar an "
-"rannán :ref:`security` thíos le do thoil."
+"An bhfuair tú amach fadhb slándála in Weblate? Léigh le do thoil :tag: "
+"`slándáil`."
 
 #: ../../contributing/security.rst:15
 msgid "Security updates"
@@ -40818,10 +40524,8 @@ msgstr ""
 "tástála suiteáilte. Is féidir é seo a dhéanamh le ``pip install -e .[test]``."
 
 #: ../../contributing/tests.rst:52
-#, fuzzy
-#| msgid "Translating using Weblate"
 msgid "Testing using pytest"
-msgstr "Aistriúchán le Weblate"
+msgstr "Tástáil ag baint úsáide as pytest"
 
 #: ../../contributing/tests.rst:53 ../../contributing/tests.rst:100
 msgid ""
@@ -40832,24 +40536,20 @@ msgstr ""
 "braitheann roinnt tástálacha orthu a bheith i láthair:"
 
 #: ../../contributing/tests.rst:59
-#, fuzzy
-#| msgid "To run a testsuite locally, use:"
 msgid "You can use `pytest` to run a testsuite locally:"
-msgstr "Chun sraith tástála a rith go háitiúil, úsáid:"
+msgstr "Is féidir leat `pytest` a úsáid chun sraith tástála a rith go háitiúil:"
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "Comhad tástála aonair a rith:"
 
 #: ../../contributing/tests.rst:72
-#, fuzzy
-#| msgid "Installing using Docker"
 msgid "Testing using Django"
-msgstr "Suiteáil ag baint úsáide as Docker"
+msgstr "Tástáil ag baint úsáide as Django"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
-msgstr ""
+msgstr "Nó, ba cheart go n-oibreodh tástálacha ionsuite Django freisin:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -41849,18 +41549,10 @@ msgstr ""
 "príobháideach de réir réamhshocraithe."
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Importing localization project into Weblate"
 msgid "Importing a localization project into Weblate"
-msgstr "Tionscadal logánaithe á iompórtáil go Weblate"
+msgstr "Tionscadal logánaithe á iompórtáil isteach i Weblate"
 
 #: ../../devel/integration.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has been developed with VCS integration in mind as it’s core "
-#| "feature, so the easiest way is to grant Weblate the access to your "
-#| "repository. The import process will guide you through configuring your "
-#| "translations into components."
 msgid ""
 "Weblate has been developed with VCS integration in mind as it’s core "
 "feature, so the easiest way is to grant Weblate the access to your "
@@ -41870,18 +41562,14 @@ msgstr ""
 "Forbraíodh Weblate le comhtháthú VCS san áireamh mar phríomhghné, mar sin is "
 "é an bealach is éasca ná rochtain a thabhairt do Weblate ar do stór. "
 "Tabharfaidh an próiseas iompórtála treoir duit trí do chuid aistriúcháin a "
-"chumrú ina gcomhpháirteanna."
+"chumrú ina gcomhpháirteanna Weblate."
 
 #: ../../devel/integration.rst:14
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use Weblate to set up a local repository "
-#| "containing all the translations without integration."
 msgid ""
 "Alternatively, you can let Weblate set up a local-only repository containing "
 "all the translations without integration."
 msgstr ""
-"Mar mhalairt air sin, is féidir leat Weblate a úsáid chun stór áitiúil a "
+"Mar mhalairt air sin, is féidir leat ligean do Weblate stór áitiúil amháin a "
 "bhunú ina bhfuil na haistriúcháin go léir gan comhtháthú."
 
 #: ../../devel/integration.rst:19
@@ -41893,12 +41581,6 @@ msgid "Fetching updated translations from Weblate"
 msgstr "Aistriúcháin nuashonraithe á fháil ó Weblate"
 
 #: ../../devel/integration.rst:25
-#, fuzzy
-#| msgid ""
-#| "Weblate stores updated strings in a database and commits them to a local "
-#| "version control repository. You can add Weblate repository (when :ref:"
-#| "`git-exporter` is turned on) as additional remote and fetch translations "
-#| "update from it."
 msgid ""
 "Weblate stores updated strings in a database and commits them to a local "
 "version-control repository. You can add a Weblate repository (when :ref:`git-"
@@ -41907,25 +41589,20 @@ msgid ""
 msgstr ""
 "Stórálann Weblate teaghráin nuashonraithe i mbunachar sonraí agus tiomnaíonn "
 "sé iad chuig stór áitiúil rialaithe leagan. Is féidir leat stór Weblate a "
-"chur leis (nuair a chuirtear :ref:`git-exporter` ar siúl) mar chianaistriú "
-"breise agus nuashonrú aistriúcháin a fháil uaidh."
+"chur leis (nuair a chuirtear :ref:`git-exporter` ar siúl) mar chianstór "
+"breise agus nuashonruithe aistriúcháin a fháil uaidh."
 
 #: ../../devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "Prior to this, you might want to commit any pending changes (see :ref:"
-#| "`lazy-commit`). You can do so in the user interface (in the :guilabel:"
-#| "`Repository maintenance`) or from the command-line using :ref:`wlc`."
 msgid ""
 "Prior to this, you might want to commit any pending local changes made in "
 "Weblate (see :ref:`lazy-commit`). This can be done from the user interface "
 "(in the :guilabel:`Repository maintenance`), or from the command-line using :"
 "ref:`wlc`."
 msgstr ""
-"Roimhe seo, b'fhéidir gur mhaith leat aon athruithe atá ar feitheamh a "
-"dhéanamh (féach :tag:`leisc-commit`). Is féidir leat é sin a dhéanamh sa "
-"chomhéadan úsáideora (sa :guilabel:`Cothabháil stórtha`) nó ón líne ordaithe "
-"ag baint úsáide as : ref:`wlc`."
+"Roimhe seo, b'fhéidir gur mhaith leat aon athruithe áitiúla atá ar feitheamh "
+"a rinneadh in Weblate a dhéanamh (féach :ref:`lazy-commit`). Is féidir é seo "
+"a dhéanamh ón gcomhéadan úsáideora (sa :guilabel:`Cothabháil stórtha`), nó "
+"ón líne ordaithe ag baint úsáide as :ref:`wlc`."
 
 #: ../../devel/integration.rst:34
 msgid ""
@@ -41938,16 +41615,12 @@ msgstr ""
 "ref:`component`, féach :ref:`push-changes`."
 
 #: ../../devel/integration.rst:37
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use :doc:`/api` to update translations to match "
-#| "their latest version."
 msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
-"Nó is féidir leat :doc:`/api` a úsáid chun aistriúcháin a nuashonrú chun "
-"teacht leis an leagan is déanaí atá acu."
+"Nó, bain úsáid as :doc:`/api` chun aistriúcháin a nuashonrú ionas go mbeidh "
+"siad ag teacht leis an leagan is déanaí ón tsrutha suas i do stór VCS cianda."
 
 #: ../../devel/integration.rst:42
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -41958,49 +41631,35 @@ msgid "Fetching remote changes into Weblate"
 msgstr "Athruithe cianda á bhfáil go Weblate"
 
 #: ../../devel/integration.rst:49
-#, fuzzy
-#| msgid ""
-#| "To fetch the strings newly updated in your repository into Weblate, just "
-#| "let it pull from the upstream repository. This can be achieved in the "
-#| "user interface (in the :guilabel:`Repository maintenance`), or from the "
-#| "command-line using :ref:`wlc`."
 msgid ""
 "To fetch any strings recently updated in your remote VCS repository into "
 "Weblate, allow Weblate to pull from the upstream repository. This can be "
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
-"Chun na teaghráin nua-nuashonraithe i do stór a fháil isteach i Weblate, níl "
-"le déanamh ach ligean dó tarraingt ón stór in aghaidh an tsrutha. Is féidir "
-"é seo a bhaint amach sa chomhéadan úsáideora (sa :guilabel:`Cothabháil "
-"stórtha`), nó ón líne ordaithe ag baint úsáide as :ref:`wlc`."
+"Chun aon teaghráin a nuashonraíodh le déanaí i do stór VCS cianda a fháil "
+"isteach i Weblate, lig do Weblate tarraingt ón stór in aghaidh an tsrutha. "
+"Is féidir é seo a bhaint amach sa chomhéadan úsáideora (sa :guilabel:`"
+"Cothabháil stórtha`), nó ón líne ordaithe ag baint úsáide as :ref:`wlc`."
 
 #: ../../devel/integration.rst:54
-#, fuzzy
-#| msgid ""
-#| "This can be automated by setting a webhook in your repository to trigger "
-#| "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
-#| "details."
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit. See :ref:`update-vcs` for more "
 "details."
 msgstr ""
 "Is féidir é seo a uathoibriú ach cuaille gréasáin a shocrú i do stór chun "
-"Weblate a spreagadh aon uair a bhíonn gealltanas nua ann, féach :ref:`update-"
+"Weblate a spreagadh nuair a bhíonn gealltanas nua ann. Féach :ref:`update-"
 "vcs` le haghaidh tuilleadh sonraí."
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ""
-#| "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
-#| "update translations to match your code base."
 msgid ""
 "If not using VCS integration, you can use the UI or :doc:`/api` to update "
 "the translations so that they match your codebase."
 msgstr ""
-"Mura bhfuil comhtháthú VCS in úsáid agat, is féidir leat UI nó :doc:`/api` a "
-"úsáid chun aistriúcháin a nuashonrú chun teacht le do bhunchód."
+"Mura bhfuil comhtháthú VCS in úsáid agat, is féidir leat an Chomhéadain nó "
+":doc:`/api` a úsáid chun na haistriúcháin a nuashonrú ionas go mbeidh siad "
+"ag teacht le do bhunachar cód."
 
 #: ../../devel/integration.rst:62
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -42038,6 +41697,11 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
+"De láimh, ag baint úsáide as :guilabel:`Cuir teaghrán aistriúcháin nua leis` "
+"ó :guilabel:`Tools` roghchlár sa teanga fhoinseach. Is féidir leat rogha a "
+"dhéanamh idir na cnaipí raidió :guilabel:`Singular` agus :guilabel:`Iolra` "
+"taobh istigh den fhoirm. Roghnaigh an fhoirm chuí den teaghrán aistriúcháin "
+"nua atá le cur."
 
 #: ../../devel/integration.rst:82
 msgid ""
@@ -42067,20 +41731,10 @@ msgstr ""
 "Weblate."
 
 #: ../../devel/integration.rst:94
-#, fuzzy
-#| msgid "Updating target language files"
 msgid "Updating target-language files"
 msgstr "Comhaid sprioctheanga á nuashonrú"
 
 #: ../../devel/integration.rst:96
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :ref:`component-template`, and not "
-#| "in actual translations. It does not however perform any automatic cleanup "
-#| "of stale strings as that might have unexpected outcomes. If you want to "
-#| "do this, please install :ref:`addon-weblate.cleanup.generic` add-on which "
-#| "will handle the cleanup according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`), Weblate might add new "
 "translation strings present in the :ref:`component-template`, and not in "
@@ -42089,38 +41743,34 @@ msgid ""
 "do this, please install the :ref:`addon-weblate.cleanup.generic` add-on, "
 "which handles cleanup according to your requirements."
 msgstr ""
-"Maidir le comhaid aonteangacha (féach :tag:`formáidí`) d'fhéadfadh Weblate "
-"teaghráin aistriúcháin nua a chur leis nach bhfuil sa :ref:`component-"
-"template`, agus nach bhfuil in aistriúcháin iarbhír. Ní dhéanann sé aon "
-"ghlanadh uathoibríoch de sheanteaghráin, áfach, mar go bhféadfadh torthaí "
-"gan choinne a bheith aige. Más mian leat é seo a dhéanamh, suiteáil le do "
-"thoil :ref:`addon-weblate.cleanup.generic` breiseán a láimhseálfaidh an "
-"glantachán de réir do riachtanas."
+"Maidir le comhaid aonteangacha (féach :tag:`formáidí`), d'fhéadfadh Weblate "
+"teaghráin aistriúcháin nua a chur i láthair sa :ref:`component-template`, "
+"agus nach bhfuil in aistriúcháin iarbhír. Ní dhéanann sé aon ghlanadh "
+"uathoibríoch de sheanteaghráin, áfach, mar go bhféadfadh torthaí gan choinne "
+"a bheith aige. Más mian leat é seo a dhéanamh fós, suiteáil an breiseán :ref"
+":`addon-weblate.cleanup.generic`, a láimhseálann glantachán de réir do "
+"riachtanas."
 
 #: ../../devel/integration.rst:103
-#, fuzzy
-#| msgid ""
-#| "Weblate also will not try to update bilingual files in any way, so if you "
-#| "need :file:`po` files being updated from :file:`pot`, you need to do it "
-#| "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
-#| "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgid ""
 "Weblate will also not try to update bilingual files when the source changes, "
 "so if you need :file:`po` files to be updated from :file:`pot`, do it "
 "yourself by using :guilabel:`Update source strings` :ref:`upload-method`, or "
 "by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
-"Ní dhéanfaidh Weblate iarracht comhaid dhátheangacha a nuashonrú ar bhealach "
-"ar bith, mar sin má theastaíonn uait :file:`po` comhaid á nuashonrú ó :"
-"comhad:`pot`, ní mór duit é a dhéanamh tú féin ag baint úsáide as :guilabel:"
-"`Nuashonraigh teaghráin foinse` : tag: `uaslódáil-modh` nó ag baint úsáide "
-"as :ref: `addon-weblate.gettext.msgmerge` breiseán."
+"Ní dhéanfaidh Weblate iarracht ach oiread comhaid dhátheangacha a nuashonrú "
+"nuair a athraíonn an fhoinse, mar sin má theastaíonn uait :file:`po` comhaid "
+"a nuashonrú ó :comhad:`pot`, déan é féin trí úsáid a bhaint as :guilabel:`"
+"Nuashonraigh teaghráin foinse` : tag: `uaslódáil-modh`, nó trí úsáid a "
+"bhaint as an mbreiseán :ref:`addon-weblate.gettext.msgmerge`."
 
 #: ../../devel/integration.rst:110
 msgid ""
 "Source string extraction tools, such as :program:`xgettext` or :program:"
 "`lupdate`, need to be executed outside of Weblate."
 msgstr ""
+"Ní mór uirlisí eastósctha teaghrán foinse, mar :program:`xgettext` nó "
+":program:`lupdate`, a rith lasmuigh de Weblate."
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -42147,22 +41797,16 @@ msgstr ""
 "isteach mar aon leis na hathruithe cód a thug isteach iad."
 
 #: ../../devel/integration.rst:130
-#, fuzzy
-#| msgid ""
-#| "Monolingual formats need addition of the new string to :ref:`component-"
-#| "template`. This is typically done by the developers during developing the "
-#| "code. You might want to introduce review of those strings using :ref:"
-#| "`source-quality-gateway`."
 msgid ""
 "Monolingual formats need to be configured so that new strings are added to :"
 "ref:`component-template`. This is typically done by developers, as they "
 "write the code. You might want to use a review process of those strings "
 "using :ref:`source-quality-gateway`."
 msgstr ""
-"Ní mór an teaghrán nua a chur le :tag: `component-template` i bhformáidí "
-"aonteangacha. De ghnáth déanann na forbróirí é seo agus an cód á fhorbairt. "
-"B'fhéidir gur mhaith leat athbhreithniú a thabhairt isteach ar na teaghráin "
-"sin ag baint úsáide as :ref:`source-quality-gateway`."
+"Ní mór formáidí aonteangacha a chumrú ionas go gcuirfear teaghráin nua le "
+":ref:`component-template`. De ghnáth déanann forbróirí é seo, agus iad ag "
+"scríobh an chóid. B'fhéidir gur mhaith leat próiseas athbhreithnithe ar na "
+"teaghráin sin a úsáid ag baint úsáide as :ref:`source-quality-gateway`."
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -42209,40 +41853,28 @@ msgstr ""
 "sphinx`"
 
 #: ../../devel/integration.rst:160
-#, fuzzy
-#| msgid "Managing version control repository"
 msgid "Managing the local VCS repository"
-msgstr "Stór rialaithe leagan a bhainistiú"
+msgstr "An stór áitiúil VCS a bhainistiú"
 
 #: ../../devel/integration.rst:162
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translation the version control repository. It can be "
-#| "either connected to upstream one, or it can be only internal. The :"
-#| "guilabel:`Repository maintenance` lets you manipulate with the repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
 "only setup is also possible. The :guilabel:`Repository maintenance` allows "
 "controlling this repository."
 msgstr ""
-"Stórálann Weblate an t-aistriúchán ar fad sa stór rialaithe leagan. Is "
-"féidir é a nascadh le ceann in aghaidh an tsrutha, nó is féidir é a bheith "
-"inmheánach amháin. Ligeann an :guilabel:`Cothabháil stórtha` duit ionramháil "
-"leis an stór."
+"Stórálann Weblate gach aistriúchán ina stór rialaithe leagan bunúsach. "
+"Moltar é a nascadh le ceann iargúlta, ach is féidir socrú inmheánach amháin "
+"a dhéanamh freisin. Ceadaíonn an :guilabel:`Cothabháil stórtha` an stór seo "
+"a rialú."
 
 #: ../../devel/integration.rst:169
-#, fuzzy
-#| msgid ""
-#| "With :doc:`/admin/continuous` the repository is automatically pushed "
-#| "whenever there are changes and there is usually no need to manually "
-#| "manipulate with it."
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manually manage it manually."
 msgstr ""
-"Le :doc:`/admin/continuous` brúitear an stór go huathoibríoch nuair a bhíonn "
-"athruithe ann agus de ghnáth ní bhíonn gá le hionramháil de láimh leis."
+"Le :doc:`/admin/continuous`, déantar aon athruithe a bhrú go huathoibríoch "
+"ón stór, mar sin de ghnáth ní gá é a bhainistiú de láimh."
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -44973,6 +44605,8 @@ msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
 msgstr ""
+"Úsáideann JetBrains Compose Multiplatform Kotlin Resources an fhormáid "
+"comhaid chéanna freisin."
 
 #: ../../formats/android.rst:14
 msgid ""
@@ -45055,24 +44689,20 @@ msgstr ""
 "tagairtí teaghrán:"
 
 #: ../../formats/android.rst:62
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
 "Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
 "images-resources.html>`_, :doc:`tt:formats/android`"
 msgstr ""
-"`Doiciméadú acmhainní teaghrán Android <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_, :doc:`tt:formats/android`"
+"`Doiciméadú acmhainní teaghrán Android < https://developer.android.com/guide/"
+"topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
+"Resources < https://www.jetbrains.com/help/kotlin- multiplatform-dev/compose-"
+"images-resources.html> `_, :doc:`tt:formáidí/android`"
 
 #: ../../formats/android.rst:67
-#, fuzzy
-#| msgid "Better support for Android resources."
 msgid "Weblate configuration for Android resource strings"
-msgstr "Tacaíocht níos fearr d'acmhainní Android."
+msgstr "Cumraíocht gréasáin le haghaidh teaghráin acmhainní Android"
 
 #: ../../formats/android.rst:70 ../../formats/android.rst:85
 #: ../../formats/apple.rst:26 ../../formats/appstore.rst:26
@@ -45129,18 +44759,16 @@ msgstr "`Acmhainn Teaghrán Android`"
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
 msgstr ""
+"Cumraíocht Ghréasáin le haghaidh JetBrains Compose Multiplatform Kotlin "
+"Resources"
 
 #: ../../formats/android.rst:87
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid "``commonMain/composeResources/values-*/strings.xml``"
-msgstr "``res/values-*/strings.xml``"
+msgstr "``commonMain/composeResources/values-*/strings.xml``"
 
 #: ../../formats/android.rst:89
-#, fuzzy
-#| msgid "``res/values/strings.xml``"
 msgid "``commonMain/composeResources/values/strings.xml``"
-msgstr "``res/values/strings.xml``"
+msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
@@ -45645,10 +45273,8 @@ msgstr ""
 "msgmerge`"
 
 #: ../../formats/gettext.rst:29
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Showing source string change"
-msgstr "Athraíodh teaghrán foinse"
+msgstr "Athrú teaghrán foinse á thaispeáint"
 
 #: ../../formats/gettext.rst:31
 msgid ""
@@ -45657,6 +45283,11 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"Is féidir le Weblate teaghráin foinse roimhe seo a bhaint as na comhaid PO "
+"má tá siad i láthair agus an difríocht teaghrán a thaispeáint do teaghráin a "
+"dteastaíonn eagarthóireacht orthu bunaithe air sin. Chun iad seo a chur san "
+"áireamh, ní mór :program:`msgmerge` a rith le ``--roimhe`` agus ansin tá "
+"línte mar:"
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
@@ -46369,6 +46000,9 @@ msgid ""
 "different format which matches :doc:`/formats/android`, please use that "
 "instead."
 msgstr ""
+"Tá JetBrains Compose Multiplatform Kotlin Resources ann freisin a úsáideann "
+"formáid eile a mheaitseálann :doc:`/formats/android`, bain úsáid as é sin "
+"ina ionad le do thoil."
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
@@ -47236,7 +46870,7 @@ msgstr "https://docs.weblate.org/ga/latest/admin/install.html"
 
 #: ../../../README.rst:57
 msgid "Bugs"
-msgstr "Bugs"
+msgstr "Fabhtanna"
 
 #: ../../../README.rst:59
 msgid "Please report feature requests and problems to:"
@@ -47263,14 +46897,12 @@ msgstr ""
 "atá suiteáilte ar do ríomhaire."
 
 #: ../../../README.rst:70
-#, fuzzy
-#| msgid "Status"
 msgid "Stats"
-msgstr "Stádas"
+msgstr "Stait"
 
 #: ../../../README.rst:72
 msgid "Repobeats analytics image"
-msgstr ""
+msgstr "Íomhá anailísíochta repobeats"
 
 #: ../../../README.rst:85
 msgid ""
@@ -50557,7 +50189,7 @@ msgstr "Samplaí:"
 
 #: ../../user/checks.rst:1687
 msgid "Warns?"
-msgstr "Warns?"
+msgstr "Rabhadh?"
 
 #: ../../user/checks.rst:1687
 msgid "Reason"
@@ -52152,17 +51784,12 @@ msgid "``state:TEXT``"
 msgstr "``luaigh:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string states (``approved``, ``translated``, ``needs-"
-#| "editing``, ``empty``, ``read-only``), supports :ref:`search-operators`."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``)."
 msgstr ""
-"Tacaíonn cuardach le haghaidh stáit teaghrán (``cheadaithe``, `` "
-"aistrithe``, ``eagarthóireacht riachtanas``, ``folamh``, `` inléite "
-"amháin``), :tag:`search-operators`."
+"Cuardaigh le haghaidh stáit teaghrán (``cheadaithe``, `` aistrithe``, ``"
+"eagarthóireacht riachtanas``, ``folamh``, `` inléite amháin``)."
 
 #: ../../user/search.rst:50
 msgid ""
@@ -52170,6 +51797,9 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"Tacaíonn an réimse seo freisin le :ref:`search-operators`, mar sin is féidir "
+"cuardach do theaghráin chríochnaithe a dhéanamh mar ``state:> = aistrithe``, "
+"ag cuardach teaghráin ar gá iad a aistriú mar ``luaigh:<aistrithe``."
 
 #: ../../user/search.rst:51
 msgid "``pending:BOOLEAN``"
@@ -52201,63 +51831,55 @@ msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:56
 msgid "Filters string on a condition:"
-msgstr ""
+msgstr "Teaghrán scagairí ar choinníoll:"
 
 #: ../../user/search.rst:58
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``read-only`` or ``readonly``"
-msgstr "``read-only``"
+msgstr "``read-only`` nó ``readonly``"
 
 #: ../../user/search.rst:59
 msgid "Read-only strings, same as ``state:read-only``."
-msgstr ""
+msgstr "Teaghráin inléite amháin, mar an gcéanna le ``luaigh:inléite amháin``."
 
 #: ../../user/search.rst:60
 msgid "``approved``"
 msgstr "``approved``"
 
 #: ../../user/search.rst:61
-#, fuzzy
-#| msgid "Add as approved translation (``approve``)"
 msgid "Approved strings, same as ``state:approved``."
-msgstr "Cuir leis mar aistriúchán faofa (``approvy``)"
+msgstr "Teaghráin cheadaithe, mar an gcéanna le ``luaigh:faofa``."
 
 #: ../../user/search.rst:62
 msgid "``needs-editing`` or ``fuzzy``"
-msgstr ""
+msgstr "``eagarthóireacht riachtanas`` nó ``doiléir``"
 
 #: ../../user/search.rst:63
 msgid "Needing editing strings, same as ``state:needs-editing``."
 msgstr ""
+"Teaghráin eagarthóireachta de dhíth, mar an gcéanna le ``luaigh:"
+"eagarthóireacht riachtanas``."
 
 #: ../../user/search.rst:65
-#, fuzzy
-#| msgid "Change translated strings (``replace-translated``)"
 msgid "Translated strings, same as ``state:>translated``."
-msgstr "Athraigh teaghráin aistrithe (``ionadaigh-aistrithe``)"
+msgstr "Teaghráin aistrithe, mar an gcéanna le ``luaigh:>aistrithe``."
 
 #: ../../user/search.rst:66
-#, fuzzy
-#| msgid "``translated``"
 msgid "``untranslated``:"
-msgstr "``translated``"
+msgstr "``gan aistriú`:"
 
 #: ../../user/search.rst:67
-#, fuzzy
-#| msgid "Change translated strings (``replace-translated``)"
 msgid "Untranslated strings, same as ``state:<translated``."
-msgstr "Athraigh teaghráin aistrithe (``ionadaigh-aistrithe``)"
+msgstr "Teaghráin neamhaistrithe, mar an gcéanna le ``luaigh:<aistrithe``."
 
 #: ../../user/search.rst:68
 msgid "``pending``"
 msgstr "``pending``"
 
 #: ../../user/search.rst:69
-#, fuzzy
-#| msgid "Pending changes not yet committed to the Weblate repository"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
-msgstr "Athruithe ar feitheamh nach bhfuil geallta fós do stór Weblate"
+msgstr ""
+"Teaghráin ar feitheamh nach bhfuil geallta don chomhad go fóill (féach :tag: "
+"`lazy-commit`)."
 
 #: ../../user/search.rst:70 ../../user/search.rst:191
 msgid "``language:TEXT``"
@@ -52613,22 +52235,19 @@ msgid "``translates:TEXT``"
 msgstr "`` aistríonn: TEXT``"
 
 #: ../../user/search.rst:196
-#, fuzzy
-#| msgid "User has contributed to a given language in the past month."
 msgid "User has contributed to a given language in the past 90 days."
-msgstr "Chuir an t-úsáideoir le teanga ar leith le mí anuas."
+msgstr "Chuir an t-úsáideoir le teanga ar leith le 90 lá anuas."
 
 #: ../../user/search.rst:197
 msgid "``contributes:TEXT``"
 msgstr "``a chuireann: TEXT``"
 
 #: ../../user/search.rst:198
-#, fuzzy
-#| msgid ""
-#| "User has contributed to a given project or component in the past month."
 msgid ""
 "User has contributed to a given project or component in the past 90 days."
-msgstr "Chuir an t-úsáideoir le tionscadal nó comhpháirt ar leith le mí anuas."
+msgstr ""
+"Tá an t-úsáideoir tar éis cur le tionscadal nó comhpháirt ar leith le 90 lá "
+"anuas."
 
 #: ../../user/search.rst:200
 msgid "Additional lookups are available in the :ref:`management-interface`:"
@@ -52664,10 +52283,8 @@ msgid "Translating using Weblate"
 msgstr "Aistriúchán le Weblate"
 
 #: ../../user/translating.rst:4
-#, fuzzy
-#| msgid "Thank you for your interest in trying Weblate!"
 msgid "Thank you for your interest in translating with Weblate!"
-msgstr "Go raibh maith agat as do spéis in triail a bhaint as Weblate!"
+msgstr "Go raibh maith agat as do spéis san aistriúchán le Weblate!"
 
 #: ../../user/translating.rst:6
 msgid ""
@@ -52675,22 +52292,22 @@ msgid ""
 "direct translations * Project accepts the suggestions made by users. "
 "Sometimes, anonymous suggestions are accepted as well."
 msgstr ""
+"Go ginearálta, tá dhá mhodh aistriúcháin is mó a úsáidtear: * Glacann an "
+"tionscadal le haistriúcháin dhíreacha * Glacann an Tionscadal leis na moltaí "
+"a dhéanann úsáideoirí. Uaireanta, glactar le moltaí gan ainm freisin."
 
 #: ../../user/translating.rst:11
-#, fuzzy
-#| msgid ""
-#| "There are several review based workflows available in Weblate, see :ref:"
-#| "`workflows`."
 msgid "There are more translation workflows detailed in :ref:`workflows`."
 msgstr ""
-"Tá roinnt sreafaí oibre bunaithe ar athbhreithniú ar fáil in Weblate, féach :"
-"tag:`sreafaí oibre`."
+"Tá níos mó sreafaí oibre aistriúcháin sonraithe in :tag:`sreafaí oibre`."
 
 #: ../../user/translating.rst:13
 msgid ""
 "Projects, or the components in them are either visible to everyone, or only "
 "to a certain group of translators."
 msgstr ""
+"Tá tionscadail, nó na comhpháirteanna iontu le feiceáil ag gach duine, nó le "
+"grúpa áirithe aistritheoirí amháin."
 
 #: ../../user/translating.rst:18
 msgid ":ref:`access-control`, :ref:`workflows`"
@@ -52709,14 +52326,6 @@ msgid "Translation links"
 msgstr "Naisc aistriúcháin"
 
 #: ../../user/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. "
-#| "If the whole project is translated, without error, :guilabel:`All "
-#| "strings` is still available. Alternatively you can use the search field "
-#| "to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -52727,10 +52336,11 @@ msgid ""
 msgstr ""
 "Tar éis nascleanúint a dhéanamh chuig comhpháirt, déantar aistriúchán "
 "iarbhír as sraith nasc. Roinntear an t-aistriúchán a thuilleadh ina "
-"sheiceanna aonair, mar :guilabel:`Teaghráin neamh-aistrithe` nó :guilabel:"
-"`Teaghráin neamhchríochnaithe`. Má aistrítear an tionscadal ar fad, gan "
-"earráid, tá :guilabel:`Gach teaghrán` fós ar fáil. Nó is féidir leat an "
-"réimse cuardaigh a úsáid chun teaghrán nó téarma ar leith a aimsiú."
+"sheiceálacha aonair, mar :guilabel:`Teaghráin neamh-aistrithe` nó :guilabel:`"
+"Teaghráin neamhchríochnaithe`. Má tá an tionscadal iomlán aistrithe cheana "
+"féin gan aon earráidí, tá :guilabel:`Gach teaghrán` fós ar fáil. Nó is "
+"féidir leat an ghné :ref:`Search <Searching>` a úsáid chun teaghrán nó "
+"téarma ar leith a aimsiú."
 
 #: ../../user/translating.rst:48
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -52738,32 +52348,23 @@ msgstr ""
 "Seans go n-athróidh ceadanna iarbhír ag brath ar do chumraíocht Weblate."
 
 #: ../../user/translating.rst:50
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (by default) forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about the "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
 "arises, prompting other translators to review it."
 msgstr ""
-"Ní féidir le húsáideoirí gan ainm ach (de réir réamhshocraithe) moltaí a "
+"Ní féidir le húsáideoirí gan ainm (de réir réamhshocraithe) ach moltaí a "
 "chur ar aghaidh. Tá sé sin fós ar fáil d’úsáideoirí sínithe isteach, i "
-"gcásanna ina mbíonn éiginnteacht ann faoin aistriúchán, ag spreagadh "
+"gcásanna ina mbíonn éiginnteacht ann maidir le haistriúchán, ag spreagadh "
 "aistritheoirí eile chun athbhreithniú a dhéanamh air."
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "The suggestions are scanned on a daily basis to remove duplicates and "
-#| "suggestions matching the current translation."
 msgid ""
 "All suggestions are scanned on a daily basis to remove duplicates and those "
 "matching current translations."
 msgstr ""
-"Déantar na moltaí a scanadh ar bhonn laethúil chun dúbailt agus moltaí a "
-"thagann leis an aistriúchán reatha a bhaint."
+"Déantar gach moladh a scanadh ar bhonn laethúil chun dúbailt agus iad siúd a "
+"mheaitseálann aistriúcháin reatha a bhaint."
 
 #: ../../user/translating.rst:62
 msgid ""
@@ -52771,41 +52372,30 @@ msgid ""
 "strings * for reporting source string bugs when this functionality is turned "
 "on using :ref:`project-source_review`."
 msgstr ""
+"Is féidir trí chineál tuairimí a phostáil: * le haghaidh aistriúcháin * le "
+"haghaidh teaghráin foinse * chun fabhtanna teaghrán foinse a thuairisciú "
+"nuair a chuirtear an fheidhm seo ar siúl ag baint úsáide as :ref:`project-"
+"source_review`."
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: for translations, source strings, "
-#| "or to report source string bugs when this functionality is turned on "
-#| "using :ref:`project-source_review`. Choose the one suitable to topic you "
-#| "want to discuss. Source string comments are in any event good for "
-#| "providing feedback on the original string, for example that it should be "
-#| "rephrased or to ask questions about it."
 msgid ""
 "Choose the suitable type for the topic you want to discuss. Source string "
 "comments are in any event good for providing feedback on the original "
 "string, for example that it should be rephrased, or to ask questions about "
 "it."
 msgstr ""
-"Is féidir trí chineál tuairimí a phostáil: le haghaidh aistriúcháin, "
-"teaghráin foinse, nó chun fabhtanna teaghrán foinse a thuairisciú nuair a "
-"chuirtear an fheidhm seo ar siúl trí úsáid a bhaint as :ref:`project-"
-"source_review`. Roghnaigh an ceann atá oiriúnach don topaic is mian leat a "
-"phlé. Bíonn tuairimí teaghrán foinse go maith ar aon nós le haiseolas a "
-"thabhairt ar an bhunteaghrán, mar shampla gur cheart é a athfhriotú nó "
-"ceisteanna a chur ina leith."
+"Roghnaigh an cineál oiriúnach don topaic is mian leat a phlé. Is maith ar "
+"aon nós tuairimí teaghrán foinse chun aiseolas a sholáthar ar an teaghrán "
+"bunaidh, mar shampla gur cheart é a athfhriotú, nó chun ceisteanna a chur "
+"ina leith."
 
 #: ../../user/translating.rst:73
-#, fuzzy
-#| msgid ""
-#| "You can use Markdown syntax in all comments and mention other users using "
-#| "``@mention``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using``@username``."
 msgstr ""
-"Is féidir leat comhréir Markdown a úsáid i ngach trácht agus úsáideoirí eile "
-"a lua ag baint úsáide as ``@mention``."
+"Is féidir comhréir Markdown a úsáid i ngach trácht, chomh maith le "
+"húsáideoirí eile a lua trí úsáid a bhaint as `` @ainm úsáideora``."
 
 #: ../../user/translating.rst:78
 msgid ""
@@ -52814,19 +52404,14 @@ msgstr ""
 ":tag:`tuairisc-foinse`, :tag:`source-reviews`, :tag: `project-source_review`"
 
 #: ../../user/translating.rst:85
-#, fuzzy
-#| msgid ""
-#| "Variants are used to group different length variants of the string. The "
-#| "frontend of your project can then use different strings depending on the "
-#| "screen or window size."
 msgid ""
 "Variants are used to group different-length variants of a string. The "
 "frontend of your project can then utilize different strings depending on the "
 "size of a screen or window."
 msgstr ""
-"Úsáidtear leaganacha chun leaganacha faid éagsúla na téad a ghrúpáil. Is "
-"féidir le tosaigh do thionscadail teaghráin éagsúla a úsáid ansin ag brath "
-"ar mhéid an scáileáin nó na fuinneoige."
+"Baintear úsáid as malairtí chun malairtí faid dhifriúla de shreangán a "
+"ghrúpáil. Is féidir le tosaigh do thionscadail teaghráin éagsúla a úsáid "
+"ansin ag brath ar mhéid scáileáin nó fuinneoige."
 
 #: ../../user/translating.rst:91
 msgid ":ref:`variants`, :ref:`glossary-variants`"
@@ -52854,21 +52439,18 @@ msgid "Automatically translated"
 msgstr "Aistrithe go huathoibríoch"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "String was translated using :ref:`auto-translation`."
 msgid "String translated using :ref:`auto-translation`."
-msgstr "Aistríodh an téad le :tag:`uath-aistriúchán`."
+msgstr "Teaghrán aistrithe ag baint úsáide as :tag:`uath-aistriúchán`."
 
 #: ../../user/translating.rst:104
 msgid "Source needs review"
 msgstr "Ní mór athbhreithniú a dhéanamh ar fhoinse"
 
 #: ../../user/translating.rst:105
-#, fuzzy
-#| msgid "String was marked for review using :ref:`source-reviews`."
 msgid "String marked for review using :ref:`source-reviews`."
 msgstr ""
-"Marcáladh an teaghrán le haghaidh léirmheasa ag úsáid :ref:`source-reviews`."
+"Teaghrán marcáilte le haghaidh léirmheas ag baint úsáide as :tag:`source-"
+"reviews`."
 
 #: ../../user/translating.rst:109
 msgid ":ref:`labels`"
@@ -52927,15 +52509,6 @@ msgid "Plurals"
 msgstr "Iolra"
 
 #: ../../user/translating.rst:135
-#, fuzzy
-#| msgid ""
-#| "Words changing form to account of their numeric designation are called "
-#| "plurals. Each language has its own definition of plurals. English, for "
-#| "example, supports one. In the singular definition of for example \"car\", "
-#| "implicitly one car is referenced, in the plural definition, \"cars\" two "
-#| "or more cars are referenced (or the concept of cars as a noun). Languages "
-#| "like for example Czech or Arabic have more plurals and also their rules "
-#| "for plurals are different."
 msgid ""
 "Words changing form to account for their numeric designation are called "
 "plurals. Each language has its own definition of them. English, for example, "
@@ -52945,24 +52518,16 @@ msgid ""
 "example, Czech or Arabic have more forms of plurals, and their rules for "
 "plurals are different as well."
 msgstr ""
-"Iolra a thugtar ar fhocail a athraíonn foirm mar chuntas ar a n-ainmniúchán "
-"uimhriúil. Tá a sainmhíniú féin ar iolraí ag gach teanga. Tacaíonn Béarla, "
-"mar shampla, le ceann amháin. Sa sainmhíniú uatha ar \"gluaisteán\" mar "
-"shampla, déantar tagairt go hintuigthe do charr amháin, sa sainmhíniú iolra, "
-"déantar tagairt do \"gluaisteáin\" do dhá charr nó níos mó (nó do choincheap "
-"na ngluaisteán mar ainmfhocal). Tá níos mó iolraí ag teangacha mar an "
-"tSeicis nó an Araibis, mar shampla, agus tá a rialacha iolracha difriúil "
-"freisin."
+"Iolra a thugtar ar fhocail a athraíonn foirm chun cuntas a thabhairt ar a n-"
+"ainmniúchán uimhriúil. Tá a sainmhíniú féin ag gach teanga orthu. Tacaíonn "
+"Béarla, mar shampla, le ceann amháin. Sa sainmhíniú uatha ar shampla "
+"\"gluaisteán\", go hintuigthe déantar tagairt do charr amháin, sa sainmhíniú "
+"iolra ar \"gluaisteáin\", déantar tagairt do dhá charr nó níos mó (nó do "
+"choincheap na ngluaisteán mar ainmfhocal). Tá níos mó iolraí ag teangacha "
+"cosúil le, mar shampla, an tSeicis nó an Araibis, agus tá a rialacha "
+"iolracha difriúil freisin."
 
 #: ../../user/translating.rst:142
-#, fuzzy
-#| msgid ""
-#| "Weblate has full support for each of these forms, in each respective "
-#| "language (by translating every plural separately). The number of fields "
-#| "and how it is in turn used in the translated application or project "
-#| "depends on the configured plural formula. Weblate shows the basic info, "
-#| "and the `Language Plural Rules`_ by the Unicode Consortium is a more "
-#| "detailed description."
 msgid ""
 "Weblate has full support for each of these forms, in each respective "
 "language. Each grammatical number is translated in a separate field for a "
@@ -52973,11 +52538,12 @@ msgid ""
 "Consortium is a more detailed description."
 msgstr ""
 "Tá tacaíocht iomlán ag Weblate do gach ceann de na foirmeacha seo, i ngach "
-"teanga faoi seach (trí gach iolra a aistriú ar leithligh). Braitheann líon "
-"na réimsí agus conas a úsáidtear é san fheidhmchlár nó sa tionscadal "
-"aistrithe ar an bhfoirmle iolra cumraithe. Taispeánann Weblate an fhaisnéis "
-"bhunúsach, agus is cur síos níos mionsonraithe é na `Rialacha Iolra Teanga`_ "
-"de chuid Cuibhreannas Unicode."
+"teanga faoi seach. Aistrítear gach uimhir ghramadaí i réimse ar leith do "
+"thacar réamhshainithe príomhuimhreacha a bhaineann go sonrach le teanga an "
+"aistriúcháin. Braitheann líon na réimsí agus conas a úsáidtear iad san "
+"fheidhmchlár nó sa tionscadal aistrithe ar an bhfoirmle iolra cumraithe. "
+"Taispeánann Weblate an fhaisnéis bhunúsach agus tá cur síos níos "
+"mionsonraithe ar na `Language Plural Rules`_ ag Cuibhreannas Unicode."
 
 #: ../../user/translating.rst:154
 msgid ":ref:`plural-definitions`"
@@ -53246,48 +52812,35 @@ msgid "Toggle the :guilabel:`Needs editing` checkbox."
 msgstr "Scoránaigh an ticbhosca :guilabel:`Tá eagarthóireacht de dhíth air."
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid ":kbd:`Alt+↑` or"
 msgid ":kbd:`→` and"
-msgstr ":kbd:`Alt+↑` nó"
+msgstr ":kbd:`→` agus"
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid ":kbd:`Cmd+↑`"
 msgid ":kbd:`←`"
-msgstr ":kbd:`Cmd+↑`"
+msgstr ":kbd:`←`"
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation strings."
-msgstr "Cuir teaghrán aistriúcháin nua leis"
+msgstr "Brabhsáil na chéad teaghráin aistriúcháin eile."
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation strings."
-msgstr "Coinnigh na hathbhreithnithe roimhe seo de theaghráin aistrithe"
+msgstr "Brabhsáil na teaghráin aistriúcháin roimhe seo."
 
 #: ../../user/translating.rst:268
 msgid "Visual keyboard"
 msgstr "Méarchlár amhairc"
 
 #: ../../user/translating.rst:270
-#, fuzzy
-#| msgid ""
-#| "A small visual keyboard row is shown just above the translation field. "
-#| "This can be useful to keep local punctuation in mind (as the row is local "
-#| "to each language), or have characters otherwise hard to type handy."
 msgid ""
 "A small visual keyboard row is shown just above the translation field. Its "
 "rows are specific to each language; it can be useful for local punctuation "
 "or characters that are hard to type by hand."
 msgstr ""
 "Taispeántar sraith bheag mhéarchláir amhairc díreach os cionn réimse an "
-"aistriúcháin. D’fhéadfadh sé seo a bheith úsáideach chun poncaíocht áitiúil "
-"a choinneáil i gcuimhne (mar go bhfuil an tsraith áitiúil do gach teanga), "
-"nó bíonn carachtair atá deacair ar bhealach eile le clóscríobh in úsáid agat."
+"aistriúcháin. Baineann a sraitheanna go sonrach le gach teanga; is féidir é "
+"a bheith úsáideach le haghaidh poncaíochta áitiúla nó carachtair atá deacair "
+"a chlóscríobh de láimh."
 
 #: ../../user/translating.rst:274
 msgid "The shown symbols factor into three categories:"
@@ -53302,16 +52855,12 @@ msgstr ""
 "`próifíl úsáideora`"
 
 #: ../../user/translating.rst:277
-#, fuzzy
-#| msgid ""
-#| "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
-#| "characters)"
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL-specific "
 "characters)"
 msgstr ""
 "Carachtair in aghaidh na teanga arna soláthar ag Weblate (m.sh. comharthaí "
-"athfhriotail nó carachtair ar leith RTL)"
+"athfhriotail nó carachtair a bhaineann go sonrach le RTL)"
 
 #: ../../user/translating.rst:278
 msgid "Characters configured using :setting:`SPECIAL_CHARS`"
@@ -53353,19 +52902,14 @@ msgid "Nearby strings"
 msgstr "Teaghráin in aice láimhe"
 
 #: ../../user/translating.rst:295
-#, fuzzy
-#| msgid ""
-#| "Displays neighbouring messages from the translation file. These are "
-#| "usually also used in a similar context and prove useful in keeping the "
-#| "translation consistent."
 msgid ""
 "Displays neighbouring strings from the translation file. These are usually "
 "also used in a similar context and prove useful in keeping the translation "
 "consistent."
 msgstr ""
-"Taispeánann sé teachtaireachtaí comharsanacha ón gcomhad aistriúcháin. "
-"Úsáidtear iad seo de ghnáth i gcomhthéacs comhchosúil freisin agus bíonn "
-"siad úsáideach chun an t-aistriúchán a choinneáil comhsheasmhach."
+"Taispeánann sé teaghráin chomharsanachta ón gcomhad aistriúcháin. Úsáidtear "
+"iad seo de ghnáth i gcomhthéacs comhchosúil freisin agus bíonn siad "
+"úsáideach chun an t-aistriúchán a choinneáil comhsheasmhach."
 
 #: ../../user/translating.rst:298
 msgid "Other occurrences"
@@ -53426,20 +52970,15 @@ msgid "Translation history"
 msgstr "Stair aistriúcháin"
 
 #: ../../user/translating.rst:317
-#, fuzzy
-#| msgid ""
-#| "Every change is by default (unless turned off in component settings) "
-#| "saved in the database, and can be reverted. Optionally one can still also "
-#| "revert anything in the underlying version control system."
 msgid ""
 "Every change is by default (unless turned-off in component settings) saved "
 "in the database, and can be reverted. Optionally, translations can also be "
 "reverted in the underlying version control system."
 msgstr ""
 "Déantar gach athrú de réir réamhshocraithe (mura rud é a mhúchadh i "
-"socruithe comhpháirte) a shábháil sa bhunachar sonraí, agus is féidir é a "
-"chur ar ais. Roghnach is féidir aon rud sa bhunchóras rialaithe leagan a "
-"chur ar ais freisin."
+"socruithe comhpháirteanna) a shábháil sa bhunachar sonraí, agus is féidir é "
+"a chur ar ais. De rogha air sin, is féidir aistriúcháin a thabhairt ar ais "
+"sa bhunchóras rialaithe leagan."
 
 #: ../../user/translating.rst:323
 msgid "Translated string length"
@@ -53454,14 +52993,6 @@ msgstr ""
 "chinntiú nach mbíonn an teaghrán aistrithe rófhada:"
 
 #: ../../user/translating.rst:328
-#, fuzzy
-#| msgid ""
-#| "The default limitation for translation is ten times longer than the "
-#| "source string. This can be turned off by :setting:"
-#| "`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting "
-#| "this, it might be also caused by a monolingual translation erroneously "
-#| "set up as bilingual one, making Weblate mistaking the translation key for "
-#| "the actual source string. See :ref:`bimono` for more info."
 msgid ""
 "The default limitation for translation is ten times longer than the source "
 "string. This can be modified with :setting:"
@@ -53471,36 +53002,28 @@ msgid ""
 "source string. See :ref:`bimono` for more info."
 msgstr ""
 "Tá an teorainn réamhshocraithe le haghaidh aistriúcháin deich n-uaire níos "
-"faide ná an teaghrán foinse. Is féidir é seo a mhúchadh trí :a shocrú: "
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Ar eagla go bhfuil tú buailte "
-"leis seo, d’fhéadfadh sé gur aistriúchán aonteangach a cuireadh ar bun go "
-"hearráideach mar cheann dátheangach, rud a fhágann go bhfuil Weblate ag dul "
+"faide ná an teaghrán foinse. Is féidir é seo a athrú le : socrú: "
+"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Má tá sé seo á bhualadh agat, d’"
+"fhéadfadh sé tarlú freisin go bhfuil aistriúchán aonteangach socraithe go "
+"mícheart mar aistriúchán dátheangach, rud a fhágann go bhfuil Weblate ag dul "
 "amú ar eochair aistriúcháin na teaghrán foinse féin. Féach :tag:`bimono` le "
 "haghaidh tuilleadh eolais."
 
 #: ../../user/translating.rst:333
-#, fuzzy
-#| msgid ""
-#| "Maximal length in characters defined by translation file or flag, see :"
-#| "ref:`check-max-length`."
 msgid ""
 "Maximum length in characters defined by the translation file or flag, as "
 "per :ref:`check-max-length`."
 msgstr ""
-"Uasfhad i gcarachtar arna sainiú ag comhad aistriúcháin nó bratach, féach :"
-"tag:`check-max-length`."
+"Uasfhad i gcarachtair arna sainiú ag an gcomhad aistriúcháin nó ag an "
+"mbratach, de réir :tag:`check-max-length`."
 
 #: ../../user/translating.rst:335
-#, fuzzy
-#| msgid ""
-#| "Maximal rendered size in pixels defined by flags, see :ref:`check-max-"
-#| "size`."
 msgid ""
 "Maximal rendered size in pixels as defined by flags; see :ref:`check-max-"
 "size`."
 msgstr ""
-"Uasmhéid rindreáilte i bpicteilíní arna sainiú ag bratacha, féach :tag:"
-"`check-max-size`."
+"Uasmhéid rindreáilte i bpicteilíní mar atá sainmhínithe ag bratacha; féach "
+":tag: `check-max-size`."
 
 #: ../../user/translating.rst:342
 msgid ""
@@ -53591,12 +53114,6 @@ msgstr ""
 "go huathoibríoch`."
 
 #: ../../user/translating.rst:393
-#, fuzzy
-#| msgid ""
-#| "To avoid abuse of the interface, rate limiting is applied to several "
-#| "operations like searching, sending contact forms or translating. If "
-#| "affected by it, you are blocked for a certain period until you can "
-#| "perform the operation again."
 msgid ""
 "To avoid abuse of the interface, rate limiting is applied to several "
 "operations like searching, sending contact forms, or translating. If "
@@ -53604,9 +53121,9 @@ msgid ""
 "the operation again."
 msgstr ""
 "Chun mí-úsáid an chomhéadain a sheachaint, cuirtear teorannú rátaí i "
-"bhfeidhm ar roinnt oibríochtaí amhail cuardach, seoladh foirmeacha teagmhála "
-"nó aistriúchán. Má chuireann sé isteach air, cuirtear bac ort ar feadh "
-"tréimhse áirithe go dtí gur féidir leat an oibríocht a dhéanamh arís."
+"bhfeidhm ar roinnt oibríochtaí amhail cuardach, seoladh foirmeacha "
+"teagmhála, nó aistriúchán. Má chuireann sé isteach air, cuirtear bac ort ar "
+"feadh tréimhse áirithe, go dtí gur féidir leat an oibríocht a dhéanamh arís."
 
 #: ../../user/translating.rst:398
 msgid ""
@@ -53630,40 +53147,28 @@ msgstr ""
 "`Tools`."
 
 #: ../../user/translating.rst:411
-#, fuzzy
-#| msgid ""
-#| "Don’t worry about messing up the strings. This is a two-step process "
-#| "showing a preview of edited strings before the actual change is confirmed."
 msgid ""
 "Don't worry about messing up the strings, as it is a two-step process. A "
 "preview of edited strings is shown before confirming the change."
 msgstr ""
-"Ná bíodh imní ort faoi na teaghráin a bhriseadh suas. Is próiseas dhá chéim "
-"é seo a thaispeánann réamhamharc ar theaghráin curtha in eagar sula "
-"ndeimhnítear an t-athrú iarbhír."
+"Ná bíodh imní ort faoi na teaghráin a bhrú suas, mar is próiseas dhá chéim "
+"é. Taispeántar réamhamharc ar theaghráin curtha in eagar sula ndearbhaítear "
+"an t-athrú."
 
 #: ../../user/translating.rst:419
-#, fuzzy
-#| msgid ""
-#| "Bulk editing allows performing one operation on number of strings. You "
-#| "define strings by searching for them and set up something to be done for "
-#| "matching ones. The following operations are supported:"
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. "
 "Supported operations:"
 msgstr ""
-"Ligeann mór-eagarthóireacht oibríocht amháin a dhéanamh ar líon na teaghrán. "
-"Sainmhíníonn tú teaghráin trí iad a chuardach agus socraíonn tú rud éigin le "
-"déanamh chun cinn a mheaitseáil. Tacaítear leis na hoibríochtaí seo a leanas:"
+"Ceadaíonn mór-eagarthóireacht oibríocht amháin a dhéanamh le haghaidh "
+"teaghráin iolracha. Sainmhínigh teaghráin trí iad a chuardach agus "
+"gníomhartha le déanamh ar na cinn a mheaitseálann. Oibríochtaí tacaithe:"
 
 #: ../../user/translating.rst:423
-#, fuzzy
-#| msgid ""
-#| "Changing string state (for example to approve all unreviewed strings)."
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr ""
-"Staid teaghrán a athrú (mar shampla chun gach teaghrán neamhathbhreithnithe "
+"Athraigh staid na téad (mar shampla chun gach teaghrán neamhathbhreithnithe "
 "a cheadú)."
 
 #: ../../user/translating.rst:424
@@ -53676,16 +53181,12 @@ msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "Coigeartaigh lipéid teaghrán (féach :tag:`lipéid`)"
 
 #: ../../user/translating.rst:429
-#, fuzzy
-#| msgid ""
-#| "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
-#| "`Tools` menu of each project, component or translation."
 msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in the :guilabel:"
 "`Tools` menu of each project, component or translation."
 msgstr ""
-"Tugtar :guilabel:`Bulk edit` ar an uirlis seo atá inrochtana sa roghchlár :"
-"guilabel:`Tools` de gach tionscadal, comhpháirt nó aistriúchán."
+"Tugtar :guilabel:`Bulk edit` ar an uirlis seo, atá inrochtana sa roghchlár "
+":guilabel:`Tools` de gach tionscadal, comhpháirt nó aistriúchán."
 
 #: ../../user/translating.rst:436
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
@@ -53696,37 +53197,26 @@ msgid "Matrix View"
 msgstr "Amharc Maitrís"
 
 #: ../../user/translating.rst:441
-#, fuzzy
-#| msgid ""
-#| "To compare different languages efficiently you can use the matrix view. "
-#| "It is available on every component page under the :guilabel:`Tools` menu. "
-#| "First select all languages you want to compare and confirm your "
-#| "selection, after that you can click on any translation to open and edit "
-#| "it quickly."
 msgid ""
 "You can compare different languages efficiently using this view It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
-"Chun teangacha éagsúla a chur i gcomparáid go héifeachtach is féidir leat an "
-"t-amharc maitrís a úsáid. Tá sé ar fáil ar gach leathanach comhpháirte faoin "
-"roghchlár :guilabel:`Tools`. Ar dtús roghnaigh gach teanga is mian leat a "
-"chur i gcomparáid agus do rogha a dhearbhú, ina dhiaidh sin is féidir leat "
-"cliceáil ar aon aistriúchán chun é a oscailt agus a chur in eagar go tapa."
+"Is féidir leat teangacha éagsúla a chur i gcomparáid go héifeachtach leis an "
+"amharc seo Tá sé ar fáil ar gach leathanach comhpháirte, ón roghchlár "
+":guilabel:`Tools`. Ar dtús roghnaigh gach teanga is mian leat a chur i "
+"gcomparáid, deimhnigh do rogha, ansin cliceáil ar aon aistriúchán chun é a "
+"oscailt agus a chur in eagar."
 
 #: ../../user/translating.rst:446
-#, fuzzy
-#| msgid ""
-#| "The matrix view is also a very good starting point to find missing "
-#| "translations in different languages and quickly add them from one view."
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages, and quickly add them from one view."
 msgstr ""
-"Is pointe tosaigh an-mhaith é an dearcadh maitrís freisin chun aistriúcháin "
-"atá in easnamh i dteangacha éagsúla a aimsiú agus iad a chur leis go tapa ó "
-"aon radharc amháin."
+"Is pointe tosaigh an-mhaith é an t-amharc maitrís freisin chun aistriúcháin "
+"in easnamh i dteangacha éagsúla a aimsiú, agus iad a chur go tapa ó radharc "
+"amháin."
 
 #: ../../user/translating.rst:450
 msgid "Zen Mode"
@@ -53739,14 +53229,12 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"Déanann an mód seo an leagan amach a shimpliú agus baintear gnéithe breise "
+"Chomhéadain mar :guilabel:`Teaghráin in aice láimhe` nó an :guilabel:`Gluais`"
+". Tá sé ar fáil ach cliceáil ar an gcnaipe :guilabel:`Zen` ar bharr na "
+"láimhe deise den ghnátheagarthóir (aistriúchán teaghrán)."
 
 #: ../../user/translating.rst:456
-#, fuzzy
-#| msgid ""
-#| "You can select the Zen editor as your default editor using the :ref:"
-#| "`profile-preferences` tab on your :ref:`user-profile`. Here you can also "
-#| "choose between having translations listed :guilabel:`Top to bottom` or :"
-#| "guilabel:`Side by side` depending on your personal preference."
 msgid ""
 "You can select the Zen editor as your default editor using the :ref:`profile-"
 "preferences` tab on your :ref:`user-profile`. You can also choose there "
@@ -53754,10 +53242,10 @@ msgid ""
 "`Side by side`, depending on your personal preference."
 msgstr ""
 "Is féidir leat an t-eagarthóir Zen a roghnú mar d'eagarthóir réamhshocraithe "
-"ag baint úsáide as an táb :ref:`profile-preferences` ar do :ref:`profile-"
-"user`. Anseo is féidir leat rogha a dhéanamh idir aistriúcháin a bheith "
-"liostaithe :guilabel:`Bun go bun` nó :guilabel: `Taobh le taobh` ag brath ar "
-"do rogha pearsanta."
+"ag baint úsáide as an táb :ref:`profile-preferences` ar do :ref:`próifíl "
+"úsáideora`. Is féidir leat rogha a dhéanamh ansin freisin idir aistriúcháin "
+"a bheith liostaithe :guilabel:`Bun go bun` nó :guilabel: `Taobh le taobh`, "
+"ag brath ar do rogha pearsanta."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -55375,6 +54863,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"Tá teaghrán inléite amháin toisc go bhfuil `` inléite amháin`` :ref:`bratach "
+"<seiceálacha saincheaptha>`, mar theaghrán foinse neamh-ineagarthóireachta, "
+"nó marcáilte a leithéid sa chomhad aistriúcháin."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
