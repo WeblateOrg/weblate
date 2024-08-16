@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-16 13:11+0000\n"
+"PO-Revision-Date: 2024-08-16 18:13+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -337,7 +337,7 @@ msgstr "Zadaj ime za tvoju aplikaciju za autentifikaciju"
 
 #: weblate/accounts/forms.py:959
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Provjeri kod od aplikacije"
 
 #: weblate/accounts/forms.py:973
 msgid "Entered token is not valid."
@@ -354,7 +354,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Upiši kod od aplikacije"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -499,17 +499,17 @@ msgstr ""
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Dvofaktorska autentikacija dodana: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Dvofaktorska autentikacija uklonjena: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Prijava putem dvofaktorske autentifikacije korištenjem {device}"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -5099,11 +5099,11 @@ msgstr "Prilagođeni model"
 #: weblate/machinery/forms.py:298
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "Osnovni URL OpenAI API-ja"
 
 #: weblate/machinery/forms.py:302
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "Osnovni URL OpenAI API-ja, ako se razlikuje od zadane OpenAI URL adrese"
 
 #: weblate/machinery/forms.py:309
 msgctxt "Automatic suggestion service configuration"
@@ -5117,7 +5117,7 @@ msgstr "Ime prilagođenog modela"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Potrebno je samo kada je model postavljen na „Prilagođeni model”"
 
 #: weblate/machinery/forms.py:325
 msgctxt "Automatic suggestion service configuration"
@@ -5148,7 +5148,7 @@ msgstr "Nedostaje ime prilagođenog modela."
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Za aktiviranje modela, odaberi prilagođeni model ovdje."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5651,7 +5651,7 @@ msgstr "Statistika"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Drugi faktor prijave"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
@@ -6073,24 +6073,18 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Nažalost tvoj preglednik ne podržava WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Autentifikacija"
+msgstr "Aplikacije za autentikaciju (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "Trenutačno nema sigurnosnih kopija."
+msgstr "Trenutačno nema registriranih aplikacija za autentikaciju."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Otvori novi račun"
+msgstr "Registriraj novu aplikaciju za autentikaciju"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
@@ -6321,14 +6315,12 @@ msgstr ""
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Tvoji stari kodovi neće vrijediti i više neće raditi."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:47
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "Uredi postavke komponente"
+msgstr "Natrag na postavke računa"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6406,17 +6398,15 @@ msgstr ""
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Snimi QR kod"
 
 #: weblate/templates/accounts/totp.html:35
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "Tajni ključ možeš upisati i ručno:"
 
 #: weblate/templates/accounts/totp.html:38
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "API ključ je kopiran u međuspremnik."
+msgstr "Tajni ključ je kopiran u međuspremnik."
 
 #: weblate/templates/accounts/totp.html:43
 #: weblate/templates/mail/shared-registration.html:22
@@ -6622,31 +6612,24 @@ msgid "Unblock user"
 msgstr "Deblokiraj korisnika"
 
 #: weblate/templates/accounts/user.html:314
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "Uredi izvor"
+msgstr "Uredi korisnika"
 
 #: weblate/templates/accounts/user.html:331
 msgid "User has two-factor authentication configured."
-msgstr ""
+msgstr "Korisnik ima konfiguriranu dvofaktorsku autentifikaciju."
 
 #: weblate/templates/accounts/user.html:333
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "User doesn't have two-factor authentication configured."
-msgstr "Poslužitelj ne dozvoljava autentifikaciju."
+msgstr "Korisnik nema konfiguriranu dvofaktorsku autentikaciju."
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "Deaktiviraj dvofaktorsku autentikaciju"
 
 #: weblate/templates/accounts/user.html:345
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "Uklanjanjem računa uklanjaju se svi tvoji privatni podatci."
+msgstr "Uklanjanjem računa se brišu svi privatni podatci korisnika."
 
 #: weblate/templates/accounts/user.html:348
 #: weblate/templates/accounts/user.html:362
@@ -6714,7 +6697,7 @@ msgstr "Prijevodi s doprinosom"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "Prijavi se pomoću sigurnosnog ključa"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -6734,10 +6717,8 @@ msgstr "Konfiguriraj dodatak"
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "The add-on can only be installed on the component."
-msgstr "Dodaci se također mogu instalirati na razini projekta i komponente."
+msgstr "Dodatak se može instalirati samo na komponentu."
 
 #: weblate/templates/addons/addon_head.html:9
 msgid "This add-on is used for all components sharing this repository."
@@ -7810,10 +7791,8 @@ msgid "Abort the update"
 msgstr "Prekini aktualiziranje"
 
 #: weblate/templates/component-progress.html:38
-#, fuzzy
-#| msgid "Return to the component after completion"
 msgid "Continue after completion"
-msgstr "Vrati se na komponentu kad završavanja"
+msgstr "Nastavi nakon završetka"
 
 #: weblate/templates/component.html:36 weblate/wladmin/views.py:80
 msgid "Alerts"
@@ -10015,10 +9994,8 @@ msgid "Add to screenshot"
 msgstr "Dodaj u snimku ekrana"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
-#, fuzzy
-#| msgid "Copy token to clipboard"
 msgid "Paste from clipboard"
-msgstr "Kopiraj token u međuspremnik"
+msgstr "Umetni iz međuspremnika"
 
 #: weblate/templates/search.html:25
 #: weblate/templates/snippets/embed-units.html:114
@@ -10136,19 +10113,24 @@ msgstr "Učitavanje rezultata …"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "Konfiguriraj dvofaktorsku autentikaciju"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"Ovaj projekt zahtijeva dvofaktorsku autentikaciju od svih doprinositelja. "
+"Nećeš moći doprinijeti sve dok je ne konfiguriraš."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
+"Ti si član tima koji zahtijeva dvofaktorsku autentikaciju. Nećeš moći "
+"koristiti nijednu od njegovih privilegija sve dok ne konfiguriraš "
+"dvofaktorsku autentikaciju."
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:378
@@ -10498,16 +10480,12 @@ msgstr ""
 "%(link_fsf_start)s koju FSF%(link_end)s priznaje kao slobodnu licencu."
 
 #: weblate/templates/snippets/libre-basic.html:10
-#, fuzzy
-#| msgid ""
-#| "All the source code has to be publicly available in a supported version "
-#| "control system."
 msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
 msgstr ""
-"Sav izvorni kod mora biti javno dostupan u podržanom sustavu za kontrolu "
-"verzija."
+"Sav izvorni kod mora biti slobodno licenciran i javno dostupan u podržanom "
+"sustavu za kontrolu verzija."
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -13142,10 +13120,8 @@ msgid "Untranslatable term"
 msgstr "Neprevodiv pojam"
 
 #: weblate/trans/forms.py:2501
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
-msgstr "Trenutačno nemaš dozvolu za stvaranje projekata."
+msgstr "Nemaš dozvolu za stvaranje pojmova."
 
 #: weblate/trans/forms.py:2567
 msgid "State to set"
@@ -13219,10 +13195,8 @@ msgid "Author username"
 msgstr "Korisničko ime autora"
 
 #: weblate/trans/forms.py:2762
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "Change period"
-msgstr "Promjene prenesene"
+msgstr "Vrijeme promjene"
 
 #: weblate/trans/forms.py:2774
 msgid "Could not find matching user!"
@@ -14650,10 +14624,8 @@ msgid "Component list to assign"
 msgstr "Popis komponenti za dodijeljivanje"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "Opis"
+msgstr "Opis etikete"
 
 #: weblate/trans/models/project.py:126
 msgid "Public"
@@ -14717,6 +14689,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Zahtijeva da doprinositelji imaju konfiguriranu dvofaktorsku autentifikaciju "
+"prije nego što mogu doprinijeti."
 
 #: weblate/trans/models/project.py:198 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15340,7 +15314,7 @@ msgstr "Održavateljima projekta je poslan zahtjev za novim prijevodom."
 
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "Svi su jezici dodani, aktualiziranja prijevoda su u tijeku."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15561,17 +15535,16 @@ msgstr ""
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr ""
+"Svi repozitoriji su aktualizirani, aktualiziranja prijevoda su u tijeku."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "Svi repozitoriji su prenijeti."
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "Svi repozitoriji su ponovo postavljeni."
+msgstr "Svi repozitoriji su resetirani, aktualiziranja prijevoda su u tijeku."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
