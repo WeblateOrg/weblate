@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Eric <hamburger2048@users.noreply.hosted.weblate.org>, 2023.
-# Xzonn <Xzonn@outlook.com>, 2023.
+# Xzonn <Xzonn@outlook.com>, 2023, 2024.
 # Xiang Heng Wei <yylteam@hotmail.com>, 2023.
 # yangyangdaji <1504305527@qq.com>, 2023.
 # JY3 <GeeyunJY3@gmail.com>, 2023, 2024.
@@ -19,9 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-16 07:05+0000\n"
-"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
-"org>\n"
+"PO-Revision-Date: 2024-08-16 08:59+0000\n"
+"Last-Translator: Xzonn <Xzonn@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -37,17 +36,14 @@ msgid "Access control"
 msgstr "访问控制"
 
 #: ../../admin/access.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine-grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance with predefined roles, or by assigning "
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
-"Weblate 带有细粒度的权限系统，可以为整个实例或在有限范围内分配用户权限。"
+"Weblate 附带了一个细粒度的权限系统，可以用预定义的角色为整个实例分配用户权限"
+"，也可以为所有内容或单个项目、部件、术语表等分配一组或多组权限。"
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -63,16 +59,11 @@ msgstr ""
 "项目的访问，请切换到付费套餐。"
 
 #: ../../admin/access.rst:22
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :ref:`project-access_control` setting. Available options are:"
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
-msgstr ""
-"您可以通过选择不同的 :ref:`project-access_control` 设置来限制用户对单个项目的"
-"访问。可用的选项有："
+msgstr "可以通过选择不同的 :ref:`project-access_control` "
+"设置来限制用户对单个项目的访问。可用的选项有："
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
@@ -160,18 +151,16 @@ msgstr ""
 "问` 选项卡中更改 :guilabel:`访问控制`。"
 
 #: ../../admin/access.rst:68
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
+msgstr "可以通过设置中的 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
 #: ../../admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
-msgstr ""
+msgstr "即使是`私有的`项目统计数据也会计入整个网站的统计数据和语言摘要。这不会透露项"
+"目名称或任何其他信息。"
 
 #: ../../admin/access.rst:78
 #, fuzzy
@@ -1113,10 +1102,8 @@ msgid ""
 msgstr ":guilabel:`管理`, :guilabel:`管理术语表`, :guilabel:`高级用户`"
 
 #: ../../admin/access.rst:493
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "添加术语表条目"
+msgstr "添加术语表术语"
 
 #: ../../admin/access.rst:495
 msgid "Edit glossary entry"
@@ -3515,7 +3502,7 @@ msgstr "``case_sensitive``"
 
 #: ../../admin/addons.rst:789
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "对键排序启用大小写"
 
 #: ../../admin/addons.rst:793
 msgid "Formats and sorts the Java properties file."
@@ -4986,16 +4973,14 @@ msgstr ""
 "`django:INSTALLED_APPS` ："
 
 #: ../../admin/auth.rst:783
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "身份验证"
+msgstr "双因素身份验证"
 
 #: ../../admin/auth.rst:789
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
-msgstr ""
+msgstr "由于登录时不仅需要密码，双因素身份验证为您的帐户增加了另一层安全性。"
 
 #: ../../admin/auth.rst:791
 #, fuzzy
@@ -5005,7 +4990,7 @@ msgstr "Weblate 遵循字符串转义："
 
 #: ../../admin/auth.rst:793
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "安全密钥（WebAuthn）"
 
 #: ../../admin/auth.rst:794
 #, fuzzy
@@ -5041,13 +5026,14 @@ msgstr ""
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
-msgstr ""
+msgstr "恢复代码"
 
 #: ../../admin/auth.rst:807
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
-msgstr ""
+msgstr "如果您无法访问设备并且无法接收双因素身份验证码，则可以使用恢复码访问您的帐户"
+"。"
 
 #: ../../admin/auth.rst:809
 msgid ""
@@ -16721,7 +16707,7 @@ msgstr "Formality"
 
 #: ../../admin/machine.rst:144
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr "如果语言未被指定为书面语，则使用指定的 formality"
+msgstr "如果语言未被指定为书面语，则使用指定的正式程度"
 
 #: ../../admin/machine.rst:147
 msgid ""
@@ -17254,7 +17240,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:454
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "OpenAI API 的基本 URL，如果它与 OpenAI 默认 URL 不同"
 
 #: ../../admin/machine.rst:456
 msgid "``model``"
@@ -17310,7 +17296,7 @@ msgstr "自定义部件名称"
 
 #: ../../admin/machine.rst:472
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "仅当模型设置为“自定义模型”时才需要"
 
 #: ../../admin/machine.rst:474
 msgid "``persona``"
@@ -19741,7 +19727,7 @@ msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
 #: ../../admin/projects.rst:206
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "强制双因素身份验证"
 
 #: ../../admin/projects.rst:210
 msgid ""
