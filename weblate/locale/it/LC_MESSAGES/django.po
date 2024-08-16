@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-08 08:27+0000\n"
+"PO-Revision-Date: 2024-08-16 07:05+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:84
@@ -333,33 +333,31 @@ msgid "Add team"
 msgstr "Aggiungi team"
 
 #: weblate/accounts/forms.py:956
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "Nome della traduzione"
+msgstr "Assegna un nome all'app di autenticazione"
 
 #: weblate/accounts/forms.py:959
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Verifica il codice dall'app"
 
 #: weblate/accounts/forms.py:973
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "Traduzione con errori nel codice XML"
+msgstr "Il token inserito non è valido."
 
 #: weblate/accounts/forms.py:1041
 msgid "Recovery token"
-msgstr ""
+msgstr "Token di recupero"
 
 #: weblate/accounts/forms.py:1043
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Il token di recupero può essere usato una sola volta: ricordati di "
+"contrassegnarlo dopo averlo usato."
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Inserisci il codice dall'app"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -497,25 +495,28 @@ msgstr "L'utente è stato rimosso dal team {team} da {username}."
 #: weblate/accounts/models.py:186
 msgid "Two-factor authentication recovery codes were generated"
 msgstr ""
+"Sono stati generati codici di ripristino dell'autenticazione a due fattori"
 
 #: weblate/accounts/models.py:189
 msgid "Two-factor authentication recovery codes were viewed"
 msgstr ""
+"Sono stati visualizzati i codici di ripristino dell'autenticazione a due "
+"fattori"
 
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Aggiunta autenticazione a due fattori: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Rimossa autenticazione a due fattori: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Accedi con l'autenticazione a due fattori tramite {device}"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -870,18 +871,14 @@ msgid "Suggestion was added"
 msgstr "È stato aggiunto un suggerimento"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Il messaggio è tradotto"
+msgstr "La lingua è stata tradotta"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Importa come stringhe tradotte"
+msgstr "Il componente è stato tradotto"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -998,29 +995,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "USa la chiave di sicurezza (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "Autenticazione"
+msgstr "Usa l'app di autenticazione (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Usa codici di ripristino"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Politica di sicurezza"
+msgstr "Chiave di sicurezza (%s)"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Autenticazione"
+msgstr "App di autenticazione (%s)"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1034
 #: weblate/accounts/views.py:1100 weblate/templates/accounts/reset.html:7
@@ -1213,10 +1206,8 @@ msgstr ""
 "impostare le notifiche."
 
 #: weblate/accounts/views.py:1620
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "L'invito dell'utente è stato rimosso."
+msgstr "La chiave di sicurezza è stata rimossa."
 
 #: weblate/accounts/views.py:1621
 #, python-format
@@ -1224,10 +1215,8 @@ msgid "The security key %s was registered."
 msgstr ""
 
 #: weblate/accounts/views.py:1658
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "L'invito dell'utente è stato rimosso."
+msgstr "L'app di autenticazione è stata rimossa."
 
 #: weblate/accounts/views.py:1659
 #, python-format
@@ -6202,31 +6191,29 @@ msgstr "Registra un nuovo account"
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "Codici di ripristino"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "Attualmente non ci sono backup."
+msgstr "Al momento non sono stati generati codici di ripristino."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Genera nuovi codici di ripristino"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "È disponibile %(count)s codice di ripristino."
+msgstr[1] "Sono disponibili %(count)s codici di ripristino."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Visualizza i codici di ripristino"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6398,13 +6385,16 @@ msgstr "License per traduzioni individuali"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "Codici di ripristino a due fattori"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"I codici di ripristino possono essere usati per accedere al tuo account se "
+"perdi l'accesso al tuo dispositivo e non riesci a ricevere i codici di "
+"autenticazione a due fattori."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6413,18 +6403,23 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"Conserva i tuoi codici di recupero in un luogo sicuro, ad esempio in un "
+"gestore di password. Questi codici sono l'ultima risorsa per accedere al tuo "
+"account nel caso in cui perdessi la password e altri metodi di verifica in "
+"due passaggi. Se non riesci a trovare questi codici quando ne hai bisogno, "
+"perderai l'accesso al tuo account."
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "URL repository copiato negli Appunti."
+msgstr "Codici di ripristino copiati negli appunti."
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
 msgstr ""
+"Quando generi nuovi codici di ripristino, devi scaricare o stampare i nuovi "
+"codici."
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
@@ -6664,10 +6659,8 @@ msgid "Edit"
 msgstr "Modifica"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Non ho trovato attività recenti!"
+msgstr "Nessun contributo recente trovato."
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -6733,16 +6726,12 @@ msgid "Edit user"
 msgstr "Modifica sorgente"
 
 #: weblate/templates/accounts/user.html:331
-#, fuzzy
-#| msgid "Used to authenticate user if configured"
 msgid "User has two-factor authentication configured."
-msgstr "Usato per autentificare l'utente se configurato"
+msgstr "L'utente ha configurato l'autenticazione a due fattori."
 
 #: weblate/templates/accounts/user.html:333
-#, fuzzy
-#| msgid "Used to authenticate user if configured"
 msgid "User doesn't have two-factor authentication configured."
-msgstr "Usato per autentificare l'utente se configurato"
+msgstr "L'utente non ha configurato l'autenticazione a due fattori."
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
@@ -7227,10 +7216,8 @@ msgid "Automatic assignment"
 msgstr "Assegnazione automatica"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Il server non permette l'autenticazione."
+msgstr "Richiede l'autenticazione a due fattori"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7914,10 +7901,9 @@ msgid "Component is being updated…"
 msgstr "Componente in fase di aggiornamento…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Invito a %(project_name)s"
+msgstr "Continua su %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -9388,16 +9374,14 @@ msgstr[0] "%(count)s stringa mancante"
 msgstr[1] "%(count)s stringhe mancanti"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "La traduzione in diverse lingue contiene alcuni errori"
+msgstr "Le traduzioni in tutte le lingue sono state completate in %(component)s"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "Le traduzioni sono state aggiornate."
+msgstr "%(translation)s è stata completata"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -14042,10 +14026,9 @@ msgstr "%(action)s in %(time)s per %(translation)s di %(user)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s in %(time)s per %(translation)s di %(user)s"
+msgstr "%(action)s alle %(time)s in %(translation)s"
 
 #: weblate/trans/models/change.py:850
 msgid "The “{}” file was changed."
@@ -15588,10 +15571,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "Il tuo suggerimento è stato identificato come spam!"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Memory will be then populated with the current translations."
 msgid "Your suggestion is similar to the current translation!"
-msgstr "La memoria verrà quindi riempita con le traduzioni attuali."
+msgstr "Il tuo suggerimento è simile alla traduzione attuale!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -15752,10 +15733,8 @@ msgid "Translation files have been synchronized."
 msgstr "I file traduzione sono stati sincronizzati."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "Traduzione automatica in corso"
+msgstr "Sono in corso gli aggiornamenti delle traduzioni."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -16125,10 +16104,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Questo indirizzo e-mail non è consentito."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "Inserisci un indirizzo e-mail valido."
+msgstr "Indirizzo e-mail non valido: {}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
