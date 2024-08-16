@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-16 07:05+0000\n"
+"PO-Revision-Date: 2024-08-16 08:59+0000\n"
 "Last-Translator: Xzonn <Xzonn@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -486,17 +486,17 @@ msgstr "查看了双因素身份验证恢复代码"
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "添加了双因素身份验证：{device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "移除了双因素身份验证：{device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "使用 {device} 进行双因素身份验证登录"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -830,18 +830,14 @@ msgid "Suggestion was added"
 msgstr "添加了建议"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "已翻译的消息"
+msgstr "语言已翻译"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "导入为已翻译"
+msgstr "组件已翻译"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -953,29 +949,25 @@ msgstr "您的电子邮箱不属于认证账户，它已被更改为 {0}。"
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "使用安全密钥（WebAuthn）"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "身份验证"
+msgstr "使用身份验证应用程序（TOTP）"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "使用恢复代码"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "安全政策"
+msgstr "安全密钥（%s）"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "身份验证"
+msgstr "身份验证应用程序（%s）"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1034
 #: weblate/accounts/views.py:1100 weblate/templates/accounts/reset.html:7
@@ -1154,32 +1146,26 @@ msgid ""
 msgstr "通知更改链接不再有效，请登录以配置通知。"
 
 #: weblate/accounts/views.py:1620
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "用户邀请已删除。"
+msgstr "安全密钥已删除。"
 
 #: weblate/accounts/views.py:1621
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "安全密钥 %s 已注册。"
 
 #: weblate/accounts/views.py:1658
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "用户邀请已删除。"
+msgstr "身份验证应用程序已被删除。"
 
 #: weblate/accounts/views.py:1659
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "身份验证应用程序 %s 已注册。"
 
 #: weblate/accounts/views.py:1792
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "最后一次登录"
+msgstr "双因素登录"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1675,7 +1661,7 @@ msgstr "原文和目标必须是不同的语言。"
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "对键排序启用大小写"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -1964,10 +1950,8 @@ msgstr "添加术语表条目"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "添加术语表条目"
+msgstr "添加术语表术语"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2520,13 +2504,11 @@ msgstr "管理员可以新增或删除团队成员。"
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "强制双因素身份验证"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "正将您重定向至认证提供方。"
+msgstr "要求用户配置双因素身份验证。"
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -2627,7 +2609,7 @@ msgstr "没有电子邮箱无法执行此操作。"
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr ""
+msgstr "该项目需要双因素身份验证；请在您的个人资料中配置。"
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3634,7 +3616,7 @@ msgstr "Python 大括号格式的字符串与原文不匹配"
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "格式字符串中遇到单独的 {}。"
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4336,7 +4318,7 @@ msgstr "Fluent 文件"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "应该是一个包含元数据文件的目录！"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -4953,11 +4935,11 @@ msgstr "区域 ID"
 #: weblate/machinery/forms.py:268
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "Formality"
+msgstr "正式程度"
 
 #: weblate/machinery/forms.py:270
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr "如果语言未被指定为书面语，则使用指定的 formality"
+msgstr "如果语言未被指定为书面语，则使用指定的正式程度"
 
 #: weblate/machinery/forms.py:287
 msgctxt "OpenAI model selection"
@@ -4965,20 +4947,18 @@ msgid "Automatic selection"
 msgstr "自动选择"
 
 #: weblate/machinery/forms.py:293
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "自定义"
+msgstr "自定义模型"
 
 #: weblate/machinery/forms.py:298
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "OpenAI API 基础 URL"
 
 #: weblate/machinery/forms.py:302
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "OpenAI API 的基本 URL，如果它与 OpenAI 默认 URL 不同"
 
 #: weblate/machinery/forms.py:309
 msgctxt "Automatic suggestion service configuration"
@@ -4986,15 +4966,13 @@ msgid "OpenAI model"
 msgstr "OpenAI 模型"
 
 #: weblate/machinery/forms.py:317
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "自定义部件名称"
+msgstr "自定义模型名称"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "仅当模型设置为“自定义模型”时才需要"
 
 #: weblate/machinery/forms.py:325
 msgctxt "Automatic suggestion service configuration"
@@ -5018,14 +4996,12 @@ msgid ""
 msgstr "描述翻译风格。比如，“使用非正式语言。”"
 
 #: weblate/machinery/forms.py:350
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "缺少用户名或电子邮箱地址。"
+msgstr "缺少自定义模型名称。"
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "在此处选择自定义模型以开启。"
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5501,11 +5477,11 @@ msgstr "统计"
 
 #: weblate/templates/accounts/2fa.html:24
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "双因素登录"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "请使用第二因素凭据完成登录。"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -5859,26 +5835,22 @@ msgstr "添加新的用户身份"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:326
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "身份验证"
+msgstr "双因素身份验证"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
-msgstr ""
+msgstr "由于登录时不仅需要密码，双因素身份验证为您的帐户增加了另一层安全性。"
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "安全密钥（WebAuthn）"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "目前没有备份。"
+msgstr "当前没有注册 WebAuthn 密钥。"
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -5894,67 +5866,57 @@ msgstr "删除"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "命名您的安全密钥"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "注册新账户"
+msgstr "注册新的安全密钥"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "不幸的是，您的浏览器不支持 WebAuthn。"
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "身份验证"
+msgstr "身份验证器应用程序（TOTP）"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "目前没有备份。"
+msgstr "当前没有注册身份验证器应用程序。"
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "注册新账户"
+msgstr "注册新的验证器应用程序"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "恢复代码"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "目前没有备份。"
+msgstr "当前没有生成恢复代码。"
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "生成新的恢复代码"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
+msgstr[0] "%(count)s 个恢复代码可用。"
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "查看恢复代码"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6117,13 +6079,14 @@ msgstr "每个翻译的许可证"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "双因素恢复代码"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
-msgstr ""
+msgstr "如果您无法访问设备并且无法接收双因素身份验证码，则可以使用恢复码访问您的帐户"
+"。"
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6132,29 +6095,28 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"请将恢复代码放在安全的地方，比如密码管理器中。这些代码是您丢失密码和其他第二"
+"因素认证手段时访问帐户的最后手段。如果您在需要时丢失了这些代码，您将无法访问"
+"您的帐户。"
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "仓库 URL 已复制到剪贴板。"
+msgstr "恢复代码已复制到剪贴板。"
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
-msgstr ""
+msgstr "生成新的恢复代码时，必须下载或打印新代码。"
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "旧的代码将失效，无法使用。"
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:47
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Back to account settings"
-msgstr "编辑部件设置"
+msgstr "返回账户设置"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6223,21 +6185,20 @@ msgstr "重置我的密码"
 msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
-msgstr ""
+msgstr "身份验证器应用程序会生成一次性代码，在您登录时，此代码将用作验证您身份的第二"
+"个因素。"
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "扫描二维码"
 
 #: weblate/templates/accounts/totp.html:35
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "您也可以手动输入密钥："
 
 #: weblate/templates/accounts/totp.html:38
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "API 密钥已复制到剪贴板。"
+msgstr "密钥已复制到剪贴板。"
 
 #: weblate/templates/accounts/totp.html:43
 #: weblate/templates/mail/shared-registration.html:22
@@ -6370,10 +6331,8 @@ msgid "Edit"
 msgstr "编辑"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "没有最近活动的记录！"
+msgstr "最近没有贡献。"
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -6432,33 +6391,24 @@ msgid "Unblock user"
 msgstr "解除对用户的阻止"
 
 #: weblate/templates/accounts/user.html:314
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "编辑原文"
+msgstr "编辑用户"
 
 #: weblate/templates/accounts/user.html:331
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "User has two-factor authentication configured."
-msgstr "任何已验证用户均可参与贡献。"
+msgstr "用户已配置双因素身份验证。"
 
 #: weblate/templates/accounts/user.html:333
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "User doesn't have two-factor authentication configured."
-msgstr "任何已验证用户均可参与贡献。"
+msgstr "用户未配置双因素身份验证。"
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "禁用双因素身份验证"
 
 #: weblate/templates/accounts/user.html:345
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "删除该账户会清除您的所有个人数据。"
+msgstr "删除该账户会清除所有个人数据。"
 
 #: weblate/templates/accounts/user.html:348
 #: weblate/templates/accounts/user.html:362
@@ -6526,7 +6476,7 @@ msgstr "有贡献的翻译"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "使用安全密钥登录"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -6546,10 +6496,8 @@ msgstr "配置附加组件"
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "The add-on can only be installed on the component."
-msgstr "也可以在项目和部件层级安装附加组件。"
+msgstr "该附加组件只能安装在部件上。"
 
 #: weblate/templates/addons/addon_head.html:9
 msgid "This add-on is used for all components sharing this repository."
@@ -6912,10 +6860,8 @@ msgid "Automatic assignment"
 msgstr "自动分配"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "服务器不允许验证。"
+msgstr "需要双因素身份验证"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7582,20 +7528,17 @@ msgid "Component is being updated…"
 msgstr "正在更新部件…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "加入 %(project_name)s 项目的邀请"
+msgstr "继续前往 %(return_target)s"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
 msgstr "中止更新"
 
 #: weblate/templates/component-progress.html:38
-#, fuzzy
-#| msgid "Return to the component after completion"
 msgid "Continue after completion"
-msgstr "完成后回到部件"
+msgstr "完成后继续"
 
 #: weblate/templates/component.html:36 weblate/wladmin/views.py:80
 msgid "Alerts"
@@ -8947,16 +8890,14 @@ msgid_plural "%(count)s unfinished strings"
 msgstr[0] "%(count)s 条未完成的字符串"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "多种语言的译文都有未通过的检查"
+msgstr "所有语言的翻译已在 %(component)s 内完成"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "翻译已更新。"
+msgstr "%(translation)s 已完成"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -9655,10 +9596,8 @@ msgid "Add to screenshot"
 msgstr "添加到截图"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
-#, fuzzy
-#| msgid "Copy token to clipboard"
 msgid "Paste from clipboard"
-msgstr "复制令牌到剪贴板"
+msgstr "从剪切板粘贴"
 
 #: weblate/templates/search.html:25
 #: weblate/templates/snippets/embed-units.html:114
@@ -9764,19 +9703,20 @@ msgstr "正在加载结果…"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "配置双因素身份验证"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
-msgstr ""
+msgstr "此项目要求所有贡献者进行双因素身份验证。如果您没有配置，您将无法做出贡献。"
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
-msgstr ""
+msgstr "您所在的团队需要双重身份验证（2FA）。在配置 2FA "
+"之前，您将无法使用其任何权限。"
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:378
@@ -10114,14 +10054,10 @@ msgstr ""
 "%(link_fsf_start)sFSF 认可的自由%(link_end)s许可证发布。"
 
 #: weblate/templates/snippets/libre-basic.html:10
-#, fuzzy
-#| msgid ""
-#| "All the source code has to be publicly available in a supported version "
-#| "control system."
 msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
-msgstr "所有的源代码必须在受支持的版本控制系统中公开提供。"
+msgstr "所有源代码都必须获得自由许可，并在支持的版本控制系统中公开可用。"
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -12582,10 +12518,8 @@ msgid "Untranslatable term"
 msgstr "不可翻译的术语"
 
 #: weblate/trans/forms.py:2501
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
-msgstr "您目前没有创建项目的权限。"
+msgstr "您没有创建术语的权限。"
 
 #: weblate/trans/forms.py:2567
 msgid "State to set"
@@ -12658,10 +12592,8 @@ msgid "Author username"
 msgstr "作者用户名"
 
 #: weblate/trans/forms.py:2762
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "Change period"
-msgstr "已推送更改"
+msgstr "更改时期"
 
 #: weblate/trans/forms.py:2774
 msgid "Could not find matching user!"
@@ -13293,10 +13225,8 @@ msgstr "通过上传原文更新了译文"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:508
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "完成了翻译"
+msgstr "组件翻译已完成"
 
 #: weblate/trans/models/change.py:592
 msgid "The component was automatically locked because of an alert."
@@ -13314,10 +13244,9 @@ msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
+msgstr "于 %(time)s 对 %(translation)s %(action)s"
 
 #: weblate/trans/models/change.py:850
 msgid "The “{}” file was changed."
@@ -14022,10 +13951,8 @@ msgid "Component list to assign"
 msgstr "要分配的部件列表"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "说明"
+msgstr "标签说明"
 
 #: weblate/trans/models/project.py:126
 msgid "Public"
@@ -14084,7 +14011,7 @@ msgstr "至于如何限制该项目的访问权限，请查阅文档了解更多
 msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
-msgstr ""
+msgstr "要求贡献者在做出贡献前配置双因素身份验证。"
 
 #: weblate/trans/models/project.py:198 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -14659,7 +14586,7 @@ msgstr "新增翻译的请求已发送给项目维护者。"
 
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "所有语言都已添加，翻译更新正在进行中。"
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -14734,10 +14661,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "您的建议已被识别为垃圾信息！"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Your suggestion is similar to the current translation!"
-msgstr "此翻译当前仅允许提出建议！"
+msgstr "您的建议与当前的翻译相似！"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -14866,18 +14791,16 @@ msgstr "无法锁定仓库，正进行另一个操作。"
 #: weblate/trans/views/git.py:61
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
-msgstr ""
+msgstr "所有仓库均已更新，翻译更新正在进行中。"
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "已推送至所有仓库中。"
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "已重置所有仓库。"
+msgstr "所有仓库均已重置，翻译更新正在进行中。"
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -14888,10 +14811,8 @@ msgid "Translation files have been synchronized."
 msgstr "已同步翻译文件。"
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "正在自动翻译"
+msgstr "翻译的更新正在进行中。"
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -15251,10 +15172,8 @@ msgid "This e-mail address is disallowed."
 msgstr "该电子邮箱被禁止使用。"
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "输入一个有效的电子邮箱地址。"
+msgstr "无效的电子邮件地址：{}"
 
 #: weblate/utils/validators.py:207
 msgid "Could not evaluate plural formula: {}"
