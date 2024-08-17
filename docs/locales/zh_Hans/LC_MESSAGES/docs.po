@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-16 18:13+0000\n"
+"PO-Revision-Date: 2024-08-17 05:28+0000\n"
 "Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
 "org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -4843,13 +4843,15 @@ msgstr "同样支持 Passkeys 和 安全密钥。"
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
-msgstr ""
+msgstr "Passkeys 使用触摸、脸部识别、设备密码或 PIN "
+"码验证你的身份，因它们包含用户验证。"
 
 #: ../../admin/auth.rst:798
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
-msgstr ""
+msgstr "Security keys 是只能被用作身份认证第二因素的 WebAuthn "
+"凭据，这些仅验证用户存在。"
 
 #: ../../admin/auth.rst:800
 msgid "Authenticator app (TOTP)"
@@ -4862,6 +4864,9 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"身份认证应用和浏览器扩展，比如 Aegis、Bitwarden、Google "
+"Authenticator、1Password、Authy、Microsoft Authenticator "
+"等在登录期间系统提示时生成用作身份验证第二因素的一次性密码。"
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -4878,25 +4883,28 @@ msgstr "如果您无法访问设备并且无法接收双因素身份验证码，
 msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
-msgstr ""
+msgstr "确保你的恢复代码和你的密码一样安全。我们推荐用 Bitwarden、1Password、Authy "
+"或 Keeper 等密码管理器保存它们。"
 
 #: ../../admin/auth.rst:811
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
-msgstr ""
+msgstr "每个用户可以在 :ref:`profile-"
+"account`中配置它。下次登录时，除了现有的身份认证方法，第二因素也是必需的。"
 
 #: ../../admin/auth.rst:814
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
-msgstr ""
+msgstr "可以在项目 (见 :ref:`project-enforced_2fa`) "
+"或团队层面强制用户使用双因素认证。"
 
 #: ../../admin/auth.rst:816
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
-msgstr ""
+msgstr "强制双因素认证的团队的权限不会应用到尚未配置双因素认证的用户。"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -7936,6 +7944,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"如果它被停用，Weblate 启动会失败，显示错误 ``otp_webauthn.E031`` "
+"。要不显示这个错误，你可以将它添加到 "
+":setting:`django:SILENCED_SYSTEM_CHECKS`，但即使这么做，WebAuthn "
+"也不会适用于没有 HTTPS 的站点。"
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -13812,19 +13824,21 @@ msgstr ""
 #: ../../admin/install/docker.rst:538
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
-msgstr ""
+msgstr "是否在服务器错误时给管理员发送电子邮件。默认开启。"
 
 #: ../../admin/install/docker.rst:540
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
-msgstr ""
+msgstr "你可能想使用其他错误收集工具，如 Sentry 或 Rollbar，并将此选项关闭。"
 
 #: ../../admin/install/docker.rst:544
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
+":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, "
+":envvar:`SENTRY_DSN`"
 
 #: ../../admin/install/docker.rst:550
 msgid "The email address that error messages are sent from."
@@ -16458,13 +16472,15 @@ msgstr "使用 Cyrtranslit 库的机器翻译服务。"
 msgid ""
 "This service converts text between Cyrillic and Latin scripts for languages "
 "that have both scripts."
-msgstr ""
+msgstr "此服务为同时包含西里尔和拉丁字母表的语言在两种字母表间转换文本。"
 
 #: ../../admin/machine.rst:131
 msgid ""
 "`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
 "transliteration>`_"
 msgstr ""
+"`Cyrtranslit 仓库 <https://github.com/opendatakosovo/cyrillic-"
+"transliteration>`_"
 
 #: ../../admin/machine.rst:136
 msgid "DeepL"
@@ -16893,6 +16909,9 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
+"此服务通过 `dynamic dictionary <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/dynamic-dictionary>`_ 自动使用 :ref:`glossary`，见 "
+":ref:`glossary-mt`。"
 
 #: ../../admin/machine.rst:357
 msgid "Translator Text API V2"
@@ -17022,7 +17041,7 @@ msgstr "OpenAI"
 
 #: ../../admin/machine.rst:454
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "OpenAI API 基 URL"
 
 #: ../../admin/machine.rst:454
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
@@ -17290,6 +17309,9 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
+"Weblate 机器翻译服务能够基于 Weblate 内当前现有的处于 :guilabel:`已翻译`, "
+":guilabel:`已批准`,或 :guilabel:`只读` :ref:`状态 "
+"<states>`下字符串当中的一条字符串的精确匹配提供翻译。"
 
 #: ../../admin/machine.rst:612
 msgid "Weblate Translation Memory"
@@ -17311,7 +17333,7 @@ msgstr ""
 #: ../../admin/machine.rst:624
 msgid ""
 "Recreating :ref:`translation-memory` reduces capabilities of this TM source."
-msgstr ""
+msgstr "重新创建 :ref:`translation-memory` 会降低此机器翻译服务的能力。"
 
 #: ../../admin/machine.rst:629
 msgid "Yandex"
@@ -18597,7 +18619,7 @@ msgstr "通过安装后迁移数据库，将现有的仓库导出："
 #: ../../admin/optionals.rst:30
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it of, use:"
-msgstr ""
+msgstr "Git 导出器在我们的官方 Docker 映像中处于开启状态。要关闭它，使用："
 
 #: ../../admin/optionals.rst:37 ../../admin/optionals.rst:102
 #: ../../admin/optionals.rst:179 ../../faq.rst:299
@@ -18662,7 +18684,7 @@ msgstr "运行数据库迁移，来可选地为模块安装另外的数据库结
 
 #: ../../admin/optionals.rst:91
 msgid "Billing plan creation and assignment"
-msgstr ""
+msgstr "付费套餐创建和分配"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -18670,25 +18692,29 @@ msgid ""
 "`Administration` section (represented by the wrench icon) and open the "
 "`Tools` screen. From there, proceed to the `Django admin interface`."
 msgstr ""
+"首先，你需要创建一个付费套餐来激活账单。导航至 `管理` 部分（扳手图标），"
+"并打开 `工具` 屏。从这里，继续转到 `Django 管理界面` 。"
 
 #: ../../admin/optionals.rst:95
 msgid ""
 "In the Django admin interface, locate the `BILLING` section and add a "
 "billing plan. For instance, you can add a `Free` plan with no cost."
-msgstr ""
+msgstr "在 Django 管理界面中，定位 `账单` 部分并添加付费套餐。比如，"
+"你可以零成本地添加 `免费` 套餐。"
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "If you wish to assign a billing plan to an existing project, this can also "
 "be done within the `Django admin interface` using the `Customer billings` "
 "option."
-msgstr ""
+msgstr "如果你希望将一个付费套餐分配到一个现有项目，也可以使用 `定制付费` 选项在 `"
+"Django 管理界面` 内实现它。"
 
 #: ../../admin/optionals.rst:99
 msgid ""
 "Lastly, the `Django admin interface` provides an `Invoice` option for "
 "logging your customer payments."
-msgstr ""
+msgstr "最后，`Django 管理界面` 提供 `发票` 选项用于记录你的客户付款。"
 
 #: ../../admin/optionals.rst:104
 msgid ""
@@ -19504,7 +19530,8 @@ msgstr "强制双因素身份验证"
 msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
-msgstr ""
+msgstr "强制所有贡献者使用 :ref:`2fa`。不配置双因素认证，"
+"用户将不会被允许在项目内执行任何操作 。"
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -21626,7 +21653,8 @@ msgstr "请在升级前始终备份完整数据库，以便你可以在升级失
 msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
-msgstr ""
+msgstr "停止 WSGI 和 Celery "
+"进程避免升级时旧进程运行。否则可能发生不兼容的数据库更改。"
 
 #: ../../admin/upgrade.rst:39
 msgid "Upgrade Weblate"
@@ -22988,11 +23016,11 @@ msgstr "返回项目的贡献者致谢信息。"
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "下界 ISO 8601 时间戳（强制）"
 
 #: ../../api.rst:1221 ../../api.rst:1799
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "下界 ISO 8601 时间戳（强制）"
 
 #: ../../api.rst:1223 ../../api.rst:1801
 msgid "Language code to search for"
@@ -24436,7 +24464,8 @@ msgstr "返回服务器指标。"
 msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
-msgstr ""
+msgstr "通过 ``?format=openmetrics`` 现在可以用兼容 OpenMetrics 的格式暴露 Metrics "
+"了。"
 
 #: ../../api.rst:2604
 msgid "Number of units"
@@ -24960,21 +24989,22 @@ msgstr "发布于 2024 年 8 月 15 日。"
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
-msgstr ""
+msgstr "现在支持通过 Passkeys、WebAuthn、身份认证应用 (TOTP) 和恢复码使用 "
+":ref:`2fa`。"
 
 #: ../../changes.rst:32
 msgid ":ref:`2fa` can be enforced at the team or project level."
-msgstr ""
+msgstr "可以在团队或项目层级强制使用 :ref:`2fa` 。"
 
 #: ../../changes.rst:33
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
-msgstr ""
+msgstr ":ref:`adding-new-strings` 现在可以在用户界面中创建复数字符串了。"
 
 #: ../../changes.rst:34
 msgid ":ref:`labels` now include description to explain them."
-msgstr ""
+msgstr ":ref:`labels` 现在包含解释它们的描述。"
 
 #: ../../changes.rst:35
 msgid "New :ref:`subscriptions` for completed translation and component."
@@ -24984,7 +25014,8 @@ msgstr "已完成翻译和部件的新 :ref:`订阅`。"
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
-msgstr ""
+msgstr ":ref:`mt-openai` 现在支持自定义模型和 URL "
+"并提供使用不同措辞改动现有字符串让含义更清晰的功能。"
 
 #: ../../changes.rst:37
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
@@ -24998,11 +25029,11 @@ msgstr ":ref:`addon-weblate.properties.sort` 现在可以进行区分大小写�
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
-msgstr ""
+msgstr "现已支持全站和全语言范围的状态小挂件，见 :ref:`promotion`。"
 
 #: ../../changes.rst:43
 msgid ":ref:`reports` are now available for categories."
-msgstr ""
+msgstr ":ref:`reports` 现对分类可用。"
 
 #: ../../changes.rst:44
 msgid "Highlight newlines in the editor."
@@ -25014,7 +25045,7 @@ msgstr ":doc:`/formats/csv` 更好地处理只有两个字段的文件。"
 
 #: ../../changes.rst:46
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
-msgstr ""
+msgstr "现在可使用键盘操控浏览模式，见 :ref:`keyboard`。"
 
 #: ../../changes.rst:47
 msgid ""
@@ -25030,6 +25061,8 @@ msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
+"术语表中的 :ref:`glossary-terminology` 现在可以只能由具备 "
+":guilabel:`添加术语表专有名词` 权限的用户创建。"
 
 #: ../../changes.rst:49
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
@@ -25041,11 +25074,11 @@ msgstr "现在可以从 :ref:`screenshots`中的剪贴板粘贴屏幕截图。"
 
 #: ../../changes.rst:54
 msgid "Accessibility of keyboard navigation."
-msgstr ""
+msgstr "键盘导航的可及性。"
 
 #: ../../changes.rst:55
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
-msgstr ""
+msgstr ":ref:`git-exporter` 现在适用于所有基于 Git 的 :ref:`vcs`。"
 
 #: ../../changes.rst:56
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
@@ -25053,23 +25086,23 @@ msgstr ":ref:`check-max-size` 有时渲染屏幕截图失败。"
 
 #: ../../changes.rst:60
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
-msgstr ""
+msgstr "Weblate 现在使用 mistletoe 而非 misaka 作为 Markdown 渲染器。"
 
 #: ../../changes.rst:61
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
-msgstr ""
+msgstr ":ref:`csp` 现在更为严格，这可能拦截第三方自定义。"
 
 #: ../../changes.rst:62
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
-msgstr ""
+msgstr "添加字符串到翻译时，单语言格式不再从 :ref:`component-template`复制评论。"
 
 #: ../../changes.rst:63
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
-msgstr ""
+msgstr ":ref:`machine-translation-setup`不再支持 Amagama，因该服务的维护已停止。"
 
 #: ../../changes.rst:64
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
@@ -25079,7 +25112,7 @@ msgstr ":setting:`SENTRY_SEND_PII` 的默认值被改变。"
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
-msgstr ""
+msgstr "JSON 格式的翻译致谢报告现在对条目遵守不同格式。"
 
 #: ../../changes.rst:71
 msgid ""
@@ -25098,6 +25131,8 @@ msgid ""
 "use HTTPS, please silence related check as described in :setting:"
 "`ENABLE_HTTPS` documentation."
 msgstr ""
+":setting:`ENABLE_HTTPS` 现在对 WebAuthn 支持是必需的。如果你无法使用 HTTPS，"
+"请按照 :setting:`ENABLE_HTTPS` 文档中的描述停用相关检查。"
 
 #: ../../changes/contributors/5.7.rst:2
 msgid "Code contributions"
@@ -25109,6 +25144,9 @@ msgid ""
 "Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
 "michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 msgstr ""
+"Michal Čihař, João Ferreira, Paul Harriet Asiñero, gers, Benjamin Alan "
+"Jamie, John R. D'Orazio, Tobias Schlatter, Max Wittig, Mehdi Eloualy, "
+"michael-smt, Jochen Sprickerhof, Vincent, Dwayne Bailey, Bastien Montagne"
 
 #: ../../changes/contributors/5.7.rst:5
 msgid "Translations contributions"
@@ -25127,6 +25165,16 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
+"Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
+"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
+"From Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
+"Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
+"Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
+"قادر, Horus68, ssantos, M. D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, "
+"mpt.c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
+"Ribeiro Nascimento, Ian Perdiansah, amano, Petter Reinholdtsen, Malik "
+"Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
+"Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 
 #: ../../changes/contributors/5.7.rst:8
 msgid "Documentation contributions"
@@ -25137,6 +25185,8 @@ msgid ""
 "Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
 "Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 msgstr ""
+"Michal Čihař, Benjamin Alan Jamie, Paul Harriet Asiñero, Allan Nordhøy, Max "
+"Wittig, Mehdi Eloualy, Vincent, LE MEILLAT, gers, lotigara"
 
 #: ../../changes.rst:78
 msgid ""
@@ -25164,7 +25214,7 @@ msgstr "检测待外传的提交。"
 
 #: ../../changes.rst:89
 msgid ":ref:`addons` button layout."
-msgstr ""
+msgstr ":ref:`addons` 按钮布局。"
 
 #: ../../changes.rst:90
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
@@ -25179,6 +25229,8 @@ msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
 msgstr ""
+"还原时 :ref:`projectbackup` ZIP 文件的验证 (CVE-2024-39303 / GHSA-jfgp-674x-"
+"6q4p)。"
 
 #: ../../changes.rst:98
 msgid ""
@@ -25202,10 +25254,13 @@ msgid ""
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
+"Docker 容器接受 :envvar:`WEBLATE_REMOVE_ADDONS` 和 "
+":envvar:`WEBLATE_ADD_MACHINERY` 来定制自动建议服务以及 "
+":envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` 用于 API 中的 CORS 处理。"
 
 #: ../../changes.rst:108
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
-msgstr ""
+msgstr "为 :http:get:`/api/metrics/` 添加了 OpenMetrics 兼容性。"
 
 #: ../../changes.rst:112
 msgid "Language aliases in :doc:`/admin/machine`."
@@ -34774,6 +34829,8 @@ msgid ""
 "Git commits should follow `Conventional Commits <https://www."
 "conventionalcommits.org/>`_ specification."
 msgstr ""
+"Git 提交应该遵守 `Conventional Commits <https://www.conventionalcommits.org/"
+">`_ 规范。"
 
 #: ../../contributing/snippets/pre-commit.rst:2
 msgid "Coding standard and linting the code"
@@ -35136,16 +35193,19 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"在 django 项目中安装并管理 `第三方` 库可能有点难处理。"
+"此文档提供了有关如何使用 `Webpack` 来安装并管理 Weblate 的 `客户侧` "
+"所用的第三方库的逐一步骤指南。"
 
 #: ../../contributing/frontend.rst:26
 msgid "Prerequisites"
-msgstr ""
+msgstr "前提"
 
 #: ../../contributing/frontend.rst:28
 msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
-msgstr ""
+msgstr "安装前，请确保你具备下列前提条件："
 
 #: ../../contributing/frontend.rst:30
 msgid "Node.js."
@@ -35153,15 +35213,15 @@ msgstr "Node.js."
 
 #: ../../contributing/frontend.rst:31
 msgid "Yarn package manager installed on your system."
-msgstr ""
+msgstr "你的系统上安装了 Yarn 包管理器。"
 
 #: ../../contributing/frontend.rst:32
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "运行 ``cd client``."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``yarn install``"
-msgstr ""
+msgstr "运行 ``yarn install``"
 
 #: ../../contributing/frontend.rst:36
 msgid "1- Installation"
@@ -35177,62 +35237,63 @@ msgstr "2- 导入库"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "接着，有两种办法来导入库："
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
-msgstr ""
+msgstr "如果它是项目级别的库（所有/多数页面都用到/需要）："
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "导入 ``src/main.js`` 中的库。"
 
 #: ../../contributing/frontend.rst:52
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
-msgstr ""
+msgstr "如果它是特定页面的库（仅用于特定页面或模板）："
 
 #: ../../contributing/frontend.rst:53
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "创建一个名为 ``src/<lib-name>.js`` 的文件。"
 
 #: ../../contributing/frontend.rst:54
 msgid "Import the library in it."
-msgstr ""
+msgstr "导入它当中的库。"
 
 #: ../../contributing/frontend.rst:55
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
-msgstr ""
+msgstr "在 ``webpack.config.js`` 中添加条目: ``<lib-name>: \"src/<lib-name>.js\"``."
 
 #: ../../contributing/frontend.rst:58
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
-msgstr ""
+msgstr "注意：用第三方库的实际名称替换 ``<lib-name>`` 。"
 
 #: ../../contributing/frontend.rst:61
 msgid "3- Building the Library"
-msgstr ""
+msgstr "3- 构建库"
 
 #: ../../contributing/frontend.rst:63
 msgid "Build the libraries used by the project, run the following command:"
-msgstr ""
+msgstr "构建项目所用的库，运行下列命令："
 
 #: ../../contributing/frontend.rst:70
 msgid "4- Including the Library"
-msgstr ""
+msgstr "4- 将库包含进去"
 
 #: ../../contributing/frontend.rst:72
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
-msgstr ""
+msgstr "现在库已经够构建好，可以使用了。要将库包含进去，请按照下列步骤去做："
 
 #: ../../contributing/frontend.rst:74
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
-msgstr ""
+msgstr "如果库被导入在 ``src/main.js``，那么无需其他步骤（因器已包含于 ``base."
+"html``)。"
 
 #: ../../contributing/frontend.rst:76
 msgid ""
@@ -35240,6 +35301,8 @@ msgid ""
 "``weblate/templates``` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"如果库被导入其特定文件 ``src/<lib-name>.js``, ``weblate/templates`` ，"
+"请使用包含标签来链接到构建的静态 JavaScript 文件："
 
 #: ../../contributing/frontend.rst:84
 msgid "Coding style"
@@ -35433,6 +35496,8 @@ msgid ""
 "are in `docs/requirements.txt`. You will also need :program:`graphviz` to "
 "build the documentation."
 msgstr ""
+"也可以在本地编辑并构建文档，Python requirements 位于 `docs/requirements.txt` "
+"内。你还需要 :program:`graphviz`来构建文档。"
 
 #: ../../contributing/index.rst:61
 msgid ""
@@ -35573,11 +35638,11 @@ msgstr "24eme.fr"
 
 #: ../../../BACKERS.rst:24
 msgid "Fotema Gallery App"
-msgstr ""
+msgstr "Fotema 图库"
 
 #: ../../../BACKERS.rst:25
 msgid "`Newpipe e.V. <https://newpipe-ev.de>`_"
-msgstr ""
+msgstr "`Newpipe e.V. <https://newpipe-ev.de>`_"
 
 #: ../../../BACKERS.rst:27
 msgid ""
@@ -35840,7 +35905,8 @@ msgid ""
 "and disclosure of security-related issues. We have adopted and follow "
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
-msgstr ""
+msgstr "Weblate 开发团队坚定致力于安全相关问题负责任的报告和披露。"
+"我们已经实施并遵守和及时向 Weblate 传输安全更新目标相适应的政策。"
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -35849,6 +35915,9 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
+"多数 Weblate 中的常规 bug 可以报告到我们的公开 `GitHub issues tracker "
+"<https://github.com/WeblateOrg/weblate/"
+"issues>`_，但由于安全问题的敏感本质，我们请求不要用这种方式公开报告此类问题。"
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -35857,16 +35926,21 @@ msgid ""
 "org, `GitHub <https://github.com/WeblateOrg/weblate/security/advisories/"
 "new>`_, or using `HackerOne <https://hackerone.com/weblate>`_."
 msgstr ""
+"假如您觉得在 Weblate 中发现了某些有安全影响的东西，请将此问题的描述提交到 "
+"security@weblate.org、 `GitHub <https://github.com/WeblateOrg/weblate/"
+"security/advisories/new>`_ 或使用 `HackerOne <https://hackerone.com/weblate>`"
+"_ 。"
 
 #: ../../contributing/issues.rst:35
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
-msgstr ""
+msgstr "安全团队的一名成员会在 48 "
+"小时内回应你，取决于所采取的操作，你可能会收到更多的后续电子邮件。"
 
 #: ../../contributing/issues.rst:40
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**发送加密报告**"
 
 #: ../../contributing/issues.rst:42
 msgid ""
@@ -37089,7 +37163,7 @@ msgstr "你可以使用 `pytest` 在本地运行测试套件："
 
 #: ../../contributing/tests.rst:65
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "运行单个测试文件："
 
 #: ../../contributing/tests.rst:72
 msgid "Testing using Django"
@@ -37097,7 +37171,7 @@ msgstr "使用 Docker 测试"
 
 #: ../../contributing/tests.rst:74
 msgid "Alternatively, Django built-in tests should also work:"
-msgstr ""
+msgstr "另外，Django 内置测试应该也可以："
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -38123,14 +38197,17 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
+"手动操作：从源语言内 :guilabel:`工具`菜单使用 :guilabel:`添加新的翻译字符串` "
+"。你可以在表单内的 :guilabel:`Singular`和 :guilabel:`Plural` "
+"之间做选择。选择要添加字符串的恰当形式。"
 
 #: ../../devel/integration.rst:82
 msgid ""
 "Programmatically, using the API :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/units/`."
 msgstr ""
-"通过编程，使用 API :http:post:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/units/`."
+"程序化地使用 API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:83
 msgid ""
@@ -38181,7 +38258,8 @@ msgstr ""
 msgid ""
 "Source string extraction tools, such as :program:`xgettext` or :program:"
 "`lupdate`, need to be executed outside of Weblate."
-msgstr ""
+msgstr "源字符串提取工具，比如 :program:`xgettext` 或 :program:`lupdate`，需要在 "
+"Weblate 之外执行。"
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -40727,7 +40805,7 @@ msgstr "用于翻译应用的 Android 特定文件格式。"
 msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
-msgstr ""
+msgstr "JetBrains Compose 多平台 Kotlin 资源使用相同的文件格式。"
 
 #: ../../formats/android.rst:14
 msgid ""
@@ -40869,7 +40947,7 @@ msgstr "`Android 字符串资源`"
 #: ../../formats/android.rst:82
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
-msgstr ""
+msgstr "Weblate 的 JetBrains Compose 多平台 Kotlin 资源的配置"
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
@@ -41362,6 +41440,9 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"如果存在 PO 文件，Weblate 可以从这些文件中提取先前的源字符串并基于此显示需要"
+"编辑字符串的字符串区别。要包含这些，必须使用 ``--previous`` 参数运行 "
+":program:`msgmerge`，由此生成的 PO 文件会包括特定的行，比如："
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
@@ -42030,6 +42111,8 @@ msgid ""
 "different format which matches :doc:`/formats/android`, please use that "
 "instead."
 msgstr ""
+"也有使用匹配 :doc:`/formats/android` 格式的 JetBrains Compose 多平台 Kotlin "
+"资源，请用这个代替。"
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
@@ -42877,7 +42960,7 @@ msgstr "统计"
 
 #: ../../../README.rst:72
 msgid "Repobeats analytics image"
-msgstr ""
+msgstr "Repobeats 分析图象"
 
 #: ../../../README.rst:85
 msgid ""
@@ -47353,6 +47436,9 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"此字段同样支持 :ref:`search-operators`，因此搜索已完成字符串可以作为 "
+"``state:>=translated`` 执行，搜索需要翻译的字符串可以作为 "
+"``state:<translated`` 执行。"
 
 #: ../../user/search.rst:51
 msgid "``pending:BOOLEAN``"
@@ -47384,7 +47470,7 @@ msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:56
 msgid "Filters string on a condition:"
-msgstr ""
+msgstr "使用条件筛选字符串："
 
 #: ../../user/search.rst:58
 msgid "``read-only`` or ``readonly``"
@@ -47392,7 +47478,7 @@ msgstr "``read-only`` 或 ``readonly``"
 
 #: ../../user/search.rst:59
 msgid "Read-only strings, same as ``state:read-only``."
-msgstr ""
+msgstr "只读字符串，同 ``state:read-only`` 。"
 
 #: ../../user/search.rst:60
 msgid "``approved``"
@@ -47404,11 +47490,11 @@ msgstr "已核准的字符串，同 ``state:approved``."
 
 #: ../../user/search.rst:62
 msgid "``needs-editing`` or ``fuzzy``"
-msgstr ""
+msgstr "``needs-editing`` 或 ``fuzzy``"
 
 #: ../../user/search.rst:63
 msgid "Needing editing strings, same as ``state:needs-editing``."
-msgstr ""
+msgstr "需要编辑的字符串，同 ``state:needs-editing`` 。"
 
 #: ../../user/search.rst:65
 msgid "Translated strings, same as ``state:>translated``."
@@ -47812,7 +47898,8 @@ msgid ""
 "Generally, there are two most used modes of translation: * Project accepts "
 "direct translations * Project accepts the suggestions made by users. "
 "Sometimes, anonymous suggestions are accepted as well."
-msgstr ""
+msgstr "通常而言，有两个用得最多的翻译模式： * 项目接受直接翻译 "
+"*项目接受用户建议。有时，也接受匿名建议。"
 
 #: ../../user/translating.rst:11
 msgid "There are more translation workflows detailed in :ref:`workflows`."
@@ -47822,7 +47909,7 @@ msgstr "更多翻译流程详情见 :ref:`workflows`。"
 msgid ""
 "Projects, or the components in them are either visible to everyone, or only "
 "to a certain group of translators."
-msgstr ""
+msgstr "项目或其中的部件要么对所有人可见，要么只对某些翻译者可见。"
 
 #: ../../user/translating.rst:18
 msgid ":ref:`access-control`, :ref:`workflows`"
@@ -47877,6 +47964,8 @@ msgid ""
 "strings * for reporting source string bugs when this functionality is turned "
 "on using :ref:`project-source_review`."
 msgstr ""
+"可以发布三种类型的评论： * 给翻译者 * 给源字符串 * 报告源字符串中的错误，"
+"前提是使用 :ref:`project-source_review` 打开了此功能。"
 
 #: ../../user/translating.rst:68
 msgid ""
@@ -48621,6 +48710,9 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"此模式简化了布局并删除了额外额用户界面元素，如 :guilabel:`邻近字符串` 或 "
+":guilabel:`术语表`。如何进入此模式：单击常规编辑器（字符串翻译）右上方的 "
+":guilabel:`禅模式` 按钮。"
 
 #: ../../user/translating.rst:456
 msgid ""
@@ -50079,6 +50171,8 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"字符串只读的原因包括有 ``read-only`` :ref:`标记 <custom-"
+"checks>`，是不可编辑的源字符串，或者在翻译文件中被标为只读。"
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
