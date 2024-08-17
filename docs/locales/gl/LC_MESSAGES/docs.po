@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-16 02:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-08-17 18:15+0000\n"
+"Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "documentation/gl/>\n"
 "Language: gl\n"
@@ -25,10 +25,6 @@ msgid "Access control"
 msgstr "Control de acceso"
 
 #: ../../admin/access.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine-grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance with predefined roles, or by assigning "
@@ -36,7 +32,9 @@ msgid ""
 "projects, components, glossaries, and so on."
 msgstr ""
 "Weblate inclúe un sistema de privilexios moi preciso para asignar permisos "
-"de usuario para toda a instancia ou nun ámbito limitado."
+"de usuario para toda a instancia con roles predefinidos, ou asignando un ou "
+"máis grupos de permisos aos usuarios para todo, ou proxectos individuais, "
+"compoñentes, glosarios, e así sucesivamente."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -53,15 +51,11 @@ msgstr ""
 "acceso ao seu proxecto."
 
 #: ../../admin/access.rst:22
-#, fuzzy
-#| msgid ""
-#| "You can limit user’s access to individual projects by selecting a "
-#| "different :ref:`project-access_control` setting. Available options are:"
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
-"Pode limitar o acceso dos usuarios a proxectos individuais seleccionando un "
+"Limitar o acceso dos usuarios a proxectos individuais seleccionando un "
 "axuste diferente de :ref:`project-access_control`. As opcións dispoñíbeis "
 "son:"
 
@@ -158,14 +152,11 @@ msgstr ""
 "cada proxecto."
 
 #: ../../admin/access.rst:68
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"O valor predeterminado pode ser cambiado por :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+"Tamén é posíbel cambiar o valor predeterminado axustando "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:72
 msgid ""
@@ -174,20 +165,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:78
-#, fuzzy
-#| msgid ""
-#| "The actual set of permissions available for users by default in `Public`, "
-#| "`Protected`, and `Private` projects can be redefined by Weblate instance "
-#| "administrator using :ref:`custom settings <custom-acl>`."
 msgid ""
 "Instance administraotrs can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"O conxunto real de permisos dispoñíbeis para os usuarios de xeito "
-"predeterminado en proxectos `Públicos`, `Protexidos` e `Privados` pode ser "
-"redefinido pola administración das instancias de Weblate usando a :ref:"
-"`configuración personalizada <custom-acl>`."
+"Os administradores de instancias poden modificar os conxuntos de permisos "
+"predeterminados dispoñíbeis para os usuarios nos proxectos `Públicos`, "
+"`Protexidos` e `Privados` empregando :ref:`custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:83
 msgid ":ref:`project-access_control`"
@@ -219,27 +204,20 @@ msgid "Administration"
 msgstr "Administración"
 
 #: ../../admin/access.rst:100
-#, fuzzy
-#| msgid "Includes all permissions available for the project."
 msgid "All available permissions for the project."
-msgstr "Inclúe todos os permisos dispoñíbeis para o proxecto."
+msgstr "Todos os permisos dispoñíbeis para o proxecto."
 
 #: ../../admin/access.rst:102
 msgid "Review"
 msgstr "Revisión"
 
 #: ../../admin/access.rst:103
-#, fuzzy
-#| msgid "Can approve translations during review."
 msgid "Approve translations in a review."
-msgstr "Pode aprobar traducións durante a revisión."
+msgstr "Aprobar traducións nunha revisión."
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr ""
-"Revisar (só se :ref:`fluxo de traballo de revisión <reviews>` está activado)"
+msgstr "Dispoñíbel só se está activo o :ref:`fluxo de revisión <reviews>`."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -250,26 +228,20 @@ msgid "Translate"
 msgstr "Traducir"
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid "Can translate the project and upload translations made offline."
 msgid "Translate the project and upload translations made offline."
-msgstr "Pode traducir o proxecto e enviar traducións feitas sen conexión."
+msgstr "Traducir o proxecto e enviar traducións feitas sen conexión."
 
 #: ../../admin/access.rst:112 ../../devel/community.rst:48
 msgid "Sources"
 msgstr "Orixes"
 
 #: ../../admin/access.rst:113
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings (if allowed in the :ref:`project settings "
-#| "<component-manage_units>`) and source string info."
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"Pode editar cadeas de orixe (se está permitido en :ref:`axustes do "
-"proxecto<component-manage_units>`) e a información da cadea de orixe."
+"Editar cadeas de orixe (se está permitido en :ref:`axustes do proxecto"
+"<component-manage_units>`) e a información da cadea de orixe."
 
 #: ../../admin/access.rst:116 ../../admin/access.rst:283
 #: ../../admin/access.rst:299 ../../admin/access.rst:413 ../../api.rst:708
@@ -278,10 +250,8 @@ msgid "Languages"
 msgstr "Idiomas"
 
 #: ../../admin/access.rst:117
-#, fuzzy
-#| msgid "Can manage translated languages (add or remove translations)."
 msgid "Manage translated languages (add or remove translations)."
-msgstr "Pode xestionar os idiomas traducidos (engadir ou retirar traducións)."
+msgstr "Xestionar os idiomas traducidos (engadir ou retirar traducións)."
 
 #: ../../admin/access.rst:119 ../../admin/access.rst:491 ../../api.rst:2509
 #: ../../user/glossary.rst:4 ../../user/translating.rst:304
@@ -289,36 +259,27 @@ msgid "Glossary"
 msgstr "Glosario"
 
 #: ../../admin/access.rst:120
-#, fuzzy
-#| msgid "Can manage glossary (add or remove entries, also upload)."
 msgid "Manage glossary (add, remove, and upload entries)."
-msgstr ""
-"Pode xestionar o glosario (engadir ou retirar entradas, tamén envialas)."
+msgstr "Xestionar o glosario (engadir ou retirar entradas, tamén envialas)."
 
 #: ../../admin/access.rst:122 ../../api.rst:2101
 msgid "Memory"
 msgstr "Memoria"
 
 #: ../../admin/access.rst:123
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Manage translation memory."
-msgstr "Xestionar a memoria de tradución"
+msgstr "Xestionar a memoria de tradución."
 
 #: ../../admin/access.rst:125 ../../admin/access.rst:513 ../../api.rst:2255
 #: ../../user/translating.rst:291
 msgid "Screenshots"
-msgstr "Capturas de pantalla"
+msgstr "Capturas da pantalla"
 
 #: ../../admin/access.rst:126
-#, fuzzy
-#| msgid ""
-#| "Can manage screenshots (add or remove them, and associate them to source "
-#| "strings)."
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
 msgstr ""
-"Pode xestionar as capturas de pantalla (engadilas ou retiralas e asocialas "
-"ás cadeas de orixe)."
+"Xestionar as capturas da pantalla (engadilas, retiralas e asocialas ás "
+"cadeas de orixe)."
 
 #: ../../admin/access.rst:129 ../../admin/addons.rst:24
 #: ../../admin/continuous.rst:484 ../../user/translating.rst:355
@@ -334,36 +295,25 @@ msgid "VCS"
 msgstr "SCV (VCS)"
 
 #: ../../admin/access.rst:133
-#, fuzzy
-#| msgid "Can manage VCS and access the exported repository."
 msgid "Manage VCS and access the exported repository."
-msgstr "Pode xestionar o SCV (VCS) e acceder ao repositorio exportado."
+msgstr "Xestionar o SCV (VCS) e acceder ao repositorio exportado."
 
 #: ../../admin/access.rst:135 ../../admin/optionals.rst:69
 msgid "Billing"
 msgstr "Facturación"
 
 #: ../../admin/access.rst:136
-#, fuzzy
-#| msgid "Can access billing info and settings (see :ref:`billing`)."
 msgid "Access billing info and settings (see :ref:`billing`)."
 msgstr ""
-"Pode acceder á información de facturación e aos axustes (consulte :ref:"
-"`billing`)."
+"Acceder á información de facturación e aos axustes (consulte :ref:`billing`)."
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid ""
-#| "These features are available on the :guilabel:`Access control` page, "
-#| "which can be accessed from the project’s menu :guilabel:`Manage` ↓ :"
-#| "guilabel:`Users`."
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`."
 msgstr ""
 "Estas funcionalidades están dispoñíbeis na páxina de :guilabel:`Control de "
-"acceso`, á que se pode acceder dende o menú do proxecto :guilabel:"
-"`Xestionar` ↓ :guilabel:`Usuarios`."
+"acceso` no menú do proxecto :guilabel:`Xestionar` ↓ :guilabel:`Usuarios`."
 
 #: ../../admin/access.rst:145
 msgid ""
@@ -439,38 +389,27 @@ msgid "Blocking users"
 msgstr "Bloqueo de usuarios"
 
 #: ../../admin/access.rst:192
-#, fuzzy
-#| msgid ""
-#| "In case some users behave badly in your project, you have an option to "
-#| "block them from contributing. The blocked user still will be able to see "
-#| "the project if he has permissions for that, but he won't be able to "
-#| "contribute."
 msgid ""
 "If users misbehave in your project, you can block them from contributing. "
 "With the relevant permissions blocked, users can still see the project, but "
 "won't be able to contribute."
 msgstr ""
-"No caso de que algúns usuarios se comporten mal no seu proxecto, ten a "
-"opción de bloquear a súa colaboración. O usuario bloqueado aínda poderá ver "
-"o proxecto se ten permisos para iso, máis non poderá facer achegas."
+"Se os usuarios se comportan mal no seu proxecto, pode bloquear a súa "
+"colaboración. Cos permisos relevantes bloqueados, os usuarios aínda poderán "
+"ver o proxecto, mais non poderán facer achegas."
 
 #: ../../admin/access.rst:197
 msgid "Per-project permission management"
 msgstr "Xestión de permisos por proxecto"
 
 #: ../../admin/access.rst:199
-#, fuzzy
-#| msgid ""
-#| "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
-#| "(see :ref:`acl`), and :ref:`manage users <manage-acl>` per-project in the "
-#| "Weblate user interface."
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Pode definir os seus proxectos como :guilabel:`Protexidos` ou :guilabel:"
-"`Privados` (ver :ref:`acl`), e :ref:`xestionar os usuarios <manage-acl>` por "
-"proxecto na interface de usuario de Weblate."
+"Pode definir os seus proxectos como :guilabel:`Protexidos` ou "
+":guilabel:`Privados` (consulte :ref:`acl`), e :ref:`xestionar o acceso dos "
+"usuarios <manage-acl>` por proxecto."
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -510,19 +449,14 @@ msgid "This feature is unavailable on Hosted Weblate."
 msgstr "Esta funcionalidade non está dispoñíbel en Hosted Weblate."
 
 #: ../../admin/access.rst:220
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on teams and roles, where roles define a "
-#| "set of permissions, and teams link them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on roles defining a set of permissions, and "
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"O sistema de permisos baséase en equipos e roles, onde os roles definen un "
-"conxunto de permisos, e os equipos os vinculan a usuarios e traducións, "
-"consulte :ref:`auth-model` para ver máis detalles."
+"O sistema de permisos baséase en roles que definen un conxunto de permisos, "
+"e equipos que vinculan os roles a usuarios e traducións, consulte :ref:`auth-"
+"model` para ver máis detalles."
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -652,33 +586,22 @@ msgid "**Example:**"
 msgstr "**Exemplo:**"
 
 #: ../../admin/access.rst:271
-#, fuzzy
-#| msgid ""
-#| "If you want (for whatever reason) to allow translation to a specific "
-#| "language (lets say `Czech`) only to a closed set of reliable translators "
-#| "while keeping translations to other languages public, you will have to:"
 msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
-"Se quere (por calquera motivo) permitir a tradución a un idioma específico "
-"(digamos `checo`) só a un conxunto pechado de tradutores fiábeis mantendo as "
-"traducións a outros idiomas públicas, terá que:"
+"Restrinxir a tradución ao `checo` a un conxunto seleccionado de tradutores, ("
+"mentres se manteñen públicas as traducións a outros idiomas):"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid ""
-#| "Remove the permission to translate `Czech` from all the users. In the "
-#| "default configuration this can be done by altering the `Users` :ref:"
-#| "`default team <default-teams>`."
 msgid ""
 "Remove the permission to translate `Czech` from all users. In the default "
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
 "Retirar o permiso para traducir `checo` a todos os usuarios. Na "
-"configuración predeterminada, isto pódese facer modificando o :ref:`equipo "
-"predeterminado <default-teams>` `Usuarios`."
+"configuración predeterminada, isto póde facerse modificando os `Usuarios` no "
+":ref:`equipo predeterminado <default-teams>`."
 
 #: ../../admin/access.rst:278
 msgid "Group `Users`"
@@ -729,18 +652,13 @@ msgid "Add users you wish to give the permissions to into this team."
 msgstr "Engada a este equipo aos usuarios aos que quere outorgar permisos."
 
 #: ../../admin/access.rst:306
-#, fuzzy
-#| msgid ""
-#| "As you can see, permissions management this way is powerful, but can be "
-#| "quite a tedious job. You can’t delegate it to another user, unless "
-#| "granting superuser permissions."
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
-"Como pode ver, a xestión de permisos deste xeito é moi potente, mais pode "
-"ser un traballo bastante árido. Non pode delegalo noutro usuario, a non ser "
-"que lle conceda permisos de superusuario."
+"A xestión de permisos deste xeito é moi potente, mais pode ser un traballo "
+"bastante árido. Só pode delegalo noutro usuario outorgándolle o status de "
+"superusuario."
 
 #: ../../admin/access.rst:312
 msgid "Users, roles, teams, and permissions"
@@ -755,57 +673,43 @@ msgid "`Permission`"
 msgstr "`Permiso`"
 
 #: ../../admin/access.rst:317
-#, fuzzy
-#| msgid ""
-#| "Individual permission defined by Weblate. Permissions cannot be assigned "
-#| "to users. This can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
-"Permiso individual definido por Weblate. Non se poden asignar permisos aos "
-"usuarios. Isto só se pode facer mediante a asignación de roles."
+"Permiso individual definido por Weblate. Non é posíbel asignar permisos aos "
+"usuarios, só se pode facer mediante a asignación de roles."
 
 #: ../../admin/access.rst:319
 msgid "`Role`"
 msgstr "`Rol`"
 
 #: ../../admin/access.rst:320
-#, fuzzy
-#| msgid ""
-#| "A role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, making the administration easier."
 msgid ""
 "A role defines a set of permissions (and can be reused in several places)."
 msgstr ""
-"Un rol define un conxunto de permisos. Isto permite a reutilización destes "
-"conxuntos en varios lugares, facilitando a administración."
+"Un rol define un conxunto de permisos (e pode reutilizarse en varios "
+"lugares)."
 
 #: ../../admin/access.rst:322
 msgid "`User`"
 msgstr "`Usuario`"
 
 #: ../../admin/access.rst:323
-#, fuzzy
-#| msgid "User can belong to several teams."
 msgid "A user can belong to several teams."
-msgstr "O usuario pode pertencer a varios equipos."
+msgstr "Un usuario pode pertencer a varios equipos."
 
 #: ../../admin/access.rst:324
 msgid "`Group`"
 msgstr "`Grupo`"
 
 #: ../../admin/access.rst:325
-#, fuzzy
-#| msgid ""
-#| "Group connect roles, users, and authentication objects (projects, "
-#| "languages, and component lists)."
 msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
 msgstr ""
-"Agrupar roles, usuarios e obxectos de autenticación (proxectos, idiomas e "
-"listas de compoñentes)."
+"Os grupos conectan roles e usuarios con obxectos de autenticación ("
+"proxectos, idiomas, compoñentes e listas de compoñentes)."
 
 #: ../../admin/access.rst:343
 msgid ""
@@ -816,10 +720,8 @@ msgstr ""
 "para examinar o proxecto por parte de calquera (ver embaixo)."
 
 #: ../../admin/access.rst:347
-#, fuzzy
-#| msgid "Project access control"
 msgid "Project-browsing access"
-msgstr "Control de acceso ao proxecto"
+msgstr "Acceso á navegación por proxectos"
 
 #: ../../admin/access.rst:349
 msgid ""
@@ -834,10 +736,8 @@ msgstr ""
 "`Lectores` predeterminado, consulte :ref:`default-teams`)."
 
 #: ../../admin/access.rst:355
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component-browsing access"
-msgstr "Alertas de compoñentes"
+msgstr "Acceso á navegación por compoñentes"
 
 #: ../../admin/access.rst:357
 msgid ""
@@ -933,16 +833,12 @@ msgstr ""
 "para automatizar a inclusión de todos os idiomas ou proxectos."
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
-#| "``foo/baz`` and the following team:"
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
-"Digamos que hai un proxecto ``foo`` cos compoñentes: ``foo/bar`` e ``foo/"
-"baz`` e o seguinte equipo:"
+"Un proxecto ``foo`` cos compoñentes: ``foo/bar`` e ``foo/baz`` con dereitos "
+"de revisión e xestión, no seguinte equipo:"
 
 #: ../../admin/access.rst:406
 msgid "Group `Spanish Admin-Reviewers`"
@@ -965,15 +861,11 @@ msgid "`Spanish`"
 msgstr "`Español`"
 
 #: ../../admin/access.rst:418
-#, fuzzy
-#| msgid ""
-#| "Members of that team will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have these permissions (assuming the default role "
 "settings):"
 msgstr ""
-"Os membros dese equipo terán os seguintes permisos (asumindo a configuración "
+"Os membros dese equipo terán estes permisos (asumindo a configuración "
 "predeterminada do rol):"
 
 #: ../../admin/access.rst:420
@@ -1518,18 +1410,13 @@ msgid "Manage site-wide add-ons"
 msgstr "Xestionar os engadidos de todo o sitio"
 
 #: ../../admin/access.rst:600
-#, fuzzy
-#| msgid ""
-#| "Site-wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to superuser status. Most of them affect all "
-#| "projects in your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 "Non se conceden privilexios en todo o sitio a ningún rol predeterminado. "
-"Estes son moi potentes e bastante próximos ao estado de superusuario. A "
+"Estes son moi potentes e bastante próximos ao status de superusuario. A "
 "maioría deles afectan a todos os proxectos da súa instalación de Weblate."
 
 #: ../../admin/access.rst:605
@@ -1541,33 +1428,6 @@ msgid "`Administration`"
 msgstr "`Administración`"
 
 #: ../../admin/access.rst:611
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:"
-#| "`Post comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :"
-#| "guilabel:`Edit component settings`, :guilabel:`Lock component, preventing "
-#| "translations`, :guilabel:`Add glossary entry`, :guilabel:`Delete glossary "
-#| "entry`, :guilabel:`Edit glossary entry`, :guilabel:`Upload glossary "
-#| "entries`, :guilabel:`Use automatic suggestions`, :guilabel:`Delete "
-#| "translation memory`, :guilabel:`Edit translation memory`, :guilabel:`Edit "
-#| "project settings`, :guilabel:`Manage project access`, :guilabel:`Download "
-#| "reports`, :guilabel:`Add screenshot`, :guilabel:`Delete screenshot`, :"
-#| "guilabel:`Edit screenshot`, :guilabel:`Edit additional string info`, :"
-#| "guilabel:`Accept suggestion`, :guilabel:`Add suggestion`, :guilabel:"
-#| "`Delete suggestion`, :guilabel:`Vote on suggestion`, :guilabel:`Add "
-#| "language for translation`, :guilabel:`Add several languages for "
-#| "translation`, :guilabel:`Perform automatic translation`, :guilabel:"
-#| "`Delete existing translation`, :guilabel:`Download translation file`, :"
-#| "guilabel:`Add new string`, :guilabel:`Dismiss failing check`, :guilabel:"
-#| "`Remove a string`, :guilabel:`Edit strings`, :guilabel:`Edit string when "
-#| "suggestions are enforced`, :guilabel:`Review strings`, :guilabel:`Edit "
-#| "source strings`, :guilabel:`Define author of uploaded translation`, :"
-#| "guilabel:`Overwrite existing strings with upload`, :guilabel:`Upload "
-#| "translations`, :guilabel:`Access the internal repository`, :guilabel:"
-#| "`Commit changes to the internal repository`, :guilabel:`Push change from "
-#| "the internal repository`, :guilabel:`Reset changes in the internal "
-#| "repository`, :guilabel:`Update the internal repository`, :guilabel:`View "
-#| "upstream repository location`"
 msgid ""
 ":guilabel:`View billing info`, :guilabel:`Download changes`, :guilabel:`Post "
 "comment`, :guilabel:`Delete comment`, :guilabel:`Resolve comment`, :guilabel:"
@@ -1595,34 +1455,34 @@ msgid ""
 "guilabel:`Update the internal repository`, :guilabel:`View upstream "
 "repository location`"
 msgstr ""
-":guilabel:`Ver os datos de facturación`, :guilabel:`Descargar os cambios`, :"
-"guilabel:`Publicar comentarios`, :guilabel:`Eliminar comentarios`, :guilabel:"
-"`Solucionar comentarios`, :guilabel:`Editar os axustes dos compoñentes`, :"
-"guilabel:`Bloquear un compoñente, impedindo as traducións`, :guilabel:"
-"`Engadir entrada no glosario`, :guilabel:`Eliminar entrada do glosario`, :"
-"guilabel:`Editar entrada do glosario`, :guilabel:`Enviar entradas do "
-"glosario`, :guilabel:`Usar as suxestións automáticas`, :guilabel:`Eliminar a "
-"memoria de tradución`, :guilabel:`Editar a memoria de tradución`, :guilabel:"
-"`Editar os axustes do proxecto`, :guilabel:`Xestionar o acceso ao "
-"proxecto`, :guilabel:`Descargar informes`, :guilabel:`Engadir capturas de "
-"pantalla`, :guilabel:`Eliminar capturas de pantalla`, :guilabel:`Editar "
-"capturas de pantalla`, :guilabel:`Editar a información adicional das "
-"cadeas`, :guilabel:`Aceptar suxestións`, :guilabel:`Engadir suxestións`, :"
-"guilabel:`Eliminar suxestións`, :guilabel:`Votar nas suxestións`, :guilabel:"
-"`Engadir idioma para tradución`, :guilabel:`Engadir varios idiomas para "
-"tradución`, :guilabel:`Facer traducións de xeito automático`, :guilabel:"
-"`Eliminar traducións existentes`, :guilabel:`Descargar ficheiros de "
-"tradución`, :guilabel:`Engadir novas cadeas`, :guilabel:`Desbotar "
-"comprobacións falladas`, :guilabel:`Retirar unha cadea`, :guilabel:`Editar "
-"cadeas`, :guilabel:`Editar as cadeas cando son obrigatorias as suxestións`, :"
-"guilabel:`Revisar as cadeas`, :guilabel:`Editar as cadeas de orixe`, :"
-"guilabel:`Definir a autoría da tradución enviada`, :guilabel:`Sobrescribir "
-"cadeas existentes ao enviar` , :guilabel:`Enviar traducións`, :guilabel:"
-"`Acceder ao repositorio interno`, :guilabel:`Facer «commit» dos cambios no "
-"repositorio interno`, :guilabel:`Facer «push» dos cambios do repositorio "
-"interno`, :guilabel:`Restabelecer os cambios no repositorio interno`, :"
-"guilabel:`Actualizar o repositorio interno`, :guilabel:`Ver a localización "
-"do repositorio de orixe`"
+":guilabel:`Ver os datos de facturación`, :guilabel:`Descargar os cambios`, "
+":guilabel:`Publicar comentarios`, :guilabel:`Eliminar comentarios`, "
+":guilabel:`Solucionar comentarios`, :guilabel:`Editar os axustes dos "
+"compoñentes`, :guilabel:`Bloquear un compoñente, impedindo as traducións`, "
+":guilabel:`Engadir entrada no glosario`, :guilabel:`Eliminar entrada do "
+"glosario`, :guilabel:`Editar entrada do glosario`, :guilabel:`Engadir "
+"terminoloxía ao glosario` :guilabel:`Enviar entradas ao glosario`, "
+":guilabel:`Usar as suxestións automáticas`, :guilabel:`Eliminar a memoria de "
+"tradución`, :guilabel:`Editar a memoria de tradución`, :guilabel:`Editar os "
+"axustes do proxecto`, :guilabel:`Xestionar o acceso ao proxecto`, :guilabel:`"
+"Descargar informes`, :guilabel:`Engadir capturas de pantalla`, :guilabel:`"
+"Eliminar capturas de pantalla`, :guilabel:`Editar capturas de pantalla`, "
+":guilabel:`Editar a información adicional das cadeas`, :guilabel:`Aceptar "
+"suxestións`, :guilabel:`Engadir suxestións`, :guilabel:`Eliminar suxestións`"
+", :guilabel:`Votar nas suxestións`, :guilabel:`Engadir idioma para tradución`"
+", :guilabel:`Engadir varios idiomas para tradución`, :guilabel:`Facer "
+"traducións de xeito automático`, :guilabel:`Eliminar traducións existentes`, "
+":guilabel:`Descargar ficheiros de tradución`, :guilabel:`Engadir novas "
+"cadeas`, :guilabel:`Desbotar comprobacións falladas`, :guilabel:`Retirar "
+"unha cadea`, :guilabel:`Editar cadeas`, :guilabel:`Editar as cadeas cando "
+"son obrigatorias as suxestións`, :guilabel:`Revisar as cadeas`, :guilabel:`"
+"Editar as cadeas de orixe`, :guilabel:`Definir a autoría da tradución "
+"enviada`, :guilabel:`Sobrescribir cadeas existentes ao enviar` , :guilabel:`"
+"Enviar traducións`, :guilabel:`Acceder ao repositorio interno`, :guilabel:`"
+"Facer «commit» dos cambios no repositorio interno`, :guilabel:`Facer «push» "
+"dos cambios do repositorio interno`, :guilabel:`Restabelecer os cambios no "
+"repositorio interno`, :guilabel:`Actualizar o repositorio interno`, "
+":guilabel:`Ver a localización do repositorio de orixe`"
 
 #: ../../admin/access.rst:612
 msgid "`Edit source`"
@@ -1670,18 +1530,14 @@ msgid "`Manage glossary`"
 msgstr "`Xestionar o glosario`"
 
 #: ../../admin/access.rst:619
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :"
-#| "guilabel:`Edit glossary entry`, :guilabel:`Upload glossary entries`"
 msgid ""
 ":guilabel:`Add glossary entry`, :guilabel:`Delete glossary entry`, :guilabel:"
 "`Edit glossary entry`, :guilabel:`Add glossary terminology`, :guilabel:"
 "`Upload glossary entries`"
 msgstr ""
 ":guilabel:`Engadir entrada no glosario`, :guilabel:`Eliminar entrada do "
-"glosario`, :guilabel:`Editar entrada do glosario`, :guilabel:`Enviar "
-"entradas do glosario`"
+"glosario`, :guilabel:`Editar entrada do glosario`, :guilabel:`Engadir "
+"terminoloxía ao glosario`, :guilabel:`Enviar entradas ao glosario`"
 
 #: ../../admin/access.rst:620
 msgid "`Power user`"
@@ -1855,6 +1711,8 @@ msgstr ""
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Este equipo contén só usuarios anónimos (consulte "
+":setting:`ANONYMOUSER_NAME`)."
 
 #: ../../admin/access.rst:655
 msgid ""
@@ -1904,7 +1762,7 @@ msgstr "`Revisores`"
 
 #: ../../admin/access.rst:678
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "Grupo para revisores (consulte :ref:`workflows`)."
 
 #: ../../admin/access.rst:680
 msgid "Default roles: `Review strings`"
@@ -3588,11 +3446,11 @@ msgstr "Estilo de sangría de JSON"
 
 #: ../../admin/addons.rst:774
 msgid "``spaces`` -- Spaces"
-msgstr ""
+msgstr "``spaces`` -- Espazos"
 
 #: ../../admin/addons.rst:776
 msgid "``tabs`` -- Tabs"
-msgstr ""
+msgstr "``tabs`` -- Tabulacións"
 
 #: ../../admin/addons.rst:780
 msgid ""
@@ -3615,7 +3473,7 @@ msgstr "``case_sensitive``"
 
 #: ../../admin/addons.rst:789
 msgid "Enable case-sensitive key sorting"
-msgstr "Activar a clasificación por maiúsculas e minúsculas"
+msgstr "Activar a ordenación por maiúsculas e minúsculas"
 
 #: ../../admin/addons.rst:793
 msgid "Formats and sorts the Java properties file."
@@ -4535,21 +4393,22 @@ msgid ":doc:`psa:backends/gitlab`"
 msgstr ""
 
 #: ../../admin/auth.rst:289
-#, fuzzy
-#| msgid "Google OAuth 2"
 msgid "Gitea OAuth 2"
-msgstr "Google OAuth 2"
+msgstr "Gitea OAuth 2"
 
 #: ../../admin/auth.rst:291
 msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
+"Para usar Gitea OAuth 2, compre rexistrar unha aplicación en ``https://"
+"SERVIDOR GITEA/user/settings/applications``."
 
 #: ../../admin/auth.rst:294
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 msgstr ""
+"O URL de redirección é ``https://SERVIDOR WEBLATE/accounts/complete/gitea/``."
 
 #: ../../admin/auth.rst:316
 msgid ""
@@ -4557,14 +4416,17 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <http://"
 "translate.codeberg.org>`_"
 msgstr ""
+"A configuración anterior tamén funciona con Forgejo; para un exemplo de "
+"implementación en produción con Forgejo, consulte `Codeberg Translate "
+"<http://translate.codeberg.org>`_"
 
 #: ../../admin/auth.rst:322
 msgid ":doc:`psa:backends/gitea`"
-msgstr ""
+msgstr ":doc:`psa:backends/gitea`"
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Active Directory de Microsoft Azure"
 
 #: ../../admin/auth.rst:329
 msgid ""
@@ -4962,26 +4824,25 @@ msgstr ""
 "súa conta ao requirir máis ca un contrasinal para acceder."
 
 #: ../../admin/auth.rst:791
-#, fuzzy
-#| msgid "It offers the following options:"
 msgid "Weblate supports the following second factors:"
-msgstr "Ofrece as seguintes opcións:"
+msgstr "Weblate admite os seguintes segundos factores:"
 
 #: ../../admin/auth.rst:793
 msgid "Security keys (WebAuthn)"
 msgstr "Chaves de seguranza (WebAuthn)"
 
 #: ../../admin/auth.rst:794
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "Both, Passkeys and security keys are supported."
-msgstr "Retirouse o convite ao usuario."
+msgstr "Admítense tanto as chaves de acceso coma as de seguranza."
 
 #: ../../admin/auth.rst:796
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"As chaves de acceso validan a súa identidade mediante o tacto, o "
+"recoñecemento facial, un contrasinal de dispositivo ou un PIN xa que inclúen "
+"a verificación do usuario."
 
 #: ../../admin/auth.rst:798
 msgid ""
@@ -4990,10 +4851,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:800
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator app (TOTP)"
-msgstr "Autenticación"
+msgstr "Aplicación de autenticación (TOTP)"
 
 #: ../../admin/auth.rst:801
 msgid ""
@@ -5002,6 +4861,10 @@ msgid ""
 "time passwords that are used as a second factor to verify your identity when "
 "prompted during sign-in."
 msgstr ""
+"As aplicacións de autenticación e as extensións do navegador como Aegis, "
+"Bitwarden, Google Authenticator, 1Password, Authy, Microsoft Authenticator, "
+"etc. xeran contrasinais únicos que se usan como segundo factor para "
+"verificar a súa identidade cando se lle solicita durante o inicio de sesión."
 
 #: ../../admin/auth.rst:806
 msgid "Recovery codes"
@@ -7562,14 +7425,12 @@ msgid "OCR trained data for :ref:`screenshots`."
 msgstr "Datos adestrados en OCR para :ref:`screenshots`."
 
 #: ../../admin/config.rst:311
-#, fuzzy
-#| msgid ""
-#| "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
 "CSP_FORM_SRC"
 msgstr ""
-"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
+"CSP_FORM_SRC"
 
 #: ../../admin/config.rst:313
 msgid ""
@@ -9087,28 +8948,30 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1675
-#, fuzzy
-#| msgid "Push is disabled for %s."
 msgid "This is turned off by default now, used to be turned on by default."
-msgstr "O pulo está desactivado para %s."
+msgstr ""
+"Agora está desactivado de xeito predeterminado, antes estaba activado de "
+"xeito predeterminado."
 
 #: ../../admin/config.rst:1680
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1682
 msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Configura a taxa de mostraxe para o seguimento do perfilado. Defínao como 1 "
+"para rastrexar todos os eventos, 0 (o predeterminado) desactiva o rastrexado."
 
 #: ../../admin/config.rst:1686
 msgid "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
-msgstr ""
+msgstr "`Perfil de Sentry <https://docs.sentry.io/product/explore/profiling/>`_"
 
 #: ../../admin/config.rst:1691
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1695
 msgid ""
@@ -10259,6 +10122,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+"A comprobación :ref:`check-inconsistent` desenvólvese sempre que as cadeas "
+"sexan diferentes. Pode utilizalo para revisar manualmente estas diferenzas e "
+"escoller a tradución correcta."
 
 #: ../../admin/continuous.rst:486
 msgid ""
@@ -11662,7 +11528,7 @@ msgstr ""
 
 #: ../../admin/install.rst:823
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
 #: ../../admin/install.rst:828
 msgid "``DEFAULT_FROM_EMAIL``"
@@ -11757,11 +11623,11 @@ msgstr ""
 
 #: ../../admin/install.rst:903
 msgid "Disable debug mode"
-msgstr ""
+msgstr "Desactivar o modo de depuración"
 
 #: ../../admin/install.rst:905
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
-msgstr ""
+msgstr "Desactive o modo de depuración de Django (:setting:`DEBUG`) con:"
 
 #: ../../admin/install.rst:911
 msgid ""
@@ -12298,15 +12164,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:1372
-#, fuzzy
-#| msgid ""
-#| "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`"
+", :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1382
 msgid "Sample configuration for NGINX and uWSGI"
@@ -13213,10 +13077,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:414
-#, fuzzy
-#| msgid "Starting spaces"
 msgid "Passing secrets"
-msgstr "Espazos iniciais"
+msgstr "Pasando os segredos"
 
 #: ../../admin/install/docker.rst:418
 msgid ""
@@ -13240,7 +13102,7 @@ msgstr "Axustes xenéricos"
 
 #: ../../admin/install/docker.rst:451
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr "Configura o modo de depuración do Django empregando :setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:462 ../../admin/projects.rst:1137
 msgid ":ref:`production-debug`"
@@ -13600,18 +13462,17 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:837
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
-msgstr ""
+msgstr "Permite personalizar a cabeceira HTTP ``Content-Security-Policy`."
 
 #: ../../admin/install/docker.rst:841
-#, fuzzy
-#| msgid ""
-#| "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
+":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
+" :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install/docker.rst:851
 msgid "Configures :setting:`LICENSE_FILTER`."
@@ -15343,21 +15204,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:94
-#, fuzzy
-#| msgid ""
-#| "`Interrobang mark on Wikipedia <https://en.wikipedia.org/wiki/"
-#| "Interrobang>`_"
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
-"`O signo de exclarrogativo (‽) na Wikipedia en portugués <https://pt."
-"wikipedia.org/wiki/Interrobangue>`_ `e en español <https://es.wikipedia.org/"
-"wiki/Interrobang>`_"
+"`Macrolinguas na Wikipedia (en portugués) <https://pt.wikipedia.org/wiki/"
+"Macrolíngua>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Cada idioma consta dos seguintes campos:"
 
 #: ../../admin/languages.rst:104 ../../admin/projects.rst:1034
 #: ../../api.rst:737 ../../api.rst:739 ../../api.rst:806 ../../api.rst:2329
@@ -15372,12 +15228,16 @@ msgid ""
 "wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not have two "
 "letter code. It can also support extended codes as defined by `BCP 47`_."
 msgstr ""
+"Código que identifica o idioma. Weblate prefire os códigos de dúas letras "
+"tal e como se definen en `ISO 639-1 <https://en.wikipedia.org/wiki/"
+"ISO_639-1>`_, mais usa os códigos `ISO 639-2 <https://en.wikipedia.org/wiki/"
+"ISO_639-2>`_ ou `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ para "
+"os idiomas que non teñen código de dúas letras. Tamén pode admitir códigos "
+"estendidos segundo o definido por `BCP 47`_."
 
 #: ../../admin/languages.rst:116
-#, fuzzy
-#| msgid "New translation in %(translation)s"
 msgid ":ref:`language-parsing-codes`, :ref:`adding-translation`"
-msgstr "Nova tradución en %(translation)s"
+msgstr ":ref:`language-parsing-codes`, :ref:`adding-translation`"
 
 #: ../../admin/languages.rst:122 ../../admin/projects.rst:1036
 #: ../../api.rst:722 ../../api.rst:724 ../../api.rst:779 ../../api.rst:790
@@ -15722,10 +15582,8 @@ msgstr ""
 "index>`_"
 
 #: ../../admin/machine.rst:118
-#, fuzzy
-#| msgid "Untranslated"
 msgid "Cyrtranslit"
-msgstr "Sen traducir"
+msgstr "CyrTranslit"
 
 #: ../../admin/machine.rst:122
 msgid "``cyrtranslit``"
@@ -15737,22 +15595,24 @@ msgid "`This service has no configuration.`"
 msgstr "`Este servizo non ten configuración.`"
 
 #: ../../admin/machine.rst:125
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Machine translation service using the Cyrtranslit library."
-msgstr "Empregar servizos da tradución de xeito automático"
+msgstr "Servizo de tradución con máquinas empregando a biblioteca CyrTranslit."
 
 #: ../../admin/machine.rst:127
 msgid ""
 "This service converts text between Cyrillic and Latin scripts for languages "
 "that have both scripts."
 msgstr ""
+"Este servizo converte texto entre os alfabetos cirílico e latino para "
+"linguas que teñen ámbolos dous alfabetos."
 
 #: ../../admin/machine.rst:131
 msgid ""
 "`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
 "transliteration>`_"
 msgstr ""
+"`Repositorio de CyrTranslit <https://github.com/opendatakosovo/cyrillic-"
+"transliteration>`_"
 
 #: ../../admin/machine.rst:136
 msgid "DeepL"
@@ -16326,10 +16186,8 @@ msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr ""
 
 #: ../../admin/machine.rst:470
-#, fuzzy
-#| msgid "``auto`` -- Automatic selection"
 msgid "``custom`` -- Custom model"
-msgstr "``auto`` -- Selección automática"
+msgstr "``custom`` -- Modelo personalizado"
 
 #: ../../admin/machine.rst:472
 msgid "``custom_model``"
@@ -18544,6 +18402,8 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Indica se Weblate debe xestionar a cabeceira ``Language-Team`` (polo de "
+"agora esta é unha función exclusiva de :ref:`gettext`)."
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
@@ -18600,6 +18460,8 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
+"Aplicar a :ref:`2fa` para todos os colaboradores. Os usuarios non poderán "
+"realizar ningunha operación dentro do proxecto sen tela configurada."
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -20570,14 +20432,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/upgrade.rst:39
-#, fuzzy
-#| msgid "Weblate"
 msgid "Upgrade Weblate"
-msgstr "Weblate"
+msgstr "Anovar Weblate"
 
 #: ../../admin/upgrade.rst:41
 msgid "For pip installs it can be achieved by:"
-msgstr ""
+msgstr "Para instalacións de pip pódese acadar mediante:"
 
 #: ../../admin/upgrade.rst:47
 msgid "Or, if you just want to get the latest released version:"
@@ -20634,20 +20494,20 @@ msgid "Restart the Celery worker (see :ref:`celery`)."
 msgstr ""
 
 #: ../../admin/upgrade.rst:114
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Version-specific instructions"
-msgstr "Instrucións de tradución"
+msgstr "Instrucións específicas da versión"
 
 #: ../../admin/upgrade.rst:118
 msgid ""
 "Version specific instructions are now included in the release notes, see :"
 "doc:`/changes`."
 msgstr ""
+"Agora as instrucións específicas da versión están incluídas nas notas de "
+"publicación, consulte: :doc:`/changes`."
 
 #: ../../admin/upgrade.rst:122
 msgid "Upgrade from an older major version"
-msgstr ""
+msgstr "Anovar dende unha versión principal anterior"
 
 #: ../../admin/upgrade.rst:124
 msgid ""
@@ -21876,10 +21736,8 @@ msgid "<json string color"
 msgstr ""
 
 #: ../../api.rst:1213 ../../api.rst:1791
-#, fuzzy
-#| msgid "Checks"
 msgid "Returns contributor credits for a project."
-msgstr "Comprobacións"
+msgstr "Devolve os recoñecementos do colaborador para un proxecto."
 
 #: ../../api.rst:1219 ../../api.rst:1797
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
@@ -21890,38 +21748,32 @@ msgid "Upper-bound ISO 8601 timestamp (mandatory)"
 msgstr ""
 
 #: ../../api.rst:1223 ../../api.rst:1801
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language code to search for"
-msgstr "Estilo de código de idioma"
+msgstr "Código de idioma a buscar"
 
 #: ../../api.rst:1225 ../../api.rst:1803
-#, fuzzy
-#| msgid "New contributor"
 msgid "Email of the contributor"
-msgstr "Novo contribuínte"
+msgstr "Correo-e do colaborador"
 
 #: ../../api.rst:1226 ../../api.rst:1804
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "Full name of the contributor"
-msgstr "Acepto o acordo de colaborador"
+msgstr "Nome completo do colaborador"
 
 #: ../../api.rst:1227 ../../api.rst:1805
-#, fuzzy
-#| msgid "Number of shared entries in this Weblate instance"
 msgid "Number of changes done in the time range"
-msgstr "Número de entradas compartidas nesta instancia de Weblate"
+msgstr "Número de cambios realizados no intervalo de tempo"
 
 #: ../../api.rst:1234
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
+"Use :http:post:`/api/projects/(string:project)/components/` para crear novos "
+"compoñentes."
 
 #: ../../api.rst:1238
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Devolve unha lista de compoñentes de tradución."
 
 #: ../../api.rst:1242
 msgid ""
@@ -23848,23 +23700,19 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.7.1"
-msgstr "Chaves ou claves do Weblate"
+msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet released."
-msgstr "Aínda non se iniciou a sesión"
+msgstr "Aínda non foi publicada."
 
 #: ../../changes.rst:6 ../../changes.rst:29 ../../changes.rst:125
 #: ../../changes.rst:237 ../../changes.rst:274 ../../changes.rst:385
 #: ../../changes.rst:447 ../../changes.rst:509 ../../changes.rst:550
 #: ../../changes.rst:577 ../../changes.rst:653 ../../changes.rst:694
 msgid "**New features**"
-msgstr ""
+msgstr "**Novas funcionalidades**"
 
 #: ../../changes.rst:8 ../../changes.rst:39 ../../changes.rst:105
 #: ../../changes.rst:130 ../../changes.rst:179 ../../changes.rst:201
@@ -23933,32 +23781,32 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:18 ../../changes.rst:74
-#, fuzzy
-#| msgid "Contributors"
 msgid "**Contributors**"
-msgstr "Colaboradores"
+msgstr "**Colaboradores**"
 
 #: ../../changes.rst:22
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
 msgstr ""
+"`Todos os cambios en detalle <https://github.com/WeblateOrg/weblate/"
+"milestone/125?closed=1>`__."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.7"
-msgstr "Chaves ou claves do Weblate"
+msgstr "Weblate 5.7"
 
 #: ../../changes.rst:27
 msgid "Released on August 15th 2024."
-msgstr ""
+msgstr "Publicada o 15 de agosto de 2024."
 
 #: ../../changes.rst:31
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
+":ref:`2fa` agora é compatíbel con chaves de acceso, WebAuthn, aplicacións de "
+"autenticación (TOTP) e códigos de recuperación."
 
 #: ../../changes.rst:32
 msgid ":ref:`2fa` can be enforced at the team or project level."
@@ -23986,10 +23834,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Invalid suggestion!"
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
-msgstr "Suxestión incorrecta!"
+msgstr "Servizo de suxestión automática :ref:`mt-cyrtranslit`."
 
 #: ../../changes.rst:41
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
@@ -24006,18 +23852,18 @@ msgid ":ref:`reports` are now available for categories."
 msgstr ""
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Focus translation editor"
 msgid "Highlight newlines in the editor."
-msgstr "Centrarse no editor de traducións"
+msgstr "Destacar os saltos de liña no editor."
 
 #: ../../changes.rst:45
 msgid ":doc:`/formats/csv` better handle with with two fields only."
-msgstr ""
+msgstr "Os :doc:`/formats/csv` manexanse mellor con só dous campos."
 
 #: ../../changes.rst:46
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
+"Agora pódese desprazar no modo de navegación usando o teclado, consulte "
+":ref:`keyboard`."
 
 #: ../../changes.rst:47
 msgid ""
@@ -24025,28 +23871,31 @@ msgid ""
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/credits/` e "
+":http:get:`/api/projects/(string:project)/credits/` Puntos finais da API "
+"para compoñentes e proxectos."
 
 #: ../../changes.rst:48
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
+"As entradas de :ref:`glossary-terminology`no glosario só poden ser engadidas "
+"por usuarios con permiso para :guilabel:`Engadir terminoloxía ao glosario`."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Format string does not match source"
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
-msgstr "O formato da cadea non casa coa orixe"
+msgstr ":ref:`check-python-brace-format` detecta chaves adicionais."
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "Hai algunhas mudanzas que non se invaron!"
+msgstr ""
+"Agora as capturas da pantalla poden ser pegadas dende o portapapeis en :ref:`"
+"capturas da pantalla`."
 
 #: ../../changes.rst:54
 msgid "Accessibility of keyboard navigation."
-msgstr ""
+msgstr "Accesibilidade da navegación co teclado."
 
 #: ../../changes.rst:55
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
@@ -24102,10 +23951,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes/contributors/5.7.rst:2
-#, fuzzy
-#| msgid "Contributors"
 msgid "Code contributions"
-msgstr "Colaboradores"
+msgstr "Achegas ao código"
 
 #: ../../changes/contributors/5.7.rst:3
 msgid ""
@@ -24115,10 +23962,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes/contributors/5.7.rst:5
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Translations contributions"
-msgstr "Traducións nas que colabora"
+msgstr "Achegas ás traducións"
 
 #: ../../changes/contributors/5.7.rst:6
 msgid ""
@@ -24133,12 +23978,20 @@ msgid ""
 "Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
 "Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 msgstr ""
+"Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
+"gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
+"From Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
+"Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
+"Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
+"قادر, Horus68, ssantos, M. D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, "
+"mpt.c, ovl-1, Fjuro, Luna, Antônio Breno, alefsanderribeiro, Alefsander "
+"Ribeiro Nascimento, Ian Perdiansah, amano, Petter Reinholdtsen, Malik "
+"Shoaib, Emin Tufan Çetin, John kh, Сергей, tygyh, Semih, Balázs Meskó, "
+"Martin Najemi, Yaron Shahrabani, Rhoslyn Prys"
 
 #: ../../changes/contributors/5.7.rst:8
-#, fuzzy
-#| msgid "Documentation"
 msgid "Documentation contributions"
-msgstr "Documentación"
+msgstr "Achegas á documentación"
 
 #: ../../changes/contributors/5.7.rst:9
 msgid ""
@@ -24153,41 +24006,34 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:81
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.6.2"
-msgstr "Chaves ou claves do Weblate"
+msgstr "Weblate 5.6.2"
 
 #: ../../changes.rst:83
 msgid "Released on July 1st 2024."
-msgstr ""
+msgstr "Publicada o 1 de xullo de 2024."
 
 #: ../../changes.rst:87
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid "%(count)s outgoing commit"
-#| msgid_plural "%(count)s outgoing commits"
 msgid "Detection of pending outgoing commits."
-msgstr "%(count)s «commit» de saída"
+msgstr "Detección de «commits» de saída pendentes."
 
 #: ../../changes.rst:89
 msgid ":ref:`addons` button layout."
-msgstr ""
+msgstr "Deseño do botón :ref:`addons`."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+"Produciuse unha creba ao instalar o engadido :ref:`addon-weblate.discovery."
+"discovery`."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Removal of source strings in :ref:`glossary`."
-msgstr "Revisar cadeas de orixe en %s"
+msgstr "Retirada das cadeas de orixe en :ref:`glossary`."
 
 #: ../../changes.rst:92
 msgid ""
@@ -24202,14 +24048,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:101
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.6.1"
-msgstr "Chaves ou claves do Weblate"
+msgstr "Weblate 5.6.1"
 
 #: ../../changes.rst:103
 msgid "Released on June 24th 2024."
-msgstr ""
+msgstr "Publicada o 24 de xuño de 2024."
 
 #: ../../changes.rst:107
 msgid ""
@@ -24223,10 +24067,8 @@ msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 
 #: ../../changes.rst:112
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr ":doc:`/admin/machine`"
+msgstr "Alias de idioma en :doc:`/admin/machine`."
 
 #: ../../changes.rst:118
 msgid ""
@@ -24235,14 +24077,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:121
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.6"
-msgstr "Chaves ou claves do Weblate"
+msgstr "Weblate 5.6"
 
 #: ../../changes.rst:123
 msgid "Released on June 19th 2024."
-msgstr ""
+msgstr "Publicada o 19 de xuño de 2024."
 
 #: ../../changes.rst:127
 msgid ":ref:`addons` activity log for tracking add-on activity."
@@ -24707,7 +24547,7 @@ msgstr "Isto fará «push» dos cambios no repositorio de orixe."
 
 #: ../../changes.rst:335
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
-msgstr ""
+msgstr "Evita a creba ao instalar :ref:`addon-weblate.generate.pseudolocale`."
 
 #: ../../changes.rst:336
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
@@ -25346,10 +25186,9 @@ msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
 
 #: ../../changes.rst:604
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Occasional crash in :ref:`machine-translation` caching."
-msgstr ":ref:`machine-translation`"
+msgstr ""
+"Creba ocasional no almacenamento en caché da :ref:`machine-translation`."
 
 #: ../../changes.rst:605
 #, fuzzy
@@ -25431,10 +25270,8 @@ msgid "Translating a language inside a category."
 msgstr "A lingua base da tradución pode ser editada."
 
 #: ../../changes.rst:638
-#, fuzzy
-#| msgid "Author name"
 msgid "Categories sorting."
-msgstr "Nome do autor"
+msgstr "Clasificación por categorías."
 
 #: ../../changes.rst:644 ../../changes.rst:685
 msgid ""
@@ -25920,7 +25757,7 @@ msgstr ""
 
 #: ../../changes/v0.rst:66
 msgid "Added client side sorting of tables."
-msgstr ""
+msgstr "Engadida a ordenación de táboas no lado do cliente."
 
 #: ../../changes/v0.rst:67
 msgid "Please check upgrading instructions in case you are upgrading."
@@ -26224,7 +26061,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:62
 msgid "Fixed sorting of machine translation suggestions."
-msgstr ""
+msgstr "Corrixida a ordenación das suxestións de tradución con máquinas."
 
 #: ../../changes/v1.rst:63
 msgid "Improved support for MyMemory machine translation."
@@ -28680,7 +28517,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:153
 msgid "Fixed potential crash in reports."
-msgstr ""
+msgstr "Corrixida a posíbel creba nos informes."
 
 #: ../../changes/v3.rst:154
 msgid "Fixed cross database migration failure."
@@ -28704,7 +28541,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:159
 msgid "Fixed possible crash on adding strings to JSON file."
-msgstr ""
+msgstr "Corrixida a posíbel creba ao engadir cadeas ao ficheiro JSON."
 
 #: ../../changes/v3.rst:160
 msgid "Safe HTML check and fixup now honor source string markup."
@@ -30359,10 +30196,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes/v4.rst:186
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Fixed crash on uploading corrupted files."
-msgstr "Hai algunhas mudanzas que non se invaron!"
+msgstr "Corrixida a creba ao enviar ficheiros estragados."
 
 #: ../../changes/v4.rst:187
 msgid "Show stale directories in Git repository status."
@@ -30391,14 +30226,8 @@ msgid "Fixed suggestions from automatic translation."
 msgstr "Facer unha tradución de xeito automático"
 
 #: ../../changes/v4.rst:197
-#, fuzzy
-#| msgid ""
-#| "The user management in Weblate is disabled, you can change permissions in "
-#| "the Django admin interface."
 msgid "Fixed add-on page crash in some corner cases."
-msgstr ""
-"A xestión de usuarios no Weblate está desactivada, podes mudar os permisos "
-"na interface de administración do Django."
+msgstr "Corrixida a creba da páxina do engadido nalgúns casos concretos."
 
 #: ../../changes/v4.rst:198
 #, fuzzy
@@ -31095,10 +30924,8 @@ msgid "Fixed rebuilding project translation-memory for some components."
 msgstr "Edita-la memoria da tradución"
 
 #: ../../changes/v4.rst:392
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Fixed sorting components by untranslated strings."
-msgstr "Cadeas non traducidas"
+msgstr "Corrixida a ordenación de compoñentes por cadeas sen traducir."
 
 #: ../../changes/v4.rst:393
 #, fuzzy
@@ -31988,10 +31815,8 @@ msgid "Fixed cleanup add-on for Windows RC files."
 msgstr "Non foi atopada ningunha cadea de orixe que coincidira."
 
 #: ../../changes/v4.rst:657
-#, fuzzy
-#| msgid "New translation in %(translation)s"
 msgid "Fixed possible crash in XLIFF updating."
-msgstr "Nova tradución en %(translation)s"
+msgstr "Corrixida a posíbel creba na actualización de XLIFF."
 
 #: ../../changes/v4.rst:659
 msgid ""
@@ -32182,10 +32007,8 @@ msgid "Released on May 8th 2021."
 msgstr ""
 
 #: ../../changes/v4.rst:713
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Fixed crash after moving shared component between projects."
-msgstr "Hai algunhas mudanzas que non se invaron!"
+msgstr "Corrixida a creba após mover o compoñente compartido entre proxectos."
 
 #: ../../changes/v4.rst:714
 msgid "Fixed adding new strings to empty properties files."
@@ -32420,10 +32243,8 @@ msgid "Fixed metrics collection."
 msgstr ""
 
 #: ../../changes/v4.rst:783
-#, fuzzy
-#| msgid "New translation in %(translation)s"
 msgid "Fixed possible crash when adding strings."
-msgstr "Nova tradución en %(translation)s"
+msgstr "Corrixida a posíbel creba ao engadir cadeas."
 
 #: ../../changes/v4.rst:784
 #, fuzzy
@@ -33021,10 +32842,8 @@ msgid "Released on November 4th 2020."
 msgstr ""
 
 #: ../../changes/v4.rst:953
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Fixed crash on certain component file masks."
-msgstr "Hai algunhas mudanzas que non se invaron!"
+msgstr "Corrixida a creba en certas máscaras de ficheiro de compoñente."
 
 #: ../../changes/v4.rst:954
 #, fuzzy
@@ -33359,7 +33178,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1048
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr ""
+msgstr "Corrixida a creba na notificación do progreso da tradución automática."
 
 #: ../../changes/v4.rst:1049
 msgid "Fixed Git commit squashing with trailers enabled."
@@ -33384,10 +33203,8 @@ msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
 
 #: ../../changes/v4.rst:1058
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed crash in the cleanup add-on for some XLIFF files."
-msgstr "Non foi atopada ningunha cadea de orixe que coincidira."
+msgstr "Corrixida a creba no engadido de limpeza para algúns ficheiros XLIFF."
 
 #: ../../changes/v4.rst:1059
 msgid "Allow setting up localization CDN in Docker image."
@@ -33578,7 +33395,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1114
 msgid "Fixed possible crash in \"About\" page."
-msgstr ""
+msgstr "Corrixida a posíbel creba na páxina «Sobre»."
 
 #: ../../changes/v4.rst:1115
 msgid "Improved installation of byte-compiled locale files."
@@ -33831,7 +33648,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1190
 msgid "Fixed crash on displaying some checks."
-msgstr ""
+msgstr "Corrixida a creba ao amosar algunhas comprobacións."
 
 #: ../../changes/v4.rst:1191
 msgid "Fixed screenshots listing."
@@ -33857,7 +33674,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1200
 msgid "Fixed possible crash in reports."
-msgstr ""
+msgstr "Corrixida a posíbel creba nos informes."
 
 #: ../../changes/v4.rst:1201
 msgid "User mentions in comments are now case insensitive."
@@ -33873,7 +33690,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1204
 msgid "Fixed crash when upstream repository is gone."
-msgstr ""
+msgstr "Corrixida a creba cando o repositorio de orixe desaparece."
 
 #: ../../changes/v4.rst:1207
 msgid "Weblate 4.0.2"
@@ -33893,7 +33710,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1215
 msgid "Fixed possible crash on component deletion."
-msgstr ""
+msgstr "Corrixida a posíbel creba na eliminación do compoñente."
 
 #: ../../changes/v4.rst:1216
 msgid "Fixed displaying of translation changes in some corner cases."
@@ -34569,7 +34386,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:76
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "Analizando crebas na aplicación"
 
 #: ../../contributing/debugging.rst:78
 msgid ""
@@ -34690,46 +34507,46 @@ msgid "Run ``yarn install``"
 msgstr ""
 
 #: ../../contributing/frontend.rst:36
-#, fuzzy
-#| msgid "Install"
 msgid "1- Installation"
-msgstr "Instalar"
+msgstr "1- Instalación"
 
 #: ../../contributing/frontend.rst:38
 msgid "To install a library, 1st run the following command:"
-msgstr ""
+msgstr "Para instalar unha biblioteca, primeiro execute a seguinte orde:"
 
 #: ../../contributing/frontend.rst:45
-#, fuzzy
-#| msgid "Importing backup"
 msgid "2- Importing the Library"
-msgstr "Importando a copia de seguranza"
+msgstr "2- Importando a biblioteca"
 
 #: ../../contributing/frontend.rst:47
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "Entón, hai dous xeitos para importar a biblioteca:"
 
 #: ../../contributing/frontend.rst:49
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"Se é unha biblioteca de proxecto (úsase/necesítase en todas/a maioría das "
+"páxinas):"
 
 #: ../../contributing/frontend.rst:50
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Importe a biblioteca en ``src/main.js``."
 
 #: ../../contributing/frontend.rst:52
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Se é unha biblioteca específica da páxina (a biblioteca úsase nunha páxina "
+"ou modelo específico):"
 
 #: ../../contributing/frontend.rst:53
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Crear un novo ficheiro nomeado ``src/<nome-da-biblioteca>.js``."
 
 #: ../../contributing/frontend.rst:54
 msgid "Import the library in it."
-msgstr ""
+msgstr "Importa a biblioteca nel."
 
 #: ../../contributing/frontend.rst:55
 msgid ""
@@ -35330,10 +35147,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/issues.rst:19
-#, fuzzy
-#| msgid "Security issues"
 msgid "Reporting security issues"
-msgstr "Incidencias de seguranza"
+msgstr "Informar de incidencias de seguranza"
 
 #: ../../contributing/issues.rst:21
 msgid ""
@@ -35414,7 +35229,7 @@ msgstr ""
 
 #: ../../../README.rst:78 ../../contributing/license.rst:7
 msgid "Copyright © Michal Čihař michal@weblate.org"
-msgstr ""
+msgstr "Dereitos de autoría © de Michal Čihař michal@weblate.org"
 
 #: ../../../README.rst:80 ../../contributing/license.rst:9
 msgid ""
@@ -36287,21 +36102,18 @@ msgstr ""
 "nosos usuarios."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows The Linux Foundation Core Infrastructure "
-#| "Initiative Best Practices."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/"
 "en/projects/552>`_."
 msgstr ""
-"O desenvolvemento do Weblate, segue as boas prácticas da iniciativa de "
-"infraestrutura principal da Fundación Linux."
+"O desenvolvemento de Weblate adhírese a `Iniciativa de boas prácticas da "
+"infraestrutura do núcleo da Fundación Linux <https://www.bestpractices.dev/"
+"en/projects/552>`_."
 
 #: ../../contributing/security.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
-msgstr ""
+msgstr "Descubriu un incidente de seguranza en Weblate? Lea :ref:`security`."
 
 #: ../../contributing/security.rst:15
 #, fuzzy
@@ -36540,6 +36352,10 @@ msgid ""
 "IDE. For that you need to specify the root path of the Django project and "
 "the path to its settings:"
 msgstr ""
+"O segundo paso é definir a información correcta para usar Django de xeito "
+"nativo dentro de PyCharm: A idea é poder activar inmediatamente as probas "
+"unitarias no IDE. Para iso, debe especificar a ruta raíz do proxecto Django "
+"e a ruta aos seus axustes:"
 
 #: ../../contributing/start.rst:155
 msgid ""
@@ -37329,6 +37145,8 @@ msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with children."
 msgstr ""
+"Polo de agora, só se extrae o texto dos elementos. Este engadido non admite "
+"a localización de atributos de elementos ou elementos con fillos."
 
 #: ../../devel/html.rst:101
 #, fuzzy
@@ -37494,10 +37312,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Localization"
 msgid "Importing a localization project into Weblate"
-msgstr "Localización"
+msgstr "Importar un proxecto de tradución en Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -37637,10 +37453,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:94
-#, fuzzy
-#| msgid "String target language"
 msgid "Updating target-language files"
-msgstr "Lingua de destino da cadea"
+msgstr "Actualización dos ficheiros do idioma de destino"
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -37674,10 +37488,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:124
-#, fuzzy
-#| msgid "Add new string"
 msgid "Introducing new strings"
-msgstr "Engadir unha nova cadea"
+msgstr "Engadir novas cadeas"
 
 #: ../../devel/integration.rst:126
 msgid ""
@@ -37723,11 +37535,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:160
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "Managing the local VCS repository"
-msgstr "Xestionar o repositorio"
+msgstr "Xestionar o repositorio local de SCV (VCS)"
 
 #: ../../devel/integration.rst:162
 msgid ""
@@ -38443,6 +38252,10 @@ msgid ""
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
+"Pódense engadir novos idiomas de inmediato cando o solicite un usuario en "
+"Weblate ou enviarase unha notificación á administración do proxecto para a "
+"súa aprobación e a súa adición manual. Isto pódese facer empregando :ref"
+":`component-new_lang` en :ref:`component`."
 
 #: ../../devel/translations.rst:21
 msgid ""
@@ -40139,16 +39952,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats/android.rst:87
-#, fuzzy
-#| msgid "For example: ``{{ component }}/res/values/string.xml``"
 msgid "``commonMain/composeResources/values-*/strings.xml``"
-msgstr "Por exemplo: ``{{ component }}/res/values/string.xml``"
+msgstr "``commonMain/composeResources/values-*/strings.xml``"
 
 #: ../../formats/android.rst:89
-#, fuzzy
-#| msgid "For example: ``{{ component }}/res/values/string.xml``"
 msgid "``commonMain/composeResources/values/strings.xml``"
-msgstr "Por exemplo: ``{{ component }}/res/values/string.xml``"
+msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
@@ -40285,15 +40094,15 @@ msgstr ""
 
 #: ../../formats/arb.rst:32
 msgid "``lib/l10n/intl_*.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_*.arb``"
 
 #: ../../formats/arb.rst:34
 msgid "``lib/l10n/intl_en.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_en.arb``"
 
 #: ../../formats/arb.rst:38
 msgid "`ARB file`"
-msgstr ""
+msgstr "`Ficheiro ARB`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -40304,6 +40113,8 @@ msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
 msgstr ""
+"Os ficheiros CSV poden conter unha lista sinxela de orixe e tradución. "
+"Weblate admite os seguintes ficheiros:"
 
 #: ../../formats/csv.rst:13
 msgid ""
@@ -40312,6 +40123,10 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
+"Ficheiros con campos de definición de cabeceira (``location``, ``source``, "
+"``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
+"``developer_comments``). Este é o método recomendado, xa que é o menos "
+"propenso a erros. Escolla :guilabel:`ficheiro CSV` como formato de ficheiro."
 
 #: ../../formats/csv.rst:17
 msgid ""
@@ -40581,10 +40396,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats/gettext.rst:29
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Showing source string change"
-msgstr "Cadea de orixe cambiada"
+msgstr "Amosando o cambio na cadea de orixe"
 
 #: ../../formats/gettext.rst:31
 msgid ""
@@ -42047,14 +41860,12 @@ msgid ""
 msgstr ""
 
 #: ../../../README.rst:70
-#, fuzzy
-#| msgid "Status"
 msgid "Stats"
-msgstr "Estado"
+msgstr "Estatísticas"
 
 #: ../../../README.rst:72
 msgid "Repobeats analytics image"
-msgstr ""
+msgstr "Imaxe analítica de Repobeats"
 
 #: ../../../README.rst:85
 msgid ""
@@ -42063,10 +41874,14 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General Public License "
 "<https://www.gnu.org/licenses/gpl-3.0.html>`_ for more details."
 msgstr ""
+"Este programa distribúese coa esperanza de que sexa útil, mais SEN NINGUNHA "
+"GARANTÍA; sen sequera a garantía implícita de COMERCIALI>ACIÓN ou APTITUDE "
+"PARA UNHA FINALIDADE PARTICULAR. Consulte a `Licenza Pública Xeral de GNU "
+"<https://www.gnu.org/licenses/gpl-3.0.html>`_ para obter máis detalles."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
-msgstr ""
+msgstr "Índices e táboas"
 
 #: ../../index.rst:18
 msgid ":ref:`genindex`"
@@ -46342,16 +46157,12 @@ msgid "``state:TEXT``"
 msgstr ""
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string states (``approved``, ``translated``, ``needs-"
-#| "editing``, ``empty``, ``read-only``), supports :ref:`search-operators`."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``)."
 msgstr ""
 "Buscar polos estados da cadea (``aprobada``, ``traducida``, ``precisa de "
-"edición``, ``baleira``, ``de só lectura``), admite :ref:`search-operators`."
+"edición``, ``baleira``, ``de só lectura``)."
 
 #: ../../user/search.rst:50
 msgid ""
@@ -46359,10 +46170,13 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"Este campo tamén admite :ref:`search-operators`, polo que a busca de cadeas "
+"completadas pódese realizar como ``state:>=translated``, buscando cadeas que "
+"precisen tradución como ``state:<translated``."
 
 #: ../../user/search.rst:51
 msgid "``pending:BOOLEAN``"
-msgstr ""
+msgstr "``pending:BOOLEANO``"
 
 #: ../../user/search.rst:52
 msgid "String pending for flushing to VCS."
@@ -46389,73 +46203,62 @@ msgid "Filters string on a condition:"
 msgstr ""
 
 #: ../../user/search.rst:58
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``read-only`` or ``readonly``"
-msgstr "``read-only``"
+msgstr "``read-only`` ou ``readonly``"
 
 #: ../../user/search.rst:59
 msgid "Read-only strings, same as ``state:read-only``."
-msgstr ""
+msgstr "Cadeas de só lectura, o mesmo que ``state:read-only``."
 
 #: ../../user/search.rst:60
 msgid "``approved``"
 msgstr "``approved``"
 
 #: ../../user/search.rst:61
-#, fuzzy
-#| msgid "Add as approved translation (``approve``)"
 msgid "Approved strings, same as ``state:approved``."
-msgstr "Engadir como tradución aprobada (``aprobar``)"
+msgstr "Cadeas aprobadas, o mesmo que ``state:approved``."
 
 #: ../../user/search.rst:62
 msgid "``needs-editing`` or ``fuzzy``"
-msgstr ""
+msgstr "``needs-editing`` ou ``fuzzy``"
 
 #: ../../user/search.rst:63
 msgid "Needing editing strings, same as ``state:needs-editing``."
-msgstr ""
+msgstr "Precisa de editar cadeas, o mesmo que ``state:needs-editing``."
 
 #: ../../user/search.rst:65
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Translated strings, same as ``state:>translated``."
-msgstr "Utilice esta tradución"
+msgstr "Cadeas traducidas, o mesmo que ``state:>translated``."
 
 #: ../../user/search.rst:66
-#, fuzzy
-#| msgid "``translated``"
 msgid "``untranslated``:"
-msgstr "``translated``"
+msgstr "``untranslated``:"
 
 #: ../../user/search.rst:67
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Untranslated strings, same as ``state:<translated``."
-msgstr "Utilice esta tradución"
+msgstr "Cadeas sen traducir, o mesmo que ``state:<translated``."
 
 #: ../../user/search.rst:68
 msgid "``pending``"
 msgstr "``pending``"
 
 #: ../../user/search.rst:69
-#, fuzzy
-#| msgid "Pending changes not yet committed to the Weblate repository"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
 msgstr ""
-"Aínda non se fixo «commit» dos cambios pendentes no repositorio de Weblate"
+"Cadeas pendentes das que non se fixo «commit» no ficheiro (consulte :ref"
+":`lazy-commit`)."
 
 #: ../../user/search.rst:70 ../../user/search.rst:191
 msgid "``language:TEXT``"
-msgstr ""
+msgstr "``language:TEXTO``"
 
 #: ../../user/search.rst:71
 msgid "String target language."
-msgstr ""
+msgstr "Idioma de destino da cadea."
 
 #: ../../user/search.rst:72
 msgid "``component:TEXT``"
-msgstr ""
+msgstr "``component:TEXTO``"
 
 #: ../../user/search.rst:73
 msgid ""
@@ -46465,7 +46268,7 @@ msgstr ""
 
 #: ../../user/search.rst:74
 msgid "``project:TEXT``"
-msgstr ""
+msgstr "``project:TEXTO``"
 
 #: ../../user/search.rst:75
 msgid "Project slug, see :ref:`project-slug`."
@@ -46473,7 +46276,7 @@ msgstr ""
 
 #: ../../user/search.rst:76
 msgid "``changed_by:TEXT``"
-msgstr ""
+msgstr "``changed_by:TEXTO``"
 
 #: ../../user/search.rst:77
 msgid "String was changed by author with given username."
@@ -46481,7 +46284,7 @@ msgstr ""
 
 #: ../../user/search.rst:78
 msgid "``changed:DATETIME``"
-msgstr ""
+msgstr "``changed:DATA E HORA``"
 
 #: ../../user/search.rst:79 ../../user/search.rst:194
 msgid "String content was changed on date, supports :ref:`search-operators`."
@@ -46500,7 +46303,7 @@ msgstr ""
 
 #: ../../user/search.rst:84
 msgid "``change_action:TEXT``"
-msgstr ""
+msgstr "``change_action:TEXTO``"
 
 #: ../../user/search.rst:85
 msgid ""
@@ -46846,10 +46649,8 @@ msgid "Translating using Weblate"
 msgstr ""
 
 #: ../../user/translating.rst:4
-#, fuzzy
-#| msgid "Thank you for your interest in trying Weblate!"
 msgid "Thank you for your interest in translating with Weblate!"
-msgstr "Grazas polo seu interese en probar Weblate!"
+msgstr "Grazas polo seu interese en traducir con Weblate!"
 
 #: ../../user/translating.rst:6
 msgid ""
@@ -46925,19 +46726,18 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:73
-#, fuzzy
-#| msgid "You can include external links or mention other users by @username."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using``@username``."
 msgstr ""
-"Pode engadir ligazóns externas ou mencionar a outros usuarios polo seu "
-"@username."
+"A sintaxe de Markdown pódese empregar en todos os comentarios, ademais de "
+"mencionar a outros usuarios mediante ``@username``."
 
 #: ../../user/translating.rst:78
 msgid ""
 ":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
 msgstr ""
+":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
 
 #: ../../user/translating.rst:85
 msgid ""
@@ -46971,19 +46771,16 @@ msgid "Automatically translated"
 msgstr "Traducido automaticamente"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "New translation in %(translation)s"
 msgid "String translated using :ref:`auto-translation`."
-msgstr "Nova tradución en %(translation)s"
+msgstr "Cadea traducida empregando :ref:`auto-translation`."
 
 #: ../../user/translating.rst:104
 msgid "Source needs review"
 msgstr "A orixe precisa de revisión"
 
 #: ../../user/translating.rst:105
-#, fuzzy
 msgid "String marked for review using :ref:`source-reviews`."
-msgstr "Cadea de orixe:"
+msgstr "Cadea marcada para revisión usando :ref:`source-reviews`."
 
 #: ../../user/translating.rst:109
 msgid ":ref:`labels`"
@@ -47024,15 +46821,6 @@ msgid "Plurals"
 msgstr "Plurais"
 
 #: ../../user/translating.rst:135
-#, fuzzy
-#| msgid ""
-#| "Words changing form to account of their numeric designation are called "
-#| "plurals. Each language has its own definition of plurals. English, for "
-#| "example, supports one. In the singular definition of for example \"car\", "
-#| "implicitly one car is referenced, in the plural definition, \"cars\" two "
-#| "or more cars are referenced (or the concept of cars as a noun). Languages "
-#| "like for example Czech or Arabic have more plurals and also their rules "
-#| "for plurals are different."
 msgid ""
 "Words changing form to account for their numeric designation are called "
 "plurals. Each language has its own definition of them. English, for example, "
@@ -47339,20 +47127,16 @@ msgid ":kbd:`←`"
 msgstr ""
 
 #: ../../user/translating.rst:260
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation strings."
-msgstr "Engadir unha nova cadea de tradución"
+msgstr "Examinar as seguintes cadeas de tradución."
 
 #: ../../user/translating.rst:262
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation strings."
-msgstr "Conservar os «msgids» anteriores das cadeas traducidas"
+msgstr "Examinar as cadeas de tradución anteriores."
 
 #: ../../user/translating.rst:268
 msgid "Visual keyboard"
-msgstr ""
+msgstr "Teclado visual"
 
 #: ../../user/translating.rst:270
 msgid ""
@@ -47591,17 +47375,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:411
-#, fuzzy
-#| msgid ""
-#| "Don’t worry about messing up the strings. This is a two-step process "
-#| "showing a preview of edited strings before the actual change is confirmed."
 msgid ""
 "Don't worry about messing up the strings, as it is a two-step process. A "
 "preview of edited strings is shown before confirming the change."
 msgstr ""
-"Non se preocupe por estragar as cadeas. Este é un proceso de dous pasos que "
-"amosa unha vista previa das cadeas editadas antes de que se confirme o "
-"cambio real."
+"Non se preocupe por estragar as cadeas, este é un proceso de dous pasos, "
+"Amosase unha vista previa das cadeas editadas antes de confirmar o cambio."
 
 #: ../../user/translating.rst:419
 msgid ""
@@ -47611,18 +47390,17 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:423
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "Change string state (for example to approve all unreviewed strings)."
-msgstr "Cambiar as cadeas traducidas e aprobadas"
+msgstr ""
+"Cambiar o estado da cadea (p. ex., para aprobar todas as cadeas sen revisar)."
 
 #: ../../user/translating.rst:424
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr ""
+msgstr "Axustar as marcas de tradución (consulte :ref:`custom-checks`)"
 
 #: ../../user/translating.rst:425
 msgid "Adjust string labels (see :ref:`labels`)"
-msgstr ""
+msgstr "Axustar as etiquetas das cadeas (consulte :ref:`labels`)"
 
 #: ../../user/translating.rst:429
 msgid ""
@@ -48930,6 +48708,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"A cadea é de só lectura como resultado de ter o :ref:`marcador <custom-"
+"checks>` ``read-only``, de ser unha cadea de orixe non editábel, ou marcada "
+"como tal no ficheiro de tradución."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
