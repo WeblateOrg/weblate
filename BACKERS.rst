@@ -23,5 +23,6 @@ List of Weblate supporters:
 * 24eme.fr
 * Fotema Gallery App
 * `Newpipe e.V. <https://newpipe-ev.de>`_
+* Daniel Leidert
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
