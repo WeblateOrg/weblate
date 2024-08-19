@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
 "PO-Revision-Date: 2024-08-19 23:24+0000\n"
-"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -537,10 +537,10 @@ msgid "Two-factor authentication removed: {device}"
 msgstr "Authentification à deux facteurs supprimée : {device}"
 
 #: weblate/accounts/models.py:193
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
 msgstr ""
-"Enregistrement via une identification à deux facteurs en utilisant {device}"
+"Se connecter avec une authentification à deux facteurs en utilisant {device}"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -2664,13 +2664,12 @@ msgstr ""
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr "Forçage de l'authentification à deux facteurs"
+msgstr "Authentification à deux facteurs obligatoire"
 
 #: weblate/auth/models.py:197
 msgid "Requires users to have two-factor authentication configured."
 msgstr ""
-"Nécessite que les utilisateurs aient configuré l'authentification à deux "
-"facteurs."
+"Exige des utilisateurs qu’ils paramètrent l'authentification à deux facteurs."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -2781,8 +2780,8 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
-"Ce projet nécessite une authentification à deux facteurs ; configurez-la "
-"dans votre profil."
+"Ce projet nécessite une authentification à deux facteurs, paramétrez-la dans "
+"votre profil."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -4593,7 +4592,7 @@ msgstr "Fichier Fluent"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr "Doit être un répertoire avec des fichiers de métadonnées !"
+msgstr "Doit être un répertoire contenant des fichiers métadonnées !"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -5273,7 +5272,7 @@ msgstr "Nom de modèle personnalisé"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
-msgstr "Nécessaire uniquement si le modèle est déclaré 'Modèle personnalisé'"
+msgstr "Requis uniquement pour 'Modèle personnalisé'"
 
 #: weblate/machinery/forms.py:325
 msgctxt "Automatic suggestion service configuration"
@@ -5302,11 +5301,11 @@ msgstr ""
 
 #: weblate/machinery/forms.py:350
 msgid "Missing custom model name."
-msgstr "Nom absent du modèle personnalisé."
+msgstr "Le Nom du modèle personnalisé est manquant."
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Selectionnez un modèle personnalisé pour l'activer."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -6226,7 +6225,7 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Clés de sécurité (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
 #, fuzzy
@@ -6248,7 +6247,7 @@ msgstr "Supprimer"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Nommez votre clé de sécurité"
 
 #: weblate/templates/accounts/profile.html:214
 #, fuzzy
@@ -6259,7 +6258,7 @@ msgstr "Créer un nouveau compte"
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "Malheureusement votre navigateur ne prend pas en charge WebAuthn."
 
 #: weblate/templates/accounts/profile.html:228
 #, fuzzy
@@ -6298,18 +6297,18 @@ msgstr "Il n’y a aucune sauvegarde actuellement."
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Générer de nouveaux codes de récupération"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s code de récupération est disponible."
+msgstr[1] "%(count)s codes de récupération sont disponibles."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Afficher les codes de récupération"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6509,10 +6508,12 @@ msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
 msgstr ""
+"Lorsque vous générez de nouveaux codes de récupération, vous devez les "
+"télécharger ou les imprimer."
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "Vos anciens codes seront désactivés et ne fonctionneront plus."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:47
@@ -6599,11 +6600,11 @@ msgstr ""
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "Scanner le QR code"
 
 #: weblate/templates/accounts/totp.html:35
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "Vous pouvez également saisir la clé secrète manuellement :"
 
 #: weblate/templates/accounts/totp.html:38
 #, fuzzy
@@ -6906,7 +6907,7 @@ msgstr "Traductions auxquelles l’utilisateur a participé"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "Connectez-vous grâce à la clé de sécurité"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -10374,6 +10375,9 @@ msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"Ce projet exige une authentification à deux facteurs pour tous les "
+"contributeurs. Vous ne pourrez pas contribuer à ce projet tant que vous ne "
+"l'aurez pas configuré."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
@@ -15031,6 +15035,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
+"Oblige les contributeurs à configurer l'authentification à deux facteurs "
+"afin de pouvoir contribuer au projet."
 
 #: weblate/trans/models/project.py:198 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15644,6 +15650,8 @@ msgstr ""
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
 msgstr ""
+"Toutes les langues ont été ajoutées, les mises à jour des traductions sont "
+"en cours."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15866,6 +15874,8 @@ msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours.
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr ""
+"Tous les dépôts ont été mis à jour, les traductions sont en cours de mise à "
+"jour."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
@@ -15888,7 +15898,7 @@ msgstr "Les fichiers de traduction ont été synchronisés."
 
 #: weblate/trans/views/git.py:155
 msgid "Updates of translations are in progress."
-msgstr "La mise à jour des traductions est en cours."
+msgstr "Traduction automatique en cours"
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
