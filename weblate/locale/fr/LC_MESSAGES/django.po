@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-19 06:28+0000\n"
+"PO-Revision-Date: 2024-08-19 07:00+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -62,8 +62,8 @@ msgstr "Nom complet"
 #: weblate/accounts/forms.py:128
 msgid "Name is also used in version control commits."
 msgstr ""
-"Le nom est également utilisé dans les commits du système de contrôle de "
-"version."
+"Le nom est également utilisé dans les commits du système de contrôle des "
+"versions."
 
 #: weblate/accounts/forms.py:192 weblate/accounts/models.py:645
 msgid "Commit e-mail"
@@ -71,7 +71,7 @@ msgstr "Courriel pour les commits"
 
 #: weblate/accounts/forms.py:193
 msgid "Use account e-mail address"
-msgstr "Utiliser l’adresse courrielle du compte"
+msgstr "Utiliser l’adresse courriel du compte"
 
 #: weblate/accounts/forms.py:195
 msgid ""
@@ -129,7 +129,7 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr ""
-"Veuillez nous contacter en Anglais sinon nous risquons de ne pas pouvoir "
+"Veuillez nous contacter en anglais sinon nous risquons de ne pas pouvoir "
 "traiter votre demande."
 
 #: weblate/accounts/forms.py:434 weblate/accounts/templatetags/authnames.py:33
@@ -199,7 +199,7 @@ msgstr "Ce compte est inactif."
 
 #: weblate/accounts/forms.py:737
 msgid "Component wide notifications"
-msgstr "Notifications sur les composants"
+msgstr "Notifications générales sur les composants"
 
 #: weblate/accounts/forms.py:742
 msgid "Translation notifications"
@@ -227,11 +227,11 @@ msgstr "Projets pilotés"
 
 #: weblate/accounts/forms.py:799
 msgid "Project: {}"
-msgstr "Projet : {}"
+msgstr "Projet : {}"
 
 #: weblate/accounts/forms.py:800
 msgid "Component: {}"
-msgstr "Composant : {}"
+msgstr "Composant : {}"
 
 #: weblate/accounts/forms.py:806
 msgid ""
@@ -2109,10 +2109,8 @@ msgstr "Ajouter une entrée de glossaire"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "Ajouter une entrée de glossaire"
+msgstr "Ajouter une terminologie au glossaire"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2666,13 +2664,13 @@ msgstr ""
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "Forçage de l'authentification à deux facteurs"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "Redirection en cours vers le fournisseur d’authentification."
+msgstr ""
+"Nécessite que les utilisateurs aient configuré l'authentification à deux "
+"facteurs."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -2783,6 +2781,8 @@ msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
 msgstr ""
+"Ce projet nécessite une authentification à deux facteurs ; configurez-la "
+"dans votre profil."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -3864,7 +3864,7 @@ msgstr "La chaîne de format python ne correspond pas à celui de la source"
 
 #: weblate/checks/format.py:611
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "La chaîne de caractères du format n'a qu'un seul {} ."
 
 #: weblate/checks/format.py:638
 msgid "C# format"
@@ -4593,7 +4593,7 @@ msgstr "Fichier Fluent"
 
 #: weblate/formats/txt.py:89
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Doit être un répertoire avec des fichiers de métadonnées !"
 
 #: weblate/formats/txt.py:196
 msgid "App store metadata files"
@@ -5246,20 +5246,20 @@ msgid "Automatic selection"
 msgstr "Sélection automatique"
 
 #: weblate/machinery/forms.py:293
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "Personnalisé"
+msgstr "Modèle personnalisé"
 
 #: weblate/machinery/forms.py:298
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "URL de base de l'API OpenAI"
 
 #: weblate/machinery/forms.py:302
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
+"URL de base de l'API OpenAI, si elle est différente de l'URL OpenAI par "
+"défaut"
 
 #: weblate/machinery/forms.py:309
 msgctxt "Automatic suggestion service configuration"
@@ -5267,15 +5267,13 @@ msgid "OpenAI model"
 msgstr "Modèle OpenAI"
 
 #: weblate/machinery/forms.py:317
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "Personnaliser le nom du composant"
+msgstr "Nom de modèle personnalisé"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Nécessaire uniquement si le modèle est déclaré 'Modèle personnalisé'"
 
 #: weblate/machinery/forms.py:325
 msgctxt "Automatic suggestion service configuration"
@@ -5303,10 +5301,8 @@ msgstr ""
 "informel. »"
 
 #: weblate/machinery/forms.py:350
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "Nom d’utilisateur ou adresse courriel manquante."
+msgstr "Nom absent du modèle personnalisé."
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
@@ -6755,10 +6751,8 @@ msgid "Edit"
 msgstr "Modifier"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "Aucune activité récente !"
+msgstr "Aucune contribution récente trouvée."
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -7326,10 +7320,8 @@ msgid "Automatic assignment"
 msgstr "Affectation automatique"
 
 #: weblate/templates/auth/teams-name.html:4
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Le serveur n’autorise pas l’authentification."
+msgstr "Nécessite l’authentification à deux facteurs"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -15880,11 +15872,11 @@ msgid "All repositories were pushed."
 msgstr "Tous les dépôts ont été propagés."
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "Tous les dépôts ont été réinitialisés."
+msgstr ""
+"Tous les dépôts ont été réinitialisés, la mise à jour des traductions est en "
+"cours."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -15895,10 +15887,8 @@ msgid "Translation files have been synchronized."
 msgstr "Les fichiers de traduction ont été synchronisés."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
-msgstr "Traduction automatique en cours"
+msgstr "La mise à jour des traductions est en cours."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
