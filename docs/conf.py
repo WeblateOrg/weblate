@@ -339,6 +339,7 @@ linkcheck_ignore = [
     "https://translate.systran.net/en/account",
     # Seems unstable
     "https://pagure.io/",
+    "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
 ]
 
 # HTTP docs
