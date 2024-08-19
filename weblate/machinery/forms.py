@@ -8,7 +8,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
-from weblate.utils.validators import WeblateServiceURLValidator
+from weblate.utils.forms import WeblateServiceURLField
 
 
 class BaseMachineryForm(forms.Form):
@@ -37,9 +37,8 @@ class KeyMachineryForm(BaseMachineryForm):
 
 
 class URLMachineryForm(BaseMachineryForm):
-    url = forms.URLField(
+    url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
-        validators=[WeblateServiceURLValidator()],
     )
 
 
@@ -251,18 +250,16 @@ class AlibabaMachineryForm(KeySecretMachineryForm):
 
 
 class ModernMTMachineryForm(KeyURLMachineryForm):
-    url = forms.URLField(
+    url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.modernmt.com/",
-        validators=[WeblateServiceURLValidator()],
     )
 
 
 class DeepLMachineryForm(KeyURLMachineryForm):
-    url = forms.URLField(
+    url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.deepl.com/v2/",
-        validators=[WeblateServiceURLValidator()],
     )
     formality = forms.CharField(
         label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),
@@ -292,7 +289,7 @@ class OpenAIMachineryForm(KeyMachineryForm):
         ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
         ("custom", pgettext_lazy("OpenAI model selection", "Custom model")),
     )
-    base_url = forms.URLField(
+    base_url = WeblateServiceURLField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
             "OpenAI API base URL",

@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Support for using Docker network names in automatic suggestion settings.
+
 **Compatibility**
 
 **Upgrading**

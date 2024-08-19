@@ -18,7 +18,8 @@ from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
 from weblate.utils.errors import report_error
 from weblate.utils.search import parse_query
-from weblate.utils.validators import validate_email, validate_username
+
+from .validators import WeblateServiceURLValidator, validate_email, validate_username
 
 
 class QueryField(forms.CharField):
@@ -234,3 +235,7 @@ class CachedModelMultipleChoiceField(
     CachedModelChoiceField, forms.ModelMultipleChoiceField
 ):
     pass
+
+
+class WeblateServiceURLField(forms.URLField):
+    default_validators = [WeblateServiceURLValidator()]
