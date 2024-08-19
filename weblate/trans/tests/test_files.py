@@ -445,7 +445,7 @@ class ExportTest(ViewTestCase):
         self.assertEqual(
             response.status_code,
             200,
-            "Couldn't retrieve content: Response code was %d" % response.status_code,
+            f"Couldn't retrieve content: Response code was {response.status_code}",
         )
 
         if response.streaming:
