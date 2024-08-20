@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-20 08:39+0000\n"
+"PO-Revision-Date: 2024-08-20 20:52+0000\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -5684,7 +5684,7 @@ msgstr "İki aşamalı oturum açma"
 
 #: weblate/templates/accounts/2fa.html:30
 msgid "Please complete your sign-in using second factor credential."
-msgstr "Lütfen oturum açmanızı iki aşamalı kimliğinizle tamamlayın."
+msgstr "Lütfen oturum açışınızı iki aşamalı kimliğinizle tamamlayın."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -6058,26 +6058,24 @@ msgstr "Yeni kullanıcı kimliği ekle"
 
 #: weblate/templates/accounts/profile.html:188
 #: weblate/templates/accounts/user.html:326
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Kimlik doğrulama"
+msgstr "İki aşamalı kimlik doğrulama"
 
 #: weblate/templates/accounts/profile.html:192
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
+"İki aşamalı kimlik doğrulama, oturum açmak için yalnızca bir paroladan daha "
+"çoğunun kullanılmasını gerektirerek hesabınıza ek güvenlik katmanı ekler."
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Güvenlik anahtarları (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:198
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no WebAuthn keys registered."
-msgstr "Şu anda herhangi bir yedek yok."
+msgstr "Şu anda kayıtlı WebAuthn anahtarı yok."
 
 #: weblate/templates/accounts/profile.html:203
 #: weblate/templates/accounts/profile.html:235
@@ -6093,68 +6091,58 @@ msgstr "Kaldır"
 
 #: weblate/templates/accounts/profile.html:213
 msgid "Name your security key"
-msgstr ""
+msgstr "Güvenlik anahtarınızı adlandırın"
 
 #: weblate/templates/accounts/profile.html:214
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new security key"
-msgstr "Yeni hesap açın"
+msgstr "Yeni güvenlik anahtarı kaydet"
 
 #: weblate/templates/accounts/profile.html:220
 #: weblate/templates/accounts/webauthn.html:12
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr ""
+msgstr "Üzgünüz, tarayıcınızın WebAuthn desteği yok."
 
 #: weblate/templates/accounts/profile.html:228
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
-msgstr "Kimlik doğrulama"
+msgstr "Kimlik doğrulama uygulamaları (TOTP)"
 
 #: weblate/templates/accounts/profile.html:230
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no authenticator apps registered."
-msgstr "Şu anda herhangi bir yedek yok."
+msgstr "Şu anda kayıtlı kimlik doğrulama uygulaması yok."
 
 #: weblate/templates/accounts/profile.html:242
 #: weblate/templates/accounts/totp.html:11
 #: weblate/templates/accounts/totp.html:22
-#, fuzzy
-#| msgid "Register new account"
 msgid "Register new authenticator app"
-msgstr "Yeni hesap açın"
+msgstr "Yeni kimlik doğrulama uygulaması kaydet"
 
 #: weblate/templates/accounts/profile.html:245
 #: weblate/templates/accounts/recovery-codes.html:11
 #: weblate/templates/accounts/recovery-codes.html:33
 msgid "Recovery codes"
-msgstr ""
+msgstr "Kurtarma kodları"
 
 #: weblate/templates/accounts/profile.html:247
 #: weblate/templates/accounts/recovery-codes.html:41
-#, fuzzy
-#| msgid "There are currently no backups."
 msgid "There are currently no recovery codes generated."
-msgstr "Şu anda herhangi bir yedek yok."
+msgstr "Şu anda oluşturulmuş kurtarma kodu yok."
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/recovery-codes.html:44
 #: weblate/templates/accounts/recovery-codes.html:51
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Yeni kurtarma kodları oluştur"
 
 #: weblate/templates/accounts/profile.html:251
 #, python-format
 msgid "%(count)s recovery code is available."
 msgid_plural "%(count)s recovery codes are available."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s kurtarma kodu var."
+msgstr[1] "%(count)s kurtarma kodu var."
 
 #: weblate/templates/accounts/profile.html:257
 msgid "View recovery codes"
-msgstr ""
+msgstr "Kurtarma kodlarını görüntüle"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "User data"
@@ -6324,13 +6312,15 @@ msgstr "Bireysel çeviriler için lisanslar"
 
 #: weblate/templates/accounts/recovery-codes.html:20
 msgid "Two-factor recovery codes"
-msgstr ""
+msgstr "İki aşamalı kurtarma kodları"
 
 #: weblate/templates/accounts/recovery-codes.html:25
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
+"Kurtarma kodları, aygıtınıza erişimi yitirirseniz ve iki aşamalı kimlik "
+"doğrulama kodlarını edinemediğinizde hesabınıza erişmenizde kullanılabilir."
 
 #: weblate/templates/accounts/recovery-codes.html:29
 msgid ""
@@ -6339,12 +6329,14 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
+"Kurtarma kodlarınızı parola yönetici gibi güvenli bir alanda saklayın. Bu "
+"kodlar parolanızı ve diğer iki aşamalı doğrulamaları yitirirseniz hesabınıza "
+"erişmede son çaredir. Gerektiğinde bu kodları bulamazsanız hesabınıza "
+"erişimi yitirirsiniz."
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "Depo adresi panoya kopyalandı."
+msgstr "Kurtarma kodları panoya kopyalandı."
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
