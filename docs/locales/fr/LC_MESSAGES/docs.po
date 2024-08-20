@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-20 07:17+0000\n"
+"PO-Revision-Date: 2024-08-20 07:41+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -2675,22 +2675,16 @@ msgid ":file:`de/website.po`"
 msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:254
-#, fuzzy
 msgid "Gettext locales layout"
-msgstr "Architecture des paramètres régionaux Gettext"
+msgstr "Liste des paramètres régionaux Gettext"
 
 #: ../../admin/addons.rst:256
 msgid "Usual structure for storing gettext PO files."
 msgstr "Structure habituelle pour stocker les fichiers PO de gettext."
 
 #: ../../admin/addons.rst:259
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<langue>[^/.]*)/LC_MESSAGES/(?P<composant>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:261
 #, fuzzy
@@ -2717,24 +2711,18 @@ msgid ":file:`locale/de/LC_MESSAGES/website.po`"
 msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../admin/addons.rst:267
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Nom de fichier du composant correspondant"
+msgstr "Noms de fichier complexes"
 
 #: ../../admin/addons.rst:269
 msgid "Using both component and language name within filename."
 msgstr ""
-"Utilisation des noms du composant et du language dans le même nom de fichier."
+"Utilisation simultanée du nom du composant et de la langue dans le nom du "
+"fichier."
 
 #: ../../admin/addons.rst:272
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``src/locale/(?P<composant>[^/]*)\\.(?P<langue>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:274
 msgid ":file:`src/locale/application.cs.po`"
@@ -2753,14 +2741,12 @@ msgid ":file:`src/locale/website.de.po`"
 msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:280
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Codes langue alias"
+msgstr "Code de langue répété"
 
 #: ../../admin/addons.rst:282
 msgid "Using language in both path and filename."
-msgstr "Langue utilisée à la fois pour le chemin et le nom de fichier."
+msgstr "Langue utilisée à la fois dans le chemin et le nom du fichier."
 
 #: ../../admin/addons.rst:285
 #, fuzzy
@@ -2768,8 +2754,7 @@ msgstr "Langue utilisée à la fois pour le chemin et le nom de fichier."
 #| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
 #| "po``"
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<langue>[^/.]*)/(?P<composant>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:287
 #, fuzzy
@@ -2842,10 +2827,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:313
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "Nom du composant"
+msgstr "Nom du composant :"
 
 #: ../../admin/addons.rst:314
 msgid "``{{ originalHierarchy }}: {{ component }}``"
