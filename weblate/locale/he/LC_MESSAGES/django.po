@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-16 13:11+0000\n"
+"PO-Revision-Date: 2024-08-21 14:23+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -340,7 +340,7 @@ msgstr "אסימון שחזור"
 #: weblate/accounts/forms.py:1043
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
-msgstr ""
+msgstr "אפשר להשתמש באסימון שחזור פעם אחת, נא לסמן את האסימון לאחר השימוש בו."
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
@@ -480,26 +480,26 @@ msgstr "משתמש הוסר מהצוות {team} על ידי {username}."
 
 #: weblate/accounts/models.py:186
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "קודים לשחזור לאימות הדו־שלבי נוצרו"
 
 #: weblate/accounts/models.py:189
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "הקודים לשחזור לאימות דו־שלבי נצפו"
 
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "נוסף אימות דו־שלבי: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "הוסר אימות דו־שלבי: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "כניסה מבעד לאימות דו־שלבי עם {device}"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -838,18 +838,14 @@ msgid "Suggestion was added"
 msgstr "הצעה נוספה"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "הודעה מתורגמת"
+msgstr "השפה תורגמה"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "ייבוא המחרוזת כמתורגמת"
+msgstr "הרכיב תורגם"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -961,17 +957,15 @@ msgstr "הדוא״ל שלך אינו שייך עוד לחשבון מאומת, ה
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "להשתמש במפתח אבטחה (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "אימות"
+msgstr "להשתמש ביישומון אימות (TOTP)"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "להשתמש בקודים לשחזור"
 
 #: weblate/accounts/utils.py:170
 #, python-format
@@ -1164,32 +1158,26 @@ msgid ""
 msgstr "קישור שינוי ההתראות אינו זמין עוד, נא להיכנס כדי להגדיר התראות."
 
 #: weblate/accounts/views.py:1620
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "ההזמנה למשתמש הוסרה."
+msgstr "מפתח האבטחה הוסר."
 
 #: weblate/accounts/views.py:1621
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "מפתח האבטחה %s נרשם."
 
 #: weblate/accounts/views.py:1658
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "ההזמנה למשתמש הוסרה."
+msgstr "יישומון האימות הוסר."
 
 #: weblate/accounts/views.py:1659
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "יישומון האימות %s נרשם."
 
 #: weblate/accounts/views.py:1792
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "כניסה אחרונה"
+msgstr "כניסה עם גורם משני"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1693,7 +1681,7 @@ msgstr "המקור והיעד חייבים להיות בשפות שונות."
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "הפעלת מיון מפתחות תלוי רישיות"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -1983,10 +1971,8 @@ msgstr "הוספת רשומה למונחון"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "הוספת רשומה למונחון"
+msgstr "הוספת מינוח למונחון"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2539,13 +2525,11 @@ msgstr "ההנהלה יכולה להוסיף או להסיר משתמש מהצו
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "אימות דו־שלבי נאכף"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "הופנית לספק האימות."
+msgstr "דרישה מהמשתמשים שיוגדר אצלם אימות דו־שלבי."
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -2646,7 +2630,7 @@ msgstr "לא ניתן לבצע את הפעולה הזאת ללא כתובת דו
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr ""
+msgstr "המיזם הזה דורש אימות דו־שלבי, יש להגדיר אותו בפרופיל שלך."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -4995,20 +4979,18 @@ msgid "Automatic selection"
 msgstr "בחירת אוטומטית"
 
 #: weblate/machinery/forms.py:293
-#, fuzzy
-#| msgid "Custom"
 msgctxt "OpenAI model selection"
 msgid "Custom model"
-msgstr "התאמה אישית"
+msgstr "מודל מותאם אישית"
 
 #: weblate/machinery/forms.py:298
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "כתובת בסיס ל־API של OpenAI"
 
 #: weblate/machinery/forms.py:302
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "כתובת בסיס ל־API של OpenAI, אם היא שונה מכתובת ברירת המחדל של OpenAI"
 
 #: weblate/machinery/forms.py:309
 msgctxt "Automatic suggestion service configuration"
@@ -6188,20 +6170,18 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/recovery-codes.html:39
-#, fuzzy
-#| msgid "Repository URL copied to clipboard."
 msgid "Recovery codes copied to clipboard."
-msgstr "כתובת המאגר הועתק ללוח הגזירים."
+msgstr "הקודים לשחזור הועתקו ללוח הגזירים."
 
 #: weblate/templates/accounts/recovery-codes.html:47
 msgid ""
 "When you generate new recovery codes, you must download or print the new "
 "codes."
-msgstr ""
+msgstr "כשמייצרים קודים חדשים לשחזור, יש להוריד או להדפיס את הקודים החדשים."
 
 #: weblate/templates/accounts/recovery-codes.html:48
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr ""
+msgstr "הקודים הישנים שלך יאבדו את תוקפם ולא יעבדו עוד."
 
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/totp.html:47
@@ -6279,20 +6259,20 @@ msgid ""
 "Authenticator apps generate one-time passwords that are used as a second "
 "factor to verify your identity when prompted during sign-in."
 msgstr ""
+"יישומוני אימות מייצרים סיסמאות חד־פעמים שמשמשות כגורם נוסף לאימות הזהות שלך "
+"כשמופיעה הבקשה כחלק מהכניסה למערכת."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
-msgstr ""
+msgstr "נא לסרוק את קוד ה־QR"
 
 #: weblate/templates/accounts/totp.html:35
 msgid "You can also enter the secret key manually:"
-msgstr ""
+msgstr "אפשר גם למלא את המפתח הסודי ידנית:"
 
 #: weblate/templates/accounts/totp.html:38
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Secret key copied to clipboard."
-msgstr "מפתח API מועתק ללוח הגזירים."
+msgstr "המפתח הסודי הועתק ללוח הגזירים."
 
 #: weblate/templates/accounts/totp.html:43
 #: weblate/templates/mail/shared-registration.html:22
@@ -6502,11 +6482,8 @@ msgid "Unblock user"
 msgstr "שחרור משתמש"
 
 #: weblate/templates/accounts/user.html:314
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit user"
-msgstr "עריכת מקור"
+msgstr "עריכת משתמש"
 
 #: weblate/templates/accounts/user.html:331
 msgid "User has two-factor authentication configured."
@@ -6518,13 +6495,11 @@ msgstr "למשתמש לא מוגדר אימות דו־שלבי."
 
 #: weblate/templates/accounts/user.html:338
 msgid "Disable two-factor authentication"
-msgstr ""
+msgstr "השבתת אימות דו־שלבי"
 
 #: weblate/templates/accounts/user.html:345
-#, fuzzy
-#| msgid "Account removal deletes all your private data."
 msgid "Account removal deletes all user private data."
-msgstr "הסרת חשבון מוחקת את כל הנתונים הפרטיים שלך."
+msgstr "הסרת חשבון מוחקת את כל נתוני המשתמש הפרטיים."
 
 #: weblate/templates/accounts/user.html:348
 #: weblate/templates/accounts/user.html:362
@@ -6592,7 +6567,7 @@ msgstr "תרגומים שתרמו להם"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
-msgstr ""
+msgstr "כניסה עם מפתח האבטחה"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_detail.html:12
@@ -6612,10 +6587,8 @@ msgstr "הגדרת תוסף"
 
 #: weblate/templates/addons/addon_head.html:7
 #: weblate/templates/addons/addon_list.html:86
-#, fuzzy
-#| msgid "Add-ons can be installed on project and component scope as well."
 msgid "The add-on can only be installed on the component."
-msgstr "אפשר להתקין תוספים גם ברמת מיזם ורכיב."
+msgstr "אפשר להתקין את התוסף רק על הרכיב."
 
 #: weblate/templates/addons/addon_head.html:9
 msgid "This add-on is used for all components sharing this repository."
@@ -7672,10 +7645,8 @@ msgid "Abort the update"
 msgstr "ביטול העדכון"
 
 #: weblate/templates/component-progress.html:38
-#, fuzzy
-#| msgid "Return to the component after completion"
 msgid "Continue after completion"
-msgstr "חזרה לרכיב לאחר ההשלמה"
+msgstr "להמשיך לאחר ההשלמה"
 
 #: weblate/templates/component.html:36 weblate/wladmin/views.py:80
 msgid "Alerts"
@@ -9836,10 +9807,8 @@ msgid "Add to screenshot"
 msgstr "הוספה לצילום מסך"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
-#, fuzzy
-#| msgid "Copy token to clipboard"
 msgid "Paste from clipboard"
-msgstr "העתקת אסימון ללוח הגזירים"
+msgstr "הדבקה מלוח הגזירים"
 
 #: weblate/templates/search.html:25
 #: weblate/templates/snippets/embed-units.html:114
@@ -9949,19 +9918,23 @@ msgstr "התוצאות נטענות…"
 
 #: weblate/templates/snippets/enforced_2fa.html:7
 msgid "Configure two-factor authentication"
-msgstr ""
+msgstr "הגדרת אימות דו־שלבי"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
+"המיזם הזה דורש אימות דו־שלבי מכל המתנדבים שלו. אי אפשר לתרום מבלי להגדיר "
+"אימות דו־שלבי."
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
+"חברת לצוות שדורש אימות דו־שלבי. אי אפשר להשתמש בהרשאות של הצוות עד להגדרת "
+"אימות דו־שלבי."
 
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:378
@@ -10303,14 +10276,12 @@ msgstr ""
 "(קרן התכנה החופשית)%(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:10
-#, fuzzy
-#| msgid ""
-#| "All the source code has to be publicly available in a supported version "
-#| "control system."
 msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
-msgstr "על כל קוד המקור להיות זמין באופן ציבורי במערכת ניהול גרסאות נתמכת."
+msgstr ""
+"על כל קוד המקור להיות בקוד חופשי ומתירני וזמין באופן ציבורי במערכת ניהול "
+"גרסאות נתמכת."
 
 #: weblate/templates/snippets/libre-basic.html:11
 msgid ""
@@ -12866,10 +12837,8 @@ msgid "Untranslatable term"
 msgstr "מונח שלא לתרגום"
 
 #: weblate/trans/forms.py:2501
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
-msgstr "אין לך הרשאות ליצור מיזמים כרגע."
+msgstr "אין לך הרשאה ליצור מינוח."
 
 #: weblate/trans/forms.py:2567
 msgid "State to set"
@@ -12942,10 +12911,8 @@ msgid "Author username"
 msgstr "שם המשתמש של המחבר"
 
 #: weblate/trans/forms.py:2762
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "Change period"
-msgstr "שינויים נדחפו"
+msgstr "תקופת שינוי"
 
 #: weblate/trans/forms.py:2774
 msgid "Could not find matching user!"
@@ -13578,10 +13545,8 @@ msgstr "קובץ תרגום עודכן בהעלאת מקור"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:508
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "תרגום הושלם"
+msgstr "תרגום הרכיב הושלם"
 
 #: weblate/trans/models/change.py:592
 msgid "The component was automatically locked because of an alert."
@@ -14322,10 +14287,8 @@ msgid "Component list to assign"
 msgstr "רשימת רכיבים להקצאה"
 
 #: weblate/trans/models/label.py:28
-#, fuzzy
-#| msgid "Description"
 msgid "Label description"
-msgstr "תיאור"
+msgstr "תיאור תווית"
 
 #: weblate/trans/models/project.py:126
 msgid "Public"
@@ -14384,7 +14347,7 @@ msgstr "אופן הגבלת הגישה למיזם זה מפורטת בתיעוד
 msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
-msgstr ""
+msgstr "דרישה מהמתנדבים שיוגדר אצלם אימות דו־שלבי לפני שיוכלו לתרום."
 
 #: weblate/trans/models/project.py:198 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
@@ -15023,7 +14986,7 @@ msgstr "הבקשה להוספת תרגום חדש נשלחה לאחראים על
 
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "כל השפות נוספו, התרגומים מתעדכנים ברקע."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -15238,18 +15201,16 @@ msgstr "לא ניתן לנעול את המאגר, מתבצעת כרגע פעול
 #: weblate/trans/views/git.py:61
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
-msgstr ""
+msgstr "כל המאגרים עודכנו, התרגומים מתעדכנים ברקע."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
 msgstr "כל המאגרים נדחפו."
 
 #: weblate/trans/views/git.py:99
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr "כל המאגרים אופסו."
+msgstr "כל המאגרים אופסו, התרגומים מתעדכנים ברקע."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
