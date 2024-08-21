@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-21 14:23+0000\n"
+"PO-Revision-Date: 2024-08-21 14:42+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1020,7 +1020,7 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "Использовать ключ безопасности (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
 #, fuzzy
@@ -1030,13 +1030,12 @@ msgstr "Авторизация"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "Используйте коды восстановления"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Политика безопасности"
+msgstr "Ключ безопасности (%s)"
 
 #: weblate/accounts/utils.py:176
 #, fuzzy, python-format
@@ -6933,7 +6932,7 @@ msgstr "Настроить"
 
 #: weblate/templates/addons/addon_list.html:56
 msgid "Add-ons can be installed on project and component scope as well."
-msgstr ""
+msgstr "Надстройки могут быть установлены в рамках проекта и компонента."
 
 #: weblate/templates/addons/addon_list.html:60
 #, python-format
@@ -14043,10 +14042,8 @@ msgstr "Перевод заменён загруженным файлом"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:508
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Component translation completed"
-msgstr "Перевод завершён"
+msgstr "Перевод компонента завершён"
 
 #: weblate/trans/models/change.py:592
 msgid "The component was automatically locked because of an alert."
@@ -14064,20 +14061,15 @@ msgstr "В %(time)s %(user)s сделал %(action)s на %(translation)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:681
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "В %(time)s %(user)s сделал %(action)s на %(translation)s"
+msgstr "В %(time)s %(action)s на %(translation)s"
 
 #: weblate/trans/models/change.py:850
-#, fuzzy
-#| msgid "The \"{}\" file was changed."
 msgid "The “{}” file was changed."
 msgstr "Файл «{}» был изменён."
 
 #: weblate/trans/models/change.py:852
-#, fuzzy
-#| msgid "Parsing of the \"{}\" file was enforced."
 msgid "Parsing of the “{}” file was enforced."
 msgstr "Был выполнен принудительный разбор файла «{}»."
 
@@ -14135,10 +14127,8 @@ msgid "POSIX style using underscore as a separator"
 msgstr "Стиль POSIX, использующий подчёркивание как разделитель"
 
 #: weblate/trans/models/component.py:131
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "Стиль POSIX, использующий подчёркивание как разделитель"
+msgstr "Стиль POSIX, использующий подчёркивание как разделитель, нижний регистр"
 
 #: weblate/trans/models/component.py:133
 msgid "BCP style using hyphen as a separator"
@@ -14151,16 +14141,12 @@ msgstr ""
 "страны"
 
 #: weblate/trans/models/component.py:143
-#, fuzzy
-#| msgid ""
-#| "POSIX style using underscore as a separator, including country code "
-#| "(lowercase)"
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
 msgstr ""
 "Стиль POSIX, использующий подчёркивание в качестве разделителя, включая код "
-"страны (в нижнем регистре)"
+"страны, нижний регистр"
 
 #: weblate/trans/models/component.py:148
 msgid "BCP style using hyphen as a separator, including country code"
@@ -15631,10 +15617,8 @@ msgid "Your suggestion has been identified as spam!"
 msgstr "Ваше предложение идентифицировано как спам!"
 
 #: weblate/trans/views/edit.py:319
-#, fuzzy
-#| msgid "Only suggestions are allowed in this translation!"
 msgid "Your suggestion is similar to the current translation!"
-msgstr "В этом переводе разрешены только предложения!"
+msgstr "Ваше предложение похоже на текущий перевод!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
