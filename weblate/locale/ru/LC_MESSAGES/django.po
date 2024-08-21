@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-17 18:14+0000\n"
-"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
+"PO-Revision-Date: 2024-08-21 14:23+0000\n"
+"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -368,12 +368,14 @@ msgstr "Введённый токен недействителен."
 
 #: weblate/accounts/forms.py:1041
 msgid "Recovery token"
-msgstr ""
+msgstr "Токен восстановления"
 
 #: weblate/accounts/forms.py:1043
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
 msgstr ""
+"Токен восстановления можно использовать только один раз. После использования "
+"отметьте свой токен как использованный."
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
@@ -2352,10 +2354,8 @@ msgstr "Управление тарифами"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
-#, fuzzy
-#| msgid "Installed add-ons"
 msgid "Manage site-wide add-ons"
-msgstr "Установленные надстройки"
+msgstr "Управление надстройками для всего сайта"
 
 #: weblate/auth/data.py:176
 msgctxt "Access-control role"
@@ -6907,13 +6907,12 @@ msgid "No add-ons currently installed"
 msgstr "В настоящее время нет установленных надстроек"
 
 #: weblate/templates/addons/addon_list.html:33
-#, fuzzy, python-format
-#| msgid "Installed add-ons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Установленные надстройки"
-msgstr[1] "Установленные надстройки"
-msgstr[2] "Установленные надстройки"
+msgstr[0] "Установлена %(count)s надстройка"
+msgstr[1] "Установлено %(count)s надстройки"
+msgstr[2] "Установлено %(count)s надстроек"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "Uninstall"
@@ -6937,21 +6936,20 @@ msgid "Add-ons can be installed on project and component scope as well."
 msgstr ""
 
 #: weblate/templates/addons/addon_list.html:60
-#, fuzzy, python-format
-#| msgid "There are no add-ons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "В настоящее время нет установленных надстроек."
-msgstr[1] "В настоящее время нет установленных надстроек."
-msgstr[2] "В настоящее время нет установленных надстроек."
+msgstr[0] "Управление надстройками в рамках всего проекта (установлена %(count)s)"
+msgstr[1] "Управление надстройками в рамках всего проекта (установлено %(count)s)"
+msgstr[2] "Управление надстройками в рамках всего проекта (установлено %(count)s)"
 
 #: weblate/templates/addons/addon_list.html:66
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Управление надстройками на уровне сайта (установлена (%(count)s)"
+msgstr[1] "Управление надстройками на уровне сайта (установлено (%(count)s)"
+msgstr[2] "Управление надстройками на уровне сайта (установлено (%(count)s)"
 
 #: weblate/templates/addons/addon_list.html:75
 msgid "Available add-ons"
