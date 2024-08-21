@@ -8,13 +8,15 @@
 # Ryo Nakano <ryonakaknock3@gmail.com>, 2024.
 # Miyu Sakatsuki <miyu-sakatsuki@outlook.jp>, 2024.
 # Masahiro Fujimoto <mfujimot@gmail.com>, 2024.
+# Assem Askarova <assask499@users.noreply.hosted.weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-12 00:46+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-08-21 14:23+0000\n"
+"Last-Translator: Assem Askarova <assask499@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -22,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.7\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -335,33 +337,30 @@ msgid "Add team"
 msgstr "チームの追加"
 
 #: weblate/accounts/forms.py:956
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Name your authentication app"
-msgstr "翻訳名"
+msgstr "認証アプリに名前を付ける"
 
 #: weblate/accounts/forms.py:959
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "アプリからコードを検証する"
 
 #: weblate/accounts/forms.py:973
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "Entered token is not valid."
-msgstr "翻訳文が XML として正しくない"
+msgstr "入力されたトークンが無効です。"
 
 #: weblate/accounts/forms.py:1041
 msgid "Recovery token"
-msgstr ""
+msgstr "回復トークン"
 
 #: weblate/accounts/forms.py:1043
 msgid ""
 "Recovery token can be used just once, mark your token as used after using it."
-msgstr ""
+msgstr "回復トークンは一度しか使用できませんので、トークンを使用したら使用済みマーク"
+"を付けてください。"
 
 #: weblate/accounts/forms.py:1072
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "アプリからコードを入力"
 
 #: weblate/accounts/models.py:152
 msgid "Password changed."
@@ -497,26 +496,26 @@ msgstr "ユーザーは {username} さんによって {team} チームから削�
 
 #: weblate/accounts/models.py:186
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "二要素認証の回復コードが生成されました"
 
 #: weblate/accounts/models.py:189
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "二要素認証の回復コードが閲覧されました"
 
 #: weblate/accounts/models.py:191
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "二要素認証が追加されました: {device}"
 
 #: weblate/accounts/models.py:192
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "二要素認証が削除されました: {device}"
 
 #: weblate/accounts/models.py:193
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "{device} を使用した二要素認証サインイン"
 
 #: weblate/accounts/models.py:198
 msgid "Configured password to sign in."
@@ -849,12 +848,9 @@ msgid "Parse error occurred"
 msgstr "解析エラーが発生しました"
 
 #: weblate/accounts/notifications.py:507
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "新しい文字列を翻訳できます"
+msgstr "文字列は翻訳可能です"
 
 #: weblate/accounts/notifications.py:517
 msgctxt "Notification name"
@@ -867,18 +863,14 @@ msgid "Suggestion was added"
 msgstr "提案が追加されました"
 
 #: weblate/accounts/notifications.py:535
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "翻訳されています"
+msgstr "言語が翻訳されました"
 
 #: weblate/accounts/notifications.py:543
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "翻訳済みとしてインポート"
+msgstr "コンポーネントが翻訳されました"
 
 #: weblate/accounts/notifications.py:551
 msgctxt "Notification name"
@@ -992,29 +984,25 @@ msgstr ""
 
 #: weblate/accounts/templatetags/authnames.py:53
 msgid "Use security key (WebAuthn)"
-msgstr ""
+msgstr "セキュリティキーを使用する (WebAuthn)"
 
 #: weblate/accounts/templatetags/authnames.py:54
-#, fuzzy
-#| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
-msgstr "認証"
+msgstr "認証アプリ（TOTP）を使用する"
 
 #: weblate/accounts/templatetags/authnames.py:55
 msgid "Use recovery codes"
-msgstr ""
+msgstr "回復コードを使用する"
 
 #: weblate/accounts/utils.py:170
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "セキュリティポリシー"
+msgstr "セキュリティキー（%s）"
 
 #: weblate/accounts/utils.py:176
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "認証"
+msgstr "認証アプリ（%s）"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1034
 #: weblate/accounts/views.py:1100 weblate/templates/accounts/reset.html:7
@@ -1197,32 +1185,26 @@ msgstr ""
 "通知変更のリンクは無効になりました。サインインして通知を設定してください。"
 
 #: weblate/accounts/views.py:1620
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The security key was removed."
-msgstr "ユーザーの招待は取り消されました。"
+msgstr "セキュリティキーが削除されました。"
 
 #: weblate/accounts/views.py:1621
 #, python-format
 msgid "The security key %s was registered."
-msgstr ""
+msgstr "セキュリティキー %s が登録されました。"
 
 #: weblate/accounts/views.py:1658
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "The authentication app was removed."
-msgstr "ユーザーの招待は取り消されました。"
+msgstr "認証アプリが削除されました。"
 
 #: weblate/accounts/views.py:1659
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr ""
+msgstr "認証アプリ %s が登録されました。"
 
 #: weblate/accounts/views.py:1792
-#, fuzzy
-#| msgid "Last sign in"
 msgid "Second factor sign in"
-msgstr "最終サインイン"
+msgstr "二要素サインイン"
 
 #: weblate/addons/autotranslate.py:18 weblate/templates/translation.html:73
 #: weblate/templates/translation.html:242
@@ -1737,7 +1719,7 @@ msgstr "原文と翻訳先の言語は、異なる言語でなければなりま
 
 #: weblate/addons/forms.py:645
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "大文字と小文字を区別したキーの並べ替えを有効にする"
 
 #: weblate/addons/generate.py:33
 msgid "Statistics generator"
@@ -2029,10 +2011,8 @@ msgstr "用語集への項目の追加"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Add glossary terminology"
-msgstr "用語集への項目の追加"
+msgstr "用語集の追加"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2587,13 +2567,11 @@ msgstr "管理者は、チームにユーザーを追加または削除ができ
 
 #: weblate/auth/models.py:194 weblate/trans/models/project.py:190
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "強制的な二要素認証"
 
 #: weblate/auth/models.py:197
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Requires users to have two-factor authentication configured."
-msgstr "認証プロバイダに転送します。"
+msgstr "ユーザーが二要素認証を設定する必要があります。"
 
 #: weblate/auth/models.py:373 weblate/utils/forms.py:69
 #: weblate/utils/validators.py:173
@@ -2697,7 +2675,7 @@ msgstr "メールアドレスを登録しないとこの操作はできません
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr ""
+msgstr "このプロジェクトでは、二要素認証が必要です。プロフィールで設定してください。"
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:175
 #: weblate/templates/translate.html:231
@@ -5537,9 +5515,8 @@ msgstr "翻訳のホスティング"
 #: weblate/templates/about/index.html:28
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
-msgstr ""
-"この Weblate インスタンスでは、多様な Libre ソフトウェア プロジェクトの翻訳を"
-"管理しています。"
+msgstr "この Weblate インスタンスでは、多様な自由ソフトウェア "
+"プロジェクトの翻訳を管理しています。"
 
 #: weblate/templates/about/index.html:29
 msgid "Weblate can host your project as well, please get in touch."
@@ -5558,7 +5535,7 @@ msgstr ""
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:257
 #: weblate/templates/snippets/billing-failure.html:9
 msgid "Ask for Libre hosting"
-msgstr "Libre ホスティングの依頼"
+msgstr "自由ホスティングの依頼"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -5576,7 +5553,7 @@ msgstr "商用ホスティングに関する連絡先"
 
 #: weblate/templates/about/index.html:49
 msgid "Weblate is built on libre software"
-msgstr "Weblate は Libre ソフトウェアを基盤として構築されています"
+msgstr "Weblate は自由ソフトウェアを基盤として構築されています"
 
 #: weblate/templates/about/keys.html:8 weblate/trans/views/about.py:95
 msgid "Weblate keys"
@@ -5815,7 +5792,7 @@ msgstr "サブスクリプションの無料体験"
 
 #: weblate/templates/accounts/hosting.html:30
 msgid "Set up your libre project"
-msgstr "Libre プロジェクトの設定"
+msgstr "自由プロジェクトの設定"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid "Your trial"
@@ -7321,7 +7298,7 @@ msgstr "インボイスが見つかりません。"
 
 #: weblate/templates/billing/detail.html:107
 msgid "Libre hosting"
-msgstr "Libre ホスティング"
+msgstr "自由ホスティング"
 
 #: weblate/templates/billing/detail.html:109
 #: weblate/templates/billing/state-snippet.html:5
@@ -7335,19 +7312,18 @@ msgstr "承認待ち"
 #: weblate/templates/project.html:98
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for Libre hosting"
-msgstr "Libre ホスティングの承認依頼"
+msgstr "自由ホスティングの承認依頼"
 
 #: weblate/templates/billing/detail.html:127
 msgid "Approve as libre"
-msgstr "Libre として承認"
+msgstr "自由として承認"
 
 #: weblate/templates/billing/detail.html:134
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
-msgstr ""
-"このサブスクリプションは Libre プランの対象外です。上記のエラーを修正するか、"
-"サブスクリプションを購入してください。"
+msgstr "このサブスクリプションは自由プランの対象外です。上記のエラーを修正するか、サ"
+"ブスクリプションを購入してください。"
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
@@ -8772,7 +8748,7 @@ msgstr "プロジェクト情報"
 
 #: weblate/templates/mail/base.html:101
 msgid "Weblate, the libre continuous localization system."
-msgstr "Weblate、連携して動作する Libre な翻訳システム。"
+msgstr "Weblate、連携して動作する自由な翻訳システム。"
 
 #: weblate/templates/mail/base.html:108
 msgid "Turn off this notification"
@@ -8804,9 +8780,8 @@ msgstr ""
 msgid ""
 "If you like Weblate and you want to continue using it, just request an "
 "approval of your libre plan."
-msgstr ""
-"Weblate を気に入り、引き続きサービスをご希望の場合は、Libre プランを申請して"
-"ください。"
+msgstr "Weblate "
+"を気に入り、引き続きサービスをご希望の場合は、自由プランを申請してください。"
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -8849,9 +8824,8 @@ msgstr ""
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
-msgstr ""
-"Libre ホスティングとして承認されない場合、この料金プラン内のすべてのプロジェ"
-"クトは %(date)s に削除されます。"
+msgstr "自由ホスティングとして承認されない場合、"
+"この料金プラン内のすべてのプロジェクトは %(date)s に削除されます。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -9217,16 +9191,14 @@ msgid_plural "%(count)s unfinished strings"
 msgstr[0] "%(count)s 個の翻訳未完了の文字列"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "翻訳は複数の言語で、検査に不合格となった項目があります"
+msgstr "%(component)s ではすべての言語の翻訳が完了しました"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "翻訳を更新しました。"
+msgstr "%(translation)s が完了しました"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -9308,7 +9280,7 @@ msgstr "商用"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr "Libre"
+msgstr "自由"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -9984,9 +9956,8 @@ msgstr "Weblate に関する詳しい情報は %(weblate_link)s にあります�
 
 #: weblate/templates/snippets/about.html:7
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr ""
-"Weblate はボランティアにより作成された Libre ソフトウェアであり、寄付をお願い"
-"しています。"
+msgstr "Weblate はボランティアにより作成された自由ソフトウェアであり、寄付をお願いし"
+"ています。"
 
 #: weblate/templates/snippets/activity.html:10
 msgid "Last 12 months"
@@ -10660,9 +10631,8 @@ msgstr ""
 msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
-msgstr ""
-"このプロジェクトは試用期間中であり、翻訳する前に注意してください。設定は、"
-"Libre プロジェクトとして承認される前に変更されることがあります。"
+msgstr "このプロジェクトは試用期間中であり、翻訳する前に注意してください。設定は、自"
+"由プロジェクトとして承認される前に変更されることがあります。"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
 msgid "This project is in the trial period."
@@ -11292,7 +11262,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
-msgstr "このプロジェクトは、Libre ホスティング条件に合わなくなりました。"
+msgstr "このプロジェクトは、自由ホスティング条件に合わなくなりました。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
 msgid "This component set up is incomplete, as it lacks any translations."
@@ -13158,7 +13128,7 @@ msgstr "翻訳手順を定めて、翻訳者にガイドラインを提供しま
 
 #: weblate/trans/guide.py:143
 msgid "Make your translations available under a libre license."
-msgstr "翻訳は Libre ライセンスの下で公開してください。"
+msgstr "翻訳は自由ライセンスの下で公開してください。"
 
 #: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1080
 msgid "Fix this component to clear its alerts."
@@ -13294,7 +13264,7 @@ msgstr "あいまいな言語コード。"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:570
 msgid "Does not meet Libre hosting conditions."
-msgstr "Libre ホスティングの条件を満たしていません。"
+msgstr "自由ホスティングの条件を満たしていません。"
 
 #: weblate/trans/models/alert.py:584
 msgid "Unused enforced checks."
