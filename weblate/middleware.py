@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -32,7 +32,23 @@ from weblate.utils.views import parse_path
 if TYPE_CHECKING:
     from weblate.accounts.strategy import WeblateStrategy
 
-CSP_DIRECTIVES: dict[str, set[str]] = {
+    CSP_KIND = Literal[
+        "default-src",
+        "style-src",
+        "img-src",
+        "script-src",
+        "connect-src",
+        "object-src",
+        "font-src",
+        "frame-src",
+        "frame-ancestors",
+        "base-uri",
+        "form-action",
+        "manifest-src",
+    ]
+    CSP_TYPE = dict[CSP_KIND, set[str]]
+
+CSP_DIRECTIVES: CSP_TYPE = {
     "default-src": {"'none'"},
     "style-src": {"'self'", "'unsafe-inline'"},
     "img-src": {"'self'"},
@@ -262,7 +278,7 @@ class RedirectMiddleware:
 
 
 class CSPBuilder:
-    directives: dict[str, set[str]]
+    directives: CSP_TYPE
     request: AuthenticatedHttpRequest
     response: HttpResponse
 
@@ -285,21 +301,20 @@ class CSPBuilder:
         self.build_csp_auth()
 
     def apply_csp_settings(self) -> None:
-        setting_names = (
-            "CSP_STYLE_SRC",
-            "CSP_SCRIPT_SRC",
-            "CSP_IMG_SRC",
-            "CSP_CONNECT_SRC",
-            "CSP_FONT_SRC",
-            "CSP_FORM_SRC",
-        )
-        for name in setting_names:
+        setting_names: dict[str, CSP_KIND] = {
+            "CSP_STYLE_SRC": "style-src",
+            "CSP_SCRIPT_SRC": "script-src",
+            "CSP_IMG_SRC": "img-src",
+            "CSP_CONNECT_SRC": "connect-src",
+            "CSP_FONT_SRC": "font-src",
+            "CSP_FORM_SRC": "form-action",
+        }
+        for name, rule in setting_names.items():
             value = getattr(settings, name)
             if value:
-                rule = name[4:].lower().replace("_", "-")
                 self.directives[rule].update(value)
 
-    def add_csp_host(self, url: str, *directives: str) -> None | str:
+    def add_csp_host(self, url: str, *directives: CSP_KIND) -> None | str:
         domain = urlparse(url).hostname
         if domain:
             for directive in directives:
