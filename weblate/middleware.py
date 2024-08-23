@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -19,6 +20,7 @@ from django.utils.http import escape_leading_slashes
 from django.utils.translation import gettext_lazy
 from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
+from social_django.utils import load_strategy
 
 from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
 from weblate.lang.models import Language
@@ -26,6 +28,9 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
 from weblate.utils.views import parse_path
+
+if TYPE_CHECKING:
+    from weblate.accounts.strategy import WeblateStrategy
 
 CSP_DIRECTIVES: dict[str, set[str]] = {
     "default-src": {"'none'"},
@@ -385,15 +390,21 @@ class CSPBuilder:
             self.request.resolver_match.view_name.startswith("social:")
             or self.request.resolver_match.view_name in {"login", "profile"}
         ):
+            social_strategy: WeblateStrategy
+            if hasattr(self.request, "social_strategy"):
+                social_strategy = self.request.social_strategy
+            else:
+                social_strategy = load_strategy(self.request)
             for backend in get_auth_backends().values():
+                url = ""
                 # Handle OpenId redirect flow
                 if issubclass(backend, OpenIdAuth):
-                    self.directives["form-action"].add(urlparse(backend.URL).hostname)
+                    url = backend(social_strategy).openid_url()
                 # Handle OAuth redirect flow
-                if issubclass(backend, OAuthAuth) and backend.AUTHORIZATION_URL:
-                    self.directives["form-action"].add(
-                        urlparse(backend.AUTHORIZATION_URL).hostname
-                    )
+                if issubclass(backend, OAuthAuth):
+                    url = backend(social_strategy).authorization_url()
+                if url:
+                    self.directives["form-action"].add(urlparse(url).hostname)
 
 
 class SecurityMiddleware:
