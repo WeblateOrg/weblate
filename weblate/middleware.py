@@ -180,6 +180,9 @@ class RedirectMiddleware:
         except AttributeError:
             return None
 
+        if resolver_match is None:
+            return None
+
         kwargs = dict(resolver_match.kwargs)
         path = list(kwargs.get("path", ()))
         language_name = None
