@@ -4,6 +4,8 @@
 
 """Test for creating projects and models."""
 
+import urllib.parse
+
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -194,7 +196,27 @@ class CreateTest(ViewTestCase):
                 },
                 follow=True,
             )
+
         self.assertContains(response, self.component.get_repo_link_url())
+        parsed_query = urllib.parse.parse_qs(response.request["QUERY_STRING"])
+        expected_hidden_inputs = [
+            "vcs",
+            "source_language",
+            "license",
+            "agreement",
+            "merge_style",
+            "commit_message",
+            "add_message",
+            "delete_message",
+            "merge_message",
+            "addon_message",
+            "pull_message",
+        ]
+        for field in expected_hidden_inputs:
+            if component_value := getattr(self.component, field):
+                if field == "source_language":
+                    component_value = str(component_value.id)
+                self.assertEqual(parsed_query[field][0], component_value)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_branch_fail(self) -> None:

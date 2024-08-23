@@ -23,7 +23,7 @@ from django.utils.functional import cached_property
 from weblate.auth.models import User
 from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.utils.files import remove_tree
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -165,6 +165,12 @@ class RepoTestMixin:
         )
         self.addCleanup(remove_tree, project.full_path, True)
         return project
+
+    def create_category(self, project, **kwargs):
+        """Create test category."""
+        return Category.objects.create(
+            name="Test category", slug="test-category", project=project, **kwargs
+        )
 
     def format_local_path(self, path):
         """Format path for local access to the repository."""
