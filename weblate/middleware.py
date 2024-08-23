@@ -296,6 +296,13 @@ class CSPBuilder:
                 rule = name[4:].lower().replace("_", "-")
                 self.directives[rule].update(value)
 
+    def add_csp_host(self, url: str, *directives: str) -> None | str:
+        domain = urlparse(url).hostname
+        if domain:
+            for directive in directives:
+                self.directives[directive].add(domain)
+        return domain
+
     def build_csp_inline(self) -> None:
         if (
             self.request.resolver_match
@@ -329,9 +336,7 @@ class CSPBuilder:
     def build_csp_sentry(self) -> None:
         # Sentry user feedback
         if settings.SENTRY_DSN and self.response.status_code == 500:
-            domain = urlparse(settings.SENTRY_DSN).hostname
-            self.directives["script-src"].add(domain)
-            self.directives["connect-src"].add(domain)
+            domain = self.add_csp_host(settings.SENTRY_DSN, "script-src", "connect-src")
             # Add appropriate frontend servers for sentry.io
             if domain.endswith("de.sentry.io"):
                 self.directives["connect-src"].add("de.sentry.io")
@@ -345,10 +350,9 @@ class CSPBuilder:
     def build_csp_piwik(self) -> None:
         # Matomo (Piwik) analytics
         if settings.MATOMO_URL:
-            domain = urlparse(settings.MATOMO_URL).hostname
-            self.directives["script-src"].add(domain)
-            self.directives["img-src"].add(domain)
-            self.directives["connect-src"].add(domain)
+            self.add_csp_host(
+                settings.MATOMO_URL, "script-src", "img-src", "connect-src"
+            )
 
     def build_csp_google_analytics(self) -> None:
         # Google Analytics
@@ -360,30 +364,24 @@ class CSPBuilder:
     def build_csp_media_url(self) -> None:
         # External media URL
         if "://" in settings.MEDIA_URL:
-            domain = urlparse(settings.MEDIA_URL).hostname
-            self.directives["img-src"].add(domain)
+            self.add_csp_host(settings.MEDIA_URL, "img-src")
 
     def build_csp_static_url(self) -> None:
         # External static URL
         if "://" in settings.STATIC_URL:
-            domain = urlparse(settings.STATIC_URL).hostname
-            self.directives["script-src"].add(domain)
-            self.directives["img-src"].add(domain)
-            self.directives["style-src"].add(domain)
-            self.directives["font-src"].add(domain)
+            self.add_csp_host(
+                settings.STATIC_URL, "script-src", "img-src", "style-src", "font-src"
+            )
 
     def build_csp_cdn(self) -> None:
         # CDN for fonts
         if settings.FONTS_CDN_URL:
-            domain = urlparse(settings.FONTS_CDN_URL).hostname
-            self.directives["style-src"].add(domain)
-            self.directives["font-src"].add(domain)
+            self.add_csp_host(settings.FONTS_CDN_URL, "style-src", "font-src")
 
     def build_csp_auth(self) -> None:
         # When using external image for Auth0 provider, add it here
         if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
-            domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
-            self.directives["img-src"].add(domain)
+            self.add_csp_host(settings.SOCIAL_AUTH_AUTH0_IMAGE, "img-src")
 
         # Third-party login flow extensions
         if self.request.resolver_match and (
@@ -404,7 +402,7 @@ class CSPBuilder:
                 if issubclass(backend, OAuthAuth):
                     url = backend(social_strategy).authorization_url()
                 if url:
-                    self.directives["form-action"].add(urlparse(url).hostname)
+                    self.add_csp_host(url, "form-action")
 
 
 class SecurityMiddleware:
