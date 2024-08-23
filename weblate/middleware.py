@@ -4,13 +4,14 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
-from django.http import Http404, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
 from django.urls.exceptions import NoReverseMatch
@@ -26,12 +27,20 @@ from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
 from weblate.utils.views import parse_path
 
-CSP_TEMPLATE = (
-    "default-src 'none'; style-src {0}; img-src {1}; script-src {2}; "
-    "connect-src {3}; object-src 'none'; font-src {4};"
-    "frame-src 'none'; frame-ancestors 'none';"
-    "base-uri 'none';  form-action {5}; manifest-src 'self'"
-)
+CSP_DIRECTIVES: dict[str, set[str]] = {
+    "default-src": {"'none'"},
+    "style-src": {"'self'", "'unsafe-inline'"},
+    "img-src": {"'self'"},
+    "script-src": {"'self'"},
+    "connect-src": {"'self'"},
+    "object-src": {"'none'"},
+    "font-src": {"'self'"},
+    "frame-src": {"'none'"},
+    "frame-ancestors": {"'none'"},
+    "base-uri": {"'none'"},
+    "form-action": {"'self'"},
+    "manifest-src": {"'self'"},
+}
 
 # URLs requiring inline javascript
 INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process"}
@@ -244,115 +253,162 @@ class RedirectMiddleware:
         return None
 
 
+class CSPBuilder:
+    directives: dict[str, set[str]]
+    request: AuthenticatedHttpRequest
+    response: HttpResponse
+
+    def __init__(
+        self, request: AuthenticatedHttpRequest, response: HttpResponse
+    ) -> None:
+        self.directives = deepcopy(CSP_DIRECTIVES)
+        self.request = request
+        self.response = response
+        self.apply_csp_settings()
+        self.build_csp_inline()
+        self.build_csp_support()
+        self.build_csp_rollbar()
+        self.build_csp_sentry()
+        self.build_csp_piwik()
+        self.build_csp_google_analytics()
+        self.build_csp_media_url()
+        self.build_csp_static_url()
+        self.build_csp_cdn()
+        self.build_csp_auth()
+
+    def apply_csp_settings(self) -> None:
+        setting_names = (
+            "CSP_STYLE_SRC",
+            "CSP_SCRIPT_SRC",
+            "CSP_IMG_SRC",
+            "CSP_CONNECT_SRC",
+            "CSP_FONT_SRC",
+            "CSP_FORM_SRC",
+        )
+        for name in setting_names:
+            value = getattr(settings, name)
+            if value:
+                rule = name[4:].lower().replace("_", "-")
+                self.directives[rule].update(value)
+
+    def build_csp_inline(self) -> None:
+        if (
+            self.request.resolver_match
+            and self.request.resolver_match.view_name in INLINE_PATHS
+        ):
+            self.directives["script-src"].add("'unsafe-inline'")
+
+    def build_csp_support(self) -> None:
+        # Support form
+        if (
+            self.request.resolver_match
+            and self.request.resolver_match.view_name == "manage"
+        ):
+            self.directives["script-src"].add("care.weblate.org")
+            self.directives["connect-src"].add("care.weblate.org")
+            self.directives["style-src"].add("care.weblate.org")
+            self.directives["form-action"].add("care.weblate.org")
+
+    def build_csp_rollbar(self) -> None:
+        # Rollbar client errors reporting
+        if (
+            (rollbar_settings := getattr(settings, "ROLLBAR", None)) is not None
+            and "client_token" in rollbar_settings
+            and "environment" in rollbar_settings
+            and self.response.status_code == 500
+        ):
+            self.directives["script-src"].add("'unsafe-inline'")
+            self.directives["script-src"].add("cdnjs.cloudflare.com")
+            self.directives["connect-src"].add("api.rollbar.com")
+
+    def build_csp_sentry(self) -> None:
+        # Sentry user feedback
+        if settings.SENTRY_DSN and self.response.status_code == 500:
+            domain = urlparse(settings.SENTRY_DSN).hostname
+            self.directives["script-src"].add(domain)
+            self.directives["connect-src"].add(domain)
+            # Add appropriate frontend servers for sentry.io
+            if domain.endswith("de.sentry.io"):
+                self.directives["connect-src"].add("de.sentry.io")
+                self.directives["script-src"].add("de.sentry.io")
+            elif domain.endswith("sentry.io"):
+                self.directives["script-src"].add("sentry.io")
+                self.directives["connect-src"].add("sentry.io")
+            self.directives["script-src"].add("'unsafe-inline'")
+            self.directives["img-src"].add("data:")
+
+    def build_csp_piwik(self) -> None:
+        # Matomo (Piwik) analytics
+        if settings.MATOMO_URL:
+            domain = urlparse(settings.MATOMO_URL).hostname
+            self.directives["script-src"].add(domain)
+            self.directives["img-src"].add(domain)
+            self.directives["connect-src"].add(domain)
+
+    def build_csp_google_analytics(self) -> None:
+        # Google Analytics
+        if settings.GOOGLE_ANALYTICS_ID:
+            self.directives["script-src"].add("'unsafe-inline'")
+            self.directives["script-src"].add("www.google-analytics.com")
+            self.directives["img-src"].add("www.google-analytics.com")
+
+    def build_csp_media_url(self) -> None:
+        # External media URL
+        if "://" in settings.MEDIA_URL:
+            domain = urlparse(settings.MEDIA_URL).hostname
+            self.directives["img-src"].add(domain)
+
+    def build_csp_static_url(self) -> None:
+        # External static URL
+        if "://" in settings.STATIC_URL:
+            domain = urlparse(settings.STATIC_URL).hostname
+            self.directives["script-src"].add(domain)
+            self.directives["img-src"].add(domain)
+            self.directives["style-src"].add(domain)
+            self.directives["font-src"].add(domain)
+
+    def build_csp_cdn(self) -> None:
+        # CDN for fonts
+        if settings.FONTS_CDN_URL:
+            domain = urlparse(settings.FONTS_CDN_URL).hostname
+            self.directives["style-src"].add(domain)
+            self.directives["font-src"].add(domain)
+
+    def build_csp_auth(self) -> None:
+        # When using external image for Auth0 provider, add it here
+        if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
+            domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
+            self.directives["img-src"].add(domain)
+
+        # Third-party login flow extensions
+        if self.request.resolver_match and (
+            self.request.resolver_match.view_name.startswith("social:")
+            or self.request.resolver_match.view_name in {"login", "profile"}
+        ):
+            for backend in get_auth_backends().values():
+                # Handle OpenId redirect flow
+                if issubclass(backend, OpenIdAuth):
+                    self.directives["form-action"].add(urlparse(backend.URL).hostname)
+                # Handle OAuth redirect flow
+                if issubclass(backend, OAuthAuth) and backend.AUTHORIZATION_URL:
+                    self.directives["form-action"].add(
+                        urlparse(backend.AUTHORIZATION_URL).hostname
+                    )
+
+
 class SecurityMiddleware:
     """Middleware that sets Content-Security-Policy."""
 
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request: AuthenticatedHttpRequest):  # noqa: C901
+    def __call__(self, request: AuthenticatedHttpRequest):
         response = self.get_response(request)
+        csp_builder = CSPBuilder(request, response)
 
-        style = {"'self'", "'unsafe-inline'"} | set(settings.CSP_STYLE_SRC)
-        script = {"'self'"} | set(settings.CSP_SCRIPT_SRC)
-        image = {"'self'"} | set(settings.CSP_IMG_SRC)
-        connect = {"'self'"} | set(settings.CSP_CONNECT_SRC)
-        font = {"'self'"} | set(settings.CSP_FONT_SRC)
-        form = {"'self'"} | set(settings.CSP_FORM_SRC)
-
-        if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
-            script.add("'unsafe-inline'")
-
-        # Support form
-        if request.resolver_match and request.resolver_match.view_name == "manage":
-            script.add("care.weblate.org")
-            connect.add("care.weblate.org")
-            style.add("care.weblate.org")
-            form.add("care.weblate.org")
-
-        # Rollbar client errors reporting
-        if (
-            (rollbar_settings := getattr(settings, "ROLLBAR", None)) is not None
-            and "client_token" in rollbar_settings
-            and "environment" in rollbar_settings
-            and response.status_code == 500
-        ):
-            script.add("'unsafe-inline'")
-            script.add("cdnjs.cloudflare.com")
-            connect.add("api.rollbar.com")
-
-        # Sentry user feedback
-        if settings.SENTRY_DSN and response.status_code == 500:
-            domain = urlparse(settings.SENTRY_DSN).hostname
-            script.add(domain)
-            connect.add(domain)
-            # Add appropriate frontend servers for sentry.io
-            if domain.endswith("de.sentry.io"):
-                connect.add("de.sentry.io")
-                script.add("de.sentry.io")
-            elif domain.endswith("sentry.io"):
-                script.add("sentry.io")
-                connect.add("sentry.io")
-            script.add("'unsafe-inline'")
-            image.add("data:")
-
-        # Matomo (Piwik) analytics
-        if settings.MATOMO_URL:
-            domain = urlparse(settings.MATOMO_URL).hostname
-            script.add(domain)
-            image.add(domain)
-            connect.add(domain)
-
-        # Google Analytics
-        if settings.GOOGLE_ANALYTICS_ID:
-            script.add("'unsafe-inline'")
-            script.add("www.google-analytics.com")
-            image.add("www.google-analytics.com")
-
-        # External media URL
-        if "://" in settings.MEDIA_URL:
-            domain = urlparse(settings.MEDIA_URL).hostname
-            image.add(domain)
-
-        # External static URL
-        if "://" in settings.STATIC_URL:
-            domain = urlparse(settings.STATIC_URL).hostname
-            script.add(domain)
-            image.add(domain)
-            style.add(domain)
-            font.add(domain)
-
-        # CDN for fonts
-        if settings.FONTS_CDN_URL:
-            domain = urlparse(settings.FONTS_CDN_URL).hostname
-            style.add(domain)
-            font.add(domain)
-
-        # When using external image for Auth0 provider, add it here
-        if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
-            domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
-            image.add(domain)
-
-        # Third-party login flow extensions
-        if request.resolver_match and (
-            request.resolver_match.view_name.startswith("social:")
-            or request.resolver_match.view_name in {"login", "profile"}
-        ):
-            for backend in get_auth_backends().values():
-                # Handle OpenId redirect flow
-                if issubclass(backend, OpenIdAuth) and backend.URL:
-                    form.add(urlparse(backend.URL).hostname)
-                # Handle OAuth redirect flow
-                if issubclass(backend, OAuthAuth) and backend.AUTHORIZATION_URL:
-                    form.add(urlparse(backend.AUTHORIZATION_URL).hostname)
-
-        response["Content-Security-Policy"] = CSP_TEMPLATE.format(
-            " ".join(style),
-            " ".join(image),
-            " ".join(script),
-            " ".join(connect),
-            " ".join(font),
-            " ".join(form),
+        response["Content-Security-Policy"] = "; ".join(
+            f"{name} {' '.join(rules)}"
+            for name, rules in csp_builder.directives.items()
         )
         if settings.SENTRY_SECURITY:
             response["Content-Security-Policy"] += (
