@@ -9,7 +9,6 @@ from __future__ import annotations
 import os
 from functools import cache, lru_cache
 from io import BytesIO
-from tempfile import NamedTemporaryFile
 from typing import NamedTuple
 
 import cairo
@@ -292,15 +291,5 @@ def get_font_name(filelike):
     from PIL import ImageFont
 
     if not hasattr(filelike, "loaded_font"):
-        # The tempfile creation is workaround for Pillow crashing on invalid font
-        # see https://github.com/python-pillow/Pillow/issues/3853
-        # Once this is fixed, it should be possible to directly operate on filelike
-        temp = NamedTemporaryFile(delete=False)
-        try:
-            temp.write(filelike.read())
-            filelike.seek(0)
-            temp.close()
-            filelike.loaded_font = ImageFont.truetype(temp.name)
-        finally:
-            os.unlink(temp.name)
+        filelike.loaded_font = ImageFont.truetype(filelike)
     return filelike.loaded_font.getname()
