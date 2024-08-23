@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 **Improvements**
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate Component`)
 
 **Bug fixes**
 
