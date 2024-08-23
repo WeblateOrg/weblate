@@ -477,10 +477,11 @@ class TranslationFormat:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
-        temp = tempfile.NamedTemporaryFile(prefix=basename, dir=dirname, delete=False)
         try:
-            callback(temp)
-            temp.close()
+            with tempfile.NamedTemporaryFile(
+                prefix=basename, dir=dirname, delete=False
+            ) as temp:
+                callback(temp)
             os.replace(temp.name, filename)
         finally:
             if os.path.exists(temp.name):
@@ -853,10 +854,11 @@ class BilingualUpdateMixin:
 
     @classmethod
     def update_bilingual(cls, filename: str, template: str, **kwargs) -> None:
-        temp = tempfile.NamedTemporaryFile(
+        with tempfile.NamedTemporaryFile(
             prefix=filename, dir=os.path.dirname(filename), delete=False
-        )
-        temp.close()
+        ) as temp:
+            # We want file to be created only here
+            pass
         try:
             cls.do_bilingual_update(filename, temp.name, template, **kwargs)
             os.replace(temp.name, filename)
