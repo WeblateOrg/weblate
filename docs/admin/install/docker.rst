@@ -2023,7 +2023,7 @@ To override settings at the Docker image level instead of from the data volume:
     See the `Compose file build reference`_ for details on building images from
     source when using ``docker-compose``.
 
-    .. _Compose file build reference: https://docs.docker.com/compose/compose-file/build/
+    .. _Compose file build reference: https://docs.docker.com/reference/compose-file/build/
 
 #.  Extend your custom settings module to define or redefine settings.
 
