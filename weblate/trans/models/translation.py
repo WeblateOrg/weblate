@@ -1337,7 +1337,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return self.component.get_export_url()
 
     def remove(self, user: User) -> None:
-        """Remove translation from the VCS."""
+        """Remove translation from the Database and VCS."""
+        from weblate.glossary.tasks import cleanup_stale_glossaries
+
         author = user.get_author_name()
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
@@ -1366,6 +1368,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             user=user,
             author=user,
         )
+
+        cleanup_stale_glossaries.delay(self.component.project.id)
 
     def handle_store_change(
         self, request, user, previous_revision: str, change=None

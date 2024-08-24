@@ -4,10 +4,13 @@
 
 from __future__ import annotations
 
+from django.db import transaction
+
 from weblate.lang.models import Language
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project, Translation
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.stats import prefetch_stats
 
 
 @app.task(
@@ -16,7 +19,11 @@ from weblate.utils.lock import WeblateLockTimeoutError
     retry_backoff=60,
 )
 def sync_glossary_languages(pk: int, component: Component | None = None) -> None:
-    """Add missing glossary languages."""
+    """Add missing glossary languages and delete empty stale glossaries."""
+    # Delete stale glossaries
+    cleanup_stale_glossaries(component.project)
+
+    # Add missing glossary languages
     if component is None:
         component = Component.objects.get(pk=pk)
 
@@ -38,6 +45,32 @@ def sync_glossary_languages(pk: int, component: Component | None = None) -> None
 
     if needs_create:
         component.create_translations_task()
+
+
+@app.task(trail=False, autoretry_for=(Project.DoesNotExist, WeblateLockTimeoutError))
+def cleanup_stale_glossaries(project: int | Project) -> None:
+    if isinstance(project, int):
+        project = Project.objects.get(pk=project)
+
+    languages_in_non_glossary_components: set[int] = set(
+        Translation.objects.filter(
+            component__project=project, component__is_glossary=False
+        ).values_list("language_id", flat=True)
+    )
+
+    glossary_translations = prefetch_stats(
+        Translation.objects.filter(
+            component__project=project, component__is_glossary=True
+        )
+    )
+    for glossary in glossary_translations:
+        if (
+            glossary.stats.translated == 0
+            and glossary.language_id not in languages_in_non_glossary_components
+        ):
+            glossary.delete()
+            transaction.on_commit(glossary.stats.update_parents)
+            transaction.on_commit(glossary.component.schedule_update_checks)
 
 
 @app.task(

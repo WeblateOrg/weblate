@@ -11,7 +11,11 @@ from io import StringIO
 from django.urls import reverse
 
 from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
-from weblate.glossary.tasks import sync_terminology
+from weblate.glossary.tasks import (
+    cleanup_stale_glossaries,
+    sync_terminology,
+)
+from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -472,3 +476,16 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         lines = list(reader)
         self.assertEqual(len(lines), 163)
         self.assertTrue(all(len(line) == 2 for line in lines))
+
+    def test_stale_glossaries_cleanup(self) -> None:
+        initial_count = self.glossary_component.translation_set.count()
+        # delete one translation
+        german = Language.objects.get(code="de")
+        self.component.translation_set.get(language=german).remove(self.user)
+
+        cleanup_stale_glossaries(self.project.id)
+
+        # check that only the one glossary has been deleted
+        self.assertEqual(
+            self.glossary_component.translation_set.count(), initial_count - 1
+        )
