@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Stale empty glossaries are now automatically removed
+
 **Bug fixes**
 
 * Support for using Docker network names in automatic suggestion settings.
