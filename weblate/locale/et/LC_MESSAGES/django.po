@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-15 12:54+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2024-08-26 07:12+0000\n"
+"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -495,10 +495,9 @@ msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #: weblate/accounts/models.py:183
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Kutsutud kasutama {site_title}, kasutaja {username} poolt."
+msgstr "{username} lisas kasutaja meeskonda: {team}."
 
 #: weblate/accounts/models.py:184
 #, python-brace-format
@@ -545,10 +544,9 @@ msgid "Could not sign in using password."
 msgstr "Ei õnnestunud salasõna alusel sisse logida."
 
 #: weblate/accounts/models.py:204
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Kutsutud kasutama {site_title}, kasutaja {username} poolt."
+msgstr "{username} saatis kutse projekti {project}."
 
 #: weblate/accounts/models.py:207
 #, fuzzy
@@ -5767,13 +5765,11 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "Kasutajanimi GitHub'is"
-msgstr[1] "Kasutajanimi GitHub'is"
+msgstr[0] "GitHubi täht"
+msgstr[1] "GitHubi tähte"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
@@ -13197,10 +13193,9 @@ msgid "File mask matches the main component."
 msgstr "Tõlke võti"
 
 #: weblate/trans/discovery.py:308
-#, fuzzy, python-brace-format
-#| msgid "This translation does not yet exist."
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Seda tõlget pole veel olemas."
+msgstr "{filename} ({parameter}) pole olemas."
 
 #: weblate/trans/feeds.py:31 weblate/trans/feeds.py:68
 #, python-format
@@ -15515,10 +15510,8 @@ msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
 
 #: weblate/trans/models/project.py:166
-#, fuzzy
-#| msgid "Translated"
 msgid "Use shared translation memory"
-msgstr "Tõlgitud"
+msgstr "Kasuta jagatud tõlkemälu"
 
 #: weblate/trans/models/project.py:169
 msgid "Uses the pool of shared translations between projects."
@@ -16135,10 +16128,8 @@ msgid "Keys"
 msgstr ""
 
 #: weblate/trans/views/about.py:23 weblate/trans/views/about.py:130
-#, fuzzy
-#| msgid "About Weblate"
 msgid "Support Weblate"
-msgstr "Teave Weblate'i kohta"
+msgstr "Toeta Weblate'i teenust"
 
 #: weblate/trans/views/about.py:65
 msgid "Weblate statistics"
@@ -16188,7 +16179,7 @@ msgstr ""
 
 #: weblate/trans/views/basic.py:766
 msgid "All languages have been added, updates of translations are in progress."
-msgstr ""
+msgstr "Kõik keeled on lisatud, tõlgete uuendamine on töös."
 
 #: weblate/trans/views/changes.py:63
 #, fuzzy, python-format
@@ -16268,7 +16259,7 @@ msgstr ""
 
 #: weblate/trans/views/edit.py:319
 msgid "Your suggestion is similar to the current translation!"
-msgstr ""
+msgstr "Sinu soovitus on identne praeguse tõlkega!"
 
 #: weblate/trans/views/edit.py:324
 msgid "Your suggestion already exists!"
@@ -16417,7 +16408,7 @@ msgstr "Ei saa puhastada %s varamut."
 #: weblate/trans/views/git.py:61
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
-msgstr ""
+msgstr "Kõik hoidlad on uuendatud, tõlgete uuendamine on töös."
 
 #: weblate/trans/views/git.py:84
 msgid "All repositories were pushed."
@@ -16426,7 +16417,7 @@ msgstr ""
 #: weblate/trans/views/git.py:99
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
-msgstr ""
+msgstr "Kõik hoidlad on lähtestatud, tõlgete uuendamine on töös."
 
 #: weblate/trans/views/git.py:123
 msgid "All repositories have been cleaned up."
@@ -16439,10 +16430,8 @@ msgid "Translation files have been synchronized."
 msgstr "Tõlkele lisatud kommentaar on leidnud lahenduse."
 
 #: weblate/trans/views/git.py:155
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Updates of translations are in progress."
-msgstr "Soovitatud tõlked"
+msgstr "Tõlgete uuendamine on töös."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
@@ -16594,10 +16583,8 @@ msgid "Component {}"
 msgstr "Komponent: {}"
 
 #: weblate/trans/widgets.py:378
-#, fuzzy
-#| msgid "Status badge"
 msgid "SVG status badge"
-msgstr "Olekusilt"
+msgstr "Olekusilt SVG-vormingus"
 
 #: weblate/trans/widgets.py:381
 msgid "translated"
@@ -16622,7 +16609,7 @@ msgstr ""
 #. Translators: Name of a color
 #: weblate/utils/colors.py:9
 msgid "Navy"
-msgstr ""
+msgstr "Mereväesinine"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -16672,7 +16659,7 @@ msgstr "Punane"
 #. Translators: Name of a color
 #: weblate/utils/colors.py:29
 msgid "Maroon"
-msgstr ""
+msgstr "Kastanpruun"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:31
@@ -16840,10 +16827,8 @@ msgid "This e-mail address is disallowed."
 msgstr "See e-posti aadress ei ole lubatud."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Invalid e-mail address: {}"
-msgstr "Palun sisestage kehtiv e-posti aadress."
+msgstr "Vigane e-posti aadress: {}"
 
 #: weblate/utils/validators.py:207
 #, fuzzy
