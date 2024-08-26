@@ -185,21 +185,28 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
+        response = self.client.get(
+            reverse("create-component") + f"?component={self.component.pk}#existing",
+            follow=True,
+        )
+        self.assertContains(response, "Create component")
+
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
                 reverse("create-component"),
                 {
                     "origin": "existing",
-                    "name": "Create Component",
-                    "slug": "create-component",
+                    "name": "Create Component From Existing",
+                    "slug": "create-component-from-existing",
                     "component": self.component.pk,
+                    "is_glossary": self.component.is_glossary,
                 },
                 follow=True,
             )
 
         self.assertContains(response, self.component.get_repo_link_url())
         parsed_query = urllib.parse.parse_qs(response.request["QUERY_STRING"])
-        expected_hidden_inputs = [
+        expected_query_strings = [
             "vcs",
             "source_language",
             "license",
@@ -212,7 +219,7 @@ class CreateTest(ViewTestCase):
             "addon_message",
             "pull_message",
         ]
-        for field in expected_hidden_inputs:
+        for field in expected_query_strings:
             if component_value := getattr(self.component, field):
                 if field == "source_language":
                     component_value = str(component_value.id)

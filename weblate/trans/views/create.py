@@ -476,9 +476,13 @@ class CreateComponentSelection(CreateComponent):
             self.duplicate_existing_component = None
         self.initial = {}
         if self.duplicate_existing_component:
-            self.initial["component"] = Component.objects.get(
+            source_component = Component.objects.get(
                 pk=self.duplicate_existing_component
             )
+            self.initial |= {
+                "component": source_component,
+                "is_glossary": source_component.is_glossary,
+            }
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
@@ -544,6 +548,7 @@ class CreateComponentSelection(CreateComponent):
                 category=component.category.pk if component.category else "",
                 name=form.cleaned_data["name"],
                 slug=form.cleaned_data["slug"],
+                is_glossary=form.cleaned_data["is_glossary"],
                 vcs=component.vcs,
                 source_language=component.source_language.pk,
                 license=component.license,
