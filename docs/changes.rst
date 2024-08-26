@@ -10,6 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Support for using Docker network names in automatic suggestion settings.
+* Fixed authentication using some third-party providers such as Azure.
 
 **Compatibility**
 
