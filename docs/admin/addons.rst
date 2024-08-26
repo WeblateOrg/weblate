@@ -153,6 +153,10 @@ Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
 
+For formats containing additional content besides translation strings (such as
+:ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the translation file
+in sync with the base file.
+
 .. seealso::
 
    :ref:`faq-cleanup`
