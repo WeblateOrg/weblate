@@ -68,7 +68,7 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
             glossary.stats.translated == 0
             and glossary.language_id not in languages_in_non_glossary_components
         ):
-            glossary.delete()
+            glossary.remove()
             transaction.on_commit(glossary.stats.update_parents)
             transaction.on_commit(glossary.component.schedule_update_checks)
 
