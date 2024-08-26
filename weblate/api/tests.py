@@ -3295,7 +3295,11 @@ class TranslationAPITest(APIBaseTest):
         )
 
     def test_delete(self) -> None:
-        start_count = Translation.objects.count()
+        def _translation_count():
+            # ignore glossaries as stale glossaries are also cleaned out
+            return Translation.objects.filter(component__is_glossary=False).count()
+
+        start_count = _translation_count()
         self.do_request(
             "api:translation-detail", self.translation_kwargs, method="delete", code=403
         )
@@ -3306,7 +3310,8 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Translation.objects.count(), start_count - 1)
+
+        self.assertEqual(_translation_count(), start_count - 1)
 
 
 class UnitAPITest(APIBaseTest):
