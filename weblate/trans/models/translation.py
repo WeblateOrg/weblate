@@ -1096,11 +1096,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 ) from error
 
             # Create actual file with the uploaded content
-            temp = tempfile.NamedTemporaryFile(
+            with tempfile.NamedTemporaryFile(
                 prefix="weblate-upload", dir=self.component.full_path, delete=False
-            )
-            temp.write(fileobj.read())
-            temp.close()
+            ) as temp:
+                temp.write(fileobj.read())
 
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
