@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 11:27+0200\n"
-"PO-Revision-Date: 2024-08-16 02:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2024-08-26 17:41+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
 "Language: ko\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.7.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -50,6 +50,9 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"웹레이트 번역 플랫폼에서 무료 Libre 플랜을 실행하는 프로젝트는 항상 "
+":guilabel:`공개`입니다. 프로젝트에 대한 액세스를 제한하려면 유료 플랜으로 "
+"전환할 수 있습니다."
 
 #: ../../admin/access.rst:22
 #, fuzzy
@@ -127,7 +130,7 @@ msgstr ":guilabel:`사용자 정의`"
 
 #: ../../admin/access.rst:56
 msgid "Not available on Hosted Weblate."
-msgstr "호스팅된 웹레이트에서는 사용할 수 없습니다."
+msgstr "웹레이트 번역 플랫폼에서 사용할 수 없습니다."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
@@ -452,10 +455,8 @@ msgstr ""
 "있지만 기여할 수는 없습니다."
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid "Per project permissions"
 msgid "Per-project permission management"
-msgstr "프로젝트 당 권한"
+msgstr "프로젝트별 권한 관리"
 
 #: ../../admin/access.rst:199
 #, fuzzy
@@ -503,14 +504,8 @@ msgid "Site-wide access control"
 msgstr "간단한 접근 제어"
 
 #: ../../snippets/not-hosted.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is unavailable for projects running the Libre plan on Hosted "
-#| "Weblate."
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr ""
-"이 기능은 Hosted Weblate에서 리브레 요금제를 사용하는 프로젝트에는 적용할 수 "
-"없습니다."
+msgstr "이 기능은 웹레이트 번역 플랫폼에서 사용할 수 없습니다."
 
 #: ../../admin/access.rst:220
 #, fuzzy
@@ -544,6 +539,9 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
+"구현 세부 사항에 관심이 없고 기본값을 기반으로 간단한 구성을 만들거나, 전체 "
+"Weblate 설치에 대한 사이트 전체 액세스 권한이 없다면(예: Hosted Weblate "
+"<https://hosted.weblate.org/>`_), :ref:`manage-acl` 섹션을 참조하십시오."
 
 #: ../../admin/access.rst:236
 msgid "Site-wide permission management"
@@ -2064,6 +2062,8 @@ msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"이 추가 기능은 :guilabel:`Hosted Weblate`에서 구성되며 ``https://weblate-cdn."
+"com/``을 통해 파일을 제공합니다."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -3840,7 +3840,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:114
 msgid "Management interface"
-msgstr ""
+msgstr "관리 인터페이스"
 
 #: ../../admin/admin.rst:6
 msgid ""
@@ -8390,7 +8390,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1187
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Hosted Weblate에서는 ``https://weblate-cdn.com/``을 사용합니다."
 
 #: ../../admin/config.rst:1191
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -9500,6 +9500,15 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will ensure that all pending changes are included prior to this operation."
 msgstr ""
+"첫 번째 접근 방식은 단일 언어 파일을 사용하는 경우 쉽습니다. Weblate 내에서 "
+"새 문자열을 추가하고 파일의 전체 편집을 그대로 둘 수 있습니다. 이중 언어 "
+"파일의 경우 일반적으로 소스 코드에서 번역 가능한 파일을 생성하는 일종의 "
+"메시지 추출 프로세스가 있습니다. 경우에 따라 이 프로세스는 두 부분으로 나눌 "
+"수 있는데, 하나는 추출을 위한 템플릿을 생성하는 부분(예: gettext POT는 "
+":program:`xgettext`를 사용하여 생성됨)이고, 그런 다음 추가 프로세스는 실제 "
+"번역으로 병합합니다(gettext PO 파일은 :program:`msgmerge`를 사용하여 "
+"업데이트됨). 두 번째 단계는 Weblate 내에서 수행할 수 있으며 이 작업 전에 "
+"보류 중인 모든 변경 사항이 포함됩니다."
 
 #: ../../admin/continuous.rst:122
 msgid ""
@@ -9601,6 +9610,10 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"웹레이트 번역 플랫폼을 사용하는 경우 권장되는 접근 방식은 `Weblate 앱 "
+"<https://github.com/apps/weblate>`_을 설치하는 것입니다. 이렇게 하면 많은 "
+"것을 설정하지 않고도 올바른 설정을 얻을 수 있습니다. 변경 사항을 다시 "
+"푸시하는 데에도 사용할 수 있습니다."
 
 #: ../../admin/continuous.rst:203
 msgid ""
@@ -9615,6 +9628,9 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"페이로드 URL의 경우 Weblate URL에 ``/hooks/github/``를 사용자의 Weblate "
+"URL에 추가합니다. 예를 들어 웹레이트 번역 플랫폼 서비스의 경우 "
+"``https://hosted.weblate.org/hooks/github/``입니다."
 
 #: ../../admin/continuous.rst:212
 msgid ""
@@ -9637,6 +9653,9 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate는 Bitbucket 웹훅을 지원하며, Weblate 설치 시 ``/hooks/bitbucket/`` "
+"URL(예: ``https://hosted.weblate.org/hooks/bitbucket/``)로 목적지를 지정하여 "
+"저장소 푸시 시 트리거되는 웹훅을 추가합니다."
 
 #: ../../admin/continuous.rst:233
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -9652,6 +9671,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate는 GitLab 후크를 지원하며, Weblate 설치 시 대상 위치가 ``/hooks/"
+"gitlab/`` URL인 프로젝트 웹훅을 추가합니다(예: ``https://hosted.weblate.org/"
+"hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:246
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -9668,6 +9690,9 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate는 Pagure hooks를 지원하며, Weblate 설치 시 목적지가 ``/hooks/pagure/"
+"`` URL인 웹훅을 추가합니다(예: ``https://hosted.weblate.org/hooks/pagure/``)"
+". 이는 :guilabel:`프로젝트 옵션` 아래 ``웹훅 활성화`에서 수행할 수 있습니다:"
 
 #: ../../admin/continuous.rst:262
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -9685,6 +9710,10 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"Weblate는 Azure Repos 웹훅을 지원하며, Weblate 설치에서 목적지가 ``/hooks/"
+"azure/`` URL인 :guilabel:`코드 푸시됨` 이벤트에 대한 웹훅을 추가합니다(예: "
+"``https://hosted.weblate.org/hooks/azure/``). 이 작업은 :guilabel:`프로젝트 "
+"설정` 아래의 :guilabel:`서비스 후크`에서 수행할 수 있습니다."
 
 #: ../../admin/continuous.rst:278
 msgid ""
@@ -9705,6 +9734,10 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate는 Gitea 웹훅을 지원합니다. Weblate 설치 시 목적지가 ``/hooks/gitea/``"
+" URL인 :guilabel:`푸시 이벤트` 이벤트에 대한 :guilabel:`Gitea 웹훅`을 "
+"추가합니다(예: ``https://hosted.weblate.org/hooks/gitea/``). 이 작업은 "
+"저장소 :guilabel:`설정` 아래의 :guilabel:`웹훅`에서 수행할 수 있습니다."
 
 #: ../../admin/continuous.rst:293
 msgid ""
@@ -9724,6 +9757,10 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"Weblate는 Gitee 웹훅을 지원하므로 Weblate 설치 시 목적지가 ``/hooks/gitee/`` "
+"URL인 :guilabel:`푸시` 이벤트에 :guilabel:`웹훅`을 추가합니다(예: "
+"``https://hosted.weblate.org/hooks/gitee/``). 이 작업은 저장소 "
+":guilabel:`관리` 아래의 :guilabel:`웹훅`에서 수행할 수 있습니다."
 
 #: ../../admin/continuous.rst:308
 msgid ""
@@ -16323,7 +16360,7 @@ msgstr ""
 
 #: ../../../README.rst:1 ../../admin/machine.rst:598
 msgid "Weblate"
-msgstr "Weblate"
+msgstr "웹레이트"
 
 #: ../../admin/machine.rst:600 ../../contributing/internals.rst:21
 msgid "``weblate``"
@@ -16445,7 +16482,7 @@ msgstr ""
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "관리 명령어"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -18825,7 +18862,7 @@ msgstr ""
 #: ../../formats/winrc.rst:38 ../../formats/xliff.rst:148
 #: ../../formats/xliff.rst:160 ../../formats/yaml.rst:34
 msgid "Template for new translations"
-msgstr "새 번역 템플릿"
+msgstr "신규 번역의 템플릿"
 
 #: ../../admin/projects.rst:532
 #, fuzzy
@@ -22074,7 +22111,7 @@ msgstr ""
 
 #: ../../api.rst:1641
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "신규 번역의 템플릿 파일을 다운로드합니다."
 
 #: ../../api.rst:1650
 msgid "Returns a list of translation objects in the given component."
@@ -28780,7 +28817,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:230
 msgid "Added language management views."
-msgstr ""
+msgstr "언어 관리 보기가 추가되었습니다."
 
 #: ../../changes/v3.rst:231
 msgid "Add checks for Qt library and Ruby format strings."
@@ -28927,7 +28964,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:275
 msgid "Added font management tool."
-msgstr ""
+msgstr "글꼴 관리 도구가 추가되었습니다."
 
 #: ../../changes/v3.rst:276
 msgid "New check for rendered text dimensions."
@@ -30195,10 +30232,8 @@ msgid "Fixed add-on page crash in some corner cases."
 msgstr "일부 코너 케이스에서 애드온 페이지 크래시를 수정했습니다."
 
 #: ../../changes/v4.rst:198
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid "Fixed untranslating template for new translations in some cases."
-msgstr "새 번역용 서식이 잘못되었습니다."
+msgstr "번역 과정에서 일부 템플릿이 번역되지 않는 문제를 수정했습니다."
 
 #: ../../changes/v4.rst:199
 msgid "Documented licensing using `REUSE 3.0 <https://reuse.software/>`_."
@@ -30520,10 +30555,8 @@ msgid "List number of team members on team management page."
 msgstr ""
 
 #: ../../changes/v4.rst:285
-#, fuzzy
-#| msgid "Use management interface"
 msgid "Add group management interface."
-msgstr "관리 인터페이스 사용"
+msgstr "그룹 관리 인터페이스를 추가합니다."
 
 #: ../../changes/v4.rst:286
 msgid "Always show review stats when reviews are turned on."
@@ -31528,7 +31561,7 @@ msgstr "Python 3.10에 대한 지원이 추가되었습니다."
 #: ../../changes/v4.rst:591
 msgid ""
 "Added support for resending e-mail invitation from the management interface."
-msgstr "관리 인터페이스에서 이메일 초대 재전송에 대한 지원이 추가되었습니다."
+msgstr "관리 인터페이스에서 이메일 초대를 재발송할 수 있는 기능이 추가되었습니다."
 
 #: ../../changes/v4.rst:593
 msgid ""
@@ -31828,7 +31861,7 @@ msgstr "무료 DeepL API에 대한 지원이 추가되었습니다."
 
 #: ../../changes/v4.rst:692
 msgid "The user management no longer needs Django admin interface."
-msgstr "사용자 관리에는 더 이상 Django 관리 인터페이스가 필요하지 않습니다."
+msgstr "사용자 관리에는 더 이상 Django 관리자 인터페이스가 필요하지 않습니다."
 
 #: ../../changes/v4.rst:694
 msgid ""
@@ -31983,7 +32016,8 @@ msgstr ""
 msgid ""
 "The auto_translate management command has now a parameter for specifying "
 "translation mode."
-msgstr ""
+msgstr "auto_translate 관리 명령에 이제 번역 모드를 지정하는 매개변수가 "
+"추가되었습니다."
 
 #: ../../changes/v4.rst:746
 msgid "Added support for :ref:`txt`."
