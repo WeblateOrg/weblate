@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-19 06:28+0000\n"
-"Last-Translator: simmon <simmon@nplob.com>\n"
+"PO-Revision-Date: 2024-08-26 17:40+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1808,8 +1808,8 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"msgmerge를 사용하여 모든 PO 파일('파일 마스크'에서 구성한 대로)을 POT 파일"
-"('새 번역을 위한 템플릿'에서 구성한 대로)과 일치하도록 업데이트합니다."
+"msgmerge를 사용하여 모든 PO 파일('파일 마스크'에서 구성한 대로)을 POT 파일("
+"'신규 번역의 템플릿'에서 구성한 대로)과 일치하도록 업데이트합니다."
 
 #: weblate/addons/gettext.py:326
 msgid "Customize gettext output"
@@ -2888,7 +2888,7 @@ msgstr "변경 횟수"
 
 #: weblate/billing/models.py:298 weblate/wladmin/models.py:215
 msgid "Hosted strings"
-msgstr "호스팅된 문자열"
+msgstr "저장된 문자열"
 
 #: weblate/billing/models.py:310 weblate/trans/admin.py:95
 msgid "Source words"
@@ -5542,10 +5542,8 @@ msgid "Purchase a support package"
 msgstr "지원 패키지 구매"
 
 #: weblate/templates/about/donate.html:53
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Give to Weblate"
-msgstr "Weblate에 기부하기"
+msgstr "Weblate로 보내기"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
@@ -6565,10 +6563,8 @@ msgid "Edit"
 msgstr "편집"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent contributions found."
-msgstr "최근 활동이 없습니다!"
+msgstr "최근에 추가된 내용이 없습니다."
 
 #: weblate/templates/accounts/user.html:171
 msgid "Browse all translations with contribution"
@@ -9244,10 +9240,9 @@ msgid "Translations in all languages have been completed in %(component)s"
 msgstr "여러 언어로 된 번역에 실패한 검사가 있습니다"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "번역이 업데이트되었습니다."
+msgstr "%(translation)s 완료되었습니다"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -10310,7 +10305,7 @@ msgstr "단어 백분율"
 #: weblate/templates/snippets/info.html:513
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "호스팅된 단어"
+msgstr "저장된 단어"
 
 #: weblate/templates/snippets/info.html:293
 msgid "Characters percent"
@@ -10319,7 +10314,7 @@ msgstr "글자 백분율"
 #: weblate/templates/snippets/info.html:294
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "호스팅된 글자"
+msgstr "저장된 문자"
 
 #: weblate/templates/snippets/info.html:299
 msgctxt "Number of strings"
@@ -10467,7 +10462,7 @@ msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:12
 msgid "Non-code projects are welcome as well."
-msgstr ""
+msgstr "코드가 없는 프로젝트도 환영합니다."
 
 #: weblate/templates/snippets/libre-basic.html:15
 #, fuzzy
@@ -11278,7 +11273,7 @@ msgstr "다음 파일은 더 이상 저장소에 없음:"
 #: weblate/templates/trans/alert/inexistantfiles.html:15
 #: weblate/trans/models/component.py:495
 msgid "Template for new translations"
-msgstr "새 번역 템플릿"
+msgstr "신규 번역의 템플릿"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
@@ -14559,7 +14554,7 @@ msgstr "단일 언어 기본 언어 파일이 잘못되었습니다."
 
 #: weblate/trans/models/component.py:3486
 msgid "The template for new translations is invalid."
-msgstr "새 번역용 서식이 잘못되었습니다."
+msgstr "신규 번역의 템플릿이 잘못되었습니다."
 
 #: weblate/trans/models/component.py:3528
 msgid "The given language is used as a source language."
