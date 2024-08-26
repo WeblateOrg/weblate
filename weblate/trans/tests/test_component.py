@@ -488,7 +488,11 @@ class AutoAddonTest(RepoTestCase):
         component = self.create_idml()
         self.assertEqual(
             set(component.addon_set.values_list("name", flat=True)),
-            {"weblate.flags.same_edit", "weblate.autotranslate.autotranslate"},
+            {
+                "weblate.flags.same_edit",
+                "weblate.autotranslate.autotranslate",
+                "weblate.cleanup.generic",
+            },
         )
 
     @override_settings(

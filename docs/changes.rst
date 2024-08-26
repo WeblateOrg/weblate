@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Updated language names to better describe different scripts and Sintic languages.
+* :ref:`addon-weblate.cleanup.generic` is now automatically installed for formats which need it to update non-translation content in the translated files.
 
 **Bug fixes**
 
