@@ -35,6 +35,8 @@ class DeepLTranslation(
         "zh_Hans": "zh",
         "zh_Hant": "",  # Traditional Chinese not supported but would map to zh
         "pt": "pt-pt",
+        "pt@formal": "pt-pt@formal",
+        "pt@informal": "pt-pt@informal",
     }
     force_uncleanup = True
     hightlight_syntax = True
