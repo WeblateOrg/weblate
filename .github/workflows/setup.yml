@@ -85,7 +85,8 @@ jobs:
     permissions:
       # Needed for Sigstore
       id-token: write
-
+      # Needed for attestations
+      attestations: write
     steps:
     - uses: actions/checkout@v4
     - name: Setup Python
@@ -106,6 +107,11 @@ jobs:
       uses: sigstore/gh-action-sigstore-python@v3.0.0
       with:
         inputs: dist/*
+    - name: Attest
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
+      uses: actions/attest-build-provenance@v1
+      with:
+        subject-path: dist/*
     - uses: actions/upload-artifact@v4
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       with:
