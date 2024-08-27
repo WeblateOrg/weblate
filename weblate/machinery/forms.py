@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
+import re
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -254,6 +255,42 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.modernmt.com/",
     )
+    context_vector = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Context vector"
+        ),
+        help_text=gettext_lazy(
+            "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
+        ),
+        required=False,
+    )
+
+    def clean_context_vector(self):
+        """
+        Validate context_vector field.
+
+        A context vector is represented by a string which contains a list of couples separated by a comma.
+        Each couple contains the memory id and the corresponding weight separated by a colon.
+        """
+        pattern = r"^\d+:\d(?:\.\d{1,3})?"
+        context_vector = self.cleaned_data["context_vector"]
+        if context_vector:
+            for couple in context_vector.split(","):
+                if not re.match(pattern, couple):
+                    raise ValidationError(
+                        gettext("The context vector is not valid: %s") % couple
+                    )
+                try:
+                    if not 0 < (weight := float(couple.split(":")[1])) < 1:
+                        raise ValidationError(
+                            gettext("The weight value must be between 0 and 1: %s")
+                            % weight
+                        )
+                except ValueError as error:
+                    raise ValidationError(
+                        gettext("The context vector is not valid: %s") % couple
+                    ) from error
+        return self.cleaned_data["context_vector"]
 
 
 class DeepLMachineryForm(KeyURLMachineryForm):

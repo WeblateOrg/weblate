@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`mt-modernmt` supports :ref:`glossary-mt`.
+
 **Bug fixes**
 
 * Support for using Docker network names in automatic suggestion settings.

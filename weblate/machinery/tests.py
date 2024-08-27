@@ -193,6 +193,22 @@ SYSTRAN_LANGUAGE_JSON = {
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
 
+MODERNMT_REPONSE = {
+    "data": {
+        "contextVector": {
+            "entries": [
+                {
+                    "memory": {"id": 1, "name": "europarl"},
+                    "score": 0.20658109,
+                },
+                {"memory": {"id": 2, "name": "ibm"}, "score": 0.0017772929},
+            ]
+        },
+        "translation": "Ciao",
+    },
+    "status": 200,
+}
+
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
@@ -1075,6 +1091,8 @@ class SAPTranslationHubAuthTest(SAPTranslationHubTest):
 class ModernMTHubTest(BaseMachineTranslationTest):
     MACHINE_CLS = ModernMTTranslation
     EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "it"
     CONFIGURATION = {
         "key": "KEY",
         "url": "https://api.modernmt.com/",
@@ -1091,7 +1109,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             responses.GET, "https://api.modernmt.com/translate", body="", status=500
         )
 
-    def mock_response(self) -> None:
+    def mock_languages(self) -> None:
         responses.add(
             responses.GET,
             "https://api.modernmt.com/languages",
@@ -1101,27 +1119,137 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             },
             status=200,
         )
+
+    def mock_response(self) -> None:
+        self.mock_languages()
         responses.add(
             responses.GET,
             "https://api.modernmt.com/translate",
-            json={
-                "data": {
-                    "contextVector": {
-                        "entries": [
-                            {
-                                "memory": {"id": 1, "name": "europarl"},
-                                "score": 0.20658109,
-                            },
-                            {"memory": {"id": 2, "name": "ibm"}, "score": 0.0017772929},
-                        ]
-                    },
-                    "translation": "Ciao",
-                },
-                "status": 200,
-            },
+            json=MODERNMT_REPONSE,
             status=200,
             content_type="text/json",
         )
+
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/memories",
+            json={"data": [], "status": 200},
+            status=200,
+            content_type="text/json",
+        )
+
+    @responses.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary(self) -> None:
+        def request_callback(request: AuthenticatedHttpRequest):
+            payload = json.loads(request.body)
+            self.assertIn("glossaries", payload)
+            return (200, {}, json.dumps(MODERNMT_REPONSE))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+
+        self.mock_languages()
+        self.mock_response()
+
+        responses.add_callback(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            callback=request_callback,
+        )
+
+        # creating the memory
+        responses.add(
+            responses.POST,
+            "https://api.modernmt.com/memories",
+            json={
+                "status": 200,
+                "data": {
+                    "id": 37784,
+                    "creationDate": "2021-04-12T15:24:26+00:00",
+                    "name": "weblate:1:en:it:9e250d830c11d70f",
+                },
+            },
+        )
+
+        # storing content in memory as glossary
+        responses.add(
+            responses.POST,
+            "https://api.modernmt.com/memories/37784/glossary",
+            json={
+                "status": 200,
+                "data": {
+                    "id": "00000000-0000-0000-0000-0000000379fc",
+                    "memory": 37784,
+                    "size": 18818,
+                    "progress": 0,
+                },
+            },
+        )
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/memories",
+            json={
+                "data": [
+                    {
+                        "id": 37784,
+                        "creationDate": "2021-04-12T15:24:26+00:00",
+                        "name": "weblate:1:en:it:9e250d830c11d70f",
+                    }
+                ],
+                "status": 200,
+            },
+            status=200,
+        )
+
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @responses.activate
+    def test_context_vector(self) -> None:
+        def request_callback(request: AuthenticatedHttpRequest):
+            payload = json.loads(request.body)
+            self.assertIn("context_vector", payload)
+            return (200, {}, json.dumps(MODERNMT_REPONSE))
+
+        self.mock_languages()
+        self.mock_response()
+
+        responses.add_callback(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            callback=request_callback,
+        )
+
+        self.CONFIGURATION["context_vector"] = "1234:0.123"
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @responses.activate
+    @respx.mock
+    def test_clean_custom(self) -> None:
+        self.mock_response()
+        settings = self.CONFIGURATION.copy()
+        machine = self.MACHINE_CLS
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["context_vector"] = "1234:0.123,456:0.134"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        # context_vector couples must be separated by comma
+        settings["context_vector"] = "1234:0.123;456:0.134"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        # weight can only be 3 digits decimal
+        settings["context_vector"] = "1234:0.123;456:0.1345"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        # weight cannot be greater than 1
+        settings["context_vector"] = "1234:1.123;456:0.1345"
+        form = self.MACHINE_CLS.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
 
 
 class DeepLTranslationTest(BaseMachineTranslationTest):

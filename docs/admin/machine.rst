@@ -390,6 +390,8 @@ ModernMT
                 | ``key`` | API key |  |
                 +---------+---------+--+
 
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
 .. seealso::
 
     `ModernMT API <https://www.modernmt.com/api/#translation>`_

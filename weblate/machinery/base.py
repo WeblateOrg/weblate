@@ -675,6 +675,10 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_name_format = (
         "weblate:{project}:{source_language}:{target_language}:{checksum}"
     )
+    glossary_name_format_pattern = (
+        r"weblate:(\d+):([A-z0-9@_-]+):([A-z0-9@_-]+):([a-f0-9]+)"
+    )
+
     glossary_count_limit = 0
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
@@ -722,12 +726,13 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         translation = unit.translation
 
         # Check glossary support for a language pair
-        if not self.is_glossary_supported(source_language, target_language):
-            return None
+        machine_glossary_available: bool = self.is_glossary_supported(
+            source_language, target_language
+        )
 
         # Check if there is a glossary
         glossary_tsv = get_glossary_tsv(translation)
-        if not glossary_tsv:
+        if not machine_glossary_available and not glossary_tsv:
             return None
 
         # Calculate hash to check for changes
@@ -779,6 +784,9 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         # Fetch glossaries again, without using cache
         glossaries = self.get_glossaries(use_cache=False)
         return glossaries[glossary_name]
+
+    def match_name_format(self, string: str) -> re.Match | None:
+        return re.match(self.glossary_name_format_pattern, string)
 
 
 class XMLMachineTranslationMixin:
