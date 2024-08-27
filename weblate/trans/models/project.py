@@ -228,6 +228,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     )
 
     machinery_settings = models.JSONField(default=dict, blank=True)
+    to_delete = models.BooleanField(default=False)
 
     is_lockable = True
     remove_permission = "project.edit"

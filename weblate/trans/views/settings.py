@@ -175,6 +175,17 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
     return redirect_param(obj, "#alerts")
 
 
+def flag_categories_to_delete(categories):
+    while len(categories) > 0:
+        category = categories.pop()
+        category.to_delete = True
+        category.save()
+        categories += category.category_set.all()
+        for component in category.component_set.all():
+            component.to_delete = True
+            component.save()
+
+
 @login_required
 @require_POST
 def remove(request: AuthenticatedHttpRequest, path):
@@ -199,16 +210,27 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
         parent = obj.category or obj.project
+        obj.to_delete = True
+        obj.save()
         component_removal.delay(obj.pk, request.user.pk)
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
+        categories = [obj]
+        flag_categories_to_delete(categories)
         category_removal.delay(obj.pk, request.user.pk)
         messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")
+        obj.to_delete = True
+        obj.save()
+        for component in obj.component_set.all():
+            component.to_delete = True
+            component.save()
+        categories = obj.category_set.all()
+        flag_categories_to_delete(categories)
         project_removal.delay(obj.pk, request.user.pk)
         messages.success(request, gettext("The project was scheduled for removal."))
     elif isinstance(obj, ProjectLanguage):

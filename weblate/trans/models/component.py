@@ -770,6 +770,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
+    to_delete = models.BooleanField(default=False)
 
     objects = ComponentQuerySet.as_manager()
 

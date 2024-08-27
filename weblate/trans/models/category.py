@@ -68,6 +68,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         blank=True,
         related_name="category_set",
     )
+    to_delete = models.BooleanField(default=False)
 
     is_lockable = False
     remove_permission = "project.edit"

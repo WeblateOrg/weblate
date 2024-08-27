@@ -7,10 +7,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import sentry_sdk
+from django.apps import apps
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.db.models.base import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -114,14 +115,26 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         Call prefetch or prefetch_list later on paginated results to complete.
         """
+        translation = apps.get_model("trans", "Translation")
+        component = apps.get_model("trans", "Component")
+        unit = apps.get_model("trans", "Unit")
         return self.prefetch_related(
             "user",
             "author",
-            "translation",
-            "component",
+            Prefetch(
+                "translation",
+                queryset=translation.objects.exclude(component__to_delete=True),
+            ),
+            Prefetch(
+                "component",
+                queryset=component.objects.exclude(category__to_delete=True),
+            ),
             "project",
             "component__source_language",
-            "unit",
+            Prefetch(
+                "unit",
+                queryset=unit.objects.exclude(translation__component__to_delete=True),
+            ),
             "unit__source_unit",
             "translation__language",
             "translation__plural",
