@@ -27,7 +27,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Install Python dependencies
       run: |
         python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)

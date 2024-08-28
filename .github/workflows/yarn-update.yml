@@ -14,7 +14,6 @@ on:
     - .github/workflows/yarn-update.yml
     - scripts/yarn-update
     - scripts/yarn/*
-    - client/*
 
 permissions:
   contents: read
@@ -29,7 +28,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: ./scripts/yarn-update
-    - run: cd client && yarn install && yarn build && cd ..
     - name: Update branch
       if: github.ref != 'refs/heads/main'
       uses: stefanzweifel/git-auto-commit-action@v5
