@@ -14,6 +14,7 @@ on:
     - .github/workflows/yarn-update.yml
     - scripts/yarn-update
     - scripts/yarn/*
+    - client/*
 
 permissions:
   contents: read
@@ -28,18 +29,25 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: ./scripts/yarn-update
+    - run: |
+        if [ -d client ] ; then
+          cd client
+          yarn install
+          yarn build
+          cd ..
+        fi
     - name: Update branch
       if: github.ref != 'refs/heads/main'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: 'js: Update vendored libraries'
+        commit_message: 'chore(js): update vendored libraries'
     - name: Create Pull Request
       if: github.ref == 'refs/heads/main'
       uses: peter-evans/create-pull-request@v6
       with:
         branch: create-pull-request/yarn-update
-        title: 'js: Update vendored libraries'
-        commit-message: 'js: Update vendored libraries'
+        title: 'chore(js): update vendored libraries'
+        commit-message: 'chore(js): update vendored libraries'
         labels: |
           dependencies
           automerge
