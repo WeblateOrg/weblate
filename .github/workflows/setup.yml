@@ -29,6 +29,10 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
+    - uses: hynek/setup-cached-uv@v2
+      with:
+        cache-dependency-path: pyproject.toml
+        cache-date-suffix: ''
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -64,6 +68,10 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
+    - uses: hynek/setup-cached-uv@v2
+      with:
+        cache-dependency-path: pyproject.toml
+        cache-date-suffix: ''
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -89,13 +97,15 @@ jobs:
       attestations: write
     steps:
     - uses: actions/checkout@v4
+    - uses: hynek/setup-cached-uv@v2
+      with:
+        if-use-cache: false
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
     - name: Install Python dependencies
       run: |
-        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
         uv pip install --system $(sed -n 's/.*"\(twine==\([^"]*\)\)".*/\1/p' pyproject.toml)
         uv pip install --system $(sed -n 's/.*"\(build==\([^"]*\)\)".*/\1/p' pyproject.toml)
     - name: build
@@ -122,6 +132,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+    - uses: hynek/setup-cached-uv@v2
+      with:
+        cache-dependency-path: docs/requirements.txt
+        cache-date-suffix: ''
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -131,9 +145,7 @@ jobs:
         sudo apt update
         sudo apt install -y graphviz pandoc
     - name: Install Python dependencies
-      run: |
-        python -m pip install $(sed -n 's/.*"\(uv==\([^"]*\)\)".*/\1/p' pyproject.toml)
-        uv pip install --system -r docs/requirements.txt
+      run: uv pip install --system -r docs/requirements.txt
     - name: Sphinx build
       run: ./ci/run-docs
     - name: Convert release notes

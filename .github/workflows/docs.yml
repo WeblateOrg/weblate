@@ -24,6 +24,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - uses: hynek/setup-cached-uv@v2
+      with:
+        cache-dependency-path: docs/requirements.txt
+        cache-date-suffix: ''
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -33,9 +37,7 @@ jobs:
         sudo apt update
         sudo apt install -y graphviz
     - name: Install Python dependencies
-      run: |
-        pip install uv
-        uv pip install --system -r docs/requirements.txt
+      run: uv pip install --system -r docs/requirements.txt
     - name: Sphinx build
       run: |
         echo "::add-matcher::.github/matchers/sphinx.json"
