@@ -31,6 +31,10 @@ jobs:
       uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
+    - uses: hynek/setup-cached-uv@v2
+      with:
+        cache-dependency-path: pyproject.toml
+        cache-date-suffix: ''
     - name: Set up Python
       uses: actions/setup-python@v5
       with:

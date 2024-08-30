@@ -64,18 +64,12 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
-      # Configure a constant location for the uv cache
-      UV_CACHE_DIR: /tmp/.uv-cache
     steps:
     - uses: actions/checkout@v4
-    - name: Restore uv cache
-      uses: actions/cache@v4
+    - uses: hynek/setup-cached-uv@v2
       with:
-        path: /tmp/.uv-cache
-        key: uv-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
-        restore-keys: |
-          uv-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
-          uv-${{ runner.os }}
+        cache-dependency-path: pyproject.toml
+        cache-date-suffix: ''
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
@@ -129,8 +123,6 @@ jobs:
         key: python
         coverage-file: coverage.xml
         dsn: ${{ secrets.DEEPSOURCE_DSN }}
-    - name: Minimize uv cache
-      run: uv cache prune --ci
     - name: Stop services
       if: always()
       run: ./ci/services-down ${{ matrix.database }}
