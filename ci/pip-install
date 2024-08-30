@@ -30,9 +30,10 @@ else
     if [ "${1:-latest}" = edge ] ; then
         uv pip install --system --no-binary=lxml --upgrade -e ".[all,mysql,test,ci]"
         # Install from git / pre-release
-        uv pip install --system --no-deps --upgrade --force-reinstall https://github.com/translate/translate/archive/master.zip
-        uv pip install --system --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/language-data/archive/main.zip
-        uv pip install --system --no-deps --upgrade --force-reinstall https://github.com/WeblateOrg/translation-finder/archive/main.zip
+        uv pip install --system --no-deps --upgrade --force-reinstall \
+            https://github.com/translate/translate/archive/master.zip \
+            https://github.com/WeblateOrg/language-data/archive/main.zip \
+            https://github.com/WeblateOrg/translation-finder/archive/main.zip
         uv pip install --system --upgrade --pre Django
     fi
 fi
