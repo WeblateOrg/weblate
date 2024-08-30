@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from binascii import unhexlify
 from time import time
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
@@ -20,7 +20,9 @@ from django.utils.functional import cached_property
 from django.utils.html import escape
 from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
+from django_otp.forms import otp_verification_failed
 from django_otp.oath import totp
+from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
@@ -56,6 +58,9 @@ from weblate.utils.forms import (
 )
 from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
 from weblate.utils.validators import validate_fullname
+
+if TYPE_CHECKING:
+    from django_otp.models import Device
 
 
 class UniqueEmailMixin(forms.Form):
@@ -1043,6 +1048,7 @@ class OTPTokenForm(DjangoOTPTokenForm):
             "Recovery token can be used just once, mark your token as used after using it."
         ),
     )
+    device_class: type[Device] = StaticDevice
 
     def __init__(self, user, request=None, *args, **kwargs):
         super().__init__(user, request, *args, **kwargs)
@@ -1066,6 +1072,33 @@ class OTPTokenForm(DjangoOTPTokenForm):
         # Also this is incompatible with WebAuthn
         return []
 
+    def _verify_token(
+        self, user: User, token: str, device: Device | None = None
+    ) -> Device:
+        if device is not None:
+            return super()._verify_token(user, token, device)
+
+        # We want to list only correct device classes, not all as django-otp does in match_token
+        with transaction.atomic():
+            device_set = self.device_class.objects.devices_for_user(
+                user, confirmed=True
+            )
+            result = None
+            for current_device in device_set.select_for_update():
+                if current_device.verify_token(token):
+                    result = current_device
+                    break
+
+        if result is None:
+            otp_verification_failed.send(
+                sender=self.__class__,
+                user=user,
+            )
+            raise forms.ValidationError(
+                self.otp_error_messages["invalid_token"], code="invalid_token"
+            )
+        return result
+
 
 class TOTPTokenForm(OTPTokenForm):
     otp_token = forms.IntegerField(
@@ -1073,6 +1106,7 @@ class TOTPTokenForm(OTPTokenForm):
         min_value=0,
         max_value=999999,
     )
+    device_class: type[Device] = TOTPDevice
 
     def __init__(self, user, request=None, *args, **kwargs):
         super().__init__(user, request, *args, **kwargs)
