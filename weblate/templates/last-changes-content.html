@@ -3,27 +3,12 @@
 {% load permissions %}
 {% load icons %}
 
-<table class="table table-autowidth">
+<table id="changes-table" class="table table-autowidth">
+<tbody id="changes-list" >
 {% for change in last_changes %}
-<tr class="history-row" {% if in_email %}style="clear:both"{% endif %}>
+<tr id="changes-item" class="history-row" {% if in_email %}style="clear:both"{% endif %}>
     <td class="history-event">
-        <strong>{{ change.get_user_display }}</strong>
-        <p class="text-muted">{{ change.get_action_display }}</p>
-        <ul class="breadcrumb">
-          {% if change.path_object %}
-            {% path_object_breadcrumbs change.path_object flags=False %}
-          {% endif %}
-        </ul>
-        {% if user.is_superuser %}
-          {% with ip_address=change.get_ip_address %}
-            {% if ip_address %}
-              <p>{{ ip_address }}</p>
-            {% endif %}
-          {% endwith %}
-        {% endif %}
-    </td>
-    <td class="history-data full-cell">
-        {% if not in_email %}
+      {% if not in_email %}
         <div class="btn-float pull-right flip">
             {% if change.can_revert %}
               {% perm 'unit.edit' change.unit as user_can_translate %}
@@ -42,7 +27,23 @@
             {% endif %}
             <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
         </div>
+      {% endif %}
+        <strong>{{ change.get_user_display }}</strong>
+        <p class="text-muted">{{ change.get_action_display }}</p>
+        <ul class="breadcrumb">
+          {% if change.path_object %}
+            {% path_object_breadcrumbs change.path_object flags=False %}
+          {% endif %}
+        </ul>
+        {% if user.is_superuser %}
+          {% with ip_address=change.get_ip_address %}
+            {% if ip_address %}
+              <p>{{ ip_address }}</p>
+            {% endif %}
+          {% endwith %}
         {% endif %}
+    </td>
+    <td class="history-data full-cell">
         <div class="comment-content">
             {% with details=change.get_details_display %}
             {% if details %}
@@ -112,4 +113,5 @@
   </td>
 </tr>
 {% endfor %}
+</tbody>
 </table>
