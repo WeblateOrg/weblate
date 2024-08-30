@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Updated language names to better describe different scripts and Sintic languages.
+
 **Bug fixes**
 
 * Support for using Docker network names in automatic suggestion settings.
