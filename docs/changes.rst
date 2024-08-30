@@ -12,6 +12,7 @@ Not yet released.
 * Support for using Docker network names in automatic suggestion settings.
 * Fixed authentication using some third-party providers such as Azure.
 * Support for formal and informal Portuguese in :ref:`mt-deepl`.
+* QR code for TOTP is now black/white even in dark mode.
 
 **Compatibility**
 
