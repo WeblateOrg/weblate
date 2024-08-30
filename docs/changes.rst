@@ -16,6 +16,7 @@ Not yet released.
 * Fixed authentication using some third-party providers such as Azure.
 * Support for formal and informal Portuguese in :ref:`mt-deepl`.
 * QR code for TOTP is now black/white even in dark mode.
+* Fixed TOTP authentication when WebAuthn is also configured for the user.
 
 **Compatibility**
 
