@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2024-08-15 09:27+0000\n"
-"PO-Revision-Date: 2024-08-31 14:39+0000\n"
+"PO-Revision-Date: 2024-08-31 14:46+0000\n"
 "Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -5030,60 +5030,51 @@ msgstr "OpenAI API 기본 URL"
 
 #: weblate/machinery/forms.py:302
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
-msgstr ""
+msgstr "OpenAI 기본 URL과 다른 경우 OpenAI API의 기본 URL"
 
 #: weblate/machinery/forms.py:309
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "Zen 모드"
+msgstr "OpenAI 모델"
 
 #: weblate/machinery/forms.py:317
-#, fuzzy
-#| msgid "Customize the component name"
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
-msgstr "구성요소 이름 커스터마이즈하기"
+msgstr "커스텀 모델 이름"
 
 #: weblate/machinery/forms.py:319
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "모델이 '커스텀 모델'로 설정된 경우에만 필요함"
 
 #: weblate/machinery/forms.py:325
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "번역 보고"
+msgstr "번역자 페르소나"
 
 #: weblate/machinery/forms.py:329
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr ""
+msgstr "번역의 정확성을 높이기 위해 번역가의 페르소나를 설명하세요. 예를 들어: "
+"\"당신은 다람쥐 사육자입니다.\""
 
 #: weblate/machinery/forms.py:336
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "번역 파일"
+msgstr "번역가 스타일"
 
 #: weblate/machinery/forms.py:340
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "번역 스타일을 설명하세요. 예를 들어: \"비공식적인 언어를 사용하세요.\""
 
 #: weblate/machinery/forms.py:350
-#, fuzzy
-#| msgid "Missing username or e-mail."
 msgid "Missing custom model name."
-msgstr "사용자 이름 또는 전자우편이 없습니다."
+msgstr "커스텀 모델 이름이 없습니다."
 
 #: weblate/machinery/forms.py:354
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "여기에서 커스텀 모델을 선택하여 활성화하세요."
 
 #: weblate/machinery/views.py:404
 msgid "Service is currently not available."
@@ -5342,7 +5333,7 @@ msgstr ""
 #: weblate/templates/403_csrf.html:21
 #, python-format
 msgid "CSRF failure reason: %(reason)s"
-msgstr ""
+msgstr "CSRF 실패 이유: %(reason)s"
 
 #: weblate/templates/404.html:5 weblate/templates/404.html:11
 #: weblate/trans/views/error.py:33
@@ -5385,7 +5376,7 @@ msgstr ""
 
 #: weblate/templates/about/donate.html:14
 msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
+msgstr "<strong>Weblate</strong>가 계속 발전할 수 있도록 돕기"
 
 #: weblate/templates/about/donate.html:18
 msgid "Welcome and thank you for supporting Weblate"
@@ -5398,25 +5389,21 @@ msgstr "웹레이트를 선택해 주셔서 감사합니다"
 #: weblate/templates/about/donate.html:23
 msgid ""
 "the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+msgstr "오픈 소스 가치를 지향하는 개인 정보 존중 현지화 플랫폼입니다."
 
 #: weblate/templates/about/donate.html:29
-#, fuzzy
-#| msgid "GitHub username"
 msgctxt "Label on engage page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "깃허브(GitHub) 사용자 이름"
+msgstr[0] "깃허브(GitHub) 별점"
 
 #: weblate/templates/about/donate.html:33
 msgctxt "Label on engage page"
 msgid "Open issues"
 msgid_plural "Open issues"
-msgstr[0] ""
+msgstr[0] "미해결 이슈"
 
 #: weblate/templates/about/donate.html:37
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on engage page"
 msgid "Recent changes"
 msgid_plural "Recent changes"
@@ -5426,17 +5413,20 @@ msgstr[0] "최근 변경사항"
 msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
-msgstr ""
+msgstr "Weblate는 모든 사용자에게 무료로 제공되지만, 개발에는 지속적인 투자가 "
+"필요합니다."
 
 #: weblate/templates/about/donate.html:44
 msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
+msgstr "개인정보 보호를 최우선으로 생각하며, 광고를 표시하거나 귀하의 데이터를 "
+"판매하지 않습니다."
 
 #: weblate/templates/about/donate.html:45
 msgid ""
 "The invaluable support of the community through subscriptions and donations "
 "ensures that Weblate continues to grow and thrive."
-msgstr ""
+msgstr "구독과 기부를 통한 커뮤니티의 귀중한 지원 덕분에 Weblate는 지속적으로 "
+"성장하고 발전할 수 있습니다."
 
 #: weblate/templates/about/donate.html:46
 msgid "Join us in shaping the future of localization and contribute today!"
