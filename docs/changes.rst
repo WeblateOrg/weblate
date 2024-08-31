@@ -26,8 +26,6 @@ Weblate 5.7.1
 
 Released on August 30th 2024.
 
-**New features**
-
 **Improvements**
 
 * Updated language names to better describe different scripts and Sintic languages.
@@ -40,8 +38,6 @@ Released on August 30th 2024.
 * Support for formal and informal Portuguese in :ref:`mt-deepl`.
 * QR code for TOTP is now black/white even in dark mode.
 * Fixed TOTP authentication when WebAuthn is also configured for the user.
-
-**Compatibility**
 
 **Upgrading**
 
