@@ -167,7 +167,7 @@
 
     /* Form persistence. Restores translation form upon comment submission */
     const restoreKey = "translation_autosave";
-    const restoreValue = window.localStorage.getItem(restoreKey);
+    const restoreValue = localStorage.getItem(restoreKey);
     if (restoreValue !== null) {
       const translationRestore = JSON.parse(restoreValue);
 
@@ -192,23 +192,18 @@
         };
       });
 
-      window.localStorage.setItem(restoreKey, JSON.stringify(data.get()));
+      localStorage.setItem(restoreKey, JSON.stringify(data.get()));
     });
   };
 
   FullEditor.prototype.initTabs = function () {
-    /* Store active tab in a cookie */
+    /* Store active tab in a local storage */
     $('.translation-tabs a[data-toggle="tab"]').on("shown.bs.tab", function () {
-      const current = Cookies.get("translate-tab");
+      const current = localStorage.getItem("translate-tab");
       const desired = $(this).attr("href");
 
       if (current !== desired) {
-        Cookies.set("translate-tab", desired, {
-          path: "/",
-          expires: 365,
-          sameSite: "Lax",
-          secure: window.location.protocol === "https:",
-        });
+        localStorage.setItem("translate-tab", desired);
       }
     });
 
