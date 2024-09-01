@@ -611,10 +611,12 @@ $(function () {
     }
   } else if (
     $(".translation-tabs").length > 0 &&
-    Cookies.get("translate-tab")
+    localStorage.getItem("translate-tab")
   ) {
-    /* From cookie */
-    activeTab = $(`[data-toggle=tab][href="${Cookies.get("translate-tab")}"]`);
+    /* From local storage */
+    activeTab = $(
+      `[data-toggle=tab][href="${localStorage.getItem("translate-tab")}"]`,
+    );
     if (activeTab.length) {
       activeTab.tab("show");
     }
