@@ -2440,17 +2440,17 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """Load translations from VCS."""
         self.store_background_task()
 
+        # Store the revision as add-ons might update it later
+        current_revision = self.local_revision
+
         if (
-            self.processed_revision == self.local_revision
+            self.processed_revision == current_revision
             and self.local_revision
             and not force
         ):
             self.log_info("this revision has been already parsed, skipping update")
             self.progress_step(100)
             return False
-
-        # Store the revision as add-ons might update it later
-        parsed_revision = self.local_revision
 
         # Ensure we start from fresh template
         self.drop_template_store_cache()
@@ -2612,9 +2612,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.run_batched_checks()
 
         # Update last processed revision
-        self.processed_revision = parsed_revision
+        self.processed_revision = current_revision
+        # Avoid using save() here
         Component.objects.filter(pk=self.pk).update(
-            processed_revision=self.processed_revision
+            processed_revision=self.current_revision
         )
 
         self.log_info("updating completed")
