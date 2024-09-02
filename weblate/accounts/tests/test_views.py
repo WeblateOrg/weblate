@@ -245,7 +245,7 @@ class ViewTest(RepoTestCase):
 
         # Logout
         response = self.client.post(reverse("logout"))
-        self.assertRedirects(response, reverse("home"))
+        self.assertContains(response, "Thank you for using Weblate")
 
     @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(

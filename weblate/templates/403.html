@@ -15,7 +15,7 @@
 </p>
 
 {% if not user.is_authenticated %}
-<a href="{% url 'login' %}?next={{ login_redirect_url|urlencode }}" class="btn btn-primary">{% trans "Sign in" %}</a>
+<a href="{% url 'login' %}{% if login_redirect_url %}?next={{ login_redirect_url|urlencode }}{% endif %}" class="btn btn-primary">{% trans "Sign in" %}</a>
 {% endif %}
 <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
 <a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
