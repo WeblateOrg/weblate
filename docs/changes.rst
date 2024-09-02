@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`2fa` remembers last method used by user.
+
 **Bug fixes**
 
 **Compatibility**
