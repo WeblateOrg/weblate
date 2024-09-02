@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Updating of translations from the repository in linked components.
+
 **Compatibility**
 
 **Upgrading**
