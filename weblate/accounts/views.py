@@ -22,7 +22,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView, RedirectURLMixin
+from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
@@ -142,6 +142,7 @@ from weblate.auth.models import (
     AuthenticatedHttpRequest,
     Invitation,
     User,
+    get_anonymous,
     get_auth_keys,
 )
 from weblate.auth.utils import format_address
@@ -839,23 +840,31 @@ class WeblateLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class WeblateLogoutView(LogoutView):
-    """Logout handler, just a wrapper around standard Django logout."""
+class WeblateLogoutView(TemplateView):
+    """
+    Logout handler, just a reimplementation of standard Django logout.
 
+    - no redirect support
+    - login_required decorator
+    """
+
+    http_method_names = ["post", "options"]
+    template_name = "registration/logged_out.html"
     request: AuthenticatedHttpRequest
 
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        messages.info(self.request, gettext("Thank you for using Weblate."))
-        return super().dispatch(request, *args, **kwargs)
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        """Logout may be done via POST."""
+        auth_logout(request)
+        request.user = get_anonymous()
+        return super().get(request, *args, **kwargs)
 
-    def get_default_redirect_url(self):
-        # Avoid need for LOGOUT_REDIRECT_URL to be configured
-        if not settings.LOGOUT_REDIRECT_URL:
-            return reverse("home")
-        return super().get_default_redirect_url()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = gettext("Signed out")
+        return context
 
 
 def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):

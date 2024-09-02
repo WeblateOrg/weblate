@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * :ref:`2fa` remembers last method used by user.
+* Instead of redirecting, the sign-out now displays a page.
 
 **Bug fixes**
 

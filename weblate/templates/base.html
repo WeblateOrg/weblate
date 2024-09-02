@@ -228,7 +228,7 @@ var _rollbarConfig = {
         {% if registration_open %}
         <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>
         {% endif %}
-        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Sign in" %}</a></li>
+        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next and login_redirect_url %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Sign in" %}</a></li>
         {% endif %}
 
         {# Adding new translations #}

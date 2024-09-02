@@ -285,7 +285,7 @@ class SeleniumTests(
             self.click(htmlid="logout-button")
 
         # We should be back on home page
-        self.driver.find_element(By.ID, "browse-projects")
+        self.driver.find_element(By.ID, "dashboard-return")
 
     def register_user(self):
         # registration page
