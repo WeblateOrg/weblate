@@ -1,5 +1,5 @@
-Weblate 5.8
------------
+Weblate 5.7.2
+-------------
 
 Not yet released.
 
@@ -17,9 +17,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 **Contributors**
 
-.. include:: changes/contributors/5.8.rst
+.. include:: changes/contributors/5.7.2.rst
 
-`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?closed=1>`__.
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?closed=1>`__.
 
 Weblate 5.7.1
 -------------
