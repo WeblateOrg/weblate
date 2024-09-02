@@ -178,12 +178,9 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
 def flag_categories_to_delete(categories):
     while len(categories) > 0:
         category = categories.pop()
-        category.to_delete = True
-        category.save()
+        Category.objects.filter(pk=category.pk).update(to_delete=True)
         categories += category.category_set.all()
-        for component in category.component_set.all():
-            component.to_delete = True
-            component.save()
+        category.component_set.update(to_delete=True)
 
 
 @login_required
@@ -210,8 +207,7 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
         parent = obj.category or obj.project
-        obj.to_delete = True
-        obj.save()
+        Component.objects.filter(pk=obj.pk).update(to_delete=True)
         component_removal.delay(obj.pk, request.user.pk)
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
@@ -224,11 +220,8 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")
-        obj.to_delete = True
-        obj.save()
-        for component in obj.component_set.all():
-            component.to_delete = True
-            component.save()
+        Project.objects.filter(pk=obj.pk).update(to_delete=True)
+        obj.component_set.update(to_delete=True)
         categories = obj.category_set.all()
         flag_categories_to_delete(categories)
         project_removal.delay(obj.pk, request.user.pk)

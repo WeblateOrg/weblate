@@ -632,7 +632,7 @@ class User(AbstractBaseUser):
     def allowed_projects(self):
         """List of allowed projects."""
         if self.is_superuser:
-            return Project.objects.order()
+            return Project.objects.filter(to_delete=False).order()
         # All public and protected projects are accessible
         acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
         if -SELECTION_ALL in self.project_permissions:
@@ -646,7 +646,7 @@ class User(AbstractBaseUser):
         if project_ids:
             condition |= Q(pk__in=project_ids)
 
-        return Project.objects.filter(condition).order()
+        return Project.objects.filter(to_delete=False).filter(condition).order()
 
     @cached_property
     def needs_component_restrictions_filter(self):

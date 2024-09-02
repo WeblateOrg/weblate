@@ -18,12 +18,13 @@ from urllib.parse import urlparse
 import sentry_sdk
 from celery import current_task
 from celery.result import AsyncResult
+from django.apps import apps
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -238,26 +239,38 @@ def prefetch_glossary_terms(components) -> None:
 class ComponentQuerySet(models.QuerySet):
     def prefetch(self, alerts: bool = True, defer: bool = True):
         result = self
-        linked_component: str | models.Prefetch
+        linked_component: str | Prefetch
         if defer:
             result = result.defer_huge()
-            linked_component = models.Prefetch(
-                "linked_component", queryset=Component.objects.defer_huge()
+            linked_component = Prefetch(
+                "linked_component",
+                queryset=Component.objects.defer_huge().exclude(to_delete=True),
             )
         else:
-            linked_component = "linked_component"
+            linked_component = Prefetch(
+                "linked_component", queryset=Component.objects.exclude(to_delete=True)
+            )
         if alerts:
             result = result.prefetch_related(
-                models.Prefetch(
+                Prefetch(
                     "alert_set",
                     queryset=Alert.objects.filter(dismissed=False),
                     to_attr="all_active_alerts",
                 ),
             )
 
+        project = apps.get_model("trans", "Project")
+        category = apps.get_model("trans", "Category")
+
         return result.prefetch_related(
-            "project",
-            "category",
+            Prefetch(
+                "project",
+                queryset=project.objects.exclude(to_delete=True),
+            ),
+            Prefetch(
+                "category",
+                queryset=category.objects.exclude(to_delete=True),
+            ),
             "category__project",
             "category__category",
             "category__category__project",
