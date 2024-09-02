@@ -6,10 +6,6 @@
 
 set -e -x
 
-# Workaround for
-# SystemError: ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)
-uv pip install --system --no-binary :all: cffi
-
 if [ "${1:-latest}" = migrations ] ; then
     uv pip install --system -e ".[all,mysql,ci]"
 else
@@ -24,7 +20,7 @@ else
       uv pip install --system -e ".[all,mysql,ci,test]"
     fi
     if [ "${1:-latest}" = edge ] ; then
-        uv pip install --system --no-binary=lxml --upgrade -e ".[all,mysql,test,ci]"
+        uv pip install --system --upgrade -e ".[all,mysql,test,ci]"
         # Install from git / pre-release
         uv pip install --system --no-deps --upgrade --force-reinstall \
             https://github.com/translate/translate/archive/master.zip \
